@@ -33,6 +33,8 @@ limitations under the License.
 <cfset beginDate = "2023-06-30">
 
 <!-- annual report queries -->
+<cfsetting RequestTimeout = "0">
+<cfset start = GetTickCount()>
 <cfquery name="totals" datasource="uam_god">
 select 
 	rm.holdings,
@@ -180,6 +182,97 @@ left join (select c.collection_id, collection, count(*) numOpenOD10
         and to_date('#endDate#', 'YYYY-MM-DD') - l.return_due_date > 365*10
         group by c.collection_id, collection) open10 on c.collection_id = open10.collection_id
 order by collection
+</cfquery>
+
+<!-- get media data -->
+
+<cfquery name="media" datasource="uam_god">
+select
+	c.collection,
+	i.numImagesCatItems,
+	i.numImages,
+	p.numPermitsTrans,
+	pt.imagesPrimaryCatItems,
+	st.imagesSecondaryCatItems
+from 
+	(select * from collection where collection_cde <> 'MCZ') c
+left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) numImagesCatItems, sum(total_parts) numImagesSpecimens, count(distinct m.media_id) numImages
+	from media m, MEDIA_RELATIONS mr, flat f, coll_object co 
+	where m.media_id = mr.media_id
+	and mr.MEDIA_RELATIONSHIP = 'shows cataloged_item'
+	and mr.RELATED_PRIMARY_KEY = f.collection_object_id
+	and f.collection_object_id = co.collection_object_id
+	group by f.collection_id, f.collection) i on c.collection_id = i.collection_id
+left join (select c.collection_id, c.collection, count(distinct transaction_id) numPermitsTrans 
+	from trans t, collection c where transaction_id in
+	(select transaction_id from permit_trans where PERMIT_ID in
+	(select related_primary_key from MEDIA_RELATIONS where media_relationship like '%permit'))
+	and t.collection_id = c.collection_id
+	group by c.collection_id, collection) p on c.collection_id = p.collection_id
+left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) imagesPrimaryCatItems, sum(decode(total_parts,null, 1,total_parts)) imagesPrimarySpecimens
+	from flat f, citation c, ctcitation_type_status ts
+	where f.collection_object_id = c.collection_object_id
+	and c.type_status = ts.type_status
+	and ts.CATEGORY in ('Primary')
+	and f.collection_object_id in
+	(select related_primary_key from MEDIA_RELATIONS where media_relationship='shows cataloged_item')
+	group by f.collection_id, f.collection) pt on c.collection_id = pt.collection_id
+left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) imagesSecondaryCatItems, sum(decode(total_parts,null, 1,total_parts)) imagesSecondarySpecimens
+        from flat f, citation c, ctcitation_type_status ts
+        where f.collection_object_id = c.collection_object_id
+        and c.type_status = ts.type_status
+        and ts.CATEGORY in ('Secondary')
+        and f.collection_object_id in
+        (select related_primary_key from MEDIA_RELATIONS where media_relationship='shows cataloged_item')
+        group by f.collection_id, f.collection) st on c.collection_id = st.collection_id
+
+order by collection
+</cfquery>
+
+<!-- get georeference data -->
+
+<cfquery name="georefs" datasource="uam_god">
+select
+	c.collection,
+	l.numLocalities,
+	gl.numGeoRefdLocalities,
+	vgl.numVerGRLocalities,
+	gl.numGeoRefdCatItems
+from
+(select * from collection where collection_cde<>'MCZ') c
+left join (select collection_id, collection, count(distinct locality_id) numLocalities 
+	from flat
+	group by collection_id, collection) l on c.collection_id = l.collection_id
+left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) numGeoRefdCatItems, sum(total_parts) numGeoRefdSpecimens, count(distinct locality_id) numGeoRefdLocalities
+	from flat f, coll_object co
+	where dec_lat is not null and dec_long is not null
+	and f.collection_object_id = co.collection_object_id
+	group by f.collection_id, f.collection) gl on c.collection_id = gl.collection_id
+left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) numVerGRCatItems, sum(total_parts) numVerGRSpecimens, count(distinct locality_id) numVerGRLocalities
+        from flat f, coll_object co
+        where dec_lat is not null and dec_long is not null
+        and f.collection_object_id = co.collection_object_id
+	and f.VERIFICATIONSTATUS like 'verified%'
+        group by f.collection_id, f.collection) vgl on c.collection_id = vgl.collection_id
+</cfquery>
+
+<!-- get citation data -->
+<cfquery name="citations" datasource="uam_god">
+
+select
+	c.collection,
+	cit.numCitations,
+	cit.numCitationCatItems
+from
+(select * from collection where collection_cde <> 'MCZ') c
+left join (select coll.collection_id, coll.collection, count(distinct f.collection_object_id) numCitationCatItems, count(*) numCitations 
+	from coll_object co,  flat f,  citation c,  publication p, collection coll
+	where f.collection_object_id = co.collection_object_id
+	and f.collection_object_id = c.collection_object_id 
+	and c.publication_id = p.publication_id
+	and f.collection_cde = coll.collection_cde
+	and p.publication_title not like '%Placeholder%'
+	group by coll.collection_id, coll.collection) cit on c.collection_id = cit.collection_id
 </cfquery>
 
 <!-- output formatted data -->
@@ -342,11 +435,157 @@ order by collection
                                         </tbody>
                                 </table>
                         </div>
+</cfoutput>
+<cfoutput>
+ 			<div class="col-12 mt-3">
+                                <h1 class="h2 px-2">Media Stats</h1>
+                                <table class="table table-responsive table-striped d-lg-table" id="t">
+                                        <thead>
+                                                <tr>
+                                                        <th>
+                                                                <strong>Collection</strong>
+                                                        </th>
+							<th>
+                                                                <strong>Number of Cataloged Items with Media</strong>
+                                                        </th>
+                                                        <th>
+                                                                <strong>Number of Media Items</strong>
+                                                        </th>
+                                                        <th>
+                                                                <strong>Number of Cataloged Items with Media added</strong>
+                                                        </th>
+                                                        <th>
+                                                                <strong>Number of Media Items added</strong>
+                                                        </th>
+                                                        <th>
+                                                                <strong>Number of Transactions with Associated "Permit" Documents</strong>
+                                                        </th>
+                                                        <th>
+                                                                <strong>Number of Transactions with Associated "Permit" Documents in time span</strong>
+                                                        </th>
+                                                        <th>
+                                                                <strong>Number of Primary Types with Images</strong>
+                                                        </th>
+                                                        <th>
+                                                                <strong>% of Primary Types Imaged</strong>
+                                                        </th>
+							<th>
+                                                                <strong>Number of Secondary Types with Images</strong>
+                                                        </th>
+                                                </tr>
+                                        </thead>
+                                        <tbody>
+                                                <cfloop query="media">
+                                                <tr>
+                                                        <td>#collection#</td>
+                                                        <td>#numImagesCatItems#</td>
+                                                        <td>#numImages#</td>
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                        <td>#numPermitsTrans#</td>
+                                                        <td>&nbsp;</td>
+                                                        <td>#imagesPrimaryCatItems#</td>
+							<td>&nbsp;</td>
+                                                        <td>#imagesSecondaryCatItems#</td>
+                                                </tr>
+                                                </cfloop>
+                                        </tbody>
+                                </table>
+                        </div>
+</cfoutput>
+<cfoutput>
+			<div class="col-12 mt-3">
+                                <h1 class="h2 px-2">Georeference Stats</h1>
+                                <table class="table table-responsive table-striped d-lg-table" id="t">
+                                        <thead>
+                                                <tr>
+                                                        <th>
+                                                                <strong>Collection</strong>
+                                                        </th>
+                                                        <th>
+                                                                <strong>Total Number of Localities</strong>
+                                                        </th>
+                                                        <th>
+                                                                <strong>Records Georeferenced - Localities</strong>
+                                                        </th>
+                                                        <th>
+                                                                <strong>% of Localities Georeferenced</strong>
+                                                        </th>
+                                                        <th>
+                                                                <strong>Records Georeferences Verified - Localities</strong>
+                                                        </th>
+                                                        <th>
+                                                                <strong>Records Georeferenced Total - Cataloged Items</strong>
+                                                        </th>
+                                                        <th>
+                                                                <strong>% of Cataloged Items Georeferenced</strong>
+                                                        </th>
+                                                        <th>
+                                                                <strong>Records Georeferenced in FY - Localities</strong>
+                                                        </th>
+                                                        <th>
+                                                                <strong>Records Georeferenced in FY - Cataloged Items</strong>
+                                                        </th>
+                                                </tr>
+                                        </thead>
+                                        <tbody>
+                                                <cfloop query="georefs">
+                                                <tr>
+                                                        <td>#collection#</td>
+                                                        <td>#numLocalities#</td>
+                                                        <td>#numGeoRefdLocalities#</td>
+                                                        <td>#NumberFormat((numGeoRefdLocalities/numLocalities)*100, '9.99')#%</td>
+                                                        <td>#numVerGRLocalities#</td>
+                                                        <td>#numGeoRefdCatItems#</td>
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                </tr>
+                                                </cfloop>
+                                        </tbody>
+                                </table>
+                        </div>
+
+			<div class="col-12 mt-3">
+                                <h1 class="h2 px-2">Publication Stats</h1>
+                                <table class="table table-responsive table-striped d-lg-table" id="t">
+                                        <thead>
+                                                <tr>
+                                                        <th>
+                                                                <strong>Collection</strong>
+                                                        </th>
+                                                        <th>
+                                                                <strong>Total Full Citations</strong>
+                                                        </th>
+                                                        <th>
+                                                                <strong>Number of Cataloged Items with Full Citations</strong>
+                                                        </th>
+                                                        <th>
+                                                                <strong>Number of Cataloged Items with Full Citations (w/ogenetic vouchers) added</strong>
+                                                        </th>
+                                                        <th>
+                                                                <strong>Genetic Voucher Citations added </strong>
+                                                        </th>
+                                                </tr>
+                                        </thead>
+                                        <tbody>
+                                                <cfloop query="citations">
+                                                <tr>
+                                                        <td>#collection#</td>
+                                                        <td>#numCitations#</td>
+                                                        <td>#numCitationCatItems#</td>
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                </tr>
+                                                </cfloop>
+                                        </tbody>
+                                </table>
+                        </div>
 		</section>
 	</main>
 </cfoutput>
 
-
+<cfoutput>Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds<br></cfoutput>
 
 
 <!-- dump query results for testing -->

@@ -28,8 +28,6 @@ limitations under the License.
 <cfinclude template="/metrics/component/functions.cfc">
 <script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 
-
-	
 <!--- TODO: Set to most recent full year. Fix Begin date --->
 <!---<cfoutput><cfif NOT isDefined("endDate")><cfset endDate = '#dateFormat(now(), "yyyy-mm-dd")#'></cfif>
 <cfif NOT isDefined("beginDate")><cfset beginDate = '#DateFormat(DateAdd("yyyy", -1, endDate),"yyyy-mm-dd")#'></cfif></cfoutput>--->
@@ -44,6 +42,7 @@ limitations under the License.
 	<br clear="all">	
 		<nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 			<div class="sidebar-sticky pt-4 px-2" style="background-color: ##efeded;">
+
 				<form id="loadReportForm">
 					<h3 class="h4 text-muted">Report Date Range</h3>
 					<input type="hidden" name="returnFormat" value="plain">
@@ -51,6 +50,7 @@ limitations under the License.
 					<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
 					<label for="endDate" class="data-entry-label mt-2">End Date</label>
 					<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+					
 					<h3 class="h4 text-muted mt-3">Report to Show</h3>
 					<label for="method" class="sr-only">Report To Show</label>
 					<select id="method" name="method" class="my-1 data-entry-input">
@@ -64,7 +64,10 @@ limitations under the License.
 					</select>
 					<input type="submit" value="submit" class="my-3 btn-xs btn btn-primary">
 				</form>
+
 				<script>
+			
+					
 					$(document).ready(function() {
 						$('##loadReportForm').on('submit',function(event){ event.preventDefault(); loadReport(); } );
 					});
@@ -102,15 +105,16 @@ limitations under the License.
 							<cfset beginDate = '#DateFormat(DateAdd("yyyy", -1, endDate),"yyyy-mm-dd")#'>
 						</cfif>
 					</cfoutput>
+				
 					<cfset summaryAnnualBlock=getAnnualChart(endDate="#endDate#",beginDate="#beginDate#")>
 					<div id="annualNumbersDiv"> 
-						#summaryAnnualBlock#
+						#summaryAnnualBlock# 
 					</div>
 				</div>
 			</cfoutput>
 		</main>
 	</div>
-	
+
 	<!---<p class="mt-2 smaller">Execution Time: <b>#int(getTickCount()-start)#</b> milliseconds</p>--->
 </div>
 </cfoutput>
