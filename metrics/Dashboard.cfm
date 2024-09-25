@@ -154,58 +154,15 @@ limitations under the License.
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky py-4 px-2" style="background-color: ##efeded;">
 							<div class="accordion" id="accordionExample">
-									<div class="card">
-										<div class="card-header" id="headingOne">
-											<h2 class="mb-0">
-											<button class="btn btn-link" type="button" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
-												Custom Reports
-											</button>
-											</h2>
-										</div>
-										<div id="collapseOne" class="collapse show" style="border: 2px solid ##ddd;" aria-labelledby="headingOne" data-parent="##accordionExample">
-											<div class="card-body">
-												<form class="py-2" id="loadReportForm1">
-													<div class="form-group">
-														<h3 class="h4 text-muted mt-1 mb-0">Select Report Date Range</h3>
-														<input type="hidden" name="returnFormat" value="plain">
-														<input type="hidden" name="annualReport" value="no" class="data-entry-input">
-														<div class="row mx-0">
-															<div class="col-12 px-0">
-																<div class="col-12 col-md-6 pl-0 pr-1 float-left">
-																	<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
-																	<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
-																</div>
-																<div class="col-12 col-md-6 pl-1 pr-0 float-left">
-																	<label for="endDate" class="data-entry-label mt-2">End Date</label>
-																	<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
-																</div>
-															</div>
-														</div>
-														<h3 class="h4 text-muted mt-3">Report to Show</h3>
-														<label for="method" class="sr-only">Report To Show</label>
-														<select id="method" name="method" class="my-1 data-entry-input">
-															<option value="getNumbers" selected="selected">Holdings</option>
-															<option value="getAcquisitions">Acquisitions</option>
-															<option value="getLoanNumbers">Loan Activity</option>
-															<option value="getMediaNumbers">Media (current)</option>
-															<option value="getCitationNumbers">Citations (current)</option>
-															<option value="getGeorefNumbers">Georeferences (current)</option>
-														</select>
-													</div>
-													<button type="submit" value="Show Report" id="loadReportForm1" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
-												</form>
-											</div>
-										</div>
+								<div class="card">
+									<div class="card-header" id="headingTwo">
+										<h2 class="mb-0">
+										<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+											Annual Reports
+										</button>
+										</h2>
 									</div>
-									<div class="card">
-										<div class="card-header" id="headingTwo">
-											<h2 class="mb-0">
-											<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-												Annual Reports
-											</button>
-											</h2>
-										</div>
-										<div id="collapseTwo" class="collapse" style="border: 2px solid lightsalmon;" aria-labelledby="headingTwo" data-parent="##accordionExample">
+									<div id="collapseTwo" class="collapse" style="border: 2px solid lightsalmon;" aria-labelledby="headingTwo" data-parent="##accordionExample">
 										<div class="card-body">
 											<!--- TODO: This needs to be an interpretation of a year value to fiscal year start end dates, not a hard coded list (allowing list of fiscal years to be retrieved from the database, not hard coded) --->
 											<script>
@@ -278,7 +235,49 @@ limitations under the License.
 												</div>
 												<button type="submit" value="Show Report" id="loadReportForm2" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
 											</form>
-
+										</div>
+									</div>
+								</div>
+								<div class="card">
+									<div class="card-header" id="headingOne">
+										<h2 class="mb-0">
+										<button class="btn btn-link" type="button" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
+											Custom Reports
+										</button>
+										</h2>
+									</div>
+									<div id="collapseOne" class="collapse show" style="border: 2px solid ##ddd;" aria-labelledby="headingOne" data-parent="##accordionExample">
+										<div class="card-body">
+											<form class="py-2" id="loadReportForm1">
+												<div class="form-group">
+													<h3 class="h4 text-muted mt-1 mb-0">Select Report Date Range</h3>
+													<input type="hidden" name="returnFormat" value="plain">
+													<input type="hidden" name="annualReport" value="no" class="data-entry-input">
+													<div class="row mx-0">
+														<div class="col-12 px-0">
+															<div class="col-12 col-md-6 pl-0 pr-1 float-left">
+																<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
+																<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
+															</div>
+															<div class="col-12 col-md-6 pl-1 pr-0 float-left">
+																<label for="endDate" class="data-entry-label mt-2">End Date</label>
+																<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+															</div>
+														</div>
+													</div>
+													<h3 class="h4 text-muted mt-3">Report to Show</h3>
+													<label for="method" class="sr-only">Report To Show</label>
+													<select id="method" name="method" class="my-1 data-entry-input">
+														<option value="getNumbers" selected="selected">Holdings</option>
+														<option value="getAcquisitions">Acquisitions</option>
+														<option value="getLoanNumbers">Loan Activity</option>
+														<option value="getMediaNumbers">Media (current)</option>
+														<option value="getCitationNumbers">Citations (current)</option>
+														<option value="getGeorefNumbers">Georeferences (current)</option>
+													</select>
+												</div>
+												<button type="submit" value="Show Report" id="loadReportForm1" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
+											</form>
 										</div>
 									</div>
 								</div>
