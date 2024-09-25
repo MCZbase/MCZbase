@@ -246,19 +246,6 @@ limitations under the License.
 													<!-- Hidden fields to store beginDate and endDate -->
 													<input type="hidden" id="beginDateFiscal" name="beginDate">
 													<input type="hidden" id="endDateFiscal" name="endDate">
-													<!---
-													<div class="row mx-0">
-														<div class="col-12 px-0">
-															<div class="col-12 col-md-6 pr-1 pl-0 float-left">
-																<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
-																<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
-															</div>
-															<div class="col-12 col-md-6 pl-1 pr-0 float-left">
-																<label for="endDate" class="data-entry-label mt-2">End Date</label>
-																<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
-															</div>
-														</div>
-													</div>--->
 													<h3 class="h4 text-muted mt-3">Report to Show</h3>
 													<label for="method" class="sr-only">Report To Show</label>
 													<select id="method" name="method" class="my-1 data-entry-input">
