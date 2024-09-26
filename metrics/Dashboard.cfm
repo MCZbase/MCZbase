@@ -147,38 +147,15 @@ limitations under the License.
 				<div class="row">
 				<br clear="all">	
 				<style>
-					.accordion {
-						margin-bottom: 1em;
-					}
-
-					.accordion-header {
-						background-color: ##007BFF;
-						color: white;
-						padding: 1em;
-						cursor: pointer;
-						user-select: none;
-					}
-
-					.accordion-content {
-						display: none;
-						padding: 1em;
-						background-color: ##f1f1f1;
-					}
-
-					/* specific styles for open accordion */
-					.accordion-header.open {
-						background-color: ##0056b3;
-					}
-
-					.accordion-content.open {
-						display: block;
+					.collapse.show {
+						border: 5px solid ##deedec;
 					}
 				</style>
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky py-4 px-2" style="background-color: ##efeded;">
 							<div class="accordion" id="accordionExample">
 								<div class="card">
-									<div class="card-header accordion-header" id="headingTwo">
+									<div class="card-header" id="headingTwo">
 										<h2 class="mb-0">
 										<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
 											Annual Reports
@@ -186,7 +163,7 @@ limitations under the License.
 										</h2>
 									</div>
 									<div id="collapseTwo" class="collapse show" style="border: 2px solid ##deedec;" aria-labelledby="headingTwo" data-parent="##accordionExample">
-										<div class="card-body accordion-content">
+										<div class="card-body">
 											<!--- TODO: This needs to be an interpretation of a year value to fiscal year start end dates, not a hard coded list (allowing list of fiscal years to be retrieved from the database, not hard coded) --->
 											<script>
 												function setFiscalYearDates() {
