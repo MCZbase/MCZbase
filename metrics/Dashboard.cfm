@@ -152,7 +152,7 @@ limitations under the License.
 					}
 
 					.accordion-header {
-						background-color: #007BFF;
+						background-color: ##007BFF;
 						color: white;
 						padding: 1em;
 						cursor: pointer;
@@ -162,12 +162,12 @@ limitations under the License.
 					.accordion-content {
 						display: none;
 						padding: 1em;
-						background-color: #f1f1f1;
+						background-color: ##f1f1f1;
 					}
 
 					/* specific styles for open accordion */
 					.accordion-header.open {
-						background-color: #0056b3;
+						background-color: ##0056b3;
 					}
 
 					.accordion-content.open {
