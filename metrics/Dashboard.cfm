@@ -203,7 +203,7 @@ limitations under the License.
 															collections_reported_metrics
 													</cfquery>
 												
-													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
+													<select id="fiscalYears" name="fiscalYears" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
 														<option value="">--Select Fiscal Year--</option>
 														<cfloop query="fiscalYear">
 															<option value="#fiscalYear.fiscal_year_option#">#fiscalYear.fiscal_year_option#</option>
@@ -211,7 +211,7 @@ limitations under the License.
 													</select>
 													<cfset jsonQuery = serializeJSON(fiscalYear)>
 													<script>
-														var queryResults = #jsonQuery#;
+														var queryResults = "#JSStringFormat(jsonQuery)#";
 														
 														function setFiscalYearDates() {
 															var results = JSON.parse(queryResults);
