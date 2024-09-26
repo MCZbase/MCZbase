@@ -242,11 +242,11 @@ limitations under the License.
 				LEFT JOIN 
 					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Cataloged_Items, sum(decode(total_parts,null, 1,total_parts)) Specimens from flat f join #endSchema#.coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) h on c.collection_id = h.collection_id
 				LEFT JOIN 
-					(select f.collection_id, f.collection, count(distinct collection_object_id) Received_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Received_Specimens from flat f join accn a on f.ACCN_ID = a.transaction_id join trans t on a.transaction_id = t.transaction_id where a.received_DATE between  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) a on c.collection_id = a.collection_id
+					(select f.collection_id, f.collection, count(distinct collection_object_id) Received_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Received_Specimens from #endSchema#.flat f join accn a on f.ACCN_ID = a.transaction_id join trans t on a.transaction_id = t.transaction_id where a.received_DATE between  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) a on c.collection_id = a.collection_id
 				LEFT JOIN 
-					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Entered_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Entered_Specimens from flat f join #endSchema#.coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) e on e.collection_id = c.collection_id
+					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Entered_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Entered_Specimens from #endSchema#.flat f join #endSchema#.coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) e on e.collection_id = c.collection_id
 				LEFT JOIN 
-					(select f.collection_id, f.collection, count(distinct f.collection_object_id) NCBI_Cat_Items, sum(total_parts) ncbiSpecimens from COLL_OBJ_OTHER_ID_NUM oid, flat f, COLL_OBJECT CO where OTHER_ID_TYPE like '%NCBI%' AND F.COLLECTION_OBJECT_ID = CO.COLLECTION_OBJECT_ID and co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') and oid.collection_object_id = f.collection_object_id group by f.collection_id, f.collection) ncbi on c.collection_id = ncbi.collection_id
+					(select f.collection_id, f.collection, count(distinct f.collection_object_id) NCBI_Cat_Items, sum(total_parts) ncbiSpecimens from COLL_OBJ_OTHER_ID_NUM oid, #endSchema#.flat f, COLL_OBJECT CO where OTHER_ID_TYPE like '%NCBI%' AND F.COLLECTION_OBJECT_ID = CO.COLLECTION_OBJECT_ID and co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') and oid.collection_object_id = f.collection_object_id group by f.collection_id, f.collection) ncbi on c.collection_id = ncbi.collection_id
 				LEFT JOIN 
 					(select c.collection_id, c.collection, count(distinct t.transaction_id) Num_Accns from accn a, trans t, collection c where a.transaction_id = t.transaction_id and t.collection_id = c.collection_id and a.received_date between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by c.collection_id, c.collection) accn on c.collection_id = accn.collection_id
 				<cfif annualReport EQ "yes">
@@ -288,7 +288,7 @@ limitations under the License.
 										</cfif>
 										<th><strong>Number of Cataloged Items with NCBI numbers</strong></th>
 										<cfif annualReport EQ "yes">
-											<th><strong>Items received but not Cataloged at End of Year</strong></th>
+											<th><strong>Items received but not Cataloged at End of Year (may be estimate)</strong></th>
 										</cfif>
 										<th><strong>Number of Accessions</strong></th>
 										<!---th><strong>Total Specimens (parts)</strong></th--->
@@ -298,18 +298,62 @@ limitations under the License.
 									<cfloop query="ACtotals">
 										<tr>
 											<td>#collection#</td>
-											<td>#Received_Cat_Items#</td>
-											<td>#Received_Specimens#</td>
-											<td>#Entered_Cat_Items#</td>
+											<td>
+												<cfif #Received_Cat_Items# EQ ''>
+													0
+												<cfelse> 	
+													#Received_Cat_Items# 
+												</cfif>
+											</td>
+											<td>
+												<cfif #Received_Specimens# EQ ''>
+                                                                                                        0
+                                                                                                <cfelse>
+                                                                                                       	#Received_Specimens#
+                                                                                                </cfif>
+											</td>
+											<td>
+												<cfif #Entered_Cat_Items# EQ ''>
+                                                                                                        0
+                                                                                                <cfelse>
+                                                                                                       	#Entered_Cat_Items#
+                                                                                                </cfif>
+											</td>
 											<cfif annualReport EQ "yes">
-												<td>#numAddedCryo#</td>
+											<td>
+												<cfif #numAddedCryo# EQ ''>
+                                                                                                        N/A
+                                                                                                <cfelse>
+                                                                                                        #numAddedCryo#
+                                                                                                </cfif>
+											</td>
 											</cfif>
-											<td>#NCBI_Cat_Items#</td>
+											<td>
+												<cfif #NCBI_Cat_Items# EQ ''>
+                                                                                                        N/A
+                                                                                                <cfelse>
+                                                                                                        #NCBI_Cat_Items#
+                                                                                                </cfif>
+											</td>
 											<cfif annualReport EQ "yes">
-												<td>#numrecnotcat#</td>
+												<td>
+													<cfif #numrecnotcat# EQ ''>
+                                                                                                        	N/A
+                                                                                                	<cfelse>
+                                                                                                        	#numrecnotcat#
+                                                                                                	</cfif>
+												</td>
 											</cfif>
-											<td>#Num_Accns#</td>
-											<!---td>#Specimens#</td--->
+											<td>
+												<cfif #Num_Accns# EQ '' and #Collection# EQ 'Cryogenic'>
+                                                                                                        N/A
+												<cfelseif #Num_Accns# EQ ''>
+													0
+                                                                                                <cfelse>
+                                                                                                        #Num_Accns#
+                                                                                                </cfif>
+
+											</td>
 										</tr>
 									</cfloop>
 								</tbody>
@@ -354,16 +398,16 @@ limitations under the License.
 			<cfquery name="loans" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				SELECT
 					c.Collection, 
-					ol.Num_Outgoing_Loans,
-					cl.Num_Closed_Loans,
-					fy.Num_5yr_Loans,
-					ty.Num_10yr_Loans,
-					b.Num_Borrows,
-					opL.Num_Open_Loans,
-					open5.Num_Open_OverDue_5yrs,
-					open10.Num_Open_OverDue_10yrs,
-					ol.Outgoing_CatItems,
-					ol.Outgoing_Specimens
+					nvl(ol.Num_Outgoing_Loans,0) Num_Outgoing_Loans,
+					nvl(cl.Num_Closed_Loans,0) Num_Closed_Loans,
+					nvl(fy.Num_5yr_Loans,0) Num_5yr_Loans,
+					nvl(ty.Num_10yr_Loans,0) Num_10yr_Loans,
+					nvl(b.Num_Borrows,0) Num_Borrows,
+					nvl(opL.Num_Open_Loans,0) Num_Open_Loans,
+					nvl(open5.Num_Open_OverDue_5yrs,0) Num_Open_OverDue_5yrs,
+					nvl(open10.Num_Open_OverDue_10yrs,0) Num_Open_OverDue_10yrs,
+					nvl(ol.Outgoing_CatItems, 0) Outgoing_CatItems,
+					nvl(ol.Outgoing_Specimens, 0) Outgoing_Specimens
 				FROM
 					(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
 				LEFT JOIN
@@ -463,19 +507,35 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<cfloop query="loans">
-										<tr>
-											<td>#Collection#</td>
-											<td>#Num_Outgoing_Loans#</td>
-											<td>#Num_Closed_Loans#</td>
-											<td>#Num_5yr_Loans#</td>
-											<td>#Num_10yr_Loans#</td>
-											<td>#Num_Borrows#</td>
-											<td>#Num_Open_Loans#</td>
-											<td>#Num_Open_OverDue_5yrs#</td>
-											<td>#Num_Open_OverDue_10yrs#</td>
-											<td>#Outgoing_CatItems#</td>
-											<td>#Outgoing_Specimens#</td>
-										</tr>
+										<cfif #Collection# EQ 'Herpetology Observations'>
+											<tr>
+                                                                                        	<td>#Collection#</td>
+                                                                                        	<td>N/A</td>
+                                                                                        	<td>N/A</td>
+                                                                                        	<td>N/A</td>
+                                                                                        	<td>N/A</td>
+                                                                                        	<td>N/A</td>
+                                                                                        	<td>N/A</td>
+                                                                                        	<td>N/A</td>
+                                                                                        	<td>N/A</td>
+                                                                                        	<td>N/A</td>
+                                                                                        	<td>N/A</td>
+                                                                                	</tr>
+										<cfelse>
+											<tr>
+												<td>#Collection#</td>
+												<td>#Num_Outgoing_Loans#</td>
+												<td>#Num_Closed_Loans#</td>
+												<td>#Num_5yr_Loans#</td>
+												<td>#Num_10yr_Loans#</td>
+												<td>#Num_Borrows#</td>
+												<td>#Num_Open_Loans#</td>
+												<td>#Num_Open_OverDue_5yrs#</td>
+												<td>#Num_Open_OverDue_10yrs#</td>
+												<td>#Outgoing_CatItems#</td>
+												<td>#Outgoing_Specimens#</td>
+											</tr>
+										</cfif>
 									</cfloop>
 								</tbody>
 							</table>
@@ -627,7 +687,13 @@ limitations under the License.
 												<td>#NumCatItemsImgAdded#</td>
 												<td>#NumImagesAdded#</td>
 											</cfif>
-											<td>#Images_Primary_Cat_Items#</td>
+											<td>
+												<cfif #Images_Primary_Cat_Items# eq ''>
+													N/A
+												<cfelse>
+													#Images_Primary_Cat_Items#
+												</cfif>
+											</td>
 											<td>
 												<cfif isNumeric(percentPrimaryImages)> 
 													#NumberFormat((percentPrimaryImages)*100, '9.99')#%
@@ -635,7 +701,13 @@ limitations under the License.
 													N/A
 												</cfif>
 											</td>
-											<td>#Images_Secondary_Cat_Items#</td>
+											<td>
+												<cfif #Images_Secondary_Cat_Items# eq ''>
+                                                                                                        N/A
+                                                                                                <cfelse>
+                                                                                                        #Images_Secondary_Cat_Items#
+                                                                                                </cfif>
+											</td>
 										</tr>
 									</cfloop>
 								</tbody>
@@ -1007,9 +1079,27 @@ limitations under the License.
 									<cfloop query="visitorsmediareq">
 										<tr>
 											<td>#collection#</td>
-											<td>#numvisitors#</td>
-											<td>#numvisitordays#</td>
-											<td>#nummediareqs#</td>
+											<td>
+												<cfif #numvisitors# EQ ''>
+													N/A
+												<cfelse>
+													#numvisitors#
+												</cfif>
+											</td>
+											<td>
+												<cfif #numvisitordays# EQ ''>
+													N/A
+												<cfelse>
+													#numvisitordays#
+												</cfif>
+											</td>
+											<td>
+												<cfif #nummediareqs# EQ ''>
+													N/A
+												<cfelse>
+													#nummediareqs#
+												</cfif>
+											</td>
 										</tr>
 									</cfloop>
 								</tbody>
