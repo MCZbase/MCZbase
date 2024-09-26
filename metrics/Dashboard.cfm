@@ -150,19 +150,18 @@ limitations under the License.
 			<div class="container-fluid" id="content">
 				<div class="row">
 				<br clear="all">	
-
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky py-4 px-2" style="background-color: ##efeded;">
 							<div class="accordion" id="accordionExample">
 								<div class="card">
-									<div class="card-header" id="headingTwo">
+									<div class="card-header" id="headingOneTwo">
 										<h2 class="mb-0">
-										<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+										<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseOneTwo">
 											Annual Reports
 										</button>
 										</h2>
 									</div>
-									<div id="collapseTwo" class="collapse" style="border: 2px solid lightsalmon;" aria-labelledby="headingTwo" data-parent="##accordionExample">
+									<div id="collapseOneTwo" class="collapse show" style="border: 2px solid darkgray;" aria-labelledby="headingOneTwo" data-parent="##accordionExample">
 										<div class="card-body">
 											<!--- TODO: This needs to be an interpretation of a year value to fiscal year start end dates, not a hard coded list (allowing list of fiscal years to be retrieved from the database, not hard coded) --->
 											<script>
@@ -239,16 +238,16 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="card">
-									<div class="card-header" id="headingOne">
+									<div class="card-header" id="headingTwoOne">
 										<h2 class="mb-0">
-										<button class="btn btn-link" type="button" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
+										<button class="btn btn-link" type="button" data-toggle="collapse" data-target="##collapseTwoOne" aria-expanded="true" aria-controls="collapseTwoOne">
 											Custom Reports
 										</button>
 										</h2>
 									</div>
-									<div id="collapseOne" class="collapse show" style="border: 2px solid ##ddd;" aria-labelledby="headingOne" data-parent="##accordionExample">
+									<div id="collapseTwoOne" class="collapse" style="border: 2px solid ##ddd;" aria-labelledby="headingTwoOne" data-parent="##accordionExample">
 										<div class="card-body">
-											<form class="py-2" id="loadReportForm1">
+											<form class="py-2" id="loadReportForm21">
 												<div class="form-group">
 													<h3 class="h4 text-muted mt-1 mb-0">Select Report Date Range</h3>
 													<input type="hidden" name="returnFormat" value="plain">
@@ -276,7 +275,7 @@ limitations under the License.
 														<option value="getGeorefNumbers">Georeferences (current)</option>
 													</select>
 												</div>
-												<button type="submit" value="Show Report" id="loadReportForm1" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
+												<button type="submit" value="Show Report" id="loadReportForm21" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
 											</form>
 										</div>
 									</div>
@@ -284,59 +283,59 @@ limitations under the License.
 							</div>
 							<script>
 								$(document).ready(function() {
-									$('##loadReportForm1').on('submit',function(event){ event.preventDefault(); loadReport1(); } );
+									$('##loadReportForm21').on('submit',function(event){ event.preventDefault(); loadReport21(); } );
 								});
 								function loadReport1(){
-									$('##annualNumbersDiv1').html("Loading...");
+									$('##annualNumbersDiv21').html("Loading...");
 									$.ajax(
 										{
 											url: '/metrics/component/functions.cfc',
 											type: 'GET', 
-											data: $('##loadReportForm1').serialize()
+											data: $('##loadReportForm21').serialize()
 										}
 									).done(
 										function(response) {
 											console.log(response);
-											$('##annualNumbersDiv1').html(response);
-											$('##annualNumbersDiv1').show();
+											$('##annualNumbersDiv21').html(response);
+											$('##annualNumbersDiv21').show();
 										}
 									).fail(function(jqXHR,textStatus,error){
-										$('##annualNumbersDiv').html("Error Loading Metrics");
+										$('##annualNumbersDiv21').html("Error Loading Metrics");
 									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 									});
 								}
 							</script>
 							<script>
 								$(document).ready(function() {
-									$('##loadReportForm2').on('submit',function(event){ event.preventDefault(); loadReport2(); } );
+									$('##loadReportForm12').on('submit',function(event){ event.preventDefault(); loadReport12(); } );
 								});
 								function loadReport2(){
-									$('##annualNumbersDiv2').html("Loading...");
+									$('##annualNumbersDiv12').html("Loading...");
 									$.ajax(
 										{
 											url: '/metrics/component/functions.cfc',
 											type: 'GET', 
-											data: $('##loadReportForm2').serialize()
+											data: $('##loadReportForm12').serialize()
 										}
 									).done(
 										function(response) {
 											console.log(response);
-											$('##annualNumbersDiv2').html(response);
-											$('##annualNumbersDiv2').show();
+											$('##annualNumbersDiv12').html(response);
+											$('##annualNumbersDiv12').show();
 										}
 									).fail(function(jqXHR,textStatus,error){
-										$('##annualNumbersDiv2').html("Error Loading Metrics");
+										$('##annualNumbersDiv12').html("Error Loading Metrics");
 									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 									});
 								}
 							</script>
 							<script>
 								 document.addEventListener('DOMContentLoaded', function () {
-									const formInSidebar1 = document.getElementById('collapseTwo');
-									const resultsInMain1 = document.getElementById('divTwo');
+									const formInSidebar1 = document.getElementById('collapseOneTwo');
+									const resultsInMain1 = document.getElementById('divOneTwo');
 									
-									const formInSidebar2 = document.getElementById('collapseOne');
-									const resultsInMain2 = document.getElementById('divOne');
+									const formInSidebar2 = document.getElementById('collapseTwoOne');
+									const resultsInMain2 = document.getElementById('divTwoOne');
 									
 									function checkFormVisibility1() {
 										if ($(formInSidebar1).hasClass('show')) {
@@ -398,13 +397,13 @@ limitations under the License.
 								<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
 								<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
 								<div id="divOne" style="border: 2px solid ##ddd;padding:0 15px 0 15px;">
-									<cfset summaryAnnualBlock1=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="no")>
+									<cfset summaryAnnualBlock1=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="yes")>
 									<div id="annualNumbersDiv1" class="py-2"> 
 										#summaryAnnualBlock1#
 									</div>
 								</div>
 								<div id="divTwo" style="border: 2px solid lightsalmon;padding:0 15px 0 15px;">
-									<cfset summaryAnnualBlock2=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="yes")>
+									<cfset summaryAnnualBlock2=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="no")>
 									<div id="annualNumbersDiv2" class="py-2"> 
 										#summaryAnnualBlock2#
 									</div>
