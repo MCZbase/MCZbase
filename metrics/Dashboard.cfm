@@ -197,7 +197,7 @@ limitations under the License.
 													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
 													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
 													<!--- TODO: This needs to be a query on the historical data table, not a hard coded list, query below --->
-													<cfquery name="fiscalYear" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+													<cfquery name="fiscalYear"  datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
 														SELECT distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option
 														FROM
 															collections_reported_metrics
