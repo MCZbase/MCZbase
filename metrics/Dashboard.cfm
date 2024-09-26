@@ -147,23 +147,46 @@ limitations under the License.
 				<div class="row">
 				<br clear="all">	
 				<style>
-					.show {
-						border: 4px solid ##deedec;
+					.accordion {
+						margin-bottom: 1em;
+					}
+
+					.accordion-header {
+						background-color: #007BFF;
+						color: white;
+						padding: 1em;
+						cursor: pointer;
+						user-select: none;
+					}
+
+					.accordion-content {
+						display: none;
+						padding: 1em;
+						background-color: #f1f1f1;
+					}
+
+					/* specific styles for open accordion */
+					.accordion-header.open {
+						background-color: #0056b3;
+					}
+
+					.accordion-content.open {
+						display: block;
 					}
 				</style>
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky py-4 px-2" style="background-color: ##efeded;">
 							<div class="accordion" id="accordionExample">
 								<div class="card">
-									<div class="card-header" id="headingTwo">
+									<div class="card-header accordion-header" id="headingTwo">
 										<h2 class="mb-0">
-										<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+										<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo"  onclick="toggleAccordion(this)">
 											Annual Reports
 										</button>
 										</h2>
 									</div>
 									<div id="collapseTwo" class="collapse show" style="border: 2px solid ##deedec;" aria-labelledby="headingTwo" data-parent="##accordionExample">
-										<div class="card-body">
+										<div class="card-body accordion-content">
 											<!--- TODO: This needs to be an interpretation of a year value to fiscal year start end dates, not a hard coded list (allowing list of fiscal years to be retrieved from the database, not hard coded) --->
 											<script>
 												function setFiscalYearDates() {
@@ -377,6 +400,31 @@ limitations under the License.
 
 									displayResults();
 									return true; 
+								}
+								
+								function toggleAccordion(header) {
+									// Get the content element next to the header
+									var content = header.nextElementSibling;
+
+									// Toggle the 'open' class on both the header and the content
+									header.classList.toggle('open');
+									content.classList.toggle('open');
+
+									// If you have other accordions and want to close them when one is opened, you can use the following:
+									var allHeaders = document.querySelectorAll('.accordion-header');
+									var allContents = document.querySelectorAll('.accordion-content');
+
+									allHeaders.forEach(function(hdr) {
+										if (hdr !== header) {
+											hdr.classList.remove('open');
+										}
+									});
+
+									allContents.forEach(function(cnt) {
+										if (cnt !== content) {
+											cnt.classList.remove('open');
+										}
+									});
 								}
 							</script>
 						</div>
