@@ -80,7 +80,8 @@ limitations under the License.
 	<cfset variables.endDate = arguments.endDate>
 	<cfset variables.annualReport = arguments.annualReport>
 	<cfset variables.returnAs = arguments.returnAs>
-	<cfthread name="getNumbersThread">
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getNumbersThread#tn#">
 		<cftry>
 			<!--- get correct schema for annual report or date range--->
 			<cfif annualReport EQ 'yes'>
@@ -186,7 +187,7 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getNumbersThread" />
+	<cfthread action="join" name="getNumbersThread#tn#" />
 	<cfreturn getNumbersThread.output>
 </cffunction>
 
