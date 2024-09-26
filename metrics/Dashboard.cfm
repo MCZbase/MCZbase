@@ -201,9 +201,8 @@ limitations under the License.
 															collections_reported_metrics
 													--->
 													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
-														<option value="">--Select Fiscal Year--</option>
+														<option value="FY2024" selected="selected">FY2024</option>
 														<option value="FY2023">FY2023</option>
-														<option value="FY2024">FY2024</option>
 														<!-- Add more fiscal years as needed -->
 													</select>
 													<!-- Hidden fields to store beginDate and endDate -->
