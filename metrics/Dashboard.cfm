@@ -183,7 +183,8 @@ limitations under the License.
 													document.getElementById("endDateFiscal").value = endDate;
 												}
 											</script>
-											<form class="py-2" id="loadReportForm2" onsubmit="return validateFiscalYear();">
+									<!---		<form class="py-2" id="loadReportForm2" onsubmit="return validateFiscalYear();">--->
+											<form class="py-2" id="loadReportForm2">
 												<div class="form-group">
 													<input type="hidden" name="returnFormat" value="plain">
 													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
@@ -361,18 +362,18 @@ limitations under the License.
 								
 								
 								
-								function validateFiscalYear() {
-									var beginDate = new Date(document.getElementById('beginDate').value);
-									var endDate = new Date(document.getElementById('endDate').value);
-										
-									var expectedEndDate = new Date(beginDate);
-										expectedEndDate.setFullYear(expectedEndDate.getFullYear() + 1);
-										expectedEndDate.setMonth(5); // June
-										expectedEndDate.setDate(30); // 30
-
-									displayResults();
-									return true; 
-								}
+							//	function validateFiscalYear() {
+//									var beginDate = new Date(document.getElementById('beginDate').value);
+//									var endDate = new Date(document.getElementById('endDate').value);
+//										
+//									var expectedEndDate = new Date(beginDate);
+//										expectedEndDate.setFullYear(expectedEndDate.getFullYear() + 1);
+//										expectedEndDate.setMonth(5); // June
+//										expectedEndDate.setDate(30); // 30
+//
+//									displayResults();
+//									return true; 
+//								}
 							</script>
 						</div>
 					</nav>
