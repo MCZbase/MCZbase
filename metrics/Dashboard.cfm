@@ -265,9 +265,9 @@ limitations under the License.
 														<option value="getNumbers" selected="selected">Holdings</option>
 														<option value="getAcquisitions">Acquisitions</option>
 														<option value="getLoanNumbers">Loan Activity</option>
-														<option value="getMediaNumbers">Media (current)</option>
-														<option value="getCitationNumbers">Citations (current)</option>
-														<option value="getGeorefNumbers">Georeferences (current)</option>
+														<option value="getMediaNumbers">Media</option>
+														<option value="getCitationNumbers">Citations</option>
+														<option value="getGeorefNumbers">Georeferences</option>
 													</select>
 												</div>
 												<button type="submit" value="Show Report" id="loadReportForm1" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
