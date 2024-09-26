@@ -417,20 +417,7 @@ limitations under the License.
 								
 							</script>
 							
-							<script>
-								function validateFiscalYear() {
-									var beginDate = new Date(document.getElementById('beginDate').value);
-									var endDate = new Date(document.getElementById('endDate').value);
-										
-									var expectedEndDate = new Date(beginDate);
-										expectedEndDate.setFullYear(expectedEndDate.getFullYear() + 1);
-										expectedEndDate.setMonth(5); // June
-										expectedEndDate.setDate(30); // 30
-
-									displayResults();
-									return true; 
-								}
-							</script>
+							
 						</div>
 					</nav>
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
