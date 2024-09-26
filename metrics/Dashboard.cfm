@@ -226,8 +226,8 @@ limitations under the License.
 														setFiscalYearDates();
 													</script>
 													<!-- Hidden fields to store beginDate and endDate -->
-													<input type="hidden" id="beginDateFiscal" name="beginDate">
-													<input type="hidden" id="endDateFiscal" name="endDate">
+													<input type="hidden" id="beginDate" name="beginDate">
+													<input type="hidden" id="endDate" name="endDate">
 													<h3 class="h4 text-muted mt-3">Report to Show</h3>
 													<label for="method" class="sr-only">Report To Show</label>
 													<select id="method" name="method" class="my-1 data-entry-input">
