@@ -897,7 +897,7 @@ limitations under the License.
 								<div>Borrower (noted above) acknowledges reading and agreeing to the terms and conditions noted in this document.<div>
 								<div><strong>Expected return date: #dateformat(getSubloan.return_due_date,"dd mmmm yyyy")#</strong></div>
 								<br>
-								<div style="text-align: right;">Borrower&##39;s Signature: ___________________________</div>
+								<div style="text-align: right; margin-top: 1em;">Borrower&##39;s Signature: ______________________</div>
 								<div style="text-align: right;">#getSubloan.recAgentName#</div>
 							</td>
 						</tr>
