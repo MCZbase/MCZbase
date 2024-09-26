@@ -188,7 +188,7 @@ limitations under the License.
 		</cftry>
 	</cfthread>
 	<cfthread action="join" name="getNumbersThread#tn#" />
-	<cfreturn getNumbersThread.output>
+	<cfreturn cfthread["getNumbersThread#tn#"].output>
 </cffunction>
 
 <!--- getAcquisitions REPORT: ACQUISITIONS within a specified time period 
