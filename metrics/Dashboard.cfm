@@ -205,7 +205,7 @@ limitations under the License.
 												
 													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
 														<option value="">--Select Fiscal Year--</option>
-														<cfloop query="media">
+														<cfloop query="fiscalYear">
 															<option value="#media.fiscal_year_option#">#media.fiscal_year_option#</option>
 														</cfloop>
 													</select>
