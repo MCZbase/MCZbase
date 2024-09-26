@@ -219,7 +219,7 @@ limitations under the License.
 																fiscalYearEnd = results[i].fiscal_year_option
 															}
 															var endDate = new Date(fiscalYearEnd + "-06-30";
-															var endDate = new Date(fiscalYearEnd + "-07-01";
+															var beginDate = new Date(fiscalYearEnd + "-07-01";
 														setFiscalYearDates();
 													</script>
 													<!-- Hidden fields to store beginDate and endDate -->
