@@ -204,7 +204,7 @@ limitations under the License.
 													</cfquery>
 													<cfset jsonQuery = serializeJSON(fiscalYear)>
 										
-													<select id="fiscalYearSelect" name="fiscalYearSelect" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
+													<select id="fiscalYearSelect" name="fiscalYearSelect" onchange="updateFiscalYearDates()" required class="data-entry-input my-1">
 														<option value="">--Select Fiscal Year--</option>
 														<cfloop query="fiscalYear">
 															<option value="#fiscalYear.fiscal_year_option#">#fiscalYear.fiscal_year_option#</option>
