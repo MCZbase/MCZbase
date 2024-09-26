@@ -170,14 +170,6 @@ limitations under the License.
 														var beginDate;
 														var endDate;
 														switch(fiscalYear) {
-															case "FY2021":
-																beginDate = "2020-07-01";
-																endDate = "2021-06-30";
-																break;
-															case "FY2022":
-																beginDate = "2021-07-01";
-																endDate = "2022-06-30";
-																break;
 															case "FY2023":
 																beginDate = "2022-07-01";
 																endDate = "2023-06-30";
@@ -217,6 +209,19 @@ limitations under the License.
 															<option value="#media.fiscal_year_option#">#media.fiscal_year_option#</option>
 														</cfloop>
 													</select>
+													<cfset jsonQuery = serializeJSON(fiscalYear)>
+													<script>
+														var queryResults = #jsonQuery#;
+														function setFiscalYearDates() {
+															var results = JSON.parse(queryResults);
+															
+															for (var i=0; i< results.length; i++) {
+																fiscalYearEnd = results[i].fiscal_year_option
+															}
+															var endDate = new Date(fiscalYearEnd + "-06-30";
+															var endDate = new Date(fiscalYearEnd + "-07-01";
+														setFiscalYearDates();
+													</script>
 													<!-- Hidden fields to store beginDate and endDate -->
 													<input type="hidden" id="beginDateFiscal" name="beginDate">
 													<input type="hidden" id="endDateFiscal" name="endDate">
