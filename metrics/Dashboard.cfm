@@ -283,59 +283,60 @@ limitations under the License.
 							</div>
 							<script>
 								$(document).ready(function() {
-									$('##loadReportForm21').on('submit',function(event){ event.preventDefault(); loadReport21(); } );
-								});
-								function loadReport1(){
-									$('##annualNumbersDiv21').html("Loading...");
-									$.ajax(
-										{
-											url: '/metrics/component/functions.cfc',
-											type: 'GET', 
-											data: $('##loadReportForm21').serialize()
-										}
-									).done(
-										function(response) {
-											console.log(response);
-											$('##annualNumbersDiv21').html(response);
-											$('##annualNumbersDiv21').show();
-										}
-									).fail(function(jqXHR,textStatus,error){
-										$('##annualNumbersDiv21').html("Error Loading Metrics");
-									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
-									});
-								}
-							</script>
-							<script>
-								$(document).ready(function() {
-									$('##loadReportForm12').on('submit',function(event){ event.preventDefault(); loadReport12(); } );
+									$('##loadReportForm1').on('submit',function(event){ event.preventDefault(); loadReport1(); } );
 								});
 								function loadReport2(){
-									$('##annualNumbersDiv12').html("Loading...");
+									$('##annualNumbersDiv1').html("Loading...");
 									$.ajax(
 										{
 											url: '/metrics/component/functions.cfc',
 											type: 'GET', 
-											data: $('##loadReportForm12').serialize()
+											data: $('##loadReportForm1').serialize()
 										}
 									).done(
 										function(response) {
 											console.log(response);
-											$('##annualNumbersDiv12').html(response);
-											$('##annualNumbersDiv12').show();
+											$('##annualNumbersDiv1').html(response);
+											$('##annualNumbersDiv1').show();
 										}
 									).fail(function(jqXHR,textStatus,error){
-										$('##annualNumbersDiv12').html("Error Loading Metrics");
+										$('##annualNumbersDiv1').html("Error Loading Metrics");
+									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
+									});
+								}
+							</script>	
+							<script>
+								$(document).ready(function() {
+									$('##loadReportForm2').on('submit',function(event){ event.preventDefault(); loadReport2(); } );
+								});
+								function loadReport1(){
+									$('##annualNumbersDiv2').html("Loading...");
+									$.ajax(
+										{
+											url: '/metrics/component/functions.cfc',
+											type: 'GET', 
+											data: $('##loadReportForm2').serialize()
+										}
+									).done(
+										function(response) {
+											console.log(response);
+											$('##annualNumbersDiv2').html(response);
+											$('##annualNumbersDiv2').show();
+										}
+									).fail(function(jqXHR,textStatus,error){
+										$('##annualNumbersDiv2').html("Error Loading Metrics");
 									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 									});
 								}
 							</script>
+				
 							<script>
 								 document.addEventListener('DOMContentLoaded', function () {
-									const formInSidebar1 = document.getElementById('collapseOneTwo');
-									const resultsInMain1 = document.getElementById('divOneTwo');
+									const formInSidebar1 = document.getElementById('collapseOne');
+									const resultsInMain1 = document.getElementById('divOne');
 									
-									const formInSidebar2 = document.getElementById('collapseTwoOne');
-									const resultsInMain2 = document.getElementById('divTwoOne');
+									const formInSidebar2 = document.getElementById('collapseTwo');
+									const resultsInMain2 = document.getElementById('divTwo');
 									
 									function checkFormVisibility1() {
 										if ($(formInSidebar1).hasClass('show')) {
@@ -374,8 +375,9 @@ limitations under the License.
 									resultsInMain2.style.display = 'block';
 								}
 								
-								
-								
+							</script>
+							
+							<script>
 								function validateFiscalYear() {
 									var beginDate = new Date(document.getElementById('beginDate').value);
 									var endDate = new Date(document.getElementById('endDate').value);
@@ -402,7 +404,7 @@ limitations under the License.
 										#summaryAnnualBlock1#
 									</div>
 								</div>
-								<div id="divTwo" style="border: 2px solid lightsalmon;padding:0 15px 0 15px;">
+								<div id="divTwo" style="border: 2px solid darkgray;padding:0 15px 0 15px;">
 									<cfset summaryAnnualBlock2=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="no")>
 									<div id="annualNumbersDiv2" class="py-2"> 
 										#summaryAnnualBlock2#
