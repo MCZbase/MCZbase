@@ -150,72 +150,82 @@ limitations under the License.
 			<div class="container-fluid" id="content">
 				<div class="row">
 				<br clear="all">	
+
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky py-4 px-2" style="background-color: ##efeded;">
 							<div class="accordion" id="accordionExample">
 								<div class="card">
-									<div class="card-header" id="headingOne">
+									<div class="card-header" id="headingTwo">
 										<h2 class="mb-0">
-										<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
+										<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
 											Annual Reports
 										</button>
 										</h2>
 									</div>
-									<div id="collapseOne" class="collapse show" style="border: 2px solid ##deedec;" aria-labelledby="headingOne" data-parent="##accordionExample">
+									<div id="collapseTwo" class="collapse" style="border: 2px solid lightsalmon;" aria-labelledby="headingTwo" data-parent="##accordionExample">
 										<div class="card-body">
 											<!--- TODO: This needs to be an interpretation of a year value to fiscal year start end dates, not a hard coded list (allowing list of fiscal years to be retrieved from the database, not hard coded) --->
 											<script>
-//												function setFiscalYearDates() {
-//													const fiscalYear = document.getElementById("fiscalYear").value; 
-//														var beginDate;
-//														var endDate;
-//														switch(fiscalYear) {
-//															case "FY2023":
-//																beginDate = "2022-07-01";
-//																endDate = "2023-06-30";
-//																break;
-//															case "FY2024":
-//																beginDate = "2023-07-01";
-//																endDate = "2024-06-30";
-//																break;
-//															case "FY2025":
-//																beginDate = "2024-07-01";
-//																endDate = "2025-06-30";
-//																break;
-//															default:
-//																beginDate = "";
-//																endDate = "";
-//																break;
-//														}
-//													document.getElementById("beginDateFiscal").value = beginDate; 
-//													document.getElementById("endDateFiscal").value = endDate;
-//												}
-//											</script>
-											<form class="py-2" id="loadReportForm1">
+												function setFiscalYearDates() {
+													const fiscalYear = document.getElementById("fiscalYear").value; 
+														var beginDate;
+														var endDate;
+														switch(fiscalYear) {
+															case "FY2021":
+																beginDate = "2020-07-01";
+																endDate = "2021-06-30";
+																break;
+															case "FY2022":
+																beginDate = "2021-07-01";
+																endDate = "2022-06-30";
+																break;
+															case "FY2023":
+																beginDate = "2022-07-01";
+																endDate = "2023-06-30";
+																break;
+															case "FY2024":
+																beginDate = "2023-07-01";
+																endDate = "2024-06-30";
+																break;
+															case "FY2025":
+																beginDate = "2024-07-01";
+																endDate = "2025-06-30";
+																break;
+															default:
+																beginDate = "";
+																endDate = "";
+																break;
+														}
+													document.getElementById("beginDateFiscal").value = beginDate; 
+													document.getElementById("endDateFiscal").value = endDate;
+												}
+											</script>
+											<form class="py-2" id="loadReportForm2" onsubmit="return validateFiscalYear();">
 												<div class="form-group">
 													<input type="hidden" name="returnFormat" value="plain">
 													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
 													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
 													<!--- TODO: This needs to be a query on the historical data table, not a hard coded list, query below --->
-													<cfquery name="fiscalYear"  datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+													<cfquery name="media" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 														SELECT distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option
 														FROM
 															collections_reported_metrics
 													</cfquery>
-													<cfset jsonQuery = serializeJSON(fiscalYear)>
-										
-													<select id="fiscalYearSelect" name="fiscalYearSelect" onchange="updateFiscalYearDates()" required class="data-entry-input my-1">
+												
+													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
 														<option value="">--Select Fiscal Year--</option>
+														<cfloop query="media">
+															<option value="#media.fiscal_year_option#"></option>
+														</cfloop>
 													</select>
-													<div id="fiscalYearFields"></div>
 													<!-- Hidden fields to store beginDate and endDate -->
-												<!---	<input type="hidden" id="beginDate" name="beginDate">
-													<input type="hidden" id="endDate" name="endDate">--->
+													<input type="hidden" id="beginDateFiscal" name="beginDate">
+													<input type="hidden" id="endDateFiscal" name="endDate">
 													<h3 class="h4 text-muted mt-3">Report to Show</h3>
 													<label for="method" class="sr-only">Report To Show</label>
 													<select id="method" name="method" class="my-1 data-entry-input">
-														<option value="getNumbers" selected="selected">Annual Report (Holdings)</option>
-														<option value="getAcquisitions">Annual Report (Acquisitions)</option>
+														<option value="getNumbers">Annual Report (Holdings)</option>
+														<option value="getAcquisitions" selected="selected">Annual Report (Acquisitions)</option>
 														<option value="getLoanNumbers">Annual Report (Loan Activity)</option>
 														<option value="getMediaNumbers">Annual Report (Media (current))</option>
 														<option value="getCitationNumbers">Annual Report (Citations (current))</option>
@@ -223,106 +233,62 @@ limitations under the License.
 														<option value="getVisitorsMediaRequests">Annual Report (Visitors and Media Requests (current))</option>
 													</select>
 												</div>
-												<button type="submit" value="Show Report" id="loadReportForm1" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
+												<button type="submit" value="Show Report" id="loadReportForm2" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
 											</form>
-											<script>
-												var queryResults = "#JSStringFormat(jsonQuery)#";
-												var fiscalYears = JSON.parse(queryResults);
 
-												function populateFiscalYearDropdown() {
-													var select = document.getElementById('fiscalYearSelect');
-
-													for (var i = 0; i < fiscalYears.length; i++) {
-														var fiscalYearEnd = fiscalYears[i].fiscal_year_option;
-														var option = document.createElement('option');
-														option.value = fiscalYearEnd;
-														option.text = fiscalYearEnd;
-														select.appendChild(option);
-													}
-												}
-												window.onload = populateFiscalYearDropdown;
-												
-												function updateFiscalYearDates() {
-													var select = document.getElementById('fiscalYearSelect');
-													var fiscalYearEnd = select.options[select.selectIndex].value;
-													if(fiscalYearEnd) {
-														var endDate = new Date(fiscalYearEnd + '-06-30');
-														var beginDate = new Date((fiscalYearEnd - 1)+ '-07-01');
-														console.log("Fiscal Year End: " + fiscalYearEnd);
-                										console.log("Begin Date: " + beginDate.toDateString());
-                										console.log("End Date: " + endDate.toDateString());
-														var fiscalYearFieldsDiv = document.getElementById('fiscalYearFields');
-														fiscalYearFieldsDiv.innerHTML = '';
-														
-														var beginDateField = document.createElement('input');
-														beginDateField.type = 'hidden';
-														beginDateField.beginDate = 'beginDate';
-														beginDateField.value = beginDate.toISOString().split('T')[0];
-														
-														var endDateField = document.createElement('input');
-														endDateField.type = 'hidden';
-														endDateField.name = 'endDate';
-														endDateField.value = endDate.toISOString().split('T')[0];
-														
-												       	fiscalYearFieldsDiv.appendChild(beginDateField);
-                										fiscalYearFieldsDiv.appendChild(endDateField);
-            											} else {
-                											document.getElementById('fiscalYearFields').innerHTML = '';
-            											}
-													}
-											</script>
 										</div>
 									</div>
 								</div>
-								<div class="card">
-									<div class="card-header" id="headingTwo">
-										<h2 class="mb-0">
-										<button class="btn btn-link" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-											Custom Reports
-										</button>
-										</h2>
-									</div>
-									<div id="collapseTwo" class="collapse" style="border: 2px solid ##ddd;" aria-labelledby="headingTwo" data-parent="##accordionExample">
-										<div class="card-body">
-											<form class="py-2" id="loadReportForm2">
-												<div class="form-group">
-													<h3 class="h4 text-muted mt-1 mb-0">Select Report Date Range</h3>
-													<input type="hidden" name="returnFormat" value="plain">
-													<input type="hidden" name="annualReport" value="no" class="data-entry-input">
-													<div class="row mx-0">
-														<div class="col-12 px-0">
-															<div class="col-12 col-md-6 pl-0 pr-1 float-left">
-																<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
-																<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
-															</div>
-															<div class="col-12 col-md-6 pl-1 pr-0 float-left">
-																<label for="endDate" class="data-entry-label mt-2">End Date</label>
-																<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+									<div class="card">
+										<div class="card-header" id="headingOne">
+											<h2 class="mb-0">
+											<button class="btn btn-link" type="button" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
+												Custom Reports
+											</button>
+											</h2>
+										</div>
+										<div id="collapseOne" class="collapse show" style="border: 2px solid ##ddd;" aria-labelledby="headingOne" data-parent="##accordionExample">
+											<div class="card-body">
+												<form class="py-2" id="loadReportForm1">
+													<div class="form-group">
+														<h3 class="h4 text-muted mt-1 mb-0">Select Report Date Range</h3>
+														<input type="hidden" name="returnFormat" value="plain">
+														<input type="hidden" name="annualReport" value="no" class="data-entry-input">
+														<div class="row mx-0">
+															<div class="col-12 px-0">
+																<div class="col-12 col-md-6 pl-0 pr-1 float-left">
+																	<label for="beginDate" class="data-entry-label mt-2">Begin Date</label>
+																	<input name="beginDate" id="beginDate" type="text" class="mb-1 datetimeinput data-entry-input" placeholder="yyyy-mm-dd" value="#beginDate#" aria-label="start of range for dates to display metrics.">
+																</div>
+																<div class="col-12 col-md-6 pl-1 pr-0 float-left">
+																	<label for="endDate" class="data-entry-label mt-2">End Date</label>
+																	<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+																</div>
 															</div>
 														</div>
+														<h3 class="h4 text-muted mt-3">Report to Show</h3>
+														<label for="method" class="sr-only">Report To Show</label>
+														<select id="method" name="method" class="my-1 data-entry-input">
+															<option value="getNumbers" selected="selected">Holdings</option>
+															<option value="getAcquisitions">Acquisitions</option>
+															<option value="getLoanNumbers">Loan Activity</option>
+															<option value="getMediaNumbers">Media (current)</option>
+															<option value="getCitationNumbers">Citations (current)</option>
+															<option value="getGeorefNumbers">Georeferences (current)</option>
+														</select>
 													</div>
-													<h3 class="h4 text-muted mt-3">Report to Show</h3>
-													<label for="method" class="sr-only">Report To Show</label>
-													<select id="method" name="method" class="my-1 data-entry-input">
-														<option value="getNumbers" selected="selected">Holdings</option>
-														<option value="getAcquisitions">Acquisitions</option>
-														<option value="getLoanNumbers">Loan Activity</option>
-														<option value="getMediaNumbers">Media (current)</option>
-														<option value="getCitationNumbers">Citations (current)</option>
-														<option value="getGeorefNumbers">Georeferences (current)</option>
-													</select>
-												</div>
-												<button type="submit" value="Show Report" id="loadReportForm2" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
-											</form>
+													<button type="submit" value="Show Report" id="loadReportForm1" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
+												</form>
+											</div>
 										</div>
 									</div>
-								</div>
+								
 							</div>
 							<script>
 								$(document).ready(function() {
 									$('##loadReportForm1').on('submit',function(event){ event.preventDefault(); loadReport1(); } );
 								});
-								function loadReport2(){
+								function loadReport1(){
 									$('##annualNumbersDiv1').html("Loading...");
 									$.ajax(
 										{
@@ -337,16 +303,16 @@ limitations under the License.
 											$('##annualNumbersDiv1').show();
 										}
 									).fail(function(jqXHR,textStatus,error){
-										$('##annualNumbersDiv1').html("Error Loading Metrics");
+										$('##annualNumbersDiv').html("Error Loading Metrics");
 									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 									});
 								}
-							</script>	
+							</script>
 							<script>
 								$(document).ready(function() {
 									$('##loadReportForm2').on('submit',function(event){ event.preventDefault(); loadReport2(); } );
 								});
-								function loadReport1(){
+								function loadReport2(){
 									$('##annualNumbersDiv2').html("Loading...");
 									$.ajax(
 										{
@@ -366,7 +332,6 @@ limitations under the License.
 									});
 								}
 							</script>
-				
 							<script>
 								 document.addEventListener('DOMContentLoaded', function () {
 									const formInSidebar1 = document.getElementById('collapseTwo');
@@ -401,22 +366,32 @@ limitations under the License.
 									checkFormVisibility2();
 								});
 
-				//				function displayResults1() {
-//									const resultsInMain1 = document.getElementById('resultsInMain1');
-//									resultsInMain1.innerHTML = '<p>Results from CFC function query appear here.</p>';
-//									resultsInMain1.style.display = 'block';
-//									displayResults1();
-//								}
-//								function displayResults2() {
-//									const resultsInMain2 = document.getElementById('resultsInMain2');
-//									resultsInMain2.innerHTML = '<p>Results from CFC function query appear here.</p>';
-//									resultsInMain2.style.display = 'block';
-//									displayResults2();
-//								}
+								function displayResults1() {
+									const resultsInMain1 = document.getElementById('resultsInMain1');
+									resultsInMain1.innerHTML = '<p>Results from CFC function query appear here.</p>';
+									resultsInMain1.style.display = 'block';
+								}
+								function displayResults2() {
+									const resultsInMain2 = document.getElementById('resultsInMain2');
+									resultsInMain2.innerHTML = '<p>Results from CFC function query appear here.</p>';
+									resultsInMain2.style.display = 'block';
+								}
 								
+								
+								
+								function validateFiscalYear() {
+									var beginDate = new Date(document.getElementById('beginDate').value);
+									var endDate = new Date(document.getElementById('endDate').value);
+										
+									var expectedEndDate = new Date(beginDate);
+										expectedEndDate.setFullYear(expectedEndDate.getFullYear() + 1);
+										expectedEndDate.setMonth(5); // June
+										expectedEndDate.setDate(30); // 30
+
+									displayResults();
+									return true; 
+								}
 							</script>
-							
-							
 						</div>
 					</nav>
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
@@ -424,14 +399,14 @@ limitations under the License.
 							<div class="col-12 mt-4">
 								<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
 								<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
-								<div id="divOne" class="px-3" style="border: 2px solid ##deedec">
-									<cfset summaryAnnualBlock1=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="yes")>
+								<div id="divOne" style="border: 2px solid ##ddd;padding:0 15px 0 15px;">
+									<cfset summaryAnnualBlock1=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="no")>
 									<div id="annualNumbersDiv1" class="py-2"> 
 										#summaryAnnualBlock1#
 									</div>
 								</div>
-								<div id="divTwo" class="px-3" style="border: 2px solid ##deedec">
-									<cfset summaryAnnualBlock2=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="no")>
+								<div id="divTwo" style="border: 2px solid lightsalmon;padding:0 15px 0 15px;">
+									<cfset summaryAnnualBlock2=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="yes")>
 									<div id="annualNumbersDiv2" class="py-2"> 
 										#summaryAnnualBlock2#
 									</div>
