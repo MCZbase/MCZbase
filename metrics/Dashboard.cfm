@@ -238,9 +238,9 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="card">
-									<div class="card-header" id="headingTwoOne">
+									<div class="card-header" id="headingTwo">
 										<h2 class="mb-0">
-										<button class="btn btn-link" type="button" data-toggle="collapse" data-target="##collapseTwoOne" aria-expanded="false" aria-controls="collapseTwoOne">
+										<button class="btn btn-link" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
 											Custom Reports
 										</button>
 										</h2>
@@ -275,7 +275,7 @@ limitations under the License.
 														<option value="getGeorefNumbers">Georeferences (current)</option>
 													</select>
 												</div>
-												<button type="submit" value="Show Report" id="loadReportForm21" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
+												<button type="submit" value="Show Report" id="loadReportForm2" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
 											</form>
 										</div>
 									</div>
