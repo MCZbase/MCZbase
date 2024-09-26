@@ -191,7 +191,7 @@ limitations under the License.
 //													document.getElementById("endDateFiscal").value = endDate;
 //												}
 //											</script>
-											<form class="py-2" id="loadReportForm1" onsubmit="return updateFiscalYearDates();">
+											<form class="py-2" id="loadReportForm1">
 												<div class="form-group">
 													<input type="hidden" name="returnFormat" value="plain">
 													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
