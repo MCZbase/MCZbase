@@ -220,7 +220,7 @@ limitations under the License.
 																fiscalYearEnd = results[i].fiscal_year_option
 															
 															var endDate = new Date(fiscalYearEnd + "-06-30");
-															var beginDate = new Date(fiscalYearEnd + "-07-01");
+															var beginDate = new Date((fiscalYearEnd-1) + "-07-01");
 															}
 														}
 														setFiscalYearDates();
