@@ -214,6 +214,10 @@ limitations under the License.
 														var beginDate;
 														var endDate;
 														switch(fiscalYear) {
+															case "FY2023":
+																beginDate = "2022-07-01";
+																endDate = "2023-06-30";
+																break;
 															case "FY2024":
 																beginDate = "2023-07-01";
 																endDate = "2024-06-30";
@@ -395,7 +399,7 @@ limitations under the License.
 										#summaryAnnualBlock1#
 									</div>
 								</div>
-								<div id="divTwo" style="border: 2px solid lightsalmon;padding:0 15px 0 15px;">
+								<div id="divTwo" style="border: border: 2px solid ##deedec;padding:0 15px 0 15px;">
 									<cfset summaryAnnualBlock2=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="yes")>
 									<div id="annualNumbersDiv2" class="py-2"> 
 										#summaryAnnualBlock2#
