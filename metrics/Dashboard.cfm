@@ -37,10 +37,6 @@ limitations under the License.
 	<cfset variables.endDate=form.endDate>
 </cfif> 
 	
-<!---<cfif NOT isDefined("annualReport")>
-	<cfset annualReport = "no">
-</cfif>--->
-
 <!--- If not provided, Set to most recent full fiscal year  --->
 <cfset currentYear = DateFormat(now(), "yyyy")>
 <cfset previousYear = DateFormat(DateAdd("yyyy", -1, now()),"yyyy")>
@@ -150,7 +146,11 @@ limitations under the License.
 			<div class="container-fluid" id="content">
 				<div class="row">
 				<br clear="all">	
-
+				<style>
+					.show {
+						border: 4px solid ##deedec;
+					}
+				</style>
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky py-4 px-2" style="background-color: ##efeded;">
 							<div class="accordion" id="accordionExample">
