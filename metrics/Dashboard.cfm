@@ -170,14 +170,6 @@ limitations under the License.
 														var beginDate;
 														var endDate;
 														switch(fiscalYear) {
-															case "FY2021":
-																beginDate = "2020-07-01";
-																endDate = "2021-06-30";
-																break;
-															case "FY2022":
-																beginDate = "2021-07-01";
-																endDate = "2022-06-30";
-																break;
 															case "FY2023":
 																beginDate = "2022-07-01";
 																endDate = "2023-06-30";
@@ -205,21 +197,37 @@ limitations under the License.
 													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
 													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
 													<!--- TODO: This needs to be a query on the historical data table, not a hard coded list, query below --->
-													<cfquery name="media" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
+													<cfquery name="fiscalYear"  datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
 														SELECT distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option
 														FROM
 															collections_reported_metrics
 													</cfquery>
 												
-													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
+													<select id="fiscalYears" name="fiscalYears" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
 														<option value="">--Select Fiscal Year--</option>
-														<cfloop query="media">
-															<option value="#media.fiscal_year_option#">#media.fiscal_year_option#</option>
+														<cfloop query="fiscalYear">
+															<option value="#fiscalYear.fiscal_year_option#">#fiscalYear.fiscal_year_option#</option>
 														</cfloop>
 													</select>
+													<cfset jsonQuery = serializeJSON(fiscalYear)>
+													<script>
+														var queryResults = "#JSStringFormat(jsonQuery)#";
+														
+														function setFiscalYearDates() {
+															var results = JSON.parse(queryResults);
+															
+															for (var i=0; i< results.length; i++) {
+																fiscalYearEnd = results[i].fiscal_year_option
+															
+															var endDate = new Date(fiscalYearEnd + "-06-30");
+															var beginDate = new Date((fiscalYearEnd-1) + "-07-01");
+															}
+														}
+														setFiscalYearDates();
+													</script>
 													<!-- Hidden fields to store beginDate and endDate -->
-													<input type="hidden" id="beginDateFiscal" name="beginDate">
-													<input type="hidden" id="endDateFiscal" name="endDate">
+													<input type="hidden" id="beginDate" name="beginDate">
+													<input type="hidden" id="endDate" name="endDate">
 													<h3 class="h4 text-muted mt-3">Report to Show</h3>
 													<label for="method" class="sr-only">Report To Show</label>
 													<select id="method" name="method" class="my-1 data-entry-input">
