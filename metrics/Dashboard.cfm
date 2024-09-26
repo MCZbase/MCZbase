@@ -222,10 +222,6 @@ limitations under the License.
 																beginDate = "2023-07-01";
 																endDate = "2024-06-30";
 																break;
-															case "FY2025":
-																beginDate = "2024-07-01";
-																endDate = "2025-06-30";
-																break;
 															default:
 																beginDate = "";
 																endDate = "";
@@ -249,11 +245,8 @@ limitations under the License.
 													--->
 													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
 														<option value="">--Select Fiscal Year--</option>
-														<!---option value="FY2021">FY2021</option--->
-														<!---option value="FY2022">FY2022</option--->
 														<option value="FY2023">FY2023</option>
 														<option value="FY2024">FY2024</option>
-														<!---option value="FY2025">FY2025</option--->
 														<!-- Add more fiscal years as needed -->
 													</select>
 													<!-- Hidden fields to store beginDate and endDate -->
