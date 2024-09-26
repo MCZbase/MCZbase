@@ -154,14 +154,14 @@ limitations under the License.
 						<div class="sidebar-sticky py-4 px-2" style="background-color: ##efeded;">
 							<div class="accordion" id="accordionExample">
 								<div class="card">
-									<div class="card-header" id="headingOneTwo">
+									<div class="card-header" id="headingOne">
 										<h2 class="mb-0">
-										<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseOneTwo">
+										<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
 											Annual Reports
 										</button>
 										</h2>
 									</div>
-									<div id="collapseOneTwo" class="collapse show" style="border: 2px solid darkgray;" aria-labelledby="headingOneTwo" data-parent="##accordionExample">
+									<div id="collapseOne" class="collapse show" style="border: 2px solid darkgray;" aria-labelledby="headingOne" data-parent="##accordionExample">
 										<div class="card-body">
 											<!--- TODO: This needs to be an interpretation of a year value to fiscal year start end dates, not a hard coded list (allowing list of fiscal years to be retrieved from the database, not hard coded) --->
 											<script>
@@ -199,7 +199,7 @@ limitations under the License.
 													document.getElementById("endDateFiscal").value = endDate;
 												}
 											</script>
-											<form class="py-2" id="loadReportForm2" onsubmit="return validateFiscalYear();">
+											<form class="py-2" id="loadReportForm1" onsubmit="return validateFiscalYear();">
 												<div class="form-group">
 													<input type="hidden" name="returnFormat" value="plain">
 													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
@@ -232,7 +232,7 @@ limitations under the License.
 														<option value="getVisitorsMediaRequests">Annual Report (Visitors and Media Requests (current))</option>
 													</select>
 												</div>
-												<button type="submit" value="Show Report" id="loadReportForm2" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
+												<button type="submit" value="Show Report" id="loadReportForm1" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
 											</form>
 										</div>
 									</div>
@@ -245,9 +245,9 @@ limitations under the License.
 										</button>
 										</h2>
 									</div>
-									<div id="collapseTwoOne" class="collapse" style="border: 2px solid ##ddd;" aria-labelledby="headingTwoOne" data-parent="##accordionExample">
+									<div id="collapseTwo" class="collapse" style="border: 2px solid ##ddd;" aria-labelledby="headingTwo" data-parent="##accordionExample">
 										<div class="card-body">
-											<form class="py-2" id="loadReportForm21">
+											<form class="py-2" id="loadReportForm2">
 												<div class="form-group">
 													<h3 class="h4 text-muted mt-1 mb-0">Select Report Date Range</h3>
 													<input type="hidden" name="returnFormat" value="plain">
