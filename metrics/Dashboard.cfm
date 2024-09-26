@@ -165,32 +165,32 @@ limitations under the License.
 										<div class="card-body">
 											<!--- TODO: This needs to be an interpretation of a year value to fiscal year start end dates, not a hard coded list (allowing list of fiscal years to be retrieved from the database, not hard coded) --->
 											<script>
-												function setFiscalYearDates() {
-													const fiscalYear = document.getElementById("fiscalYear").value; 
-														var beginDate;
-														var endDate;
-														switch(fiscalYear) {
-															case "FY2023":
-																beginDate = "2022-07-01";
-																endDate = "2023-06-30";
-																break;
-															case "FY2024":
-																beginDate = "2023-07-01";
-																endDate = "2024-06-30";
-																break;
-															case "FY2025":
-																beginDate = "2024-07-01";
-																endDate = "2025-06-30";
-																break;
-															default:
-																beginDate = "";
-																endDate = "";
-																break;
-														}
-													document.getElementById("beginDateFiscal").value = beginDate; 
-													document.getElementById("endDateFiscal").value = endDate;
-												}
-											</script>
+//												function setFiscalYearDates() {
+//													const fiscalYear = document.getElementById("fiscalYear").value; 
+//														var beginDate;
+//														var endDate;
+//														switch(fiscalYear) {
+//															case "FY2023":
+//																beginDate = "2022-07-01";
+//																endDate = "2023-06-30";
+//																break;
+//															case "FY2024":
+//																beginDate = "2023-07-01";
+//																endDate = "2024-06-30";
+//																break;
+//															case "FY2025":
+//																beginDate = "2024-07-01";
+//																endDate = "2025-06-30";
+//																break;
+//															default:
+//																beginDate = "";
+//																endDate = "";
+//																break;
+//														}
+//													document.getElementById("beginDateFiscal").value = beginDate; 
+//													document.getElementById("endDateFiscal").value = endDate;
+//												}
+//											</script>
 											<form class="py-2" id="loadReportForm1" onsubmit="return validateFiscalYear();">
 												<div class="form-group">
 													<input type="hidden" name="returnFormat" value="plain">
@@ -202,29 +202,15 @@ limitations under the License.
 														FROM
 															collections_reported_metrics
 													</cfquery>
-												
-													<select id="fiscalYears" name="fiscalYears" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
+													<cfset jsonQuery = serializeJSON(fiscalYear)>
+										
+													<select id="fiscalYearSelect" name="fiscalYearSelect" onchange="updateFiscalYearDates()" required class="data-entry-input my-1">
 														<option value="">--Select Fiscal Year--</option>
 														<cfloop query="fiscalYear">
 															<option value="#fiscalYear.fiscal_year_option#">#fiscalYear.fiscal_year_option#</option>
 														</cfloop>
 													</select>
-													<cfset jsonQuery = serializeJSON(fiscalYear)>
-													<script>
-														var queryResults = "#JSStringFormat(jsonQuery)#";
-														
-														function setFiscalYearDates() {
-															var results = JSON.parse(queryResults);
-															
-															for (var i=0; i< results.length; i++) {
-																fiscalYearEnd = results[i].fiscal_year_option
-															
-															var endDate = new Date(fiscalYearEnd + "-06-30");
-															var beginDate = new Date((fiscalYearEnd-1) + "-07-01");
-															}
-														}
-														setFiscalYearDates();
-													</script>
+													
 													<!-- Hidden fields to store beginDate and endDate -->
 													<input type="hidden" id="beginDate" name="beginDate">
 													<input type="hidden" id="endDate" name="endDate">
@@ -242,6 +228,52 @@ limitations under the License.
 												</div>
 												<button type="submit" value="Show Report" id="loadReportForm1" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
 											</form>
+											<script>
+												var queryResults = "#JSStringFormat(jsonQuery)#";
+												var fiscalYears = JSON.parse(queryResults);
+
+												function populateFiscalYearDropdown() {
+													var select = document.getElementById('fiscalYearSelect');
+
+													for (var i = 0; i < fiscalYears.length; i++) {
+														var fiscalYearEnd = fiscalYears[i].fiscal_year_option;
+														var option = document.createElement('option');
+														option.value = fiscalYearEnd;
+														option.text = fiscalYearEnd;
+														select.appendChild(option);
+													}
+												}
+												window.onload = populateFiscalYearDropdown;
+												
+												function updateFiscalYearDates() {
+													var select = document.getElementById('fiscalYearSelect');
+													var fiscalYearEnd = select.options[select.selectIndex].value;
+													if(fiscalYearEnd) {
+														var endDate = new Date(fiscalYearEnd + '-06-30');
+														var beginDate = new Date((fiscalYearEnd - 1)+ '-07-01');
+														console.log("Fiscal Year End: " + fiscalYearEnd);
+                										console.log("Begin Date: " + beginDate.toDateString());
+                										console.log("End Date: " + endDate.toDateString());
+														var fiscalYearFieldsDiv = document.getElementById('fiscalYearFields');
+														fiscalYearFieldsDiv.innerHTML = '';
+														
+														var beginDateField = document.createElement('input');
+														beginDateField.type = 'hidden';
+														beginDateField.beginDate = 'beginDate';
+														beginDateField.value = beginDate.toISOString().split('T')[0];
+														
+														var endDateField = document.createElement('input');
+														endDateField.type = 'hidden';
+														endDateField.name = 'endDate';
+														endDateField.value = endDate.toISOString().split('T')[0];
+														
+												       	fiscalYearFieldsDiv.appendChild(beginDateField);
+                										fiscalYearFieldsDiv.appendChild(endDateField);
+            											} else {
+                											document.getElementById('fiscalYearFields').innerHTML = '';
+            											}
+													}
+											</script>
 										</div>
 									</div>
 								</div>
