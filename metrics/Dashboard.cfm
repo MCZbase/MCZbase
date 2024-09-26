@@ -212,14 +212,17 @@ limitations under the License.
 													<cfset jsonQuery = serializeJSON(fiscalYear)>
 													<script>
 														var queryResults = #jsonQuery#;
+														
 														function setFiscalYearDates() {
 															var results = JSON.parse(queryResults);
 															
 															for (var i=0; i< results.length; i++) {
 																fiscalYearEnd = results[i].fiscal_year_option
+															
+															var endDate = new Date(fiscalYearEnd + "-06-30");
+															var beginDate = new Date(fiscalYearEnd + "-07-01");
 															}
-															var endDate = new Date(fiscalYearEnd + "-06-30";
-															var beginDate = new Date(fiscalYearEnd + "-07-01";
+														}
 														setFiscalYearDates();
 													</script>
 													<!-- Hidden fields to store beginDate and endDate -->
