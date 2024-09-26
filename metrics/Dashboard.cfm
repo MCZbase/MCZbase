@@ -180,7 +180,7 @@ limitations under the License.
 								<div class="card">
 									<div class="card-header accordion-header" id="headingTwo">
 										<h2 class="mb-0">
-										<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo"  onclick="toggleAccordion(this)">
+										<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
 											Annual Reports
 										</button>
 										</h2>
