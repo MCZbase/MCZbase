@@ -408,11 +408,13 @@ limitations under the License.
 									const resultsInMain1 = document.getElementById('resultsInMain1');
 									resultsInMain1.innerHTML = '<p>Results from CFC function query appear here.</p>';
 									resultsInMain1.style.display = 'block';
+									displayResults1();
 								}
 								function displayResults2() {
 									const resultsInMain2 = document.getElementById('resultsInMain2');
 									resultsInMain2.innerHTML = '<p>Results from CFC function query appear here.</p>';
 									resultsInMain2.style.display = 'block';
+									displayResults2();
 								}
 								
 							</script>
