@@ -175,8 +175,8 @@ limitations under the License.
 																endDate = "2024-06-30";
 																break;
 															default:
-																beginDate = "2023-07-01";
-																endDate = "2024-06-30";
+																beginDate = "";
+																endDate = "";
 																break;
 														}
 													document.getElementById("beginDateFiscal").value = beginDate; 
