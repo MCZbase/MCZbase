@@ -51,6 +51,15 @@ limitations under the License.
 <cfif NOT isDefined("beginDate")>
 	<cfset beginDate = '#DateFormat(DateAdd("d",1,DateAdd("yyyy", -1, endDate)),"yyyy-mm-dd")#'>
 </cfif>
+<!--- store most recent full fiscal year in variables available as defaults for form --->
+<cfif DateCompare(now(),createDate(currentYear,7,1)) LT 0> 
+	<!--- before the end of the fiscal year, go to end of previous full fiscal year--->
+	<cfset endDateFiscal = "#previousYear#-06-30">
+<cfelse>
+	<cfset endDateFiscal = "#currentYear#-06-30">
+</cfif>
+<cfset beginDateFiscal = '#DateFormat(DateAdd("d",1,DateAdd("yyyy", -1, endDateFiscal)),"yyyy-mm-dd")#'>
+
 <cfswitch expression="#action#">
 	<cfcase value="dowloadHoldings">
 		<!--- download holdings table as csv  --->
@@ -180,15 +189,15 @@ limitations under the License.
 														<!-- Add more fiscal years as needed -->
 													</select>
 													<!-- Hidden fields to store beginDate and endDate -->
-													<input type="hidden" id="beginDateFiscal" name="beginDate">
-													<input type="hidden" id="endDateFiscal" name="endDate">
+													<input type="hidden" id="beginDateFiscal" name="beginDate" value="#beginDateFiscal#">
+													<input type="hidden" id="endDateFiscal" name="endDate" value="#endDateFiscal#">
 													<h3 class="h4 text-muted mt-3">Report to Show</h3>
 													<label for="method" class="sr-only">Report To Show</label>
 													<select id="method" name="method" class="my-1 data-entry-input">
-														<option value="getNumbers">Annual Report: Holdings</option>
+														<option value="getNumbers" selected="selected">Annual Report: Holdings</option>
 														<option value="getAcquisitions">Annual Report: Acquisitions</option>
 														<option value="getLoanNumbers">Annual Report: Loan Activity</option>
-														<option value="getMediaNumbers" selected="selected">Annual Report: Media (current)</option>
+														<option value="getMediaNumbers">Annual Report: Media (current)</option>
 														<option value="getCitationNumbers">Annual Report: Citations (current)</option>
 														<option value="getGeorefNumbers">Annual Report: Georeferences (current)</option>
 														<option value="getVisitorsMediaRequests">Annual Report: Visitors and Media Requests (current)</option>
@@ -253,9 +262,9 @@ limitations under the License.
 													<h3 class="h4 text-muted mt-3">Report to Show</h3>
 													<label for="method" class="sr-only">Report To Show</label>
 													<select id="method" name="method" class="my-1 data-entry-input">
-														<option value="getNumbers">Holdings</option>
+														<option value="getNumbers" selected="selected">Holdings</option>
 														<option value="getAcquisitions">Acquisitions</option>
-														<option value="getLoanNumbers" selected="selected">Loan Activity</option>
+														<option value="getLoanNumbers">Loan Activity</option>
 														<option value="getMediaNumbers">Media (current)</option>
 														<option value="getCitationNumbers">Citations (current)</option>
 														<option value="getGeorefNumbers">Georeferences (current)</option>
@@ -384,13 +393,13 @@ limitations under the License.
 								<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
 								<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
 								<div id="divOne" style="border: 2px solid ##deedec;padding:0 15px 0 15px;">
-									<cfset summaryAnnualBlock1=getLoanNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="no")>
+									<cfset summaryAnnualBlock1=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="no")>
 									<div id="annualNumbersDiv1" class="py-2"> 
 										#summaryAnnualBlock1#
 									</div>
 								</div>
 								<div id="divTwo" style="border: 2px solid ##deedec;padding:0 15px 0 15px;">
-									<cfset summaryAnnualBlock2=getMediaNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="yes")>
+									<cfset summaryAnnualBlock2=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="yes")>
 									<div id="annualNumbersDiv2" class="py-2"> 
 										#summaryAnnualBlock2#
 									</div>
