@@ -146,11 +146,6 @@ limitations under the License.
 			<div class="container-fluid" id="content">
 				<div class="row">
 				<br clear="all">	
-				<style>
-					.collapse.show {
-						border: 5px solid ##deedec;
-					}
-				</style>
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
 						<div class="sidebar-sticky py-4 px-2" style="background-color: ##efeded;">
 							<div class="accordion" id="accordionExample">
@@ -377,31 +372,6 @@ limitations under the License.
 
 									displayResults();
 									return true; 
-								}
-								
-								function toggleAccordion(header) {
-									// Get the content element next to the header
-									var content = header.nextElementSibling;
-
-									// Toggle the 'open' class on both the header and the content
-									header.classList.toggle('open');
-									content.classList.toggle('open');
-
-									// If you have other accordions and want to close them when one is opened, you can use the following:
-									var allHeaders = document.querySelectorAll('.accordion-header');
-									var allContents = document.querySelectorAll('.accordion-content');
-
-									allHeaders.forEach(function(hdr) {
-										if (hdr !== header) {
-											hdr.classList.remove('open');
-										}
-									});
-
-									allContents.forEach(function(cnt) {
-										if (cnt !== content) {
-											cnt.classList.remove('open');
-										}
-									});
 								}
 							</script>
 						</div>
