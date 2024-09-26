@@ -162,7 +162,7 @@ limitations under the License.
 											</button>
 											</h2>
 										</div>
-										<div id="collapseOne" class="collapse show" style="border: 2px solid ##ddd;" aria-labelledby="headingOne" data-parent="##accordionExample">
+										<div id="collapseOne" class="collapse show" style="border: 2px solid ##deedec;" aria-labelledby="headingOne" data-parent="##accordionExample">
 											<div class="card-body">
 												<form class="py-2" id="loadReportForm1">
 													<div class="form-group">
@@ -205,7 +205,7 @@ limitations under the License.
 											</button>
 											</h2>
 										</div>
-										<div id="collapseTwo" class="collapse" style="border: 2px solid lightsalmon;" aria-labelledby="headingTwo" data-parent="##accordionExample">
+										<div id="collapseTwo" class="collapse" style="border: 2px solid ##deedec;" aria-labelledby="headingTwo" data-parent="##accordionExample">
 										<div class="card-body">
 											<!--- TODO: This needs to be an interpretation of a year value to fiscal year start end dates, not a hard coded list (allowing list of fiscal years to be retrieved from the database, not hard coded) --->
 											<script>
