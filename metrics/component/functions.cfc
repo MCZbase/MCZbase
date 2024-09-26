@@ -210,7 +210,7 @@ limitations under the License.
 		<cftry>
 			<cfif annualReport EQ 'yes'>
 				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
-						select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#0630">
+						select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#0701">
 				</cfquery>
 				<cfset endschema = getendSchema.username>
 				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
