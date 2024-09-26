@@ -197,10 +197,10 @@ limitations under the License.
 														<option value="getNumbers" selected="selected">Annual Report: Holdings</option>
 														<option value="getAcquisitions">Annual Report: Acquisitions</option>
 														<option value="getLoanNumbers">Annual Report: Loan Activity</option>
-														<option value="getMediaNumbers">Annual Report: Media (current)</option>
-														<option value="getCitationNumbers">Annual Report: Citations (current)</option>
-														<option value="getGeorefNumbers">Annual Report: Georeferences (current)</option>
-														<option value="getVisitorsMediaRequests">Annual Report: Visitors and Media Requests (current)</option>
+														<option value="getMediaNumbers">Annual Report: Media</option>
+														<option value="getCitationNumbers">Annual Report: Citations</option>
+														<option value="getGeorefNumbers">Annual Report: Georeferences</option>
+														<option value="getVisitorsMediaRequests">Annual Report: Visitors and Media Requests</option>
 													</select>
 												</div>
 												<button type="submit" value="Show Report" id="loadReportForm2" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
