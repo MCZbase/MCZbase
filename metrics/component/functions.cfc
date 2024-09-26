@@ -117,11 +117,11 @@ limitations under the License.
 					) rm on c.collection_id = rm.collection_id
 				</cfif>
 				LEFT JOIN 
-					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Cataloged_Items, sum(decode(total_parts,null, 1,total_parts)) specimens from #endSchema#.flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) h on c.collection_id = h.collection_id
+					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Cataloged_Items, sum(decode(total_parts,null, 1,total_parts)) specimens from #endSchema#.flat f join #endSchema#.coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) h on c.collection_id = h.collection_id
 				LEFT JOIN 
-					(select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) Primary_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Primary_Specimens from coll_object co join #endSchema#.flat f on co.collection_object_id = f.collection_object_id join #endSchema#.citation c on f.collection_object_id = c.collection_object_id join ctcitation_type_status ts on c.type_status =  ts.type_status where ts.CATEGORY in ('Primary') and co.COLL_OBJECT_ENTERED_DATE <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection, ts.CATEGORY) p on h.collection_id = p.collection_id
+					(select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) Primary_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Primary_Specimens from #endSchema#.coll_object co join #endSchema#.flat f on co.collection_object_id = f.collection_object_id join #endSchema#.citation c on f.collection_object_id = c.collection_object_id join ctcitation_type_status ts on c.type_status =  ts.type_status where ts.CATEGORY in ('Primary') and co.COLL_OBJECT_ENTERED_DATE <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection, ts.CATEGORY) p on h.collection_id = p.collection_id
 				LEFT JOIN 
-					(select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) Secondary_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Secondary_Specimens from coll_object co join #endSchema#.flat f on co.collection_object_id = f.collection_object_id join #endSchema#.citation c on f.collection_object_id = c.collection_object_id join ctcitation_type_status ts on c.type_status =  ts.type_status where ts.CATEGORY in ('Secondary') and co.COLL_OBJECT_ENTERED_DATE <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection, ts.CATEGORY) s on h.collection_id = s.collection_id
+					(select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) Secondary_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Secondary_Specimens from #endSchema#.coll_object co join #endSchema#.flat f on co.collection_object_id = f.collection_object_id join #endSchema#.citation c on f.collection_object_id = c.collection_object_id join ctcitation_type_status ts on c.type_status =  ts.type_status where ts.CATEGORY in ('Secondary') and co.COLL_OBJECT_ENTERED_DATE <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection, ts.CATEGORY) s on h.collection_id = s.collection_id
 			ORDER BY COLLECTION
 			</cfquery>
 			<cfif variables.returnAs EQ "csv">
@@ -223,7 +223,7 @@ limitations under the License.
 				<cfset endSchema="MCZBASE">
 			</cfif>
 			<!--- acquisition counts queries --->
-			<cfquery name="ACtotals" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+			<cfquery name="ACtotals" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				SELECT
 					c.Collection, 
 					a.Received_Cat_Items,
@@ -240,11 +240,11 @@ limitations under the License.
 				FROM 
 					(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
 				LEFT JOIN 
-					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Cataloged_Items, sum(decode(total_parts,null, 1,total_parts)) Specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) h on c.collection_id = h.collection_id
+					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Cataloged_Items, sum(decode(total_parts,null, 1,total_parts)) Specimens from flat f join #endSchema#.coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) h on c.collection_id = h.collection_id
 				LEFT JOIN 
 					(select f.collection_id, f.collection, count(distinct collection_object_id) Received_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Received_Specimens from flat f join accn a on f.ACCN_ID = a.transaction_id join trans t on a.transaction_id = t.transaction_id where a.received_DATE between  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) a on c.collection_id = a.collection_id
 				LEFT JOIN 
-					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Entered_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Entered_Specimens from flat f join coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) e on e.collection_id = c.collection_id
+					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Entered_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Entered_Specimens from flat f join #endSchema#.coll_object co on f.collection_object_id = co.collection_object_id where co.COLL_OBJECT_ENTERED_DATE between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD') and  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection) e on e.collection_id = c.collection_id
 				LEFT JOIN 
 					(select f.collection_id, f.collection, count(distinct f.collection_object_id) NCBI_Cat_Items, sum(total_parts) ncbiSpecimens from COLL_OBJ_OTHER_ID_NUM oid, flat f, COLL_OBJECT CO where OTHER_ID_TYPE like '%NCBI%' AND F.COLLECTION_OBJECT_ID = CO.COLLECTION_OBJECT_ID and co.COLL_OBJECT_ENTERED_DATE < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') and oid.collection_object_id = f.collection_object_id group by f.collection_id, f.collection) ncbi on c.collection_id = ncbi.collection_id
 				LEFT JOIN 
@@ -545,7 +545,7 @@ limitations under the License.
 				FROM
 					(select * from collection where collection_cde <> 'MCZ') c
 					left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) Num_Images_Cat_Items, sum(total_parts) numImagesSpecimens, count(distinct m.media_id) Num_Images
-					from #endschema#.media m, #endschema#.MEDIA_RELATIONS mr, #endschema#.flat f, coll_object co 
+					from #endschema#.media m, #endschema#.MEDIA_RELATIONS mr, #endschema#.flat f, #endSchema#.coll_object co 
 					where m.media_id = mr.media_id
 					and mr.MEDIA_RELATIONSHIP = 'shows cataloged_item'
 					and mr.RELATED_PRIMARY_KEY = f.collection_object_id
@@ -571,10 +571,10 @@ limitations under the License.
 					(select related_primary_key from MEDIA_RELATIONS where media_relationship='shows cataloged_item')
 					group by f.collection_id, f.collection) st on c.collection_id = st.collection_id
 				LEFT JOIN
-					(select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) Primary_Cat_Items from coll_object co join #endSchema#.flat f on co.collection_object_id = f.collection_object_id join #endSchema#.citation c on f.collection_object_id = c.collection_object_id join ctcitation_type_status ts on c.type_status =  ts.type_status where ts.CATEGORY in ('Primary') and co.COLL_OBJECT_ENTERED_DATE <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection, ts.CATEGORY) p on c.collection_id = p.collection_id
+					(select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) Primary_Cat_Items from #endSchema#.coll_object co join #endSchema#.flat f on co.collection_object_id = f.collection_object_id join #endSchema#.citation c on f.collection_object_id = c.collection_object_id join ctcitation_type_status ts on c.type_status =  ts.type_status where ts.CATEGORY in ('Primary') and co.COLL_OBJECT_ENTERED_DATE <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection, ts.CATEGORY) p on c.collection_id = p.collection_id
 				<cfif annualReport EQ "yes">
 				left join (select f.collection_id, f.collection, count(distinct f.collection_object_id) Num_Images_Cat_Items, sum(total_parts) numImagesSpecimens, count(distinct m.media_id) Num_Images
-					from #beginschema#.media m, #beginschema#.MEDIA_RELATIONS mr, #beginschema#.flat f, coll_object co
+					from #beginschema#.media m, #beginschema#.MEDIA_RELATIONS mr, #beginschema#.flat f, #endSchema#.coll_object co
 					where m.media_id = mr.media_id
 					and mr.MEDIA_RELATIONSHIP = 'shows cataloged_item'
 					and mr.RELATED_PRIMARY_KEY = f.collection_object_id
@@ -701,7 +701,7 @@ limitations under the License.
 					(select collection_cde,institution_acronym,descr,collection,collection_id from collection where collection_cde <> 'MCZ') c
 				LEFT JOIN 
 					(select coll.collection_id, coll.collection, count(distinct f.collection_object_id) Num_Citation_Cat_Items, count(*) Num_Citations, sum(decode(c.type_status, 'Genetic Voucher',1,0)) Num_Genetic_Citations 
-					from coll_object co,  #endSchema#.flat f,  #endSchema#.citation c,  #endschema#.publication p, collection coll
+					from #endSchema#.coll_object co,  #endSchema#.flat f,  #endSchema#.citation c,  #endschema#.publication p, collection coll
 					where f.collection_object_id = co.collection_object_id
 					and f.collection_object_id = c.collection_object_id
 					and c.publication_id = p.publication_id
@@ -819,13 +819,13 @@ limitations under the License.
 					group by collection_id, collection) l on c.collection_id = l.collection_id
 				LEFT JOIN
 					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Num_GeoRef_Cat_Items, sum(total_parts) Num_GeoRef_Specimens, count(distinct locality_id) Num_GeoRef_Localities
-					from #endschema#.flat f, coll_object co
+					from #endschema#.flat f, #endSchema#.coll_object co
 					where dec_lat is not null and dec_long is not null
 					and f.collection_object_id = co.collection_object_id
 					group by f.collection_id, f.collection) gl on c.collection_id = gl.collection_id
 				LEFT JOIN
 					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Num_GeoRef_Cat_Items, sum(total_parts) Num_Verified_GeoRef_Specimens, count(distinct locality_id) Num_Verified_GeoRef_Localities
-					from #endschema#.flat f, coll_object co
+					from #endschema#.flat f, #endSchema#.coll_object co
 					where dec_lat is not null and dec_long is not null
 					and f.collection_object_id = co.collection_object_id
 					and f.VERIFICATIONSTATUS like 'verified%'
@@ -833,7 +833,7 @@ limitations under the License.
 				<cfif annualReport EQ "yes">
 				LEFT JOIN
 					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Num_GeoRef_Cat_Items, sum(total_parts) Num_GeoRef_Specimens, count(distinct locality_id) Num_GeoRef_Localities
-					from #beginschema#.flat f, coll_object co
+					from #beginschema#.flat f, #endSchema#.coll_object co
 					where dec_lat is not null and dec_long is not null
 					and f.collection_object_id = co.collection_object_id
 					group by f.collection_id, f.collection) prevgl on c.collection_id = prevgl.collection_id
