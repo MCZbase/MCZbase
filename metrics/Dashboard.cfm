@@ -213,8 +213,8 @@ limitations under the License.
 													<select id="method" name="method" class="my-1 data-entry-input">
 														<option value="getNumbers">Annual Report (Holdings)</option>
 														<option value="getAcquisitions">Annual Report (Acquisitions)</option>
-														<option value="getLoanNumbers" selected="selected">Annual Report (Loan Activity)</option>
-														<option value="getMediaNumbers">Annual Report (Media (current)</option>
+														<option value="getLoanNumbers">Annual Report (Loan Activity)</option>
+														<option value="getMediaNumbers" selected="selected">Annual Report (Media (current)</option>
 														<option value="getCitationNumbers">Annual Report (Citations (current)</option>
 														<option value="getGeorefNumbers">Annual Report (Georeferences (current)</option>
 														<option value="getVisitorsMediaRequests">Annual Report (Visitors and Media Requests (current)</option>
@@ -393,7 +393,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div id="divTwo" style="border: 2px solid ##deedec;padding:0 15px 0 15px;">
-									<cfset summaryAnnualBlock2=getAcquisitions(endDate="#endDate#",beginDate="#beginDate#",annualReport="yes")>
+									<cfset summaryAnnualBlock2=getMediaNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="yes")>
 									<div id="annualNumbersDiv2" class="py-2"> 
 										#summaryAnnualBlock2#
 									</div>
