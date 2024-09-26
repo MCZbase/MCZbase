@@ -159,6 +159,43 @@ limitations under the License.
 									</div>
 									<div id="collapseTwo" class="collapse show" style="border: 2px solid ##deedec;" aria-labelledby="headingTwo" data-parent="##accordionExample">
 										<div class="card-body">
+									
+									<!---		<form class="py-2" id="loadReportForm2" onsubmit="return validateFiscalYear();">--->
+											<form class="py-2" id="loadReportForm2">
+												<div class="form-group">
+													<input type="hidden" name="returnFormat" value="plain">
+													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
+													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
+													<!--- TODO: This needs to be a query on the historical data table, not a hard coded list, query below --->
+													<!---
+														SELECT 
+                                       		distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option
+														FROM
+															collections_reported_metrics
+													--->
+													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
+														
+														<option value="FY2024" selected="selected">FY2024</option>
+														<option value="FY2023">FY2023</option>
+														<!-- Add more fiscal years as needed -->
+													</select>
+													<!-- Hidden fields to store beginDate and endDate -->
+													<input type="hidden" id="beginDateFiscal" name="beginDate">
+													<input type="hidden" id="endDateFiscal" name="endDate">
+													<h3 class="h4 text-muted mt-3">Report to Show</h3>
+													<label for="method" class="sr-only">Report To Show</label>
+													<select id="method" name="method" class="my-1 data-entry-input">
+														<option value="getNumbers">Annual Report: Holdings</option>
+														<option value="getAcquisitions">Annual Report: Acquisitions</option>
+														<option value="getLoanNumbers">Annual Report: Loan Activity</option>
+														<option value="getMediaNumbers" selected="selected">Annual Report: Media (current)</option>
+														<option value="getCitationNumbers">Annual Report: Citations (current)</option>
+														<option value="getGeorefNumbers">Annual Report: Georeferences (current)</option>
+														<option value="getVisitorsMediaRequests">Annual Report: Visitors and Media Requests (current)</option>
+													</select>
+												</div>
+												<button type="submit" value="Show Report" id="loadReportForm2" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
+											</form>
 											<!--- TODO: This needs to be an interpretation of a year value to fiscal year start end dates, not a hard coded list (allowing list of fiscal years to be retrieved from the database, not hard coded) --->
 											<script>
 												function setFiscalYearDates() {
@@ -183,42 +220,6 @@ limitations under the License.
 													document.getElementById("endDateFiscal").value = endDate;
 												}
 											</script>
-									<!---		<form class="py-2" id="loadReportForm2" onsubmit="return validateFiscalYear();">--->
-											<form class="py-2" id="loadReportForm2">
-												<div class="form-group">
-													<input type="hidden" name="returnFormat" value="plain">
-													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
-													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
-													<!--- TODO: This needs to be a query on the historical data table, not a hard coded list, query below --->
-													<!---
-														SELECT 
-                                       		distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option
-														FROM
-															collections_reported_metrics
-													--->
-													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
-														<option value="FY2024" selected="selected">FY2024</option>
-														<option value="FY2023">FY2023</option>
-														<!-- Add more fiscal years as needed -->
-													</select>
-													<!-- Hidden fields to store beginDate and endDate -->
-													<input type="hidden" id="beginDateFiscal" name="beginDate">
-													<input type="hidden" id="endDateFiscal" name="endDate">
-													<h3 class="h4 text-muted mt-3">Report to Show</h3>
-													<label for="method" class="sr-only">Report To Show</label>
-													<select id="method" name="method" class="my-1 data-entry-input">
-														<option value="getNumbers">Annual Report: Holdings</option>
-														<option value="getAcquisitions">Annual Report: Acquisitions</option>
-														<option value="getLoanNumbers">Annual Report: Loan Activity</option>
-														<option value="getMediaNumbers" selected="selected">Annual Report: Media (current)</option>
-														<option value="getCitationNumbers">Annual Report: Citations (current)</option>
-														<option value="getGeorefNumbers">Annual Report: Georeferences (current)</option>
-														<option value="getVisitorsMediaRequests">Annual Report: Visitors and Media Requests (current)</option>
-													</select>
-												</div>
-												<button type="submit" value="Show Report" id="loadReportForm2" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
-											</form>
-
 										</div>
 									</div>
 								</div>
