@@ -330,17 +330,17 @@ limitations under the License.
 									
 									function checkFormVisibilityAnnual( {
 										if ($('##collapseAnnual').hasClass('show')) {
-											$('##divAnnualReportResults').style.display = 'block';
+											$('##divAnnualReportResults').css("display","block");
 										} else {
-											$('##divAnnualReportResults').style.display = 'none';
+											$('##divAnnualReportResults').css("display","none");
 										}
 									}
 									
 									function checkFormVisibilityArbitrary() {
 										if ($('##collapseArbitrary').hasClass('show')) {
-											$('##divArbitraryRangeResults').style.display = 'block';
+											$('##divArbitraryRangeResults').css("display","block");
 										} else {
-											$('##divArbitraryRangeResults').style.display = 'none';
+											$('##divArbitraryRangeResults').css("display","none");
 										}
 									}
 
