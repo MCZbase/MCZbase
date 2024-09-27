@@ -596,7 +596,7 @@ limitations under the License.
 							AND accepted_lat_long_fg = 1
 							</cfquery>
 						</cfif>
-						<cfquery name="mediaDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
+	<!---					<cfquery name="georefDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
 							SELECT 
 								locality_id 
 							FROM 
@@ -606,7 +606,7 @@ limitations under the License.
 							GROUP BY 
 								locality_id
 								having count(*) > 1
-						</cfquery>
+						</cfquery>--->
 						<cfset problem_key = getTempData.key>
 						<cfset lat_long_id = ''>
 						
