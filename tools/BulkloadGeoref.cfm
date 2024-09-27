@@ -737,7 +737,7 @@ limitations under the License.
 										No data or the wrong data (#cfcatch.detail#)
 									<cfelse>
 										<!--- provide the raw error message if it isn't readily interpretable --->
-										#cfcatch.detail#
+										What happened? #cfcatch.detail#
 									</cfif>
 								</span>
 							</cfif>
