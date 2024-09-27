@@ -38,6 +38,7 @@ limitations under the License.
 </cfif> 
 	
 <!--- If not provided, Set to most recent full fiscal year  --->
+<cfset currentDate = DateFormat(now(), "yyyy-mm-dd")>
 <cfset currentYear = DateFormat(now(), "yyyy")>
 <cfset previousYear = DateFormat(DateAdd("yyyy", -1, now()),"yyyy")>
 <cfif NOT isDefined("endDate") OR len(endDate) EQ 0>
@@ -255,7 +256,7 @@ limitations under the License.
 															</div>
 															<div class="col-12 col-md-6 pl-1 pr-0 float-left">
 																<label for="endDate" class="data-entry-label mt-2">End Date</label>
-																<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input" placeholder="yyyy-mm-dd" value="#endDate#" aria-label="end of range for dates to display metrics.">
+																<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input" placeholder="yyyy-mm-dd" value="#currentDate#" aria-label="end of range for dates to display metrics.">
 															</div>
 														</div>
 													</div>
