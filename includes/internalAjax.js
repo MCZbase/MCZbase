@@ -81,21 +81,21 @@ function setPartAttOptions(id,patype,collectionCDE) {
 			collectionCDE	:collectionCDE
 		},
 		function (data) {
-			var cType=data.type;
+			var cType=data.TYPE;
 			var valElem='attribute_value_' + id;
 			var unitElem='attribute_units_' + id;
-			if (data.type=='unit') {
+			if (data.TYPE=='unit') {
 				var d='<input type="text" name="' + valElem + '" id="' + valElem + '">';
 				$('#v_' + id).html(d);
-				var theVals=data.values.split('|');
+				var theVals=data.VALUES.split('|');
 				var d='<select name="' + unitElem + '" id="' + unitElem + '">';
 	  			for (a=0; a<theVals.length; ++a) {
 					d+='<option value="' + theVals[a] + '">'+ theVals[a] +'</option>';
 				}
 	  			d+="</select>";
 	  			$('#u_' + id).html(d);
-			} else if (data.type=='value') {
-				var theVals=data.values.split('|');
+			} else if (data.TYPE=='value') {
+				var theVals=data.VALUES.split('|');
 				var d='<select name="' + valElem + '" id="' + valElem + '">';
 	  			for (a=0; a<theVals.length; ++a) {
 					d+='<option value="' + theVals[a] + '">'+ theVals[a] +'</option>';
