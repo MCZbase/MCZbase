@@ -327,47 +327,40 @@ limitations under the License.
 							</script>
 							<script>
 								 document.addEventListener('DOMContentLoaded', function () {
-									const formInSidebarAnnual = document.getElementById('collapseAnnual');
-									const resultsInMainAnnual = document.getElementById('divAnnualReportResults');
-									
-									const formInSidebarArbitrary = document.getElementById('collapseArbitrary');
-									const resultsInMainArbitrary = document.getElementById('divArbitraryRangeResults');
 									
 									function checkFormVisibilityAnnual( {
-										if ($(formInSidebarAnnual).hasClass('show')) {
-											resultsInMainAnnual.style.display = 'block';
+										if ($('##collapseAnnual').hasClass('show')) {
+											$('##divAnnualReportResults').style.display = 'block';
 										} else {
-											resultsInMainAnnual.style.display = 'none';
+											$('##divAnnualReportResults').style.display = 'none';
 										}
 									}
 									
 									function checkFormVisibilityArbitrary() {
-										if ($(formInSidebarArbitrary).hasClass('show')) {
-											resultsInMainArbitrary.style.display = 'block';
+										if ($('##collapseArbitrary').hasClass('show')) {
+											$('##divArbitraryRangeResults').style.display = 'block';
 										} else {
-											resultsInMainArbitrary.style.display = 'none';
+											$('##divArbitraryRangeResults').style.display = 'none';
 										}
 									}
 
-									$(formInSidebarAnnual).on('hidden.bs.collapse', checkFormVisibilityAnnual);
-									$(formInSidebarAnnual).on('shown.bs.collapse', checkFormVisibilityAnnual);
+									$('##collapseAnnual').on('hidden.bs.collapse', checkFormVisibilityAnnual);
+									$('##collapseAnnual').on('shown.bs.collapse', checkFormVisibilityAnnual);
 									 
-									$(formInSidebarArbitrary).on('hidden.bs.collapse', checkFormVisibilityArbitrary);
-									$(formInSidebarArbitrary).on('shown.bs.collapse', checkFormVisibilityArbitrary);
+									$('##collapseArbitrary').on('hidden.bs.collapse', checkFormVisibilityArbitrary);
+									$('##collapseArbitrary').on('shown.bs.collapse', checkFormVisibilityArbitrary);
 
 									checkFormVisibilityAnnual();
 									checkFormVisibilityArbitrary();
 								});
 
 								function displayResultsAnnual() {
-									const resultsInMainAnnual = document.getElementById('resultsInMainAnnual');
-									resultsInMainAnnual.innerHTML = '<p>Results from CFC function query appear here.</p>';
-									resultsInMainAnnual.style.display = 'block';
+									$('##divAnnualReportResults').innerHTML = '<p>Results from CFC function query appear here.</p>';
+									$('##divAnnualReportResults').style.display = 'block';
 								}
 								function displayResultsArbitrary() {
-									const resultsInMainArbitrary = document.getElementById('resultsInMainArbitrary');
-									resultsInMainArbitrary.innerHTML = '<p>Results from CFC function query appear here.</p>';
-									resultsInMainArbitrary.style.display = 'block';
+									$('##divArbitraryRangeResults').innerHTML = '<p>Results from CFC function query appear here.</p>';
+									$('##divArbitraryRangeResults').style.display = 'block';
 								}
 								
 							</script>
