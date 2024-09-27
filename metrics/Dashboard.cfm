@@ -38,7 +38,6 @@ limitations under the License.
 </cfif> 
 	
 <!--- If not provided, Set to most recent full fiscal year  --->
-<cfset currentDate = DateFormat(now(), "yyyy-mm-dd")>
 <cfset currentYear = DateFormat(now(), "yyyy")>
 <cfset previousYear = DateFormat(DateAdd("yyyy", -1, now()),"yyyy")>
 <cfif NOT isDefined("endDate") OR len(endDate) EQ 0>
@@ -48,6 +47,10 @@ limitations under the License.
 	<cfelse>
 		<cfset endDate = "#currentYear#-06-30">
 	</cfif>
+	<!--- if we weren't provided a date range in the API call, set the end date for the arbitrary range to today --->
+	<cfset currentDate = DateFormat(now(), "yyyy-mm-dd")>
+<cfelse>
+	<cfset currentDate = endDate>
 </cfif>
 <cfif NOT isDefined("beginDate")>
 	<cfset beginDate = '#DateFormat(DateAdd("d",1,DateAdd("yyyy", -1, endDate)),"yyyy-mm-dd")#'>
