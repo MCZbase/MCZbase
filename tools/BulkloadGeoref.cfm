@@ -389,7 +389,7 @@ limitations under the License.
 				From CF_TEMP_GEOREF
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-		<cfset coord_lat = fix(#dec_lat#)>
+		<cfset coord_lat = fix(#get_temp_georef.dec_lat#)>
 					#coord_lat#
 			<cfloop query="getTempData">
 				
