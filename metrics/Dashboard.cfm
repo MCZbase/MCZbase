@@ -328,7 +328,7 @@ limitations under the License.
 							<script>
 								 document.addEventListener('DOMContentLoaded', function () {
 									
-									function checkFormVisibilityAnnual( {
+									function checkFormVisibilityAnnual() {
 										if ($('##collapseAnnual').hasClass('show')) {
 											$('##divAnnualReportResults').css("display","block");
 										} else {
