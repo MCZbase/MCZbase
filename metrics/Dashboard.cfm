@@ -160,18 +160,17 @@ limitations under the License.
 						<div class="sidebar-sticky py-4 px-2" style="background-color: ##efeded;">
 							<div class="accordion" id="accordionExample">
 								<div class="card">
-									<div class="card-header" id="headingTwo">
+									<div class="card-header" id="headingAnnual">
 										<h2 class="mb-0">
-										<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+										<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##collapseAnnual" aria-expanded="true" aria-controls="collapseAnnual">
 											Annual Reports
 										</button>
 										</h2>
 									</div>
-									<div id="collapseTwo" class="collapse show" style="border: 2px solid ##deedec;" aria-labelledby="headingTwo" data-parent="##accordionExample">
+									<div id="collapseAnnual" class="collapse show" style="border: 2px solid ##deedec;" aria-labelledby="headingAnnual" data-parent="##accordionExample">
 										<div class="card-body">
 									
-									<!---		<form class="py-2" id="loadReportForm2" onsubmit="return validateFiscalYear();">--->
-											<form class="py-2" id="loadReportForm2">
+											<form class="py-2" id="loadReportFormAnnual">
 												<div class="form-group">
 													<input type="hidden" name="returnFormat" value="plain">
 													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
@@ -204,7 +203,7 @@ limitations under the License.
 														<option value="getVisitorsMediaRequests">Annual Report: Visitors and Media Requests</option>
 													</select>
 												</div>
-												<button type="submit" value="Show Report" id="loadReportForm2" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
+												<button type="submit" value="Show Report" id="loadReportFormAnnual" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
 											</form>
 											<!--- TODO: This needs to be an interpretation of a year value to fiscal year start end dates, not a hard coded list (allowing list of fiscal years to be retrieved from the database, not hard coded) --->
 											<script>
@@ -234,16 +233,16 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="card">
-									<div class="card-header" id="headingOne">
+									<div class="card-header" id="headingArbitrary">
 										<h2 class="mb-0">
-										<button class="btn btn-link" type="button" data-toggle="collapse" data-target="##collapseOne" aria-expanded="false" aria-controls="collapseOne">
+										<button class="btn btn-link" type="button" data-toggle="collapse" data-target="##collapseArbitrary" aria-expanded="false" aria-controls="collapseArbitrary">
 											Custom Reports
 										</button>
 										</h2>
 									</div>
-									<div id="collapseOne" class="collapse" style="border: 2px solid ##deedec;" aria-labelledby="headingOne" data-parent="##accordionExample">
+									<div id="collapseArbitrary" class="collapse" style="border: 2px solid ##deedec;" aria-labelledby="headingArbitrary" data-parent="##accordionExample">
 										<div class="card-body">
-											<form class="py-2" id="loadReportForm1">
+											<form class="py-2" id="loadReportFormArbitrary">
 												<div class="form-group">
 													<h3 class="h4 text-muted mt-1 mb-0">Select Report Date Range</h3>
 													<input type="hidden" name="returnFormat" value="plain">
@@ -271,7 +270,7 @@ limitations under the License.
 														<option value="getGeorefNumbers">Georeferences</option>
 													</select>
 												</div>
-												<button type="submit" value="Show Report" id="loadReportForm1" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
+												<button type="submit" value="Show Report" id="loadReportFormArbitrary" class="btn btn-primary btn-xs my-2">Show Custom Report</button>
 											</form>
 										</div>
 									</div>
@@ -280,15 +279,15 @@ limitations under the License.
 							</div>
 							<script>
 								$(document).ready(function() {
-									$('##loadReportForm1').on('submit',function(event){ event.preventDefault(); loadReport1(); } );
+									$('##loadReportFormArbitrary').on('submit',function(event){ event.preventDefault(); loadReportArbitrary(); } );
 								});
-								function loadReport1(){
+								function loadReportArbitrary(){
 									$('##arbitraryNumbersDiv').html("Loading...");
 									$.ajax(
 										{
 											url: '/metrics/component/functions.cfc',
 											type: 'GET', 
-											data: $('##loadReportForm1').serialize()
+											data: $('##loadReportFormArbitrary').serialize()
 										}
 									).done(
 										function(response) {
@@ -298,21 +297,21 @@ limitations under the License.
 										}
 									).fail(function(jqXHR,textStatus,error){
 										$('##annualNumbersDiv').html("Error Loading Metrics");
-									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
+										handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 									});
 								}
 							</script>
 							<script>
 								$(document).ready(function() {
-									$('##loadReportForm2').on('submit',function(event){ event.preventDefault(); loadReport2(); } );
+									$('##loadReportFormAnnual').on('submit',function(event){ event.preventDefault(); loadReportAnnual(); } );
 								});
-								function loadReport2(){
+								function loadReportAnnual(){
 									$('##annualNumbersDiv').html("Loading...");
 									$.ajax(
 										{
 											url: '/metrics/component/functions.cfc',
 											type: 'GET', 
-											data: $('##loadReportForm2').serialize()
+											data: $('##loadReportFormAnnual').serialize()
 										}
 									).done(
 										function(response) {
@@ -322,53 +321,53 @@ limitations under the License.
 										}
 									).fail(function(jqXHR,textStatus,error){
 										$('##annualNumbersDiv').html("Error Loading Metrics");
-									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
+										handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 									});
 								}
 							</script>
 							<script>
 								 document.addEventListener('DOMContentLoaded', function () {
-									const formInSidebar1 = document.getElementById('collapseTwo');
-									const resultsInMain1 = document.getElementById('divAnnualReportResults');
+									const formInSidebarAnnual = document.getElementById('collapseAnnual');
+									const resultsInMainAnnual = document.getElementById('divAnnualReportResults');
 									
-									const formInSidebar2 = document.getElementById('collapseOne');
-									const resultsInMain2 = document.getElementById('divArbitraryRangeResults');
+									const formInSidebarArbitrary = document.getElementById('collapseArbitrary');
+									const resultsInMainArbitrary = document.getElementById('divArbitraryRangeResults');
 									
-									function checkFormVisibility1() {
-										if ($(formInSidebar1).hasClass('show')) {
-											resultsInMain1.style.display = 'block';
+									function checkFormVisibilityAnnual( {
+										if ($(formInSidebarAnnual).hasClass('show')) {
+											resultsInMainAnnual.style.display = 'block';
 										} else {
-											resultsInMain1.style.display = 'none';
+											resultsInMainAnnual.style.display = 'none';
 										}
 									}
 									
-									function checkFormVisibility2() {
-										if ($(formInSidebar2).hasClass('show')) {
-											resultsInMain2.style.display = 'block';
+									function checkFormVisibilityArbitrary() {
+										if ($(formInSidebarArbitrary).hasClass('show')) {
+											resultsInMainArbitrary.style.display = 'block';
 										} else {
-											resultsInMain2.style.display = 'none';
+											resultsInMainArbitrary.style.display = 'none';
 										}
 									}
 
-									$(formInSidebar1).on('hidden.bs.collapse', checkFormVisibility1);
-									$(formInSidebar1).on('shown.bs.collapse', checkFormVisibility1);
+									$(formInSidebarAnnual).on('hidden.bs.collapse', checkFormVisibilityAnnual);
+									$(formInSidebarAnnual).on('shown.bs.collapse', checkFormVisibilityAnnual);
 									 
-									$(formInSidebar2).on('hidden.bs.collapse', checkFormVisibility2);
-									$(formInSidebar2).on('shown.bs.collapse', checkFormVisibility2);
+									$(formInSidebarArbitrary).on('hidden.bs.collapse', checkFormVisibilityArbitrary);
+									$(formInSidebarArbitrary).on('shown.bs.collapse', checkFormVisibilityArbitrary);
 
-									checkFormVisibility1();
-									checkFormVisibility2();
+									checkFormVisibilityAnnual();
+									checkFormVisibilityArbitrary();
 								});
 
-								function displayResults1() {
-									const resultsInMain1 = document.getElementById('resultsInMain1');
-									resultsInMain1.innerHTML = '<p>Results from CFC function query appear here.</p>';
-									resultsInMain1.style.display = 'block';
+								function displayResultsAnnual() {
+									const resultsInMainAnnual = document.getElementById('resultsInMainAnnual');
+									resultsInMainAnnual.innerHTML = '<p>Results from CFC function query appear here.</p>';
+									resultsInMainAnnual.style.display = 'block';
 								}
-								function displayResults2() {
-									const resultsInMain2 = document.getElementById('resultsInMain2');
-									resultsInMain2.innerHTML = '<p>Results from CFC function query appear here.</p>';
-									resultsInMain2.style.display = 'block';
+								function displayResultsArbitrary() {
+									const resultsInMainArbitrary = document.getElementById('resultsInMainArbitrary');
+									resultsInMainArbitrary.innerHTML = '<p>Results from CFC function query appear here.</p>';
+									resultsInMainArbitrary.style.display = 'block';
 								}
 								
 							</script>
@@ -377,7 +376,7 @@ limitations under the License.
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
 						<div class="card-body">
 							<div class="col-12 mt-4">
-								<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
+								<h1 class="h2 float-left mb-1 p-1 w-100">MCZbase Metrics </h1>
 								<div id="divArbitraryRangeResults" style="border: 2px solid ##deedec;padding:0 15px 0 15px;">
 									<p class="text-muted small mb-0">Reports are generated from the current MCZbase data for the given date range.</p>
 									<cfset arbitraryRangeSummaryNumbersBlock=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="no")>
