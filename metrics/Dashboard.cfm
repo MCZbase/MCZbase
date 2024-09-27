@@ -283,7 +283,7 @@ limitations under the License.
 									$('##loadReportForm1').on('submit',function(event){ event.preventDefault(); loadReport1(); } );
 								});
 								function loadReport1(){
-									$('##annualNumbersDiv1').html("Loading...");
+									$('##arbitraryNumbersDiv').html("Loading...");
 									$.ajax(
 										{
 											url: '/metrics/component/functions.cfc',
@@ -293,8 +293,8 @@ limitations under the License.
 									).done(
 										function(response) {
 											console.log(response);
-											$('##annualNumbersDiv1').html(response);
-											$('##annualNumbersDiv1').show();
+											$('##arbitraryNumbersDiv').html(response);
+											$('##arbitraryNumbersDiv').show();
 										}
 									).fail(function(jqXHR,textStatus,error){
 										$('##annualNumbersDiv').html("Error Loading Metrics");
@@ -307,7 +307,7 @@ limitations under the License.
 									$('##loadReportForm2').on('submit',function(event){ event.preventDefault(); loadReport2(); } );
 								});
 								function loadReport2(){
-									$('##annualNumbersDiv2').html("Loading...");
+									$('##annualNumbersDiv').html("Loading...");
 									$.ajax(
 										{
 											url: '/metrics/component/functions.cfc',
@@ -317,11 +317,11 @@ limitations under the License.
 									).done(
 										function(response) {
 											console.log(response);
-											$('##annualNumbersDiv2').html(response);
-											$('##annualNumbersDiv2').show();
+											$('##annualNumbersDiv').html(response);
+											$('##annualNumbersDiv').show();
 										}
 									).fail(function(jqXHR,textStatus,error){
-										$('##annualNumbersDiv2').html("Error Loading Metrics");
+										$('##annualNumbersDiv').html("Error Loading Metrics");
 									handleFail(jqXHR,textStatus,error,"loading metrics for date range.");
 									});
 								}
@@ -329,10 +329,10 @@ limitations under the License.
 							<script>
 								 document.addEventListener('DOMContentLoaded', function () {
 									const formInSidebar1 = document.getElementById('collapseTwo');
-									const resultsInMain1 = document.getElementById('divTwo');
+									const resultsInMain1 = document.getElementById('divAnnualReportResults');
 									
 									const formInSidebar2 = document.getElementById('collapseOne');
-									const resultsInMain2 = document.getElementById('divOne');
+									const resultsInMain2 = document.getElementById('divArbitraryRangeResults');
 									
 									function checkFormVisibility1() {
 										if ($(formInSidebar1).hasClass('show')) {
@@ -378,18 +378,18 @@ limitations under the License.
 						<div class="card-body">
 							<div class="col-12 mt-4">
 								<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
-								<div id="divOne" style="border: 2px solid ##deedec;padding:0 15px 0 15px;">
-									<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
-									<cfset summaryAnnualBlock1=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="no")>
-									<div id="annualNumbersDiv1" class="py-2"> 
-										#summaryAnnualBlock1#
+								<div id="divArbitraryRangeResults" style="border: 2px solid ##deedec;padding:0 15px 0 15px;">
+									<p class="text-muted small">Reports are generated from the current MCZbase data for the given date range.</p>
+									<cfset arbitraryRangeSummaryNumbersBlock=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="no")>
+									<div id="arbitraryNumbersDiv" class="py-2"> 
+										#arbitraryRangeSummaryNumbersBlock#
 									</div>
 								</div>
-								<div id="divTwo" style="border: 2px solid ##deedec;padding:0 15px 0 15px;">
-									<p class="text-muted small">Reports are generated from the current MCZbase data for the given date range.</p>
-									<cfset summaryAnnualBlock2=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="yes")>
-									<div id="annualNumbersDiv2" class="py-2"> 
-										#summaryAnnualBlock2#
+								<div id="divAnnualReportResults" style="border: 2px solid ##deedec;padding:0 15px 0 15px;">
+									<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
+									<cfset annualSummaryNumbersBlock=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="yes")>
+									<div id="annualNumbersDiv" class="py-2"> 
+										#annualSummaryNumbersBlock#
 									</div>
 								</div>
 							</div>
