@@ -370,20 +370,6 @@ limitations under the License.
 									resultsInMain2.style.display = 'block';
 								}
 								
-								
-								
-							//	function validateFiscalYear() {
-//									var beginDate = new Date(document.getElementById('beginDate').value);
-//									var endDate = new Date(document.getElementById('endDate').value);
-//										
-//									var expectedEndDate = new Date(beginDate);
-//										expectedEndDate.setFullYear(expectedEndDate.getFullYear() + 1);
-//										expectedEndDate.setMonth(5); // June
-//										expectedEndDate.setDate(30); // 30
-//
-//									displayResults();
-//									return true; 
-//								}
 							</script>
 						</div>
 					</nav>
@@ -391,14 +377,15 @@ limitations under the License.
 						<div class="card-body">
 							<div class="col-12 mt-4">
 								<h1 class="h2 float-left mb-1 w-100">MCZbase Metrics </h1>
-								<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
 								<div id="divOne" style="border: 2px solid ##deedec;padding:0 15px 0 15px;">
+									<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
 									<cfset summaryAnnualBlock1=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="no")>
 									<div id="annualNumbersDiv1" class="py-2"> 
 										#summaryAnnualBlock1#
 									</div>
 								</div>
 								<div id="divTwo" style="border: 2px solid ##deedec;padding:0 15px 0 15px;">
+									<p class="text-muted small">Reports are generated from the current MCZbase data for the given date range.</p>
 									<cfset summaryAnnualBlock2=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="yes")>
 									<div id="annualNumbersDiv2" class="py-2"> 
 										#summaryAnnualBlock2#
