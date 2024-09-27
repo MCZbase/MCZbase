@@ -389,7 +389,8 @@ limitations under the License.
 				From CF_TEMP_GEOREF
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-	
+		<cfset coord_lat = fix(#dec_lat#)>
+					#coord_lat#
 			<cfloop query="getTempData">
 				
 				<!---Check max_error_units--->
@@ -578,7 +579,7 @@ limitations under the License.
 					FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				
+			
 				<cftry>
 					<cfset georef_updates = 0>
 					<cfif getTempData.recordcount EQ 0>
