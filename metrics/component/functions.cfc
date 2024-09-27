@@ -36,7 +36,8 @@ limitations under the License.
 
 
 <cffunction name="getAnnualChart" access="remote" returntype="any" returnformat="plain">
-	<cfthread name="getAnnualChartThread">
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getAnnualChartThread#tn#">
 		<cfoutput>
 			<cfset targetFile = "chart_numbers.csv">
 			<cfset filePath = "/metrics/datafiles/">
@@ -60,8 +61,8 @@ limitations under the License.
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="getAnnualChartThread" />
-	<cfreturn getAnnualChartThread.output>
+	<cfthread action="join" name="getAnnualChartThread#tn#" />
+	<cfreturn cfthread['getAnnualChartThread#tn#'].output>
 </cffunction>
 						
 <!--- getNumbers  REPORT: HOLDINGS within an arbitary period, holdings as of endDate
@@ -207,7 +208,8 @@ limitations under the License.
 	<cfset variables.endDate = arguments.endDate>
 	<cfset variables.annualReport = arguments.annualReport>
 	<cfset variables.returnAs = arguments.returnAs>
-	<cfthread name="getAcquisitionsThread">
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getAcquisitionsThread#tn#">
 		<cftry>
 			<cfif annualReport EQ 'yes'>
 				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
@@ -372,8 +374,8 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getAcquisitionsThread" />
-	<cfreturn getAcquisitionsThread.output>
+	<cfthread action="join" name="getAcquisitionsThread#tn#" />
+	<cfreturn cfthread['getAcquisitionsThread#tn#'].output>
 </cffunction>
 					
 <!--- getLoanNumbers report on loan activity 
@@ -392,7 +394,8 @@ limitations under the License.
 	<cfset variables.endDate = arguments.endDate>
 	<cfset variables.annualReport = arguments.annualReport>
 	<cfset variables.returnAs = arguments.returnAs>
-	<cfthread name="getLoanNumbersThread">
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getLoanNumbersThread#tn#">
 		<cftry>
 			<!--- annual report queries for loan activity --->
 			<cfquery name="loans" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
@@ -553,8 +556,8 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getLoanNumbersThread" />
-	<cfreturn getLoanNumbersThread.output>
+	<cfthread action="join" name="getLoanNumbersThread#tn#" />
+	<cfreturn cfhtread['getLoanNumbersThread#tn#'].output>
 </cffunction>
 
 <!--- getMediaNumbers report on media activity in a specified time period 
@@ -573,7 +576,8 @@ limitations under the License.
 	<cfset variables.endDate = arguments.endDate>
 	<cfset variables.annualReport = arguments.annualReport>
 	<cfset variables.returnAs = arguments.returnAs>
-	<cfthread name="getMediaNumbersThread">
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getMediaNumbersThread#tn#">
 		<cftry>
 			<cfif annualReport EQ 'yes'>
 				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
@@ -726,8 +730,8 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getMediaNumbersThread" />
-	<cfreturn getMediaNumbersThread.output>
+	<cfthread action="join" name="getMediaNumbersThread#tn#" />
+	<cfreturn cfthread['getMediaNumbersThread#tn#'].output>
 </cffunction>
 
 <!--- getCitationNumbers obtain report on citations of specimens within a specified time period.				
@@ -746,7 +750,8 @@ limitations under the License.
 	<cfset variables.endDate = arguments.endDate>
 	<cfset variables.annualReport = arguments.annualReport>
 	<cfset variables.returnAs = arguments.returnAs>
-	<cfthread name="getCitationNumbersThread">
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getCitationNumbersThread#tn#">
 		<cftry>
 			 <cfif annualReport EQ 'yes'>
 				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
@@ -836,8 +841,8 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getCitationNumbersThread" />
-	<cfreturn getCitationNumbersThread.output>
+	<cfthread action="join" name="getCitationNumbersThread#tn#" />
+	<cfreturn cfthread['getCitationNumbersThread#tn#'].output>
 </cffunction>
 
 <!--- getGeorefNumbers report on georeferences and georeferencing activity within a specified time period 			
@@ -856,7 +861,8 @@ limitations under the License.
 	<cfset variables.endDate = arguments.endDate>
 	<cfset variables.annualReport = arguments.annualReport>
 	<cfset variables.returnAs = arguments.returnAs>
-	<cfthread name="getGeorefNumbersThread">
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getGeorefNumbersThread#tn#">
 		<cftry>
 			<cfif annualReport EQ 'yes'>
 					<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
@@ -983,8 +989,8 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getGeorefNumbersThread" />
-	<cfreturn getGeorefNumbersThread.output>
+	<cfthread action="join" name="getGeorefNumbersThread#tn#" />
+	<cfreturn cfthread['getGeorefNumbersThread#tn#'].output>
 </cffunction>
 
 <!--- visitors and media requests for annual report
@@ -1003,7 +1009,8 @@ limitations under the License.
 	<cfset variables.endDate = arguments.endDate>
 	<cfset variables.annualReport = arguments.annualReport>
 	<cfset variables.returnAs = arguments.returnAs>
-	<cfthread name="getVisitorsMediaRequestsThread">
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getVisitorsMediaRequestsThread#tn#">
 		<cftry>
 			<cfif annualReport EQ 'yes'>
 				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
@@ -1118,8 +1125,8 @@ limitations under the License.
 			</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getVisitorsMediaRequestsThread" />
-	<cfreturn getVisitorsMediaRequestsThread.output>
+	<cfthread action="join" name="getVisitorsMediaRequestsThread#tn#" />
+	<cfreturn cfthread['getVisitorsMediaRequestsThread#tn#'].output>
 </cffunction>
 
 </cfcomponent>	
