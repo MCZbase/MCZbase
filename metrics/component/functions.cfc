@@ -557,7 +557,7 @@ limitations under the License.
 		</cftry>
 	</cfthread>
 	<cfthread action="join" name="getLoanNumbersThread#tn#" />
-	<cfreturn cfhtread['getLoanNumbersThread#tn#'].output>
+	<cfreturn cfthread['getLoanNumbersThread#tn#'].output>
 </cffunction>
 
 <!--- getMediaNumbers report on media activity in a specified time period 
