@@ -578,7 +578,7 @@ limitations under the License.
 						FROM cf_temp_georef
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-					<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updategeoref1_result">
+					<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT count(distinct locality_id) loc 
 						FROM cf_temp_georef
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -602,6 +602,7 @@ limitations under the License.
 						<cfset username="#session.username#">
 						<cfset problem_key = getTempData.key>
 						<cfset lat_long_id = ''>
+						
 						<cfquery name="makeGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into lat_long (
 								lat_long_id,
@@ -653,13 +654,13 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_FOR_NNP_FG#">
 							)
 						</cfquery>
-						<cfset georef_updates = georef_updates + m.recordcount>
+						<cfset georef_updates = georef_updates + insResult.recordcount>
 					</cfloop>
 					<p class="mt-2">Number of Georeferences added: <b>#georef_updates#</b></p>
-					<cfif getTempData.recordcount eq georef_updates and m.recordcount eq 0>
+					<cfif getTempData.recordcount eq georef_updates and insResult.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
-					<cfif m.recordcount gt 0>
+					<cfif insResult.recordcount gt 0>
 						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
 					</cfif>
 					<cftransaction action="commit">
