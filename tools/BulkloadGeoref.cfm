@@ -578,7 +578,7 @@ limitations under the License.
 				<cfset short_dec_long = fix(#table_long#)>
 				<cfquery name="updateFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT locality_id
-					FROM getTempData, lat_long
+					FROM getTempData
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and getTempData.dec_lat = #short_dec_lat#
 					and getTempData.dec_long = #short_dec_long#
