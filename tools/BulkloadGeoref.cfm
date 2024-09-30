@@ -575,7 +575,7 @@ limitations under the License.
 							locality.geog_auth_rec_id=geog_auth_rec.geog_auth_rec_id and
 							locality.locality_id=#Locality_ID# and
 							trim(geog_auth_rec.higher_geog)='#trim(HigherGeography)#' and
-							 trim(locality.spec_locality)='#trim(escapeQuotes(SpecLocality))#'">
+							 trim(locality.spec_locality)='#trim(PreserveSingleQuotes(SpecLocality))#'">
 						<cfquery name="m" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							#preservesinglequotes(sql)#
 						</cfquery>
