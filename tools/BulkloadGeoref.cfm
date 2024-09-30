@@ -654,10 +654,10 @@ limitations under the License.
 						<cfset georef_updates = georef_updates + insResult.recordcount>
 					</cfloop>
 					<p class="mt-2">Number of Georeferences added: <b>#georef_updates#</b> and #getTempData.recordcount#</p>
-					<cfif getTempData.recordcount eq georef_updates>
+					<cfif #getTempData.recordcount# eq #georef_updates#>
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
-					<cfif insResult.recordcount gt 0>
+					<cfif insResult.recordcount eq 0>
 						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
 					</cfif>
 					<cftransaction action="commit">
