@@ -553,7 +553,6 @@ limitations under the License.
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset problem_key = "">
-			<cfset accepted_lat_long = ''>
 			<cftransaction>
 				<cftry>
 					<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
