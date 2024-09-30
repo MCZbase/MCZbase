@@ -614,7 +614,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT#" scale="5">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#" scale="3">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GEOREFMETHOD#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ACCEPTED_LAT_LONG_FG#">,
+								1,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFICATIONSTATUS#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFIED_BY_AGENT_ID#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIALFIT#" scale="3">,
