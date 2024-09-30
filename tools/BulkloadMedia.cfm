@@ -69,7 +69,7 @@ limitations under the License.
 			<div class="accordion accordion-flush" id="accordionFlushExample">
 				<div class="accordion-item">
 					<h2 class="accordion-header" id="flush-headingOne">
-				  		<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="##flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+						<button type="button" class="headerLnk text-left h-100 w-100" aria-label="collapsiblePane" data-toggle="collapse" data-target="##flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne" title="Controlled Vocabulary">
 							Controlled Vocabulary Lists
 				  		</button>
 					</h2>
@@ -253,7 +253,7 @@ limitations under the License.
 				<div class="accordion-item">
 					<h2 class="accordion-header" id="flush-headingSix">
 					  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="##flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
-						Columns for Spreasheet with Explanations
+						Columns for Spreadsheet with Explanations
 					  </button>
 					</h2>
 					<div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" data-bs-parent="##accordionFlushExample">
