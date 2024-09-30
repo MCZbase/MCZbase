@@ -462,8 +462,8 @@ limitations under the License.
 					where locality.locality_id = lat_long.locality_id
 					and geog_auth_rec.geog_auth_rec_id = locality.geog_auth_rec_id
 					and lat_long.locality_id=#Locality_ID#
-					AND '#trim(geog_auth_rec.HIGHER_GEOG)#'='#trim(HIGHERGEOGRAPHY)#' 
-					and '#trim(locality.SPEC_LOCALITY)#'='#trim(PreserveSingleQuotes(SPECLOCALITY))#'
+					AND '#trim(geog_auth_rec.HIGHER_GEOG)#'='#trim(getTempData.HIGHERGEOGRAPHY)#' 
+					and '#trim(locality.SPEC_LOCALITY)#'='#trim(PreserveSingleQuotes(getTempData.SPECLOCALITY))#'
 					and locality_id = #getTempData.locality_id#
 				</cfquery>
 				<cfif l.c neq 0>
