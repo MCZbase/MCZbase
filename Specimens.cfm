@@ -2629,7 +2629,7 @@ Target JSON:
 		// setup for removal by checkboxes
 		const fixedlisttoremove = new Set([]);
 		function fixedChangeItem(collection_object_id) { 
-			if (fixedlistoremove.has(collection_object_id)) { 
+			if (fixedlisttoremove.has(collection_object_id)) { 
 				fixedlisttoremove.remove(collection_object_id);
 			} else { 
 				fixedlisttoremove.add(collection_object_id);
