@@ -3171,7 +3171,7 @@ Target JSON:
 					filterable: false,
 					sortable: true,
 					pageable: true,
-					editable: false,
+					editable: true,
 					virtualmode: true,
 					enablemousewheel: #session.gridenablemousewheel#,
 					pagesize: '#session.specimens_pagesize#',
@@ -3196,7 +3196,9 @@ Target JSON:
 					},
 					columns: [
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							<cfif isdefined("session.killRow") AND session.killRow is 1>
+							<cfset removerowcheckbox = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, columntype:'checkbox' width: 20, cellclassname: fixedcellclass, hidable:false, hidden: false },">
+							#removerowcheckbox#
+							<cfif isdefined("session.killRow") AND session.killRow is 2>
 								<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
 								#removerow#
 							</cfif>
@@ -3218,7 +3220,7 @@ Target JSON:
 							</cfif>
 							<cfif ucase(column_name) EQ lastcolumn>
 								<!--- last column, no trailing comma --->
-								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: fixedcellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: fixedcellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#), editable: false }">
 							<cfelse> 
 								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: fixedcellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
 							</cfif>
