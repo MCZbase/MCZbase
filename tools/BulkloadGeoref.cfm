@@ -569,6 +569,7 @@ limitations under the License.
 					FROM lat_long
 					WHERE dec_lat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.dec_lat#">
 					AND dec_long = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.dec_long#">
+					and spec_locality like "#getTempData.speclocality#"
 				</cfquery>
 				<cfset temp_lat = fix(#getTempData.dec_lat#)>
 				<cfset temp_long = fix(#getTempData.dec_long#)>
