@@ -19,7 +19,7 @@ limitations under the License.
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,extent_units,lat_long_for_NNP_FG,gpsaccuracy,verificationstatus,verified_by,verified_by_agent_id,spatialfit,nearest_named_place,coordinate_precision,accepted_lat_long_fg,determined_by_agent_id 
+		SELECT highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,extent_units,lat_long_for_NNP_FG,gpsaccuracy,verificationstatus,verified_by,verified_by_agent_id,spatialfit,nearest_named_place,coordinate_precision,determined_by_agent_id 
 		FROM cf_temp_georef 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -34,7 +34,7 @@ limitations under the License.
 
 <cfset fieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,EXTENT,EXTENT_UNITS,LAT_LONG_FOR_NNP_FG,GPSACCURACY,VERIFICATIONSTATUS,VERIFIED_BY,VERIFIED_BY_AGENT_ID,SPATIALFIT,NEAREST_NAMED_PLACE,COORDINATE_PRECISION,ACCEPTED_LAT_LONG_FG,DETERMINED_BY_AGENT_ID">
 	
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL">
 	
 <cfset requiredfieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,VERIFICATIONSTATUS,COORDINATE_PRECISION">
 
@@ -458,20 +458,6 @@ limitations under the License.
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 			</cfloop>
-			<cfquery name="getLatLongFg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updategeoref2_result">
-				SELECT accepted_lat_long_fg
-				FROM lat_long
-				WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
-			</cfquery>
-			<cfloop query="getLatLongFg">
-				<cfif getLatLongFg.accepted_lat_long_fg gt 0 and getTempData.accepted_lat_long_fg eq 1>
-					<cfquery name="getLatLongFg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updategeoref3_result">
-						update lat_long set accepted_lat_long_fg = 0
-						WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
-						and accepted_lat_long_fg = 1
-					</cfquery>
-				</cfif>
-			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_georef
@@ -519,7 +505,6 @@ limitations under the License.
 						<th>USERNAME</th>
 						<th>VERIFIED_BY</th>
 						<th>VERIFIED_BY_AGENT_ID</th>
-						<th>ACCEPTED_LAT_LONG_FG</th>
 						<th>COORDINATE_PRECISION</th>
 						<th>EXTENT_UNITS</th>
 						<th>LAT_LONG_FOR_NNP_FG</th>
@@ -552,7 +537,6 @@ limitations under the License.
 							<td>#data.USERNAME#</td>
 							<td>#data.VERIFIED_BY#</td>
 							<td>#data.VERIFIED_BY_AGENT_ID#</td>
-							<td>#data.ACCEPTED_LAT_LONG_FG#</td>
 							<td>#data.COORDINATE_PRECISION#</td>
 							<td>#data.EXTENT_UNITS#</td>
 							<td>#data.LAT_LONG_FOR_NNP_FG#</td>
@@ -568,7 +552,6 @@ limitations under the License.
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset problem_key = "">
-	
 			<cftransaction>
 				<cftry>
 					<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -581,7 +564,6 @@ limitations under the License.
 						FROM cf_temp_georef
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-
 					<cfset georef_updates = 0>
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
@@ -605,7 +587,6 @@ limitations under the License.
 								LAT_LONG_REMARKS,
 								MAX_ERROR_DISTANCE,
 								MAX_ERROR_UNITS,
-								ACCEPTED_LAT_LONG_FG,
 								EXTENT,
 								GPSACCURACY,
 								GEOREFMETHOD,
@@ -629,7 +610,6 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REMARKS#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MAX_ERROR_UNITS#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ACCEPTED_LAT_LONG_FG#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT#" scale="5">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#" scale="3">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GEOREFMETHOD#">,
