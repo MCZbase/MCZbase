@@ -565,9 +565,18 @@ limitations under the License.
 						FROM cf_temp_georef
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
+
+					<cfset georef_updates = 0>
+					<cfif getTempData.recordcount EQ 0>
+						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
+					</cfif>
+					<cfloop query="getTempData">
+						<cfset username="#session.username#">
+						<cfset problem_key = getTempData.key>
+						<cfset lat_long_id = ''>
+							
 					<cfquery name="getLatLongFg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updategeoref2_result">
-						SELECT accepted_lat_long_fg
-						FROM lat_long
+						update lat_long set accepted_lat_long_fg = 1
 						WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
 					</cfquery>
 					<cfloop query="getLatLongFg">
@@ -579,14 +588,6 @@ limitations under the License.
 							</cfquery>
 						</cfif>
 					</cfloop>
-					<cfset georef_updates = 0>
-					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
-					</cfif>
-					<cfloop query="getTempData">
-						<cfset username="#session.username#">
-						<cfset problem_key = getTempData.key>
-						<cfset lat_long_id = ''>
 						<cfquery name="makeGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into lat_long (
 								lat_long_id,
