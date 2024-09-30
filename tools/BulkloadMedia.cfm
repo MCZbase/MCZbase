@@ -69,7 +69,7 @@ limitations under the License.
 			<div class="accordion" id="accordionExample">
  				<div class="accordion-item">
     				<h2 class="accordion-header h4 mt-4" id="headingOne">    
-					  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
+					  <button class="accordion-button border-0 rounded" type="button" data-bs-toggle="collapse" data-bs-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
 						Controlled Vocabulary Lists
 					  </button>
 					</h2>
@@ -191,94 +191,94 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-			
-				<h2 class="h3 mt-4">Upload a comma-delimited text file (csv)</h2>
-				<p>Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number. Click view template and download to create a csv with the column headers in place.</p>
-				<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
-				<div id="template" style="margin: 1rem 0;display:none;">
-					<label for="templatearea" class="data-entry-label mb-1">
-						Copy this header line and save it as a .csv file (<a href="/tools/#pageTitle#.cfm?action=getCSVHeader" class="font-weight-lessbold">download</a>)
-					</label>
-					<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
-				</div>
-			</div>
-			<a name="loader" class="text-white">top</a>
-			<div class="accordion-item">
-				<h2 class="accordion-header h4 mt-4" id="headingSix">
-					 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="##collapseSix" aria-expanded="false" aria-controls="collapseSix">Columns for Spreasheet with Explanations</button>
-				</h2>
-				<div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="##accordionExample">
-					<div class="accordion-body">
-						<p> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
-						<ul class="mb-4 h5 font-weight-normal list-group mx-3">
-							<cfloop list="#fieldlist#" index="field" delimiters=",">
-								<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
-									SELECT comments
-									FROM sys.all_col_comments
-									WHERE 
-										owner = 'MCZBASE'
-										and table_name = 'CF_TEMP_MEDIA'
-										and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
-								</cfquery>
-								<cfset comment = "">
-								<cfif getComments.recordcount GT 0>
-									<cfset comment = getComments.comments>
-								</cfif>
-								<cfset aria = "">
-								<cfif listContains(requiredfieldlist,field,",")>
-									<cfset class="text-danger">
-									<cfset aria = "aria-label='Required Field'">
-								<cfelse>
-									<cfset class="text-dark">
-								</cfif>
-								<li class="pb-1 mx-3">
-									<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
-								</li>
-							</cfloop>
-						</ul>
-						<form name="getFiles" method="post" enctype="multipart/form-data" action="/tools/#pageTitle#.cfm">
-						<div class="form-row border rounded p-2">
-							<input type="hidden" name="action" value="getFile">
-							<div class="col-12 col-md-4">
-								<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
-								<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
-							</div>
-							<div class="col-12 col-md-3">
-								<label for="characterSet" class="data-entry-label">Character Set:</label> 
-								<select name="characterSet" id="characterSet" required class="data-entry-select reqdClr">
-									<option selected></option>
-									<option value="utf-8" >utf-8</option>
-									<option value="iso-8859-1">iso-8859-1</option>
-									<option value="windows-1252">windows-1252 (Win Latin 1)</option>
-									<option value="MacRoman">MacRoman</option>
-									<option value="x-MacCentralEurope">Macintosh Latin-2</option>
-									<option value="windows-1250">windows-1250 (Win Eastern European)</option>
-									<option value="windows-1251">windows-1251 (Win Cyrillic)</option>
-									<option value="utf-16">utf-16</option>
-									<option value="utf-32">utf-32</option>
-								</select>
-							</div>
-							<div class="col-12 col-md-3">
-								<label for="format" class="data-entry-label">Format:</label> 
-								<select name="format" id="format" required class="data-entry-select reqdClr">
-									<option value="DEFAULT" selected >Standard CSV</option>
-									<option value="TDF">Tab Separated Values</option>
-									<option value="EXCEL">CSV export from MS Excel</option>
-									<option value="RFC4180">Strict RFC4180 CSV</option>
-									<option value="ORACLE">Oracle SQL*Loader CSV</option>
-									<option value="MYSQL">CSV export from MYSQL</option>
-								</select>
-							</div>
-							<div class="col-12 col-md-2">
-								<label for="submitButton" class="data-entry-label">&nbsp;</label>
-								<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
-							</div>
+				<div class="accordion-item">
+					<h2 class="accordion-header h4 mt-4" id="headingSix">
+						 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="##collapseSix" aria-expanded="false" aria-controls="collapseSix">Columns for Spreasheet with Explanations</button>
+					</h2>
+					<div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="##accordionExample">
+						<div class="accordion-body">
+							<p> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
+							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
+								<cfloop list="#fieldlist#" index="field" delimiters=",">
+									<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+										SELECT comments
+										FROM sys.all_col_comments
+										WHERE 
+											owner = 'MCZBASE'
+											and table_name = 'CF_TEMP_MEDIA'
+											and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+									</cfquery>
+									<cfset comment = "">
+									<cfif getComments.recordcount GT 0>
+										<cfset comment = getComments.comments>
+									</cfif>
+									<cfset aria = "">
+									<cfif listContains(requiredfieldlist,field,",")>
+										<cfset class="text-danger">
+										<cfset aria = "aria-label='Required Field'">
+									<cfelse>
+										<cfset class="text-dark">
+									</cfif>
+									<li class="pb-1 mx-3">
+										<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
+									</li>
+								</cfloop>
+							</ul>
+							<form name="getFiles" method="post" enctype="multipart/form-data" action="/tools/#pageTitle#.cfm">
+								<div class="form-row border rounded p-2">
+									<input type="hidden" name="action" value="getFile">
+									<div class="col-12 col-md-4">
+										<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
+										<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="characterSet" class="data-entry-label">Character Set:</label> 
+										<select name="characterSet" id="characterSet" required class="data-entry-select reqdClr">
+											<option selected></option>
+											<option value="utf-8" >utf-8</option>
+											<option value="iso-8859-1">iso-8859-1</option>
+											<option value="windows-1252">windows-1252 (Win Latin 1)</option>
+											<option value="MacRoman">MacRoman</option>
+											<option value="x-MacCentralEurope">Macintosh Latin-2</option>
+											<option value="windows-1250">windows-1250 (Win Eastern European)</option>
+											<option value="windows-1251">windows-1251 (Win Cyrillic)</option>
+											<option value="utf-16">utf-16</option>
+											<option value="utf-32">utf-32</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="format" class="data-entry-label">Format:</label> 
+										<select name="format" id="format" required class="data-entry-select reqdClr">
+											<option value="DEFAULT" selected >Standard CSV</option>
+											<option value="TDF">Tab Separated Values</option>
+											<option value="EXCEL">CSV export from MS Excel</option>
+											<option value="RFC4180">Strict RFC4180 CSV</option>
+											<option value="ORACLE">Oracle SQL*Loader CSV</option>
+											<option value="MYSQL">CSV export from MYSQL</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-2">
+										<label for="submitButton" class="data-entry-label">&nbsp;</label>
+										<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
+									</div>
+								</div>
+							</form>
 						</div>
-					</form>
 					</div>
 				</div>
-			</cfoutput>
-		</cfif>
+			</div>
+			<h2 class="h3 mt-4">Upload a comma-delimited text file (csv)</h2>
+			<p>Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number. Click view template and download to create a csv with the column headers in place.</p>
+			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
+			<div id="template" style="margin: 1rem 0;display:none;">
+				<label for="templatearea" class="data-entry-label mb-1">
+					Copy this header line and save it as a .csv file (<a href="/tools/#pageTitle#.cfm?action=getCSVHeader" class="font-weight-lessbold">download</a>)
+				</label>
+				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
+			</div>
+			<a name="loader" class="text-white">top</a>
+		</cfoutput>
+	</cfif>
 
 <!------------------------------------------------------->
 
