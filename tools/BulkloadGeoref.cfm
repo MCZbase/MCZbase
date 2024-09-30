@@ -570,13 +570,15 @@ limitations under the License.
 						FROM lat_long
 						WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
 					</cfquery>
-					<cfif getLatLongFg.accepted_lat_long_fg gt 0 and getTempData.accepted_lat_long_fg eq 1>
-						<cfquery name="getLatLongFg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updategeoref3_result">
-							update lat_long set accepted_lat_long_fg = 0
-							WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
-							and accepted_lat_long_fg = 1
-						</cfquery>
-					</cfif>
+					<cfloop query="getLatLong">
+						<cfif getLatLongFg.accepted_lat_long_fg gt 0 and getTempData.accepted_lat_long_fg eq 1>
+							<cfquery name="getLatLongFg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updategeoref3_result">
+								update lat_long set accepted_lat_long_fg = 0
+								WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
+								and accepted_lat_long_fg = 1
+							</cfquery>
+						</cfif>
+					</cfloop>
 					<cfset georef_updates = 0>
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
