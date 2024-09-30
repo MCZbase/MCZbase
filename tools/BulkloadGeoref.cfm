@@ -657,7 +657,7 @@ limitations under the License.
 					<cfif #getTempData.recordcount# eq #georef_updates#>
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
-					<cfif insResult.recordcount eq 0>
+					<cfif #insResult.recordcount# gt #getTempData.recordcount# 0>
 						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
 					</cfif>
 					<cftransaction action="commit">
