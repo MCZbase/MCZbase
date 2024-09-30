@@ -595,7 +595,7 @@ limitations under the License.
 							trim(geog_auth_rec.higher_geog)='#trim(HigherGeography)#' and
 							 trim(locality.spec_locality)='#trim(PreserveSingleQuotes(SpecLocality))#'">
 						<cfquery name="m" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							#preservesinglequotes(sql)#
+							#preservesinglequotes(sql)# as counts
 						</cfquery>
 						<cfset username="#session.username#">
 						<cfset problem_key = getTempData.key>
