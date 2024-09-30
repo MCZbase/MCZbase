@@ -570,7 +570,7 @@ limitations under the License.
 						FROM lat_long
 						WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
 					</cfquery>
-					<cfloop query="getLatLong">
+					<cfloop query="getLatLongFg">
 						<cfif getLatLongFg.accepted_lat_long_fg gt 0 and getTempData.accepted_lat_long_fg eq 1>
 							<cfquery name="getLatLongFg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updategeoref3_result">
 								update lat_long set accepted_lat_long_fg = 0
