@@ -458,12 +458,13 @@ limitations under the License.
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 				<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select * from lat_long,locality,geog_auth_rec
+					select count(*) from lat_long,locality,geog_auth_rec
 					where locality.locality_id = lat_long.locality_id
 					and geog_auth_rec.geog_auth_rec_id = locality.geog_auth_rec_id
 					and geog_auth_rec.higher_geog = '#highergeography#'
 					and lat_long.locality_id=#Locality_ID#
 					and locality.spec_locality = '#speclocality#'
+					group by count(*)
 				</cfquery>
 				<cfif l.c neq 0>
 					<cfquery name="warningLatLongExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
