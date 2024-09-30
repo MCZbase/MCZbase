@@ -2630,7 +2630,7 @@ Target JSON:
 		const fixedlisttoremove = new Set([]);
 		function fixedChangeItem(collection_object_id) { 
 			if (fixedlisttoremove.has(collection_object_id)) { 
-				fixedlisttoremove.remove(collection_object_id);
+				fixedlisttoremove.delete(collection_object_id);
 			} else { 
 				fixedlisttoremove.add(collection_object_id);
 			} 
