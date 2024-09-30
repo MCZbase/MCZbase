@@ -577,18 +577,25 @@ limitations under the License.
 					FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<cfquery name="getTableLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT dec_lat, dec_long
+					FROM lat_long
+					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id"> 
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 				<cfset temp_lat = fix(#getTempData.dec_lat#)>
 				<cfset temp_long = fix(#getTempData.dec_long#)>
-				<cfset table_lat = "(select dec_lat from lat_long where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id">)">
-				<cfset table_long = "(select dec_long from lat_long where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id">)">
+				<cfset table_lat = #getTableLatLong.dec_lat#>
+				<cfset table_long = #getTableLatLong.dec_long#>
 				<cfset short_dec_lat = fix(#table_lat#)>
 				<cfset short_dec_long = fix(#table_long#)>
 				<cfquery name="updateFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT *
+					SELECT locality_id
 					FROM cf_temp_georef, lat_long
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and short_dec_lat = temp_lat
+					and cf_temp_georef = #short_dec_lat#
 				</cfquery>
+					#updateFlag.locality_id#
 				<cftry>
 					<cfset georef_updates = 0>
 					<cfif getTempData.recordcount EQ 0>
@@ -598,7 +605,6 @@ limitations under the License.
 						<cfset username="#session.username#">
 						<cfset problem_key = getTempData.key>
 						<cfset lat_long_id = ''>
-						
 						<cfquery name="makeGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into lat_long (
 								lat_long_id,
@@ -652,7 +658,6 @@ limitations under the License.
 						</cfquery>
 						<cfset georef_updates = georef_updates + insResult.recordcount>
 					</cfloop>
-		
 					<p class="mt-2">Number of Georeferences added: <b>#georef_updates#</b></p>
 					<cfif getTempData.recordcount eq georef_updates and updateGeoref1_result.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
