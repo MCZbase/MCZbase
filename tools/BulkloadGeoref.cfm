@@ -458,6 +458,20 @@ limitations under the License.
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 			</cfloop>
+			<cfquery name="getLatLongFg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updategeoref2_result">
+				SELECT accepted_lat_long_fg
+				FROM lat_long
+				WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
+			</cfquery>
+			<cfloop query="getLatLongFg">
+				<cfif getLatLongFg.accepted_lat_long_fg gt 0 and getTempData.accepted_lat_long_fg eq 1>
+					<cfquery name="getLatLongFg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updategeoref3_result">
+						update lat_long set accepted_lat_long_fg = 0
+						WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
+						and accepted_lat_long_fg = 1
+					</cfquery>
+				</cfif>
+			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_georef
@@ -468,6 +482,7 @@ limitations under the License.
 				FROM cf_temp_georef
 				WHERE status is not null
 			</cfquery>
+				
 			<cfif dataCount.c gt 0>
 				<h3 class="mt-3">
 					There is a problem with #dataCount.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadGeoref.cfm?action=dumpProblems" class="btn-link font-weight-lessbold">download</a>). Fix the problems in the data and <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
@@ -553,7 +568,7 @@ limitations under the License.
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset problem_key = "">
-			<cfset accepted_lat_long = ''>
+	
 			<cftransaction>
 				<cftry>
 					<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -566,20 +581,7 @@ limitations under the License.
 						FROM cf_temp_georef
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-					<cfquery name="getLatLongFg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updategeoref2_result">
-						SELECT accepted_lat_long_fg
-						FROM lat_long
-						WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
-					</cfquery>
-					<cfloop query="getLatLongFg">
-						<cfif getLatLongFg.accepted_lat_long_fg gt 0 and getTempData.accepted_lat_long_fg eq 1>
-							<cfquery name="getLatLongFg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updategeoref3_result">
-								update lat_long set accepted_lat_long_fg = 0
-								WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
-								and accepted_lat_long_fg = 1
-							</cfquery>
-						</cfif>
-					</cfloop>
+
 					<cfset georef_updates = 0>
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
