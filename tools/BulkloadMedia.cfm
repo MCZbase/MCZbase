@@ -93,7 +93,7 @@ limitations under the License.
 			  	</div>
 				<div class="accordion-item">
 					<h2 class="accordion-header" id="flush-headingTwo">
-						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="##flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+						<button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
 						Steps for Bulkloading
 						</button>
 					</h2>
