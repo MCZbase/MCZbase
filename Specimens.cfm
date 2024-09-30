@@ -2842,8 +2842,10 @@ Target JSON:
 			<cfif isdefined("session.killRow") AND session.killRow is 1>
 				// Remove row from result set 
 				var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
+					var collobjtoremove = rowData['COLLECTION_OBJECT_ID'];
 					// proof of concept mark row for deletions
-					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="checkbox" onClick=" console.log(row); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="checkbox" onClick=" console.log('+collobjtoremove+'); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
 				};
 <!---
 				var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
