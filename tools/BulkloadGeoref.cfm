@@ -576,15 +576,9 @@ limitations under the License.
 				<cfset table_long = #getTableLatLong.dec_long#>
 				<cfset short_dec_lat = fix(#table_lat#)>
 				<cfset short_dec_long = fix(#table_long#)>
-				<cfquery name="updateFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT locality_id
-					FROM getTempData
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and getTempData.dec_lat like "%#short_dec_lat#%"
-					and getTempData.dec_long = "%#short_dec_long#%"
-				</cfquery>
-					#updateFlag.locality_id#
-				<cftry>
+#getTableLatLong.dec_lat#<br>
+					#getTempData.dec_lat#<br>
+					#short_dec_lat#
 					<cfset georef_updates = 0>
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
