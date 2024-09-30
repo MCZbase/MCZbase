@@ -69,11 +69,11 @@ limitations under the License.
 			<div class="accordion" id="accordionExample">
  				<div class="accordion-item">
     				<h2 class="accordion-header h4 mt-4" id="headingOne">    
-					  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+					  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
 						Controlled Vocabulary Lists
 					  </button>
 					</h2>
-					 <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+					 <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="##accordionExample">
       					<div class="accordion-body">
 							<ul class="list-group list-group-horizontal-md">
 								<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL (17 values)</a> </li> <span class="mt-1 d-none d-md-inline-block"> | </span>
@@ -87,11 +87,11 @@ limitations under the License.
 				</div>
 				<div class="accordion-item">
 					<h2 class="accordion-header h4 mt-4" id="headingTwo">
-					  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+					  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
 						Steps for Bulkloading
 					  </button>
 					</h2>
-					<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+					<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="##accordionExample">
 					  	<div class="accordion-body">
 							<div class="mb-4 pl-2">
 								<dl>
@@ -107,11 +107,11 @@ limitations under the License.
 				</div>
 				<div class="accordion-item">
 					<h2 class="h4 mb-2 accordion-header" id="headingTwo">
-					  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+					  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
 						Media Relationship Entries
 					  </button>
 					</h2>
-					<div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+					<div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="##accordionExample">
      					<div class="accordion-body">
 							<p class="mb-0">Some relationships require an ID specific to that the type of relationship and others can take a name. Look at the table below and see if you have the correct entries for the relationships.</p>
 							<table class="table table-responsive small table-striped mx-2">
@@ -163,9 +163,9 @@ limitations under the License.
 				</div>
 				<div class="accordion-item">
 					<h2 class="accordion-header h4 mt-4" id="headingFour">
-						 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">Media License</button>
+						 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="##collapseFour" aria-expanded="false" aria-controls="collapseFour">Media License</button>
 					</h2>
-					<div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+					<div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="##accordionExample">
 					  	<div class="accordion-body">
 							<p>The media license id should be entered using the numeric codes below. If omitted this will default to the &quot;1 - MCZ Permissions &amp; Copyright&quot; license.</p>
 							<h3 class="small90 pl-3">Media License Codes:</h3>
@@ -183,9 +183,9 @@ limitations under the License.
 				</div>
 				<div class="accordion-item">
 					<h2 class="accordion-header h4 mt-4" id="headingFive">
-						 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">Mask Media</button>
+						 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="##collapseFive" aria-expanded="false" aria-controls="collapseFive">Mask Media</button>
 					</h2>
-					<div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+					<div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="##accordionExample">
 					  	<div class="accordion-body">
 							<p>Follow all the instructions above and read any error messages that pop up in the status column during validation or at the top of the final loading step. Reminder: To mark media as hidden from Public Users put a 1 in the MASK_MEDIA column. Enter zero or Leave blank for Public media.</p>
 						</div>
@@ -205,9 +205,9 @@ limitations under the License.
 			<a name="loader" class="text-white">top</a>
 			<div class="accordion-item">
 				<h2 class="accordion-header h4 mt-4" id="headingSix">
-					 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">Columns for Spreasheet with Explanations</button>
+					 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="##collapseSix" aria-expanded="false" aria-controls="collapseSix">Columns for Spreasheet with Explanations</button>
 				</h2>
-				<div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+				<div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="##accordionExample">
 					<div class="accordion-body">
 						<p> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
 						<ul class="mb-4 h5 font-weight-normal list-group mx-3">
