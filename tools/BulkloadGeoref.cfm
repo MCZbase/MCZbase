@@ -382,17 +382,13 @@ limitations under the License.
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
 			<!---Get Data from the temp table and the codetables with relevant information--->
-			
 			<cfset key = ''>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select * 
 				From CF_TEMP_GEOREF
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-		<cfset coord_lat = fix(#getTempData.dec_lat#)>
-					#coord_lat#
 			<cfloop query="getTempData">
-				
 				<!---Check max_error_units--->
 				<cfquery name="warningMessageErrorUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
@@ -444,8 +440,10 @@ limitations under the License.
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'Locality ID does not match spec_locality')
 					WHERE 
-						locality_id not in (select locality_id from locality where spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.speclocality#">) 
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						locality_id not in (
+							select locality_id from locality where spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.speclocality#">
+							and )
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 				<!---Check DETERMINED BY AGENT_ID--->
@@ -579,7 +577,18 @@ limitations under the License.
 					FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			
+				<cfset temp_lat = fix(#getTempData.dec_lat)>
+				<cfset temp_long = fix(#getTempData.dec_long#)>
+				<cfset table_lat = 'select dec_lat from lat_long where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id">'>
+				<cfset table_long = 'select dec_long from lat_long where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id">'>
+				<cfset short_dec_lat = fix(#table_lat#)>
+				<cfset short_dec_long = fix(#table_long#)>
+				<cfquery name="updateFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT *
+					FROM cf_temp_georef, lat_long
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and short_dec_lat = temp_lat
+				</cfquery>
 				<cftry>
 					<cfset georef_updates = 0>
 					<cfif getTempData.recordcount EQ 0>
@@ -587,17 +596,6 @@ limitations under the License.
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset username="#session.username#">
-							<!---					<cfquery name="georefDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateGeoref1_result">
-							SELECT 
-								locality_id 
-							FROM 
-								lat_long
-							WHERE 
-								locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
-							GROUP BY 
-								locality_id
-								having count(*) > 1
-						</cfquery>--->
 						<cfset problem_key = getTempData.key>
 						<cfset lat_long_id = ''>
 						
