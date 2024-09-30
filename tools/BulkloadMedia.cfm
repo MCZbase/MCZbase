@@ -73,7 +73,7 @@ limitations under the License.
 							Controlled Vocabulary Lists
 				  		</button>
 					</h2>
-					<div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="##accordionFlushExample">
+					<div id="flush-collapseOne" class="accordion-collapse collapse mb-3" aria-labelledby="flush-headingOne" data-bs-parent="##accordionFlushExample">
 					  <div class="accordion-body">
 						  <ul class="list-group list-group-horizontal-md">
 								<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL (17 values)</a> </li> <span class="mt-1 d-none d-md-inline-block"> | </span>
