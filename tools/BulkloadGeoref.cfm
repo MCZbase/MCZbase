@@ -580,8 +580,8 @@ limitations under the License.
 					SELECT locality_id
 					FROM getTempData
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and getTempData.dec_lat = #short_dec_lat#
-					and getTempData.dec_long = #short_dec_long#
+					and getTempData.dec_lat like "%#short_dec_lat#%"
+					and getTempData.dec_long = "%#short_dec_long#%"
 				</cfquery>
 					#updateFlag.locality_id#
 				<cftry>
