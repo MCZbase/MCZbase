@@ -565,7 +565,7 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 
-					<cfset georef_updates = 0>
+				<cfset georef_updates = 0>
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
 					</cfif>
@@ -642,7 +642,7 @@ limitations under the License.
 						FROM cf_temp_georef
 						WHERE 
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
