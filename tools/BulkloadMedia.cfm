@@ -93,11 +93,11 @@ limitations under the License.
 			  	</div>
 				<div class="accordion-item">
 					<h2 class="accordion-header h3" id="flush-headingTwo">
-						<button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+						<button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo" title="Steps">
 						Steps for Bulkloading
 						</button>
 					</h2>
-					<div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-parent="##accordionFlushExample">
+					<div id="flush-collapseTwo" class="accordion-collapse collapse mb-3" aria-labelledby="flush-headingTwo" data-parent="##accordionFlushExample">
 					  <div class="accordion-body">			
 						  	<dl>
 								<dt class="float-left px-2">Step 1:</dt><dd>Ensure that Media exists on the shared drive or external URL</dd>
@@ -111,11 +111,11 @@ limitations under the License.
 				</div>
 				<div class="accordion-item">
 					<h2 class="accordion-header h3" id="flush-headingThree">
-					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-bs-toggle="collapse" data-target="##flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-bs-toggle="collapse" data-target="##flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree" title="Media Relationships">
 						Media Relationship Entries
 					  </button>
 					</h2>
-					<div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="##accordionFlushExample">
+					<div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
 							<p class="mb-0">Some relationships require an ID specific to that the type of relationship and others can take a name. Look at the table below and see if you have the correct entries for the relationships.</p>
 							<table class="table table-responsive small table-striped mx-2">
@@ -171,7 +171,7 @@ limitations under the License.
 						Media Relationship Entries
 					  </button>
 					</h2>
-					<div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="##accordionFlushExample">
+					<div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
 							<p class="mb-0">Some relationships require an ID specific to that the type of relationship and others can take a name. Look at the table below and see if you have the correct entries for the relationships.</p>
 							<table class="table table-responsive small table-striped mx-2">
@@ -220,15 +220,14 @@ limitations under the License.
 							</table>
 						</div>
 					</div>
-				</div>
-				
+				</div>		
 				<div class="accordion-item">
 					<h2 class="accordion-header" id="flush-headingFive">
 					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="##flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
 						Media Licenses
 					  </button>
 					</h2>
-					<div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="##accordionFlushExample">
+					<div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
 							<p>The media license id should be entered using the numeric codes below. If omitted this will default to the &quot;1 - MCZ Permissions &amp; Copyright&quot; license.</p>
 							<h3 class="small90 pl-3">Media License Codes:</h3>
@@ -246,11 +245,11 @@ limitations under the License.
 				</div>
 				<div class="accordion-item">
 					<h2 class="accordion-header" id="flush-headingSix">
-					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="##flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
+					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
 						Mask Media
 					  </button>
 					</h2>
-					<div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" data-bs-parent="##accordionFlushExample">
+					<div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
 							<p>Follow all the instructions above and read any error messages that pop up in the status column during validation or at the top of the final loading step. Reminder: To mark media as hidden from Public Users put a 1 in the MASK_MEDIA column. Enter zero or Leave blank for Public media.</p>
 						</div>
@@ -258,101 +257,85 @@ limitations under the License.
 				</div>
 				<div class="accordion-item">
 					<h2 class="accordion-header h3" id="flush-headingSix">
-					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="##flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
 						Columns for Spreadsheet with Explanations
-					  </button>
 					</h2>
-					<div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" data-bs-parent="##accordionFlushExample">
-					  	<div class="accordion-body">
-							<p> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
-							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
-								<cfloop list="#fieldlist#" index="field" delimiters=",">
-									<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
-										SELECT comments
-										FROM sys.all_col_comments
-										WHERE 
-											owner = 'MCZBASE'
-											and table_name = 'CF_TEMP_MEDIA'
-											and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
-									</cfquery>
-									<cfset comment = "">
-									<cfif getComments.recordcount GT 0>
-										<cfset comment = getComments.comments>
-									</cfif>
-									<cfset aria = "">
-									<cfif listContains(requiredfieldlist,field,",")>
-										<cfset class="text-danger">
-										<cfset aria = "aria-label='Required Field'">
-									<cfelse>
-										<cfset class="text-dark">
-									</cfif>
-									<li class="pb-1 mx-3">
-										<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
-									</li>
-								</cfloop>
-							</ul>
-							<form name="getFiles" method="post" enctype="multipart/form-data" action="/tools/#pageTitle#.cfm">
-								<div class="form-row border rounded p-2">
-									<input type="hidden" name="action" value="getFile">
-									<div class="col-12 col-md-4">
-										<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
-										<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="characterSet" class="data-entry-label">Character Set:</label> 
-										<select name="characterSet" id="characterSet" required class="data-entry-select reqdClr">
-											<option selected></option>
-											<option value="utf-8" >utf-8</option>
-											<option value="iso-8859-1">iso-8859-1</option>
-											<option value="windows-1252">windows-1252 (Win Latin 1)</option>
-											<option value="MacRoman">MacRoman</option>
-											<option value="x-MacCentralEurope">Macintosh Latin-2</option>
-											<option value="windows-1250">windows-1250 (Win Eastern European)</option>
-											<option value="windows-1251">windows-1251 (Win Cyrillic)</option>
-											<option value="utf-16">utf-16</option>
-											<option value="utf-32">utf-32</option>
-										</select>
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="format" class="data-entry-label">Format:</label> 
-										<select name="format" id="format" required class="data-entry-select reqdClr">
-											<option value="DEFAULT" selected >Standard CSV</option>
-											<option value="TDF">Tab Separated Values</option>
-											<option value="EXCEL">CSV export from MS Excel</option>
-											<option value="RFC4180">Strict RFC4180 CSV</option>
-											<option value="ORACLE">Oracle SQL*Loader CSV</option>
-											<option value="MYSQL">CSV export from MYSQL</option>
-										</select>
-									</div>
-									<div class="col-12 col-md-2">
-										<label for="submitButton" class="data-entry-label">&nbsp;</label>
-										<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
-									</div>
-								</div>
-							</form>
+					<h2 class="h3 mt-4">Upload a comma-delimited text file (csv)</h2>
+					<p>Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number. Click view template and download to create a csv with the column headers in place.</p>
+					<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
+					<div id="template" style="margin: 1rem 0;display:none;">
+						<label for="templatearea" class="data-entry-label mb-1">
+							Copy this header line and save it as a .csv file (<a href="/tools/#pageTitle#.cfm?action=getCSVHeader" class="font-weight-lessbold">download</a>)
+						</label>
+						<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
+					</div>	
+					<p> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
+					<ul class="mb-4 h5 font-weight-normal list-group mx-3">
+						<cfloop list="#fieldlist#" index="field" delimiters=",">
+							<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+								SELECT comments
+								FROM sys.all_col_comments
+								WHERE 
+									owner = 'MCZBASE'
+									and table_name = 'CF_TEMP_MEDIA'
+									and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+							</cfquery>
+							<cfset comment = "">
+							<cfif getComments.recordcount GT 0>
+								<cfset comment = getComments.comments>
+							</cfif>
+							<cfset aria = "">
+							<cfif listContains(requiredfieldlist,field,",")>
+								<cfset class="text-danger">
+								<cfset aria = "aria-label='Required Field'">
+							<cfelse>
+								<cfset class="text-dark">
+							</cfif>
+							<li class="pb-1 mx-3">
+								<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
+							</li>
+						</cfloop>
+					</ul>
+					<form name="getFiles" method="post" enctype="multipart/form-data" action="/tools/#pageTitle#.cfm">
+						<div class="form-row border rounded p-2">
+							<input type="hidden" name="action" value="getFile">
+							<div class="col-12 col-md-4">
+								<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
+								<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="characterSet" class="data-entry-label">Character Set:</label> 
+								<select name="characterSet" id="characterSet" required class="data-entry-select reqdClr">
+									<option selected></option>
+									<option value="utf-8" >utf-8</option>
+									<option value="iso-8859-1">iso-8859-1</option>
+									<option value="windows-1252">windows-1252 (Win Latin 1)</option>
+									<option value="MacRoman">MacRoman</option>
+									<option value="x-MacCentralEurope">Macintosh Latin-2</option>
+									<option value="windows-1250">windows-1250 (Win Eastern European)</option>
+									<option value="windows-1251">windows-1251 (Win Cyrillic)</option>
+									<option value="utf-16">utf-16</option>
+									<option value="utf-32">utf-32</option>
+								</select>
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="format" class="data-entry-label">Format:</label> 
+								<select name="format" id="format" required class="data-entry-select reqdClr">
+									<option value="DEFAULT" selected >Standard CSV</option>
+									<option value="TDF">Tab Separated Values</option>
+									<option value="EXCEL">CSV export from MS Excel</option>
+									<option value="RFC4180">Strict RFC4180 CSV</option>
+									<option value="ORACLE">Oracle SQL*Loader CSV</option>
+									<option value="MYSQL">CSV export from MYSQL</option>
+								</select>
+							</div>
+							<div class="col-12 col-md-2">
+								<label for="submitButton" class="data-entry-label">&nbsp;</label>
+								<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
+							</div>
 						</div>
-					</div>
+					</form>
 				</div>
 			</div>
-			<h2 class="h3 mt-4">Upload a comma-delimited text file (csv)</h2>
-			<p>Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number. Click view template and download to create a csv with the column headers in place.</p>
-			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
-			<div id="template" style="margin: 1rem 0;display:none;">
-				<label for="templatearea" class="data-entry-label mb-1">
-					Copy this header line and save it as a .csv file (<a href="/tools/#pageTitle#.cfm?action=getCSVHeader" class="font-weight-lessbold">download</a>)
-				</label>
-				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
-			</div>	
-		
-			
-			
-			
-			
-			
-			
-			
-	
-
 			<a name="loader" class="text-white">top</a>
 		</cfoutput>
 	</cfif>
