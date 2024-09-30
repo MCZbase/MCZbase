@@ -576,9 +576,9 @@ limitations under the License.
 				<cfset table_long = #getTableLatLong.dec_long#>
 				<cfset short_dec_lat = fix(#table_lat#)>
 				<cfset short_dec_long = fix(#table_long#)>
-#getTableLatLong.dec_lat#<br>
-					#getTempData.dec_lat#<br>
-					#short_dec_lat#
+
+					#short_dec_lat#<br>
+					#temp_lat#
 					<cfset georef_updates = 0>
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
