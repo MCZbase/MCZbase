@@ -458,12 +458,13 @@ limitations under the License.
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 				<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select count(*) c from lat_long,locality,geog_auth_rec
+					select count(*) c, locality_id from lat_long,locality,geog_auth_rec
 					where locality.locality_id = lat_long.locality_id
 					and geog_auth_rec.geog_auth_rec_id = locality.geog_auth_rec_id
 					and lat_long.locality_id=#Locality_ID#
 					AND trim(geog_auth_rec.higher_geog)='#trim(HIGHERGEOGRAPHY)#' 
 					and trim(locality.spec_locality)='#trim(PreserveSingleQuotes(SPECLOCALITY))#'
+					and locality_id = #getTempData.locality_id#
 				</cfquery>
 				<cfif l.c neq 0>
 					<cfquery name="warningLatLongExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -473,8 +474,8 @@ limitations under the License.
 							status = concat(nvl2(status, status || '; ', ''),'Lat Long coordinates already exist')
 						WHERE 
 							locality_id not in (
-								select locality_id from lat_long where
-								lat_long.locality_id=#getTempData.Locality_ID#
+								select l.locality_id from l where
+								l.locality_id=#getTempData.Locality_ID#
 							) 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
