@@ -464,7 +464,6 @@ limitations under the License.
 					and geog_auth_rec.higher_geog = '#highergeography#'
 					and lat_long.locality_id=#Locality_ID#
 					and locality.spec_locality = '#speclocality#'
-					and status is not null
 				</cfquery>
 				<cfif l.c neq 0>
 					<cfquery name="warningLatLongExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
