@@ -577,7 +577,7 @@ limitations under the License.
 					FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfset temp_lat = fix(#getTempData.dec_lat)>
+				<cfset temp_lat = fix(#getTempData.dec_lat#)>
 				<cfset temp_long = fix(#getTempData.dec_long#)>
 				<cfset table_lat = 'select dec_lat from lat_long where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id">'>
 				<cfset table_long = 'select dec_long from lat_long where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id">'>
