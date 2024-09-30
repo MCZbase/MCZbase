@@ -461,9 +461,9 @@ limitations under the License.
 					select count(*) c from lat_long,locality,geog_auth_rec
 					where locality.locality_id = lat_long.locality_id
 					and geog_auth_rec.geog_auth_rec_id = locality.geog_auth_rec_id
-					and geog_auth_rec.higher_geog = '#highergeography#'
 					and lat_long.locality_id=#Locality_ID#
-					and locality.spec_locality = '#speclocality#'
+					AND trim(geog_auth_rec.higher_geog)='#trim(HigherGeography)#' 
+					and trim(locality.spec_locality)='#trim(PreserveSingleQuotes(SpecLocality))#'
 				</cfquery>
 				<cfif l.c neq 0>
 					<cfquery name="warningLatLongExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -589,18 +589,19 @@ limitations under the License.
 						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
 					</cfif>
 					<cfloop query="getTempData">
-						<cfset sql="select spec_locality,higher_geog,locality.locality_id from locality,geog_auth_rec where
+						<cfset sql="select spec_locality,higher_geog,locality.locality_id 
+							from locality,geog_auth_rec 
+							where
 							locality.geog_auth_rec_id=geog_auth_rec.geog_auth_rec_id and
 							locality.locality_id=#Locality_ID# and
 							trim(geog_auth_rec.higher_geog)='#trim(HigherGeography)#' and
-							 trim(locality.spec_locality)='#trim(PreserveSingleQuotes(SpecLocality))#'">
+							trim(locality.spec_locality)='#trim(PreserveSingleQuotes(SpecLocality))#'">
 						<cfquery name="m" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							#preservesinglequotes(sql)# as counts
 						</cfquery>
 						<cfset username="#session.username#">
 						<cfset problem_key = getTempData.key>
 						<cfset lat_long_id = ''>
-						
 						<cfquery name="makeGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into lat_long (
 								lat_long_id,
@@ -652,13 +653,13 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_FOR_NNP_FG#">
 							)
 						</cfquery>
-						<cfset georef_updates = georef_updates + insResult.recordcount>
+						<cfset georef_updates = georef_updates + m.recordcount>
 					</cfloop>
 					<p class="mt-2">Number of Georeferences added: <b>#georef_updates#</b></p>
-					<cfif getTempData.recordcount eq georef_updates and updateGeoref1_result.recordcount eq 0>
+					<cfif getTempData.recordcount eq georef_updates and m.recordcount eq 0>
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
-					<cfif updateGeoref1_result.recordcount gt 0>
+					<cfif m.recordcount gt 0>
 						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
 					</cfif>
 					<cftransaction action="commit">
