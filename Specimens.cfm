@@ -3196,7 +3196,7 @@ Target JSON:
 					},
 					columns: [
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							<cfset removerowcheckbox = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, columntype:'checkbox', width: 20, cellclassname: fixedcellclass, hidable:false, hidden: false },">
+							<cfset removerowcheckbox = "{text: 'Remove', datafield: 'RemoveRow', columntype:'checkbox', width: 20, cellclassname: fixedcellclass, hidable:false, hidden: false },">
 							#removerowcheckbox#
 							<cfif isdefined("session.killRow") AND session.killRow is 2>
 								<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
