@@ -69,18 +69,24 @@ limitations under the License.
 			<div class="accordion accordion-flush" id="accordionFlushExample">
 				<div class="accordion-item">
 					<h2 class="accordion-header" id="flush-headingOne">
-						<button type="button" class="headerLnk text-left h-100 w-100" aria-label="collapsiblePane" data-toggle="collapse" data-target="##flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne" title="Controlled Vocabulary">
+						<button type="button" class="headerLnk text-left h-100 w-100 btn btn-xs btn-primary" aria-label="collapsiblePane" data-toggle="collapse" data-target="##flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne" title="Controlled Vocabulary">
 							Controlled Vocabulary Lists
 				  		</button>
 					</h2>
 					<div id="flush-collapseOne" class="accordion-collapse collapse mb-3" aria-labelledby="flush-headingOne" data-bs-parent="##accordionFlushExample">
 					  <div class="accordion-body">
 						  <ul class="list-group list-group-horizontal-md">
-								<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL (17 values)</a> </li> <span class="mt-1 d-none d-md-inline-block"> | </span>
-								<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">MEDIA_RELATIONSHIP (23 values)</a></li> <span class="mt-1 d-none d-md-inline-block"> | </span>
-								<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_TYPE">MEDIA_TYPE (6 values)</a> </li><span class="mt-1 d-none d-md-inline-block"> | </span>
-								<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMIME_TYPE">MIME_TYPE (14 values)</a> </li><span class="mt-1 d-none d-md-inline-block"> | </span>
-								<li class="list-group-item font-weight-lessbold"><a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LICENSE">MEDIA_LICENSE (7 values)</a></li>
+								<li class="list-group-item font-weight-lessbold">
+									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL (17 values)</a> </li> <span class="mt-1 d-none d-md-inline-block"> | </span>
+								<li class="list-group-item font-weight-lessbold">
+									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">MEDIA_RELATIONSHIP (23 values)</a></li> <span class="mt-1 d-none d-md-inline-block"> | </span>
+								<li class="list-group-item font-weight-lessbold">
+									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_TYPE">MEDIA_TYPE (6 values)</a> </li><span class="mt-1 d-none d-md-inline-block"> | </span>
+								<li class="list-group-item font-weight-lessbold">
+									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMIME_TYPE">MIME_TYPE (14 values)</a> </li><span class="mt-1 d-none d-md-inline-block"> | </span>
+								<li class="list-group-item font-weight-lessbold">
+									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LICENSE">MEDIA_LICENSE (7 values)</a>
+							  	</li>
 							</ul>
 						</div>
 					</div>
