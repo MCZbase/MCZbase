@@ -2631,7 +2631,7 @@ Target JSON:
 		function fixedChangeItem(collection_object_id) { 
 			if (fixedlistoremove.has(collection_object_id)) { 
 				fixedlisttoremove.remove(collection_object_id);
-			] else { 
+			} else { 
 				fixedlisttoremove.add(collection_object_id);
 			} 
 		} 
