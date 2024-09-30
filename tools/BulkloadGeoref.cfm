@@ -589,7 +589,7 @@ limitations under the License.
 						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
 					</cfif>
 					<cfloop query="getTempData">
-						<cfset sql="select spec_locality,higher_geog,locality.locality_id 
+						<cfset sql="select locality.spec_locality,geog_auth_rec.higher_geog,locality.locality_id 
 							from locality,geog_auth_rec 
 							where
 							locality.geog_auth_rec_id=geog_auth_rec.geog_auth_rec_id and
