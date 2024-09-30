@@ -464,14 +464,14 @@ limitations under the License.
 					and geog_auth_rec.higher_geog = '#highergeography#'
 					and lat_long.locality_id=#Locality_ID#
 					and locality.spec_locality = '#speclocality#'
-	
+					and status is not null
 				</cfquery>
 				<cfif l.c neq 0>
 					<cfquery name="warningLatLongExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_georef
 						SET
-							status = concat(nvl2(status, status || '; ', ''),'Lat Long Exists')
+							status = concat(nvl2(status, status || '; ', ''),'Lat Long coordinates already exist')
 						WHERE 
 							locality_id not in (
 								select count(*) c from lat_long where
@@ -487,14 +487,9 @@ limitations under the License.
 				FROM cf_temp_georef
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="dataCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT count(*) c 
-				FROM cf_temp_georef
-				WHERE status is not null
-			</cfquery>
-			<cfif dataCount.c gt 0>
+			<cfif l.c gt 0>
 				<h3 class="mt-3">
-					There is a problem with #dataCount.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadGeoref.cfm?action=dumpProblems" class="btn-link font-weight-lessbold">download</a>). Fix the problems in the data and <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
+					There is a problem with #l.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadGeoref.cfm?action=dumpProblems" class="btn-link font-weight-lessbold">download</a>). Fix the problems in the data and <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
 				</h3>
 			<cfelse>
 				<h3 class="mt-3">
