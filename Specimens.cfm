@@ -2842,9 +2842,15 @@ Target JSON:
 			<cfif isdefined("session.killRow") AND session.killRow is 1>
 				// Remove row from result set 
 				var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					// proof of concept mark row for deletions
+					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="checkbox" onClick=" console.log(row); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+				};
+<!---
+				var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
 					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); fixedResultModifiedHere(); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
 				};
+--->
 				<!--- " --->
 				var removeKeywordCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
