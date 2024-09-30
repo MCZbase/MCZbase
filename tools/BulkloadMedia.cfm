@@ -69,7 +69,7 @@ limitations under the License.
 			<div class="accordion accordion-flush" id="accordionFlushExample">
 				<div class="accordion-item">
 					<h2 class="accordion-header" id="flush-headingOne">
-						<button type="button" class="headerLnk text-left h-100 w-100 btn btn-xs btn-primary" aria-label="collapsiblePane" data-toggle="collapse" data-target="##flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne" title="Controlled Vocabulary">
+						<button type="button" class="headerLnk text-left h-100 w-100 btn btn-primary" aria-label="collapsiblePane" data-toggle="collapse" data-target="##flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne" title="Controlled Vocabulary">
 							Controlled Vocabulary Lists
 				  		</button>
 					</h2>
