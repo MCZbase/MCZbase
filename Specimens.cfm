@@ -2625,6 +2625,17 @@ Target JSON:
 	<script>
 		// setup for persistence of column selections
 		window.columnHiddenSettings = new Object();
+
+		// setup for removal by checkboxes
+		const fixedlisttoremove = new Set([]);
+		function fixedChangeItem(collection_object_id) { 
+			if (fixedlistoremove.has(collection_object_id) { 
+				fixedlisttoremove.remove(collection_object_id);
+			] else { 
+				fixedlisttoremove.add(collection_object_id);
+			} 
+		} 
+		
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 			lookupColumnVisibilities ('#cgi.script_name#','Default');
 		</cfif>
@@ -2845,7 +2856,7 @@ Target JSON:
 					var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
 					var collobjtoremove = rowData['COLLECTION_OBJECT_ID'];
 					// proof of concept mark row for deletions
-					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="checkbox" onClick=" console.log('+collobjtoremove+'); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="checkbox" onClick=" fixedChangeItem('+collobjtoremove+'); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
 				};
 <!---
 				var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
