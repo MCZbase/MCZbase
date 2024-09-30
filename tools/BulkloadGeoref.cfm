@@ -597,12 +597,12 @@ limitations under the License.
 							trim(geog_auth_rec.higher_geog)='#trim(HigherGeography)#' and
 							trim(locality.spec_locality)='#trim(PreserveSingleQuotes(SpecLocality))#'">
 						<cfquery name="m" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							#preservesinglequotes(sql)# as counts
+							#preservesinglequotes(sql)# sql
 						</cfquery>
 						<cfset username="#session.username#">
 						<cfset problem_key = getTempData.key>
 						<cfset lat_long_id = ''>
-						
+						#m.sql#
 						<cfquery name="makeGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into lat_long (
 								lat_long_id,
