@@ -603,7 +603,6 @@ limitations under the License.
 						<cfset username="#session.username#">
 						<cfset problem_key = getTempData.key>
 						<cfset lat_long_id = ''>
-					
 						<cfquery name="makeGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into lat_long (
 								lat_long_id,
@@ -658,7 +657,7 @@ limitations under the License.
 						<cfset georef_updates = georef_updates + insResult.recordcount>
 					</cfloop>
 					<p class="mt-2">Number of Georeferences added: <b>#georef_updates#</b></p>
-					<cfif getTempData.recordcount eq georef_updates and insResult.recordcount eq 1>
+					<cfif getTempData.recordcount eq georef_updates>
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
 					<cfif insResult.recordcount gt 0>
