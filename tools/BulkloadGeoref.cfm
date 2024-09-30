@@ -564,22 +564,7 @@ limitations under the License.
 					FROM cf_temp_georef
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfquery name="getTableLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT dec_lat, dec_long
-					FROM lat_long
-					WHERE dec_lat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.dec_lat#">
-					AND dec_long = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.dec_long#">
-					and spec_locality like "#getTempData.speclocality#"
-				</cfquery>
-				<cfset temp_lat = fix(#getTempData.dec_lat#)>
-				<cfset temp_long = fix(#getTempData.dec_long#)>
-				<cfset table_lat = #getTableLatLong.dec_lat#>
-				<cfset table_long = #getTableLatLong.dec_long#>
-				<cfset short_dec_lat = fix(#table_lat#)>
-				<cfset short_dec_long = fix(#table_long#)>
 
-					#short_dec_lat#<br>
-					#temp_lat#
 					<cfset georef_updates = 0>
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
@@ -627,7 +612,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REMARKS#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MAX_ERROR_UNITS#">,
-								1,
+								0,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT#" scale="5">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#" scale="3">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GEOREFMETHOD#">,
