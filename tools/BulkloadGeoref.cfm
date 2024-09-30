@@ -433,19 +433,6 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-				<!---Check LOCALITY_ID--->
-<!---				<cfquery name="warningMessageLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_georef
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'Locality ID does not match spec_locality')
-					WHERE 
-						locality_id not in (
-							select locality_id from locality where spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.speclocality#">
-						)
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-				</cfquery>--->
 				<!---Check DETERMINED BY AGENT_ID--->
 				<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_georef
@@ -582,7 +569,6 @@ limitations under the License.
 					FROM lat_long
 					WHERE dec_lat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.dec_lat#">
 					AND dec_long = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.dec_long#">
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfset temp_lat = fix(#getTempData.dec_lat#)>
 				<cfset temp_long = fix(#getTempData.dec_long#)>
