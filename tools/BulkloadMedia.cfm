@@ -111,7 +111,7 @@ limitations under the License.
 				</div>
 				<div class="accordion-item">
 					<h2 class="accordion-header h3" id="flush-headingThree">
-					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-bs-toggle="collapse" data-target="##flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree" title="Media Relationships">
+					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree" title="Media Relationships">
 						Media Relationship Entries
 					  </button>
 					</h2>
@@ -167,7 +167,7 @@ limitations under the License.
 				</div>
 				<div class="accordion-item">
 					<h2 class="accordion-header h3" id="flush-headingFour">
-					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="##flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
 						Media Licenses
 					  </button>
 					</h2>
@@ -189,7 +189,7 @@ limitations under the License.
 				</div>		
 				<div class="accordion-item">
 					<h2 class="accordion-header" id="flush-headingFive">
-					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="##flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
 						Mask Media
 					  </button>
 					</h2>
