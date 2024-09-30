@@ -579,8 +579,8 @@ limitations under the License.
 				</cfquery>
 				<cfset temp_lat = fix(#getTempData.dec_lat#)>
 				<cfset temp_long = fix(#getTempData.dec_long#)>
-				<cfset table_lat = 'select dec_lat from lat_long where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id">'>
-				<cfset table_long = 'select dec_long from lat_long where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id">'>
+				<cfset table_lat = "(select dec_lat from lat_long where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id">)">
+				<cfset table_long = "(select dec_long from lat_long where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id">)">
 				<cfset short_dec_lat = fix(#table_lat#)>
 				<cfset short_dec_long = fix(#table_long#)>
 				<cfquery name="updateFlag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
