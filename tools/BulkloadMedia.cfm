@@ -68,12 +68,12 @@ limitations under the License.
 			</p>
 			<div class="accordion accordion-flush" id="accordionFlushExample">
 				<div class="accordion-item">
-					<h2 class="accordion-header" id="flush-headingOne">
+					<h2 class="accordion-header h3" id="flush-headingOne">
 						<button type="button" class="headerLnk text-left h-100 w-100 btn btn-primary" aria-label="collapsiblePane" data-toggle="collapse" data-target="##flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne" title="Controlled Vocabulary">
 							Controlled Vocabulary Lists
 				  		</button>
 					</h2>
-					<div id="flush-collapseOne" class="accordion-collapse collapse mb-3" aria-labelledby="flush-headingOne" data-bs-parent="##accordionFlushExample">
+					<div id="flush-collapseOne" class="accordion-collapse collapse mb-3" aria-labelledby="flush-headingOne" data-parent="##accordionFlushExample">
 					  <div class="accordion-body">
 						  <ul class="list-group list-group-horizontal-md">
 								<li class="list-group-item font-weight-lessbold">
@@ -92,12 +92,12 @@ limitations under the License.
 					</div>
 			  	</div>
 				<div class="accordion-item">
-					<h2 class="accordion-header" id="flush-headingTwo">
+					<h2 class="accordion-header h3" id="flush-headingTwo">
 						<button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
 						Steps for Bulkloading
 						</button>
 					</h2>
-					<div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="##accordionFlushExample">
+					<div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-parent="##accordionFlushExample">
 					  <div class="accordion-body">			
 						  	<dl>
 								<dt class="float-left px-2">Step 1:</dt><dd>Ensure that Media exists on the shared drive or external URL</dd>
@@ -110,8 +110,8 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="accordion-item">
-					<h2 class="accordion-header" id="flush-headingThree">
-					  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="##flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+					<h2 class="accordion-header h3" id="flush-headingThree">
+					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-bs-toggle="collapse" data-target="##flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
 						Media Relationship Entries
 					  </button>
 					</h2>
@@ -166,8 +166,8 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="accordion-item">
-					<h2 class="accordion-header" id="flush-headingFour">
-					  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="##flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+					<h2 class="accordion-header h3" id="flush-headingFour">
+					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="##flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
 						Media Relationship Entries
 					  </button>
 					</h2>
@@ -224,7 +224,7 @@ limitations under the License.
 				
 				<div class="accordion-item">
 					<h2 class="accordion-header" id="flush-headingFive">
-					  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="##flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="##flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
 						Media Licenses
 					  </button>
 					</h2>
@@ -246,7 +246,7 @@ limitations under the License.
 				</div>
 				<div class="accordion-item">
 					<h2 class="accordion-header" id="flush-headingSix">
-					  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="##flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
+					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="##flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
 						Mask Media
 					  </button>
 					</h2>
@@ -257,8 +257,8 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="accordion-item">
-					<h2 class="accordion-header" id="flush-headingSix">
-					  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="##flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
+					<h2 class="accordion-header h3" id="flush-headingSix">
+					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="##flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
 						Columns for Spreadsheet with Explanations
 					  </button>
 					</h2>
