@@ -175,7 +175,7 @@ limitations under the License.
 </cfif>
 <cfif CGI.script_name IS "/Specimens.cfm">
 	<script type="text/javascript" src="/specimens/js/search.js"></script> 
-	<script type="text/javascript" src="/specimens/js/jqxcheckbox.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxcheckbox.js"></script>
 </cfif>
 <cfif isDefined("pageHasContainers") AND pageHasContainers EQ "true">
 	<script type="text/javascript" src="/containers/js/containers.js"></script>
