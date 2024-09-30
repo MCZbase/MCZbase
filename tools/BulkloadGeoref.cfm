@@ -461,9 +461,9 @@ limitations under the License.
 					select * from lat_long,locality,geog_auth_rec
 					where locality.locality_id = lat_long.locality_id
 					and geog_auth_rec.geog_auth_rec_id = locality.geog_auth_rec_id
-					and geog_auth_rec.higher_geog = #highergeography#
+					and geog_auth_rec.higher_geog = '#highergeography#'
 					and lat_long.locality_id=#Locality_ID#
-					and locality.spec_locality = #speclocality#
+					and locality.spec_locality = '#speclocality#'
 				</cfquery>
 				<cfif l.c neq 0>
 					<cfquery name="warningLatLongExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
