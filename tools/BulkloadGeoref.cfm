@@ -574,7 +574,7 @@ limitations under the License.
 						<cfquery name="getLatLongFg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updategeoref2_result">
 							update lat_long set accepted_lat_long_fg eq 0
 							WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
-							and accepted_lat_long_fg eq 1
+							and accepted_lat_long_fg = 1
 						</cfquery>
 					</cfif>
 					<cfset georef_updates = 0>
