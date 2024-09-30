@@ -473,7 +473,7 @@ limitations under the License.
 							status = concat(nvl2(status, status || '; ', ''),'Lat Long coordinates already exist')
 						WHERE 
 							locality_id not in (
-								select count(*) c from lat_long where
+								select locality_id from lat_long where
 								lat_long.locality_id=#getTempData.Locality_ID#
 							) 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
