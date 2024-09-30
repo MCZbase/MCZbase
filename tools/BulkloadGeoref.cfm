@@ -565,13 +565,13 @@ limitations under the License.
 						FROM cf_temp_georef
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-					<cfquery name="getLatLongFg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updategeoref1_result">
+					<cfquery name="getLatLongFg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updategeoref2_result">
 						SELECT accepted_lat_long_fg
 						FROM lat_long
 						WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
 					</cfquery>
 					<cfif getLatLongFg.accepted_lat_long_fg gt 0 and getTempData.accepted_lat_long_fg eq 1>
-						<cfquery name="getLatLongFg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updategeoref2_result">
+						<cfquery name="getLatLongFg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updategeoref3_result">
 							update lat_long set accepted_lat_long_fg = 0
 							WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
 							and accepted_lat_long_fg = 1
