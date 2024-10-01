@@ -1486,6 +1486,7 @@ limitations under the License.
 													<div id="fixedcolumnPickDialogButton"></div>
 													<div id="fixedresultDownloadButtonContainer"></div>
 													<span id="fixedmanageButton" class=""></span>
+													<span id="fixedremoveButton" class=""></span>
 													<div id="fixedresultBMMapLinkContainer"></div>
 													<div id="fixedselectModeContainer" class="ml-3" style="display: none;" >
 														<script>
@@ -2171,6 +2172,7 @@ Target JSON:
 																		<option value=5" #selected#>(((((</option>
 																	</select>
 																</div>
+																<!--- " --->
 																<div class="col-12 col-md-4">
 																	<select title="Select Field..." name="field#row#" id="field#row#" class="data-entry-select">
 																		<cfset category = "">
@@ -2620,21 +2622,48 @@ Target JSON:
 			</cfif>
 		ORDER by disp_order
 	</cfquery>
-
+	<!--- " --->
 
 	<script>
 		// setup for persistence of column selections
 		window.columnHiddenSettings = new Object();
 
-		// setup for removal by checkboxes
-		const fixedlisttoremove = new Set([]);
-		function fixedChangeItem(collection_object_id) { 
-			if (fixedlisttoremove.has(collection_object_id)) { 
-				fixedlisttoremove.delete(collection_object_id);
-			} else { 
-				fixedlisttoremove.add(collection_object_id);
-			} 
-		} 
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+			<cfif isdefined("session.killRow") AND session.killRow is 2>
+				// setup for removal by checkboxes
+				const fixedlisttoremove = new Set([]);
+				function fixedChangeItem(collection_object_id) { 
+					if (fixedlisttoremove.has(collection_object_id)) { 
+						fixedlisttoremove.delete(collection_object_id);
+					} else { 
+						fixedlisttoremove.add(collection_object_id);
+					} 
+				} 
+		
+				function removeFixedSelectedRows() { 
+					console.log(fixedlisttoremove);
+					$.ajax({
+						url: "/specimens/component/search.cfc",
+						data: { 
+							method: 'removeItemListFromResult', 
+							result_id: $('##result_id_fixedSearch').val(),
+							collection_object_id: fixedlisttoremove
+						},
+						dataType: 'json',
+						success : function (data) { 
+							console.log(data);
+							commit(true);
+							$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+							fixedResultModifiedHere();
+						},
+						error : function (jqXHR, textStatus, error) {
+							handleFail(jqXHR,textStatus,error,"removing selected rows from result set");
+							commit(false);
+						}
+					});
+				}
+			</cfif>
+		</cfif>
 		
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 			lookupColumnVisibilities ('#cgi.script_name#','Default');
@@ -2850,7 +2879,7 @@ Target JSON:
 		};
 
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-			<cfif isdefined("session.killRow") AND session.killRow is 1>
+			<cfif isdefined("session.killRow") AND session.killRow is 2>
 				// Remove row from result set 
 				var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
@@ -2858,12 +2887,22 @@ Target JSON:
 					// proof of concept mark row for deletions
 					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="checkbox" onClick=" fixedChangeItem('+collobjtoremove+'); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
 				};
-<!---
+				<!--- TODO: Keyword and Builder select to remove --->
+				var removeKeywordCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
+					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##keywordsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); keywordResultModifiedHere(); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+				};
+				<!--- " --->
+				var removeBuilderCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
+					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##buildersearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); builderResultModifiedHere() } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+				};
+				<!--- " --->
+			<cfelseif isdefined("session.killRow") AND session.killRow is 1>
 				var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
 					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); fixedResultModifiedHere(); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
 				};
---->
 				<!--- " --->
 				var removeKeywordCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
@@ -3281,6 +3320,11 @@ Target JSON:
 						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
 					<cfelse>
 						$('##fixedmanageButton').html('');
+					</cfif>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+						$('##fixedremoveButton').html('<button class="btn btn-xs btn-secondary px-2 my-2 mx-1" onclick="removeFixedSelectedRows(); " >Remove Checked</a>');
+					<cfelse>
+						$('##fixedremoveButton').html('');
 					</cfif>
 					pageLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
