@@ -906,7 +906,7 @@ limitations under the License.
 										and agent_name_type = 'preferred')
 									)
 									WHERE related_primary_key_#i# is not null AND 
-									related_primary_key_#i# in (select agent_name from agent_name where agent_name = '#related_primary_key#') 
+									related_primary_key_#i# in (select agent_name from agent_name where agent_name = '#getMediaRel.related_primary_key#') 
 									AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 									and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
