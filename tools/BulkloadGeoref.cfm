@@ -457,7 +457,7 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-				<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="loc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select count(*) c, locality.locality_id,geog_auth_rec.HIGHER_GEOG,locality.SPEC_LOCALITY
 					from lat_long,locality,geog_auth_rec
 					where locality.locality_id = lat_long.locality_id
@@ -475,8 +475,8 @@ limitations under the License.
 							status = concat(nvl2(status, status || '; ', ''),'Lat Long coordinates already exist')
 						WHERE 
 							locality_id not in (
-								select l.locality_id from l where
-								l.locality_id=#getTempData.Locality_ID#
+								select locality_id from locality where
+								locality_id=#getTempData.Locality_ID#
 							) 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
@@ -490,7 +490,7 @@ limitations under the License.
 			</cfquery>
 			<cfif l.c gt 0>
 				<h3 class="mt-3">
-					There is a problem with #l.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadGeoref.cfm?action=dumpProblems" class="btn-link font-weight-lessbold">download</a>). Fix the problems in the data and <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
+					There is a problem with #loc.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadGeoref.cfm?action=dumpProblems" class="btn-link font-weight-lessbold">download</a>). Fix the problems in the data and <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
 				</h3>
 			<cfelse>
 				<h3 class="mt-3">
