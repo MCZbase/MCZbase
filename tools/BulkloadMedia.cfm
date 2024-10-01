@@ -910,7 +910,7 @@ limitations under the License.
 									AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 									and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
-							<cfelseif getMediaRel.media_relationship eq 'shows agent' and !isNumeric(getMediaRel.related_primary_key)>
+							<cfelseif getMediaRel.related_primary_key eq 'george lauder'>
 								<h1>hello</h1>
 							<cfelseif getMediaRel.media_relationship contains 'project' and !isNumeric(getMediaRel.related_primary_key)>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
