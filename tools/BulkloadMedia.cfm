@@ -821,7 +821,7 @@ limitations under the License.
 			<cfif len(getTempMedia2.WIDTH) gt 0>
 				<cfloop query = "getTempMedia2">				
 					<cfset #i# lte 4>
-					<cfloop index="i" from="1" to="3">
+					<cfloop index="i" from="1" to="4">
 						<!--- This generalizes the two key:value pairs (to media_relationship and related_primary_key)--->
 						<cfquery name="getMediaRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
@@ -852,7 +852,8 @@ limitations under the License.
 								AND cols.position = 1
 								ORDER BY cols.table_name, cols.position
 							</cfquery>
-							How many #i#
+							How many #i#<br>
+								#getMediaRel.related_primary_key#<br>
 							<!---SPECIAL CASES - Cataloged_item and specimen_part--->
 							<cfif #getMediaRel.media_relationship# contains 'cataloged_item' and len(getMediaRel.related_primary_key) gt 0>
 								<cfset l=3>
