@@ -905,8 +905,9 @@ limitations under the License.
 										where agent_id in (select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key#">
 										and agent_name_type = 'preferred')
 									)
-									WHERE related_primary_key_#i# is not null AND
-									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									WHERE related_primary_key_#i# is not null AND 
+									related_primary_key_#i# in (select agent_name from agent_name where agent_name = '#related_primary_key#') 
+									AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 									and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
 							<cfelseif getMediaRel.media_relationship contains 'project' and !isNumeric(getMediaRel.related_primary_key)>
