@@ -2647,7 +2647,7 @@ Target JSON:
 						data: { 
 							method: 'removeItemListFromResult', 
 							result_id: $('##result_id_fixedSearch').val(),
-							collection_object_id: fixedlisttoremove
+							collection_object_id: Array.from(fixedlisttoremove).join(",")
 						},
 						dataType: 'json',
 						success : function (data) { 
