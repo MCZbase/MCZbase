@@ -679,7 +679,7 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
 				</cfif>
-				<cfif len(related_primary_key_1) eq 0 OR !isNumeric(related_primary_key_1)>
+				<cfif len(related_primary_key_1) eq 0)>
 					<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
@@ -736,7 +736,7 @@ limitations under the License.
 						SET
 							status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_3 is missing')
 						WHERE
-							related_primary_key_2 is null and media_relationship_3 is not null AND
+							related_primary_key_2 is null AND
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
@@ -895,7 +895,7 @@ limitations under the License.
 										
 							<!-------------------------------------------------------------------------->			
 							<!---Update and check media relationships that can take either ID or Name--->
-							<cfelseif getMediaRel.media_relationship contains 'agent' and !isNumeric(getMediaRel.related_primary_key)>
+							<cfelseif getMediaRel.media_relationship contains 'agent' and !isNumeric(getMediaRel.related_primary_key>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update cf_temp_media set related_primary_key_#i# =
 									(
