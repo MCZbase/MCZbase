@@ -464,7 +464,7 @@ limitations under the License.
 					and geog_auth_rec.geog_auth_rec_id = locality.geog_auth_rec_id
 					and lat_long.locality_id=#Locality_ID#
 					AND HIGHER_GEOG='#trim(getTempData.HIGHERGEOGRAPHY)#' 
-					and '#trim(locality.SPEC_LOCALITY)#'='#trim(PreserveSingleQuotes(getTempData.SPECLOCALITY))#'
+					and SPEC_LOCALITY='#trim(PreserveSingleQuotes(getTempData.SPECLOCALITY))#'
 					and locality_id = #getTempData.locality_id#
 				</cfquery>
 				<cfif l.c neq 0>
