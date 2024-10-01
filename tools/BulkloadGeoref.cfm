@@ -488,7 +488,7 @@ limitations under the License.
 				FROM cf_temp_georef
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif l.c gt 0>
+			<cfif loc.c gt 0>
 				<h3 class="mt-3">
 					There is a problem with #loc.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadGeoref.cfm?action=dumpProblems" class="btn-link font-weight-lessbold">download</a>). Fix the problems in the data and <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
 				</h3>
