@@ -467,36 +467,13 @@ limitations under the License.
 					and locality.locality_id = #getTempData.locality_id#
 					group by locality.locality_id, geog_auth_rec.higher_geog,locality.spec_locality
 				</cfquery>
-				<cfif loc.c neq 0>
-					<cfquery name="warningLatLongExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_georef
-						SET
-							status = concat(nvl2(status, status || '; ', ''),'Lat Long coordinates already exist')
-						WHERE 
-							locality_id not in (
-								select locality_id from locality where
-								locality_id=#getTempData.Locality_ID#
-							) 
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-					</cfquery>
-				</cfif>
-				<cfif len(getTempData.status) neq 0>
-					<cfquery name="warningLatLongExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select count(*) from getTempData
-						where status is not null and 
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-					</cfquery>
-				</cfif>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_georef
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif loc.c gt 0>
+			<cfif len(data.status) gt 0>
 				<h3 class="mt-3">
 					There is a problem with #loc.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadGeoref.cfm?action=dumpProblems" class="btn-link font-weight-lessbold">download</a>). Fix the problems in the data and <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
 				</h3>
