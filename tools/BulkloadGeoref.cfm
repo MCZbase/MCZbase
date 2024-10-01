@@ -467,7 +467,7 @@ limitations under the License.
 					and locality.locality_id = #getTempData.locality_id#
 					group by locality.locality_id, geog_auth_rec.higher_geog,locality.spec_locality
 				</cfquery>
-				<cfif l.c neq 0>
+				<cfif loc.c neq 0>
 					<cfquery name="warningLatLongExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_georef
