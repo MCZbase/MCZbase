@@ -679,7 +679,7 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
 				</cfif>
-				<cfif len(related_primary_key_1) eq 0)>
+				<cfif len(related_primary_key_1) eq 0>
 					<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
