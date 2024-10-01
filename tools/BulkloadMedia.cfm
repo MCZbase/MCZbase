@@ -852,7 +852,7 @@ limitations under the License.
 								AND cols.position = 1
 								ORDER BY cols.table_name, cols.position
 							</cfquery>
-							
+							How many #i#
 							<!---SPECIAL CASES - Cataloged_item and specimen_part--->
 							<cfif #getMediaRel.media_relationship# contains 'cataloged_item' and len(getMediaRel.related_primary_key) gt 0>
 								<cfset l=3>
