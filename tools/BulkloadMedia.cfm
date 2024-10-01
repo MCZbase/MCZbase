@@ -815,7 +815,10 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-
+			<cfif media_relationship_1 eq 'shows agent' and related_primary_key_1 eq ''>
+				<h1>Hello</h1>
+			</cfif>
+				
 			<!--------NO ERRORS ABOVE? Loop through updated table to add IDs if there are no status messages------->
 			<cfif len(getTempMedia2.WIDTH) gt 0>
 				<cfloop query = "getTempMedia2">				
