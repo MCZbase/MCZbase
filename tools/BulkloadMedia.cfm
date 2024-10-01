@@ -854,7 +854,7 @@ limitations under the License.
 							</cfquery>
 							How many #i#<br>
 								#getMediaRel.related_primary_key#<br>
-								<cfif related_primary_key_#i# eq 'george lauder'>
+								<cfif related_primary_key eq 'george lauder'>
 									<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										update cf_temp_media set related_primary_key_#i# =
 										(
