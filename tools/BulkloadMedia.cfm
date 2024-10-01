@@ -195,7 +195,7 @@ limitations under the License.
 					</h2>
 					<div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
-							<p>Follow all the instructions above and read any error messages that pop up in the status column during validation or at the top of the final loading step. Reminder: To mark media as hidden from Public Users put a 1 in the MASK_MEDIA column. Enter zero or Leave blank for Public media.</p>
+							<p>To mark media as hidden from Public Users put a 1 in the MASK_MEDIA column. Enter zero or Leave blank for Public media.</p>
 						</div>
 					</div>
 				</div>
