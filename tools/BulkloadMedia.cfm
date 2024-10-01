@@ -902,7 +902,7 @@ limitations under the License.
 									(
 										select agent_id
 										from agent
-										where agent_id in (select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key_1">)
+										where agent_id in (select agent_id from agent_name where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.related_primary_key_1#">)
 									)
 									WHERE related_primary_key_#i# is not null AND
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
