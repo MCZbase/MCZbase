@@ -896,7 +896,7 @@ limitations under the License.
 										
 							<!-------------------------------------------------------------------------->			
 							<!---Update and check media relationships that can take either ID or Name--->
-							<cfelseif getMediaRel.media_relationship contains 'agent' and getMediaRel.related_primary_key eq ''>
+							<cfelseif getMediaRel.media_relationship contains 'agent'>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update cf_temp_media set related_primary_key_#i# =
 									(
