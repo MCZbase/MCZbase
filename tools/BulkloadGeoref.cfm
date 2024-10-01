@@ -465,7 +465,7 @@ limitations under the License.
 					and lat_long.locality_id=#Locality_ID#
 					AND geog_auth_rec.HIGHER_GEOG='#trim(getTempData.HIGHERGEOGRAPHY)#' 
 					and geog_auth_rec.SPEC_LOCALITY='#trim(PreserveSingleQuotes(getTempData.SPECLOCALITY))#'
-					and geog_auth_rec.locality_id = #getTempData.locality_id#
+					and locality.locality_id = #getTempData.locality_id#
 				</cfquery>
 				<cfif l.c neq 0>
 					<cfquery name="warningLatLongExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
