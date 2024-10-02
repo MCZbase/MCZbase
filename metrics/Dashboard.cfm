@@ -377,14 +377,12 @@ limitations under the License.
 									<cfset arbitraryRangeSummaryNumbersBlock=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="no")>
 									<div id="arbitraryNumbersDiv" class="py-2"> 
 										#arbitraryRangeSummaryNumbersBlock#
-										<p class="text-muted small">Reports are generated from the current MCZbase data for the given date range.</p>
 									</div>
 								</div>
 								<div id="divAnnualReportResults" class="px-4" style="border: 2px solid ##deedec;">
 									<cfset annualSummaryNumbersBlock=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="yes")>
 									<div id="annualNumbersDiv" class="py-2"> 
 										#annualSummaryNumbersBlock#
-										<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
 									</div>
 								</div>
 							</div>
@@ -394,7 +392,6 @@ limitations under the License.
 			</div>
 		</cfoutput>
 		<cfinclude template="/shared/_footer.cfm">
-		
 	</cfcase>
 	<cfdefaultcase>
 		<cfoutput>
