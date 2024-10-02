@@ -819,7 +819,7 @@ limitations under the License.
 				SET
 					status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_1 is missing')
 				WHERE
-					related_primary_key_1 not in (select agent_name from agent_name where agent_name = #getTempMedia2.related_primary_key_1#) AND
+					related_primary_key_1 not in (select agent_name from agent_name where agent_name = '#getTempMedia2.related_primary_key_1#') AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 					key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 			</cfquery>
