@@ -1486,7 +1486,7 @@ limitations under the License.
 													<div id="fixedcolumnPickDialogButton"></div>
 													<div id="fixedresultDownloadButtonContainer"></div>
 													<span id="fixedmanageButton" class=""></span>
-													<span id="fixedremoveButton" class=""></span>
+													<span id="fixedremoveButtonDiv" class=""></span>
 													<div id="fixedresultBMMapLinkContainer"></div>
 													<div id="fixedselectModeContainer" class="ml-3" style="display: none;" >
 														<script>
@@ -3343,9 +3343,9 @@ Target JSON:
 						$('##fixedmanageButton').html('');
 					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						$('##fixedremoveButton').html('<button class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" disabled onclick="removeFixedSelectedRows(); " >Remove Checked</a>');
+						$('##fixedremoveButtonDiv').html('<button id="fixedremoveButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" disabled onclick="removeFixedSelectedRows(); " >Remove Checked</a>');
 					<cfelse>
-						$('##fixedremoveButton').html('');
+						$('##fixedremoveButtonDiv').html('');
 					</cfif>
 					pageLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
