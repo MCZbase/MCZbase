@@ -662,8 +662,6 @@ limitations under the License.
 				</cfif>
 						
 
-						
-	
 				<!------------------------------------------------------------>
 				<!----------CHECK Relationship valid-------------------------->
 				<!----------CHECK Related primary key ------------------------>
