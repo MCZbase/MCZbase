@@ -817,7 +817,7 @@ limitations under the License.
 				UPDATE
 					cf_temp_media
 				SET
-					status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_1 is missing')
+					status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_1 is invalid')
 				WHERE
 					related_primary_key_1 not in (select agent_name from agent_name where agent_name = '#getTempMedia2.related_primary_key_1#') AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
