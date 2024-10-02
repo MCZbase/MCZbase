@@ -372,7 +372,7 @@ limitations under the License.
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
 						<div class="card-body">
 							<div class="col-12 px-0 mt-4">
-								<h1 class="h2 mb-1 pb-2 px-2 pt-4 w-100">MCZbase Metrics </h1>
+								<h1 class="h2 mb-1 pb-2 px-2 pt-2 w-100">MCZbase Metrics </h1>
 								<div id="divArbitraryRangeResults" class="px-4" style="border: 2px solid ##deedec;">
 									<cfset arbitraryRangeSummaryNumbersBlock=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="no")>
 									<div id="arbitraryNumbersDiv" class="py-2"> 
