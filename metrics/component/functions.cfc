@@ -273,7 +273,7 @@ limitations under the License.
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
 							<h3 class="mt-0 mb-1 px-0 float-left">
-								<cfif annualReport eq "yes">Annual Report:</cfif> Acquisitions <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
+								<cfif annualReport eq "yes">Annual Report:*</cfif> Acquisitions <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
 							</h3>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
@@ -488,7 +488,7 @@ limitations under the License.
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
 							<h3 class="mt-0 px-0 float-left mb-1">
-								<cfif annualReport eq "yes">Annual Report:</cfif> Loan Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
+								<cfif annualReport eq "yes">Annual Report:*</cfif> Loan Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
 							</h3>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
@@ -664,7 +664,7 @@ limitations under the License.
 							<h2 class="h3 mt-0 px-0 float-left mb-1">Media Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 							--->
 							<h3 class="mt-0 px-0 float-left mb-1">
-								<cfif annualReport eq "yes">Annual Report:</cfif> Media Activity <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
+								<cfif annualReport eq "yes">Annual Report:*</cfif> Media Activity <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
 							</h3>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
@@ -807,7 +807,7 @@ limitations under the License.
 							<h2 class="h3 px-0 mt-0 float-left mb-0">Citation Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 							--->
 							<h3 class="px-0 mt-0 float-left mb-1">
-								<cfif annualReport eq "yes">Annual Report:</cfif> Citation Activity <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
+								<cfif annualReport eq "yes">Annual Report:*</cfif> Citation Activity <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
 							</h3>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
@@ -941,8 +941,9 @@ limitations under the License.
 							</h2>
 							--->
 							<h3 class="px-0 mt-0 float-left mb-1">
-								<cfif annualReport eq "yes">Annual Report:</cfif> Georeferencing Activity <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
+								<cfif annualReport eq "yes">Annual Report:*</cfif> Georeferencing Activity <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
 							</h3>
+							
 							<div class="btn-toolbar my-1 mt-lg-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=dowloadGeoreferenceActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
@@ -1074,7 +1075,7 @@ limitations under the License.
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
 							<h3 class="mt-0 mb-1 px-0 float-left">
-								<cfif annualReport eq "yes">Annual Report:</cfif> Visitors and Media Requests <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
+								<cfif annualReport eq "yes">Annual Report:*</cfif> Visitors and Media Requests <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
 							</h3>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
