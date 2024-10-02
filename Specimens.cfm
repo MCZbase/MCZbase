@@ -2656,25 +2656,27 @@ Target JSON:
 					confirmDialog(
 						"Remove " + fixedlisttoremove.size + " selected cataloged items from this search result?", 
 						"Remove items from search result", 
-						$.ajax({
-							url: "/specimens/component/search.cfc",
-							data: { 
-								method: 'removeItemListFromResult', 
-								result_id: $('##result_id_fixedSearch').val(),
-								collection_object_id: Array.from(fixedlisttoremove).join(",")
-							},
-							dataType: 'json',
-							success : function (data) { 
-								console.log(data);
-								$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
-								fixedResultModifiedHere();
-								fixedlisttoremove.clear();
-								updateFixedButtonRemoveState();
-							},
-							error : function (jqXHR, textStatus, error) {
-								handleFail(jqXHR,textStatus,error,"removing selected rows from result set");
-							}
-						});
+						function() { 
+							$.ajax({
+								url: "/specimens/component/search.cfc",
+								data: { 
+									method: 'removeItemListFromResult', 
+									result_id: $('##result_id_fixedSearch').val(),
+									collection_object_id: Array.from(fixedlisttoremove).join(",")
+								},
+								dataType: 'json',
+								success : function (data) { 
+									console.log(data);
+									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+									fixedResultModifiedHere();
+									fixedlisttoremove.clear();
+									updateFixedButtonRemoveState();
+								},
+								error : function (jqXHR, textStatus, error) {
+									handleFail(jqXHR,textStatus,error,"removing selected rows from result set");
+								}
+							}); 
+						}
 					);
 				}
 			</cfif>
