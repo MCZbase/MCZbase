@@ -452,7 +452,6 @@ limitations under the License.
 									</div>
 									<div class="form-row">
 										<div class="col-12 col-md-6 float-left mb-2">
-											<cfif not isDefined("session.killRow") OR len(session.killRow) EQ 0 ><cfset session.killRow EQ 0></cfif> 
 											<label for="killRow" class="data-entry-label" >SpecimenResults Row-Removal Option</label>
 											<select name="killRow" id="killRow" class="data-entry-select" onchange="changekillRows(this.value)">
 												<option value="0" <cfif session.killRow is 0> selected="selected" </cfif>>No</option>

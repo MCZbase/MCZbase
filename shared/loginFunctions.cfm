@@ -186,6 +186,8 @@ limitations under the License.
 		</cfif>
 		<cfif getPrefs.killRow is 1>
 			<cfset session.killRow=1>
+		<cfelseif getPrefs.killRow is 2>
+			<cfset session.killRow=2>
 		<cfelse>
 			<cfset session.killRow=0>
 		</cfif>
