@@ -2903,7 +2903,7 @@ Target JSON:
 					var collobjtoremove = rowData['COLLECTION_OBJECT_ID'];
 					// proof of concept mark row for deletions
 					checked = "";
-					if (fixedlisttoremove.has(collobjtoremove)) {
+					if (fixedlisttoremove.has(Number(collobjtoremove))) {
 						checked = "checked";
 					} 
 					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="checkbox" ' + checked + ' onClick=" fixedChangeItem('+collobjtoremove+'); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
@@ -4012,6 +4012,7 @@ Target JSON:
 				$('##'+whichGrid+'resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
 			}
 			populateColumnPicker(gridId,whichGrid);
+			updateFixedButtonRemoveState();
 
 			$("##"+whichGrid+"columnPickDialog").dialog({
 				height: 'auto',
