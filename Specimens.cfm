@@ -2652,13 +2652,13 @@ Target JSON:
 						dataType: 'json',
 						success : function (data) { 
 							console.log(data);
-							commit(true);
+							//commit(true);
 							$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 							fixedResultModifiedHere();
 						},
 						error : function (jqXHR, textStatus, error) {
 							handleFail(jqXHR,textStatus,error,"removing selected rows from result set");
-							commit(false);
+							//commit(false);
 						}
 					});
 				}
