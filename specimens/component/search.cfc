@@ -4454,7 +4454,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					WHERE 
 						result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
 						AND
-						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#" list="yes">
+						collection_object_id in ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#" list="yes"> )
 				</cfquery>
 				<cfif getcurrentvalues.recordcount NEQ listlen(collection_object_id)>
 					<cfthrow message="Matched other than the number of items requested to remove in the user search table.">
@@ -4465,7 +4465,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					WHERE
 						result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
 						AND
-						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#" list="yes">
+						collection_object_id in ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#" list="yes"> )
 				</cfquery>
 				<cfif remove_result.recordcount NEQ  listlen(collection_object_id)>
 					<cfthrow message="Tried to remove other than the number of requested records in user search table.">
