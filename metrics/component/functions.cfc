@@ -132,7 +132,7 @@ limitations under the License.
 				<cfoutput>
 					<section class="col-12 mt-1 px-0">
 						<div class="my-2 float-left w-100">
-							<h2 class="h3 px-0 float-left mb-1 px-3 mt-4">
+							<h2 class="h3 px-0 float-left mb-1 px-0 mt-0">
 								<cfif annualReport eq "yes">Annual Report:</cfif> Holdings <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
@@ -272,7 +272,7 @@ limitations under the License.
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
-							<h2 class="h3 mt-4 mb-1 px-3 float-left">
+							<h2 class="h3 mt-0 mb-1 px-0 float-left">
 								<cfif annualReport eq "yes">Annual Report:</cfif> Acquisitions <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
@@ -487,7 +487,7 @@ limitations under the License.
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
-							<h2 class="h3 mt-4 px-3 float-left mb-1">
+							<h2 class="h3 mt-0 px-0 float-left mb-1">
 								<cfif annualReport eq "yes">Annual Report:</cfif> Loan Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
@@ -663,7 +663,7 @@ limitations under the License.
 							TODO: Media queries do not use dates. 
 							<h2 class="h3 mt-0 px-0 float-left mb-1">Media Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 							--->
-							<h2 class="h3 mt-4 px-3 float-left mb-1">
+							<h2 class="h3 mt-0 px-0 float-left mb-1">
 								<cfif annualReport eq "yes">Annual Report:</cfif> Media Activity <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
@@ -806,7 +806,7 @@ limitations under the License.
 								TODO: Citation query does not use dates 
 							<h2 class="h3 px-0 mt-0 float-left mb-0">Citation Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 							--->
-							<h2 class="h3 px-3 mt-4 float-left mb-1">
+							<h2 class="h3 px-0 mt-0 float-left mb-1">
 								<cfif annualReport eq "yes">Annual Report:</cfif> Citation Activity <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
@@ -940,7 +940,7 @@ limitations under the License.
 								<span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
 							</h2>
 							--->
-							<h2 class="h3 px-3 mt-4 float-left mb-1">
+							<h2 class="h3 px-0 mt-0 float-left mb-1">
 								<cfif annualReport eq "yes">Annual Report:</cfif> Georeferencing Activity <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
 							</h2>
 							<div class="btn-toolbar my-1 mt-lg-0 float-right">
@@ -1074,7 +1074,7 @@ limitations under the License.
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
-							<h2 class="h3 mt-4 mb-1 px-3 float-left">
+							<h2 class="h3 mt-0 mb-1 px-0 float-left">
 								<cfif annualReport eq "yes">Annual Report:</cfif> Visitors and Media Requests <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
