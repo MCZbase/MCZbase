@@ -3943,6 +3943,9 @@ Target JSON:
 		function pageLoaded(gridId, searchType, whichGrid) {
 			console.log('pageLoaded:' + gridId);
 			var pagingInfo = $("##" + gridId).jqxGrid("getpaginginformation");
+			<cfif isdefined("session.killRow") AND session.killRow is 2>
+				updateFixedButtonRemoveState();
+			</cfif>
 		}
 
 		function togglePinColumn(gridId,column) { 
@@ -4012,7 +4015,6 @@ Target JSON:
 				$('##'+whichGrid+'resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
 			}
 			populateColumnPicker(gridId,whichGrid);
-			updateFixedButtonRemoveState();
 
 			$("##"+whichGrid+"columnPickDialog").dialog({
 				height: 'auto',
