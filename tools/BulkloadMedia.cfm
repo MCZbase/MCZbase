@@ -813,6 +813,7 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfloop query="getTempMedia2">
 			<cfif getTempMedia2.media_relationship_1 contains 'agent'>
 				<cfquery name="warningBadRel2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
@@ -834,6 +835,7 @@ limitations under the License.
 						related_primary_key_2 not in (select agent_name from agent_name where agent_name = '#getTempMedia2.related_primary_key_2#') AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>
+			</cfif>
 			</cfif>
 			#getTempMedia2.related_primary_key_1#<br>
 				#getTempMedia2.related_primary_key_2#
