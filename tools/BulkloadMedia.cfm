@@ -822,7 +822,6 @@ limitations under the License.
 					WHERE
 						related_primary_key_1 not in (select agent_name from agent_name where agent_name = '#getTempMedia2.related_primary_key_1#') AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-						key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 				</cfquery>
 			</cfif>
 			<cfif #getTempMedia2.media_relationship_2# contains 'agent'>
@@ -834,7 +833,6 @@ limitations under the License.
 					WHERE
 						related_primary_key_2 not in (select agent_name from agent_name where agent_name = '#getTempMedia2.related_primary_key_2#') AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-						key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 				</cfquery>
 			</cfif>
 			
