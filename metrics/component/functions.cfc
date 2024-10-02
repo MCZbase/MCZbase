@@ -1153,7 +1153,7 @@ limitations under the License.
 								</tbody>
 							</table>
 						</div>
-						<cfif annualReport="yes">
+						<cfif #annualReport# eq "yes">
 							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
 						<cfelse> 
 							<p class="text-muted small">Reports are generated from the current MCZbase data for the given date range.</p>
