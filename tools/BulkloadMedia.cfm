@@ -836,7 +836,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>
 			</cfif>
-			</cfif>
+			</cfloop>
 			#getTempMedia2.related_primary_key_1#<br>
 				#getTempMedia2.related_primary_key_2#
 			<!--------NO ERRORS ABOVE? Loop through updated table to add IDs if there are no status messages------->
