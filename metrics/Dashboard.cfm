@@ -373,14 +373,14 @@ limitations under the License.
 						<div class="card-body">
 							<div class="col-12 px-0 mt-4">
 								<h1 class="h2 mb-1 pb-2 px-2 pt-4 w-100">MCZbase Metrics </h1>
-								<div id="divArbitraryRangeResults" class="px-3" style="border: 2px solid ##deedec;">
+								<div id="divArbitraryRangeResults" class="px-4" style="border: 2px solid ##deedec;">
 									<cfset arbitraryRangeSummaryNumbersBlock=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="no")>
 									<div id="arbitraryNumbersDiv" class="py-2"> 
 										#arbitraryRangeSummaryNumbersBlock#
 										<p class="text-muted small">Reports are generated from the current MCZbase data for the given date range.</p>
 									</div>
 								</div>
-								<div id="divAnnualReportResults" class="px-3" style="border: 2px solid ##deedec;">
+								<div id="divAnnualReportResults" class="px-4" style="border: 2px solid ##deedec;">
 									<cfset annualSummaryNumbersBlock=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="yes")>
 									<div id="annualNumbersDiv" class="py-2"> 
 										#annualSummaryNumbersBlock#
