@@ -2638,30 +2638,44 @@ Target JSON:
 					} else { 
 						fixedlisttoremove.add(collection_object_id);
 					} 
+					updateFixedButtonRemoveState();
+				}
+		
+				function updateFixedButtonRemoveState() { 
+					if (fixedlisttoremove.size > 0) { 
+						$('##fixedremoveButton').attr('disabled',false);  
+						$('##fixedremoveButton').removeClass('disabled'); 
+					} else { 
+						$('##fixedremoveButton').attr('disabled',true);
+						$('##fixedremoveButton').addClass('disabled'); 
+					}
 				} 
 		
 				function removeFixedSelectedRows() { 
 					console.log(fixedlisttoremove);
-					$.ajax({
-						url: "/specimens/component/search.cfc",
-						data: { 
-							method: 'removeItemListFromResult', 
-							result_id: $('##result_id_fixedSearch').val(),
-							collection_object_id: Array.from(fixedlisttoremove).join(",")
-						},
-						dataType: 'json',
-						success : function (data) { 
-							console.log(data);
-							//commit(true);
-							$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
-							fixedResultModifiedHere();
-							fixedlisttoremove.clear();
-						},
-						error : function (jqXHR, textStatus, error) {
-							handleFail(jqXHR,textStatus,error,"removing selected rows from result set");
-							//commit(false);
-						}
-					});
+					confirmDialog(
+						"Remove " + fixedlisttoremove.size + " selected cataloged items from this search result?", 
+						"Remove items from search result", 
+						$.ajax({
+							url: "/specimens/component/search.cfc",
+							data: { 
+								method: 'removeItemListFromResult', 
+								result_id: $('##result_id_fixedSearch').val(),
+								collection_object_id: Array.from(fixedlisttoremove).join(",")
+							},
+							dataType: 'json',
+							success : function (data) { 
+								console.log(data);
+								$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+								fixedResultModifiedHere();
+								fixedlisttoremove.clear();
+								updateFixedButtonRemoveState();
+							},
+							error : function (jqXHR, textStatus, error) {
+								handleFail(jqXHR,textStatus,error,"removing selected rows from result set");
+							}
+						});
+					);
 				}
 			</cfif>
 		</cfif>
@@ -2886,7 +2900,11 @@ Target JSON:
 					var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
 					var collobjtoremove = rowData['COLLECTION_OBJECT_ID'];
 					// proof of concept mark row for deletions
-					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="checkbox" onClick=" fixedChangeItem('+collobjtoremove+'); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+					checked = "";
+					if (fixedlisttoremove.has(collobjtoremove)) {
+						checked = "checked";
+					} 
+					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="checkbox" ' + checked + ' onClick=" fixedChangeItem('+collobjtoremove+'); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
 				};
 				<!--- TODO: Keyword and Builder select to remove --->
 				var removeKeywordCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
@@ -3323,7 +3341,7 @@ Target JSON:
 						$('##fixedmanageButton').html('');
 					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						$('##fixedremoveButton').html('<button class="btn btn-xs btn-secondary px-2 my-2 mx-1" onclick="removeFixedSelectedRows(); " >Remove Checked</a>');
+						$('##fixedremoveButton').html('<button class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" disabled onclick="removeFixedSelectedRows(); " >Remove Checked</a>');
 					<cfelse>
 						$('##fixedremoveButton').html('');
 					</cfif>
