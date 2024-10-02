@@ -825,7 +825,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
-			<cfif #getTempMedia2.media_relationship_2# contains 'agent' >
+			<cfif #getTempMedia2.media_relationship_2# contains 'agent' AND !isNumeric(getTempMedia2.related_primary_key_2) >
 				<cfquery name="warningBadRel2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_media
@@ -834,6 +834,7 @@ limitations under the License.
 					WHERE
 						related_primary_key_2 not in (select agent_name from agent_name where agent_name = '#getTempMedia2.related_primary_key_2#') AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 				</cfquery>
 			</cfif>
 			</cfloop>
