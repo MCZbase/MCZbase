@@ -815,7 +815,7 @@ limitations under the License.
 			</cfquery>
 			<cfif !isNumeric(getTempMedia2.related_primary_key_2)>
 			<cfloop query="getTempMedia2">
-			<cfif getTempMedia2.media_relationship_1 contains 'agent'>
+			<cfif getTempMedia2.media_relationship_1 contains 'agent' AND !isNumeric(getTempMedia2.related_primary_key_1)>
 				<cfquery name="warningBadRel2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_media
