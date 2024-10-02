@@ -2998,7 +2998,6 @@ Target JSON:
 					// while paging forwards and backwards through the result set.
 					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="checkbox" ' + checked + ' onClick=" fixedChangeItem('+collobjtoremove+'); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
 				};
-				<!--- TODO: Keyword and Builder select to remove --->
 				var removeKeywordCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
 					var collobjtoremove = rowData['COLLECTION_OBJECT_ID'];
@@ -3008,7 +3007,6 @@ Target JSON:
 					} 
 					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="checkbox" ' + checked + ' onClick=" keywordChangeItem('+collobjtoremove+'); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
 				};
-				<!--- " --->
 				var removeBuilderCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
 					var collobjtoremove = rowData['COLLECTION_OBJECT_ID'];
@@ -3613,7 +3611,7 @@ Target JSON:
 					},
 					columns: [
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							<cfif isdefined("session.killRow") AND session.killRow is 1>
+							<cfif isdefined("session.killRow") AND session.killRow GT 0>
 								<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeKeywordCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
 								#removerow#
 							</cfif>
@@ -3838,7 +3836,7 @@ Target JSON:
 					},
 					columns: [
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							<cfif isdefined("session.killRow") AND session.killRow is 1>
+							<cfif isdefined("session.killRow") AND session.killRow GT 0>
 								<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeBuilderCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
 								#removerow#
 							</cfif>
