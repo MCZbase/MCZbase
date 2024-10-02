@@ -825,6 +825,18 @@ limitations under the License.
 						key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 				</cfquery>
 			</cfif>
+			<cfif #getTempMedia2.media_relationship_2# contains 'agent'>
+				<cfquery name="warningBadRel2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_media
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'RELATED_PRIMARY_KEY_2 is invalid')
+					WHERE
+						related_primary_key_2 not in (select agent_name from agent_name where agent_name = '#getTempMedia2.related_primary_key_2#') AND
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+						key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+				</cfquery>
+			</cfif>
 			
 			<!--------NO ERRORS ABOVE? Loop through updated table to add IDs if there are no status messages------->
 			<cfif len(getTempMedia2.WIDTH) gt 0>
