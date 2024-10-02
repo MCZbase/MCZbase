@@ -2655,6 +2655,7 @@ Target JSON:
 							//commit(true);
 							$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 							fixedResultModifiedHere();
+							fixedlisttoremove.clear();
 						},
 						error : function (jqXHR, textStatus, error) {
 							handleFail(jqXHR,textStatus,error,"removing selected rows from result set");
