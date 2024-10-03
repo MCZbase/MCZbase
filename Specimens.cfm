@@ -2697,7 +2697,11 @@ Target JSON:
 								dataType: 'json',
 								success : function (data) { 
 									console.log(data);
-									$('##fixedsearchResultsGrid').jqxGrid('gotopage',1);
+									pageinfo = $("##fixedsearchResultsGrid").jqxGrid('getpaginginformation');
+									if (pageinfo.pagesize <= fixedlisttoremove.size && pageinfo.pagenum+1 = pageinfo.pagescount) { 
+										// we are on the last page, and will remove more than a page worth of rows, move to the first page.
+										$('##fixedsearchResultsGrid').jqxGrid('gotopage',0);
+									}
 									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 									fixedResultModifiedHere();
 									fixedlisttoremove.clear();
