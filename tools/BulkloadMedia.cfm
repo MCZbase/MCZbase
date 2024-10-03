@@ -918,27 +918,27 @@ limitations under the License.
 								ORDER BY cols.table_name, cols.position
 							</cfquery>
 							<!---SPECIAL CASES - Cataloged_item and specimen_part--->
-							<cfif #getMediaRel.related_primary_key# contains "MCZ:" OR !isNumeric(getMediaRel.related_primary_key)>
-								<cfif #getMediaRel.media_relationship# contains 'cataloged_item' and len(getMediaRel.related_primary_key) gt 0>
-									<cfset l=3>
-									<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
-										<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
-										<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
-										<cfset CI = listGetAt(#getMediaRel.related_primary_key#,3,":")>
-										<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											update cf_temp_media set related_primary_key_#i# =
-											(
-												select collection_object_id
-												from #theTable# 
-												where cat_num = '#CI#' 
-												and collection_cde = '#CCDE#'
-											)
-											WHERE related_primary_key_#i# is not null AND
-												username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-												key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-										</cfquery>
-									</cfloop>
-								</cfif>
+							<cfif #getMediaRel.related_primary_key# contains "MCZ:">
+							<cfif #getMediaRel.media_relationship# contains 'cataloged_item' and len(getMediaRel.related_primary_key) gt 0>
+								<cfset l=3>
+								<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
+									<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
+									<cfset CCDE = listGetAt(#getMediaRel.related_primary_key#,2,":")>
+									<cfset CI = listGetAt(#getMediaRel.related_primary_key#,3,":")>
+									<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										update cf_temp_media set related_primary_key_#i# =
+										(
+											select collection_object_id
+											from #theTable# 
+											where cat_num = '#CI#' 
+											and collection_cde = '#CCDE#'
+										)
+										WHERE related_primary_key_#i# is not null AND
+											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+									</cfquery>
+								</cfloop>
+							</cfif>
 							<cfelseif #getMediaRel.media_relationship# contains 'specimen_part' and len(getMediaRel.related_primary_key) gt 0>
 								<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
 									<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
@@ -962,7 +962,7 @@ limitations under the License.
 										
 							<!-------------------------------------------------------------------------->			
 							<!---Update and check media relationships that can take either ID or Name--->
-							<cfelseif getMediaRel.media_relationship contains 'agent'>
+							<cfelseif getMediaRel.media_relationship contains 'agent' and !isNumeric(getMediaRel.related_primary_key)>
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update cf_temp_media set related_primary_key_#i# =
 									(
