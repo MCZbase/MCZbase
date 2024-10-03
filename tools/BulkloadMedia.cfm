@@ -535,7 +535,7 @@ limitations under the License.
 				
 				<!--- Define the columns you want to check --->
 
-<cfset columns = ["subject", "description", "media_uri"]>
+<cfset columns = ["subject", "description", "media_uri","MIME_TYPE","MEDIA_TYPE","PREVIEW_URI","MEDIA_LABEL_1","LABEL_VALUE_1","MEDIA_LABEL_2","LABEL_VALUE_2","KEY","USERNAME","MEDIA_RELATIONSHIP_1","MEDIA_RELATIONSHIP_2","MEDIA_RELATIONSHIP_3","MEDIA_RELATIONSHIP_4"]>
 <cfset conditions = []>
 
 <!--- Properly loop through the array of column names --->
