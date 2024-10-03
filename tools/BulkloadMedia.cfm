@@ -299,6 +299,7 @@ limitations under the License.
 	<cfif #action# is "getFile">
 		<cfoutput>
 			<h2 class="h4">First step: Reading data from CSV file.</h2>
+			<p class="font-weight-bold h4">Jump to <a href="##loader" class="btn-link font-weight-bold text-muted">Loader</a></p>
 			<!--- Compare the numbers of headers expected against provided in CSV file --->
 			<!--- Set some constants to identify error cases in cfcatch block --->
 			<cfset NO_COLUMN_ERR = "<p>One or more required fields are missing in the header line of the csv file. <br>Missing fields: </p>">
@@ -502,6 +503,7 @@ limitations under the License.
 				</cftry>
 			</cffinally>
 		</cftry>
+			<a name="loader" class="text-white">top</a>
 		</cfoutput>
 	</cfif>
 
@@ -510,7 +512,6 @@ limitations under the License.
 	<cfif #action# is "validate">
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfoutput>
-			<p class="font-weight-bold h4">Jump to <a href="##loader" class="btn-link font-weight-bold text-muted">Loader</a></p>
 			<!---First loop is to check for missing required data, missing values from key value pairs, bad formats (e.g., data) and values that don't match database code tables--->
 			<cfquery name="getTempMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,MEDIA_LABEL_3,LABEL_VALUE_3,MEDIA_LABEL_4,LABEL_VALUE_4,MEDIA_LABEL_5,LABEL_VALUE_5,MEDIA_LABEL_6,LABEL_VALUE_6,MEDIA_LABEL_7,LABEL_VALUE_7,MEDIA_LABEL_8,LABEL_VALUE_8,KEY,USERNAME,MEDIA_RELATIONSHIP_1,MEDIA_RELATED_TO_1,MEDIA_RELATIONSHIP_2,MEDIA_RELATED_TO_2,MEDIA_RELATIONSHIP_3,MEDIA_RELATED_TO_3,MEDIA_RELATIONSHIP_4,MEDIA_RELATED_TO_4
@@ -1170,7 +1171,7 @@ limitations under the License.
 					</cfloop>
 				</tbody>
 			</table>
-			<a name="loader" class="text-white">top</a>
+		
 		</cfoutput>
 	</cfif>
 
