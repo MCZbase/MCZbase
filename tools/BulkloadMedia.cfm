@@ -550,9 +550,13 @@ limitations under the License.
 <cfoutput>
     <p>Debug: Generated WHERE Clause - #whereClause#</p>
 </cfoutput>
-
-<!--- Execute the query to check entries with less than 3 characters in specified columns --->
 <cfquery name="entryCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+    SELECT *
+    FROM cf_temp_media
+    WHERE #whereClause#
+</cfquery>
+<!--- Execute the query to check entries with less than 3 characters in specified columns --->
+<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
    update cf_temp_media set status = concat(nvl2(status, status || '; ', ''),'invalid Data')
 	where media_uri = (SELECT media_uri
     FROM cf_temp_media
