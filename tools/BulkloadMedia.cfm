@@ -552,7 +552,7 @@ limitations under the License.
 </cfoutput>
 
 <!--- Execute the query to check entries with less than 3 characters in specified columns --->
-<cfquery name="entryCheck" datasource="your_datasource">
+<cfquery name="entryCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
     SELECT *
     FROM getTempMedia
     WHERE #whereClause#
