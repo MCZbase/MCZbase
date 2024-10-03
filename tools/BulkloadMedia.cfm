@@ -554,7 +554,7 @@ limitations under the License.
 <!--- Execute the query to check entries with less than 3 characters in specified columns --->
 <cfquery name="entryCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
    update cf_temp_media set 
-	status = concat(nvl2(status, status || '; ', ''),'invalid "#entryCheck[subject]#" "#entryCheck[description]#" "#entryCheck[media_uri]#" "#entryCheck[USERNAME]#" "#entryCheck[MIME_TYPE]#" "#entryCheck[media_relationship_1]#"')
+	status = concat(nvl2(status, status || '; ', ''),'invalid Data')
 	(SELECT *
     FROM cf_temp_media
     WHERE #whereClause#)
