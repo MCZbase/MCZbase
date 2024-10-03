@@ -544,7 +544,7 @@ limitations under the License.
 </cfloop>
 
 <!--- Join the conditions into a single string with OR separators --->
-<cfset whereClause = arrayToList(conditions, " AND ")>
+<cfset whereClause = arrayToList(conditions, " OR ")>
 
 <!--- Debugging: Output the constructed WHERE clause --->
 <cfoutput>
