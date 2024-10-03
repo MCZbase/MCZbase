@@ -2698,8 +2698,9 @@ Target JSON:
 								success : function (data) { 
 									console.log(data);
 									pageinfo = $("##fixedsearchResultsGrid").jqxGrid('getpaginginformation');
-									if (pageinfo.pagesize <= fixedlisttoremove.size && pageinfo.pagenum+1 == pageinfo.pagescount) { 
-										// we are on the last page, and will remove more than a page worth of rows, move to the first page.
+									displayrows = $("##fixedsearchResultsGrid").jqxGrid('getdisplayrows').length;
+									if (displayrows <= fixedlisttoremove.size && pageinfo.pagenum+1 == pageinfo.pagescount) { 
+										// we are on the last page, and will remove more than the visible page worth of rows, move to the first page.
 										$('##fixedsearchResultsGrid').jqxGrid('gotopage',0);
 									}
 									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
