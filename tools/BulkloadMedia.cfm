@@ -544,7 +544,7 @@ limitations under the License.
 </cfloop>
 
 <!--- Join the conditions into a single string with OR separators --->
-<cfset whereClause = arrayToList(conditions, " OR ")>
+<cfset whereClause = arrayToList(conditions, " AND ")>
 
 <!--- Debugging: Output the constructed WHERE clause --->
 <cfoutput>
@@ -553,20 +553,16 @@ limitations under the License.
 
 <!--- Execute the query to check entries with less than 3 characters in specified columns --->
 <cfquery name="entryCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-    SELECT *
+   update cf_temp_media set 
+	status = concat(nvl2(status, status || '; ', ''),'invalid "#entryCheck[subject]#" "#entryCheck[description]#" "#entryCheck[media_uri]#" "#entryCheck[USERNAME]#" "#entryCheck[MIME_TYPE]#" "#entryCheck[media_relationship_1]#"')
+	(SELECT *
     FROM cf_temp_media
-    WHERE #whereClause#
+    WHERE #whereClause#)
 </cfquery>
 
 <!--- Output results if there are any --->
 <cfif entryCheck.recordCount gt 0>
-    <p>Entries with less than 3 characters found:</p>
-    <cfoutput query="entryCheck">
-        <p>Record ID: #entryCheck.id#, 
-        Column1: '#entryCheck[subject]#', 
-        Column2: '#entryCheck[description]#', 
-        Column3: '#entryCheck[media_uri]#'/p>
-    </cfoutput>
+    <p>Entries with less than 3 characters found.</p>
 <cfelse>
     <p>No entries found with less than 3 characters in any specified column.</p>
 </cfif>
