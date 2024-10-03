@@ -535,25 +535,26 @@ limitations under the License.
 				
 				<!--- Define the columns you want to check --->
 
+<cfset columns = ["subject", "description", "media_uri"]>
 <cfset conditions = []>
 
-<!--- Build the WHERE conditions dynamically --->
-<cfloop array="#fieldlist#" index="column">
+<!--- Properly loop through the array of column names --->
+<cfloop index="column" array="#columns#">
     <cfset arrayAppend(conditions, "LENGTH(" & column & ") < 3")>
 </cfloop>
 
-<!--- Convert conditions to a string joined by OR --->
+<!--- Join the conditions into a single string with OR separators --->
 <cfset whereClause = arrayToList(conditions, " OR ")>
 
-<!--- Debug message to confirm the constructed SQL --->
+<!--- Debugging: Output the constructed WHERE clause --->
 <cfoutput>
     <p>Debug: Generated WHERE Clause - #whereClause#</p>
 </cfoutput>
 
-<!--- Execute the query --->
+<!--- Execute the query to check entries with less than 3 characters in specified columns --->
 <cfquery name="entryCheck" datasource="your_datasource">
     SELECT *
-    FROM cf_temp_media
+    FROM getTempMedia
     WHERE #whereClause#
 </cfquery>
 
@@ -561,7 +562,10 @@ limitations under the License.
 <cfif entryCheck.recordCount gt 0>
     <p>Entries with less than 3 characters found:</p>
     <cfoutput query="entryCheck">
-        <p>Record ID: #entryCheck.media_id#</p>
+        <p>Record ID: #entryCheck.id#, 
+        Column1: #entryCheck[subject]]#, 
+        Column2: #entryCheck[description]#, 
+        Column3: #entryCheck[media_uri]#</p>
     </cfoutput>
 <cfelse>
     <p>No entries found with less than 3 characters in any specified column.</p>
