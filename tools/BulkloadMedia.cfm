@@ -918,7 +918,7 @@ limitations under the License.
 								ORDER BY cols.table_name, cols.position
 							</cfquery>
 							<!---SPECIAL CASES - Cataloged_item and specimen_part--->
-							<cfif #related_primary_key# contains "MCZ:">
+							<cfif #getMediaRel.related_primary_key# contains "MCZ:">
 							<cfif #getMediaRel.media_relationship# contains 'cataloged_item' and len(getMediaRel.related_primary_key) gt 0>
 								<cfset l=3>
 								<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
