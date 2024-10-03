@@ -2697,9 +2697,9 @@ Target JSON:
 								dataType: 'json',
 								success : function (data) { 
 									console.log(data);
-									pageinfo = $("##fixedsearchResultsGrid").jqxGrid('getpaginginformation');
-									displayrows = $("##fixedsearchResultsGrid").jqxGrid('getdisplayrows').length;
-									if (displayrows <= fixedlisttoremove.size && pageinfo.pagenum+1 == pageinfo.pagescount) { 
+									var pageinfo = $("##fixedsearchResultsGrid").jqxGrid('getpaginginformation');
+									var rowcount = $("##fixedsearchResultsGrid").jqxGrid('getrows').length;
+									if (rowcount <= fixedlisttoremove.size && pageinfo.pagenum+1 == pageinfo.pagescount) { 
 										// we are on the last page, and will remove more than the visible page worth of rows, move to the first page.
 										$('##fixedsearchResultsGrid').jqxGrid('gotopage',0);
 									}
