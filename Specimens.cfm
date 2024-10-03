@@ -2697,6 +2697,7 @@ Target JSON:
 								dataType: 'json',
 								success : function (data) { 
 									console.log(data);
+									$('##fixedsearchResultsGrid').jqxGrid('gotopage',1);
 									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 									fixedResultModifiedHere();
 									fixedlisttoremove.clear();
