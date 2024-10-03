@@ -563,7 +563,7 @@ limitations under the License.
 
 			<!--- Output results if there are any --->
 			<cfif entryCheck.recordCount gt 0>
-				<h2>Entries with less than 3 characters found. Check for stray marks on the CSV.</h2>
+				<h2 class="text-danger">Entries with less than 3 characters found. Check for stray marks on the CSV.</h2>
 			<cfelse>
 				<h2>No entries found with less than 3 characters in any specified column.</h2>
 			</cfif>
