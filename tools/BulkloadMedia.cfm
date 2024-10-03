@@ -628,15 +628,6 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 			</cfif>
-			<!----------------------------------------->
-			<!---TEST: bad date format warning--------->
-			<!----------------------------------------->
-	
-
-
-			<!---------------------------------------->
-			<!---END: bad date format warning--------->
-			<!---------------------------------------->	
 			
 			<!---Required fields missing warning--->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
@@ -927,6 +918,7 @@ limitations under the License.
 								ORDER BY cols.table_name, cols.position
 							</cfquery>
 							<!---SPECIAL CASES - Cataloged_item and specimen_part--->
+							<cfif #related_primary_key# contains "MCZ:">
 							<cfif #getMediaRel.media_relationship# contains 'cataloged_item' and len(getMediaRel.related_primary_key) gt 0>
 								<cfset l=3>
 								<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
@@ -946,6 +938,7 @@ limitations under the License.
 											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 									</cfquery>
 								</cfloop>
+							</cfif>
 							<cfelseif #getMediaRel.media_relationship# contains 'specimen_part' and len(getMediaRel.related_primary_key) gt 0>
 								<cfloop list="#getMediaRel.related_primary_key#" index="l" delimiters=":">
 									<cfset IA = listGetAt(#getMediaRel.related_primary_key#,1,":")>
