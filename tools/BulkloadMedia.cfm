@@ -1272,7 +1272,7 @@ limitations under the License.
 									media_id,
 									media_relationship,
 									created_by_agent_id,
-									MEDIA_RELATED_TO
+									RELATED_PRIMARY_KEY
 								) VALUES (
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_1#">,
@@ -1287,7 +1287,7 @@ limitations under the License.
 									media_id,
 									media_relationship,
 									created_by_agent_id,
-									MEDIA_RELATED_TO
+									related_primary_key
 								) VALUES (
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_2#">,
@@ -1302,7 +1302,7 @@ limitations under the License.
 									media_id,
 									media_relationship,
 									created_by_agent_id,
-									MEDIA_RELATED_TO
+									related_primary_key
 								) VALUES (
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_3#">,
@@ -1317,7 +1317,7 @@ limitations under the License.
 									media_id,
 									media_relationship,
 									created_by_agent_id,
-									MEDIA_RELATED_TO
+									related_primary_key
 								) VALUES (
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_4#">,
