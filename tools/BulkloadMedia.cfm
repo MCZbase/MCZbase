@@ -540,7 +540,7 @@ limitations under the License.
 
 <!--- Properly loop through the array of column names --->
 <cfloop index="column" array="#columns#">
-    <cfset arrayAppend(conditions, "LENGTH(" & 'column' & ") < 3")>
+    <cfset arrayAppend(conditions, "LENGTH(" & column & ") < 3")>
 </cfloop>
 
 <!--- Join the conditions into a single string with OR separators --->
@@ -563,9 +563,9 @@ limitations under the License.
     <p>Entries with less than 3 characters found:</p>
     <cfoutput query="entryCheck">
         <p>Record ID: #entryCheck.id#, 
-        Column1: #entryCheck[subject]#, 
-        Column2: #entryCheck[description]#, 
-        Column3: #entryCheck[media_uri]#</p>
+        Column1: '#entryCheck[subject]#', 
+        Column2: '#entryCheck[description]#', 
+        Column3: '#entryCheck[media_uri]#'/p>
     </cfoutput>
 <cfelse>
     <p>No entries found with less than 3 characters in any specified column.</p>
