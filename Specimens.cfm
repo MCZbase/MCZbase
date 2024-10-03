@@ -2731,6 +2731,12 @@ Target JSON:
 								dataType: 'json',
 								success : function (data) { 
 									console.log(data);
+									var pageinfo = $("##keywordsearchResultsGrid").jqxGrid('getpaginginformation');
+									var rowcount = $("##keywordsearchResultsGrid").jqxGrid('getrows').length;
+									if (rowcount <= keywordlisttoremove.size && pageinfo.pagenum+1 == pageinfo.pagescount) { 
+										// we are on the last page, and will remove more than the visible page worth of rows, move to the first page.
+										$('##keywordsearchResultsGrid').jqxGrid('gotopage',0);
+									}
 									$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
 									keywordResultModifiedHere();
 									keywordlisttoremove.clear();
@@ -2759,6 +2765,12 @@ Target JSON:
 								dataType: 'json',
 								success : function (data) { 
 									console.log(data);
+									var pageinfo = $("##buildersearchResultsGrid").jqxGrid('getpaginginformation');
+									var rowcount = $("##buildersearchResultsGrid").jqxGrid('getrows').length;
+									if (rowcount <= builderlisttoremove.size && pageinfo.pagenum+1 == pageinfo.pagescount) { 
+										// we are on the last page, and will remove more than the visible page worth of rows, move to the first page.
+										$('##buildersearchResultsGrid').jqxGrid('gotopage',0);
+									}
 									$('##buildersearchResultsGrid').jqxGrid('updatebounddata');
 									builderResultModifiedHere();
 									builderlisttoremove.clear();
