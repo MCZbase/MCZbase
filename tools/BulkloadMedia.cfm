@@ -63,7 +63,7 @@ limitations under the License.
 	
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p class="font-weight-bold h4">Jump to <a href="##loader" class="btn-link font-weight-bold text-muted">Loader</a></p>
+
 			<p>This tool adds media records. The media can be related to records that have to be in MCZbase prior to uploading this csv. Duplicate columns will be ignored. Some of the values must appear as they do on the controlled vocabulary lists.
 			</p>
 			<div class="accordion accordion-flush" id="accordionFlushExample">
@@ -290,7 +290,7 @@ limitations under the License.
 				</form>
 				
 			</div>
-			<a name="loader" class="text-white">top</a>
+			
 		</cfoutput>
 	</cfif>
 
@@ -510,6 +510,7 @@ limitations under the License.
 	<cfif #action# is "validate">
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfoutput>
+			<p class="font-weight-bold h4">Jump to <a href="##loader" class="btn-link font-weight-bold text-muted">Loader</a></p>
 			<!---First loop is to check for missing required data, missing values from key value pairs, bad formats (e.g., data) and values that don't match database code tables--->
 			<cfquery name="getTempMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,MEDIA_LABEL_3,LABEL_VALUE_3,MEDIA_LABEL_4,LABEL_VALUE_4,MEDIA_LABEL_5,LABEL_VALUE_5,MEDIA_LABEL_6,LABEL_VALUE_6,MEDIA_LABEL_7,LABEL_VALUE_7,MEDIA_LABEL_8,LABEL_VALUE_8,KEY,USERNAME,MEDIA_RELATIONSHIP_1,MEDIA_RELATED_TO_1,MEDIA_RELATIONSHIP_2,MEDIA_RELATED_TO_2,MEDIA_RELATIONSHIP_3,MEDIA_RELATED_TO_3,MEDIA_RELATIONSHIP_4,MEDIA_RELATED_TO_4
@@ -531,10 +532,8 @@ limitations under the License.
 				WHERE  
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 			</cfquery>
-		
-				
-				<!--- Define the columns you want to check --->
-
+			
+			<!--- Define the columns you want to check --->
 			<cfset columns = ["subject", "description", "media_uri","MIME_TYPE","MEDIA_TYPE","PREVIEW_URI","MEDIA_LABEL_1","LABEL_VALUE_1","MEDIA_LABEL_2","LABEL_VALUE_2","KEY","USERNAME","MEDIA_RELATIONSHIP_1","MEDIA_RELATIONSHIP_2","MEDIA_RELATIONSHIP_3","MEDIA_RELATIONSHIP_4"]>
 			<cfset conditions = []>
 
@@ -547,7 +546,6 @@ limitations under the License.
 			<cfset whereClause = arrayToList(conditions, " OR ")>
 
 			<!--- Debugging: Output the constructed WHERE clause --->
-		
 			<cfquery name="entryCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_media
@@ -567,9 +565,6 @@ limitations under the License.
 			<cfelse>
 				
 			</cfif>
-				
-				
-				
 				
 			<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
@@ -1175,6 +1170,7 @@ limitations under the License.
 					</cfloop>
 				</tbody>
 			</table>
+			<a name="loader" class="text-white">top</a>
 		</cfoutput>
 	</cfif>
 
