@@ -531,18 +531,45 @@ limitations under the License.
 				WHERE  
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 			</cfquery>
-			<cfloop array="#fieldlist#" index="col">
-				<cfset arrayAppend(conditions, "LENGTH(" & col & ") < 3")>
-			</cfloop>
+		
+				
+				<!--- Define the columns you want to check --->
 
-			<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE
-					cf_temp_media
-				SET 
-					status = concat(nvl2(status, status || '; ', ''),'Is there a stray mark on CSV?')
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-				and #arrayToList(conditions, " OR ")#
-			</cfquery>	
+<cfset conditions = []>
+
+<!--- Build the WHERE conditions dynamically --->
+<cfloop array="#fieldlist#" index="column">
+    <cfset arrayAppend(conditions, "LENGTH(" & column & ") < 3")>
+</cfloop>
+
+<!--- Convert conditions to a string joined by OR --->
+<cfset whereClause = arrayToList(conditions, " OR ")>
+
+<!--- Debug message to confirm the constructed SQL --->
+<cfoutput>
+    <p>Debug: Generated WHERE Clause - #whereClause#</p>
+</cfoutput>
+
+<!--- Execute the query --->
+<cfquery name="entryCheck" datasource="your_datasource">
+    SELECT *
+    FROM cf_temp_media
+    WHERE #whereClause#
+</cfquery>
+
+<!--- Output results if there are any --->
+<cfif entryCheck.recordCount gt 0>
+    <p>Entries with less than 3 characters found:</p>
+    <cfoutput query="entryCheck">
+        <p>Record ID: #entryCheck.media_id#</p>
+    </cfoutput>
+<cfelse>
+    <p>No entries found with less than 3 characters in any specified column.</p>
+</cfif>
+				
+				
+				
+				
 			<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
