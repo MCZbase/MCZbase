@@ -535,40 +535,38 @@ limitations under the License.
 				
 				<!--- Define the columns you want to check --->
 
-<cfset columns = ["subject", "description", "media_uri","MIME_TYPE","MEDIA_TYPE","PREVIEW_URI","MEDIA_LABEL_1","LABEL_VALUE_1","MEDIA_LABEL_2","LABEL_VALUE_2","KEY","USERNAME","MEDIA_RELATIONSHIP_1","MEDIA_RELATIONSHIP_2","MEDIA_RELATIONSHIP_3","MEDIA_RELATIONSHIP_4"]>
-<cfset conditions = []>
+			<cfset columns = ["subject", "description", "media_uri","MIME_TYPE","MEDIA_TYPE","PREVIEW_URI","MEDIA_LABEL_1","LABEL_VALUE_1","MEDIA_LABEL_2","LABEL_VALUE_2","KEY","USERNAME","MEDIA_RELATIONSHIP_1","MEDIA_RELATIONSHIP_2","MEDIA_RELATIONSHIP_3","MEDIA_RELATIONSHIP_4"]>
+			<cfset conditions = []>
 
-<!--- Properly loop through the array of column names --->
-<cfloop index="column" array="#columns#">
-    <cfset arrayAppend(conditions, "LENGTH(" & column & ") < 3")>
-</cfloop>
+			<!--- Properly loop through the array of column names --->
+			<cfloop index="column" array="#columns#">
+				<cfset arrayAppend(conditions, "LENGTH(" & column & ") < 3")>
+			</cfloop>
 
-<!--- Join the conditions into a single string with OR separators --->
-<cfset whereClause = arrayToList(conditions, " OR ")>
+			<!--- Join the conditions into a single string with OR separators --->
+			<cfset whereClause = arrayToList(conditions, " OR ")>
 
-<!--- Debugging: Output the constructed WHERE clause --->
-<cfoutput>
-    <p>Debug: Generated WHERE Clause - #whereClause#</p>
-</cfoutput>
-<cfquery name="entryCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-    SELECT *
-    FROM cf_temp_media
-    WHERE #whereClause#
-</cfquery>
-<!--- Execute the query to check entries with less than 3 characters in specified columns --->
-<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-   update cf_temp_media set status = concat(nvl2(status, status || '; ', ''),'invalid Data')
-	where media_uri = (SELECT media_uri
-    FROM cf_temp_media
-    WHERE #whereClause#)
-</cfquery>
+			<!--- Debugging: Output the constructed WHERE clause --->
+		
+			<cfquery name="entryCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT *
+				FROM cf_temp_media
+				WHERE #whereClause#
+			</cfquery>
+			<!--- Execute the query to check entries with less than 3 characters in specified columns --->
+			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			   update cf_temp_media set status = concat(nvl2(status, status || '; ', ''),'invalid Data')
+				where media_uri = (SELECT media_uri
+				FROM cf_temp_media
+				WHERE #whereClause#)
+			</cfquery>
 
-<!--- Output results if there are any --->
-<cfif entryCheck.recordCount gt 0>
-    <p>Entries with less than 3 characters found.</p>
-<cfelse>
-    <p>No entries found with less than 3 characters in any specified column.</p>
-</cfif>
+			<!--- Output results if there are any --->
+			<cfif entryCheck.recordCount gt 0>
+				<h2>Entries with less than 3 characters found. Check for stray marks on the CSV.</h2>
+			<cfelse>
+				<h2>No entries found with less than 3 characters in any specified column.</h2>
+			</cfif>
 				
 				
 				
