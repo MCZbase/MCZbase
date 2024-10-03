@@ -563,7 +563,7 @@ limitations under the License.
     <p>Entries with less than 3 characters found:</p>
     <cfoutput query="entryCheck">
         <p>Record ID: #entryCheck.id#, 
-        Column1: #entryCheck[subject]]#, 
+        Column1: #entryCheck[subject]#, 
         Column2: #entryCheck[description]#, 
         Column3: #entryCheck[media_uri]#</p>
     </cfoutput>
