@@ -299,7 +299,7 @@ limitations under the License.
 	<cfif #action# is "getFile">
 		<cfoutput>
 			<h2 class="h4">First step: Reading data from CSV file.</h2>
-			<p class="font-weight-bold h4">Jump to <a href="##loader" class="btn-link font-weight-bold text-muted">Loader</a></p>
+			<p class="font-weight-bold h4">Jump to <a href="##loader" class="btn-link font-weight-bold text-muted">Validate</a></p>
 			<!--- Compare the numbers of headers expected against provided in CSV file --->
 			<!--- Set some constants to identify error cases in cfcatch block --->
 			<cfset NO_COLUMN_ERR = "<p>One or more required fields are missing in the header line of the csv file. <br>Missing fields: </p>">
