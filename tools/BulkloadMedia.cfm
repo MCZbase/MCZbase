@@ -538,7 +538,6 @@ limitations under the License.
 					status = concat(nvl2(status, status || '; ', ''),'invalid made_date')
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				AND made_date = is_iso8601(made_date)
-					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#"> 
 			</cfquery>	
 			<!---NOT in codetable warnings or match expectation--->
 			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
