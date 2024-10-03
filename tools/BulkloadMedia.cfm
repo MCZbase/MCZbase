@@ -540,7 +540,7 @@ limitations under the License.
 
 <!--- Properly loop through the array of column names --->
 <cfloop index="column" array="#columns#">
-    <cfset arrayAppend(conditions, "LENGTH(" & column & ") < 3")>
+    <cfset arrayAppend(conditions, "LENGTH(" & 'column' & ") < 3")>
 </cfloop>
 
 <!--- Join the conditions into a single string with OR separators --->
