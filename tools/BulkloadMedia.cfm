@@ -531,6 +531,15 @@ limitations under the License.
 				WHERE  
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 			</cfquery>
+			<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_media
+				SET 
+					status = concat(nvl2(status, status || '; ', ''),'invalid made_date')
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+				AND made_date = is_iso8601(madedate)
+					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#"> 
+			</cfquery>	
 			<!---NOT in codetable warnings or match expectation--->
 			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
@@ -574,18 +583,9 @@ limitations under the License.
 			<!----------------------------------------->
 			<!---TEST: bad date format warning--------->
 			<!----------------------------------------->
-			<cfset madedate = isDate(getTempMedia.made_date)>
-			<cfif #madedate# eq 'NO'>
-				<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_media
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),'invalid made_date')
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-					AND made_date = is_iso8601(madedate)
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#"> 
-				</cfquery>	
-			</cfif>
+	
+
+
 			<!---------------------------------------->
 			<!---END: bad date format warning--------->
 			<!---------------------------------------->	
