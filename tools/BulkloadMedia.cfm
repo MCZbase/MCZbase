@@ -75,7 +75,7 @@ limitations under the License.
 					</h2>
 					<div id="flush-collapseOne" class="accordion-collapse collapse mb-3" aria-labelledby="flush-headingOne" data-parent="##accordionFlushExample">
 					  <div class="accordion-body">
-						  <p class="px-2">Find controlled vocabulary in MCZbase.</p>
+						  <p class="px-2 pt-2 pb-1">Find controlled vocabulary in MCZbase.</p>
 						  <ul class="list-group list-group-horizontal-md">
 								<li class="list-group-item font-weight-lessbold">
 									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL (17 values)</a> </li> <span class="mt-1 d-none d-md-inline-block"> | </span>
@@ -100,7 +100,7 @@ limitations under the License.
 					</h2>
 					<div id="flush-collapseTwo" class="accordion-collapse collapse mb-3" aria-labelledby="flush-headingTwo" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">			
-						  	<dl>
+						  	<dl class="pt-2">
 								<dt class="float-left px-2">Step 1:</dt><dd>Fill out a spreadsheet with the appropriate column headers (see below). Make sure that the required fields are not skipped. </dd>
 								<dt class="float-left px-2">Step 2:</dt><dd>Ensure MEDIA_URI and PREVIEW_URI fields contain media that exists on the shared drive or external URL. A preview_URI will be created from the media_URI if one is not provided. This gives you the opportunity to pick a representative image (or part of the larger image) that is clearly visible.</dd>
 								<dt class="float-left px-2">Step 3:</dt><dd>Check to see that records exist for the relationships fields (e.g., cataloged_item, agent, collecting_event).</dd>
@@ -119,7 +119,7 @@ limitations under the License.
 					</h2>
 					<div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
-							<p class="px-2">Some relationships require a relationship-specific ID and others can take a name. See correct entries for the relationships below:</p>
+							<p class="pt-2 pb-1 px-2">Some relationships require a relationship-specific ID and others can take a name. See correct entries for the relationships below:</p>
 							<table class="table table-responsive small table-striped mx-2">
 								<thead class="thead-light">
 									<tr>
@@ -175,7 +175,7 @@ limitations under the License.
 					</h2>
 					<div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
-							<p class="px-2">The MEDIA_LICENSE_ID should be entered using the numeric codes below. If omitted this will default to the &quot;1 - MCZ Permissions &amp; Copyright&quot; license.</p>
+							<p class="pt-2 px-2">The MEDIA_LICENSE_ID should be entered using the numeric codes below. If omitted this will default to the &quot;1 - MCZ Permissions &amp; Copyright&quot; license.</p>
 							<h3 class="small90 pl-3">Media License Codes:</h3>
 							<dl class="pl-3 mb-4">
 								<dt class="btn-secondary"><span class="badge badge-light">1 </span> MCZ Permissions &amp; Copyright</dt> <dd>All MCZ images and publications should have this designation</dd>
