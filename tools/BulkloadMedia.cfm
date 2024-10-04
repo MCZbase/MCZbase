@@ -75,6 +75,7 @@ limitations under the License.
 					</h2>
 					<div id="flush-collapseOne" class="accordion-collapse collapse mb-3" aria-labelledby="flush-headingOne" data-parent="##accordionFlushExample">
 					  <div class="accordion-body">
+						  <p>Find the terms that need to match controlled vocabulary in MCZbase.
 						  <ul class="list-group list-group-horizontal-md">
 								<li class="list-group-item font-weight-lessbold">
 									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL (17 values)</a> </li> <span class="mt-1 d-none d-md-inline-block"> | </span>
@@ -98,13 +99,14 @@ limitations under the License.
 						</button>
 					</h2>
 					<div id="flush-collapseTwo" class="accordion-collapse collapse mb-3" aria-labelledby="flush-headingTwo" data-parent="##accordionFlushExample">
-					  <div class="accordion-body">			
+					  	<div class="accordion-body">			
 						  	<dl>
-								<dt class="float-left px-2">Step 1:</dt><dd>Ensure that Media exists on the shared drive or external URL</dd>
-								<dt class="float-left px-2">Step 2:</dt><dd>Check the existance of records for the relationships (e.g., cataloged_item, agent, collecting_event).</dd>
-								<dt class="float-left px-2">Step 3:</dt><dd>Upload a comma-delimited text file (csv). </dd>
-								<dt class="float-left px-2">Step 4:</dt><dd>Validation. Check the table of data. </dd>
-								<dt class="float-left px-2">Step 5:</dt><dd>Load the data. </dd>
+								<dt class="float-left px-2">Step 1:</dt><dd>Fill out a spreadsheet with column headers that match the column headers below. Make sure that the required fields are not skipped. </dd>
+								<dt class="float-left px-2">Step 2:</dt><dd>Ensure that Media in the MEDIA_URI and PREVIEW_URI fields exists on the shared drive or external URL. A preview_URI will be created from the media_URI if one is not provided. This gives you the opportunity to pick a representative image (or part of the larger image) that is clearly visible.</dd>
+								<dt class="float-left px-2">Step 3:</dt><dd>Check for the existance of records for the relationships fields (e.g., cataloged_item, agent, collecting_event).</dd>
+								<dt class="float-left px-2">Step 4:</dt><dd>Upload a comma-delimited text file (csv). It is best to work in a workbook and then save as a CSV file so that formatting choices are retained. You can go back to the workbook to make the changes and save it again to a CSV with another filename.</dd>
+								<dt class="float-left px-2">Step 5:</dt><dd>Validation. Check the table of data. </dd>
+								<dt class="float-left px-2">Step 6:</dt><dd>Load the data. </dd>
 							</dl>
 						</div>
 					</div>
