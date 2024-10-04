@@ -175,7 +175,7 @@ limitations under the License.
 					</h2>
 					<div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
-							<p class="pt-2 pb-3 px-2">The MEDIA_LICENSE_ID should be entered using the numeric codes below. If omitted this will default to the &quot;1 - MCZ Permissions &amp; Copyright&quot; license.</p>
+							<p class="pt-2 pb-4 px-2">The MEDIA_LICENSE_ID should be entered using the numeric codes below. If omitted this will default to the &quot;1 - MCZ Permissions &amp; Copyright&quot; license.</p>
 							<h3 class="small90 pl-3">Media License Codes:</h3>
 							<dl class="pl-3 mb-4">
 								<dt class="btn-secondary"><span class="badge badge-light">1 </span> MCZ Permissions &amp; Copyright</dt> <dd>All MCZ images and publications should have this designation</dd>
