@@ -4124,6 +4124,12 @@ Target JSON:
 			} else {
 				$('##'+whichGrid+'resultCount').html('Modified to ' + rowcount + ' records');
 			}
+			var rowcount = $("##"+whichGrid+"searchResultsGrid").jqxGrid('getrows').length;
+			if (rowcount ==0 ) {
+				console.log("On empty page after row removal") 
+				// we are on the last page, and removed the only remaining row(s) on it, go to the first page
+				$('##'+whichGrid+'searchResultsGrid').jqxGrid('gotopage',0);
+			}
 		}
 		function gridLoaded(gridId, searchType, whichGrid) {
 			console.log('gridLoaded:' + gridId);
