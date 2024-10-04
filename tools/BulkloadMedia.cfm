@@ -75,7 +75,7 @@ limitations under the License.
 					</h2>
 					<div id="flush-collapseOne" class="accordion-collapse collapse mb-3" aria-labelledby="flush-headingOne" data-parent="##accordionFlushExample">
 					  <div class="accordion-body">
-						  <p class="px-2 pt-2 pb-1">Find controlled vocabulary in MCZbase.</p>
+						  <p class="px-2 pt-2 pb-0 mb-0">Find controlled vocabulary in MCZbase.</p>
 						  <ul class="list-group list-group-horizontal-md">
 								<li class="list-group-item font-weight-lessbold">
 									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL (17 values)</a> </li> <span class="mt-1 d-none d-md-inline-block"> | </span>
@@ -119,7 +119,7 @@ limitations under the License.
 					</h2>
 					<div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
-							<p class="pt-2 pb-1 px-2">Some relationships require a relationship-specific ID and others can take a name. See correct entries for the relationships below:</p>
+							<p class="pt-2 pb-0 mb-0 px-2">Some relationships require a relationship-specific ID and others can take a name. See correct entries for the relationships below:</p>
 							<table class="table table-responsive small table-striped mx-2">
 								<thead class="thead-light">
 									<tr>
