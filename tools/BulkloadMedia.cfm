@@ -75,7 +75,7 @@ limitations under the License.
 					</h2>
 					<div id="flush-collapseOne" class="accordion-collapse collapse mb-3" aria-labelledby="flush-headingOne" data-parent="##accordionFlushExample">
 					  <div class="accordion-body">
-						  <p>Find the terms that need to match controlled vocabulary in MCZbase.
+						  <p class="mt-2 mb-0">Find the terms that need to match controlled vocabulary in MCZbase.</p>
 						  <ul class="list-group list-group-horizontal-md">
 								<li class="list-group-item font-weight-lessbold">
 									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL (17 values)</a> </li> <span class="mt-1 d-none d-md-inline-block"> | </span>
