@@ -761,7 +761,7 @@ limitations under the License.
 	<cfargument name="tgt" type="string" required="yes">
 
 	<cftry>
-		<cfif tgt is not 1>
+		<cfif (tgt is not 1) AND (tgt is not 2) >
 			<cfset tgt=0>
 		</cfif>
 		<cfquery name="up" datasource="cf_dbuser">
