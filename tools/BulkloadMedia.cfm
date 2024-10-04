@@ -75,7 +75,7 @@ limitations under the License.
 					</h2>
 					<div id="flush-collapseOne" class="accordion-collapse collapse mb-3" aria-labelledby="flush-headingOne" data-parent="##accordionFlushExample">
 					  <div class="accordion-body">
-						  <p class="mt-2 mb-0 px-2">Find the terms that need to match controlled vocabulary in MCZbase.</p>
+						  <p class="mt-2 mb-0 px-2">Find controlled vocabulary in MCZbase.</p>
 						  <ul class="list-group list-group-horizontal-md">
 								<li class="list-group-item font-weight-lessbold">
 									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL (17 values)</a> </li> <span class="mt-1 d-none d-md-inline-block"> | </span>
@@ -101,8 +101,8 @@ limitations under the License.
 					<div id="flush-collapseTwo" class="accordion-collapse collapse mb-3" aria-labelledby="flush-headingTwo" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">			
 						  	<dl>
-								<dt class="float-left px-2">Step 1:</dt><dd>Fill out a spreadsheet with column headers that match the column headers below. Make sure that the required fields are not skipped. </dd>
-								<dt class="float-left px-2">Step 2:</dt><dd>Ensure that Media in the MEDIA_URI and PREVIEW_URI fields exists on the shared drive or external URL. A preview_URI will be created from the media_URI if one is not provided. This gives you the opportunity to pick a representative image (or part of the larger image) that is clearly visible.</dd>
+								<dt class="float-left px-2">Step 1:</dt><dd>Fill out a spreadsheet with the appropriate column headers (see below). Make sure that the required fields are not skipped. </dd>
+								<dt class="float-left px-2">Step 2:</dt><dd>Ensure MEDIA_URI and PREVIEW_URI fields contain media that exists on the shared drive or external URL. A preview_URI will be created from the media_URI if one is not provided. This gives you the opportunity to pick a representative image (or part of the larger image) that is clearly visible.</dd>
 								<dt class="float-left px-2">Step 3:</dt><dd>Check to see that records exist for the relationships fields (e.g., cataloged_item, agent, collecting_event).</dd>
 								<dt class="float-left px-2">Step 4:</dt><dd>Upload a comma-delimited text file (csv). It is best to work in a workbook and then save as a CSV file so that formatting choices are retained. You can go back to the workbook to make the changes and save it again to a CSV with another filename if changes are needed.</dd>
 								<dt class="float-left px-2">Step 5:</dt><dd>Validation. Check the table of data. </dd>
@@ -119,7 +119,7 @@ limitations under the License.
 					</h2>
 					<div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
-							<p class="mt-2 mb-0 px-2">Some relationships require an ID specific to that the type of relationship and others can take a name. Look at the table below and see if you have the correct entries for the relationships.</p>
+							<p class="mt-2 mb-0 px-2">Some relationships require a relationship-specific ID and others can take a name. See correct entries for the relationships below:</p>
 							<table class="table table-responsive small table-striped mx-2">
 								<thead class="thead-light">
 									<tr>
@@ -175,7 +175,7 @@ limitations under the License.
 					</h2>
 					<div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
-							<p class="mt-2 mb-0 px-2">The media license id should be entered using the numeric codes below. If omitted this will default to the &quot;1 - MCZ Permissions &amp; Copyright&quot; license.</p>
+							<p class="my-2 px-2">The media license id should be entered using the numeric codes below. If omitted this will default to the &quot;1 - MCZ Permissions &amp; Copyright&quot; license.</p>
 							<h3 class="small90 pl-3">Media License Codes:</h3>
 							<dl class="pl-3">
 								<dt class="btn-secondary"><span class="badge badge-light">1 </span> MCZ Permissions &amp; Copyright</dt> <dd>All MCZ images and publications should have this designation</dd>
@@ -197,7 +197,7 @@ limitations under the License.
 					</h2>
 					<div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
-							<p class="mt-2 mb-0 px-2">To mark media as hidden from the public, enter 1 in the MASK_MEDIA column. Enter zero or leave blank for public media.</p>
+							<p class="my-2 pb-2 px-2">To mark media as hidden from the public, enter 1 in the MASK_MEDIA column. Enter zero or leave blank for public media.</p>
 						</div>
 					</div>
 				</div>
