@@ -175,7 +175,7 @@ limitations under the License.
 					</h2>
 					<div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
-							<p>The media license id should be entered using the numeric codes below. If omitted this will default to the &quot;1 - MCZ Permissions &amp; Copyright&quot; license.</p>
+							<p class="mt-2 mb-0 px-2">The media license id should be entered using the numeric codes below. If omitted this will default to the &quot;1 - MCZ Permissions &amp; Copyright&quot; license.</p>
 							<h3 class="small90 pl-3">Media License Codes:</h3>
 							<dl class="pl-3">
 								<dt class="btn-secondary"><span class="badge badge-light">1 </span> MCZ Permissions &amp; Copyright</dt> <dd>All MCZ images and publications should have this designation</dd>
@@ -197,7 +197,7 @@ limitations under the License.
 					</h2>
 					<div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
-							<p>To mark media as hidden from the public, enter 1 in the MASK_MEDIA column. Enter zero or leave blank for public media.</p>
+							<p class="mt-2 mb-0 px-2">To mark media as hidden from the public, enter 1 in the MASK_MEDIA column. Enter zero or leave blank for public media.</p>
 						</div>
 					</div>
 				</div>
