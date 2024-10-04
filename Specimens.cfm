@@ -3461,9 +3461,13 @@ Target JSON:
 						$('##fixedmanageButton').html('');
 					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						$('##fixedremoveButtonDiv').html('<button id="fixedremoveButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" disabled onclick="removeFixedSelectedRows(); " >Remove Checked</a>');
-					<cfelse>
-						$('##fixedremoveButtonDiv').html('');
+						<cfif isdefined("session.killRow") AND session.killRow EQ 2>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+								$('##fixedremoveButtonDiv').html('<button id="fixedremoveButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" disabled onclick="removeFixedSelectedRows(); " >Remove Checked</a>');
+							<cfelse>
+								$('##fixedremoveButtonDiv').html('');
+							</cfif>
+						</cfif>
 					</cfif>
 					pageLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
@@ -3688,9 +3692,13 @@ Target JSON:
 						$('##keywordmanageButton').html('');
 					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						$('##keywordremoveButtonDiv').html('<button id="keywordremoveButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" disabled onclick="removeKeywordSelectedRows(); " >Remove Checked</a>');
-					<cfelse>
-						$('##keywordremoveButtonDiv').html('');
+						<cfif isdefined("session.killRow") AND session.killRow EQ 2>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+								$('##keywordremoveButtonDiv').html('<button id="keywordremoveButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" disabled onclick="removeKeywordSelectedRows(); " >Remove Checked</a>');
+							<cfelse>
+								$('##keywordremoveButtonDiv').html('');
+							</cfif>
+						</cfif>
 					</cfif>
 					pageLoaded('keywordsearchResultsGrid','occurrence record','keyword');
 					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
@@ -3912,9 +3920,13 @@ Target JSON:
 						$('##buildermanageButton').html('');
 					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						$('##builderremoveButtonDiv').html('<button id="builderremoveButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" disabled onclick="removeBuilderSelectedRows(); " >Remove Checked</a>');
-					<cfelse>
-						$('##builderremoveButtonDiv').html('');
+						<cfif isdefined("session.killRow") AND session.killRow EQ 2>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+								$('##builderremoveButtonDiv').html('<button id="builderremoveButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" disabled onclick="removeBuilderSelectedRows(); " >Remove Checked</a>');
+							<cfelse>
+								$('##builderremoveButtonDiv').html('');
+							</cfif>
+						</cfif>
 					</cfif>
 					pageLoaded('buildersearchResultsGrid','occurrence record','builder');
 					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
