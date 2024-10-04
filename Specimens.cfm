@@ -4128,7 +4128,12 @@ Target JSON:
 			if (rowcount ==0 ) {
 				console.log("On empty page after row removal") 
 				// we are on the last page, and removed the only remaining row(s) on it, go to the first page
-				$('##'+whichGrid+'searchResultsGrid').jqxGrid('gotopage',0);
+				// Go to page isn't working here
+				// $('##'+whichGrid+'searchResultsGrid').jqxGrid('gotopage',0);
+				// workaround by changing page size, this ends up bouncing to first page.
+				var pagesize = $('##'+whichGrid+'searchResultsGrid').jqxGrid("getpaginginformation").pagesize
+				$('##'+whichGrid+'searchResultsGrid').jqxGrid("pagesize", pagesize+1);
+				$('##'+whichGrid+'searchResultsGrid').jqxGrid("pagesize", pagesize-1);
 			}
 		}
 		function gridLoaded(gridId, searchType, whichGrid) {
