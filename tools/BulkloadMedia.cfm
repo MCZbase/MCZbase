@@ -209,7 +209,7 @@ limitations under the License.
 					</h2>
 					<div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
-							<p class="mt-2 mb-0 px-2"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
+							<p class="px-2"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
 							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
 								<cfloop list="#fieldlist#" index="field" delimiters=",">
 									<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
