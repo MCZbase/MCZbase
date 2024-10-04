@@ -120,7 +120,7 @@ limitations under the License.
 					<div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
 							<p class="pt-2 pb-0 mb-0 px-2">Some relationships require a relationship-specific ID and others can take a name. See correct entries for the relationships below:</p>
-							<table class="table table-responsive small table-striped mx-2 mb-3">
+							<table class="table table-responsive small table-striped mx-2 mb-4">
 								<thead class="thead-light">
 									<tr>
 										<th>Agents</th><br>
