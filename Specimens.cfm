@@ -4133,7 +4133,7 @@ Target JSON:
 				// workaround by changing page size, this ends up bouncing to first page.
 				var pagesize = $('##'+whichGrid+'searchResultsGrid').jqxGrid("getpaginginformation").pagesize
 				$('##'+whichGrid+'searchResultsGrid').jqxGrid("pagesize", pagesize+1);
-				$('##'+whichGrid+'searchResultsGrid').jqxGrid("pagesize", pagesize-1);
+				$('##'+whichGrid+'searchResultsGrid').jqxGrid("pagesize", pagesize);
 			}
 		}
 		function gridLoaded(gridId, searchType, whichGrid) {
