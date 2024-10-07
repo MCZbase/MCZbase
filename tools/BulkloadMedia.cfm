@@ -681,7 +681,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfset formattedDate = DateFormat(made_date, "yyyy-mm-dd")>
-				<cfif made_date contains 'th' or made_date contains 'nd' or made_date contains 'st'>
+				<cfif #getTempMedia.made_date# contains 'th' or #getTempMedia.made_date# contains 'nd' or #getTempMedia.made_date# contains 'st'>
 					<cfquery name="warningBadURI2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
