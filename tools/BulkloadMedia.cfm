@@ -1044,7 +1044,7 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							</cfif>
-							<cfif len(getMediaRel.MEDIA_RELATED_TO) gt 0>
+							<cfif len(getMediaRel.MEDIA_RELATED_TO) gt 0 and len(getMediaRel.MEDIA_RELATED_TO) eq 0>
 								<cfquery name="warningBadRel2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									UPDATE
 										cf_temp_media
