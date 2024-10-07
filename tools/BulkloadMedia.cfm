@@ -1004,7 +1004,7 @@ limitations under the License.
 									UPDATE
 										cf_temp_media
 									SET
-										status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATED_TO_#i# is invalid')
+										status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATED_TO_#i# is invalid here')
 									WHERE
 										MEDIA_RELATED_TO_#i# not in (select collection_name from underscore_collection where collection_name = '#getMediaRel.MEDIA_RELATED_TO#') AND
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
