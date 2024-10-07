@@ -1542,7 +1542,7 @@ limitations under the License.
 					<cftransaction action="ROLLBACK">
 					<h3>There was a problem adding media records. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT STATUS,MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,CREATED_BY_AGENT_ID,SUBJECT,MADE_DATE,HEIGHT,WIDTH,DESCRIPTION,MEDIA_RELATIONSHIP_1,MEDIA_RELATED_TO_1,MEDIA_RELATIONSHIP_2,MEDIA_RELATED_TO_2,MEDIA_RELATIONSHIP_3,MEDIA_RELATED_TO_3,MEDIA_RELATIONSHIP_4,MEDIA_RELATED_TO_4,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,MEDIA_LABEL_3,LABEL_VALUE_3,MEDIA_LABEL_4,LABEL_VALUE_4,MEDIA_LABEL_5,LABEL_VALUE_5,MEDIA_LABEL_6,LABEL_VALUE_6,MEDIA_LABEL_7,LABEL_VALUE_7,MEDIA_LABEL_8,LABEL_VALUE_8
+						SELECT STATUS,MEDIA_URI,MIME_TYPE,MEDIA_TYPE,SUBJECT,MADE_DATE,DESCRIPTION,PREVIEW_URI,CREATED_BY_AGENT_ID,HEIGHT,WIDTH,MEDIA_RELATIONSHIP_1,MEDIA_RELATED_TO_1,MEDIA_RELATIONSHIP_2,MEDIA_RELATED_TO_2,MEDIA_RELATIONSHIP_3,MEDIA_RELATED_TO_3,MEDIA_RELATIONSHIP_4,MEDIA_RELATED_TO_4,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,MEDIA_LABEL_3,LABEL_VALUE_3,MEDIA_LABEL_4,LABEL_VALUE_4,MEDIA_LABEL_5,LABEL_VALUE_5,MEDIA_LABEL_6,LABEL_VALUE_6,MEDIA_LABEL_7,LABEL_VALUE_7,MEDIA_LABEL_8,LABEL_VALUE_8
 						FROM 
 							cf_temp_media
 						WHERE
@@ -1596,9 +1596,9 @@ limitations under the License.
 									<th>MEDIA_TYPE</th>
 									<th>SUBJECT</th>
 									<th>MADE_DATE</th>
+									<th>DESCRIPTION</th>
 									<th>HEIGHT</th>
 									<th>WIDTH</th>
-									<th>DESCRIPTION</th>
 									<th>PREVIEW_URI</th>
 									<th>CREATED_BY_AGENT_ID</th>
 									<th>MEDIA_LICENSE_ID</th>
@@ -1632,13 +1632,13 @@ limitations under the License.
 										<td>#i#</td>
 										<td>#getProblemData.MEDIA_URI# </td>
 										<td>#getProblemData.MEDIA_TYPE# </td>
-										<td>#getProblemData.PREVIEW_URI# </td>
-										<td>#getProblemData.CREATED_BY_AGENT_ID#</td>
 										<td>#getProblemData.SUBJECT#</td>
 										<td>#getProblemData.MADE_DATE#</td>
+										<td>#getProblemData.DESCRIPTION#</td>
 										<td>#getProblemData.HEIGHT#</td>
 										<td>#getProblemData.WIDTH#</td>
-										<td>#getProblemData.DESCRIPTION#</td>
+										<td>#getProblemData.PREVIEW_URI# </td>
+										<td>#getProblemData.CREATED_BY_AGENT_ID#</td>
 										<td>#getProblemData.MEDIA_LICENSE_ID#</td>
 										<td>#getProblemData.MASK_MEDIA#</td>
 										<td>#getProblemData.MEDIA_RELATIONSHIP_1#</td>
