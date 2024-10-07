@@ -683,7 +683,7 @@ limitations under the License.
 				<cfset isoDate = '#dateformat(getTempMedia.made_date)#'>
 				<cfset isoDatePattern = "^d{4}-d{2}-d{2}$">
 				<cfset isValid = REFindNoCase(isoDatePattern, isoDate) gt 0>
-					#isValid#
+					#isoDate#
 <!---				<cfif isValid>
 					#isoDate#
 					<cfelse>
