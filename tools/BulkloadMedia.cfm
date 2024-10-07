@@ -681,7 +681,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfset formattedDate = DateFormat(made_date, "yyyy-mm-dd")>
-
+				<h2>#formattedDate#</h2>
 				<!------------------------------------------------------------>
 				<!----------CHECK Relationship valid-------------------------->
 				<!----------CHECK Related primary key ------------------------>
