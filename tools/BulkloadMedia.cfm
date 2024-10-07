@@ -831,37 +831,7 @@ limitations under the License.
 					cf_temp_media
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfif !isNumeric(getTempMedia2.MEDIA_RELATED_TO_2)>
-<!---				<cfloop query="getTempMedia2">
-					<cfif getTempMedia2.media_relationship_1 contains 'agent' AND !isNumeric(getTempMedia2.MEDIA_RELATED_TO_1)>
-						<cfquery name="warningBadRel2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE
-								cf_temp_media
-							SET
-								status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATED_TO_1 is invalid')
-							WHERE
-								MEDIA_RELATED_TO_1 not in (select agent_name from agent_name where agent_name = '#getTempMedia2.MEDIA_RELATED_TO_1#') AND
-								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-						</cfquery>
-					</cfif>
-					<cfif #getTempMedia2.media_relationship_2# contains 'agent' AND !isNumeric(getTempMedia2.MEDIA_RELATED_TO_2) >
-						<cfquery name="warningBadRel2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE
-								cf_temp_media
-							SET
-								status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATED_TO_2 is invalid')
-							WHERE
-								MEDIA_RELATED_TO_2 not in (select agent_name from agent_name where agent_name = '#getTempMedia2.MEDIA_RELATED_TO_2#') AND
-								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-						</cfquery>
-					</cfif>
-
-				</cfloop>--->
-			</cfif>
-	
+			</cfquery>	
 			<!--------NO ERRORS ABOVE? Loop through updated table to add IDs if there are no status messages------->
 			<cfif len(getTempMedia2.WIDTH) gt 0>
 				<cfloop query = "getTempMedia2">				
