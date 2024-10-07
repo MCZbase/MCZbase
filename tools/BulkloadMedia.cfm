@@ -662,7 +662,6 @@ limitations under the License.
 				
 			<!---LOOP throught getTempMedia and check each row for certain values--->
 			<cfloop query="getTempMedia">
-
 				<!---Check MEDIA_URI------------->
 				<cfset urlToCheck = "#getTempMedia.media_uri#">
 				<cfset validstyle = ''>
@@ -685,6 +684,8 @@ limitations under the License.
 				<cfset isoDatePattern = "^d{4}-d{2}-d{2}$">
 				<cfset isValid = REFindNoCase(isoDatePattern, isoDate) gt 0>
 				<cfif isValid>
+					#isoDate#
+					<cfelse>
 					<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
