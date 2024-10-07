@@ -682,7 +682,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfset isoDate = '#made_date#'>
-				<cfset isoDatePattern = "^y{4}-m{2}-d{2}$">
+				<cfset isoDatePattern = "^d{4}-d{2}-d{2}$">
 				<cfset isValid = REFindNoCase(isoDatePattern, isoDate) gt 0>
 				<cfif isValid>
 					<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
