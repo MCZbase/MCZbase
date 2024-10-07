@@ -568,15 +568,6 @@ limitations under the License.
 			<cfelse>
 				
 			</cfif>
-				
-			<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE
-					cf_temp_media
-				SET 
-					status = concat(nvl2(status, status || '; ', ''),'invalid made_date')
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-				AND made_date = is_iso8601(made_date)
-			</cfquery>	
 			<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
@@ -584,7 +575,7 @@ limitations under the License.
 					status = concat(nvl2(status, status || '; ', ''),'invalid made_date')
 				WHERE 
 				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-				AND made_date = is_iso8601(made_date)
+				AND made_date != is_iso8601(made_date)
 			</cfquery>	
 			<!---NOT in codetable warnings or match expectation--->
 			<cfquery name="warningMessageMediaType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
