@@ -962,7 +962,7 @@ limitations under the License.
 									SET
 										status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATED_TO_#i# is invalid')
 									WHERE
-										MEDIA_RELATED_TO_#i# not in (select agent_name from agent_name where agent_name = '#getTempMedia2.MEDIA_RELATED_TO_#i##') AND
+										MEDIA_RELATED_TO_#i# not in (select agent_name from agent_name where agent_name = '#getTempMedia2.MEDIA_RELATED_TO#') AND
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 										AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 								</cfquery>
@@ -984,7 +984,7 @@ limitations under the License.
 									SET
 										status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATED_TO_#i# is invalid')
 									WHERE
-										MEDIA_RELATED_TO_#i# not in (select project_name from project where project_name = '#getMediaRel.MEDIA_RELATED_TO_#i##') AND
+										MEDIA_RELATED_TO_#i# not in (select project_name from project where project_name = '#getMediaRel.MEDIA_RELATED_TO#') AND
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 										AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
@@ -1006,7 +1006,7 @@ limitations under the License.
 									SET
 										status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATED_TO_#i# is invalid')
 									WHERE
-										MEDIA_RELATED_TO_#i# not in (select collection_name from underscore_collection where collection_name = '#getMediaRel.MEDIA_RELATED_TO_#i##') AND
+										MEDIA_RELATED_TO_#i# not in (select collection_name from underscore_collection where collection_name = '#getMediaRel.MEDIA_RELATED_TO#') AND
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 										AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
@@ -1031,7 +1031,7 @@ limitations under the License.
 									SET
 										status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATED_TO_#i# is invalid')
 									WHERE
-										MEDIA_RELATED_TO_#i# not in (select loan_number from loan where loan_number = '#getMediaRel.MEDIA_RELATED_TO_#i##') AND
+										MEDIA_RELATED_TO_#i# not in (select loan_number from loan where loan_number = '#getMediaRel.MEDIA_RELATED_TO#') AND
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 										AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
@@ -1054,7 +1054,7 @@ limitations under the License.
 									SET
 										status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATED_TO_#i# is invalid')
 									WHERE
-										MEDIA_RELATED_TO_#i# not in (select deacc_number from deaccession where deacc_number = '#getMediaRel.MEDIA_RELATED_TO_#i##') AND
+										MEDIA_RELATED_TO_#i# not in (select deacc_number from deaccession where deacc_number = '#getMediaRel.MEDIA_RELATED_TO#') AND
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 										AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
@@ -1076,7 +1076,7 @@ limitations under the License.
 									SET
 										status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATED_TO_#i# is invalid')
 									WHERE
-										MEDIA_RELATED_TO_#i# not in (select borrow_number from borrow where borrow_number = '#getMediaRel.MEDIA_RELATED_TO_#i##') AND
+										MEDIA_RELATED_TO_#i# not in (select borrow_number from borrow where borrow_number = '#getMediaRel.MEDIA_RELATED_TO#') AND
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 										AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
@@ -1098,7 +1098,7 @@ limitations under the License.
 									SET
 										status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATED_TO_#i# is invalid')
 									WHERE
-										MEDIA_RELATED_TO_#i# not in (select accn_number from accn where accn_number = '#getMediaRel.MEDIA_RELATED_TO_#i##') AND
+										MEDIA_RELATED_TO_#i# not in (select accn_number from accn where accn_number = '#getMediaRel.MEDIA_RELATED_TO#') AND
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 										AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
