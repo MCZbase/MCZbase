@@ -1068,9 +1068,9 @@ limitations under the License.
 				SET
 					status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATED_TO is invalid')
 				WHERE
-					MEDIA_RELATED_TO_2 not in (select collection_name from underscore_collection where collection_name = '#getTempMedia2.MEDIA_RELATED_TO_2#') AND
+					MEDIA_RELATED_TO_2 not in (select collection_name from underscore_collection where collection_name = '#problemsInData.MEDIA_RELATED_TO_2#') AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+				AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problemsInData.key#">
 			</cfquery>
 			<h3 class="mt-3">
 				<cfif problemsInData.c gt 0>
