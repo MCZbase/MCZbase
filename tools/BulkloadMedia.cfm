@@ -969,7 +969,6 @@ limitations under the License.
 								</cfquery>
 
 							<cfelseif getMediaRel.media_relationship contains 'underscore_collection' and !isNumeric(getMediaRel.MEDIA_RELATED_TO)>
-								<cfif 
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update cf_temp_media set MEDIA_RELATED_TO_#i# =
 									(
