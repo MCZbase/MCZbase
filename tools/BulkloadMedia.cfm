@@ -683,7 +683,8 @@ limitations under the License.
 				<cfset isoDate = '#getTempMedia.made_date#'>
 				<cfset isoDatePattern = "^d{4}-d{2}-d{2}$">
 				<cfset isValid = REFindNoCase(isoDatePattern, isoDate) gt 0>
-				<cfif isValid>
+					#isValid#
+<!---				<cfif isValid>
 					#isoDate#
 					<cfelse>
 					<cfquery name="flagDateProblem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -695,7 +696,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#"> 
 					</cfquery>
-				</cfif>
+				</cfif>--->
 				<!------------------------------------------------------------>
 				<!----------CHECK Relationship valid-------------------------->
 				<!----------CHECK Related primary key ------------------------>
