@@ -646,7 +646,7 @@ limitations under the License.
 				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_media
 					SET 
-						status = concat(nvl2(status, status || '; ', ''),'#variableValueNo# is missing')
+						status = concat(nvl2(status, status || '; ', ''),'#variableValueNo# is missing!')
 					WHERE #variableName# is not null
 						and #variableValueNo# is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
