@@ -681,7 +681,18 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfset formattedDate = DateFormat(made_date, "yyyy-mm-dd")>
-				<h2>#formattedDate#</h2>
+				<cfset isoDatePattern = "^\d{4}-\d{2}-\d{2}$">
+				<cfset isValid = REFindNoCase(isoDatePattern, formattedDate) gt 0>
+				<cfif is
+				<cfquery name="warningBadURI2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_media
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'MADE_DATE is not valid')
+					WHERE
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+						key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+				</cfquery>
 				<!------------------------------------------------------------>
 				<!----------CHECK Relationship valid-------------------------->
 				<!----------CHECK Related primary key ------------------------>
