@@ -680,7 +680,7 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
 				</cfif>
-				<cfset isoDate = '#getTempMedia.made_date#'>
+				<cfset isoDate = '#dateformat(getTempMedia.made_date)#'>
 				<cfset isoDatePattern = "^d{4}-d{2}-d{2}$">
 				<cfset isValid = REFindNoCase(isoDatePattern, isoDate) gt 0>
 					#isValid#
