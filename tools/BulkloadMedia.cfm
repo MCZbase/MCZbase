@@ -1062,15 +1062,15 @@ limitations under the License.
 				FROM problemData 
 				WHERE status is not null
 			</cfquery>
-			<cfquery name="problemsInData2" dbtype="query">
+			<cfquery name="problemData2" dbtype="query">
 				UPDATE
 					cf_temp_media
 				SET
 					status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATED_TO is invalid')
 				WHERE
-					MEDIA_RELATED_TO_2 not in (select collection_name from underscore_collection where collection_name = '#problemsInData.MEDIA_RELATED_TO_2#') AND
+					MEDIA_RELATED_TO_2 not in (select collection_name from underscore_collection where collection_name = '#problemData.MEDIA_RELATED_TO_2#') AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problemsInData.key#">
+				AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problemData.key#">
 			</cfquery>
 			<h3 class="mt-3">
 				<cfif problemsInData.c gt 0>
