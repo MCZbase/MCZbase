@@ -1053,7 +1053,7 @@ limitations under the License.
 									WHERE
 										MEDIA_RELATED_TO_#i# not in (select project_name from project where project_name = '#getMediaRel.MEDIA_RELATED_TO#') AND
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-										AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+										AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
 							</cfif>
 						</cfif>
