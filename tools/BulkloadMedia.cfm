@@ -683,7 +683,7 @@ limitations under the License.
 				<cfset formattedDate = DateFormat(made_date, "yyyy-mm-dd")>
 				<cfset isoDatePattern = "^\d{4}-\d{2}-\d{2}$">
 				<cfset isValid = REFindNoCase(isoDatePattern, formattedDate) gt 0>
-				<cfif isValid eq 'NO'>
+				<cfif isValid eq 'NO' or made_date contains 'th' or made_date contains 'nd' or made_date contains 'st'>
 					<cfquery name="warningBadURI2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
