@@ -709,6 +709,7 @@ limitations under the License.
 						SET
 							status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATED_TO_1 is missing')
 						WHERE
+							media_relationship_1 is not null and 
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
