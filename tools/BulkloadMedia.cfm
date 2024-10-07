@@ -688,7 +688,7 @@ limitations under the License.
 					UPDATE
 						cf_temp_media
 					SET 
-						status = concat(nvl2(status, status || '; ', ''),'<cfif isValid> <cfelse>#isoDate# is not valid</cfif>')
+						status = concat(nvl2(status, status || '; ', ''),'<cfif not isValid>#isoDate# is not valid</cfif>')
 					WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
 						key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#"> 
