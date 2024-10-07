@@ -690,7 +690,7 @@ limitations under the License.
 				<!------------------------------------------------------------>
 				<!----------CHECK Relationship valid-------------------------->
 				<!----------CHECK Related primary key ------------------------>
-				<cfif len(media_relationship_1) gt 0>
+<!---				<cfif len(media_relationship_1) gt 0>
 					<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
@@ -782,7 +782,7 @@ limitations under the License.
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
-				</cfif>
+				</cfif>--->
 				<!----------END Check Relationship------------------------------->
 				<!----------END Check Related primary key------------------------>
 				<!--------------------------------------------------------------->	
