@@ -684,6 +684,7 @@ limitations under the License.
 				<cfset isoDatePattern = "^d{4}-d{2}-d{2}$">
 				<cfset isValid = REFindNoCase(isoDatePattern, isoDate) gt 0>
 					#isoDate#
+					#isoDatePattern#
 <!---				<cfif isValid>
 					#isoDate#
 					<cfelse>
