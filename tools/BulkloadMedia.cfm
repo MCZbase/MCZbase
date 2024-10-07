@@ -690,6 +690,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
 						key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 				</cfquery>
+					<h2>#formattedDate#</h2>
 				<!------------------------------------------------------------>
 				<!----------CHECK Relationship valid-------------------------->
 				<!----------CHECK Related primary key ------------------------>
