@@ -1051,7 +1051,7 @@ limitations under the License.
 									SET
 										status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATED_TO_#i# is invalid or missing')
 									WHERE
-										MEDIA_RELATED_TO_#i# not in (select project_name from project where project_name = '#getMediaRel.MEDIA_RELATED_TO#') AND
+										MEDIA_RELATED_TO_#i# is null
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 										AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
