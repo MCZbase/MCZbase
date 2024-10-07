@@ -681,17 +681,15 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfset formattedDate = DateFormat(made_date, "yyyy-mm-dd")>
-				<cfif #getTempMedia.made_date# contains 'th' or #getTempMedia.made_date# contains 'nd' or #getTempMedia.made_date# contains 'st'>
-					<cfquery name="warningBadURI2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_media
-						SET
-							status = concat(nvl2(status, status || '; ', ''),'MADE_DATE is not valid')
-						WHERE
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
-							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-					</cfquery>
-				</cfif>
+				<cfquery name="warningBadURI2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_media
+					SET
+						made_date = '#formattedDate#'
+					WHERE
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+						key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+				</cfquery>
 				<!------------------------------------------------------------>
 				<!----------CHECK Relationship valid-------------------------->
 				<!----------CHECK Related primary key ------------------------>
