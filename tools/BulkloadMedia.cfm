@@ -1062,16 +1062,6 @@ limitations under the License.
 				FROM problemData 
 				WHERE status is not null
 			</cfquery>
-			<cfquery name="problemData2" dbtype="query">
-				UPDATE
-					cf_temp_media
-				SET
-					status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATED_TO is invalid')
-				WHERE
-					MEDIA_RELATED_TO_2 not in (select collection_name from underscore_collection where collection_name = '#problemData.MEDIA_RELATED_TO_2#') AND
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problemData.key#">
-			</cfquery>
 			<h3 class="mt-3">
 				<cfif problemsInData.c gt 0>
 					There is a problem with #problemsInData.c# of #problemData.recordcount# row(s). See the STATUS column (<a href="/tools/BulkloadMedia.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadMedia.cfm" class="text-danger">start again</a>.
