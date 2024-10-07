@@ -996,17 +996,18 @@ limitations under the License.
 										from #theTable#
 										where collection_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.MEDIA_RELATED_TO#">
 									)
-									WHERE MEDIA_RELATED_TO_#i# is not null AND 
-										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+									WHERE MEDIA_RELATED_TO_#i# is not null 
+									AND MEDIA_RELATED_TO_#i# in (select collection_name from underscore_collection where collection_name = '#getMediaRel.MEDIA_RELATED_TO#') 
+									AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+									AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 								</cfquery>
 								<cfquery name="warningBadRel2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									UPDATE
 										cf_temp_media
 									SET
-										status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATED_TO_#i# is invalid here')
+										status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATED_TO_#i# is invalid or missing')
 									WHERE
-										MEDIA_RELATED_TO_#i# not in (select collection_name from underscore_collection where collection_name = '#getMediaRel.MEDIA_RELATED_TO#') AND
+										MEDIA_RELATED_TO_#i# is null AND
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 										AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 								</cfquery>
