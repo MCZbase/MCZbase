@@ -181,7 +181,7 @@ limitations under the License.
 													<!--- TODO: This needs to be a query on the historical data table, not a hard coded list, query below --->
 													<!---
 														SELECT 
-                                       		distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option
+															distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option
 														FROM
 															collections_reported_metrics
 													--->
@@ -371,17 +371,15 @@ limitations under the License.
 					</nav>
 					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
 						<div class="card-body">
-							<div class="col-12 mt-4">
-								<h1 class="h2 float-left mb-1 p-1 w-100">MCZbase Metrics </h1>
-								<div id="divArbitraryRangeResults" style="border: 2px solid ##deedec;padding:0 15px 0 15px;">
-									<p class="text-muted small mb-0">Reports are generated from the current MCZbase data for the given date range.</p>
+							<div class="col-12 px-0 mt-4">
+								<h1 class="h2 mb-1 pb-2 px-2 pt-2 w-100">MCZbase Metrics </h1>
+								<div id="divArbitraryRangeResults" class="px-4" style="border: 2px solid ##deedec;">
 									<cfset arbitraryRangeSummaryNumbersBlock=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="no")>
 									<div id="arbitraryNumbersDiv" class="py-2"> 
 										#arbitraryRangeSummaryNumbersBlock#
 									</div>
 								</div>
-								<div id="divAnnualReportResults" style="border: 2px solid ##deedec;padding:0 15px 0 15px;">
-									<p class="text-muted small mb-0">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
+								<div id="divAnnualReportResults" class="px-4" style="border: 2px solid ##deedec;">
 									<cfset annualSummaryNumbersBlock=getNumbers(endDate="#endDate#",beginDate="#beginDate#",annualReport="yes")>
 									<div id="annualNumbersDiv" class="py-2"> 
 										#annualSummaryNumbersBlock#
@@ -394,7 +392,6 @@ limitations under the License.
 			</div>
 		</cfoutput>
 		<cfinclude template="/shared/_footer.cfm">
-		
 	</cfcase>
 	<cfdefaultcase>
 		<cfoutput>

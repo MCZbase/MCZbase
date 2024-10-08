@@ -132,7 +132,9 @@ limitations under the License.
 				<cfoutput>
 					<section class="col-12 mt-1 px-0">
 						<div class="my-2 float-left w-100">
-							<h2 class="h3 mt-0 px-0 float-left mb-1"><cfif annualReport eq "yes">Annual Report:</cfif> Holdings <span class="text-muted">(as of #encodeForHtml(endDate)#)</span></h2>
+							<h3 class="px-0 float-left mb-1 px-0 mt-0">
+								<cfif annualReport eq "yes">Annual Report:</cfif> Holdings <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
+							</h3>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=dowloadHoldings&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
@@ -175,6 +177,11 @@ limitations under the License.
 								</tbody>
 							</table>
 						</div>
+						<cfif annualReport EQ "yes">
+							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
+						<cfelse> 
+							<p class="text-muted small">Reports are generated from the current MCZbase data for the given date range.</p>
+						</cfif>
 					</section>
 				</cfoutput>
 			</cfif>
@@ -270,7 +277,9 @@ limitations under the License.
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
-							<h2 class="h3 mt-0 mb-1 px-0 float-left"><cfif annualReport eq "yes">Annual Report:</cfif> Acquisitions <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+							<h2 class="h3 mt-0 mb-1 px-0 float-left">
+								<cfif annualReport eq "yes">Annual Report:</cfif> Acquisitions <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
+							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=downloadVisitorsMediareqs&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
@@ -309,58 +318,62 @@ limitations under the License.
 											</td>
 											<td>
 												<cfif #Received_Specimens# EQ ''>
-                                                                                                        0
-                                                                                                <cfelse>
-                                                                                                       	#Received_Specimens#
-                                                                                                </cfif>
+													0
+												<cfelse>
+													#Received_Specimens#
+												</cfif>
 											</td>
 											<td>
 												<cfif #Entered_Cat_Items# EQ ''>
-                                                                                                        0
-                                                                                                <cfelse>
-                                                                                                       	#Entered_Cat_Items#
-                                                                                                </cfif>
+													0
+												<cfelse>
+														#Entered_Cat_Items#
+												</cfif>
 											</td>
 											<cfif annualReport EQ "yes">
 											<td>
 												<cfif #numAddedCryo# EQ ''>
-                                                                                                        N/A
-                                                                                                <cfelse>
-                                                                                                        #numAddedCryo#
-                                                                                                </cfif>
+													N/A
+												<cfelse>
+													#numAddedCryo#
+												</cfif>
 											</td>
 											</cfif>
 											<td>
 												<cfif #NCBI_Cat_Items# EQ ''>
-                                                                                                        N/A
-                                                                                                <cfelse>
-                                                                                                        #NCBI_Cat_Items#
-                                                                                                </cfif>
+													N/A
+												<cfelse>
+														#NCBI_Cat_Items#
+												</cfif>
 											</td>
 											<cfif annualReport EQ "yes">
 												<td>
 													<cfif #numrecnotcat# EQ ''>
-                                                                                                        	N/A
-                                                                                                	<cfelse>
-                                                                                                        	#numrecnotcat#
-                                                                                                	</cfif>
+														N/A
+													<cfelse>
+														#numrecnotcat#
+													</cfif>
 												</td>
 											</cfif>
 											<td>
 												<cfif #Num_Accns# EQ '' and #Collection# EQ 'Cryogenic'>
-                                                                                                        N/A
+													N/A
 												<cfelseif #Num_Accns# EQ ''>
 													0
-                                                                                                <cfelse>
-                                                                                                        #Num_Accns#
-                                                                                                </cfif>
-
+												<cfelse>
+													#Num_Accns#
+												</cfif>
 											</td>
 										</tr>
 									</cfloop>
 								</tbody>
 							</table>
 						</div>
+						<cfif annualReport EQ "yes">
+							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
+						<cfelse> 
+							<p class="text-muted small">Reports are generated from the current MCZbase data for the given date range.</p>
+						</cfif>
 					</section>
 				</cfoutput>
 			</cfif>
@@ -484,7 +497,9 @@ limitations under the License.
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
-							<h2 class="h3 mt-0 px-0 float-left mb-1"><cfif annualReport eq "yes">Annual Report:</cfif> Loan Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+							<h2 class="h3 mt-0 px-0 float-left mb-1">
+								<cfif annualReport eq "yes">Annual Report:</cfif> Loan Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
+							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=dowloadLoanActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
@@ -512,18 +527,18 @@ limitations under the License.
 									<cfloop query="loans">
 										<cfif #Collection# EQ 'Herpetology Observations'>
 											<tr>
-                                                                                        	<td>#Collection#</td>
-                                                                                        	<td>N/A</td>
-                                                                                        	<td>N/A</td>
-                                                                                        	<td>N/A</td>
-                                                                                        	<td>N/A</td>
-                                                                                        	<td>N/A</td>
-                                                                                        	<td>N/A</td>
-                                                                                        	<td>N/A</td>
-                                                                                        	<td>N/A</td>
-                                                                                        	<td>N/A</td>
-                                                                                        	<td>N/A</td>
-                                                                                	</tr>
+												<td>#Collection#</td>
+												<td>N/A</td>
+												<td>N/A</td>
+												<td>N/A</td>
+												<td>N/A</td>
+												<td>N/A</td>
+												<td>N/A</td>
+												<td>N/A</td>
+												<td>N/A</td>
+												<td>N/A</td>
+												<td>N/A</td>
+											</tr>
 										<cfelse>
 											<tr>
 												<td>#Collection#</td>
@@ -543,6 +558,11 @@ limitations under the License.
 								</tbody>
 							</table>
 						</div>
+						<cfif annualReport EQ "yes">
+							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
+						<cfelse> 
+							<p class="text-muted small">Reports are generated from the current MCZbase data for the given date range.</p>
+						</cfif>
 					</section>
 				</cfoutput>
 			</cfif>
@@ -658,7 +678,9 @@ limitations under the License.
 							TODO: Media queries do not use dates. 
 							<h2 class="h3 mt-0 px-0 float-left mb-1">Media Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 							--->
-							<h2 class="h3 mt-0 px-0 float-left mb-1"><cfif annualReport eq "yes">Annual Report:</cfif> Media Activity <span class="text-muted">(as of #encodeForHtml(endDate)#)</span></h2>
+							<h2 class="h3 mt-0 px-0 float-left mb-1">
+								<cfif annualReport eq "yes">Annual Report:</cfif> Media Activity <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
+							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=dowloadMediaActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
@@ -707,16 +729,21 @@ limitations under the License.
 											</td>
 											<td>
 												<cfif #Images_Secondary_Cat_Items# eq ''>
-                                                                                                        N/A
-                                                                                                <cfelse>
-                                                                                                        #Images_Secondary_Cat_Items#
-                                                                                                </cfif>
+													N/A
+												<cfelse>
+													#Images_Secondary_Cat_Items#
+												</cfif>
 											</td>
 										</tr>
 									</cfloop>
 								</tbody>
 							</table>
 						</div>
+						<cfif annualReport EQ "yes">
+							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
+						<cfelse> 
+							<p class="text-muted small">Reports are generated from the current MCZbase data for the given date range.</p>
+						</cfif>
 					</section>
 				</cfoutput>
 			</cfif>
@@ -799,7 +826,9 @@ limitations under the License.
 								TODO: Citation query does not use dates 
 							<h2 class="h3 px-0 mt-0 float-left mb-0">Citation Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
 							--->
-							<h2 class="h3 px-0 mt-0 float-left mb-0"><cfif annualReport eq "yes">Annual Report:</cfif> Citation Activity <span class="text-muted">(as of #encodeForHtml(endDate)#)</span></h2>
+							<h2 class="h3 px-0 mt-0 float-left mb-1">
+								<cfif annualReport eq "yes">Annual Report:</cfif> Citation Activity <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
+							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=dowloadCitationActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
@@ -828,6 +857,11 @@ limitations under the License.
 								</tbody>
 							</table>
 						</div>
+						<cfif annualReport EQ "yes">
+							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
+						<cfelse> 
+							<p class="text-muted small">Reports are generated from the current MCZbase data for the given date range.</p>
+						</cfif>
 					</section>
 				</cfoutput>
 			</cfif>
@@ -931,9 +965,10 @@ limitations under the License.
 								<span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
 							</h2>
 							--->
-							<h2 class="h3 px-0 mt-0 float-left mb-0"><cfif annualReport eq "yes">Annual Report:</cfif> Georeferencing Activity 
-								<span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
+							<h2 class="h3 px-0 mt-0 float-left mb-1">
+								<cfif annualReport eq "yes">Annual Report:</cfif> Georeferencing Activity <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
 							</h2>
+							
 							<div class="btn-toolbar my-1 mt-lg-0 float-right">
 								<div class="btn-group mr-2">
 									<a href="/metrics/Dashboard.cfm?action=dowloadGeoreferenceActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
@@ -976,6 +1011,11 @@ limitations under the License.
 								</tbody>
 							</table>
 						</div>
+						<cfif annualReport EQ "yes">
+							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
+						<cfelse> 
+							<p class="text-muted small">Reports are generated from the current MCZbase data for the given date range.</p>
+						</cfif>
 					</section>
 				</cfoutput>
 			</cfif>
@@ -1029,7 +1069,6 @@ limitations under the License.
 					<cfset beginSchema="MCZBASE">
 					<cfset endSchema="MCZBASE">
 			</cfif>
-
 			<cfquery name="visitorsmediareq" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				SELECT
 					c.collection,
@@ -1065,10 +1104,12 @@ limitations under the License.
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
-							<h2 class="h3 mt-0 mb-1 px-0 float-left"><cfif annualReport eq "yes">Annual Report:</cfif> Visitors and Media Requests <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+							<h2 class="h3 mt-0 mb-1 px-0 float-left">
+								<cfif annualReport eq "yes">Annual Report:</cfif> Visitors and Media Requests <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
+							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-										<a href="/metrics/Dashboard.cfm?action=downloadVisitorsMediareqs&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<a href="/metrics/Dashboard.cfm?action=downloadVisitorsMediareqs&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>
@@ -1112,6 +1153,11 @@ limitations under the License.
 								</tbody>
 							</table>
 						</div>
+						<cfif annualReport EQ "yes">
+							<p class="text-muted small">Reports are generated from the current MCZbase data and may not match numbers printed in previous annual reports.</p>
+						<cfelse> 
+							<p class="text-muted small">Reports are generated from the current MCZbase data for the given date range.</p>
+						</cfif>
 					</section>
 			</cfoutput>
 			</cfif>
