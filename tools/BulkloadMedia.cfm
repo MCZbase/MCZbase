@@ -304,10 +304,10 @@ limitations under the License.
 			<p class="font-weight-bold h4">Jump to <a href="##loader" class="btn-link font-weight-bold text-muted">Validate</a></p>
 			<!--- Compare the numbers of headers expected against provided in CSV file --->
 			<!--- Set some constants to identify error cases in cfcatch block --->
-			<cfset NO_COLUMN_ERR = "<p>One or more required fields are missing in the header line of the csv file. <br>Missing fields: </p>">
-			<cfset DUP_COLUMN_ERR = "<p>One or more columns are duplicated in the header line of the csv file.<p>">
+			<cfset NO_COLUMN_ERR = "<p>One or more required fields are missing in the header line of the csv file. <br>Missing fields: </p>"><!--- " --->
+			<cfset DUP_COLUMN_ERR = "<p>One or more columns are duplicated in the header line of the csv file.<p>"><!--- " --->
 			<cfset COLUMN_ERR = "Error inserting data ">
-			<cfset NO_HEADER_ERR = "<p>No header line found, csv file appears to be empty.</p>">
+			<cfset NO_HEADER_ERR = "<p>No header line found, csv file appears to be empty.</p>"><!--- " --->
 			<cfset table_name = "CF_TEMP_MEDIA">
 			<cftry>
 				<!--- cleanup any incomplete work by the same user --->
@@ -352,11 +352,16 @@ limitations under the License.
 					<cfset foundMultiByte = "">
 					<!--- Iterate through the remaining rows inserting the data into the temp table. --->
 					<cfset row = 0>
+					<cfset errorMessage = "">
 					<cfloop condition="#iterator.hasNext()#">
 						<!--- obtain the values in the current row --->
 						<cfset rowData = iterator.next()>
 						<cfset row = row + 1>
 						<cfset columnsCountInRow = rowData.size()>
+						<!--- Throw exception (below) if column count is not equal to header size --->
+						<cfif columnsCountInRow NE size>
+							<cfset errorMessage = "Row #row# contains #columnsCountInRow#, but #size# are expected from the headers">
+						</cfif>
 						<cfset collValuesArray= ArrayNew(1)>
 						<cfloop index="i" from="0" to="#rowData.size() - 1#">
 							<!--- loading cells from object instead of list allows commas inside cells --->
@@ -378,6 +383,9 @@ limitations under the License.
 							</cfif>
 						</cfloop>
 						<cftry>
+							<cfif length(errorMessage) GT 0>
+								<cfthrow message="#errorMessage#">
+							</cfif>
 							<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 							<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
