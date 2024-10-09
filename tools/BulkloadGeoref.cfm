@@ -32,9 +32,9 @@ limitations under the License.
 	<cfabort>
 </cfif>
 
-<cfset fieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,EXTENT,EXTENT_UNITS,LAT_LONG_FOR_NNP_FG,GPSACCURACY,VERIFICATIONSTATUS,VERIFIED_BY,VERIFIED_BY_AGENT_ID,SPATIALFIT,NEAREST_NAMED_PLACE,COORDINATE_PRECISION,ACCEPTED_LAT_LONG_FG,DETERMINED_BY_AGENT_ID">
+<cfset fieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,VERIFICATIONSTATUS,COORDINATE_PERCISION,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,EXTENT,EXTENT_UNITS,LAT_LONG_FOR_NNP_FG,GPSACCURACY,VERIFIED_BY,VERIFIED_BY_AGENT_ID,SPATIALFIT,NEAREST_NAMED_PLACE,ACCEPTED_LAT_LONG_FG,DETERMINED_BY_AGENT_ID">
 	
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL">
 	
 <cfset requiredfieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,VERIFICATIONSTATUS,COORDINATE_PRECISION">
 
@@ -486,31 +486,31 @@ limitations under the License.
 				<thead class="thead-light">
 					<tr>
 						<th>STATUS</th>
-						<th>DETERMINED_BY_AGENT_ID</th>
 						<th>HIGHERGEOGRAPHY</th>
 						<th>SPECLOCALITY</th>
 						<th>LOCALITY_ID</th>
 						<th>DEC_LAT</th>
 						<th>DEC_LONG</th>
-						<th>MAX_ERROR_DISTANCE</th>
-						<th>MAX_ERROR_UNITS</th>
-						<th>LAT_LONG_REMARKS</th>
 						<th>DETERMINED_BY_AGENT</th>
 						<th>GEOREFMETHOD</th>
 						<th>ORIG_LAT_LONG_UNITS</th>
 						<th>DATUM</th>
 						<th>DETERMINED_DATE</th>
 						<th>LAT_LONG_REF_SOURCE</th>
+						<th>COORDINATE_PRECISION</th>
+						<th>DETERMINED_BY_AGENT_ID</th>
+						<th>VERIFICATIONSTATUS</th>
+						<th>MAX_ERROR_DISTANCE</th>
+						<th>MAX_ERROR_UNITS</th>
+						<th>LAT_LONG_REMARKS</th>
 						<th>EXTENT</th>
 						<th>GPSACCURACY</th>
-						<th>VERIFICATIONSTATUS</th>
 						<th>SPATIALFIT</th>
 						<th>NEAREST_NAMED_PLACE</th>
 						<th>USERNAME</th>
 						<th>VERIFIED_BY</th>
 						<th>VERIFIED_BY_AGENT_ID</th>
 						<th>ACCEPTED_LAT_LONG_FG</th>
-						<th>COORDINATE_PRECISION</th>
 						<th>EXTENT_UNITS</th>
 						<th>LAT_LONG_FOR_NNP_FG</th>
 					</tr>
@@ -525,25 +525,25 @@ limitations under the License.
 							<td>#data.LOCALITY_ID#</td>
 							<td>#data.DEC_LAT#</td>
 							<td>#data.DEC_LONG#</td>
-							<td>#data.MAX_ERROR_DISTANCE#</td>
-							<td>#data.MAX_ERROR_UNITS#</td>
-							<td>#data.LAT_LONG_REMARKS#</td>
 							<td>#data.DETERMINED_BY_AGENT#</td>
 							<td>#data.GEOREFMETHOD#</td>
 							<td>#data.ORIG_LAT_LONG_UNITS#</td>
 							<td>#data.DATUM#</td>
 							<td>#data.DETERMINED_DATE#</td>
 							<td>#data.LAT_LONG_REF_SOURCE#</td>
+							<td>#data.VERIFICATIONSTATUS#</td>
+							<td>#data.COORDINATE_PRECISION#</td>
+							<td>#data.MAX_ERROR_DISTANCE#</td>
+							<td>#data.MAX_ERROR_UNITS#</td>
+							<td>#data.LAT_LONG_REMARKS#</td>
 							<td>#data.EXTENT#</td>
 							<td>#data.GPSACCURACY#</td>
-							<td>#data.VERIFICATIONSTATUS#</td>
 							<td>#data.SPATIALFIT#</td>
 							<td>#data.NEAREST_NAMED_PLACE#</td>
 							<td>#data.USERNAME#</td>
 							<td>#data.VERIFIED_BY#</td>
 							<td>#data.VERIFIED_BY_AGENT_ID#</td>
 							<td>#data.ACCEPTED_LAT_LONG_FG#</td>
-							<td>#data.COORDINATE_PRECISION#</td>
 							<td>#data.EXTENT_UNITS#</td>
 							<td>#data.LAT_LONG_FOR_NNP_FG#</td>
 						</tr>
@@ -722,32 +722,32 @@ limitations under the License.
 							<thead class="thead-light">
 								<tr>
 									<th>COUNT</th>
-									<th>DETERMINED_BY_AGENT_ID</th>
 									<th>HIGHERGEOGRAPHY</th>
 									<th>SPECLOCALITY</th>
 									<th>LOCALITY_ID</th>
 									<th>DEC_LAT</th>
 									<th>DEC_LONG</th>
-									<th>MAX_ERROR_DISTANCE</th>
-									<th>MAX_ERROR_UNITS</th>
-									<th>LAT_LONG_REMARKS</th>
 									<th>DETERMINED_BY_AGENT</th>
 									<th>GEOREFMETHOD</th>
 									<th>ORIG_LAT_LONG_UNITS</th>
 									<th>DATUM</th>
 									<th>DETERMINED_DATE</th>
 									<th>LAT_LONG_REF_SOURCE</th>
-									<th>EXTENT</th>
-									<th>GPSACCURACY</th>
 									<th>VERIFICATIONSTATUS</th>
+									<th>COORDINATE_PRECISION</th>
+									<th>MAX_ERROR_DISTANCE</th>
+									<th>MAX_ERROR_UNITS</th>
+									<th>LAT_LONG_REMARKS</th>
+									<th>EXTENT</th>
+									<th>EXTENT_UNITS</th>
+									<th>GPSACCURACY</th>
+									<th>DETERMINED_BY_AGENT_ID</th>
 									<th>SPATIALFIT</th>
 									<th>NEAREST_NAMED_PLACE</th>
 									<th>USERNAME</th>
 									<th>VERIFIED_BY</th>
 									<th>VERIFIED_BY_AGENT_ID</th>
 									<th>ACCEPTED_LAT_LONG_FG</th>
-									<th>COORDINATE_PRECISION</th>
-									<th>EXTENT_UNITS</th>
 									<th>LAT_LONG_FOR_NNP_FG</th>
 								</tr> 
 							</thead>
@@ -756,32 +756,33 @@ limitations under the License.
 								<cfloop query="getProblemData">
 									<tr>										
 										<td>#i#</td>
-										<td>#getProblemData.DETERMINED_BY_AGENT_ID#</td>
 										<td>#getProblemData.HIGHERGEOGRAPHY#</td>
 										<td>#getProblemData.SPECLOCALITY#</td>
 										<td>#getProblemData.LOCALITY_ID#</td>
 										<td>#getProblemData.DEC_LAT#</td>
 										<td>#getProblemData.DEC_LONG#</td>
-										<td>#getProblemData.MAX_ERROR_DISTANCE#</td>
-										<td>#getProblemData.MAX_ERROR_UNITS#</td>
-										<td>#getProblemData.LAT_LONG_REMARKS#</td>
 										<td>#getProblemData.DETERMINED_BY_AGENT#</td>
 										<td>#getProblemData.GEOREFMETHOD#</td>
 										<td>#getProblemData.ORIG_LAT_LONG_UNITS#</td>
 										<td>#getProblemData.DATUM#</td>
 										<td>#getProblemData.DETERMINED_DATE#</td>
 										<td>#getProblemData.LAT_LONG_REF_SOURCE#</td>
-										<td>#getProblemData.EXTENT#</td>
-										<td>#getProblemData.GPSACCURACY#</td>
 										<td>#getProblemData.VERIFICATIONSTATUS#</td>
+										<td>#getProblemData.COORDINATE_PRECISION#</td>
+										<td>#getProblemData.MAX_ERROR_DISTANCE#</td>
+										<td>#getProblemData.MAX_ERROR_UNITS#</td>
+										<td>#getProblemData.LAT_LONG_REMARKS#</td>
+										<td>#getProblemData.EXTENT#</td>
+										<td>#getProblemData.EXTENT_UNITS#</td>
+										<td>#getProblemData.GPSACCURACY#</td>
+										<td>#getProblemData.DETERMINED_BY_AGENT_ID#</td>
 										<td>#getProblemData.SPATIALFIT#</td>
 										<td>#getProblemData.NEAREST_NAMED_PLACE#</td>
 										<td>#getProblemData.USERNAME#</td>
 										<td>#getProblemData.VERIFIED_BY#</td>
 										<td>#getProblemData.VERIFIED_BY_AGENT_ID#</td>
 										<td>#getProblemData.ACCEPTED_LAT_LONG_FG#</td>
-										<td>#getProblemData.COORDINATE_PRECISION#</td>
-										<td>#getProblemData.EXTENT_UNITS#</td>
+								
 										<td>#getProblemData.LAT_LONG_FOR_NNP_FG#</td>
 									</tr>
 									<cfset i= i+1>
