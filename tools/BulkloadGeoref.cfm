@@ -519,7 +519,7 @@ limitations under the License.
 					<cfloop query="data">
 						<tr>
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
-							<td>#data.DETERMINED_BY_AGENT_ID#</td>
+						
 							<td>#data.HIGHERGEOGRAPHY#</td>
 							<td>#data.SPECLOCALITY#</td>
 							<td>#data.LOCALITY_ID#</td>
@@ -533,6 +533,7 @@ limitations under the License.
 							<td>#data.LAT_LONG_REF_SOURCE#</td>
 							<td>#data.VERIFICATIONSTATUS#</td>
 							<td>#data.COORDINATE_PRECISION#</td>
+							<td>#data.DETERMINED_BY_AGENT_ID#</td>
 							<td>#data.MAX_ERROR_DISTANCE#</td>
 							<td>#data.MAX_ERROR_UNITS#</td>
 							<td>#data.LAT_LONG_REMARKS#</td>
