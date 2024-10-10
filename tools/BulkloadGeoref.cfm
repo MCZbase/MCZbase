@@ -571,14 +571,14 @@ limitations under the License.
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<cfquery name="acceptedLatLongExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select accepted_lat_long_fg from lat_long
+						select accepted_lat_long_fg from lat_long where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
 					</cfquery>
 					<cfif accesptedLatLongExists.accepted_lat_long_fg eq "1" and getTempData.accepted_lat_long_fg eq "1">
 						<cfquery name="setAccepted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE
 								lat_long
 							SET
-								accepted_lat_long_fg eq 0
+								accepted_lat_long_fg = 0
 							WHERE 
 								locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
 						</cfquery>
