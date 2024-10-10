@@ -468,6 +468,7 @@ limitations under the License.
 					group by locality.locality_id, geog_auth_rec.higher_geog,locality.spec_locality
 				</cfquery>
 			</cfloop>
+					#loc.locality_id#
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_georef
