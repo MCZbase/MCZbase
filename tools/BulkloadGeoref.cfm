@@ -468,9 +468,7 @@ limitations under the License.
 					and locality.locality_id = #getTempData.locality_id#
 					group by locality.locality_id, geog_auth_rec.higher_geog,locality.spec_locality
 				</cfquery>
-
 			</cfloop>
-		
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_georef
@@ -484,7 +482,7 @@ limitations under the License.
 				<cfquery name="updateLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE lat_long
 					SET accepted_lat_long_fg = 0
-					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
+					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
 				</cfquery>
 				<h3 class="mt-3">
 					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadGeoref.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good or <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
