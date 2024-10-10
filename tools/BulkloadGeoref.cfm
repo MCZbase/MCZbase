@@ -467,7 +467,17 @@ limitations under the License.
 					and locality.locality_id = #getTempData.locality_id#
 					group by locality.locality_id, geog_auth_rec.higher_geog,locality.spec_locality
 				</cfquery>
-				<cfloop query = "loc">
+				<cfquery name="loc2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select locality.locality_id,geog_auth_rec.HIGHER_GEOG,locality.SPEC_LOCALITY
+					from lat_long,locality,geog_auth_rec
+					where locality.locality_id = lat_long.locality_id
+					and geog_auth_rec.geog_auth_rec_id = locality.geog_auth_rec_id
+					AND geog_auth_rec.HIGHER_GEOG='#trim(getTempData.HIGHERGEOGRAPHY)#' 
+					and locality.SPEC_LOCALITY='#trim(PreserveSingleQuotes(getTempData.SPECLOCALITY))#'
+					and locality.locality_id = #getTempData.locality_id#
+					group by locality.locality_id, geog_auth_rec.higher_geog,locality.spec_locality
+				</cfquery>
+				<cfloop query = "loc2">
 					#loc.locality_id#
 					</cfloop>
 			</cfloop>
