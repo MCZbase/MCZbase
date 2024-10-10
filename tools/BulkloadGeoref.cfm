@@ -32,9 +32,9 @@ limitations under the License.
 	<cfabort>
 </cfif>
 
-<cfset fieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,VERIFICATIONSTATUS,COORDINATE_PRECISION,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,EXTENT,EXTENT_UNITS,GPSACCURACY,VERIFIED_BY,VERIFIED_BY_AGENT_ID,SPATIALFIT,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG,ACCEPTED_LAT_LONG_FG,DETERMINED_BY_AGENT_ID">
+<cfset fieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,VERIFICATIONSTATUS,COORDINATE_PRECISION,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,EXTENT,EXTENT_UNITS,GPSACCURACY,VERIFIED_BY,VERIFIED_BY_AGENT_ID,SPATIALFIT,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG,DETERMINED_BY_AGENT_ID">
 	
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL">
 	
 <cfset requiredfieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,VERIFICATIONSTATUS,COORDINATE_PRECISION">
 
@@ -543,7 +543,7 @@ limitations under the License.
 							<td>#data.USERNAME#</td>
 							<td>#data.VERIFIED_BY#</td>
 							<td>#data.VERIFIED_BY_AGENT_ID#</td>
-							<td>#data.ACCEPTED_LAT_LONG_FG#</td>
+							<td>1</td>
 							<td>#data.EXTENT_UNITS#</td>
 							<td>#data.LAT_LONG_FOR_NNP_FG#</td>
 						</tr>
@@ -570,19 +570,6 @@ limitations under the License.
 						FROM cf_temp_georef
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-					<cfquery name="acceptedLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select accepted_lat_long_fg from lat_long where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
-					</cfquery>
-					<cfif acceptedLatLong.accepted_lat_long_fg eq "1" and getTempData.accepted_lat_long_fg eq "1">
-						<cfquery name="setAccepted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE
-								lat_long
-							SET
-								accepted_lat_long_fg = 0
-							WHERE 
-								locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
-						</cfquery>
-					</cfif>
 					<cfset georef_updates = 0>
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
@@ -638,7 +625,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REMARKS#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MAX_ERROR_UNITS#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ACCEPTED_LAT_LONG_FG#">,
+								1,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT#" scale="5">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#" scale="3">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GEOREFMETHOD#">,
@@ -697,8 +684,6 @@ limitations under the License.
 										Invalid MAX_ERROR_DISTANCE
 									<cfelseif cfcatch.detail contains "max_error_units">
 										Invalid MAX_ERROR_UNITS
-									<cfelseif cfcatch.detail contains "accepted_lat_long_fg">
-										Invalid ACCEPTED_LAT_LONG_FG
 									<cfelseif cfcatch.detail contains "extent">
 										Invalid EXTENT
 									<cfelseif cfcatch.detail contains "extent_units">
@@ -793,7 +778,7 @@ limitations under the License.
 										<td>#getProblemData.USERNAME#</td>
 										<td>#getProblemData.VERIFIED_BY#</td>
 										<td>#getProblemData.VERIFIED_BY_AGENT_ID#</td>
-										<td>#getProblemData.ACCEPTED_LAT_LONG_FG#</td>
+										<td>1</td>
 								
 										<td>#getProblemData.LAT_LONG_FOR_NNP_FG#</td>
 									</tr>
