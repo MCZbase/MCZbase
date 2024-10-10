@@ -471,7 +471,7 @@ limitations under the License.
 					<cfset i = i+1>
 					
 			</cfloop>
-					<cfif #loc.c# neq #i#>Locality_ID #locality_id# does not have the correct higher geography.</cfif>
+					<cfif #loc.c# neq #i#>Locality_ID #getTempData.locality_id# does not have the correct higher geography.</cfif>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_georef
