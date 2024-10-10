@@ -467,21 +467,17 @@ limitations under the License.
 					and locality.locality_id = #getTempData.locality_id#
 					group by locality.locality_id, geog_auth_rec.higher_geog,locality.spec_locality
 				</cfquery>
-				<cfquery name="loc2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select locality.locality_id,geog_auth_rec.HIGHER_GEOG,locality.SPEC_LOCALITY
-					from lat_long,locality,geog_auth_rec
-					where locality.locality_id = lat_long.locality_id
-					and geog_auth_rec.geog_auth_rec_id = locality.geog_auth_rec_id
-					AND geog_auth_rec.HIGHER_GEOG='#trim(getTempData.HIGHERGEOGRAPHY)#' 
-					and locality.SPEC_LOCALITY='#trim(PreserveSingleQuotes(getTempData.SPECLOCALITY))#'
-					and locality.locality_id = #getTempData.locality_id#
-					group by locality.locality_id, geog_auth_rec.higher_geog,locality.spec_locality
+				<cfquery name="warningHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_georef
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'Higher Geography doesn't match)
+					WHERE 
+						highergeography not in (select loc.higher_geog from loc) AND
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-				<cfloop query = "loc2">
-					#loc.locality_id#
-					</cfloop>
 			</cfloop>
-				
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_georef
