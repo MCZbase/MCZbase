@@ -396,7 +396,7 @@ limitations under the License.
 					UPDATE
 						cf_temp_georef
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'georeference entry is similar to another on this locality record.')
+						status = concat(nvl2(status, status || '; ', ''),'This georeference match one on the locality record. Check.')
 					WHERE 
 						dec_lat in (select dec_lat from lat_long where dec_lat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.dec_lat#">)
 						and dec_long in (select dec_long from lat_long where dec_long = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.dec_long#">) 
