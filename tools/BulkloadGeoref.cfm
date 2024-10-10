@@ -497,9 +497,9 @@ limitations under the License.
 						<th>DATUM</th>
 						<th>DETERMINED_DATE</th>
 						<th>LAT_LONG_REF_SOURCE</th>
+						<th>VERIFICATIONSTATUS</th>
 						<th>COORDINATE_PRECISION</th>
 						<th>DETERMINED_BY_AGENT_ID</th>
-						<th>VERIFICATIONSTATUS</th>
 						<th>MAX_ERROR_DISTANCE</th>
 						<th>MAX_ERROR_UNITS</th>
 						<th>LAT_LONG_REMARKS</th>
