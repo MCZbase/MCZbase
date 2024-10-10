@@ -570,7 +570,7 @@ limitations under the License.
 						FROM cf_temp_georef
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-					<cfquery name="acceptedLatLongExists">
+					<cfquery name="acceptedLatLongExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select accepted_lat_long_fg from lat_long
 					</cfquery>
 					<cfif accesptedLatLongExists.accepted_lat_long_fg eq "1" and getTempData.accepted_lat_long_fg eq "1">
