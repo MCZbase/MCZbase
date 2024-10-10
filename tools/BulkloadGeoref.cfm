@@ -471,7 +471,7 @@ limitations under the License.
 					UPDATE
 						cf_temp_georef
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'Higher Geography doesn't match)
+						status = concat(nvl2(status, status || '; ', ''),'Higher Geography doesn't match')
 					WHERE 
 						highergeography not in (select loc.higher_geog from loc) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
