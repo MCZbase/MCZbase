@@ -483,6 +483,8 @@ limitations under the License.
 					UPDATE lat_long
 					SET accepted_lat_long_fg = 0
 					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
+					and dec_lat = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.dec_lat#">
+					and dec_long = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.dec_long#">
 				</cfquery>
 				<h3 class="mt-3">
 					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadGeoref.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good or <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
