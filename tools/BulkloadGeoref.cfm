@@ -563,7 +563,7 @@ limitations under the License.
 				</cfif>
 				<cfquery name="matchCoordPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT dec_lat, dec_long, coordinate_precision 
-					FROM lat_long 
+					FROM cf_temp_georef 
 					WHERE COORDINATE_PRECISION is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
