@@ -588,20 +588,21 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-				<!--- Assume these are retrieved as VARCHAR in ColdFusion --->
-				<cfset dec_lat_str = "#getTempData.dec_lat#"> <!-- Example value as VARCHAR -->
-				<cfset dec_long_str = "#getTempData.dec_long#"> <!-- Example value as VARCHAR -->
-				<cfset coordinate_precision_str = "#getTempData.coordinate_precision#"> <!-- Example value as VARCHAR -->
-				<!-- Convert coordinate_precision_str to numeric to represent number of decimal precision -->
-				<cfset coordinate_precision = val(coordinate_precision_str)>
 
-				<!--- Perform the checks and output the result --->
-				<cfif isCoordinatePrecisionValid(dec_lat_str, coordinate_precision) AND isCoordinatePrecisionValid(dec_long_str, coordinate_precision)>
-					<cfoutput>Coordinates match the precision</cfoutput>
-				<cfelse>
-					<cfoutput>Coordinates do not match the precision</cfoutput>
-				</cfif>
 			</cfloop>
+			<!--- Assume these are retrieved as VARCHAR in ColdFusion --->
+			<cfset dec_lat_str = "#getTempData.dec_lat#"> <!-- Example value as VARCHAR -->
+			<cfset dec_long_str = "#getTempData.dec_long#"> <!-- Example value as VARCHAR -->
+			<cfset coordinate_precision_str = "#getTempData.coordinate_precision#"> <!-- Example value as VARCHAR -->
+			<!-- Convert coordinate_precision_str to numeric to represent number of decimal precision -->
+			<cfset coordinate_precision = val(coordinate_precision_str)>
+
+			<!--- Perform the checks and output the result --->
+			<cfif isCoordinatePrecisionValid(dec_lat_str, coordinate_precision) AND isCoordinatePrecisionValid(dec_long_str, coordinate_precision)>
+				<cfoutput>Coordinates match the precision</cfoutput>
+			<cfelse>
+				<cfoutput>Coordinates do not match the precision</cfoutput>
+			</cfif>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_georef
