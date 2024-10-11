@@ -539,8 +539,8 @@ limitations under the License.
 				<!---Check VERIFIED BY--->
 				<cfquery name="getDeterminedByAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
-					SET status = concat(nvl2(status, status || '; ', ''),'determined_by name is invalid')
-					WHERE determined_by_agent in (select AGENT_name from agent_name where agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.determined_by_agent#"> AND agent_name_type = 'preferred')
+					SET status = concat(nvl2(status, status || '; ', ''),'determined_by_agent name is invalid')
+					WHERE determined_by_agent in (select AGENT_NAME from agent_name where agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.determined_by_agent#"> )
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
