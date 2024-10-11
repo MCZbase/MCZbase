@@ -568,9 +568,20 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
+				<!--- Assume these are retrieved as VARCHAR in ColdFusion --->
+				<cfset dec_lat_str = "#getTempData.dec_lat#"> <!-- Example value as VARCHAR -->
+				<cfset dec_long_str = "#getTempData.dec_long#"> <!-- Example value as VARCHAR -->
+				<cfset coordinate_precision_str = "#getTempData.coordinate_precision#"> <!-- Example value as VARCHAR -->
+
+				<!-- Convert string values to numeric -->
+				<cfset dec_lat = val(dec_lat_str)>
+				<cfset dec_long = val(dec_long_str)>
+				<cfset coordinate_precision = val(coordinate_precision_str)>
+
+				<!--- Function to determine the number of decimal places in the precision --->
 				<cffunction name="precisionFormat" returnType="numeric">
 					<cfargument name="value" type="numeric" required="true">
-					<cfset var valueString = numberFormat(arguments.value, "0.##########")>
+					<cfset var valueString = numberFormat(arguments.value, "0.######")>
 					<cfset var decimalPosition = find('.', valueString)>
 					<cfset var decimalPlaces = 0>
 
@@ -581,13 +592,13 @@ limitations under the License.
 					<cfreturn decimalPlaces>
 				</cffunction>
 
-				<!-- Function to verify if the coordinate matches the specified precision -->
+				<!--- Function to verify if the coordinate matches the specified precision --->
 				<cffunction name="isPrecisionValid" returnType="boolean">
 					<cfargument name="coordinate" type="numeric" required="true">
 					<cfargument name="precision" type="numeric" required="true">
 
 					<cfset var precisionDecimalPlaces = precisionFormat(arguments.precision)>
-					<cfset var coordinateString = numberFormat(arguments.coordinate, "0.##########")>
+					<cfset var coordinateString = numberFormat(arguments.coordinate, "0.######")>
 					<cfset var decimalPosition = find('.', coordinateString)>
 					<cfset var coordinateDecimalPlaces = 0>
 
@@ -598,7 +609,7 @@ limitations under the License.
 					<cfreturn coordinateDecimalPlaces LE precisionDecimalPlaces>
 				</cffunction>
 
-				<!-- Perform the checks and output the result -->
+				<!--- Perform the checks and output the result --->
 				<cfif isPrecisionValid(dec_lat, coordinate_precision) AND isPrecisionValid(dec_long, coordinate_precision)>
 					<cfoutput>Coordinates match the precision</cfoutput>
 				<cfelse>
