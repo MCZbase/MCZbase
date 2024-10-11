@@ -545,7 +545,7 @@ limitations under the License.
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 				<!---SET DETERMINED_DATE to YYYY-MM-DD---><!---TO_DATE(<cfqueryparam cfsqltype="CF_SQL_DATE" value="#getTempData.DETERMINED_DATE#">, 'YYYY-MM-DD')--->
-				<cfset formattedDate = DateFormat(<cfqueryparam cfsqltype="CF_SQL_DATE" value="#getTempData.DETERMINED_DATE#">, "yyyy-mm-dd")>
+				<cfset formattedDate = DateFormat(determined_date, "yyyy-mm-dd")>
 				<cfquery name="getDeterminedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
 					set determined_date =  #formattedDate#
