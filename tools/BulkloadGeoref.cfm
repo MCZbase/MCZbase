@@ -392,80 +392,108 @@ limitations under the License.
 			
 			<cfset i = 1>
 			<cfloop query="getTempData">
-				<cfquery name="warningMessageErrorUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="updateLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE lat_long
+					SET accepted_lat_long_fg = 0
+					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
+				</cfquery>
+				<!---Check to see if the CSV georef is a dup of one already in the locality record--->
+				<cfquery name="warningLocalityID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'This georeference matches one on the locality record. Check.')
+						status = concat(nvl2(status, status || '; ', ''),'This georeference exists on the locality record. Remove row.')
 					WHERE 
 						dec_lat in (select dec_lat from lat_long where dec_lat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.dec_lat#">)
 						and dec_long in (select dec_long from lat_long where dec_long = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.dec_long#">) 
 						and georefmethod in (select georefmethod from lat_long where georefmethod = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.georefmethod#">)
 						and max_error_distance in (select max_error_distance from lat_long where max_error_distance = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.max_error_distance#">)
 						and datum in (select datum from lat_long where datum = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.datum#">)
+						and max_error_units in (select MAX_ERROR_UNITS from lat_long where MAX_ERROR_UNITS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.max_error_units#">)
+						and NEAREST_NAMED_PLACE in (select NEAREST_NAMED_PLACE from lat_long where NEAREST_NAMED_PLACE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.NEAREST_NAMED_PLACE#">)
 						and locality_id = (select locality_id from lat_long where locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">)
 						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-				<cfquery name="updateLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE lat_long
-					SET accepted_lat_long_fg = 0
-					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
-				</cfquery>
 				<!---Check max_error_units--->
-				<cfquery name="warningMessageErrorUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="warningErrorUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'MAX_ERROR_UNITS are invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_ERROR_UNITS">controlled vocabulary</a>')
+						status = concat(nvl2(status, status || '; ', ''),'MAX_ERROR_UNITS are invalid - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_ERROR_UNITS">controlled vocabulary</a>')
 					WHERE 
 						MAX_ERROR_UNITS not in (select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
+				<!---Check Datum--->
 				<cfquery name="warningDatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'Datum does not exist.')
+						status = concat(nvl2(status, status || '; ', ''),'Datum does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTDATUM">controlled vocabulary</a>')
 					WHERE 
 						DATUM not in (select distinct DATUM from lat_long) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-				<cfquery name="warningMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<!---Check Georefmethod--->
+				<cfquery name="warningGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'Method does not exist.')
+						status = concat(nvl2(status, status || '; ', ''),'GEOREFMETHOD does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGEOREFMETHOD">controlled vocabulary</a>')
 					WHERE 
 						GEOREFMETHOD not in (select distinct GEOREFMETHOD from lat_long) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-				<cfquery name="warningMessageErrorUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<!---Check Higher Geography--->
+				<cfquery name="warningHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'Locality_ID does not exist')
+						status = concat(nvl2(status, status || '; ', ''),'Higher Geography does not exist')
+					WHERE 
+						HIGHER_GEOG not in (select HIGHER_GEOG from geog_auth_rec) AND
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+				</cfquery>
+				<!---Check SpecLocality--->
+				<cfquery name="warningSpecLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_georef
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'Specific Locality does not exist')
+					WHERE 
+						speclocality not in (select spec_locality from locality) AND
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+				</cfquery>
+				<!---Check Locality_ID--->
+				<cfquery name="warningLOCALITYID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE
+						cf_temp_georef
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'LOCALITY_ID does not exist')
 					WHERE 
 						LOCALITY_ID not in (select LOCALITY_ID from locality) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 				<!---Check lat_long_ref_source--->
-				<cfquery name="warningMessageRefSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="warningRefSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'Ref_Source is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_REF_SOURCE">controlled vocabulary</a>')
+						status = concat(nvl2(status, status || '; ', ''),'LAT_LONG_REF_SOURCE is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_REF_SOURCE">controlled vocabulary</a>')
 					WHERE 
 						LAT_LONG_REF_SOURCE not in (select LAT_LONG_REF_SOURCE from CTLAT_LONG_REF_SOURCE) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 				<!---Check ORIG_LAT_LONG_UNITS--->
-				<cfquery name="warningMessageRefSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="warningOrigLatLongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
 					SET
@@ -476,7 +504,7 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 				<!---Check VERIFICATIONSTATUS--->
-				<cfquery name="warningMessageVerification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="warningVerification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
 					SET
@@ -486,39 +514,43 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-				<!---Check DETERMINED BY AGENT_ID--->
+				<!---GET DETERMINED BY AGENT_ID--->
 				<cfquery name="getAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_georef
-					SET determined_by_agent_id = (
-						select agent_id from preferred_agent_name 
-						where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent#">
-						)
+					SET determined_by_agent_id = (select agent_id from preferred_agent_name	where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent#">)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-				<!---Check VERIFIED BY AGENT_ID--->
-				<cfquery name="getVerifiedByAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<!---GET VERIFIED_BY_AGENT_ID--->
+				<cfquery name="updateVerAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
 					set verified_by_agent_id = (select AGENT_ID from agent_name where agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.verified_by#"> AND agent_name_type = 'preferred')
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-				<!---Check DETERMINED_DATE--->
-				<cfquery name="getDeterminedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<!---Check VERIFIED BY--->
+				<cfquery name="getVerifiedByAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
-					set determined_date =  TO_DATE(<cfqueryparam cfsqltype="CF_SQL_DATE" value="#getTempData.DETERMINED_DATE#">, 'YYYY-MM-DD')
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					SET status = concat(nvl2(status, status || '; ', ''),'verified_by name is invalid')
+					WHERE verified_by not in (select AGENT_name from agent_name where agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.verified_by#"> AND agent_name_type = 'preferred')
+					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-				<cfquery name="loc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select count(*) c, locality.locality_id,geog_auth_rec.HIGHER_GEOG,locality.SPEC_LOCALITY
-					from lat_long,locality,geog_auth_rec
-					where locality.locality_id = lat_long.locality_id
-					and geog_auth_rec.geog_auth_rec_id = locality.geog_auth_rec_id
-					AND geog_auth_rec.HIGHER_GEOG='#trim(getTempData.HIGHERGEOGRAPHY)#' 
-					and locality.SPEC_LOCALITY='#trim(PreserveSingleQuotes(getTempData.SPECLOCALITY))#'
-					and locality.locality_id = #getTempData.locality_id#
-					group by locality.locality_id, geog_auth_rec.higher_geog,locality.spec_locality
+				<!---Check VERIFIED BY--->
+				<cfquery name="getDeterminedByAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_georef
+					SET status = concat(nvl2(status, status || '; ', ''),'determined_by name is invalid')
+					WHERE determined_by in (select AGENT_name from agent_name where agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.determined_by#"> AND agent_name_type = 'preferred')
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+				</cfquery>
+				<!---SET DETERMINED_DATE to YYYY-MM-DD---><!---TO_DATE(<cfqueryparam cfsqltype="CF_SQL_DATE" value="#getTempData.DETERMINED_DATE#">, 'YYYY-MM-DD')--->
+				<cfset formattedDate = DateFormat(<cfqueryparam cfsqltype="CF_SQL_DATE" value="#getTempData.DETERMINED_DATE#">, "yyyy-mm-dd")>
+				<cfquery name="getDeterminedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_georef
+					set determined_date =  #formattedDate#
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -526,9 +558,14 @@ limitations under the License.
 				FROM cf_temp_georef
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfquery name="countNonEmptyStatus" dbtype="query">
+				SELECT count(*) c 
+				FROM data 
+				WHERE status is not null
+			</cfquery>
 			<cfif len(data.status) gt 0>
 				<h3 class="mt-3">
-					There is a problem with #loc.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadGeoref.cfm?action=dumpProblems" class="btn-link font-weight-lessbold">download</a>). Fix the problems in the data and <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
+					There is a problem with #countNonEmptyStatus.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadGeoref.cfm?action=dumpProblems" class="btn-link font-weight-lessbold">download</a>). Fix the problems in the data and <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
 				</h3>
 			<cfelse>
 	
@@ -630,14 +667,6 @@ limitations under the License.
 						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
 					</cfif>
 					<cfloop query="getTempData">
-						<cfset sql="select locality.spec_locality,geog_auth_rec.higher_geog,locality.locality_id 
-							from locality,geog_auth_rec 
-							where
-							locality.geog_auth_rec_id=geog_auth_rec.geog_auth_rec_id and
-							locality.locality_id=#Locality_ID# and
-							trim(geog_auth_rec.higher_geog)='#trim(HigherGeography)#' and
-							trim(locality.spec_locality)='#trim(PreserveSingleQuotes(SpecLocality))#'">
-				
 						<cfset username="#session.username#">
 						<cfset problem_key = getTempData.key>
 						<cfset lat_long_id = ''>
