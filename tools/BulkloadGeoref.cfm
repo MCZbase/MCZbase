@@ -385,20 +385,18 @@ limitations under the License.
 			<cfargument name="coordinateStr" type="string" required="true">
 			<cfargument name="allowedPrecision" type="numeric" required="true">
 
-			<!-- Determine the precision in terms of number of decimal places -->
+			<!-- Determine precision in terms of number of decimal places -->
 			<cfset var precisionDecimalPlaces = len(listLast(arguments.allowedPrecision.toString(), "."))>
 
-			<!-- Count decimal places in the coordinate -->
-			<cfset var coordinateString = arguments.coordinateStr>
-			<cfset var decimalSeparatorPosition = find('.', coordinateString)>
+			<!-- Count decimal places in the coordinate string -->
 			<cfset var coordinateDecimalPlaces = 0>
+			<cfset var decimalPosition = find('.', arguments.coordinateStr)>
 
-			<!-- Calculate actual decimal places -->
-			<cfif decimalSeparatorPosition GT 0>
-				<cfset coordinateDecimalPlaces = len(coordinateString) - decimalSeparatorPosition>
+			<cfif decimalPosition GT 0>
+				<cfset coordinateDecimalPlaces = len(arguments.coordinateStr) - decimalPosition>
 			</cfif>
 
-			<!-- Compare and return boolean -->
+			<!-- Compare and return boolean where coordinate must not exceed allowed precision -->
 			<cfreturn coordinateDecimalPlaces LE precisionDecimalPlaces>
 		</cffunction>
 		<cfoutput>
@@ -594,7 +592,7 @@ limitations under the License.
 			<!--- Assume these are retrieved as VARCHAR in ColdFusion --->
 			<cfset dec_lat_str = "#getTempData.dec_lat#"> <!-- Example value as VARCHAR -->
 			<cfset dec_long_str = "#getTempData.dec_long#"> <!-- Example value as VARCHAR -->
-			<cfset coordinate_precision_str = "#getTempData.coordinate_precision#"> <!-- Example value as VARCHAR -->
+			<cfset coordinate_precision_str = "#getTempData.coordinate_precision#"> <!-- VARCHAR -->
 			<!-- Convert coordinate_precision_str to numeric to represent number of decimal precision -->
 			<cfset coordinate_precision = val(coordinate_precision_str)>
 
