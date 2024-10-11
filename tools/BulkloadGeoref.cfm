@@ -573,44 +573,35 @@ limitations under the License.
 				<cfset dec_long_str = "#getTempData.dec_long#"> <!-- Example value as VARCHAR -->
 				<cfset coordinate_precision_str = "#getTempData.coordinate_precision#"> <!-- Example value as VARCHAR -->
 
-				<!-- Convert string values to numeric -->
-				<cfset dec_lat = val(dec_lat_str)>
-				<cfset dec_long = val(dec_long_str)>
+
+
+				<!-- Convert coordinate_precision_str to numeric to represent number of decimal precision -->
 				<cfset coordinate_precision = val(coordinate_precision_str)>
 
-				<!--- Function to determine the number of decimal places in the precision --->
-				<cffunction name="precisionFormat" returnType="numeric">
-					<cfargument name="value" type="numeric" required="true">
-					<cfset var valueString = numberFormat(arguments.value, "0.######")>
-					<cfset var decimalPosition = find('.', valueString)>
-					<cfset var decimalPlaces = 0>
+				<!-- Function to check the precision of a coordinate -->
+				<cffunction name="isCoordinatePrecisionValid" returnType="boolean">
+					<cfargument name="coordinateStr" type="string" required="true">
+					<cfargument name="allowedPrecision" type="numeric" required="true">
 
-					<cfif decimalPosition GT 0>
-						<cfset decimalPlaces = len(valueString) - decimalPosition>
-					</cfif>
+					<!-- Determine the precision in terms of number of decimal places -->
+					<cfset var precisionDecimalPlaces = len(listLast(arguments.allowedPrecision.toString(), "."))>
 
-					<cfreturn decimalPlaces>
-				</cffunction>
-
-				<!--- Function to verify if the coordinate matches the specified precision --->
-				<cffunction name="isPrecisionValid" returnType="boolean">
-					<cfargument name="coordinate" type="numeric" required="true">
-					<cfargument name="precision" type="numeric" required="true">
-
-					<cfset var precisionDecimalPlaces = precisionFormat(arguments.precision)>
-					<cfset var coordinateString = numberFormat(arguments.coordinate, "0.######")>
-					<cfset var decimalPosition = find('.', coordinateString)>
+					<!-- Count decimal places in the coordinate -->
+					<cfset var coordinateString = arguments.coordinateStr>
+					<cfset var decimalSeparatorPosition = find('.', coordinateString)>
 					<cfset var coordinateDecimalPlaces = 0>
 
-					<cfif decimalPosition GT 0>
-						<cfset coordinateDecimalPlaces = len(coordinateString) - decimalPosition>
+					<!-- Calculate actual decimal places -->
+					<cfif decimalSeparatorPosition GT 0>
+						<cfset coordinateDecimalPlaces = len(coordinateString) - decimalSeparatorPosition>
 					</cfif>
 
+					<!-- Compare and return boolean -->
 					<cfreturn coordinateDecimalPlaces LE precisionDecimalPlaces>
 				</cffunction>
 
 				<!--- Perform the checks and output the result --->
-				<cfif isPrecisionValid(dec_lat, coordinate_precision) AND isPrecisionValid(dec_long, coordinate_precision)>
+				<cfif isCoordinatePrecisionValid(dec_lat_str, coordinate_precision) AND isCoordinatePrecisionValid(dec_long_str, coordinate_precision)>
 					<cfoutput>Coordinates match the precision</cfoutput>
 				<cfelse>
 					<cfoutput>Coordinates do not match the precision</cfoutput>
