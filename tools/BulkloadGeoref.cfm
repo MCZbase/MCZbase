@@ -548,7 +548,7 @@ limitations under the License.
 				<cfset formattedDate = DateFormat(determined_date, "yyyy-mm-dd")>
 				<cfquery name="getDeterminedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
-					set determined_date =  #formattedDate#
+					set determined_date =  '#formattedDate#'
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
