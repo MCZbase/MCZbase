@@ -555,7 +555,7 @@ limitations under the License.
 				<cfelse>
 					<cfquery name="getDeterminedByAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'Year is invalid; Check determined_date entry;')
+						SET status = concat(nvl2(status, status || '; ', ''),'Year is invalid; Check DETERMINED_DATE entry;')
 						WHERE determined_date is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
