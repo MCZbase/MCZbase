@@ -380,26 +380,27 @@ limitations under the License.
 		</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
-			<cffunction name="isCoordinatePrecisionValid" returnType="boolean">
-				<cfargument name="coordinateStr" type="string" required="true">
-				<cfargument name="allowedPrecision" type="numeric" required="true">
+		<!---Function to check coordinates against coordinate precision--->
+		<cffunction name="isCoordinatePrecisionValid" returnType="boolean">
+			<cfargument name="coordinateStr" type="string" required="true">
+			<cfargument name="allowedPrecision" type="numeric" required="true">
 
-				<!-- Determine the precision in terms of number of decimal places -->
-				<cfset var precisionDecimalPlaces = len(listLast(arguments.allowedPrecision.toString(), "."))>
+			<!-- Determine the precision in terms of number of decimal places -->
+			<cfset var precisionDecimalPlaces = len(listLast(arguments.allowedPrecision.toString(), "."))>
 
-				<!-- Count decimal places in the coordinate -->
-				<cfset var coordinateString = arguments.coordinateStr>
-				<cfset var decimalSeparatorPosition = find('.', coordinateString)>
-				<cfset var coordinateDecimalPlaces = 0>
+			<!-- Count decimal places in the coordinate -->
+			<cfset var coordinateString = arguments.coordinateStr>
+			<cfset var decimalSeparatorPosition = find('.', coordinateString)>
+			<cfset var coordinateDecimalPlaces = 0>
 
-				<!-- Calculate actual decimal places -->
-				<cfif decimalSeparatorPosition GT 0>
-					<cfset coordinateDecimalPlaces = len(coordinateString) - decimalSeparatorPosition>
-				</cfif>
+			<!-- Calculate actual decimal places -->
+			<cfif decimalSeparatorPosition GT 0>
+				<cfset coordinateDecimalPlaces = len(coordinateString) - decimalSeparatorPosition>
+			</cfif>
 
-				<!-- Compare and return boolean -->
-				<cfreturn coordinateDecimalPlaces LE precisionDecimalPlaces>
-			</cffunction>
+			<!-- Compare and return boolean -->
+			<cfreturn coordinateDecimalPlaces LE precisionDecimalPlaces>
+		</cffunction>
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
 			<!---Get Data from the temp table and the codetables with relevant information--->
@@ -600,8 +601,16 @@ limitations under the License.
 			<!--- Perform the checks and output the result --->
 			<cfif isCoordinatePrecisionValid(dec_lat_str, coordinate_precision) AND isCoordinatePrecisionValid(dec_long_str, coordinate_precision)>
 				<cfoutput>Coordinates match the precision</cfoutput>
+		
 			<cfelse>
 				<cfoutput>Coordinates do not match the precision</cfoutput>
+					<cfquery name="getDeterminedByAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update cf_temp_georef
+						SET status = concat(nvl2(status, status || '; ', ''),'Coordinates do not match precision')
+						WHERE coordinate_precision is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+					</cfquery>
 			</cfif>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
