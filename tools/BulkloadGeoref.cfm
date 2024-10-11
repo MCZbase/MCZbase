@@ -561,6 +561,49 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
+				<cfquery name="matchCoordPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT dec_lat, dec_long, coordinate_precision 
+					FROM lat_long 
+					WHERE COORDINATE_PRECISION is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+				</cfquery>
+				<cffunction name="precisionFormat" returnType="numeric">
+					<cfargument name="value" type="numeric" required="true">
+					<cfset var valueString = numberFormat(arguments.value, "0.##########")>
+					<cfset var decimalPosition = find('.', valueString)>
+					<cfset var decimalPlaces = 0>
+
+					<cfif decimalPosition GT 0>
+						<cfset decimalPlaces = len(valueString) - decimalPosition>
+					</cfif>
+
+					<cfreturn decimalPlaces>
+				</cffunction>
+
+				<!-- Function to verify if the coordinate matches the specified precision -->
+				<cffunction name="isPrecisionValid" returnType="boolean">
+					<cfargument name="coordinate" type="numeric" required="true">
+					<cfargument name="precision" type="numeric" required="true">
+
+					<cfset var precisionDecimalPlaces = precisionFormat(arguments.precision)>
+					<cfset var coordinateString = numberFormat(arguments.coordinate, "0.##########")>
+					<cfset var decimalPosition = find('.', coordinateString)>
+					<cfset var coordinateDecimalPlaces = 0>
+
+					<cfif decimalPosition GT 0>
+						<cfset coordinateDecimalPlaces = len(coordinateString) - decimalPosition>
+					</cfif>
+
+					<cfreturn coordinateDecimalPlaces LE precisionDecimalPlaces>
+				</cffunction>
+
+				<!-- Perform the checks and output the result -->
+				<cfif isPrecisionValid(dec_lat, coordinate_precision) AND isPrecisionValid(dec_long, coordinate_precision)>
+					<cfoutput>Coordinates match the precision</cfoutput>
+				<cfelse>
+					<cfoutput>Coordinates do not match the precision</cfoutput>
+				</cfif>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
