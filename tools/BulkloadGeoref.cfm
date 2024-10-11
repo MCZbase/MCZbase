@@ -455,7 +455,7 @@ limitations under the License.
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'Higher Geography does not exist')
 					WHERE 
-						HIGHER_GEOG not in (select HIGHER_GEOG from geog_auth_rec) AND
+						HIGHERGEOGRAPHY not in (select HIGHER_GEOG from geog_auth_rec) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
