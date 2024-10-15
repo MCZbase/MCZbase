@@ -590,8 +590,8 @@ limitations under the License.
 				</cfquery>
 
 			</cfloop>
-			<cfset myDecLat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.dec_lat#">>
-			<cfset maxLength = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.coordinate_precision#">>
+			<cfset myDecLat = "#getTempData.dec_lat#">
+			<cfset maxLength = "#getTempData.coordinate_precision#">
 
 			<!--- Perform the checks and output the result --->
 			<cfif len(myDecLat) <= maxLength>
