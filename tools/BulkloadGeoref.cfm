@@ -580,6 +580,7 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
+				<!---coordinate precision--->
 				<cfquery name="matchCoordPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT dec_lat, dec_long, coordinate_precision 
 					FROM cf_temp_georef 
@@ -592,14 +593,13 @@ limitations under the License.
 			<!--- Assume these are retrieved as VARCHAR in ColdFusion --->
 			<cfset dec_lat_str = "#getTempData.dec_lat#"> <!-- Example value as VARCHAR -->
 			<cfset dec_long_str = "#getTempData.dec_long#"> <!-- Example value as VARCHAR -->
-			<cfset coordinate_precision_str = "#getTempData.coordinate_precision#"> <!-- VARCHAR -->
+	<!---		<cfset coordinate_precision_str = "#getTempData.coordinate_precision#"> <!-- VARCHAR -->
 			<!-- Convert coordinate_precision_str to numeric to represent number of decimal precision -->
-			<cfset coordinate_precision = val(coordinate_precision_str)>
+		<!--	<cfset coordinate_precision = val(coordinate_precision_str)>--->
 
 			<!--- Perform the checks and output the result --->
 			<cfif isCoordinatePrecisionValid(dec_lat_str, coordinate_precision) AND isCoordinatePrecisionValid(dec_long_str, coordinate_precision)>
 				<cfoutput>Coordinates match the precision</cfoutput>
-		
 			<cfelse>
 				<cfoutput>Coordinates do not match the precision</cfoutput>
 					<cfquery name="getDeterminedByAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
