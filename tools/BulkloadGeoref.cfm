@@ -593,7 +593,7 @@ limitations under the License.
 #myDecLat#<br>
 				#maxLength#
 			<!--- Perform the checks and output the result --->
-			<cfif len(myDecLat) gte maxLength>
+			<cfif len(myDecLat) gte maxLength - 2>
 				<cfoutput>Coordinates match the precision</cfoutput>
 			<cfelse>
 				<cfoutput>Coordinates do not match the precision</cfoutput>
