@@ -594,7 +594,7 @@ limitations under the License.
 			<cfset maxLength = "#getTempData.coordinate_precision#">
 
 			<!--- Perform the checks and output the result --->
-			<cfif len(myDecLat) <= maxLength>
+			<cfif len(myDecLat) gte maxLength>
 				<cfoutput>Coordinates match the precision</cfoutput>
 			<cfelse>
 				<cfoutput>Coordinates do not match the precision</cfoutput>
