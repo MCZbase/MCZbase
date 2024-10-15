@@ -593,9 +593,9 @@ limitations under the License.
 			<!--- Assume these are retrieved as VARCHAR in ColdFusion --->
 			<cfset dec_lat_str = "#getTempData.dec_lat#"> <!-- Example value as VARCHAR -->
 			<cfset dec_long_str = "#getTempData.dec_long#"> <!-- Example value as VARCHAR -->
-			<cfset coordinate_precision_str = "#getTempData.coordinate_precision#"> <!-- VARCHAR -->
+			<cfset coordinate_precision = "#getTempData.coordinate_precision#"> <!-- VARCHAR -->
 			<!-- Convert coordinate_precision_str to numeric to represent number of decimal precision -->
-			<cfset coordinate_precision = val(coordinate_precision_str)>
+<!---			<cfset coordinate_precision = val(coordinate_precision_str)>--->
 
 			<!--- Perform the checks and output the result --->
 			<cfif isCoordinatePrecisionValid(dec_lat_str, coordinate_precision) AND isCoordinatePrecisionValid(dec_long_str, coordinate_precision)>
