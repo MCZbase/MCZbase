@@ -589,7 +589,7 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 			<cfset myDecLat = "#getTempData.dec_lat#">
-			<cfset maxLength = "Evaluate(#getTempData.coordinate_precision#)">
+			<cfset maxLength = #getTempData.coordinate_precision#-2>
 				#myDecLat#<br>
 				#maxLength#
 			<!--- Perform the checks and output the result --->
