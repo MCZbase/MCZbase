@@ -590,15 +590,11 @@ limitations under the License.
 				</cfquery>
 
 			</cfloop>
-			<!--- Assume these are retrieved as VARCHAR in ColdFusion --->
-			<cfset dec_lat_str = "#getTempData.dec_lat#"> <!-- Example value as VARCHAR -->
-			<cfset dec_long_str = "#getTempData.dec_long#"> <!-- Example value as VARCHAR -->
-			<cfset coordinate_precision = "#getTempData.coordinate_precision#"> <!-- VARCHAR -->
-			<!-- Convert coordinate_precision_str to numeric to represent number of decimal precision -->
-<!---			<cfset coordinate_precision = val(coordinate_precision_str)>--->
+			<cfset myDecLat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.dec_lat#">>
+			<cfset maxLength = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.coordinate_precision#">>
 
 			<!--- Perform the checks and output the result --->
-			<cfif isCoordinatePrecisionValid(dec_lat_str, coordinate_precision) AND isCoordinatePrecisionValid(dec_long_str, coordinate_precision)>
+			<cfif len(myDecLat) <= maxLength>
 				<cfoutput>Coordinates match the precision</cfoutput>
 			<cfelse>
 				<cfoutput>Coordinates do not match the precision</cfoutput>
