@@ -588,8 +588,6 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-
-			</cfloop>
 			<cfset myDecLat = "#getTempData.dec_lat#">
 			<cfset maxLength = "#getTempData.coordinate_precision#">
 #myDecLat#<br>
@@ -607,6 +605,8 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 			</cfif>
+			</cfloop>
+
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_georef
