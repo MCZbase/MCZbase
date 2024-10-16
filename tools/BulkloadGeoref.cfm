@@ -592,8 +592,9 @@ limitations under the License.
 			<cfset maxLength = #getTempData.coordinate_precision#>
 			<cfset myDecLong = "#getTempData.dec_long#">
 			<cfset maxLength2 = "#(maxLength+2)#">
+			
 			<!--- Perform the checks and output the result --->
-			<cfif len(myDecLat) gte maxLength AND len(myDecLong) gte maxLength>
+			<cfif len(myDecLat) gte maxLength2 AND len(myDecLong) gte maxLength2>
 	
 			<cfelse>
 				<cfquery name="getDeterminedByAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
