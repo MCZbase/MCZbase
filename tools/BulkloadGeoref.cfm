@@ -595,16 +595,15 @@ limitations under the License.
 				#maxLength2#
 			<!--- Perform the checks and output the result --->
 			<cfif len(myDecLat) gte maxLength AND len(myDecLong) gte maxLength>
-				<cfoutput>Coordinates match the precision</cfoutput>
+	
 			<cfelse>
-				<cfoutput>Coordinates do not match the precision</cfoutput>
-					<cfquery name="getDeterminedByAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'Coordinates do not match precision')
-						WHERE coordinate_precision is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-					</cfquery>
+				<cfquery name="getDeterminedByAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_georef
+					SET status = concat(nvl2(status, status || '; ', ''),'Coordinates do not match precision')
+					WHERE coordinate_precision is not null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+				</cfquery>
 			</cfif>
 			</cfloop>
 
