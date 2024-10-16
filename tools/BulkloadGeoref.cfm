@@ -592,7 +592,6 @@ limitations under the License.
 			<cfset maxLength = #getTempData.coordinate_precision#>
 			<cfset myDecLong = "#getTempData.dec_long#">
 			<cfset maxLength2 = "#(maxLength+2)#">
-				#maxLength2#
 			<!--- Perform the checks and output the result --->
 			<cfif len(myDecLat) gte maxLength AND len(myDecLong) gte maxLength>
 	
@@ -617,7 +616,7 @@ limitations under the License.
 				FROM data 
 				WHERE status is not null
 			</cfquery>
-			<cfif len(data.status) gt 0>
+			<cfif len(countNonEmptyStatus.status) gt 0>
 				<h3 class="mt-3">
 					There is a problem with #countNonEmptyStatus.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadGeoref.cfm?action=dumpProblems" class="btn-link font-weight-lessbold">download</a>). Fix the problems in the data and <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
 				</h3>
