@@ -612,9 +612,10 @@ limitations under the License.
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="countNonEmptyStatus" dbtype="query">
-				SELECT count(*) c 
+				SELECT count(*) c,status 
 				FROM data 
 				WHERE status is not null
+				group by status
 			</cfquery>
 			<cfif len(countNonEmptyStatus.status) gt 0>
 				<h3 class="mt-3">
