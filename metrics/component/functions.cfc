@@ -142,10 +142,23 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="table-responsive-lg">
+							<style>
+								.hidden {
+									display: none;
+								}
+								table, th, td {
+									border: 1px solid black;
+									border-collapse: collapse;
+									padding: 8px;
+								}
+								th {
+									cursor: pointer;
+								}
+							</style>
 							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
-										<th><strong>Collection</strong></th>
+										<th onclick="toggleColumn()"><strong>Collection</strong></th>
 										<cfif annualReport EQ "yes">
 											<th><strong>Total Holdings</strong></th>
 											<th><strong>% of Holdings in MCZbase</strong></th>
@@ -160,15 +173,15 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<tr>
-										<td class="bg-white">Column Data Explained <b>&rarr;</b></td>
-										<td class="bg-lightgreen "><b>Total Holdings</b><br> Total Collection Holdings are expressed in cataloged item records, which may represent individual specimens or lots. <b>Provided by the collections, not MCZbase data</b>.</td>
-										<td class="bg-lt-gray">Equation applied to MCZbase data: total number of specimens represented by cataloged item records divided by total holdings.</td>
-										<td class="bg-verylightgreen">The number of cataloged items representing individual specimens or lots.</td>
-										<td class="bg-verylightgreen">The number of specimens. The total number of specimens represented by the cataloged item recors.</td>
-										<td class="bg-verylightgreen">The number of primary types. The total number of cataloged item records that are primary types.</td>
-										<td class="bg-verylightgreen">The number of specimens that are primary types. </td>
-										<td class="bg-verylightgreen">The number of secondary types. Derived from the total number of secondary type cataloged item records with citations.</td>
-										<td class="bg-verylightgreen">The number of specimens that are secondary types. Derived from the total number of specimens represented by the secondary type cataloged item records with citations.</td>
+										<td class="bg-white toggle">Column Data Explained <b>&darr;</b></td>
+										<td class="bg-lightgreen ">Total Collection Holdings are expressed in cataloged item records, which may represent individual specimens or lots. <b>Provided by the collections, not MCZbase data</b>.</td>
+										<td class="bg-lt-gray toggle">Equation applied to MCZbase data: total number of specimens represented by cataloged item records divided by total holdings.</td>
+										<td class="bg-verylightgreen toggle">The number of cataloged items representing individual specimens or lots.</td>
+										<td class="bg-verylightgreen toggle">The number of specimens. The total number of specimens represented by the cataloged item recors.</td>
+										<td class="bg-verylightgreen toggle">The number of primary types. The total number of cataloged item records that are primary types.</td>
+										<td class="bg-verylightgreen toggle">The number of specimens that are primary types. </td>
+										<td class="bg-verylightgreen toggle">The number of secondary types. Derived from the total number of secondary type cataloged item records with citations.</td>
+										<td class="bg-verylightgreen toggle">The number of specimens that are secondary types. Derived from the total number of specimens represented by the secondary type cataloged item records with citations.</td>
 									</tr>
 									<cfloop query="totals">
 										<tr>
@@ -193,6 +206,14 @@ limitations under the License.
 						<cfelse> 
 							<p class="text-muted small">Reports are generated from the current MCZbase data for the given date range.</p>
 						</cfif>
+						<script>
+							function toggleColumn() {
+								const cells = document.querySelectorAll('.toggle');
+								cells.forEach(cell => {
+									cell.classList.toggle('hidden');
+								});
+							}
+						</script>
 					</section>
 				</cfoutput>
 			</cfif>
