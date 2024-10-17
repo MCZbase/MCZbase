@@ -330,7 +330,6 @@ limitations under the License.
 										
 										<th><button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="button" title="The number of cataloged items enetered in the fiscal year, which may include entries for multiple years. Derived from the total number of cataloged item records entered in FY."><strong>Acquired Specimens</strong></th>
 										<th><button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="button" title="The number of cataloged items enetered in the fiscal year, which may include entries for multiple years. Derived from the total number of cataloged item records entered in FY."><strong>New Records Entered in MCZbase - Cataloged Items</strong></th>
-										<th><strong>New Records Entered in MCZbase - Cataloged Items</strong></th>
 										<cfif annualReport EQ "yes">
 											<th><strong>Number of Genetic Samples added To Cryo</strong></th>
 										</cfif>
