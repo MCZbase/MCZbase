@@ -158,9 +158,9 @@ limitations under the License.
 							<table class="table table-striped" id="t">
 								<thead>
 									<tr onclick="toggleRow()">
-										<th><strong>Collection</strong></th>
+										<th><strong>Collection (toggle defs.)</strong></th>
 										<cfif annualReport EQ "yes">
-											<th><strong>Total Holdings</strong></th>
+											<th><strong>Total Holdings </strong></th>
 											<th><strong>% of Holdings in MCZbase</strong></th>
 										</cfif>
 										<th><strong>Total Records - Cataloged Items</strong></th>
@@ -208,10 +208,8 @@ limitations under the License.
 						</cfif>
 						<script>
 							function toggleRow() {
-								const cells = document.querySelectorAll('.toggle');
-								cells.forEach(cell => {
-									cell.classList.toggle('hidden');
-								});
+								const row = document.querySelector('.toggle');
+								row.classList.toggle('hidden');
 							}
 						</script>
 					</section>
