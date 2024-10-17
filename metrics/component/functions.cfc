@@ -157,8 +157,8 @@ limitations under the License.
 							</style>
 							<table class="table table-striped" id="t">
 								<thead>
-									<tr onclick="toggleRow()">
-										<th><strong>Collection (toggle defs.)</strong></th>
+									<tr>
+										<th onclick="toggleRow()"><strong>Collection </strong>(toggle defs.)</th>
 										<cfif annualReport EQ "yes">
 											<th><strong>Total Holdings </strong></th>
 											<th><strong>% of Holdings in MCZbase</strong></th>
@@ -172,7 +172,7 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
-									<tr class="toggle">
+									<tr class="toggle hidden">
 										<td class="bg-white">Column Data Explained <b>&rarr;</b></td>
 										<td class="bg-lightgreen ">Total Collection Holdings are expressed in cataloged item records, which may represent individual specimens or lots. <b>Provided by the collections, not MCZbase data</b>.</td>
 										<td class="bg-lt-gray toggle">Equation applied to MCZbase data: total number of specimens represented by cataloged item records divided by total holdings.</td>
