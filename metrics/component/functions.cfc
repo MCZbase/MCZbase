@@ -367,14 +367,14 @@ limitations under the License.
 											</th>
 										</cfif>
 										<th>
-											<a href="##"  data-toggle="tooltip" data-placement="bottom" title="Number of cataloged items in accession for the FY but did not get cataloged in that FY.">
+											<a href="##"  data-toggle="tooltip" data-placement="bottom" title="Number of cataloged items in accession for the FY that did not get cataloged in FY selected.">
 											<strong>Number of Accessions</strong>
 											</a>
 										</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr class="d-none">
+								<!---	<tr class="d-none">
 										<td></td>
 										<td class="bg-verylightgreen">The number of cataloged items acquired in the fiscal year, which is derived from the total number of cataloged item records as indicated by the accessions for FY.</td>
 										<td class="bg-verylightgreen">The number of specimens acquired in the fiscal year, which is derived from the total number of specimens represented by the cataloged item records as indicated by the accessions for FY.</td>
@@ -384,9 +384,9 @@ limitations under the License.
 											<td>The number of cataloged items with NCBI numbers, which is derived from the total number of cataloged item records with associated NCBI numbers.</td>
 										</cfif>
 										<td class="bg-verylightgreen">The number of NCBI numbers that were added during the fiscal year, which is derived from the total number of NCBI numbers associated with cataloged item records that were added during FY.</td>
-										<cfif annualReport EQ "yes"><td class="verlightgreen">The number of accessions received int eh fiscal year, which is derived from the total number of accessions received during FY.</td></cfif>
-										<td class="bg-ltgreen">The number of cataloged items that are part of an accession for the fiscal year but did not get cataloged in that fiscal year.</td>
-									</tr>
+										<cfif annualReport EQ "yes"><td class="verlightgreen">The number of accessions received in the fiscal year, which is derived from the total number of accessions received during FY.</td></cfif>
+										<td class="bg-ltgreen">The number of cataloged items that are part of an accession for the fiscal year that did not get cataloged in FY.</td>
+									</tr>--->
 									<cfloop query="ACtotals">
 										<tr>
 											<td>#collection#</td>
