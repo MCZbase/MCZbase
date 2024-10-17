@@ -158,30 +158,30 @@ limitations under the License.
 							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
-										<th onclick="toggleRow()"><strong>Collection </strong>(toggle defs.)</th>
+										<th onclick="toggleColumn()"><strong>Collection </strong>(toggle defs.)</th>
 										<cfif annualReport EQ "yes">
 											<th><strong>Total Holdings </strong></th>
 											<th><strong>% of Holdings in MCZbase</strong></th>
 										</cfif>
-										<th><strong>Total Records - Cataloged Items</strong></th>
-										<th><strong>Total Records - Specimens</strong></th>
-										<th><strong>Primary Types - Cataloged Items</strong></th>
-										<th><strong>Primary Types - Specimens</strong></th>
-										<th><strong>Secondary Types - Cataloged Items</strong></th>
-										<th><strong>Secondary Types - Specimens</strong></th>
+										<th onclick="toggleColumn()"><strong>Total Records - Cataloged Items</strong></th>
+										<th onclick="toggleColumn()"><strong>Total Records - Specimens</strong></th>
+										<th onclick="toggleColumn()"><strong>Primary Types - Cataloged Items</strong></th>
+										<th onclick="toggleColumn()"><strong>Primary Types - Specimens</strong></th>
+										<th onclick="toggleColumn()"><strong>Secondary Types - Cataloged Items</strong></th>
+										<th onclick="toggleColumn()"><strong>Secondary Types - Specimens</strong></th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr class="toggle hidden">
-										<td class="bg-white">Column Data Explained <b>&rarr;</b></td>
-										<td class="bg-lightgreen ">Total Collection Holdings are expressed in cataloged item records, which may represent individual specimens or lots. <b>Provided by the collections, not MCZbase data</b>.</td>
-										<td class="bg-lt-gray">Equation applied to MCZbase data: total number of specimens represented by cataloged item records divided by total holdings.</td>
-										<td class="bg-verylightgreen">The number of cataloged items representing individual specimens or lots.</td>
-										<td class="bg-verylightgreen">The number of specimens. The total number of specimens represented by the cataloged item recors.</td>
-										<td class="bg-verylightgreen">The number of primary types. The total number of cataloged item records that are primary types.</td>
-										<td class="bg-verylightgreen">The number of specimens that are primary types. </td>
-										<td class="bg-verylightgreen">The number of secondary types. Derived from the total number of secondary type cataloged item records with citations.</td>
-										<td class="bg-verylightgreen">The number of specimens that are secondary types. Derived from the total number of specimens represented by the secondary type cataloged item records with citations.</td>
+									<tr>
+										<td class="bg-white toggle hidden">Column Data Explained <b>&rarr;</b></td>
+										<td class="bg-lightgreen toggle hidden ">Total Collection Holdings are expressed in cataloged item records, which may represent individual specimens or lots. <b>Provided by the collections, not MCZbase data</b>.</td>
+										<td class="bg-lt-gray toggle hidden">Equation applied to MCZbase data: total number of specimens represented by cataloged item records divided by total holdings.</td>
+										<td class="bg-verylightgreen toggle hidden">The number of cataloged items representing individual specimens or lots.</td>
+										<td class="bg-verylightgreen toggle hidden">The number of specimens. The total number of specimens represented by the cataloged item recors.</td>
+										<td class="bg-verylightgreen toggle hidden">The number of primary types. The total number of cataloged item records that are primary types.</td>
+										<td class="bg-verylightgreen toggle hidden">The number of specimens that are primary types. </td>
+										<td class="bg-verylightgreen toggle hidden">The number of secondary types. Derived from the total number of secondary type cataloged item records with citations.</td>
+										<td class="bg-verylightgreen toggle hidden">The number of specimens that are secondary types. Derived from the total number of specimens represented by the secondary type cataloged item records with citations.</td>
 									</tr>
 									<cfloop query="totals">
 										<tr>
@@ -207,9 +207,11 @@ limitations under the License.
 							<p class="text-muted small">Reports are generated from the current MCZbase data for the given date range.</p>
 						</cfif>
 						<script>
-							function toggleRow() {
-								const row = document.querySelector('.toggle');
-								row.classList.toggle('hidden');
+							function toggleColumn() {
+								const cells = document.querySelectorAll('.toggle');
+								cells.forEach(cell => {
+									cell.classList.toggle('hidden');
+								});
 							}
 						</script>
 					</section>
