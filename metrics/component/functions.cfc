@@ -137,7 +137,7 @@ limitations under the License.
 							</h3>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<a href="/metrics/Dashboard.cfm?action=dowloadHoldings&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									Toggle columns for definitions. <a href="/metrics/Dashboard.cfm?action=dowloadHoldings&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>
@@ -158,10 +158,10 @@ limitations under the License.
 							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
-										<th onclick="toggleColumn()"><strong>Collection </strong>(toggle defs.)</th>
+										<th onclick="toggleColumn()"><strong>Collection </strong></th>
 										<cfif annualReport EQ "yes">
-											<th><strong>Total Holdings </strong></th>
-											<th><strong>% of Holdings in MCZbase</strong></th>
+											<th onclick="toggleColumn()"><strong>Total Holdings </strong></th>
+											<th onclick="toggleColumn()"><strong>% of Holdings in MCZbase</strong></th>
 										</cfif>
 										<th onclick="toggleColumn()"><strong>Total Records - Cataloged Items</strong></th>
 										<th onclick="toggleColumn()"><strong>Total Records - Specimens</strong></th>
