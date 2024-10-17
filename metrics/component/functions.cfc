@@ -175,8 +175,10 @@ limitations under the License.
 								<tbody>
 									<tr>
 										<td class="bg-white toggle hidden">Column Data Explained <b>&rarr;</b></td>
-										<td class="bg-lightgreen toggle hidden ">Total Collection Holdings are expressed in cataloged item records, which may represent individual specimens or lots. <b>Provided by the collections, not MCZbase data</b>.</td>
-										<td class="bg-lt-gray toggle hidden">Equation applied to MCZbase data: total number of specimens represented by cataloged item records divided by total holdings.</td>
+										<cfif annualReport EQ "yes">
+											<td class="bg-lightgreen toggle hidden ">Total Collection Holdings are expressed in cataloged item records, which may represent individual specimens or lots. <b>Provided by the collections, not MCZbase data</b>.</td>
+											<td class="bg-lt-gray toggle hidden">Equation applied to MCZbase data: total number of specimens represented by cataloged item records divided by total holdings.</td>
+										</cfif>
 										<td class="bg-verylightgreen toggle hidden">The number of cataloged items representing individual specimens or lots.</td>
 										<td class="bg-verylightgreen toggle hidden">The number of specimens. The total number of specimens represented by the cataloged item recors.</td>
 										<td class="bg-verylightgreen toggle hidden">The number of primary types. The total number of cataloged item records that are primary types.</td>
@@ -323,9 +325,11 @@ limitations under the License.
 							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
-										<th><strong>Collection</strong></th>
-										<th><strong>Acquired Cataloged Items</strong></th>
-										<th><strong>Acquired Specimens</strong></th>
+										<th></th>
+										<th><button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="button" title="The number of cataloged items acquired in the fiscal year, which is derived from the total number of cataloged item records as indicated by the accessions for FY."><strong>Acquired Cataloged Items</strong></button></th>
+										
+										<th><button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="button" title="The number of cataloged items enetered in the fiscal year, which may include entries for multiple years. Derived from the total number of cataloged item records entered in FY."><strong>Acquired Specimens</strong></th>
+										<th><button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="button" title="The number of cataloged items enetered in the fiscal year, which may include entries for multiple years. Derived from the total number of cataloged item records entered in FY."><strong>New Records Entered in MCZbase - Cataloged Items</strong></th>
 										<th><strong>New Records Entered in MCZbase - Cataloged Items</strong></th>
 										<cfif annualReport EQ "yes">
 											<th><strong>Number of Genetic Samples added To Cryo</strong></th>
@@ -339,6 +343,19 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
+									<tr class="d-none">
+										<td></td>
+										<td class="bg-verylightgreen">The number of cataloged items acquired in the fiscal year, which is derived from the total number of cataloged item records as indicated by the accessions for FY.</td>
+										<td class="bg-verylightgreen">The number of specimens acquired in the fiscal year, which is derived from the total number of specimens represented by the cataloged item records as indicated by the accessions for FY.</td>
+										<td class="bg-verylightgreen">The number of cataloged items enetered in the fiscal year, which may include entries for multiple years. Derived from the total number of cataloged item records entered in FY.</td>
+										<td class="bg-verylightgreen">The number of genetic samples in the Cryo Collection added during the fiscal year, which is derived from the total number of genetic samples in Cryo Collection as indicated by the number of parts in cryovats added during FY.</td>
+										<cfif annualReport EQ "yes">
+											<td>The number of cataloged items with NCBI numbers, which is derived from the total number of cataloged item records with associated NCBI numbers.</td>
+										</cfif>
+										<td class="bg-verylightgreen">The number of NCBI numbers that were added during the fiscal year, which is derived from the total number of NCBI numbers associated with cataloged item records that were added during FY.</td>
+										<cfif annualReport EQ "yes">The number of accessions received int eh fiscal year, which is derived from the total number of accessions received during FY.</cfif>
+										<td class="bg-ltgreen">The number of cataloged items that are part of an accession for the fiscal year but did not get cataloged in that fiscal year.</td>
+									</tr>
 									<cfloop query="ACtotals">
 										<tr>
 											<td>#collection#</td>
