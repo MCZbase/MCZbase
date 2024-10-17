@@ -311,6 +311,11 @@ limitations under the License.
 			<cfelse>
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
+						<script>
+							$(function () {
+								$('[data-toggle="tooltip"]').tooltip()
+							})
+						</script>
 						<div class="my-2 float-left w-100">
 							<h2 class="h3 mt-0 mb-1 px-0 float-left">
 								<cfif annualReport eq "yes">Annual Report:</cfif> Acquisitions <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
