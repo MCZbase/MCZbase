@@ -201,9 +201,10 @@ limitations under the License.
 															<option value="#FY_dates.fiscal_year_option#">#FY_dates.fiscal_year_option#</option>
 														</cfloop>
 													</select>
+													#FY_dates.beginDate#
 													<!-- Hidden fields to store beginDate and endDate -->
-													<input type="hidden" id="beginDateFiscal" name="beginDate" value="#TO_CHAR(FY_dates.beginDate, 'yyyy-mm-dd')#">
-													<input type="hidden" id="endDateFiscal" name="endDate" value="#TO_CHAR(FY_dates.endDate)#">
+													<input type="hidden" id="beginDateFiscal" name="beginDate" value="#beginDateFiscal#">
+													<input type="hidden" id="endDateFiscal" name="endDate" value="#endDateFiscal#">
 													<h3 class="h4 text-muted mt-3">Report to Show</h3>
 													<label for="method" class="sr-only">Report To Show</label>
 													<select id="method" name="method" class="my-1 data-entry-input">
@@ -219,7 +220,7 @@ limitations under the License.
 												<button type="submit" value="Show Report" id="loadReportFormAnnual" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
 											</form>
 											<!--- TODO: This needs to be an interpretation of a year value to fiscal year start end dates, not a hard coded list (allowing list of fiscal years to be retrieved from the database, not hard coded) --->
-<!---											<script>
+											<script>
 												function setFiscalYearDates() {
 													const fiscalYear = document.getElementById("fiscalYear").value; 
 														var beginDate;
@@ -241,8 +242,10 @@ limitations under the License.
 													document.getElementById("beginDateFiscal").value = beginDate; 
 													document.getElementById("endDateFiscal").value = endDate;
 												}
-											</script>--->
-								
+											</script>
+											<script>
+												
+											</script>
 										</div>
 									</div>
 								</div>
