@@ -423,6 +423,9 @@ limitations under the License.
 						<cfelse> 
 							<p class="text-muted small">Reports are generated from the current MCZbase data for the given date range.</p>
 						</cfif>
+						<script>
+							$('##t').tooltip(options)
+							</script>
 					</section>
 				</cfoutput>
 			</cfif>
