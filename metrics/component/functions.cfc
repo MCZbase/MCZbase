@@ -137,7 +137,7 @@ limitations under the License.
 							</h3>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									Toggle columns for definitions. <a href="/metrics/Dashboard.cfm?action=dowloadHoldings&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<p class="h5 d-inline">Toggle columns for definitions.</p> <a href="/metrics/Dashboard.cfm?action=dowloadHoldings&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>
