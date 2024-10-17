@@ -312,9 +312,9 @@ limitations under the License.
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
 						<script>
-							$(function () {
-								$('[data-toggle="tooltip"]').tooltip()
-							})
+							$(document).ready(function(){
+								$('[data-toggle="tooltip"]').tooltip();
+							});
 						</script>
 						<div class="my-2 float-left w-100">
 							<h2 class="h3 mt-0 mb-1 px-0 float-left">
@@ -331,7 +331,7 @@ limitations under the License.
 								<thead>
 									<tr>
 										<th></th>
-										<th><button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="button" title="The number of cataloged items acquired in the fiscal year, which is derived from the total number of cataloged item records as indicated by the accessions for FY."><strong>Acquired Cataloged Items</strong></button></th>
+										<th><a href="##" class="btn btn-secondary" data-toggle="tooltip" data-placement="button" title="Number of cataloged items acquired in the fiscal year. Derived from the total number of cataloged item records as indicated by the accessions for FY."><strong>Acquired Cataloged Items</strong></a></th>
 										
 										<th><button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="button" title="The number of cataloged items enetered in the fiscal year, which may include entries for multiple years. Derived from the total number of cataloged item records entered in FY."><strong>Acquired Specimens</strong></th>
 										<th><button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="button" title="The number of cataloged items enetered in the fiscal year, which may include entries for multiple years. Derived from the total number of cataloged item records entered in FY."><strong>New Records Entered in MCZbase - Cataloged Items</strong></th>
@@ -428,9 +428,6 @@ limitations under the License.
 						<cfelse> 
 							<p class="text-muted small">Reports are generated from the current MCZbase data for the given date range.</p>
 						</cfif>
-						<script>
-							$('##t').tooltip(options)
-							</script>
 					</section>
 				</cfoutput>
 			</cfif>
