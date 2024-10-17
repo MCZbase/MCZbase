@@ -159,6 +159,16 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
+									<tr>
+										<td class="bg-secondary"><b>Total Holdings</b><br> Total Collection Holdings are expressed in cataloged item records, which may represent individual specimens or lots. Provided by the collections starting annually since 2018, not MCZbase data.</td>
+										<td class="bg-warning"><b>% of Holding in MCZbase.</b><br> Equation applied to MCZbase data: total number of specimens represented by cataloged item records divided by total holdings.</td>
+										<td class="bg-light"><b>Total Records - Cataloged Items</b><br> The number of cataloged items representing individual specimens or lots.</td>
+										<td class="bg-light"><b>Total Records - Specimens</b><br> The number of specimens. The total number of specimens represented by the cataloged item recors.</td>
+										<td class="bg-light"><b>Primary Types - Cataloged Items</b><br> The number of primary types. The total number of cataloged item records that are primary types.</td>
+										<td class="bg-light"><b>Primary Types - Specimens</b><br> The number of specimens that are primary types. </td>
+										<td class="bg-light"><b>Secondary Types - Cataloged Items</b><br>The number of secondary types. Derived from the total number of secondary type cataloged item records with citations.</td>
+										<td class="bg-light"><b>Secondary Types - Specimens</b><br> The number of specimens that are secondary types. Derived from the total number of specimens represented by the secondary type cataloged item records with citations.</td>
+									</tr>
 									<cfloop query="totals">
 										<tr>
 											<td>#Collection#</td>
