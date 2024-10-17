@@ -175,7 +175,7 @@ limitations under the License.
 									<tr class="toggle hidden">
 										<td class="bg-white">Column Data Explained <b>&rarr;</b></td>
 										<td class="bg-lightgreen ">Total Collection Holdings are expressed in cataloged item records, which may represent individual specimens or lots. <b>Provided by the collections, not MCZbase data</b>.</td>
-										<td class="bg-lt-gray toggle">Equation applied to MCZbase data: total number of specimens represented by cataloged item records divided by total holdings.</td>
+										<td class="bg-lt-gray">Equation applied to MCZbase data: total number of specimens represented by cataloged item records divided by total holdings.</td>
 										<td class="bg-verylightgreen">The number of cataloged items representing individual specimens or lots.</td>
 										<td class="bg-verylightgreen">The number of specimens. The total number of specimens represented by the cataloged item recors.</td>
 										<td class="bg-verylightgreen">The number of primary types. The total number of cataloged item records that are primary types.</td>
