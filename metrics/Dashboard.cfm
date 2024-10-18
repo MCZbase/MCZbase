@@ -201,7 +201,8 @@ limitations under the License.
 															<option value="#FY_dates.fiscal_year_option#">#FY_dates.fiscal_year_option#</option>
 														</cfloop>
 													</select>
-													#FY_dates.beginDate#
+													#FY_dates.beginDate#<br>
+													#FY_dates.fiscal_year_option#
 													<!-- Hidden fields to store beginDate and endDate -->
 													<input type="hidden" id="beginDateFiscal" name="beginDate" value="#beginDateFiscal#">
 													<input type="hidden" id="endDateFiscal" name="endDate" value="#endDateFiscal#">
