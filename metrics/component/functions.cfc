@@ -590,16 +590,13 @@ limitations under the License.
 						<div class="table-responsive-lg">
 							<table class="table table-striped" id="t">
 								<thead>
-									<tr>
-										<td colspan="11">
-											<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definitions" aria-expanded="false" aria-controls="definitions">
-												click to see definitions
-											</button>
-										</td>
-									</tr>
+							
 									<tr>
 										<th><strong>Collection</strong></th>
-										<th><strong>Outgoing Loans</strong></th>
+										<th><strong>Outgoing Loans</strong>	
+											<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definitions" aria-expanded="false" aria-controls="definitions2">
+												click to see definitions
+											</button></th>
 										<th><strong>Closed Loans</strong></th>
 										<th><strong>Closed Overdue (>5 years) Loans</strong></th>
 										<th><strong>Closed Overdue (>10 years) Loans</strong></th>
@@ -612,10 +609,9 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
-							
-									<tr id="definitions" class="collapse" aria-labelledby="">
+									<tr>
 										<td></td>
-										<td>Number of outgoing loans in the FY. </td>
+										<td  id="definition2" class="collapse" aria-labelledby="header2">Number of outgoing loans in the FY. </td>
 										<td>Total number of open loans that were completely closed in FY.</td>
 										<td>Total number of open loans older than 5 years closed in FY.</td>
 										<td>Total number of open loans older than 10 years closed in FY.</td>
