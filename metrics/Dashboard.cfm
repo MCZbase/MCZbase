@@ -199,8 +199,9 @@ limitations under the License.
 													<p>endDateFiscal: #endDateFiscal#</p>
 													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
 											
+														<option value="FY2023" selected="selected">FY2023</option>
 														<cfloop query = "fyDates">
-															<option value="#fyDates.fiscal_year_option#" selected="selected">#fyDates.fiscal_year_option#	</option>
+															<option value="#fyDates.fiscal_year_option#" selected="selected">#fyDates.fiscal_year_option#</option>
 													<!---	<option value="FY2024" selected="selected">FY2024</option>
 															<option value="FY2023">FY2023</option>--->
 														</cfloop>
