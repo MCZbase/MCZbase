@@ -186,7 +186,7 @@ limitations under the License.
 														TO_CHAR(
 															CASE 
 																WHEN EXTRACT(MONTH FROM reported_date) >= 4 
-																THEN TO_DATE(EXTRACT(YEAR FROM reported_date) || '-07-01', 'YYYY-MM-DD')
+																THEN TO_DATE(EXTRACT(YEAR FROM reported_date) - 1) || '-07-01', 'YYYY-MM-DD')
 																ELSE TO_DATE((EXTRACT(YEAR FROM reported_date) - 1) || '-07-01', 'YYYY-MM-DD')
 															END, 'YYYY-MM-DD'
 														) AS beginDateFiscal,
