@@ -182,7 +182,7 @@ limitations under the License.
 												
 													<cfquery name="FY_dates" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 													SELECT
-														distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option,reported_date,
+														distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option,reported_date, to_char(reported_date, 'yyyy') as just_year
 													CASE 
 														WHEN EXTRACT(MONTH FROM reported_date) >= 4 
 														THEN TO_DATE(EXTRACT(YEAR FROM reported_date) || '-07-01', 'YYYY-MM-DD')
@@ -198,14 +198,15 @@ limitations under the License.
 													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
 														<option value="">Select Date</option>
 														<cfloop query = "FY_dates">
-															<option value="#FY_dates.fiscal_year_option#">#FY_dates.fiscal_year_option#</option>
+															<option value="#FY_dates.just_year#">#FY_dates.fiscal_year_option#</option>
 														</cfloop>
 													</select>
-													#FY_dates.beginDate#<br>
-													#FY_dates.fiscal_year_option#
+													<cfset fiscalYear = FY_dates.just_year>
+													<cfset beginDate = createDate(fiscalYear -1, 7, 1)>
+													<cfset endDate = createDate(fiscalYear, 6, 30)>
 													<!-- Hidden fields to store beginDate and endDate -->
-													<input type="hidden" id="beginDateFiscal" name="beginDate" value="#beginDateFiscal#">
-													<input type="hidden" id="endDateFiscal" name="endDate" value="#endDateFiscal#">
+													<input type="hidden" id="beginDateFiscal" name="beginDate" value="#beginDate#">
+													<input type="hidden" id="endDateFiscal" name="endDate" value="#endDate#">
 													<h3 class="h4 text-muted mt-3">Report to Show</h3>
 													<label for="method" class="sr-only">Report To Show</label>
 													<select id="method" name="method" class="my-1 data-entry-input">
