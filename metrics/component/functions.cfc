@@ -606,11 +606,9 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<tr>
-										<td>
-											<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definitions" aria-expanded="false" aria-controls="definitions">
-												click to see definitions
-											</button>
-										</td>
+										<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definitions" aria-expanded="false" aria-controls="definitions">
+											click to see definitions
+										</button>
 									</tr>
 									<tr id="definitions" class="collapse" aria-labelledby="heading1">
 										<td></td>
