@@ -195,6 +195,7 @@ limitations under the License.
 														END AS endDateFiscal
 														FROM MCZBASE.collections_reported_metrics
 													</cfquery>
+													#beginDateFiscal#
 													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
 											
 														<cfloop query = "fyDates">
