@@ -592,17 +592,17 @@ limitations under the License.
 								<thead>
 							
 									<tr>
-										<th><button onclick="toggleColumn()"><strong>Collection</strong></button></th>
-										<th><button onclick="toggleColumn()" class="border-0 bg-white"><strong>Outgoing Loans</strong></button></th>
-										<th onclick="toggleColumn()"><strong>Closed Loans</strong></th>
-										<th onclick="toggleColumn()"><strong>Closed Overdue (>5 years) Loans</strong></th>
-										<th onclick="toggleColumn()"><strong>Closed Overdue (>10 years) Loans</strong></th>
-										<th onclick="toggleColumn()"><strong>Incoming loans (=Borrows)</strong></th>
-										<th onclick="toggleColumn()"><strong>Number of Open Loans</strong></th>
-										<th onclick="toggleColumn()"><strong>Number of Open Loans overdue > 5 years</strong></th>
-										<th onclick="toggleColumn()"><strong>Number of Open Loans overdue > 10 year</strong></th>
-										<th onclick="toggleColumn()"><strong>Outgoing Cataloged Items</strong></th>
-										<th onclick="toggleColumn()"><strong>Outgoing Specimens</strong></th>
+										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Collection</strong></button></th>
+										<th><button onclick="toggleColumn()" class="border-white bg-white"><strong>Outgoing Loans</strong></button></th>
+										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Closed Loans</strong></button></th>
+										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Closed Overdue (>5 years) Loans</strong></button></th>
+										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Closed Overdue (>10 years) Loans</strong></button></th>
+										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Incoming loans (=Borrows)</strong></button></th>
+										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Number of Open Loans</strong></button></th>
+										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Number of Open Loans overdue > 5 years</strong></button></th>
+										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Number of Open Loans overdue > 10 year</strong></button></th>
+										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Outgoing Cataloged Items</strong></button></th>
+										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Outgoing Specimens</strong></button></th>
 									</tr>
 								</thead>
 								<tbody>
