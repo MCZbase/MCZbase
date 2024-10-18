@@ -591,6 +591,11 @@ limitations under the License.
 							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
+										<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definitions" aria-expanded="false" aria-controls="definitions">
+											click to see definitions
+										</button>
+									</tr>
+									<tr>
 										<th><strong>Collection</strong></th>
 										<th><strong>Outgoing Loans</strong></th>
 										<th><strong>Closed Loans</strong></th>
@@ -605,11 +610,7 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definitions" aria-expanded="false" aria-controls="definitions">
-											click to see definitions
-										</button>
-									</tr>
+							
 									<tr id="definitions" class="collapse" aria-labelledby="heading1">
 										<td></td>
 										<td>Number of outgoing loans in the FY. </td>
