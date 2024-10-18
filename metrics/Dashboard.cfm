@@ -237,8 +237,8 @@ limitations under the License.
 																endDate = "";
 																break;
 														}
-													document.getElementById("beginDateFiscal").value = beginDate; 
-													document.getElementById("endDateFiscal").value = endDate;
+													document.getElementById("beginDate").value = beginDate; 
+													document.getElementById("endDate").value = endDate;
 												}
 											</script>
 											 <script>
