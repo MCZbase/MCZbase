@@ -182,16 +182,16 @@ limitations under the License.
 													<!--- TODO: This needs to be a query on the historical data table, not a hard coded list, query below --->
 													<cfquery name="fyDates" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 														SELECT
-															distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option,reported_date,
+															distinct 'FY' || to_number(reported_date, 'yyyy') as fiscal_year_option,reported_date,
 														CASE 
 															WHEN EXTRACT(MONTH FROM reported_date) >= 4 
-															THEN TO_CHAR(EXTRACT(YEAR FROM reported_date) || '-07-01', 'YYYY-MM-DD')
-															ELSE TO_CHAR(EXTRACT(YEAR FROM reported_date) - 1 || '-07-01', 'YYYY-MM-DD')
+															THEN TO_DATE(EXTRACT(YEAR FROM reported_date) || '-07-01', 'YYYY-MM-DD')
+															ELSE TO_DATE(EXTRACT(YEAR FROM reported_date) - 1 || '-07-01', 'YYYY-MM-DD')
 														END AS beginDateFiscal,
 														CASE 
 															WHEN EXTRACT(MONTH FROM reported_date) >= 4 
-															THEN TO_CHAR(EXTRACT(YEAR FROM reported_date) + 1 || '-06-30', 'YYYY-MM-DD')
-															ELSE TO_CHAR(EXTRACT(YEAR FROM reported_date) || '-06-30', 'YYYY-MM-DD')
+															THEN TO_DATE(EXTRACT(YEAR FROM reported_date) + 1 || '-06-30', 'YYYY-MM-DD')
+															ELSE TO_DATE(EXTRACT(YEAR FROM reported_date) || '-06-30', 'YYYY-MM-DD')
 														END AS endDateFiscal
 														FROM MCZBASE.collections_reported_metrics
 														ORDER by reported_date desc
