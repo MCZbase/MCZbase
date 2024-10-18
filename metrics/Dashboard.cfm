@@ -195,15 +195,17 @@ limitations under the License.
 													END AS endDate
 													FROM MCZBASE.collections_reported_metrics
 													</cfquery>
+													<cfset fiscalYear = FY_dates.just_year>#fiscalYear#
+													<cfset beginDate = createDate(fiscalYear -1, 7, 1)><br> #beginDate#
+													<cfset endDate = createDate(fiscalYear, 6, 30)><br>#endDate#
+														
 													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
 														<option value="">Select Date</option>
 														<cfloop query = "FY_dates">
 															<option value="#FY_dates.just_year#">#FY_dates.fiscal_year_option#</option>
 														</cfloop>
 													</select>
-													<cfset fiscalYear = FY_dates.just_year>
-													<cfset beginDate = createDate(fiscalYear -1, 7, 1)>
-													<cfset endDate = createDate(fiscalYear, 6, 30)>
+													
 													<!-- Hidden fields to store beginDate and endDate -->
 													<input type="hidden" id="beginDateFiscal" name="beginDate" value="#beginDate#">
 													<input type="hidden" id="endDateFiscal" name="endDate" value="#endDate#">
