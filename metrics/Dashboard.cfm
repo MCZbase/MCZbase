@@ -177,6 +177,7 @@ limitations under the License.
 												<div class="form-group">
 													<input type="hidden" name="returnFormat" value="plain">
 													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
+													
 													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
 													<!--- TODO: This needs to be a query on the historical data table, not a hard coded list, query below --->
 													<cfquery name="fyDates" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
@@ -197,9 +198,9 @@ limitations under the License.
 													</cfquery>
 													<select id="fiscalYear" name="fiscalYear" required class="data-entry-input my-1">
 														
-														<cfoutput query = "fyDates">
+														<cfloop query = "fyDates">
 															<option value="#fyDates.beginDateFiscal#,#fyDates.endDateFiscal#">#fyDates.fiscal_year_option#</option>
-														</cfoutput>
+														</cfloop>
 													</select>
 													<!-- Hidden fields to store beginDate and endDate -->
 													<input type="hidden" id="beginDateFiscal" name="beginDate" value="2023-07-01">
