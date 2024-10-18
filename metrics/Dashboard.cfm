@@ -187,18 +187,18 @@ limitations under the License.
 															WHEN EXTRACT(MONTH FROM reported_date) >= 4 
 															THEN TO_DATE(EXTRACT(YEAR FROM reported_date) || '-07-01', 'YYYY-MM-DD')
 															ELSE TO_DATE(EXTRACT(YEAR FROM reported_date) - 1 || '-07-01', 'YYYY-MM-DD')
-														END AS beginDate,
+														END AS beginDateFiscal,
 														CASE 
 															WHEN EXTRACT(MONTH FROM reported_date) >= 4 
 															THEN TO_DATE(EXTRACT(YEAR FROM reported_date) + 1 || '-06-30', 'YYYY-MM-DD')
 															ELSE TO_DATE(EXTRACT(YEAR FROM reported_date) || '-06-30', 'YYYY-MM-DD')
-														END AS endDate
+														END AS endDateFiscal
 														FROM MCZBASE.collections_reported_metrics
 													</cfquery>
 													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
 											
 														<cfloop query = "fyDates">
-															<option value="#fyDates.beginDate#,#fyDates.endDate#">#fyDates.fiscal_year_option#</option>
+															<option value="#fyDates.beginDateFiscal#,#fyDates.endDateFiscal#">#fyDates.fiscal_year_option#</option>
 													<!---	<option value="FY2024" selected="selected">FY2024</option>
 															<option value="FY2023">FY2023</option>--->
 														</cfloop>
