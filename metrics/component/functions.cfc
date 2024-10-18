@@ -621,6 +621,8 @@ limitations under the License.
 										<td>Total number of open loans as of 2019-06-30.</td>
 										<td>Total number of open loans that are past due for over 5 years as of 2019-06-30.</td>
 										<td>Total number of open loans that are past due for over 10 years as of 2019-06-30.</td>
+										<td>Cataloged Items in Loans in FY.</td>
+										<td>Specimens in Loans in FY.</td>
 									</tr>
 									<cfloop query="loans">
 										<cfif #Collection# EQ 'Herpetology Observations'>
