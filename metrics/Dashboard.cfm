@@ -222,48 +222,48 @@ limitations under the License.
 											</form>
 											<!--- TODO: This needs to be an interpretation of a year value to fiscal year start end dates, not a hard coded list (allowing list of fiscal years to be retrieved from the database, not hard coded) --->
 											<script>
-//												function setFiscalYearDates() {
-//													const fiscalYear = document.getElementById("fiscalYear").value; 
-//														var beginDate;
-//														var endDate;
-//														switch(fiscalYear) {
-//															case "#FY_dates.fiscal_year_option#":
-//																beginDate = "#beginDateFiscal#";
-//																endDate = "#endDateFiscal#";
-//																break;
-//															default:
-//																beginDate = "";
-//																endDate = "";
-//																break;
-//														}
-//													document.getElementById("beginDateFiscal").value = beginDate; 
-//													document.getElementById("endDateFiscal").value = endDate;
-//												}
+												function setFiscalYearDates() {
+													const fiscalYear = document.getElementById("fiscalYear").value; 
+														var beginDate;
+														var endDate;
+														switch(fiscalYear) {
+															case "#FY_dates.fiscal_year_option#":
+																beginDate = "#beginDateFiscal#";
+																endDate = "#endDateFiscal#";
+																break;
+															default:
+																beginDate = "";
+																endDate = "";
+																break;
+														}
+													document.getElementById("beginDateFiscal").value = beginDate; 
+													document.getElementById("endDateFiscal").value = endDate;
+												}
 											</script>
 											 <script>
-												document.getElementById('fiscalYear').addEventListener('change', function() {
-													const selectedFiscalYear = parseInt(this.value);
-													const beginDateInput = document.getElementById('beginDate');
-													const endDateInput = document.getElementById('endDate');
-
-													const beginDate = new Date(selectedFiscalYear - 1, 3, 1); 
-													const endDate = new Date(selectedFiscalYear, 2, 30); 
-
-										
-													const formatDate = date => date.toISOString().split('T')[0];
-
-													beginDateInput.value = formatDate(beginDate);
-													endDateInput.value = formatDate(endDate);
-
-													myFunction(beginDateInput.value, endDateInput.value);
-												});
-
-												function myFunction(beginDate, endDate) {
-													console.log('Begin Date:', beginDate);
-													console.log('End Date:', endDate);
-												}
-
-												document.getElementById('fiscalYear').dispatchEvent(new Event('change'));
+												//document.getElementById('fiscalYear').addEventListener('change', function() {
+//													const selectedFiscalYear = parseInt(this.value);
+//													const beginDateInput = document.getElementById('beginDate');
+//													const endDateInput = document.getElementById('endDate');
+//
+//													const beginDate = new Date(selectedFiscalYear - 1, 3, 1); 
+//													const endDate = new Date(selectedFiscalYear, 2, 30); 
+//
+//										
+//													const formatDate = date => date.toISOString().split('T')[0];
+//
+//													beginDateInput.value = formatDate(beginDate);
+//													endDateInput.value = formatDate(endDate);
+//
+//													myFunction(beginDateInput.value, endDateInput.value);
+//												});
+//
+//												function myFunction(beginDate, endDate) {
+//													console.log('Begin Date:', beginDate);
+//													console.log('End Date:', endDate);
+//												}
+//
+//												document.getElementById('fiscalYear').dispatchEvent(new Event('change'));
 											</script>
 										</div>
 									</div>
