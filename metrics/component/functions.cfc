@@ -613,7 +613,7 @@ limitations under the License.
 								</thead>
 								<tbody>
 							
-									<tr id="definitions" class="collapse" aria-labelledby="heading1">
+									<tr id="definitions" class="collapse" aria-labelledby="">
 										<td></td>
 										<td>Number of outgoing loans in the FY. </td>
 										<td>Total number of open loans that were completely closed in FY.</td>
