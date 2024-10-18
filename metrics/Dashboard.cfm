@@ -202,8 +202,8 @@ limitations under the License.
 														</cfoutput>
 													</select>
 													<!-- Hidden fields to store beginDate and endDate -->
-													<input type="hidden" id="beginDateFiscal" name="beginDate" value="">
-													<input type="hidden" id="endDateFiscal" name="endDate" value="">
+													<input type="hidden" id="beginDateFiscal" name="beginDate" value="2023-07-01">
+													<input type="hidden" id="endDateFiscal" name="endDate" value="2024-06-30">
 													
 													<h3 class="h4 text-muted mt-3">Report to Show</h3>
 													<label for="method" class="sr-only">Report To Show</label>
@@ -221,7 +221,34 @@ limitations under the License.
 												<button type="submit" value="Show Report" id="loadReportFormAnnual" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
 											</form>
 											<!--- TODO: This needs to be an interpretation of a year value to fiscal year start end dates, not a hard coded list (allowing list of fiscal years to be retrieved from the database, not hard coded) --->
-				
+											<script>
+//												function setFiscalYearDates() {
+//													const fiscalYear = document.getElementById("fiscalYear").value; 
+//														var beginDate;
+//														var endDate;
+//														switch(fiscalYear) {
+//															case "#fyDates.fiscal_year_option#":
+//																beginDate = "#beginDateFiscal#";
+//																endDate = "#endDateFiscal#";
+//																break;
+//															default:
+//																beginDate = "";
+//																endDate = "";
+//																break;
+//														}
+//													document.getElementById("beginDateFiscal").value = beginDateFiscal; 
+//													document.getElementById("endDateFiscal").value = endDateFiscal;
+//												}
+											document.addEventListener('DOMContentLoaded', function() {
+												document.getElementById('fiscalYear').addEventListener('change', function() {
+													var combinedValue = this.value;
+													var parts = combinedValue.split(',');
+
+													document.getElementById('beginDateFiscal').value = parts[0];   // Sets the beginDate
+													document.getElementById('endDateFiscal').value = parts[1]; // Sets the endDate
+												});
+											});
+											</script>
 										</div>
 									</div>
 								</div>
@@ -380,34 +407,6 @@ limitations under the License.
 					</main>
 				</div>
 			</div>
-			<script>
-//												function setFiscalYearDates() {
-//													const fiscalYear = document.getElementById("fiscalYear").value; 
-//														var beginDate;
-//														var endDate;
-//														switch(fiscalYear) {
-//															case "#fyDates.fiscal_year_option#":
-//																beginDate = "#beginDateFiscal#";
-//																endDate = "#endDateFiscal#";
-//																break;
-//															default:
-//																beginDate = "";
-//																endDate = "";
-//																break;
-//														}
-//													document.getElementById("beginDateFiscal").value = beginDateFiscal; 
-//													document.getElementById("endDateFiscal").value = endDateFiscal;
-//												}
-				document.addEventListener('DOMContentLoaded', function() {
-					document.getElementById('fiscalYear').addEventListener('change', function() {
-						var combinedValue = this.value;
-						var parts = combinedValue.split(',');
-
-						document.getElementById('beginDateFiscal').value = parts[0];   // Sets the beginDate
-						document.getElementById('endDateFiscal').value = parts[1]; // Sets the endDate
-					});
-				});
-				</script>
 		</cfoutput>
 		<cfinclude template="/shared/_footer.cfm">
 	</cfcase>
