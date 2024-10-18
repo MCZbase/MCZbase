@@ -226,13 +226,9 @@ limitations under the License.
 														var beginDate;
 														var endDate;
 														switch(fiscalYear) {
-															case "FY2023":
-																beginDate = "2022-07-01";
-																endDate = "2023-06-30";
-																break;
-															case "FY2024":
-																beginDate = "2023-07-01";
-																endDate = "2024-06-30";
+															case "#FY_dates.fiscal_year_option#":
+																beginDate = "#beginDateFiscal#";
+																endDate = "#endDateFiscal#";
 																break;
 															default:
 																beginDate = "";
@@ -243,8 +239,34 @@ limitations under the License.
 													document.getElementById("endDateFiscal").value = endDate;
 												}
 											</script>
-											<script>
-												
+											 <script>
+												document.getElementById('fiscalYearSelect').addEventListener('change', function() {
+													const selectedFiscalYear = parseInt(this.value);
+													const beginDateInput = document.getElementById('beginDate');
+													const endDateInput = document.getElementById('endDate');
+
+													// Fiscal Year logic: Start on April 1st of the selected year, end on March 31st of the next year
+													const beginDate = new Date(selectedFiscalYear - 1, 3, 1); // April 1st of the previous year
+													const endDate = new Date(selectedFiscalYear, 2, 31); // March 31st of the current year
+
+													// Format dates as YYYY-MM-DD
+													const formatDate = date => date.toISOString().split('T')[0];
+
+													beginDateInput.value = formatDate(beginDate);
+													endDateInput.value = formatDate(endDate);
+
+													// Optional: Call a function with these arguments
+													myFunction(beginDateInput.value, endDateInput.value);
+												});
+
+												function myFunction(beginDate, endDate) {
+													console.log('Begin Date:', beginDate);
+													console.log('End Date:', endDate);
+													// Additional logic with these dates
+												}
+
+												// Trigger change event to initialize default selection
+												document.getElementById('fiscalYearSelect').dispatchEvent(new Event('change'));
 											</script>
 										</div>
 									</div>
