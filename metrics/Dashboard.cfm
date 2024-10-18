@@ -196,8 +196,9 @@ limitations under the License.
 														FROM MCZBASE.collections_reported_metrics
 													</cfquery>
 													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
+														<option value="#fyDates.beginDate#">#fyDates.fiscal_year_option#</option>
 														<cfloop query = "fyDates">
-															#fyDates.beginDate#
+															
 															<option value="FY2024" selected="selected">FY2024</option>
 															<option value="FY2023">FY2023</option>
 														</cfloop>
