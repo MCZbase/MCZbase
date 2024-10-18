@@ -591,9 +591,11 @@ limitations under the License.
 							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
-										<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definitions" aria-expanded="false" aria-controls="definitions">
-											click to see definitions
-										</button>
+										<td colspan="11">
+											<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definitions" aria-expanded="false" aria-controls="definitions">
+												click to see definitions
+											</button>
+										</td>
 									</tr>
 									<tr>
 										<th><strong>Collection</strong></th>
