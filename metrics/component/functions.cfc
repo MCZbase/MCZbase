@@ -594,7 +594,7 @@ limitations under the License.
 									<tr>
 										<th><strong>Collection</strong></th>
 										<th><strong>Outgoing Loans</strong>	
-											<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definitions" aria-expanded="false" aria-controls="definitions2">
+											<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definition2" aria-expanded="false" aria-controls="definition2">
 												click to see definitions
 											</button></th>
 										<th><strong>Closed Loans</strong></th>
