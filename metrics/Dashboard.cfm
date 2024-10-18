@@ -180,7 +180,7 @@ limitations under the License.
 													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
 													<!--- TODO: This needs to be a query on the historical data table, not a hard coded list, query below --->
 												
-													<cfquery name="FY_dates" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
+													<cfquery name="fyDates" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 														SELECT
 															distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option,reported_date,
 														CASE 
@@ -196,7 +196,8 @@ limitations under the License.
 														FROM MCZBASE.collections_reported_metrics
 													</cfquery>
 													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
-														<cfloop query = "FY_dates">
+														<cfloop query = "fyDates">
+															#fyDates.beginDate#
 															<option value="FY2024" selected="selected">FY2024</option>
 															<option value="FY2023">FY2023</option>
 														</cfloop>
