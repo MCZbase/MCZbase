@@ -179,7 +179,6 @@ limitations under the License.
 													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
 													
 													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
-													<!--- TODO: This needs to be a query on the historical data table, not a hard coded list, query below --->
 													<cfquery name="fyDates" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 														SELECT
 															distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option,reported_date,
@@ -225,7 +224,6 @@ limitations under the License.
 												</div>
 												<button type="submit" value="Show Report" id="loadReportFormAnnual" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
 											</form>
-											<!--- TODO: This needs to be an interpretation of a year value to fiscal year start end dates, not a hard coded list (allowing list of fiscal years to be retrieved from the database, not hard coded) --->
 											<script>
 												document.addEventListener('DOMContentLoaded', function() {
 													document.getElementById('fiscalYear').addEventListener('change', function() {
