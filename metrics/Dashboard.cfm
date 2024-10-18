@@ -368,7 +368,6 @@ limitations under the License.
 									$('##divArbitraryRangeResults').innerHTML = '<p>Results from CFC function query appear here.</p>';
 									$('##divArbitraryRangeResults').style.display = 'block';
 								}
-
 							</script>
 						</div>
 					</nav>
