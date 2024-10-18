@@ -123,7 +123,7 @@ limitations under the License.
 					(select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) Primary_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Primary_Specimens from #endSchema#.coll_object co join #endSchema#.flat f on co.collection_object_id = f.collection_object_id join #endSchema#.citation c on f.collection_object_id = c.collection_object_id join ctcitation_type_status ts on c.type_status =  ts.type_status where ts.CATEGORY in ('Primary') and co.COLL_OBJECT_ENTERED_DATE <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection, ts.CATEGORY) p on h.collection_id = p.collection_id
 				LEFT JOIN 
 					(select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) Secondary_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Secondary_Specimens from #endSchema#.coll_object co join #endSchema#.flat f on co.collection_object_id = f.collection_object_id join #endSchema#.citation c on f.collection_object_id = c.collection_object_id join ctcitation_type_status ts on c.type_status =  ts.type_status where ts.CATEGORY in ('Secondary') and co.COLL_OBJECT_ENTERED_DATE <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection, ts.CATEGORY) s on h.collection_id = s.collection_id
-			ORDER BY COLLECTION
+				ORDER BY COLLECTION
 			</cfquery>
 			<cfif variables.returnAs EQ "csv">
 				<cfset csv = queryToCSV(totals)> 
@@ -212,7 +212,7 @@ limitations under the License.
 						<script>
 							function toggleColumn() {
 								const cells = document.querySelectorAll('.toggle');
-								cells.forEach(cell => {
+								cells.forEach(function(cell) {
 									cell.classList.toggle('hidden');
 								});
 							}
