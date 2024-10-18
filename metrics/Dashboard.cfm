@@ -185,13 +185,13 @@ limitations under the License.
 															distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option,reported_date,
 														CASE 
 															WHEN EXTRACT(MONTH FROM reported_date) >= 4 
-															THEN TO_DATE(EXTRACT(YEAR FROM reported_date) || '-07-01', 'YYYY-MM-DD')
-															ELSE TO_DATE(EXTRACT(YEAR FROM reported_date) - 1 || '-07-01', 'YYYY-MM-DD')
+															THEN TO_CHAR(EXTRACT(YEAR FROM reported_date) || '-07-01', 'YYYY-MM-DD')
+															ELSE TO_CHAR(EXTRACT(YEAR FROM reported_date) - 1 || '-07-01', 'YYYY-MM-DD')
 														END AS beginDateFiscal,
 														CASE 
 															WHEN EXTRACT(MONTH FROM reported_date) >= 4 
-															THEN TO_DATE(EXTRACT(YEAR FROM reported_date) + 1 || '-06-30', 'YYYY-MM-DD')
-															ELSE TO_DATE(EXTRACT(YEAR FROM reported_date) || '-06-30', 'YYYY-MM-DD')
+															THEN TO_CHAR(EXTRACT(YEAR FROM reported_date) + 1 || '-06-30', 'YYYY-MM-DD')
+															ELSE TO_CHAR(EXTRACT(YEAR FROM reported_date) || '-06-30', 'YYYY-MM-DD')
 														END AS endDateFiscal
 														FROM MCZBASE.collections_reported_metrics
 														ORDER by reported_date desc
