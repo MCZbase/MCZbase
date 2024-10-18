@@ -181,24 +181,24 @@ limitations under the License.
 													<!--- TODO: This needs to be a query on the historical data table, not a hard coded list, query below --->
 												
 													<cfquery name="FY_dates" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-													SELECT
-														distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option,reported_date,
-													CASE 
-														WHEN EXTRACT(MONTH FROM reported_date) >= 4 
-														THEN TO_DATE(EXTRACT(YEAR FROM reported_date) || '-07-01', 'YYYY-MM-DD')
-														ELSE TO_DATE(EXTRACT(YEAR FROM reported_date) - 1 || '-07-01', 'YYYY-MM-DD')
-													END AS beginDate,
-													CASE 
-														WHEN EXTRACT(MONTH FROM reported_date) >= 4 
-														THEN TO_DATE(EXTRACT(YEAR FROM reported_date) + 1 || '-06-30', 'YYYY-MM-DD')
-														ELSE TO_DATE(EXTRACT(YEAR FROM reported_date) || '-06-30', 'YYYY-MM-DD')
-													END AS endDate
-													FROM MCZBASE.collections_reported_metrics
+														SELECT
+															distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option,reported_date,
+														CASE 
+															WHEN EXTRACT(MONTH FROM reported_date) >= 4 
+															THEN TO_DATE(EXTRACT(YEAR FROM reported_date) || '-07-01', 'YYYY-MM-DD')
+															ELSE TO_DATE(EXTRACT(YEAR FROM reported_date) - 1 || '-07-01', 'YYYY-MM-DD')
+														END AS beginDate,
+														CASE 
+															WHEN EXTRACT(MONTH FROM reported_date) >= 4 
+															THEN TO_DATE(EXTRACT(YEAR FROM reported_date) + 1 || '-06-30', 'YYYY-MM-DD')
+															ELSE TO_DATE(EXTRACT(YEAR FROM reported_date) || '-06-30', 'YYYY-MM-DD')
+														END AS endDate
+														FROM MCZBASE.collections_reported_metrics
 													</cfquery>
 													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
-														<option value="">Select Date</option>
 														<cfloop query = "FY_dates">
-															<option value="#FY_dates.fiscal_year_option#">#FY_dates.fiscal_year_option#</option>
+															<option value="FY2024" selected="selected">FY2024</option>
+															<option value="FY2023">FY2023</option>
 														</cfloop>
 													</select>
 													<!-- Hidden fields to store beginDate and endDate -->
@@ -225,9 +225,13 @@ limitations under the License.
 														var beginDate;
 														var endDate;
 														switch(fiscalYear) {
-															case "#FY_dates.fiscal_year_option#":
-																beginDate = "#beginDateFiscal#";
-																endDate = "#endDateFiscal#";
+															case "FY2023":
+																beginDate = "2022-07-01";
+																endDate = "2023-06-30";
+																break;
+															case "FY2024":
+																beginDate = "2023-07-01";
+																endDate = "2024-06-30";
 																break;
 															default:
 																beginDate = "";
