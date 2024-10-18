@@ -261,10 +261,8 @@ limitations under the License.
 												function myFunction(beginDate, endDate) {
 													console.log('Begin Date:', beginDate);
 													console.log('End Date:', endDate);
-													// Additional logic with these dates
 												}
 
-												// Trigger change event to initialize default selection
 												document.getElementById('fiscalYear').dispatchEvent(new Event('change'));
 											</script>
 										</div>
