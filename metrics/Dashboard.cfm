@@ -370,24 +370,7 @@ limitations under the License.
 									$('##divArbitraryRangeResults').innerHTML = '<p>Results from CFC function query appear here.</p>';
 									$('##divArbitraryRangeResults').style.display = 'block';
 								}
-								
-	//										function setFiscalYearDates() {
-//													const fiscalYear = document.getElementById("fiscalYear").value; 
-//														var beginDate;
-//														var endDate;
-//														switch(fiscalYear) {
-//															case "#fyDates.fiscal_year_option#":
-//																beginDate = "#beginDateFiscal#";
-//																endDate = "#endDateFiscal#";
-//																break;
-//															default:
-//																beginDate = "";
-//																endDate = "";
-//																break;
-//														}
-//													document.getElementById("beginDateFiscal").value = beginDateFiscal; 
-//													document.getElementById("endDateFiscal").value = endDateFiscal;
-//												}
+
 							</script>
 						</div>
 					</nav>
