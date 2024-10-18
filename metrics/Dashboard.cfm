@@ -193,7 +193,7 @@ limitations under the License.
 														THEN TO_DATE(EXTRACT(YEAR FROM reported_date) + 1 || '-06-30', 'YYYY-MM-DD')
 														ELSE TO_DATE(EXTRACT(YEAR FROM reported_date) || '-06-30', 'YYYY-MM-DD')
 													END AS endDate
-													FROM MCZBASE.collections_reported_metrics
+													FROM collections_reported_metrics
 													</cfquery>
 											
 														
