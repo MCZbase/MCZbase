@@ -196,9 +196,10 @@ limitations under the License.
 														ORDER by reported_date desc
 													</cfquery>
 													<select id="fiscalYear" name="fiscalYear" required class="data-entry-input my-1">
-														<cfloop query = "fyDates">
+														
+														<cfoutput query = "fyDates">
 															<option value="#fyDates.beginDateFiscal#,#fyDates.endDateFiscal#">#fyDates.fiscal_year_option#</option>
-														</cfloop>
+														</cfoutput>
 													</select>
 													<!-- Hidden fields to store beginDate and endDate -->
 													<input type="hidden" id="beginDateFiscal" name="beginDate" value="">
@@ -238,6 +239,7 @@ limitations under the License.
 //													document.getElementById("beginDateFiscal").value = beginDateFiscal; 
 //													document.getElementById("endDateFiscal").value = endDateFiscal;
 //												}
+											document.addEventListener('DOMContentLoaded', function() {
 												document.getElementById('fiscalYear').addEventListener('change', function() {
 													var combinedValue = this.value;
 													var parts = combinedValue.split(',');
@@ -245,6 +247,7 @@ limitations under the License.
 													document.getElementById('beginDateFiscal').value = parts[0];   // Sets the beginDate
 													document.getElementById('endDateFiscal').value = parts[1]; // Sets the endDate
 												});
+											});
 											</script>
 										</div>
 									</div>
