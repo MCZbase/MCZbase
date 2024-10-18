@@ -179,7 +179,6 @@ limitations under the License.
 													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
 													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
 													<!--- TODO: This needs to be a query on the historical data table, not a hard coded list, query below --->
-												
 													<cfquery name="fyDates" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 														SELECT
 															distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option,reported_date,
@@ -194,23 +193,20 @@ limitations under the License.
 															ELSE TO_DATE(EXTRACT(YEAR FROM reported_date) || '-06-30', 'YYYY-MM-DD')
 														END AS endDateFiscal
 														FROM MCZBASE.collections_reported_metrics
+														ORDER by reported_date desc
 													</cfquery>
-													<p>beginDateFiscal: #beginDateFiscal#</p>
-													<p>endDateFiscal: #endDateFiscal#</p>
-													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
-											
-														<option value="FY2023" selected="selected">FY2023</option>
+													<select id="fiscalYear" name="fiscalYear" required class="data-entry-input my-1">
 														<cfloop query = "fyDates">
-															<option value="#fyDates.fiscal_year_option#" selected="selected">#fyDates.fiscal_year_option#</option>
-													<!---	<option value="FY2024" selected="selected">FY2024</option>
-															<option value="FY2023">FY2023</option>--->
+															<option value="#fyDates.beginDateFiscal#,#fyDates.endDateFiscal#">#fyDates.fiscal_year_option#</option>
 														</cfloop>
 													</select>
 													<!-- Hidden fields to store beginDate and endDate -->
-													<input type="hidden" id="beginDateFiscal" name="beginDate" value="#beginDateFiscal#">
-													<input type="hidden" id="endDateFiscal" name="endDate" value="#endDateFiscal#">
+													<input type="hidden" id="beginDateFiscal" name="beginDate" value="">
+													<input type="hidden" id="endDateFiscal" name="endDate" value="">
+													
 													<h3 class="h4 text-muted mt-3">Report to Show</h3>
 													<label for="method" class="sr-only">Report To Show</label>
+													
 													<select id="method" name="method" class="my-1 data-entry-input">
 														<option value="getNumbers" selected="selected">Annual Report: Holdings</option>
 														<option value="getAcquisitions">Annual Report: Acquisitions</option>
@@ -225,23 +221,30 @@ limitations under the License.
 											</form>
 											<!--- TODO: This needs to be an interpretation of a year value to fiscal year start end dates, not a hard coded list (allowing list of fiscal years to be retrieved from the database, not hard coded) --->
 											<script>
-												function setFiscalYearDates() {
-													const fiscalYear = document.getElementById("fiscalYear").value; 
-														var beginDate;
-														var endDate;
-														switch(fiscalYear) {
-															case "#fyDates.fiscal_year_option#":
-																beginDate = "#beginDateFiscal#";
-																endDate = "#endDateFiscal#";
-																break;
-															default:
-																beginDate = "";
-																endDate = "";
-																break;
-														}
-													document.getElementById("beginDateFiscal").value = beginDateFiscal; 
-													document.getElementById("endDateFiscal").value = endDateFiscal;
-												}
+//												function setFiscalYearDates() {
+//													const fiscalYear = document.getElementById("fiscalYear").value; 
+//														var beginDate;
+//														var endDate;
+//														switch(fiscalYear) {
+//															case "#fyDates.fiscal_year_option#":
+//																beginDate = "#beginDateFiscal#";
+//																endDate = "#endDateFiscal#";
+//																break;
+//															default:
+//																beginDate = "";
+//																endDate = "";
+//																break;
+//														}
+//													document.getElementById("beginDateFiscal").value = beginDateFiscal; 
+//													document.getElementById("endDateFiscal").value = endDateFiscal;
+//												}
+												document.getElementById('fiscalYear').addEventListener('change', function() {
+													var combinedValue = this.value;
+													var parts = combinedValue.split(',');
+
+													document.getElementById('beginDateFiscal').value = parts[0];   // Sets the ID
+													document.getElementById('endDateFiscal').value = parts[1]; // Sets the Name
+												});
 											</script>
 										</div>
 									</div>
