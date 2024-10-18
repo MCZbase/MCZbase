@@ -229,21 +229,17 @@ limitations under the License.
 														var beginDate;
 														var endDate;
 														switch(fiscalYear) {
-															case "FY2023":
-																beginDate = "2022-07-01";
-																endDate = "2023-06-30";
-																break;
-															case "FY2024":
-																beginDate = "2023-07-01";
-																endDate = "2024-06-30";
+															case "#fyDates.fiscal_year_option#":
+																beginDate = "#beginDateFiscal#";
+																endDate = "#endDateFiscal#";
 																break;
 															default:
 																beginDate = "";
 																endDate = "";
 																break;
 														}
-													document.getElementById("beginDateFiscal").value = beginDate; 
-													document.getElementById("endDateFiscal").value = endDate;
+													document.getElementById("beginDateFiscal").value = beginDateFiscal; 
+													document.getElementById("endDateFiscal").value = endDateFiscal;
 												}
 											</script>
 										</div>
