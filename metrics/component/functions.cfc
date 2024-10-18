@@ -592,7 +592,7 @@ limitations under the License.
 								<thead>
 							
 									<tr>
-										<th onclick="toggleColumn()"><strong>Collection</strong></th>
+										<th><button onclick="toggleColumn()"><strong>Collection</strong></button></th>
 										<th onclick="toggleColumn()"><strong>Outgoing Loans</strong></th>
 										<th onclick="toggleColumn()"><strong>Closed Loans</strong></th>
 										<th onclick="toggleColumn()"><strong>Closed Overdue (>5 years) Loans</strong></th>
