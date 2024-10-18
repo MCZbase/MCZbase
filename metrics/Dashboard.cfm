@@ -178,8 +178,7 @@ limitations under the License.
 													<input type="hidden" name="returnFormat" value="plain">
 													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
 													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
-													<!--- TODO: This needs to be a query on the historical data table, not a hard coded list, query below --->
-												
+	
 													<cfquery name="FY_dates" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 													SELECT
 														distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option,reported_date, to_char(reported_date, 'yyyy') as just_year,
@@ -201,8 +200,8 @@ limitations under the License.
 														<option value="">Select Date</option>
 														<cfloop query = "FY_dates">
 															<cfset fiscalYear = FY_dates.just_year>
-															<cfset beginDateFy = createDate(fiscalYear -1, 7, 1)>
-															<cfset endDateFy = createDate(fiscalYear, 6, 30)>
+															<cfset beginDateFy = FY_dates.beginDate>
+															<cfset endDateFy = FY_dates.endDate>
 															<option value="#beginDateFy#,#endDateFy#">#FY_dates.fiscal_year_option#</option>
 														</cfloop>
 													</select>
