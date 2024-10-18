@@ -178,10 +178,11 @@ limitations under the License.
 													<input type="hidden" name="returnFormat" value="plain">
 													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
 													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
-	
+													<!--- TODO: This needs to be a query on the historical data table, not a hard coded list, query below --->
+												
 													<cfquery name="FY_dates" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 													SELECT
-														distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option,reported_date, to_char(reported_date, 'yyyy') as just_year,
+														distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option,reported_date,
 													CASE 
 														WHEN EXTRACT(MONTH FROM reported_date) >= 4 
 														THEN TO_DATE(EXTRACT(YEAR FROM reported_date) || '-07-01', 'YYYY-MM-DD')
@@ -192,23 +193,17 @@ limitations under the License.
 														THEN TO_DATE(EXTRACT(YEAR FROM reported_date) + 1 || '-06-30', 'YYYY-MM-DD')
 														ELSE TO_DATE(EXTRACT(YEAR FROM reported_date) || '-06-30', 'YYYY-MM-DD')
 													END AS endDate
-													FROM collections_reported_metrics
+													FROM MCZBASE.collections_reported_metrics
 													</cfquery>
-											
-														
 													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
 														<option value="">Select Date</option>
 														<cfloop query = "FY_dates">
-															<cfset fiscalYear = FY_dates.just_year>
-															<cfset beginDateFy = FY_dates.beginDate>
-															<cfset endDateFy = FY_dates.endDate>
-															<option value="#beginDateFy#,#endDateFy#">#FY_dates.fiscal_year_option#</option>
+															<option value="#FY_dates.fiscal_year_option#">#FY_dates.fiscal_year_option#</option>
 														</cfloop>
 													</select>
-													
 													<!-- Hidden fields to store beginDate and endDate -->
-													<input type="hidden" id="beginDateFiscal" name="beginDate" value="#beginDateFy#">
-													<input type="hidden" id="endDateFiscal" name="endDate" value="#endDateFy#">
+													<input type="hidden" id="beginDateFiscal" name="beginDate" value="#beginDateFiscal#">
+													<input type="hidden" id="endDateFiscal" name="endDate" value="#endDateFiscal#">
 													<h3 class="h4 text-muted mt-3">Report to Show</h3>
 													<label for="method" class="sr-only">Report To Show</label>
 													<select id="method" name="method" class="my-1 data-entry-input">
@@ -239,34 +234,9 @@ limitations under the License.
 																endDate = "";
 																break;
 														}
-													document.getElementById("beginDate").value = beginDate; 
-													document.getElementById("endDate").value = endDate;
+													document.getElementById("beginDateFiscal").value = beginDate; 
+													document.getElementById("endDateFiscal").value = endDate;
 												}
-											</script>
-											 <script>
-												//document.getElementById('fiscalYear').addEventListener('change', function() {
-//													const selectedFiscalYear = parseInt(this.value);
-//													const beginDateInput = document.getElementById('beginDate');
-//													const endDateInput = document.getElementById('endDate');
-//
-//													const beginDate = new Date(selectedFiscalYear - 1, 3, 1); 
-//													const endDate = new Date(selectedFiscalYear, 2, 30); 
-//
-//										
-//													const formatDate = date => date.toISOString().split('T')[0];
-//
-//													beginDateInput.value = formatDate(beginDate);
-//													endDateInput.value = formatDate(endDate);
-//
-//													myFunction(beginDateInput.value, endDateInput.value);
-//												});
-//
-//												function myFunction(beginDate, endDate) {
-//													console.log('Begin Date:', beginDate);
-//													console.log('End Date:', endDate);
-//												}
-//
-//												document.getElementById('fiscalYear').dispatchEvent(new Event('change'));
 											</script>
 										</div>
 									</div>
