@@ -595,32 +595,69 @@ limitations under the License.
 										<th><strong>Collection</strong></th>
 										<th><strong>Outgoing Loans</strong>	
 											<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definition2" aria-expanded="false" aria-controls="definition2">
-												click to see definitions
-											</button></th>
-										<th><strong>Closed Loans</strong></th>
-										<th><strong>Closed Overdue (>5 years) Loans</strong></th>
-										<th><strong>Closed Overdue (>10 years) Loans</strong></th>
-										<th><strong>Incoming loans (=Borrows)</strong></th>
-										<th><strong>Number of Open Loans</strong></th>
-										<th><strong>Number of Open Loans overdue > 5 years</strong></th>
-										<th><strong>Number of Open Loans overdue > 10 year</strong></th>
-										<th><strong>Outgoing Cataloged Items</strong></th>
-										<th><strong>Outgoing Specimens</strong></th>
+												def 1
+											</button>
+										</th>
+										<th><strong>Closed Loans</strong>
+											<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definition3" aria-expanded="false" aria-controls="definition3">
+												def 3
+											</button>
+										</th>
+										<th><strong>Closed Overdue (>5 years) Loans</strong>
+											<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definition4" aria-expanded="false" aria-controls="definition4">
+												def 4
+											</button>
+										</th>
+										<th><strong>Closed Overdue (>10 years) Loans</strong>
+											<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definition5" aria-expanded="false" aria-controls="definition5">
+												def 5
+											</button>
+										</th>
+										<th><strong>Incoming loans (=Borrows)</strong>
+											<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definition6" aria-expanded="false" aria-controls="definition6">
+												def 6
+											</button>
+										</th>
+										<th><strong>Number of Open Loans</strong>
+											<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definition7" aria-expanded="false" aria-controls="definition7">
+												def 7
+											</button>
+										</th>
+										<th><strong>Number of Open Loans overdue > 5 years</strong>
+											<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definition8" aria-expanded="false" aria-controls="definition8">
+												def 8
+											</button>
+										</th>
+										<th><strong>Number of Open Loans overdue > 10 year</strong>
+											<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definition9" aria-expanded="false" aria-controls="definition9">
+												def 9
+											</button>
+										</th>
+										<th><strong>Outgoing Cataloged Items</strong>
+											<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definition10" aria-expanded="false" aria-controls="definition10">
+												def 10
+											</button>
+										</th>
+										<th><strong>Outgoing Specimens</strong>
+											<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definition11" aria-expanded="false" aria-controls="definition11">
+												def 11
+											</button>
+										</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
 										<td></td>
-										<td  id="definition2" class="collapse" aria-labelledby="header2">Number of outgoing loans in the FY. </td>
-										<td>Total number of open loans that were completely closed in FY.</td>
-										<td>Total number of open loans older than 5 years closed in FY.</td>
-										<td>Total number of open loans older than 10 years closed in FY.</td>
-										<td>Total number of borrows in FY.</td>
-										<td>Total number of open loans as of 2019-06-30.</td>
-										<td>Total number of open loans that are past due for over 5 years as of 2019-06-30.</td>
-										<td>Total number of open loans that are past due for over 10 years as of 2019-06-30.</td>
-										<td>Cataloged Items in Loans in FY.</td>
-										<td>Specimens in Loans in FY.</td>
+										<td id="definition2" class="collapse" aria-labelledby="header2">Number of outgoing loans in the FY. </td>
+										<td id="definition3" class="collapse" aria-labelledby="header3">Total number of open loans that were completely closed in FY.</td>
+										<td id="definition4" class="collapse" aria-labelledby="header4">Total number of open loans older than 5 years closed in FY.</td>
+										<td id="definition5" class="collapse" aria-labelledby="header5">Total number of open loans older than 10 years closed in FY.</td>
+										<td id="definition6" class="collapse" aria-labelledby="header6">Total number of borrows in FY.</td>
+										<td id="definition7" class="collapse" aria-labelledby="header7">Total number of open loans as of 2019-06-30.</td>
+										<td id="definition8" class="collapse" aria-labelledby="header8">Total number of open loans that are past due for over 5 years as of 2019-06-30.</td>
+										<td id="definition9" class="collapse" aria-labelledby="header9">Total number of open loans that are past due for over 10 years as of 2019-06-30.</td>
+										<td id="definition10" class="collapse" aria-labelledby="header10">Cataloged Items in Loans in FY.</td>
+										<td id="definition11" class="collapse" aria-labelledby="header11">Specimens in Loans in FY.</td>
 									</tr>
 									<cfloop query="loans">
 										<cfif #Collection# EQ 'Herpetology Observations'>
