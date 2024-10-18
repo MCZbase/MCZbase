@@ -182,7 +182,7 @@ limitations under the License.
 												
 													<cfquery name="FY_dates" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 													SELECT
-														distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option,reported_date, to_char(reported_date, 'yyyy') as just_year
+														distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option,reported_date, to_char(reported_date, 'yyyy') as just_year,
 													CASE 
 														WHEN EXTRACT(MONTH FROM reported_date) >= 4 
 														THEN TO_DATE(EXTRACT(YEAR FROM reported_date) || '-07-01', 'YYYY-MM-DD')
