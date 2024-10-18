@@ -605,6 +605,24 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
+									<tr>
+										<td>
+											<button class="btn btn-link clickable" data-toggle="collapse" data-target="##definitions" aria-expanded="false" aria-controls="definitions">
+												click to see definitions
+											</button>
+										</td>
+									</tr>
+									<tr id="definitions" class="collapse" aria-labelledby="heading1">
+										<td></td>
+										<td>Number of outgoing loans in the FY. </td>
+										<td>Total number of open loans that were completely closed in FY.</td>
+										<td>Total number of open loans older than 5 years closed in FY.</td>
+										<td>Total number of open loans older than 10 years closed in FY.</td>
+										<td>Total number of borrows in FY.</td>
+										<td>Total number of open loans as of 2019-06-30.</td>
+										<td>Total number of open loans that are past due for over 5 years as of 2019-06-30.</td>
+										<td>Total number of open loans that are past due for over 10 years as of 2019-06-30.</td>
+									</tr>
 									<cfloop query="loans">
 										<cfif #Collection# EQ 'Herpetology Observations'>
 											<tr>
