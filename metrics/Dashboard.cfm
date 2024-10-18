@@ -232,7 +232,7 @@ limitations under the License.
 														var combinedValue = this.value;
 														var parts = combinedValue.split(',');
 
-														document.getElementById('beginDateFiscal').value = parts[0];   // Sets the beginDate
+														document.getElementById('beginDateFiscal').value = parts[0]; // Sets the beginDate
 														document.getElementById('endDateFiscal').value = parts[1]; // Sets the endDate
 													});
 												});
