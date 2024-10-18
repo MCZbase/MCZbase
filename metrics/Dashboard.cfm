@@ -198,9 +198,10 @@ limitations under the License.
 													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
 														<option value="#fyDates.beginDate#">#fyDates.fiscal_year_option#</option>
 														<cfloop query = "fyDates">
-															
+															<option value="#fyDates.beginDate#">#fyDates.fiscal_year_option#</option>
+													<!---		
 															<option value="FY2024" selected="selected">FY2024</option>
-															<option value="FY2023">FY2023</option>
+															<option value="FY2023">FY2023</option>--->
 														</cfloop>
 													</select>
 													<!-- Hidden fields to store beginDate and endDate -->
