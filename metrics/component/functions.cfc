@@ -325,7 +325,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="table-responsive-lg">
-							<table class="table table-striped" id="t">
+							<table class="table table-striped" id="t" aria-live="assertive">
 								<thead>
 									<tr>
 										<th></th>
