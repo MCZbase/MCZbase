@@ -1055,9 +1055,11 @@ limitations under the License.
 					and f.collection_object_id = co.collection_object_id
 					group by f.collection_id, f.collection) prevgl on c.collection_id = prevgl.collection_id
 				left join 
-					(select determined_date from lat_long
+					(select determined_date,locality_id from lat_long
 					where determined_date < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
-					and beginDate > to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')) det_date
+					and beginDate > to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
+					and locality_id = ) det_date
+					on #endschema#.flat.locality_id = det_date.locality_id
 				
 				</cfif>
 				ORDER BY COLLECTION
