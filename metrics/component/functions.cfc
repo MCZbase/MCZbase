@@ -784,16 +784,16 @@ limitations under the License.
 							<table class="table table-striped" id="t">
 								<thead class="thead-light">
 									<tr>
-										<th><strong>Collection</strong></th>
-										<th><strong>Number of Cataloged Items with Media</strong></th>
-										<th><strong>Number of Media Items</strong></th>
+										<th>Collection</th>
+										<th>Number of Cataloged Items with Media</th>
+										<th>Number of Media Items</th>
 										<cfif annualReport EQ "yes">
-											<th><strong>Number of Cataloged Items with Media added</strong></th>
-											<th><strong>Number of Media Items added</strong></th>
+											<th>Number of Cataloged Items with Media added</th>
+											<th>Number of Media Items added</th>
 										</cfif>
-										<th><strong>Number of Primary Types with Images</strong></th>
-										<th><strong>% of Primary Types Imaged</strong></th>
-										<th><strong>Number of Secondary Types with Images</strong></th>
+										<th>Number of Primary Types with Images</th>
+										<th>% of Primary Types Imaged</th>
+										<th>Number of Secondary Types with Images</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -1239,9 +1239,9 @@ limitations under the License.
 								<thead class="thead-light">
 									<tr>
 										<th>Collection</th>
-										<th><strong>Number of Scholarly Visitors</strong></th>
-										<th><strong>Total Number of Days Scholarly Visitors used Collection</strong></th>
-										<th><strong>Media Requests</strong></th>
+										<th>Number of Scholarly Visitors</th>
+										<th>Total Number of Days Scholarly Visitors used Collection</th>
+										<th>Media Requests</th>
 									</tr>
 								</thead>
 								<tbody>
