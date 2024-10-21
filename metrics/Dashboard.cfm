@@ -67,8 +67,8 @@ limitations under the License.
 	.barber_stripes {
 		background: repeating-linear-gradient(
 			45deg,         /* Angle of the diagonal lines */
-			lightgray,     /* Start color */
-			lightgray 10px, /* End color at this pixel distance */
+			##eaeaea,  ,     /* Start color */
+			##eaeaea,   10px, /* End color at this pixel distance */
 			white 10px,    /* Start next color at this pixel distance */
 			white 20px     /* End at this pixel distance to create a repeating pattern */
 		)
