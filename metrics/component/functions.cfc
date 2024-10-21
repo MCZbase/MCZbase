@@ -590,7 +590,7 @@ limitations under the License.
 						<div class="table-responsive-lg">
 							<table class="table table-striped table-light" id="t">
 								<thead class="thead-light">
-							
+								<tr><button onclick="toggleColumn()"></button></tr>
 									<tr>
 										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Collection</strong></button></th>
 										<th><button onclick="toggleColumn()" class="border-white bg-white"><strong>Outgoing Loans</strong></button></th>
