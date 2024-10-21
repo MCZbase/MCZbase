@@ -68,9 +68,9 @@ limitations under the License.
 		background: repeating-linear-gradient(
 			45deg,         /* Angle of the diagonal lines */
 			#eaeaea,       /* Start color */
-			#eaeaea 10px, /* End color at this pixel distance */
-			white 10px,    /* Start next color at this pixel distance */
-			white 20px     /* End at this pixel distance to create a repeating pattern */
+			#eaeaea 5px, /* End color at this pixel distance */
+			white 5px,    /* Start next color at this pixel distance */
+			white 10px     /* End at this pixel distance to create a repeating pattern */
 		)
 	}
 </style>
