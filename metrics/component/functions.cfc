@@ -372,8 +372,8 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
-								<!---<tr class="toggle1 hidden">
-										<td class="bg-white">Column Data Explained <b>&rarr;</b></td>
+									<tr class="toggle1 hidden">
+										<td class="barber-stripes">Column Data Explained <b>&rarr;</b></td>
 										<td class="bg-verylightgreen">The number of cataloged items acquired in the fiscal year, which is derived from the total number of cataloged item records as indicated by the accessions for FY.</td>
 										<td class="bg-verylightgreen">The number of specimens acquired in the fiscal year, which is derived from the total number of specimens represented by the cataloged item records as indicated by the accessions for FY.</td>
 										<td class="bg-verylightgreen">The number of cataloged items entered in the fiscal year, which may include entries for multiple years. Derived from the total number of cataloged item records entered in FY.</td>
@@ -384,7 +384,7 @@ limitations under the License.
 										<td class="bg-verylightgreen">The number of NCBI numbers that were added during the fiscal year, which is derived from the total number of NCBI numbers associated with cataloged item records that were added during FY.</td>
 										<cfif annualReport EQ "yes"><td class="verlightgreen">The number of accessions received in the fiscal year, which is derived from the total number of accessions received during FY.</td></cfif>
 										<td class="bg-ltgreen">The number of cataloged items that are part of an accession for the fiscal year that did not get cataloged in FY.</td>
-									</tr>--->
+									</tr>
 									<cfloop query="ACtotals">
 										<tr>
 											<td>#collection#</td>
