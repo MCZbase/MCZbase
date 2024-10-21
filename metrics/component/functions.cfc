@@ -1100,7 +1100,7 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
+									<tr class="toggle1 hidden">
 										<td class="barber_stripes">Column Headers Explained &rarr;</td>
 										<td class="bg-verylightgreen">Total number of localities</td>
 										<td>Total number of georeferenced localities</td>
