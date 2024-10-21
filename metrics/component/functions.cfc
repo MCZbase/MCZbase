@@ -606,10 +606,10 @@ limitations under the License.
 									<tr class="toggle1 hidden">
 										<td class="bg-verylightgreen">Column headers explained &rarr;</div>
 										<td class="bg-verylightgreen">Number of outgoing loans in the FY. </div>
-										<td class="bg-verylightgreen">Total number of open loans that were completely closed in FY.</div>
-										<td class="bg-verylightgreen">Total number of open loans older than 5 years closed in FY.</td>
-										<td class="bg-verylightgreen">Total number of open loans older than 10 years closed in FY.</td>
-										<td class="bg-verylightgreen">Total number of borrows in FY.</td>
+										<td class="bg-verylightgreen">Total number of open loans that were completely closed in the FY.</div>
+										<td class="bg-verylightgreen">Total number of open loans older than 5 years closed in the FY.</td>
+										<td class="bg-verylightgreen">Total number of open loans older than 10 years closed in the FY.</td>
+										<td class="bg-verylightgreen">Total number of borrows in the FY.</td>
 										<td class="bg-verylightgreen">Total number of open loans as of 2019-06-30.</td>
 										<td class="bg-verylightgreen">Total number of open loans that are past due for over 5 years as of 2019-06-30.</td>
 										<td class="bg-verylightgreen">Total number of open loans that are past due for over 10 years as of 2019-06-30.</td>
