@@ -63,7 +63,17 @@ limitations under the License.
 	<cfset endDateFiscal = "#currentYear#-06-30">
 </cfif>
 <cfset beginDateFiscal = '#DateFormat(DateAdd("d",1,DateAdd("yyyy", -1, endDateFiscal)),"yyyy-mm-dd")#'>
-
+<style>
+	.barber_stripes {
+		background: repeating-linear-gradient(
+			45deg,         /* Angle of the diagonal lines */
+			lightgray,     /* Start color */
+			lightgray 10px, /* End color at this pixel distance */
+			white 10px,    /* Start next color at this pixel distance */
+			white 20px     /* End at this pixel distance to create a repeating pattern */
+		)
+	}
+</style>
 <cfswitch expression="#action#">
 	<cfcase value="dowloadHoldings">
 		<!--- download holdings table as csv  --->
