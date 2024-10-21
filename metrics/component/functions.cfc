@@ -162,7 +162,7 @@ limitations under the License.
 						<div class="table-responsive-lg">
 
 							<table class="table table-striped" id="t">
-								<thead>
+								<thead class="thead-light">
 									<tr>
 										<th><strong>Collection </strong></th>
 										<cfif annualReport EQ "yes">
@@ -326,7 +326,7 @@ limitations under the License.
 						</div>
 						<div class="table-responsive-lg">
 							<table class="table table-striped" id="t">
-								<thead>
+								<thead class="thead-light">
 									<tr>
 										<th></th>
 										<th>
