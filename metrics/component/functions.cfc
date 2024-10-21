@@ -928,8 +928,7 @@ limitations under the License.
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
 							<!--- 
-								TODO: Citation query does not use dates 
-							<h2 class="h3 px-0 mt-0 float-left mb-0">Citation Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
+								TODO: Citation query does not use dates. Cannot select report date ranges without the some kind of date attached. Does entered person ID cover it if it was entered as a type. It just doesn't capture the "reclassified as type" situations.  
 							--->
 							<h2 class="h3 px-0 mt-0 float-left mb-1">
 								<cfif annualReport eq "yes">Annual Report:</cfif> Citation Activity <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
@@ -1095,7 +1094,7 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
-									
+									<tr
 									<cfloop query="georef">
 										<tr>
 											<td>#Collection#</td>
