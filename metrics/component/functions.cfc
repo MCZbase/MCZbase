@@ -185,11 +185,11 @@ limitations under the License.
 											<td class="bg-lt-gray">Equation applied to MCZbase data: total number of specimens represented by cataloged item records divided by total holdings.</td>
 										</cfif>
 										<td class="bg-verylightgreen">The number of cataloged items representing individual specimens or lots.</td>
-										<td class="bg-verylightgreen">The number of specimens. The total number of specimens represented by the cataloged item recors.</td>
-										<td class="bg-verylightgreen">The number of primary types. The total number of cataloged item records that are primary types.</td>
-										<td class="bg-verylightgreen">The number of specimens that are primary types. </td>
+										<td class="bg-verylightgreen">The total number of specimens represented by the cataloged item records. Derived from the total number of secondary type cataloged item records with citations.</td>
+										<td class="bg-verylightgreen">The total number of cataloged item records that are primary types with citations.</td>
+										<td class="bg-verylightgreen">The number of specimens that are primary types with citations. </td>
 										<td class="bg-verylightgreen">The number of secondary types. Derived from the total number of secondary type cataloged item records with citations.</td>
-										<td class="bg-verylightgreen">The number of specimens that are secondary types. Derived from the total number of specimens represented by the secondary type cataloged item records with citations.</td>
+										<td class="bg-verylightgreen">The number of specimens that are secondary types. Derived from the secondary type cataloged item records with citations.</td>
 									</tr>
 									<cfloop query="totals">
 										<tr>
