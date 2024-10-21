@@ -181,7 +181,7 @@ limitations under the License.
 									<tr class="toggle1 hidden">
 										<td class="barber_stripes">Column Data Explained <b>&rarr;</b></td>
 										<cfif annualReport EQ "yes">
-											<td class="bg-lightgreen">Total Collection Holdings are expressed in cataloged item records, which may represent individual specimens or lots. <span class="font-weight-lessbold">Provided by the collections, not MCZbase data</span>.</td>
+											<td class="bg-lightgreen">Total Collection Holdings are expressed in cataloged item records, which may represent individual specimens or lots. <span class="font-weight-lessbold">Provided by the Collections, not MCZbase data</span>.</td>
 											<td class="bg-lt-gray">Percent holdings is the total number of specimens represented by cataloged item records divided by total holdings. It is derived from an equation applied to MCZbase data.</td>
 										</cfif>
 										<td class="bg-verylightgreen">The total number of specimens represented by the cataloged item records.</td>
