@@ -150,7 +150,7 @@ limitations under the License.
 				<cfoutput>
 					<section class="col-12 mt-1 px-0">
 						<div class="my-2 float-left w-100">
-							<h3 class="px-0 float-left mb-1 px-0 mt-0">
+							<h2 class="h3 px-0 float-left mb-1 px-0 mt-0">
 								<cfif annualReport eq "yes">Annual Report:</cfif> Holdings <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
 							</h3>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
