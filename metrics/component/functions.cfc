@@ -605,7 +605,7 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<tr class="toggle1 hidden">
-										<td class="barber_stripes">Column headers explained &rarr;</div>
+										<td class="barber_stripes">Column Data Explained &rarr;</div>
 										<td class="bg-verylightgreen">Number of outgoing loans in the FY. </div>
 										<td class="bg-verylightgreen">Total number of open loans that were completely closed in the FY.</div>
 										<td class="bg-verylightgreen">Total number of open loans older than 5 years closed in the FY.</td>
@@ -1102,7 +1102,7 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<tr class="toggle1 hidden">
-										<td class="barber_stripes">Column Headers Explained &rarr;</td>
+										<td class="barber_stripes">Column Data Explained &rarr;</td>
 										<td class="bg-verylightgreen">Total number of localities.</td>
 										<td class="bg-verylightgreen">Total number of georeferenced localities.</td>
 										<td class="bg-lt-gray">Calculated. Total number of georeferenced localities divided by the total number of localities as percentage.</td>
