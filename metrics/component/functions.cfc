@@ -589,7 +589,7 @@ limitations under the License.
 						</div>
 						<div class="table-responsive-lg">
 							<table class="table table-striped" id="t">
-								<thead>
+								<thead class="thead-light">
 							
 									<tr>
 										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Collection</strong></button></th>
