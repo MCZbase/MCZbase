@@ -951,7 +951,7 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<tr class="toggle1 hidden">
-										<td class="bg-white">Column Data Explained <b>&rarr;</b></td>
+										<td class="bg-white" style="background-color: lightgray">Column Data Explained <b>&rarr;</b></td>
 										<td class="bg-verylightgreen">Total number of complete citations; does not include placeholders.</td>
 										<td class="bg-verylightgreen">Number of cataloged items with citations.</td>
 										<td class="bg-verylightgreen">Number of genetic voucher citations added during the fiscal year.</td>
