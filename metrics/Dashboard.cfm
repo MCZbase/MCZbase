@@ -371,7 +371,7 @@ limitations under the License.
 							</script>
 						</div>
 					</nav>
-					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
+					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3" aria-live="assertive">
 						<div class="card-body">
 							<div class="col-12 px-0 mt-4">
 								<h1 class="h2 mb-1 pb-2 px-2 pt-2 w-100">MCZbase Metrics </h1>
