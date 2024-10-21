@@ -379,11 +379,12 @@ limitations under the License.
 										<td class="bg-verylightgreen">The number of cataloged items entered in the fiscal year, which may include entries for multiple years. Derived from the total number of cataloged item records entered in FY.</td>
 										<td class="bg-verylightgreen">The number of genetic samples in the Cryo Collection added during the fiscal year, which is derived from the total number of genetic samples in Cryo Collection as indicated by the number of parts in cryovats added during FY.</td>
 										<cfif annualReport EQ "yes">
-											<td>The number of cataloged items with NCBI numbers, which is derived from the total number of cataloged item records with associated NCBI numbers.</td>
+											<td class="bg-verylightgreen">The number of cataloged items with NCBI numbers, which is derived from the total number of cataloged item records with associated NCBI numbers.</td>
 										</cfif>
 										<td class="bg-verylightgreen">The number of NCBI numbers that were added during the fiscal year, which is derived from the total number of NCBI numbers associated with cataloged item records that were added during FY.</td>
-										<cfif annualReport EQ "yes"><td class="verlightgreen">The number of accessions received in the fiscal year, which is derived from the total number of accessions received during FY.</td></cfif>
-										<td class="bg-ltgreen">The number of cataloged items that are part of an accession for the fiscal year that did not get cataloged in FY.</td>
+										<cfif annualReport EQ "yes">
+											<td class="bg-verylightgreen">The number of accessions received in the fiscal year, which is derived from the total number of accessions received during FY.</td></cfif>
+										<td class="bg-lightgreen">The number of cataloged items that are part of an accession for the fiscal year that did not get cataloged in FY.</td>
 									</tr>
 									<cfloop query="ACtotals">
 										<tr>
