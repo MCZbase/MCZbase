@@ -954,7 +954,6 @@ limitations under the License.
 										<td class="bg-white">Column Data Explained <b>&rarr;</b></td>
 										<td class="bg-verylightgreen">Total number of complete citations; does not include placeholders.</td>
 										<td class="bg-verylightgreen">Number of cataloged items with citations.</td>
-										<td class="bg-verylightgreen">Number of cataloged items with non-genetic voucher citations added during the fiscal year; may include cataloged items form multiple years. </td>
 										<td class="bg-verylightgreen">Number of genetic voucher citations added during the fiscal year.</td>
 									</tr>
 									<cfloop query="citationNums">
