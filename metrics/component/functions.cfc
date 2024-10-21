@@ -1057,7 +1057,7 @@ limitations under the License.
 				left join 
 					lat_long on lat_long.locality_id = flat.locality_id
 					where determined_date <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
-					and determined_date > <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD')
+					and determined_date >  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">, 'YYYY-MM-DD')
 				
 				</cfif>
 				ORDER BY COLLECTION
