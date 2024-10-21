@@ -1238,7 +1238,7 @@ limitations under the License.
 							<table class="table table-striped" id="t">
 								<thead class="thead-light">
 									<tr>
-										<th><strong>Collection</strong></th>
+										<th>Collection</th>
 										<th><strong>Number of Scholarly Visitors</strong></th>
 										<th><strong>Total Number of Days Scholarly Visitors used Collection</strong></th>
 										<th><strong>Media Requests</strong></th>
