@@ -775,7 +775,7 @@ limitations under the License.
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<a href="/metrics/Dashboard.cfm?action=dowloadMediaActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a href="/metrics/Dashboard.cfm?action=dowloadMediaActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>
@@ -796,6 +796,19 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
+									<tr class="toggle1 hidden">
+										<td class="bg-white">Column Data Explained <b>&rarr;</b></td>
+										<td class="bg-verylightgreen">Total number of cataloged item records that have associated media.</td>
+										<td class="bg-verylightgreen">Total number of media items associated with cataloged item records.</td>
+										<cfif annualReport EQ "yes">
+											<td class="bg-verylightgreen">Total number of cataloged item records that have media items added during the FY.</td>
+											<td class="bg-verylightgreen">Total number of media items associated with cataloged item records that were added during the FY.</td>
+										</cfif>
+										<td class="bg-verylightgreen">Total number of primary type cataloged item records with citations that have associated images.</td>
+										<td class="bg-lt-gray">Percent of primary types imaged takes the total number of primary type cataloged item records with citations and associated images divided by the total number of primary type cataloged item records with citations.</td>
+										<td class="bg-verylightgreen">Total number of primary type cataloged item records with citations that have associated images.</td>
+										
+									</tr>
 									<cfloop query="media">
 										<tr>
 											<td>#Collection#</td>
@@ -923,7 +936,7 @@ limitations under the License.
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<a href="/metrics/Dashboard.cfm?action=dowloadCitationActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a href="/metrics/Dashboard.cfm?action=dowloadCitationActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>
@@ -1041,6 +1054,11 @@ limitations under the License.
 					where dec_lat is not null and dec_long is not null
 					and f.collection_object_id = co.collection_object_id
 					group by f.collection_id, f.collection) prevgl on c.collection_id = prevgl.collection_id
+				left join 
+					select determined_date from lat_long
+					where determined_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">
+					and beginDate = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">
+				
 				</cfif>
 				ORDER BY COLLECTION
 			</cfquery>
@@ -1063,7 +1081,7 @@ limitations under the License.
 							
 							<div class="btn-toolbar my-1 mt-lg-0 float-right">
 								<div class="btn-group mr-2">
-									<a href="/metrics/Dashboard.cfm?action=dowloadGeoreferenceActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a href="/metrics/Dashboard.cfm?action=dowloadGeoreferenceActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>
@@ -1085,6 +1103,7 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
+									
 									<cfloop query="georef">
 										<tr>
 											<td>#Collection#</td>
