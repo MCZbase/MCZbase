@@ -1054,10 +1054,6 @@ limitations under the License.
 					where dec_lat is not null and dec_long is not null
 					and f.collection_object_id = co.collection_object_id
 					group by f.collection_id, f.collection) prevgl on c.collection_id = prevgl.collection_id
-				LEFT JOIN
-					Lat_long on lat_long.locality_id = #endschema#.locality_id
-					where determined_date <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
-					
 				</cfif>
 				ORDER BY COLLECTION
 			</cfquery>
@@ -1069,10 +1065,7 @@ limitations under the License.
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
 							<!--- 
-								TODO: Georeferencing queries do not use dates 
-							<h2 class="h3 px-0 mt-0 float-left mb-0">Georeferencing Activity 
-								<span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
-							</h2>
+								TODO: Georeferencing queries do not use dates. Need to add LAT_LONG table to ARCHIVE tables to get DETERMINED_DATE (and perhaps DETERMINED_BY_AGENT_ID) so selected metrics report can use dates.
 							--->
 							<h2 class="h3 px-0 mt-0 float-left mb-1">
 								<cfif annualReport eq "yes">Annual Report:</cfif> Georeferencing Activity <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
