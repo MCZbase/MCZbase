@@ -211,7 +211,13 @@ limitations under the License.
 						</cfif>
 						<script>
 							function toggleColumn() {
-								const cells = document.querySelectorAll('.toggle');
+								const cells = document.querySelectorAll('.toggle1');
+								cells.forEach(function(cell) {
+									cell.classList.toggle('hidden');
+								});
+							}
+							function toggleRow() {
+								const cells = document.querySelectorAll('.toggle1');
 								cells.forEach(function(cell) {
 									cell.classList.toggle('hidden');
 								});
@@ -590,10 +596,10 @@ limitations under the License.
 						<div class="table-responsive-lg">
 							<table class="table table-striped table-light" id="t">
 								<thead class="thead-light">
-								<tr><button onclick="toggleColumn()"></button></tr>
+								<tr><button onclick="toggleRow()"></button></tr>
 									<tr>
 										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Collection</strong></button></th>
-										<th><button onclick="toggleColumn()" class="border-white bg-white"><strong>Outgoing Loans</strong></button></th>
+										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Outgoing Loans</strong></button></th>
 										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Closed Loans</strong></button></th>
 										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Closed Overdue (>5 years) Loans</strong></button></th>
 										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Closed Overdue (>10 years) Loans</strong></button></th>
@@ -606,7 +612,7 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
-									<tr class=" toggle hidden">
+									<tr class=" toggle1 hidden">
 										<td class="bg-verylightgreen toggle hidden"></div>
 										<td class="bg-verylightgreen toggle hidden">Number of outgoing loans in the FY. </div>
 										<td class="bg-verylightgreen toggle hidden">Total number of open loans that were completely closed in FY.</div>
