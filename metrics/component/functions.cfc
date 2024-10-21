@@ -606,7 +606,7 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
+									<tr class=" toggle hidden">
 										<td class="bg-verylightgreen toggle hidden"></div>
 										<td class="bg-verylightgreen toggle hidden">Number of outgoing loans in the FY. </div>
 										<td class="bg-verylightgreen toggle hidden">Total number of open loans that were completely closed in FY.</div>
