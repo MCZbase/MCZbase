@@ -1100,7 +1100,19 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
-									<tr
+									<tr>
+										<td class="barber_stripes">Column Headers Explained &rarr;</td>
+										<td class="bg-verylightgreen">Total number of localities</td>
+										<td>Total number of georeferenced localities</td>
+										<td class="bg-lt-gray">Calculated. Total number of georeferenced localities divided by the total number of localities as percentage</td>
+										<td class="bg-verylightgreen">Total number of georeferenced localities that have been verified by the collection</td>
+										<td class="bg-verylightgreen">Total number of cataloged item records that have been georeferenced</td>
+										<td class="bg-lt-gray">Calculated. Total number of cataloged item records that were georeferenced divided by total number of catalog item records, which may represent individual specimens or lots depending on the collection; indicates the number of cataloged item records georeferenced</td>
+										<cfif annualReport EQ "yes">
+											<td class="bg-verylightgreen">Total number of localities georeferenced during the FY</td>
+											<td class="bg-verylightgreen">Total number of cataloged item records georeferenced during the FY</td>
+										</cfif>
+									</tr>
 									<cfloop query="georef">
 										<tr>
 											<td>#Collection#</td>
