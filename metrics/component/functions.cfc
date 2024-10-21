@@ -164,17 +164,17 @@ limitations under the License.
 							<table class="table table-striped" id="t">
 								<thead class="thead-light">
 									<tr>
-										<th><strong>Collection </strong></th>
+										<th>Collection </th>
 										<cfif annualReport EQ "yes">
-											<th><strong>Total Holdings </strong></th>
-											<th><strong>% of Holdings in MCZbase</strong></th>
+											<th>Total Holdings </th>
+											<th>% of Holdings in MCZbase</th>
 										</cfif>
-										<th><strong>Total Records - Cataloged Items</strong></th>
-										<th><strong>Total Records - Specimens</strong></th>
-										<th><strong>Primary Types - Cataloged Items</strong></th>
-										<th><strong>Primary Types - Specimens</strong></th>
-										<th><strong>Secondary Types - Cataloged Items</strong></th>
-										<th><strong>Secondary Types - Specimens</strong></th>
+										<th>Total Records - Cataloged Items</th>
+										<th>Total Records - Specimens</th>
+										<th>Primary Types - Cataloged Items</th>
+										<th>Primary Types - Specimens</th>
+										<th>Secondary Types - Cataloged Items</th>
+										<th>Secondary Types - Specimens</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -331,34 +331,34 @@ limitations under the License.
 										<th></th>
 										<th>
 										<!---	<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of cataloged items acquired in the fiscal year. Derived from the total number of cataloged item records as indicated by the accessions for FY.">--->
-												<strong>Acquired Cataloged Items</strong>
+												Acquired Cataloged Items
 											<!---</a>--->
 										</th>
 
 										<th>
 						<!---					<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of specimens aquired in the FY. Derived from the total ## of specimens represented by the cataloged item records as indicated by the accessions for the FY.">--->
-												<strong>Acquired Specimens</strong>
+												Acquired Specimens
 											<!---</a>--->
 										</th>
 										<th>
 										<!---	<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of cataloged items entered in the FY, which may include entries for multiple years. Derived from total ## of cataloged item records entered in the FY.">--->
-												<strong>New Records Entered in MCZbase - Cataloged Items</strong>
+												New Records Entered in MCZbase - Cataloged Items
 									<!---		</a>--->
 										</th>
 										<cfif annualReport EQ "yes">
 											<th>
 											<!---	<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of genetic samples in the Cryo Collection added during the FY. Derived from total ## of genetics samples in Cryo Collection as indicated by the number of parts in cryovats added in the FY.">--->
-													<strong>Number of Genetic Samples added To Cryo</strong>
+													Number of Genetic Samples added To Cryo
 											<!---	</a>--->
 											</th>
 										</cfif>
 										<th>
 											<!---<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of cataloged items with NCBI numbers. Derived from the total ## of cataloged item records with associated NCBI numbers.">--->
-												<strong>Number of Cataloged Items with NCBI numbers</strong>
+												Number of Cataloged Items with NCBI numbers
 											<!---</a>--->
 										</th>
 										<cfif annualReport EQ "yes">
-											<th><strong>Number of Accessions in FY</strong>
+											<th>Number of Accessions in FY
 												<!---<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of accessions received in FY. Derived from the total ## of accessions received during FY.">--->
 													
 									<!---			</a>--->
@@ -366,7 +366,7 @@ limitations under the License.
 										</cfif>
 										<th>
 											<!---<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of cataloged items in accession for the FY that did not get cataloged in FY selected.">--->
-											<strong>Items received but not Cataloged at End of Year (may be estimate) (reported by Collection)</strong>
+											Items received but not Cataloged at End of Year (may be estimate) (reported by Collection)
 											<!---</a>--->
 										</th>
 									</tr>
@@ -590,17 +590,17 @@ limitations under the License.
 							<table class="table table-striped border" id="t">
 								<thead class="thead-light">
 									<tr>
-										<th><strong>Collection</strong></th>
-										<th><strong>Outgoing Loans</strong></th>
-										<th><strong>Closed Loans</strong></th>
-										<th><strong>Closed Overdue (>5 years) Loans</strong></th>
-										<th><strong>Closed Overdue (>10 years) Loans</strong></th>
-										<th><strong>Incoming loans (=Borrows)</strong></th>
-										<th><strong>Number of Open Loans</strong></th>
-										<th><strong>Number of Open Loans overdue > 5 years</strong></th>
-										<th><strong>Number of Open Loans overdue > 10 year</strong></th>
-										<th><strong>Outgoing Cataloged Items</strong></th>
-										<th><strong>Outgoing Specimens</strong></th>
+										<th>Collection</th>
+										<th>Outgoing Loans</th>
+										<th>Closed Loans</th>
+										<th>Closed Overdue (>5 years) Loans</th>
+										<th>Closed Overdue (>10 years) Loans</th>
+										<th>Incoming loans (=Borrows)</th>
+										<th>Number of Open Loans</th>
+										<th>Number of Open Loans overdue > 5 years</th>
+										<th>Number of Open Loans overdue > 10 year</th>
+										<th>Outgoing Cataloged Items</th>
+										<th>Outgoing Specimens</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -944,10 +944,10 @@ limitations under the License.
 							<table class="table table-striped" id="t">
 								<thead class="thead-light">
 									<tr>
-										<th><strong>Collection</strong></th>
-										<th><strong>Total Citations</strong></th>
-										<th><strong>Number of Cataloged Items with Citations</strong></th>
-										<th><strong>Number of Genetic Voucher Citations</strong></th>
+										<th>Collection</th>
+										<th>Total Citations</th>
+										<th>Number of Cataloged Items with Citations</th>
+										<th>Number of Genetic Voucher Citations</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -1087,16 +1087,16 @@ limitations under the License.
 							<table class="table table-striped" id="t">
 								<thead class="thead-light">
 									<tr>
-										<th><strong>Collection</strong></th>
-										<th><strong>Total Number of Localities</strong></th>
-										<th><strong>Records Georeferenced - Localities</strong></th>
-										<th><strong>% of Localities Georeferenced</strong></th>
-										<th><strong>Records Georeferences Verified - Localities</strong></th>
-										<th><strong>Records Georeferenced Total - Cataloged Items</strong></th>
-										<th><strong>% of Cataloged Items Georeferenced</strong></th>
+										<th>Collection</th>
+										<th>Total Number of Localities</th>
+										<th>Records Georeferenced - Localities</th>
+										<th>% of Localities Georeferenced</th>
+										<th>Records Georeferences Verified - Localities</th>
+										<th>Records Georeferenced Total - Cataloged Items</th>
+										<th>% of Cataloged Items Georeferenced</th>
 										<cfif annualReport EQ "yes">
-											<th><strong>Records Georeferenced in FY - Localities</strong></th>
-											<th><strong>Records Georeferenced in FY - Cataloged Items</strong></th>
+											<th>Records Georeferenced in FY - Localities</th>
+											<th>Records Georeferenced in FY - Cataloged Items</th>
 										</cfif>
 									</tr>
 								</thead>
