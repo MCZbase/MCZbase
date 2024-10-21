@@ -330,9 +330,9 @@ limitations under the License.
 									<tr>
 										<th></th>
 										<th>
-											<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of cataloged items acquired in the fiscal year. Derived from the total number of cataloged item records as indicated by the accessions for FY.">
+										<!---	<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of cataloged items acquired in the fiscal year. Derived from the total number of cataloged item records as indicated by the accessions for FY.">--->
 												<strong>Acquired Cataloged Items</strong>
-											</a>
+											<!---</a>--->
 										</th>
 
 										<th>
@@ -347,33 +347,33 @@ limitations under the License.
 										</th>
 										<cfif annualReport EQ "yes">
 											<th>
-												<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of genetic samples in the Cryo Collection added during the FY. Derived from total ## of genetics samples in Cryo Collection as indicated by the number of parts in cryovats added in the FY.">
+											<!---	<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of genetic samples in the Cryo Collection added during the FY. Derived from total ## of genetics samples in Cryo Collection as indicated by the number of parts in cryovats added in the FY.">--->
 													<strong>Number of Genetic Samples added To Cryo</strong>
-												</a>
+											<!---	</a>--->
 											</th>
 										</cfif>
 										<th>
-											<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of cataloged items with NCBI numbers. Derived from the total ## of cataloged item records with associated NCBI numbers.">
+											<!---<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of cataloged items with NCBI numbers. Derived from the total ## of cataloged item records with associated NCBI numbers.">--->
 												<strong>Number of Cataloged Items with NCBI numbers</strong>
-											</a>
+											<!---</a>--->
 										</th>
 										<cfif annualReport EQ "yes">
 											<th>
-												<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of accessions received in FY. Derived from the total ## of accessions received during FY.">
+												<!---<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of accessions received in FY. Derived from the total ## of accessions received during FY.">--->
 													<strong>Items received but not Cataloged at End of Year (may be estimate)</strong>
-												</a>
+									<!---			</a>--->
 											</th>
 										</cfif>
 										<th>
-											<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of cataloged items in accession for the FY that did not get cataloged in FY selected.">
+											<!---<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of cataloged items in accession for the FY that did not get cataloged in FY selected.">--->
 											<strong>Number of Accessions</strong>
-											</a>
+											<!---</a>--->
 										</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr class="toggle1 hidden">
-										<td class="barber-stripes">Column Data Explained <b>&rarr;</b></td>
+										<td class="barber_stripes">Column Data Explained <b>&rarr;</b></td>
 										<td class="bg-verylightgreen">The number of cataloged items acquired in the fiscal year, which is derived from the total number of cataloged item records as indicated by the accessions for FY.</td>
 										<td class="bg-verylightgreen">The number of specimens acquired in the fiscal year, which is derived from the total number of specimens represented by the cataloged item records as indicated by the accessions for FY.</td>
 										<td class="bg-verylightgreen">The number of cataloged items entered in the fiscal year, which may include entries for multiple years. Derived from the total number of cataloged item records entered in FY.</td>
