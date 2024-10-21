@@ -17,7 +17,14 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cfinclude template="/shared/component/functions.cfc">
-	
+<script>
+	function toggleRow() {
+		const cells = document.querySelectorAll('.toggle1');
+		cells.forEach(function(cell) {
+			cell.classList.toggle('hidden');
+		});
+	}
+</script>
 <!--- 
  ** given a query, write a serialization of that query as csv, with a header line
  * to a file.
@@ -136,9 +143,8 @@ limitations under the License.
 								<cfif annualReport eq "yes">Annual Report:</cfif> Holdings <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
 							</h3>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
-								<p class="d-inline mb-3 mb-md-0 px-0 px-md-4">Toggle column headers for definitions.</p>
 								<div class="btn-group mr-2">
-									 <a href="/metrics/Dashboard.cfm?action=dowloadHoldings&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a href="/metrics/Dashboard.cfm?action=dowloadHoldings&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>
@@ -157,32 +163,32 @@ limitations under the License.
 							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
-										<th onclick="toggleColumn()"><strong>Collection </strong></th>
+										<th><strong>Collection </strong></th>
 										<cfif annualReport EQ "yes">
-											<th onclick="toggleColumn()"><strong>Total Holdings </strong></th>
-											<th onclick="toggleColumn()"><strong>% of Holdings in MCZbase</strong></th>
+											<th><strong>Total Holdings </strong></th>
+											<th><strong>% of Holdings in MCZbase</strong></th>
 										</cfif>
-										<th onclick="toggleColumn()"><strong>Total Records - Cataloged Items</strong></th>
-										<th onclick="toggleColumn()"><strong>Total Records - Specimens</strong></th>
-										<th onclick="toggleColumn()"><strong>Primary Types - Cataloged Items</strong></th>
-										<th onclick="toggleColumn()"><strong>Primary Types - Specimens</strong></th>
-										<th onclick="toggleColumn()"><strong>Secondary Types - Cataloged Items</strong></th>
-										<th onclick="toggleColumn()"><strong>Secondary Types - Specimens</strong></th>
+										<th><strong>Total Records - Cataloged Items</strong></th>
+										<th><strong>Total Records - Specimens</strong></th>
+										<th><strong>Primary Types - Cataloged Items</strong></th>
+										<th><strong>Primary Types - Specimens</strong></th>
+										<th><strong>Secondary Types - Cataloged Items</strong></th>
+										<th><strong>Secondary Types - Specimens</strong></th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td class="bg-white toggle hidden">Column Data Explained <b>&rarr;</b></td>
+									<tr class="toggle1 hidden">
+										<td class="bg-white">Column Data Explained <b>&rarr;</b></td>
 										<cfif annualReport EQ "yes">
-											<td class="bg-lightgreen toggle hidden ">Total Collection Holdings are expressed in cataloged item records, which may represent individual specimens or lots. <b>Provided by the collections, not MCZbase data</b>.</td>
-											<td class="bg-lt-gray toggle hidden">Equation applied to MCZbase data: total number of specimens represented by cataloged item records divided by total holdings.</td>
+											<td class="bg-lightgreen">Total Collection Holdings are expressed in cataloged item records, which may represent individual specimens or lots. <b>Provided by the collections, not MCZbase data</b>.</td>
+											<td class="bg-lt-gray">Equation applied to MCZbase data: total number of specimens represented by cataloged item records divided by total holdings.</td>
 										</cfif>
-										<td class="bg-verylightgreen toggle hidden">The number of cataloged items representing individual specimens or lots.</td>
-										<td class="bg-verylightgreen toggle hidden">The number of specimens. The total number of specimens represented by the cataloged item recors.</td>
-										<td class="bg-verylightgreen toggle hidden">The number of primary types. The total number of cataloged item records that are primary types.</td>
-										<td class="bg-verylightgreen toggle hidden">The number of specimens that are primary types. </td>
-										<td class="bg-verylightgreen toggle hidden">The number of secondary types. Derived from the total number of secondary type cataloged item records with citations.</td>
-										<td class="bg-verylightgreen toggle hidden">The number of specimens that are secondary types. Derived from the total number of specimens represented by the secondary type cataloged item records with citations.</td>
+										<td class="bg-verylightgreen">The number of cataloged items representing individual specimens or lots.</td>
+										<td class="bg-verylightgreen">The number of specimens. The total number of specimens represented by the cataloged item recors.</td>
+										<td class="bg-verylightgreen">The number of primary types. The total number of cataloged item records that are primary types.</td>
+										<td class="bg-verylightgreen">The number of specimens that are primary types. </td>
+										<td class="bg-verylightgreen">The number of secondary types. Derived from the total number of secondary type cataloged item records with citations.</td>
+										<td class="bg-verylightgreen">The number of specimens that are secondary types. Derived from the total number of specimens represented by the secondary type cataloged item records with citations.</td>
 									</tr>
 									<cfloop query="totals">
 										<tr>
@@ -207,20 +213,7 @@ limitations under the License.
 						<cfelse> 
 							<p class="text-muted small">Reports are generated from the current MCZbase data for the given date range.</p>
 						</cfif>
-						<script>
-							function toggleColumn() {
-								const cells = document.querySelectorAll('.toggle1');
-								cells.forEach(function(cell) {
-									cell.classList.toggle('hidden');
-								});
-							}
-							function toggleRow() {
-								const cells = document.querySelectorAll('.toggle1');
-								cells.forEach(function(cell) {
-									cell.classList.toggle('hidden');
-								});
-							}
-						</script>
+
 					</section>
 				</cfoutput>
 			</cfif>
@@ -609,7 +602,7 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
-									<tr class=" toggle1 hidden">
+									<tr class="toggle1 hidden">
 										<td class="bg-verylightgreen">Column headers explained &rarr;</div>
 										<td class="bg-verylightgreen">Number of outgoing loans in the FY. </div>
 										<td class="bg-verylightgreen">Total number of open loans that were completely closed in FY.</div>
