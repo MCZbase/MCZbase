@@ -381,7 +381,6 @@ limitations under the License.
 										<cfif annualReport EQ "yes">
 											<td class="bg-verylightgreen">The number of cataloged items with NCBI numbers, which is derived from the total number of cataloged item records with associated NCBI numbers.</td>
 										</cfif>
-										<td class="bg-verylightgreen">The number of NCBI numbers that were added during the fiscal year, which is derived from the total number of NCBI numbers associated with cataloged item records that were added during FY.</td>
 										<cfif annualReport EQ "yes">
 											<td class="bg-verylightgreen">The number of accessions received in the fiscal year, which is derived from the total number of accessions received during FY.</td></cfif>
 										<td class="bg-lightgreen">The number of cataloged items that are part of an accession for the fiscal year that did not get cataloged in FY.</td>
