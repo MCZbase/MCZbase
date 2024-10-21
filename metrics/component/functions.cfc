@@ -1245,7 +1245,7 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
-									<tr class="toggle hidden">
+									<tr class="toggle1 hidden">
 										<td class="barber_stripes">Explains column header &rarr; </td>
 										<td class="bg-lightgreen">Number scholarly visitors working in the collections during the fiscal year. <span class="font-weight-lessbold">Provided by the Collection in Annual FY Profile</span>.</td>
 										<td class="bg-lightgreen">Number of days that scholarly visitors are working in the collections during the fiscal year. <span class="font-weight-lessbold">Provided by the Collection in Annual FY Profile</span>.</td>
