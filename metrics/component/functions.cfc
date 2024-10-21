@@ -25,6 +25,17 @@ limitations under the License.
 		});
 	}
 </script>
+<style>
+	.hidden {
+		display: none;
+	}
+	table, th, td {
+		border-collapse: collapse;
+	}
+	th {
+		cursor: pointer;
+	}
+</style>
 <!--- 
  ** given a query, write a serialization of that query as csv, with a header line
  * to a file.
@@ -149,17 +160,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="table-responsive-lg">
-							<style>
-								.hidden {
-									display: none;
-								}
-								table, th, td {
-									border-collapse: collapse;
-								}
-								th {
-									cursor: pointer;
-								}
-							</style>
+
 							<table class="table table-striped" id="t">
 								<thead>
 									<tr>
@@ -371,8 +372,8 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
-								<!---	<tr class="d-none">
-										<td></td>
+								<!---<tr class="toggle1 hidden">
+										<td class="bg-white">Column Data Explained <b>&rarr;</b></td>
 										<td class="bg-verylightgreen">The number of cataloged items acquired in the fiscal year, which is derived from the total number of cataloged item records as indicated by the accessions for FY.</td>
 										<td class="bg-verylightgreen">The number of specimens acquired in the fiscal year, which is derived from the total number of specimens represented by the cataloged item records as indicated by the accessions for FY.</td>
 										<td class="bg-verylightgreen">The number of cataloged items entered in the fiscal year, which may include entries for multiple years. Derived from the total number of cataloged item records entered in FY.</td>
