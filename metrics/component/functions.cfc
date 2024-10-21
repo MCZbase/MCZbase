@@ -613,17 +613,17 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<tr class=" toggle1 hidden">
-										<td class="bg-verylightgreen toggle hidden"></div>
-										<td class="bg-verylightgreen toggle hidden">Number of outgoing loans in the FY. </div>
-										<td class="bg-verylightgreen toggle hidden">Total number of open loans that were completely closed in FY.</div>
-										<td class="bg-verylightgreen toggle hidden">Total number of open loans older than 5 years closed in FY.</td>
-										<td class="bg-verylightgreen toggle hidden">Total number of open loans older than 10 years closed in FY.</td>
-										<td class="bg-verylightgreen toggle hidden">Total number of borrows in FY.</td>
-										<td class="bg-verylightgreen toggle hidden">Total number of open loans as of 2019-06-30.</td>
-										<td class="bg-verylightgreen toggle hidden">Total number of open loans that are past due for over 5 years as of 2019-06-30.</td>
-										<td class="bg-verylightgreen toggle hidden">Total number of open loans that are past due for over 10 years as of 2019-06-30.</td>
-										<td class="bg-verylightgreen toggle hidden">Cataloged Items in Loans in FY.</td>
-										<td class="bg-verylightgreen toggle hidden">Specimens in Loans in FY.</td>
+										<td class="bg-verylightgreen"></div>
+										<td class="bg-verylightgreen">Number of outgoing loans in the FY. </div>
+										<td class="bg-verylightgreen">Total number of open loans that were completely closed in FY.</div>
+										<td class="bg-verylightgreen">Total number of open loans older than 5 years closed in FY.</td>
+										<td class="bg-verylightgreen">Total number of open loans older than 10 years closed in FY.</td>
+										<td class="bg-verylightgreen">Total number of borrows in FY.</td>
+										<td class="bg-verylightgreen">Total number of open loans as of 2019-06-30.</td>
+										<td class="bg-verylightgreen">Total number of open loans that are past due for over 5 years as of 2019-06-30.</td>
+										<td class="bg-verylightgreen">Total number of open loans that are past due for over 10 years as of 2019-06-30.</td>
+										<td class="bg-verylightgreen">Cataloged Items in Loans in FY.</td>
+										<td class="bg-verylightgreen">Specimens in Loans in FY.</td>
 									</tr>
 									<cfloop query="loans">
 										<cfif #Collection# EQ 'Herpetology Observations'>
