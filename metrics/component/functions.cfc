@@ -613,7 +613,7 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<tr class=" toggle1 hidden">
-										<td class="bg-verylightgreen"></div>
+										<td class="bg-verylightgreen">Column headers explained &rarr;</div>
 										<td class="bg-verylightgreen">Number of outgoing loans in the FY. </div>
 										<td class="bg-verylightgreen">Total number of open loans that were completely closed in FY.</div>
 										<td class="bg-verylightgreen">Total number of open loans older than 5 years closed in FY.</td>
