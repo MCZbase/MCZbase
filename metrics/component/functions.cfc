@@ -596,19 +596,19 @@ limitations under the License.
 						<div class="table-responsive-lg">
 							<table class="table table-striped table-light" id="t">
 								<thead class="thead-light">
-								<tr><button onclick="toggleRow()"></button></tr>
+								<tr><button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button></tr>
 									<tr>
-										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Collection</strong></button></th>
-										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Outgoing Loans</strong></button></th>
-										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Closed Loans</strong></button></th>
-										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Closed Overdue (>5 years) Loans</strong></button></th>
-										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Closed Overdue (>10 years) Loans</strong></button></th>
-										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Incoming loans (=Borrows)</strong></button></th>
-										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Number of Open Loans</strong></button></th>
-										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Number of Open Loans overdue > 5 years</strong></button></th>
-										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Number of Open Loans overdue > 10 year</strong></button></th>
-										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Outgoing Cataloged Items</strong></button></th>
-										<th><button class="border-white bg-white" onclick="toggleColumn()"><strong>Outgoing Specimens</strong></button></th>
+										<th><strong>Collection</strong></th>
+										<th><strong>Outgoing Loans</strong></th>
+										<th><strong>Closed Loans</strong></th>
+										<th><strong>Closed Overdue (>5 years) Loans</strong></th>
+										<th><strong>Closed Overdue (>10 years) Loans</strong></th>
+										<th><strong>Incoming loans (=Borrows)</strong></th>
+										<th><strong>Number of Open Loans</strong></th>
+										<th><strong>Number of Open Loans overdue > 5 years</strong></th>
+										<th><strong>Number of Open Loans overdue > 10 year</strong></th>
+										<th><strong>Outgoing Cataloged Items</strong></th>
+										<th><strong>Outgoing Specimens</strong></th>
 									</tr>
 								</thead>
 								<tbody>
