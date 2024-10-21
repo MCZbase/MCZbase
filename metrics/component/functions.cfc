@@ -1056,8 +1056,8 @@ limitations under the License.
 					group by f.collection_id, f.collection) prevgl on c.collection_id = prevgl.collection_id
 				left join 
 					(select determined_date from lat_long
-					where determined_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">
-					and beginDate = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#beginDate#">) det_date
+					where determined_date < to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')
+					and beginDate > to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD')) det_date
 				
 				</cfif>
 				ORDER BY COLLECTION
