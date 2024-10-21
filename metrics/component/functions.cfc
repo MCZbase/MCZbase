@@ -613,8 +613,8 @@ limitations under the License.
 										<td class="bg-verylightgreen">Total number of open loans as of 2019-06-30.</td>
 										<td class="bg-verylightgreen">Total number of open loans that are past due for over 5 years as of 2019-06-30.</td>
 										<td class="bg-verylightgreen">Total number of open loans that are past due for over 10 years as of 2019-06-30.</td>
-										<td class="bg-verylightgreen">Cataloged Items in Loans in FY.</td>
-										<td class="bg-verylightgreen">Specimens in Loans in FY.</td>
+										<td class="bg-verylightgreen">Cataloged Items in Loans in the FY.</td>
+										<td class="bg-verylightgreen">Specimens in Loans in the FY.</td>
 									</tr>
 									<cfloop query="loans">
 										<cfif #Collection# EQ 'Herpetology Observations'>
