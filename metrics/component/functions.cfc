@@ -589,14 +589,13 @@ limitations under the License.
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<a href="/metrics/Dashboard.cfm?action=dowloadLoanActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a href="/metrics/Dashboard.cfm?action=dowloadLoanActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
 								</div>
 							</div>
 						</div>
 						<div class="table-responsive-lg">
-							<table class="table table-striped table-light" id="t">
+							<table class="table table-striped border" id="t">
 								<thead class="thead-light">
-								<tr><button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button></tr>
 									<tr>
 										<th><strong>Collection</strong></th>
 										<th><strong>Outgoing Loans</strong></th>
