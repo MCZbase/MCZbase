@@ -805,7 +805,7 @@ limitations under the License.
 											<td class="bg-verylightgreen">Total number of media items associated with cataloged item records that were added during the FY.</td>
 										</cfif>
 										<td class="bg-verylightgreen">Total number of primary type cataloged item records with citations that have associated images.</td>
-										<td class="bg-lt-gray">Calculation. The total number of primary type cataloged item records with citations and associated images divided by the total number of primary type cataloged item records with citations as percentage.</td>
+										<td class="bg-lt-gray">Calculated. The total number of primary type cataloged item records with citations and associated images divided by the total number of primary type cataloged item records with citations as percentage.</td>
 										<td class="bg-verylightgreen">Total number of primary type cataloged item records with citations that have associated images.</td>
 										
 									</tr>
