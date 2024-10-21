@@ -182,14 +182,14 @@ limitations under the License.
 										<td class="bg-white">Column Data Explained <b>&rarr;</b></td>
 										<cfif annualReport EQ "yes">
 											<td class="bg-lightgreen">Total Collection Holdings are expressed in cataloged item records, which may represent individual specimens or lots. <b>Provided by the collections, not MCZbase data</b>.</td>
-											<td class="bg-lt-gray">Percent holdings has equation applied to MCZbase data, which are the total number of specimens represented by cataloged item records divided by total holdings.</td>
+											<td class="bg-lt-gray">Percent holdings is the total number of specimens represented by cataloged item records divided by total holdings. It is derived from an equation applied to MCZbase data.</td>
 										</cfif>
-										<td class="bg-verylightgreen">The number of cataloged items representing individual specimens or lots.</td>
-										<td class="bg-verylightgreen">The total number of specimens represented by the cataloged item records. Derived from the total number of secondary type cataloged item records with citations.</td>
+										<td class="bg-verylightgreen">The total number of specimens represented by the cataloged item records.</td>
+										<td class="bg-verylightgreen">The number individual specimens or lots within cataloged item records.</td>
 										<td class="bg-verylightgreen">The total number of cataloged item records that are primary types with citations.</td>
-										<td class="bg-verylightgreen">The number of specimens that are primary types with citations. </td>
-										<td class="bg-verylightgreen">The number of secondary types. Derived from the total number of secondary type cataloged item records with citations.</td>
-										<td class="bg-verylightgreen">The number of specimens that are secondary types. Derived from the secondary type cataloged item records with citations.</td>
+										<td class="bg-verylightgreen">The number of individual specimens or lots which are part of by primary type cataloged item records with citations. </td>
+										<td class="bg-verylightgreen">The number of records that are secondary type cataloged item records with citations.</td>
+										<td class="bg-verylightgreen">The number of individual specimens or lots which are part of secondary type catalog item records with citations.</td>
 									</tr>
 									<cfloop query="totals">
 										<tr>
