@@ -336,14 +336,14 @@ limitations under the License.
 										</th>
 
 										<th>
-											<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of specimens aquired in the FY. Derived from the total ## of specimens represented by the cataloged item records as indicated by the accessions for the FY.">
+						<!---					<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of specimens aquired in the FY. Derived from the total ## of specimens represented by the cataloged item records as indicated by the accessions for the FY.">--->
 												<strong>Acquired Specimens</strong>
-											</a>
+											<!---</a>--->
 										</th>
 										<th>
-											<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of cataloged items entered in the FY, which may include entries for multiple years. Derived from total ## of cataloged item records entered in the FY.">
+										<!---	<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of cataloged items entered in the FY, which may include entries for multiple years. Derived from total ## of cataloged item records entered in the FY.">--->
 												<strong>New Records Entered in MCZbase - Cataloged Items</strong>
-											</a>
+									<!---		</a>--->
 										</th>
 										<cfif annualReport EQ "yes">
 											<th>
@@ -358,15 +358,15 @@ limitations under the License.
 											<!---</a>--->
 										</th>
 										<cfif annualReport EQ "yes">
-											<th>
+											<th><strong>Number of Accessions in FY</strong>
 												<!---<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of accessions received in FY. Derived from the total ## of accessions received during FY.">--->
-													<strong>Items received but not Cataloged at End of Year (may be estimate)</strong>
+													
 									<!---			</a>--->
 											</th>
 										</cfif>
 										<th>
 											<!---<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of cataloged items in accession for the FY that did not get cataloged in FY selected.">--->
-											<strong>Number of Accessions</strong>
+											<strong>Items received but not Cataloged at End of Year (may be estimate) (reported by Collection)</strong>
 											<!---</a>--->
 										</th>
 									</tr>
@@ -425,15 +425,6 @@ limitations under the License.
 														#NCBI_Cat_Items#
 												</cfif>
 											</td>
-											<cfif annualReport EQ "yes">
-												<td>
-													<cfif #numrecnotcat# EQ ''>
-														N/A
-													<cfelse>
-														#numrecnotcat#
-													</cfif>
-												</td>
-											</cfif>
 											<td>
 												<cfif #Num_Accns# EQ '' and #Collection# EQ 'Cryogenic'>
 													N/A
@@ -443,6 +434,16 @@ limitations under the License.
 													#Num_Accns#
 												</cfif>
 											</td>
+											<cfif annualReport EQ "yes">
+												<td>
+													<cfif #numrecnotcat# EQ ''>
+														N/A
+													<cfelse>
+														#numrecnotcat#
+													</cfif>
+												</td>
+											</cfif>
+
 										</tr>
 									</cfloop>
 								</tbody>
