@@ -156,7 +156,7 @@ limitations under the License.
 					$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
 				});
 			</script>
-			<div class="container-fluid" id="content">
+			<div class="container-fluid" id="content" aria-label="Select report type and dates">
 				<div class="row">
 				<br clear="all">	
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
@@ -172,7 +172,6 @@ limitations under the License.
 									</div>
 									<div id="collapseAnnual" class="collapse show" style="border: 2px solid ##deedec;" aria-labelledby="headingAnnual" data-parent="##accordionExample">
 										<div class="card-body">
-									
 											<form class="py-2" id="loadReportFormAnnual">
 												<div class="form-group">
 													<input type="hidden" name="returnFormat" value="plain">
