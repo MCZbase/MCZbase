@@ -604,7 +604,7 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<tr class="toggle1 hidden">
-										<td class="bg-verylightgreen">Column headers explained &rarr;</div>
+										<td class="barber_stripes">Column headers explained &rarr;</div>
 										<td class="bg-verylightgreen">Number of outgoing loans in the FY. </div>
 										<td class="bg-verylightgreen">Total number of open loans that were completely closed in the FY.</div>
 										<td class="bg-verylightgreen">Total number of open loans older than 5 years closed in the FY.</td>
@@ -797,7 +797,7 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<tr class="toggle1 hidden">
-										<td class="bg-white">Column Data Explained <b>&rarr;</b></td>
+										<td class="barber_stripes">Column Data Explained <b>&rarr;</b></td>
 										<td class="bg-verylightgreen">Total number of cataloged item records that have associated media.</td>
 										<td class="bg-verylightgreen">Total number of media items associated with cataloged item records.</td>
 										<cfif annualReport EQ "yes">
@@ -951,7 +951,7 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<tr class="toggle1 hidden">
-										<td class="bg-white" style="background-color: lightgray">Column Data Explained <b>&rarr;</b></td>
+										<td class="barber_stripes">Column Data Explained <b>&rarr;</b></td>
 										<td class="bg-verylightgreen">Total number of complete citations; does not include placeholders.</td>
 										<td class="bg-verylightgreen">Number of cataloged items with citations.</td>
 										<td class="bg-verylightgreen">Number of genetic voucher citations added during the fiscal year.</td>
