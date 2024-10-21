@@ -1103,7 +1103,7 @@ limitations under the License.
 									<tr class="toggle1 hidden">
 										<td class="barber_stripes">Column Headers Explained &rarr;</td>
 										<td class="bg-verylightgreen">Total number of localities</td>
-										<td>Total number of georeferenced localities</td>
+										<td class="bg-verylightgreen">Total number of georeferenced localities</td>
 										<td class="bg-lt-gray">Calculated. Total number of georeferenced localities divided by the total number of localities as percentage</td>
 										<td class="bg-verylightgreen">Total number of georeferenced localities that have been verified by the collection</td>
 										<td class="bg-verylightgreen">Total number of cataloged item records that have been georeferenced</td>
