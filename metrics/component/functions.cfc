@@ -781,7 +781,7 @@ limitations under the License.
 						</div>
 						<div class="table-responsive-lg">
 							<table class="table table-striped" id="t">
-								<thead>
+								<thead class="thead-light">
 									<tr>
 										<th><strong>Collection</strong></th>
 										<th><strong>Number of Cataloged Items with Media</strong></th>
@@ -941,7 +941,7 @@ limitations under the License.
 						</div>
 						<div class="table-responsive-lg">
 							<table class="table table-striped" id="t">
-								<thead>
+								<thead class="thead-light">
 									<tr>
 										<th><strong>Collection</strong></th>
 										<th><strong>Total Citations</strong></th>
@@ -1084,7 +1084,7 @@ limitations under the License.
 						</div>
 						<div class="table-responsive-lg">
 							<table class="table table-striped" id="t">
-								<thead>
+								<thead class="thead-light">
 									<tr>
 										<th><strong>Collection</strong></th>
 										<th><strong>Total Number of Localities</strong></th>
@@ -1235,7 +1235,7 @@ limitations under the License.
 						</div>
 						<div class="table-responsive-lg">
 							<table class="table table-striped" id="t">
-								<thead>
+								<thead class="thead-light">
 									<tr>
 										<th><strong>Collection</strong></th>
 										<th><strong>Number of Scholarly Visitors</strong></th>
