@@ -181,7 +181,7 @@ limitations under the License.
 									<tr class="toggle1 hidden">
 										<td class="barber_stripes">Column Data Explained <b>&rarr;</b></td>
 										<cfif annualReport EQ "yes">
-											<td>Total Collection Holdings are expressed in cataloged item records, which may represent individual specimens or lots. <span class="font-weight-lessbold">Provided by the Collections, not MCZbase data</span>.</td>
+											<td>Total Collection Holdings are expressed in cataloged item records, which may represent individual specimens or lots. Provided by the Collections, not MCZbase data.</td>
 											<td>Percent holdings is the total number of specimens represented by cataloged item records divided by total holdings. It is derived from an equation applied to MCZbase data.</td>
 										</cfif>
 										<td>The total number of specimens represented by the cataloged item records.</td>
@@ -353,7 +353,7 @@ limitations under the License.
 									
 										<cfif annualReport EQ "yes">
 											<td>The number of accessions received in the fiscal year, which is derived from the total number of accessions received during FY.</td></cfif>
-										<td>The number of cataloged items that are part of an accession for the fiscal year that did not get cataloged in FY. <span class="font-weight-lessbold">Reported by the Collections, not MCZbase data</span>.</td>
+										<td>The number of cataloged items that are part of an accession for the fiscal year that did not get cataloged in FY. Reported by the Collections, not MCZbase data.</td>
 									</tr>
 									<cfloop query="ACtotals">
 										<tr>
@@ -1216,9 +1216,9 @@ limitations under the License.
 								<tbody>
 									<tr class="toggle1 hidden">
 										<td class="barber_stripes">Column Data Explained &rarr; </td>
-										<td>Number scholarly visitors working in the collections during the fiscal year. <span class="font-weight-lessbold">Provided by the Collection in Annual FY Profile</span>.</td>
-										<td>Number of days that scholarly visitors are working in the collections during the fiscal year. <span class="font-weight-lessbold">Provided by the Collection in Annual FY Profile</span>.</td>
-										<td>Number of image/filming/media requests as indicated by the MCZ permissions requests during the fiscal year <span class="font-weight-lessbold">Provided by the Collection in Annual FY Profile</span>.</td>
+										<td>Number scholarly visitors working in the collections during the fiscal year. Provided by the Collection in Annual FY Profile.</td>
+										<td>Number of days that scholarly visitors are working in the collections during the fiscal year. Provided by the Collection in Annual FY Profile.</td>
+										<td>Number of image/filming/media requests as indicated by the MCZ permissions requests during the fiscal year. Provided by the Collection in Annual FY Profile.</td>
 									</tr>
 									<cfloop query="visitorsmediareq">
 										<tr>
