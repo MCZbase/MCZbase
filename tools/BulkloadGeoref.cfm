@@ -599,27 +599,26 @@ limitations under the License.
 			<cfset precision2 = len(decimalPart2)>
 
 			<cfif precision1 gte #maxLength#>
-				<cfoutput>Incorrect precision: #precision1#</cfoutput>
-			<cfelse>
-				<cfoutput>Correct precision</cfoutput>
-			</cfif>
-			<cfif precision2 gte #maxLength#>
-				<cfoutput>Incorrect precision: #precision2#</cfoutput>
-			<cfelse>
-				<cfoutput>Correct precision</cfoutput>
-			</cfif>
-					
-			<!--- Perform the checks and output the result --->
-
-	
-			<cfelse>
-				<cfquery name="getDeterminedByAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="getDeterminedPrecision1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
-					SET status = concat(nvl2(status, status || '; ', ''),'Coordinates do not match precision')
+					SET status = concat(nvl2(status, status || '; ', ''),'Coordinates do not match precision #precision1#')
 					WHERE coordinate_precision is not null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
+			<cfelse>
+				<cfoutput>Correct precision</cfoutput>
+			</cfif>
+			<cfif precision2 gte #maxLength#>
+				<cfquery name="getDeterminedPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_georef
+					SET status = concat(nvl2(status, status || '; ', ''),'Coordinates do not match precision #precision2#')
+					WHERE coordinate_precision is not null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+				</cfquery>
+			<cfelse>
+				<cfoutput>Correct precision</cfoutput>
 			</cfif>
 			</cfloop>
 
