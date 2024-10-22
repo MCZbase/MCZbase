@@ -350,10 +350,12 @@ limitations under the License.
 											<td>The number of cataloged items with NCBI numbers, which is derived from the total number of cataloged item records with associated NCBI numbers.</td>
 										</cfif>
 										<td>The number of genetic samples in the Cryo Collection added during the FY, which is derived from the total number of genetic samples in Cryo Collection as indicated by the number of parts in cryovats added during the FY.</td>
-										<cfif annualReport EQ "yes">
+										
 											<td>The number of accessions received in the FY, which is derived from the total number of accessions received during the FY.</td>
+										
+										<cfif annualReport EQ "yes">
+											<td>Reported by MCZ staff, not MCZbase data (may be estimate). The number of cataloged items that are part of an accession for the FY that did not get cataloged in the FY.</td>
 										</cfif>
-										<td>Reported by MCZ staff, not MCZbase data (may be estimate). The number of cataloged items that are part of an accession for the FY that did not get cataloged in the FY.</td>
 									</tr>
 									<cfloop query="ACtotals">
 										<tr>
