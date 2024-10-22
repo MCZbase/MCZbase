@@ -591,12 +591,26 @@ limitations under the License.
 			<cfset myDecLat = "#getTempData.dec_lat#">
 			<cfset maxLength = #getTempData.coordinate_precision#>
 			<cfset myDecLong = "#getTempData.dec_long#">
-			<cfset maxLength2 = "#(maxLength - 2)#">
-			#maxLength2#
-				<cfset latct = myDecLat.Split(".")>
+			<cfset coordinate1 = "#getTempData.dec_lat#">
+			<cfset coordinate2 = #getTempData.dec_long#>
+			<cfset decimalPart1 = ListGetAt(coordinate1, 2, ".")>
+			<cfset decimalPart2 = ListGetAt(coordinate2, 2, ".")>
+			<cfset precision1 = len(decimalPart1)>
+			<cfset precision2 = len(decimalPart2)>
+
+			<cfif precision1 gte #maxLength#>
+				<cfoutput>Incorrect precision: #precision1#</cfoutput>
+			<cfelse>
+				<cfoutput>Correct precision</cfoutput>
+			</cfif>
+			<cfif precision2 gte #maxLength#>
+				<cfoutput>Incorrect precision: #precision2#</cfoutput>
+			<cfelse>
+				<cfoutput>Correct precision</cfoutput>
+			</cfif>
 					
 			<!--- Perform the checks and output the result --->
-			<cfif len(myDecLat) gte maxLength2 AND len(myDecLong) gte maxLength2>
+
 	
 			<cfelse>
 				<cfquery name="getDeterminedByAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
