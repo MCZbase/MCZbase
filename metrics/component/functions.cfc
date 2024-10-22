@@ -925,7 +925,7 @@ limitations under the License.
 									<tr class="toggle1 hidden">
 										<td class="barber_stripes">Column Data Definitions <b>&rarr;</b></td>
 										<td>Total number of complete citations; does not include placeholders.</td>
-										<td>Number of cataloged items with citations (adds type status to cataloged items, but not necessarily primary or secondary type).</td>
+										<td>Number of cataloged items with citations (adds type status to cataloged items, but not necessarily primary or secondary types).</td>
 										<td>Number of genetic voucher citations added during the FY.</td>
 									</tr>
 									<cfloop query="citationNums">
