@@ -606,8 +606,6 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-			<cfelse>
-				<cfoutput>Correct precision</cfoutput>
 			</cfif>
 			<cfif precision2 gte #maxLength#>
 				<cfquery name="getDeterminedPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -617,8 +615,6 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-			<cfelse>
-				<cfoutput>Correct precision</cfoutput>
 			</cfif>
 			</cfloop>
 
