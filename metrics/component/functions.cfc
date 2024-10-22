@@ -187,7 +187,7 @@ limitations under the License.
 										<td>The total number of specimens represented by the cataloged item records.</td>
 										<td>The number individual specimens or lots within cataloged item records.</td>
 										<td>The total number of cataloged item records that are primary types with citations.</td>
-										<td>The number of individual specimens or lots which are part of by primary type cataloged item records with citations. </td>
+										<td>The number of individual specimens or lots which are part of primary type cataloged item records with citations. </td>
 										<td>The number of records that are secondary type cataloged item records with citations.</td>
 										<td>The number of individual specimens or lots which are part of secondary type catalog item records with citations.</td>
 									</tr>
