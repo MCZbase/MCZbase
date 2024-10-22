@@ -923,7 +923,7 @@ limitations under the License.
 									<tr class="toggle1 hidden">
 										<td class="barber_stripes">Column Data Explained <b>&rarr;</b></td>
 										<td>Total number of complete citations; does not include placeholders.</td>
-										<td>Number of cataloged items with citations.</td>
+										<td>Number of cataloged items with citations (adds type status).</td>
 										<td>Number of genetic voucher citations added during the FY.</td>
 									</tr>
 									<cfloop query="citationNums">
