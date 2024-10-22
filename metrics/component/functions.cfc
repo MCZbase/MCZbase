@@ -925,7 +925,7 @@ limitations under the License.
 									<tr class="toggle1 hidden">
 										<td class="barber_stripes">Column Data Definitions <b>&rarr;</b></td>
 										<td>Total number of complete citations; does not include placeholders.</td>
-										<td>Number of cataloged items with citations (adds type status).</td>
+										<td>Number of cataloged items with citations (adds type status to cataloged items).</td>
 										<td>Number of genetic voucher citations added during the FY.</td>
 									</tr>
 									<cfloop query="citationNums">
@@ -1072,7 +1072,7 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<tr class="toggle1 hidden">
-										<td class="barber_stripes">Column Data Explained &rarr;</td>
+										<td class="barber_stripes">Column Data Definitions &rarr;</td>
 										<td>Total number of localities.</td>
 										<td>Total number of georeferenced localities.</td>
 										<td>Calculated. Total number of georeferenced localities divided by the total number of localities as percentage.</td>
@@ -1216,7 +1216,7 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<tr class="toggle1 hidden">
-										<td class="barber_stripes">Column Data Explained &rarr; </td>
+										<td class="barber_stripes">Column Data Definitions &rarr; </td>
 										<td>Reported by MCZ staff, not MCZbase data. Number of scholarly visitors working in the collections during the FY.</td>
 										<td>Reported by MCZ staff, not MCZbase data. Number of days that scholarly visitors are working in the collections during the FY.</td>
 										<td>Reported by MCZ staff, not MCZbase data. Number of image/filming/media requests as indicated by the MCZ permissions requests during the FY. </td>
