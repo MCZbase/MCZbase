@@ -181,7 +181,7 @@ limitations under the License.
 									<tr class="toggle1 hidden">
 										<td class="barber_stripes">Column Data Definitions <b>&rarr;</b></td>
 										<cfif annualReport EQ "yes">
-											<td>Total Collection Holdings are expressed in cataloged item records, which may represent individual specimens or lots. Provided by the Collections, not MCZbase data.</td>
+											<td>Provided by MCZ staff, not MCZbase data. Total Collection Holdings are expressed in cataloged item records, which may represent individual specimens or lots. </td>
 											<td>Calculated. Percent holdings is the total number of specimens represented by cataloged item records divided by total holdings.</td>
 										</cfif>
 										<td>The total number of specimens represented by the cataloged item records.</td>
@@ -343,17 +343,17 @@ limitations under the License.
 								<tbody>
 									<tr class="toggle1 hidden">
 										<td class="barber_stripes">Column Data Definitions <b>&rarr;</b></td>
-										<td>The number of cataloged items acquired in the fiscal year, which is derived from the total number of cataloged item records as indicated by the accessions for FY.</td>
-										<td>The number of specimens acquired in the fiscal year, which is derived from the total number of specimens represented by the cataloged item records as indicated by the accessions for FY.</td>
-										<td>The number of cataloged items entered in the fiscal year, which may include entries for multiple years. Derived from the total number of cataloged item records entered in FY.</td>
+										<td>The number of cataloged items acquired in the fiscal year, which is derived from the total number of cataloged item records as indicated by the accessions for the FY.</td>
+										<td>The number of specimens acquired in the fiscal year, which is derived from the total number of specimens represented by the cataloged item records as indicated by the accessions for the FY.</td>
+										<td>The number of cataloged items entered in the fiscal year, which may include entries for multiple years. Derived from the total number of cataloged item records entered in the FY.</td>
 										<cfif annualReport EQ "yes">
 											<td>The number of cataloged items with NCBI numbers, which is derived from the total number of cataloged item records with associated NCBI numbers.</td>
 										</cfif>
-										<td>The number of genetic samples in the Cryo Collection added during the fiscal year, which is derived from the total number of genetic samples in Cryo Collection as indicated by the number of parts in cryovats added during FY.</td>
+										<td>The number of genetic samples in the Cryo Collection added during the fiscal year, which is derived from the total number of genetic samples in Cryo Collection as indicated by the number of parts in cryovats added during the FY.</td>
 									
 										<cfif annualReport EQ "yes">
-											<td>The number of accessions received in the fiscal year, which is derived from the total number of accessions received during FY.</td></cfif>
-										<td>The number of cataloged items that are part of an accession for the fiscal year that did not get cataloged in FY. Reported by the Collections, not MCZbase data.</td>
+											<td>The number of accessions received in the fiscal year, which is derived from the total number of accessions received during the FY.</td></cfif>
+										<td>Reported by MCZ staff, not MCZbase data. The number of cataloged items that are part of an accession for the fiscal year that did not get cataloged in FY. </td>
 									</tr>
 									<cfloop query="ACtotals">
 										<tr>
