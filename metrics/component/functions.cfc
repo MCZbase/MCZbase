@@ -991,7 +991,6 @@ limitations under the License.
 					<cfset beginSchema="MCZBASE">
 					<cfset endSchema="MCZBASE">
 			</cfif>
-
 			<cfquery name="georef" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				SELECT
 					c.Collection,
@@ -1075,8 +1074,8 @@ limitations under the License.
 										<td>Total number of localities.</td>
 										<td>Total number of georeferenced localities.</td>
 										<td>Calculated. Total number of georeferenced localities divided by the total number of localities as percentage.</td>
-										<td>Total number of georeferenced localities that have been verified by the collection.</td>
-										<td>Total number of cataloged item records that have been georeferenced.</td>
+										<td>Total number of georeferenced localities verified by the collection.</td>
+										<td>Total number of cataloged item records georeferenced.</td>
 										<td>Calculated. Total number of cataloged item records that were georeferenced divided by total number of catalog item records, which may represent individual specimens or lots depending on the collection; indicates the number of cataloged item records georeferenced.</td>
 										<cfif annualReport EQ "yes">
 											<td>Total number of localities georeferenced during the FY.</td>
