@@ -336,7 +336,7 @@ limitations under the License.
 										</cfif>
 										<th>Number of Accessions in the FY</th>
 										<cfif annualReport EQ "yes">
-											<th>Items Received but Not Cataloged in the FY </th>
+											<th>Items Received but Not Cataloged in the FY</th>
 										</cfif>
 									</tr>
 								</thead>
