@@ -600,7 +600,7 @@ limitations under the License.
 #coordinate1#<br>
 				#decimalPart1#<br>#precision1#
 				<br>#maxLength#
-			<cfif precision1 gte #maxLength#>
+			<cfif len(decimalPart1) gte #maxLength#>
 				<cfquery name="getDeterminedPrecision1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
 					SET status = concat(nvl2(status, status || '; ', ''),'Coordinates do not match precision #precision1#')
