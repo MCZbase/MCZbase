@@ -595,23 +595,20 @@ limitations under the License.
 			<cfset decimalPart2 = ListGetAt(coordinate2, 2, ".")>
 			<cfset precision1 = len(decimalPart1)>
 			<cfset precision2 = len(decimalPart2)>
-<br>Coord1: #coordinate1#<br>
-			decimalPart1: #decimalPart1#<br>
-				Precision1: #precision1#
-				<br>Coord: #maxLength#<br>
+
 			<cfif precision1 lt #maxLength#>
 				<cfquery name="getDeterminedPrecision1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
-					SET status = concat(nvl2(status, status || '; ', ''),'Coordinates do not match precision #precision1#')
+					SET status = concat(nvl2(status, status || '; ', ''),'Coordinates do not match precision #maxLength#')
 					WHERE coordinate_precision is not null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 			</cfif>
-			<cfif precision2 gte #maxLength#>
+			<cfif precision2 lt #maxLength#>
 				<cfquery name="getDeterminedPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
-					SET status = concat(nvl2(status, status || '; ', ''),'Coordinates do not match precision #precision2#')
+					SET status = concat(nvl2(status, status || '; ', ''),'Coordinates do not match precision #maxLength#')
 					WHERE coordinate_precision is not null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
