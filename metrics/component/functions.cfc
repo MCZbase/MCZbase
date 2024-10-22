@@ -66,7 +66,7 @@ limitations under the License.
 							<!--- chart created by R script --->
 							<img src="/metrics/R/graphs/chart1.png" width="672" />
 							
-							<!---<p class="small mt-3">MCZbase data used in chart can be <a href="#filePath##targetFile#">downloaded</a>. Chart and data are updated on Fridays at midnight (1 fiscal year back to present ).</p>--->
+							<!---<p class="small mt-3">MCZbase data used in chart can be <a href="#filePath##targetFile#">downloaded</a>. Chart and data are updated on Fridays at midnight (1 FY back to present ).</p>--->
 						</div>
 					</div>
 				</div>
@@ -343,17 +343,17 @@ limitations under the License.
 								<tbody>
 									<tr class="toggle1 hidden">
 										<td class="barber_stripes">Column Data Definitions <b>&rarr;</b></td>
-										<td>The number of cataloged items acquired in the fiscal year, which is derived from the total number of cataloged item records as indicated by the accessions for the FY.</td>
-										<td>The number of specimens acquired in the fiscal year, which is derived from the total number of specimens represented by the cataloged item records as indicated by the accessions for the FY.</td>
-										<td>The number of cataloged items entered in the fiscal year, which may include entries for multiple years. Derived from the total number of cataloged item records entered in the FY.</td>
+										<td>The number of cataloged items acquired in the FY, which is derived from the total number of cataloged item records as indicated by the accessions for the FY.</td>
+										<td>The number of specimens acquired in the FY, which is derived from the total number of specimens represented by the cataloged item records as indicated by the accessions for the FY.</td>
+										<td>The number of cataloged items entered in the FY, which may include entries for multiple years. Derived from the total number of cataloged item records entered in the FY.</td>
 										<cfif annualReport EQ "yes">
 											<td>The number of cataloged items with NCBI numbers, which is derived from the total number of cataloged item records with associated NCBI numbers.</td>
 										</cfif>
-										<td>The number of genetic samples in the Cryo Collection added during the fiscal year, which is derived from the total number of genetic samples in Cryo Collection as indicated by the number of parts in cryovats added during the FY.</td>
+										<td>The number of genetic samples in the Cryo Collection added during the FY, which is derived from the total number of genetic samples in Cryo Collection as indicated by the number of parts in cryovats added during the FY.</td>
 									
 										<cfif annualReport EQ "yes">
-											<td>The number of accessions received in the fiscal year, which is derived from the total number of accessions received during the FY.</td></cfif>
-										<td>Reported by MCZ staff, not MCZbase data. The number of cataloged items that are part of an accession for the fiscal year that did not get cataloged in FY. </td>
+											<td>The number of accessions received in the FY, which is derived from the total number of accessions received during the FY.</td></cfif>
+										<td>Reported by MCZ staff, not MCZbase data. The number of cataloged items that are part of an accession for the FY that did not get cataloged in the FY. </td>
 									</tr>
 									<cfloop query="ACtotals">
 										<tr>
@@ -924,7 +924,7 @@ limitations under the License.
 										<td class="barber_stripes">Column Data Explained <b>&rarr;</b></td>
 										<td>Total number of complete citations; does not include placeholders.</td>
 										<td>Number of cataloged items with citations.</td>
-										<td>Number of genetic voucher citations added during the fiscal year.</td>
+										<td>Number of genetic voucher citations added during the FY.</td>
 									</tr>
 									<cfloop query="citationNums">
 										<tr>
@@ -1216,9 +1216,9 @@ limitations under the License.
 								<tbody>
 									<tr class="toggle1 hidden">
 										<td class="barber_stripes">Column Data Explained &rarr; </td>
-										<td>Number scholarly visitors working in the collections during the fiscal year. Provided by the Collection in Annual FY Profile.</td>
-										<td>Number of days that scholarly visitors are working in the collections during the fiscal year. Provided by the Collection in Annual FY Profile.</td>
-										<td>Number of image/filming/media requests as indicated by the MCZ permissions requests during the fiscal year. Provided by the Collection in Annual FY Profile.</td>
+										<td>Number scholarly visitors working in the collections during the FY. Provided by the Collection in Annual FY Profile.</td>
+										<td>Number of days that scholarly visitors are working in the collections during the FY. Provided by the Collection in Annual FY Profile.</td>
+										<td>Number of image/filming/media requests as indicated by the MCZ permissions requests during the FY. Provided by the Collection in Annual FY Profile.</td>
 									</tr>
 									<cfloop query="visitorsmediareq">
 										<tr>
