@@ -155,7 +155,7 @@ limitations under the License.
 							</h3>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=dowloadHoldings&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Show/Hide Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=dowloadHoldings&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
 								</div>
 							</div>
 						</div>
@@ -179,7 +179,7 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<tr class="toggle1 hidden">
-										<td class="barber_stripes">Column Data Explained <b>&rarr;</b></td>
+										<td class="barber_stripes">Column Data Definitions <b>&rarr;</b></td>
 										<cfif annualReport EQ "yes">
 											<td>Total Collection Holdings are expressed in cataloged item records, which may represent individual specimens or lots. Provided by the Collections, not MCZbase data.</td>
 											<td>Percent holdings is the total number of specimens represented by cataloged item records divided by total holdings. It is derived from an equation applied to MCZbase data.</td>
@@ -318,7 +318,7 @@ limitations under the License.
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=downloadVisitorsMediareqs&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Show/Hide Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=downloadVisitorsMediareqs&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
 								</div>
 							</div>
 						</div>
@@ -342,7 +342,7 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<tr class="toggle1 hidden">
-										<td class="barber_stripes">Column Data Explained <b>&rarr;</b></td>
+										<td class="barber_stripes">Column Data Definitions <b>&rarr;</b></td>
 										<td>The number of cataloged items acquired in the fiscal year, which is derived from the total number of cataloged item records as indicated by the accessions for FY.</td>
 										<td>The number of specimens acquired in the fiscal year, which is derived from the total number of specimens represented by the cataloged item records as indicated by the accessions for FY.</td>
 										<td>The number of cataloged items entered in the fiscal year, which may include entries for multiple years. Derived from the total number of cataloged item records entered in FY.</td>
@@ -551,7 +551,7 @@ limitations under the License.
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=dowloadLoanActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Show/Hide Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=dowloadLoanActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
 								</div>
 							</div>
 						</div>
@@ -574,7 +574,7 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<tr class="toggle1 hidden">
-										<td class="barber_stripes">Column Data Explained &rarr;</div>
+										<td class="barber_stripes">Column Data Definitions &rarr;</div>
 										<td>Number of outgoing loans in the FY. </div>
 										<td>Total number of open loans that were completely closed in the FY.</div>
 										<td>Total number of open loans older than 5 years closed in the FY.</td>
@@ -745,7 +745,7 @@ limitations under the License.
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=dowloadMediaActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Show/Hide Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=dowloadMediaActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
 								</div>
 							</div>
 						</div>
@@ -767,7 +767,7 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<tr class="toggle1 hidden">
-										<td class="barber_stripes">Column Data Explained <b>&rarr;</b></td>
+										<td class="barber_stripes">Column Data Definitions <b>&rarr;</b></td>
 										<td>Total number of cataloged item records that have associated media.</td>
 										<td>Total number of media items associated with cataloged item records.</td>
 										<cfif annualReport EQ "yes">
@@ -905,7 +905,7 @@ limitations under the License.
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=dowloadCitationActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Show/Hide Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=dowloadCitationActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
 								</div>
 							</div>
 						</div>
@@ -1048,7 +1048,7 @@ limitations under the License.
 							
 							<div class="btn-toolbar my-1 mt-lg-0 float-right">
 								<div class="btn-group mr-2">
-									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=dowloadGeoreferenceActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Show/Hide Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=dowloadGeoreferenceActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
 								</div>
 							</div>
 						</div>
@@ -1199,7 +1199,7 @@ limitations under the License.
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=downloadVisitorsMediareqs&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Show/Hide Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=downloadVisitorsMediareqs&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
 								</div>
 							</div>
 						</div>
