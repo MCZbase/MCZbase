@@ -597,7 +597,9 @@ limitations under the License.
 			<cfset decimalPart2 = ListGetAt(coordinate2, 2, ".")>
 			<cfset precision1 = len(decimalPart1)>
 			<cfset precision2 = len(decimalPart2)>
-
+#coordinate1#<br>
+				#decimalPart1#<br>#precision1#
+				<br>#maxLength#
 			<cfif precision1 gte #maxLength#>
 				<cfquery name="getDeterminedPrecision1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
