@@ -588,18 +588,17 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-			<cfset myDecLat = "#getTempData.dec_lat#">
 			<cfset maxLength = #getTempData.coordinate_precision#>
-			<cfset myDecLong = "#getTempData.dec_long#">
 			<cfset coordinate1 = "#getTempData.dec_lat#">
 			<cfset coordinate2 = #getTempData.dec_long#>
 			<cfset decimalPart1 = ListGetAt(coordinate1, 2, ".")>
 			<cfset decimalPart2 = ListGetAt(coordinate2, 2, ".")>
 			<cfset precision1 = len(decimalPart1)>
 			<cfset precision2 = len(decimalPart2)>
-#coordinate1#<br>
-				#decimalPart1#<br>#precision1#
-				<br>#maxLength#
+<br>Coord1: #coordinate1#<br>
+			decimalPart1: #decimalPart1#<br>
+				Precision1: #precision1#
+				<br>Coord: #maxLength#<br>
 			<cfif len(decimalPart1) gte #maxLength#>
 				<cfquery name="getDeterminedPrecision1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_georef
