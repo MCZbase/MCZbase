@@ -271,10 +271,8 @@ limitations under the License.
 					a.Received_Cat_Items,
 					a.Received_Specimens,
 					e.Entered_Cat_Items,
-					ncbi.NCBI_Cat_Items, 'N/A',
+					ncbi.NCBI_Cat_Items, 
 					accn.Num_Accns
-					/*h.Cataloged_Items, 
-					h.Specimens*/
 					<cfif annualReport eq 'yes'>
 					,rm.value numrecnotcat
 					,cryo.numAddedCryo
@@ -328,47 +326,18 @@ limitations under the License.
 							<table class="table table-striped" id="t">
 								<thead class="thead-light">
 									<tr>
-										<th></th>
-										<th>
-										<!---	<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of cataloged items acquired in the fiscal year. Derived from the total number of cataloged item records as indicated by the accessions for FY.">--->
-												Acquired Cataloged Items
-											<!---</a>--->
-										</th>
-
-										<th>
-						<!---					<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of specimens aquired in the FY. Derived from the total ## of specimens represented by the cataloged item records as indicated by the accessions for the FY.">--->
-												Acquired Specimens
-											<!---</a>--->
-										</th>
-										<th>
-										<!---	<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of cataloged items entered in the FY, which may include entries for multiple years. Derived from total ## of cataloged item records entered in the FY.">--->
-												New Records Entered in MCZbase - Cataloged Items
-									<!---		</a>--->
-										</th>
+										<th>Collection</th>
+										<th>Acquired Cataloged Items</th>
+										<th>Acquired Specimens</th>
+										<th>New Records Entered in MCZbase - Cataloged Items</th>
+										<th>Number of Cataloged Items with NCBI numbers</th>
 										<cfif annualReport EQ "yes">
-											<th>
-											<!---	<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of genetic samples in the Cryo Collection added during the FY. Derived from total ## of genetics samples in Cryo Collection as indicated by the number of parts in cryovats added in the FY.">--->
-													Number of Genetic Samples added To Cryo
-											<!---	</a>--->
-											</th>
+											<th>Number of Genetic Samples added To Cryo</th>
 										</cfif>
-										<th>
-											<!---<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of cataloged items with NCBI numbers. Derived from the total ## of cataloged item records with associated NCBI numbers.">--->
-												Number of Cataloged Items with NCBI numbers
-											<!---</a>--->
-										</th>
 										<cfif annualReport EQ "yes">
-											<th>Number of Accessions in FY
-												<!---<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of accessions received in FY. Derived from the total ## of accessions received during FY.">--->
-													
-									<!---			</a>--->
-											</th>
+											<th>Number of Accessions in FY</th>
 										</cfif>
-										<th>
-											<!---<a href="##" class="btn-link" data-toggle="tooltip" data-placement="bottom" title="Number of cataloged items in accession for the FY that did not get cataloged in FY selected.">--->
-											Items received but not Cataloged at End of Year (may be estimate) (reported by Collection)
-											<!---</a>--->
-										</th>
+										<th>Items received but not Cataloged at End of Year (may be estimate) (reported by Collection)</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -377,10 +346,11 @@ limitations under the License.
 										<td class="bg-verylightgreen">The number of cataloged items acquired in the fiscal year, which is derived from the total number of cataloged item records as indicated by the accessions for FY.</td>
 										<td class="bg-verylightgreen">The number of specimens acquired in the fiscal year, which is derived from the total number of specimens represented by the cataloged item records as indicated by the accessions for FY.</td>
 										<td class="bg-verylightgreen">The number of cataloged items entered in the fiscal year, which may include entries for multiple years. Derived from the total number of cataloged item records entered in FY.</td>
-										<td class="bg-verylightgreen">The number of genetic samples in the Cryo Collection added during the fiscal year, which is derived from the total number of genetic samples in Cryo Collection as indicated by the number of parts in cryovats added during FY.</td>
 										<cfif annualReport EQ "yes">
 											<td class="bg-verylightgreen">The number of cataloged items with NCBI numbers, which is derived from the total number of cataloged item records with associated NCBI numbers.</td>
 										</cfif>
+										<td class="bg-verylightgreen">The number of genetic samples in the Cryo Collection added during the fiscal year, which is derived from the total number of genetic samples in Cryo Collection as indicated by the number of parts in cryovats added during FY.</td>
+									
 										<cfif annualReport EQ "yes">
 											<td class="bg-verylightgreen">The number of accessions received in the fiscal year, which is derived from the total number of accessions received during FY.</td></cfif>
 										<td class="bg-lightgreen">The number of cataloged items that are part of an accession for the fiscal year that did not get cataloged in FY. <span class="font-weight-lessbold">Reported by the Collections, not MCZbase data</span>.</td>
@@ -409,22 +379,22 @@ limitations under the License.
 														#Entered_Cat_Items#
 												</cfif>
 											</td>
-											<cfif annualReport EQ "yes">
-											<td>
-												<cfif #numAddedCryo# EQ ''>
-													N/A
-												<cfelse>
-													#numAddedCryo#
-												</cfif>
-											</td>
-											</cfif>
 											<td>
 												<cfif #NCBI_Cat_Items# EQ ''>
 													N/A
 												<cfelse>
-														#NCBI_Cat_Items#
+													#NCBI_Cat_Items#
 												</cfif>
 											</td>
+											<cfif annualReport EQ "yes">
+												<td>
+													<cfif #numAddedCryo# EQ ''>
+														N/A
+													<cfelse>
+														#numAddedCryo#
+													</cfif>
+												</td>
+											</cfif>
 											<td>
 												<cfif #Num_Accns# EQ '' and #Collection# EQ 'Cryogenic'>
 													N/A
@@ -443,7 +413,6 @@ limitations under the License.
 													</cfif>
 												</td>
 											</cfif>
-
 										</tr>
 									</cfloop>
 								</tbody>
