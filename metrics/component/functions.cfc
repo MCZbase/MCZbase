@@ -1216,9 +1216,9 @@ limitations under the License.
 								<tbody>
 									<tr class="toggle1 hidden">
 										<td class="barber_stripes">Column Data Explained &rarr; </td>
-										<td>Number scholarly visitors working in the collections during the FY. Provided by the Collection in Annual FY Profile.</td>
+										<td>Provided by MCZ staff in the Annual FY Profile. Number scholarly visitors working in the collections during the FY.</td>
 										<td>Number of days that scholarly visitors are working in the collections during the FY. Provided by the Collection in Annual FY Profile.</td>
-										<td>Number of image/filming/media requests as indicated by the MCZ permissions requests during the FY. Provided by the Collection in Annual FY Profile.</td>
+										<td>Provided by MCZ staff in the Annual FY Profile. Number of image/filming/media requests as indicated by the MCZ permissions requests during the FY. </td>
 									</tr>
 									<cfloop query="visitorsmediareq">
 										<tr>
