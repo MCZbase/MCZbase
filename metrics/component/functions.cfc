@@ -318,7 +318,7 @@ limitations under the License.
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a href="/metrics/Dashboard.cfm?action=downloadVisitorsMediareqs&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=downloadVisitorsMediareqs&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
 								</div>
 							</div>
 						</div>
@@ -551,7 +551,7 @@ limitations under the License.
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a href="/metrics/Dashboard.cfm?action=dowloadLoanActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=dowloadLoanActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
 								</div>
 							</div>
 						</div>
@@ -745,7 +745,7 @@ limitations under the License.
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a href="/metrics/Dashboard.cfm?action=dowloadMediaActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=dowloadMediaActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
 								</div>
 							</div>
 						</div>
@@ -905,7 +905,7 @@ limitations under the License.
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a href="/metrics/Dashboard.cfm?action=dowloadCitationActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=dowloadCitationActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
 								</div>
 							</div>
 						</div>
@@ -1048,7 +1048,7 @@ limitations under the License.
 							
 							<div class="btn-toolbar my-1 mt-lg-0 float-right">
 								<div class="btn-group mr-2">
-									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a href="/metrics/Dashboard.cfm?action=dowloadGeoreferenceActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=dowloadGeoreferenceActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
 								</div>
 							</div>
 						</div>
@@ -1199,7 +1199,7 @@ limitations under the License.
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a href="/metrics/Dashboard.cfm?action=downloadVisitorsMediareqs&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Toggle Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=downloadVisitorsMediareqs&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
 								</div>
 							</div>
 						</div>
