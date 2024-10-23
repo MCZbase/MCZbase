@@ -643,8 +643,8 @@ limitations under the License.
 @param returnAs html or csv, if csv returns result as csv, otherwise as html table 
 --->
 <cffunction name="getMediaNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="any" required="no" default="2024-06-30">
-	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
+	<cfargument name="endDate" type="any" required="no">
+	<cfargument name="beginDate" type="any" required="no">
 	<cfargument name="annualReport" type="any" required="yes">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
@@ -671,7 +671,7 @@ limitations under the License.
 			</cfif>
 
 			<!--- annual report queries --->
-			<cfquery name="media" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
+			<cfquery name="media" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
 				SELECT
 					c.collection,
 					i.Num_Images_Cat_Items,
@@ -837,8 +837,8 @@ limitations under the License.
 @param returnAs html or csv, if csv returns result as csv, otherwise as html table 
 --->
 <cffunction name="getCitationNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="any" required="no" default="2024-06-30">
-	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
+	<cfargument name="endDate" type="any" required="no">
+	<cfargument name="beginDate" type="any" required="no">
 	<cfargument name="annualReport" type="any" required="yes">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
@@ -865,7 +865,7 @@ limitations under the License.
 			</cfif>
 
 			<!--- annual report queries, citation activity --->
-			<cfquery name="citationNums" datasource="uam_god" result="citation_result" cachedwithin="#createtimespan(7,0,0,0)#">
+			<cfquery name="citationNums" datasource="uam_god" result="citation_result" cachedwithin="#createtimespan(0,0,0,0)#">
 				SELECT
 					c.Collection,
 					cit.Num_Citations,
@@ -960,8 +960,8 @@ limitations under the License.
 @param returnAs html or csv, if csv returns result as csv, otherwise as html table 
 --->
 <cffunction name="getGeorefNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="any" required="no" default="2024-06-30">
-	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
+	<cfargument name="endDate" type="any" required="no">
+	<cfargument name="beginDate" type="any" required="no">
 	<cfargument name="annualReport" type="any" required="yes">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
@@ -1153,7 +1153,7 @@ limitations under the License.
 					<cfset beginSchema="MCZBASE">
 					<cfset endSchema="MCZBASE">
 			</cfif>
-			<cfquery name="visitorsmediareq" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
+			<cfquery name="visitorsmediareq" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
 				SELECT
 					c.collection,
 					visitors.numvisitors,
