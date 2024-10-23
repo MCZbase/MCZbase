@@ -188,7 +188,7 @@ limitations under the License.
 													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
 													
 													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
-													<cfquery name="fyDates" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
+													<cfquery name="fyDates" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
 														SELECT
 															distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option,reported_date,
 														TO_CHAR(
