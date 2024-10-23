@@ -184,8 +184,8 @@ limitations under the License.
 										<div class="card-body">
 											<form class="py-2" id="loadReportFormAnnual">
 												<div class="form-group">
-													<input type="hidden" name="form.returnFormat" value="plain">
-													<input type="hidden" name="form.annualReport" value="yes" class="data-entry-input">
+													<input type="hidden" name="returnFormat" value="plain">
+													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
 													
 													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
 													<cfquery name="fyDates" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
