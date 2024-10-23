@@ -181,15 +181,15 @@ limitations under the License.
 									<tr class="toggle1 hidden">
 										<td class="barber_stripes">Column Data Definitions <b>&rarr;</b></td>
 										<cfif annualReport EQ "yes">
-											<td>Provided by MCZ staff, not MCZbase data. Total collection holdings are expressed in cataloged item records, which may represent individual specimens or lots. </td>
-											<td>Calculated. Percent holdings is the total number of specimens represented by cataloged item records divided by total holdings.</td>
+											<td>Total collection holdings are expressed in cataloged items, which may represent individual specimens or lots. Reported by MCZ curatorial staff and not derived from MCZbase data.</td>
+											<td>Total number of specimens represented by records in MCZbase divided by total holdings reported by the collections.</td>
 										</cfif>
-										<td>The total number of specimens represented by the cataloged item records.</td>
-										<td>The number of individual specimens or lots within cataloged item records.</td>
+										<td>The total number of cataloged items in MCZbase.</td>
+										<td>The total number of individual specimens represented by cataloged item records.</td>
 										<td>The total number of cataloged item records that are primary types with citations.</td>
-										<td>The number of individual specimens or lots which are part of primary type cataloged item records with citations. </td>
-										<td>The number of records that are secondary type cataloged item records with citations.</td>
-										<td>The number of individual specimens or lots which are part of secondary type catalog item records with citations.</td>
+										<td>The number of individual specimens which are part of primary type cataloged item records with citations.</td>
+										<td>The total number of cataloged item records that are secondary types with citations.</td>
+										<td>The number of individual specimens which are part of secondary type catalog item records with citations.</td>
 									</tr>
 									<cfloop query="totals">
 										<tr>
@@ -343,18 +343,16 @@ limitations under the License.
 								<tbody>
 									<tr class="toggle1 hidden">
 										<td class="barber_stripes">Column Data Definitions <b>&rarr;</b></td>
-										<td>The number of cataloged items acquired in the FY, which is derived from the total number of cataloged item records as indicated by the accessions for the FY.</td>
-										<td>The number of specimens acquired in the FY, which is derived from the total number of specimens represented by the cataloged item records as indicated by the accessions for the FY.</td>
-										<td>The number of cataloged items entered in the FY, which may include entries for multiple years. Derived from the total number of cataloged item records entered in the FY.</td>
+										<td>The number of databased cataloged items acquired in the FY, derived from the total number of cataloged item records in accessions for the FY.</td>
+										<td>The number of specimens acquired in the FY, derived from the total number of specimens which are part of cataloged item records in databased accessions for the FY.</td>
+										<td>The number of cataloged items databased in the FY. </td>
 										<cfif annualReport EQ "yes">
-											<td>The number of cataloged items with NCBI numbers, which is derived from the total number of cataloged item records with associated NCBI numbers.</td>
+											<td>The total number of cataloged items with NCBI numbers as of #encodeForHtml(endDate)#</td>
 										</cfif>
-										<td>The number of genetic samples in the Cryo Collection added during the FY, which is derived from the total number of genetic samples in Cryo Collection as indicated by the number of parts in cryovats added during the FY.</td>
-										
-											<td>The number of accessions received in the FY, which is derived from the total number of accessions received during the FY.</td>
-										
+										<td>The number of databased genetic samples added to the Cryo Collection in the FY as indicated by the number of parts in cryovats.</td>
+										<td>The number of accessions received and databased in the FY.</td>
 										<cfif annualReport EQ "yes">
-											<td>Reported by MCZ staff, not MCZbase data (may be estimate). The number of cataloged items that are part of an accession for the FY that did not get cataloged in the FY.</td>
+											<td>The number of cataloged items received in the FY, but not databased, as reported by MCZ collections staff, and not derived from MCZbase data (may be estimate).</td>
 										</cfif>
 									</tr>
 									<cfloop query="ACtotals">
@@ -773,12 +771,12 @@ limitations under the License.
 										<td>Total number of cataloged item records that have associated media.</td>
 										<td>Total number of media items associated with cataloged item records.</td>
 										<cfif annualReport EQ "yes">
-											<td>Total number of cataloged item records that have media items added during the FY.</td>
+											<td>Total number of cataloged item records that had media items added during the FY.</td>
 											<td>Total number of media items associated with cataloged item records that were added during the FY.</td>
 										</cfif>
 										<td>Total number of primary type cataloged item records with citations that have associated images.</td>
-										<td>Calculated. The total number of primary type cataloged item records with citations and associated images divided by the total number of primary type cataloged item records with citations as percentage.</td>
-										<td>Total number of primary type cataloged item records with citations that have associated images.</td>
+										<td>The percentage of primary types with associated media as of #encodeForHtml(endDate)#</td>
+										<td>Total number of secondary type cataloged item records with citations that have associated images.</td>
 										
 									</tr>
 									<cfloop query="media">
@@ -924,9 +922,9 @@ limitations under the License.
 								<tbody>
 									<tr class="toggle1 hidden">
 										<td class="barber_stripes">Column Data Definitions <b>&rarr;</b></td>
-										<td>Total number of complete citations; does not include placeholders.</td>
-										<td>Number of cataloged items with citations (adds type status to cataloged items, but not necessarily primary or secondary types).</td>
-										<td>Number of genetic voucher citations added during the FY.</td>
+										<td>Total number of complete citations associated with cataloged items.</td>
+										<td>Number of cataloged items with citations.</td>
+										<td>Number of genetic voucher citations.</td>
 									</tr>
 									<cfloop query="citationNums">
 										<tr>
@@ -1061,7 +1059,7 @@ limitations under the License.
 										<th>Total Number of Localities</th>
 										<th>Records Georeferenced - Localities</th>
 										<th>% of Localities Georeferenced</th>
-										<th>Records Georeferences Verified - Localities</th>
+										<th>Records Georeferenced and Verified - Localities</th>
 										<th>Records Georeferenced Total - Cataloged Items</th>
 										<th>% of Cataloged Items Georeferenced</th>
 										<cfif annualReport EQ "yes">
@@ -1075,12 +1073,12 @@ limitations under the License.
 										<td class="barber_stripes">Column Data Definitions &rarr;</td>
 										<td>Total number of localities.</td>
 										<td>Total number of georeferenced localities.</td>
-										<td>Calculated. Total number of georeferenced localities divided by the total number of localities as percentage.</td>
+										<td>Total number of georeferenced localities divided by the total number of localities as a percentage.</td>
 										<td>Total number of georeferenced localities verified by the collection.</td>
 										<td>Total number of cataloged item records georeferenced.</td>
-										<td>Calculated. Total number of cataloged item records that were georeferenced divided by total number of catalog item records, which may represent individual specimens or lots depending on the collection; indicates the number of cataloged item records georeferenced.</td>
+										<td>Total number of cataloged item records that are georeferenced divided by total number of catalog item records, which may represent individual specimens or lots depending on the collection.</td>
 										<cfif annualReport EQ "yes">
-											<td>Total number of localities georeferenced during the FY.</td>
+											<td>Total number of localities georeferenced during the FY. Can be a negative number if Localities have been merged.</td>
 											<td>Total number of cataloged item records georeferenced during the FY.</td>
 										</cfif>
 									</tr>
@@ -1217,9 +1215,9 @@ limitations under the License.
 								<tbody>
 									<tr class="toggle1 hidden">
 										<td class="barber_stripes">Column Data Definitions &rarr; </td>
-										<td>Reported by MCZ staff, not MCZbase data. Number of scholarly visitors working in the collections during the FY.</td>
-										<td>Reported by MCZ staff, not MCZbase data. Number of days that scholarly visitors are working in the collections during the FY.</td>
-										<td>Reported by MCZ staff, not MCZbase data. Number of image/filming/media requests as indicated by the MCZ permissions requests during the FY. </td>
+										<td>Number of scholarly visitors working in the collections during the FY as reported by MCZ Collections staff.</td>
+										<td>Number of days that scholarly visitors were working in the collections during the FY as reported by MCZ Collections staff.</td>
+										<td>Number of image/filming/media requests as indicated by the MCZ permissions requests during the FY as reported by MCZ Collections staff. </td>
 									</tr>
 									<cfloop query="visitorsmediareq">
 										<tr>
