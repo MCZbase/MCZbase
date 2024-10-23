@@ -117,7 +117,7 @@ limitations under the License.
 				<cfset endSchema="MCZBASE">
 			</cfif>
 			<!--- annual report queries: holdings by collection --->
-			<cfquery name="totals" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+			<cfquery name="totals" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				SELECT 
 					h.Collection, 
 					<cfif annualReport EQ "yes">rm.value holdings,</cfif>
@@ -448,8 +448,8 @@ limitations under the License.
 @param returnAs html or csv, if csv returns result as csv, otherwise as html table 
 --->
 <cffunction name="getLoanNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="any" required="yes">
-	<cfargument name="beginDate" type="any" required="yes">
+	<cfargument name="endDate" type="any" required="yes" default="2024-06-30">
+	<cfargument name="beginDate" type="any" required="yes" default="2023-07-01">
 	<cfargument name="annualReport" type="any" required="yes">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
