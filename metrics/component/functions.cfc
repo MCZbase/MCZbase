@@ -1078,7 +1078,7 @@ limitations under the License.
 										<td>Total number of cataloged item records georeferenced.</td>
 										<td>Total number of cataloged item records that are georeferenced divided by total number of catalog item records, which may represent individual specimens or lots depending on the collection.</td>
 										<cfif annualReport EQ "yes">
-											<td>Total number of localities georeferenced during the FY. Can be a negative number if Localities have been merged.</td>
+											<td>Total number of localities georeferenced during the FY. Can be a negative number if localities have been merged.</td>
 											<td>Total number of cataloged item records georeferenced during the FY.</td>
 										</cfif>
 									</tr>
