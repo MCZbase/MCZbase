@@ -117,7 +117,7 @@ limitations under the License.
 				<cfset endSchema="MCZBASE">
 			</cfif>
 			<!--- annual report queries: holdings by collection --->
-			<cfquery name="totals" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
+			<cfquery name="totals" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
 				SELECT 
 					h.Collection, 
 					<cfif annualReport EQ "yes">rm.value holdings,</cfif>
