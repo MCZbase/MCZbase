@@ -114,7 +114,7 @@ limitations under the License.
 				<cfset endSchema="MCZBASE">
 			</cfif>
 			<!--- annual report queries: holdings by collection --->
-			<cfquery name="totals" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+			<cfquery name="totals" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				SELECT 
 					h.Collection, 
 					<cfif annualReport EQ "yes">rm.value holdings,</cfif>
@@ -262,7 +262,7 @@ limitations under the License.
 				<cfset endSchema="MCZBASE">
 			</cfif>
 			<!--- acquisition counts queries --->
-			<cfquery name="ACtotals" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+			<cfquery name="ACtotals" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				SELECT
 					c.Collection, 
 					a.Received_Cat_Items,
@@ -452,7 +452,7 @@ limitations under the License.
 	<cfthread name="getLoanNumbersThread#tn#">
 		<cftry>
 			<!--- annual report queries for loan activity --->
-			<cfquery name="loans" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+			<cfquery name="loans" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				SELECT
 					c.Collection, 
 					nvl(ol.Num_Outgoing_Loans,0) Num_Outgoing_Loans,
@@ -668,7 +668,7 @@ limitations under the License.
 			</cfif>
 
 			<!--- annual report queries --->
-			<cfquery name="media" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+			<cfquery name="media" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				SELECT
 					c.collection,
 					i.Num_Images_Cat_Items,
@@ -862,7 +862,7 @@ limitations under the License.
 			</cfif>
 
 			<!--- annual report queries, citation activity --->
-			<cfquery name="citationNums" datasource="uam_god" result="citation_result" cachedwithin="#createtimespan(0,0,0,0)#">
+			<cfquery name="citationNums" datasource="uam_god" result="citation_result" cachedwithin="#createtimespan(7,0,0,0)#">
 				SELECT
 					c.Collection,
 					cit.Num_Citations,
@@ -1150,7 +1150,7 @@ limitations under the License.
 					<cfset beginSchema="MCZBASE">
 					<cfset endSchema="MCZBASE">
 			</cfif>
-			<cfquery name="visitorsmediareq" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+			<cfquery name="visitorsmediareq" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				SELECT
 					c.collection,
 					visitors.numvisitors,
