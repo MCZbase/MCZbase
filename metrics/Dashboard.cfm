@@ -252,7 +252,6 @@ limitations under the License.
 													document.getElementById('fiscalYear').addEventListener('change', function() {
 														var combinedValue = this.value;
 														var parts = combinedValue.split(',');
-
 														document.getElementById('beginDateFiscal').value = parts[0]; // Sets the beginDate
 														document.getElementById('endDateFiscal').value = parts[1]; // Sets the endDate
 													});
