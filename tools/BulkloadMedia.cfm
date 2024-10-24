@@ -359,7 +359,7 @@ limitations under the License.
 						<cfset row = row + 1>
 						<cfset columnsCountInRow = rowData.size()>
 						<!--- Throw exception (below) if column count is not equal to header size --->
-						<cfif columnsCountInRow NE size>
+						<cfif columnsCountInRow NEQ size>
 							<cfset errorMessage = "Row #row# contains #columnsCountInRow#, but #size# are expected from the headers">
 						</cfif>
 						<cfset collValuesArray= ArrayNew(1)>
