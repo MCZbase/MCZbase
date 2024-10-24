@@ -120,6 +120,30 @@ limitations under the License.
 					<div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
 							<p class="pt-2 pb-0 mb-0 px-2">Some relationships require a relationship-specific ID and others can take a name. See correct entries for the relationships below:</p>
+							<cfset alsoSupported = StructNew()>
+							<cfset alsoSupported['agent']="AGENT_NAME">
+							<cfset alsoSupported['cataloged_item']="GUID">
+							<cfset alsoSupported['specimen_part']="GUID">
+							<cfset alsoSupported['underscore_collection']="COLLECTION_NAME">
+							<cfset alsoSupported['project']="PROJECT_NAME">
+							<cfset alsoSupported['accn']="ACCN_NUMBER">
+							<cfset alsoSupported['deaccession']="DEACC_NUMBER">
+							<cfset alsoSupported['loan']="LOAN_NUMBER">
+							<cfset alsoSupported['borrow']="BORROW_NUMBER">
+							<cfquery name="getRelationshipTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT
+									media_relationship, description, label, auto_table, cols.column_name as primary_key
+								FROM
+									ctmedia_relationship, all_cons_columns cols, all_constraints cons
+								WHERE 
+									upper(ctmedia_relationship.auto_table) = cols.table_name
+									and cons.constraint_type = 'P'
+									AND cons.constraint_name = cols.constraint_name
+									AND cons.owner = cols.owner
+									and cons.owner='MCZBASE'
+									AND cols.position = 1
+								ORDER BY auto_table
+							</cfquery>
 							<!--- TODO: This table only lists 18 out of 25 current media relationships --->
 							<!--- TODO: Load from code table, lookup primary key for target table and display that for all media relationships --->
 							<!--- TODO: Add configuration for additional fields this bulkloader supports --->
@@ -888,7 +912,7 @@ limitations under the License.
 								AND cons.constraint_name = cols.constraint_name
 								AND cons.owner = cols.owner
 								and cons.owner='MCZBASE'
-								AND cols.table_name = UPPER('#theTable#')
+								AND cols.table_name = UPPER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#theTable#">)
 								AND cols.position = 1
 								ORDER BY cols.table_name, cols.position
 							</cfquery>
