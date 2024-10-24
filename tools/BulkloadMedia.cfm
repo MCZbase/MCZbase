@@ -78,15 +78,15 @@ limitations under the License.
 						  <p class="px-2 pt-2 pb-0 mb-0">Find controlled vocabulary in MCZbase.</p>
 						  <ul class="list-group list-group-horizontal-md">
 								<li class="list-group-item font-weight-lessbold">
-									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL (17 values)</a> </li> <span class="mt-1 d-none d-md-inline-block"> | </span>
+									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL</a> </li> <span class="mt-1 d-none d-md-inline-block"> | </span>
 								<li class="list-group-item font-weight-lessbold">
-									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">MEDIA_RELATIONSHIP (23 values)</a></li> <span class="mt-1 d-none d-md-inline-block"> | </span>
+									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">MEDIA_RELATIONSHIP</a></li> <span class="mt-1 d-none d-md-inline-block"> | </span>
 								<li class="list-group-item font-weight-lessbold">
-									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_TYPE">MEDIA_TYPE (6 values)</a> </li><span class="mt-1 d-none d-md-inline-block"> | </span>
+									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_TYPE">MEDIA_TYPE</a> </li><span class="mt-1 d-none d-md-inline-block"> | </span>
 								<li class="list-group-item font-weight-lessbold">
-									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMIME_TYPE">MIME_TYPE (14 values)</a> </li><span class="mt-1 d-none d-md-inline-block"> | </span>
+									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMIME_TYPE">MIME_TYPE</a> </li><span class="mt-1 d-none d-md-inline-block"> | </span>
 								<li class="list-group-item font-weight-lessbold">
-									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LICENSE">MEDIA_LICENSE (7 values)</a>
+									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LICENSE">MEDIA_LICENSE</a>
 							  	</li>
 							</ul>
 						</div>
