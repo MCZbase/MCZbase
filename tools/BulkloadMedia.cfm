@@ -184,7 +184,7 @@ limitations under the License.
 							<h3 class="small90 pl-3">Media License Codes:</h3>
 							<dl class="pl-3 mb-4">
 								<cfloop query="getMediaLicences">
-									<dt class="btn-secondary"><span class="badge badge-light">#getMediaLicences.media_licence_id# </span> #getMediaLicences.display#</dt> <dd>#getMediaLicences.description#</dd>
+									<dt class="btn-secondary"><span class="badge badge-light">#getMediaLicences.media_license_id# </span> #getMediaLicences.display#</dt> <dd>#getMediaLicences.description#</dd>
 								</cfloop>
 							</dl>
 						</div>
