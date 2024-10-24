@@ -294,7 +294,7 @@ limitations under the License.
 				LEFT JOIN
 					(select a.collection_id, a.numparts - b.numparts numAddedCryo from
 					#endschema#.cryo_counts a
-					left join #beginschema#.cryo_counts b on a.collection_id = b.collection_id) cryo on c.collection_id = cryo.collection_id	
+					left join #endschema#.cryo_counts b on a.collection_id = b.collection_id) cryo on c.collection_id = cryo.collection_id	
 				</cfif> 
 			ORDER BY COLLECTION
 			</cfquery>
