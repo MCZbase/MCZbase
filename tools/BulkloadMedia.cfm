@@ -1188,7 +1188,7 @@ limitations under the License.
 						<cfelse>
 							<cfset medialicenseid_local = media_license_id>
 						</cfif>
-						<cfsset maskmedia_local = 0>
+						<cfset maskmedia_local = 0>
 						<cfif len(mask_media) is 0>
 							<cfset maskmedia_local = 0>
 						<cfelse>
