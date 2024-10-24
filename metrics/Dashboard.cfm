@@ -64,13 +64,6 @@ limitations under the License.
 </cfif>
 <cfset beginDateFiscal = '#DateFormat(DateAdd("d",1,DateAdd("yyyy", -1, endDateFiscal)),"yyyy-mm-dd")#'>
 <style>
-/*	.hidden {
-		display: none;
-	}
-	table, th, td {
-		border-collapse: collapse;
-	}*/
-
 	.barber_stripes {
 		background: repeating-linear-gradient(
 			45deg,         /* Angle of the diagonal lines */
