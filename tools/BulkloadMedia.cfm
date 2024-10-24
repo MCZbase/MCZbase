@@ -120,46 +120,54 @@ limitations under the License.
 					<div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
 							<p class="pt-2 pb-0 mb-0 px-2">Some relationships require a relationship-specific ID and others can take a name. See correct entries for the relationships below:</p>
+							<!--- WARNING: This guidance, and code supporting these operations MUST be updated if the code table changes --->
 							<table class="table table-responsive small table-striped mx-2 mb-4">
 								<thead class="thead-light">
 									<tr>
 										<th>Agents</th><br>
 										<th>Location/Event</th>
 										<th>Object/Collection</th>
-										<th>Media Related</th>
+										<th>Media</th>
 										<th>Publication or Project</th>
-										<th>External Transactions</th>
-										<th>Internal Transactions</th>
+										<th>Transactions</th>
+										<th>Permits</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>	
-										<td>created by AGENT: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></td>
-										<td>documents or shows COLLECTING_EVENT: <b>COLLECTING_EVENT_ID</b></td>
-										<td>documents or shows or ledger entry for CATALOGED_ITEM: <b>GUID</b></td>
-										<td>related to MEDIA: <b>MEDIA_ID</b></td>
-										<td>shows PROJECT: <b>PROJECT_ID</b> or <b>PROJECT_NAME</b></td>
-										<td>documents ACCN: <b>ACCN_NUMBER</b></td>
-										<td>documents DEACCESSION: <b>DEACC_NUMBER</b></td>
+										<td>created by agent: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></td>
+										<td>documents collecting_event: <b>COLLECTING_EVENT_ID</b></td>
+										<td>shows ledger entry for cataloged_item: <b>GUID</b></td>
+										<td>related to media: <b>MEDIA_ID</b></td>
+										<td>shows project: <b>PROJECT_ID</b> or <b>PROJECT_NAME</b></td>
+										<td>documents accn: <b>ACCN_NUMBER</b></td>
+										<td>shows permit: <b>PERMIT_ID</b></td>
 									</tr>
 									<tr>
-
-										<td>physical object created by AGENT: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></td>
-										<td>documents or shows LOCALITY: <b>LOCALITY_ID</b></td>
-										<td>shows SPECIMEN_PART: <b>GUID</b></td>
-										<td>transcript for AUDIO: <b>MEDIA_ID</b></td>
-										<td>shows PUBLICATION: <b>PUBLICATION_ID</b></td>
-										<td>documents LOAN: <b>LOAN_NUMBER</b></td>
-										<td>documents BORROW: <b>BORROW_NUMBER</b></td>					
+										<td>physical object created by agent: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></td>
+										<td>shows collecting_event: <b>COLLECTING_EVENT_ID</b></td>
+										<td>documents cataloged_item: <b>GUID</b></td>
+										<td>transcript for audio media: <b>MEDIA_ID</b></td>
+										<td>shows publication: <b>PUBLICATION_ID</b></td>
+										<td>documents deaccession: <b>DEACC_NUMBER</b></td>
+										<td>document for permit: <b>PERMIT_ID</b></td>
 									</tr>
 									<tr>
-
-										<td>documents or shows or shows handwriting of AGENT: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></td>
-										<td></td>
-										<td>shows UNDERSCORE_COLLECTION: <b>UNDERSCORE_COLLECTION_ID</b> or <b>COLLECTION_NAME</b></td>
+										<td>documents agent: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></td>
+										<td>shows locality: <b>LOCALITY_ID</b></td>
+										<td>shows specimen_part: <b>GUID</b></td>
 										<td><b></b></td>
 										<td><b></b></td>
-										<td>document for or shows PERMIT: <b>PERMIT_ID</b></td>
+										<td>documents loan: <b>LOAN_NUMBER</b></td>
+										<td><b></b></td>
+									</tr>
+									<tr>
+										<td>shows handwriting of agent: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></td>
+										<td>documents locality: <b>LOCALITY_ID</b></td>
+										<td>shows underscore_collection: <b>UNDERSCORE_COLLECTION_ID</b> or <b>COLLECTION_NAME</b></td>
+										<td><b></b></td>
+										<td><b></b></td>
+										<td>documents borrow: <b>BORROW_NUMBER</b></td>					
 										<td><b></b></td>
 									</tr>		
 								</tbody>
@@ -533,6 +541,8 @@ limitations under the License.
 			</cfquery>
 				
 			<cfset key = ''>
+<!--- TODO: Bugfix: when only required fields are populated a created_by_agent_id is not populated. -->
+<!--- TODO: Bugfix: guidance says that only agent_id and preferred agent name are used, but created_by agent is interpreted here from login name. --->
 			<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
