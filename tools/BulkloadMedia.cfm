@@ -1182,15 +1182,17 @@ limitations under the License.
 							select sq_media_id.nextval nv from dual
 						</cfquery>
 						<cfset media_id=mid.nv>
+						<cfset medialicenseid_local = 0>
 						<cfif len(media_license_id) is 0>
-							<cfset medialicenseid = 1>
+							<cfset medialicenseid_local = 1>
 						<cfelse>
-							<cfset medialicenseid = media_license_id>
+							<cfset medialicenseid_local = media_license_id>
 						</cfif>
+						<cfset maskmedia_local = 0>
 						<cfif len(mask_media) is 0>
-							<cfset maskmedia = 0>
+							<cfset maskmedia_local = 0>
 						<cfelse>
-							<cfset maskmedia = mask_media>
+							<cfset maskmedia_local = mask_media>
 						</cfif>
 						<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="insResult">
 							INSERT into media (
@@ -1207,8 +1209,8 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.mime_type#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_type#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.preview_uri#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.media_license_id#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.mask_media#">
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#medialicenseid_local#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maskmedia_local#">
 							)
 						</cfquery>
 						<cfset rowid = insResult.generatedkey>
