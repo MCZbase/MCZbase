@@ -522,7 +522,7 @@ limitations under the License.
 	<cfif #action# is "validate">
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfoutput>
-			<!---First loop is to check for missing required data, missing values from key value pairs, bad formats (e.g., data) and values that don't match database code tables--->
+			<!---First loop is to check for missing required data, missing values from key value pairs, bad formats (e.g., data) and values that don't match database code tables---><!--- ' --->
 			<cfquery name="getTempMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,SUBJECT,MADE_DATE,DESCRIPTION,HEIGHT,WIDTH,PREVIEW_URI,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,MEDIA_LABEL_3,LABEL_VALUE_3,MEDIA_LABEL_4,LABEL_VALUE_4,MEDIA_LABEL_5,LABEL_VALUE_5,MEDIA_LABEL_6,LABEL_VALUE_6,MEDIA_LABEL_7,LABEL_VALUE_7,MEDIA_LABEL_8,LABEL_VALUE_8,KEY,USERNAME,MEDIA_RELATIONSHIP_1,MEDIA_RELATED_TO_1,MEDIA_RELATIONSHIP_2,MEDIA_RELATED_TO_2,MEDIA_RELATIONSHIP_3,MEDIA_RELATED_TO_3,MEDIA_RELATIONSHIP_4,MEDIA_RELATED_TO_4
 				FROM 
@@ -1547,6 +1547,9 @@ limitations under the License.
 									<cfelse>
 										<!--- provide the raw error message if it isn't readily interpretable --->
 										#cfcatch.detail#
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+											<cfdump var="#cfcatch#">
+										</cfif>
 									</cfif>
 								</span>
 							</cfif>
