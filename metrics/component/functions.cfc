@@ -17,25 +17,7 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cfinclude template="/shared/component/functions.cfc">
-<script>
-	function toggleRow() {
-		const cells = document.querySelectorAll('.toggle1');
-		cells.forEach(function(cell) {
-			cell.classList.toggle('hidden');
-		});
-	}
-</script>
-<style>
-	.hidden {
-		display: none;
-	}
-	table, th, td {
-		border-collapse: collapse;
-	}
-	th {
-		cursor: pointer;
-	}
-</style>
+
 <!--- 
  ** given a query, write a serialization of that query as csv, with a header line
  * to a file.
