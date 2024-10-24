@@ -383,7 +383,7 @@ limitations under the License.
 							</cfif>
 						</cfloop>
 						<cftry>
-							<cfif length(errorMessage) GT 0>
+							<cfif len(errorMessage) GT 0>
 								<cfthrow message="#errorMessage#">
 							</cfif>
 							<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
