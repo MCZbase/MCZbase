@@ -486,7 +486,7 @@ limitations under the License.
 						SET
 							status = concat(nvl2(status, status || '; ', ''),'SpecLocality does not exist')
 						WHERE 
-							SPECLOCALITY not in (select SPEC_LOCALITY from locality) AND
+							SPECLOCALITY not in (select SPEC_LOCALITY from locality where cf_temp_georef.speclocality = locality.spec_locality) AND
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
