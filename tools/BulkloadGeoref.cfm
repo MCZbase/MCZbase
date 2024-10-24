@@ -479,13 +479,13 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 				<!---Check SpecLocality--->
-				<cfquery name="warningSpecLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="warningspeclocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'Specific Locality does not exist')
+						status = concat(nvl2(status, status || '; ', ''),'SPEC_LOCALITY does not exist')
 					WHERE 
-						speclocality not in (select spec_locality from locality) AND
+						SPECLOCALITY not in (select SPEC_LOCALITY from locality) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
