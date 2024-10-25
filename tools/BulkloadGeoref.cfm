@@ -525,8 +525,6 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-		
-
 				<!---SET DETERMINED_DATE to YYYY-MM-DD--->
 				<cfif DatePart("yyyy",getTempData.DETERMINED_DATE) gte '1700'>
 					<cfquery name="getDeterminedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
