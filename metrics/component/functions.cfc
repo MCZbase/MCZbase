@@ -869,9 +869,6 @@ limitations under the License.
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
-							<!--- 
-								TODO: Citation query does not use dates. Cannot select report date ranges without the some kind of date attached. Does entered person ID cover it if it was entered as a type. It just doesn't capture the "reclassified as type" situations.  
-							--->
 							<h2 class="h3 px-0 mt-0 float-left mb-1">
 								<cfif annualReport eq "yes">Annual Report:</cfif> Citation Activity <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
 							</h2>
@@ -1010,9 +1007,6 @@ limitations under the License.
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
-							<!--- 
-								TODO: Georeferencing queries do not use dates. Need to add LAT_LONG table to ARCHIVE tables to get DETERMINED_DATE (and perhaps DETERMINED_BY_AGENT_ID) so selected metrics report can use dates.
-							--->
 							<h2 class="h3 px-0 mt-0 float-left mb-1">
 								<cfif annualReport eq "yes">Annual Report:</cfif> Georeferencing Activity <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
 							</h2>

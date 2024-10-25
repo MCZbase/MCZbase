@@ -230,6 +230,7 @@ limitations under the License.
 												</div>
 												<button type="submit" value="Show Report" id="loadReportFormAnnual" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
 											</form>
+											<!---This takes the two dates: beginDate and endDate from the dropdown to pass it to the hideen values so that it can become a --->
 											<script>
 												document.addEventListener('DOMContentLoaded', function() {
 													document.getElementById('fiscalYear').addEventListener('change', function() {
