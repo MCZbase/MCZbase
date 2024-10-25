@@ -120,6 +120,33 @@ limitations under the License.
 					<div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
 							<p class="pt-2 pb-0 mb-0 px-2">Some relationships require a relationship-specific ID and others can take a name. See correct entries for the relationships below:</p>
+							<cfset alsoSupported = StructNew()>
+							<cfset alsoSupported['agent']="AGENT_NAME">
+							<cfset alsoSupported['cataloged_item']="GUID">
+							<cfset alsoSupported['specimen_part']="GUID">
+							<cfset alsoSupported['underscore_collection']="COLLECTION_NAME">
+							<cfset alsoSupported['project']="PROJECT_NAME">
+							<cfset alsoSupported['accn']="ACCN_NUMBER">
+							<cfset alsoSupported['deaccession']="DEACC_NUMBER">
+							<cfset alsoSupported['loan']="LOAN_NUMBER">
+							<cfset alsoSupported['borrow']="BORROW_NUMBER">
+							<cfquery name="getRelationshipTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT
+									media_relationship, description, label, auto_table, cols.column_name as primary_key
+								FROM
+									ctmedia_relationship, all_cons_columns cols, all_constraints cons
+								WHERE 
+									upper(ctmedia_relationship.auto_table) = cols.table_name
+									and cons.constraint_type = 'P'
+									AND cons.constraint_name = cols.constraint_name
+									AND cons.owner = cols.owner
+									and cons.owner='MCZBASE'
+									AND cols.position = 1
+								ORDER BY auto_table
+							</cfquery>
+							<!--- TODO: This table only lists 18 out of 25 current media relationships --->
+							<!--- TODO: Load from code table, lookup primary key for target table and display that for all media relationships --->
+							<!--- TODO: Add configuration for additional fields this bulkloader supports --->
 							<!--- WARNING: This guidance, and code supporting these operations MUST be updated if the code table changes --->
 							<table class="table table-responsive small table-striped mx-2 mb-4">
 								<thead class="thead-light">
@@ -531,7 +558,7 @@ limitations under the License.
 	<cfif #action# is "validate">
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfoutput>
-			<!---First loop is to check for missing required data, missing values from key value pairs, bad formats (e.g., data) and values that don't match database code tables---><!--- ' --->
+			<!---First loop is to check for missing required data, missing values from key value pairs, bad formats (e.g., data) and values that do not match database code tables--->
 			<cfquery name="getTempMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,SUBJECT,MADE_DATE,DESCRIPTION,HEIGHT,WIDTH,PREVIEW_URI,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,MEDIA_LABEL_3,LABEL_VALUE_3,MEDIA_LABEL_4,LABEL_VALUE_4,MEDIA_LABEL_5,LABEL_VALUE_5,MEDIA_LABEL_6,LABEL_VALUE_6,MEDIA_LABEL_7,LABEL_VALUE_7,MEDIA_LABEL_8,LABEL_VALUE_8,KEY,USERNAME,MEDIA_RELATIONSHIP_1,MEDIA_RELATED_TO_1,MEDIA_RELATIONSHIP_2,MEDIA_RELATED_TO_2,MEDIA_RELATIONSHIP_3,MEDIA_RELATED_TO_3,MEDIA_RELATIONSHIP_4,MEDIA_RELATED_TO_4
 				FROM 
@@ -541,14 +568,13 @@ limitations under the License.
 			</cfquery>
 				
 			<cfset key = ''>
-<!--- TODO: Bugfix: when only required fields are populated a created_by_agent_id is not populated. --->
-<!--- TODO: Bugfix: guidance says that only agent_id and preferred agent name are used, but created_by agent is interpreted here from login name. --->
+         <!--- TODO: Bugfix: when only required fields are populated a created_by_agent is not created . --->
 			<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
 				SET
 					created_by_agent_id = (
-						select AGENT_ID from AGENT_NAME WHERE AGENT_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+						select AGENT_ID from AGENT_NAME WHERE ucase(AGENT_NAME) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#upper(session.username)#"> 
 						and AGENT_NAME_TYPE = 'login'
 						)
 				WHERE  
@@ -580,7 +606,7 @@ limitations under the License.
 			</cfquery>
 			<!--- Output results if there are any --->
 			<cfif entryCheck.recordCount gt 0>
-				<h2 class="text-danger">Entries with less than 3 characters found. Check for stray marks on the CSV.</h2>
+				<h2 class="text-danger">Entries with fewer than 3 characters found. Check for stray marks on the CSV.</h2>
 			<cfelse>
 				
 			</cfif>
@@ -625,7 +651,7 @@ limitations under the License.
 				</cfif>
 			</cfif>
 			
-			<!---Required fields missing warning--->
+			<!--- Required fields missing warning --->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_media
@@ -809,7 +835,6 @@ limitations under the License.
 						
 				<!--------------------------------------------------------->
 				<!--- Check Height and Width and add if not entered-------->
-				<!--- MD5HASH---------------------------------------------->
 				<cfif isimagefile(getTempMedia.media_uri)>
 					<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
 					<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -826,6 +851,11 @@ limitations under the License.
 						AND
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
+				</cfif>
+				<!----------END height and width labels------------------->
+				<!--- MD5HASH---------------------------------------------->
+				<cfif left(getTempMedia.media_uri,47) EQ 'https://mczbase.mcz.harvard.edu/specimen_images/' >
+					<!--- build an md5hash of all local files --->
 					<cfhttp url="#getTempMedia.media_uri#" method="get" getAsBinary="yes" result="result">
 					<cfset MD5HASH=Hash(result.filecontent,"MD5")>
 					<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -836,7 +866,6 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
 				</cfif>
-				<!----------END height and width labels------------------->
 				<!----------END MD5HASH----------------------------------->
 				<!-------------------------------------------------------->
 			</cfloop>
@@ -882,7 +911,7 @@ limitations under the License.
 								AND cons.constraint_name = cols.constraint_name
 								AND cons.owner = cols.owner
 								and cons.owner='MCZBASE'
-								AND cols.table_name = UPPER('#theTable#')
+								AND cols.table_name = UPPER(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#theTable#">)
 								AND cols.position = 1
 								ORDER BY cols.table_name, cols.position
 							</cfquery>
