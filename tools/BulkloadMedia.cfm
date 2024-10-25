@@ -574,7 +574,7 @@ limitations under the License.
 					cf_temp_media
 				SET
 					created_by_agent_id = (
-						select AGENT_ID from AGENT_NAME WHERE ucase(AGENT_NAME) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#upper(session.username)#"> 
+						select AGENT_ID from AGENT_NAME WHERE upper(AGENT_NAME) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#"> 
 						and AGENT_NAME_TYPE = 'login'
 						)
 				WHERE  
