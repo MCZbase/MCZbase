@@ -381,24 +381,17 @@ limitations under the License.
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
 		<!---Function to check coordinates against coordinate precision--->
-		<cffunction name="isCoordinatePrecisionValid" returnType="boolean">
+<!---		<cffunction name="isCoordinatePrecisionValid" returnType="boolean">
 			<cfargument name="coordinateStr" type="string" required="true">
 			<cfargument name="allowedPrecision" type="numeric" required="true">
-
-			<!-- Determine precision in terms of number of decimal places -->
 			<cfset var precisionDecimalPlaces = len(listLast(arguments.allowedPrecision.toString(), "."))>
-
-			<!-- Count decimal places in the coordinate string -->
 			<cfset var coordinateDecimalPlaces = 0>
 			<cfset var decimalPosition = find('.', arguments.coordinateStr)>
-
 			<cfif decimalPosition GT 0>
 				<cfset coordinateDecimalPlaces = len(arguments.coordinateStr) - decimalPosition>
 			</cfif>
-
-			<!-- Compare and return boolean where coordinate must not exceed allowed precision -->
 			<cfreturn coordinateDecimalPlaces LE precisionDecimalPlaces>
-		</cffunction>
+		</cffunction>--->
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
 			<!---Get Data from the temp table and the codetables with relevant information--->
