@@ -466,7 +466,7 @@ limitations under the License.
 				</cfquery>
 
 				<!---Check SpecLocality--->
-				<cfquery name="warningspeclocMissing" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+<!---				<cfquery name="warningspeclocMissing" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
 					SET
@@ -475,7 +475,7 @@ limitations under the License.
 						SPECLOCALITY is null AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-				</cfquery>
+				</cfquery>--->
 				<!---Check Locality_ID--->
 				<cfquery name="warningLOCALITYID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
