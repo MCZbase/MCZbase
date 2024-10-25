@@ -401,6 +401,17 @@ limitations under the License.
 				From CF_TEMP_GEOREF
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<!---Check SpecLocality--->
+			<cfquery name="warningspeclocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_georef
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'SPEC_LOCALITY does not exist in MCZbase')
+				WHERE 
+					SPECLOCALITY not in (select SPEC_LOCALITY from locality)
+					AND SPECLOCALITY is not null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfset i = 1>
 			<cfloop query="getTempData">
 				<cfquery name="updateLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -453,18 +464,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-				<!---Check SpecLocality--->
-				<cfquery name="warningspeclocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_georef
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'SPEC_LOCALITY does not exist in MCZbase')
-					WHERE 
-						SPECLOCALITY not in (select SPEC_LOCALITY from locality)
-						AND SPECLOCALITY is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-				</cfquery>
+
 				<!---Check SpecLocality--->
 				<cfquery name="warningspeclocMissing" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
