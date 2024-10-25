@@ -412,6 +412,7 @@ limitations under the License.
 					georefmethod is not null and
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<!---Check Datum--->
 			<cfquery name="warningDatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_georef
@@ -419,63 +420,80 @@ limitations under the License.
 					status = concat(nvl2(status, status || '; ', ''),'Datum does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTDATUM">controlled vocabulary</a>')
 				WHERE 
 					DATUM not in (select distinct DATUM from lat_long) AND
+					DATUM is not null and
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<!---Check max_error_units--->
+			<cfquery name="warningErrorUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_georef
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'MAX_ERROR_UNITS are invalid - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_ERROR_UNITS">controlled vocabulary</a>')
+				WHERE 
+					MAX_ERROR_UNITS not in (select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS) AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">							
+			</cfquery>
+			<!---Check Higher Geography--->
+			<cfquery name="warningHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_georef
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'Higher Geography does not exist')
+				WHERE 
+					HIGHERGEOGRAPHY not in (select HIGHER_GEOG from geog_auth_rec) AND
+					HIGHERGEOGRAPHY is not null AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<!---Check ORIG_LAT_LONG_UNITS--->
+			<cfquery name="warningOrigLatLongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_georef
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'Original Lat Long Units are invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_UNITS">controlled vocabulary</a>')
+				WHERE 
+					orig_lat_long_units not in (select ORIG_LAT_LONG_UNITS from CTLAT_LONG_UNITS) AND
+					ORIG_LAT_LONG_UNITS is not null AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<!---Check VERIFICATIONSTATUS--->
+			<cfquery name="warningVerification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_georef
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'verificationstatus is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTVERIFICATIONSTATUS">controlled vocabulary</a>')
+				WHERE 
+					VERIFICATIONSTATUS not in (select VERIFICATIONSTATUS from CTVERIFICATIONSTATUS) AND
+					VERIFICATIONSTATUS is not null AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<!---Check lat_long_ref_source--->
+			<cfquery name="warningRefSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_georef
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'LAT_LONG_REF_SOURCE is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_REF_SOURCE">controlled vocabulary</a>')
+				WHERE 
+					LAT_LONG_REF_SOURCE not in (select LAT_LONG_REF_SOURCE from CTLAT_LONG_REF_SOURCE) AND
+					LAT_LONG_REF_SOURCE IS NOT NULL AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<!---Check Locality_ID--->
+			<cfquery name="warningLOCALITYID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_georef
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'LOCALITY_ID does not exist in MCZbase')
+				WHERE 
+					LOCALITY_ID not in (select LOCALITY_ID from locality) AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+				
 			<cfset i = 1>
 			<cfloop query="getTempData">
 				<cfquery name="updateLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE lat_long
 					SET accepted_lat_long_fg = 0
 					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
-				</cfquery>
-
-				<!---Check max_error_units--->
-				<cfquery name="warningErrorUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_georef
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'MAX_ERROR_UNITS are invalid - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_ERROR_UNITS">controlled vocabulary</a>')
-					WHERE 
-						MAX_ERROR_UNITS not in (select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS) AND
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-				</cfquery>
-				<!---Check Datum--->
-
-	
-				<!---Check Higher Geography--->
-				<cfquery name="warningHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_georef
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'Higher Geography does not exist')
-					WHERE 
-						HIGHERGEOGRAPHY not in (select HIGHER_GEOG from geog_auth_rec) AND
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-				</cfquery>
-
-				<!---Check SpecLocality--->
-<!---				<cfquery name="warningspeclocMissing" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_georef
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'SPEC_LOCALITY is missing')
-					WHERE 
-						SPECLOCALITY is null AND
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-				</cfquery>--->
-				<!---Check Locality_ID--->
-				<cfquery name="warningLOCALITYID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_georef
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'LOCALITY_ID does not exist in MCZbase')
-					WHERE 
-						LOCALITY_ID not in (select LOCALITY_ID from locality) AND
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 				<cfquery name="warningLOCALITYID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
@@ -484,39 +502,6 @@ limitations under the License.
 						status = concat(nvl2(status, status || '; ', ''),'LOCALITY_ID is missing')
 					WHERE 
 						LOCALITY_ID IS NULL AND
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-				</cfquery>
-				<!---Check lat_long_ref_source--->
-				<cfquery name="warningRefSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_georef
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'LAT_LONG_REF_SOURCE is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_REF_SOURCE">controlled vocabulary</a>')
-					WHERE 
-						LAT_LONG_REF_SOURCE not in (select LAT_LONG_REF_SOURCE from CTLAT_LONG_REF_SOURCE) AND
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-				</cfquery>
-				<!---Check ORIG_LAT_LONG_UNITS--->
-				<cfquery name="warningOrigLatLongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_georef
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'Original Lat Long Units are invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_UNITS">controlled vocabulary</a>')
-					WHERE 
-						orig_lat_long_units not in (select ORIG_LAT_LONG_UNITS from CTLAT_LONG_UNITS) AND
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-				</cfquery>
-				<!---Check VERIFICATIONSTATUS--->
-				<cfquery name="warningVerification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_georef
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'verificationstatus is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTVERIFICATIONSTATUS">controlled vocabulary</a>')
-					WHERE 
-						VERIFICATIONSTATUS not in (select VERIFICATIONSTATUS from CTVERIFICATIONSTATUS) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
