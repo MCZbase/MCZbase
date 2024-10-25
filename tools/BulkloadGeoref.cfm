@@ -452,7 +452,7 @@ limitations under the License.
 				SET
 					status = concat(nvl2(status, status || '; ', ''),'Original Lat Long Units are invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_UNITS">controlled vocabulary</a>')
 				WHERE 
-					orig_lat_long_units not in (select ORIG_LAT_LONG_UNITS from CTLAT_LONG_UNITS) AND
+					orig_lat_long_units not in (select ORIG_LAT_LONG_UNITS from MCZBASE.CTLAT_LONG_UNITS) AND
 					ORIG_LAT_LONG_UNITS is not null AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -464,7 +464,7 @@ limitations under the License.
 				SET
 					status = concat(nvl2(status, status || '; ', ''),'LAT_LONG_REF_SOURCE is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_REF_SOURCE">controlled vocabulary</a>')
 				WHERE 
-					LAT_LONG_REF_SOURCE not in (select LAT_LONG_REF_SOURCE from CTLAT_LONG_REF_SOURCE) AND
+					LAT_LONG_REF_SOURCE not in (select LAT_LONG_REF_SOURCE from MCZBASE.CTLAT_LONG_REF_SOURCE) AND
 					LAT_LONG_REF_SOURCE IS NOT NULL AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -594,7 +594,7 @@ limitations under the License.
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'verificationstatus is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTVERIFICATIONSTATUS">controlled vocabulary</a>')
 					WHERE 
-						VERIFICATIONSTATUS not in (select VERIFICATIONSTATUS from CTVERIFICATIONSTATUS) 
+						VERIFICATIONSTATUS not in (select VERIFICATIONSTATUS from MCZBASE.CTVERIFICATIONSTATUS) 
 					AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
@@ -617,7 +617,7 @@ limitations under the License.
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="countNonEmptyStatus" dbtype="query">
-				SELECT count(*) c,status 
+				SELECT count(*) c, status 
 				FROM data 
 				WHERE status is not null
 				group by status
