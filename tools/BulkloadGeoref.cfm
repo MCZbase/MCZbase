@@ -423,8 +423,8 @@ limitations under the License.
 					MAX_ERROR_UNITS not in (select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<!---Check SPECLOCALITY-not working-->
-<!---			<cfquery name="warningSpecLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<!---Check SPECLOCALITY--->
+			<cfquery name="warningLocal" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_georef
 				SET
@@ -433,7 +433,7 @@ limitations under the License.
 					SPECLOCALITY not in (select SPEC_LOCALITY from LOCALITY) AND
 					SPECLOCALITY is not null AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>--->
+			</cfquery>
 			<!---Check Higher Geography--->
 			<cfquery name="warningHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
@@ -597,8 +597,7 @@ limitations under the License.
 						VERIFICATIONSTATUS not in (select VERIFICATIONSTATUS from CTVERIFICATIONSTATUS) 
 					AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND 
-						key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+					AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 			</cfloop>
 			<!---This is not working for all required fields because of the constraints in the cf_temp_georef table--->
