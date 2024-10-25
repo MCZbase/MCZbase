@@ -380,18 +380,7 @@ limitations under the License.
 		</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
-		<!---Function to check coordinates against coordinate precision--->
-<!---		<cffunction name="isCoordinatePrecisionValid" returnType="boolean">
-			<cfargument name="coordinateStr" type="string" required="true">
-			<cfargument name="allowedPrecision" type="numeric" required="true">
-			<cfset var precisionDecimalPlaces = len(listLast(arguments.allowedPrecision.toString(), "."))>
-			<cfset var coordinateDecimalPlaces = 0>
-			<cfset var decimalPosition = find('.', arguments.coordinateStr)>
-			<cfif decimalPosition GT 0>
-				<cfset coordinateDecimalPlaces = len(arguments.coordinateStr) - decimalPosition>
-			</cfif>
-			<cfreturn coordinateDecimalPlaces LE precisionDecimalPlaces>
-		</cffunction>--->
+
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
 			<!---Get Data from the temp table and the codetables with relevant information--->
@@ -423,6 +412,15 @@ limitations under the License.
 					georefmethod is not null and
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfquery name="warningDatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE
+					cf_temp_georef
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'Datum does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTDATUM">controlled vocabulary</a>')
+				WHERE 
+					DATUM not in (select distinct DATUM from lat_long) AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfset i = 1>
 			<cfloop query="getTempData">
 				<cfquery name="updateLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -443,16 +441,7 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 				<!---Check Datum--->
-				<cfquery name="warningDatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_georef
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'Datum does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTDATUM">controlled vocabulary</a>')
-					WHERE 
-						DATUM not in (select distinct DATUM from lat_long) AND
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-				</cfquery>
+
 	
 				<!---Check Higher Geography--->
 				<cfquery name="warningHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
