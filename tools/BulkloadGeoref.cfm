@@ -477,22 +477,7 @@ limitations under the License.
 					LAT_LONG_REF_SOURCE IS NOT NULL AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<!---Check VERIFIED BY--->
-			<cfquery name="getVerifiedByAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'verified_by name is invalid')
-				WHERE verified_by not in (select AGENT_name from agent_name where agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.verified_by#"> AND agent_name_type = 'preferred')
-				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				and verified_by is not null
-			</cfquery>
-			<!---Check DETERMINED BY AGENT--->
-			<cfquery name="getDeterminedByAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'Determined_by_agent name is invalid')
-				WHERE determined_by_agent not in (select AGENT_NAME from agent_name where agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.determined_by_agent#"> )
-				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				and determined_by_agent is not null
-			</cfquery>
+
 			<!---Check Locality_ID--->
 			<cfquery name="warningLOCALITYID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
@@ -542,6 +527,24 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
+				<!---Check VERIFIED BY--->
+				<cfquery name="getVerifiedByAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_georef
+					SET status = concat(nvl2(status, status || '; ', ''),'verified_by name is invalid')
+					WHERE verified_by not in (select AGENT_name from agent_name where agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.verified_by#"> AND agent_name_type = 'preferred')
+					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and verified_by is not null
+					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+				</cfquery>
+				<!---Check DETERMINED BY AGENT--->
+				<cfquery name="getDeterminedByAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update cf_temp_georef
+					SET status = concat(nvl2(status, status || '; ', ''),'Determined_by_agent name is invalid')
+					WHERE determined_by_agent not in (select AGENT_NAME from agent_name where agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#getTempData.determined_by_agent#"> )
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and determined_by_agent is not null
+					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+				</cfquery>
 				<!---coordinate precision--->
 				<cfquery name="matchCoordPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT dec_lat, dec_long, coordinate_precision 
