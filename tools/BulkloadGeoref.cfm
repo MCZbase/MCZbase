@@ -605,8 +605,8 @@ limitations under the License.
 						status = concat(nvl2(status, status || '; ', ''),'verificationstatus is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTVERIFICATIONSTATUS">controlled vocabulary</a>')
 					WHERE 
 						VERIFICATIONSTATUS not in (select VERIFICATIONSTATUS from CTVERIFICATIONSTATUS) AND
-						VERIFICATIONSTATUS is not null AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 			</cfloop>
 			<!---This is not working for all required fields because of the constraints in the cf_temp_georef table--->
