@@ -568,14 +568,13 @@ limitations under the License.
 			</cfquery>
 				
 			<cfset key = ''>
-<!--- TODO: Bugfix: when only required fields are populated a created_by_agent_id is not populated. --->
-<!--- TODO: Bugfix: guidance says that only agent_id and preferred agent name are used, but created_by agent is interpreted here from login name. --->
+         <!--- TODO: Bugfix: when only required fields are populated a created_by_agent is not created . --->
 			<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
 				SET
 					created_by_agent_id = (
-						select AGENT_ID from AGENT_NAME WHERE AGENT_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+						select AGENT_ID from AGENT_NAME WHERE ucase(AGENT_NAME) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#upper(session.username)#"> 
 						and AGENT_NAME_TYPE = 'login'
 						)
 				WHERE  
