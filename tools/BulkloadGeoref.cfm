@@ -560,7 +560,6 @@ limitations under the License.
 				<cfset decimalPart2 = ListGetAt(coordinate2, 2, ".")>
 				<cfset precision1 = len(decimalPart1)>
 				<cfset precision2 = len(decimalPart2)>
-
 				<cfif precision1 lt #maxLength#>
 					<cfquery name="getDeterminedPrecision1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
@@ -606,7 +605,7 @@ limitations under the License.
 					and NEAREST_NAMED_PLACE in (select NEAREST_NAMED_PLACE from lat_long where NEAREST_NAMED_PLACE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.NEAREST_NAMED_PLACE#">)
 					and locality_id = (select locality_id from lat_long where locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">)
 					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+			
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
