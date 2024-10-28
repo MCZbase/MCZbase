@@ -583,7 +583,7 @@ limitations under the License.
 				<cfif precision1 lt #maxLength#>
 					<cfquery name="getDeterminedPrecision1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT: #coordinate1# does not match precision #maxLength#')
+						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT: #number1# does not match precision #maxLength#')
 						WHERE coordinate_precision is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
@@ -592,7 +592,7 @@ limitations under the License.
 				<cfif precision2 lt #maxLength#>
 					<cfquery name="getDeterminedPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LONG: #coordinate2# does not match precision #maxLength#')
+						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LONG: #number2# does not match precision #maxLength#')
 						WHERE coordinate_precision is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
