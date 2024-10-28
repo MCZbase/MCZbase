@@ -578,7 +578,8 @@ limitations under the License.
 					<cfreturn result>
 				</cffunction>
 				<cfset geoPrecision = #getDecimalParts(dec_lat,dec_long)#>
-				#geoPrecision#
+				#geoPrecision.latitude#
+				#geoPrecision.longitude#
 					
 				<cfset minLength = #getTempData.coordinate_precision#>
 					
