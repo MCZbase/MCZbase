@@ -557,26 +557,22 @@ limitations under the License.
 				<cffunction name="getDecimalParts" returntype="struct">
 					<cfargument name="dec_lat" type="string" required="true">
 					<cfargument name="dec_long" type="string" required="true">
-
 					<cfset var result = StructNew()>
 					<cfset var numberStr1 = arguments.dec_lat & "">
 					<cfset var numberStr2 = arguments.dec_long & "">
 					<cfset var decimalLatPart = "0">
 					<cfset var decimalLongPart = "0">
-
 					<cfif ListLen(numberStr1, ".") GT 1>
 						<cfset decimalLatPart = ListGetAt(numberStr1, 2, ".")>
 					</cfif>
-
 					<cfif ListLen(numberStr2, ".") GT 1>
 						<cfset decimalLongPart = ListGetAt(numberStr2, 2, ".")>
 					</cfif>
-
 					<cfset result.latitude = decimalLatPart>
 					<cfset result.longitude = decimalLongPart>
-
 					<cfreturn result>
 				</cffunction>
+						
 				<cfset minLength = #getTempData.coordinate_precision#>
 				<cfset geoPrecision = #getDecimalParts(dec_lat,dec_long)#>
 				<cfif len(#geoPrecision.latitude#) lt #minLength#>
@@ -598,35 +594,6 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 					
-				
-					
-<!---				<cfif len(precision1) lt #minLength# OR len(precision2) lt #minLength#>
-					<cfquery name="getDeterminedPrecision1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT: #dec_lat# does not match precision #minLength#')
-						WHERE coordinate_precision is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-					</cfquery>
-				</cfif>
-				<cfif precision2 lt #minLength#>
-					<cfquery name="getDeterminedPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LONG: #dec_long# does not match precision #minLength#')
-						WHERE coordinate_precision is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-					</cfquery>
-				</cfif>--->
-		
-						
-						
-						
-						
-						
-						
-						
-						
 						
 						
 				<!---Check to see if the CSV georef is a dup of one already in the locality record--->
