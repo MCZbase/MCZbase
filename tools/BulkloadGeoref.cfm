@@ -572,10 +572,11 @@ limitations under the License.
 					<!--- Return the decimal part or 0 if not present --->
 					<cfreturn decimalPart1>
 				</cffunction>
-				<cfif len(getTempData.dec_lat) gt 2 AND len(getTempData.dec_long) gt 2>
-				<cfset maxLength = #getTempData.coordinate_precision#>
 				<cfset precision1 = #decimalPart1#>
 				<cfset precision2 = #decimalPart2#>
+				<cfif len(getTempData.dec_lat) gt 2 AND len(getTempData.dec_long) gt 2>
+				<cfset maxLength = #getTempData.coordinate_precision#>
+				
 				<cfif precision1 lt #maxLength#>
 					<cfquery name="getDeterminedPrecision1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
