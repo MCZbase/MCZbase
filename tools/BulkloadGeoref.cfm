@@ -577,9 +577,7 @@ limitations under the License.
 				</cffunction>
 				<cfset precision1 = #getDecimalPart1(number1)#>
 				<cfset precision2 = #getDecimalPart2(number2)#>
-				<cfif len(getTempData.dec_lat) gt 2 AND len(getTempData.dec_long) gt 2>
 				<cfset maxLength = #getTempData.coordinate_precision#>
-				
 				<cfif precision1 lt #maxLength#>
 					<cfquery name="getDeterminedPrecision1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
@@ -598,14 +596,7 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
-				<cfelse>
-					<cfquery name="getDeterminedPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT or DEC_LONG to nearest tenth at least)')
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-					</cfquery>
-				</cfif>
+		
 				<!---Check to see if the CSV georef is a dup of one already in the locality record--->
 				<cfquery name="warningLocalityID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
