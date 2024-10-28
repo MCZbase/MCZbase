@@ -558,7 +558,7 @@ limitations under the License.
 				<cfset number2 = "#getTempData.DEC_LONG#">
 				<cffunction name="getDecimalPart1" returntype="string">
 					<cfargument name="number1" type="string" required="true">
-					<cfset var numberStr = arguments.number1 & "">
+					<cfset var numberStr1 = arguments.number1 & "">
 					<cfset var decimalPart1 = "0">
 					<cfif ListLen(numberStr1, ".") GT 1>
 						<cfset decimalPart1 = ListGetAt(numberStr1, 2, ".")>
@@ -567,7 +567,7 @@ limitations under the License.
 				</cffunction>
 				<cffunction name="getDecimalPart2" returntype="string">
 					<cfargument name="number2" type="string" required="true">
-					<cfset var numberStr = arguments.number2 & "">
+					<cfset var numberStr2 = arguments.number2 & "">
 					<cfset var decimalPart2 = "0">
 
 					<cfif ListLen(numberStr2, ".") GT 1>
