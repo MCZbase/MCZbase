@@ -559,7 +559,7 @@ limitations under the License.
 				<cfset coordinate1 = "#getTempData.dec_lat#">
 				<cfset coordinate2 = #getTempData.dec_long#>
 				<cfset decimalPart1 = ListGetAt(coordinate1, 2, ".")>
-				<cfset decimalPart2 = ListGetAt(coordinate2, 3, ".")>
+				<cfset decimalPart2 = ListGetAt(coordinate2, 2, ".")>
 				<cfset precision1 = len(decimalPart1)>
 				<cfset precision2 = len(decimalPart2)>
 				<cfif precision1 lt #maxLength#>
