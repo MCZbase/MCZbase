@@ -547,7 +547,7 @@ limitations under the License.
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 					
-					<!---Start coordinate precision check against dec_lat and dec_long--->
+				<!---Start coordinate precision check against dec_lat and dec_long--->
 				<cfset dec_lat = "#getTempData.DEC_LAT#">
 				<cfset dec_long = "#getTempData.DEC_LONG#">
 				<!---Two Functions check the number of characters after the decimal point (if there is one) in dec_lat & dec_long and returns the count.--->
@@ -560,6 +560,7 @@ limitations under the License.
 					</cfif>
 					<cfreturn decimalLatPart>
 				</cffunction>
+						
 				<cffunction name="getDecimalLongPart" returntype="string">
 					<cfargument name="dec_long" type="string" required="true">
 					<cfset var numberStr2 = arguments.dec_long & "">
