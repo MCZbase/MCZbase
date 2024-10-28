@@ -561,7 +561,7 @@ limitations under the License.
 				<cfif len(getTempData.dec_lat) gt 2 AND len(getTempData.dec_long) gt 2>
 					<cfset decimalPart1 = ListGetAt(coordinate1, 2, ".")>
 					<cfset decimalPart2 = ListGetAt(coordinate2, 2, ".")>
-				<cfelse>
+				<cfelseif len(getTempData.dec_lat) lte 2 AND len(getTempData.dec_long) lte 2>
 					<cfset decimalPart1 = ListGetAt(coordinate1, 1, "")>
 					<cfset decimalPart2 = ListGetAt(coordinate2, 1, "")>
 				</cfif>
