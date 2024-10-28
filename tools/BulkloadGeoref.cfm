@@ -575,8 +575,8 @@ limitations under the License.
 					</cfif>
 					<cfreturn decimalPart2>
 				</cffunction>
-				<cfset precision1 = #decimalPart1(number1)#>
-				<cfset precision2 = #decimalPart2(number2)#>
+				<cfset precision1 = #getDecimalPart1(number1)#>
+				<cfset precision2 = #getDecimalPart2(number2)#>
 				<cfif len(getTempData.dec_lat) gt 2 AND len(getTempData.dec_long) gt 2>
 				<cfset maxLength = #getTempData.coordinate_precision#>
 				
