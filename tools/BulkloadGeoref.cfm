@@ -546,7 +546,20 @@ limitations under the License.
 					and determined_by_agent is not null
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-				<!---coordinate precision--->
+					
+								<!---coordinate precision--->
+<!---				<cfquery name="matchCoordPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT dec_lat, dec_long, coordinate_precision 
+					FROM cf_temp_georef 
+					WHERE COORDINATE_PRECISION is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+				</cfquery>
+	--->
+				<cfset dec_lat = "#getTempData.DEC_LAT#">
+				<cfset dec_long = "#getTempData.DEC_LONG#">
+				<cffunction name="getDecimalLatPart" returntype="string">
+							<!---coordinate precision--->
 				<cfquery name="matchCoordPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT dec_lat, dec_long, coordinate_precision 
 					FROM cf_temp_georef 
@@ -554,43 +567,40 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-				<cfset number1 = "#getTempData.DEC_LAT#">
-				<cfset number2 = "#getTempData.DEC_LONG#">
-				<cffunction name="getDecimalPart1" returntype="string">
-					<cfargument name="number1" type="string" required="true">
-					<cfset var numberStr1 = arguments.number1 & "">
-					<cfset var decimalPart1 = "0">
+					<cfargument name="dec_lat" type="string" required="true">
+					<cfset var numberStr1 = arguments.dec_lat & "">
+					<cfset var decimalLatPart = "0">
 					<cfif ListLen(numberStr1, ".") GT 1>
-						<cfset decimalPart1 = ListGetAt(numberStr1, 2, ".")>
+						<cfset decimalLatPart = ListGetAt(numberStr1, 2, ".")>
 					</cfif>
-					<cfreturn decimalPart1>
+					<cfreturn decimalLatPart>
 				</cffunction>
 				<cffunction name="getDecimalPart2" returntype="string">
-					<cfargument name="number2" type="string" required="true">
-					<cfset var numberStr2 = arguments.number2 & "">
-					<cfset var decimalPart2 = "0">
+					<cfargument name="dec_long" type="string" required="true">
+					<cfset var numberStr2 = arguments.dec_long & "">
+					<cfset var decimalLongPart = "0">
 
 					<cfif ListLen(numberStr2, ".") GT 1>
-						<cfset decimalPart2 = ListGetAt(numberStr2, 2, ".")>
+						<cfset decimalLongPart = ListGetAt(numberStr2, 2, ".")>
 					</cfif>
-					<cfreturn decimalPart2>
+					<cfreturn decimalLongPart>
 				</cffunction>
-				<cfset precision1 = #getDecimalPart1(number1)#>
-				<cfset precision2 = #getDecimalPart2(number2)#>
-				<cfset maxLength = #getTempData.coordinate_precision#>
-				<cfif precision1 lt #maxLength#>
+				<cfset precision1 = #getDecimalLatPart(dec_lat)#>
+				<cfset precision2 = #getDecimalLongPart(dec_long)#>
+				<cfset minLength = #getTempData.coordinate_precision#>
+				<cfif precision1 lt #minLength#>
 					<cfquery name="getDeterminedPrecision1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT: #number1# does not match precision #maxLength#')
+						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT: #dec_lat# does not match precision #minLength#')
 						WHERE coordinate_precision is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
-				<cfif precision2 lt #maxLength#>
+				<cfif precision2 lt #minLength#>
 					<cfquery name="getDeterminedPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LONG: #number2# does not match precision #maxLength#')
+						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LONG: #dec_long# does not match precision #minLength#')
 						WHERE coordinate_precision is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
