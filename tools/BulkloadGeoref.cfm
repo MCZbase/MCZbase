@@ -554,12 +554,17 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-				<cfif len(getTempData.dec_lat) gt 2 AND len(getTempData.dec_long) gt 2>
+		
 				<cfset maxLength = #getTempData.coordinate_precision#>
 				<cfset coordinate1 = "#getTempData.dec_lat#">
 				<cfset coordinate2 = #getTempData.dec_long#>
-				<cfset decimalPart1 = ListGetAt(coordinate1, 2, ".")>
-				<cfset decimalPart2 = ListGetAt(coordinate2, 2, ".")>
+				<cfif len(getTempData.dec_lat) gt 2 AND len(getTempData.dec_long) gt 2>
+					<cfset decimalPart1 = ListGetAt(coordinate1, 2, ".")>
+					<cfset decimalPart2 = ListGetAt(coordinate2, 2, ".")>
+				<cfelse>
+					<cfset decimalPart1 = ListGetAt(coordinate1, 2, "")>
+					<cfset decimalPart2 = ListGetAt(coordinate2, 2, "")>
+				</cfif>
 				<cfset precision1 = len(decimalPart1)>
 				<cfset precision2 = len(decimalPart2)>
 				<cfif precision1 lt #maxLength#>
@@ -580,14 +585,7 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
-				<cfelse>
-					<cfquery name="getDeterminedPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT or DEC_LONG not to nearest tenth (at least)')
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-					</cfquery>
-				</cfif>
+	
 				<!---Check to see if the CSV georef is a dup of one already in the locality record--->
 				<cfquery name="warningLocalityID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
@@ -676,7 +674,7 @@ limitations under the License.
 				<tbody>
 					<cfloop query="data">
 						<tr>
-							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
+							<td class=""><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 						
 							<td>#data.HIGHERGEOGRAPHY#</td>
 							<td>#data.SPECLOCALITY#</td>
