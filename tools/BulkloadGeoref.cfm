@@ -557,23 +557,26 @@ limitations under the License.
 				<cfset number1 = "#getTempData.DEC_LAT#">
 				<cfset number2 = "#getTempData.DEC_LONG#">
 				<cffunction name="getDecimalPart1" returntype="string">
-					<cfargument name="number" type="string" required="true">
-
-					<!--- Convert number to a string to handle cases consistently --->
+					<cfargument name="number1" type="string" required="true">
 					<cfset var numberStr = arguments.number1 & "">
 					<cfset var decimalPart1 = "0">
-
-					<!--- Check if the number contains a decimal point --->
 					<cfif ListLen(numberStr1, ".") GT 1>
-						<!--- Use ListGetAt() to get the decimal part --->
 						<cfset decimalPart1 = ListGetAt(numberStr1, 2, ".")>
 					</cfif>
-
-					<!--- Return the decimal part or 0 if not present --->
 					<cfreturn decimalPart1>
 				</cffunction>
-				<cfset precision1 = #decimalPart1#>
-				<cfset precision2 = #decimalPart2#>
+				<cffunction name="getDecimalPart2" returntype="string">
+					<cfargument name="number2" type="string" required="true">
+					<cfset var numberStr = arguments.number2 & "">
+					<cfset var decimalPart2 = "0">
+
+					<cfif ListLen(numberStr2, ".") GT 1>
+						<cfset decimalPart2 = ListGetAt(numberStr2, 2, ".")>
+					</cfif>
+					<cfreturn decimalPart2>
+				</cffunction>
+				<cfset precision1 = #decimalPart1(number1)#>
+				<cfset precision2 = #decimalPart2(number2)#>
 				<cfif len(getTempData.dec_lat) gt 2 AND len(getTempData.dec_long) gt 2>
 				<cfset maxLength = #getTempData.coordinate_precision#>
 				
