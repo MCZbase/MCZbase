@@ -19,7 +19,7 @@ limitations under the License.
 </cfif>
 
 <!---Two Functions check the number of characters after the decimal point (if there is one) in dec_lat & dec_long and returns the count.--->
-<cffunction name="getDecimalParts" returntype="struct">
+<!---<cffunction name="getDecimalParts" returntype="struct">
 	<cfargument name="dec_lat" type="string" required="true">
 	<cfargument name="dec_long" type="string" required="true">
 
@@ -41,7 +41,7 @@ limitations under the License.
 	<cfset result.longitude = decimalLongPart>
 
 	<cfreturn result>
-</cffunction>
+</cffunction>--->
 <!--- output a label and select where the options on the select match a set of java 
   StandardCharset names, and the select has name and id of characterSet.
   @see loadCsvFile for consumption of these option values.
