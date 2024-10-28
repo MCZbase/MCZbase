@@ -584,7 +584,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfif precision2 lt #minLength#>
-					<cfquery name="getDeterminedPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="getDeterminedPrecision2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
 						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LONG: #dec_long# does not match precision #minLength#')
 						WHERE coordinate_precision is not null
@@ -592,8 +592,7 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
-						#precision1#
-						#precision2#
+
 				<!---End Coordinate precision check against dec_lat and dec_long--->
 		
 				<!---Check to see if the CSV georef is a dup of one already in the locality record--->
