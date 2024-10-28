@@ -570,7 +570,7 @@ limitations under the License.
 					<cfreturn decimalLongPart>
 				</cffunction>--->
 				<!---With the count of the chars after decimal (now renamed decimalLatPart and decimalLongPart), the counts are compared to coordinate precision (minLength), which was entered by the user. Messages appear in the status column if they don't match.--->
-				<cfset precision = #getDecimalLatParts(dec_lat,dec_long)#>
+				<cfset precision = #getDecimalParts(dec_lat,dec_long)#>
 				<cfset decimalLatPart = precision.latitude>
 				<cfset decimalLongPart = precision.longitude>
 				<cfset minLength = #getTempData.coordinate_precision#>
@@ -584,7 +584,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfif decimalLongPart lt #minLength#>
-					<cfquery name="getDeterminedPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="getDeterminedPrecision2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
 						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LONG: #dec_long# does not match precision #minLength#')
 						WHERE coordinate_precision is not null
