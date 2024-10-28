@@ -583,7 +583,7 @@ limitations under the License.
 				<cfelse>
 					<cfquery name="getDeterminedPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT or DEC_LONG is not at least 2 (cannot evaluate)')
+						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT or DEC_LONG is not at least 2 digits (cannot compare to coordinate_precision selected)')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
