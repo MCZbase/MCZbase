@@ -547,14 +547,6 @@ limitations under the License.
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 					
-								<!---coordinate precision--->
-				<cfquery name="matchCoordPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT dec_lat, dec_long, coordinate_precision 
-					FROM cf_temp_georef 
-					WHERE COORDINATE_PRECISION is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-				</cfquery>
 	
 				<cfset dec_lat = "#getTempData.DEC_LAT#">
 				<cfset dec_long = "#getTempData.DEC_LONG#">
@@ -581,7 +573,7 @@ limitations under the License.
 				<cfset precision1 = #getDecimalLatPart(dec_lat)#>
 				<cfset precision2 = #getDecimalLongPart(dec_long)#>
 				<cfset minLength = #getTempData.coordinate_precision#>
-				<cfif precision1 lt #minLength#>
+				<cfif len(precision1) lt #minLength# OR precision2 lt #minLength#>
 					<cfquery name="getDeterminedPrecision1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
 						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT: #dec_lat# does not match precision #minLength#')
