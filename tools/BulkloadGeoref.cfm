@@ -550,7 +550,7 @@ limitations under the License.
 					<!---Start coordinate precision check against dec_lat and dec_long--->
 				<cfset dec_lat = "#getTempData.DEC_LAT#">
 				<cfset dec_long = "#getTempData.DEC_LONG#">
-				<!---Two Functions check the number of characters after the decimal point (if there is one) in dec_lat & dec_long and returns the count.--->
+
 <!---				<cffunction name="getDecimalLatPart" returntype="string">
 					<cfargument name="dec_lat" type="string" required="true">
 					<cfset var numberStr1 = arguments.dec_lat & "">
@@ -569,11 +569,12 @@ limitations under the License.
 					</cfif>
 					<cfreturn decimalLongPart>
 				</cffunction>--->
-				<!---With the count of the chars after decimal (now renamed precision1 and precision2), the counts are compared to coordinate precision (minLength), which was entered by the user. Messages appear in the status column if they don't match.--->
-				<cfset precision1 = #getDecimalLatPart(dec_lat)#>
-				<cfset precision2 = #getDecimalLongPart(dec_long)#>
+				<!---With the count of the chars after decimal (now renamed decimalLatPart and decimalLongPart), the counts are compared to coordinate precision (minLength), which was entered by the user. Messages appear in the status column if they don't match.--->
+				<cfset precision = #getDecimalLatParts(dec_lat,dec_long)#>
+				<cfset decimalLatPart = precision.latitude>
+				<cfset decimalLongPart = precision.longitude>
 				<cfset minLength = #getTempData.coordinate_precision#>
-				<cfif precision1 lt #minLength#>
+				<cfif decimalLatPart lt #minLength#>
 					<cfquery name="getDeterminedPrecision1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
 						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT: #dec_lat# does not match precision #minLength#')
@@ -582,7 +583,7 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
-				<cfif precision2 lt #minLength#>
+				<cfif decimalLongPart lt #minLength#>
 					<cfquery name="getDeterminedPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
 						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LONG: #dec_long# does not match precision #minLength#')
