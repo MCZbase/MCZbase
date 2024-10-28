@@ -554,7 +554,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-				<cfif len(getTempData.dec_lat) gte 2 AND len(getTempData.dec_long) gte 2>
+				<cfif len(getTempData.dec_lat) gt 2 AND len(getTempData.dec_long) gt 2>
 				<cfset maxLength = #getTempData.coordinate_precision#>
 				<cfset coordinate1 = "#getTempData.dec_lat#">
 				<cfset coordinate2 = #getTempData.dec_long#>
