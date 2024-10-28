@@ -568,7 +568,7 @@ limitations under the License.
 					</cfif>
 					<cfreturn decimalLatPart>
 				</cffunction>
-				<cffunction name="getDecimalPart2" returntype="string">
+				<cffunction name="getDecimalLongPart" returntype="string">
 					<cfargument name="dec_long" type="string" required="true">
 					<cfset var numberStr2 = arguments.dec_long & "">
 					<cfset var decimalLongPart = "0">
