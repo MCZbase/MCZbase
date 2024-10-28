@@ -559,14 +559,6 @@ limitations under the License.
 				<cfset dec_lat = "#getTempData.DEC_LAT#">
 				<cfset dec_long = "#getTempData.DEC_LONG#">
 				<cffunction name="getDecimalLatPart" returntype="string">
-							<!---coordinate precision--->
-				<cfquery name="matchCoordPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT dec_lat, dec_long, coordinate_precision 
-					FROM cf_temp_georef 
-					WHERE COORDINATE_PRECISION is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-				</cfquery>
 					<cfargument name="dec_lat" type="string" required="true">
 					<cfset var numberStr1 = arguments.dec_lat & "">
 					<cfset var decimalLatPart = "0">
@@ -575,7 +567,7 @@ limitations under the License.
 					</cfif>
 					<cfreturn decimalLatPart>
 				</cffunction>
-				<cffunction name="getDecimalPart2" returntype="string">
+				<cffunction name="getDecimalLongPart" returntype="string">
 					<cfargument name="dec_long" type="string" required="true">
 					<cfset var numberStr2 = arguments.dec_long & "">
 					<cfset var decimalLongPart = "0">
