@@ -18,6 +18,25 @@ limitations under the License.
 	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 </cfif>
 
+	
+<cffunction name="getDecimalLatPart" returntype="string">
+	<cfargument name="dec_lat" type="string" required="true">
+	<cfset var numberStr1 = arguments.dec_lat & "">
+	<cfset var decimalLatPart = "0">
+	<cfif ListLen(numberStr1, ".") GT 1>
+		<cfset decimalLatPart = ListGetAt(numberStr1, 2, ".")>
+	</cfif>
+	<cfreturn decimalLatPart>
+</cffunction>
+<cffunction name="getDecimalLongPart" returntype="string">
+	<cfargument name="dec_long" type="string" required="true">
+	<cfset var numberStr2 = arguments.dec_long & "">
+	<cfset var decimalLongPart = "0">
+	<cfif ListLen(numberStr2, ".") GT 1>
+		<cfset decimalLongPart = ListGetAt(numberStr2, 2, ".")>
+	</cfif>
+	<cfreturn decimalLongPart>
+</cffunction>
 <!--- output a label and select where the options on the select match a set of java 
   StandardCharset names, and the select has name and id of characterSet.
   @see loadCsvFile for consumption of these option values.
