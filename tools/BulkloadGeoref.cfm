@@ -569,6 +569,7 @@ limitations under the License.
 					</cfif>
 					<cfreturn decimalLongPart>
 				</cffunction>
+					
 				<!---With the count of the chars after decimal (now renamed precision1 and precision2), the counts are compared to coordinate precision (minLength), which was entered by the user. Messages appear in the status column if they don't match.--->
 				<cfset precision1 = #getDecimalLatPart(dec_lat)#>
 				<cfset precision2 = #getDecimalLongPart(dec_long)#>
@@ -591,6 +592,8 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
+						#precision1#
+						#precision2#
 				<!---End Coordinate precision check against dec_lat and dec_long--->
 		
 				<!---Check to see if the CSV georef is a dup of one already in the locality record--->
