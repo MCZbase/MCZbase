@@ -556,30 +556,26 @@ limitations under the License.
 				</cfquery>
 				<cfset number1 = "#getTempData.DEC_LAT#">
 				<cfset number2 = "#getTempData.DEC_LONG#">
-				<cfset function getDecimalPart(number1) {
-    				var numberStr1 = number1 & "";
-    				if (ListLen(numberStr1, ".") > 1) {
-        				return ListGetAt(numberStr1, 2, ".");
-    				} else {
-					return "0";
-					}
-				}>
-				<cfset function getDecimalPart(number2) {
-    				var numberStr1 = number2 & "";
-    				if (ListLen(numberStr2, ".") > 1) {
-        				return ListGetAt(numberStr2, 2, ".");
-    				} else {
-					return "0";
-					}
-				}>
+				<cffunction name="getDecimalPart1" returntype="string">
+					<cfargument name="number" type="string" required="true">
+
+					<!--- Convert number to a string to handle cases consistently --->
+					<cfset var numberStr = arguments.number1 & "">
+					<cfset var decimalPart1 = "0">
+
+					<!--- Check if the number contains a decimal point --->
+					<cfif ListLen(numberStr1, ".") GT 1>
+						<!--- Use ListGetAt() to get the decimal part --->
+						<cfset decimalPart1 = ListGetAt(numberStr1, 2, ".")>
+					</cfif>
+
+					<!--- Return the decimal part or 0 if not present --->
+					<cfreturn decimalPart1>
+				</cffunction>
 				<cfif len(getTempData.dec_lat) gt 2 AND len(getTempData.dec_long) gt 2>
 				<cfset maxLength = #getTempData.coordinate_precision#>
-		<!---		<cfset coordinate1 = "#getTempData.dec_lat#">
-				<cfset coordinate2 = #getTempData.dec_long#>
-				<cfset decimalPart1 = ListGetAt(coordinate1, 2, ".")>
-				<cfset decimalPart2 = ListGetAt(coordinate2, 2, ".")>--->
-				<cfset precision1 = getDecimalPart(number1)>
-				<cfset precision2 = getDecimalPart(number2)>
+				<cfset precision1 = #decimalPart1#>
+				<cfset precision2 = #decimalPart2#>
 				<cfif precision1 lt #maxLength#>
 					<cfquery name="getDeterminedPrecision1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
