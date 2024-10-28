@@ -583,7 +583,7 @@ limitations under the License.
 				<cfelse>
 					<cfquery name="getDeterminedPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT or DEC_LONG not to nearest tenth (at least)')
+						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT or DEC_LONG to nearest tenth at least)')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
@@ -676,7 +676,7 @@ limitations under the License.
 				<tbody>
 					<cfloop query="data">
 						<tr>
-							<td class=""><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status# </strong></cfif></td>
+							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 						
 							<td>#data.HIGHERGEOGRAPHY#</td>
 							<td>#data.SPECLOCALITY#</td>
