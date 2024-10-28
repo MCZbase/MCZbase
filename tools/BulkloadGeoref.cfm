@@ -558,7 +558,7 @@ limitations under the License.
 				<cfset maxLength = #getTempData.coordinate_precision#>
 				<cfset coordinate1 = "#getTempData.dec_lat#">
 				<cfset coordinate2 = #getTempData.dec_long#>
-				<cfif len(getTempData.dec_lat) gt 2 AND len(getTempData.dec_long) gt 2>
+				<cfif len(getTempData.dec_lat) gte 3 AND len(getTempData.dec_long) gte 3>
 					<cfset decimalPart1 = ListGetAt(coordinate1, 2, ".")>
 					<cfset decimalPart2 = ListGetAt(coordinate2, 2, ".")>
 				<cfelseif len(getTempData.dec_lat) lte 2 AND len(getTempData.dec_long) lte 2>
