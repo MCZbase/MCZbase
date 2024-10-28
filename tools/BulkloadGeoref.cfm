@@ -600,16 +600,16 @@ limitations under the License.
 <!---				<cfset precision1 = #getDecimalLatPart(dec_lat)#>
 				<cfset precision2 = #getDecimalLongPart(dec_long)#>--->
 				<cfset minLength = #getTempData.coordinate_precision#>
-				<cfif geoParts lt #minLength#>
+				<cfif geoParts.latitude lt #minLength# OR geoParts.longitude lt #minLength#>
 					<cfquery name="getDeterminedPrecision1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT: #dec_lat# does not match precision #minLength#')
+						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT/long: #dec_lat# does not match precision #minLength#')
 						WHERE coordinate_precision is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
-				<cfif geoParts lt #minLength#>
+				<cfif geoParts.longitude lt #minLength#>
 					<cfquery name="getDeterminedPrecision2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
 						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LONG: #dec_long# does not match precision #minLength#')
