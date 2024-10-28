@@ -577,6 +577,7 @@ limitations under the License.
 
 					<cfreturn result>
 				</cffunction>
+				<cfset minLength = #getTempData.coordinate_precision#>
 				<cfset geoPrecision = #getDecimalParts(dec_lat,dec_long)#>
 				<cfif len(#geoPrecision.latitude#) lt #minLength#>
 					What?
@@ -585,7 +586,7 @@ limitations under the License.
 				how?
 					</cfif>
 					
-				<cfset minLength = #getTempData.coordinate_precision#>
+				
 					
 <!---				<cfif len(precision1) lt #minLength# OR len(precision2) lt #minLength#>
 					<cfquery name="getDeterminedPrecision1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
