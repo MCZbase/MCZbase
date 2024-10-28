@@ -554,6 +554,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
+				<cfif len(getTempData.dec_lat) gte 2 AND len(getTempData.dec_long) gte 2>
 				<cfset maxLength = #getTempData.coordinate_precision#>
 				<cfset coordinate1 = "#getTempData.dec_lat#">
 				<cfset coordinate2 = #getTempData.dec_long#>
@@ -576,6 +577,14 @@ limitations under the License.
 						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LONG: #coordinate2# does not match precision #maxLength#')
 						WHERE coordinate_precision is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+					</cfquery>
+				</cfif>
+				<cfelse>
+					<cfquery name="getDeterminedPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update cf_temp_georef
+						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT or DEC_LONG is not at least 2 (cannot evaluate)')
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
