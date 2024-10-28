@@ -548,32 +548,41 @@ limitations under the License.
 				</cfquery>
 					
 	
+					
+					
+					
 				<cfset dec_lat = "#getTempData.DEC_LAT#">
 				<cfset dec_long = "#getTempData.DEC_LONG#">
-				<cffunction name="getDecimalLatPart" returntype="string">
-							<!---coordinate precision--->
+					
+				<cffunction name="getDecimalParts" returntype="struct">
 					<cfargument name="dec_lat" type="string" required="true">
+					<cfargument name="dec_long" type="string" required="true">
+
+					<cfset var result = StructNew()>
 					<cfset var numberStr1 = arguments.dec_lat & "">
+					<cfset var numberStr2 = arguments.dec_long & "">
 					<cfset var decimalLatPart = "0">
+					<cfset var decimalLongPart = "0">
+
 					<cfif ListLen(numberStr1, ".") GT 1>
 						<cfset decimalLatPart = ListGetAt(numberStr1, 2, ".")>
 					</cfif>
-					<cfreturn decimalLatPart>
-				</cffunction>
-				<cffunction name="getDecimalLongPart" returntype="string">
-					<cfargument name="dec_long" type="string" required="true">
-					<cfset var numberStr2 = arguments.dec_long & "">
-					<cfset var decimalLongPart = "0">
 
 					<cfif ListLen(numberStr2, ".") GT 1>
 						<cfset decimalLongPart = ListGetAt(numberStr2, 2, ".")>
 					</cfif>
-					<cfreturn decimalLongPart>
+
+					<cfset result.latitude = decimalLatPart>
+					<cfset result.longitude = decimalLongPart>
+
+					<cfreturn result>
 				</cffunction>
-				<cfset precision1 = #getDecimalLatPart(dec_lat)#>
-				<cfset precision2 = #getDecimalLongPart(dec_long)#>
+				<cfset geoPrecision = #getDecimalParts(dec_lat,dec_long)#>
+				#geoPrecision#
+					
 				<cfset minLength = #getTempData.coordinate_precision#>
-				<cfif len(precision1) lt #minLength# OR len(precision2) lt #minLength#>
+					
+<!---				<cfif len(precision1) lt #minLength# OR len(precision2) lt #minLength#>
 					<cfquery name="getDeterminedPrecision1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
 						SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT: #dec_lat# does not match precision #minLength#')
@@ -590,8 +599,18 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
-				</cfif>
+				</cfif>--->
 		
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
 				<!---Check to see if the CSV georef is a dup of one already in the locality record--->
 				<cfquery name="warningLocalityID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
