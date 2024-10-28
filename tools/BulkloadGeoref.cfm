@@ -575,6 +575,7 @@ limitations under the License.
 				<cfset decimalLatPart = precision.latitude>
 				<cfset decimalLongPart = precision.longitude>
 				<cfset minLength = #getTempData.coordinate_precision#>
+					#decimalLatPart#
 				<cfif #decimalLatPart# lt #minLength#>
 					<cfquery name="getDeterminedPrecision1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
