@@ -551,7 +551,7 @@ limitations under the License.
 				<cfset dec_lat = "#getTempData.DEC_LAT#">
 				<cfset dec_long = "#getTempData.DEC_LONG#">
 				<!---Two Functions check the number of characters after the decimal point (if there is one) in dec_lat & dec_long and returns the count.--->
-				<cffunction name="getDecimalLatPart" returntype="string">
+<!---				<cffunction name="getDecimalLatPart" returntype="string">
 					<cfargument name="dec_lat" type="string" required="true">
 					<cfset var numberStr1 = arguments.dec_lat & "">
 					<cfset var decimalLatPart = "0">
@@ -568,7 +568,7 @@ limitations under the License.
 						<cfset decimalLongPart = ListGetAt(numberStr2, 2, ".")>
 					</cfif>
 					<cfreturn decimalLongPart>
-				</cffunction>
+				</cffunction>--->
 				<!---With the count of the chars after decimal (now renamed precision1 and precision2), the counts are compared to coordinate precision (minLength), which was entered by the user. Messages appear in the status column if they don't match.--->
 				<cfset precision1 = #getDecimalLatPart(dec_lat)#>
 				<cfset precision2 = #getDecimalLongPart(dec_long)#>
