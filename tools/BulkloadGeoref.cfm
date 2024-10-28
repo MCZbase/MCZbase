@@ -547,17 +547,10 @@ limitations under the License.
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 					
-								<!---coordinate precision--->
-<!---				<cfquery name="matchCoordPrecision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT dec_lat, dec_long, coordinate_precision 
-					FROM cf_temp_georef 
-					WHERE COORDINATE_PRECISION is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-				</cfquery>
-	--->
+					<!---Start coordinate precision check against dec_lat and dec_long--->
 				<cfset dec_lat = "#getTempData.DEC_LAT#">
 				<cfset dec_long = "#getTempData.DEC_LONG#">
+				<!---Two Functions check the number of characters after the decimal point (if there is one) in dec_lat & dec_long and returns the count.--->
 				<cffunction name="getDecimalLatPart" returntype="string">
 					<cfargument name="dec_lat" type="string" required="true">
 					<cfset var numberStr1 = arguments.dec_lat & "">
@@ -571,12 +564,12 @@ limitations under the License.
 					<cfargument name="dec_long" type="string" required="true">
 					<cfset var numberStr2 = arguments.dec_long & "">
 					<cfset var decimalLongPart = "0">
-
 					<cfif ListLen(numberStr2, ".") GT 1>
 						<cfset decimalLongPart = ListGetAt(numberStr2, 2, ".")>
 					</cfif>
 					<cfreturn decimalLongPart>
 				</cffunction>
+				<!---With the count of the chars after decimal (now renamed precision1 and precision2), the counts are compared to coordinate precision (minLength), which was entered by the user. Messages appear in the status column if they don't match.--->
 				<cfset precision1 = #getDecimalLatPart(dec_lat)#>
 				<cfset precision2 = #getDecimalLongPart(dec_long)#>
 				<cfset minLength = #getTempData.coordinate_precision#>
@@ -598,6 +591,7 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
+				<!---End Coordinate precision check against dec_lat and dec_long--->
 		
 				<!---Check to see if the CSV georef is a dup of one already in the locality record--->
 				<cfquery name="warningLocalityID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
