@@ -548,8 +548,7 @@ limitations under the License.
 				</cfquery>
 					
 					<!---Start coordinate precision check against dec_lat and dec_long--->
-				<cfset dec_lat = "#getTempData.DEC_LAT#">
-				<cfset dec_long = "#getTempData.DEC_LONG#">
+		
 
 <!---				<cffunction name="getDecimalLatPart" returntype="string">
 					<cfargument name="dec_lat" type="string" required="true">
@@ -569,8 +568,10 @@ limitations under the License.
 					</cfif>
 					<cfreturn decimalLongPart>
 				</cffunction>--->
+				<cfset dec_lat = "#getTempData.DEC_LAT#">
+				<cfset dec_long = "#getTempData.DEC_LONG#">
 				<!---With the count of the chars after decimal (now renamed decimalLatPart and decimalLongPart), the counts are compared to coordinate precision (minLength), which was entered by the user. Messages appear in the status column if they don't match.--->
-				<cfset precision = #getDecimalParts(dec_lat,dec_long)#>
+				<cfset precision = getDecimalParts(#dec_lat#,#dec_long#)>
 				<cfset decimalLatPart = precision.latitude>
 				<cfset decimalLongPart = precision.longitude>
 				<cfset minLength = #getTempData.coordinate_precision#>
