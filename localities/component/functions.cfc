@@ -2467,39 +2467,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													});
 												});
 											</script>
-										<script type="text/javascript">
-											$(document).ready(function() {
-												function convertDMStoDecimal(degrees, minutes, seconds) {
-													return Math.abs(parseInt(degrees, 10)) + (Math.abs(minutes) / 60) + (Math.abs(seconds) / 3600);
-												}
-
-												function checkDMSPrecision() {
-													var degLat = $('##lat_deg').val() || 0;
-													var minLat = $('##lat_min').val() || 0;
-													var secLat = $('##lat_sec').val() || 0;
-													var degLong = $('##degLong').val() || 0;
-													var minLong = $('##minLong').val() || 0;
-													var secLong = $('##secLong').val() || 0;
-
-													var decLatDD = convertDMStoDecimal(degLat, minLat, secLat).toFixed(6); // Fixed to 6 for precision
-													var decLongDD = convertDMStoDecimal(degLong, minLong, secLong).toFixed(6);
-
-													var selectedPrecision = parseInt($('##coordinate_precision').val(), 10);
-
-													var decimalLatPart = decLatDD.split('.')[1];
-													var decimalLongPart = decLongDD.split('.')[1];
-
-													if (decimalLatPart.length < selectedPrecision || decimalLongPart.length < selectedPrecision) {
-														$('##precisionError').text('Precision error: Converted coordinates have fewer decimal places than selected.');
-													} else {
-														$('##precisionError').text('');
-													}
-												}
-
-												// Bind the precision check to inputs change and dropdown change
-												$('##degLat, ##minLat, ##secLat, ##degLong, ##minLong, ##secLong, ##coordinate_precision').on('input change', checkDMSPrecision);
-											});
-										</script>
+										
 										</div>
 										
 										
