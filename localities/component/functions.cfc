@@ -2220,6 +2220,70 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<div class="tab-content  pt-1 flex-wrap d-flex">
 							<div id="manualPanel" role="tabpanel" aria-labelledby="manualTabButton" tabindex="0" class="col-12 px-0 mx-0 active unfocus">
 								<form id="manualGeorefForm">
+									  Latitude: <input type="text" id="latitude" name="latitude"><br>
+    Longitude: <input type="text" id="longitude" name="longitude"><br>
+    Precision: 
+    <select id="precision" name="precision">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+    </select>
+    <span id="precisionError" style="color: red;"></span><br>
+    <button type="button" id="saveButton">Save</button>
+									<script type="text/javascript">
+    // Make sure the document is ready
+    $(document).ready(function() {
+        $('##precision').on('change', function() {
+            var lat = $('##latitude').val();
+            var long = $('##longitude').val();
+            var selectedPrecision = parseInt($(this).val());
+            
+            // Function to extract the decimal part
+            function getDecimalPart(value) {
+                if (value.includes('.')) {
+                    return value.split('.')[1] || "0"; // Ensure return of '0' if no decimal part
+                }
+                return "0";
+            }
+
+            var decimalLatPart = getDecimalPart(lat);
+            var decimalLongPart = getDecimalPart(long);
+
+            // Compare lengths of decimals to selected precision
+            if (decimalLatPart.length < selectedPrecision || decimalLongPart.length < selectedPrecision) {
+                $('#precisionError').text('Precision error: Coordinates have fewer decimal places than selected.');
+            } else {
+                $('#precisionError').text('');
+            }
+        });
+
+        // Save button click handles sending data to server
+        $('##saveButton').on('click', function() {
+            var latitude = $('##latitude').val();
+            var longitude = $('##longitude').val();
+            var requiredPrecision = $('##precision').val();
+
+            $.ajax({
+                url: '/localities/component/functions.cfc',
+                type: 'POST',
+                data: {
+                    dec_lat: latitude,
+                    dec_long: longitude,
+                    requiredPrecision: requiredPrecision
+                },
+                success: function(response) {
+                    $('#result').html(response);
+                },
+                error: function(error) {
+                    $('#result').html('Error processing request');
+                }
+            });
+        });
+    });
+</script>
 									<input type="hidden" name="method" value="addGeoreference">
 									<input type="hidden" name="field_mapping" value="generic"> 
 									<input type="hidden" name="locality_id" value="#locality_id#">
@@ -2440,10 +2504,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 											</select>
 										</div>
-										<cfset dec_lat = "#form.lat_deg#">
-										<cfset dec_long = "#form.long_deg#">
-										<cfset geoPrecision = #getDecimalParts(dec_lat,dec_long)#>
-									#geoPrecision.latitude#
 										<div class="col-12 col-md-3 mb-2">
 											<label for="gpsaccuracy" class="data-entry-label">GPS Accuracy</label>
 											<input type="text" name="gpsaccuracy" id="gpsaccuracy" class="data-entry-input" value="">
