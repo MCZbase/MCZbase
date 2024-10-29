@@ -3988,26 +3988,26 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												}
 											});
 
-											$('##saveButton').on('click', function() {
-												var latitude = $('##lat_deg').val();
-												var longitude = $('##long_deg').val();
-												var requiredPrecision = $('##coordinate_precision').val();
-
-												$.ajax({
-													url: '/localities/component/functions.cfc',
-													type: 'POST',
-													data: {
-														dec_lat: lat_deg,
-														dec_long: long_deg,
-														requiredPrecision: requiredPrecision
-													},
-													success: function(response) {
-														$('#result').html(response);
-													},
-													error: function(error) {
-														$('#result').html('Error processing request');
-													}
-												});
+									//		$('##saveButton').on('click', function() {
+//												var latitude = $('##lat_deg').val();
+//												var longitude = $('##long_deg').val();
+//												var requiredPrecision = $('##coordinate_precision').val();
+//
+//												$.ajax({
+//													url: '/localities/component/functions.cfc',
+//													type: 'POST',
+//													data: {
+//														dec_lat: lat_deg,
+//														dec_long: long_deg,
+//														requiredPrecision: requiredPrecision
+//													},
+//													success: function(response) {
+//														$('#result').html(response);
+//													},
+//													error: function(error) {
+//														$('#result').html('Error processing request');
+//													}
+//												});
 											});
 										});
 									</script>
