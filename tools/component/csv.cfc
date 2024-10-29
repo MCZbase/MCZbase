@@ -18,34 +18,26 @@ limitations under the License.
 	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 </cfif>
 
-<!---Two Functions check the number of characters after the decimal point (if there is one) in dec_lat & dec_long and returns the count.--->
-<!---<cffunction name="getDecimalParts" returntype="struct">
+	
+<cffunction name="getDecimalParts" returntype="struct">
 	<cfargument name="dec_lat" type="string" required="true">
 	<cfargument name="dec_long" type="string" required="true">
-
 	<cfset var result = StructNew()>
 	<cfset var numberStr1 = arguments.dec_lat & "">
 	<cfset var numberStr2 = arguments.dec_long & "">
 	<cfset var decimalLatPart = "0">
 	<cfset var decimalLongPart = "0">
-
 	<cfif ListLen(numberStr1, ".") GT 1>
 		<cfset decimalLatPart = ListGetAt(numberStr1, 2, ".")>
 	</cfif>
-
 	<cfif ListLen(numberStr2, ".") GT 1>
 		<cfset decimalLongPart = ListGetAt(numberStr2, 2, ".")>
 	</cfif>
-
-	<cfset result.latitude = decimalLatPart>
-	<cfset result.longitude = decimalLongPart>
-
+	<cfset result.dot_dec_lat = decimalLatPart>
+	<cfset result.dot_dec_long = decimalLongPart>
 	<cfreturn result>
-</cffunction>--->
-<!--- output a label and select where the options on the select match a set of java 
-  StandardCharset names, and the select has name and id of characterSet.
-  @see loadCsvFile for consumption of these option values.
---->
+</cffunction>
+	
 <cffunction name="getCharsetSelectHTML" returntype="string" access="remote" returnformat="plain">
 	<cfoutput>
 		<label for="characterSet" class="data-entry-label">Character Set:</label> 
