@@ -2497,7 +2497,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												}
 
 												// Bind the precision check to inputs change and dropdown change
-												$('##degLat, ##minLat, ##secLat, ##degLong, ##minLong, ##secLong, ##coordinate_precision').on('change', checkDMSPrecision);
+												$('##degLat, ##minLat, ##secLat, ##degLong, ##minLong, ##secLong, ##coordinate_precision').on('input change', checkDMSPrecision);
 											});
 										</script>
 										</div>
