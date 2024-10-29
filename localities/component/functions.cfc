@@ -2121,12 +2121,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfset var decimalLatPart = "0">
 	<cfset var decimalLongPart = "0">
 
-	<cfif ListLen(arguments.raw_dec_lat, ".") GT 1>
-		<cfset decimalLatPart = ListGetAt(arguments.raw_dec_lat, 2, ".")>
+	<cfif ListLen(arguments.dec_lat, ".") GT 1>
+		<cfset decimalLatPart = ListGetAt(arguments.dec_lat, 2, ".")>
 	</cfif>
 
-	<cfif ListLen(arguments.raw_dec_long, ".") GT 1>
-		<cfset decimalLongPart = ListGetAt(arguments.raw_dec_long, 2, ".")>
+	<cfif ListLen(arguments.dec_long, ".") GT 1>
+		<cfset decimalLongPart = ListGetAt(arguments.dec_long, 2, ".")>
 	</cfif>
 
 	<cfset result.latitude = decimalLatPart>
