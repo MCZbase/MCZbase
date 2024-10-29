@@ -2468,40 +2468,40 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 											</script>
 											<script type="text/javascript">
+												// Make sure the document is ready
 												$(document).ready(function() {
-													// Function to count the decimal places
-													function countDecimals(value) {
-														if (value.includes('.')) {
-															return value.split('.')[1].length;
+													$('##coordinate_precision').on('change', function() {
+														var latSec = $('##lat_sec').val();
+														var longSec = $('##long_sec').val();
+														var selectedPrecision = parseInt($(this).val());
+
+														// Function to extract the decimal part
+														function getDecimalPart(value) {
+															if (value.includes('.')) {
+																return value.split('.')[1] || "0"; // Ensure return of '0' if no decimal part
+															}
+															return "0";
 														}
-														return 0; // No decimals
-													}
 
-													// Function to check precision based on seconds field
-													function checkDMSPrecision() {
-														// Get current seconds inputs
-														var secLat = $('##sec_lat').val() || "0";
-														var secLong = $('##sec_long').val() || "0";
+														var decimalLatPart2 = getDecimalPart(latSec);
+														var decimalLongPart2 = getDecimalPart(longSec);
 
-														var selectedPrecision = parseInt($('##coordinate_precision').val(), 10);
-
-														// Check the number of decimal places in seconds
-														var latPrecision = countDecimals(secLat);
-														var longPrecision = countDecimals(secLong);
-
-														// Display an error if the number of decimal places in seconds is less than the selected precision
-														if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
-															$('##precisionError').text('Precision error: Seconds do not have enough decimal places as selected precision.');
+														// Compare lengths of decimals to selected precision
+														if (decimalLatPart2.length < selectedPrecision || decimalLongPart2.length < selectedPrecision) {
+															$('##precisionError').text('Precision error: Coordinates have fewer decimal places than selected.');
 														} else {
 															$('##precisionError').text('');
 														}
-													}
-
-													// Bind the precision check to seconds inputs and precision dropdown change
-													$('##secLat, ##secLong, ##coordinate_precision').on('input change', checkDMSPrecision);
+													});
 												});
 											</script>
 										</div>
+										
+										
+										
+										
+										
+										
 										
 										<div class="col-12 col-md-3 mb-2">
 											<label for="gpsaccuracy" class="data-entry-label">GPS Accuracy</label>
