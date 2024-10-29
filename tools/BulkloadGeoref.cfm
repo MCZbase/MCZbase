@@ -572,7 +572,7 @@ limitations under the License.
 					<cfset result.dot_dec_long = decimalLongPart>
 					<cfreturn result>
 				</cffunction>
-				<!---You can get at the part of the coordinates after the decimal (dec_lat,dec_long) within the getDecimalParts function--->		
+				<!---You can get at the part of the coordinates after the decimal (dot_dec_lat,dot_dec_long) within the getDecimalParts function--->		
 				<cfset minLength = #getTempData.coordinate_precision#>
 				<cfset geoPrecision = #getDecimalParts(dec_lat,dec_long)#>
 				<cfif len(#geoPrecision.dot_dec_lat#) lt #minLength#>
