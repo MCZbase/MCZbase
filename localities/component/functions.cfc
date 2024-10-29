@@ -4154,8 +4154,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									<cfargument name="raw_dec_lat" type="string" required="true">
 									<cfargument name="raw_dec_long" type="string" required="true">
 									<cfset var result = StructNew()>
-									<cfset var numberStr1 = arguments.dec_lat & "">
-									<cfset var numberStr2 = arguments.dec_long & "">
+									<cfset var numberStr1 = arguments.raw_dec_lat & "">
+									<cfset var numberStr2 = arguments.raw_dec_long & "">
 									<cfset var decimalLatPart = "0">
 									<cfset var decimalLongPart = "0">
 									<cfif ListLen(numberStr1, ".") GT 1>
