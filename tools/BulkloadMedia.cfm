@@ -574,7 +574,7 @@ limitations under the License.
 					cf_temp_media
 				SET
 					created_by_agent_id = (
-						select AGENT_ID from AGENT_NAME WHERE upper(AGENT_NAME) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#"> 
+						select AGENT_ID from AGENT_NAME WHERE AGENT_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 						and AGENT_NAME_TYPE = 'login'
 						)
 				WHERE  
@@ -1206,6 +1206,7 @@ limitations under the License.
 					<div class="mt-2">
 					<cfloop query="getTempData">
 						<cfset username = '#session.username#'>
+						<!--- TODO: This query is unused, belongs in validation step.  Error from this step would arise from insert not matching unique constraint --->
 						<cfquery name="mediaDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateMedia1_result">
 							SELECT 
 								media_uri 
