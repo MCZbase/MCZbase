@@ -2462,39 +2462,39 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 														// Function to check the precision
 														function checkPrecision() {
-															var lat = $('#latitude').val();
-															var long = $('#longitude').val();
+															var lat = $('##latitude').val();
+															var long = $('##longitude').val();
 
 															// Collecting DMS values
-															var degLat = $('#degLat').val() || 0;
-															var minLat = $('#minLat').val() || 0;
-															var secLat = $('#secLat').val() || 0;
-															var degLong = $('#degLong').val() || 0;
-															var minLong = $('#minLong').val() || 0;
-															var secLong = $('#secLong').val() || 0;
+															var degLat = $('##degLat').val() || 0;
+															var minLat = $('##minLat').val() || 0;
+															var secLat = $('##secLat').val() || 0;
+															var degLong = $('##degLong').val() || 0;
+															var minLong = $('##minLong').val() || 0;
+															var secLong = $('##secLong').val() || 0;
 
 															// Convert DMS to decimal
 															var decLatDD = convertDMStoDecimal(degLat, minLat, secLat).toString();
 															var decLongDD = convertDMStoDecimal(degLong, minLong, secLong).toString();
 
-															var selectedPrecision = parseInt($('#precision').val(), 10);
+															var selectedPrecision = parseInt($('##precision').val(), 10);
 
 															var decimalLatPart = getDecimalPart(lat || decLatDD);
 															var decimalLongPart = getDecimalPart(long || decLongDD);
 
 															// Check decimal part precision
 															if (decimalLatPart.length < selectedPrecision || decimalLongPart.length < selectedPrecision) {
-																$('#precisionError').text('Precision error: Coordinates have fewer decimal places than selected.');
+																$('##precisionError').text('Precision error: Coordinates have fewer decimal places than selected.');
 															} else {
-																$('#precisionError').text('');
+																$('##precisionError').text('');
 															}
 														}
 
 														// Bind to precision dropdown change event
-														$('#precision').on('change', checkPrecision);
+														$('##precision').on('change', checkPrecision);
 
 														// Bind to input fields change event to ensure they are checked too
-														$('#latitude, #longitude, #degLat, #minLat, #secLat, #degLong, #minLong, #secLong').on('input', checkPrecision);
+														$('##latitude, ##longitude, ##degLat, ##minLat, ##secLat, ##degLong, ##minLong, ##secLong').on('input', checkPrecision);
 													});
 												</script>
 
