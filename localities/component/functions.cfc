@@ -2114,8 +2114,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 												
 <cffunction name="getDecimalParts" returntype="struct">
-	<cfargument name="raw_dec_lat" type="string" required="true">
-	<cfargument name="raw_dec_long" type="string" required="true">
+	<cfargument name="dec_lat" type="string" required="true">
+	<cfargument name="dec_long" type="string" required="true">
 
 	<cfset var result = StructNew()>
 	<cfset var decimalLatPart = "0">
@@ -2428,7 +2428,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<div class="col-12 col-md-3 mb-2">
 											
 						
-											<label for="coordinate_precision" class="data-entry-label">Precision XX</label>
+											<label for="coordinate_precision" class="data-entry-label">Precision</label>
 											<select name="coordinate_precision" id="coordinate_precision" class="data-entry-select reqdClr" required>
 												<option value=""></option>
 												<option value="0">Specified to 1&##176;</option>
@@ -2440,10 +2440,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 											</select>
 										</div>
-										<cfset geoPrecision = #getDecimalParts(raw_dec_lat,raw_dec_long)#>
-										<cfif len(#geoPrecision.latitude#) lt #minLength#>
-											<input type="text" name="precision" value="Lat too short">
-										</cfif>
+										<cfset dec_lat = "#form.lat_deg#">
+										<cfset dec_long = "#form.long_deg#">
+										<cfset geoPrecision = #getDecimalParts(dec_lat,dec_long)#>
+									#geoPrecision.latitude#
 										<div class="col-12 col-md-3 mb-2">
 											<label for="gpsaccuracy" class="data-entry-label">GPS Accuracy</label>
 											<input type="text" name="gpsaccuracy" id="gpsaccuracy" class="data-entry-input" value="">
