@@ -2467,7 +2467,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													});
 												});
 											</script>
-											
 											<script type="text/javascript">
 												$(document).ready(function() {
 													// Function to count the decimal places
@@ -2487,8 +2486,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														var selectedPrecision = parseInt($('##coordinate_precision').val(), 10);
 
 														// Check the number of decimal places in seconds
-														var latPrecision = countDecimals(sec_lat);
-														var longPrecision = countDecimals(sec_long);
+														var latPrecision = countDecimals(secLat);
+														var longPrecision = countDecimals(secLong);
 
 														// Display an error if the number of decimal places in seconds is less than the selected precision
 														if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
@@ -2499,7 +2498,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													}
 
 													// Bind the precision check to seconds inputs and precision dropdown change
-													$('##sec_lat, ##sec_long, ##coordinate_precision').on('input change', checkDMSPrecision);
+													$('##secLat, ##secLong, ##coordinate_precision').on('input change', checkDMSPrecision);
 												});
 											</script>
 										</div>
