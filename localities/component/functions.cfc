@@ -3802,7 +3802,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								</div>
 								<div class="col-12 col-md-3 mb-2">
 									<label for="lat_min" class="data-entry-label">Minutes &apos;</label>
-									<cfif orig_lat_long_units EQ "degrees dec. minutes"><cfset min="#dec_lat_min#"><cfelse><cfset min="#lat_min#"></cfif>
+									<cfif orig_lat_long_units EQ "degrees dec. minutes">
+										<cfset min="#dec_lat_min#">
+									<cfelse>
+										<cfset min="#lat_min#">
+									</cfif>
 									<input type="text" name="lat_min" id="lat_min" class="data-entry-input latlong" value="#min#">
 								</div>
 								<div class="col-12 col-md-3 mb-2">
@@ -3913,8 +3917,31 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										});
 									</script> 
 								</div>
+										
+								<cfset minLength = #getGeoref.COORDINATE_PRECISION#>	
+								<cfset lat_deg = "#getGeoref.RAW_DEC_LAT#">
+								<cfset long_deg = "#getGeoref.RAW_DEC_LONG#">
+								<cffunction name="getDecimalParts" returntype="struct">
+									<cfargument name="lat_deg" type="string" required="true">
+									<cfargument name="long_deg" type="string" required="true">
+									<cfset var result = StructNew()>
+									<cfset var numberStr1 = arguments.lat_deg & "">
+									<cfset var numberStr2 = arguments.long_deg & "">
+									<cfset var decimalLatPart = "0">
+									<cfset var decimalLongPart = "0">
+									<cfif ListLen(numberStr1, ".") GT 1>
+										<cfset decimalLatPart = ListGetAt(numberStr1, 2, ".")>
+									</cfif>
+									<cfif ListLen(numberStr2, ".") GT 1>
+										<cfset decimalLongPart = ListGetAt(numberStr2, 2, ".")>
+									</cfif>
+									<cfset result.dot_dec_lat = decimalLatPart>
+									<cfset result.dot_dec_long = decimalLongPart>
+									<cfreturn result>
+								</cffunction>
+								
 								<div class="col-12 col-md-3 mb-2">
-									<label for="coordinate_precision" class="data-entry-label">Precision</label>
+									<label for="coordinate_precision" class="data-entry-label">Precision <div id="result"></div></label>
 									<select name="coordinate_precision" id="coordinate_precision" class="data-entry-select reqdClr" required>
 										<cfif len(coordinate_precision) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 										<option value="" #selected#></option>
@@ -3933,6 +3960,57 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<cfif coordinate_precision EQ "6"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 										<option value="6" #selected#>Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 									</select>
+									<script type="text/javascript">
+										$(document).ready(function() {
+											$('##coordinate_precision').on('change', function() {
+												// Get the values from the fields
+												var lat = $('##lat_deg').val();
+												var long = $('##long_deg').val();
+												var selectedPrecision = parseInt($(this).val());
+
+												// Function to extract the decimal part
+												function getDecimalPart(value) {
+													var decimalPart = "0";
+													if (value.includes('.')) {
+														decimalPart = value.split('.')[1]; // Get the part after the decimal
+													}
+													return decimalPart;
+												}
+
+												var decimalLatPart = getDecimalPart(lat_deg);
+												var decimalLongPart = getDecimalPart(long_deg);
+
+												// Compare lengths
+												if (decimalLatPart.length < selectedPrecision || decimalLongPart.length < selectedPrecision) {
+													$('#precisionError').text('Precision error: Coordinates have fewer decimal places than selected.');
+												} else {
+													$('#precisionError').text('');
+												}
+											});
+
+											$('##saveButton').on('click', function() {
+												var latitude = $('##lat_deg').val();
+												var longitude = $('##long_deg').val();
+												var requiredPrecision = $('##coordinate_precision').val();
+
+												$.ajax({
+													url: '/localities/component/functions.cfc',
+													type: 'POST',
+													data: {
+														dec_lat: lat_deg,
+														dec_long: long_deg,
+														requiredPrecision: requiredPrecision
+													},
+													success: function(response) {
+														$('#result').html(response);
+													},
+													error: function(error) {
+														$('#result').html('Error processing request');
+													}
+												});
+											});
+										});
+									</script>
 								</div>
 								<div class="col-12 col-md-3 mb-2">
 									<label for="gpsaccuracy" class="data-entry-label">GPS Accuracy</label>
@@ -4147,30 +4225,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<input type="text" name="geolocate_parsepattern" id="geolocate_parsepattern" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_parsepattern)#" readonly>
 									</div>
 								</cfif>
-								<cfset minLength = #getGeoref.COORDINATE_PRECISION#>	
-								<cfset raw_dec_lat = "#getGeoref.RAW_DEC_LAT#">
-								<cfset raw_dec_long = "#getGeoref.RAW_DEC_LONG#">
-								<cffunction name="getDecimalParts" returntype="struct">
-									<cfargument name="raw_dec_lat" type="string" required="true">
-									<cfargument name="raw_dec_long" type="string" required="true">
-									<cfset var result = StructNew()>
-									<cfset var numberStr1 = arguments.raw_dec_lat & "">
-									<cfset var numberStr2 = arguments.raw_dec_long & "">
-									<cfset var decimalLatPart = "0">
-									<cfset var decimalLongPart = "0">
-									<cfif ListLen(numberStr1, ".") GT 1>
-										<cfset decimalLatPart = ListGetAt(numberStr1, 2, ".")>
-									</cfif>
-									<cfif ListLen(numberStr2, ".") GT 1>
-										<cfset decimalLongPart = ListGetAt(numberStr2, 2, ".")>
-									</cfif>
-									<cfset result.dot_dec_lat = decimalLatPart>
-									<cfset result.dot_dec_long = decimalLongPart>
-									<cfreturn result>
-								</cffunction>
-								
 
-					<!---You can get at the part of the coordinates after the decimal (dot_dec_lat,dot_dec_long) within the getDecimalParts function--->		
+
+								<!---You can get at the part of the coordinates after the decimal (dot_dec_lat,dot_dec_long) within the getDecimalParts function--->		
 								<cfset geoPrecision = #getDecimalParts(raw_dec_lat,raw_dec_long)#>
 								<cfif len(#geoPrecision.dot_dec_lat#) lt #minLength#>
 									<cfoutput><h1>#getGeoref.raw_dec_lat# not precise</h1></cfoutput>
@@ -4181,6 +4238,31 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										id="submitButton" >
 									<output id="georefEditFeedback" class="text-danger">&nbsp;</output>	
 								</div>
+								<script type="text/javascript">
+									$(document).ready(function() {
+										$('##saveButton').on('click', function() {
+											var latitude = $('##raw_dec_long').val();
+											var longitude = $('##raw_dec_long').val();
+											var requiredPrecision = 6; // or get this value dynamically
+
+											$.ajax({
+												url: 'processCoordinates.cfm',
+												type: 'POST',
+												data: {
+													dec_lat: latitude,
+													dec_long: longitude,
+													requiredPrecision: requiredPrecision
+												},
+												success: function(response) {
+													$('##result').html(response);
+												},
+												error: function(error) {
+													$('##result').html('Error processing request');
+												}
+											});
+										});
+									});
+								</script>
 								<script>
 									function saveGeorefUpdate() { 
 										$('##georefEditFeedback').html('Saving....');
