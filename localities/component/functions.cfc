@@ -2438,7 +2438,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												<option value="5">Specified to 0.00001&##176;, latitude known to 1 meter.</option>
 												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 											</select>
-											<span id="precisionError" class="text-danger"></span>
+											<span id="precisionError" class="text-danger d-inline-block"></span>
 											<script type="text/javascript">
 												// Make sure the document is ready
 												$(document).ready(function() {
