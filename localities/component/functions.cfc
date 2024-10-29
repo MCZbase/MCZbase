@@ -2467,6 +2467,35 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													});
 												});
 											</script>
+											
+											<script type="text/javascript">
+												// Make sure the document is ready
+												$(document).ready(function() {
+													$('##coordinate_precision').on('change', function() {
+														var lat = $('##lat_sec').val();
+														var long = $('##long_sec').val();
+														var selectedPrecision = parseInt($(this).val());
+
+														// Function to extract the decimal part
+														function getDecimalPart(value) {
+															if (value.includes('.')) {
+																return value.split('.')[1] || "0"; // Ensure return of '0' if no decimal part
+															}
+															return "0";
+														}
+
+														var decimalLatPart = getDecimalPart(lat);
+														var decimalLongPart = getDecimalPart(long);
+
+														// Compare lengths of decimals to selected precision
+														if (decimalLatPart.length < selectedPrecision || decimalLongPart.length < selectedPrecision) {
+															$('##precisionError').text('Precision error: Coordinates have fewer decimal places than selected.');
+														} else {
+															$('##precisionError').text('');
+														}
+													});
+												});
+											</script>
 										</div>
 										
 										<div class="col-12 col-md-3 mb-2">
