@@ -17,7 +17,7 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cfinclude template="/shared/component/functions.cfc">
-	
+
 <!--- 
  ** given a query, write a serialization of that query as csv, with a header line
  * to a file.
@@ -32,9 +32,6 @@ limitations under the License.
 <!---This function uses the SQL procedure (CHART_DATA_EXPORT), scheduled job (CHART_DATA), and temp table (CF_TEMP_CHART_DATA) to produce a png to write to /metrics/R/graphs/chart1.png
 ** TO DO: make date pass to dates from form to CHART_DATA_EXPORT (if possible) or at least use sysdate minus 1 year (e.g., change the year YYYY to -1)
 --->
-
-
-
 <cffunction name="getAnnualChart" access="remote" returntype="any" returnformat="plain">
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="getAnnualChartThread#tn#">
@@ -47,8 +44,6 @@ limitations under the License.
 						<div class="col-12 px-0">
 							<!--- chart created by R script --->
 							<img src="/metrics/R/graphs/chart1.png" width="672" />
-							
-							<!---<p class="small mt-3">MCZbase data used in chart can be <a href="#filePath##targetFile#">downloaded</a>. Chart and data are updated on Fridays at midnight (1 fiscal year back to present ).</p>--->
 						</div>
 					</div>
 				</div>
@@ -86,11 +81,11 @@ limitations under the License.
 		<cftry>
 			<!--- get correct schema for annual report or date range--->
 			<cfif annualReport EQ 'yes'>
-				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 					select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#0701"> 
 				</cfquery>
 				<cfset endschema = getendSchema.username> 
-				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 					select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#0701">
 				</cfquery>
 				<cfset beginschema = getbeginSchema.username>
@@ -123,7 +118,7 @@ limitations under the License.
 					(select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) Primary_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Primary_Specimens from #endSchema#.coll_object co join #endSchema#.flat f on co.collection_object_id = f.collection_object_id join #endSchema#.citation c on f.collection_object_id = c.collection_object_id join ctcitation_type_status ts on c.type_status =  ts.type_status where ts.CATEGORY in ('Primary') and co.COLL_OBJECT_ENTERED_DATE <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection, ts.CATEGORY) p on h.collection_id = p.collection_id
 				LEFT JOIN 
 					(select f.collection_id, f.collection, ts.CATEGORY, count(distinct f.collection_object_id) Secondary_Cat_Items, sum(decode(total_parts,null, 1,total_parts)) Secondary_Specimens from #endSchema#.coll_object co join #endSchema#.flat f on co.collection_object_id = f.collection_object_id join #endSchema#.citation c on f.collection_object_id = c.collection_object_id join ctcitation_type_status ts on c.type_status =  ts.type_status where ts.CATEGORY in ('Secondary') and co.COLL_OBJECT_ENTERED_DATE <  to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDate#">, 'YYYY-MM-DD') group by f.collection_id, f.collection, ts.CATEGORY) s on h.collection_id = s.collection_id
-			ORDER BY COLLECTION
+				ORDER BY COLLECTION
 			</cfquery>
 			<cfif variables.returnAs EQ "csv">
 				<cfset csv = queryToCSV(totals)> 
@@ -132,33 +127,47 @@ limitations under the License.
 				<cfoutput>
 					<section class="col-12 mt-1 px-0">
 						<div class="my-2 float-left w-100">
-							<h3 class="px-0 float-left mb-1 px-0 mt-0">
+							<h2 class="h3 px-0 float-left mb-1 px-0 mt-0">
 								<cfif annualReport eq "yes">Annual Report:</cfif> Holdings <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
 							</h3>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<a href="/metrics/Dashboard.cfm?action=dowloadHoldings&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Show/Hide Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=dowloadHoldings&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
 								</div>
 							</div>
 						</div>
 						<div class="table-responsive-lg">
+
 							<table class="table table-striped" id="t">
-								<thead>
+								<thead class="thead-light">
 									<tr>
-										<th><strong>Collection</strong></th>
+										<th>Collection </th>
 										<cfif annualReport EQ "yes">
-											<th><strong>Total Holdings</strong></th>
-											<th><strong>% of Holdings in MCZbase</strong></th>
+											<th>Total Holdings </th>
+											<th>% of Holdings in MCZbase</th>
 										</cfif>
-										<th><strong>Total Records - Cataloged Items</strong></th>
-										<th><strong>Total Records - Specimens</strong></th>
-										<th><strong>Primary Types - Cataloged Items</strong></th>
-										<th><strong>Primary Types - Specimens</strong></th>
-										<th><strong>Secondary Types - Cataloged Items</strong></th>
-										<th><strong>Secondary Types - Specimens</strong></th>
+										<th>Total Records - Cataloged Items</th>
+										<th>Total Records - Specimens</th>
+										<th>Primary Types - Cataloged Items</th>
+										<th>Primary Types - Specimens</th>
+										<th>Secondary Types - Cataloged Items</th>
+										<th>Secondary Types - Specimens</th>
 									</tr>
 								</thead>
 								<tbody>
+									<tr class="toggle1 hidden">
+										<td class="barber_stripes">Column Data Definitions <b>&rarr;</b></td>
+										<cfif annualReport EQ "yes">
+											<td>Total collection holdings are expressed in cataloged items, which may represent individual specimens or lots. Reported by MCZ curatorial staff and not derived from MCZbase data.</td>
+											<td>Total number of specimens represented by records in MCZbase divided by total holdings reported by the collections.</td>
+										</cfif>
+										<td>The total number of cataloged items in MCZbase.</td>
+										<td>The total number of individual specimens represented by cataloged item records.</td>
+										<td>The total number of cataloged item records that are primary types with citations.</td>
+										<td>The number of individual specimens which are part of primary type cataloged item records with citations.</td>
+										<td>The total number of cataloged item records that are secondary types with citations.</td>
+										<td>The number of individual specimens which are part of secondary type catalog item records with citations.</td>
+									</tr>
 									<cfloop query="totals">
 										<tr>
 											<td>#Collection#</td>
@@ -182,6 +191,7 @@ limitations under the License.
 						<cfelse> 
 							<p class="text-muted small">Reports are generated from the current MCZbase data for the given date range.</p>
 						</cfif>
+
 					</section>
 				</cfoutput>
 			</cfif>
@@ -219,11 +229,11 @@ limitations under the License.
 	<cfthread name="getAcquisitionsThread#tn#">
 		<cftry>
 			<cfif annualReport EQ 'yes'>
-				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 						select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#0701">
 				</cfquery>
 				<cfset endschema = getendSchema.username>
-				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 						select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#0701">
 				</cfquery>
 				<cfset beginschema = getbeginSchema.username>
@@ -238,10 +248,8 @@ limitations under the License.
 					a.Received_Cat_Items,
 					a.Received_Specimens,
 					e.Entered_Cat_Items,
-					ncbi.NCBI_Cat_Items, 'N/A',
+					ncbi.NCBI_Cat_Items, 
 					accn.Num_Accns
-					/*h.Cataloged_Items, 
-					h.Specimens*/
 					<cfif annualReport eq 'yes'>
 					,rm.value numrecnotcat
 					,cryo.numAddedCryo
@@ -282,30 +290,43 @@ limitations under the License.
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<a href="/metrics/Dashboard.cfm?action=downloadVisitorsMediareqs&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Show/Hide Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=dowloadAcquisitions&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
 								</div>
 							</div>
 						</div>
 						<div class="table-responsive-lg">
 							<table class="table table-striped" id="t">
-								<thead>
+								<thead class="thead-light">
 									<tr>
-										<th><strong>Collection</strong></th>
-										<th><strong>Acquired Cataloged Items</strong></th>
-										<th><strong>Acquired Specimens</strong></th>
-										<th><strong>New Records Entered in MCZbase - Cataloged Items</strong></th>
+										<th>Collection</th>
+										<th>Acquired Cataloged Items</th>
+										<th>Acquired Specimens</th>
+										<th>New Records Entered in MCZbase - Cataloged Items</th>
+										<th>Number of Cataloged Items with NCBI numbers</th>
 										<cfif annualReport EQ "yes">
-											<th><strong>Number of Genetic Samples added To Cryo</strong></th>
+											<th>Number of Genetic Samples added To Cryo</th>
 										</cfif>
-										<th><strong>Number of Cataloged Items with NCBI numbers</strong></th>
+										<th>Number of Accessions in the FY</th>
 										<cfif annualReport EQ "yes">
-											<th><strong>Items received but not Cataloged at End of Year (may be estimate)</strong></th>
+											<th>Items Received but Not Cataloged in the FY</th>
 										</cfif>
-										<th><strong>Number of Accessions</strong></th>
-										<!---th><strong>Total Specimens (parts)</strong></th--->
 									</tr>
 								</thead>
 								<tbody>
+									<tr class="toggle1 hidden">
+										<td class="barber_stripes">Column Data Definitions <b>&rarr;</b></td>
+										<td>The number of databased cataloged items acquired in the FY, derived from the total number of cataloged item records in accessions for the FY.</td>
+										<td>The number of specimens acquired in the FY, derived from the total number of specimens which are part of cataloged item records in databased accessions for the FY.</td>
+										<td>The number of cataloged items databased in the FY. </td>
+										<cfif annualReport EQ "yes">
+											<td>The total number of cataloged items with NCBI numbers as of #encodeForHtml(endDate)#</td>
+										</cfif>
+										<td>The number of databased genetic samples added to the Cryo Collection in the FY as indicated by the number of parts in cryovats.</td>
+										<td>The number of accessions received and databased in the FY.</td>
+										<cfif annualReport EQ "yes">
+											<td>The number of cataloged items received in the FY, but not databased, as reported by MCZ collections staff, and not derived from MCZbase data (may be estimate).</td>
+										</cfif>
+									</tr>
 									<cfloop query="ACtotals">
 										<tr>
 											<td>#collection#</td>
@@ -330,28 +351,19 @@ limitations under the License.
 														#Entered_Cat_Items#
 												</cfif>
 											</td>
-											<cfif annualReport EQ "yes">
-											<td>
-												<cfif #numAddedCryo# EQ ''>
-													N/A
-												<cfelse>
-													#numAddedCryo#
-												</cfif>
-											</td>
-											</cfif>
 											<td>
 												<cfif #NCBI_Cat_Items# EQ ''>
 													N/A
 												<cfelse>
-														#NCBI_Cat_Items#
+													#NCBI_Cat_Items#
 												</cfif>
 											</td>
 											<cfif annualReport EQ "yes">
 												<td>
-													<cfif #numrecnotcat# EQ ''>
+													<cfif #numAddedCryo# EQ ''>
 														N/A
 													<cfelse>
-														#numrecnotcat#
+														#numAddedCryo#
 													</cfif>
 												</td>
 											</cfif>
@@ -364,6 +376,15 @@ limitations under the License.
 													#Num_Accns#
 												</cfif>
 											</td>
+											<cfif annualReport EQ "yes">
+												<td>
+													<cfif #numrecnotcat# EQ ''>
+														N/A
+													<cfelse>
+														#numrecnotcat#
+													</cfif>
+												</td>
+											</cfif>
 										</tr>
 									</cfloop>
 								</tbody>
@@ -397,8 +418,8 @@ limitations under the License.
 @param returnAs html or csv, if csv returns result as csv, otherwise as html table 
 --->
 <cffunction name="getLoanNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="any" required="yes" default="2024-06-30">
-	<cfargument name="beginDate" type="any" required="yes" default="2023-07-01">
+	<cfargument name="endDate" type="any" required="yes">
+	<cfargument name="beginDate" type="any" required="yes">
 	<cfargument name="annualReport" type="any" required="yes">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
@@ -502,28 +523,41 @@ limitations under the License.
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<a href="/metrics/Dashboard.cfm?action=dowloadLoanActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Show/Hide Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=dowloadLoanActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
 								</div>
 							</div>
 						</div>
 						<div class="table-responsive-lg">
-							<table class="table table-striped" id="t">
-								<thead>
+							<table class="table table-striped border" id="t">
+								<thead class="thead-light">
 									<tr>
-										<th><strong>Collection</strong></th>
-										<th><strong>Outgoing Loans</strong></th>
-										<th><strong>Closed Loans</strong></th>
-										<th><strong>Closed Overdue (>5 years) Loans</strong></th>
-										<th><strong>Closed Overdue (>10 years) Loans</strong></th>
-										<th><strong>Incoming loans (=Borrows)</strong></th>
-										<th><strong>Number of Open Loans</strong></th>
-										<th><strong>Number of Open Loans overdue > 5 years</strong></th>
-										<th><strong>Number of Open Loans overdue > 10 year</strong></th>
-										<th><strong>Outgoing Cataloged Items</strong></th>
-										<th><strong>Outgoing Specimens</strong></th>
+										<th>Collection</th>
+										<th>Outgoing Loans</th>
+										<th>Closed Loans</th>
+										<th>Closed Overdue (>5 years) Loans</th>
+										<th>Closed Overdue (>10 years) Loans</th>
+										<th>Incoming loans (=Borrows)</th>
+										<th>Number of Open Loans</th>
+										<th>Number of Open Loans overdue > 5 years</th>
+										<th>Number of Open Loans overdue > 10 year</th>
+										<th>Outgoing Cataloged Items</th>
+										<th>Outgoing Specimens</th>
 									</tr>
 								</thead>
 								<tbody>
+									<tr class="toggle1 hidden">
+										<td class="barber_stripes">Column Data Definitions &rarr;</div>
+										<td>Number of outgoing loans in the FY. </div>
+										<td>Total number of open loans that were completely closed in the FY.</div>
+										<td>Total number of open loans older than 5 years closed in the FY.</td>
+										<td>Total number of open loans older than 10 years closed in the FY.</td>
+										<td>Total number of borrows in the FY.</td>
+										<td>Total number of open loans as of 2019-06-30.</td>
+										<td>Total number of open loans that are past due for over 5 years as of 2019-06-30.</td>
+										<td>Total number of open loans that are past due for over 10 years as of 2019-06-30.</td>
+										<td>Cataloged Items in Loans in the FY.</td>
+										<td>Specimens in Loans in the FY.</td>
+									</tr>
 									<cfloop query="loans">
 										<cfif #Collection# EQ 'Herpetology Observations'>
 											<tr>
@@ -586,8 +620,8 @@ limitations under the License.
 @param returnAs html or csv, if csv returns result as csv, otherwise as html table 
 --->
 <cffunction name="getMediaNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="any" required="no" default="2024-06-30">
-	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
+	<cfargument name="endDate" type="any" required="no">
+	<cfargument name="beginDate" type="any" required="no">
 	<cfargument name="annualReport" type="any" required="yes">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
@@ -600,11 +634,11 @@ limitations under the License.
 	<cfthread name="getMediaNumbersThread#tn#">
 		<cftry>
 			<cfif annualReport EQ 'yes'>
-				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 						select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#0701">
 				</cfquery>
 				<cfset endschema = getendSchema.username>
-				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 						select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#0701">
 				</cfquery>
 				<cfset beginschema = getbeginSchema.username>
@@ -683,27 +717,40 @@ limitations under the License.
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<a href="/metrics/Dashboard.cfm?action=dowloadMediaActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Show/Hide Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=dowloadMediaActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
 								</div>
 							</div>
 						</div>
 						<div class="table-responsive-lg">
 							<table class="table table-striped" id="t">
-								<thead>
+								<thead class="thead-light">
 									<tr>
-										<th><strong>Collection</strong></th>
-										<th><strong>Number of Cataloged Items with Media</strong></th>
-										<th><strong>Number of Media Items</strong></th>
+										<th>Collection</th>
+										<th>Number of Cataloged Items with Media</th>
+										<th>Number of Media Items</th>
 										<cfif annualReport EQ "yes">
-											<th><strong>Number of Cataloged Items with Media added</strong></th>
-											<th><strong>Number of Media Items added</strong></th>
+											<th>Number of Cataloged Items with Media added</th>
+											<th>Number of Media Items added</th>
 										</cfif>
-										<th><strong>Number of Primary Types with Images</strong></th>
-										<th><strong>% of Primary Types Imaged</strong></th>
-										<th><strong>Number of Secondary Types with Images</strong></th>
+										<th>Number of Primary Types with Images</th>
+										<th>% of Primary Types Imaged</th>
+										<th>Number of Secondary Types with Images</th>
 									</tr>
 								</thead>
 								<tbody>
+									<tr class="toggle1 hidden">
+										<td class="barber_stripes">Column Data Definitions <b>&rarr;</b></td>
+										<td>Total number of cataloged item records that have associated media.</td>
+										<td>Total number of media items associated with cataloged item records.</td>
+										<cfif annualReport EQ "yes">
+											<td>Total number of cataloged item records that had media items added during the FY.</td>
+											<td>Total number of media items associated with cataloged item records that were added during the FY.</td>
+										</cfif>
+										<td>Total number of primary type cataloged item records with citations that have associated images.</td>
+										<td>The percentage of primary types with associated media as of #encodeForHtml(endDate)#</td>
+										<td>Total number of secondary type cataloged item records with citations that have associated images.</td>
+										
+									</tr>
 									<cfloop query="media">
 										<tr>
 											<td>#Collection#</td>
@@ -767,8 +814,8 @@ limitations under the License.
 @param returnAs html or csv, if csv returns result as csv, otherwise as html table 
 --->
 <cffunction name="getCitationNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="any" required="no" default="2024-06-30">
-	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
+	<cfargument name="endDate" type="any" required="no">
+	<cfargument name="beginDate" type="any" required="no">
 	<cfargument name="annualReport" type="any" required="yes">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
@@ -781,11 +828,11 @@ limitations under the License.
 	<cfthread name="getCitationNumbersThread#tn#">
 		<cftry>
 			 <cfif annualReport EQ 'yes'>
-				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 						select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#0701">
 				</cfquery>
 				<cfset endschema = getendSchema.username>
-				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 						select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#0701">
 				</cfquery>
 				<cfset beginschema = getbeginSchema.username>
@@ -822,30 +869,32 @@ limitations under the License.
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
-							<!--- 
-								TODO: Citation query does not use dates 
-							<h2 class="h3 px-0 mt-0 float-left mb-0">Citation Activity <span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span></h2>
-							--->
 							<h2 class="h3 px-0 mt-0 float-left mb-1">
 								<cfif annualReport eq "yes">Annual Report:</cfif> Citation Activity <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<a href="/metrics/Dashboard.cfm?action=dowloadCitationActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Show/Hide Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=dowloadCitationActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
 								</div>
 							</div>
 						</div>
 						<div class="table-responsive-lg">
 							<table class="table table-striped" id="t">
-								<thead>
+								<thead class="thead-light">
 									<tr>
-										<th><strong>Collection</strong></th>
-										<th><strong>Total Citations</strong></th>
-										<th><strong>Number of Cataloged Items with Citations</strong></th>
-										<th><strong>Number of Genetic Voucher Citations</strong></th>
+										<th>Collection</th>
+										<th>Total Citations</th>
+										<th>Number of Cataloged Items with Citations</th>
+										<th>Number of Genetic Voucher Citations</th>
 									</tr>
 								</thead>
 								<tbody>
+									<tr class="toggle1 hidden">
+										<td class="barber_stripes">Column Data Definitions <b>&rarr;</b></td>
+										<td>Total number of complete citations associated with cataloged items.</td>
+										<td>Number of cataloged items with citations.</td>
+										<td>Number of genetic voucher citations.</td>
+									</tr>
 									<cfloop query="citationNums">
 										<tr>
 											<td>#Collection#</td>
@@ -885,8 +934,8 @@ limitations under the License.
 @param returnAs html or csv, if csv returns result as csv, otherwise as html table 
 --->
 <cffunction name="getGeorefNumbers" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="any" required="no" default="2024-06-30">
-	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
+	<cfargument name="endDate" type="any" required="no">
+	<cfargument name="beginDate" type="any" required="no">
 	<cfargument name="annualReport" type="any" required="yes">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 	
@@ -899,11 +948,11 @@ limitations under the License.
 	<cfthread name="getGeorefNumbersThread#tn#">
 		<cftry>
 			<cfif annualReport EQ 'yes'>
-					<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+					<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 							select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#0701">
 					</cfquery>
 					<cfset endschema = getendSchema.username>
-					<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+					<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 							select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#0701">
 					</cfquery>
 					<cfset beginschema = getbeginSchema.username>
@@ -911,7 +960,6 @@ limitations under the License.
 					<cfset beginSchema="MCZBASE">
 					<cfset endSchema="MCZBASE">
 			</cfif>
-
 			<cfquery name="georef" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 				SELECT
 					c.Collection,
@@ -959,40 +1007,47 @@ limitations under the License.
 				<cfoutput>
 					<section class="col-12 mt-2 px-0">
 						<div class="my-2 float-left w-100">
-							<!--- 
-								TODO: Georeferencing queries do not use dates 
-							<h2 class="h3 px-0 mt-0 float-left mb-0">Georeferencing Activity 
-								<span class="text-muted">(#encodeForHtml(beginDate)#/#encodeForHtml(endDate)#)</span>
-							</h2>
-							--->
 							<h2 class="h3 px-0 mt-0 float-left mb-1">
 								<cfif annualReport eq "yes">Annual Report:</cfif> Georeferencing Activity <span class="text-muted">(as of #encodeForHtml(endDate)#)</span>
 							</h2>
 							
 							<div class="btn-toolbar my-1 mt-lg-0 float-right">
 								<div class="btn-group mr-2">
-									<a href="/metrics/Dashboard.cfm?action=dowloadGeoreferenceActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Show/Hide Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=dowloadGeoreferenceActivity&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
 								</div>
 							</div>
 						</div>
 						<div class="table-responsive-lg">
 							<table class="table table-striped" id="t">
-								<thead>
+								<thead class="thead-light">
 									<tr>
-										<th><strong>Collection</strong></th>
-										<th><strong>Total Number of Localities</strong></th>
-										<th><strong>Records Georeferenced - Localities</strong></th>
-										<th><strong>% of Localities Georeferenced</strong></th>
-										<th><strong>Records Georeferences Verified - Localities</strong></th>
-										<th><strong>Records Georeferenced Total - Cataloged Items</strong></th>
-										<th><strong>% of Cataloged Items Georeferenced</strong></th>
+										<th>Collection</th>
+										<th>Total Number of Localities</th>
+										<th>Records Georeferenced - Localities</th>
+										<th>% of Localities Georeferenced</th>
+										<th>Records Georeferenced and Verified - Localities</th>
+										<th>Records Georeferenced Total - Cataloged Items</th>
+										<th>% of Cataloged Items Georeferenced</th>
 										<cfif annualReport EQ "yes">
-											<th><strong>Records Georeferenced in FY - Localities</strong></th>
-											<th><strong>Records Georeferenced in FY - Cataloged Items</strong></th>
+											<th>Records Georeferenced in FY - Localities</th>
+											<th>Records Georeferenced in FY - Cataloged Items</th>
 										</cfif>
 									</tr>
 								</thead>
 								<tbody>
+									<tr class="toggle1 hidden">
+										<td class="barber_stripes">Column Data Definitions &rarr;</td>
+										<td>Total number of localities.</td>
+										<td>Total number of georeferenced localities.</td>
+										<td>Total number of georeferenced localities divided by the total number of localities as a percentage.</td>
+										<td>Total number of georeferenced localities verified by the collection.</td>
+										<td>Total number of cataloged item records georeferenced.</td>
+										<td>Total number of cataloged item records that are georeferenced divided by total number of catalog item records, which may represent individual specimens or lots depending on the collection.</td>
+										<cfif annualReport EQ "yes">
+											<td>Total number of localities georeferenced during the FY. Can be a negative number if localities have been merged.</td>
+											<td>Total number of cataloged item records georeferenced during the FY.</td>
+										</cfif>
+									</tr>
 									<cfloop query="georef">
 										<tr>
 											<td>#Collection#</td>
@@ -1039,8 +1094,8 @@ limitations under the License.
 @param returnAs html or csv, if csv returns result as csv, otherwise as html table
 --->
 <cffunction name="getVisitorsMediaRequests" access="remote" returntype="any" returnformat="json">
-	<cfargument name="endDate" type="any" required="no" default="2024-06-30">
-	<cfargument name="beginDate" type="any" required="no" default="2023-07-01">
+	<cfargument name="endDate" type="any" required="no">
+	<cfargument name="beginDate" type="any" required="no">
 	<cfargument name="annualReport" type="any" required="yes">
 	<cfargument name="returnAs" type="string" required="no" default="html">
 
@@ -1053,13 +1108,13 @@ limitations under the License.
 	<cfthread name="getVisitorsMediaRequestsThread#tn#">
 		<cftry>
 			<cfif annualReport EQ 'yes'>
-				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 					select username 
 					from dba_users 
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#0701">
 				</cfquery>
 				<cfset endschema = getendSchema.username>
-				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 					select username 
 					from dba_users 
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#0701">
@@ -1109,21 +1164,27 @@ limitations under the License.
 							</h2>
 							<div class="btn-toolbar my-1 mt-md-0 float-right">
 								<div class="btn-group mr-2">
-									<a href="/metrics/Dashboard.cfm?action=downloadVisitorsMediareqs&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary">Export Table</a>
+									<button onclick="toggleRow()" class="btn btn-xs btn-primary">Show/Hide Definitions</button> <a type="button" href="/metrics/Dashboard.cfm?action=downloadVisitorsMediareqs&returnAs=csv&annualReport=#annualReport#&beginDate=#encodeForURL(beginDate)#&endDate=#encodeForUrl(endDate)#" class="btn btn-xs btn-outline-secondary text-decoration-none">Export Table</a>
 								</div>
 							</div>
 						</div>
 						<div class="table-responsive-lg">
 							<table class="table table-striped" id="t">
-								<thead>
+								<thead class="thead-light">
 									<tr>
-										<th><strong>Collection</strong></th>
-										<th><strong>Number of Scholarly Visitors</strong></th>
-										<th><strong>Total Number of Days Scholarly Visitors used Collection</strong></th>
-										<th><strong>Media Requests</strong></th>
+										<th>Collection</th>
+										<th>Number of Scholarly Visitors</th>
+										<th>Total Number of Days Scholarly Visitors used Collection</th>
+										<th>Media Requests</th>
 									</tr>
 								</thead>
 								<tbody>
+									<tr class="toggle1 hidden">
+										<td class="barber_stripes">Column Data Definitions &rarr; </td>
+										<td>Number of scholarly visitors working in the collections during the FY as reported by MCZ Collections staff.</td>
+										<td>Number of days that scholarly visitors were working in the collections during the FY as reported by MCZ Collections staff.</td>
+										<td>Number of image/filming/media requests as indicated by the MCZ permissions requests during the FY as reported by MCZ Collections staff. </td>
+									</tr>
 									<cfloop query="visitorsmediareq">
 										<tr>
 											<td>#collection#</td>

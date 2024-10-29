@@ -64,6 +64,19 @@ limitations under the License.
 </cfif>
 <cfset beginDateFiscal = '#DateFormat(DateAdd("d",1,DateAdd("yyyy", -1, endDateFiscal)),"yyyy-mm-dd")#'>
 
+<script>
+	$(document).ready(function() {
+		$("##beginDate").datepicker({ dateFormat: 'yy-mm-dd'});
+		$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
+	});
+	function toggleRow() {
+		const cells = document.querySelectorAll('.toggle1');
+		cells.forEach(function(cell) {
+			cell.classList.toggle('hidden');
+		});
+	}
+</script>
+
 <cfswitch expression="#action#">
 	<cfcase value="dowloadHoldings">
 		<!--- download holdings table as csv  --->
@@ -150,13 +163,7 @@ limitations under the License.
 		<script type="text/javascript" src="/metrics/js/metrics.js"></script> 
 		<meta name="theme-color" content="#563d7c">
 		<cfoutput>
-			<script>
-				$(document).ready(function() {
-					$("##beginDate").datepicker({ dateFormat: 'yy-mm-dd'});
-					$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
-				});
-			</script>
-			<div class="container-fluid" id="content">
+			<div class="container-fluid" id="content" aria-label="Select report type and dates">
 				<div class="row">
 				<br clear="all">	
 					<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar" style="background-color: ##efeded;border: ##e3e3e3;">
@@ -172,30 +179,45 @@ limitations under the License.
 									</div>
 									<div id="collapseAnnual" class="collapse show" style="border: 2px solid ##deedec;" aria-labelledby="headingAnnual" data-parent="##accordionExample">
 										<div class="card-body">
-									
 											<form class="py-2" id="loadReportFormAnnual">
 												<div class="form-group">
 													<input type="hidden" name="returnFormat" value="plain">
 													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
+													
 													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
-													<!--- TODO: This needs to be a query on the historical data table, not a hard coded list, query below --->
-													<!---
-														SELECT 
-															distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option
-														FROM
-															collections_reported_metrics
-													--->
-													<select id="fiscalYear" name="fiscalYear" onchange="setFiscalYearDates()" required class="data-entry-input my-1">
+													<cfquery name="fyDates" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
+														SELECT
+															distinct 'FY' || to_char(reported_date, 'yyyy') as fiscal_year_option,reported_date,
+														TO_CHAR(
+															CASE 
+																WHEN EXTRACT(MONTH FROM reported_date) >= 4 
+																THEN TO_DATE((EXTRACT(YEAR FROM reported_date) - 1) || '-07-01', 'YYYY-MM-DD')
+																ELSE TO_DATE((EXTRACT(YEAR FROM reported_date) - 1) || '-07-01', 'YYYY-MM-DD')
+															END, 'YYYY-MM-DD'
+														) AS beginDateFiscal,
+														TO_CHAR(
+															CASE 
+																WHEN EXTRACT(MONTH FROM reported_date) >= 4 
+																THEN TO_DATE((EXTRACT(YEAR FROM reported_date)) || '-06-30', 'YYYY-MM-DD')
+																ELSE TO_DATE(EXTRACT(YEAR FROM reported_date) || '-06-30', 'YYYY-MM-DD')
+															END, 'YYYY-MM-DD'
+														) AS endDateFiscal
+														FROM MCZBASE.collections_reported_metrics
+														ORDER by reported_date DESC
+													</cfquery>
+													<select id="fiscalYear" name="fiscalYear" required class="data-entry-input my-1">
 														
-														<option value="FY2024" selected="selected">FY2024</option>
-														<option value="FY2023">FY2023</option>
-														<!-- Add more fiscal years as needed -->
+														<cfloop query = "fyDates">
+															<option value="#fyDates.beginDateFiscal#,#fyDates.endDateFiscal#">#fyDates.fiscal_year_option#</option>
+														</cfloop>
 													</select>
 													<!-- Hidden fields to store beginDate and endDate -->
-													<input type="hidden" id="beginDateFiscal" name="beginDate" value="#beginDateFiscal#">
-													<input type="hidden" id="endDateFiscal" name="endDate" value="#endDateFiscal#">
+													<input type="hidden" id="beginDateFiscal" name="beginDate" value="#fyDates.beginDateFiscal#">
+													<input type="hidden" id="endDateFiscal" name="endDate" value="#fyDates.endDateFiscal#">
+													
 													<h3 class="h4 text-muted mt-3">Report to Show</h3>
 													<label for="method" class="sr-only">Report To Show</label>
+													
 													<select id="method" name="method" class="my-1 data-entry-input">
 														<option value="getNumbers" selected="selected">Annual Report: Holdings</option>
 														<option value="getAcquisitions">Annual Report: Acquisitions</option>
@@ -208,29 +230,16 @@ limitations under the License.
 												</div>
 												<button type="submit" value="Show Report" id="loadReportFormAnnual" class="my-2 btn-xs btn btn-primary">Show Annual Report</button>
 											</form>
-											<!--- TODO: This needs to be an interpretation of a year value to fiscal year start end dates, not a hard coded list (allowing list of fiscal years to be retrieved from the database, not hard coded) --->
+											<!---This takes the two dates: beginDate and endDate from the dropdown to pass it to the hideen values so that it can become a --->
 											<script>
-												function setFiscalYearDates() {
-													const fiscalYear = document.getElementById("fiscalYear").value; 
-														var beginDate;
-														var endDate;
-														switch(fiscalYear) {
-															case "FY2023":
-																beginDate = "2022-07-01";
-																endDate = "2023-06-30";
-																break;
-															case "FY2024":
-																beginDate = "2023-07-01";
-																endDate = "2024-06-30";
-																break;
-															default:
-																beginDate = "";
-																endDate = "";
-																break;
-														}
-													document.getElementById("beginDateFiscal").value = beginDate; 
-													document.getElementById("endDateFiscal").value = endDate;
-												}
+												document.addEventListener('DOMContentLoaded', function() {
+													document.getElementById('fiscalYear').addEventListener('change', function() {
+														var combinedValue = this.value;
+														var parts = combinedValue.split(',');
+														document.getElementById('beginDateFiscal').value = parts[0]; // Sets the beginDate
+														document.getElementById('endDateFiscal').value = parts[1]; // Sets the endDate
+													});
+												});
 											</script>
 										</div>
 									</div>
@@ -365,11 +374,10 @@ limitations under the License.
 									$('##divArbitraryRangeResults').innerHTML = '<p>Results from CFC function query appear here.</p>';
 									$('##divArbitraryRangeResults').style.display = 'block';
 								}
-								
 							</script>
 						</div>
 					</nav>
-					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3">
+					<main role="main" class="col-md-9 px-3 ml-sm-auto col-lg-10 mb-3" aria-live="assertive">
 						<div class="card-body">
 							<div class="col-12 px-0 mt-4">
 								<h1 class="h2 mb-1 pb-2 px-2 pt-2 w-100">MCZbase Metrics </h1>
