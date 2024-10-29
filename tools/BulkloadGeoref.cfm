@@ -554,24 +554,7 @@ limitations under the License.
 				<cfset dec_lat = "#getTempData.DEC_LAT#">
 				<cfset dec_long = "#getTempData.DEC_LONG#">
 					
-				<cffunction name="getDecimalParts" returntype="struct">
-					<cfargument name="dec_lat" type="string" required="true">
-					<cfargument name="dec_long" type="string" required="true">
-					<cfset var result = StructNew()>
-					<cfset var numberStr1 = arguments.dec_lat & "">
-					<cfset var numberStr2 = arguments.dec_long & "">
-					<cfset var decimalLatPart = "0">
-					<cfset var decimalLongPart = "0">
-					<cfif ListLen(numberStr1, ".") GT 1>
-						<cfset decimalLatPart = ListGetAt(numberStr1, 2, ".")>
-					</cfif>
-					<cfif ListLen(numberStr2, ".") GT 1>
-						<cfset decimalLongPart = ListGetAt(numberStr2, 2, ".")>
-					</cfif>
-					<cfset result.dot_dec_lat = decimalLatPart>
-					<cfset result.dot_dec_long = decimalLongPart>
-					<cfreturn result>
-				</cffunction>
+
 				<!---You can get at the part of the coordinates after the decimal (dot_dec_lat,dot_dec_long) within the getDecimalParts function--->		
 				<cfset minLength = #getTempData.coordinate_precision#>
 				<cfset geoPrecision = #getDecimalParts(dec_lat,dec_long)#>
