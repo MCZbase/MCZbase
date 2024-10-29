@@ -2488,7 +2488,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 														// Compare lengths of decimals to selected precision
 														if (decimalLatPart2.length < selectedPrecision || decimalLongPart2.length < selectedPrecision) {
-															$('##precisionError').text('Precision error: Coordinates have fewer decimal places than selected.');
+															$('##precisionError').text('Precision error: Seconds have fewer decimal places than selected.');
 														} else {
 															$('##precisionError').text('');
 														}
