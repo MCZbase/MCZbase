@@ -2426,6 +2426,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</script> 
 										</div>
 										<div class="col-12 col-md-3 mb-2">
+											
+						
 											<label for="coordinate_precision" class="data-entry-label">Precision</label>
 											<select name="coordinate_precision" id="coordinate_precision" class="data-entry-select reqdClr" required>
 												<option value=""></option>
@@ -2438,6 +2440,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 											</select>
 										</div>
+										<cfset geoPrecision = #getDecimalParts(raw_dec_lat,raw_dec_long)#>
+										<cfif len(#geoPrecision.latitude#) lt #minLength#>Lat too short</cfif>
 										<div class="col-12 col-md-3 mb-2">
 											<label for="gpsaccuracy" class="data-entry-label">GPS Accuracy</label>
 											<input type="text" name="gpsaccuracy" id="gpsaccuracy" class="data-entry-input" value="">
