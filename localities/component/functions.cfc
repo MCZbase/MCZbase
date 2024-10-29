@@ -2438,17 +2438,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												<option value="5">Specified to 0.00001&##176;, latitude known to 1 meter.</option>
 												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 											</select>
-											Latitude: <input type="text" id="latitude" name="latitude"><br>
-											Longitude: <input type="text" id="longitude" name="longitude"><br>
-			<!---								Precision: 
-											<select id="precision" name="precision">
-												<option value="1">1</option>
-												<option value="2">2</option>
-												<option value="3">3</option>
-												<option value="4">4</option>
-												<option value="5">5</option>
-												<option value="6">6</option>
-											</select>--->
 											<span id="precisionError" style="color: red;"></span>
 											<script type="text/javascript">
 												// Make sure the document is ready
