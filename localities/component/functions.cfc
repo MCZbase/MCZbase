@@ -4147,9 +4147,38 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<input type="text" name="geolocate_parsepattern" id="geolocate_parsepattern" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_parsepattern)#" readonly>
 									</div>
 								</cfif>
+											
+								<cfset raw_dec_lat = "#getGeoref.RAW_DEC_LAT#">
+								<cfset raw_dec_long = "#getGeoref.RAW_DEC_LONG#">
+								<cffunction name="getDecimalParts" returntype="struct">
+									<cfargument name="raw_dec_lat" type="string" required="true">
+									<cfargument name="raw_dec_long" type="string" required="true">
+									<cfset var result = StructNew()>
+									<cfset var numberStr1 = arguments.dec_lat & "">
+									<cfset var numberStr2 = arguments.dec_long & "">
+									<cfset var decimalLatPart = "0">
+									<cfset var decimalLongPart = "0">
+									<cfif ListLen(numberStr1, ".") GT 1>
+										<cfset decimalLatPart = ListGetAt(numberStr1, 2, ".")>
+									</cfif>
+									<cfif ListLen(numberStr2, ".") GT 1>
+										<cfset decimalLongPart = ListGetAt(numberStr2, 2, ".")>
+									</cfif>
+									<cfset result.dot_dec_lat = decimalLatPart>
+									<cfset result.dot_dec_long = decimalLongPart>
+									<cfreturn result>
+								</cffunction>
+								
+
+									<!---You can get at the part of the coordinates after the decimal (dot_dec_lat,dot_dec_long) within the getDecimalParts function--->		
+								<cfset minLength = #getTempData.coordinate_precision#>
+								<cfset geoPrecision = #getDecimalParts(raw_dec_lat,raw_dec_long)#>
+								<cfif len(#geoPrecision.dot_dec_lat#) lt #minLength#>
+									<output>#raw_dec_lat# or #raw_dec_long# not precise</output>
+								</cfif>
 								<div class="col-12 col-md-3 mb-2">
 									<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
-										onClick="if (checkFormValidity($('##editGeorefForm')[0])) { saveGeorefUpdate();  } " 
+										onClick="if (checkFormValidity($('##editGeorefForm')[0])) { saveGeorefUpdate(); getDecimalParts(#raw_dec_lat#,#raw_dec_long#)}  " 
 										id="submitButton" >
 									<output id="georefEditFeedback" class="text-danger">&nbsp;</output>	
 								</div>
