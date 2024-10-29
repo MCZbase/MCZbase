@@ -2113,27 +2113,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 </cffunction>
 
 												
-<cffunction name="getDecimalParts" returntype="struct">
-	<cfargument name="dec_lat" type="string" required="true">
-	<cfargument name="dec_long" type="string" required="true">
 
-	<cfset var result = StructNew()>
-	<cfset var decimalLatPart = "0">
-	<cfset var decimalLongPart = "0">
-
-	<cfif ListLen(arguments.dec_lat, ".") GT 1>
-		<cfset decimalLatPart = ListGetAt(arguments.dec_lat, 2, ".")>
-	</cfif>
-
-	<cfif ListLen(arguments.dec_long, ".") GT 1>
-		<cfset decimalLongPart = ListGetAt(arguments.dec_long, 2, ".")>
-	</cfif>
-
-	<cfset result.latitude = decimalLatPart>
-	<cfset result.longitude = decimalLongPart>
-
-	<cfreturn result>
-</cffunction>
 <!--- given a locality_id create the html for a dialog to add a georeference to the locality
   @param locality_id the locality to which to add the georeference.
   @param geolocateImmediate optional, if yes, then immediately invoke geolocate on opening the dialog.
