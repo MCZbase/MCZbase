@@ -4147,7 +4147,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<input type="text" name="geolocate_parsepattern" id="geolocate_parsepattern" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_parsepattern)#" readonly>
 									</div>
 								</cfif>
-											
+								<cfset minLength = #getGeoref.COORDINATE_PRECISION#>	
 								<cfset raw_dec_lat = "#getGeoref.RAW_DEC_LAT#">
 								<cfset raw_dec_long = "#getGeoref.RAW_DEC_LONG#">
 								<cffunction name="getDecimalParts" returntype="struct">
@@ -4170,8 +4170,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								</cffunction>
 								
 
-									<!---You can get at the part of the coordinates after the decimal (dot_dec_lat,dot_dec_long) within the getDecimalParts function--->		
-								<cfset minLength = #getTempData.coordinate_precision#>
+					<!---You can get at the part of the coordinates after the decimal (dot_dec_lat,dot_dec_long) within the getDecimalParts function--->		
 								<cfset geoPrecision = #getDecimalParts(raw_dec_lat,raw_dec_long)#>
 								<cfif len(#geoPrecision.dot_dec_lat#) lt #minLength#>
 									<output>#raw_dec_lat# or #raw_dec_long# not precise</output>
