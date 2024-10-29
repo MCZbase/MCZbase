@@ -547,13 +547,8 @@ limitations under the License.
 					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
 					
-	
-					
-					
-					
 				<cfset dec_lat = "#getTempData.DEC_LAT#">
 				<cfset dec_long = "#getTempData.DEC_LONG#">
-					
 
 				<!---You can get at the part of the coordinates after the decimal (dot_dec_lat,dot_dec_long) within the getDecimalParts function--->		
 				<cfset minLength = #getTempData.coordinate_precision#>
@@ -576,8 +571,7 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
-					
-						
+		
 						
 				<!---Check to see if the CSV georef is a dup of one already in the locality record--->
 				<cfquery name="warningLocalityID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
