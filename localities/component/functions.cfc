@@ -4173,11 +4173,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<!---You can get at the part of the coordinates after the decimal (dot_dec_lat,dot_dec_long) within the getDecimalParts function--->		
 								<cfset geoPrecision = #getDecimalParts(raw_dec_lat,raw_dec_long)#>
 								<cfif len(#geoPrecision.dot_dec_lat#) lt #minLength#>
-									<output>#raw_dec_lat# or #raw_dec_long# not precise</output>
+									<cfoutput><h1>#getGeoref.raw_dec_lat# not precise</h1></cfoutput>
 								</cfif>
 								<div class="col-12 col-md-3 mb-2">
 									<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
-										onClick="if (checkFormValidity($('##editGeorefForm')[0])) { saveGeorefUpdate(); getDecimalParts(#raw_dec_lat#,#raw_dec_long#)}  " 
+										onClick="if (checkFormValidity($('##editGeorefForm')[0])) { saveGeorefUpdate(); }  " 
 										id="submitButton" >
 									<output id="georefEditFeedback" class="text-danger">&nbsp;</output>	
 								</div>
