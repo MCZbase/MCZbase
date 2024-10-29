@@ -2472,8 +2472,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												// Make sure the document is ready
 												$(document).ready(function() {
 													$('##coordinate_precision').on('change', function() {
-														var lat = $('##lat_sec').val();
-														var long = $('##long_sec').val();
+														var lat_sec = $('##lat_sec').val();
+														var long_sec = $('##long_sec').val();
 														var selectedPrecision = parseInt($(this).val());
 
 														// Function to extract the decimal part
@@ -2484,8 +2484,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 															return "0";
 														}
 
-														var decimalLatPart = getDecimalPart(lat);
-														var decimalLongPart = getDecimalPart(long);
+														var decimalLatPart = getDecimalPart(lat_sec);
+														var decimalLongPart = getDecimalPart(long_sec);
 
 														// Compare lengths of decimals to selected precision
 														if (decimalLatPart.length < selectedPrecision || decimalLongPart.length < selectedPrecision) {
