@@ -2232,7 +2232,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
         <option value="6">6</option>
     </select>
     <span id="precisionError" style="color: red;"></span><br>
-    <button type="button" id="saveButton">Save</button>
 									<script type="text/javascript">
     // Make sure the document is ready
     $(document).ready(function() {
