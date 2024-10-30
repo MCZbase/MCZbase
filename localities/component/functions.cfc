@@ -2648,14 +2648,18 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												}
 												  $('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', validatePrecision);
 												
-												$('##manualGeorefForm').on('submit', function(saveManualGeoref) {
-													if (!validatePrecision()) {
-														// Prevent form submission if precision check fails
-														event.preventDefault();
-													} else {
-														validatePrecision;
-													}
-												});
+												
+												 $('##manualGeorefForm').on('submit', function(event) {
+													  if (!validatePrecision()) {
+														event.preventDefault(); // Prevent form submission if precision check fails
+														console.log("Form submission prevented due to precision mismatch.");
+													  } else {
+														console.log("Form submission proceeded.");
+													  }
+													});
+
+													// Initial validation check on page load
+													validatePrecision();
 											});
 										</script>
 										<script>
