@@ -2664,19 +2664,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													  }
 													});
 												
-														// Attach validation to changes in relevant inputs
-									//				$('##lat_deg, ##long_deg, ##coordinate_precision').on('input', function () {
-//												  		validatePrecision();
-//													});
-
-													// Initial validation check on page load
+												// Attach validation to changes in relevant inputs
+												$('##lat_deg, ##long_deg, ##coordinate_precision').on('input', function () {
 													validatePrecision();
-												  });
-												
-										
-
-									
-											  });
+												});
+											});
 										</script>
 										<script>
 											function saveManualGeoref() { 
