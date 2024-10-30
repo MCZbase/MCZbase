@@ -183,7 +183,7 @@ limitations under the License.
 												<div class="form-group">
 													<input type="hidden" name="returnFormat" value="plain">
 													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
-													
+													<!---Make sure the year before the existing year of collections_reported_metrics exists  ...Table outside of MCZBASE schema called ARCHIVES_<date> (eg., 20180701)--->
 													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
 													<cfquery name="fyDates" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
 														SELECT
