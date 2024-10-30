@@ -2659,7 +2659,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											}
 
 											// Attach submit event to the form
-											$('##coordinateForm').on('submit', function(event) {
+											$('##manualGeorefForm').on('submit', function(event) {
 											  if (!validatePrecision()) {
 												event.preventDefault(); // Prevent form submission if precision check fails
 											  }
