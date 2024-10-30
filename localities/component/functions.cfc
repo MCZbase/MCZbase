@@ -2680,16 +2680,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$('##manualFeedback').removeClass('text-warning');
 														$('##addGeorefDialog').dialog('close');
 													},
-													error: function(jqXHR,textStatus,error){
+													error: function(jqXHR,textStatus,error,validatePrecision){
 														$('##manualFeedback').html('Error.');
 														$('##manualFeedback').addClass('text-danger');
 														$('##manualFeedback').removeClass('text-success');
 														$('##manualFeedback').removeClass('text-warning');
 														$('##precisionError').html('precision error');
-
-														
 													}
-										
 												});
 											}
 										</script>
