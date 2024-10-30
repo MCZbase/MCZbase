@@ -2619,32 +2619,33 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<div id="responseMessage"></div>
 										</div>
 										<script type="text/javascript">
-										  $(document).ready(function () {
-											// Function to count the decimal places
-											function countDecimals(value) {
-											  if (!value.includes('.')) return 0;
-											  return value.split('.')[1].length;
-											}
-
-											// Function to check precision of latitude and longitude in decimal degrees
-											function validatePrecision() {
-											  	var lat = $('##lat_deg').val() || "0"; 
-											  	var long = $('##long_deg').val() || "0"; 
-												
-											  	var selectedPrecision = parseInt($('##coordinate_precision').val(), 10);
-
-												var latPrecision = countDecimals(lat);
-												var longPrecision = countDecimals(long);
-
-											  	console.log("Latitude precision:", latPrecision, "Longitude precision:", longPrecision, "coordinate_prcision:" coordinate_precision);
-											 	// Attach validation to changes in relevant inputs
-												 // Check if the precision is less than the selected precision
-												if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
-													$('##precisionError').text('Precision error: Seconds do not have enough decimal places.');
-												} else {
-													$('##precisionError').text('');
+										  	$(document).ready(function () {
+												// Function to count the decimal places
+												function countDecimals(value) {
+													if (value.includes('.')) {
+														return value.split('.')[1].length;
+													}
+													return 0;
 												}
-										  	});
+
+												// Function to check precision of latitude and longitude in decimal degrees
+												function validatePrecision() {
+													var lat = $('##lat_deg').val() || "0"; 
+													var long = $('##long_deg').val() || "0"; 
+
+													var selectedPrecision = parseInt($('##coordinate_precision').val(), 10);
+
+													var latPrecision = countDecimals(lat);
+													var longPrecision = countDecimals(long);
+
+													 // Check if the precision is less than the selected precision
+													if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
+														$('##precisionError').text('Precision error: Seconds do not have enough decimal places.');
+													} else {
+														$('##precisionError').text('');
+													}
+												}
+											});
 										</script>
 										<script>
 											function saveManualGeoref() { 
