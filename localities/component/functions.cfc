@@ -2641,7 +2641,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 													 // Check if the precision is less than the selected precision
 													if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
-														$('##precisionError').text('Precision error: Coordinates do not have enough decimal places.');
+														$('##precisionError').text('Precision error: Coordinates do not have enough decimal places for the precision selected.');
 													} else {
 														$('##precisionError').text('');
 													}
