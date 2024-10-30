@@ -2645,10 +2645,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 												  if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
 													if (latPrecision < selectedPrecision) {
-													  suggestionMessage += `Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. `;
+													  suggestionMessage += `<br>Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. `;
 													}
 													if (longPrecision < selectedPrecision) {
-													  suggestionMessage += `Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. `;
+													  suggestionMessage += `<br>Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. `;
 													}
 													$('##precisionError').text('Precision error: Insufficient decimal places.');
 													$('##precisionSuggestion').text(suggestionMessage);
