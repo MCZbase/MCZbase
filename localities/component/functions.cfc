@@ -2659,7 +2659,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												}
 
 												// Attach validation to changes in relevant inputs
-												$('##latitude, ##longitude, ##precision').on('input', function () {
+												$('##lat_deg, ##long_deg, ##coordinate_precision').on('input', function () {
 												  validatePrecision();
 												});
 
