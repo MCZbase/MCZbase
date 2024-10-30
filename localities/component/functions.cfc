@@ -2657,23 +2657,22 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														}
 											
 														// Intercept form submission for AJAX
-														$('#coordinateForm').on('submit', function(event) {
-															event.preventDefault(); // Prevent default form submission
+														$('##manualGeorefForm').on('submit', function(event) {
+															event.preventDefault();
 
 															if (checkDMSPrecision()) {
 																// If precision check passes, serialize the form data
 																var formData = $(this).serialize();
 
-																// Send the form data via AJAX
 																$.ajax({
 																	url : "/localities/component/functions.cfc",
 																	type : "post",
 																	dataType : "json",
 																	success: function(response) {
-																		$('#responseMessage').html('Form submitted successfully!');
+																		$('##responseMessage').html('Form submitted successfully!');
 																	},
 																	error: function(xhr, status, error) {
-																		$('#responseMessage').html('There was an error submitting the form.');
+																		$('##responseMessage').html('There was an error submitting the form.');
 																	}
 																});
 															}
