@@ -2652,12 +2652,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 														// Display messages
 														if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
-															$('#precisionError').text('Precision error: Seconds do not have enough decimal places.');
-															$('#precisionSuggestion').text(suggestionMessage);
+															$('##precisionError').text('Precision error: Seconds do not have enough decimal places.');
+															$('##precisionSuggestion').text(suggestionMessage);
 															return false;
 														} else {
-															$('#precisionError').text('');
-															$('#precisionSuggestion').text('');
+															$('##precisionError').text('');
+															$('##precisionSuggestion').text('');
 															return true;
 														}
 
