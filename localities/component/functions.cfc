@@ -2645,10 +2645,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 												  if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
 													if (latPrecision < selectedPrecision) {
-													  suggestionMessage += `<br>Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. `;
+													  suggestionMessage += `Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. `;
 													}
 													if (longPrecision < selectedPrecision) {
-													  suggestionMessage += `<br>Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. `;
+													  suggestionMessage += `Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. `;
 													}
 													$('##precisionError').text('Precision error: Insufficient decimal places.');
 													$('##precisionSuggestion').text(suggestionMessage);
@@ -2658,13 +2658,24 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												  }
 												}
 
-												// Attach validation to changes in relevant inputs
-												$('##lat_deg, ##long_deg, ##coordinate_precision').on('input', function () {
-												  validatePrecision();
-												});
+												 $('##manualGeorefForm').on('submit', function(event) {
+													  if (!validatePrecision()) {
+														event.preventDefault(); // Prevent form submission if precision check fails
+													  }
+													});
+												
+														// Attach validation to changes in relevant inputs
+									//				$('##lat_deg, ##long_deg, ##coordinate_precision').on('input', function () {
+//												  		validatePrecision();
+//													});
 
-												// Initially validate (in cases where defaults might fail the precision)
-												validatePrecision();
+													// Initial validation check on page load
+													validatePrecision();
+												  });
+												
+										
+
+									
 											  });
 										</script>
 										<script>
