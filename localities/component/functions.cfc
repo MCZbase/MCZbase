@@ -2618,7 +2618,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												&nbsp;
 											</output>		
 											<span id="precisionError" class="text-danger pt-1" style="line-height:1;">&nbsp;</span>
-											<div id="responseMessage" style="margin-top:10px;"></div>
 										</div>
 									
 											<script type="text/javascript">
@@ -2629,54 +2628,24 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														var long = $('##long_deg').val();
 														var selectedPrecision = parseInt($(this).val());
 
-														function countDecimals(value) {
+														// Function to extract the decimal part
+														function getDecimalPart(value) {
 															if (value.includes('.')) {
-																return value.split('.')[1].length;
+																return value.split('.')[1] || "0"; // Ensure return of '0' if no decimal part
 															}
-															return 0;  // No decimals
+															return "0";
 														}
 
-														// Function to check precision based on seconds field
-														function checkDMSPrecision() {
-															var decLat = $('##lat_deg').val() || "0";  // Default to "0" if empty
-															var decLong = $('##long_deg').val() || "0";  // Default to "0" if empty
+														var decimalLatPart = getDecimalPart(lat);
+														var decimalLongPart = getDecimalPart(long);
 
-															var selectedPrecision = parseInt($('##precision').val(), 10);
-
-															var latPrecision = countDecimals(decLat);
-															var longPrecision = countDecimals(decLong);
-
-															// Check if the precision is less than required
-															if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
-																$('##precisionError').text('Precision error: Coordinates do not have enough decimal places.');
-																return false;
-															} else {
-																$('##precisionError').text('');
-																return true;
-															}
+														// Compare lengths of decimals to selected precision
+														if (decimalLatPart.length < selectedPrecision || decimalLongPart.length < selectedPrecision) {
+															$('##precisionError').text('Precision error: Coordinates have fewer decimal places than selected.');
+														} else {
+															$('##precisionError').text('');
 														}
 											
-														// Intercept form submission for AJAX
-														$('##manualGeorefForm').on('submit', function(event) {
-															event.preventDefault();
-
-															if (checkDMSPrecision()) {
-																// If precision check passes, serialize the form data
-																var formData = $(this).serialize();
-
-																$.ajax({
-																	url : "/localities/component/functions.cfc",
-																	type : "post",
-																	dataType : "json",
-																	success: function(response) {
-																		$('##responseMessage').html('Form submitted successfully!');
-																	},
-																	error: function(xhr, status, error) {
-																		$('##responseMessage').html('There was an error submitting the form.');
-																	}
-																});
-															}
-														});
 													});
 												});
 											</script>
@@ -2686,7 +2655,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												$('##manualFeedback').addClass('text-warning');
 												$('##manualFeedback').removeClass('text-success');
 												$('##manualFeedback').removeClass('text-danger');
-									
+										
 												jQuery.ajax({
 													url : "/localities/component/functions.cfc",
 													type : "post",
@@ -2707,7 +2676,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$('##manualFeedback').addClass('text-danger');
 														$('##manualFeedback').removeClass('text-success');
 														$('##manualFeedback').removeClass('text-warning');
-																						
+														$('##precisionError').html('precision error');
+
+														
 													}
 										
 												});
