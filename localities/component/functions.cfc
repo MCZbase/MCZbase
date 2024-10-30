@@ -2620,6 +2620,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<span id="precisionError" class="text-danger pt-1" style="line-height:1;">&nbsp;</span>
 								
   												<span id="precisionSuggestion" style="color: blue;"></span><br>
+											<span id="validatePrecision"></span>
 										</div>
 									
 										<script type="text/javascript">
@@ -2665,7 +2666,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 												
 												error: function (jqXHR, textStatus, error) {
-													$("##precisionError").html("Error in Coordinate/coordinate precision comparison.");
+													$("##validatePrecision").html("Error in Coordinate/coordinate precision comparison.");
 												handleFail(jqXHR,textStatus,error,"make suggestion");
 												
 											});
