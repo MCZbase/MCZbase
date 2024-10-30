@@ -2637,13 +2637,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 														// Function to check precision based on seconds field
 														function checkDMSPrecision() {
-															var secLat = $('#secLat').val() || "0";  // Default to "0" if empty
-															var secLong = $('#secLong').val() || "0";  // Default to "0" if empty
+															var decLat = $('#lat_deg').val() || "0";  // Default to "0" if empty
+															var decLong = $('#long_deg').val() || "0";  // Default to "0" if empty
 
 															var selectedPrecision = parseInt($('#precision').val(), 10);
 
-															var latPrecision = countDecimals(secLat);
-															var longPrecision = countDecimals(secLong);
+															var latPrecision = countDecimals(decLat);
+															var longPrecision = countDecimals(decLong);
 
 															// Check if the precision is less than required
 															if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
