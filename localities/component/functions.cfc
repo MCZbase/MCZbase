@@ -2622,57 +2622,51 @@ Does not provide the enclosing form.  Expected context provided by calling page:
   												<span id="precisionSuggestion" style="color: blue;"></span><br>
 										</div>
 									
-											<script type="text/javascript">
-												// Make sure the document is ready
-												$(document).ready(function() {
-													$('##coordinate_precision').on('change', function() {
-														var lat = $('##lat_deg').val();
-														var long = $('##long_deg').val();
-														var selectedPrecision = parseInt($(this).val());
+										<script type="text/javascript">
+											$(document).ready(function () {
+												// Function to count the decimal places
+												function countDecimals(value) {
+												  if (value.includes('.')) {
+													return value.split('.')[1].length;
+												  }
+												  return 0;
+												}
 
-														// Function to extract the decimal part
-														function getDecimalPart(value) {
-															if (value.includes('.')) {
-																return value.split('.')[1] || "0"; // Ensure return of '0' if no decimal part
-															}
-															return "0";
-														}
+												// Function to check precision of latitude and longitude in decimal degrees
+												function validatePrecision() {
+												  var lat = $('##lat_deg').val() || "0";
+												  var long = $('##long_deg').val() || "0";
+												  var selectedPrecision = parseInt($('##coordinate_precision').val(), 10);
 
-														var decimalLatPart = getDecimalPart(lat);
-														var decimalLongPart = getDecimalPart(long);
-														
-														 var suggestionMessage = "";
+												  var latPrecision = countDecimals(lat);
+												  var longPrecision = countDecimals(long);
 
-														// Construct suggestion on how to adjust precision if needed
-														if (decimalLatPart < selectedPrecision && decimalLongPart < selectedPrecision) {
-															suggestionMessage = `Try adding up to ${selectedPrecision - decimalLatPart} more decimal places to seconds for both latitude and longitude.`;
-														} else if (decimalLatPart < selectedPrecision) {
-															suggestionMessage = `Try adding up to ${selectedPrecision - decimalLatPart} more decimal places to the latitude seconds.`;
-														} else if (decimalLongPart < selectedPrecision) {
-															suggestionMessage = `Try adding up to ${selectedPrecision - decimalLongPart} more decimal places to the longitude seconds.`;
-														}
+												  var suggestionMessage = "";
 
-														// Display messages
-														if (decimalLatPart < selectedPrecision || decimalLongPart < selectedPrecision) {
-															$('##precisionError').text('Precision error: Coordinates do not have enough decimal places.');
-															$('##precisionSuggestion').text(suggestionMessage);
-															return false;
-														} else {
-															$('##precisionError').text('');
-															$('##precisionSuggestion').text('');
-															return true;
-														}
+												  if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
+													if (latPrecision < selectedPrecision) {
+													  suggestionMessage += `Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. `;
+													}
+													if (longPrecision < selectedPrecision) {
+													  suggestionMessage += `Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. `;
+													}
+													$('#precisionError').text('Precision error: Insufficient decimal places.');
+													$('#precisionSuggestion').text(suggestionMessage);
+												  } else {
+													$('#precisionError').text('');
+													$('#precisionSuggestion').text('');
+												  }
+												}
 
-														// Compare lengths of decimals to selected precision
-														if (decimalLatPart.length < selectedPrecision || decimalLongPart.length < selectedPrecision) {
-															$('##precisionError').text('Precision error: Coordinates have fewer decimal places than selected.');
-														} else {
-															$('##precisionError').text('');
-														}
-											
-													});
+												// Attach validation to changes in relevant inputs
+												$('##latitude, ##longitude, ##precision').on('input', function () {
+												  validatePrecision();
 												});
-											</script>
+
+												// Initially validate (in cases where defaults might fail the precision)
+												validatePrecision();
+											  });
+										</script>
 										<script>
 											function saveManualGeoref() { 
 												$('##manualFeedback').html('Saving....');
