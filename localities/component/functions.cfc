@@ -2618,6 +2618,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												&nbsp;
 											</output>		
 											<span id="precisionError" class="text-danger pt-1" style="line-height:1;">&nbsp;</span>
+								
+  												<span id="precisionSuggestion" style="color: blue;"></span><br>
 										</div>
 									
 											<script type="text/javascript">
@@ -2652,7 +2654,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 														// Display messages
 														if (decimalLatPart < selectedPrecision || decimalLongPart < selectedPrecision) {
-															$('##precisionError').text('Precision error: Seconds do not have enough decimal places.');
+															$('##precisionError').text('Precision error: Coordinates do not have enough decimal places.');
 															$('##precisionSuggestion').text(suggestionMessage);
 															return false;
 														} else {
