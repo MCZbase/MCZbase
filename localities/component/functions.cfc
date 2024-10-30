@@ -2665,10 +2665,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													validatePrecision();
 												});
 												
-												error: function (jqXHR, textStatus, error) {
-													$("##validatePrecision").html("Error in Coordinate/coordinate precision comparison.");
-												handleFail(jqXHR,textStatus,error,"make suggestion");
-												
 											});
 										</script>
 										<script>
