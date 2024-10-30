@@ -2636,37 +2636,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											  var longPrecision = countDecimals(long);
 
 											  console.log("Latitude precision:", latPrecision, "Longitude precision:", longPrecision, "coordinate_prcision:" coordinate_precision);
-
-											  // Check if precision is less than the selected precision
-											  //if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
-//												var suggestionMessage = "";
-//												if (latPrecision < selectedPrecision) {
-//												  suggestionMessage += `Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. `;
-//												}
-//												if (longPrecision < selectedPrecision) {
-//												  suggestionMessage += `Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. `;
-//												}
-//												$('##precisionError').text('Precision error: Insufficient decimal places.');
-//												$('##precisionSuggestion').text(suggestionMessage);
-//												console.log("Precision check failed.");
-//												return false;
-//											  } else {
-//												$('##precisionError').text('');
-//												$('##precisionSuggestion').text('');
-//												console.log("Precision check passed.");
-//												return true;
-//											  }
-											}
-
-											// Attach submit event to the form
-											$('##manualGeorefForm').on('submit', function(event) {
-											  if (!validatePrecision()) {
-												event.preventDefault(); // Prevent form submission if precision check fails
-											  }
-											});
-
-											// Initial validation check on page load
-											validatePrecision();
+											 // Attach validation to changes in relevant inputs
+												$('##latPrecision, ##longPrecision, ##coordinate_precision').on('input', function () {
+												  validatePrecision();
+												});
 										  });
 										</script>
 										<script>
