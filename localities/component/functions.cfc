@@ -2618,6 +2618,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												&nbsp;
 											</output>		
 											<span id="precisionError" class="text-danger pt-1" style="line-height:1;">&nbsp;</span>
+											<div id="responseMessage" style="margin-top:10px;"></div>
 										</div>
 									
 											<script type="text/javascript">
@@ -2647,7 +2648,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 															// Check if the precision is less than required
 															if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
-																$('##precisionError').text('Precision error: Seconds do not have enough decimal places.');
+																$('##precisionError').text('Precision error: Coordinates do not have enough decimal places.');
 																return false;
 															} else {
 																$('##precisionError').text('');
@@ -2655,6 +2656,28 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 															}
 														}
 											
+														// Intercept form submission for AJAX
+														$('#coordinateForm').on('submit', function(event) {
+															event.preventDefault(); // Prevent default form submission
+
+															if (checkDMSPrecision()) {
+																// If precision check passes, serialize the form data
+																var formData = $(this).serialize();
+
+																// Send the form data via AJAX
+																$.ajax({
+																	url : "/localities/component/functions.cfc",
+																	type : "post",
+																	dataType : "json",
+																	success: function(response) {
+																		$('#responseMessage').html('Form submitted successfully!');
+																	},
+																	error: function(xhr, status, error) {
+																		$('#responseMessage').html('There was an error submitting the form.');
+																	}
+																});
+															}
+														});
 													});
 												});
 											</script>
