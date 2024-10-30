@@ -2649,7 +2649,43 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												  $('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', validatePrecision);
 												
 												
-												 $('##manualGeorefForm').on('submit', function(event) {
+//												 $('##manualGeorefForm').on('submit', function(event) {
+//													  if (!validatePrecision()) {
+//														event.preventDefault(); 
+//														console.log("Form submission prevented due to precision mismatch.");
+//													  } else {
+//														console.log("Form submission proceeded.");
+//													  }
+//													});
+//													validatePrecision();
+												
+												      // Check if precision is less than the selected precision
+													  var precisionMismatch = false;
+													  var suggestionMessage = "";
+													  if (latPrecision < selectedPrecision) {
+														suggestionMessage += `Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. `;
+														precisionMismatch = true;
+													  }
+													  if (longPrecision < selectedPrecision) {
+														suggestionMessage += `Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. `;
+														precisionMismatch = true;
+													  }
+
+													  if (precisionMismatch) {
+														$('##precisionError').text('Precision error: Insufficient decimal places.');
+														$('##precisionSuggestion').text(suggestionMessage);
+														console.log("Precision check failed.");
+														return false;
+													  } else {
+														$('##precisionError').text('');
+														$('##precisionSuggestion').text('');
+														console.log("Precision check passed.");
+														return true;
+													  }
+													}
+
+													// Attach submit event to the form
+													$('##manualGeorefForm').on('submit', function(event) {
 													  if (!validatePrecision()) {
 														event.preventDefault(); // Prevent form submission if precision check fails
 														console.log("Form submission prevented due to precision mismatch.");
@@ -2660,6 +2696,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 													// Initial validation check on page load
 													validatePrecision();
+												});
 											});
 										</script>
 										<script>
