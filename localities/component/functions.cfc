@@ -2628,22 +2628,31 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														var long = $('##long_deg').val();
 														var selectedPrecision = parseInt($(this).val());
 
-														// Function to extract the decimal part
-														function getDecimalPart(value) {
+														function countDecimals(value) {
 															if (value.includes('.')) {
-																return value.split('.')[1] || "0"; // Ensure return of '0' if no decimal part
+																return value.split('.')[1].length;
 															}
-															return "0";
+															return 0;  // No decimals
 														}
 
-														var decimalLatPart = getDecimalPart(lat);
-														var decimalLongPart = getDecimalPart(long);
+														// Function to check precision based on seconds field
+														function checkDMSPrecision() {
+															var secLat = $('#secLat').val() || "0";  // Default to "0" if empty
+															var secLong = $('#secLong').val() || "0";  // Default to "0" if empty
 
-														// Compare lengths of decimals to selected precision
-														if (decimalLatPart.length < selectedPrecision || decimalLongPart.length < selectedPrecision) {
-															$('##precisionError').html('Precision error: Coordinates have fewer decimal places than selected.');
-														} else {
-															$('##precisionError').html('');
+															var selectedPrecision = parseInt($('#precision').val(), 10);
+
+															var latPrecision = countDecimals(secLat);
+															var longPrecision = countDecimals(secLong);
+
+															// Check if the precision is less than required
+															if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
+																$('#precisionError').text('Precision error: Seconds do not have enough decimal places.');
+																return false;
+															} else {
+																$('#precisionError').text('');
+																return true;
+															}
 														}
 											
 													});
@@ -2676,9 +2685,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$('##manualFeedback').addClass('text-danger');
 														$('##manualFeedback').removeClass('text-success');
 														$('##manualFeedback').removeClass('text-warning');
-														$('##precisionError').html('precision error');
-
-														
+																						
 													}
 										
 												});
