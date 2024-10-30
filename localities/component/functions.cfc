@@ -2637,8 +2637,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 														// Function to check precision based on seconds field
 														function checkDMSPrecision() {
-															var decLat = $('#lat_deg').val() || "0";  // Default to "0" if empty
-															var decLong = $('#long_deg').val() || "0";  // Default to "0" if empty
+															var decLat = $('##lat_deg').val() || "0";  // Default to "0" if empty
+															var decLong = $('##long_deg').val() || "0";  // Default to "0" if empty
 
 															var selectedPrecision = parseInt($('#precision').val(), 10);
 
@@ -2647,10 +2647,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 															// Check if the precision is less than required
 															if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
-																$('#precisionError').text('Precision error: Seconds do not have enough decimal places.');
+																$('##precisionError').text('Precision error: Seconds do not have enough decimal places.');
 																return false;
 															} else {
-																$('#precisionError').text('');
+																$('##precisionError').text('');
 																return true;
 															}
 														}
