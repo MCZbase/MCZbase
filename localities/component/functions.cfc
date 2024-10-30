@@ -2657,17 +2657,17 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													$('##precisionSuggestion').text('');
 												  }
 												}
-
-												 $('##manualGeorefForm').on('submit', function(event) {
-													  if (!validatePrecision()) {
-														event.preventDefault(); // Prevent form submission if precision check fails
-													  }
-													});
 												
+															}
 												// Attach validation to changes in relevant inputs
 												$('##lat_deg, ##long_deg, ##coordinate_precision').on('input', function () {
 													validatePrecision();
 												});
+												
+												error: function (jqXHR, textStatus, error) {
+													$("##precisionError").html("Error in Coordinate/coordinate precision comparison.");
+												handleFail(jqXHR,textStatus,error,"make suggestion");
+												
 											});
 										</script>
 										<script>
@@ -2692,7 +2692,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$('##manualFeedback').removeClass('text-warning');
 														$('##addGeorefDialog').dialog('close');
 													},
-													error: function(jqXHR,textStatus,error){
+													error: function(jqXHR,textStatus,error,precisionError){
 														$('##manualFeedback').html('Error.');
 														$('##manualFeedback').addClass('text-danger');
 														$('##manualFeedback').removeClass('text-success');
