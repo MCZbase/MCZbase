@@ -2641,9 +2641,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 														// Compare lengths of decimals to selected precision
 														if (decimalLatPart.length < selectedPrecision || decimalLongPart.length < selectedPrecision) {
-															$('##precisionError').text('Precision error: Coordinates have fewer decimal places than selected.');
+															$('##precisionError').html('Precision error: Coordinates have fewer decimal places than selected.');
 														} else {
-															$('##precisionError').text('');
+															$('##precisionError').html('');
 														}
 											
 													});
