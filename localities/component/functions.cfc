@@ -2612,15 +2612,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</script>
 										<div class="col-12 col-md-4 pt-2">
 											<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
-												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " 
-												id="submitButton" >
-											<output id="manualFeedback" class="text-danger d-inline">
-												&nbsp;
-											</output>		
+												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " id="submitButton" >
+											<output id="manualFeedback" class="text-danger d-inline">&nbsp;</output>		
 											<span id="precisionError" class="text-danger pt-1" style="line-height:1;">&nbsp;</span>
-								
-  												<span id="precisionSuggestion" style="color: blue;"></span><br>
-											<span id="validatePrecision"></span>
+  											<span id="precisionSuggestion" style="color: blue;"></span><br>
+											<div id="responseMessage"></div>
 										</div>
 									
 										<script type="text/javascript">
@@ -2664,7 +2660,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												$('##lat_deg, ##long_deg, ##coordinate_precision').on('input', function () {
 													validatePrecision();
 												});
-												
+												validatePrecision();
 											});
 										</script>
 										<script>
