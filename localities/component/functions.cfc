@@ -2630,59 +2630,41 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												}
 
 												// Function to check precision of latitude and longitude in decimal degrees
-												function validatePrecision() {
-													var lat = $('##lat_deg').val() || "0"; 
-													var long = $('##long_deg').val() || "0"; 
+											 // Function to check precision of latitude and longitude in decimal degrees
+    function validatePrecision() {
+      var lat = $('##lat_deg').val() || "0"; 
+      var long = $('##long_deg').val() || "0"; 
+      var selectedPrecision = parseInt($('##coordinate_precision').val(), 10);
 
-													var selectedPrecision = parseInt($('##coordinate_precision').val(), 10);
+      var latPrecision = countDecimals(lat);
+      var longPrecision = countDecimals(long);
 
-													var latPrecision = countDecimals(lat);
-													var longPrecision = countDecimals(long);
+      console.log("Latitude precision:", latPrecision, "Longitude precision:", longPrecision);
+      
+      // Check if precision is less than the selected precision
+      var precisionMismatch = false;
+      var suggestionMessage = "";
+      if (latPrecision < selectedPrecision) {
+        suggestionMessage += `Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. `;
+        precisionMismatch = true;
+      }
+      if (longPrecision < selectedPrecision) {
+        suggestionMessage += `Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. `;
+        precisionMismatch = true;
+      }
 
-													 // Check if the precision is less than the selected precision
-													if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
-														$('##precisionError').text('Precision error: Coordinates do not have enough decimal places for the precision selected.');
-													} else {
-														$('##precisionError').text('');
-													}
-												}
-												  $('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', validatePrecision);
-												
-												
-//												 $('##manualGeorefForm').on('submit', function(event) {
-//													  if (!validatePrecision()) {
-//														event.preventDefault(); 
-//														console.log("Form submission prevented due to precision mismatch.");
-//													  } else {
-//														console.log("Form submission proceeded.");
-//													  }
-//													});
-//													validatePrecision();
-												
-												      // Check if precision is less than the selected precision
-													  var precisionMismatch = false;
-													  var suggestionMessage = "";
-													  if (latPrecision < selectedPrecision) {
-														suggestionMessage += `Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. `;
-														precisionMismatch = true;
-													  }
-													  if (longPrecision < selectedPrecision) {
-														suggestionMessage += `Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. `;
-														precisionMismatch = true;
-													  }
-
-													  if (precisionMismatch) {
-														$('##precisionError').text('Precision error: Insufficient decimal places.');
-														$('##precisionSuggestion').text(suggestionMessage);
-														console.log("Precision check failed.");
-														return false;
-													  } else {
-														$('##precisionError').text('');
-														$('##precisionSuggestion').text('');
-														console.log("Precision check passed.");
-														return true;
-													  }
-													}
+      if (precisionMismatch) {
+        $('##precisionError').text('Precision error: Insufficient decimal places.');
+        $('##precisionSuggestion').text(suggestionMessage);
+        console.log("Precision check failed.");
+        return false;
+      } else {
+        $('##precisionError').text('');
+        $('##precisionSuggestion').text('');
+        console.log("Precision check passed.");
+        return true;
+      }
+    }
 
 													// Attach submit event to the form
 													$('##manualGeorefForm').on('submit', function(event) {
