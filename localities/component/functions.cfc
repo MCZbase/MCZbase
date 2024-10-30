@@ -2640,7 +2640,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 															var decLat = $('##lat_deg').val() || "0";  // Default to "0" if empty
 															var decLong = $('##long_deg').val() || "0";  // Default to "0" if empty
 
-															var selectedPrecision = parseInt($('#precision').val(), 10);
+															var selectedPrecision = parseInt($('##precision').val(), 10);
 
 															var latPrecision = countDecimals(decLat);
 															var longPrecision = countDecimals(decLong);
