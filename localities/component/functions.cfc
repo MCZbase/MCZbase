@@ -2635,7 +2635,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											  var latPrecision = countDecimals(lat);
 											  var longPrecision = countDecimals(long);
 
-											  console.log("Latitude precision:", latPrecision, "Longitude precision:", longPrecision, "coordinate_prcision: " coordinate_precision);
+											  console.log("Latitude precision:", latPrecision, "Longitude precision:", longPrecision, "coordinate_prcision:" coordinate_precision);
 
 											  // Check if precision is less than the selected precision
 											  if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
