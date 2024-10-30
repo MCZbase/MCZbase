@@ -2645,10 +2645,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														} else {
 															$('##precisionError').text('');
 														}
-													if ($("##precisionError").val().length > 1) {
-														confirmDialog('The coordinate precision selected does not match the coordinates.');
-														event.preventDefault;
-													}
+											
 													});
 												});
 											</script>
@@ -2658,6 +2655,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												$('##manualFeedback').addClass('text-warning');
 												$('##manualFeedback').removeClass('text-success');
 												$('##manualFeedback').removeClass('text-danger');
+									
 												jQuery.ajax({
 													url : "/localities/component/functions.cfc",
 													type : "post",
@@ -2678,9 +2676,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$('##manualFeedback').addClass('text-danger');
 														$('##manualFeedback').removeClass('text-success');
 														$('##manualFeedback').removeClass('text-warning');
+														$('##precisionError').html('precision error');
 
 														
 													}
+										
 												});
 											}
 										</script>
