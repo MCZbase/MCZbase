@@ -2622,36 +2622,37 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " 
 												id="submitButton" >
-											<output id="manualFeedback" class="text-danger">&nbsp;</output>	
+											<output id="manualFeedback" class="text-danger">&nbsp;</output>		
+											<output id="precisionError" class="text-danger pt-1 d-inline-block" style="line-height:1;">&nbsp;</output>
 										</div>
-																	<!---	<span id="precisionError" class="text-danger pt-1 d-inline-block" style="line-height:1;"></span>--->
+									
 											<script type="text/javascript">
 												// Make sure the document is ready
-											//	$(document).ready(function() {
-//													$('##coordinate_precision').on('change', function() {
-//														var lat = $('##lat_deg').val();
-//														var long = $('##long_deg').val();
-//														var selectedPrecision = parseInt($(this).val());
-//
-//														// Function to extract the decimal part
-//														function getDecimalPart(value) {
-//															if (value.includes('.')) {
-//																return value.split('.')[1] || "0"; // Ensure return of '0' if no decimal part
-//															}
-//															return "0";
-//														}
-//
-//														var decimalLatPart = getDecimalPart(lat);
-//														var decimalLongPart = getDecimalPart(long);
-//
-//														// Compare lengths of decimals to selected precision
-//														if (decimalLatPart.length < selectedPrecision || decimalLongPart.length < selectedPrecision) {
-//															$('##precisionError').text('Precision error: Coordinates have fewer decimal places than selected.');
-//														} else {
-//															$('##precisionError').text('');
-//														}
-//													});
-//												});
+												$(document).ready(function() {
+													$('##coordinate_precision').on('change', function() {
+														var lat = $('##lat_deg').val();
+														var long = $('##long_deg').val();
+														var selectedPrecision = parseInt($(this).val());
+
+														// Function to extract the decimal part
+														function getDecimalPart(value) {
+															if (value.includes('.')) {
+																return value.split('.')[1] || "0"; // Ensure return of '0' if no decimal part
+															}
+															return "0";
+														}
+
+														var decimalLatPart = getDecimalPart(lat);
+														var decimalLongPart = getDecimalPart(long);
+
+														// Compare lengths of decimals to selected precision
+														if (decimalLatPart.length < selectedPrecision || decimalLongPart.length < selectedPrecision) {
+															$('##precisionError').text('Precision error: Coordinates have fewer decimal places than selected.');
+														} else {
+															$('##precisionError').text('');
+														}
+													});
+												});
 											</script>
 										<script>
 											function saveManualGeoref() { 
@@ -2695,9 +2696,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 														// Compare lengths of decimals to selected precision
 														if (decimalLatPart.length < selectedPrecision || decimalLongPart.length < selectedPrecision) {
-															$('##manualFeedback').text('Precision error: Coordinates have fewer decimal places than selected.');
+															$('##precisionError').text('Precision error: Coordinates have fewer decimal places than selected.');
 														} else {
-															$('##manualFeedback').text('');
+															$('##precisionError').text('');
 														}
 													}
 												});
