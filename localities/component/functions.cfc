@@ -2650,11 +2650,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													if (longPrecision < selectedPrecision) {
 													  suggestionMessage += `Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. `;
 													}
-													$('#precisionError').text('Precision error: Insufficient decimal places.');
-													$('#precisionSuggestion').text(suggestionMessage);
+													$('##precisionError').text('Precision error: Insufficient decimal places.');
+													$('##precisionSuggestion').text(suggestionMessage);
 												  } else {
-													$('#precisionError').text('');
-													$('#precisionSuggestion').text('');
+													$('##precisionError').text('');
+													$('##precisionSuggestion').text('');
 												  }
 												}
 
