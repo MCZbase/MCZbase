@@ -2627,9 +2627,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 									
 											<script type="text/javascript">
-												// Make sure the document is ready
 												$(document).ready(function() {
-													$('##coordinate_precision').on('change', function() {
+													$('##coordinate_precision').on('submit', function() {
 														var lat = $('##lat_deg').val();
 														var long = $('##long_deg').val();
 														var selectedPrecision = parseInt($(this).val());
@@ -2669,6 +2668,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														console.log(data);
 														$('##manualFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
 														$('##georeferenceDialogFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
+														$('##precisionError').html('Precision error: Coordinates have fewer decimal places than selected.');
 														$('##manualFeedback').addClass('text-success');
 														$('##manualFeedback').removeClass('text-danger');
 														$('##manualFeedback').removeClass('text-warning');
@@ -2679,27 +2679,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$('##manualFeedback').addClass('text-danger');
 														$('##manualFeedback').removeClass('text-success');
 														$('##manualFeedback').removeClass('text-warning');
-															var lat = $('##lat_deg').val();
-														var long = $('##long_deg').val();
-														var selectedPrecision = parseInt($(this).val());
-
-														// Function to extract the decimal part
-														function getDecimalPart(value) {
-															if (value.includes('.')) {
-																return value.split('.')[1] || "0"; // Ensure return of '0' if no decimal part
-															}
-															return "0";
-														}
-
-														var decimalLatPart = getDecimalPart(lat);
-														var decimalLongPart = getDecimalPart(long);
-
-														// Compare lengths of decimals to selected precision
-														if (decimalLatPart.length < selectedPrecision || decimalLongPart.length < selectedPrecision) {
-															$('##precisionError').text('Precision error: Coordinates have fewer decimal places than selected.');
-														} else {
-															$('##precisionError').text('');
-														}
 													}
 												});
 											}
