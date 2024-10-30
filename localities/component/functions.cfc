@@ -2418,35 +2418,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												<option value="5">Specified to 0.00001&##176;, latitude known to 1 meter.</option>
 												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 											</select>
-											<span id="precisionError" class="text-danger pt-1 d-inline-block" style="line-height:1;"></span>
-											<script type="text/javascript">
-												// Make sure the document is ready
-												$(document).ready(function() {
-													$('##coordinate_precision').on('change', function() {
-														var lat = $('##lat_deg').val();
-														var long = $('##long_deg').val();
-														var selectedPrecision = parseInt($(this).val());
-
-														// Function to extract the decimal part
-														function getDecimalPart(value) {
-															if (value.includes('.')) {
-																return value.split('.')[1] || "0"; // Ensure return of '0' if no decimal part
-															}
-															return "0";
-														}
-
-														var decimalLatPart = getDecimalPart(lat);
-														var decimalLongPart = getDecimalPart(long);
-
-														// Compare lengths of decimals to selected precision
-														if (decimalLatPart.length < selectedPrecision || decimalLongPart.length < selectedPrecision) {
-															$('##precisionError').text('Precision error: Coordinates have fewer decimal places than selected.');
-														} else {
-															$('##precisionError').text('');
-														}
-													});
-												});
-											</script>
+			
 										
 										</div>
 										
@@ -2652,6 +2624,35 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												id="submitButton" >
 											<output id="manualFeedback" class="text-danger">&nbsp;</output>	
 										</div>
+																	<!---	<span id="precisionError" class="text-danger pt-1 d-inline-block" style="line-height:1;"></span>--->
+											<script type="text/javascript">
+												// Make sure the document is ready
+											//	$(document).ready(function() {
+//													$('##coordinate_precision').on('change', function() {
+//														var lat = $('##lat_deg').val();
+//														var long = $('##long_deg').val();
+//														var selectedPrecision = parseInt($(this).val());
+//
+//														// Function to extract the decimal part
+//														function getDecimalPart(value) {
+//															if (value.includes('.')) {
+//																return value.split('.')[1] || "0"; // Ensure return of '0' if no decimal part
+//															}
+//															return "0";
+//														}
+//
+//														var decimalLatPart = getDecimalPart(lat);
+//														var decimalLongPart = getDecimalPart(long);
+//
+//														// Compare lengths of decimals to selected precision
+//														if (decimalLatPart.length < selectedPrecision || decimalLongPart.length < selectedPrecision) {
+//															$('##precisionError').text('Precision error: Coordinates have fewer decimal places than selected.');
+//														} else {
+//															$('##precisionError').text('');
+//														}
+//													});
+//												});
+											</script>
 										<script>
 											function saveManualGeoref() { 
 												$('##manualFeedback').html('Saving....');
@@ -2677,7 +2678,27 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$('##manualFeedback').addClass('text-danger');
 														$('##manualFeedback').removeClass('text-success');
 														$('##manualFeedback').removeClass('text-warning');
-														handleFail(jqXHR,textStatus,error,'saving manually entered georeference for locality');
+															var lat = $('##lat_deg').val();
+														var long = $('##long_deg').val();
+														var selectedPrecision = parseInt($(this).val());
+
+														// Function to extract the decimal part
+														function getDecimalPart(value) {
+															if (value.includes('.')) {
+																return value.split('.')[1] || "0"; // Ensure return of '0' if no decimal part
+															}
+															return "0";
+														}
+
+														var decimalLatPart = getDecimalPart(lat);
+														var decimalLongPart = getDecimalPart(long);
+
+														// Compare lengths of decimals to selected precision
+														if (decimalLatPart.length < selectedPrecision || decimalLongPart.length < selectedPrecision) {
+															$('##manualFeedback').text('Precision error: Coordinates have fewer decimal places than selected.');
+														} else {
+															$('##manualFeedback').text('');
+														}
 													}
 												});
 											}
