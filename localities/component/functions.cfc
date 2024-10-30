@@ -2621,6 +2621,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									
 										<script type="text/javascript">
 											$(document).ready(function () {
+												
 												// Function to count the decimal places
 												function countDecimals(value) {
 												  if (value.includes('.')) {
@@ -2657,7 +2658,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												
 															}
 												// Attach validation to changes in relevant inputs
-												$('##lat_deg, ##long_deg, ##coordinate_precision').on('input', function () {
+												$('##lat_deg, ##long_deg, ##coordinate_precision').on('submit', function () {
 													validatePrecision();
 												});
 												validatePrecision();
