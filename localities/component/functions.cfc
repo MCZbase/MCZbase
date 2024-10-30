@@ -2418,15 +2418,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												<option value="5">Specified to 0.00001&##176;, latitude known to 1 meter.</option>
 												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 											</select>
-			
-										
 										</div>
-										
-										
-										
-										
-										
-										
 										
 										<div class="col-12 col-md-3 mb-2">
 											<label for="gpsaccuracy" class="data-entry-label">GPS Accuracy</label>
@@ -2653,6 +2645,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														} else {
 															$('##precisionError').text('');
 														}
+													if ($("##precisionError").val().length > 1) {
+														confirmDialog('The coordinate precision selected does not match the coordinates.');
+														event.preventDefault;
+													}
 													});
 												});
 											</script>
