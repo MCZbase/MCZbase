@@ -2640,9 +2640,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											 	// Attach validation to changes in relevant inputs
 												 // Check if the precision is less than the selected precision
 												if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
-													$('#precisionError').text('Precision error: Seconds do not have enough decimal places.');
+													$('##precisionError').text('Precision error: Seconds do not have enough decimal places.');
 												} else {
-													$('#precisionError').text('');
+													$('##precisionError').text('');
 												}
 										  	});
 										</script>
