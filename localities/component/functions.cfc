@@ -2618,51 +2618,56 @@ Does not provide the enclosing form.  Expected context provided by calling page:
   											<span id="precisionSuggestion" style="color: blue;"></span><br>
 											<div id="responseMessage"></div>
 										</div>
-									
 										<script type="text/javascript">
-											$(document).ready(function () {
-												
-												// Function to count the decimal places
-												function countDecimals(value) {
-												  if (value.includes('.')) {
-													return value.split('.')[1].length;
-												  }
-												  return 0;
+										  $(document).ready(function () {
+											// Function to count the decimal places
+											function countDecimals(value) {
+											  if (!value.includes('.')) return 0;
+											  return value.split('.')[1].length;
+											}
+
+											// Function to check precision of latitude and longitude in decimal degrees
+											function validatePrecision() {
+											  var lat = $('##lat_deg').val() || "0"; 
+											  var long = $('##long_deg').val() || "0"; 
+											  var selectedPrecision = parseInt($('##coordinate_precision').val(), 10);
+
+											  var latPrecision = countDecimals(lat);
+											  var longPrecision = countDecimals(long);
+
+											  console.log("Latitude precision:", latPrecision, "Longitude precision:", longPrecision);
+
+											  // Check if precision is less than the selected precision
+											  if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
+												var suggestionMessage = "";
+												if (latPrecision < selectedPrecision) {
+												  suggestionMessage += `Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. `;
 												}
-
-												// Function to check precision of latitude and longitude in decimal degrees
-												function validatePrecision() {
-												  var lat = $('##lat_deg').val() || "0";
-												  var long = $('##long_deg').val() || "0";
-												  var selectedPrecision = parseInt($('##coordinate_precision').val(), 10);
-
-												  var latPrecision = countDecimals(lat);
-												  var longPrecision = countDecimals(long);
-
-												  var suggestionMessage = "";
-
-												  if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
-													if (latPrecision < selectedPrecision) {
-													  suggestionMessage += `Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. `;
-													}
-													if (longPrecision < selectedPrecision) {
-													  suggestionMessage += `Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. `;
-													}
-													$('##precisionError').text('Precision error: Insufficient decimal places.');
-													$('##precisionSuggestion').text(suggestionMessage);
-												  } else {
-													$('##precisionError').text('');
-													$('##precisionSuggestion').text('');
-												  }
+												if (longPrecision < selectedPrecision) {
+												  suggestionMessage += `Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. `;
 												}
-												
-															}
-												// Attach validation to changes in relevant inputs
-												$('##lat_deg, ##long_deg, ##coordinate_precision').on('submit', function () {
-													validatePrecision();
-												});
-												validatePrecision();
+												$('##precisionError').text('Precision error: Insufficient decimal places.');
+												$('##precisionSuggestion').text(suggestionMessage);
+												console.log("Precision check failed.");
+												return false;
+											  } else {
+												$('##precisionError').text('');
+												$('##precisionSuggestion').text('');
+												console.log("Precision check passed.");
+												return true;
+											  }
+											}
+
+											// Attach submit event to the form
+											$('##coordinateForm').on('submit', function(event) {
+											  if (!validatePrecision()) {
+												event.preventDefault(); // Prevent form submission if precision check fails
+											  }
 											});
+
+											// Initial validation check on page load
+											validatePrecision();
+										  });
 										</script>
 										<script>
 											function saveManualGeoref() { 
