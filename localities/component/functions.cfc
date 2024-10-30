@@ -2641,12 +2641,21 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 													 // Check if the precision is less than the selected precision
 													if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
-														$('##precisionError').text('Precision error: Seconds do not have enough decimal places.');
+														$('##precisionError').text('Precision error: Coordinates do not have enough decimal places.');
 													} else {
 														$('##precisionError').text('');
 													}
 												}
 												  $('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', validatePrecision);
+												
+												$('#manualGeorefForm').on('submit', function(event) {
+													if (!validatePrecision()) {
+														// Prevent form submission if precision check fails
+														event.preventDefault();
+													} else {
+														validatePrecision;
+													}
+												});
 											});
 										</script>
 										<script>
