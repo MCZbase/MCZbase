@@ -2642,16 +2642,16 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														 var suggestionMessage = "";
 
 														// Construct suggestion on how to adjust precision if needed
-														if (latPrecision < selectedPrecision && longPrecision < selectedPrecision) {
-															suggestionMessage = `Try adding up to ${selectedPrecision - latPrecision} more decimal places to seconds for both latitude and longitude.`;
-														} else if (latPrecision < selectedPrecision) {
-															suggestionMessage = `Try adding up to ${selectedPrecision - latPrecision} more decimal places to the latitude seconds.`;
-														} else if (longPrecision < selectedPrecision) {
-															suggestionMessage = `Try adding up to ${selectedPrecision - longPrecision} more decimal places to the longitude seconds.`;
+														if (decimalLatPart < selectedPrecision && decimalLongPart < selectedPrecision) {
+															suggestionMessage = `Try adding up to ${selectedPrecision - decimalLatPart} more decimal places to seconds for both latitude and longitude.`;
+														} else if (decimalLatPart < selectedPrecision) {
+															suggestionMessage = `Try adding up to ${selectedPrecision - decimalLatPart} more decimal places to the latitude seconds.`;
+														} else if (decimalLongPart < selectedPrecision) {
+															suggestionMessage = `Try adding up to ${selectedPrecision - decimalLongPart} more decimal places to the longitude seconds.`;
 														}
 
 														// Display messages
-														if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
+														if (decimalLatPart < selectedPrecision || decimalLongPart < selectedPrecision) {
 															$('##precisionError').text('Precision error: Seconds do not have enough decimal places.');
 															$('##precisionSuggestion').text(suggestionMessage);
 															return false;
