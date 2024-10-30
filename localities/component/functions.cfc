@@ -2648,7 +2648,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												}
 												  $('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', validatePrecision);
 												
-												$('##manualGeorefForm').on('submit', function(event) {
+												$('##manualGeorefForm').on('submit', function(saveManualGeoref) {
 													if (!validatePrecision()) {
 														// Prevent form submission if precision check fails
 														event.preventDefault();
