@@ -2623,82 +2623,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
   											<span id="precisionSuggestion" style="color: blue;"></span><br>
 											<div id="responseMessage"></div>
 										</div>
-										<script type="text/javascript">
-										 // 	$(document).ready(function () {
-//												
-//												// Function to count the decimal places
-//												function countDecimals(value) {
-//													if (value.includes('.')) {
-//														return value.split('.')[1].length;
-//													}
-//													return 0;
-//												}
-//
-//												// Function to check precision of latitude and longitude in decimal degrees
-//												function validatePrecision() {
-//													var lat = $('##lat_deg').val() || "0"; 
-//													var long = $('##long_deg').val() || "0"; 
-//
-//													var selectedPrecision = parseInt($('##coordinate_precision').val(), 10);
-//
-//													var latPrecision = countDecimals(lat);
-//													var longPrecision = countDecimals(long);
-//
-//													 // Check if the precision is less than the selected precision
-//													if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
-//														$('##precisionError').text('Precision error: Coordinates do not have enough decimal places for the precision selected.');
-//													} else {
-//														$('##precisionError').text('');
-//													}
-//												}
-//												$('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', function() {
-//													if (validatePrecision()) {
-//														$('##precisionError').text('');
-//														$('##precisionSuggestion').text('');
-//													}
-//												});
-//
-//												// Attach submit event to the form
-//												$('##manualGeorefForm').on('submit', function(event) {
-//													if (!validatePrecision()) {
-//														event.preventDefault(); // Prevent form submission if precision check fails
-//													}
-//												});
-//											});
-										</script>
-										<script>
-//											function saveManualGeoref() { 
-//												$('##manualFeedback').html('Saving....');
-//												$('##manualFeedback').addClass('text-warning');
-//												$('##manualFeedback').removeClass('text-success');
-//												$('##manualFeedback').removeClass('text-danger');
-//										
-//												jQuery.ajax({
-//													url : "/localities/component/functions.cfc",
-//													type : "post",
-//													dataType : "json",
-//													data : $('##manualGeorefForm').serialize(),
-//													success : function (data) {
-//														console.log(data);
-//														$('##manualFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
-//														$('##georeferenceDialogFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
-//														
-//														$('##manualFeedback').addClass('text-success');
-//														$('##manualFeedback').removeClass('text-danger');
-//														$('##manualFeedback').removeClass('text-warning');
-//														$('##addGeorefDialog').dialog('close');
-//													},
-//													error: function(jqXHR,textStatus,error){
-//														$('##manualFeedback').html('Error.');
-//														$('##manualFeedback').addClass('text-danger');
-//														$('##manualFeedback').removeClass('text-success');
-//														$('##manualFeedback').removeClass('text-warning');
-//														$('##precisionError').html('precision error');
-//														
-//													}
-//												});
-//											}
-										</script>
+							
 									<script type="text/javascript">
 										$(document).ready(function () {
 											// Function to count the decimal places
@@ -2781,7 +2706,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$('##manualFeedback').removeClass('text-danger');
 														$('##manualFeedback').removeClass('text-warning');
 														$('##addGeorefDialog').dialog('close');
-													},
+													},	
 													error: function(jqXHR,textStatus,error){
 														$('##manualFeedback').html('Error.');
 														$('##manualFeedback').addClass('text-danger');
@@ -2792,7 +2717,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													}
 												});
 											}
-											function saveManualGeoref() 
+										
 											// Bind saveData function to the form's submit event for manual control
 											$('##submitButton').on('click', function(event) {
 												event.preventDefault(); // Prevent default form action
@@ -2805,6 +2730,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													$('##manualFeedback').html('Ready to save.');
 												}
 											});
+											saveManualGeoref(); 
 										});
 										</script>
 									</div>
