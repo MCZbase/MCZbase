@@ -2271,7 +2271,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						}
 
 						// Bind saveData function to the form's submit event for manual control
-						$('##submitButton').on('submit', function(event) {
+						$('##submitButton').on('click', function(event) {
 							event.preventDefault(); // Prevent default form action
 							saveManualGeoref(); // Call saveData function
 						});
