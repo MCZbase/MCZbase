@@ -2683,12 +2683,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													}
 
 													if (precisionMismatch) {
-														$('##precisionError').text('Precision error: Insufficient decimal places.');
+														$('##precisionError').html('Precision error: Insufficient decimal places.');
 														$('##precisionSuggestion').html(`<ul class="list-group px-5">${suggestionMessage}</ul>`);
 														 console.log("Precision check failed. Suggestions: ", suggestionMessage);
 														return false;
 													} else {
-														$('##precisionError').text('');
+														$('##precisionError').html('');
 														$('##precisionSuggestion').html('');
 														console.log("Precision check passed.");
 														return true;
@@ -2696,7 +2696,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												}
 												$('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', function() {
 													if (validatePrecision()) {
-														$('##precisionError').text('');
+														$('##precisionError').html('');
 														$('##precisionSuggestion').html('');
 													}
 												});
