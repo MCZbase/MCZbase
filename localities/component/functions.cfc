@@ -2674,17 +2674,17 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													var suggestionMessage = "";
 
 													if (latPrecision < selectedPrecision) {
-														suggestionMessage += `Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. `;
+														suggestionMessage += `<li class="my-1">Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. </li>`;
 														precisionMismatch = true;
 													}
 													if (longPrecision < selectedPrecision) {
-														suggestionMessage += `Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. `;
+														suggestionMessage += `<li class="my-1">Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. </li>`;
 														precisionMismatch = true;
 													}
 
 													if (precisionMismatch) {
 														$('##precisionError').text('Precision error: Insufficient decimal places.');
-														$('##precisionSuggestion').text(suggestionMessage);
+														$('##precisionSuggestion').text(`<ul>suggestionMessage</ul>`);
 														 console.log("Precision check failed. Suggestions: ", suggestionMessage);
 														return false;
 													} else {
