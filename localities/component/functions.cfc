@@ -2773,11 +2773,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											// Bind saveData function to the form's submit event for manual control
 											$('##manualGeorefForm').on('submit', function(event) {
 												event.preventDefault(); // Prevent default form action
-												saveData(); // Call saveData function
+												saveManualGeoref(); // Call saveData function
 											});
 
 											// Attach input events to reset error messages once input is corrected
-											$('##latPrecision, ##longPrecisione, ##coordinate_precision').on('input change', validatePrecision);
+											$('##latPrecision, ##longPrecisione, ##coordinate_precision').on('input change', function() {
+												if(validatePrecision()) {
+													$('##manualFeedback').html('Ready to save.');
+												}
+											});
 										});
 										</script>
 									</div>
