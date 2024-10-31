@@ -2777,7 +2777,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											});
 
 											// Attach input events to reset error messages once input is corrected
-											$('##latPrecision, ##longPrecisione, ##coordinate_precision').on('input change', function() {
+											$('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', function() {
 												if(validatePrecision()) {
 													$('##manualFeedback').html('Ready to save.');
 												}
