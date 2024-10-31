@@ -2211,10 +2211,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							if (precisionMismatch) {
 								$('##precisionError').text('Precision error: Insufficient decimal places.');
 								$('##precisionSuggestion').text(suggestionMessage);
+								 console.log("Precision check failed. Suggestions: ", suggestionMessage);
 								return false;
 							} else {
 								$('##precisionError').text('');
 								$('##precisionSuggestion').text('');
+								console.log("Precision check passed.");
 								return true;
 							}
 						}
@@ -2226,6 +2228,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							// Ensure precision is validated before proceeding with the AJAX call
 							if (!validatePrecision()) {
 								$('##manualFeedback').html('Cannot save: Correct precision errors and try again.');
+            					console.log("SaveData aborted due to precision error.");
 								return; // Abort function if validation fails
 							}
 
@@ -2251,8 +2254,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									$('##manualFeedback').removeClass('text-success');
 									$('##manualFeedback').removeClass('text-warning');
 									$('##precisionError').html('precision error');
-								}
-							});
+									console.error("AJAX Error: ", textStatus, error, jqXHR.responseText);
+            						}
+								});
 						}
 
 						// Bind saveData function to the form's submit event for manual control
