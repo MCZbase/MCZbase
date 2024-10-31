@@ -2664,6 +2664,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													type : "post",
 													dataType : "json",
 													data : $('##manualGeorefForm').serialize(),
+													if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
+													
+													} else {
 													success : function (data) {
 														console.log(data);
 														$('##manualFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
@@ -2681,11 +2684,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$('##manualFeedback').removeClass('text-warning');
 														$('##precisionError').html('precision error');
 														
-													}
-													if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
-														error: function(jqXHR,textStatus,error){
-															$('##manualFeedback').html('Error.');
-														}
 													}
 												});
 											}
