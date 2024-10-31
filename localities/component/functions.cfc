@@ -2643,115 +2643,82 @@ Does not provide the enclosing form.  Expected context provided by calling page:
   											<span id="precisionSuggestion" style="color: blue;"></span><br>
 											<div id="responseMessage"></div>
 										</div>
-										<script>		
-											$(document).ready(function () {
-											// Function to count the decimal places
-											function countDecimals(value) {
-												if (!value.includes('.')) return 0;
-												return value.split('.')[1].length;
-											}
-
-											// Function to check precision of latitude and longitude in decimal degrees
-											function validatePrecision() {
-												var lat = $('##lat_deg').val() || "0";
-												var long = $('##long_deg').val() || "0";
-												var selectedPrecision = parseInt($('##coordinate_precision').val(), 10);
-
-												var latPrecision = countDecimals(lat);
-												var longPrecision = countDecimals(long);
-
-												var precisionMismatch = false;
-												var suggestionMessage = "";
-
-												if (latPrecision < selectedPrecision) {
-													suggestionMessage += `Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. `;
-													precisionMismatch = true;
-												}
-												if (longPrecision < selectedPrecision) {
-													suggestionMessage += `Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. `;
-													precisionMismatch = true;
+											<script type="text/javascript">
+										  	$(document).ready(function () {
+												
+												// Function to count the decimal places
+												function countDecimals(value) {
+													if (value.includes('.')) {
+														return value.split('.')[1].length;
+													}
+													return 0;
 												}
 
-												if (precisionMismatch) {
-													$('##precisionError').text('Precision error: Insufficient decimal places.');
-													$('##precisionSuggestion').text(suggestionMessage);
-													 console.log("Precision check failed. Suggestions: ", suggestionMessage);
-													return false;
-												} else {
-													$('##precisionError').text('');
-													$('##precisionSuggestion').text('');
-													console.log("Precision check passed.");
-													return true;
-												}
-											}
+												// Function to check precision of latitude and longitude in decimal degrees
+												function validatePrecision() {
+													var lat = $('##lat_deg').val() || "0"; 
+													var long = $('##long_deg').val() || "0"; 
 
-											// Basic form validity check example
-											function checkFormValidity(form) {
-												if (!form.checkValidity()) {
-													form.reportValidity();
-													return false;
-												}
-												return validatePrecision();
-											}
+													var selectedPrecision = parseInt($('##coordinate_precision').val(), 10);
 
-											// Function to save data using AJAX
-											function saveManualGeoref() {
-												$('##manualFeedback').html('Saving...');
+													var latPrecision = countDecimals(lat);
+													var longPrecision = countDecimals(long);
+
+													 // Check if the precision is less than the selected precision
+													if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
+														$('##precisionError').text('Precision error: Coordinates do not have enough decimal places for the precision selected.');
+													} else {
+														$('##precisionError').text('');
+													}
+												}
+												$('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', function() {
+													if (validatePrecision()) {
+														$('##precisionError').text('');
+														$('##precisionSuggestion').text('');
+													}
+												});
+
+												// Attach submit event to the form
+												$('##manualGeorefForm').on('submit', function(event) {
+													if (!validatePrecision()) {
+														event.preventDefault(); // Prevent form submission if precision check fails
+													}
+												});
+											});
+										</script>
+										<script>
+											function saveManualGeoref() { 
+												$('##manualFeedback').html('Saving....');
 												$('##manualFeedback').addClass('text-warning');
 												$('##manualFeedback').removeClass('text-success');
 												$('##manualFeedback').removeClass('text-danger');
-
-												// Ensure precision is validated before proceeding with the AJAX call
-												if (!validatePrecision()) {
-													$('##manualFeedback').html('Cannot save: Correct precision errors and try again.');
-													console.log("SaveData aborted due to precision error.");
-													return; // Abort function if validation fails
-												}
-
-
-												console.log("Form is valid, submitting data...");
-												// Proceed with AJAX if no precision errors
+										
 												jQuery.ajax({
 													url : "/localities/component/functions.cfc",
-													type: "post",
-													dataType: "json",
-													data: $('##manualGeorefForm').serialize(),
-													success: function (data) {
+													type : "post",
+													dataType : "json",
+													data : $('##manualGeorefForm').serialize(),
+													success : function (data) {
 														console.log(data);
 														$('##manualFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
 														$('##georeferenceDialogFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
-
+														
 														$('##manualFeedback').addClass('text-success');
 														$('##manualFeedback').removeClass('text-danger');
 														$('##manualFeedback').removeClass('text-warning');
 														$('##addGeorefDialog').dialog('close');
-													},	
+													},
 													error: function(jqXHR,textStatus,error){
 														$('##manualFeedback').html('Error.');
 														$('##manualFeedback').addClass('text-danger');
 														$('##manualFeedback').removeClass('text-success');
 														$('##manualFeedback').removeClass('text-warning');
-											//			$('##precisionError').html('precision error');
-														console.error("AJAX Error: ", textStatus, error, jqXHR.responseText);
+														$('##precisionError').html('precision error');
+														
 													}
 												});
 											}
-										
-											// Bind saveData function to the form's submit event for manual control
-											$('##submitButton').on('click', function(event) {
-												event.preventDefault(); // Prevent default form action
-												saveManualGeoref(); // Call saveData function
-											});
-
-											// Attach input events to reset error messages once input is corrected
-											$('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', function() {
-												if(validatePrecision()) {
-													$('##manualFeedback').html('Ready to save.');
-												}
-											});
-											saveManualGeoref(); 
-										});
-									</script>
+										</script>
 							
 								
 									</div>
