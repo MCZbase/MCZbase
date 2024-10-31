@@ -2643,9 +2643,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
   											<span id="precisionSuggestion" style="color: blue;"></span><br>
 											<div id="responseMessage"></div>
 										</div>
-											<script type="text/javascript">
+										<script type="text/javascript">
 										  	$(document).ready(function () {
-												
 												// Function to count the decimal places
 												function countDecimals(value) {
 													if (value.includes('.')) {
@@ -2653,7 +2652,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													}
 													return 0;
 												}
-
 												// Function to check precision of latitude and longitude in decimal degrees
 												function validatePrecision() {
 													var lat = $('##lat_deg').val() || "0"; 
@@ -2678,7 +2676,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														suggestionMessage += `<li class="list-group-item px-5 text-dark">Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}.</li> `;
 														precisionMismatch = true;
 													}
-
 													if (precisionMismatch) {
 														$('##precisionError').html('Precision error: Insufficient decimal places.');
 														$('##precisionSuggestion').html(`<ul class="list-group px-5">${suggestionMessage}</ul>`);
@@ -2699,7 +2696,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														validatePrecision();
 													}
 												});
-
 												// Attach submit event to the form
 												$('##manualGeorefForm').on('submit', function(event) {
 													if (!validatePrecision()) {
