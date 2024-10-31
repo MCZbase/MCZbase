@@ -2128,6 +2128,96 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="getGeorefThread#tn#">
 		<cftry>
+				<script type="text/javascript">
+					$(document).ready(function () {
+						// Function to count the decimal places
+						function countDecimals(value) {
+							if (!value.includes('.')) return 0;
+							return value.split('.')[1].length;
+						}
+
+						// Function to check precision of latitude and longitude in decimal degrees
+						function validatePrecision() {
+							var lat = $('##lat_deg').val() || "0";
+							var long = $('##long_deg').val() || "0";
+							var selectedPrecision = parseInt($('##coordinate_precision').val(), 10);
+
+							var latPrecision = countDecimals(lat);
+							var longPrecision = countDecimals(long);
+
+							var precisionMismatch = false;
+							var suggestionMessage = "";
+
+							if (latPrecision < selectedPrecision) {
+								suggestionMessage += `Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. `;
+								precisionMismatch = true;
+							}
+							if (longPrecision < selectedPrecision) {
+								suggestionMessage += `Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. `;
+								precisionMismatch = true;
+							}
+
+							if (precisionMismatch) {
+								$('##precisionError').text('Precision error: Insufficient decimal places.');
+								$('##precisionSuggestion').text(suggestionMessage);
+								return false;
+							} else {
+								$('##precisionError').text('');
+								$('##precisionSuggestion').text('');
+								return true;
+							}
+						}
+
+						// Function to save data using AJAX
+						function saveManualGeoref() {
+							$('##manualFeedback').html('Saving...');
+
+							// Ensure precision is validated before proceeding with the AJAX call
+							if (!validatePrecision()) {
+								$('##manualFeedback').html('Cannot save: Correct precision errors and try again.');
+								return; // Abort function if validation fails
+							}
+
+							// Proceed with AJAX if no precision errors
+							jQuery.ajax({
+								url : "/localities/component/functions.cfc",
+								type: "post",
+								dataType: "json",
+								data: $('##manualGeorefForm').serialize(),
+								success: function (data) {
+								console.log(data);
+									$('##manualFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
+									$('##georeferenceDialogFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
+
+									$('##manualFeedback').addClass('text-success');
+									$('##manualFeedback').removeClass('text-danger');
+									$('##manualFeedback').removeClass('text-warning');
+									$('##addGeorefDialog').dialog('close');
+								},
+							error: function(jqXHR,textStatus,error){
+									$('##manualFeedback').html('Error.');
+									$('##manualFeedback').addClass('text-danger');
+									$('##manualFeedback').removeClass('text-success');
+									$('##manualFeedback').removeClass('text-warning');
+									$('##precisionError').html('precision error');
+								}
+							});
+						}
+
+						// Bind saveData function to the form's submit event for manual control
+						$('##manualGeorefForm').on('submit', function(event) {
+							event.preventDefault(); // Prevent default form action
+							saveManualGeoref(); // Call saveData function
+						});
+
+						// Attach input events to reset error messages once input is corrected
+						$('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', function() {
+							if(validatePrecision()) {
+								$('##manualFeedback').html('Ready to save.');
+							}
+						});
+					});
+					</script>
 			<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT ORIG_LAT_LONG_UNITS 
 				FROM ctlat_long_units
@@ -2694,96 +2784,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 //												});
 //											}
 										</script>
-										<script type="text/javascript">
-										$(document).ready(function () {
-											// Function to count the decimal places
-											function countDecimals(value) {
-												if (!value.includes('.')) return 0;
-												return value.split('.')[1].length;
-											}
-
-											// Function to check precision of latitude and longitude in decimal degrees
-											function validatePrecision() {
-												var lat = $('##lat_deg').val() || "0";
-												var long = $('##long_deg').val() || "0";
-												var selectedPrecision = parseInt($('##coordinate_precision').val(), 10);
-
-												var latPrecision = countDecimals(lat);
-												var longPrecision = countDecimals(long);
-
-												var precisionMismatch = false;
-												var suggestionMessage = "";
-
-												if (latPrecision < selectedPrecision) {
-													suggestionMessage += `Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. `;
-													precisionMismatch = true;
-												}
-												if (longPrecision < selectedPrecision) {
-													suggestionMessage += `Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. `;
-													precisionMismatch = true;
-												}
-
-												if (precisionMismatch) {
-													$('##precisionError').text('Precision error: Insufficient decimal places.');
-													$('##precisionSuggestion').text(suggestionMessage);
-													return false;
-												} else {
-													$('##precisionError').text('');
-													$('##precisionSuggestion').text('');
-													return true;
-												}
-											}
-
-											// Function to save data using AJAX
-											function saveManualGeoref() {
-												$('##manualFeedback').html('Saving...');
-
-												// Ensure precision is validated before proceeding with the AJAX call
-												if (!validatePrecision()) {
-													$('##manualFeedback').html('Cannot save: Correct precision errors and try again.');
-													return; // Abort function if validation fails
-												}
-
-												// Proceed with AJAX if no precision errors
-												jQuery.ajax({
-													url : "/localities/component/functions.cfc",
-													type: "post",
-													dataType: "json",
-													data: $('##manualGeorefForm').serialize(),
-													success: function (data) {
-													console.log(data);
-														$('##manualFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
-														$('##georeferenceDialogFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
-														
-														$('##manualFeedback').addClass('text-success');
-														$('##manualFeedback').removeClass('text-danger');
-														$('##manualFeedback').removeClass('text-warning');
-														$('##addGeorefDialog').dialog('close');
-													},
-												error: function(jqXHR,textStatus,error){
-														$('##manualFeedback').html('Error.');
-														$('##manualFeedback').addClass('text-danger');
-														$('##manualFeedback').removeClass('text-success');
-														$('##manualFeedback').removeClass('text-warning');
-														$('##precisionError').html('precision error');
-													}
-												});
-											}
-
-											// Bind saveData function to the form's submit event for manual control
-											$('##manualGeorefForm').on('submit', function(event) {
-												event.preventDefault(); // Prevent default form action
-												saveManualGeoref(); // Call saveData function
-											});
-
-											// Attach input events to reset error messages once input is corrected
-											$('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', function() {
-												if(validatePrecision()) {
-													$('##manualFeedback').html('Ready to save.');
-												}
-											});
-										});
-										</script>
+									
 									</div>
 								</form>
 							</div>
