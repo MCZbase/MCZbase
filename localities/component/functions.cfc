@@ -2646,10 +2646,19 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$('##precisionError').text('');
 													}
 												}
-												  $('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', validatePrecision);
-												
-												
+												$('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', function() {
+													if (validatePrecision()) {
+														$('#precisionError').text('');
+														$('#precisionSuggestion').text('');
+													}
+												});
 
+												// Attach submit event to the form
+												$('#coordinateForm').on('submit', function(event) {
+													if (!validatePrecision()) {
+														event.preventDefault(); // Prevent form submission if precision check fails
+													}
+												});
 											});
 										</script>
 										<script>
@@ -2664,9 +2673,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													type : "post",
 													dataType : "json",
 													data : $('##manualGeorefForm').serialize(),
-													if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
-														 $('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', validatePrecision);
-													} else {
 													success : function (data) {
 														console.log(data);
 														$('##manualFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
