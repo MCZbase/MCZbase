@@ -2648,13 +2648,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												}
 												$('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', function() {
 													if (validatePrecision()) {
-														$('#precisionError').text('');
-														$('#precisionSuggestion').text('');
+														$('##precisionError').text('');
+														$('##precisionSuggestion').text('');
 													}
 												});
 
 												// Attach submit event to the form
-												$('#coordinateForm').on('submit', function(event) {
+												$('##manualGeorefForm').on('submit', function(event) {
 													if (!validatePrecision()) {
 														event.preventDefault(); // Prevent form submission if precision check fails
 													}
