@@ -2740,7 +2740,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													return true;
 												}
 											}
-
+											let manualFeedback = '';
 											// Basic form validity check example
 											function checkFormValidity(form) {
 												if (!form.checkValidity()) {
@@ -2792,7 +2792,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													}
 												});
 											}
-
+											function saveManualGeoref() 
 											// Bind saveData function to the form's submit event for manual control
 											$('##submitButton').on('click', function(event) {
 												event.preventDefault(); // Prevent default form action
