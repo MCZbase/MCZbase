@@ -2128,6 +2128,57 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="getGeorefThread#tn#">
 		<cftry>
+
+			<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT ORIG_LAT_LONG_UNITS 
+				FROM ctlat_long_units
+				ORDER BY ORIG_LAT_LONG_UNITS
+			</cfquery>
+			<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT georefmethod 
+				FROM ctgeorefmethod
+				ORDER BY georefmethod
+			</cfquery>
+			<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT verificationStatus 
+				FROM ctVerificationStatus 
+				ORDER BY verificationStatus
+			</cfquery>
+			<cfquery name="lookupForGeolocate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					country, state_prov, county,
+					spec_locality
+				FROM locality
+					join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+				WHERE
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			</cfquery>
+			<cfquery name="getCurrentUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT agent_id, 
+						agent_name
+				FROM preferred_agent_name
+				WHERE
+					agent_id in (
+						SELECT agent_id 
+						FROM agent_name 
+						WHERE upper(agent_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
+							and agent_name_type = 'login'
+					)
+			</cfquery>
+			<cfquery name="getLocalityMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					nvl(spec_locality,'[No specific locality value]') spec_locality, 
+					locality_id, 
+					decode(curated_fg,1,' *','') curated
+				FROM locality
+				WHERE
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			</cfquery>
+			<cfif getLocalityMetadata.recordcount NEQ 1>
+				<cfthrow message="Other than one locality found for the specified locality_id [#encodeForHtml(locality_id)#].  Locality may be used only by a department for which you do not have access.">
+			</cfif>
+			<cfset locality_label = "#getLocalityMetadata.spec_locality##getLocalityMetadata.curated#">
+			<cfoutput>
 				<script type="text/javascript">
 					$(document).ready(function () {
 						// Function to count the decimal places
@@ -2218,56 +2269,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						});
 					});
 					</script>
-			<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT ORIG_LAT_LONG_UNITS 
-				FROM ctlat_long_units
-				ORDER BY ORIG_LAT_LONG_UNITS
-			</cfquery>
-			<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT georefmethod 
-				FROM ctgeorefmethod
-				ORDER BY georefmethod
-			</cfquery>
-			<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT verificationStatus 
-				FROM ctVerificationStatus 
-				ORDER BY verificationStatus
-			</cfquery>
-			<cfquery name="lookupForGeolocate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT 
-					country, state_prov, county,
-					spec_locality
-				FROM locality
-					join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
-				WHERE
-					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-			</cfquery>
-			<cfquery name="getCurrentUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT agent_id, 
-						agent_name
-				FROM preferred_agent_name
-				WHERE
-					agent_id in (
-						SELECT agent_id 
-						FROM agent_name 
-						WHERE upper(agent_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
-							and agent_name_type = 'login'
-					)
-			</cfquery>
-			<cfquery name="getLocalityMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT 
-					nvl(spec_locality,'[No specific locality value]') spec_locality, 
-					locality_id, 
-					decode(curated_fg,1,' *','') curated
-				FROM locality
-				WHERE
-					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-			</cfquery>
-			<cfif getLocalityMetadata.recordcount NEQ 1>
-				<cfthrow message="Other than one locality found for the specified locality_id [#encodeForHtml(locality_id)#].  Locality may be used only by a department for which you do not have access.">
-			</cfif>
-			<cfset locality_label = "#getLocalityMetadata.spec_locality##getLocalityMetadata.curated#">
-			<cfoutput>
 				<h2 class="h3 mt-0 px-1 font-weight-bold">
 					New Georeference
 					<i class="fas fa-info-circle" onClick="getMCZDocs('Georeferencing')" aria-label="georeferencing help link"></i>
