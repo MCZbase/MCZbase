@@ -2674,11 +2674,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													var suggestionMessage = "";
 
 													if (latPrecision < selectedPrecision) {
-														suggestionMessage += `<li class="my-1">Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. </li>`;
+														suggestionMessage += `<li>Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. </li>`;
 														precisionMismatch = true;
 													}
 													if (longPrecision < selectedPrecision) {
-														suggestionMessage += `<li class="my-1">Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. </li>`;
+														suggestionMessage += `<li>Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. </li>`;
 														precisionMismatch = true;
 													}
 
