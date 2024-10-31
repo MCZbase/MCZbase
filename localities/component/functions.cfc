@@ -2735,7 +2735,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											}
 
 											// Function to save data using AJAX
-											function saveData() {
+											function saveManualGeoref() {
 												$('##manualFeedback').html('Saving...');
 
 												// Ensure precision is validated before proceeding with the AJAX call
