@@ -2660,12 +2660,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													var latPrecision = countDecimals(lat);
 													var longPrecision = countDecimals(long);
 
-													 // Check if the precision is less than the selected precision
-													//if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
-//														$('##precisionError').text('Precision error: Coordinates do not have enough decimal places for the precision selected.');
-//													} else {
-//														$('##precisionError').text('');
-//													}
+													//  Check if the precision is less than the selected precision
+													if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
+														$('##precisionError').text('Precision error: Coordinates do not have enough decimal places for the precision selected.');
+													} else {
+														$('##precisionError').text('');
+													}
 													var precisionMismatch = false;
 													var suggestionMessage = "";
 													if (latPrecision < selectedPrecision) {
@@ -2688,7 +2688,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														return true;
 													}
 												}
-												$('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', function() {
+												$('##lat_deg, ##long_deg, ##coordinate_precision').on('input change', function() {
 													if (validatePrecision()) {
 														$('##precisionError').html('');
 														$('##precisionSuggestion').html('');
