@@ -2665,7 +2665,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													dataType : "json",
 													data : $('##manualGeorefForm').serialize(),
 													if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
-													
+														 $('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', validatePrecision);
 													} else {
 													success : function (data) {
 														console.log(data);
