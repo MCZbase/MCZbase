@@ -2684,7 +2684,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 													if (precisionMismatch) {
 														$('##precisionError').text('Precision error: Insufficient decimal places.');
-														$('##precisionSuggestion').text(`<ul>suggestionMessage</ul>`);
+														$('##precisionSuggestion').html(`<ul>suggestionMessage</ul>`);
 														 console.log("Precision check failed. Suggestions: ", suggestionMessage);
 														return false;
 													} else {
