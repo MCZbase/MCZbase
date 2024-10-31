@@ -2674,22 +2674,22 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													var suggestionMessage = "";
 
 													if (latPrecision < selectedPrecision) {
-														suggestionMessage += `<li>Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. </li>`;
+														suggestionMessage += `Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. `;
 														precisionMismatch = true;
 													}
 													if (longPrecision < selectedPrecision) {
-														suggestionMessage += `<li>Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. </li>`;
+														suggestionMessage += `Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. `;
 														precisionMismatch = true;
 													}
 
 													if (precisionMismatch) {
 														$('##precisionError').text('Precision error: Insufficient decimal places.');
-														$('##precisionSuggestion').html(`<ul>suggestionMessage</ul>`);
+														$('##precisionSuggestion').html(suggestionMessage);
 														 console.log("Precision check failed. Suggestions: ", suggestionMessage);
 														return false;
 													} else {
 														$('##precisionError').text('');
-														$('##precisionSuggestion').text('');
+														$('##precisionSuggestion').html('');
 														console.log("Precision check passed.");
 														return true;
 													}
@@ -2697,7 +2697,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												$('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', function() {
 													if (validatePrecision()) {
 														$('##precisionError').text('');
-														$('##precisionSuggestion').text('');
+														$('##precisionSuggestion').html('');
 													}
 												});
 
