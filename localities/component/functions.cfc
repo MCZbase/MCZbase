@@ -2749,7 +2749,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													url: "function.cfm",
 													type: "post",
 													dataType: "json",
-													data: $('#manualGeorefForm').serialize(),
+													data: $('##manualGeorefForm').serialize(),
 													success: function (data) {
 													console.log(data);
 														$('##manualFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
