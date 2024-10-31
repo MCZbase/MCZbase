@@ -2720,8 +2720,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													
 													
 										<div class="col-12 col-md-5 pt-2">
-											<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
-												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " id="submitButton" >
+											<button type="button" value="Save" class="btn btn-xs btn-primary mr-2"
+												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " id="submitButton" >Save</button>
 											<output id="manualFeedback" class="text-danger d-inline">&nbsp;</output>		
 											<span id="precisionError" class="text-danger pt-1" style="line-height:1;">&nbsp;</span>
   											<span id="precisionSuggestion" style="color: blue;"></span><br>
