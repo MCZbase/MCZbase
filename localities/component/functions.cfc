@@ -2726,6 +2726,36 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												if (!value.includes('.')) return 0;
 												return value.split('.')[1] ? value.split('.')[1].length : 0;
 											}
+											function saveManualGeoref() { 
+												$('##manualFeedback').html('Saving....');
+												$('##manualFeedback').addClass('text-warning');
+												$('##manualFeedback').removeClass('text-success');
+												$('##manualFeedback').removeClass('text-danger');
+										
+												jQuery.ajax({
+													url : "/localities/component/functions.cfc",
+													type : "post",
+													dataType : "json",
+													data : $('##manualGeorefForm').serialize(),
+													success : function (data) {
+														console.log(data);
+														$('##manualFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
+														$('##georeferenceDialogFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
+														
+														$('##manualFeedback').addClass('text-success');
+														$('##manualFeedback').removeClass('text-danger');
+														$('##manualFeedback').removeClass('text-warning');
+														$('##addGeorefDialog').dialog('close');
+													},
+													error: function(jqXHR,textStatus,error){
+														$('##manualFeedback').html('Error.');
+														$('##manualFeedback').addClass('text-danger');
+														$('##manualFeedback').removeClass('text-success');
+														$('##manualFeedback').removeClass('text-warning');
+														$('##precisionError').html('precision error');
+														
+													}
+												});
 										});
 									</script>
 							
