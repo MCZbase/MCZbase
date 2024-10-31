@@ -2658,9 +2658,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												function validatePrecision() {
 													var lat = $('##lat_deg').val() || "0"; 
 													var long = $('##long_deg').val() || "0"; 
-
 													var selectedPrecision = parseInt($('##coordinate_precision').val(), 10);
-
 													var latPrecision = countDecimals(lat);
 													var longPrecision = countDecimals(long);
 
@@ -2672,7 +2670,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 //													}
 													var precisionMismatch = false;
 													var suggestionMessage = "";
-
 													if (latPrecision < selectedPrecision) {
 														suggestionMessage += `<li class="list-group-item px-5 text-dark">Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}.</li> `;
 														precisionMismatch = true;
@@ -2685,12 +2682,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													if (precisionMismatch) {
 														$('##precisionError').html('Precision error: Insufficient decimal places.');
 														$('##precisionSuggestion').html(`<ul class="list-group px-5">${suggestionMessage}</ul>`);
-														 console.log("Precision check failed. Suggestions: ", suggestionMessage);
+														// console.log("Precision check failed. Suggestions: ", suggestionMessage);
 														return false;
 													} else {
 														$('##precisionError').html('');
 														$('##precisionSuggestion').html('');
-														console.log("Precision check passed.");
+													//	console.log("Precision check passed.");
 														return true;
 													}
 												}
@@ -2698,6 +2695,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													if (validatePrecision()) {
 														$('##precisionError').html('');
 														$('##precisionSuggestion').html('');
+													} else {
+														validatePrecision();
 													}
 												});
 
