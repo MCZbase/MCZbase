@@ -2220,6 +2220,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								return true;
 							}
 						}
+						
+										  // Basic form validity check example
+						function checkFormValidity(form) {
+							if (!form.checkValidity()) {
+								form.reportValidity();
+								return false;
+							}
+							return validatePrecision(); // Ensure precision is also validated
+						}
 
 						// Function to save data using AJAX
 						function saveManualGeoref() {
@@ -2705,6 +2714,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												$('.geolocateMetadata').hide();
 											});
 										</script>
+													
+													
+													
 										<div class="col-12 col-md-5 pt-2">
 											<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " id="submitButton" >
