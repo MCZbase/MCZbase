@@ -2746,7 +2746,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 												// Proceed with AJAX if no precision errors
 												jQuery.ajax({
-													url: "function.cfm",
+													url : "/localities/component/functions.cfc",
 													type: "post",
 													dataType: "json",
 													data: $('##manualGeorefForm').serialize(),
