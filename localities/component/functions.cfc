@@ -2648,12 +2648,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												}
 												  $('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', validatePrecision);
 												
-												$('##manualGeorefForm').on('submit', function(event) {
-													if (!validatePrecision()) {
-														// Prevent form submission if precision check fails
-														event.preventDefault();
-													}
-												});
 												
 
 											});
@@ -2686,6 +2680,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$('##manualFeedback').removeClass('text-success');
 														$('##manualFeedback').removeClass('text-warning');
 														$('##precisionError').html('precision error');
+														if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
+														$('##manualFeedback').html('Error.');
+														}
 													}
 												});
 											}
