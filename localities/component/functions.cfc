@@ -2665,10 +2665,33 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													var longPrecision = countDecimals(long);
 
 													 // Check if the precision is less than the selected precision
-													if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
-														$('##precisionError').text('Precision error: Coordinates do not have enough decimal places for the precision selected.');
+													//if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
+//														$('##precisionError').text('Precision error: Coordinates do not have enough decimal places for the precision selected.');
+//													} else {
+//														$('##precisionError').text('');
+//													}
+													var precisionMismatch = false;
+													var suggestionMessage = "";
+
+													if (latPrecision < selectedPrecision) {
+														suggestionMessage += `Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}. `;
+														precisionMismatch = true;
+													}
+													if (longPrecision < selectedPrecision) {
+														suggestionMessage += `Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}. `;
+														precisionMismatch = true;
+													}
+
+													if (precisionMismatch) {
+														$('##precisionError').text('Precision error: Insufficient decimal places.');
+														$('##precisionSuggestion').text(suggestionMessage);
+														 console.log("Precision check failed. Suggestions: ", suggestionMessage);
+														return false;
 													} else {
 														$('##precisionError').text('');
+														$('##precisionSuggestion').text('');
+														console.log("Precision check passed.");
+														return true;
 													}
 												}
 												$('##latPrecision, ##longPrecision, ##coordinate_precision').on('input change', function() {
