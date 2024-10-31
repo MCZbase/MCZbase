@@ -2649,7 +2649,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											function validatePrecision() {
 												var lat = $('##lat_deg').val() || "0";
 												var long = $('##long_deg').val() || "0";
-												var selectedPrecision = parseInt($('#precision').val(), 10);
+												var selectedPrecision = parseInt($('##coordinate_precision').val(), 10);
 
 												var latPrecision = countDecimals(lat);
 												var longPrecision = countDecimals(long);
