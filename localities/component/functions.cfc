@@ -2639,9 +2639,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " id="submitButton" >
 											<output id="manualFeedback" class="text-danger d-inline">&nbsp;</output>		
-											<span id="precisionError" class="text-danger pt-1" style="line-height:1;">&nbsp;</span>
-											<span id="coordinateError" class="text-danger pt-1" style="line-height:1;">&nbsp;</span>
-  											<span id="precisionSuggestion" style="color: blue;"></span><br>
+											<ul id="precisionError" class="list-group text-danger pt-1" style="line-height:1;">&nbsp;</ul>
+											<ul id="coordinateError" class="list-group text-danger pt-1" style="line-height:1;">&nbsp;</ul>
+											<ul id="precisionSuggestion" class="list-group" style="color: blue;"></ul>
 											<div id="responseMessage"></div>
 										</div>
 										<script type="text/javascript">
@@ -2659,12 +2659,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													var long = parseFloat($('##long_deg').val());
 
 													if (isNaN(lat) || lat < -90 || lat > 90) {
-														$('##coordinateError').html('Latitude value seems incorrect. Must be between -90 and 90.');
-														console.error("Latitude out of range.");
+														$('##coordinateError').html('<li class="list-group-item px-5 text-danger">Latitude value seems incorrect. Must be between -90 and 90.</li>');
+														//console.error("Latitude out of range.");
 														return false;
 													} else if (isNaN(long) || long < -180 || long > 180) {
-														$('##coordinateError').html('Longitude value seems incorrect. Must be between -180 and 180.');
-														console.error("Longitude out of range.");
+														$('##coordinateError').html('<li class="list-group-item px-5 text-danger">Longitude value seems incorrect. Must be between -180 and 180.</li>');
+														//console.error("Longitude out of range.");
 														return false;
 													} else {
 														$('##coordinateError').html('');
@@ -2681,9 +2681,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 													//  Check if the precision is less than the selected precision
 													if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
-														$('##precisionError').text('Precision error: Coordinates do not have enough decimal places for the precision selected.');
+														$('##precisionError').html('Precision error: Coordinates do not have enough decimal places for the precision selected.');
 													} else {
-														$('##precisionError').text('');
+														$('##precisionError').html('');
 													}
 													var precisionMismatch = false;
 													var suggestionMessage = "";
