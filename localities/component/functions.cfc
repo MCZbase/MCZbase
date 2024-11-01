@@ -2671,13 +2671,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													}
 												}
 												
-												function validateInputs() {
-													var agent = $('##determined_by_agent');
-													
-													if (!agent) {
-														message+='Determined by Agent cannot be empty';
-													}
-												}
+								
 												// Function to check precision of latitude and longitude in decimal degrees
 												function validatePrecision() {
 													var lat = $('##lat_deg').val() || "0"; 
@@ -2722,7 +2716,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													} else {
 														validatePrecision();
 														validateCoordinates();
-														validateInputs();
 													}
 												});
 												// Attach submit event to the form
