@@ -2646,7 +2646,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<span id="coordinateError" class="text-danger">&nbsp;</span><br>
 											<span id="precisionError" class="text-danger">&nbsp;</span>
 											<span id="precisionSuggestion" class=""></span>
-											<span id="georeferenceDialogFeedback" class=""></span>
+									
 										</div>
 										<script type="text/javascript">
 										  	$(document).ready(function () {
