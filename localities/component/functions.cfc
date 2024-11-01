@@ -3243,6 +3243,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="datum" type="string" required="yes">
 	<cfargument name="lat_long_ref_source" type="string" required="no">
 	<cfargument name="determined_by_agent_id" type="string" required="yes">
+	<cfargument name="determined_by_agent" type="string" required="yes">
 	<cfargument name="verified_by_agent_id" type="string" required="no">
 	<cfargument name="determined_date" type="string" required="no">
 	<cfargument name="georefmethod" type="string" required="no">
