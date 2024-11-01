@@ -2754,7 +2754,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$('##addGeorefDialog').dialog('close');
 													},
 													error: function(jqXHR,textStatus,error){
-														$('##manualFeedback').html('Error.' + data[0].message);
+														$('##manualFeedback').html('Error. Check for missing values.');
 														$('##manualFeedback').addClass('text-danger');
 														$('##manualFeedback').removeClass('text-success');
 														$('##manualFeedback').removeClass('text-warning');
