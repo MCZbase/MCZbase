@@ -2640,6 +2640,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " id="submitButton" >
 											<output id="manualFeedback" class="text-danger d-inline">&nbsp;</output>		
 											<span id="precisionError" class="text-danger pt-1" style="line-height:1;">&nbsp;</span>
+											<span id="coordinateError" class="text-danger pt-1" style="line-height:1;">&nbsp;</span>
   											<span id="precisionSuggestion" style="color: blue;"></span><br>
 											<div id="responseMessage"></div>
 										</div>
@@ -2658,15 +2659,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													var long = parseFloat($('##long_deg').val());
 
 													if (isNaN(lat) || lat < -90 || lat > 90) {
-														$('##precisionError').html('Latitude value seems incorrect. Must be between -90 and 90.');
+														$('##coordinateError').html('Latitude value seems incorrect. Must be between -90 and 90.');
 														console.error("Latitude out of range.");
 														return false;
 													} else if (isNaN(long) || long < -180 || long > 180) {
-														$('##precisionError').html('Longitude value seems incorrect. Must be between -180 and 180.');
+														$('##coordinateError').html('Longitude value seems incorrect. Must be between -180 and 180.');
 														console.error("Longitude out of range.");
 														return false;
 													} else {
-														$('##precisionError').text('');
+														$('##coordinateError').html('');
 														return true;
 													}
 												}
@@ -2709,6 +2710,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												$('##lat_deg, ##long_deg, ##coordinate_precision').on('input change', function() {
 													if (validatePrecision() && validateCoordinates) {
 														$('##precisionError').html('');
+														$('##coordinateError').html('');
 														$('##precisionSuggestion').html('');
 													} else {
 														validatePrecision();
