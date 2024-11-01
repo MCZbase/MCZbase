@@ -2646,6 +2646,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<span id="coordinateError" class="text-danger">&nbsp;</span><br>
 											<span id="precisionError" class="text-danger">&nbsp;</span>
 											<span id="precisionSuggestion" class=""></span>
+											<span id="georeferenceDialogFeedback" class=""></span>
 										</div>
 										<script type="text/javascript">
 										  	$(document).ready(function () {
@@ -2674,14 +2675,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														return true;
 													}
 												}
-												
-												function validateInputs() {
-													var agent = $('##determined_by_agent');
-													
-													if (!agent) {
-														message+='Determined by Agent cannot be empty';
-													}
-												}
+									
 												// Function to check precision of latitude and longitude in decimal degrees
 												function validatePrecision() {
 													var lat = $('##lat_deg').val() || "0"; 
@@ -2730,7 +2724,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 												// Attach submit event to the form
 												$('##manualGeorefForm').on('submit', function(event) {
-													if (!validatePrecision() && !validateCoordinates() && !validateInputs())
+													if (!validatePrecision() && !validateCoordinates())
 														event.preventDefault(); // Prevent form submission if precision check fails
 														
 													} else {
