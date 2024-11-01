@@ -2641,7 +2641,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<output id="manualFeedback" class="text-danger d-inline">&nbsp;</output>		
 											<span id="coordinateError" class="list-group text-danger pt-1" style="line-height:1;">&nbsp;</span>
 											<span id="precisionError" class="list-group text-danger pt-1" style="line-height:1;">&nbsp;</span>
-											<div id="precisionSuggestion" class="list-group" style="color: blue;"></div>
+											<div id="precisionSuggestion"></div>
 										</div>
 										<script type="text/javascript">
 										  	$(document).ready(function () {
