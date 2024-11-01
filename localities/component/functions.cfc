@@ -2640,8 +2640,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " id="submitButton" >
 											<output id="manualFeedback" class="text-danger d-inline">&nbsp;</output>		
 											<div id="coordinateError" style="line-height:1.55;color: red;">&nbsp;</div>
-											<div id="precisionError" style="line-height:1.55;color:red;">&nbsp;</div>
-											<div id="precisionSuggestion"></div>
+											<div id="precisionError" style="line-height:1.55;color:red;">&nbsp;<span id="precisionSuggestion"></span></div>
 										</div>
 										<script type="text/javascript">
 										  	$(document).ready(function () {
