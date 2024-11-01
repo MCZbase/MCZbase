@@ -2138,7 +2138,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfset result.dot_dec_long = decimalLongPart>
 	<cfreturn result>
 </cffunction>
-												
+			
+		
+		
 <cffunction name="georeferenceDialogHtml" access="remote" returntype="string">
 	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="geolocateImmediate" type="string" required="no" default="no">
@@ -2752,11 +2754,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$('##addGeorefDialog').dialog('close');
 													},
 													error: function(jqXHR,textStatus,error){
-														$('##manualFeedback').html('Error.');
+														$('##manualFeedback').html('Error.' + data[0].message);
 														$('##manualFeedback').addClass('text-danger');
 														$('##manualFeedback').removeClass('text-success');
 														$('##manualFeedback').removeClass('text-warning');
-														$('##precisionError').html('precision error');
+														$('##precisionError').html('Precision error');
+														$('##precisionError').html('Precision error');
 														
 													}
 												});
