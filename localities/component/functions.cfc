@@ -2752,7 +2752,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$('##addGeorefDialog').dialog('close');
 													},
 													error: function(jqXHR,textStatus,error){
-													//	$('##manualFeedback').html('Error.');
+														$('##manualFeedback').html('Error.');
 														$('##manualFeedback').addClass('text-danger');
 														$('##manualFeedback').removeClass('text-success');
 														$('##manualFeedback').removeClass('text-warning');
