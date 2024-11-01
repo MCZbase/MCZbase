@@ -2707,7 +2707,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													}
 												}
 												$('##lat_deg, ##long_deg, ##coordinate_precision').on('input change', function() {
-													if (validatePrecision() && validateCoordinates) {
+													if (validatePrecision() || validateCoordinates) {
 														$('##precisionError').html('');
 														$('##coordinateError').html('');
 														$('##precisionSuggestion').html('');
