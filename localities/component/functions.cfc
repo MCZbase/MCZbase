@@ -2707,16 +2707,17 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													}
 												}
 												$('##lat_deg, ##long_deg, ##coordinate_precision').on('input change', function() {
-													if (validatePrecision()) {
+													if (validatePrecision() && validateCoordinates) {
 														$('##precisionError').html('');
 														$('##precisionSuggestion').html('');
 													} else {
 														validatePrecision();
+														validateCoordinates();
 													}
 												});
 												// Attach submit event to the form
 												$('##manualGeorefForm').on('submit', function(event) {
-													if (!validatePrecision()) {
+													if (!validatePrecision() && !validateCoordinates) {
 														event.preventDefault(); // Prevent form submission if precision check fails
 														
 													} else {
