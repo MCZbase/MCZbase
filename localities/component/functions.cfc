@@ -2635,7 +2635,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													
 													
 													
-										<div class="col-12 col-md-5 pt-2">
+										<div class="col-12 col-md-7 pt-2">
 											<input type="button" value="Save" class="btn btn-xs btn-primary mr-2 mb-2"
 												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " id="submitButton" >
 											<output id="manualFeedback" class="text-danger d-inline">&nbsp;</output>		
