@@ -2687,11 +2687,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													var precisionMismatch = false;
 													var suggestionMessage = "";
 													if (latPrecision < selectedPrecision) {
-														suggestionMessage += `<li class="list-group-item px-5 text-dark">Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}.</li> `;
+														suggestionMessage += `<li class="list-group-item text-dark">Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}.</li> `;
 														precisionMismatch = true;
 													}
 													if (longPrecision < selectedPrecision) {
-														suggestionMessage += `<li class="list-group-item px-5 text-dark">Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}.</li> `;
+														suggestionMessage += `<li class="list-group-item text-dark">Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}.</li> `;
 														precisionMismatch = true;
 													}
 													if (precisionMismatch) {
