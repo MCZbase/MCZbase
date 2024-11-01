@@ -2639,8 +2639,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " id="submitButton" >
 											<output id="manualFeedback" class="text-danger d-inline">&nbsp;</output>		
-											<span id="coordinateError" class="list-group text-danger pt-1" style="line-height:1;">&nbsp;</span>
-											<span id="precisionError" class="list-group text-danger pt-1" style="line-height:1;">&nbsp;</span>
+											<span id="coordinateError" style="line-height:1;">&nbsp;</div>
+											<div id="precisionError" style="line-height:1;">&nbsp;</div>
 											<div id="precisionSuggestion"></div>
 										</div>
 										<script type="text/javascript">
@@ -2658,11 +2658,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													var long = parseFloat($('##long_deg').val());
 
 													if (isNaN(lat) || lat < -90 || lat > 90) {
-														$('##coordinateError').html('<li class="list-group-item px-5 text-danger">Latitude value seems incorrect. Must be between -90 and 90.</li>');
+														$('##coordinateError').html('Latitude value seems incorrect. Must be between -90 and 90.');
 														//console.error("Latitude out of range.");
 														return false;
 													} else if (isNaN(long) || long < -180 || long > 180) {
-														$('##coordinateError').html('<li class="list-group-item px-5 text-danger">Longitude value seems incorrect. Must be between -180 and 180.</li>');
+														$('##coordinateError').html('Longitude value seems incorrect. Must be between -180 and 180.');
 														//console.error("Longitude out of range.");
 														return false;
 													} else {
