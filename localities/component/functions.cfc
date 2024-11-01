@@ -2429,7 +2429,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</script> 
 										</div>
 										<div class="col-12 col-md-3 mb-2">
-											<label for="coordinate_precision" class="data-entry-label">Precision</label>
+											<label for="coordinate_precision" class="data-entry-label">Precision of Coordinates</label>
 											<select name="coordinate_precision" id="coordinate_precision" class="data-entry-select reqdClr" required>
 												<option value=""></option>
 												<option value="0">Specified to 1&##176;</option>
