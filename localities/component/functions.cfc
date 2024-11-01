@@ -2653,7 +2653,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													return 0;
 												}
 												
-												   function validateCoordinates() {
+												function validateCoordinates() {
 													var lat = parseFloat($('##lat_deg').val());
 													var long = parseFloat($('##long_deg').val());
 
@@ -2671,7 +2671,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													}
 												}
 												
-								
 												// Function to check precision of latitude and longitude in decimal degrees
 												function validatePrecision() {
 													var lat = $('##lat_deg').val() || "0"; 
@@ -2760,8 +2759,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 											}
 										</script>
-							
-								
 									</div>
 								</form>
 							</div>
