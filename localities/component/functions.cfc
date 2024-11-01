@@ -2674,6 +2674,14 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														return true;
 													}
 												}
+												
+												function validateInputs() {
+													var agent = $('##determined_by_agent');
+													
+													if (!agent) {
+														message+='Determined by Agent cannot be empty';
+													}
+												}
 												// Function to check precision of latitude and longitude in decimal degrees
 												function validatePrecision() {
 													var lat = $('##lat_deg').val() || "0"; 
@@ -2760,6 +2768,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$('##manualFeedback').removeClass('text-warning');
 														$('##precisionError').html('Precision error');
 														$('##precisionError').html('Precision error');
+														$('##validateInputs').html('Determined by Agent missing');
 														
 													}
 												});
