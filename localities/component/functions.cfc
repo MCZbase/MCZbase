@@ -2762,13 +2762,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$('##addGeorefDialog').dialog('close');
 													},
 													error: function(jqXHR,textStatus,error){
-														$('##manualFeedback').html('Error. Check for missing values.');
+														$('##manualFeedback').html('Error.');
 														$('##manualFeedback').addClass('text-danger');
 														$('##manualFeedback').removeClass('text-success');
-														$('##manualFeedback').removeClass('text-warning');
-														$('##precisionError').html('Precision error');
-														$('##precisionError').html('Precision error');
-														
+														$('##manualFeedback').removeClass('text-warning');														
 													}
 												});
 											}
