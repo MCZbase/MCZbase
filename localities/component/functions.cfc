@@ -2701,6 +2701,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													if (!validatePrecision()) {
 														event.preventDefault(); // Prevent form submission if precision check fails
 														
+													} else {
+														saveManualGeoref();	
 													}
 												});
 											});
