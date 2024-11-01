@@ -2646,7 +2646,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<span id="coordinateError" class="text-danger">&nbsp;</span><br>
 											<span id="precisionError" class="text-danger">&nbsp;</span>
 											<span id="precisionSuggestion" class=""></span>
-									
 										</div>
 										<script type="text/javascript">
 										  	$(document).ready(function () {
@@ -2675,7 +2674,14 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														return true;
 													}
 												}
-									
+												
+												function validateInputs() {
+													var agent = $('##determined_by_agent');
+													
+													if (!agent) {
+														message+='Determined by Agent cannot be empty';
+													}
+												}
 												// Function to check precision of latitude and longitude in decimal degrees
 												function validatePrecision() {
 													var lat = $('##lat_deg').val() || "0"; 
@@ -2713,7 +2719,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													}
 												}
 												$('##lat_deg, ##long_deg, ##coordinate_precision').on('input change', function() {
-													if (validatePrecision() && validateCoordinates) {
+													if (validatePrecision() && validateCoordinates()) {
 														$('##precisionError').html('');
 														$('##coordinateError').html('');
 														$('##precisionSuggestion').html('');
@@ -2724,7 +2730,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 												// Attach submit event to the form
 												$('##manualGeorefForm').on('submit', function(event) {
-													if (!validatePrecision() && !validateCoordinates())
+													if (!validatePrecision() && !validateCoordinates) {
 														event.preventDefault(); // Prevent form submission if precision check fails
 														
 													} else {
@@ -2760,7 +2766,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$('##manualFeedback').addClass('text-danger');
 														$('##manualFeedback').removeClass('text-success');
 														$('##manualFeedback').removeClass('text-warning');
-
+														$('##precisionError').html('Precision error');
+														$('##precisionError').html('Precision error');
+														
 													}
 												});
 											}
