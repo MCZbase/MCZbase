@@ -2442,8 +2442,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												<option value="5">Specified to 0.00001&##176;, latitude known to 1 meter.</option>
 												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 											</select>
-										</div>
-										
+										</div>	
 										<div class="col-12 col-md-3 mb-2">
 											<label for="gpsaccuracy" class="data-entry-label">GPS Accuracy</label>
 											<input type="text" name="gpsaccuracy" id="gpsaccuracy" class="data-entry-input" value="">
@@ -2633,14 +2632,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											$(document).ready(function() { 
 												$('.geolocateMetadata').hide();
 											});
-										</script>
-													
-													
-													
+										</script>												
 										<div class="col-12 col-md-auto pt-2">
 											<input type="button" value="Save" class="btn btn-xs btn-primary mr-2 mb-2"
 												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " id="submitButton" >
-													</div>
+										</div>
 										<div class="col-12 col-md-11 pt-2">
 											<output id="manualFeedback" class="text-danger d-inline"></output>		
 											<span id="coordinateError" class="text-danger">&nbsp;</span><br>
@@ -2726,6 +2722,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													} else {
 														validatePrecision();
 														validateCoordinates();
+														validateInputs();
 													}
 												});
 												// Attach submit event to the form
