@@ -2652,6 +2652,24 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													}
 													return 0;
 												}
+												
+												   function validateCoordinates() {
+													var lat = parseFloat($('##lat_deg').val());
+													var long = parseFloat($('##long_deg').val());
+
+													if (isNaN(lat) || lat < -90 || lat > 90) {
+														$('##precisionError').html('Latitude value seems incorrect. Must be between -90 and 90.');
+														console.error("Latitude out of range.");
+														return false;
+													} else if (isNaN(long) || long < -180 || long > 180) {
+														$('##precisionError').html('Longitude value seems incorrect. Must be between -180 and 180.');
+														console.error("Longitude out of range.");
+														return false;
+													} else {
+														$('##precisionError').text('');
+														return true;
+													}
+												}
 												// Function to check precision of latitude and longitude in decimal degrees
 												function validatePrecision() {
 													var lat = $('##lat_deg').val() || "0"; 
