@@ -2730,7 +2730,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 												// Attach submit event to the form
 												$('##manualGeorefForm').on('submit', function(event) {
-													if (!validatePrecision() && !validateCoordinates) {
+													if (!validatePrecision() && !validateCoordinates() && !validateInputs())
 														event.preventDefault(); // Prevent form submission if precision check fails
 														
 													} else {
@@ -2766,10 +2766,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$('##manualFeedback').addClass('text-danger');
 														$('##manualFeedback').removeClass('text-success');
 														$('##manualFeedback').removeClass('text-warning');
-														$('##precisionError').html('Precision error');
-														$('##precisionError').html('Precision error');
-														$('##validateInputs').html('Determined by Agent missing');
-														
+
 													}
 												});
 											}
