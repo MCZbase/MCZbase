@@ -2635,11 +2635,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													
 													
 													
-										<div class="col-12 col-md-1 pt-2">
+										<div class="col-1 col-md-1 pt-2">
 											<input type="button" value="Save" class="btn btn-xs btn-primary mr-2 mb-2"
 												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " id="submitButton" >
 													</div>
-										<div class="col-12 col-md-8 pt-2">
+										<div class="col-9 col-md-8 pt-2">
 											<output id="manualFeedback" class="text-danger d-inline">&nbsp;</output>		
 											<span id="coordinateError" class="text-danger">&nbsp;</span><br>
 											<span id="precisionError" class="text-danger">&nbsp;</span>
