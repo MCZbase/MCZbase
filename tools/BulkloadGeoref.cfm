@@ -70,6 +70,7 @@ limitations under the License.
 				</label>
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
+			<div class="accordion accordion-flush" id="accordionFlushExample">
 				<div class="accordion-item">
 					<h2 class="accordion-header" id="flush-headingSix">
 					<button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
@@ -108,7 +109,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-			
+			</div>
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
