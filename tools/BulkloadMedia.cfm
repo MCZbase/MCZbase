@@ -69,14 +69,14 @@ limitations under the License.
 			<div class="accordion accordion-flush" id="accordionFlushExample">
 				<div class="accordion-item">
 					<h2 class="accordion-header h3" id="flush-headingOne">
-						<button type="button" class="headerLnk text-left h-100 w-100 btn btn-primary" aria-label="collapsiblePane" data-toggle="collapse" data-target="##flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne" title="Controlled Vocabulary">
+						<button type="button" class="btn-link text-decoration-dotted text-left h-100 w-100 btn btn-primary" aria-label="collapsiblePane" data-toggle="collapse" data-target="##flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne" title="Controlled Vocabulary">
 							Controlled Vocabulary Lists
-				  		</button>
+						</button>
 					</h2>
 					<div id="flush-collapseOne" class="accordion-collapse collapse mb-3" aria-labelledby="flush-headingOne" data-parent="##accordionFlushExample">
-					  <div class="accordion-body">
-						  <p class="px-2 pt-2 pb-0 mb-0">Find controlled vocabulary in MCZbase.</p>
-						  <ul class="list-group list-group-horizontal-md">
+						<div class="accordion-body">
+							<p class="px-2 pt-2 pb-0 mb-0">Find controlled vocabulary in MCZbase.</p>
+							<ul class="list-group list-group-horizontal-md">
 								<li class="list-group-item font-weight-lessbold">
 									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL</a> </li> <span class="mt-1 d-none d-md-inline-block"> | </span>
 								<li class="list-group-item font-weight-lessbold">
@@ -94,7 +94,7 @@ limitations under the License.
 			  	</div>
 				<div class="accordion-item">
 					<h2 class="accordion-header h3" id="flush-headingTwo">
-						<button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo" title="Steps">
+						<button class="accordion-button collapsed btn-link text-decoration-dotted text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo" title="Steps">
 						Steps for Bulkloading
 						</button>
 					</h2>
@@ -113,9 +113,9 @@ limitations under the License.
 				</div>
 				<div class="accordion-item">
 					<h2 class="accordion-header h3" id="flush-headingThree">
-					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree" title="Media Relationships">
-						Media Relationship Entries
-					  </button>
+						<button class="accordion-button collapsed btn-link text-decoration-dotted text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree" title="Media Relationships">
+							Media Relationship Entries
+						</button>
 					</h2>
 					<div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
@@ -204,12 +204,12 @@ limitations under the License.
 				</div>
 				<div class="accordion-item">
 					<h2 class="accordion-header h3" id="flush-headingFour">
-					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-						Media Licenses
-					  </button>
+						<button class="accordion-button collapsed btn-link text-decoration-dotted text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+							Media Licenses
+						</button>
 					</h2>
 					<div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-parent="##accordionFlushExample">
-					  	<div class="accordion-body">
+						<div class="accordion-body">
 							<cfquery name="getMediaLicences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT media_license_id, display, description, uri 
 								FROM ctmedia_license
@@ -227,7 +227,7 @@ limitations under the License.
 				</div>		
 				<div class="accordion-item">
 					<h2 class="accordion-header" id="flush-headingFive">
-					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+					  <button class="accordion-button collapsed btn-link text-decoration-dotted text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
 						Mask Media
 					  </button>
 					</h2>
@@ -239,7 +239,7 @@ limitations under the License.
 				</div>
 				<div class="accordion-item">
 					<h2 class="accordion-header" id="flush-headingSix">
-					  <button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
+					  <button class="accordion-button collapsed btn-link text-decoration-dotted text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
 						Columns for Spreadsheet with Data Entry Instructions
 					  </button>
 					</h2>
