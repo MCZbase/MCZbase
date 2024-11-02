@@ -70,52 +70,45 @@ limitations under the License.
 				</label>
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
-			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-			<ul class="mb-4 h5 font-weight-normal list-group mx-3">
-				<cfloop list="#fieldlist#" index="field" delimiters=",">
-					<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
-						SELECT comments
-						FROM sys.all_col_comments
-						WHERE 
-							owner = 'MCZBASE'
-							and table_name = 'CF_TEMP_GEOREF'
-							and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
-					</cfquery>
-					<cfset comment = "">
-					<cfif getComments.recordcount GT 0>
-						<cfset comment = getComments.comments>
-					</cfif>
-					<cfset aria = "">
-					<cfif listContains(requiredfieldlist,field,",")>
-						<cfset class="text-danger">
-						<cfset aria = "aria-label='Required Field'">
-					<cfelse>
-						<cfset class="text-dark">
-					</cfif>
-					<li class="pb-1 mx-3">
-						<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
-					</li>
-				</cfloop>
-			</ul>
-			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadGeoref.cfm">
-				<div class="form-row border rounded p-2">
-					<input type="hidden" name="action" value="getFile">
-					<div class="col-12 col-md-4">
-						<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
-						<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
-					</div>
-					<div class="col-12 col-md-3">
-						<cfset charsetSelect = getCharsetSelectHTML()>
-					</div>
-					<div class="col-12 col-md-3">
-						<cfset formatSelect = getFormatSelectHTML()>
-					</div>
-					<div class="col-12 col-md-2">
-						<label for="submitButton" class="data-entry-label">&nbsp;</label>
-						<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="flush-headingSix">
+					<button class="accordion-button collapsed headerLnk text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
+						Columns for Spreadsheet with Data Entry Instructions
+					</button>
+					</h2>
+					<div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" data-parent="##accordionFlushExample">
+						<div class="accordion-body">
+							<p class="px-2"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
+							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
+								<cfloop list="#fieldlist#" index="field" delimiters=",">
+									<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+										SELECT comments
+										FROM sys.all_col_comments
+										WHERE 
+											owner = 'MCZBASE'
+											and table_name = 'CF_TEMP_GEOREF'
+											and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+									</cfquery>
+									<cfset comment = "">
+									<cfif getComments.recordcount GT 0>
+										<cfset comment = getComments.comments>
+									</cfif>
+									<cfset aria = "">
+									<cfif listContains(requiredfieldlist,field,",")>
+										<cfset class="text-danger">
+										<cfset aria = "aria-label='Required Field'">
+									<cfelse>
+										<cfset class="text-dark">
+									</cfif>
+									<li class="pb-1 mx-3">
+										<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
+									</li>
+								</cfloop>
+							</ul>
+						</div>
 					</div>
 				</div>
-			</form>
+			
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
