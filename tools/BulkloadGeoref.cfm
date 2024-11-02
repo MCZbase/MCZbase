@@ -111,7 +111,7 @@ limitations under the License.
 				</div>
 			</div>
 			<div>
-				<h2 class="h3 mt-4">Upload a comma-delimited text file (csv)</h2>
+				<h2 class="h4 mt-4">Upload a comma-delimited text file (csv)</h2>
 				<form name="getFiles" method="post" enctype="multipart/form-data" action="/tools/#pageTitle#.cfm">
 					<div class="form-row border rounded p-2">
 						<input type="hidden" name="action" value="getFile">
