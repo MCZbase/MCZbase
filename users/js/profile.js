@@ -203,6 +203,9 @@ function changecustomOtherIdentifier (tgt) {
 		}
 	);
 }
+/** 
+* @Deprecated
+*/
 function changeexclusive_collection_id (tgt) {
 	jQuery.getJSON("/component/functions.cfc",
 		{

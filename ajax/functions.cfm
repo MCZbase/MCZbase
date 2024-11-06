@@ -1586,6 +1586,9 @@
 	<cfreturn result>
 </cffunction>
 <!------------------------------------------------------------------>
+<!--- 
+  @Deprecated 
+--->
 <cffunction name="changeexclusive_collection_id" returntype="string">
 	<cfargument name="tgt" type="string" required="yes">
 		<cfinclude template="/includes/functionLib.cfm">
