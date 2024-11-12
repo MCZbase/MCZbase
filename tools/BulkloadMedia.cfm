@@ -277,7 +277,7 @@ limitations under the License.
 				</div>
 			</div>
 			<div>
-				<h2 class="h3 mt-4">Upload a comma-delimited text file (csv)</h2>
+				<h2 class="h4 mt-4">Upload a comma-delimited text file (csv)</h2>
 				<p>Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number. Click view template and download to create a csv with the column headers in place.</p>
 				<span class="btn btn-xs btn-info mb-3" onclick="document.getElementById('template').style.display='block';">View template</span>
 				<div id="template" style="margin: 1rem 0;display:none;">
