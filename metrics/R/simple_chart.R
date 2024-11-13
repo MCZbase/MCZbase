@@ -37,6 +37,6 @@ chart1 <- ggplot(df, aes(x="", y=CATALOGEDITEMS, fill=COLLECTION )) +
 chart1
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
-ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, width=7, height=5, units="in", dpi=96)
+ggsave('/var/www/html/arctos/metrics/R/chart1.png', chart1, width=7, height=5, units="in", dpi=96)
 
 
