@@ -27,7 +27,7 @@ df <- df[filter, ]
 # and creating a new column in cf_temp_chart_data
 df$COLLECTIONS <- c("Mala","Mamm","Ent","Orn","IZ", "VP","IP","Herp","Cryo","SC", "Ich")
 
-chart1 <- ggplot(df, aes(x="", y=CATALOGEDITEMS, fill=COLLECTION )) +
+chart1 <- ggplot(df, aes(x="", y=CATALOGEDITEMS, fill=COLLECTIONS )) +
   geom_bar(stat="identity", width=1) +
   coord_polar("y", start=0) +
   labs(title = "Cataloged Items per Collection (data range: today minus 1 year)", 
