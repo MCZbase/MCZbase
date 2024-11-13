@@ -79,7 +79,7 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category-
 				Script errors: [#chartError#]
 			</div>
 			<div class="col-12">
-				<p> Chart that looks like a bullseye should appear.</p>
+				<p> Chart that looks like a pie should appear.</p>
 			</div>
 			<div class="col-12">
 				<!--- chart created by R script --->
