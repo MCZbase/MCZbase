@@ -40,7 +40,7 @@ and f.collection_object_id = co.collection_object_id
 and ts.category != 'Temp'
 group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category--->
 	
-	select * from mczbase.cf_temp_chart_data group by collection
+	select distinct(collection),catalogeditems,specimens from mczbase.cf_temp_chart_data group by collection,catalogeditems,specimens
 </cfquery>
 <cfoutput>
 <cfset csv = queryToCSV(getStats)> 
