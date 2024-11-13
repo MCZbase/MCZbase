@@ -6,7 +6,7 @@ library(png)
 library(readr)
 
 # use this one when testing is finished and want to go "live"
-df <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col_types = FALSE)
+df <- read.csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col_types = FALSE)
 
 # use to check for loading errors  
 # str(data)
