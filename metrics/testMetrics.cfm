@@ -29,7 +29,7 @@ limitations under the License.
 <cfset filePath = "/metrics/datafiles/">
 
 <cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-select f.COLLECTION, ts.CATEGORY as "CITATION_TYPE",ts.type_status, count(distinct f.collection_object_id) as "NUMBER_OF_CITATIONS", count(distinct media_id) as "NUMBER_OF_IMAGES", 
+<!---select f.COLLECTION, ts.CATEGORY as "CITATION_TYPE",ts.type_status, count(distinct f.collection_object_id) as "NUMBER_OF_CITATIONS", count(distinct media_id) as "NUMBER_OF_IMAGES", 
 count(distinct mr.related_primary_key) as "NUMBER_OF_TYPES_WITH_IMAGES", to_char(co.coll_object_entered_date,'YYYY') as "ENTERED_DATE"
 from flat f, citation c, ctcitation_type_status ts, coll_object co,
 (select * from media_relations where media_relationship = 'shows cataloged_item') mr
@@ -38,7 +38,9 @@ and c.type_status=ts.type_status
 and mr.related_primary_key(+) = f.collection_object_id
 and f.collection_object_id = co.collection_object_id
 and ts.category != 'Temp'
-group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
+group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category--->
+	
+	select * from mczbase.cf_temp_chart_data
 </cfquery>
 <cfoutput>
 <cfset csv = queryToCSV(getStats)> 
