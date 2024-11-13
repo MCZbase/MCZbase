@@ -73,18 +73,18 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category-
 		</div>
 		<div class="row">
 			<div class="col-12">
-				Script output: [#chartOutput#]
-			</div>
-			<div class="col-12 my-3 border py-2">
-				Script errors: [#chartError#]
-			</div>
-			<div class="col-12">
 				<p> Chart that looks like a pie should appear.</p>
 			</div>
 			<div class="col-12">
 				<!--- chart created by R script --->
 				<img src="/metrics/R/chart1.png"/>
 			</div>
+		</div>
+		<div class="col-12">
+			Script output: [#chartOutput#]
+		</div>
+		<div class="col-12 my-3 border py-2">
+			Script errors: [#chartError#]
 		</div>
 	</div>
 </cfoutput>
