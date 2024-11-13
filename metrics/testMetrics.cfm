@@ -80,12 +80,16 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category-
 				<img src="/metrics/R/chart1.png"/>
 			</div>
 		</div>
-		<div class="col-12">
-			Script output: [#chartOutput#]
-		</div>
-		<div class="col-12 my-3 border py-2">
-			Script errors: [#chartError#]
-		</div>
+		<cfif #chartOutput# is not null>
+			<div class="col-12">
+				Script output: [#chartOutput#]
+			</div>
+		</cfif>
+		<cfif #chartError# is not null>
+			<div class="col-12 my-3 border py-2">
+				Script errors: [#chartError#]
+			</div>
+		</cfif>
 	</div>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
