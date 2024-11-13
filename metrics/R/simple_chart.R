@@ -17,7 +17,7 @@ df <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col
 #df <- read_csv("C:/Users/mih744/Downloads/chart_data.csv")
 #df <- chart_data
 # make calculations based on collection grouping
-df %>% group_by(COLLECTIONS)
+#df %>% group_by(COLLECTIONS)
 
 # filter out Herp Obs row (only 47 rows -- outlier)
 filter <- !(df$CATALOGEDITEMS == 47)
