@@ -64,7 +64,7 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category-
 <cfoutput>
 	<div class="container">
 		<div class="row">
-			<h1 class="h3 mt-3">Herpetology Citations</h1>
+			<h1 class="h3 mt-3">Catloged Items</h1>
 			<div class="col-12">
 				<h3 class="h4 mt-1">Data Visualization Testing</h3>
 				<p>Data that is imported into the R script is /metrics/datafiles/chart_data.csv and available here: <a href="#filePath##targetFile#">download table</a>. 
