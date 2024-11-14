@@ -19,6 +19,18 @@ limitations under the License.
 * Dashboard for obtaining annual reporting and other collections metrics.
 
 --->
+<script>
+	$(document).ready(function() {
+		$("##beginDate").datepicker({ dateFormat: 'yy-mm-dd'});
+		$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
+	});
+	function toggleRow() {
+		const cells = document.querySelectorAll('.toggle1');
+		cells.forEach(function(cell) {
+			cell.classList.toggle('hidden');
+		});
+	}
+</script>
 <cf_rolecheck>
 
 <cfinclude template="/metrics/component/functions.cfc">
@@ -64,18 +76,7 @@ limitations under the License.
 </cfif>
 <cfset beginDateFiscal = '#DateFormat(DateAdd("d",1,DateAdd("yyyy", -1, endDateFiscal)),"yyyy-mm-dd")#'>
 
-<script>
-	$(document).ready(function() {
-		$("##beginDate").datepicker({ dateFormat: 'yy-mm-dd'});
-		$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
-	});
-	function toggleRow() {
-		const cells = document.querySelectorAll('.toggle1');
-		cells.forEach(function(cell) {
-			cell.classList.toggle('hidden');
-		});
-	}
-</script>
+
 
 <cfswitch expression="#action#">
 	<cfcase value="dowloadHoldings">
