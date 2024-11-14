@@ -64,18 +64,7 @@ limitations under the License.
 </cfif>
 <cfset beginDateFiscal = '#DateFormat(DateAdd("d",1,DateAdd("yyyy", -1, endDateFiscal)),"yyyy-mm-dd")#'>
 <!---Date picker was not working and was showing in the export so I commented it out. mk--->
-<!---<script>
-	$(document).ready(function() {
-		$("##beginDate").datepicker({ dateFormat: 'yy-mm-dd'});
-		$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
-	});
-	function toggleRow() {
-		const cells = document.querySelectorAll('.toggle1');
-		cells.forEach(function(cell) {
-			cell.classList.toggle('hidden');
-		});
-	}
-</script>--->
+
 
 <cfswitch expression="#action#">
 	<cfcase value="dowloadHoldings">
@@ -407,3 +396,15 @@ limitations under the License.
 		</cfoutput>
 	</cfdefaultcase>
 </cfswitch>
+<script>
+	$(document).ready(function() {
+		$("##beginDate").datepicker({ dateFormat: 'yy-mm-dd'});
+		$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
+	});
+	function toggleRow() {
+		const cells = document.querySelectorAll('.toggle1');
+		cells.forEach(function(cell) {
+			cell.classList.toggle('hidden');
+		});
+	}
+</script>
