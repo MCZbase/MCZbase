@@ -63,8 +63,8 @@ limitations under the License.
 	<cfset endDateFiscal = "#currentYear#-06-30">
 </cfif>
 <cfset beginDateFiscal = '#DateFormat(DateAdd("d",1,DateAdd("yyyy", -1, endDateFiscal)),"yyyy-mm-dd")#'>
-
-<script>
+<!---Date picker was not working and was showing in the export so I commented it out. mk--->
+<!---<script>
 	$(document).ready(function() {
 		$("##beginDate").datepicker({ dateFormat: 'yy-mm-dd'});
 		$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
@@ -75,7 +75,7 @@ limitations under the License.
 			cell.classList.toggle('hidden');
 		});
 	}
-</script>
+</script>--->
 
 <cfswitch expression="#action#">
 	<cfcase value="dowloadHoldings">
