@@ -63,7 +63,6 @@ limitations under the License.
 	<cfset endDateFiscal = "#currentYear#-06-30">
 </cfif>
 <cfset beginDateFiscal = '#DateFormat(DateAdd("d",1,DateAdd("yyyy", -1, endDateFiscal)),"yyyy-mm-dd")#'>
-<!---Date picker was not working and was showing in the export so I commented it out. mk--->
 
 
 <cfswitch expression="#action#">
@@ -258,6 +257,12 @@ limitations under the License.
 																<label for="endDate" class="data-entry-label mt-2">End Date</label>
 																<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input" placeholder="yyyy-mm-dd" value="#currentDate#" aria-label="end of range for dates to display metrics.">
 															</div>
+															<script>
+																$(document).ready(function() {
+																	$("##beginDate").datepicker({ dateFormat: 'yy-mm-dd'});
+																	$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
+																});
+															</script>
 														</div>
 													</div>
 													<h3 class="h4 text-muted mt-3">Report to Show</h3>
@@ -396,11 +401,8 @@ limitations under the License.
 		</cfoutput>
 	</cfdefaultcase>
 </cfswitch>
+<!---Date picker is not working. mk--->
 <script>
-	$(document).ready(function() {
-		$("##beginDate").datepicker({ dateFormat: 'yy-mm-dd'});
-		$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
-	});
 	function toggleRow() {
 		const cells = document.querySelectorAll('.toggle1');
 		cells.forEach(function(cell) {
