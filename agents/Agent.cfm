@@ -2175,7 +2175,7 @@ limitations under the License.
 								<section class="accordion" id="lastEditSection"> 
 									<div class="card mb-2 bg-light">
 										<cfquery name="lastEdit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lastEdit_result">
-											select 
+							<!---				select 
 												count(*) cnt,
 												collection,
 												collection.collection_id
@@ -2187,7 +2187,8 @@ limitations under the License.
 												LAST_EDITED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											group by
 												collection,
-												collection.collection_id
+												collection.collection_id--->
+											select count(*) cnt from coll_object where last_edited_person_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
 										<cfloop query="lastEdit">
 											<cfif lastEdit.recordcount GT 15 OR lastEdit.recordcount eq 0>
