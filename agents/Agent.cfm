@@ -2202,6 +2202,7 @@ limitations under the License.
 												<cfset bodyClass = "collapse show">
 												<cfset ariaExpanded ="true">
 											</cfif>
+											<cfloop query="lastEdit">
 											<div class="card-header" id="lastEditHeader">
 												<h2 class="h4 my-0">
 													<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="lastEditCardBodyWrap">
@@ -2209,6 +2210,7 @@ limitations under the License.
 													</button>
 												</h2>
 											</div>
+											</cfloop>
 											<div id="lastEditCardBodyWrap" class="#bodyClass#" aria-labelledby="lastEditHeader" data-parent="##lastEditSection">
 												<div class="card-body py-1 mb-1">
 													<cfif lastEdit.recordcount EQ 0>
