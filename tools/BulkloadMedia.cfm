@@ -163,8 +163,7 @@ limitations under the License.
 											<cfif StructKeyExists(alsoSupported,"#getRelationshipTypes.auto_table#")>
 												<cfset also = " or " & alsoSupported["#getRelationshipTypes.auto_table#"]>
 											</cfif>
-											<td>#getRelationshipTypes.primary_key#</td>
-								
+											<td>#getRelationshipTypes.primary_key##also#</td>
 										</tr>	
 									</cfloop>
 								</tbody>
