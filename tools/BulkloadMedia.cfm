@@ -1676,21 +1676,22 @@ limitations under the License.
 	<cfif action is "pickDirectory">
 		<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records</h2>
 		<h3 class="h5">Step 2: Pick a directory on the shared storage to check for files without media records:</h3>
-		<cfset topDirectories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","Name ASC","dir")>
-		<cfset knownTops = ValueList(topDirectories.Name)>
-		<cfif ListContains(knownTops,"#path#")>
-			<cfset subdirectories = DirectoryList("#Application.webDirectory#/specimen_images/#path#",true,"query","","Name ASC","dir")>
-			<ul>
-				<cfoutput>
+		<cfoutput>
+			<p>Directories within #encodeForHtml(path)# on the shared storage:</p>
+			<cfset topDirectories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","Name ASC","dir")>
+			<cfset knownTops = ValueList(topDirectories.Name)>
+			<cfif ListContains(knownTops,"#path#")>
+				<cfset subdirectories = DirectoryList("#Application.webDirectory#/specimen_images/#path#",true,"query","","Name ASC","dir")>
+				<ul>
 					<li><a href="/tools/BulkloadMedia.cfm?action=listUnknowns&path=#path#">#path#</a></li>
 					<cfloop query="subdirectories">
-						<li>#subdirectories.Directory#  [#subdirectory.Name#]</li>
+						<li>#subdirectories.Directory#  [#subdirectories.Name#]</li>
 					</cfloop>
-				</cfoutput>
-			</ul>
-		<cfelse>
-			<cfthrow message="Error: Unknown top level directory">
-		</cfif>
+				</ul>
+			<cfelse>
+				<cfthrow message="Error: Unknown top level directory">
+			</cfif>
+		</cfoutput>
 	</cfif>
 	<cfif action is "listUnknowns">
 		<cfoutput>
