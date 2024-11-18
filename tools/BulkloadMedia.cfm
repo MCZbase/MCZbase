@@ -1662,7 +1662,7 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 	<cfif action is "pickTopDirectory">
-		<h2 class="h4">List Media Files in a Directory that lack Media records</h2>
+		<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records</h2>
 		<h3 class="h5">Step 1: Pick a top level directory on the shared storage:</h3>
 		<cfoutput>
 			<cfset directories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","Name ASC","dir")>
@@ -1674,12 +1674,12 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 	<cfif action is "pickDirectory">
-		<h2 class="h4">List Media Files in a Directory that lack Media records</h2>
+		<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records</h2>
 		<h3 class="h5">Step 2: Pick a directory on the shared storage to check for files without media records:</h3>
 		<cfset topDirectories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","Name ASC","dir")>
 		<cfset knownTops = ValueList(topDirectories.Name)>
 		<cfif ListContains(knownTops,"#path#")>
-			<cfset directories = DirectoryList("#Application.webDirectory#/specimen_images/#path#",true,"query","","Name ASC","dir")>
+			<cfset subdirectories = DirectoryList("#Application.webDirectory#/specimen_images/#path#",true,"query","","Name ASC","dir")>
 			<ul>
 				<li><a href="/tools/BulkloadMedia.cfm?action=listUnknowns&path=%2Fspecimen_images%2F#path#">
 				<cfloop query="subdirectories">
@@ -1691,8 +1691,12 @@ limitations under the License.
 		</cfif>
 	</cfif>
 	<cfif action is "listUnknowns">
-      <cfset path = "/specimen_images/malacology/large/">
-		<h2 class="h4">List Media Files in a Directory that lack Media records</h2>
+		<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records</h2>
+		<h3 class="h5">Step 3: List of files without media records:</h3>
+		<cfset topDirectories = DirectoryList("#Application.webDirectory##path#",false,"query","","Name ASC","dir")>
+		<cfif topDirectories.recordcount NEQ 1>
+			<cfthrow message="Error: Other than one directory found.">
+		</cfif>
 		<cfoutput>
 			<cfquery name="knownMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
