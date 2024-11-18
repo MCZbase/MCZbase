@@ -1681,11 +1681,11 @@ limitations under the License.
 			<cfset topDirectories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","ASC","dir")>
 			<cfset knownTops = ValueList(topDirectories.Name)>
 			<cfif ListContains(knownTops,"#path#")>
-				<cfset subdirectories = DirectoryList("#Application.webDirectory#/specimen_images/#path#",true,"query","","ASC","dir")>
-<!---				<cfquery name="subdirectories" dbtype="query">
-						select distinct Directory from subdirectories1
+				<cfset subdirectoriesIncDots = DirectoryList("#Application.webDirectory#/specimen_images/#path#",true,"query","","ASC","dir")>
+				<cfquery name="subdirectories" dbtype="query">
+						SELECT DISTINCT Directory 
+						FROM subdirectoriesIncDots
 				</cfquery>
---->
 				<ul>
 					<li><a href="/tools/BulkloadMedia.cfm?action=listUnknowns&path=#path#">#path#</a></li>
 					<cfloop query="subdirectories">
