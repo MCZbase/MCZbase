@@ -1668,10 +1668,26 @@ limitations under the License.
 			<cfset directories = DirectoryList("#Application.webDirectory#specimen_images/",false,"query","","Name ASC","dir")>
 			<ul>
 				<cfloop query="directories">
-					<li>#directories.name#</li>
+					<li><a href="/tools/BulkloadMedia?action=pickDirectory?path=#directories.name#">#directories.name#</a></li>
 				</cfloop>
 			</ul>
 		</cfoutput>
+	</cfif>
+	<cfif action is "pickDirectory">
+		<h2 class="h4">List Media Files in a Directory that lack Media records</h2>
+		<h3 class="h5">Step 2: Pick a directory on the shared storage to check for files without media records:</h3>
+		<cfset topDirectories = DirectoryList("#Application.webDirectory#specimen_images/",false,"query","","Name ASC","dir")>
+		<cfset knownTops = ValueList(topDirectories.Name)>
+		<cfif ListContains(knownTops,"#path#">
+			<cfset directories = DirectoryList("#Application.webDirectory#specimen_images/#path#",true,"query","","Name ASC","dir")>
+			<ul>
+				<cfloop query="subdirectories">
+					<li>#subdirectories.Directory#  [#subdirectory.Name#]</li>		
+				</cfloop>
+			</ul>
+		<cfelse>
+			<cfthrow message="Error: Unknown top level directory">
+		</cfif>
 	</cfif>
 	<cfif action is "prepUnknowns">
       <cfset path = "/specimen_images/malacology/large/">
