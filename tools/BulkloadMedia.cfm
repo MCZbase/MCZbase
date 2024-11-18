@@ -1674,7 +1674,7 @@ limitations under the License.
 					auto_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#path#">
 			</cfquery>
 			<cfset allFiles = DirectoryList(path,false,"query","","datelastmodified DESC","file")>
-			<cfquery unknownMedia dbtyp=="query">
+			<cfquery name="unknownMedia" dbtype="query">
 				SELECT  *
 				FROM
 					allFiles
