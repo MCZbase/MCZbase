@@ -1680,11 +1680,11 @@ limitations under the License.
 			<cfset numberUnknown = 0>
 			<cfloop query="allFiles">
 				<cfif NOT ListContains(knownFiles,allFiles.Name)>
-					#allFiles.Directory##allFiles.Name# [#allFiles.size#]<br>
+					#allFiles.Directory#/#allFiles.Name# [#allFiles.size#]<br>
 					<cfset numberUnknown = numberUnknown + 1>
 				</cfif>
 			</cfloop>
-			<p>Number of unknown media: #numberUnknown#></p>
+			<p>Number of unknown media: #numberUnknown#.</p>
 		</cfoutput>
 	</cfif>
 </main>
