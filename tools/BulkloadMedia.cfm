@@ -1668,7 +1668,7 @@ limitations under the License.
 			<cfset directories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","Name ASC","dir")>
 			<ul>
 				<cfloop query="directories">
-					<li><a href="/tools/BulkloadMedia?action=pickDirectory?path=#directories.name#">#directories.name#</a></li>
+					<li><a href="/tools/BulkloadMedia.cfm?action=pickDirectory?path=#directories.name#">#directories.name#</a></li>
 				</cfloop>
 			</ul>
 		</cfoutput>
