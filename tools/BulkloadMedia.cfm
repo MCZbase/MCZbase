@@ -108,7 +108,7 @@ limitations under the License.
 	<cfif #action# is "nothing">
 		<cfoutput>
 
-			<p>This tool adds media records. The media can be related to records that have to be in MCZbase prior to uploading this csv. Duplicate columns will be ignored. Some of the values must appear as they do on the controlled vocabulary lists.
+			<p>This tool adds media records. The media can be related to records that have to be in MCZbase prior to uploading this csv. Duplicate columns will be ignored. Some of the values must appear as they do on the controlled vocabulary lists.  For media on the shared storage, you may <a href="/tools/BulkloadMedia.cfm?action=pickTopDirectory">create a bulkloader sheet</a> from files that have no media record.
 			</p>
 			<div class="accordion accordion-flush" id="accordionFlushExample">
 				<div class="accordion-item">
