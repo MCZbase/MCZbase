@@ -2188,7 +2188,7 @@ limitations under the License.
 											group by
 												collection,
 												collection.collection_id--->
-											select count(*) cnt from coll_object where last_edited_person_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											select count(*) cnt,collection_id from coll_object where last_edited_person_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
 										<cfloop query="lastEdit">
 											<cfif lastEdit.recordcount GT 15 OR lastEdit.recordcount eq 0>
