@@ -82,7 +82,7 @@ limitations under the License.
 		<cfif NOT ListContains(knownFiles,allFiles.Name)>
 			<cfset localPath = Replace(allFiles.Directory,'#Application.webDirectory#','')>
 			<cfset mimetype = FileGetMimeType("#allFiles.Directory#/#allFiles.Name#")>
-			<cfset csv = csv & '"https://mczbase.mcz.harvard.edu#localPath#","#mimetype#"'>
+			<cfset csv = csv & '"https://mczbase.mcz.harvard.edu#localPath#/#allFiles.Name#","#mimetype#"'>
 			<cfset fields = ',"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""'>
 			<cfset csv = csv & fields>
 			<cfoutput>#csv##chr(13)##chr(10)#</cfoutput>
