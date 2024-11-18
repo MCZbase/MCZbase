@@ -1678,13 +1678,14 @@ limitations under the License.
 		<h3 class="h5">Step 2: Pick a directory on the shared storage to check for files without media records:</h3>
 		<cfoutput>
 			<p>Directories within #encodeForHtml(path)# on the shared storage:</p>
-			<cfset topDirectories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","Directory ASC","dir")>
+			<cfset topDirectories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","ASC","dir")>
 			<cfset knownTops = ValueList(topDirectories.Name)>
 			<cfif ListContains(knownTops,"#path#")>
-				<cfset subdirectories1 = DirectoryList("#Application.webDirectory#/specimen_images/#path#",true,"query","","Directory ASC","dir")>
-				<cfquery name="subdirectories" dbtype="query">
+				<cfset subdirectories = DirectoryList("#Application.webDirectory#/specimen_images/#path#",true,"query","","ASC","dir")>
+<!---				<cfquery name="subdirectories" dbtype="query">
 						select distinct Directory from subdirectories1
 				</cfquery>
+--->
 				<ul>
 					<li><a href="/tools/BulkloadMedia.cfm?action=listUnknowns&path=#path#">#path#</a></li>
 					<cfloop query="subdirectories">
