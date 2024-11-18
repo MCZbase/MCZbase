@@ -1673,14 +1673,18 @@ limitations under the License.
 				WHERE
 					auto_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#path#">
 			</cfquery>
+			<p>Number of known media: #knownMedia.recordcount# in #encodeForHtml(path)#</p>
 			<cfset knownFiles = ValueList(knownMedia.auto_filename)>
 			<cfset allFiles = DirectoryList("#Application.webDirectory##path#",false,"query","","datelastmodified DESC","file")>
 			<!--- DirectoryList as query returns: Attributes, DateLastModified, Directory, Link, Mode, Name, Size, Type --->
+			<cfset numberUnknown = 0>
 			<cfloop query="allFiles">
 				<cfif NOT ListContains(knownFiles,allFiles.Name)>
 					#allFiles.Directory##allFiles.Name# [#allFiles.size#]<br>
+					<cfset numberUnknown = numberUnknown + 1>
 				</cfif>
 			</cfloop>
+			<p>Number of unknown media: #numberUnknown#></p>
 		</cfoutput>
 	</cfif>
 </main>
