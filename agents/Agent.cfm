@@ -1296,13 +1296,13 @@ limitations under the License.
 										</cfquery>
 										<cfquery name="getLatLongVer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getLatLongVer_result">
 											select 
-												count(*) cnt,
+												count(*) count,
 												count(distinct(locality_id)) locs 
 											from lat_long 
 											where verified_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
 										<cfif #getLatLongDet.cnt# gt 0><cfset GeoDet = 1><cfelse><cfset GeoDet = 0></cfif>
-										<cfif #getLatLongVer.cnt# gt 0><cfset GeoVer = 1><cfelse><cfset GeoVer = 0></cfif>
+										<cfif #getLatLongVer.count# gt 0><cfset GeoVer = 1><cfelse><cfset GeoVer = 0></cfif>
 										<cfset totalRoles = #GeoDet# + #GeoVer#>
 										<cfif totalRoles eq 0>
 											<!--- cardState = collapsed --->
@@ -1316,7 +1316,7 @@ limitations under the License.
 										<div class="card-header" id="georefHeader">
 											<h2 class="h4 my-0">
 												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##georefCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="georefCardBodyWrap">
-													Georeferences (#getLatLongDet.cnt# determined, #getLatLongVer.cnt# verified)
+													Georeferences (#getLatLongDet.cnt# determined, #getLatLongVer.count# verified)
 												</button>
 											</h2>
 										</div>
@@ -1337,7 +1337,7 @@ limitations under the License.
 													</ul>
 												<cfelse>
 													<ul class="list-group">
-														<li class="list-group-item">Verified #getLatLongVer.cnt# coordinates for #getLatLongVer.locs# localities</li>
+														<li class="list-group-item">Verified #getLatLongVer.count# coordinates for #getLatLongVer.locs# localities</li>
 													</ul>
 												</cfif>
 											</div>
@@ -2175,7 +2175,7 @@ limitations under the License.
 								<section class="accordion" id="lastEditSection"> 
 									<div class="card mb-2 bg-light">
 										<cfquery name="lastEdit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lastEdit_result">
-											select 
+							<!---				select 
 												count(*) cnt,
 												collection,
 												collection.collection_id
@@ -2187,41 +2187,46 @@ limitations under the License.
 												LAST_EDITED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											group by
 												collection,
-												collection.collection_id
+												collection.collection_id--->
+											select count(*) cnt,collection_id, collection from coll_object,cataloged_item where last_edited_person_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											and cataloged_item.collection_object_id= coll_object.collection_object_id
+											group by collection_id, collection
 										</cfquery>
-										<cfif lastEdit.recordcount GT 15 OR lastEdit.recordcount eq 0>
-											<!--- cardState = collapsed --->
-											<cfset bodyClass = "collapse">
-											<cfset ariaExpanded ="false">
-										<cfelse>
-											<!--- cardState = expanded --->
-											<cfset bodyClass = "collapse show">
-											<cfset ariaExpanded ="true">
-										</cfif>
-										<div class="card-header" id="lastEditHeader">
-											<h2 class="h4 my-0">
-												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="lastEditCardBodyWrap">
-												MCZbase Records Last Edited By this agent (<cfif #lastEdit.cnt# gt 0>#lastEdit.cnt#<cfelse>0</cfif>)
-												</button>
-											</h2>
-										</div>
-										<div id="lastEditCardBodyWrap" class="#bodyClass#" aria-labelledby="lastEditHeader" data-parent="##lastEditSection">
-											<div class="card-body py-1 mb-1">
-												<cfif lastEdit.recordcount EQ 0>
-													<ul class="list-group">
-														<li class="list-group-item">None</li>
-													</ul>
-												<cfelse>
-													<ul class="list-group">
-														<cfloop query="lastEdit">
-															<li class="list-group-item">
-																<a href="/SpecimenResults.cfm?edited_by_id=#agent_id#&collection_id=#collection_id#" target="_blank">#cnt# #collection#</a> specimens
-															</li>
-														</cfloop>
-													</ul>
-												</cfif>
+										<cfloop query="lastEdit">
+											<cfif lastEdit.recordcount GT 15 OR lastEdit.recordcount eq 0>
+												<!--- cardState = collapsed --->
+												<cfset bodyClass = "collapse">
+												<cfset ariaExpanded ="false">
+											<cfelse>
+												<!--- cardState = expanded --->
+												<cfset bodyClass = "collapse show">
+												<cfset ariaExpanded ="true">
+											</cfif>
+											<div class="card-header" id="lastEditHeader">
+												<h2 class="h4 my-0">
+													<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="lastEditCardBodyWrap">
+													MCZbase Records Last Edited By this agent (<cfif #lastEdit.cnt# gt 0>#lastEdit.cnt#<cfelse>0</cfif>)
+													</button>
+												</h2>
 											</div>
-										</div><!--- end lastEditCardBodyWrap --->
+											<div id="lastEditCardBodyWrap" class="#bodyClass#" aria-labelledby="lastEditHeader" data-parent="##lastEditSection">
+												<div class="card-body py-1 mb-1">
+													<cfif lastEdit.recordcount EQ 0>
+														<ul class="list-group">
+															<li class="list-group-item">None</li>
+														</ul>
+													<cfelse>
+														<ul class="list-group">
+															<cfloop query="lastEdit">
+																<li class="list-group-item">
+																	<a href="/SpecimenResults.cfm?edited_by_id=#agent_id#&collection_id=#collection_id#" target="_blank">#cnt# #collection#</a> specimens
+																</li>
+															</cfloop>
+														</ul>
+													</cfif>
+												</div>
+											</div><!--- end lastEditCardBodyWrap --->
+										</cfloop>
 									</div>
 								</section>
 							</cfif>
