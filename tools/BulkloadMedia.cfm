@@ -1682,7 +1682,7 @@ limitations under the License.
 			<cfset subdirectories = DirectoryList("#Application.webDirectory#/specimen_images/#path#",true,"query","","Name ASC","dir")>
 			<ul>
 				<cfoutput>
-					<li><a href="/tools/BulkloadMedia.cfm?action=listUnknowns&path=%2Fspecimen_images%2F#path#">#path#</a></li>
+					<li><a href="/tools/BulkloadMedia.cfm?action=listUnknowns&path=#path#">#path#</a></li>
 					<cfloop query="subdirectories">
 						<li>#subdirectories.Directory#  [#subdirectory.Name#]</li>
 					</cfloop>
@@ -1693,24 +1693,23 @@ limitations under the License.
 		</cfif>
 	</cfif>
 	<cfif action is "listUnknowns">
-		<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records</h2>
-		<h3 class="h5">Step 3: List of files without media records:</h3>
-		<cfset topDirectories = DirectoryList("#Application.webDirectory##path#",false,"query","","Name ASC","dir")>
-		<cfif topDirectories.recordcount NEQ 1>
-			<cfthrow message="Error: Other than one directory found.">
-		</cfif>
 		<cfoutput>
+			<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records</h2>
+			<h3 class="h5">Step 3: List of files without media records in #encodeForHtml(path)#:</h3>
+			<cfif NOT DirectoryExists("#Application.webDirectory#/specimen_images/#path#",false,"query","","Name ASC","dir")>
+				<cfthrow message="Error: Directory not found.">
+			</cfif>
 			<cfquery name="knownMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					auto_path, auto_filename
 				FROM
 					media
 				WHERE
-					auto_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#path#">
+					auto_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="/specimen_images/#path#">
 			</cfquery>
-			<p>Number of known media: #knownMedia.recordcount# in #encodeForHtml(path)#</p>
+			<p>Number of known media: #knownMedia.recordcount# in shared storage directory #encodeForHtml(path)#</p>
 			<cfset knownFiles = ValueList(knownMedia.auto_filename)>
-			<cfset allFiles = DirectoryList("#Application.webDirectory##path#",false,"query","","datelastmodified DESC","file")>
+			<cfset allFiles = DirectoryList("#Application.webDirectory#/specimen_images/#path#",false,"query","","datelastmodified DESC","file")>
 			<!--- DirectoryList as query returns: Attributes, DateLastModified, Directory, Link, Mode, Name, Size, Type --->
 			<cfset numberUnknown = 0>
 			<cfloop query="allFiles">
