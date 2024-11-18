@@ -1684,7 +1684,7 @@ limitations under the License.
 				<cfset subdirectories1 = DirectoryList("#Application.webDirectory#/specimen_images/#path#",true,"query","","Directory ASC","dir")>
 				<cfquery name="subdirectories" dbtype="query">
 						select distinct Directory from subdirectories1
-				</cfif>
+				</cfquery>
 				<ul>
 					<li><a href="/tools/BulkloadMedia.cfm?action=listUnknowns&path=#path#">#path#</a></li>
 					<cfloop query="subdirectories">
