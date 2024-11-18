@@ -160,7 +160,7 @@ limitations under the License.
 											<td>#getRelationshipTypes.auto_table#</td>
 											<td>#getRelationshipTypes.media_relationship#</td>
 											<cfset also = "">
-											<cfif StructKeyExists(alsoSupported(#getRelationshipTypes.auto_table#))>
+											<cfif StructKeyExists(alsoSupported,"#getRelationshipTypes.auto_table#")>
 												<cfset also = " or " + alsoSupported["#getRelationshipTypes.auto_table#"]>
 											</cfif>
 											<td>#getRelationshipTypes.primary_key#</td>
