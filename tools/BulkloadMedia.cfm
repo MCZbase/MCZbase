@@ -1661,5 +1661,29 @@ limitations under the License.
 			</cfquery>
 		</cfoutput>
 	</cfif>
+	<cfif action is "prepUnknowns">
+      <cfset path = "/specimen_images/malacology/large/">
+		<h2 class="h4">List Media Files in a Directory that lack Media records</h2>
+		<cfoutput>
+			<cfquery name="knownMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					auto_path, auto_filename
+				FROM
+					media
+				WHERE
+					auto_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#path#">
+			</cfquery>
+			<cfset allFiles = DirectoryList(path,false,"query","","datelastmodified DESC","file")>
+			<cfquery unknownMedia dbtyp=="query">
+				SELECT  *
+				FROM
+					allFiles
+					left join knownMedia on allFiles.filename = knownMedia.auto_filename
+				WHERE
+					knownMedia.auto_filename IS NULL
+			</cfquery>
+			<cfdump var="#unknownMedia#">
+		</cfoutput>
+	</cfif>
 </main>
 <cfinclude template="/shared/_footer.cfm">
