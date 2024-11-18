@@ -2175,7 +2175,7 @@ limitations under the License.
 								<section class="accordion" id="lastEditSection"> 
 									<div class="card mb-2 bg-light">
 										<cfquery name="lastEdit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lastEdit_result">
-							<!---				select 
+											select 
 												count(*) cnt,
 												collection,
 												collection.collection_id
@@ -2187,10 +2187,7 @@ limitations under the License.
 												LAST_EDITED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											group by
 												collection,
-												collection.collection_id--->
-											select 	count(*)cnt, collection.collection_id, collection.collection from coll_object,collection,cataloged_item 
-											where cataloged_item.collection_object_id= coll_object.collection_object_id and collection.collection_id = cataloged_item.COLLECTION_ID and LAST_EDITED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-											group by collection.collection,collection.collection_id
+												collection.collection_id
 										</cfquery>
 										<cfloop query="lastEdit">
 											<cfif lastEdit.recordcount GT 15 OR lastEdit.recordcount eq 0>
@@ -2202,7 +2199,6 @@ limitations under the License.
 												<cfset bodyClass = "collapse show">
 												<cfset ariaExpanded ="true">
 											</cfif>
-											<cfloop query="lastEdit">
 											<div class="card-header" id="lastEditHeader">
 												<h2 class="h4 my-0">
 													<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="lastEditCardBodyWrap">
@@ -2210,7 +2206,6 @@ limitations under the License.
 													</button>
 												</h2>
 											</div>
-											</cfloop>
 											<div id="lastEditCardBodyWrap" class="#bodyClass#" aria-labelledby="lastEditHeader" data-parent="##lastEditSection">
 												<div class="card-body py-1 mb-1">
 													<cfif lastEdit.recordcount EQ 0>
