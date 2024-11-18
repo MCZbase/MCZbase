@@ -1685,7 +1685,8 @@ limitations under the License.
 				<ul>
 					<li><a href="/tools/BulkloadMedia.cfm?action=listUnknowns&path=#path#">#path#</a></li>
 					<cfloop query="subdirectories">
-						<li>#subdirectories.Directory#  [#subdirectories.Name#]</li>
+						<cfset localPath = Replace(subdirectories.Directory,'#Application.webDirectory#/specimen_images/','')>
+						<li><a href="/tools/BulkloadMedia.cfm?action=listUnknowns&path=#encodeforUrl(localPath)#">#encodeForHtml(localPath)#</a></li>
 					</cfloop>
 				</ul>
 			<cfelse>
