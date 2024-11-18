@@ -401,7 +401,6 @@ limitations under the License.
 		</cfoutput>
 	</cfdefaultcase>
 </cfswitch>
-<!---Date picker is not working. mk--->
 <script>
 	function toggleRow() {
 		const cells = document.querySelectorAll('.toggle1');
