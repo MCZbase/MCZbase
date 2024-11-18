@@ -1718,7 +1718,10 @@ limitations under the License.
 					<cfset numberUnknown = numberUnknown + 1>
 				</cfif>
 			</cfloop>
-			<p>Number of unknown media: #numberUnknown#.</p>
+			<cfif numberUnknown EQ 0>
+				<p>There are media records in MCZbase for all files in this directory.</p>
+			<cfelse> 
+			<p>There are #numberUnknown# files without corresponding MCZbase media records in the shared storage directory #encodeForHtml(path)#.</p>
 		</cfoutput>
 	</cfif>
 </main>
