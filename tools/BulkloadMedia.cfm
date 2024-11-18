@@ -1696,7 +1696,7 @@ limitations under the License.
 		<cfoutput>
 			<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records</h2>
 			<h3 class="h5">Step 3: List of files without media records in #encodeForHtml(path)#:</h3>
-			<cfif NOT DirectoryExists("#Application.webDirectory#/specimen_images/#path#",false,"query","","Name ASC","dir")>
+			<cfif NOT DirectoryExists("#Application.webDirectory#/specimen_images/#path#")>
 				<cfthrow message="Error: Directory not found.">
 			</cfif>
 			<cfquery name="knownMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
