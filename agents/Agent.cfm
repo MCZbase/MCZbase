@@ -1296,13 +1296,13 @@ limitations under the License.
 										</cfquery>
 										<cfquery name="getLatLongVer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getLatLongVer_result">
 											select 
-												count(*) cnt,
+												count(*) count,
 												count(distinct(locality_id)) locs 
 											from lat_long 
 											where verified_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
 										<cfif #getLatLongDet.cnt# gt 0><cfset GeoDet = 1><cfelse><cfset GeoDet = 0></cfif>
-										<cfif #getLatLongVer.cnt# gt 0><cfset GeoVer = 1><cfelse><cfset GeoVer = 0></cfif>
+										<cfif #getLatLongVer.count# gt 0><cfset GeoVer = 1><cfelse><cfset GeoVer = 0></cfif>
 										<cfset totalRoles = #GeoDet# + #GeoVer#>
 										<cfif totalRoles eq 0>
 											<!--- cardState = collapsed --->
@@ -1316,7 +1316,7 @@ limitations under the License.
 										<div class="card-header" id="georefHeader">
 											<h2 class="h4 my-0">
 												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##georefCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="georefCardBodyWrap">
-													Georeferences (#getLatLongDet.cnt# determined, #getLatLongVer.cnt# verified)
+													Georeferences (#getLatLongDet.cnt# determined, #getLatLongVer.count# verified)
 												</button>
 											</h2>
 										</div>
