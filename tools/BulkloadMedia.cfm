@@ -1673,16 +1673,14 @@ limitations under the License.
 				WHERE
 					auto_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#path#">
 			</cfquery>
-			<cfset allFiles = DirectoryList(path,false,"query","","datelastmodified DESC","file")>
-			<cfquery name="unknownMedia" dbtype="query">
-				SELECT  *
-				FROM
-					allFiles
-					left join knownMedia on allFiles.filename = knownMedia.auto_filename
-				WHERE
-					knownMedia.auto_filename IS NULL
-			</cfquery>
-			<cfdump var="#unknownMedia#">
+			<cfset knownFiles = ValueList(knownMedia.auto_filename)>
+			<cfset allFiles = DirectoryList("#Application.webDirectory##path#",false,"query","","datelastmodified DESC","file")>
+			<!--- DirectoryList as query returns: Attributes, DateLastModified, Directory, Link, Mode, Name, Size, Type --->
+			<cfloop query="allFiles">
+				<cfif NOT ListContains(knownFiles,allFiles.Name)>
+					#allFiles.Directory##allFiles.Name# [#allFiles.size#]<br>
+				</cfif>
+			</cfloop>
 		</cfoutput>
 	</cfif>
 </main>
