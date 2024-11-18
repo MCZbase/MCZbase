@@ -1661,6 +1661,18 @@ limitations under the License.
 			</cfquery>
 		</cfoutput>
 	</cfif>
+	<cfif action is "pickTopDirectory">
+		<h2 class="h4">List Media Files in a Directory that lack Media records</h2>
+		<h3 class="h5">Step 1: Pick a top level directory on the shared storage:</h3>
+		<cfoutput>
+			<cfset directories = DirectoryList("#Application.webDirectory#specimen_images/",false,"query","","Name ASC","dir")>
+			<ul>
+				<cfloop query="directories">
+					<li>#directories.name#</li>
+				</cfloop>
+			</ul>
+		</cfoutput>
+	</cfif>
 	<cfif action is "prepUnknowns">
       <cfset path = "/specimen_images/malacology/large/">
 		<h2 class="h4">List Media Files in a Directory that lack Media records</h2>
