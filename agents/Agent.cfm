@@ -2189,39 +2189,41 @@ limitations under the License.
 												collection,
 												collection.collection_id
 										</cfquery>
-										<cfif lastEdit.recordcount GT 15 OR lastEdit.recordcount eq 0>
-											<!--- cardState = collapsed --->
-											<cfset bodyClass = "collapse">
-											<cfset ariaExpanded ="false">
-										<cfelse>
-											<!--- cardState = expanded --->
-											<cfset bodyClass = "collapse show">
-											<cfset ariaExpanded ="true">
-										</cfif>
-										<div class="card-header" id="lastEditHeader">
-											<h2 class="h4 my-0">
-												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="lastEditCardBodyWrap">
-												MCZbase Records Last Edited By this agent (<cfif #lastEdit.cnt# gt 0>#lastEdit.cnt#<cfelse>0</cfif>)
-												</button>
-											</h2>
-										</div>
-										<div id="lastEditCardBodyWrap" class="#bodyClass#" aria-labelledby="lastEditHeader" data-parent="##lastEditSection">
-											<div class="card-body py-1 mb-1">
-												<cfif lastEdit.recordcount EQ 0>
-													<ul class="list-group">
-														<li class="list-group-item">None</li>
-													</ul>
-												<cfelse>
-													<ul class="list-group">
-														<cfloop query="lastEdit">
-															<li class="list-group-item">
-																<a href="/SpecimenResults.cfm?edited_by_id=#agent_id#&collection_id=#collection_id#" target="_blank">#cnt# #collection#</a> specimens
-															</li>
-														</cfloop>
-													</ul>
-												</cfif>
+										<cfloop query="lastEdit">
+											<cfif lastEdit.recordcount GT 15 OR lastEdit.recordcount eq 0>
+												<!--- cardState = collapsed --->
+												<cfset bodyClass = "collapse">
+												<cfset ariaExpanded ="false">
+											<cfelse>
+												<!--- cardState = expanded --->
+												<cfset bodyClass = "collapse show">
+												<cfset ariaExpanded ="true">
+											</cfif>
+											<div class="card-header" id="lastEditHeader">
+												<h2 class="h4 my-0">
+													<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="lastEditCardBodyWrap">
+													MCZbase Records Last Edited By this agent (<cfif #lastEdit.cnt# gt 0>#lastEdit.cnt#<cfelse>0</cfif>)
+													</button>
+												</h2>
 											</div>
-										</div><!--- end lastEditCardBodyWrap --->
+											<div id="lastEditCardBodyWrap" class="#bodyClass#" aria-labelledby="lastEditHeader" data-parent="##lastEditSection">
+												<div class="card-body py-1 mb-1">
+													<cfif lastEdit.recordcount EQ 0>
+														<ul class="list-group">
+															<li class="list-group-item">None</li>
+														</ul>
+													<cfelse>
+														<ul class="list-group">
+															<cfloop query="lastEdit">
+																<li class="list-group-item">
+																	<a href="/SpecimenResults.cfm?edited_by_id=#agent_id#&collection_id=#collection_id#" target="_blank">#cnt# #collection#</a> specimens
+																</li>
+															</cfloop>
+														</ul>
+													</cfif>
+												</div>
+											</div><!--- end lastEditCardBodyWrap --->
+										</cfloop>
 									</div>
 								</section>
 							</cfif>
