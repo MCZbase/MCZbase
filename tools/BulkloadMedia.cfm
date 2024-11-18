@@ -1681,7 +1681,7 @@ limitations under the License.
 		<cfif ListContains(knownTops,"#path#")>
 			<cfset subdirectories = DirectoryList("#Application.webDirectory#/specimen_images/#path#",true,"query","","Name ASC","dir")>
 			<ul>
-				<li><a href="/tools/BulkloadMedia.cfm?action=listUnknowns&path=%2Fspecimen_images%2F#path#">
+				<li><a href="/tools/BulkloadMedia.cfm?action=listUnknowns&path=%2Fspecimen_images%2F#path#">#path#</a></li>
 				<cfloop query="subdirectories">
 					<li>#subdirectories.Directory#  [#subdirectory.Name#]</li>
 				</cfloop>
