@@ -45,9 +45,53 @@ limitations under the License.
 		<cfset separator = ",">
 	</cfloop>
 	<cfheader name="Content-Type" value="text/csv">
-		<cfoutput>#csv##chr(13)##chr(10)#</cfoutput>
+	<cfoutput>#csv##chr(13)##chr(10)#</cfoutput>
 	<cfabort>
 </cfif>
+
+<!--- special case handling to produce bulkloader sheet for files without media records in a directory --->
+<cfif isDefined("action") AND action is "getFileList">
+	<cfif NOT isDefined("path") or len(path) EQ 0>
+		<cfthrow message="Missing required parameter path.">
+	</cfif>
+	<cfif NOT DirectoryExists("#Application.webDirectory#/specimen_images/#path#")>
+		<cfthrow message="Error: Directory not found.">
+	</cfif>
+	<cfset csv = "">
+	<cfset separator = "">
+	<cfloop list="#fieldlist#" index="field" delimiters=",">
+		<cfset csv='#csv##separator#"#field#"'>
+		<cfset separator = ",">
+	</cfloop>
+	<cfheader name="Content-Type" value="text/csv">
+	<cfoutput>#csv##chr(13)##chr(10)#</cfoutput>
+	<cfquery name="knownMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT 
+			auto_path, auto_filename
+		FROM
+			media
+		WHERE
+			auto_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="/specimen_images/#path#/">
+	</cfquery>
+	<cfset knownFiles = ValueList(knownMedia.auto_filename)>
+	<cfset allFiles = DirectoryList("#Application.webDirectory#/specimen_images/#path#",false,"query","","datelastmodified DESC","file")>
+	<!--- DirectoryList as query returns: Attributes, DateLastModified, Directory, Link, Mode, Name, Size, Type --->
+	<cfset numberUnknown = 0>
+	<cfloop query="allFiles">
+		<cfset csv = "">
+		<cfif NOT ListContains(knownFiles,allFiles.Name)>
+			<cfset localPath = Replace(allFiles.Directory,'#Application.webDirectory#','')>
+			<cfset mimetype = FileGetMimeType("#allFiles.Directory#/#allFiles.Name#")>
+			<cfset csv = csv & '"https://mczbase.mcz.harvard.edu#localPath#","#mimetype#"'>
+			<cfset fields = ',"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""'>
+			<cfset csv = csv & fields>
+			<cfoutput>#csv##chr(13)##chr(10)#</cfoutput>
+		</cfif>
+	</cfloop>
+	<cfabort>
+</cfif>
+
+<!--- begin normal page delivery --->
 <cfset pageTitle = "BulkloadMedia">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
@@ -1665,7 +1709,7 @@ limitations under the License.
 		<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records</h2>
 		<h3 class="h5">Step 1: Pick a top level directory on the shared storage:</h3>
 		<cfoutput>
-			<cfset directories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","Directory ASC","dir")>
+			<cfset directories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","ASC","dir")>
 			<ul>
 				<cfloop query="directories">
 					<li><a href="/tools/BulkloadMedia.cfm?action=pickDirectory&path=#directories.name#">#directories.name#</a></li>
@@ -1681,6 +1725,7 @@ limitations under the License.
 			<cfset topDirectories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","ASC","dir")>
 			<cfset knownTops = ValueList(topDirectories.Name)>
 			<cfif ListContains(knownTops,"#path#")>
+				<!--- TODO: Replace with Java file methods, this is too slow for shared storage with many files --->
 				<cfset subdirectoriesIncDots = DirectoryList("#Application.webDirectory#/specimen_images/#path#",true,"query","","ASC","dir")>
 				<cfquery name="subdirectories" dbtype="query">
 						SELECT DISTINCT Directory 
@@ -1729,6 +1774,7 @@ limitations under the License.
 				<p>There are media records in MCZbase for all files in this directory.</p>
 			<cfelse> 
 				<p>There are #numberUnknown# files without corresponding MCZbase media records in the shared storage directory #encodeForHtml(path)#.</p>
+				<p><a href="/tools/BulkloadMedia.cfm?action=getFileList?path=#path#">Download</a> a bulkloader sheet for these files.</p>
 			</cfif>
 		</cfoutput>
 	</cfif>
