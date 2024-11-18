@@ -64,6 +64,18 @@ limitations under the License.
 </cfif>
 <cfset beginDateFiscal = '#DateFormat(DateAdd("d",1,DateAdd("yyyy", -1, endDateFiscal)),"yyyy-mm-dd")#'>
 
+<script>
+	$(document).ready(function() {
+		$("##beginDate").datepicker({ dateFormat: 'yy-mm-dd'});
+		$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
+	});
+	function toggleRow() {
+		const cells = document.querySelectorAll('.toggle1');
+		cells.forEach(function(cell) {
+			cell.classList.toggle('hidden');
+		});
+	}
+</script>
 
 <cfswitch expression="#action#">
 	<cfcase value="dowloadHoldings">
