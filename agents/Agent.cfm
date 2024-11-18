@@ -1337,7 +1337,7 @@ limitations under the License.
 													</ul>
 												<cfelse>
 													<ul class="list-group">
-														<li class="list-group-item">Verified #getLatLongVer.cnt# coordinates for #getLatLongVer.locs# localities</li>
+														<li class="list-group-item">Verified #getLatLongVer.count# coordinates for #getLatLongVer.locs# localities</li>
 													</ul>
 												</cfif>
 											</div>
