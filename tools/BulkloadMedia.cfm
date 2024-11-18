@@ -119,7 +119,9 @@ limitations under the License.
 					</h2>
 					<div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">
-							<p class="pt-2 pb-0 mb-0 px-2">Some relationships require a relationship-specific ID and others can take a name. See correct entries for the relationships below:</p>
+							<p class="pt-2 pb-0 mb-0 px-2">Some relationships require a relationship-specific ID and others can take a value. See the allowed entries for the relationships below:</p>
+							<!--- Load from code table, lookup primary key for target table and display that for all media relationships --->
+							<!--- Add configuration for additional fields this bulkloader supports --->
 							<cfset alsoSupported = StructNew()>
 							<cfset alsoSupported['agent']="AGENT_NAME">
 							<cfset alsoSupported['cataloged_item']="GUID">
@@ -144,61 +146,29 @@ limitations under the License.
 									AND cols.position = 1
 								ORDER BY auto_table
 							</cfquery>
-							<!--- TODO: This table only lists 18 out of 25 current media relationships --->
-							<!--- TODO: Load from code table, lookup primary key for target table and display that for all media relationships --->
-							<!--- TODO: Add configuration for additional fields this bulkloader supports --->
-							<!--- WARNING: This guidance, and code supporting these operations MUST be updated if the code table changes --->
 							<table class="table table-responsive small table-striped mx-2 mb-4">
 								<thead class="thead-light">
 									<tr>
-										<th>Agents</th><br>
-										<th>Location/Event</th>
-										<th>Object/Collection</th>
-										<th>Media</th>
-										<th>Publication or Project</th>
-										<th>Transactions</th>
-										<th>Permits</th>
+										<th>Table</th><br>
+										<th>Relationship</th>
+										<th>Keys</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>	
-										<td>created by agent: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></td>
-										<td>documents collecting_event: <b>COLLECTING_EVENT_ID</b></td>
-										<td>shows ledger entry for cataloged_item: <b>GUID</b></td>
-										<td>related to media: <b>MEDIA_ID</b></td>
-										<td>shows project: <b>PROJECT_ID</b> or <b>PROJECT_NAME</b></td>
-										<td>documents accn: <b>ACCN_NUMBER</b></td>
-										<td>shows permit: <b>PERMIT_ID</b></td>
-									</tr>
-									<tr>
-										<td>physical object created by agent: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></td>
-										<td>shows collecting_event: <b>COLLECTING_EVENT_ID</b></td>
-										<td>documents cataloged_item: <b>GUID</b></td>
-										<td>transcript for audio media: <b>MEDIA_ID</b></td>
-										<td>shows publication: <b>PUBLICATION_ID</b></td>
-										<td>documents deaccession: <b>DEACC_NUMBER</b></td>
-										<td>document for permit: <b>PERMIT_ID</b></td>
-									</tr>
-									<tr>
-										<td>documents agent: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></td>
-										<td>shows locality: <b>LOCALITY_ID</b></td>
-										<td>shows specimen_part: <b>GUID</b></td>
-										<td><b></b></td>
-										<td><b></b></td>
-										<td>documents loan: <b>LOAN_NUMBER</b></td>
-										<td><b></b></td>
-									</tr>
-									<tr>
-										<td>shows handwriting of agent: <b>AGENT_ID</b> or <b>PREFERRED AGENT_NAME</b></td>
-										<td>documents locality: <b>LOCALITY_ID</b></td>
-										<td>shows underscore_collection: <b>UNDERSCORE_COLLECTION_ID</b> or <b>COLLECTION_NAME</b></td>
-										<td><b></b></td>
-										<td><b></b></td>
-										<td>documents borrow: <b>BORROW_NUMBER</b></td>					
-										<td><b></b></td>
-									</tr>		
+									<cfloop query="getRelationshipTypes">
+										<tr>	
+											<td>#getRelationshipTypes.auto_table#</td>
+											<td>#getRelationshipTypes.media_relationship#</td>
+											<cfset also = "">
+											<cfif StrutKeyExists(alsoSupported(#getRelationshipTypes.auto_table#)>
+												<cfset also = " or " + alsoSupported["#getRelationshipTypes.auto_table#"]>
+											</cfif>
+											<td>#getRelationshipTypes.primary_key#</td>
+								
+										</tr>	
+									</cfloop>
 								</tbody>
-							</table>
+							</table>	
 						</div>
 					</div>
 				</div>
