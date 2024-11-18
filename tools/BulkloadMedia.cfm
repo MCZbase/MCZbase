@@ -1678,7 +1678,7 @@ limitations under the License.
 		<h3 class="h5">Step 2: Pick a directory on the shared storage to check for files without media records:</h3>
 		<cfset topDirectories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","Name ASC","dir")>
 		<cfset knownTops = ValueList(topDirectories.Name)>
-		<cfif ListContains(knownTops,"#path#">
+		<cfif ListContains(knownTops,"#path#")>
 			<cfset directories = DirectoryList("#Application.webDirectory#/specimen_images/#path#",true,"query","","Name ASC","dir")>
 			<ul>
 				<cfloop query="subdirectories">
