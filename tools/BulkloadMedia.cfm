@@ -159,11 +159,16 @@ limitations under the License.
 										<tr>	
 											<td>#getRelationshipTypes.auto_table#</td>
 											<td>#getRelationshipTypes.media_relationship#</td>
-											<cfset also = "">
-											<cfif StructKeyExists(alsoSupported,"#getRelationshipTypes.auto_table#")>
-												<cfset also = " or " & alsoSupported["#getRelationshipTypes.auto_table#"]>
+											<cfif #getRelationshipTypes.auto_table# EQ "accn" >
+												<!--- transaction_id and accn_number are both integers: only use accn_number --->
+												<td>ACCN_NUMBER</td>
+											<cfelse>
+												<cfset also = "">
+												<cfif StructKeyExists(alsoSupported,"#getRelationshipTypes.auto_table#")>
+													<cfset also = " or " & alsoSupported["#getRelationshipTypes.auto_table#"]>
+												</cfif>
+												<td>#getRelationshipTypes.primary_key##also#</td>
 											</cfif>
-											<td>#getRelationshipTypes.primary_key##also#</td>
 										</tr>	
 									</cfloop>
 								</tbody>
@@ -1004,6 +1009,7 @@ limitations under the License.
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
 							<cfelseif #getMediaRel.media_relationship# contains 'accn'>
+								<!--- transaction_id and accn_number are both integers, thus only use accn_number --->
 								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									update cf_temp_media set MEDIA_RELATED_TO_#i# =
 									(
