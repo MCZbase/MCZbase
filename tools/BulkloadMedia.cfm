@@ -1721,7 +1721,8 @@ limitations under the License.
 			<cfif numberUnknown EQ 0>
 				<p>There are media records in MCZbase for all files in this directory.</p>
 			<cfelse> 
-			<p>There are #numberUnknown# files without corresponding MCZbase media records in the shared storage directory #encodeForHtml(path)#.</p>
+				<p>There are #numberUnknown# files without corresponding MCZbase media records in the shared storage directory #encodeForHtml(path)#.</p>
+			</cfif>
 		</cfoutput>
 	</cfif>
 </main>
