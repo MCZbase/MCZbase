@@ -1705,7 +1705,7 @@ limitations under the License.
 				FROM
 					media
 				WHERE
-					auto_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="/specimen_images/#path#">
+					auto_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="/specimen_images/#path#/">
 			</cfquery>
 			<p>Number of known media: #knownMedia.recordcount# in shared storage directory #encodeForHtml(path)#</p>
 			<cfset knownFiles = ValueList(knownMedia.auto_filename)>
