@@ -2192,7 +2192,7 @@ limitations under the License.
 										</cfquery>
 										
 										<cfset i = 0>
-											<cfloop query="lastEdit">#i#
+											<cfloop query="lastEdit">
 												<cfset i=i+1>
 											</cfloop>
 											<cfif lastEdit.recordcount GT 15 OR lastEdit.recordcount eq 0>
