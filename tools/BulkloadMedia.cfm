@@ -32,9 +32,12 @@ limitations under the License.
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
+
+<!--- Set configuration for lists of fields --->  
 <cfset fieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,SUBJECT,MADE_DATE,DESCRIPTION,PREVIEW_URI,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,MEDIA_LABEL_3,LABEL_VALUE_3,MEDIA_LABEL_4,LABEL_VALUE_4,MEDIA_LABEL_5,LABEL_VALUE_5,MEDIA_LABEL_6,LABEL_VALUE_6,MEDIA_LABEL_7,LABEL_VALUE_7,MEDIA_LABEL_8,LABEL_VALUE_8,MEDIA_RELATIONSHIP_1,MEDIA_RELATED_TO_1,MEDIA_RELATIONSHIP_2,MEDIA_RELATED_TO_2,MEDIA_RELATIONSHIP_3,MEDIA_RELATED_TO_3,MEDIA_RELATIONSHIP_4,MEDIA_RELATED_TO_4">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,SUBJECT,MADE_DATE,DESCRIPTION">
+<cfset NUMBER_OF_LABEL_VALUE_PAIRS = 8>
 		
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
@@ -667,7 +670,38 @@ limitations under the License.
 					and mask_media <> 1
 					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 			</cfquery>
-			
+				
+			<!---- Identify incomplete label:value pairs and label values not in code tables --------------------->		
+			<cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" index="i">
+				<cfset variableName = "media_label_" & i>
+				<cfset variableValueNo = "label_value_" & i>
+				<!--- Warn variable name does not match codetable or is missing when label_value is present --->
+				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_media
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'#variableName# is missing or does not match codetable')
+					WHERE (
+							#variableName# not in (select media_label from ctmedia_label) 
+							OR 
+							(#variableValueNo# is not null AND #variableName# is null)
+						)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<!--- Warn if Label_value is missing when media_label is there --->
+				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_media
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'#variableValueNo# is missing!')
+					WHERE 
+						#variableName# is not null
+						and #variableValueNo# is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfloop>	
+
+			<!---------------------------------------------------------->	
+				
+			<!--- Obtain data and loop through records performing additional checks --->
 			<cfquery name="getTempMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,SUBJECT,MADE_DATE,DESCRIPTION,HEIGHT,WIDTH,PREVIEW_URI,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,MEDIA_LABEL_3,LABEL_VALUE_3,MEDIA_LABEL_4,LABEL_VALUE_4,MEDIA_LABEL_5,LABEL_VALUE_5,MEDIA_LABEL_6,LABEL_VALUE_6,MEDIA_LABEL_7,LABEL_VALUE_7,MEDIA_LABEL_8,LABEL_VALUE_8,KEY,USERNAME,MEDIA_RELATIONSHIP_1,MEDIA_RELATED_TO_1,MEDIA_RELATIONSHIP_2,MEDIA_RELATED_TO_2,MEDIA_RELATIONSHIP_3,MEDIA_RELATED_TO_3,MEDIA_RELATIONSHIP_4,MEDIA_RELATED_TO_4
 				FROM 
@@ -675,57 +709,14 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<!--- TODO: Stuff is not in a loop that should be --->
 
-			<!------------------------------------------------>
-			<!---- labels missing warning--------------------->		
-			<!---- Define label variables--------------------->
-			<cfif len(getTempMedia.media_label_1) gt 0><cfset media_label_1 = "#getTempMedia.media_label_1#"><cfelse><cfset media_label_1 = ""></cfif>
-			<cfif len(getTempMedia.media_label_2) gt 0><cfset media_label_2 = "#getTempMedia.media_label_2#"><cfelse><cfset media_label_2 = ""></cfif>
-			<cfif len(getTempMedia.media_label_3) gt 0><cfset media_label_3 = "#getTempMedia.media_label_3#"><cfelse><cfset media_label_3 = ""></cfif>
-			<cfif len(getTempMedia.media_label_4) gt 0><cfset media_label_4 = "#getTempMedia.media_label_4#"><cfelse><cfset media_label_4 = ""></cfif>
-			<cfif len(getTempMedia.media_label_5) gt 0><cfset media_label_5 = "#getTempMedia.media_label_5#"><cfelse><cfset media_label_5 = ""></cfif>
-			<cfif len(getTempMedia.media_label_6) gt 0><cfset media_label_6 = "#getTempMedia.media_label_6#"><cfelse><cfset media_label_6 = ""></cfif>
-			<cfif len(getTempMedia.media_label_7) gt 0><cfset media_label_7 = "#getTempMedia.media_label_7#"><cfelse><cfset media_label_7 = ""></cfif>
-			<cfif len(getTempMedia.media_label_8) gt 0><cfset media_label_8 = "#getTempMedia.media_label_8#"><cfelse><cfset media_label_8 = ""></cfif>
-				
-			<!-- Define the total number of variables -->
-			<cfset numberOfVariables = 8>
-			<cfloop from="1" to="#numberOfVariables#" index="i">
-				<cfset variableName = "media_label_" & i>
-				<cfset variableValueNo = "label_value_" & i>
-				<cfset variableValue = evaluate(variableName)>
-				<!-- Warn variable name does not match codetable or is missing when labe_value is present -->
-				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_media
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),'#variableName# is missing or does not match codetable')
-					WHERE #variableName# not in (select media_label from ctmedia_label) OR (#variableValueNo# is not null AND #variableName# is null)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<!---Warn if Label_value is missing when media_label is there--->
-				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_media
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),'#variableValueNo# is missing!')
-					WHERE #variableName# is not null
-						and #variableValueNo# is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			</cfloop>	
-			<!---END labels--------------------------------------------->	
-			<!---END CHECK FOR MISSING LABELS--------------------------->	
-			<!---------------------------------------------------------->	
-				
-			<!---LOOP throught getTempMedia and check each row for certain values--->
+			<!--- LOOP throught getTempMedia and check each row for certain values--->
 			<cfloop query="getTempMedia">
-				<!---Check MEDIA_URI------------->
+				<!--- Check MEDIA_URI ------------->
 				<cfset urlToCheck = "#getTempMedia.media_uri#">
 				<cfset validstyle = ''>
 				<cfhttp url="#urlToCheck#" method="GET" timeout="10" throwonerror="false">
-				<cfif cfhttp.statusCode EQ '200 OK'>	
-					
-				<cfelse>
+				<cfif cfhttp.statusCode NEQ '200 OK'>	
 					<cfquery name="warningBadURI1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
@@ -737,6 +728,8 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
 				</cfif>
+
+				<!--- TODO: This is not a warning about bad URI, it appears to save a yyyy-mm-dd date string as a yyyy-mm-dd date string... --->
 				<cfset formattedDate = DateFormat(made_date, "yyyy-mm-dd")>
 				<cfquery name="warningBadURI2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
