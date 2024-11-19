@@ -1263,7 +1263,7 @@ limitations under the License.
 								media_license_id,
 								mask_media_fg
 							) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_uri#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.mime_type#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_type#">,
@@ -1271,15 +1271,6 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#medialicenseid_local#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maskmedia_local#">
 							)
-						</cfquery>
-						<cfset rowid = insResult.generatedkey>
-						<cfquery name="getID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT 
-								media_id as theId
-							FROM 
-								media
-							WHERE 
-								ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
 						</cfquery>
 						<cfif len(getTempData.media_relationship_1) gt 0>
 							<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
@@ -1289,7 +1280,7 @@ limitations under the License.
 									created_by_agent_id,
 									RELATED_PRIMARY_KEY
 								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_1#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.MEDIA_RELATED_TO_1#">
@@ -1304,7 +1295,7 @@ limitations under the License.
 									created_by_agent_id,
 									related_primary_key
 								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_2#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.MEDIA_RELATED_TO_2#">
@@ -1319,7 +1310,7 @@ limitations under the License.
 									created_by_agent_id,
 									related_primary_key
 								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_3#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.MEDIA_RELATED_TO_3#">
@@ -1334,7 +1325,7 @@ limitations under the License.
 									created_by_agent_id,
 									related_primary_key
 								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_4#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.MEDIA_RELATED_TO_4#">
@@ -1348,7 +1339,7 @@ limitations under the License.
 								label_value,
 								assigned_by_agent_id
 							) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 								'Subject',
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">,	
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
@@ -1361,7 +1352,7 @@ limitations under the License.
 								label_value,
 								assigned_by_agent_id
 							) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 								'description',
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">,	
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
@@ -1374,7 +1365,7 @@ limitations under the License.
 								label_value,
 								assigned_by_agent_id
 							) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 								'made date',
 								<cfqueryparam cfsqltype="CF_SQL_DATE" value="#getTempData.MADE_DATE#">,	
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
@@ -1389,7 +1380,7 @@ limitations under the License.
 									LABEL_VALUE,
 									ASSIGNED_BY_AGENT_ID
 								) values (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 									'height',
 									<cfif len(getTempData.height) gt 0>#getTempData.height#<cfelse>#imgInfo.height#</cfif>,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
@@ -1402,7 +1393,7 @@ limitations under the License.
 									LABEL_VALUE,
 									ASSIGNED_BY_AGENT_ID
 								) values (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 									'width',
 									<cfif len(getTempData.width) gt 0>#getTempData.width#<cfelse>#imgInfo.width#</cfif>,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
@@ -1419,7 +1410,7 @@ limitations under the License.
 									label_value,
 									assigned_by_agent_id
 								) values (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 									'MD5HASH',
 									'#MD5HASH#',
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
@@ -1434,7 +1425,7 @@ limitations under the License.
 									label_value,
 									assigned_by_agent_id
 								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_1#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_1#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
@@ -1449,7 +1440,7 @@ limitations under the License.
 									label_value,
 									assigned_by_agent_id
 								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_2#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_2#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
@@ -1464,7 +1455,7 @@ limitations under the License.
 									label_value,
 									assigned_by_agent_id
 								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_3#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_3#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
@@ -1479,7 +1470,7 @@ limitations under the License.
 									label_value,
 									assigned_by_agent_id
 								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_4#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_4#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
@@ -1494,7 +1485,7 @@ limitations under the License.
 									label_value,
 									assigned_by_agent_id
 								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_5#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_5#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
@@ -1509,7 +1500,7 @@ limitations under the License.
 									label_value,
 									assigned_by_agent_id
 								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_6#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_6#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
@@ -1524,7 +1515,7 @@ limitations under the License.
 									label_value,
 									assigned_by_agent_id
 								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_7#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_7#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
@@ -1539,7 +1530,7 @@ limitations under the License.
 									label_value,
 									assigned_by_agent_id
 								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_8#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_8#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
@@ -1547,12 +1538,7 @@ limitations under the License.
 							</cfquery>
 						</cfif>
 						<cfset media_updates = media_updates + insResult.recordcount>
-						<cfloop query="getID">
-								<cfset myList = #getID.theId#>
-								<cfloop list= #myList# index="mediaId" delimiters=",">
-									<p class="my-1"><a href="/media/#mediaId#" target="_blank">#mediaId#</a> <cfif len(#getTempData.subject#) gt 0>#getTempData.subject#</cfif>  <cfif len(#getTempData.description#) gt 0>| #getTempData.description#</cfif> </p>
-								</cfloop>
-							</cfloop>
+						<p class="my-1"><a href="/media/#mediaId#" target="_blank">#mediaId#</a> <cfif len(#getTempData.subject#) gt 0>#getTempData.subject#</cfif>  <cfif len(#getTempData.description#) gt 0>| #getTempData.description#</cfif> </p>
 					</cfloop>
 					</div>
 					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
