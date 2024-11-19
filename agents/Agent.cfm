@@ -2189,7 +2189,7 @@ limitations under the License.
 												collection,
 												collection.collection_id
 										</cfquery>
-										<cfloop query="lastEdit">
+								
 											<cfif lastEdit.recordcount GT 15 OR lastEdit.recordcount eq 0>
 												<!--- cardState = collapsed --->
 												<cfset bodyClass = "collapse">
@@ -2202,7 +2202,7 @@ limitations under the License.
 											<div class="card-header" id="lastEditHeader">
 												<h2 class="h4 my-0">
 													<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="lastEditCardBodyWrap">
-													MCZbase Records Last Edited By this agent (<cfif #lastEdit.cnt# gt 0>#lastEdit.cnt#<cfelse>0</cfif>)
+													MCZbase Records Last Edited By this agent (<cfloop query="lastEdit"><cfif #lastEdit.cnt# gt 0>#lastEdit.cnt#<cfelse>0</cfif></cfloop>)
 													</button>
 												</h2>
 											</div>
@@ -2223,7 +2223,7 @@ limitations under the License.
 													</cfif>
 												</div>
 											</div><!--- end lastEditCardBodyWrap --->
-										</cfloop>
+								
 									</div>
 								</section>
 							</cfif>
