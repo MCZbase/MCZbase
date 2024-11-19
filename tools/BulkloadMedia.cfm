@@ -598,34 +598,26 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 			</cfquery>
 			
-			<!--- Define the columns you want to check --->
+			<!---- Check a set of columns for values of length less than three --->
+			<!--- Define an array of columns to check --->
 			<cfset columns = ["subject", "description", "media_uri","MIME_TYPE","MEDIA_TYPE","PREVIEW_URI","MEDIA_LABEL_1","LABEL_VALUE_1","MEDIA_LABEL_2","LABEL_VALUE_2","KEY","USERNAME","MEDIA_RELATIONSHIP_1","MEDIA_RELATIONSHIP_2","MEDIA_RELATIONSHIP_3","MEDIA_RELATIONSHIP_4"]>
-			<cfset conditions = []>
-
-			<!--- Properly loop through the array of column names --->
+			<cfset columsWithTooFewChars = false>
 			<cfloop index="column" array="#columns#">
-				<cfset arrayAppend(conditions, "LENGTH(" & column & ") < 3")>
+				<!--- loop through the array of column names, flag entries with too little data --->
+				<cfquery name="lenCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lenCheck_result">
+					UPDATE cf_temp_media 
+					SET status = concat(nvl2(status, status || '; ', ''),'too few characters in #column#')
+					WHERE 
+						#column# IS NOT NULL 
+						and LENGTH(#column#) < 3
+						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfif lenCheck_result.recordcount GT 0>
+					<cfset columsWithTooFewChars = true>
+				</cfif>
 			</cfloop>
-
-			<!--- Join the conditions into a single string with OR separators --->
-			<cfset whereClause = arrayToList(conditions, " OR ")>
-
-			<!--- Debugging: Output the constructed WHERE clause --->
-			<cfquery name="entryCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT *
-				FROM cf_temp_media
-				WHERE #whereClause#
-			</cfquery>
-			<!--- Execute the query to check entries with less than 3 characters in specified columns --->
-			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_media 
-				SET status = concat(nvl2(status, status || '; ', ''),'invalid Data')
-				WHERE 
-					media_uri IN (SELECT media_uri FROM cf_temp_media WHERE #whereClause#)
-					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<!--- Output results if there are any --->
-			<cfif entryCheck.recordCount gt 0>
+			<!--- Warn if there are any --->
+			<cfif columsWithTooFewChars>
 				<h2 class="text-danger">Entries with fewer than 3 characters found. Check for stray marks on the CSV.</h2>
 			<cfelse>
 				
