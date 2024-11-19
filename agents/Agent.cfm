@@ -2194,7 +2194,7 @@ limitations under the License.
 										<cfset i = 0>
 											<cfloop query="lastEdit">
 												<cfset i=i+1>
-													<cfif #i# gt ><cfset plural = 's'><cfelse></cfif>
+													<cfif #i# gt 0><cfset plural = 's'><cfelse></cfif>
 											</cfloop>
 											<cfif lastEdit.recordcount GT 15 OR lastEdit.recordcount eq 0>
 												<!--- cardState = collapsed --->
