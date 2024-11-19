@@ -1599,9 +1599,10 @@ limitations under the License.
 									<cfelse>
 										<!--- provide the raw error message if it isn't readily interpretable --->
 										#cfcatch.detail#
-										<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-											<cfdump var="#cfcatch#">
-										</cfif>
+									</cfif>
+									<!--- always provide global admins with a dump --->
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+										<cfdump var="#cfcatch#">
 									</cfif>
 								</span>
 							</cfif>
