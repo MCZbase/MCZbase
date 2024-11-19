@@ -2146,7 +2146,7 @@ limitations under the License.
 										<div class="card-header" id="enteredHeader">
 											<h2 class="h4 my-0">
 												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##enteredCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="enteredCardBodyWrap">
-												MCZbase Records Entered (in #entered.recordcount# collections)
+												MCZbase Records Entered (in #entered.recordcount# collection<cfif #entered.recordcount# gt 1>s<cfelse></cfif>)
 												</button>
 											</h2>
 										</div>
@@ -2194,6 +2194,7 @@ limitations under the License.
 										<cfset i = 0>
 											<cfloop query="lastEdit">
 												<cfset i=i+1>
+													<cfif #i# gt 1><cfset plural = 's'><cfelse></cfif>
 											</cfloop>
 											<cfif lastEdit.recordcount GT 15 OR lastEdit.recordcount eq 0>
 												<!--- cardState = collapsed --->
@@ -2207,7 +2208,7 @@ limitations under the License.
 											<div class="card-header" id="lastEditHeader">
 												<h2 class="h4 my-0">
 													<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="lastEditCardBodyWrap">
-													MCZbase Records Last Edited By this agent (<cfif #lastEdit.cnt# gt 0>in #i# collections<cfelse>0</cfif> )
+													MCZbase Records Last Edited By this agent (<cfif #lastEdit.cnt# gt 0>in #i# collection#plural#<cfelse>0</cfif>)
 													</button>
 												</h2>
 											</div>
