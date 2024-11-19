@@ -2207,7 +2207,7 @@ limitations under the License.
 											<div class="card-header" id="lastEditHeader">
 												<h2 class="h4 my-0">
 													<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="lastEditCardBodyWrap">
-													MCZbase Records Last Edited By this agent (<cfif #lastEdit.cnt# gt 0>#lastEdit.cnt#<cfelse>0</cfif>, #lastEdit.i#, #lastEdit.collection# )
+													MCZbase Records Last Edited By this agent (<cfif #lastEdit.cnt# gt 0>#lastEdit.cnt#<cfelse>0</cfif>, #i#, #lastEdit.collection# )
 													</button>
 												</h2>
 											</div>
