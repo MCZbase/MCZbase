@@ -1291,8 +1291,8 @@ limitations under the License.
 								) VALUES (
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_1#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAgent.agent_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_RELATED_TO_1#">
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.MEDIA_RELATED_TO_1#">
 								)
 							</cfquery>
 						</cfif>
@@ -1306,8 +1306,8 @@ limitations under the License.
 								) VALUES (
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_2#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAgent.agent_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_RELATED_TO_2#">
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.MEDIA_RELATED_TO_2#">
 								)
 							</cfquery>
 						</cfif>
@@ -1321,8 +1321,8 @@ limitations under the License.
 								) VALUES (
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_3#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAgent.agent_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_RELATED_TO_3#">
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.MEDIA_RELATED_TO_3#">
 								)
 							</cfquery>
 						</cfif>
@@ -1336,8 +1336,8 @@ limitations under the License.
 								) VALUES (
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getID.theId#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_4#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAgent.agent_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MEDIA_RELATED_TO_4#">
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.MEDIA_RELATED_TO_4#">
 								)
 							</cfquery>
 						</cfif>
