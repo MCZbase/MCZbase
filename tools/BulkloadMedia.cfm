@@ -1645,6 +1645,7 @@ limitations under the License.
 									<tr>
 										<td>#i#</td>
 										<td>#getProblemData.MEDIA_URI# </td>
+										<td>#getProblemData.MIME_TYPE# </td>
 										<td>#getProblemData.MEDIA_TYPE# </td>
 										<td>#getProblemData.SUBJECT#</td>
 										<td>#getProblemData.MADE_DATE#</td>
