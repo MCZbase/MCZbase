@@ -934,26 +934,27 @@ limitations under the License.
 							</cfquery>
 							<!---SPECIAL CASES - Cataloged_item and specimen_part--->
 							<cfif #getMediaRel.MEDIA_RELATED_TO# contains "MCZ:">
-							<cfif #getMediaRel.media_relationship# contains 'cataloged_item' and len(getMediaRel.MEDIA_RELATED_TO) gt 0>
-								<cfset l=3>
-								<cfloop list="#getMediaRel.MEDIA_RELATED_TO#" index="l" delimiters=":">
-									<cfset IA = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,1,":")>
-									<cfset CCDE = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,2,":")>
-									<cfset CI = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,3,":")>
-									<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										update cf_temp_media set MEDIA_RELATED_TO_#i# =
-										(
-											select collection_object_id
-											from #theTable# 
-											where cat_num = '#CI#' 
-											and collection_cde = '#CCDE#'
-										)
-										WHERE MEDIA_RELATED_TO_#i# is not null AND
-											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-									</cfquery>
-								</cfloop>
-							</cfif>
+								<cfif #getMediaRel.media_relationship# contains 'cataloged_item' and len(getMediaRel.MEDIA_RELATED_TO) gt 0>
+									<cfset l=3>
+									<cfloop list="#getMediaRel.MEDIA_RELATED_TO#" index="l" delimiters=":">
+										<cfset IA = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,1,":")>
+										<cfset CCDE = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,2,":")>
+										<cfset CI = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,3,":")>
+										<!--- TODO: This query is not firing --->
+										<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											update cf_temp_media set MEDIA_RELATED_TO_#i# =
+											(
+												select collection_object_id
+												from #theTable# 
+												where cat_num = '#CI#' 
+												and collection_cde = '#CCDE#'
+											)
+											WHERE MEDIA_RELATED_TO_#i# is not null AND
+												username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+												key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+										</cfquery>
+									</cfloop>
+								</cfif>
 							<cfelseif #getMediaRel.media_relationship# contains 'specimen_part' and len(getMediaRel.MEDIA_RELATED_TO) gt 0>
 								<cfloop list="#getMediaRel.MEDIA_RELATED_TO_#" index="l" delimiters=":">
 									<cfset IA = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,1,":")>
@@ -1273,6 +1274,7 @@ limitations under the License.
 							)
 						</cfquery>
 						<cfif len(getTempData.media_relationship_1) gt 0>
+<!--- TODO: media_related_to_1 is the guid, not the collection_object_id ---> 
 							<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
 								INSERT into media_relations (
 									media_id,
