@@ -618,8 +618,11 @@ limitations under the License.
 			</cfquery>
 			<!--- Execute the query to check entries with less than 3 characters in specified columns --->
 			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				update cf_temp_media set status = concat(nvl2(status, status || '; ', ''),'invalid Data')
-				where media_uri = (SELECT media_uri FROM cf_temp_media WHERE #whereClause#)
+				UPDATE cf_temp_media 
+				SET status = concat(nvl2(status, status || '; ', ''),'invalid Data')
+				WHERE 
+					media_uri IN (SELECT media_uri FROM cf_temp_media WHERE #whereClause#)
+					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!--- Output results if there are any --->
 			<cfif entryCheck.recordCount gt 0>
