@@ -699,6 +699,30 @@ limitations under the License.
 				</cfquery>
 			</cfloop>	
 
+		
+			<!--- Check for duplicated media records, within the set and between the set and existing media --->
+			<cfquery name="mediaExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_media
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'Media record for this media_uri already exists.')
+				WHERE 
+					media_uri IN (select media_uri from MEDIA)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="mediaDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_media
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'Duplicate media_uri in this bulkload.')
+				WHERE 
+					media_uri IN (
+						SELECT media_uri 
+						FROM cf_temp_media
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						GROUP BY media_uri
+						HAVING count(*) > 1
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<!---------------------------------------------------------->	
 				
 			<!--- Obtain data and loop through records performing additional checks --->
@@ -879,7 +903,6 @@ limitations under the License.
 				<!-------------------------------------------------------->
 			</cfloop>
 			<!-----END LOOP for getTempMedia----->
-						
 			
 			<!-------------------Query the Table with updates again------------------------->			
 			<cfquery name="getTempMedia2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1217,18 +1240,6 @@ limitations under the License.
 					<div class="mt-2">
 					<cfloop query="getTempData">
 						<cfset username = '#session.username#'>
-						<!--- TODO: This query is unused, belongs in validation step.  Error from this step would arise from insert not matching unique constraint --->
-						<cfquery name="mediaDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateMedia1_result">
-							SELECT 
-								media_uri 
-							FROM 
-								MEDIA
-							WHERE 
-								media_uri = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_uri#">
-							GROUP BY 
-								media_uri
-								having count(*) > 1
-						</cfquery>
 						<cfset problem_key = getTempData.key>
 						<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							select sq_media_id.nextval nv from dual
