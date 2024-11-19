@@ -2146,8 +2146,7 @@ limitations under the License.
 										<div class="card-header" id="enteredHeader">
 											<h2 class="h4 my-0">
 												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##enteredCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="enteredCardBodyWrap">
-												MCZbase Records Entered (in #entered.recordcount# collections)
-												</button>
+												MCZbase Records Entered (<cfif #entered.recordcount# gt 0>in #entered.recordcount# collection<cfif #entered.recordcount# gt 1>s<cfelse></cfif><cfelse>0</cfif>)</button>
 											</h2>
 										</div>
 										<div id="enteredCardBodyWrap" class="#bodyClass#" aria-labelledby="enteredHeader" data-parent="##enteredSection">
@@ -2174,6 +2173,7 @@ limitations under the License.
 							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="lastEditSection"> 
 									<div class="card mb-2 bg-light">
+									
 										<cfquery name="lastEdit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lastEdit_result">
 											select 
 												count(*) cnt,
@@ -2189,41 +2189,44 @@ limitations under the License.
 												collection,
 												collection.collection_id
 										</cfquery>
+										<cfset i = 0>
 										<cfloop query="lastEdit">
-											<cfif lastEdit.recordcount GT 15 OR lastEdit.recordcount eq 0>
-												<!--- cardState = collapsed --->
-												<cfset bodyClass = "collapse">
-												<cfset ariaExpanded ="false">
-											<cfelse>
-												<!--- cardState = expanded --->
-												<cfset bodyClass = "collapse show">
-												<cfset ariaExpanded ="true">
-											</cfif>
-											<div class="card-header" id="lastEditHeader">
-												<h2 class="h4 my-0">
-													<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="lastEditCardBodyWrap">
-													MCZbase Records Last Edited By this agent (<cfif #lastEdit.cnt# gt 0>#lastEdit.cnt#<cfelse>0</cfif>)
-													</button>
-												</h2>
-											</div>
-											<div id="lastEditCardBodyWrap" class="#bodyClass#" aria-labelledby="lastEditHeader" data-parent="##lastEditSection">
-												<div class="card-body py-1 mb-1">
-													<cfif lastEdit.recordcount EQ 0>
-														<ul class="list-group">
-															<li class="list-group-item">None</li>
-														</ul>
-													<cfelse>
-														<ul class="list-group">
-															<cfloop query="lastEdit">
-																<li class="list-group-item">
-																	<a href="/SpecimenResults.cfm?edited_by_id=#agent_id#&collection_id=#collection_id#" target="_blank">#cnt# #collection#</a> specimens
-																</li>
-															</cfloop>
-														</ul>
-													</cfif>
-												</div>
-											</div><!--- end lastEditCardBodyWrap --->
+											<cfset i=i+1>
+												<cfif #i# gt 0><cfset plural = 's'><cfelse></cfif>
 										</cfloop>
+										<cfif lastEdit.recordcount GT 15 OR lastEdit.recordcount eq 0>
+											<!--- cardState = collapsed --->
+											<cfset bodyClass = "collapse">
+											<cfset ariaExpanded ="false">
+										<cfelse>
+											<!--- cardState = expanded --->
+											<cfset bodyClass = "collapse show">
+											<cfset ariaExpanded ="true">
+										</cfif>
+										<div class="card-header" id="lastEditHeader">
+											<h2 class="h4 my-0">
+												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="lastEditCardBodyWrap">
+													MCZbase Records Last Edited By this agent (<cfif #lastEdit.cnt# gt 0>in #i# collection<cfif #lastEdit.recordcount# gt 1>s<cfelse></cfif><cfelse>0</cfif>)
+												</button>
+											</h2>
+										</div>
+										<div id="lastEditCardBodyWrap" class="#bodyClass#" aria-labelledby="lastEditHeader" data-parent="##lastEditSection">
+											<div class="card-body py-1 mb-1">
+												<cfif lastEdit.recordcount EQ 0>
+													<ul class="list-group">
+														<li class="list-group-item">None</li>
+													</ul>
+												<cfelse>
+													<ul class="list-group">
+														<cfloop query="lastEdit">
+															<li class="list-group-item">
+																<a href="/SpecimenResults.cfm?edited_by_id=#agent_id#&collection_id=#collection_id#" target="_blank">#cnt# #collection#</a> specimens
+															</li>
+														</cfloop>
+													</ul>
+												</cfif>
+											</div>
+										</div><!--- end lastEditCardBodyWrap --->
 									</div>
 								</section>
 							</cfif>
