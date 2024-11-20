@@ -1600,10 +1600,6 @@ limitations under the License.
 										<!--- provide the raw error message if it isn't readily interpretable --->
 										#cfcatch.detail#
 									</cfif>
-									<!--- always provide global admins with a dump --->
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-										<cfdump var="#cfcatch#">
-									</cfif>
 								</span>
 							</cfif>
 						</h3>
@@ -1689,7 +1685,11 @@ limitations under the License.
 						</table>
 					</cfif>
 					<div>#cfcatch.message#</div>
-					</cfcatch>
+					<!--- always provide global admins with a dump --->
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+						<cfdump var="#cfcatch#">
+					</cfif>
+				</cfcatch>
 				</cftry>
 			</cftransaction>
 			<!--- cleanup any incomplete work by the same user --->
