@@ -768,7 +768,7 @@ limitations under the License.
 				<!------------------------------------------------------------>
 				<!----------CHECK Relationship valid-------------------------->
 				<!----------CHECK Related primary key ------------------------>
-<!---				<cfif len(media_relationship_1) gt 0>
+				<cfif len(media_relationship_1) gt 0>
 					<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_media
@@ -860,7 +860,7 @@ limitations under the License.
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
-				</cfif>--->
+				</cfif>
 				<!----------END Check Relationship------------------------------->
 				<!----------END Check Related primary key------------------------>
 				<!--------------------------------------------------------------->	
@@ -932,7 +932,7 @@ limitations under the License.
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
 						</cfquery>
 
-						<cfif ListLen(getMediaRel.MEDIA_RELATED_TO) lte #i# >
+						<cfif getMediaRel.recordCount GT 0 >
 							<!---Find the table name "theTable" from the second part of the media_relationship--->
 							<cfset theTable = trim(listLast('#getMediaRel.media_relationship#'," "))>
 							<!---based on the table, find the primary key--->
@@ -947,6 +947,17 @@ limitations under the License.
 								AND cols.position = 1
 								ORDER BY cols.table_name, cols.position
 							</cfquery>
+							<!----------------If it is a standard ID situation------------------->
+							<cfif isNumeric(getMediaRel.MEDIA_RELATED_TO)>
+								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									update cf_temp_media set MEDIA_RELATED_TO_#i# =
+									(
+										select #tables.column_name# from #theTable# where #tables.column_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.MEDIA_RELATED_TO#">
+									)
+									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
+								</cfquery>
+							</cfif>
 							<!---SPECIAL CASES - Cataloged_item and specimen_part--->
 							<cfif #getMediaRel.MEDIA_RELATED_TO# contains "MCZ:">
 								<cfif #getMediaRel.media_relationship# contains 'cataloged_item' and len(getMediaRel.MEDIA_RELATED_TO) gt 0>
@@ -1080,19 +1091,6 @@ limitations under the License.
 										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 								</cfquery>
-							<cfelse>
-							<!------------------------------------------------------------------->
-							<!----------------If it is a standard ID situation------------------->
-								<cfif isNumeric(getMediaRel.MEDIA_RELATED_TO)>
-									<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										update cf_temp_media set MEDIA_RELATED_TO_#i# =
-										(
-											select #tables.column_name# from #theTable# where #tables.column_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.MEDIA_RELATED_TO#">
-										)
-										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
-									</cfquery>
-								</cfif>
 							</cfif>
 						</cfif>
 					</cfloop>
