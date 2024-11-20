@@ -1402,23 +1402,22 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 								)
 							</cfquery>
-							<cfhttp url="#getTempData.media_uri#" method="get" getAsBinary="yes" result="result">
-							
-							<cfset MD5HASH=Hash(result.filecontent,"MD5")>
 
-							<cfquery name="makehash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								insert into media_labels (
-									media_id,
-									media_label,
-									label_value,
-									assigned_by_agent_id
-								) values (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-									'MD5HASH',
-									'#MD5HASH#',
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-								)
-							</cfquery>
+							<cfif len(getTempData.MD5HASH) GT 0>
+								<cfquery name="makehash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									insert into media_labels (
+										media_id,
+										media_label,
+										label_value,
+										assigned_by_agent_id
+									) values (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+										'MD5HASH',
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MD5HASH#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+									)
+								</cfquery>
+							</cfif>
 						</cfif>
 						<cfif len(getTempData.media_label_1) gt 0>
 							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
@@ -1541,7 +1540,7 @@ limitations under the License.
 							</cfquery>
 						</cfif>
 						<cfset media_updates = media_updates + insResult.recordcount>
-						<p class="my-1"><a href="/media/#mediaId#" target="_blank">#mediaId#</a> <cfif len(#getTempData.subject#) gt 0>#getTempData.subject#</cfif>  <cfif len(#getTempData.description#) gt 0>| #getTempData.description#</cfif> </p>
+						<p class="my-1"><a href="/media/#media_id#" target="_blank">#mediaId#</a> <cfif len(#getTempData.subject#) gt 0>#getTempData.subject#</cfif>  <cfif len(#getTempData.description#) gt 0>| #getTempData.description#</cfif> </p>
 					</cfloop>
 					</div>
 					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
