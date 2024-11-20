@@ -1209,486 +1209,495 @@ limitations under the License.
 	<cfif action is "load">
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
-			
-			<cfset problem_key = "">
-			<cftransaction>
 			<div class="position-relative" style="padding-top: 22px;">
-				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT * FROM cf_temp_media
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT agent_id FROM agent_name
-					WHERE agent_name_type = 'login'
-					AND agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT 
-						count(distinct media_uri) ctobj 
-					FROM 
-						cf_temp_media
-					WHERE 
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cftry>
-					<cfset media_updates = 0>
-					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the media bulkloader table (cf_temp_media). <a href='/tools/BulkloadMedia.cfm'>Start over</a>"><!--- " --->
-					</cfif>
-					<div class="mt-2">
-					<cfloop query="getTempData">
-						<cfset username = '#session.username#'>
-						<cfset problem_key = getTempData.key>
-						<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select sq_media_id.nextval nv from dual
+				<cfset problem_key = "">
+				<cftransaction>
+					<cftry>
+						<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT * FROM cf_temp_media
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-						<cfset media_id=mid.nv>
-						<cfset medialicenseid_local = 0>
-						<cfif len(media_license_id) is 0>
-							<cfset medialicenseid_local = 1>
-						<cfelse>
-							<cfset medialicenseid_local = media_license_id>
+						<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT agent_id FROM agent_name
+							WHERE agent_name_type = 'login'
+							AND agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
+						<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT 
+								count(distinct media_uri) ctobj 
+							FROM 
+								cf_temp_media
+							WHERE 
+								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
+						<cfset media_updates = 0>
+						<cfif getTempData.recordcount EQ 0>
+							<cfthrow message="You have no rows to load in the media bulkloader table (cf_temp_media). <a href='/tools/BulkloadMedia.cfm'>Start over</a>"><!--- " --->
 						</cfif>
-						<cfset maskmedia_local = 0>
-						<cfif len(mask_media) is 0>
+						<cfset successfullInserts = "">
+						<cfloop query="getTempData">
+							<cfset username = '#session.username#'>
+							<cfset problem_key = getTempData.key>
+							<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								select sq_media_id.nextval nv from dual
+							</cfquery>
+							<cfset media_id=mid.nv>
+							<cfset medialicenseid_local = 0>
+							<cfif len(media_license_id) is 0>
+								<cfset medialicenseid_local = 1>
+							<cfelse>
+								<cfset medialicenseid_local = media_license_id>
+							</cfif>
 							<cfset maskmedia_local = 0>
-						<cfelse>
-							<cfset maskmedia_local = mask_media>
-						</cfif>
-						<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="insResult">
-							INSERT into media (
-								media_id,
-								media_uri,
-								mime_type,
-								media_type,
-								preview_uri,
-								media_license_id,
-								mask_media_fg
-							) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_uri#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.mime_type#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_type#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.preview_uri#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#medialicenseid_local#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maskmedia_local#">
-							)
-						</cfquery>
-						<cfif len(getTempData.media_relationship_1) gt 0>
-<!--- TODO: media_related_to_1 is the guid, not the collection_object_id ---> 
-							<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
-								INSERT into media_relations (
+							<cfif len(mask_media) is 0>
+								<cfset maskmedia_local = 0>
+							<cfelse>
+								<cfset maskmedia_local = mask_media>
+							</cfif>
+							<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="insResult">
+								INSERT into media (
 									media_id,
-									media_relationship,
-									created_by_agent_id,
-									RELATED_PRIMARY_KEY
+									media_uri,
+									mime_type,
+									media_type,
+									preview_uri,
+									media_license_id,
+									mask_media_fg
 								) VALUES (
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_1#">,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.MEDIA_RELATED_TO_1#">
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_uri#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.mime_type#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_type#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.preview_uri#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#medialicenseid_local#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maskmedia_local#">
 								)
 							</cfquery>
-						</cfif>
-						<cfif len(getTempData.media_relationship_2) gt 0>
-							<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
-								INSERT into media_relations (
+							<cfif len(getTempData.media_relationship_1) gt 0>
+								<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
+									INSERT into media_relations (
+										media_id,
+										media_relationship,
+										created_by_agent_id,
+										RELATED_PRIMARY_KEY
+									) VALUES (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_1#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.MEDIA_RELATED_TO_1#">
+									)
+								</cfquery>
+							</cfif>
+							<cfif len(getTempData.media_relationship_2) gt 0>
+								<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
+									INSERT into media_relations (
+										media_id,
+										media_relationship,
+										created_by_agent_id,
+										related_primary_key
+									) VALUES (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_2#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.MEDIA_RELATED_TO_2#">
+									)
+								</cfquery>
+							</cfif>
+							<cfif len(getTempData.media_relationship_3) gt 0>
+								<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
+									INSERT into media_relations (
+										media_id,
+										media_relationship,
+										created_by_agent_id,
+										related_primary_key
+									) VALUES (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_3#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.MEDIA_RELATED_TO_3#">
+									)
+								</cfquery>
+							</cfif>
+							<cfif len(getTempData.media_relationship_4) gt 0>
+								<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
+									INSERT into media_relations (
+										media_id,
+										media_relationship,
+										created_by_agent_id,
+										related_primary_key
+									) VALUES (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_4#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.MEDIA_RELATED_TO_4#">
+									)
+								</cfquery>
+							</cfif>
+							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
+								INSERT into media_labels (
 									media_id,
-									media_relationship,
-									created_by_agent_id,
-									related_primary_key
+									media_label,
+									label_value,
+									assigned_by_agent_id
 								) VALUES (
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_2#">,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.MEDIA_RELATED_TO_2#">
-								)
-							</cfquery>
-						</cfif>
-						<cfif len(getTempData.media_relationship_3) gt 0>
-							<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
-								INSERT into media_relations (
-									media_id,
-									media_relationship,
-									created_by_agent_id,
-									related_primary_key
-								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_3#">,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.MEDIA_RELATED_TO_3#">
-								)
-							</cfquery>
-						</cfif>
-						<cfif len(getTempData.media_relationship_4) gt 0>
-							<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
-								INSERT into media_relations (
-									media_id,
-									media_relationship,
-									created_by_agent_id,
-									related_primary_key
-								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_4#">,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.MEDIA_RELATED_TO_4#">
-								)
-							</cfquery>
-						</cfif>
-						<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
-							INSERT into media_labels (
-								media_id,
-								media_label,
-								label_value,
-								assigned_by_agent_id
-							) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-								'Subject',
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">,	
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-							)
-						</cfquery>
-						<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
-							INSERT into media_labels (
-								media_id,
-								media_label,
-								label_value,
-								assigned_by_agent_id
-							) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-								'description',
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">,	
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-							)
-						</cfquery>
-						<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
-							INSERT into media_labels (
-								media_id,
-								media_label,
-								label_value,
-								assigned_by_agent_id
-							) VALUES (
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-								'made date',
-								<cfqueryparam cfsqltype="CF_SQL_DATE" value="#getTempData.MADE_DATE#">,	
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-							)
-						</cfquery>
-						<cfif isimagefile(getTempData.media_uri)>
-							<cfimage action="info" source="#getTempData.media_uri#" structname="imgInfo"/>
-							<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								insert into media_labels (
-									media_id,
-									MEDIA_LABEL,
-									LABEL_VALUE,
-									ASSIGNED_BY_AGENT_ID
-								) values (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-									'height',
-									<cfif len(getTempData.height) gt 0>#getTempData.height#<cfelse>#imgInfo.height#</cfif>,
+									'Subject',
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SUBJECT#">,	
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 								)
 							</cfquery>
-							<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								insert into media_labels (
+							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
+								INSERT into media_labels (
 									media_id,
-									MEDIA_LABEL,
-									LABEL_VALUE,
-									ASSIGNED_BY_AGENT_ID
-								) values (
+									media_label,
+									label_value,
+									assigned_by_agent_id
+								) VALUES (
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-									'width',
-									<cfif len(getTempData.width) gt 0>#getTempData.width#<cfelse>#imgInfo.width#</cfif>,
+									'description',
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DESCRIPTION#">,	
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 								)
 							</cfquery>
-
-							<cfif len(getTempData.MD5HASH) GT 0>
-								<cfquery name="makehash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
+								INSERT into media_labels (
+									media_id,
+									media_label,
+									label_value,
+									assigned_by_agent_id
+								) VALUES (
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+									'made date',
+									<cfqueryparam cfsqltype="CF_SQL_DATE" value="#getTempData.MADE_DATE#">,	
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+								)
+							</cfquery>
+							<cfif isimagefile(getTempData.media_uri)>
+								<cfimage action="info" source="#getTempData.media_uri#" structname="imgInfo"/>
+								<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									insert into media_labels (
+										media_id,
+										MEDIA_LABEL,
+										LABEL_VALUE,
+										ASSIGNED_BY_AGENT_ID
+									) values (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+										'height',
+										<cfif len(getTempData.height) gt 0>#getTempData.height#<cfelse>#imgInfo.height#</cfif>,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+									)
+								</cfquery>
+								<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									insert into media_labels (
+										media_id,
+										MEDIA_LABEL,
+										LABEL_VALUE,
+										ASSIGNED_BY_AGENT_ID
+									) values (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+										'width',
+										<cfif len(getTempData.width) gt 0>#getTempData.width#<cfelse>#imgInfo.width#</cfif>,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+									)
+								</cfquery>
+	
+								<cfif len(getTempData.MD5HASH) GT 0>
+									<cfquery name="makehash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										insert into media_labels (
+											media_id,
+											media_label,
+											label_value,
+											assigned_by_agent_id
+										) values (
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+											'MD5HASH',
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MD5HASH#">,
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+										)
+									</cfquery>
+								</cfif>
+							</cfif>
+							<cfif len(getTempData.media_label_1) gt 0>
+								<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
+									INSERT into media_labels (
 										media_id,
 										media_label,
 										label_value,
 										assigned_by_agent_id
-									) values (
+									) VALUES (
 										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-										'MD5HASH',
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MD5HASH#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_1#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_1#">,
 										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 									)
 								</cfquery>
 							</cfif>
-						</cfif>
-						<cfif len(getTempData.media_label_1) gt 0>
-							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
-								INSERT into media_labels (
-									media_id,
-									media_label,
-									label_value,
-									assigned_by_agent_id
-								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_1#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_1#">,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-								)
-							</cfquery>
-						</cfif>
-						<cfif len(getTempData.media_label_2) gt 0>
-							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
-								INSERT into media_labels (
-									media_id,
-									media_label,
-									label_value,
-									assigned_by_agent_id
-								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_2#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_2#">,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-								)
-							</cfquery>
-						</cfif>
-						<cfif len(getTempData.media_label_3) gt 0>
-							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
-								INSERT into media_labels (
-									media_id,
-									media_label,
-									label_value,
-									assigned_by_agent_id
-								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_3#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_3#">,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-								)
-							</cfquery>
-						</cfif>
-						<cfif len(getTempData.media_label_4) gt 0>
-							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
-								INSERT into media_labels (
-									media_id,
-									media_label,
-									label_value,
-									assigned_by_agent_id
-								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_4#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_4#">,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-								)
-							</cfquery>
-						</cfif>
-						<cfif len(getTempData.media_label_5) gt 0>
-							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
-								INSERT into media_labels (
-									media_id,
-									media_label,
-									label_value,
-									assigned_by_agent_id
-								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_5#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_5#">,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-								)
-							</cfquery>
-						</cfif>
-						<cfif len(getTempData.media_label_6) gt 0>
-							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
-								INSERT into media_labels (
-									media_id,
-									media_label,
-									label_value,
-									assigned_by_agent_id
-								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_6#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_6#">,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-								)
-							</cfquery>
-						</cfif>
-						<cfif len(getTempData.media_label_7) gt 0>
-							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
-								INSERT into media_labels (
-									media_id,
-									media_label,
-									label_value,
-									assigned_by_agent_id
-								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_7#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_7#">,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-								)
-							</cfquery>
-						</cfif>
-						<cfif len(getTempData.media_label_8) gt 0>
-							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
-								INSERT into media_labels (
-									media_id,
-									media_label,
-									label_value,
-									assigned_by_agent_id
-								) VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_8#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_8#">,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-								)
-							</cfquery>
-						</cfif>
-						<cfset media_updates = media_updates + insResult.recordcount>
-						<p class="my-1"><a href="/media/#media_id#" target="_blank">#media_id#</a> <cfif len(#getTempData.subject#) gt 0>#getTempData.subject#</cfif>  <cfif len(#getTempData.description#) gt 0>| #getTempData.description#</cfif> </p>
-					</cfloop>
-					</div>
-					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
-						<h3 class="text-success position-absolute" style="top:0;">Success - loaded #media_updates# media records</h3>
-					</cfif>
-					<cfif updateMedia1_result.recordcount gt 0>
-						<h3 class="text-danger position-absolute" style="top:0;">Not loaded - these have already been loaded</h3>
-					</cfif>
-				</div>
-					<cftransaction action="commit">
-				<cfcatch>
-					<cftransaction action="ROLLBACK">
-					<h3>There was a problem adding media records. </h3>
-					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT STATUS,MEDIA_URI,MIME_TYPE,MEDIA_TYPE,SUBJECT,MADE_DATE,DESCRIPTION,PREVIEW_URI,CREATED_BY_AGENT_ID,HEIGHT,WIDTH,MEDIA_RELATIONSHIP_1,MEDIA_RELATED_TO_1,MEDIA_RELATIONSHIP_2,MEDIA_RELATED_TO_2,MEDIA_RELATIONSHIP_3,MEDIA_RELATED_TO_3,MEDIA_RELATIONSHIP_4,MEDIA_RELATED_TO_4,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,MEDIA_LABEL_3,LABEL_VALUE_3,MEDIA_LABEL_4,LABEL_VALUE_4,MEDIA_LABEL_5,LABEL_VALUE_5,MEDIA_LABEL_6,LABEL_VALUE_6,MEDIA_LABEL_7,LABEL_VALUE_7,MEDIA_LABEL_8,LABEL_VALUE_8
-						FROM 
-							cf_temp_media
-						WHERE
-							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#"> AND
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
-					<cfif getProblemData.recordcount GT 0>
-						<h3>
-							Fix the issues and <a href="/tools/BulkloadMedia.cfm" class="text-danger font-weight-lessbold">start again</a>. Error loading row (<span class="text-danger">#media_updates + 1#</span>) from the CSV: 
-							<cfif len(cfcatch.detail) gt 0>
-								<span class="font-weight-normal border-bottom border-danger">
-									<cfif cfcatch.detail contains "media_type">
-										Problem with MEDIA_TYPE
-									<cfelseif cfcatch.detail contains "media_uri">
-										Duplicate MEDIA_URI
-									<cfelseif cfcatch.detail contains "media_license_id">
-										Problem with MEDIA_LICENSE_ID
-									<cfelseif cfcatch.detail contains "mask_media">
-										Invalid MASK_MEDIA number
-									<cfelseif cfcatch.detail contains "integrity constraint">
-										Invalid MEDIA_ID 
-									<cfelseif cfcatch.detail contains "media_id">
-										Problem with MEDIA_ID (#cfcatch.detail#)
-									<cfelseif cfcatch.detail contains "unique constraint">
-										Unique Constraint issue (#cfcatch.detail#)
-									<cfelseif cfcatch.detail contains "media_label">
-										Problem with a MEDIA_LABEL (#cfcatch.detail#)
-									<cfelseif cfcatch.detail contains "label_value">
-										Problem with a LABEL_VALUE (#cfcatch.detail#)
-									<cfelseif cfcatch.detail contains "ListGetAt">
-										Reload your spreadsheet: <a href='/tools/BulkloadMedia.cfm'>upload again</a>
-									<cfelseif cfcatch.detail contains "date">
-										Problem with MADE_DATE (#cfcatch.detail#)
-									<cfelseif cfcatch.detail contains "media_relationship">
-										Problem with a MEDIA_RELATIONSHIP (#cfcatch.detail#)
-									<cfelseif cfcatch.detail contains "no data">
-										No data or the wrong data (#cfcatch.detail#)
-									<cfelse>
-										<!--- provide the raw error message if it isn't readily interpretable --->
-										#cfcatch.detail#
-									</cfif>
-								</span>
+							<cfif len(getTempData.media_label_2) gt 0>
+	<!--- TODO: Unique constraint exception in test data --->
+								<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
+									INSERT into media_labels (
+										media_id,
+										media_label,
+										label_value,
+										assigned_by_agent_id
+									) VALUES (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_2#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_2#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+									)
+								</cfquery>
 							</cfif>
-						</h3>
-						<table class='px-0 sortable small table table-responsive table-striped mt-3 w-100'>
-							<thead>
-								<tr>
-									<th>COUNT</th>
-									<th>MEDIA_URI</th>
-									<th>MIME_TYPE</th>
-									<th>MEDIA_TYPE</th>
-									<th>SUBJECT</th>
-									<th>MADE_DATE</th>
-									<th>DESCRIPTION</th>
-									<th>HEIGHT</th>
-									<th>WIDTH</th>
-									<th>PREVIEW_URI</th>
-									<th>CREATED_BY_AGENT_ID</th>
-									<th>MEDIA_LICENSE_ID</th>
-									<th>MASK_MEDIA</th>
-									<th>MEDIA_RELATIONSHIP_1</th>
-									<th>MEDIA_RELATED_TO_1</th>
-									<th>MEDIA_RELATIONSHIP_2</th>
-									<th>MEDIA_RELATED_TO_2</th>
-									<th>MEDIA_LABEL_1</th>
-									<th>LABEL_VALUE_1</th>
-									<th>MEDIA_LABEL_2</th>
-									<th>LABEL_VALUE_2</th>
-									<th>MEDIA_LABEL_3</th>
-									<th>LABEL_VALUE_3</th>
-									<th>MEDIA_LABEL_4</th>
-									<th>LABEL_VALUE_4</th>
-									<th>MEDIA_LABEL_5</th>
-									<th>LABEL_VALUE_5</th>
-									<th>MEDIA_LABEL_6</th>
-									<th>LABEL_VALUE_6</th>
-									<th>MEDIA_LABEL_7</th>
-									<th>LABEL_VALUE_7</th>
-									<th>MEDIA_LABEL_8</th>
-									<th>LABEL_VALUE_8</th>
-								</tr> 
-							</thead>
-							<tbody>
-								<cfset i=1>
-								<cfloop query="getProblemData">
+							<cfif len(getTempData.media_label_3) gt 0>
+								<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
+									INSERT into media_labels (
+										media_id,
+										media_label,
+										label_value,
+										assigned_by_agent_id
+									) VALUES (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_3#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_3#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+									)
+								</cfquery>
+							</cfif>
+							<cfif len(getTempData.media_label_4) gt 0>
+								<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
+									INSERT into media_labels (
+										media_id,
+										media_label,
+										label_value,
+										assigned_by_agent_id
+									) VALUES (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_4#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_4#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+									)
+								</cfquery>
+							</cfif>
+							<cfif len(getTempData.media_label_5) gt 0>
+								<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
+									INSERT into media_labels (
+										media_id,
+										media_label,
+										label_value,
+										assigned_by_agent_id
+									) VALUES (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_5#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_5#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+									)
+								</cfquery>
+							</cfif>
+							<cfif len(getTempData.media_label_6) gt 0>
+								<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
+									INSERT into media_labels (
+										media_id,
+										media_label,
+										label_value,
+										assigned_by_agent_id
+									) VALUES (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_6#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_6#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+									)
+								</cfquery>
+							</cfif>
+							<cfif len(getTempData.media_label_7) gt 0>
+								<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
+									INSERT into media_labels (
+										media_id,
+										media_label,
+										label_value,
+										assigned_by_agent_id
+									) VALUES (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_7#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_7#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+									)
+								</cfquery>
+							</cfif>
+							<cfif len(getTempData.media_label_8) gt 0>
+								<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
+									INSERT into media_labels (
+										media_id,
+										media_label,
+										label_value,
+										assigned_by_agent_id
+									) VALUES (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_8#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_8#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+									)
+								</cfquery>
+							</cfif>
+							<cfset media_updates = media_updates + insResult.recordcount>
+							<cfset successfullInserts = successfullInserts + '<p class="my-1">'><!--- ' --->
+							<cfset successfullInserts = successfullInserts + '<a href="/media/#media_id#" target="_blank">#media_id#</a>'><!--- ' --->
+							<cfif len(#getTempData.subject#) gt 0>
+								<cfset successfullInserts = successfullInserts + getTempData.subject>
+							</cfif>
+							<cfif len(#getTempData.description#) gt 0>
+								<cfset successfullInserts = successfullInserts + '| #getTempData.description#'>
+							</cfif> 
+							<cfset successfullInserts = successfullInserts + '</p>'><!--- ' --->
+						</cfloop>
+						<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
+							<h3 class="text-success position-absolute" style="top:0;">Success - loaded #media_updates# media records</h3>
+							<div class="mt-2">
+								#successfullInserts#
+							</div>
+						</cfif>
+						<cfif updateMedia1_result.recordcount gt 0>
+							<h3 class="text-danger position-absolute" style="top:0;">Not loaded - these have already been loaded</h3>
+						</cfif>
+						<cftransaction action="commit">
+					<cfcatch>
+						<cftransaction action="ROLLBACK">
+						<h3>There was a problem adding media records. </h3>
+						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT STATUS,MEDIA_URI,MIME_TYPE,MEDIA_TYPE,SUBJECT,MADE_DATE,DESCRIPTION,PREVIEW_URI,CREATED_BY_AGENT_ID,HEIGHT,WIDTH,MEDIA_RELATIONSHIP_1,MEDIA_RELATED_TO_1,MEDIA_RELATIONSHIP_2,MEDIA_RELATED_TO_2,MEDIA_RELATIONSHIP_3,MEDIA_RELATED_TO_3,MEDIA_RELATIONSHIP_4,MEDIA_RELATED_TO_4,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,MEDIA_LABEL_3,LABEL_VALUE_3,MEDIA_LABEL_4,LABEL_VALUE_4,MEDIA_LABEL_5,LABEL_VALUE_5,MEDIA_LABEL_6,LABEL_VALUE_6,MEDIA_LABEL_7,LABEL_VALUE_7,MEDIA_LABEL_8,LABEL_VALUE_8
+							FROM 
+								cf_temp_media
+							WHERE
+								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#"> AND
+								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
+						<cfif getProblemData.recordcount GT 0>
+							<h3>
+								Fix the issues and <a href="/tools/BulkloadMedia.cfm" class="text-danger font-weight-lessbold">start again</a>. Error loading row (<span class="text-danger">#media_updates + 1#</span>) from the CSV: 
+								<cfif len(cfcatch.detail) gt 0>
+									<span class="font-weight-normal border-bottom border-danger">
+										<cfif cfcatch.detail contains "media_type">
+											Problem with MEDIA_TYPE
+										<cfelseif cfcatch.detail contains "media_uri">
+											Duplicate MEDIA_URI
+										<cfelseif cfcatch.detail contains "media_license_id">
+											Problem with MEDIA_LICENSE_ID
+										<cfelseif cfcatch.detail contains "mask_media">
+											Invalid MASK_MEDIA number
+										<cfelseif cfcatch.detail contains "integrity constraint">
+											Invalid MEDIA_ID 
+										<cfelseif cfcatch.detail contains "media_id">
+											Problem with MEDIA_ID (#cfcatch.detail#)
+										<cfelseif cfcatch.detail contains "unique constraint">
+											Unique Constraint issue (#cfcatch.detail#)
+										<cfelseif cfcatch.detail contains "media_label">
+											Problem with a MEDIA_LABEL (#cfcatch.detail#)
+										<cfelseif cfcatch.detail contains "label_value">
+											Problem with a LABEL_VALUE (#cfcatch.detail#)
+										<cfelseif cfcatch.detail contains "ListGetAt">
+											Reload your spreadsheet: <a href='/tools/BulkloadMedia.cfm'>upload again</a>
+										<cfelseif cfcatch.detail contains "date">
+											Problem with MADE_DATE (#cfcatch.detail#)
+										<cfelseif cfcatch.detail contains "media_relationship">
+											Problem with a MEDIA_RELATIONSHIP (#cfcatch.detail#)
+										<cfelseif cfcatch.detail contains "no data">
+											No data or the wrong data (#cfcatch.detail#)
+										<cfelse>
+											<!--- provide the raw error message if it isn't readily interpretable --->
+											#cfcatch.detail#
+										</cfif>
+									</span>
+								</cfif>
+							</h3>
+							<table class='px-0 sortable small table table-responsive table-striped mt-3 w-100'>
+								<thead>
 									<tr>
-										<td>#i#</td>
-										<td>#getProblemData.MEDIA_URI# </td>
-										<td>#getProblemData.MIME_TYPE# </td>
-										<td>#getProblemData.MEDIA_TYPE# </td>
-										<td>#getProblemData.SUBJECT#</td>
-										<td>#getProblemData.MADE_DATE#</td>
-										<td>#getProblemData.DESCRIPTION#</td>
-										<td>#getProblemData.HEIGHT#</td>
-										<td>#getProblemData.WIDTH#</td>
-										<td>#getProblemData.PREVIEW_URI# </td>
-										<td>#getProblemData.CREATED_BY_AGENT_ID#</td>
-										<td>#getProblemData.MEDIA_LICENSE_ID#</td>
-										<td>#getProblemData.MASK_MEDIA#</td>
-										<td>#getProblemData.MEDIA_RELATIONSHIP_1#</td>
-										<td>#getProblemData.MEDIA_RELATED_TO_1#</td>
-										<td>#getProblemData.MEDIA_RELATIONSHIP_2#</td>
-										<td>#getProblemData.MEDIA_RELATED_TO_2#</td>
-										<td>#getProblemData.MEDIA_LABEL_1#</td>
-										<td>#getProblemData.LABEL_VALUE_1#</td>
-										<td>#getProblemData.MEDIA_LABEL_2#</td>
-										<td>#getProblemData.LABEL_VALUE_2#</td>
-										<td>#getProblemData.MEDIA_LABEL_3#</td>
-										<td>#getProblemData.LABEL_VALUE_3#</td>
-										<td>#getProblemData.MEDIA_LABEL_4#</td>
-										<td>#getProblemData.LABEL_VALUE_4#</td>
-										<td>#getProblemData.MEDIA_LABEL_5#</td>
-										<td>#getProblemData.LABEL_VALUE_5#</td>
-										<td>#getProblemData.MEDIA_LABEL_6#</td>
-										<td>#getProblemData.LABEL_VALUE_6#</td>
-										<td>#getProblemData.MEDIA_LABEL_7#</td>
-										<td>#getProblemData.LABEL_VALUE_7#</td>
-										<td>#getProblemData.MEDIA_LABEL_8#</td>
-										<td>#getProblemData.LABEL_VALUE_8#</td>
-									</tr>
-									<cfset i= i+1>
-								</cfloop>
-							</tbody>
-						</table>
-					</cfif>
-					<div>#cfcatch.message#</div>
-					<!--- always provide global admins with a dump --->
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-						<cfdump var="#cfcatch#">
-					</cfif>
-				</cfcatch>
-				</cftry>
-			</cftransaction>
+										<th>COUNT</th>
+										<th>MEDIA_URI</th>
+										<th>MIME_TYPE</th>
+										<th>MEDIA_TYPE</th>
+										<th>SUBJECT</th>
+										<th>MADE_DATE</th>
+										<th>DESCRIPTION</th>
+										<th>HEIGHT</th>
+										<th>WIDTH</th>
+										<th>PREVIEW_URI</th>
+										<th>CREATED_BY_AGENT_ID</th>
+										<th>MEDIA_LICENSE_ID</th>
+										<th>MASK_MEDIA</th>
+										<th>MEDIA_RELATIONSHIP_1</th>
+										<th>MEDIA_RELATED_TO_1</th>
+										<th>MEDIA_RELATIONSHIP_2</th>
+										<th>MEDIA_RELATED_TO_2</th>
+										<th>MEDIA_LABEL_1</th>
+										<th>LABEL_VALUE_1</th>
+										<th>MEDIA_LABEL_2</th>
+										<th>LABEL_VALUE_2</th>
+										<th>MEDIA_LABEL_3</th>
+										<th>LABEL_VALUE_3</th>
+										<th>MEDIA_LABEL_4</th>
+										<th>LABEL_VALUE_4</th>
+										<th>MEDIA_LABEL_5</th>
+										<th>LABEL_VALUE_5</th>
+										<th>MEDIA_LABEL_6</th>
+										<th>LABEL_VALUE_6</th>
+										<th>MEDIA_LABEL_7</th>
+										<th>LABEL_VALUE_7</th>
+										<th>MEDIA_LABEL_8</th>
+										<th>LABEL_VALUE_8</th>
+									</tr> 
+								</thead>
+								<tbody>
+									<cfset i=1>
+									<cfloop query="getProblemData">
+										<tr>
+											<td>#i#</td>
+											<td>#getProblemData.MEDIA_URI# </td>
+											<td>#getProblemData.MIME_TYPE# </td>
+											<td>#getProblemData.MEDIA_TYPE# </td>
+											<td>#getProblemData.SUBJECT#</td>
+											<td>#getProblemData.MADE_DATE#</td>
+											<td>#getProblemData.DESCRIPTION#</td>
+											<td>#getProblemData.HEIGHT#</td>
+											<td>#getProblemData.WIDTH#</td>
+											<td>#getProblemData.PREVIEW_URI# </td>
+											<td>#getProblemData.CREATED_BY_AGENT_ID#</td>
+											<td>#getProblemData.MEDIA_LICENSE_ID#</td>
+											<td>#getProblemData.MASK_MEDIA#</td>
+											<td>#getProblemData.MEDIA_RELATIONSHIP_1#</td>
+											<td>#getProblemData.MEDIA_RELATED_TO_1#</td>
+											<td>#getProblemData.MEDIA_RELATIONSHIP_2#</td>
+											<td>#getProblemData.MEDIA_RELATED_TO_2#</td>
+											<td>#getProblemData.MEDIA_LABEL_1#</td>
+											<td>#getProblemData.LABEL_VALUE_1#</td>
+											<td>#getProblemData.MEDIA_LABEL_2#</td>
+											<td>#getProblemData.LABEL_VALUE_2#</td>
+											<td>#getProblemData.MEDIA_LABEL_3#</td>
+											<td>#getProblemData.LABEL_VALUE_3#</td>
+											<td>#getProblemData.MEDIA_LABEL_4#</td>
+											<td>#getProblemData.LABEL_VALUE_4#</td>
+											<td>#getProblemData.MEDIA_LABEL_5#</td>
+											<td>#getProblemData.LABEL_VALUE_5#</td>
+											<td>#getProblemData.MEDIA_LABEL_6#</td>
+											<td>#getProblemData.LABEL_VALUE_6#</td>
+											<td>#getProblemData.MEDIA_LABEL_7#</td>
+											<td>#getProblemData.LABEL_VALUE_7#</td>
+											<td>#getProblemData.MEDIA_LABEL_8#</td>
+											<td>#getProblemData.LABEL_VALUE_8#</td>
+										</tr>
+										<cfset i= i+1>
+									</cfloop>
+								</tbody>
+							</table>
+						</cfif>
+						<div>#cfcatch.message#</div>
+						<!--- always provide global admins with a dump --->
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+							<cfdump var="#cfcatch#">
+						</cfif>
+					</cfcatch>
+					</cftry>
+				</cftransaction>
+			</div>
 			<!--- cleanup any incomplete work by the same user --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				DELETE from cf_temp_media WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
