@@ -2119,6 +2119,15 @@ limitations under the License.
 							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="enteredSection"> 
 									<div class="card mb-2 bg-light">
+										<cfquery name="enteredHeader" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="entered_result">
+											select
+												count(*) cnt
+											from 
+												coll_object
+												join cataloged_item on coll_object.collection_object_id = cataloged_item.collection_object_id
+											where
+												ENTERED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										</cfquery>
 										<cfquery name="entered" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="entered_result">
 											select
 												count(*) cnt,
@@ -2146,7 +2155,7 @@ limitations under the License.
 										<div class="card-header" id="enteredHeader">
 											<h2 class="h4 my-0">
 												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##enteredCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="enteredCardBodyWrap">
-												MCZbase Records Entered (<cfif #entered.recordcount# gt 0>in #entered.recordcount# collection<cfif #entered.recordcount# gt 1>s<cfelse></cfif><cfelse>0</cfif>)</button>
+												MCZbase Records Entered (<cfif #entered.recordcount# gt 0>in #enteredHeader.cnt# collection<cfif #entered.recordcount# gt 1>s<cfelse></cfif><cfelse>0</cfif>)</button>
 											</h2>
 										</div>
 										<div id="enteredCardBodyWrap" class="#bodyClass#" aria-labelledby="enteredHeader" data-parent="##enteredSection">
