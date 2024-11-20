@@ -2173,7 +2173,15 @@ limitations under the License.
 							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="lastEditSection"> 
 									<div class="card mb-2 bg-light">
-									
+										<cfquery name="lastEditHeader" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lastEdit_result">
+											select 
+												count(*) cnt
+											from 
+												coll_object
+												join cataloged_item on coll_object.collection_object_id = cataloged_item.collection_object_id
+											where 
+												LAST_EDITED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										</cfquery>
 										<cfquery name="lastEdit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lastEdit_result">
 											select 
 												count(*) cnt,
@@ -2206,7 +2214,7 @@ limitations under the License.
 										<div class="card-header" id="lastEditHeader">
 											<h2 class="h4 my-0">
 												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="lastEditCardBodyWrap">
-													MCZbase Records Last Edited By this agent (<cfif #lastEdit.cnt# gt 0>in #i# collection<cfif #lastEdit.recordcount# gt 1>s<cfelse></cfif><cfelse>0</cfif>)
+													MCZbase Records Last Edited By this agent (<cfif #lastEdit.cnt# gt 0>in #lastEditHeader# collection<cfif #lastEdit.recordcount# gt 1>s<cfelse></cfif><cfelse>0</cfif>)
 												</button>
 											</h2>
 										</div>
