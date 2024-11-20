@@ -2155,7 +2155,7 @@ limitations under the License.
 										<div class="card-header" id="enteredHeader">
 											<h2 class="h4 my-0">
 												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##enteredCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="enteredCardBodyWrap">
-												MCZbase Records Entered (<cfif #entered.recordcount# gt 0>(#enteredHeader.cnt# specimen<cfif #entered.recordcount# gt 1>s<cfelse></cfif><cfelse>0</cfif>)</button>
+												MCZbase Records Entered (<cfif #entered.recordcount# gt 0>#enteredHeader.cnt# specimen<cfif #entered.recordcount# gt 1>s<cfelse></cfif><cfelse>0</cfif>)</button>
 											</h2>
 										</div>
 										<div id="enteredCardBodyWrap" class="#bodyClass#" aria-labelledby="enteredHeader" data-parent="##enteredSection">
