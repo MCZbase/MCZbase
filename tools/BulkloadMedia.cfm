@@ -1540,7 +1540,7 @@ limitations under the License.
 							</cfquery>
 						</cfif>
 						<cfset media_updates = media_updates + insResult.recordcount>
-						<p class="my-1"><a href="/media/#media_id#" target="_blank">#mediaId#</a> <cfif len(#getTempData.subject#) gt 0>#getTempData.subject#</cfif>  <cfif len(#getTempData.description#) gt 0>| #getTempData.description#</cfif> </p>
+						<p class="my-1"><a href="/media/#media_id#" target="_blank">#media_id#</a> <cfif len(#getTempData.subject#) gt 0>#getTempData.subject#</cfif>  <cfif len(#getTempData.description#) gt 0>| #getTempData.description#</cfif> </p>
 					</cfloop>
 					</div>
 					<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
