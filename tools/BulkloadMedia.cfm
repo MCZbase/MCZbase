@@ -1541,15 +1541,15 @@ limitations under the License.
 								</cfquery>
 							</cfif>
 							<cfset media_updates = media_updates + insResult.recordcount>
-							<cfset successfullInserts = successfullInserts + '<p class="my-1">'><!--- ' --->
-							<cfset successfullInserts = successfullInserts + '<a href="/media/#media_id#" target="_blank">#media_id#</a>'><!--- ' --->
+							<cfset successfullInserts = successfullInserts & '<p class="my-1">'><!--- ' --->
+							<cfset successfullInserts = successfullInserts & '<a href="/media/#media_id#" target="_blank">#media_id#</a>'><!--- ' --->
 							<cfif len(#getTempData.subject#) gt 0>
-								<cfset successfullInserts = successfullInserts + getTempData.subject>
+								<cfset successfullInserts = successfullInserts & getTempData.subject>
 							</cfif>
 							<cfif len(#getTempData.description#) gt 0>
-								<cfset successfullInserts = successfullInserts + '| #getTempData.description#'>
+								<cfset successfullInserts = successfullInserts & '| #getTempData.description#'>
 							</cfif> 
-							<cfset successfullInserts = successfullInserts + '</p>'><!--- ' --->
+							<cfset successfullInserts = successfullInserts & '</p>'><!--- ' --->
 						</cfloop>
 						<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
 							<h3 class="text-success position-absolute" style="top:0;">Success - loaded #media_updates# media records</h3>
