@@ -1247,6 +1247,35 @@ limitations under the License.
 						</cfif>
 						<cfset successfullInserts = "">
 						<cfloop query="getTempData">
+							<cfset hasHeightProvided = false>
+							<cfquery name="checkForHeight" dbtype="query">
+								SELECT count(*) ct
+								FROM getTempData 
+								WHERE 
+									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
+									<cfloop index="lvidx" from="1" to=NUMBER_OF_LABEL_VALUE_PAIRS>
+										AND media_label_#lvidx# = 'height'
+										AND media_label_value_#lvidx# IS NOT NULL
+									</cfloop>
+							</cfquery>
+							<cfif checkForHeight.ct GT 0>
+								<cfset hasHeightProvided = true>
+							</cfif>
+							<cfset hasWidthProvided = false>
+							<cfquery name="checkForWidth" dbtype="query">
+								SELECT count(*) ct
+								FROM getTempData 
+								WHERE 
+									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
+									<cfloop index="lvidx" from="1" to=NUMBER_OF_LABEL_VALUE_PAIRS>
+										AND media_label_#lvidx# = 'width'
+										AND media_label_value_#lvidx# IS NOT NULL
+									</cfloop>
+							</cfquery>
+							<cfif checkForWidth.ct GT 0>
+								<cfset hasWidthProvided = true>
+							</cfif>
+
 							<cfset username = '#session.username#'>
 							<cfset problem_key = getTempData.key>
 							<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1284,6 +1313,9 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maskmedia_local#">
 								)
 							</cfquery>
+							<cfif insResult.recordcount NEQ 1>
+								<cfthrow message = "Insert of media record failed, insert query affected other than 1 row.">
+							</cfif>
 							<cfif len(getTempData.media_relationship_1) gt 0>
 								<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
 									INSERT into media_relations (
@@ -1383,8 +1415,9 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 								)
 							</cfquery>
-							<cfif isimagefile(getTempData.media_uri)>
+							<cfif isimagefile(getTempData.media_uri) AND (NOT heightProvided OR NOT widthProvided)>
 								<cfimage action="info" source="#getTempData.media_uri#" structname="imgInfo"/>
+								<cfif NOT heightProvided>
 								<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									insert into media_labels (
 										media_id,
@@ -1398,6 +1431,8 @@ limitations under the License.
 										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 									)
 								</cfquery>
+								</cfif>
+								<cfif NOT widthProvided>
 								<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									insert into media_labels (
 										media_id,
@@ -1411,22 +1446,22 @@ limitations under the License.
 										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 									)
 								</cfquery>
-	
-								<cfif len(getTempData.MD5HASH) GT 0>
-									<cfquery name="makehash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										insert into media_labels (
-											media_id,
-											media_label,
-											label_value,
-											assigned_by_agent_id
-										) values (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-											'MD5HASH',
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MD5HASH#">,
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-										)
-									</cfquery>
 								</cfif>
+							</cfif>
+							<cfif len(getTempData.MD5HASH) GT 0>
+								<cfquery name="makehash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									insert into media_labels (
+										media_id,
+										media_label,
+										label_value,
+										assigned_by_agent_id
+									) values (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+										'MD5HASH',
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.MD5HASH#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+									)
+								</cfquery>
 							</cfif>
 							<cfif len(getTempData.media_label_1) gt 0>
 								<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
@@ -1444,7 +1479,6 @@ limitations under the License.
 								</cfquery>
 							</cfif>
 							<cfif len(getTempData.media_label_2) gt 0>
-	<!--- TODO: Unique constraint exception in test data --->
 								<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
 									INSERT into media_labels (
 										media_id,
