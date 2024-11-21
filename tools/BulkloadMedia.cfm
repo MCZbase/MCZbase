@@ -1594,14 +1594,13 @@ limitations under the License.
 							</cfif> 
 							<cfset successfullInserts = successfullInserts & '</p>'><!--- ' --->
 						</cfloop>
-						<cfif getTempData.recordcount eq media_updates and updateMedia1_result.recordcount eq 0>
+						<cfif getTempData.recordcount eq media_updates>
 							<h3 class="text-success position-absolute" style="top:0;">Success - loaded #media_updates# media records</h3>
 							<div class="mt-2">
 								#successfullInserts#
 							</div>
-						</cfif>
-						<cfif updateMedia1_result.recordcount gt 0>
-							<h3 class="text-danger position-absolute" style="top:0;">Not loaded - these have already been loaded</h3>
+						<cfelse>
+							<cfthrow message="Undefined error loading media records.  [#getTempData.recordcount#] rows to add, but [#media_updates#] rows added."
 						</cfif>
 						<cftransaction action="commit">
 					<cfcatch>
