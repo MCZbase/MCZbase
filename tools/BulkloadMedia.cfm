@@ -1768,7 +1768,7 @@ limitations under the License.
 			<cfset knownTops = ValueList(topDirectories.Name)>
 			<cfif ListContains(knownTops,"#path#") AND len(REReplace(path,"[.\\]","")) GT 0>
 				<!--- DirectoryList and java File methods are slow on shared storage with many files, tree in shell is faster --->
-				<cfexecute name="/usr/bin/tree" arguments='-d -f -i "specimen_images/#path#"' variable="subdirectories" timeout="55">
+				<cfexecute name="/usr/bin/tree" arguments='-d -f -i "#Application.webDirectory#/specimen_images/#path#"' variable="subdirectories" timeout="55">
 				<ul>
 					<li><a href="/tools/BulkloadMedia.cfm?action=listUnknowns&path=#path#">#path#</a></li>
 					<cfloop list="#subdirectories#" delimiters="\n" item="localPath">
