@@ -1253,7 +1253,7 @@ limitations under the License.
 								FROM getTempData 
 								WHERE 
 									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
-									<cfloop index="lvidx" from="1" to=NUMBER_OF_LABEL_VALUE_PAIRS>
+									<cfloop index="lvidx" from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#">
 										AND media_label_#lvidx# = 'height'
 										AND media_label_value_#lvidx# IS NOT NULL
 									</cfloop>
