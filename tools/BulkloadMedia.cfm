@@ -703,7 +703,7 @@ limitations under the License.
 					SET 
 						status = concat(nvl2(status, status || '; ', ''), #variableName# || ' in media_label_#idx# duplicates a required column. ')
 					WHERE 
-						ucase(#variableName#) in ('DESCRIPTION','MADE_DATE','SUBJECT')
+						upper(#variableName#) in ('DESCRIPTION','MADE_DATE','SUBJECT')
 						and #variableValueNo# is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
