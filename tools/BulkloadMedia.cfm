@@ -1585,11 +1585,11 @@ limitations under the License.
 							</cfif>
 							<cfset media_updates = media_updates + insResult.recordcount>
 							<cfset successfullInserts = successfullInserts & '<p class="my-1">'><!--- ' --->
-							<cfset successfullInserts = successfullInserts & '<a href="/media/#media_id#" target="_blank">#media_id#</a>'><!--- ' --->
-							<cfif len(#getTempData.subject#) gt 0>
+							<cfset successfullInserts = successfullInserts & '<a href="/media/#media_id#" target="_blank">#media_id#</a> '><!--- ' --->
+							<cfif len(getTempData.subject) gt 0>
 								<cfset successfullInserts = successfullInserts & getTempData.subject>
 							</cfif>
-							<cfif len(#getTempData.description#) gt 0>
+							<cfif len(getTempData.description) gt 0 AND getTempData.description NEQ getTempData.subject>
 								<cfset successfullInserts = successfullInserts & '| #getTempData.description#'>
 							</cfif> 
 							<cfset successfullInserts = successfullInserts & '</p>'><!--- ' --->
