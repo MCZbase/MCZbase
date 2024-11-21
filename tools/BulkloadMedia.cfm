@@ -911,6 +911,7 @@ limitations under the License.
 					cf_temp_media
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				ORDER BY key
 			</cfquery>	
 			<!--------NO ERRORS ABOVE? Loop through updated table to add IDs if there are no status messages------->
 			<cfif len(getTempMedia2.WIDTH) gt 0>
@@ -1103,6 +1104,7 @@ limitations under the License.
 					cf_temp_media
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				ORDER BY key
 			</cfquery>
 			<cfset i= 1>
 			<cfquery name="problemsInData" dbtype="query">
