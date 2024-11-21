@@ -1749,23 +1749,38 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 	<cfif action is "pickTopDirectory">
-		<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records</h2>
+		<cfset drillList = "herpetology,ornithology">
+		<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records (or <a href="/tools/BulkloadMedia.cfm">start over</a>).</h2>
 		<h3 class="h5">Step 1: Pick a top level directory on the shared storage:</h3>
 		<cfoutput>
 			<cfset directories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","ASC","dir")>
 			<ul>
 				<cfloop query="directories">
-					<li><a href="/tools/BulkloadMedia.cfm?action=pickDirectory&path=#directories.name#">#directories.name#</a></li>
+					<cfif listContains(drillList,"#directories.name#")>
+						<cfset nextDirectories = DirectoryList("#Application.webDirectory#/specimen_images/#directories.name#",false,"query","","ASC","dir")>
+						<cfloop query="nextDirectories">
+						
+							<li><a href="/tools/BulkloadMedia.cfm?action=pickDirectory&path=#directories.name#%2F#nextDirectories.name#">#directories.name#/#nextDirectories.name#</a></li>
+						</cfloop>
+					<cfelse>
+						<li><a href="/tools/BulkloadMedia.cfm?action=pickDirectory&path=#directories.name#">#directories.name#</a></li>
+					</cfif>
 				</cfloop>
 			</ul>
 		</cfoutput>
 	</cfif>
 	<cfif action is "pickDirectory">
-		<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records</h2>
+		<cfset drillList = "herp,orni">
+		</cfif>
+		<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records (or <a href="/tools/BulkloadMedia.cfm">start over</a>).</h2>
 		<h3 class="h5">Step 2: Pick a directory on the shared storage to check for files without media records:</h3>
 		<cfoutput>
 			<cfset topDirectories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","ASC","dir")>
 			<cfset knownTops = ValueList(topDirectories.Name)>
+			<cfif ListContains(drillList,"#left(path,4)#">
+				<cfset nextDirectories = DirectoryList("#Application.webDirectory#/specimen_images/#directories.name#",false,"query","","ASC","dir")>
+				<cfset knownTops = ListAppend(knownTops,ValueList(nextDirectories.Name))>
+			</cfif>
 			<cfif ListContains(knownTops,"#path#") AND len(REReplace(path,"[.\\]","")) GT 0>
 				<!--- DirectoryList and java File methods are slow on shared storage with many files, tree in shell is faster --->
 				<cfexecute name="/usr/bin/tree" arguments='-d -f -i "#Application.webDirectory#/specimen_images/#path#"' variable="subdirectories" timeout="55">
@@ -1782,7 +1797,7 @@ limitations under the License.
 	</cfif>
 	<cfif action is "listUnknowns">
 		<cfoutput>
-			<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records</h2>
+			<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records (or <a href="/tools/BulkloadMedia.cfm">start over</a>).</h2>
 			<h3 class="h5">Step 3: List of files without media records in #encodeForHtml(path)#:</h3>
 			<cfif NOT DirectoryExists("#Application.webDirectory#/specimen_images/#path#")>
 				<cfthrow message="Error: Directory not found.">
