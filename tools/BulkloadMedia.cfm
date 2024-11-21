@@ -926,7 +926,6 @@ limitations under the License.
 			<!--------NO ERRORS ABOVE? Loop through updated table to add IDs if there are no status messages------->
 			<cfif len(getTempMedia2.WIDTH) gt 0>
 				<cfloop query = "getTempMedia2">				
-					<cfset #i# lte 4>
 					<cfloop index="i" from="1" to="4">
 						<!--- This generalizes the two key:value pairs (to media_relationship and MEDIA_RELATED_TO)--->
 						<cfquery name="getMediaRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
