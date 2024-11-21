@@ -1770,7 +1770,6 @@ limitations under the License.
 				<!--- DirectoryList and java File methods are slow on shared storage with many files, tree in shell is faster --->
 				<cfexecute name="/usr/bin/tree" arguments='-d -f -i "#Application.webDirectory#/specimen_images/#path#"' variable="subdirectories" timeout="55">
 				<ul>
-					<li><a href="/tools/BulkloadMedia.cfm?action=listUnknowns&path=#path#">#path#</a></li>
 					<cfloop list="#subdirectories#" delimiters="#chr(10)#" item="localPath">
 						<cfset localPath = replace(localPath,"#Application.webDirectory#/specimen_images/","")>
 						<li><a href="/tools/BulkloadMedia.cfm?action=listUnknowns&path=#encodeforUrl(localPath)#">#encodeForHtml(localPath)#</a></li>
