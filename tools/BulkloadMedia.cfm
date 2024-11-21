@@ -672,9 +672,9 @@ limitations under the License.
 			</cfquery>
 				
 			<!---- Identify incomplete label:value pairs and label values not in code tables --------------------->		
-			<cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" index="i">
-				<cfset variableName = "media_label_" & i>
-				<cfset variableValueNo = "label_value_" & i>
+			<cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" index="idx">
+				<cfset variableName = "media_label_" & idx>
+				<cfset variableValueNo = "label_value_" & idx>
 				<!--- Warn variable name does not match codetable or is missing when label_value is present --->
 				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_media
@@ -688,12 +688,22 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<!--- Warn if Label_value is missing when media_label is there --->
-				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="checkLabelNullOfPair" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_media
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'#variableValueNo# is missing!')
 					WHERE 
 						#variableName# is not null
+						and #variableValueNo# is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<!--- Warn if media_label is redundant with one of the required fields --->
+				<cfquery name="checkLabelNullOfPair" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_media
+					SET 
+						status = concat(nvl2(status, status || '; ', ''), #variableName# || ' in media_label_#idx# duplicates a required column. ')
+					WHERE 
+						ucase(#variableName#) in ('DESCRIPTION','MADE_DATE','SUBJECT')
 						and #variableValueNo# is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
