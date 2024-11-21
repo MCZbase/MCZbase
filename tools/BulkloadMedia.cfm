@@ -1248,9 +1248,9 @@ limitations under the License.
 						<cfset successfullInserts = "">
 						<cfloop query="getTempData">
 							<cfset hasHeightProvided = false>
-							<cfquery name="checkForHeight" dbtype="query">
+							<cfquery name="checkForHeight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT count(*) ct
-								FROM getTempData 
+								FROM cf_temp_media
 								WHERE 
 									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
 									<cfloop index="lvidx" from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#">
@@ -1262,9 +1262,9 @@ limitations under the License.
 								<cfset hasHeightProvided = true>
 							</cfif>
 							<cfset hasWidthProvided = false>
-							<cfquery name="checkForWidth" dbtype="query">
+							<cfquery name="checkForWidth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT count(*) ct
-								FROM getTempData 
+								FROM cf_temp_media
 								WHERE 
 									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
 									<cfloop index="lvidx" from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#">
