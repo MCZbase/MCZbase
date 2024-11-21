@@ -1600,7 +1600,7 @@ limitations under the License.
 								#successfullInserts#
 							</div>
 						<cfelse>
-							<cfthrow message="Undefined error loading media records.  [#getTempData.recordcount#] rows to add, but [#media_updates#] rows added."
+							<cfthrow message="Undefined error loading media records.  [#getTempData.recordcount#] rows to add, but [#media_updates#] rows added.">
 						</cfif>
 						<cftransaction action="commit">
 					<cfcatch>
