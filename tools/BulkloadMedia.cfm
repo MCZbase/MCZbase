@@ -673,8 +673,8 @@ limitations under the License.
 				
 			<!---- Identify incomplete label:value pairs and label values not in code tables --------------------->		
 			<cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" index="idx">
-				<cfset variableName = "media_label_" & idx>
-				<cfset variableValueNo = "label_value_" & idx>
+				<cfset variableName = "media_label_#idx#">
+				<cfset variableValueNo = "label_value_#idx#">
 				<!--- Warn variable name does not match codetable or is missing when label_value is present --->
 				<cfquery name="checkLabelType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_media
@@ -704,7 +704,7 @@ limitations under the License.
 						status = concat(nvl2(status, status || '; ', ''), #variableName# || ' in media_label_#idx# duplicates a required column. ')
 					WHERE 
 						upper(#variableName#) in ('DESCRIPTION','MADE DATE','SUBJECT')
-						and #variableValueNo# is null
+						AND #variableValueNo# IS NOT NULL
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>	
