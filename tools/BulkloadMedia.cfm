@@ -1255,7 +1255,7 @@ limitations under the License.
 									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
 									<cfloop index="lvidx" from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#">
 										AND media_label_#lvidx# = 'height'
-										AND media_label_value_#lvidx# IS NOT NULL
+										AND label_value_#lvidx# IS NOT NULL
 									</cfloop>
 							</cfquery>
 							<cfif checkForHeight.ct GT 0>
@@ -1269,7 +1269,7 @@ limitations under the License.
 									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
 									<cfloop index="lvidx" from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#">
 										AND media_label_#lvidx# = 'width'
-										AND media_label_value_#lvidx# IS NOT NULL
+										AND label_value_#lvidx# IS NOT NULL
 									</cfloop>
 							</cfquery>
 							<cfif checkForWidth.ct GT 0>
