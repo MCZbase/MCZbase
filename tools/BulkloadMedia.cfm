@@ -1764,20 +1764,14 @@ limitations under the License.
 		<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records</h2>
 		<h3 class="h5">Step 2: Pick a directory on the shared storage to check for files without media records:</h3>
 		<cfoutput>
-			<p>Directories within #encodeForHtml(path)# on the shared storage:</p>
 			<cfset topDirectories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","ASC","dir")>
 			<cfset knownTops = ValueList(topDirectories.Name)>
-			<cfif ListContains(knownTops,"#path#")>
-				<!--- TODO: Replace with Java file methods, this is too slow for shared storage with many files --->
-				<cfset subdirectoriesIncDots = DirectoryList("#Application.webDirectory#/specimen_images/#path#",true,"query","","ASC","dir")>
-				<cfquery name="subdirectories" dbtype="query">
-						SELECT DISTINCT Directory 
-						FROM subdirectoriesIncDots
-				</cfquery>
+			<cfif ListContains(knownTops,"#path#") AND len(REReplace(path,"[.\\]","")) GT 0>
+				<!--- DirectoryList and java File methods are slow on shared storage with many files, tree in shell is faster --->
+				<cfexecute name="/usr/bin/tree" arguments='-d -f -i "specimen_images/#path#"' variable="subdirectories" timeout="55">
 				<ul>
 					<li><a href="/tools/BulkloadMedia.cfm?action=listUnknowns&path=#path#">#path#</a></li>
-					<cfloop query="subdirectories">
-						<cfset localPath = Replace(subdirectories.Directory,'#Application.webDirectory#/specimen_images/','')>
+					<cfloop list="#subdirectories#" delimiters="\n" item="localPath">
 						<li><a href="/tools/BulkloadMedia.cfm?action=listUnknowns&path=#encodeforUrl(localPath)#">#encodeForHtml(localPath)#</a></li>
 					</cfloop>
 				</ul>
