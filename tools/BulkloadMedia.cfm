@@ -1415,37 +1415,37 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 								)
 							</cfquery>
-							<cfif isimagefile(getTempData.media_uri) AND (NOT heightProvided OR NOT widthProvided)>
+							<cfif isimagefile(getTempData.media_uri) AND (NOT hasHeightProvided OR NOT hasWidthProvided)>
 								<cfimage action="info" source="#getTempData.media_uri#" structname="imgInfo"/>
-								<cfif NOT heightProvided>
-								<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into media_labels (
-										media_id,
-										MEDIA_LABEL,
-										LABEL_VALUE,
-										ASSIGNED_BY_AGENT_ID
-									) values (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-										'height',
-										<cfif len(getTempData.height) gt 0>#getTempData.height#<cfelse>#imgInfo.height#</cfif>,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-									)
-								</cfquery>
+								<cfif NOT hasHeightProvided>
+									<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										insert into media_labels (
+											media_id,
+											MEDIA_LABEL,
+											LABEL_VALUE,
+											ASSIGNED_BY_AGENT_ID
+										) values (
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+											'height',
+											<cfif len(getTempData.height) gt 0>#getTempData.height#<cfelse>#imgInfo.height#</cfif>,
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+										)
+									</cfquery>
 								</cfif>
-								<cfif NOT widthProvided>
-								<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into media_labels (
-										media_id,
-										MEDIA_LABEL,
-										LABEL_VALUE,
-										ASSIGNED_BY_AGENT_ID
-									) values (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-										'width',
-										<cfif len(getTempData.width) gt 0>#getTempData.width#<cfelse>#imgInfo.width#</cfif>,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-									)
-								</cfquery>
+								<cfif NOT hasWidthProvided>
+									<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										insert into media_labels (
+											media_id,
+											MEDIA_LABEL,
+											LABEL_VALUE,
+											ASSIGNED_BY_AGENT_ID
+										) values (
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+											'width',
+											<cfif len(getTempData.width) gt 0>#getTempData.width#<cfelse>#imgInfo.width#</cfif>,
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+										)
+									</cfquery>
 								</cfif>
 							</cfif>
 							<cfif len(getTempData.MD5HASH) GT 0>
