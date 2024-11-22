@@ -85,8 +85,12 @@ limitations under the License.
 		<cfif NOT ListContains(knownFiles,allFiles.Name)>
 			<cfset localPath = Replace(allFiles.Directory,'#Application.webDirectory#','')>
 			<cfset mimetype = FileGetMimeType("#allFiles.Directory#/#allFiles.Name#")>
-			<cfset csv = csv & '"https://mczbase.mcz.harvard.edu#localPath#/#allFiles.Name#","#mimetype#"'>
-			<cfset fields = ',"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""'>
+			<cfset media_type = ""
+			<cfif FindNoCase('image',mimetype) GT 0><cfset media_type="image"></cfif>
+			<cfif FindNoCase('audio',mimetype) GT 0><cfset media_type="audio"></cfif>
+			<cfif FindNoCase('video',mimetype) GT 0><cfset media_type="video"></cfif>
+			<cfset csv = csv & '"https://mczbase.mcz.harvard.edu#localPath#/#allFiles.Name#","#mimetype#","#media_type#"'>
+			<cfset fields = ',"","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""'>
 			<cfset csv = csv & fields>
 			<cfoutput>#csv##chr(13)##chr(10)#</cfoutput>
 		</cfif>
@@ -989,7 +993,6 @@ limitations under the License.
 										<cfset IA = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,1,":")>
 										<cfset CCDE = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,2,":")>
 										<cfset CI = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,3,":")>
-										<!--- TODO: This query is not firing --->
 										<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											update cf_temp_media set MEDIA_RELATED_TO_#i# =
 											(
