@@ -95,6 +95,9 @@ limitations under the License.
 					<cfset targetFileName = "#allFiles.Directory#/#allFiles.Name#" >
 					<cfimage source="#targetFileName#" name="image">
 					<cfset madedate = ImageGetEXIFTag(image,'Date/Time') >
+					<cfif Find(":",madedate) GT 0>
+						<cfset madedate = replace(left(madedate,10),":","-")>
+					</cfif>
 				</cfif>
 			<cfcatch>
 				<!--- just consume any exception --->
