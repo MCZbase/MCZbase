@@ -763,17 +763,30 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 
-				<!--- TODO: This is not a warning about bad URI, it appears to save a yyyy-mm-dd date string as a yyyy-mm-dd date string... --->
-				<cfset formattedDate = DateFormat(made_date, "yyyy-mm-dd")>
-				<cfquery name="warningBadURI2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_media
-					SET
-						made_date = '#formattedDate#'
-					WHERE
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
-						key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-				</cfquery>
+				<!--- Test for valid yyyy-mm-dd date string --->
+				<cftry>
+					<cfset formattedDate = DateFormat(made_date, "yyyy-mm-dd")>
+					<cfquery name="testDateUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_media
+						SET
+							made_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#formattedDate#">
+						WHERE
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+					</cfquery>
+				<cfcatch>
+					<cfquery name="warningBadDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_media
+						SET
+							status = concat(nvl2(status, status || '; ', ''),'made_date ['|| made_date ||'] not a valid date in the form yyyy-mm-dd.')
+						WHERE
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+					</cfquery>
+				</cfcatch>
+				</cftry>
 
 				<!------------------------------------------------------------>
 				<!----------CHECK Relationship valid-------------------------->
