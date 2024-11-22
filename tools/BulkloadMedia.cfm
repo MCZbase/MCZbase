@@ -1771,7 +1771,6 @@ limitations under the License.
 	</cfif>
 	<cfif action is "pickDirectory">
 		<cfset drillList = "herp,orni">
-		</cfif>
 		<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records (or <a href="/tools/BulkloadMedia.cfm">start over</a>).</h2>
 		<h3 class="h5">Step 2: Pick a directory on the shared storage to check for files without media records:</h3>
 		<cfoutput>
