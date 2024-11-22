@@ -1774,13 +1774,7 @@ limitations under the License.
 		<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records (or <a href="/tools/BulkloadMedia.cfm">start over</a>).</h2>
 		<h3 class="h5">Step 2: Pick a directory on the shared storage to check for files without media records:</h3>
 		<cfoutput>
-			<cfset topDirectories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","ASC","dir")>
-			<cfset knownTops = ValueList(topDirectories.Name)>
-			<cfif ListContains(drillList,"#left(path,4)#")>
-				<cfset nextDirectories = DirectoryList("#Application.webDirectory#/specimen_images/#path#",false,"query","","ASC","dir")>
-				<cfset knownTops = ListAppend(knownTops,ValueList(nextDirectories.Name))>
-			</cfif>
-			<cfif ListContains(knownTops,"#path#") AND len(REReplace(path,"[.\\]","")) GT 0>
+			<cfif len(REReplace(path,"[.]","")) EQ len(path)>
 				<!--- DirectoryList and java File methods are slow on shared storage with many files, tree in shell is faster --->
 				<cfexecute name="/usr/bin/tree" arguments='-d -f -i "#Application.webDirectory#/specimen_images/#path#"' variable="subdirectories" timeout="55">
 				<ul>
