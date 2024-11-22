@@ -601,8 +601,7 @@ limitations under the License.
 				
 			<cfset key = ''>
 
-			<!--- Set a created by agent from the current user --->
-         <!--- TODO: Bugfix: when only required fields are populated a created_by_agent is not created . --->
+			<!--- Set a created by agent from the current user, used as metadata in relationships and to add a created by agent relationship if not specified --->
 			<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
@@ -1259,6 +1258,7 @@ limitations under the License.
 							SELECT * FROM cf_temp_media
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
+						<!--- TODO: Redundant with cf_temp_media.created_by_agent_id --->
 						<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT agent_id FROM agent_name
 							WHERE agent_name_type = 'login'
@@ -1347,7 +1347,9 @@ limitations under the License.
 							<cfif insResult.recordcount NEQ 1>
 								<cfthrow message = "Insert of media record failed, insert query affected other than 1 row.">
 							</cfif>
+							<cfset hasCreatedByAgent = false>
 							<cfif len(getTempData.media_relationship_1) gt 0>
+								<cfif getTempData.media_relationship_1 EQ "created by agent"><cfset hasCreatedByAgent = true></cfif>
 								<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
 									INSERT into media_relations (
 										media_id,
@@ -1363,6 +1365,7 @@ limitations under the License.
 								</cfquery>
 							</cfif>
 							<cfif len(getTempData.media_relationship_2) gt 0>
+								<cfif getTempData.media_relationship_2 EQ "created by agent"><cfset hasCreatedByAgent = true></cfif>
 								<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
 									INSERT into media_relations (
 										media_id,
@@ -1378,6 +1381,7 @@ limitations under the License.
 								</cfquery>
 							</cfif>
 							<cfif len(getTempData.media_relationship_3) gt 0>
+								<cfif getTempData.media_relationship_3 EQ "created by agent"><cfset hasCreatedByAgent = true></cfif>
 								<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
 									INSERT into media_relations (
 										media_id,
@@ -1393,6 +1397,7 @@ limitations under the License.
 								</cfquery>
 							</cfif>
 							<cfif len(getTempData.media_relationship_4) gt 0>
+								<cfif getTempData.media_relationship_4 EQ "created by agent"><cfset hasCreatedByAgent = true></cfif>
 								<cfquery name="makeRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="RelResult">
 									INSERT into media_relations (
 										media_id,
@@ -1404,6 +1409,21 @@ limitations under the License.
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_relationship_4#">,
 										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">,
 										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.MEDIA_RELATED_TO_4#">
+									)
+								</cfquery>
+							</cfif>
+							<cfif NOT hasCreatedByAgent and len("#getAgent.agent_id#") GT 0 >
+								<cfquery name="makeCreatorRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="makeCreatorRelation_result">
+									INSERT into media_relations (
+										media_id,
+										media_relationship,
+										created_by_agent_id,
+										related_primary_key
+									) VALUES (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="created by agent">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 									)
 								</cfquery>
 							</cfif>
