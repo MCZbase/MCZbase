@@ -1777,7 +1777,7 @@ limitations under the License.
 		<cfoutput>
 			<cfset topDirectories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","ASC","dir")>
 			<cfset knownTops = ValueList(topDirectories.Name)>
-			<cfif ListContains(drillList,"#left(path,4))#">
+			<cfif ListContains(drillList,"#left(path,4)#")>
 				<cfset nextDirectories = DirectoryList("#Application.webDirectory#/specimen_images/#directories.name#",false,"query","","ASC","dir")>
 				<cfset knownTops = ListAppend(knownTops,ValueList(nextDirectories.Name))>
 			</cfif>
