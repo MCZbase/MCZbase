@@ -1750,7 +1750,6 @@ limitations under the License.
 		</cfif>
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
 		<cfif action is "pickTopDirectory">
-			<
 			<cfset drillList = "herpetology,ornithology,specialcollections,fish,mammalogy,entomology">
 			<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records (or <a href="/tools/BulkloadMedia.cfm">start over</a>).</h2>
 			<h3 class="h5">Step 1: Pick a high level directory on the shared storage from which to start:</h3>
