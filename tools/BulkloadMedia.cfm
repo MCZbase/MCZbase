@@ -1569,259 +1569,282 @@ limitations under the License.
 								</cfquery>
 							</cfif>
 							<cfif len(getTempData.media_label_8) gt 0>
-								<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
-									INSERT into media_labels (
-										media_id,
-										media_label,
-										label_value,
-										assigned_by_agent_id
-									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_8#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_8#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-									)
-								</cfquery>
-							</cfif>
-							<cfset media_updates = media_updates + insResult.recordcount>
-							<cfset successfullInserts = successfullInserts & '<p class="my-1">'><!--- ' --->
-							<cfset successfullInserts = successfullInserts & '<a href="/media/#media_id#" target="_blank">#media_id#</a> '><!--- ' --->
-							<cfif len(getTempData.subject) gt 0>
-								<cfset successfullInserts = successfullInserts & getTempData.subject>
-							</cfif>
-							<cfif len(getTempData.description) gt 0 AND getTempData.description NEQ getTempData.subject>
-								<cfset successfullInserts = successfullInserts & '| #getTempData.description#'>
-							</cfif> 
-							<cfset successfullInserts = successfullInserts & '</p>'><!--- ' --->
-						</cfloop>
-						<cfif getTempData.recordcount eq media_updates>
-							<h3 class="text-success position-absolute" style="top:0;">Success - loaded #media_updates# media records</h3>
-							<div class="mt-2">
-								#successfullInserts#
-							</div>
-						<cfelse>
-							<cfthrow message="Undefined error loading media records.  [#getTempData.recordcount#] rows to add, but [#media_updates#] rows added.">
-						</cfif>
-						<cftransaction action="commit">
-					<cfcatch>
-						<cftransaction action="ROLLBACK">
-						<h3>There was a problem adding media records. </h3>
-						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT STATUS,MEDIA_URI,MIME_TYPE,MEDIA_TYPE,SUBJECT,MADE_DATE,DESCRIPTION,PREVIEW_URI,CREATED_BY_AGENT_ID,HEIGHT,WIDTH,MEDIA_RELATIONSHIP_1,MEDIA_RELATED_TO_1,MEDIA_RELATIONSHIP_2,MEDIA_RELATED_TO_2,MEDIA_RELATIONSHIP_3,MEDIA_RELATED_TO_3,MEDIA_RELATIONSHIP_4,MEDIA_RELATED_TO_4,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,MEDIA_LABEL_3,LABEL_VALUE_3,MEDIA_LABEL_4,LABEL_VALUE_4,MEDIA_LABEL_5,LABEL_VALUE_5,MEDIA_LABEL_6,LABEL_VALUE_6,MEDIA_LABEL_7,LABEL_VALUE_7,MEDIA_LABEL_8,LABEL_VALUE_8
-							FROM 
-								cf_temp_media
-							WHERE
-								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#"> AND
-								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						</cfquery>
-						<cfif getProblemData.recordcount GT 0>
-							<h3>
-								Fix the issues and <a href="/tools/BulkloadMedia.cfm" class="text-danger font-weight-lessbold">start again</a>. Error loading row (<span class="text-danger">#media_updates + 1#</span>) from the CSV: 
-								<cfif len(cfcatch.detail) gt 0>
-									<span class="font-weight-normal border-bottom border-danger">
-										<cfif cfcatch.detail contains "media_type">
-											Problem with MEDIA_TYPE
-										<cfelseif cfcatch.detail contains "media_uri">
-											Duplicate MEDIA_URI
-										<cfelseif cfcatch.detail contains "media_license_id">
-											Problem with MEDIA_LICENSE_ID
-										<cfelseif cfcatch.detail contains "mask_media">
-											Invalid MASK_MEDIA number
-										<cfelseif cfcatch.detail contains "integrity constraint">
-											Invalid MEDIA_ID 
-										<cfelseif cfcatch.detail contains "media_id">
-											Problem with MEDIA_ID (#cfcatch.detail#)
-										<cfelseif cfcatch.detail contains "unique constraint">
-											Unique Constraint issue (#cfcatch.detail#)
-										<cfelseif cfcatch.detail contains "media_label">
-											Problem with a MEDIA_LABEL (#cfcatch.detail#)
-										<cfelseif cfcatch.detail contains "label_value">
-											Problem with a LABEL_VALUE (#cfcatch.detail#)
-										<cfelseif cfcatch.detail contains "ListGetAt">
-											Reload your spreadsheet: <a href='/tools/BulkloadMedia.cfm'>upload again</a>
-										<cfelseif cfcatch.detail contains "date">
-											Problem with MADE_DATE (#cfcatch.detail#)
-										<cfelseif cfcatch.detail contains "media_relationship">
-											Problem with a MEDIA_RELATIONSHIP (#cfcatch.detail#)
-										<cfelseif cfcatch.detail contains "no data">
-											No data or the wrong data (#cfcatch.detail#)
-										<cfelse>
-											<!--- provide the raw error message if it isn't readily interpretable --->
-											#cfcatch.detail#
-										</cfif>
-									</span>
+									<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
+										INSERT into media_labels (
+											media_id,
+											media_label,
+											label_value,
+											assigned_by_agent_id
+										) VALUES (
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_label_8#">,
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.label_value_8#">,
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+										)
+									</cfquery>
 								</cfif>
-							</h3>
-							<table class='px-0 sortable small table table-responsive table-striped mt-3 w-100'>
-								<thead>
-									<tr>
-										<th>COUNT</th>
-										<th>MEDIA_URI</th>
-										<th>MIME_TYPE</th>
-										<th>MEDIA_TYPE</th>
-										<th>SUBJECT</th>
-										<th>MADE_DATE</th>
-										<th>DESCRIPTION</th>
-										<th>HEIGHT</th>
-										<th>WIDTH</th>
-										<th>PREVIEW_URI</th>
-										<th>CREATED_BY_AGENT_ID</th>
-										<th>MEDIA_LICENSE_ID</th>
-										<th>MASK_MEDIA</th>
-										<th>MEDIA_RELATIONSHIP_1</th>
-										<th>MEDIA_RELATED_TO_1</th>
-										<th>MEDIA_RELATIONSHIP_2</th>
-										<th>MEDIA_RELATED_TO_2</th>
-										<th>MEDIA_LABEL_1</th>
-										<th>LABEL_VALUE_1</th>
-										<th>MEDIA_LABEL_2</th>
-										<th>LABEL_VALUE_2</th>
-										<th>MEDIA_LABEL_3</th>
-										<th>LABEL_VALUE_3</th>
-										<th>MEDIA_LABEL_4</th>
-										<th>LABEL_VALUE_4</th>
-										<th>MEDIA_LABEL_5</th>
-										<th>LABEL_VALUE_5</th>
-										<th>MEDIA_LABEL_6</th>
-										<th>LABEL_VALUE_6</th>
-										<th>MEDIA_LABEL_7</th>
-										<th>LABEL_VALUE_7</th>
-										<th>MEDIA_LABEL_8</th>
-										<th>LABEL_VALUE_8</th>
-									</tr> 
-								</thead>
-								<tbody>
-									<cfset i=1>
-									<cfloop query="getProblemData">
+								<cfset media_updates = media_updates + insResult.recordcount>
+								<cfset successfullInserts = successfullInserts & '<p class="my-1">'><!--- ' --->
+								<cfset successfullInserts = successfullInserts & '<a href="/media/#media_id#" target="_blank">#media_id#</a> '><!--- ' --->
+								<cfif len(getTempData.subject) gt 0>
+									<cfset successfullInserts = successfullInserts & getTempData.subject>
+								</cfif>
+								<cfif len(getTempData.description) gt 0 AND getTempData.description NEQ getTempData.subject>
+									<cfset successfullInserts = successfullInserts & '| #getTempData.description#'>
+								</cfif> 
+								<cfset successfullInserts = successfullInserts & '</p>'><!--- ' --->
+							</cfloop>
+							<cfif getTempData.recordcount eq media_updates>
+								<h3 class="text-success position-absolute" style="top:0;">Success - loaded #media_updates# media records</h3>
+								<div class="mt-2">
+									#successfullInserts#
+								</div>
+							<cfelse>
+								<cfthrow message="Undefined error loading media records.  [#getTempData.recordcount#] rows to add, but [#media_updates#] rows added.">
+							</cfif>
+							<cftransaction action="commit">
+						<cfcatch>
+							<cftransaction action="ROLLBACK">
+							<h3>There was a problem adding media records. </h3>
+							<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT STATUS,MEDIA_URI,MIME_TYPE,MEDIA_TYPE,SUBJECT,MADE_DATE,DESCRIPTION,PREVIEW_URI,CREATED_BY_AGENT_ID,HEIGHT,WIDTH,MEDIA_RELATIONSHIP_1,MEDIA_RELATED_TO_1,MEDIA_RELATIONSHIP_2,MEDIA_RELATED_TO_2,MEDIA_RELATIONSHIP_3,MEDIA_RELATED_TO_3,MEDIA_RELATIONSHIP_4,MEDIA_RELATED_TO_4,MEDIA_LICENSE_ID,MASK_MEDIA,MEDIA_LABEL_1,LABEL_VALUE_1,MEDIA_LABEL_2,LABEL_VALUE_2,MEDIA_LABEL_3,LABEL_VALUE_3,MEDIA_LABEL_4,LABEL_VALUE_4,MEDIA_LABEL_5,LABEL_VALUE_5,MEDIA_LABEL_6,LABEL_VALUE_6,MEDIA_LABEL_7,LABEL_VALUE_7,MEDIA_LABEL_8,LABEL_VALUE_8
+								FROM 
+									cf_temp_media
+								WHERE
+									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#"> AND
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							</cfquery>
+							<cfif getProblemData.recordcount GT 0>
+								<h3>
+									Fix the issues and <a href="/tools/BulkloadMedia.cfm" class="text-danger font-weight-lessbold">start again</a>. Error loading row (<span class="text-danger">#media_updates + 1#</span>) from the CSV: 
+									<cfif len(cfcatch.detail) gt 0>
+										<span class="font-weight-normal border-bottom border-danger">
+											<cfif cfcatch.detail contains "media_type">
+												Problem with MEDIA_TYPE
+											<cfelseif cfcatch.detail contains "media_uri">
+												Duplicate MEDIA_URI
+											<cfelseif cfcatch.detail contains "media_license_id">
+												Problem with MEDIA_LICENSE_ID
+											<cfelseif cfcatch.detail contains "mask_media">
+												Invalid MASK_MEDIA number
+											<cfelseif cfcatch.detail contains "integrity constraint">
+												Invalid MEDIA_ID 
+											<cfelseif cfcatch.detail contains "media_id">
+												Problem with MEDIA_ID (#cfcatch.detail#)
+											<cfelseif cfcatch.detail contains "unique constraint">
+												Unique Constraint issue (#cfcatch.detail#)
+											<cfelseif cfcatch.detail contains "media_label">
+												Problem with a MEDIA_LABEL (#cfcatch.detail#)
+											<cfelseif cfcatch.detail contains "label_value">
+												Problem with a LABEL_VALUE (#cfcatch.detail#)
+											<cfelseif cfcatch.detail contains "ListGetAt">
+												Reload your spreadsheet: <a href='/tools/BulkloadMedia.cfm'>upload again</a>
+											<cfelseif cfcatch.detail contains "date">
+												Problem with MADE_DATE (#cfcatch.detail#)
+											<cfelseif cfcatch.detail contains "media_relationship">
+												Problem with a MEDIA_RELATIONSHIP (#cfcatch.detail#)
+											<cfelseif cfcatch.detail contains "no data">
+												No data or the wrong data (#cfcatch.detail#)
+											<cfelse>
+												<!--- provide the raw error message if it isn't readily interpretable --->
+												#cfcatch.detail#
+											</cfif>
+										</span>
+									</cfif>
+								</h3>
+								<table class='px-0 sortable small table table-responsive table-striped mt-3 w-100'>
+									<thead>
 										<tr>
-											<td>#i#</td>
-											<td>#getProblemData.MEDIA_URI# </td>
-											<td>#getProblemData.MIME_TYPE# </td>
-											<td>#getProblemData.MEDIA_TYPE# </td>
-											<td>#getProblemData.SUBJECT#</td>
-											<td>#getProblemData.MADE_DATE#</td>
-											<td>#getProblemData.DESCRIPTION#</td>
-											<td>#getProblemData.HEIGHT#</td>
-											<td>#getProblemData.WIDTH#</td>
-											<td>#getProblemData.PREVIEW_URI# </td>
-											<td>#getProblemData.CREATED_BY_AGENT_ID#</td>
-											<td>#getProblemData.MEDIA_LICENSE_ID#</td>
-											<td>#getProblemData.MASK_MEDIA#</td>
-											<td>#getProblemData.MEDIA_RELATIONSHIP_1#</td>
-											<td>#getProblemData.MEDIA_RELATED_TO_1#</td>
-											<td>#getProblemData.MEDIA_RELATIONSHIP_2#</td>
-											<td>#getProblemData.MEDIA_RELATED_TO_2#</td>
-											<td>#getProblemData.MEDIA_LABEL_1#</td>
-											<td>#getProblemData.LABEL_VALUE_1#</td>
-											<td>#getProblemData.MEDIA_LABEL_2#</td>
-											<td>#getProblemData.LABEL_VALUE_2#</td>
-											<td>#getProblemData.MEDIA_LABEL_3#</td>
-											<td>#getProblemData.LABEL_VALUE_3#</td>
-											<td>#getProblemData.MEDIA_LABEL_4#</td>
-											<td>#getProblemData.LABEL_VALUE_4#</td>
-											<td>#getProblemData.MEDIA_LABEL_5#</td>
-											<td>#getProblemData.LABEL_VALUE_5#</td>
-											<td>#getProblemData.MEDIA_LABEL_6#</td>
-											<td>#getProblemData.LABEL_VALUE_6#</td>
-											<td>#getProblemData.MEDIA_LABEL_7#</td>
-											<td>#getProblemData.LABEL_VALUE_7#</td>
-											<td>#getProblemData.MEDIA_LABEL_8#</td>
-											<td>#getProblemData.LABEL_VALUE_8#</td>
-										</tr>
-										<cfset i= i+1>
-									</cfloop>
-								</tbody>
-							</table>
-						</cfif>
-						<div>#cfcatch.message#</div>
-						<!--- always provide global admins with a dump --->
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-							<cfdump var="#cfcatch#">
-						</cfif>
-					</cfcatch>
-					</cftry>
-				</cftransaction>
-			</div>
-			<!--- cleanup any incomplete work by the same user --->
-			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				DELETE from cf_temp_media WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-		</cfoutput>
-	</cfif>
-	<cfif action is "pickTopDirectory">
-		<cfset drillList = "herpetology,ornithology,specialcollections,fish,mammalogy,entomology">
-		<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records (or <a href="/tools/BulkloadMedia.cfm">start over</a>).</h2>
-		<h3 class="h5">Step 1: Pick a high level directory on the shared storage from which to start:</h3>
-		<cfoutput>
-			<cfset directories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","Name ASC","dir")>
-			<ul>
-				<cfloop query="directories">
-					<cfif listContains(drillList,"#directories.name#")>
-						<cfset nextDirectories = DirectoryList("#Application.webDirectory#/specimen_images/#directories.name#",false,"query","","Name ASC","dir")>
-						<cfloop query="nextDirectories">
-						
-							<li><a href="/tools/BulkloadMedia.cfm?action=pickDirectory&path=#directories.name#%2F#nextDirectories.name#">#directories.name#/#nextDirectories.name#</a></li>
-						</cfloop>
-					<cfelse>
-						<li><a href="/tools/BulkloadMedia.cfm?action=pickDirectory&path=#directories.name#">#directories.name#</a></li>
-					</cfif>
-				</cfloop>
-			</ul>
-		</cfoutput>
-	</cfif>
-	<cfif action is "pickDirectory">
-		<cfset drillList = "herp,orni,spec">
-		<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records (or <a href="/tools/BulkloadMedia.cfm">start over</a>).</h2>
-		<h3 class="h5">Step 2: Pick a directory on the shared storage to check for files without media records:</h3>
-		<cfoutput>
-			<cfif len(REReplace(path,"[.]","")) EQ len(path)>
-				<!--- DirectoryList and java File methods are slow on shared storage with many files, tree in shell is faster --->
-				<cfexecute name="/usr/bin/tree" arguments='-d -f -i --noreport "#Application.webDirectory#/specimen_images/#path#"' variable="subdirectories" timeout="55">
+											<th>COUNT</th>
+											<th>MEDIA_URI</th>
+											<th>MIME_TYPE</th>
+											<th>MEDIA_TYPE</th>
+											<th>SUBJECT</th>
+											<th>MADE_DATE</th>
+											<th>DESCRIPTION</th>
+											<th>HEIGHT</th>
+											<th>WIDTH</th>
+											<th>PREVIEW_URI</th>
+											<th>CREATED_BY_AGENT_ID</th>
+											<th>MEDIA_LICENSE_ID</th>
+											<th>MASK_MEDIA</th>
+											<th>MEDIA_RELATIONSHIP_1</th>
+											<th>MEDIA_RELATED_TO_1</th>
+											<th>MEDIA_RELATIONSHIP_2</th>
+											<th>MEDIA_RELATED_TO_2</th>
+											<th>MEDIA_LABEL_1</th>
+											<th>LABEL_VALUE_1</th>
+											<th>MEDIA_LABEL_2</th>
+											<th>LABEL_VALUE_2</th>
+											<th>MEDIA_LABEL_3</th>
+											<th>LABEL_VALUE_3</th>
+											<th>MEDIA_LABEL_4</th>
+											<th>LABEL_VALUE_4</th>
+											<th>MEDIA_LABEL_5</th>
+											<th>LABEL_VALUE_5</th>
+											<th>MEDIA_LABEL_6</th>
+											<th>LABEL_VALUE_6</th>
+											<th>MEDIA_LABEL_7</th>
+											<th>LABEL_VALUE_7</th>
+											<th>MEDIA_LABEL_8</th>
+											<th>LABEL_VALUE_8</th>
+										</tr> 
+									</thead>
+									<tbody>
+										<cfset i=1>
+										<cfloop query="getProblemData">
+											<tr>
+												<td>#i#</td>
+												<td>#getProblemData.MEDIA_URI# </td>
+												<td>#getProblemData.MIME_TYPE# </td>
+												<td>#getProblemData.MEDIA_TYPE# </td>
+												<td>#getProblemData.SUBJECT#</td>
+												<td>#getProblemData.MADE_DATE#</td>
+												<td>#getProblemData.DESCRIPTION#</td>
+												<td>#getProblemData.HEIGHT#</td>
+												<td>#getProblemData.WIDTH#</td>
+												<td>#getProblemData.PREVIEW_URI# </td>
+												<td>#getProblemData.CREATED_BY_AGENT_ID#</td>
+												<td>#getProblemData.MEDIA_LICENSE_ID#</td>
+												<td>#getProblemData.MASK_MEDIA#</td>
+												<td>#getProblemData.MEDIA_RELATIONSHIP_1#</td>
+												<td>#getProblemData.MEDIA_RELATED_TO_1#</td>
+												<td>#getProblemData.MEDIA_RELATIONSHIP_2#</td>
+												<td>#getProblemData.MEDIA_RELATED_TO_2#</td>
+												<td>#getProblemData.MEDIA_LABEL_1#</td>
+												<td>#getProblemData.LABEL_VALUE_1#</td>
+												<td>#getProblemData.MEDIA_LABEL_2#</td>
+												<td>#getProblemData.LABEL_VALUE_2#</td>
+												<td>#getProblemData.MEDIA_LABEL_3#</td>
+												<td>#getProblemData.LABEL_VALUE_3#</td>
+												<td>#getProblemData.MEDIA_LABEL_4#</td>
+												<td>#getProblemData.LABEL_VALUE_4#</td>
+												<td>#getProblemData.MEDIA_LABEL_5#</td>
+												<td>#getProblemData.LABEL_VALUE_5#</td>
+												<td>#getProblemData.MEDIA_LABEL_6#</td>
+												<td>#getProblemData.LABEL_VALUE_6#</td>
+												<td>#getProblemData.MEDIA_LABEL_7#</td>
+												<td>#getProblemData.LABEL_VALUE_7#</td>
+												<td>#getProblemData.MEDIA_LABEL_8#</td>
+												<td>#getProblemData.LABEL_VALUE_8#</td>
+											</tr>
+											<cfset i= i+1>
+										</cfloop>
+									</tbody>
+								</table>
+							</cfif>
+							<div>#cfcatch.message#</div>
+							<!--- always provide global admins with a dump --->
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+								<cfdump var="#cfcatch#">
+							</cfif>
+						</cfcatch>
+						</cftry>
+					</cftransaction>
+				</div>
+				<!--- cleanup any incomplete work by the same user --->
+				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					DELETE from cf_temp_media WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfoutput>
+		</cfif>
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
+		<cfif action is "pickTopDirectory">
+			<
+			<cfset drillList = "herpetology,ornithology,specialcollections,fish,mammalogy,entomology">
+			<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records (or <a href="/tools/BulkloadMedia.cfm">start over</a>).</h2>
+			<h3 class="h5">Step 1: Pick a high level directory on the shared storage from which to start:</h3>
+			<cfoutput>
+				<cfset directories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","Name ASC","dir")>
 				<ul>
-					<cfloop list="#subdirectories#" delimiters="#chr(10)#" item="localPath">
-						<cfset localPath = replace(localPath,"#Application.webDirectory#/specimen_images/","")>
-						<li><a href="/tools/BulkloadMedia.cfm?action=listUnknowns&path=#encodeforUrl(localPath)#">#encodeForHtml(localPath)#</a></li>
+					<cfloop query="directories">
+						<cfset show=true>
+						<cfif directories.name EQ "cryogenic" AND listfindnocase(session.roles,"mcz_cryo") EQ 0><cfset show = false></cfif>
+						<cfif directories.name EQ "ent-formicidae" AND listfindnocase(session.roles,"mcz_ent") EQ 0><cfset show = false></cfif>
+						<cfif directories.name EQ "ent-lepidoptera" AND listfindnocase(session.roles,"mcz_ent") EQ 0><cfset show = false></cfif>
+						<cfif directories.name EQ "entomology" AND listfindnocase(session.roles,"mcz_ent") EQ 0><cfset show = false></cfif>
+						<cfif directories.name EQ "fish" AND listfindnocase(session.roles,"mcz_fish") EQ 0><cfset show = false></cfif>
+						<cfif directories.name EQ "GlassInvertebrateModels" AND listfindnocase(session.roles,"mcz_sc") EQ 0><cfset show = false></cfif>
+						<cfif directories.name EQ "specialcollections" AND listfindnocase(session.roles,"mcz_sc") EQ 0><cfset show = false></cfif>
+						<cfif directories.name EQ "herpetology" AND listfindnocase(session.roles,"mcz_herp") EQ 0><cfset show = false></cfif>
+						<cfif directories.name EQ "test" AND listfindnocase(session.roles,"collops") EQ 0><cfset show = false></cfif>
+						<cfif directories.name EQ "publications" AND listfindnocase(session.roles,"collops") EQ 0><cfset show = false></cfif>
+						<cfif directories.name EQ "invertebrates" AND listfindnocase(session.roles,"mcz_iz") EQ 0><cfset show = false></cfif>
+						<cfif directories.name EQ "marineinverts" AND listfindnocase(session.roles,"mcz_iz") EQ 0><cfset show = false></cfif>
+						<cfif directories.name EQ "invertpaleo" AND listfindnocase(session.roles,"mcz_ip") EQ 0><cfset show = false></cfif>
+						<cfif directories.name EQ "malacology" AND listfindnocase(session.roles,"mcz_mala") EQ 0><cfset show = false></cfif>
+						<cfif directories.name EQ "mammalogy" AND listfindnocase(session.roles,"mcz_mamm") EQ 0><cfset show = false></cfif>
+						<cfif directories.name EQ "ornithology" AND listfindnocase(session.roles,"mcz_orn") EQ 0><cfset show = false></cfif>
+						<cfif directories.name EQ "vertpaleo" AND listfindnocase(session.roles,"mcz_vp") EQ 0><cfset show = false></cfif>
+						<cfif show>
+							<cfif listContains(drillList,"#directories.name#")>
+								<cfset nextDirectories = DirectoryList("#Application.webDirectory#/specimen_images/#directories.name#",false,"query","","Name ASC","dir")>
+								<cfloop query="nextDirectories">
+								
+									<li><a href="/tools/BulkloadMedia.cfm?action=pickDirectory&path=#directories.name#%2F#nextDirectories.name#">#directories.name#/#nextDirectories.name#</a></li>
+								</cfloop>
+							<cfelse>
+								<li><a href="/tools/BulkloadMedia.cfm?action=pickDirectory&path=#directories.name#">#directories.name#</a></li>
+							</cfif>
+						</cfif>
 					</cfloop>
 				</ul>
-			<cfelse>
-				<cfthrow message="Error: Unknown top level directory">
-			</cfif>
-		</cfoutput>
-	</cfif>
-	<cfif action is "listUnknowns">
-		<cfoutput>
+			</cfoutput>
+		</cfif>
+		<cfif action is "pickDirectory">
+			<cfset drillList = "herp,orni,spec">
 			<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records (or <a href="/tools/BulkloadMedia.cfm">start over</a>).</h2>
-			<h3 class="h5">Step 3: List of files without media records in #encodeForHtml(path)#:</h3>
-			<cfif NOT DirectoryExists("#Application.webDirectory#/specimen_images/#path#")>
-				<cfthrow message="Error: Directory not found.">
-			</cfif>
-			<cfquery name="knownMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT 
-					auto_path, auto_filename
-				FROM
-					media
-				WHERE
-					auto_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="/specimen_images/#path#/">
-			</cfquery>
-			<p>Number of known media: #knownMedia.recordcount# in shared storage directory #encodeForHtml(path)#</p>
-			<cfset knownFiles = ValueList(knownMedia.auto_filename)>
-			<cfset allFiles = DirectoryList("#Application.webDirectory#/specimen_images/#path#",false,"query","","datelastmodified DESC","file")>
-			<!--- DirectoryList as query returns: Attributes, DateLastModified, Directory, Link, Mode, Name, Size, Type --->
-			<cfset numberUnknown = 0>
-			<cfloop query="allFiles">
-				<cfif NOT ListContains(knownFiles,allFiles.Name)>
-					<cfset localPath = Replace(allFiles.Directory,'#Application.webDirectory#/specimen_images/','')>
-					#localPath#/#allFiles.Name# [#allFiles.size#]<br>
-					<cfset numberUnknown = numberUnknown + 1>
+			<h3 class="h5">Step 2: Pick a directory on the shared storage to check for files without media records:</h3>
+			<cfoutput>
+				<cfif len(REReplace(path,"[.]","")) EQ len(path)>
+					<!--- DirectoryList and java File methods are slow on shared storage with many files, tree in shell is faster --->
+					<cfexecute name="/usr/bin/tree" arguments='-d -f -i --noreport "#Application.webDirectory#/specimen_images/#path#"' variable="subdirectories" timeout="55">
+					<ul>
+						<cfloop list="#subdirectories#" delimiters="#chr(10)#" item="localPath">
+							<cfset localPath = replace(localPath,"#Application.webDirectory#/specimen_images/","")>
+							<li><a href="/tools/BulkloadMedia.cfm?action=listUnknowns&path=#encodeforUrl(localPath)#">#encodeForHtml(localPath)#</a></li>
+						</cfloop>
+					</ul>
+				<cfelse>
+					<cfthrow message="Error: Unknown top level directory">
 				</cfif>
-			</cfloop>
-			<cfif numberUnknown EQ 0>
-				<p>There are media records in MCZbase for all files in this directory.</p>
-			<cfelse> 
-				<p>There are #numberUnknown# files without corresponding MCZbase media records in the shared storage directory #encodeForHtml(path)#.</p>
-				<p><a href="/tools/BulkloadMedia.cfm?action=getFileList&path=#path#">Download</a> a bulkloader sheet for these files.</p>
-			</cfif>
-		</cfoutput>
+			</cfoutput>
+		</cfif>
+		<cfif action is "listUnknowns">
+			<cfoutput>
+				<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records (or <a href="/tools/BulkloadMedia.cfm">start over</a>).</h2>
+				<h3 class="h5">Step 3: List of files without media records in #encodeForHtml(path)#:</h3>
+				<cfif NOT DirectoryExists("#Application.webDirectory#/specimen_images/#path#")>
+					<cfthrow message="Error: Directory not found.">
+				</cfif>
+				<cfquery name="knownMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						auto_path, auto_filename
+					FROM
+						media
+					WHERE
+						auto_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="/specimen_images/#path#/">
+				</cfquery>
+				<p>Number of known media: #knownMedia.recordcount# in shared storage directory #encodeForHtml(path)#</p>
+				<cfset knownFiles = ValueList(knownMedia.auto_filename)>
+				<cfset allFiles = DirectoryList("#Application.webDirectory#/specimen_images/#path#",false,"query","","datelastmodified DESC","file")>
+				<!--- DirectoryList as query returns: Attributes, DateLastModified, Directory, Link, Mode, Name, Size, Type --->
+				<cfset numberUnknown = 0>
+				<cfloop query="allFiles">
+					<cfif NOT ListContains(knownFiles,allFiles.Name)>
+						<cfset localPath = Replace(allFiles.Directory,'#Application.webDirectory#/specimen_images/','')>
+						#localPath#/#allFiles.Name# [#allFiles.size#]<br>
+						<cfset numberUnknown = numberUnknown + 1>
+					</cfif>
+				</cfloop>
+				<cfif numberUnknown EQ 0>
+					<p>There are media records in MCZbase for all files in this directory.</p>
+				<cfelse> 
+					<p>There are #numberUnknown# files without corresponding MCZbase media records in the shared storage directory #encodeForHtml(path)#.</p>
+					<p><a href="/tools/BulkloadMedia.cfm?action=getFileList&path=#path#">Download</a> a bulkloader sheet for these files.</p>
+				</cfif>
+			</cfoutput>
+		</cfif>
 	</cfif>
 </main>
 <cfinclude template="/shared/_footer.cfm">
