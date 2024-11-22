@@ -1753,11 +1753,11 @@ limitations under the License.
 		<h2 class="h4">List all Media Files in a given Directory where the files have no matching Media records (or <a href="/tools/BulkloadMedia.cfm">start over</a>).</h2>
 		<h3 class="h5">Step 1: Pick a high level directory on the shared storage from which to start:</h3>
 		<cfoutput>
-			<cfset directories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","ASC","dir")>
+			<cfset directories = DirectoryList("#Application.webDirectory#/specimen_images/",false,"query","","Name ASC","dir")>
 			<ul>
 				<cfloop query="directories">
 					<cfif listContains(drillList,"#directories.name#")>
-						<cfset nextDirectories = DirectoryList("#Application.webDirectory#/specimen_images/#directories.name#",false,"query","","ASC","dir")>
+						<cfset nextDirectories = DirectoryList("#Application.webDirectory#/specimen_images/#directories.name#",false,"query","","Name ASC","dir")>
 						<cfloop query="nextDirectories">
 						
 							<li><a href="/tools/BulkloadMedia.cfm?action=pickDirectory&path=#directories.name#%2F#nextDirectories.name#">#directories.name#/#nextDirectories.name#</a></li>
