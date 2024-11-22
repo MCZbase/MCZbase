@@ -89,8 +89,19 @@ limitations under the License.
 			<cfif FindNoCase('image',mimetype) GT 0><cfset media_type="image"></cfif>
 			<cfif FindNoCase('audio',mimetype) GT 0><cfset media_type="audio"></cfif>
 			<cfif FindNoCase('video',mimetype) GT 0><cfset media_type="video"></cfif>
+			<cfset madedate = "">
+			<cftry>
+				<cfif media.mime_type EQ "image/jpeg">
+					<cfset targetFileName = "#Application.webDirectory#/#media.auto_path##media.auto_filename#" >
+					<cfimage source="#targetFileName#" name="image">
+					<cfset madedate = ImageGetEXIFTag(image,'Date/Time') >
+				</cfif>
+			<cfcatch>
+				<!--- just consume any exception --->
+			</cfcatch>
+			</cftry>
 			<cfset csv = csv & '"https://mczbase.mcz.harvard.edu#localPath#/#allFiles.Name#","#mimetype#","#media_type#"'>
-			<cfset fields = ',"","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""'>
+			<cfset fields = ',"","#madedate#","","","","","","","","","","","","","","","","","","","","","","","","","","","",""'>
 			<cfset csv = csv & fields>
 			<cfoutput>#csv##chr(13)##chr(10)#</cfoutput>
 		</cfif>
