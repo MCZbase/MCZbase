@@ -92,7 +92,7 @@ limitations under the License.
 			<cfset madedate = "">
 			<cftry>
 				<cfif mimetype EQ "image/jpeg">
-					<cfset targetFileName = "#allFilesDirectory#/#allFiles.Name#" >
+					<cfset targetFileName = "#allFiles.Directory#/#allFiles.Name#" >
 					<cfimage source="#targetFileName#" name="image">
 					<cfset madedate = ImageGetEXIFTag(image,'Date/Time') >
 				</cfif>
