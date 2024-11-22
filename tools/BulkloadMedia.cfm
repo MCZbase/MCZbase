@@ -85,7 +85,7 @@ limitations under the License.
 		<cfif NOT ListContains(knownFiles,allFiles.Name)>
 			<cfset localPath = Replace(allFiles.Directory,'#Application.webDirectory#','')>
 			<cfset mimetype = FileGetMimeType("#allFiles.Directory#/#allFiles.Name#")>
-			<cfset media_type = ""
+			<cfset media_type = "">
 			<cfif FindNoCase('image',mimetype) GT 0><cfset media_type="image"></cfif>
 			<cfif FindNoCase('audio',mimetype) GT 0><cfset media_type="audio"></cfif>
 			<cfif FindNoCase('video',mimetype) GT 0><cfset media_type="video"></cfif>
