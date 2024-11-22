@@ -91,8 +91,8 @@ limitations under the License.
 			<cfif FindNoCase('video',mimetype) GT 0><cfset media_type="video"></cfif>
 			<cfset madedate = "">
 			<cftry>
-				<cfif media.mime_type EQ "image/jpeg">
-					<cfset targetFileName = "#Application.webDirectory#/#media.auto_path##media.auto_filename#" >
+				<cfif mimetype EQ "image/jpeg">
+					<cfset targetFileName = "#allFilesDirectory#/#allFiles.Name#" >
 					<cfimage source="#targetFileName#" name="image">
 					<cfset madedate = ImageGetEXIFTag(image,'Date/Time') >
 				</cfif>
