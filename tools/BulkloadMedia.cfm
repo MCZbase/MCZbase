@@ -1776,7 +1776,7 @@ limitations under the License.
 		<cfoutput>
 			<cfif len(REReplace(path,"[.]","")) EQ len(path)>
 				<!--- DirectoryList and java File methods are slow on shared storage with many files, tree in shell is faster --->
-				<cfexecute name="/usr/bin/tree" arguments='-d -f -i "#Application.webDirectory#/specimen_images/#path#"' variable="subdirectories" timeout="55">
+				<cfexecute name="/usr/bin/tree" arguments='-d -f -i --noreport "#Application.webDirectory#/specimen_images/#path#"' variable="subdirectories" timeout="55">
 				<ul>
 					<cfloop list="#subdirectories#" delimiters="#chr(10)#" item="localPath">
 						<cfset localPath = replace(localPath,"#Application.webDirectory#/specimen_images/","")>
