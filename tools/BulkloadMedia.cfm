@@ -103,6 +103,7 @@ limitations under the License.
 				<!--- just consume any exception --->
 			</cfcatch>
 			</cftry>
+			<cfif NOT isDefined("madedate")><cfset madedate = ""></cfif>  
 			<cfset csv = csv & '"https://mczbase.mcz.harvard.edu#localPath#/#allFiles.Name#","#mimetype#","#media_type#","","#madedate#"'>
 			<cfset fields = ',"","","","","","","","","","","","","","","","","","","","","","","","","","","",""'>
 			<cfset csv = csv & fields>
