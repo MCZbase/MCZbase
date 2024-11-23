@@ -1283,7 +1283,7 @@ limitations under the License.
 								<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT created_by_agent_id FROM cf_temp_media
 									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-										AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"
+										AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
 								</cfquery>
 							</cfif>
 							<cfset hasHeightProvided = false>
