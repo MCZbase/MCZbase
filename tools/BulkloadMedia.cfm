@@ -1272,8 +1272,8 @@ limitations under the License.
 						</cfif>
 						<cfset successfullInserts = "">
 						<cfloop query="getTempData">
-							<!--- created_by_agent_id should have been filled in above, failover in case it wasn't --->
-							<cfif len(getTempData.created_by_agent_id) EQ 0)>
+							<!--- created_by_agent_id should have been filled in above, failover in case it was not --->
+							<cfif len(getTempData.created_by_agent_id) EQ 0>
 								<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT agent_id FROM agent_name
 									WHERE agent_name_type = 'login'
