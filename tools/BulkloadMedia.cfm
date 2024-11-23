@@ -1275,13 +1275,15 @@ limitations under the License.
 							<!--- created_by_agent_id should have been filled in above, failover in case it was not --->
 							<cfif len(getTempData.created_by_agent_id) EQ 0>
 								<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT agent_id FROM agent_name
+									SELECT agent_id 
+									FROM agent_name
 									WHERE agent_name_type = 'login'
 									AND agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								</cfquery>
 							<cfelse>
 								<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT created_by_agent_id FROM cf_temp_media
+									SELECT created_by_agent_id as agent_id
+									FROM cf_temp_media
 									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 										AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
 								</cfquery>
