@@ -1258,12 +1258,6 @@ limitations under the License.
 							SELECT * FROM cf_temp_media
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-						<!--- TODO: Redundant with cf_temp_media.created_by_agent_id --->
-						<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT agent_id FROM agent_name
-							WHERE agent_name_type = 'login'
-							AND agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						</cfquery>
 						<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								count(distinct media_uri) ctobj 
@@ -1278,6 +1272,20 @@ limitations under the License.
 						</cfif>
 						<cfset successfullInserts = "">
 						<cfloop query="getTempData">
+							<!--- created_by_agent_id should have been filled in above, failover in case it wasn't --->
+							<cfif len(getTempData.created_by_agent_id) EQ 0)>
+								<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT agent_id FROM agent_name
+									WHERE agent_name_type = 'login'
+									AND agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								</cfquery>
+							<cfelse>
+								<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT created_by_agent_id FROM cf_temp_media
+									WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#"
+								</cfquery>
+							</cfif>
 							<cfset hasHeightProvided = false>
 							<cfquery name="checkForHeight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT count(*) ct
