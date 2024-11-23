@@ -615,9 +615,10 @@ include this function and use it.
 				<cfquery name="agents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select distinct agent_name.agent_name, media_relations.created_by_agent_id, agent.agent_id
 					from media_relations
-						left join agent on media_relations.created_by_agent_id = agent.agent_id
+						left join agent on media_relations.related_primary_key = agent.agent_id
 						left join agent_name on agent_name.agent_id = agent.agent_id
 						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and media_relations.media_relationship = 'created by agent'
 						and agent_name.agent_name_type = 'preferred'
 					order by agent_name.agent_name
 				</cfquery>
@@ -629,7 +630,7 @@ include this function and use it.
 						left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and mczbase.ctmedia_relationship.media_relationship = 'shows agent'
-					and media_relations.media_relationship <> 'created by agent'
+						and media_relations.media_relationship <> 'created by agent'
 						and agent_name_type = 'preferred'
 					order by agent_name.agent_name
 				</cfquery>
