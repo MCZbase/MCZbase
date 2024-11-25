@@ -733,7 +733,6 @@ limitations under the License.
 							(select attribute_type from ctspecpart_attribute_type) 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<!--- TODO: Assess, ctspec_part_att_att contains unit_code_table/value_code_table on production, ctspecpart_attribute_type has unit_code_tables/value_code_tables added in test database, this also affects function chk_specpart_att_codetables --->
 				<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_edit_parts 
 					SET status = concat(nvl2(status,status ||  '; ', ''), 'PART_ATT_UNITS_#i# is not valid for attribute "'||PART_ATT_NAME_#i#||'"')
