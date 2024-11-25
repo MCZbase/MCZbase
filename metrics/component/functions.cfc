@@ -82,11 +82,11 @@ limitations under the License.
 			<!--- get correct schema for annual report or date range--->
 			<cfif annualReport EQ 'yes'>
 				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-					select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#0701"> 
+					select username from dba_users where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#07%"> 
 				</cfquery>
 				<cfset endschema = getendSchema.username> 
 				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-					select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#0701">
+					select username from dba_users where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#07%">
 				</cfquery>
 				<cfset beginschema = getbeginSchema.username>
 			<cfelse>
@@ -230,11 +230,11 @@ limitations under the License.
 		<cftry>
 			<cfif annualReport EQ 'yes'>
 				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-						select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#0701">
+						select username from dba_users where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#07%">
 				</cfquery>
 				<cfset endschema = getendSchema.username>
 				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-						select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#0701">
+						select username from dba_users where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#07%">
 				</cfquery>
 				<cfset beginschema = getbeginSchema.username>
 			<cfelse>
@@ -635,11 +635,11 @@ limitations under the License.
 		<cftry>
 			<cfif annualReport EQ 'yes'>
 				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-						select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#0701">
+						select username from dba_users where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#07%">
 				</cfquery>
 				<cfset endschema = getendSchema.username>
 				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-						select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#0701">
+						select username from dba_users where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#07%">
 				</cfquery>
 				<cfset beginschema = getbeginSchema.username>
 			<cfelse>
@@ -829,11 +829,11 @@ limitations under the License.
 		<cftry>
 			 <cfif annualReport EQ 'yes'>
 				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-						select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#0701">
+						select username from dba_users where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#07%">
 				</cfquery>
 				<cfset endschema = getendSchema.username>
 				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-						select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#0701">
+						select username from dba_users where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#07%">
 				</cfquery>
 				<cfset beginschema = getbeginSchema.username>
 			<cfelse>
@@ -949,11 +949,11 @@ limitations under the License.
 		<cftry>
 			<cfif annualReport EQ 'yes'>
 					<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-							select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#0701">
+							select username from dba_users where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#07%">
 					</cfquery>
 					<cfset endschema = getendSchema.username>
 					<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
-							select username from dba_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#0701">
+							select username from dba_users where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#07%">
 					</cfquery>
 					<cfset beginschema = getbeginSchema.username>
 			<cfelse>
@@ -993,7 +993,7 @@ limitations under the License.
 				<cfif annualReport EQ "yes">
 				LEFT JOIN
 					(select f.collection_id, f.collection, count(distinct f.collection_object_id) Num_GeoRef_Cat_Items, sum(total_parts) Num_GeoRef_Specimens, count(distinct locality_id) Num_GeoRef_Localities
-					from #beginschema#.flat f, #endSchema#.coll_object co
+					from #beginschema#.flat f, #beginSchema#.coll_object co
 					where dec_lat is not null and dec_long is not null
 					and f.collection_object_id = co.collection_object_id
 					group by f.collection_id, f.collection) prevgl on c.collection_id = prevgl.collection_id
@@ -1111,13 +1111,13 @@ limitations under the License.
 				<cfquery name="getendSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 					select username 
 					from dba_users 
-					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#0701">
+					where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(endDate,4)#07%">
 				</cfquery>
 				<cfset endschema = getendSchema.username>
 				<cfquery name="getbeginSchema" datasource="uam_god" cachedwithin="#createtimespan(7,0,0,0)#">
 					select username 
 					from dba_users 
-					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#0701">
+					where username like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ARCHIVE_#left(beginDate,4)#07%">
 				</cfquery>
 					<cfset beginschema = getbeginSchema.username>
 			<cfelse>
