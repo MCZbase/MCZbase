@@ -33,6 +33,7 @@ limitations under the License.
 </cfif>
 
 <cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,CONTAINER_UNIQUE_ID,PART_NAME,PRESERVE_METHOD,LOT_COUNT_MODIFIER,LOT_COUNT,CONDITION,COLL_OBJ_DISPOSITION,CURRENT_REMARKS,PART_ATT_NAME_1,PART_ATT_VAL_1,PART_ATT_UNITS_1,PART_ATT_DETBY_1,PART_ATT_MADEDATE_1,PART_ATT_REM_1,PART_ATT_NAME_2,PART_ATT_VAL_2,PART_ATT_UNITS_2,PART_ATT_DETBY_2,PART_ATT_MADEDATE_2,PART_ATT_REM_2,PART_ATT_NAME_3,PART_ATT_VAL_3,PART_ATT_UNITS_3,PART_ATT_DETBY_3,PART_ATT_MADEDATE_3,PART_ATT_REM_3,PART_ATT_NAME_4,PART_ATT_VAL_4,PART_ATT_UNITS_4,PART_ATT_DETBY_4,PART_ATT_MADEDATE_4,PART_ATT_REM_4,PART_ATT_NAME_5,PART_ATT_VAL_5,PART_ATT_UNITS_5,PART_ATT_DETBY_5,PART_ATT_MADEDATE_5,PART_ATT_REM_5,PART_ATT_NAME_6,PART_ATT_VAL_6,PART_ATT_UNITS_6,PART_ATT_DETBY_6,PART_ATT_MADEDATE_6,PART_ATT_REM_6">
+<cfset NUM_PART_ATTRIBUTE_PAIRS = 6>
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,LOT_COUNT,CONDITION,COLL_OBJ_DISPOSITION">
 
@@ -458,6 +459,33 @@ limitations under the License.
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<!--- Loop through part attribute key:value pairs  --->
+			<cfloop index="i" from="1" to="#NUM_PART_ATTRIBUTE_PAIRS#">
+				<cfquery name="chkPAttType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_parts 
+					SET status = concat(nvl2(status, status || '; ', ''),'Invalid part attribute ['||PART_ATT_NAME_#i#||']')
+					WHERE 
+						PART_ATT_NAME_#i# not in (select attribute_type from CTSPECPART_ATTRIBUTE_TYPE) 
+						AND PART_ATT_NAME_#i# is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>	
+				<cfquery name="chkPAttPair" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_parts 
+					SET status = concat(nvl2(status, status || '; ', ''),'"'||PART_ATT_VAL_#i#||'" is required when '||PART_ATT_NAME_#i#||' has a value')
+					WHERE 
+						PART_ATT_NAME_#i# IS NOT NULL 
+						AND PART_ATT_VAL_#i# IS NULL
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="chkPAttPair1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_parts 
+					SET status = concat(nvl2(status, status || '; ', ''),'"'||PART_ATT_NAME_#i#||'" is required when '||PART_ATT_VAL_#i#||' has a value')
+					WHERE 
+						PART_ATT_NAME_#i# IS NULL 
+						AND PART_ATT_VAL_#i# IS NOT NULL
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfloop>
 
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -484,22 +512,7 @@ limitations under the License.
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 
-					<cfloop index="i" from="1" to="6">
-						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							update cf_temp_parts set 
-							status = concat(nvl2(status, status || '; ', ''),'Invalid part attribute <span class="font-weight-bold">"'||PART_ATT_NAME_#i#||'"</span>')
-							where PART_ATT_NAME_#i# not in (select attribute_type from CTSPECPART_ATTRIBUTE_TYPE) 
-							and PART_ATT_NAME_#i# is not null
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-						</cfquery>	
-						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							update cf_temp_parts set 
-							status = concat(nvl2(status, status || '; ', ''),'"'||PART_ATT_VAL_#i#||'" is required when <span class="font-weight-bold">"'||PART_ATT_NAME_#i#||'"</span>')
-							where PART_ATT_NAME_#i# is not null and PART_ATT_VAL_#i# is null
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-						</cfquery>
+					<cfloop index="i" from="1" to="#NUM_PART_ATTRIBUTE_PAIRS#">
 						<!--- TODO: Query is broken --->	
 						<cfquery name="chkPAttCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT cf_temp_parts.part_att_name_#i#,cf_temp_parts.part_att_val_#i#,
