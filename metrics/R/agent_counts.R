@@ -1,5 +1,6 @@
 # Load necessary libraries
 library(dplyr)
+library(readxl)
 library(tidyr)
 library(ggplot2)
 library(scales)
@@ -18,8 +19,8 @@ agents_data <- agents_data %>%
 agents_long <- agents_data %>%
   pivot_longer(cols = -c(AgentInfo), names_to = "Role", values_to = "Count")
 
-role_order <- c(agents_long$Role[0:18])
-role_numbers <- setNames(0:length(role_order), role_order)
+role_order <- c(agents_long$Role[1:18])
+role_numbers <- setNames(1:length(role_order), role_order)
 
 
 # Create the RoleLabel by combining RoleNumber and Role
@@ -61,6 +62,3 @@ ggplot(agents_long, aes(x = AgentInfo, y = AdjustedCount, fill = Role)) +
   labs(title = "Counts by Role and Agent", x = "Agent Info", y = "Count", fill = "Role Legend") +
   theme(axis.text.x = element_text(angle =50, hjust = 1)) +
   theme(legend.position = "right")
-
-
-
