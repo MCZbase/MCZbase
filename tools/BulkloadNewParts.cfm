@@ -17,12 +17,12 @@ limitations under the License.
 
 --->
 <cfif isDefined("action") AND action is "dumpProblems">
+	<!--- TODO: Most of the fields are missing from this query, need to add to round trip data --->
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT use_existing,institution_acronym,collection_cde,other_id_type,other_id_number,
+		SELECT status,institution_acronym,collection_cde,other_id_type,other_id_number,
 			part_name,preserve_method,lot_count_modifier,lot_count,condition,coll_obj_disposition
 		FROM cf_temp_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			and use_existing=0
 		ORDER BY key
 	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc"><!---need to add to functions.cfc page--->
