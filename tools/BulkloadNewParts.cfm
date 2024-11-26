@@ -584,70 +584,69 @@ limitations under the License.
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
 				</cfloop>
-					<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_parts 
-						SET status = (
-							SELECT decode(parent_container_id,0,'','')
-							FROM specimen_part,coll_obj_cont_hist,container, coll_object_remark 
-							WHERE specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND
-								coll_obj_cont_hist.container_id = container.container_id AND
-								coll_object_remark.collection_object_id(+) = specimen_part.collection_object_id AND
-								derived_from_cat_item = cf_temp_parts.collection_object_id AND
-								cf_temp_parts.part_name=specimen_part.part_name AND
-								cf_temp_parts.preserve_method=specimen_part.preserve_method AND
-								nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
-							GROUP BY parent_container_id
-						) 
-						where status = ''
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-					</cfquery>
-					<cfquery name="setParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_parts 
-						SET (parent_container_id) = (
-							select container_id
-							from container 
-							where barcode=container_unique_id
-						)
-						WHERE status = ''
+				<cfquery name="chk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_parts 
+					SET status = (
+						SELECT decode(parent_container_id,0,'','')
+						FROM specimen_part,coll_obj_cont_hist,container, coll_object_remark 
+						WHERE specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND
+							coll_obj_cont_hist.container_id = container.container_id AND
+							coll_object_remark.collection_object_id(+) = specimen_part.collection_object_id AND
+							derived_from_cat_item = cf_temp_parts.collection_object_id AND
+							cf_temp_parts.part_name=specimen_part.part_name AND
+							cf_temp_parts.preserve_method=specimen_part.preserve_method AND
+							nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
+						GROUP BY parent_container_id
+					) 
+					WHERE status = ''
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-					</cfquery>
-					<cfquery name="setPartID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_parts 
-						SET (use_part_id) = (
-							select min(specimen_part.collection_object_id)
-							from specimen_part, coll_object_remark 
-							where
-								specimen_part.collection_object_id = coll_object_remark.collection_object_id(+) AND
-								cf_temp_parts.part_name=specimen_part.part_name and
-								cf_temp_parts.preserve_method=specimen_part.preserve_method and
-								cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item and
-								nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
-						)
-						WHERE 
-							status LIKE '%NOTE: PART EXISTS%' 
-							AND use_existing = 1
-					</cfquery>
-				</cfloop>
-				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT *
-					FROM cf_temp_parts
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and use_existing = 0
-					ORDER BY key
 				</cfquery>
-				<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select count(*) as cnt from cf_temp_parts
-					where status is not null
+				<cfquery name="setParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_parts 
+					SET (parent_container_id) = (
+						select container_id
+						from container 
+						where barcode=container_unique_id
+					)
+					WHERE status = ''
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
-				<h3 class="mt-3">
+				<cfquery name="setPartID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_parts 
+					SET (use_part_id) = (
+						select min(specimen_part.collection_object_id)
+						from specimen_part, coll_object_remark 
+						where
+							specimen_part.collection_object_id = coll_object_remark.collection_object_id(+) AND
+							cf_temp_parts.part_name=specimen_part.part_name and
+							cf_temp_parts.preserve_method=specimen_part.preserve_method and
+							cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item and
+							nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
+					)
+					WHERE 
+						status LIKE '%NOTE: PART EXISTS%' 
+				</cfquery>
+			</cfloop>
+			<!--- Refresh data from cf_temp_parts --->
+			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT *
+				FROM cf_temp_parts
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				ORDER BY key
+			</cfquery>
+			<cfquery name="allValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select count(*) as cnt from cf_temp_parts
+				where status is not null
+			</cfquery>
+			<h3 class="mt-3">
 				<cfif #allValid.cnt# is 0>
 					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="BulkloadNewParts.cfm?action=load" class="font-weight-lessbold btn-link">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadNewParts.cfm" class="text-danger">start again</a>.
 				<cfelse>
 					You must fix everything above to proceed. <a href="/tools/BulkloadNewParts.cfm" class="text-danger font-weight-lessbold">Start again.</a>
 				</cfif>
-				</h3>
+			</h3>
 				<table class='sortable w-100 small px-0 mx-0 table table-responsive table-striped'>
 					<thead class="thead-light small">
 						<tr>
