@@ -485,6 +485,14 @@ limitations under the License.
 						AND PART_ATT_VAL_#i# IS NOT NULL
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<cfquery name="chkPAttDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_parts 
+					SET status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_MADEDATE_#i# "'||PART_ATT_MADEDATE_#i#||'"') 
+					WHERE PART_ATT_NAME_#i# is not null 
+							AND is_iso8601(PART_ATT_MADEDATE_#i#) <> '' 
+							AND length(PART_ATT_MADEDATE_#i#) <> 10
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 			</cfloop>
 
 			<!--- obtain the information needed to QC each row --->
@@ -512,42 +520,39 @@ limitations under the License.
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 
-					<cfloop index="i" from="1" to="#NUM_PART_ATTRIBUTE_PAIRS#">
-						<!--- TODO: Query is broken --->	
-						<cfquery name="chkPAttCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT cf_temp_parts.part_att_name_#i#,cf_temp_parts.part_att_val_#i#,
-								cf_temp_parts.collection_cde,
-								ctspec_part_attribute_type.attribute_type,
+				<cfloop index="i" from="1" to="#NUM_PART_ATTRIBUTE_PAIRS#">
+					<!--- TODO: Query is broken --->	
+					<!--- find the unit and code value tables for attributes --->
+					<cfquery name="findCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+								cf_temp_parts.part_att_name_#i# as partAttName,
+								cf_temp_parts.part_att_val_#i# as partAttVal,
+								cf_temp_parts.collection_cde as partAttCollCde,
+								ctspec_part_att_att.attribute_type,
 								decode(value_code_table, null, unit_code_table,value_code_table) code_table 
-							FROM ct_specpart_att_att, cf_temp_parts 
-							WHERE attribute_type = '||PART_ATT_NAME_#i#||'
-							AND cf_temp_parts.part_att_name_#i# = attribute_type
-							and cf_temp_parts.part_att_val_#i# is not null
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-						</cfquery>
-						<cfset partAttName = '||chkPAttCT.part_att_name_#i#||'>
-						<cfset partAttVal = '||chkPAttCT.part_att_val_#i#||'>
-						<cfset partAttCollCde = #chkPAttCT.collection_cde#>
-						<cfloop query="chkPAttCT">
-							<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'part attribute value <span class="font-weight-bold">#partAttVal#</span> not in codetable')
-								where chk_specpart_att_codetables(partAttName,partAttVal,partAttCollCde)=0
-								and #partAttName# is not null
-								and #partAttVal# = '||#chkPAttCT.attribute_type#||'
+							FROM 
+								cf_temp_parts 
+								join ctspecpart_att_att on cf_temp_parts.part_att_name_#i# = ctspec_part_att_att.attribute_type
+							WHERE
+								cf_temp_parts.part_att_val_#i# is not null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-							</cfquery>
-						</cfloop>
-						<!---TODO: ABOVE. Fix type/value/units relationship check (chk_specpart_att_codetable)--->
+					</cfquery>
+					<cfset partAttCollCde = #chkPAttCT.collection_cde#>
+					<cfloop query="findCodeTables">
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							update cf_temp_parts set 
-							status = concat(nvl2(status, status || '; ', ''),'Invalid PART_ATT_MADEDATE_#i# "'||PART_ATT_MADEDATE_#i#||'"') WHERE PART_ATT_NAME_#i# is not null 
-							AND is_iso8601(PART_ATT_MADEDATE_#i#) <> '' 
-							AND length(PART_ATT_MADEDATE_#i#) <> 10
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+							UPDATE cf_temp_parts 
+							SET status = concat(nvl2(status, status || '; ', ''),'part attribute value [#findCodeTables.partAttVal#] not in codetable')
+							WHERE 
+								chk_specpart_att_codetables('#findCodeTables.partAttName#','#findCodeTables.partAttVal#','#findCodeTables.partAttCollCde#')=0
+								and #findCodeTables.partAttName# IS NOT NULL
+								and #findCodeTables.partAttVal# IS NOT NULL
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 						</cfquery>
+					</cfloop>
+					<!---TODO: ABOVE. Fix type/value/units relationship check (chk_specpart_att_codetable)--->
+
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid scientific name <span class="font-weight-bold">"'||PART_ATT_VAL_#i#||'"</span>') 
 							where PART_ATT_NAME_#i# = 'scientific name'
