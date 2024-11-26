@@ -542,7 +542,7 @@ limitations under the License.
 					<cfloop query="findCodeTables">
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_parts 
-							SET status = concat(nvl2(status, status || '; ', ''),'part attribute value [#findCodeTables.partAttVal#] not in codetable')
+							SET status = concat(nvl2(status, status || '; ', ''),'part attribute value [#findCodeTables.partAttVal#] not in codetable #findCodeTAbles.code_table#')
 							WHERE 
 								chk_specpart_att_codetables('#findCodeTables.partAttName#','#findCodeTables.partAttVal#','#findCodeTables.partAttCollCde#')=0
 								and #findCodeTables.partAttName# IS NOT NULL
@@ -553,14 +553,17 @@ limitations under the License.
 					</cfloop>
 					<!---TODO: ABOVE. Fix type/value/units relationship check (chk_specpart_att_codetable)--->
 
-						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							update cf_temp_parts set status = concat(nvl2(status, status || '; ', ''),'Invalid scientific name <span class="font-weight-bold">"'||PART_ATT_VAL_#i#||'"</span>') 
-							where PART_ATT_NAME_#i# = 'scientific name'
-							AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') in
-							(select scientific_name from taxonomy group by scientific_name having count(*) > 1)
+					<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_parts 
+						SET status = concat(nvl2(status, status || '; ', ''),'Invalid scientific name ['||PART_ATT_VAL_#i#||']') 
+						WHERE 
+							PART_ATT_NAME_#i# = 'scientific name'
+							AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') NOT in
+								(select scientific_name from taxonomy)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-						</cfquery>
+					</cfquery>
+
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							update cf_temp_parts set status = status || 'scientific name (' ||PART_ATT_VAL_#i# ||') does not exist'
 							where PART_ATT_NAME_#i# = 'scientific name'
