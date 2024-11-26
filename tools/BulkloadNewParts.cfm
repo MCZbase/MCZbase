@@ -553,7 +553,7 @@ limitations under the License.
 					</cfloop>
 					<!---TODO: ABOVE. Fix type/value/units relationship check (chk_specpart_att_codetable)--->
 
-					<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="chkSciName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_parts 
 						SET status = concat(nvl2(status, status || '; ', ''),'Invalid scientific name ['||PART_ATT_VAL_#i#||']') 
 						WHERE 
@@ -564,23 +564,6 @@ limitations under the License.
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
 
-						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							update cf_temp_parts set status = status || 'scientific name (' ||PART_ATT_VAL_#i# ||') does not exist'
-							where PART_ATT_NAME_#i# = 'scientific name'
-							AND regexp_replace(PART_ATT_VAL_#i#, ' (\?|sp.)$', '') not in
-							(select scientific_name from taxonomy group by scientific_name having count(*) = 1)
-							AND PART_ATT_VAL_#i# is not null
-							and (status not like '%scientific name ('||PART_ATT_VAL_#i#||') matched multiple taxonomy records%' or status is null)
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-						</cfquery>
-						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							update cf_temp_parts set 
-							status = concat(nvl2(status, status || '; ', ''),'scientific name cannot be null')
-							where PART_ATT_NAME_#i# = 'scientific name' AND PART_ATT_VAL_#i# is null
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-						</cfquery>
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							update cf_temp_parts set 
 							status = concat(nvl2(status, status || '; ', ''),'<span class="font-weight-bold">Invalid part attribute determiner <span class="font-weight-bold">"'||PART_ATT_DETBY_#i#||'"</span>')
