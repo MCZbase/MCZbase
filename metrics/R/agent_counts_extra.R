@@ -91,7 +91,7 @@ custom_palette <- c("attribute_determiner"="#4b0082",
 legend_labels <- unique(agents_long$RoleLabel)
 
 # Main plot for standard range, exclude full stacks that are moved to outliers
-main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill = Role)) +
+main_plot <- ggplot(main_data, aes(x = AgentInfo, y = Count, fill = Role)) +
   geom_bar(stat = "identity", position = "stack") +
   geom_text(aes(label = ifelse(Count > 900, paste0(as.integer(factor(Role)), ""), "")),  # Conditionally show label
             position = position_stack(vjust = 0.5), 
@@ -104,7 +104,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill = Role
   theme(axis.text.x = element_text(angle =50, hjust = 1)) 
 
 # Outliers plot, now includes whole removed stacks
-outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = Role)) +
+outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = Count, fill = Role)) +
   geom_bar(stat = "identity", position = "stack") +
   geom_text(aes(label = ifelse(Count > 2500, paste0(as.integer(factor(Role)), ""), "")),  # Conditionally show label
             position = position_stack(vjust = 0.5), 
