@@ -578,7 +578,7 @@ limitations under the License.
 						WHERE 
 							MCZBASE.CHK_SPECPART_ATT_CODETABLES(PART_ATT_NAME_#i#,PART_ATT_UNITS_#i#,COLLECTION_CDE)=0
 							AND PART_ATT_NAME_#i# in
-								(select attribute_type from ctspecpart_att_att where unit_code_table is not null)
+								(select attribute_type from ctspec_part_att_att where unit_code_table is not null)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
