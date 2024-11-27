@@ -547,7 +547,7 @@ limitations under the License.
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
-					<cfset partAttCollCde = #chkPAttCT.collection_cde#>
+					<cfset partAttCollCde = #fineCodeTables.collection_cde#>
 					<cfloop query="findCodeTables">
 						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_parts 
