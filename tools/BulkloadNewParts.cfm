@@ -541,7 +541,7 @@ limitations under the License.
 								decode(value_code_table, null, unit_code_table,value_code_table) code_table 
 							FROM 
 								cf_temp_parts 
-								join ctspecpart_att_att on cf_temp_parts.part_att_name_#i# = ctspec_part_att_att.attribute_type
+								join ctspec_part_att_att on cf_temp_parts.part_att_name_#i# = ctspec_part_att_att.attribute_type
 							WHERE
 								cf_temp_parts.part_att_val_#i# is not null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
