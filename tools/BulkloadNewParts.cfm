@@ -372,7 +372,7 @@ limitations under the License.
 								and collection_cde = cf_temp_parts.collection_cde
 								and institution_acronym = 'MCZ'
 							),
-							status = null,
+							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
