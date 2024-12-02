@@ -153,13 +153,12 @@ limitations under the License.
 					<cfset DUP_COLUMN_ERR = "<p>One or more columns are duplicated in the header line of the csv file.<p>">
 					<cfset COLUMN_ERR = "Error inserting data ">
 					<cfset NO_HEADER_ERR = "<p>No header line found, csv file appears to be empty.</p>">
-					<cfset TABLE_NAME = "CF_TEMP_PARTS">
+					<cfset TABLE_NAME = "CF_TEMP_PARTS"><!--- " --->
 					<cftry>
 						<!--- cleanup any incomplete work by the same user --->
 						<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 							DELETE FROM cf_temp_parts 
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and use_existing = 0
 						</cfquery>
 						<cfset variables.foundHeaders =""><!--- populated by loadCsvFile --->
 						<cfset variables.size=""><!--- populated by loadCsvFile --->
@@ -374,7 +373,6 @@ limitations under the License.
 								and institution_acronym = 'MCZ'
 							),
 							status = null,
-							use_existing=0
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
@@ -393,7 +391,6 @@ limitations under the License.
 								and institution_acronym = 'MCZ'
 							),
 							status = null,
-							use_existing = 0
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
@@ -520,7 +517,6 @@ limitations under the License.
 					cf_temp_parts
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and use_existing = 0
 			</cfquery>
 			<!---Loop through the temp part data and validate against code tables and requirements--->
 			<cfloop query="getTempTableQC">
@@ -1104,7 +1100,6 @@ limitations under the License.
 						SELECT *
 						FROM cf_temp_parts
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
-							and use_existing = 0
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
 						<h3>
@@ -1262,7 +1257,6 @@ limitations under the License.
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_parts 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and use_existing = 0
 				</cfquery>
 			</cfoutput>
 		</cfif>
