@@ -1251,6 +1251,10 @@ limitations under the License.
 						</table>
 					</cfif>
 					<div>#cfcatch.message#</div>
+					<!--- Always provide global admins with a dump --->
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+						<cfdump var="#cfcatch#">
+					</cfif>
 				</cfcatch>
 				</cftry>
 				</cftransaction>
