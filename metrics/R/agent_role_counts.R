@@ -7,8 +7,9 @@ library(scales)
 library(patchwork)
 
 # Import data from an Excel file - only Colls Ops agents for this demo.
-AgentData <- read_excel("C:/Users/mih744/OneDrive - Harvard University/Desktop/AgentData.xlsx")
-
+## uncomment when testing
+##AgentData <- read_excel("C:/Users/mih744/OneDrive - Harvard University/Desktop/AgentData.xlsx")
+AgentData <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col_types = FALSE)
 # Rename
 agents_data <- AgentData
 
