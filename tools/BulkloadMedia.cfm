@@ -1437,24 +1437,6 @@ limitations under the License.
 									)
 								</cfquery>
 							</cfif>
-							<!---
-							Per discussion, 2024Dec03, do not apply a default created by agent from the current user.
-							<cfif NOT hasCreatedByAgent and len("#getAgent.agent_id#") GT 0 >
-								<cfquery name="makeCreatorRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="makeCreatorRelation_result">
-									INSERT into media_relations (
-										media_id,
-										media_relationship,
-										created_by_agent_id,
-										related_primary_key
-									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="created by agent">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-									)
-								</cfquery>
-							</cfif>
-							---->
 							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
 								INSERT into media_labels (
 									media_id,
