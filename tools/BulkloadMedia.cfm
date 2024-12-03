@@ -1196,22 +1196,10 @@ limitations under the License.
 						<th>MEDIA_RELATED_TO_3</th>
 						<th>MEDIA_RELATIONSHIP_4</th>
 						<th>MEDIA_RELATED_TO_4</th>
-						<th>MEDIA_LABEL_1</th>
-						<th>LABEL_VALUE_1</th>
-						<th>MEDIA_LABEL_2</th>
-						<th>LABEL_VALUE_2</th>
-						<th>MEDIA_LABEL_3</th>
-						<th>LABEL_VALUE_3</th>
-						<th>MEDIA_LABEL_4</th>
-						<th>LABEL_VALUE_4</th>	
-						<th>MEDIA_LABEL_5</th>
-						<th>LABEL_VALUE_5</th>
-						<th>MEDIA_LABEL_6</th>
-						<th>LABEL_VALUE_6</th>
-						<th>MEDIA_LABEL_7</th>
-						<th>LABEL_VALUE_7</th>
-						<th>MEDIA_LABEL_8</th>
-						<th>LABEL_VALUE_8</th>
+						<cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" index="kvpNum">
+							<th>MEDIA_LABEL_#kvpNum#</th>
+							<th>LABEL_VALUE_#kvpNum#</th>
+						</cfloop>
 					</tr>
 				<tbody>
 					<cfloop query="problemData">
@@ -1236,22 +1224,10 @@ limitations under the License.
 							<td>#problemData.MEDIA_RELATED_TO_3#</td>
 							<td>#problemData.MEDIA_RELATIONSHIP_4#</td>
 							<td>#problemData.MEDIA_RELATED_TO_4#</td>
-							<td>#problemData.MEDIA_LABEL_1#</td>
-							<td>#problemData.LABEL_VALUE_1#</td>
-							<td>#problemData.MEDIA_LABEL_2#</td>
-							<td>#problemData.LABEL_VALUE_2#</td>
-							<td>#problemData.MEDIA_LABEL_3#</td>
-							<td>#problemData.LABEL_VALUE_3#</td>
-							<td>#problemData.MEDIA_LABEL_4#</td>
-							<td>#problemData.LABEL_VALUE_4#</td>
-							<td>#problemData.MEDIA_LABEL_5#</td>
-							<td>#problemData.LABEL_VALUE_5#</td>
-							<td>#problemData.MEDIA_LABEL_6#</td>
-							<td>#problemData.LABEL_VALUE_6#</td>
-							<td>#problemData.MEDIA_LABEL_7#</td>
-							<td>#problemData.LABEL_VALUE_7#</td>
-							<td>#problemData.MEDIA_LABEL_8#</td>
-							<td>#problemData.LABEL_VALUE_8#</td>	
+							<cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" index="kvpNum">
+								<td>#evaluate('problemData.MEDIA_LABEL_'&kvpNum)#</td>
+								<td>#evaluate('problemData.LABEL_VALUE_'&kvpNum)#</td>
+							</cfloop>
 						</tr>
 					</cfloop>
 				</tbody>
@@ -1733,22 +1709,10 @@ limitations under the License.
 										<th>MEDIA_RELATED_TO_1</th>
 										<th>MEDIA_RELATIONSHIP_2</th>
 										<th>MEDIA_RELATED_TO_2</th>
-										<th>MEDIA_LABEL_1</th>
-										<th>LABEL_VALUE_1</th>
-										<th>MEDIA_LABEL_2</th>
-										<th>LABEL_VALUE_2</th>
-										<th>MEDIA_LABEL_3</th>
-										<th>LABEL_VALUE_3</th>
-										<th>MEDIA_LABEL_4</th>
-										<th>LABEL_VALUE_4</th>
-										<th>MEDIA_LABEL_5</th>
-										<th>LABEL_VALUE_5</th>
-										<th>MEDIA_LABEL_6</th>
-										<th>LABEL_VALUE_6</th>
-										<th>MEDIA_LABEL_7</th>
-										<th>LABEL_VALUE_7</th>
-										<th>MEDIA_LABEL_8</th>
-										<th>LABEL_VALUE_8</th>
+										<cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" index="kvpNum">
+											<th>MEDIA_LABEL_#kvpNum#</th>
+											<th>LABEL_VALUE_#kvpNum#</th>
+										</cfloop>
 									</tr> 
 								</thead>
 								<tbody>
@@ -1772,22 +1736,10 @@ limitations under the License.
 											<td>#getProblemData.MEDIA_RELATED_TO_1#</td>
 											<td>#getProblemData.MEDIA_RELATIONSHIP_2#</td>
 											<td>#getProblemData.MEDIA_RELATED_TO_2#</td>
-											<td>#getProblemData.MEDIA_LABEL_1#</td>
-											<td>#getProblemData.LABEL_VALUE_1#</td>
-											<td>#getProblemData.MEDIA_LABEL_2#</td>
-											<td>#getProblemData.LABEL_VALUE_2#</td>
-											<td>#getProblemData.MEDIA_LABEL_3#</td>
-											<td>#getProblemData.LABEL_VALUE_3#</td>
-											<td>#getProblemData.MEDIA_LABEL_4#</td>
-											<td>#getProblemData.LABEL_VALUE_4#</td>
-											<td>#getProblemData.MEDIA_LABEL_5#</td>
-											<td>#getProblemData.LABEL_VALUE_5#</td>
-											<td>#getProblemData.MEDIA_LABEL_6#</td>
-											<td>#getProblemData.LABEL_VALUE_6#</td>
-											<td>#getProblemData.MEDIA_LABEL_7#</td>
-											<td>#getProblemData.LABEL_VALUE_7#</td>
-											<td>#getProblemData.MEDIA_LABEL_8#</td>
-											<td>#getProblemData.LABEL_VALUE_8#</td>
+											<cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" index="kvpNum">
+												<td>#evaluate('getProblemData.MEDIA_LABEL_'&kvpNum)#</td>
+												<td>#evaluate('getProblemData.LABEL_VALUE_'&kvpNum)#</td>
+											</cfloop>
 										</tr>
 										<cfset i= i+1>
 									</cfloop>
