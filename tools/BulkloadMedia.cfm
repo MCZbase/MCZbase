@@ -634,7 +634,7 @@ limitations under the License.
 						(
 							( media_relationship_#relNo# IS NULL AND media_related_to_#relNo# IS NOT NULL)
 							OR 
-							( media_relationship_#relNo# IS NOT NULL AND media_related_to_#relNo#  NULL)
+							( media_relationship_#relNo# IS NOT NULL AND media_related_to_#relNo# IS NULL)
 						)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
