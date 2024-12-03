@@ -28,7 +28,7 @@ limitations under the License.
 			part_att_name_3, part_att_val_3, part_att_units_3, part_att_detby_3, part_att_madedate_3, part_att_rem_3,
 			part_att_name_4, part_att_val_4, part_att_units_4, part_att_detby_4, part_att_madedate_4, part_att_rem_4,
 			part_att_name_5, part_att_val_5, part_att_units_5, part_att_detby_5, part_att_madedate_5, part_att_rem_5,
-			part_att_name_6, part_att_val_6, part_att_units_6, part_att_detby_6, part_att_madedate_6, part_att_rem_6,
+			part_att_name_6, part_att_val_6, part_att_units_6, part_att_detby_6, part_att_madedate_6, part_att_rem_6
 		FROM cf_temp_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -398,6 +398,18 @@ limitations under the License.
 				<cfset i= i+1>
 			</cfloop>
 			<!--- QC Checks that can be performed in bulk --->
+			<cfloop list="#requiredfieldlist#" item="field">
+				<cfquery name="requiredFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_parts 
+					SET status = concat(nvl2(status, status || '; ', ''),'Required field #field# is empty')
+					WHERE
+						( 
+							#field# IS NULL
+							OR (trim(#field#) IS NULL)
+						)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfloop>
 			<cfquery name="badPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_parts 
 				SET status = concat(nvl2(status, status || '; ', ''),'Invalid part_name')
@@ -630,8 +642,15 @@ limitations under the License.
 					)
 					WHERE 
 						status LIKE '%NOTE: PART EXISTS%' 
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
+			<cfquery name="markNoPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_parts 
+				SET status = concat(nvl2(status, status || '; ', ''),'Cataloged item not found.') 
+				WHERE collection_object_id IS NULL
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<!--- Refresh data from cf_temp_parts --->
 			<cfquery name="getTempDataToShow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
@@ -640,8 +659,11 @@ limitations under the License.
 				ORDER BY key
 			</cfquery>
 			<cfquery name="countFailures" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select count(*) as cnt from cf_temp_parts
-				where status is not null
+				SELECT count(*) as cnt 
+				from cf_temp_parts
+				WHERE 
+					status IS NOT NULL
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<h3 class="mt-3">
 				<cfif #countFailures.cnt# is 0>
@@ -770,7 +792,10 @@ limitations under the License.
 				<cfset problem_key = "">
 				<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select * from cf_temp_parts where status is null
+					SELECT * 
+					FROM cf_temp_parts 
+					WHERE status IS NULL
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name= "getEntBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
@@ -826,7 +851,7 @@ limitations under the License.
 									#NEXTID.NEXTID#,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PART_NAME#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PRESERVE_METHOD#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">)
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">)
 							</cfquery>
 							<cfif len(#part_remarks#) gt 0>
 									<!---- new remark --->
@@ -1078,7 +1103,9 @@ limitations under the License.
 							<cfset part_updates = part_updates + updateColl_result.recordcount>
 						</cfif>
 						<cfquery name="upLoaded" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							update cf_temp_parts set status = ''
+							UPDATE cf_temp_parts 
+							SET status = ''
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 					</cfloop>
 					<cfif updateColl_result.recordcount eq 1>
