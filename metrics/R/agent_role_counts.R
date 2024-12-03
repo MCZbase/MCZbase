@@ -1,7 +1,7 @@
 # Read in the libraries
 library(readxl)
 library(ggplot2)
-library(tidyverse)
+library(dplyr)
 library(tidyr)
 library(scales)
 library(patchwork)
