@@ -652,8 +652,11 @@ limitations under the License.
 				ORDER BY key
 			</cfquery>
 			<cfquery name="countFailures" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select count(*) as cnt from cf_temp_parts
-				where status is not null
+				SELECT count(*) as cnt 
+				from cf_temp_parts
+				WHERE 
+					status IS NOT NULL
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<h3 class="mt-3">
 				<cfif #countFailures.cnt# is 0>
@@ -782,7 +785,10 @@ limitations under the License.
 				<cfset problem_key = "">
 				<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select * from cf_temp_parts where status is null
+					SELECT * 
+					FROM cf_temp_parts 
+					WHERE status IS NULL
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name= "getEntBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'
@@ -1090,7 +1096,9 @@ limitations under the License.
 							<cfset part_updates = part_updates + updateColl_result.recordcount>
 						</cfif>
 						<cfquery name="upLoaded" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							update cf_temp_parts set status = ''
+							UPDATE cf_temp_parts 
+							SET status = ''
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 					</cfloop>
 					<cfif updateColl_result.recordcount eq 1>
