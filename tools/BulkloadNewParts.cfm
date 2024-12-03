@@ -642,8 +642,15 @@ limitations under the License.
 					)
 					WHERE 
 						status LIKE '%NOTE: PART EXISTS%' 
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
+			<cfquery name="markNoPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_parts 
+				SET status = concat(nvl2(status, status || '; ', ''),'Cataloged item not found. ""') 
+				WHERE collection_object_id IS NULL
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<!--- Refresh data from cf_temp_parts --->
 			<cfquery name="getTempDataToShow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
@@ -844,7 +851,7 @@ limitations under the License.
 									#NEXTID.NEXTID#,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PART_NAME#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PRESERVE_METHOD#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">)
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">)
 							</cfquery>
 							<cfif len(#part_remarks#) gt 0>
 									<!---- new remark --->
