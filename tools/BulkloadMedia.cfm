@@ -602,7 +602,7 @@ limitations under the License.
 				
 			<cfset key = ''>
 
-			<!--- Set a created by agent from the current user, used as metadata in relationships and to add a created by agent relationship if not specified --->
+			<!--- Set a created by agent from the current user, used as metadata in relationships, not as the 'created by agent' relationship --->
 			<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE
 					cf_temp_media
@@ -1437,6 +1437,8 @@ limitations under the License.
 									)
 								</cfquery>
 							</cfif>
+							<!---
+							Per discussion, 2024Dec03, do not apply a default created by agent from the current user.
 							<cfif NOT hasCreatedByAgent and len("#getAgent.agent_id#") GT 0 >
 								<cfquery name="makeCreatorRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="makeCreatorRelation_result">
 									INSERT into media_relations (
@@ -1452,6 +1454,7 @@ limitations under the License.
 									)
 								</cfquery>
 							</cfif>
+							---->
 							<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
 								INSERT into media_labels (
 									media_id,
