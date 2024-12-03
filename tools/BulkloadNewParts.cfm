@@ -398,7 +398,7 @@ limitations under the License.
 				<cfset i= i+1>
 			</cfloop>
 			<!--- QC Checks that can be performed in bulk --->
-			<cfloop list="requiredfieldlist" item="field">
+			<cfloop list="#requiredfieldlist#" item="field">
 				<cfquery name="requiredFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_parts 
 					SET status = concat(nvl2(status, status || '; ', ''),'Required field #field# is empty')
