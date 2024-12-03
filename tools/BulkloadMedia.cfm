@@ -465,9 +465,9 @@ limitations under the License.
 							<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 							<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
 							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
-								insert into cf_temp_media
+								INSERT INTO cf_temp_media
 									(#fieldlist#,username)
-								values (
+								VALUES (
 									<cfset separator = "">
 									<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
 										<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
