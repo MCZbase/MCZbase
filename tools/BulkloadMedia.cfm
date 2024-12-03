@@ -38,6 +38,7 @@ limitations under the License.
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,SUBJECT,MADE_DATE,DESCRIPTION">
 <cfset NUMBER_OF_LABEL_VALUE_PAIRS = 8>
+<cfset NUMBER_OF_RELATIONSHIP_PAIRS = 4>
 		
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
@@ -624,7 +625,21 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
-			
+			<cfloop from="1" to="#NUMBER_OF_RELATIONSHIP_PAIRS#" index="relNo">
+				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_media
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'Both media_relationship_#relNo# and media_related_to_#relNo# must contain values.s')
+					WHERE
+						(
+							( media_relationship_#relNo# IS NULL AND media_related_to_#relNo# IS NOT NULL)
+							OR 
+							( media_relationship_#relNo# IS NOT NULL AND media_related_to_#relNo#  NULL)
+						}
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfloop>
+
 			<!---- Check a set of columns for values of length less than three --->
 			<!--- Define an array of columns to check --->
 			<cfset columns = ["subject", "description", "media_uri","MIME_TYPE","MEDIA_TYPE","PREVIEW_URI","MEDIA_LABEL_1","LABEL_VALUE_1","MEDIA_LABEL_2","LABEL_VALUE_2","KEY","USERNAME","MEDIA_RELATIONSHIP_1","MEDIA_RELATIONSHIP_2","MEDIA_RELATIONSHIP_3","MEDIA_RELATIONSHIP_4"]>
