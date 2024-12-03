@@ -28,7 +28,7 @@ limitations under the License.
 			part_att_name_3, part_att_val_3, part_att_units_3, part_att_detby_3, part_att_madedate_3, part_att_rem_3,
 			part_att_name_4, part_att_val_4, part_att_units_4, part_att_detby_4, part_att_madedate_4, part_att_rem_4,
 			part_att_name_5, part_att_val_5, part_att_units_5, part_att_detby_5, part_att_madedate_5, part_att_rem_5,
-			part_att_name_6, part_att_val_6, part_att_units_6, part_att_detby_6, part_att_madedate_6, part_att_rem_6,
+			part_att_name_6, part_att_val_6, part_att_units_6, part_att_detby_6, part_att_madedate_6, part_att_rem_6
 		FROM cf_temp_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
