@@ -29,7 +29,7 @@ limitations under the License.
 <cfset filePath = "/metrics/datafiles/">
 	
 <cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">	
-	select table_name, column_name, agent_id, count from mczbase.cf_temp_agent_role_summary group by table_name, column_name, agent_id, count
+	select agent_name, agent_id, table_name, column_name, count from mczbase.cf_temp_agent_role_summary group by agent_id, agent_name, table_name, column_name, count
 </cfquery>
 <cfoutput>
 <cfset csv = queryToCSV(getStats)> 
