@@ -1289,7 +1289,7 @@ limitations under the License.
 				MCZBASE.get_permits_for_trans(trans.transaction_id) permits,
 				MCZBASE.count_shipments_for_trans(trans.transaction_id) shipment_count,
 				COUNT_FOREIGNSHIP_FOR_TRANS(trans.transaction_id) as foreign_shipments,
-				MCZBASE.count_catitems_for_accn(trans.transaction_id) item_count,
+				(select count(*) from cataloged_item where cataloged_item.accn_id = trans.transaction_id) as item_count,
 				concattransagent(trans.transaction_id,'entered by') ent_agent,
 				concattransagent(trans.transaction_id,'received from') rec_from_agent,
 				concattransagent(trans.transaction_id,'in-house authorized by') auth_agent,
