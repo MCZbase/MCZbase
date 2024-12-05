@@ -1339,12 +1339,12 @@ limitations under the License.
 					left join permit permit_from_shipment on  permit_shipment.permit_id = permit_from_shipment.permit_id
 				</cfif>
 				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0) or isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 OR (isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0) >
-					left join cataloged_item on accn.transaction_id=cataloged_item.accn_id
+					join cataloged_item on accn.transaction_id=cataloged_item.accn_id
 					left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
 					left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 					<cfif isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0 >
-						left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-						left join locality on collecting_event.locality_id = locality.locality_id
+						join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+						join locality on collecting_event.locality_id = locality.locality_id
 					</cfif>
 				</cfif>
 				<cfif isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0>
@@ -1463,7 +1463,7 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0 >
 					<cfif left(sovereign_nation,1) is "=">
-						AND upper(locality.sovereign_nation) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sovereign_nation,len(sovereign_nation)-1))#">
+						AND locality.sovereign_nation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(sovereign_nation,len(sovereign_nation)-1)#">
 					<cfelseif left(sovereign_nation,1) is "$">
 						AND soundex(locality.sovereign_nation) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sovereign_nation,len(sovereign_nation)-1))#">)
 					<cfelseif left(sovereign_nation,2) is "!$">
