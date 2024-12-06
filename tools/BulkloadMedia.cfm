@@ -1134,68 +1134,132 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							<cfelseif getMediaRel.media_relationship contains 'underscore_collection' and !isNumeric(getMediaRel.MEDIA_RELATED_TO)>
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set MEDIA_RELATED_TO_#i# =
-									(
-										select underscore_collection_id
-										from #theTable#
-										where collection_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.MEDIA_RELATED_TO#">
-									)
-									WHERE MEDIA_RELATED_TO_#i# is not null 
-									AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-									AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+								<cfquery name="lookupCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select underscore_collection_id
+									from #theTable#
+									where collection_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.MEDIA_RELATED_TO#">
 								</cfquery>
+								<cfif lookupCollection.recordcount NEQ 1>
+									<cfquery name="warningFailedProjectMatch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE
+											cf_temp_media
+										SET
+											status = concat(nvl2(status, status || '; ', ''),'failed to find named group for media_related_to_id_#i#  ['|| media_related_to_#i# ||'].')
+										WHERE
+											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+									</cfquery>
+								<cfelse>
+									<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE cf_temp_media 
+										SET MEDIA_RELATED_TO_#i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCollection.underscore_collection_id#"> 
+										WHERE MEDIA_RELATED_TO_#i# is not null 
+											AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+											AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+									</cfquery>
+								</cfif>
 							<cfelseif #getMediaRel.media_relationship# contains 'loan' and !isNumeric(getMediaRel.MEDIA_RELATED_TO)>
-								<!-------------------------------------------------------------------------------->
-								<!---Use transaction_ids in URI but need loan number converted from spreadsheet--->
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set MEDIA_RELATED_TO_#i# =
-									(
-										select #theTable#.transaction_id
-										from #theTable#
-										where loan_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.MEDIA_RELATED_TO#">
-									)
-									WHERE MEDIA_RELATED_TO_#i# is not null AND
-										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
+								<!---lookup transaction_id from loan number if given --->
+								<cfquery name="lookupLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT #theTable#.transaction_id
+									FROM #theTable#
+									WHERE loan_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.MEDIA_RELATED_TO#">
 								</cfquery>
+								<cfif lookupLoan.recordcount NEQ 1>
+									<cfquery name="warningFailedLoanMatch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE
+											cf_temp_media
+										SET
+											status = concat(nvl2(status, status || '; ', ''),'failed to find loan number for media_related_to_id_#i#  ['|| media_related_to_#i# ||'].')
+										WHERE
+											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+									</cfquery>
+								<cfelse>
+									<cfquery name="setLoanTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE cf_temp_media 
+										SET MEDIA_RELATED_TO_#i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupLoan.transaction_id#">
+										WHERE MEDIA_RELATED_TO_#i# is not null AND
+											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
+									</cfquery>
+								</cfif>
 							<cfelseif #getMediaRel.media_relationship# contains 'deaccession' and !isNumeric(getMediaRel.MEDIA_RELATED_TO)>
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set MEDIA_RELATED_TO_#i# =
-									(
-										select #theTable#.transaction_id
-										from #theTable#
-										where deacc_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.MEDIA_RELATED_TO#">
-									)
-									WHERE MEDIA_RELATED_TO_#i# is not null AND
-										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
+								<cfquery name="lookupDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT #theTable#.transaction_id
+									FROM #theTable#
+									WHERE deacc_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.MEDIA_RELATED_TO#">
 								</cfquery>
-							<cfelseif #getMediaRel.media_relationship# contains 'borrow'>
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set MEDIA_RELATED_TO_#i# =
-									(
-										select #theTable#.transaction_id
-										from #theTable#
-										where borrow_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.MEDIA_RELATED_TO#">
-									)
-									WHERE MEDIA_RELATED_TO_#i# is not null AND 
-										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
+								<cfif lookupDeacc.recordcount NEQ 1>
+									<cfquery name="warningFailedProjectMatch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE
+											cf_temp_media
+										SET
+											status = concat(nvl2(status, status || '; ', ''),'failed to find deaccession for media_related_to_id_#i#  ['|| media_related_to_#i# ||'].')
+										WHERE
+											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+									</cfquery>
+								<cfelse>
+									<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE cf_temp_media 
+										SET MEDIA_RELATED_TO_#i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupDeacc.transaction_id#">
+										WHERE MEDIA_RELATED_TO_#i# is not null AND
+											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
+									</cfquery>
+								</cfif>
+							<cfelseif #getMediaRel.media_relationship# contains 'borrow' and !isNumeric(getMediaRel.MEDIA_RELATED_TO)>
+								<cfquery name="lookupBorrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT #theTable#.transaction_id
+									FROM #theTable#
+									WHERE borrow_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.MEDIA_RELATED_TO#">
 								</cfquery>
+								<cfif lookupBorrow.recordcount NEQ 1>
+									<cfquery name="warningFailedProjectMatch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE
+											cf_temp_media
+										SET
+											status = concat(nvl2(status, status || '; ', ''),'failed to find borrow for media_related_to_id_#i#  ['|| media_related_to_#i# ||'].')
+										WHERE
+											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+									</cfquery>
+								<cfelse>
+									<cfquery name="setBorrowID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE cf_temp_media 
+										SET MEDIA_RELATED_TO_#i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupBorrow.transaction_id#">
+										WHERE MEDIA_RELATED_TO_#i# is not null AND 
+											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
+									</cfquery>
+								</cfif>
 							<cfelseif #getMediaRel.media_relationship# contains 'accn'>
-								<!--- transaction_id and accn_number are both integers, thus only use accn_number --->
-								<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update cf_temp_media set MEDIA_RELATED_TO_#i# =
-									(
-										select #theTable#.transaction_id
-										from #theTable#
-										where accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.MEDIA_RELATED_TO#">
-									)
-									WHERE MEDIA_RELATED_TO_#i# is not null AND 
-										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-										key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
+								<!--- transaction_id and accn_number are both integers, thus only use accn_number, and do not check for not numeric --->
+								<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT #theTable#.transaction_id
+									FROM #theTable#
+									WHERE accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.MEDIA_RELATED_TO#">
 								</cfquery>
+								<cfif lookupAccn.recordcount NEQ 1>
+									<cfquery name="warningFailedProjectMatch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE
+											cf_temp_media
+										SET
+											status = concat(nvl2(status, status || '; ', ''),'failed to find accession number for media_related_to_id_#i#  ['|| media_related_to_#i# ||'].')
+										WHERE
+											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+									</cfquery>
+								<cfelse>
+									<cfquery name="settAccnID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE cf_temp_media 
+										SET MEDIA_RELATED_TO_#i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+										WHERE MEDIA_RELATED_TO_#i# is not null AND 
+											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
+									</cfquery>
+								</cfif>
 							</cfif>
 						</cfif>
 					</cfloop>
