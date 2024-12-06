@@ -2843,18 +2843,23 @@ Target JSON:
 			function setColumnOrder(gridId, columnMap) { 
 				columnOrderLoading = 1;
 				$('##' + gridId).jqxGrid('beginupdate');
-				for (var i=0; i<columnMap.length; i++) {
-					var kvp = columnMap[i];
-					var key = kvp[0];
-					var value = kvp[1];
-					if ($('##'+gridId).jqxGrid("getColumnIndex",key) != value) { 
-						if (key && value) {
-							try {
-								console.log(key + " set to column " + value);
-								$('##'+gridId).jqxGrid("setColumnIndex",key,value);
-							} catch (e) {};
+				try { 
+					for (var i=0; i<columnMap.length; i++) {
+						var kvp = columnMap[i];
+						var key = kvp[0];
+						var value = kvp[1];
+						if ($('##'+gridId).jqxGrid("getColumnIndex",key) != value) { 
+							if (key && value) {
+								try {
+									console.log(key + " set to column " + value);
+									$('##'+gridId).jqxGrid("setColumnIndex",key,value);
+								} catch (e) {};
+							}
 						}
 					}
+				} catch (error) { 
+					console.error("Failed to set column order");
+					console.error(error);
 				}
 				$('##' + gridId).jqxGrid('endupdate');
 				columnOrderLoading = 0;
