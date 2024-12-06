@@ -168,12 +168,16 @@ limitations under the License.
 					<div id="flush-collapseTwo" class="accordion-collapse collapse mb-3" aria-labelledby="flush-headingTwo" data-parent="##accordionFlushExample">
 					  	<div class="accordion-body">			
 						  	<dl class="pt-2">
-								<dt class="float-left px-2">Step 1:</dt><dd>Fill out a spreadsheet with the appropriate column headers (see below). Make sure that the required fields are not skipped. </dd>
-								<dt class="float-left px-2">Step 2:</dt><dd>Ensure MEDIA_URI and PREVIEW_URI fields contain media that exists on the shared drive or external URL. A preview_URI will be created from the media_URI if one is not provided. This gives you the opportunity to pick a representative image (or part of the larger image) that is clearly visible.</dd>
-								<dt class="float-left px-2">Step 3:</dt><dd>Check to see that records exist for the relationships fields (e.g., cataloged_item, agent, collecting_event).</dd>
-								<dt class="float-left px-2">Step 4:</dt><dd>Upload a comma-delimited text file (csv). It is best to work in a workbook and then save as a CSV file so that formatting choices are retained. You can go back to the workbook to make the changes and save it again to a CSV with another filename if changes are needed.</dd>
-								<dt class="float-left px-2">Step 5:</dt><dd>Validation. Check the table of data. </dd>
-								<dt class="float-left px-2">Step 6:</dt><dd>Load the data. </dd>
+								<dt class="float-left px-2">Preparation</dt><dd>Prepare a spreadsheet for bulkload.</dd>
+									<ul>
+										<li>Create a spreadsheet with the appropriate column headers (you can use the <a href="/tools/BulkloadMedia.cfm?action=getCSVHeader">template</a>). Make sure that the required fields are included. </li>
+										<li>Ensure MEDIA_URI and PREVIEW_URI fields contain media that exists on the shared drive or external URL. A preview_URI will be created from the media_URI if one is not provided. This gives you the opportunity to pick a representative image (or part of the larger image) that is clearly visible.</li>
+										<li>For media on the shared storage, you may <a href="/tools/BulkloadMedia.cfm?action=pickTopDirectory">create a bulkloader sheet</a> from files that have no media record.</li>
+										<li>Check to see that records exist for the relationships fields (e.g., cataloged_item, agent, collecting_event).</li>
+									</ul>
+								<dt class="float-left px-2">Step 1:</dt><dd>Upload a comma-delimited text file (csv). It is best to work in a spreadsheet application and then save a sheet as a CSV file (using save options to make sure that formatting choices are retained). You can go back to the spreadsheet to make the changes and save it again to a CSV with another filename if changes are needed.</dd>
+								<dt class="float-left px-2">Step 2:</dt><dd>Validation. Check the table of data. If there are validation problems, you may download the data as a spreadsheet including the validation messages.</dd>
+								<dt class="float-left px-2">Step 3</dt><dd>Load the data. </dd>
 							</dl>
 						</div>
 					</div>
