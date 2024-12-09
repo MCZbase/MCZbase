@@ -999,11 +999,9 @@ limitations under the License.
 							lot_count,
 							part_remarks
 						ORDER BY 
-						<cfif distinctParts.PART_NAME eq 'histological serial section'>	
+						
 							<cfoutput><cfloop array="#sortedSlides#" index="i">#i.name#</cfloop></cfoutput>
-						<cfelse>part_name, part_id
-						</cfif>
-					</cfquery>
+											</cfquery>
 					
 					
 
