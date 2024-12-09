@@ -952,6 +952,10 @@ limitations under the License.
 						where
 							specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					</cfquery>
+								
+					<cfset sortedSlides = ArrayNew(1)>
+
+
 					<!---- obtain the distinct parts from the getParts query (collapsing duplicated rows from attributes) --->
 					<cfquery name="distinctParts" dbtype="query">
 						select
@@ -975,9 +979,22 @@ limitations under the License.
 							lot_count,
 							part_remarks
 						ORDER BY 
-							part_remarks
-					<!---	<cfif part_name eq 'histological serial section'>part_remarks<cfelse>part_name, part_id</cfif>--->
+						part_name, part_id
 					</cfquery>
+					<!--- Convert the query to an array for sorting --->
+					<cfloop query="distinctParts">
+						<cfset slide = {
+							name: distinctParts.part_remarks,
+							number: Val(Replace(distinctParts.part_remarks, "slide ", ""))
+						}>
+						<cfset ArrayAppend(sortedSlides, slide)>
+					</cfloop>
+
+					<!--- Sort the array based on the number key --->
+					<cfset ArraySort(sortedSlides, function(a, b) {
+						return (a.number - b.number);
+					})>
+		
 					<table class="table px-1 table-responsive-md w-100 tablesection my-1">
 						<thead class="thead-light">
 							<tr>
