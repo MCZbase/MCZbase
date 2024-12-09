@@ -962,8 +962,7 @@ limitations under the License.
 							part_disposition,
 							part_condition,
 							lot_count,
-							part_remarks,
-							CAST(SUBSTRING(part_remarks, 7) AS INT) AS part_remarks
+							part_remarks
 						from
 							getParts
 						group by
