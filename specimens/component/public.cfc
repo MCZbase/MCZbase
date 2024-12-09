@@ -962,7 +962,7 @@ limitations under the License.
 							part_disposition,
 							part_condition,
 							lot_count,
-							part_remarks
+							CAST(SUBSTRING(part_remarks, 7) AS INT) AS part_remarks
 						from
 							getParts
 						group by
@@ -975,12 +975,7 @@ limitations under the License.
 							lot_count,
 							part_remarks
 						ORDER BY 
-						CASE
-							WHEN PATINDEX('%[0-9]%', part_remarks) > 0 THEN
-								CAST(SUBSTRING(part_remarks, PATINDEX('%[0-9]%', part_remarks), LEN(part_remarks)) AS INT)
-							ELSE
-								0
-						END
+							part_remarks
 					<!---	<cfif part_name eq 'histological serial section'>part_remarks<cfelse>part_name, part_id</cfif>--->
 					</cfquery>
 					<table class="table px-1 table-responsive-md w-100 tablesection my-1">
