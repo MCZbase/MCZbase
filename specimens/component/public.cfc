@@ -999,10 +999,7 @@ limitations under the License.
 							lot_count,
 							part_remarks
 						ORDER BY 
-						
-							<cfoutput><cfloop array="#sortedSlides#" index="i">#i.name#</cfloop></cfoutput>
-											</cfquery>
-					
+						#i.name#
 					
 
 					<!--- Convert the query to an array for sorting --->
