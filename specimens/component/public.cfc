@@ -975,11 +975,6 @@ limitations under the License.
 					<cfset ArraySort(sortedSlides, function(a, b) {
 						return (a.number - b.number);
 					})>
-					<cfoutput>
-					
-							#i.name# <br>
-					
-					</cfoutput>
 					<!---- obtain the distinct parts from the getParts query (collapsing duplicated rows from attributes) --->
 					<cfquery name="distinctParts" dbtype="query">
 						select
