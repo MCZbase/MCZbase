@@ -963,6 +963,7 @@ limitations under the License.
 						ORDER BY 
 							part_remarks
 					</cfquery>
+					<cfset sortedSlides = ArrayNew(1)>
 					<cfloop query="unsortedSlides">
 						<cfset slide = {
 							name: unsortedSlides.part_remarks,
@@ -1004,7 +1005,7 @@ limitations under the License.
 						</cfif>
 					</cfquery>
 					
-					<cfset sortedSlides = ArrayNew(1)>
+					
 
 					<!--- Convert the query to an array for sorting --->
 					
