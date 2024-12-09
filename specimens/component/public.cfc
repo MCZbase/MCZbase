@@ -994,8 +994,8 @@ limitations under the License.
 					<!--- Convert the query to an array for sorting --->
 					<cfloop query="unsortedSlides">
 						<cfset slide = {
-							name: unsortedSlides.slide_name,
-							number: Val(Replace(unsortedSlides.slide_name, "slide ", ""))
+							name: unsortedSlides.part_remarks,
+							number: Val(Replace(unsortedSlides.part_remarks, "slide ", ""))
 						}>
 						<cfset ArrayAppend(sortedSlides, slide)>
 					</cfloop>
