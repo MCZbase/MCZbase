@@ -974,7 +974,8 @@ limitations under the License.
 							part_condition,
 							lot_count,
 							part_remarks
-						order by part_remarks
+						order by 
+						 TRY_CAST(SUBSTR(part_remarks, 7) AS INT)
 					<!---	<cfif part_name eq 'histological serial section'>part_remarks<cfelse>part_name, part_id</cfif>--->
 					</cfquery>
 					<table class="table px-1 table-responsive-md w-100 tablesection my-1">
