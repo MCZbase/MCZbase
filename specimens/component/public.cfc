@@ -1000,7 +1000,7 @@ limitations under the License.
 							part_remarks
 						ORDER BY 
 						<!---<cfif distinctParts.PART_NAME eq 'histological serial section'>	--->
-							<cfoutput>#i.name#</cfoutput>
+							<cfoutput>#sortedSlides.number#</cfoutput>
 					<!---	<cfelse>part_name, part_id
 						</cfif>--->
 					</cfquery>
