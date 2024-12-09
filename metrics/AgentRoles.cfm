@@ -34,6 +34,7 @@ limitations under the License.
 	and agent_id <> 9734 
 	and agent_id <> 102573 
 	and agent_id <> 104339 
+	and column_name <> 'PERSON_ID'
 	group by agent_id, agent_name, table_name, column_name, count
 </cfquery>
 <cfoutput>
