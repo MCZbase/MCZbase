@@ -85,34 +85,14 @@ agents_data_sorted <- agents_data_sorted %>%
 
 # The display is below:
 # Define a custom palette corresponding to the roles
-custom_palette <- c( "attribute_determiner"="#4b0082",
-                     "cat_items_entered_by"="#8b0000",
-                     "cat_items_last_edited_by"="#006400",
-                     "citations"="#00008b",
-                     "collected_specimens"="#2e8b57",
-                     "encumbrance"="#2f4f4f",
-                     "georef_created"="#6A5ACD",
-                     "georef_verified"="#DAA520",
-                     "id_determiner"="#483D8B",
-                     "media_created_by"="#4682b4",
-                     "media_labels"="#5F9EA0",
-                     "media_relationships"="#8B008B",
-                     "permits_rights"="#5a5a5a",
-                     "prepared_specimens"="#8B3a3a",
-                     "publication_total"="#a0522d",
-                     "reconciled_loans"="#556B2F",
-                     "shipments"="#FF4500",
-                     "transactions"="#708090"
-                     # ,
-                     # ""="#4b0082",""="#8b0000",""="#106a93",""="#cd4b19",""="#b53b56",""="#00008b",""="#2e8b57",""="#2f4f4f",
-                     # "#6A5ACD","#483D8B","#4daf4a","#DAA520","#ff7f00","#708090","#665433","#a0522d",
-                     # ""="#096d28",""="#a892f5",""="#E69F00",""="#f00000",""="#334445",""="#a8786f",""="#377eb8",""="#00008b",
-                     # ""="#5a5a5a",""="#556B2F",""="#0072B2",""="#5F9EA0",""="#657843",""="#a65628",""="#f781bf",""="#006400",
-                     # ""="#483D8B",""="#f75147",""="#56B4E9",""="#fbefb6",""="#234b34",""="#432666",""="#8B3a3a",""="#ffe444",
-                     # ""="#4682b4",""="#984ea3",""="#8B008B",""="#CC79A7",""="#c59f00",""="#03839c",""="#ff43E9",""="#b51963",
-                     # ""="#5928ed",""="#708090",""="#98dda7",""="#c44601",""="#394df2",""="#d796ed",""="#0073e6",""="#c42e24",
-                     # ""="#e22345",""="#d24678"
-                     )
+custom_palette <- c("#4b0082","#8b0000","#106a93","#cd4b19","#b53b56","#00008b","#2e8b57","#2f4f4f",
+                     "#6A5ACD","#483D8B","#4daf4a","#DAA520","#ff7f00","#708090","#665433","#a0522d",
+                     "#096d28","#a892f5","#E69F00","#f00000","#334445","#a8786f","#377eb8","#00008b",
+                     "#5a5a5a","#556B2F","#0072B2","#5F9EA0","#657843","#a65628","#f781bf","#006400",
+                     "#483D8B","#f75147","#56B4E9","#fbefb6","#234b34","#432666","#8B3a3a","#ffe444",
+                     "#4682b4","#984ea3","#8B008B","#CC79A7","#c59f00","#03839c","#ff43E9","#b51963",
+                     "#5928ed","#708090","#98dda7","#c44601","#394df2","#d796ed","#0073e6","#c42e24",
+                     "#e22345","#d24678")
 
 # Use RoleLabel for legend labels, which should be unique
 legend_labels <- unique(agents_data_sorted$RoleLabel)
@@ -151,7 +131,8 @@ labs(title = "Counts by Role and Agent", x = "Agent Info", y = "COUNT (<= 10,000
 combined_plot <- main_plot + outliers_plot + plot_layout(guides = 'collect', widths = c(11.5,.5)) & 
                 theme(legend.position = 'bottom', legend.box="vertical", legend.key.size = unit(0.3, "cm"),
                      legend.key.width = unit(.23, "cm"),legend.text = element_text(size = 8),
-                     legend.spacing = unit(5, "cm"),guides(fill = guide_legend(ncol = 1)))
+                     legend.spacing = unit(5, "cm"),guides(fill = guide_legend(ncol = 1)),
+      )
 # Display the combined plot
 print(combined_plot)
 
