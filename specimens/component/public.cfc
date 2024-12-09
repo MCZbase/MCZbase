@@ -1004,7 +1004,11 @@ limitations under the License.
 					<cfset ArraySort(sortedSlides, function(a, b) {
 						return (a.number - b.number);
 					})>
-					
+					<cfoutput>
+						<cfloop array="#sortedSlides#" index="i">
+							Slide Name: #i.name# (Slide Number: #i.number#)<br>
+						</cfloop>
+					</cfoutput>
 					<table class="table px-1 table-responsive-md w-100 tablesection my-1">
 						<thead class="thead-light">
 							<tr>
