@@ -79,20 +79,20 @@ agents_data_sorted <- agents_data_sorted %>%
   mutate(
     RoleNumber = as.integer(factor(Role, levels = unique(Role))),
     RoleLabel = paste0(RoleNumber, ". ", Role),
-  #  AdjustedCount = ifelse(COUNT <= 0, 0.1, ifelse(COUNT >1, COUNT+1, COUNT)), 
+    #  AdjustedCount = ifelse(COUNT <= 0, 0.1, ifelse(COUNT >1, COUNT+1, COUNT)), 
     Role = factor(Role, levels = unique(Role))  # Automatically set factor levels
   )
 
 # The display is below:
 # Define a custom palette corresponding to the roles
 custom_palette <- c("#4b0082","#8b0000","#106a93","#cd4b19","#b53b56","#00008b","#2e8b57","#2f4f4f",
-                     "#6A5ACD","#483D8B","#4daf4a","#DAA520","#ff7f00","#708090","#665433","#a0522d",
-                     "#096d28","#a892f5","#E69F00","#f00000","#334445","#a8786f","#377eb8","#00008b",
-                     "#5a5a5a","#556B2F","#0072B2","#5F9EA0","#657843","#a65628","#f781bf","#006400",
-                     "#483D8B","#f75147","#56B4E9","#fbefb6","#234b34","#432666","#8B3a3a","#ffe444",
-                     "#4682b4","#984ea3","#8B008B","#CC79A7","#c59f00","#03839c","#ff43E9","#b51963",
-                     "#5928ed","#708090","#98dda7","#c44601","#394df2","#d796ed","#0073e6","#c42e24",
-                     "#e22345","#d24678")
+                    "#6A5ACD","#483D8B","#4daf4a","#DAA520","#ff7f00","#708090","#665433","#a0522d",
+                    "#096d28","#a892f5","#E69F00","#f00000","#334445","#a8786f","#377eb8","#00008b",
+                    "#5a5a5a","#556B2F","#0072B2","#5F9EA0","#657843","#a65628","#f781bf","#006400",
+                    "#483D8B","#f75147","#56B4E9","#fbefb6","#234b34","#432666","#8B3a3a","#ffe444",
+                    "#4682b4","#984ea3","#8B008B","#CC79A7","#c59f00","#03839c","#ff43E9","#b51963",
+                    "#5928ed","#708090","#98dda7","#c44601","#394df2","#d796ed","#0073e6","#c42e24",
+                    "#e22345","#d24678")
 
 # Use RoleLabel for legend labels, which should be unique
 legend_labels <- unique(agents_data_sorted$RoleLabel)
@@ -110,7 +110,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = COUNT, fill = Role)) +
   theme(
     legend.position = "none"
   )
- 
+
 
 # Outliers plot, now includes whole removed stacks
 outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = COUNT, fill = Role)) +
@@ -121,18 +121,18 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = COUNT, fill = Role)) +
   scale_fill_manual(values = custom_palette, labels = unique(agents_data_sorted$RoleLabel)) +
   scale_y_continuous(labels = scales::comma) +
   theme_minimal() +
-#  labs(title = "Outlier Counts", x = NULL, y = "COUNT (> 10000)", fill = NULL) +
+  #  labs(title = "Outlier Counts", x = NULL, y = "COUNT (> 10000)", fill = NULL) +
   theme(axis.text.x = element_text(size=8,angle =50, hjust = 1))
 #+ theme(legend.position = "none")  # Suppress legend in this plot
 
 # Combine the plots using patchwork, place outliers to the left and merge legends
 combined_plot <- main_plot + outliers_plot +
-labs(title = "Counts by Role and Agent", x = "Agent Info", y = "COUNT (<= 10,000)", fill = "Role Legend") 
+  labs(title = "Counts by Role and Agent", x = "Agent Info", y = "COUNT (<= 10,000)", fill = "Role Legend") 
 combined_plot <- main_plot + outliers_plot + plot_layout(guides = 'collect', widths = c(11.5,.5)) & 
-                theme(legend.position = 'bottom', legend.box="vertical", legend.key.size = unit(0.3, "cm"),
-                     legend.key.width = unit(.23, "cm"),legend.text = element_text(size = 8),
-                     legend.spacing = unit(5, "cm"),guides(fill = guide_legend(ncol = 1)),
-      )
+  theme(legend.position = 'bottom', legend.box="vertical", legend.key.size = unit(0.3, "cm"),
+        legend.key.width = unit(.23, "cm"),legend.text = element_text(size = 8),
+        legend.spacing = unit(5, "cm"),guides(fill = guide_legend(ncol = 1)),
+  )
 # Display the combined plot
 print(combined_plot)
 
@@ -140,5 +140,3 @@ print(combined_plot)
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
 ggsave('/var/www/html/arctos/metrics/R/agent_role_chart.png', combined_plot, width=1, height=11, units="in", dpi=96)
-
-
