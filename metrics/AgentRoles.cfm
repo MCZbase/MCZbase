@@ -25,7 +25,7 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template = "/shared/component/functions.cfc">
 
-<cfset targetFile = "agent_roles.csv">
+<cfset targetFile = "agent_activity_counts.csv">
 <cfset filePath = "/metrics/datafiles/">
 	
 <cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">	
