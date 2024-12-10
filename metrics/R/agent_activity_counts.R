@@ -3,7 +3,8 @@ library(readr)
 library(ggplot2)
 library(dplyr)
 library(patchwork)
-agents_roles <- read.csv("C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv")
+library(png)
+agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles//agent_activity_counts.csv', show_col_types = FALSE)
 # removes NAs
 agents_data <- agents_roles[complete.cases(agents_roles), ]
 #First replace.
