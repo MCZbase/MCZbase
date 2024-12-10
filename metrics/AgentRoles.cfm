@@ -72,7 +72,7 @@ limitations under the License.
 			</div>
 			<div class="col-12">
 				<!--- chart created by R script --->
-				<img src="/metrics/R/agent_role_chart.png"/>
+				<img src="/metrics/R/Agent_Activity.png"/>
 			</div>
 		</div>
 		<cfif len(#chartOutput#) gt 0>
