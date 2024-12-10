@@ -564,16 +564,18 @@ limitations under the License.
 								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 					</cfquery>
 					<cfloop query="findCodeTables">
-						<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE cf_temp_parts 
-							SET status = concat(nvl2(status, status || '; ', ''),'part attribute value [#findCodeTables.partAttVal#] not in codetable #findCodeTAbles.code_table#')
-							WHERE 
-								chk_specpart_att_codetables('#findCodeTables.partAttName#','#findCodeTables.partAttVal#','#findCodeTables.partAttCollCde#')=0
-								and #findCodeTables.partAttName# IS NOT NULL
-								and #findCodeTables.partAttVal# IS NOT NULL
-								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-						</cfquery>
+						<cfif len('#findCodeTables.partAttName#') GT 0 AND 
+								len('#findCodeTables.partAttVal#') GT 0 AND 
+								len('#findCodeTables.code_table#') EQ 0>
+							<cfquery name="chkPAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								UPDATE cf_temp_parts 
+								SET status = concat(nvl2(status, status || '; ', ''),'part attribute value [#findCodeTables.partAttVal#] not in codetable #findCodeTAbles.code_table#')
+								WHERE 
+									chk_specpart_att_codetables('#findCodeTables.partAttName#','#findCodeTables.partAttVal#','#findCodeTables.partAttCollCde#')=0
+									AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+							</cfquery>
+						</cfif>
 					</cfloop>
 					<!---TODO: ABOVE. Fix type/value/units relationship check (chk_specpart_att_codetable)--->
 
