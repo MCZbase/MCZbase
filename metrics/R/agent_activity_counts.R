@@ -1,7 +1,7 @@
 # Read in the libraries
 library(readr)
 library(ggplot2)
-library(dplyr)
+library(tidyverse)
 library(patchwork)
 library(png)
 agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles//agent_activity_counts.csv', show_col_types = FALSE)
