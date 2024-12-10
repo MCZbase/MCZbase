@@ -49,8 +49,8 @@ threshold <- 100000
 
 # Determine which agents are outliers based on total count
 outliers_agents <- total_counts_filtered %>%
-filter(TotalCount > threshold) %>%
-pull(AgentInfo)
+  filter(TotalCount > threshold) %>%
+  pull(AgentInfo)
 
 ####################make legend
 # ALL BARS ORDER: tallest bars to the left
@@ -88,7 +88,7 @@ custom_palette <- c("#E69F00","#4b0082","#006400","#03839c","#2f4f4f","#394df2",
                     "#657843","#a65628","#006400","#f75147","#c42e24","#56B4E9",
                     "#234b34","#377eb8","#432666","#e22345","#d24678","#0073e6",
                     "#984ea3","#b51963","#5928ed","#00008b","#2e8b57"
-                    )
+)
 
 # Use RoleLabel for legend labels, which should be unique
 legend_labels <- unique(agents_data_sorted$RoleLabel)
@@ -125,12 +125,11 @@ combined_plot <- main_plot + outliers_plot +
   theme(legend.position = 'bottom', legend.box="vertical", legend.key.size = unit(0.3, "cm"),
         legend.key.width = unit(.23, "cm"),legend.text = element_text(size = 8),
         legend.spacing = unit(5, "cm"),guides(fill = guide_legend(ncol = 1)))
-        
+
 # Display the combined plot
 print(combined_plot)
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
 ggsave('/var/www/html/arctos/metrics/R/agent_role_chart.png', combined_plot, width=1, height=11, units="in", dpi=96)
-
 
 
