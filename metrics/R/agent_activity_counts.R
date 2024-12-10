@@ -4,7 +4,7 @@ library(ggplot2)
 library(tidyverse)
 library(patchwork)
 library(png)
-agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles//agent_activity_counts.csv', show_col_types = FALSE)
+agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
 # removes NAs
 agents_data <- agents_roles[complete.cases(agents_roles), ]
 #First replace.
@@ -104,7 +104,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
             position = position_stack(vjust = 0.5),
             size = 2.5, color = "white", fontface = "bold") +
   labs(title = "Counts by Role and Agent", x = "Agent Info",
-       y = "COUNT (<= 150,000)", fill = "Role Legend") +
+       y = "COUNT (<= 100,000)", fill = "Role Legend") +
   scale_color_manual(values = custom_palette) +
   scale_fill_manual(values = c(custom_palette), labels = unique(agents_data_sorted$RoleLabel)) +
   scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) +
@@ -120,7 +120,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
   scale_fill_manual(values = custom_palette, labels = unique(agents_data_sorted$RoleLabel),guide="none") +
   scale_y_continuous(labels = scales::comma) + 
   theme_minimal() +
-  labs(title = "Outlier Counts", x = NULL, y = "COUNT (> 150000)", fill = NULL) +
+  labs(title = "Outlier Counts", x = NULL, y = "COUNT (> 100000)", fill = NULL) +
   theme(axis.text.x = element_text(size=8,angle =50, hjust = 1)) 
 
 # Combine the plots using patchwork, place outliers to the left and merge legends

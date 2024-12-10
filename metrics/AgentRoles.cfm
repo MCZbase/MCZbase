@@ -59,9 +59,9 @@ limitations under the License.
 <cfoutput>
 	<div class="container-fluid">
 		<div class="row mx-0">
-			<h1 class="h3 mt-3">Data Visualization: Agent Role Counts</h1>
+			<h1 class="h3 mt-3">Data Visualization: Agent Activity</h1>
 			<div class="col-12">
-				<p>Data <a href="#filePath##targetFile#">download table</a>. Stacked Barchart with outlier y-axis showing greater than 100,000 total counts (instances of agent activity).</p>
+				<p>Data <a href="#filePath##targetFile#">download table</a>. Stacked barchart with outlier y-axis showing greater than 100,000 total counts (instances of agent activity).</p>
 			</div>
 		</div>
 		<div class="row">
