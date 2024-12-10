@@ -44,7 +44,7 @@ limitations under the License.
 
 <cftry>
 	<cfexecute name = "/usr/bin/Rscript" 
-		arguments = "/#application.webDirectory#/metrics/R/agent_role_counts.R" 
+		arguments = "/#application.webDirectory#/metrics/R/agent_activity_counts.R" 
 		variable = "chartOutput"
 		timeout = "10000"
 		errorVariable = "chartError"> 
