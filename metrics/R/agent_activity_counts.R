@@ -1,16 +1,19 @@
 # Read in the libraries
 library(readr)
 library(ggplot2)
-library(dplyr)
+library(tidyverse)
 library(patchwork)
-agents_roles <- read.csv("C:/Users/mih744/RedesignMCZbase/metrics/datafiles/Agent_roles_last.csv")
+library(png)
+agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
+#agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
 # removes NAs
 agents_data <- agents_roles[complete.cases(agents_roles), ]
 #First replace.
 agents_data$AGENT_ID <- as.numeric(as.character(agents_data$AGENT_ID))
 agents_data$AGENT_ID[is.na(agents_data$AGENT_ID)] <- 0  # Replace NAs with 0 or another appropriate value 
 # Then remove
-agents_data <-  agents_data[agents_data$AGENT_ID != "0",]  
+agents_data <-  agents_data[agents_data$AGENT_ID != "0",]
+
 # Unite AgentID and AgentName to create a unique AgentInfo combination
 agents_data_name <- agents_data %>%
   unite("AgentInfo", AGENT_ID, AGENT_NAME, sep = " - ")
@@ -26,6 +29,8 @@ total_counts <- agents_data_sorted %>%
   group_by(AgentInfo) %>%
   summarize(TotalCount = sum(COUNT)) %>%
   ungroup()
+
+
 ###############code finds outliers
 # any(is.na(agents_data_role$AgentInfo))  # Check for any NA values
 
@@ -33,7 +38,7 @@ total_counts <- total_counts %>%
   mutate(TotalCount = as.numeric(TotalCount))
 
 total_counts_filtered <- total_counts %>%
-  filter(TotalCount >= 0)
+  filter(TotalCount > 200)
 # Create the RoleLabel by combining RoleNumber and Role
 # Assign RoleNumbers and automate factor conversion
 agents_data_sorted <- agents_data_sorted %>%
@@ -49,8 +54,8 @@ threshold <- 100000
 
 # Determine which agents are outliers based on total count
 outliers_agents <- total_counts_filtered %>%
-filter(TotalCount > threshold) %>%
-pull(AgentInfo)
+  filter(TotalCount > threshold) %>%
+  pull(AgentInfo)
 
 ####################make legend
 # ALL BARS ORDER: tallest bars to the left
@@ -82,13 +87,13 @@ outliers$AgentInfo <- factor(outliers$AgentInfo, levels = total_counts_sorted$Ag
 # The display is below: Define a custom palette corresponding to the roles
 custom_palette <- c("#E69F00","#4b0082","#006400","#03839c","#2f4f4f","#394df2",
                     "#483D8B","#4682b4","#8b0000","#8B008B","#8B3a3a","#a0522d",
-                    "#708090","#556B2F","#b53b56","#106a93","#6A5ACD","#cd4b19",
-                    "#4daf4a","#ff7f00","#665433","#096d28","#FF4500","#a892f5",
-                    "#f00000","#334445","#a8786f","#5a5a5a","#556B2F","#0072B2",
-                    "#657843","#a65628","#006400","#f75147","#c42e24","#56B4E9",
-                    "#234b34","#377eb8","#432666","#e22345","#d24678","#0073e6",
-                    "#984ea3","#b51963","#5928ed","#00008b","#2e8b57"
-                    )
+                    "#708090","#b53b56","#106a93","#6A5ACD","#cd4b19","#4daf4a",
+                    "#ff7f00","#665433","#096d28","#FF4500","#a892f5","#f00000",
+                    "#334445","#a8786f","#5a5a5a","#0072B2","#657843","#a65628",
+                    "#006400","#f75147","#c42e24","#56B4E9","#234b34","#432666",
+                    "#e22345","#d24678","#0073e6","#984ea3","#b51963","#556B2F",
+                    "#5928ed","#00008b","#2e8b57"
+)
 
 # Use RoleLabel for legend labels, which should be unique
 legend_labels <- unique(agents_data_sorted$RoleLabel)
@@ -100,7 +105,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
             position = position_stack(vjust = 0.5),
             size = 2.5, color = "white", fontface = "bold") +
   labs(title = "Counts by Role and Agent", x = "Agent Info",
-       y = "COUNT (<= 150,000)", fill = "Role Legend") +
+       y = "COUNT (<= 100,000)", fill = "Role Legend") +
   scale_color_manual(values = custom_palette) +
   scale_fill_manual(values = c(custom_palette), labels = unique(agents_data_sorted$RoleLabel)) +
   scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) +
@@ -116,7 +121,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
   scale_fill_manual(values = custom_palette, labels = unique(agents_data_sorted$RoleLabel),guide="none") +
   scale_y_continuous(labels = scales::comma) + 
   theme_minimal() +
-  labs(title = "Outlier Counts", x = NULL, y = "COUNT (> 150000)", fill = NULL) +
+  labs(title = "Outlier Counts", x = NULL, y = "COUNT (> 100000)", fill = NULL) +
   theme(axis.text.x = element_text(size=8,angle =50, hjust = 1)) 
 
 # Combine the plots using patchwork, place outliers to the left and merge legends
@@ -125,12 +130,11 @@ combined_plot <- main_plot + outliers_plot +
   theme(legend.position = 'bottom', legend.box="vertical", legend.key.size = unit(0.3, "cm"),
         legend.key.width = unit(.23, "cm"),legend.text = element_text(size = 8),
         legend.spacing = unit(5, "cm"),guides(fill = guide_legend(ncol = 1)))
-        
+
 # Display the combined plot
 print(combined_plot)
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
 ggsave('/var/www/html/arctos/metrics/R/agent_role_chart.png', combined_plot, width=1, height=11, units="in", dpi=96)
-
 
 
