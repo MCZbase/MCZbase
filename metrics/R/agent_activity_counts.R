@@ -22,10 +22,7 @@ agents_data$truncated_names <- str_trunc(agents_data$AGENT_NAME, width=15, side=
 # Unite AgentID and AgentName to create a unique AgentInfo combination
 agents_data_name <- agents_data %>%
   unite("AgentInfo", AGENT_ID, truncated_names, sep = " - ")
-# Mark employees with total count >= 2, otherwise "Other"
-# agents_data_name <- agents_data_name %>%
-#   mutate(employee = ifelse(total_count < 2, "Other", employee)) %>%
-#   select(-total_count) # Drop total_count after use
+
 agents_data_role <- agents_data_name %>%
   unite("Role", TABLE_NAME, COLUMN_NAME, sep = ".")
 
@@ -37,11 +34,6 @@ total_counts <- agents_data_sorted %>%
   group_by(AgentInfo) %>%
   summarize(TotalCount = sum(COUNT)) %>%
   ungroup()
-# employee_counts <- df %>%
-#   group_by(employee) %>%
-#   summarize(total_count = n())
-# 
-
 
 ###############code finds outliers
 # any(is.na(agents_data_role$AgentInfo))  # Check for any NA values
