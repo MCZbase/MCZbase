@@ -63,6 +63,8 @@ total_counts_sorted <- total_counts_filtered %>%
 role_order <- c(agents_data_sorted$Role[1:26])
 role_numbers <- setNames(1:length(role_order), role_order)
 
+
+
 # Separate main data and outliers based on identified agents
 main_data <- agents_data_sorted %>%
   filter(!AgentInfo %in% outliers_agents)
@@ -106,6 +108,8 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) +
   theme_minimal() +
   theme(axis.text.x = element_text(size=8,angle =50, hjust = 1)) 
+#&
+ # theme(legend.position = "none")
 
 
 # Outliers plot, now includes whole removed stacks
