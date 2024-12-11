@@ -42,7 +42,7 @@ total_counts <- total_counts %>%
   mutate(TotalCount = as.numeric(TotalCount))
 
 total_counts_filtered <- total_counts %>%
-  filter(TotalCount > 200)
+  filter(TotalCount > 6000)
 
 # Create the RoleLabel by combining RoleNumber and Role
 # Assign RoleNumbers and automate factor conversion
@@ -70,24 +70,31 @@ total_counts_sorted <- total_counts_filtered %>%
 
 # Assign and connect the role numbers to the roles based on the order in the datasheet
 # find a way to order them by the agents and not by position
-role_order <- c(agents_data_sorted$Role[1:26])
+role_order <- c(agents_data_sorted$Role[1:13])
 role_numbers <- setNames(1:length(role_order), role_order)
 
 # Separate main data and outliers based on identified agents
 main_data <- agents_data_sorted %>%
   filter(!AgentInfo %in% outliers_agents)
 
+#this doesn't seem to be doing anything. want to remove NAs
+main_data_filtered <- main_data[!is.na(main_data$AgentInfo),]
+
 outliers <- agents_data_sorted %>%
   filter(AgentInfo %in% outliers_agents)
 
 # PER PERSON ORDER: Order stacks within each person by their count in the main_data
-main_data <- main_data %>%
+main_data_filtered <- main_data_filtered %>%
   arrange(AgentInfo, desc(AdjustedCount))
 outliers <- outliers %>%
   arrange(AgentInfo, desc(AdjustedCount))
 
-main_data$AgentInfo <- factor(main_data$AgentInfo, levels = total_counts_sorted$AgentInfo)
+main_data_filtered$AgentInfo <- factor(main_data_filtered$AgentInfo, levels = total_counts_sorted$AgentInfo)
+
+main_data_filtered <- na.omit(main_data_filtered)
+
 outliers$AgentInfo <- factor(outliers$AgentInfo, levels = total_counts_sorted$AgentInfo)
+
 
 # The display is below: Define a custom palette corresponding to the roles
 custom_palette <- c("#E69F00","#4b0082","#006400","#03839c","#2f4f4f","#394df2",
@@ -102,38 +109,39 @@ custom_palette <- c("#E69F00","#4b0082","#006400","#03839c","#2f4f4f","#394df2",
 
 # Use RoleLabel for legend labels, which should be unique
 legend_labels <- unique(agents_data_sorted$RoleLabel)
+df_cleaned <- anti_join(main_data_filtered, agents_data_sorted, by = "AgentInfo")
 
 # Main plot for standard range, exclude full stacks that are moved to outliers
-main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role)) +
+main_plot <- ggplot(main_data_filtered, aes(x = AgentInfo, y = AdjustedCount, fill=Role)) +
   geom_bar(stat = "identity", position = "stack") +
   geom_text(aes(label = ifelse(AdjustedCount > 5000, paste0(as.integer(factor(Role)), ""), "")),  # Conditionally show label
             position = position_stack(vjust = 0.5),
-            size = 2.5, color = "white", fontface = "bold") +
+            size = 3.75, color = "white", fontface = "bold") +
   labs(title = "Activity Counts by Role for Each Agent", x = "Agent Info (Agent ID + Login Name)",
        y = "Activity Counts (<= 100,000)", fill = "Roles") +
   scale_color_manual(values = custom_palette) +
   scale_fill_manual(values = c(custom_palette), labels = unique(agents_data_sorted$RoleLabel)) +
   scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) +
   theme_minimal() +
-  theme(axis.text.x = element_text(size=8,angle =50, hjust = 1)) 
+  theme(axis.text.x = element_text(size=10,angle =50, hjust = 1)) 
 
 
 # Outliers plot, now includes whole removed stacks
 outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = Role)) +
   geom_bar(stat = "identity", position = "stack") + 
   geom_text(aes(label = ifelse(AdjustedCount > 50000, paste0(as.integer(factor(Role)), ""), "")), 
-            size = 2.5, color = "white",position=position_stack(vjust=0.5)) +
-  scale_fill_manual(values = custom_palette, labels = unique(agents_data_sorted$RoleLabel),guide="none") +
+            size = 3.75, color = "white",position=position_stack(vjust=0.5)) +
+  scale_fill_manual(values = custom_palette, labels = unique(main_data_filtered$RoleLabel),guide="none") +
   scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) + 
   theme_minimal() +
   labs(title = "Outlier Counts", x = NULL, y = "Activity Count (High: > 100,000)", fill = NULL) +
-  theme(axis.text.x = element_text(size=8,angle =50, hjust = 1)) 
+  theme(axis.text.x = element_text(size=10,angle =50, hjust = 1)) 
 
 # Combine the plots using patchwork, place outliers to the left and merge legends
 combined_plot <- main_plot + outliers_plot +
   plot_layout(guides = 'collect', widths = c(12,1)) & 
   theme(legend.position = 'bottom', legend.box="vertical", legend.key.size = unit(0.3, "cm"),
-        legend.key.width = unit(.23, "cm"),legend.text = element_text(size = 8),
+        legend.key.width = unit(.23, "cm"),legend.text = element_text(size = 9),
         legend.box.background = element_rect(color = "black"), legend.spacing = unit(5, "cm"),guides(fill = guide_legend(ncol = 1)))
 
 # Display the combined plot
