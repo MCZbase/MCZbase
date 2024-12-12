@@ -1278,7 +1278,7 @@ limitations under the License.
 										<!--- transaction_id and accn_number are both integers, they are distinguished in a special case here with the prefix A or T --->
 										<cfif Left(getMediaRel.media_related_to,1) EQ 'A'>
 											<!--- Accession number ---> 
-											<!--- lookup the transaction id an prefix it with a T --->
+											<!--- lookup the transaction id and prefix it with a T --->
 											<cfset putative_accession_number = Right(getMediaRel.media_related_to,len(getMediaRel.media_related_to)-1)>
 											<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												SELECT 'T' || #theTable#.transaction_id as transaction_id
@@ -1298,7 +1298,7 @@ limitations under the License.
 											<cfelse>
 												<cfquery name="settAccnID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 													UPDATE cf_temp_media 
-													SET MEDIA_RELATED_TO_#i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupAccn.transaction_id#"> AND
+													SET MEDIA_RELATED_TO_#i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupAccn.transaction_id#">
 													WHERE MEDIA_RELATED_TO_#i# is not null AND 
 														username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 														key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
