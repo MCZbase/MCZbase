@@ -97,14 +97,15 @@ outliers$AgentInfo <- factor(outliers$AgentInfo, levels = total_counts_sorted$Ag
 
 
 # The display is below: Define a custom palette corresponding to the roles
-custom_palette <- c("#E69F00","#4b0082","#006400","#03839c","#2f4f4f","#394df2",
-                    "#483D8B","#4682b4","#8b0000","#8B008B","#8B3a3a","#a0522d",
-                    "#708090","#b53b56","#106a93","#6A5ACD","#cd4b19","#4daf4a",
-                    "#ff7f00","#665433","#096d28","#FF4500","#a892f5","#f00000",
-                    "#334445","#a8786f","#5a5a5a","#0072B2","#657843","#a65628",
-                    "#006400","#f75147","#c42e24","#56B4E9","#234b34","#432666",
-                    "#e22345","#d24678","#0073e6","#984ea3","#b51963","#556B2F",
-                    "#5928ed","#00008b","#2e8b57"
+custom_palette <- c("#E69F00","#8B008B","#4b0082","#03839c","#2f4f4f",
+                    "#394df2","#e22345","#483D8B","#2e8b57","#4682b4",
+                    "#a0522d","#708090","#006400","#b53b56","#56B4E9",
+                    "#106a93","#6A5ACD","#cd4b19","#4daf4a","#ff7f00",
+                    "#665433","#096d28","#FF4500","#a892f5","#f00000",
+                    "#334445","#a8786f","#5a5a5a","#0072B2","#657843",
+                    "#d24678","#a65628","#006400","#f75147","#c42e24",
+                    "#234b34","#432666","#0073e6","#984ea3","#b51963",
+                    "#8b0000","#556B2F","#8B3a3a","#5928ed","#00008b"
 )
 
 # Use RoleLabel for legend labels, which should be unique
@@ -114,7 +115,7 @@ df_cleaned <- anti_join(main_data_filtered, agents_data_sorted, by = "AgentInfo"
 # Main plot for standard range, exclude full stacks that are moved to outliers
 main_plot <- ggplot(main_data_filtered, aes(x = AgentInfo, y = AdjustedCount, fill=Role)) +
   geom_bar(stat = "identity", position = "stack") +
-  geom_text(aes(label = ifelse(AdjustedCount > 5000, paste0(as.integer(factor(Role)), ""), "")),  # Conditionally show label
+  geom_text(aes(label = ifelse(AdjustedCount > 2000, paste0(as.integer(factor(Role)), ""), "")),  # Conditionally show label
             position = position_stack(vjust = 0.5),
             size = 3.75, color = "white", fontface = "bold") +
   labs(title = "Activity Counts by Role for Each Agent", x = "Agent Info (Agent ID + Login Name)",
@@ -129,7 +130,7 @@ main_plot <- ggplot(main_data_filtered, aes(x = AgentInfo, y = AdjustedCount, fi
 # Outliers plot, now includes whole removed stacks
 outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = Role)) +
   geom_bar(stat = "identity", position = "stack") + 
-  geom_text(aes(label = ifelse(AdjustedCount > 50000, paste0(as.integer(factor(Role)), ""), "")), 
+  geom_text(aes(label = ifelse(AdjustedCount > 5000, paste0(as.integer(factor(Role)), ""), "")), 
             size = 3.75, color = "white",position=position_stack(vjust=0.5)) +
   scale_fill_manual(values = custom_palette, labels = unique(main_data_filtered$RoleLabel),guide="none") +
   scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) + 
@@ -140,8 +141,8 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
 # Combine the plots using patchwork, place outliers to the left and merge legends
 combined_plot <- main_plot + outliers_plot +
   plot_layout(guides = 'collect', widths = c(12,1)) & 
-  theme(legend.position = 'bottom', legend.box="vertical", legend.key.size = unit(0.3, "cm"),
-        legend.key.width = unit(.23, "cm"),legend.text = element_text(size = 9),
+  theme(legend.position = 'bottom', legend.box="vertical", legend.key.size = unit(0.45, "cm"),
+        legend.key.width = unit(.45, "cm"),legend.text = element_text(size = 9),
         legend.box.background = element_rect(color = "black"), legend.spacing = unit(5, "cm"),guides(fill = guide_legend(ncol = 1)))
 
 # Display the combined plot
