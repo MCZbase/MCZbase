@@ -1119,11 +1119,12 @@ limitations under the License.
 					<cfif part_updates eq 1>
 						<cfset plur= "">
 					<cfelse>
-					<cfset plur = "s">
+						<cfset plur = "s">
+					</cfif>
 					<cfif countSpecimens.ct eq 1>
 						<cfset splur = "">
 					<cfelse>
-					<cfset splur = "s">
+						<cfset splur = "s">
 					</cfif>
 					<h3 class="mt-3">#part_updates# part#plur# added for #countSpecimens.ct# cataloged item#splur#.</h3>
 					<h3><span class="text-success">Success!</span> Parts loaded.
