@@ -1310,7 +1310,7 @@ limitations under the License.
 											<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												SELECT 'T' || #theTable#.transaction_id
 												FROM #theTable#
-												WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#putative_trasaction_id#">
+												WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#putative_transaction_id#">
 											</cfquery>
 											<cfif lookupAccn.recordcount NEQ 1>
 												<cfquery name="warningFailedAccnMatch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
