@@ -1279,10 +1279,11 @@ limitations under the License.
 										<cfif Left(getMediaRel.media_related_to,1) EQ 'A'>
 											<!--- Accession number ---> 
 											<!--- lookup the transaction id an prefix it with a T --->
+											<cfset putative_accession_number = Right(getMediaRel.media_related_to,len(getMediaRel.media_related_to)-1)>
 											<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												SELECT 'T' || #theTable#.transaction_id as transaction_id
 												FROM #theTable#
-												WHERE accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.MEDIA_RELATED_TO#">
+												WHERE accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#putative_accession_number#">
 											</cfquery>
 											<cfif lookupAccn.recordcount NEQ 1>
 												<cfquery name="warningFailedAccnMatch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
