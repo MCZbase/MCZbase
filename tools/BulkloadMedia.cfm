@@ -43,10 +43,10 @@ limitations under the License.
 		SELECT 
 			REGEXP_REPLACE( status, '\s*</?\w+((\s+\w+(\s*=\s*(".*?"|''.*?''|[^''">\s]+))?)+\s*|\s*)/?>\s*', NULL, 1, 0, 'im') AS STATUS, 
 			MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,SUBJECT,MADE_DATE,DESCRIPTION,MEDIA_LICENSE_ID,MASK_MEDIA,
-			<cfloop from="1" to="#NUMBER_OF_RELATIONSHIP_PAIRS#" rpindex="rpi">
+			<cfloop from="1" to="#NUMBER_OF_RELATIONSHIP_PAIRS#" index="rpi">
 				MEDIA_RELATIONSHIP_#rpi#,MEDIA_RELATED_TO_#rpi#,
 			</cfloop>
-			<cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" lpindex="lpi">
+			<cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" index="lpi">
 				#separator#MEDIA_LABEL_#lpi#,LABEL_VALUE_#lpi#
 				<cfset separator = ",">
 			</cfloop>
@@ -931,10 +931,10 @@ limitations under the License.
 			<!-------------------Query the Table with updates again------------------------->			
 			<cfquery name="getTempMedia2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT MEDIA_URI,MIME_TYPE,MEDIA_TYPE,SUBJECT,MADE_DATE,DESCRIPTION,HEIGHT,WIDTH,PREVIEW_URI,MEDIA_LICENSE_ID,MASK_MEDIA,
-					<cfloop from="1" to="#NUMBER_OF_RELATIONSHIP_PAIRS#" rpindex="rpi">
+					<cfloop from="1" to="#NUMBER_OF_RELATIONSHIP_PAIRS#" index="rpi">
 						MEDIA_RELATIONSHIP_#rpi#,MEDIA_RELATED_TO_#rpi#,
 					</cfloop>
-					<cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" lpindex="lpi">
+					<cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" index="lpi">
 						MEDIA_LABEL_#lpi#,LABEL_VALUE_#lpi#,
 					</cfloop>
 					KEY,USERNAME,STATUS
@@ -1671,10 +1671,10 @@ limitations under the License.
 							SELECT 
 								STATUS,MEDIA_URI,MIME_TYPE,MEDIA_TYPE,SUBJECT,MADE_DATE,DESCRIPTION,PREVIEW_URI,CREATED_BY_AGENT_ID,HEIGHT,WIDTH,
 								MEDIA_LICENSE_ID,MASK_MEDIA,
-								<cfloop from="1" to="#NUMBER_OF_RELATIONSHIP_PAIRS#" rpindex="rpi">
+								<cfloop from="1" to="#NUMBER_OF_RELATIONSHIP_PAIRS#" index="rpi">
 									MEDIA_RELATIONSHIP_#rpi#,MEDIA_RELATED_TO_#rpi#,
 								</cfloop>
-								<cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" lpindex="lpi">
+								<cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" index="lpi">
 									MEDIA_LABEL_#lpi#,LABEL_VALUE_#lpi#,
 								</cfloop>
 								KEY, USERNAME
