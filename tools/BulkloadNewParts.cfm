@@ -793,6 +793,13 @@ limitations under the License.
 				<h2 class="h4">Third step: Apply changes</h2>
 				<cfset problem_key = "">
 				<cftransaction>
+				<cfquery name="countSpecimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT count(*) ct, collection_object_id
+					FROM cf_temp_parts 
+					WHERE status IS NULL
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					GROUP BY collection_object_id
+				</cfquery>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT * 
 					FROM cf_temp_parts 
@@ -813,7 +820,6 @@ limitations under the License.
 				</cfif>
 				<cfset enteredbyid = getEntBy.agent_id>
 					<cfset part_updates = 0>
-					<cfset part_updates1 = 0>
 					<cfloop query="getTempData">
 						<cfif len(#use_part_id#) is 0>
 							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1110,12 +1116,16 @@ limitations under the License.
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 					</cfloop>
-					<cfif updateColl_result.recordcount eq 1>
+					<cfif part_updates eq 1>
 						<cfset plur= "">
 					<cfelse>
 					<cfset plur = "s">
+					<cfif countSpecimens.ct eq 1>
+						<cfset splur = "">
+					<cfelse>
+					<cfset splur = "s">
 					</cfif>
-					<h3 class="mt-3"> #updateColl_result.recordcount# specimen record#plur# was updated.</h3>
+					<h3 class="mt-3">#part_updates# part#plur# added for #countSpecimens.ct# cataloged item#splur#.</h3>
 					<h3><span class="text-success">Success!</span> Parts loaded.
 					<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(getTempData.collection_object_id)#" class="btn-link font-weight-lessbold">
 						See in Specimen Results.
