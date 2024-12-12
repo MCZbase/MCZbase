@@ -1260,7 +1260,7 @@ limitations under the License.
 										<!--- Accession number ---> 
 										<!--- lookup the transaction id an prefix it with a T --->
 										<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											SELECT 'T' || #theTable#.transaction_id
+											SELECT 'T' || #theTable#.transaction_id as transaction_id
 											FROM #theTable#
 											WHERE accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.MEDIA_RELATED_TO#">
 										</cfquery>
