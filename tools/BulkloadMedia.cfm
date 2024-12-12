@@ -26,7 +26,7 @@ limitations under the License.
 <cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" index="i">
 	<cfset fieldlist = "#fieldlist#,MEDIA_LABEL_#i#,LABEL_VALUE_#i#">
 </cfloop>
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL"
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL">
 <cfloop from="1" to="#NUMBER_OF_RELATIONSHIP_PAIRS#" index="i">
 	<cfset fieldTypes = "#fieldTypes#,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 </cfloop>
