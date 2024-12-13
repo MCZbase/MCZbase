@@ -3456,7 +3456,12 @@ Target JSON:
 					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 					$('##fixedshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'fixed\'); "><i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 					if (fixedSearchLoaded==0) { 
-						gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+						try { 
+							gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+						} catch (e) { 
+							console.log(e);
+							messageDialog("Error in gridLoaded handler:" + e.message,"Error in gridLoaded");
+						}
 						fixedSearchLoaded = 1;
 						loadColumnOrder('fixedsearchResultsGrid');
 					}
@@ -3687,7 +3692,12 @@ Target JSON:
 					$('##keywordresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##keywordSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 					$('##keywordshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'keyword\'); "><i id="keywordSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 					if (keywordSearchLoaded==0) { 
-						gridLoaded('keywordsearchResultsGrid','occurrence record','keyword');
+						try { 
+							gridLoaded('keywordsearchResultsGrid','occurrence record','keyword');
+						} catch (e) { 
+							console.log(e);
+							messageDialog("Error in gridLoaded handler:" + e.message,"Error in gridLoaded");
+						}
 						keywordSearchLoaded = 1;
 						loadColumnOrder('keywordsearchResultsGrid');
 					}
@@ -3915,7 +3925,12 @@ Target JSON:
 					$('##builderresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##builderSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 					$('##buildershowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'builder\'); "><i id="builderSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
 					if (builderSearchLoaded==0) { 
-						gridLoaded('buildersearchResultsGrid','occurrence record','builder');
+						try { 
+							gridLoaded('buildersearchResultsGrid','occurrence record','builder');
+						} catch (e) { 
+							console.log(e);
+							messageDialog("Error in gridLoaded handler:" + e.message,"Error in gridLoaded");
+						}
 						builderSearchLoaded = 1;
 						loadColumnOrder('buildersearchResultsGrid');
 					}
