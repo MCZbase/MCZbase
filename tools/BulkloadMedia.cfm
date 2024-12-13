@@ -1384,7 +1384,7 @@ limitations under the License.
 							<td>#problemData.MASK_MEDIA#</td>
 							<cfloop from="1" to="#NUMBER_OF_RELATIONSHIP_PAIRS#" index="relNum">
 								<td>#evaluate("problemData.MEDIA_RELATIONSHIP_"&relNum)#</td>
-								<td>#evaluate("problemData.MEDIA_RELATED_TO_1"&relNum)#</td>
+								<td>#evaluate("problemData.MEDIA_RELATED_TO_"&relNum)#</td>
 							</cfloop>
 							<cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" index="kvpNum">
 								<td>#evaluate('problemData.MEDIA_LABEL_'&kvpNum)#</td>
