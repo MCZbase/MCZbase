@@ -1547,7 +1547,7 @@ limitations under the License.
 							<!--- Add relationships --->
 							<cfloop from="1" to="#NUMBER_OF_RELATIONSHIP_PAIRS#" index="relNo">
 								<cfset rel = evaluate('getTempData.media_relationship_'&relNo) >
-								<cfset relTo = evaluate('getTempDate.media_related_to_'&relNo) >
+								<cfset relTo = evaluate('getTempData.media_related_to_'&relNo) >
 								<!--- support special case handling for accessions, identify transaction_id from T prefix --->
 								<cfif REFind('.* accn$',rel) GT 0 AND Left(relTo,1) EQ 'T'>
 									<!--- if accession relationship, strip off leading T. --->
