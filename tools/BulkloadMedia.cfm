@@ -1457,6 +1457,7 @@ limitations under the License.
 							<cfthrow message="You have no rows to load in the media bulkloader table (cf_temp_media). <a href='/tools/BulkloadMedia.cfm'>Start over</a>"><!--- " --->
 						</cfif>
 						<cfset successfullInserts = "">
+						<cfset successfullInsertIDs = "">
 						<cfloop query="getTempData">
 							<!--- created_by_agent_id should have been filled in above, failover in case it was not --->
 							<cfif len(getTempData.created_by_agent_id) EQ 0>
@@ -1686,6 +1687,7 @@ limitations under the License.
 							<cfset media_updates = media_updates + insResult.recordcount>
 							<cfset successfullInserts = successfullInserts & '<p class="my-1">'><!--- ' --->
 							<cfset successfullInserts = successfullInserts & '<a href="/media/#media_id#" target="_blank">#media_id#</a> '><!--- ' --->
+							<cfset successfullInsertIDs = ListAppend(successfullInsertIDs,media_id)>
 							<cfif len(getTempData.subject) gt 0>
 								<cfset successfullInserts = successfullInserts & getTempData.subject>
 							</cfif>
@@ -1696,6 +1698,7 @@ limitations under the License.
 						</cfloop>
 						<cfif getTempData.recordcount eq media_updates>
 							<h3 class="text-success position-absolute" style="top:0;">Success - loaded #media_updates# media records</h3>
+							<div class="mt-2"><a href="/media/findMedia.cfm?execute=true&method=getMedia&media_id=#successfullInsertIDs#">Show in media search</a></div>
 							<div class="mt-2">
 								#successfullInserts#
 							</div>
