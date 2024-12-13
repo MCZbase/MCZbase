@@ -519,7 +519,11 @@ limitations under the License.
 							<cfset loadedRows = loadedRows + insert_result.recordcount>
 						<cfcatch>
 							<!--- identify the problematic row --->
-							<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
+							<cfset error_summary = "">
+							<cfif cfcatch.message CONTAINS "invalid date or time string">
+								<cfset error_summary = "Invalid date, format must be yyyy-mm-dd">
+							</cfif>
+							<cfset error_message="#COLUMN_ERR# from <strong>line #row#</strong> in input file. <strong>#error_summary#</strong> <br>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br><p><strong>Error:</strong> #cfcatch.message#</p>"><!--- " --->
 							<cfif isDefined("cfcatch.queryError")>
 								<cfset error_message = "#error_message# #cfcatch.queryError#">
 							</cfif>
