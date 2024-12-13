@@ -894,6 +894,39 @@ limitations under the License.
 						</cfquery>
 					</cfif>
 				</cfloop>
+
+				<!--- check that the same relationship is not asserted twice in the same record --->
+				<cfset relPairCheck = "">
+				<cfloop from="1" to="#NUMBER_OF_RELATIONSHIP_PAIRS#" index="relNo">
+					<cfquery name="getRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT 
+							media_relationship_#relNo# || media_related_to_#relNo# as kvp
+						FROM
+							cf_temp_media
+							WHERE
+								media_relationship_#relNo# IS NOT NULL AND
+								media_related_to_#relNo# IS NOT NULL AND
+								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+					</cfquery>
+					<cfif getRel.recordcount GT 0>
+						<cfif ListContains(relPairCheck,getRel.kvp) GT 0>
+							<!--- we have already seen this relationship for this media record, set a status message --->
+							<cfquery name="warningBadRel1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								UPDATE
+									cf_temp_media
+								SET
+									status = concat(nvl2(status, status || '; ', ''),'MEDIA_RELATIONSHIP_#relNo# : MEDIA_RELATED_TO_#relNo# is a duplicate relationship')
+								WHERE
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+							</cfquery>
+						<cfelse>
+							<!--- novel relationship, add to list for this record --->
+							<cfset relPairCheck = ListAppend(relPairCheck,getRel.kvp)>
+						</cfif>
+					</cfif>
+				</cfloop>
 						
 				<!--------------------------------------------------------->
 				<!--- Check Height and Width and add if not entered-------->
