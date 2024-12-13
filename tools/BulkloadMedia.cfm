@@ -523,7 +523,7 @@ limitations under the License.
 							<cfif cfcatch.message CONTAINS "invalid date or time string">
 								<cfset error_summary = "Invalid date, format must be yyyy-mm-dd">
 							</cfif>
-							<cfset error_message="#COLUMN_ERR# from <strong>line #row#</strong> in input file. <strong>#error_summary#</strong> <br>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br><p><strong>Error:</strong> #cfcatch.message#</p>"><!--- " --->
+							<cfset error_message="#COLUMN_ERR# from <strong>line #row#</strong> in input file. <strong>#error_summary#</strong> <br><div><strong>Header:</strong>[#colNames#]</div><div><strong>Row:</strong>[#ArrayToList(collValuesArray)#] </div><div><strong>Error:</strong> #cfcatch.message#</div>"><!--- " --->
 							<cfif isDefined("cfcatch.queryError")>
 								<cfset error_message = "#error_message# #cfcatch.queryError#">
 							</cfif>
