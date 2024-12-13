@@ -210,7 +210,7 @@ limitations under the License.
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
 											<label for="media_id" class="data-entry-label mb-0" id="mediaid_label">Media ID</label>
-											<input type="text" id="media_id" name="media_id" value="#encodeForHtml(media_id)#" class="data-entry-input" pattern="[0-9]+" title="media_id is the numeric primary key for the media record.">
+											<input type="text" id="media_id" name="media_id" value="#encodeForHtml(media_id)#" class="data-entry-input" pattern="[0-9,]+" title="media_id is the numeric primary key for the media record.">
 										</div>
 									</div>
 									<div class="col-12 col-md-2">

@@ -71,8 +71,8 @@ limitations under the License.
 	<cfif not isdefined("unlinked")>
 		<cfset unlinked = "">
 	</cfif>
-	<cfif isdefined("media_id") AND len(trim(media_id)) GT 0 AND NOT isnumeric(#media_id#)>
-		<cfthrow message = "Media ID must be an integer.  Provided value [#encodeForHtml(media_id)#] is not numeric.">
+	<cfif isdefined("media_id") AND len(trim(media_id)) GT 0 AND REFind("^[0-9][0-9,]*$","#media_id#") EQ 0 >
+		<cfthrow message = "Media ID must be an integer.  Provided value [#encodeForHtml(media_id)#] is not an integer or comma separated list of integers.">
 	</cfif>
 	<cfif (isdefined("related_cataloged_item") AND len(#related_cataloged_item#) gt 0) AND find('%',related_cataloged_item) GT 0 >
 		<!--- take no action here, but we will handle this case when adding a where clause below --->
@@ -265,6 +265,8 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("media_id") AND isnumeric(#media_id#)>
 					AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+				<cfelseif isdefined("media_id") AND REFind("^[0-9][0-9,]$","#media_id#") GT 0>
+					AND media.media_id IN ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes"> )
 				</cfif>
 				<cfif isdefined("has_roi") and len(has_roi) gt 0>
 					<!--- tags are not, as would be expected text, but regions of interest on images, implementation appears incomplete.--->
