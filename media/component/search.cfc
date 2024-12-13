@@ -265,7 +265,7 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("media_id") AND isnumeric(#media_id#)>
 					AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-				<cfelseif isdefined("media_id") AND REFind("^[0-9][0-9,]$","#media_id#") GT 0>
+				<cfelseif isdefined("media_id") AND REFind("^[0-9][0-9,]*$","#media_id#") GT 0>
 					AND media.media_id IN ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes"> )
 				</cfif>
 				<cfif isdefined("has_roi") and len(has_roi) gt 0>
