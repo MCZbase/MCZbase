@@ -522,6 +522,8 @@ limitations under the License.
 							<cfset error_summary = "">
 							<cfif cfcatch.message CONTAINS "invalid date or time string">
 								<cfset error_summary = "Invalid date, format must be yyyy-mm-dd">
+							<cfelseif cfcatch.message CONTAINS "CFSQLTYPE CF_SQL_DECIMAL">
+								<cfset error_summary = "MASK_MEDIA must be a number or blank and MEDIA_LICENCE_ID must be a number.">
 							</cfif>
 							<cfset error_message="<h3 class='h4'>#COLUMN_ERR# from <strong>line #row#</strong> in input file. <strong>#error_summary#</strong></h3><div class='mt-1'><strong>Header:</strong>[#colNames#]</div><div class='mt-1'><strong>Row:</strong>[#ArrayToList(collValuesArray)#] </div><div class='mt-1 h3'><strong>Error:</strong> #cfcatch.message#</div>"><!--- " --->
 							<cfif isDefined("cfcatch.queryError")>
