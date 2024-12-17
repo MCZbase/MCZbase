@@ -16,10 +16,10 @@ agents_data <-  agents_data[agents_data$AGENT_ID != "0",]
 
 # Unite AgentID and AgentName to create a unique AgentInfo combination
 agents_data_name <- agents_data %>%
-  unite("AgentInfo", AGENT_ID, AGENT_NAME, sep = " - ")
+  mutate(AgentInfo = paste(AGENT_ID, AGENT_NAME, sep = " - "))
 
 agents_data_role <- agents_data_name %>%
-  unite("Role", TABLE_NAME, COLUMN_NAME, sep = ".")
+  mutate(Role, paste(TABLE_NAME, COLUMN_NAME, sep = "."))
 
 agents_data_sorted <- agents_data_role %>%
   arrange(AgentInfo)
