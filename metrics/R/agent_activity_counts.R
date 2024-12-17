@@ -55,7 +55,7 @@ threshold <- 100000
 
 # Determine which agents are outliers based on total count
 outliers_agents <- total_counts_filtered %>%
-  filter(TotalCount > threshold) %>%
+  dplyr::filter(TotalCount > threshold) %>%
   pull(AgentInfo)
 
 ####################make legend
@@ -71,10 +71,10 @@ role_numbers <- setNames(1:length(role_order), role_order)
 
 # Separate main data and outliers based on identified agents
 main_data <- agents_data_sorted %>%
-  filter(!AgentInfo %in% outliers_agents)
+  dplyr::filter(!AgentInfo %in% outliers_agents)
 
 outliers <- agents_data_sorted %>%
-  filter(AgentInfo %in% outliers_agents)
+  dplyr::filter(AgentInfo %in% outliers_agents)
 
 # PER PERSON ORDER: Order stacks within each person by their count in the main_data
 main_data <- main_data %>%
@@ -133,9 +133,13 @@ combined_plot <- main_plot + outliers_plot +
         legend.spacing = unit(5, "cm"),guides(fill = guide_legend(ncol = 1)))
 
 # Display the combined plot
-#print(combined_plot)
+print(combined_plot)
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
 ggsave('/var/www/html/arctos/metrics/R/Agent_Activity.png', combined_plot, width=1, height=11, units="in", dpi=96)
 
 dev.off()
+
+
+remove.packages("dplyr")
+update.packages(ask=FALSE)
