@@ -38,7 +38,8 @@ total_counts <- total_counts %>%
   mutate(TotalCount = as.numeric(TotalCount))
 
 total_counts_filtered <- total_counts %>%
-  filter(TotalCount > 200)
+  dplyr::filter(TotalCount > 200)
+#head(total_counts_filtered)
 # Create the RoleLabel by combining RoleNumber and Role
 # Assign RoleNumbers and automate factor conversion
 agents_data_sorted <- agents_data_sorted %>%
