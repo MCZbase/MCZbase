@@ -37,8 +37,10 @@ total_counts <- agents_data_sorted %>%
 total_counts <- total_counts %>%
   mutate(TotalCount = as.numeric(TotalCount))
 
+suppressWarnings({
 total_counts_filtered <- total_counts %>%
   dplyr::filter(TotalCount > 200)
+})
 #head(total_counts_filtered)
 # Create the RoleLabel by combining RoleNumber and Role
 # Assign RoleNumbers and automate factor conversion
@@ -52,12 +54,12 @@ agents_data_sorted <- agents_data_sorted %>%
 ##############code above finds outliers
 # Set threshold for outliers
 threshold <- 100000
-
+suppressWarnings({
 # Determine which agents are outliers based on total count
 outliers_agents <- total_counts_filtered %>%
   dplyr::filter(TotalCount > threshold) %>%
   pull(AgentInfo)
-
+})
 ####################make legend
 # ALL BARS ORDER: tallest bars to the left
 # Add all agent Role counts and determine ORDER of AGENTS; Set levels for AgentInfo based on sorted order
@@ -69,12 +71,14 @@ total_counts_sorted <- total_counts_filtered %>%
 role_order <- c(agents_data_sorted$Role[1:26])
 role_numbers <- setNames(1:length(role_order), role_order)
 
+suppressWarnings({
 # Separate main data and outliers based on identified agents
 main_data <- agents_data_sorted %>%
   dplyr::filter(!AgentInfo %in% outliers_agents)
 
 outliers <- agents_data_sorted %>%
   dplyr::filter(AgentInfo %in% outliers_agents)
+})
 
 # PER PERSON ORDER: Order stacks within each person by their count in the main_data
 main_data <- main_data %>%
