@@ -140,6 +140,3 @@ ggsave('/var/www/html/arctos/metrics/R/Agent_Activity.png', combined_plot, width
 
 dev.off()
 
-
-remove.packages("dplyr")
-update.packages(ask=FALSE)
