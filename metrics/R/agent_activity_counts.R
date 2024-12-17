@@ -75,7 +75,9 @@ suppressWarnings({
 # Separate main data and outliers based on identified agents
 main_data <- agents_data_sorted %>%
   dplyr::filter(!AgentInfo %in% outliers_agents)
+})
 
+suppressWarnings({
 outliers <- agents_data_sorted %>%
   dplyr::filter(AgentInfo %in% outliers_agents)
 })
