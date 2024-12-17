@@ -4,8 +4,8 @@ library(ggplot2)
 library(dplyr)
 library(patchwork)
 library(png)
-#agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
-agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
+agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
+#agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
 # removes NAs
 agents_data <- agents_roles[complete.cases(agents_roles), ]
 #First replace.
@@ -19,7 +19,7 @@ agents_data_name <- agents_data %>%
   mutate(AgentInfo = paste(AGENT_ID, AGENT_NAME, sep = " - "))
 
 agents_data_role <- agents_data_name %>%
-  mutate(Role, paste(TABLE_NAME, COLUMN_NAME, sep = "."))
+  mutate(Role = paste(TABLE_NAME, COLUMN_NAME, sep = "."))
 
 agents_data_sorted <- agents_data_role %>%
   arrange(AgentInfo)
