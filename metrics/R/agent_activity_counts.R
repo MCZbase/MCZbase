@@ -136,3 +136,5 @@ print(combined_plot)
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
 ggsave('/var/www/html/arctos/metrics/R/agent_role_chart.png', combined_plot, width=1, height=11, units="in", dpi=96)
+
+dev.off()
