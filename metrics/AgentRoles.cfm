@@ -68,10 +68,10 @@ limitations under the License.
 			
 			<div class="col-12">
 				<!--- chart created by R script --->
-				<img src="/metrics/R/Agent_Activity.png" width="100%"/>
+				<img src="/#application.webDirectory#/metrics/R/Agent_Activity.png" width="100%"/>
 			</div>
 		</div>
-		<!---<cfif len(#chartOutput#) gt 0>
+		<cfif len(#chartOutput#) gt 0>
 			<div class="col-12">
 				Script output: [#chartOutput#]
 			</div>
@@ -80,7 +80,7 @@ limitations under the License.
 			<div class="col-12 my-3 border py-2">
 				Script errors: [#chartError#]
 			</div>
-		</cfif>--->
+		</cfif>
 	</div>	
 	
 </cfoutput>
