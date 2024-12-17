@@ -133,10 +133,10 @@ combined_plot <- main_plot + outliers_plot +
         legend.spacing = unit(5, "cm"),guides(fill = guide_legend(ncol = 1)))
 
 # Display the combined plot
-print(combined_plot)
+#print(combined_plot)
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
-ggsave('/var/www/html/arctos/metrics/R/Agent_Activity.png', combined_plot, width=1, height=11, units="in", dpi=96)
+ggsave('/var/www/html/arctos/metrics/R/Agent_Activity.png', plot=combined_plot, width=1, height=11, units="in", dpi=96)
 
 dev.off()
 
