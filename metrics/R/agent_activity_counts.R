@@ -1,7 +1,7 @@
 # Read in the libraries
 library(readr)
 library(ggplot2)
-library(tidyverse)
+library(dplyr)
 library(patchwork)
 library(png)
 agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
