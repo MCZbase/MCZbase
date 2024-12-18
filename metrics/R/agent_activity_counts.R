@@ -109,16 +109,16 @@ legend_labels <- unique(agents_data_sorted$RoleLabel)
 # Main plot for standard range, exclude full stacks that are moved to outliers
 main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role)) +
   geom_bar(stat = "identity", position = "stack") +
-  geom_text(aes(label = ifelse(AdjustedCount > 5000, paste0(as.integer(factor(Role)), ""), "")),  # Conditionally show label
+  geom_text(aes(label = ifelse(AdjustedCount > 5000, paste0(as.integer(factor(Role)), ""), "")),  
             position = position_stack(vjust = 0.5),
-            size = 2.5, color = "white", fontface = "bold") +
+            size = 1.5, color = "white", fontface = "bold") +
   labs(title = "Counts by Role and Agent", x = "Agent Info",
        y = "COUNT (<= 100,000)", fill = "Role Legend") +
   scale_color_manual(values = custom_palette) +
   scale_fill_manual(values = c(custom_palette), labels = unique(agents_data_sorted$RoleLabel)) +
   scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) +
   theme_minimal() +
-  theme(plot.title = element_text(size=9, face="bold"),axis.text.x = element_text(size=3,angle =50, hjust = 1),
+  theme(plot.title = element_text(size=3, face="bold"),axis.text.x = element_text(size=3,angle =50, hjust = 1),
         axis.text.y = element_text(size=3,)) 
 
 
@@ -132,7 +132,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
   scale_y_continuous(labels = scales::comma) + 
   theme_minimal() +
   labs(title = "Outlier Counts", x = NULL, y = "COUNT (> 100000)", fill = NULL, size=2) +
-  theme(plot.title = element_text(size=14, face="bold"), 
+  theme(plot.title = element_text(size=10, face="bold"), 
         axis.text.x = element_text(size=2.5,angle =50, hjust = 1),
         axis.text.y = element_text(size=2.5)) 
 
@@ -140,8 +140,8 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
 combined_plot <- main_plot + outliers_plot +
   plot_layout(guides = 'collect', widths = c(12,.91)) & 
   theme(plot.title = element_text(size=9, face="bold"),legend.position = 'bottom', 
-        legend.box="vertical", legend.key.size = unit(0.3, "cm"),
-        legend.key.width = unit(.23, "cm"),legend.text = element_text(size = 3.5),
+        legend.box="vertical", legend.key.size = unit(0.2, "cm"),
+        legend.key.width = unit(.20, "cm"),legend.text = element_text(size = 3.5),
         legend.spacing = unit(1, "cm"),guides(fill = guide_legend(ncol = 1)))
 
 # Display the combined plot
