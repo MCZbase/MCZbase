@@ -66,7 +66,7 @@ limitations under the License.
 		</div>
 		<div class="row">
 			
-			<div class="col-12">
+			<div class="col-12 px-0">
 				<!--- chart created by R script --->
 				<img src="/metrics/R/Agent_Activity.svg" width="100%"/>
 			</div>
