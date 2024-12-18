@@ -116,8 +116,8 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
        x = "Agent Info",
        y = "COUNT (<= 100,000)", 
        fill = "") +
-  scale_color_manual(values = custom_palette) +
-  scale_fill_manual(values = c(custom_palette), labels = unique(agents_data_sorted$RoleLabel)) +
+  scale_color_manual(values = palette) +
+  scale_fill_manual(values = c(palette), labels = unique(agents_data_sorted$RoleLabel)) +
   scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) +
   theme_minimal() +
   theme(plot.title = element_text(size=unit(12,"pt"), face="bold"), 
@@ -139,7 +139,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
                               color = "white",
                               position=position_stack(vjust=0.5)
                               ) +
-  scale_fill_manual(values = custom_palette, 
+  scale_fill_manual(values = palette, 
                     labels = unique(agents_data_sorted$RoleLabel),
                     guide="none"
                     ) +
