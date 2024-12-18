@@ -122,7 +122,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   scale_fill_manual(values = c(custom_palette), labels = unique(agents_data_sorted$RoleLabel)) +
   scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) +
   theme_minimal() +
-  theme(plot.title = element_text(size=5, 
+  theme(plot.title = element_text(size=7, 
                                   face="bold"),
         axis.text.x = element_text(size=3,
                                    angle =50, hjust = 1),
@@ -166,6 +166,6 @@ combined_plot <- main_plot + outliers_plot +
 print(combined_plot)
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
-ggsave('/var/www/html/arctos/metrics/R/Agent_Activity.svg', plot=combined_plot, width = 7, height = 5)
+ggsave('/var/www/html/arctos/metrics/R/Agent_Activity.svg', plot=combined_plot, width = 7, height = 4.5)
 
 
