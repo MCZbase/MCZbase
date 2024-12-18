@@ -166,6 +166,7 @@ combined_plot <- main_plot + outliers_plot +
     legend.key.width = unit(0.23, "cm"),        # Optionally adjust width separately
     legend.text = element_text(size=4),
     legend.title = element_text(size=10),
+    legend.position = "left", 
     legend.spacing.y = unit(1.0, "cm")
   ) 
 # Display the combined plot
