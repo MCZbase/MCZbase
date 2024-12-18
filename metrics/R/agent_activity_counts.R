@@ -120,11 +120,11 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   scale_fill_manual(values = c(palette), labels = unique(agents_data_sorted$RoleLabel)) +
   scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) +
   theme_minimal() +
-  theme(plot.title = element_text(size=unit(10,"pt"), face="bold"), 
-        axis.text.x = element_text(size=unit(6,"pt"),angle =50, hjust = 1),
-        axis.text.y = element_text(size=unit(6,"pt")),
-        axis.title.x = element_text(size=unit(8,"pt")),
-        axis.title.y = element_text(size=unit(8,"pt"))
+  theme(plot.title = element_text(size=unit(8,"pt"), face="bold"), 
+        axis.text.x = element_text(size=unit(2,"pt"),angle =50, hjust = 1),
+        axis.text.y = element_text(size=unit(2,"pt")),
+        axis.title.x = element_text(size=unit(6,"pt")),
+        axis.title.y = element_text(size=unit(6,"pt"))
   )  
 
 
@@ -151,8 +151,8 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
        fill = NULL
        ) +
   theme(plot.title = element_text(size=unit(8,"pt"), face="bold"), 
-        axis.text.x = element_text(size=unit(3,"pt"),angle =50, hjust = 1),
-        axis.text.y = element_text(size=unit(3,"pt")),
+        axis.text.x = element_text(size=unit(2,"pt"),angle =50, hjust = 1),
+        axis.text.y = element_text(size=unit(2,"pt")),
         axis.title.y = element_text(size=unit(6,"pt")),
         axis.title.x = element_text(size=unit(6,"pt"))
         ) 
@@ -164,9 +164,9 @@ combined_plot <- main_plot + outliers_plot +
     legend.position = "bottom",               # Place legend at the bottom
     legend.direction = "horizontal",          # Arrange legend items in a row
     legend.box = "horizontal",            # Ensure across-the-page spread
-    legend.key.size = unit(0.18, "cm"),        # Adjust the size of the legend key
-    legend.key.height = unit(0.19, "cm"),      # Optionally adjust height separately
-    legend.key.width = unit(0.1, "cm"),        # Optionally adjust width separately
+    legend.key.size = unit(0.4, "cm"),        # Adjust the size of the legend key
+    legend.key.height = unit(0.4, "cm"),      # Optionally adjust height separately
+    legend.key.width = unit(0.4, "cm"),        # Optionally adjust width separately
     legend.text = unit(3, "pt")
   ) 
 # Display the combined plot
