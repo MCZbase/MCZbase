@@ -168,7 +168,7 @@ combined_plot <- main_plot + outliers_plot +
     legend.text = element_text(size=4),
     legend.title = element_text(size=4),
     legend.position = "left", 
-    legend.spacing.y = unit(0.15, "cm"),
+    legend.spacing.x = unit(0.15, "cm"),
     legend.spacing.y = unit(0.15, "cm")
   ) 
 # Display the combined plot
