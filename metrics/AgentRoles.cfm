@@ -76,11 +76,11 @@ limitations under the License.
 				Script output: [#chartOutput#]
 			</div>
 		</cfif>
-		<cfif len(#chartError#) gt 0>
+<!---		<cfif len(#chartError#) gt 0>
 			<div class="col-12 my-3 border py-2">
 				Script errors: [#chartError#]
 			</div>
-		</cfif>
+		</cfif>--->
 	</div>	
 	
 </cfoutput>

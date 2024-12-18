@@ -133,21 +133,30 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
 
 # Outliers plot, now includes whole removed stacks
 outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = Role)) +
-  geom_bar(stat = "identity", position = "stack") + 
-  geom_text(aes(label = ifelse(AdjustedCount > 0, paste0(as.integer(factor(Role)), ""), "")), 
-            size = 1.5, color = "white",position=position_stack(vjust=0.5)) +
+  geom_bar(stat = "identity", 
+           position = "stack"
+           ) + 
+  geom_text(aes(label = ifelse(AdjustedCount > 0, 
+                              paste0(as.integer(factor(Role)), ""), "")), 
+                              size = 1.5,
+                              color = "white",
+                              position=position_stack(vjust=0.5)
+                              ) +
   scale_fill_manual(values = custom_palette, 
-                    labels = unique(agents_data_sorted$RoleLabel),guide="none") +
+                    labels = unique(agents_data_sorted$RoleLabel),
+                    guide="none"
+                    ) +
   scale_y_continuous(labels = scales::comma) + 
   theme_minimal() +
   labs(title = "Outlier Counts", 
        x = NULL, 
        y = "COUNT (> 100000)", 
-       fill = NULL, size=2) +
+       fill = NULL
+       ) +
   theme(plot.title = element_text(size=3, face="bold"), 
         axis.text.x = element_text(size=2.5,angle =50, hjust = 1),
-        axis.text.y = element_text(size=2.5),
-        axis.title.y = element_text(size=3)
+        axis.text.y = element_text(size=unit(10,"px")),
+        axis.title.y = element_text(size=unit(12,"px"))
         ) 
 
 # Combine the plots using patchwork, place outliers to the left and merge legends
@@ -156,9 +165,9 @@ combined_plot <- main_plot + outliers_plot +
   theme(plot.title = element_text(size=3, face="bold"),legend.position = 'bottom', 
         legend.box="vertical", legend.key.size = unit(0.2, "cm"),
         legend.key.width = unit(.20, "cm"),
-        legend.text = element_text(size = 3.5),
-        legend.title = element_text(size = 3.5),
-        legend.spacing = unit(.5, "cm"),
+        legend.text = element_text(size = unit(10, "px")),
+        legend.title = element_text(size = unit(10, "px")),
+        legend.spacing = unit(unit(2, "px")),
         guides(fill = guide_legend(ncol = 1))
         )
 
