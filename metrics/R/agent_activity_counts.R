@@ -141,8 +141,11 @@ combined_plot <- main_plot + outliers_plot +
   plot_layout(guides = 'collect', widths = c(12,.91)) & 
   theme(plot.title = element_text(size=3, face="bold"),legend.position = 'bottom', 
         legend.box="vertical", legend.key.size = unit(0.2, "cm"),
-        legend.key.width = unit(.20, "cm"),legend.text = element_text(size = 3.5),
-        legend.spacing = unit(1, "cm"),guides(fill = guide_legend(ncol = 1)))
+        legend.key.width = unit(.20, "cm"),
+        legend.text = element_text(size = 3.5),
+        legend.title = element_text(size = 3.5),
+        legend.spacing = unit(1, "cm"),guides(fill = guide_legend(ncol = 1))
+        )
 
 # Display the combined plot
 #print(combined_plot)
