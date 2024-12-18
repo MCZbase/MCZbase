@@ -111,7 +111,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
                                paste0(as.integer(factor(Role)), ""), "")
                 ),  
             position = position_stack(vjust = 0.5),
-            size = unit(3,"pt"), color = "white", fontface = "bold") +
+            size = unit(2,"pt"), color = "white", fontface = "bold") +
   labs(title = "Counts by Role and Agent",
        x = "Agent Info",
        y = "COUNT (<= 100,000)", 
@@ -151,8 +151,8 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
        fill = NULL
        ) +
   theme(plot.title = element_text(size=unit(8,"pt"), face="bold"), 
-        axis.text.x = element_text(size=unit(4,"pt"),angle =50, hjust = 1),
-        axis.text.y = element_text(size=unit(4,"pt")),
+        axis.text.x = element_text(size=unit(3,"pt"),angle =50, hjust = 1),
+        axis.text.y = element_text(size=unit(3,"pt")),
         axis.title.y = element_text(size=unit(6,"pt")),
         axis.title.x = element_text(size=unit(6,"pt"))
         ) 
@@ -167,7 +167,7 @@ combined_plot <- main_plot + outliers_plot +
     legend.key.size = unit(0.18, "cm"),        # Adjust the size of the legend key
     legend.key.height = unit(0.19, "cm"),      # Optionally adjust height separately
     legend.key.width = unit(0.1, "cm"),        # Optionally adjust width separately
-    legend.text = unit(4, "pt")
+    legend.text = unit(3, "pt")
   ) 
 # Display the combined plot
 #print(combined_plot)
