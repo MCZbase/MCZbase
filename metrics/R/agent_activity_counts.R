@@ -163,11 +163,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
 combined_plot <- main_plot + outliers_plot +
   plot_layout(guides = 'collect', widths = c(13, 1)) & 
   theme(plot.title = element_text(size=3, face="bold"),legend.position = 'bottom', 
-        legend.box="vertical", legend.key.size = unit(10, "px"),
-        legend.key.width = unit(.20, "cm"),
-        legend.text = element_text(size = unit(10, "px")),
-        legend.title = element_text(size = unit(10, "px")),
-        legend.spacing = unit(unit(2, "px")),
+       
         guides(fill = guide_legend(ncol = 1))
         )
 
