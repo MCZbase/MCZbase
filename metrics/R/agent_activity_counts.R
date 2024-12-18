@@ -110,7 +110,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   geom_text(aes(label = ifelse(AdjustedCount > 3000, 
                 paste0(as.integer(factor(Role)), ""), "")),  
                 position = position_stack(vjust = 0.5),
-                size = .5, color = "white"
+                size = 1, color = "white"
                 ) +
   labs(title = "Counts by Role and Agent",
        x = "Agent Info",
@@ -165,7 +165,8 @@ combined_plot <- main_plot + outliers_plot +
     legend.key.height = unit(0.18, "cm"),      # Optionally adjust height separately
     legend.key.width = unit(0.23, "cm"),        # Optionally adjust width separately
     legend.text = element_text(size=4),
-    legend.title = element_text(size=10)
+    legend.title = element_text(size=10),
+    legend.spacing.y = unit(1.0, "cm")
   ) 
 # Display the combined plot
 #print(combined_plot)
