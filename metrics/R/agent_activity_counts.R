@@ -163,10 +163,10 @@ combined_plot <- main_plot + outliers_plot +
     legend.direction = "horizontal",          # Arrange legend items in a row
     legend.box = "horizontal",            # Ensure across-the-page spread
     legend.key.size = unit(0.15, "cm"),        # Adjust the size of the legend key (o.3 -1 cm)
-    legend.key.height = unit(0.18, "cm"),      # Optionally adjust height separately
-    legend.key.width = unit(0.23, "cm"),        # Optionally adjust width separately
-    legend.text = element_text(size=2),
-    legend.title = element_text(size=2),
+    legend.key.height = unit(0.2, "cm"),      # Optionally adjust height separately
+    legend.key.width = unit(0.2, "cm"),        # Optionally adjust width separately
+    legend.text = element_text(size=3),
+    legend.title = element_text(size=3),
     legend.spacing.x = unit(0.3, "cm"),
     legend.spacing.y = unit(0.3, "cm")
   ) 
