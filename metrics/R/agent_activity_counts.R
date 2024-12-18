@@ -3,7 +3,6 @@ library(readr)
 library(ggplot2)
 library(dplyr)
 library(patchwork)
-library(png)
 library(svglite)
 #agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
 agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
@@ -21,6 +20,7 @@ agents_data_role <- agents_data_name %>%
 agents_data_sorted <- agents_data_role %>%
   arrange(AgentInfo)
 
+agents_data_sorted$AgentInfo <- substr(agents_data_sorted$AgentInfo,1,15) 
 # Calculate total counts per AgentInfo
 total_counts <- agents_data_sorted %>%
   group_by(AgentInfo) %>%
@@ -148,9 +148,9 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
   labs(title = "Outliers", 
        x = NULL, 
        y = "COUNT (> 100000)", 
-       fill = NULL
+       fill = NULL, color = "Agent Roles"
        ) +
-  theme(plot.title = element_text(size=unit(7,"pt"), face="bold"), 
+  theme(plot.title = element_text(size=unit(7,"pt"), face="bold", angle =90), 
         axis.text.x = element_text(size=unit(3,"pt"),angle =50, hjust = 1),
         axis.text.y = element_text(size=unit(3,"pt")),
         axis.title.y = element_text(size=unit(5,"pt")),
