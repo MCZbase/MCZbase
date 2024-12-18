@@ -113,7 +113,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
                                paste0(as.integer(factor(Role)), ""), "")
                 ),  
             position = position_stack(vjust = 0.5),
-            size = 1.5, color = "white", fontface = "bold") +
+            size = unit(3.5,"px"), color = "white", fontface = "bold") +
   labs(title = "Counts by Role and Agent",
        x = "Agent Info",
        y = "COUNT (<= 100,000)", 
@@ -125,6 +125,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   theme(plot.title = element_text(size=3, face="bold"), 
         axis.text.x = element_text(size=2.5,angle =50, hjust = 1),
         axis.text.y = element_text(size=unit(10,"px")),
+        axis.title.x = element_text(size=unit(12,"px")),
         axis.title.y = element_text(size=unit(12,"px"))
   )  
 
@@ -136,7 +137,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
            ) + 
   geom_text(aes(label = ifelse(AdjustedCount > 0, 
                               paste0(as.integer(factor(Role)), ""), "")), 
-                              size = 1.5,
+                              size = 2.5,
                               color = "white",
                               position=position_stack(vjust=0.5)
                               ) +
@@ -151,15 +152,15 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
        y = "COUNT (> 100000)", 
        fill = NULL
        ) +
-  theme(plot.title = element_text(size=3, face="bold"), 
-        axis.text.x = element_text(size=2.5,angle =50, hjust = 1),
+  theme(plot.title = element_text(size=4, face="bold"), 
+        axis.text.x = element_text(size=4.5,angle =50, hjust = 1),
         axis.text.y = element_text(size=unit(10,"px")),
         axis.title.y = element_text(size=unit(12,"px"))
         ) 
 
 # Combine the plots using patchwork, place outliers to the left and merge legends
 combined_plot <- main_plot + outliers_plot +
-  plot_layout(guides = 'collect', widths = c(12,.91)) & 
+  plot_layout(guides = 'collect', widths = c(12,.75)) & 
   theme(plot.title = element_text(size=3, face="bold"),legend.position = 'bottom', 
         legend.box="vertical", legend.key.size = unit(0.2, "cm"),
         legend.key.width = unit(.20, "cm"),
