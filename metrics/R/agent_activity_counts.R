@@ -4,6 +4,7 @@ library(ggplot2)
 library(dplyr)
 library(patchwork)
 library(png)
+library(svglite)
 #agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
 agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
 # removes NAs
