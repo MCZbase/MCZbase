@@ -108,10 +108,10 @@ legend_labels <- unique(agents_data_sorted$RoleLabel)
 main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role)) +
   geom_bar(stat = "identity", position = "stack") +
   geom_text(aes(label = ifelse(AdjustedCount > 3000, 
-                              paste0(as.integer(factor(Role)), ""), "")),  
-                              position = position_stack(vjust = 0.5),
-                              size = 1, 
-                              color = "white") +
+                paste0(as.integer(factor(Role)), ""), "")),  
+                position = position_stack(vjust = 0.5),
+                size = .5, color = "white"
+                ) +
   labs(title = "Counts by Role and Agent",
        x = "Agent Info",
        y = "COUNT (<= 100,000)", 
@@ -127,18 +127,15 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         axis.title.y = element_text(size=unit(5,"pt"))
   )  
 
-
 # Outliers plot, now includes whole removed stacks
 outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = Role)) +
   geom_bar(stat = "identity", 
            position = "stack"
            ) + 
   geom_text(aes(label = ifelse(AdjustedCount > 10000, 
-                              paste0(as.integer(factor(Role)), ""), "")), 
-                              size = 1,
-                              color = "white",
-                              position=position_stack(vjust=0.5)
-                              ) +
+                paste0(as.integer(factor(Role)), ""), "")), 
+                size = 1, color = "white", position=position_stack(vjust=0.5)
+                ) +
   scale_fill_manual(values = palette, 
                     labels = unique(agents_data_sorted$RoleLabel),
                     guide="none"
@@ -148,7 +145,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
   labs(title = "Outliers", 
        x = NULL, 
        y = "COUNT (> 100000)", 
-       fill = NULL, color = "Agent Roles"
+       fill = NULL
        ) +
   theme(plot.title = element_text(size=unit(7,"pt"), face="bold"), 
         axis.text.x = element_text(size=unit(3,"pt"),angle =50, hjust = 1),
@@ -164,7 +161,7 @@ combined_plot <- main_plot + outliers_plot +
     legend.position = "bottom",               # Place legend at the bottom
     legend.direction = "horizontal",          # Arrange legend items in a row
     legend.box = "horizontal",            # Ensure across-the-page spread
-    legend.key.size = unit(0.23, "cm"),        # Adjust the size of the legend key (o.3 -1 cm)
+    legend.key.size = unit(0.15, "cm"),        # Adjust the size of the legend key (o.3 -1 cm)
     legend.key.height = unit(0.18, "cm"),      # Optionally adjust height separately
     legend.key.width = unit(0.23, "cm"),        # Optionally adjust width separately
     legend.text = element_text(size=4),
