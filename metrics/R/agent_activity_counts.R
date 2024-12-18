@@ -138,7 +138,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
            ) + 
   geom_text(aes(label = ifelse(AdjustedCount > 0, 
                               paste0(as.integer(factor(Role)), ""), "")), 
-                              size = 2.5,
+                              size = unit(10,"px"),
                               color = "white",
                               position=position_stack(vjust=0.5)
                               ) +
@@ -153,7 +153,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
        y = "COUNT (> 100000)", 
        fill = NULL
        ) +
-  theme(plot.title = element_text(size=unit(10,"px"), face="bold"), 
+  theme(plot.title = element_text(size=unit(12,"px"), face="bold"), 
         axis.text.x = element_text(size=unit(10,"px"),angle =50, hjust = 1),
         axis.text.y = element_text(size=unit(10,"px")),
         axis.title.y = element_text(size=unit(12,"px"))
@@ -161,9 +161,9 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
 
 # Combine the plots using patchwork, place outliers to the left and merge legends
 combined_plot <- main_plot + outliers_plot +
-  plot_layout(guides = 'collect', widths = c(11,.75)) & 
+  plot_layout(guides = 'collect', widths = c(13, 1)) & 
   theme(plot.title = element_text(size=3, face="bold"),legend.position = 'bottom', 
-        legend.box="vertical", legend.key.size = unit(0.2, "cm"),
+        legend.box="vertical", legend.key.size = unit(10, "px"),
         legend.key.width = unit(.20, "cm"),
         legend.text = element_text(size = unit(10, "px")),
         legend.title = element_text(size = unit(10, "px")),
