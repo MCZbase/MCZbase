@@ -122,13 +122,11 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   scale_fill_manual(values = c(custom_palette), labels = unique(agents_data_sorted$RoleLabel)) +
   scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) +
   theme_minimal() +
-  theme(plot.title = element_text(size=7, 
-                                  face="bold"),
-        axis.text.x = element_text(size=3,
-                                   angle =50, hjust = 1),
-        axis.text.y = element_text(size=3),
-        axis.title.y = element_text(size=3),
-        axis.title.x = element_text(size=3)) 
+  theme(plot.title = element_text(size=3, face="bold"), 
+        axis.text.x = element_text(size=2.5,angle =50, hjust = 1),
+        axis.text.y = element_text(size=unit(10,"px")),
+        axis.title.y = element_text(size=unit(12,"px"))
+  )  
 
 
 # Outliers plot, now includes whole removed stacks
