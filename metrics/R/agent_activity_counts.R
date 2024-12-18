@@ -20,7 +20,7 @@ agents_data_role <- agents_data_name %>%
 agents_data_sorted <- agents_data_role %>%
   arrange(AgentInfo)
 
-agents_data_sorted$AgentInfo <- substr(agents_data_sorted$AgentInfo,1,15) 
+agents_data_sorted$AgentInfo <- substr(agents_data_sorted$AgentInfo,1,18) 
 # Calculate total counts per AgentInfo
 total_counts <- agents_data_sorted %>%
   group_by(AgentInfo) %>%
@@ -110,7 +110,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   geom_text(aes(label = ifelse(AdjustedCount > 3000, 
                               paste0(as.integer(factor(Role)), ""), "")),  
                               position = position_stack(vjust = 0.5),
-                              size = 3, 
+                              size = 1, 
                               color = "white") +
   labs(title = "Counts by Role and Agent",
        x = "Agent Info",
@@ -135,7 +135,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
            ) + 
   geom_text(aes(label = ifelse(AdjustedCount > 10000, 
                               paste0(as.integer(factor(Role)), ""), "")), 
-                              size = 3,
+                              size = 1,
                               color = "white",
                               position=position_stack(vjust=0.5)
                               ) +
@@ -150,7 +150,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
        y = "COUNT (> 100000)", 
        fill = NULL, color = "Agent Roles"
        ) +
-  theme(plot.title = element_text(size=unit(7,"pt"), face="bold", angle =90), 
+  theme(plot.title = element_text(size=unit(7,"pt"), face="bold"), 
         axis.text.x = element_text(size=unit(3,"pt"),angle =50, hjust = 1),
         axis.text.y = element_text(size=unit(3,"pt")),
         axis.title.y = element_text(size=unit(5,"pt")),
@@ -164,9 +164,9 @@ combined_plot <- main_plot + outliers_plot +
     legend.position = "bottom",               # Place legend at the bottom
     legend.direction = "horizontal",          # Arrange legend items in a row
     legend.box = "horizontal",            # Ensure across-the-page spread
-    legend.key.size = unit(0.3, "cm"),        # Adjust the size of the legend key (o.3 -1 cm)
-    legend.key.height = unit(0.3, "cm"),      # Optionally adjust height separately
-    legend.key.width = unit(0.3, "cm"),        # Optionally adjust width separately
+    legend.key.size = unit(0.23, "cm"),        # Adjust the size of the legend key (o.3 -1 cm)
+    legend.key.height = unit(0.18, "cm"),      # Optionally adjust height separately
+    legend.key.width = unit(0.23, "cm"),        # Optionally adjust width separately
     legend.text = element_text(size=4),
     legend.title = element_text(size=10)
   ) 
