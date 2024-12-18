@@ -108,10 +108,10 @@ legend_labels <- unique(agents_data_sorted$RoleLabel)
 main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role)) +
   geom_bar(stat = "identity", position = "stack") +
   geom_text(aes(label = ifelse(AdjustedCount > 3000, 
-                               paste0(as.integer(factor(Role)), ""), "")
-                ),  
-            position = position_stack(vjust = 0.5),
-            size = unit(2,"pt"), color = "white", fontface = "bold") +
+                              paste0(as.integer(factor(Role)), ""), "")),  
+                              position = position_stack(vjust = 0.5),
+                              size = 3, 
+                              color = "white") +
   labs(title = "Counts by Role and Agent",
        x = "Agent Info",
        y = "COUNT (<= 100,000)", 
@@ -135,7 +135,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
            ) + 
   geom_text(aes(label = ifelse(AdjustedCount > 10000, 
                               paste0(as.integer(factor(Role)), ""), "")), 
-                              size = unit(3,"pt"),
+                              size = 3,
                               color = "white",
                               position=position_stack(vjust=0.5)
                               ) +
@@ -145,16 +145,16 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
                     ) +
   scale_y_continuous(labels = scales::comma) + 
   theme_minimal() +
-  labs(title = "Outlier Counts", 
+  labs(title = "Outliers", 
        x = NULL, 
        y = "COUNT (> 100000)", 
        fill = NULL
        ) +
-  theme(plot.title = element_text(size=unit(8,"pt"), face="bold"), 
-        axis.text.x = element_text(size=unit(2,"pt"),angle =50, hjust = 1),
-        axis.text.y = element_text(size=unit(2,"pt")),
-        axis.title.y = element_text(size=unit(6,"pt")),
-        axis.title.x = element_text(size=unit(6,"pt"))
+  theme(plot.title = element_text(size=unit(7,"pt"), face="bold"), 
+        axis.text.x = element_text(size=unit(3,"pt"),angle =50, hjust = 1),
+        axis.text.y = element_text(size=unit(3,"pt")),
+        axis.title.y = element_text(size=unit(5,"pt")),
+        axis.title.x = element_text(size=unit(5,"pt"))
         ) 
 
 # Combine the plots using patchwork, place outliers to the left and merge legends
@@ -165,9 +165,9 @@ combined_plot <- main_plot + outliers_plot +
     legend.direction = "horizontal",          # Arrange legend items in a row
     legend.box = "horizontal",            # Ensure across-the-page spread
     legend.key.size = unit(0.3, "cm"),        # Adjust the size of the legend key (o.3 -1 cm)
-    legend.key.height = unit(0.4, "cm"),      # Optionally adjust height separately
-    legend.key.width = unit(0.4, "cm"),        # Optionally adjust width separately
-    legend.text = element_text(size=3),
+    legend.key.height = unit(0.3, "cm"),      # Optionally adjust height separately
+    legend.key.width = unit(0.3, "cm"),        # Optionally adjust width separately
+    legend.text = element_text(size=4),
     legend.title = element_text(size=10)
   ) 
 # Display the combined plot
