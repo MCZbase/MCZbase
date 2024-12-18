@@ -118,8 +118,8 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   scale_fill_manual(values = c(custom_palette), labels = unique(agents_data_sorted$RoleLabel)) +
   scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) +
   theme_minimal() +
-  theme(plot.title = element_text(size=3, face="bold"),axis.text.x = element_text(size=3,angle =50, hjust = 1),
-        axis.text.y = element_text(size=3,)) 
+  theme(plot.title = element_text(size=5, face="bold"),axis.text.x = element_text(size=3,angle =50, hjust = 1),
+        axis.text.y = element_text(size=3),axis.title.y = element_text(size=9)) 
 
 
 # Outliers plot, now includes whole removed stacks
@@ -134,7 +134,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
   labs(title = "Outlier Counts", x = NULL, y = "COUNT (> 100000)", fill = NULL, size=2) +
   theme(plot.title = element_text(size=3, face="bold"), 
         axis.text.x = element_text(size=2.5,angle =50, hjust = 1),
-        axis.text.y = element_text(size=2.5)) 
+        axis.text.y = element_text(size=2.5),axis.title.y = element_text(size=9)) 
 
 # Combine the plots using patchwork, place outliers to the left and merge legends
 combined_plot <- main_plot + outliers_plot +
