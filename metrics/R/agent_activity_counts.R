@@ -165,8 +165,8 @@ combined_plot <- main_plot + outliers_plot +
     legend.key.size = unit(0.15, "cm"),        # Adjust the size of the legend key (o.3 -1 cm)
     legend.key.height = unit(0.18, "cm"),      # Optionally adjust height separately
     legend.key.width = unit(0.23, "cm"),        # Optionally adjust width separately
-    legend.text = element_text(size=4),
-    legend.title = element_text(size=4),
+    legend.text = element_text(size=2),
+    legend.title = element_text(size=2),
     legend.position = "left", 
     legend.spacing.x = unit(0.15, "cm"),
     legend.spacing.y = unit(0.15, "cm")
