@@ -92,6 +92,7 @@ outliers <- outliers %>%
 main_data$AgentInfo <- factor(main_data$AgentInfo, levels = total_counts_sorted$AgentInfo)
 outliers$AgentInfo <- factor(outliers$AgentInfo, levels = total_counts_sorted$AgentInfo)
 
+main_data <- na.omit(main_data)
 # The display is below: Define a custom palette corresponding to the roles
 custom_palette <- c("#E69F00","#4b0082","#006400","#03839c","#2f4f4f","#394df2",
                     "#483D8B","#4682b4","#8b0000","#8B008B","#8B3a3a","#a0522d",
