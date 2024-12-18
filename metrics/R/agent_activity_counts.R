@@ -142,6 +142,6 @@ combined_plot <- main_plot + outliers_plot +
 #print(combined_plot)
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
-ggsave('/var/www/html/arctos/metrics/R/Agent_Activity.png', plot=combined_plot, width=11, height=8, dpi=72)
+ggsave('/var/www/html/arctos/metrics/R/Agent_Activity.png', plot=combined_plot, width = 8, height = 4.5, dpi = 150, units = "in")
 
 
