@@ -121,8 +121,8 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) +
   theme_minimal() +
   theme(plot.title = element_text(size=unit(7,"pt"), face="bold"), 
-        axis.text.x = element_text(size=unit(3,"pt"),angle =50, hjust = 1),
-        axis.text.y = element_text(size=unit(3,"pt")),
+        axis.text.x = element_text(size=unit(3.2,"pt"),angle =50, hjust = 1),
+        axis.text.y = element_text(size=unit(3.2,"pt")),
         axis.title.x = element_text(size=unit(5,"pt")),
         axis.title.y = element_text(size=unit(5,"pt"))
   )  
@@ -148,8 +148,8 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
        fill = NULL
        ) +
   theme(plot.title = element_text(size=unit(7,"pt"), face="bold"), 
-        axis.text.x = element_text(size=unit(3,"pt"),angle =50, hjust = 1),
-        axis.text.y = element_text(size=unit(3,"pt")),
+        axis.text.x = element_text(size=unit(3.2,"pt"),angle =50, hjust = 1),
+        axis.text.y = element_text(size=unit(3.2,"pt")),
         axis.title.y = element_text(size=unit(5,"pt")),
         axis.title.x = element_text(size=unit(5,"pt"))
         ) 
@@ -167,7 +167,7 @@ combined_plot <- main_plot + outliers_plot +
     legend.text = element_text(size=4),
     legend.title = element_text(size=10),
     legend.position = "left", 
-    legend.spacing.y = unit(0.25, "cm")
+    legend.spacing.y = unit(0.15, "cm")
   ) 
 # Display the combined plot
 #print(combined_plot)
