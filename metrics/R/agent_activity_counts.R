@@ -107,6 +107,7 @@ legend_labels <- unique(agents_data_sorted$RoleLabel)
 # Main plot for standard range, exclude full stacks that are moved to outliers
 main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role)) +
   geom_bar(stat = "identity", position = "stack") +
+  guides(color = guide_legend(title = "Agent Role Legend")) +
   geom_text(aes(label = ifelse(AdjustedCount > 3000, 
                 paste0(as.integer(factor(Role)), ""), "")),  
                 position = position_stack(vjust = 0.5),
@@ -124,8 +125,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         axis.text.x = element_text(size=unit(3.2,"pt"),angle =50, hjust = 1),
         axis.text.y = element_text(size=unit(3.2,"pt")),
         axis.title.x = element_text(size=unit(5,"pt")),
-        axis.title.y = element_text(size=unit(5,"pt")) +
-        guides(color = guide_legend(title = "Agent Role Legend"))
+        axis.title.y = element_text(size=unit(5,"pt")) 
   )  
 
 # Outliers plot, now includes whole removed stacks
