@@ -68,7 +68,7 @@ limitations under the License.
 			
 			<div class="col-12">
 				<!--- chart created by R script --->
-				<img src="/metrics/R/Agent_Activity.png" width="100%"/>
+				<img src="/metrics/R/Agent_Activity.svg" width="100%"/>
 			</div>
 		</div>
 		<cfif len(#chartOutput#) gt 0>
