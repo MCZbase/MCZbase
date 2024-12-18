@@ -134,7 +134,9 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
   labs(title = "Outlier Counts", x = NULL, y = "COUNT (> 100000)", fill = NULL, size=2) +
   theme(plot.title = element_text(size=3, face="bold"), 
         axis.text.x = element_text(size=2.5,angle =50, hjust = 1),
-        axis.text.y = element_text(size=2.5),axis.title.y = element_text(size=9)) 
+        axis.text.y = element_text(size=2.5),
+        axis.title.y = element_text(size=9)
+        ) 
 
 # Combine the plots using patchwork, place outliers to the left and merge legends
 combined_plot <- main_plot + outliers_plot +
@@ -151,6 +153,6 @@ combined_plot <- main_plot + outliers_plot +
 #print(combined_plot)
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
-ggsave('/var/www/html/arctos/metrics/R/Agent_Activity.svg', plot=combined_plot, width = 7, height = 3.5, dpi = 150, units = "in")
+ggsave('/var/www/html/arctos/metrics/R/Agent_Activity.svg', plot=combined_plot, width = 7, height = 5.5, dpi = 150, units = "in")
 
 
