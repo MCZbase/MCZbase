@@ -152,8 +152,8 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
        y = "COUNT (> 100000)", 
        fill = NULL
        ) +
-  theme(plot.title = element_text(size=4, face="bold"), 
-        axis.text.x = element_text(size=4.5,angle =50, hjust = 1),
+  theme(plot.title = element_text(size=unit(10,"px"), face="bold"), 
+        axis.text.x = element_text(size=unit(10,"px"),angle =50, hjust = 1),
         axis.text.y = element_text(size=unit(10,"px")),
         axis.title.y = element_text(size=unit(12,"px"))
         ) 
