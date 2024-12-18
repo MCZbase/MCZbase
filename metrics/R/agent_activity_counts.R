@@ -9,11 +9,7 @@ library(svglite)
 agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
 # removes NAs
 agents_data <- agents_roles[complete.cases(agents_roles), ]
-#First replace.
-agents_data$AGENT_ID <- as.numeric(as.character(agents_data$AGENT_ID))
-agents_data$AGENT_ID[is.na(agents_data$AGENT_ID)] <- 0  # Replace NAs with 0 or another appropriate value 
-# Then remove
-agents_data <-  agents_data[agents_data$AGENT_ID != "0",]
+
 
 # Unite AgentID and AgentName to create a unique AgentInfo combination
 agents_data_name <- agents_data %>%
@@ -40,7 +36,7 @@ total_counts <- total_counts %>%
 
 suppressWarnings({
 total_counts_filtered <- total_counts %>%
-  dplyr::filter(TotalCount > 200)
+  dplyr::filter(TotalCount > 1700)
 })
 #head(total_counts_filtered)
 # Create the RoleLabel by combining RoleNumber and Role
@@ -49,7 +45,7 @@ agents_data_sorted <- agents_data_sorted %>%
   mutate(
     RoleNumber = as.integer(factor(Role, levels = unique(Role))),
     RoleLabel = paste0(RoleNumber, ". ", Role),
-    AdjustedCount = ifelse(COUNT <= 0, 1, ifelse(COUNT > 1, COUNT+50, COUNT)), 
+    AdjustedCount = ifelse(COUNT <= 0, 1, ifelse(COUNT > 1, COUNT+100, COUNT)), 
     Role = factor(Role, levels = unique(Role))  # Automatically set factor levels
   )
 ##############code above finds outliers
@@ -94,14 +90,15 @@ outliers$AgentInfo <- factor(outliers$AgentInfo, levels = total_counts_sorted$Ag
 
 main_data <- na.omit(main_data)
 # The display is below: Define a custom palette corresponding to the roles
-custom_palette <- c("#E69F00","#4b0082","#006400","#03839c","#2f4f4f","#394df2",
-                    "#483D8B","#4682b4","#8b0000","#8B008B","#8B3a3a","#a0522d",
-                    "#708090","#b53b56","#106a93","#6A5ACD","#cd4b19","#4daf4a",
-                    "#ff7f00","#665433","#096d28","#FF4500","#a892f5","#f00000",
-                    "#334445","#a8786f","#5a5a5a","#0072B2","#657843","#a65628",
-                    "#006400","#f75147","#c42e24","#56B4E9","#234b34","#432666",
-                    "#e22345","#d24678","#0073e6","#984ea3","#b51963","#556B2F",
-                    "#5928ed","#00008b","#2e8b57"
+palette <- c("#E69F00","#FF4500","#006400","#03839c","#d24678",
+             "#665433","#5928ed","#0073e6","#8b0000","#8B008B",
+             "#00008b","#a0522d","#2f2f2f","#e22345","#984ea3",
+             "#6A5ACD","#cd4b19","#2e8b57","#ff7f00","#394df2",
+             "#096d28","#4b0082","#a892f5","#f00000","#334445",
+             "#a8786f","#5a5a5a","#0072B2","#657843","#a65628",
+             "#f75147","#8B3a3a","#56B4E9","#234b34","#432666",
+             "#b53b56","#708090","#4682b4","#106a93","#b51963",
+             "#556B2F","#483D8B","#c42e24","#4daf4a","#2f4f4f"
 )
 
 # Use RoleLabel for legend labels, which should be unique
@@ -110,11 +107,11 @@ legend_labels <- unique(agents_data_sorted$RoleLabel)
 # Main plot for standard range, exclude full stacks that are moved to outliers
 main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role)) +
   geom_bar(stat = "identity", position = "stack") +
-  geom_text(aes(label = ifelse(AdjustedCount > 5000, 
+  geom_text(aes(label = ifelse(AdjustedCount > 3000, 
                                paste0(as.integer(factor(Role)), ""), "")
                 ),  
             position = position_stack(vjust = 0.5),
-            size = unit(10,"px"), color = "white", fontface = "bold") +
+            size = unit(3,"pt"), color = "white", fontface = "bold") +
   labs(title = "Counts by Role and Agent",
        x = "Agent Info",
        y = "COUNT (<= 100,000)", 
@@ -123,11 +120,11 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   scale_fill_manual(values = c(custom_palette), labels = unique(agents_data_sorted$RoleLabel)) +
   scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) +
   theme_minimal() +
-  theme(plot.title = element_text(size=unit(10,"px"), face="bold"), 
-        axis.text.x = element_text(size=unit(10,"px"),angle =50, hjust = 1),
-        axis.text.y = element_text(size=unit(10,"px")),
-        axis.title.x = element_text(size=unit(12,"px")),
-        axis.title.y = element_text(size=unit(12,"px"))
+  theme(plot.title = element_text(size=unit(12,"pt"), face="bold"), 
+        axis.text.x = element_text(size=unit(10,"pt"),angle =50, hjust = 1),
+        axis.text.y = element_text(size=unit(10,"pt")),
+        axis.title.x = element_text(size=unit(12,"pt")),
+        axis.title.y = element_text(size=unit(12,"pt"))
   )  
 
 
@@ -136,9 +133,9 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
   geom_bar(stat = "identity", 
            position = "stack"
            ) + 
-  geom_text(aes(label = ifelse(AdjustedCount > 0, 
+  geom_text(aes(label = ifelse(AdjustedCount > 10000, 
                               paste0(as.integer(factor(Role)), ""), "")), 
-                              size = unit(10,"px"),
+                              size = unit(3,"pt"),
                               color = "white",
                               position=position_stack(vjust=0.5)
                               ) +
@@ -153,20 +150,24 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
        y = "COUNT (> 100000)", 
        fill = NULL
        ) +
-  theme(plot.title = element_text(size=unit(12,"px"), face="bold"), 
-        axis.text.x = element_text(size=unit(10,"px"),angle =50, hjust = 1),
-        axis.text.y = element_text(size=unit(10,"px")),
-        axis.title.y = element_text(size=unit(12,"px"))
+  theme(plot.title = element_text(size=unit(13,"pt"), face="bold"), 
+        axis.text.x = element_text(size=unit(10,"pt"),angle =50, hjust = 1),
+        axis.text.y = element_text(size=unit(10,"pt")),
+        axis.title.y = element_text(size=unit(12,"pt"))
         ) 
 
 # Combine the plots using patchwork, place outliers to the left and merge legends
 combined_plot <- main_plot + outliers_plot +
-  plot_layout(guides = 'collect', widths = c(13, 1)) & 
-  theme(plot.title = element_text(size=3, face="bold"),legend.position = 'bottom', 
-       
-        guides(fill = guide_legend(ncol = 1))
-        )
-
+  plot_layout(guides = 'collect', widths = c(19.5, 1.5)) & 
+  theme(
+    legend.position = "bottom",               # Place legend at the bottom
+    legend.direction = "horizontal",          # Arrange legend items in a row
+    legend.box = "horizontal",            # Ensure across-the-page spread
+    legend.key.size = unit(0.5, "cm"),        # Adjust the size of the legend key
+    legend.key.height = unit(0.4, "cm"),      # Optionally adjust height separately
+    legend.key.width = unit(0.4, "cm")        # Optionally adjust width separately
+    
+  ) 
 # Display the combined plot
 print(combined_plot)
 
