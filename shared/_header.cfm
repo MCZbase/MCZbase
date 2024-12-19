@@ -49,8 +49,9 @@ limitations under the License.
 <!--- Easy to overlook this shared function file ---> 
 <cfinclude template="/shared/functionLib.cfm">
 <!--- switch out version of library files to use --->
-<cfset jqwidgets_ver = "jqwidgets_ver14.0.0">
-<cfset jqwidgets_ver = "jqwidgets_ver12.1.2">
+<!---<cfset jqwidgets_ver = "jqwidgets_ver14.0.0">
+<cfset jqwidgets_ver = "jqwidgets_ver12.1.2">--->
+<cfset jqwidgets_ver = "jqwidgets_ver20.0.0">
 <!--- include stylesheets and javascript library files --->
 <link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css"><!---needed for overall look--->
 <link rel="stylesheet" href="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/styles/jqx.base.css"><!--- needed for jqxwidgets to work --->
