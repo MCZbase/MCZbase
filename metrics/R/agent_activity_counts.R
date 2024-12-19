@@ -1,3 +1,6 @@
+# This will not load if there are any errors.  Run through it locally to check changes before expecting it to load
+# local path must be commented out; print(combined_plot) should be commented out too.
+
 # Read in the libraries
 library(readr)
 library(ggplot2)
@@ -38,7 +41,7 @@ total_counts <- total_counts %>%
 
 suppressWarnings({
 total_counts_filtered <- total_counts %>%
-  dplyr::filter(TotalCount > 3000)
+  dplyr::filter(TotalCount > 3500)
 })
 #head(total_counts_filtered)
 # Create the RoleLabel by combining RoleNumber and Role
@@ -96,14 +99,15 @@ main_data <- na.omit(main_data)
 # The display is below: Define a custom palette corresponding to the roles
 cpalette <- c("#E69F00","#FF4500","#006400","#03839c","#d24678",
              "#665433","#5928ed","#0073e6","#8b0000","#8B008B",
-             "#00008b","#a0522d","#2f2f2f","#e22345","#657843")
+             "#00008b","#a0522d","#2f2f2f","#e22345","#657843",
+             "#708090")
 
 # extra color-blind safe colors
              # #984ea3","#cd4b19","#2e8b57","#ff7f00","#394df2",
              # "#096d28","#4b0082","#a892f5","#f00000","#334445",
              # "#a8786f","#5a5a5a","#0072B2","#657843","#a65628",
              # "#f75147","#8B3a3a","#56B4E9","#234b34","#432666",
-             # "#b53b56","#708090","#4682b4","#106a93","#b51963",
+            #  "#b53b56","#708090","#4682b4","#106a93","#b51963",
              # "#556B2F","#483D8B","#c42e24","#4daf4a","#2f4f4f"
 #)
 
@@ -133,7 +137,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         axis.title.x = element_text(size=unit(5,"pt")),
         axis.title.y = element_text(size=unit(5,"pt")), 
   )+
- basic + theme(
+ theme(
     legend.direction = "vertical",   # Typically more space-efficient when inside plots
     # legend.box = "vertical",
     # legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
@@ -144,7 +148,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
     # legend.spacing.x = unit(0.05, "cm"),
     # legend.spacing.y = unit(0.05, "cm"),
     # plot.margin = margin(5,0,5,5),
-    legend.margin = margin(3, 3, 6, 3), # Reduce margin around the legend
+  #  legend.margin = margin(3, 3, 6, 3), # Reduce margin around the legend
     legend.box.spacing = unit(0.02, "cm"), # Adjust spacing between legend box and plot
     legend.position.inside = c(0.95, 0.95), # Adjust the coords to fit your specific data
     legend.position = c(.95, .95),
