@@ -38,7 +38,7 @@ total_counts <- total_counts %>%
 
 suppressWarnings({
 total_counts_filtered <- total_counts %>%
-  dplyr::filter(TotalCount > 2000)
+  dplyr::filter(TotalCount > 2500)
 })
 #head(total_counts_filtered)
 # Create the RoleLabel by combining RoleNumber and Role
@@ -50,7 +50,7 @@ agents_data_sorted <- agents_data_sorted %>%
     AdjustedCount = ifelse(COUNT <= 0, 1, ifelse(COUNT > 1, COUNT+100, COUNT)), 
     Role = factor(Role, levels = unique(Role))  # Automatically set factor levels
   )
-agents_data_sorted$RoleLabel <- substr(agents_data_sorted$RoleLabel,1,18) 
+agents_data_sorted$RoleLabel <- substr(agents_data_sorted$RoleLabel,1,15) 
 ##############code above finds outliers
 # Set threshold for outliers
 threshold <- 100000
@@ -132,7 +132,6 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         axis.title.y = element_text(size=unit(5,"pt")), 
   )+
   theme(
-    
     legend.direction = "vertical",   # Typically more space-efficient when inside plots
     legend.box = "vertical",
     legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
@@ -145,7 +144,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
     plot.margin = margin(5,5,5,5),
     legend.margin = margin(3, 3, 6, 3), # Reduce margin around the legend
     legend.box.spacing = unit(0.02, "cm"), # Adjust spacing between legend box and plot
-    legend.position.inside = c(1, 1), # Adjust the coords to fit your specific data
+    legend.position.inside = c(0.8, 0.2), # Adjust the coords to fit your specific data
   ) 
 
 # Outliers plot, now includes whole removed stacks
@@ -177,7 +176,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
 
 # Combine the plots using patchwork, place outliers to the left and merge legends
 combined_plot <- main_plot + outliers_plot +
-  plot_layout(guides = 'collect', widths = c(19.5, 1.5)) & 
+  plot_layout(guides = 'collect', widths = c(19.5, 1.5)) 
  
 # Display the combined plot
 #print(combined_plot)
