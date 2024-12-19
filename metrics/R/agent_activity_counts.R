@@ -4,7 +4,7 @@ library(ggplot2)
 library(dplyr)
 library(patchwork)
 library(svglite)
-agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
+#agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
 agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
 # removes NAs
 agents_data <- agents_roles[complete.cases(agents_roles), ]
@@ -54,12 +54,12 @@ agents_data_sorted$RoleLabel <- substr(agents_data_sorted$RoleLabel,1,18)
 ##############code above finds outliers
 # Set threshold for outliers
 threshold <- 100000
-suppressWarnings({
+
 # Determine which agents are outliers based on total count
 outliers_agents <- total_counts_filtered %>%
   dplyr::filter(TotalCount > threshold) %>%
   pull(AgentInfo)
-})
+
 ####################make legend
 # ALL BARS ORDER: tallest bars to the left
 # Add all agent Role counts and determine ORDER of AGENTS; Set levels for AgentInfo based on sorted order
@@ -71,16 +71,16 @@ total_counts_sorted <- total_counts_filtered %>%
 role_order <- c(agents_data_sorted$Role[1:16])
 role_numbers <- setNames(1:length(role_order), role_order)
 
-suppressWarnings({
+
 # Separate main data and outliers based on identified agents
 main_data <- agents_data_sorted %>%
   dplyr::filter(!AgentInfo %in% outliers_agents)
-})
 
-suppressWarnings({
+
+
 outliers <- agents_data_sorted %>%
   dplyr::filter(AgentInfo %in% outliers_agents)
-})
+
 
 # PER PERSON ORDER: Order stacks within each person by their count in the main_data
 main_data <- main_data %>%
@@ -178,7 +178,7 @@ combined_plot <- main_plot + outliers_plot +
     legend.box.spacing = unit(0.02, "cm") # Adjust spacing between legend box and plot
   ) 
 # Display the combined plot
-print(combined_plot)
+#print(combined_plot)
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
 ggsave('/var/www/html/arctos/metrics/R/Agent_Activity.svg', plot=combined_plot, width = 7, height = 3.5)
