@@ -50,6 +50,7 @@ agents_data_sorted <- agents_data_sorted %>%
     AdjustedCount = ifelse(COUNT <= 0, 1, ifelse(COUNT > 1, COUNT+100, COUNT)), 
     Role = factor(Role, levels = unique(Role))  # Automatically set factor levels
   )
+# truncates the legend values
 agents_data_sorted$RoleLabel <- substr(agents_data_sorted$RoleLabel,1,15) 
 ##############code above finds outliers
 # Set threshold for outliers
@@ -135,7 +136,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   )+
  basic + theme(
     legend.direction = "vertical",   # Typically more space-efficient when inside plots
-   # legend.box = "vertical",
+    legend.box = "vertical",
     legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
     legend.key.size = unit(0.5, "lines"),
     legend.box.margin = margin(0, 0, 0, 0), # Tighten the box margin if needed
@@ -144,15 +145,14 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
     legend.spacing.x = unit(0.05, "cm"),
     legend.spacing.y = unit(0.05, "cm"),
     plot.margin = margin(5,0,5,5),
-   # legend.margin = margin(3, 3, 6, 3), # Reduce margin around the legend
+    legend.margin = margin(3, 3, 6, 3), # Reduce margin around the legend
     legend.box.spacing = unit(0.02, "cm"), # Adjust spacing between legend box and plot
-   # legend.position.inside = c(0.8, 0.2), # Adjust the coords to fit your specific data
+    legend.position.inside = c(0.8, 0.2), # Adjust the coords to fit your specific data
     legend.position = c(.95, .95),
     legend.justification = c("right", "top"),
     legend.box.just = "right",
-    legend.margin = margin(6, 6, 6, 2)
+    legend.margin = margin(6, 2, 6, 2)
   )
-  ) 
 
 # Outliers plot, now includes whole removed stacks
 outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = Role)) +
