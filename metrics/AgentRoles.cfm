@@ -38,26 +38,7 @@ limitations under the License.
 	and column_name <> 'PERSON_ID'
 	group by agent_id, agent_name, table_name, column_name, count
 </cfquery>
-<cfquery name="getLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">	
-	UPDATE getStats  
-	SET label = CASE
-	WHEN CONSTRAINT_NAME = 'FK_IDAGENT_AGENT' THEN 'Identified Spec.'
-	WHEN CONSTRAINT_NAME = 'FK_LATLONG_AGENT' THEN 'Created Georef.'
-	WHEN CONSTRAINT_NAME = 'FK_LATLONG_VERIFIEDBY' THEN 'Verified Georef.'
-	WHEN CONSTRAINT_NAME = 'FK_MEDIARELNS_AGENT' THEN 'Created Media'
-	WHEN CONSTRAINT_NAME = 'FK_DEACC_ITEM_RECONCILED_AGENT' THEN 'Reconciled Deacc.'
-	WHEN CONSTRAINT_NAME = 'FK_ENCUMB_AGENT' THEN 'Encumbered Spec.'
-	WHEN CONSTRAINT_NAME = 'FK_PERMIT_CONTACTAGENT' THEN 'Tracked Permit'
-	WHEN CONSTRAINT_NAME = 'FK_UNDERSCORE_AGENT_ID' THEN 'Created NamedGroup'
-	WHEN CONSTRAINT_NAME = 'FK_SHIPMENT_PACKED_BY' THEN 'Shipped Spec.'
-	WHEN CONSTRAINT_NAME = 'FK_COLL_OBJECT_EDITED_AGENT' THEN 'Edited Spec.'
-	WHEN CONSTRAINT_NAME = 'FK_COLL_OBJECT_ENTERED_AGENT' THEN 'Entered Spec.'
-	WHEN CONSTRAINT_NAME = 'FK_COLLECTOR_AGENT' THEN 'Collected Spec.'
-	WHEN CONSTRAINT_NAME = 'FK_ATTRIBUTES_AGENT' THEN 'Created Attribute'
-	WHEN CONSTRAINT_NAME = 'LOAN_ITEM_FK1' THEN 'Created Loan'
-	WHEN CONSTRAINT_NAME = 'FK_DETERMINER_AGENT' THEN 'Determined Geology Att.'
-	group by agent_id, agent_name, table_name, column_name, count
-</cfquery>
+
 <cfoutput>
 <cfset csv = queryToCSV(getStats)> 
 <cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
