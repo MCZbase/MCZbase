@@ -494,23 +494,6 @@ limitations under the License.
 												<option  <cfif session.displayRows is "100"> selected </cfif> value="100">100</option>
 											</select>
 										</div>
-										<cfif len(session.roles) gt 0 AND session.roles is "public">
-											<div class="col-12 col-md-6 float-left mb-2">
-											<cfif isdefined("session.portal_id")>
-												<cfset pid=session.portal_id>
-											<cfelse>
-												<cfset pid="">
-											</cfif>
-											<label for="exclusive_collection_id" class="data-entry-label" >Filter Results By Collection (currently old search only)</label>
-												<select name="exclusive_collection_id" id="exclusive_collection_id"
-												class="data-entry-select" onchange="this.className='red';changeexclusive_collection_id(this.value);" size="1">
-												<option  <cfif pid is "" or pid is 0>selected="selected" </cfif> value="">All</option>
-												<cfloop query="collectionList">
-													<option <cfif pid is cf_collection_id>selected="selected" </cfif> value="#cf_collection_id#">#collection#</option>
-												</cfloop>
-												</select>
-											</div>
-										</cfif>
 									</div>
 									<div class="form-row">
 										<div class="col-12 col-xl-6 float-left mb-2">

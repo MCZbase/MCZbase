@@ -2132,6 +2132,9 @@
 	<cfreturn result>
 </cffunction>
 <!------------------------------------------------------------------>
+<!---
+ @Deprecated
+--->
 <cffunction name="changeexclusive_collection_id" access="remote">
 	<cfargument name="tgt" type="string" required="yes">
 	<cftry>
