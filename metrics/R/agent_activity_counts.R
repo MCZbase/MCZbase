@@ -25,7 +25,7 @@ agents_data_role <- agents_data_name %>%
 agents_data_sorted <- agents_data_role %>%
   arrange(AgentInfo)
 
-agents_data_sorted$AgentInfo <- substr(agents_data_sorted$AgentInfo,1,18) 
+agents_data_sorted$AgentInfo <- substr(agents_data_sorted$AgentInfo,1,25) 
 # Calculate total counts per AgentInfo
 total_counts <- agents_data_sorted %>%
   group_by(AgentInfo) %>%
