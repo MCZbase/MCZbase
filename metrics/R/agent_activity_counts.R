@@ -51,7 +51,7 @@ agents_data_sorted <- agents_data_sorted %>%
     Role = factor(Role, levels = unique(Role))  # Automatically set factor levels
   )
 # truncates the legend values
-agents_data_sorted$RoleLabel <- substr(agents_data_sorted$RoleLabel,1,13) 
+agents_data_sorted$RoleLabel <- substr(agents_data_sorted$RoleLabel,1,10) 
 ##############code above finds outliers
 # Set threshold for outliers
 threshold <- 100000
