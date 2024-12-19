@@ -41,7 +41,7 @@ limitations under the License.
 <cfset csv = queryToCSV(getStats)> 
 <cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
 </cfoutput>
-
+#getStats.ROLE#
 <cftry>
 	<cfexecute name = "/usr/bin/Rscript" 
 		arguments = "/#application.webDirectory#/metrics/R/agent_activity_counts.R" 
