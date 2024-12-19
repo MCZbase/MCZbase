@@ -38,7 +38,7 @@ total_counts <- total_counts %>%
 
 suppressWarnings({
 total_counts_filtered <- total_counts %>%
-  dplyr::filter(TotalCount > 1700)
+  dplyr::filter(TotalCount > 2000)
 })
 #head(total_counts_filtered)
 # Create the RoleLabel by combining RoleNumber and Role
@@ -50,7 +50,7 @@ agents_data_sorted <- agents_data_sorted %>%
     AdjustedCount = ifelse(COUNT <= 0, 1, ifelse(COUNT > 1, COUNT+100, COUNT)), 
     Role = factor(Role, levels = unique(Role))  # Automatically set factor levels
   )
-
+agents_data_sorted$RoleLabel <- substr(agents_data_sorted$RoleLabel,1,18) 
 ##############code above finds outliers
 # Set threshold for outliers
 threshold <- 100000
@@ -169,8 +169,8 @@ combined_plot <- main_plot + outliers_plot +
     legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
     legend.key.size = unit(0.5, "lines"),
     legend.box.margin = margin(0, 0, 0, 0), # Tighten the box margin if needed
-    legend.text = element_text(size=6.2),
-    legend.title = element_text(size=6.2),
+    legend.text = element_text(size=3.2),
+    legend.title = element_text(size=3.2),
     legend.spacing.x = unit(0.05, "cm"),
     legend.spacing.y = unit(0.05, "cm"),
     plot.margin = margin(5,5,5,5),
