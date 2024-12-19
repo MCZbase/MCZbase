@@ -104,6 +104,32 @@ palette <- c("#E69F00","#FF4500","#006400","#03839c","#d24678",
 
 # Use RoleLabel for legend labels, which should be unique
 legend_labels <- unique(agents_data_sorted$RoleLabel)
+legend_labels
+# Use case_when to create a new label column
+legend_labels <- tibble(legend_labels = category_id) %>%
+  mutate(label = case_when(
+    id == 1 ~ "1. COLL_OBJECT.LAST_EDITED_PERSON_ID" ,
+    id == 2 ~ "2. GEOLOGY_ATTRIBUTES.GEO_ATT_DETERMINER_ID",
+    id == 3 ~ "3. LAT_LONG.VERIFIED_BY_AGENT_ID" ,
+    id == 4 ~ "4. SHIPMENT.PACKED_BY_AGENT_ID"  ,
+    id == 5 ~ "5. ENCUMBRANCE.ENCUMBERING_AGENT_ID",
+    id == 6 ~ "6. LAT_LONG.DETERMINED_BY_AGENT_ID",
+    id == 7 ~ "7. TRANS.TRANS_ENTERED_AGENT_ID" ,
+    id == 8 ~ "8. ATTRIBUTES.DETERMINED_BY_AGENT_ID" ,
+    id == 9 ~ "9. COLL_OBJECT.ENTERED_PERSON_ID",
+    id == 10 ~ "10. DEACC_ITEM.RECONCILED_BY_PERSON_ID" ,
+    id == 11 ~ "11. UNDERSCORE_COLLECTION.UNDERSCORE_AGENT_ID" ,
+    id == 12 ~ "12. Collected Specimens"  ,
+    id == 13 ~ "13. IDENTIFICATION_AGENT.AGENT_ID" ,
+    id == 14 ~ "14. LOAN_ITEM.CREATED_BY_AGENT_ID",
+    id == 15 ~ "15. PERMIT.CONTACT_AGENT_ID",
+    id == 16 ~ "16. MEDIA_RELATIONS.CREATED_BY_AGENT_ID" 
+    TRUE ~ "Other"
+  )) %>%
+  pull(label)
+
+
+
 
 # Main plot for standard range, exclude full stacks that are moved to outliers
 main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role)) +
