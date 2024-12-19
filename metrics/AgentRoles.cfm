@@ -50,7 +50,7 @@ limitations under the License.
 </cfquery>
 <cfoutput>
 	<cfloop query="getLabel">
-	#getLabel.Label#
+	#getLabel.Label#<br>
 		</cfloop>
 <cfset csv = queryToCSV(getStats)> 
 <cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
