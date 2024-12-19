@@ -141,12 +141,12 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
     legend.direction = "vertical",   # Typically more space-efficient when inside plots
     # legend.box = "vertical",
     # legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
-    # legend.key.size = unit(0.5, "lines"),
+     legend.key.size = unit(0.5, "lines"),
     # legend.box.margin = margin(0, 0, 0, 0), # Tighten the box margin if needed
-    # legend.text = element_text(size=3.2),
-    # legend.title = element_text(size=4.5),
-    # legend.spacing.x = unit(0.05, "cm"),
-    # legend.spacing.y = unit(0.05, "cm"),
+     legend.text = element_text(size=3.2),
+     legend.title = element_text(size=4.5),
+     legend.spacing.x = unit(0.05, "cm"),
+     legend.spacing.y = unit(0.05, "cm"),
     # plot.margin = margin(5,0,5,5),
   #  legend.margin = margin(3, 3, 6, 3), # Reduce margin around the legend
     legend.box.spacing = unit(0.02, "cm"), # Adjust spacing between legend box and plot
