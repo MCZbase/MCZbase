@@ -135,15 +135,15 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   )+
  basic + theme(
     legend.direction = "vertical",   # Typically more space-efficient when inside plots
-    legend.box = "vertical",
-    legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
-    legend.key.size = unit(0.5, "lines"),
-    legend.box.margin = margin(0, 0, 0, 0), # Tighten the box margin if needed
-    legend.text = element_text(size=3.2),
-    legend.title = element_text(size=4.5),
-    legend.spacing.x = unit(0.05, "cm"),
-    legend.spacing.y = unit(0.05, "cm"),
-    plot.margin = margin(5,0,5,5),
+    # legend.box = "vertical",
+    # legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
+    # legend.key.size = unit(0.5, "lines"),
+    # legend.box.margin = margin(0, 0, 0, 0), # Tighten the box margin if needed
+    # legend.text = element_text(size=3.2),
+    # legend.title = element_text(size=4.5),
+    # legend.spacing.x = unit(0.05, "cm"),
+    # legend.spacing.y = unit(0.05, "cm"),
+    # plot.margin = margin(5,0,5,5),
     legend.margin = margin(3, 3, 6, 3), # Reduce margin around the legend
     legend.box.spacing = unit(0.02, "cm"), # Adjust spacing between legend box and plot
     legend.position.inside = c(0.95, 0.95), # Adjust the coords to fit your specific data
@@ -174,8 +174,8 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
        fill = NULL
        ) +
   theme(plot.title = element_text(size=unit(7,"pt"), face="bold"), 
-        axis.text.x = element_text(size=unit(3.2,"pt"),angle =50, hjust = 1),
-        axis.text.y = element_text(size=unit(3.2,"pt")),
+        axis.text.x = element_text(size=unit(3.5,"pt"),angle =50, hjust = 1),
+        axis.text.y = element_text(size=unit(3.5,"pt")),
         axis.title.y = element_text(size=unit(5,"pt")),
         axis.title.x = element_text(size=unit(5,"pt"))
         ) 
