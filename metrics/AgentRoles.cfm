@@ -49,7 +49,9 @@ limitations under the License.
 	and column_name <> 'PERSON_ID'
 </cfquery>
 <cfoutput>
+	<cfloop query="getLabel">
 	#getLabel.Label#
+		</cfloop>
 <cfset csv = queryToCSV(getStats)> 
 <cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
 </cfoutput>
