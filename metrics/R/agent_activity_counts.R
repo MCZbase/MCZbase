@@ -159,16 +159,19 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
 combined_plot <- main_plot + outliers_plot +
   plot_layout(guides = 'collect', widths = c(19.5, 1.5)) & 
   theme(
-    legend.position = "bottom",               # Place legend at the bottom
-    legend.direction = "horizontal",          # Arrange legend items in a row
-    legend.box = "horizontal",            # Ensure across-the-page spread
-    legend.key.size = unit(0.25, "cm"),        # Adjust the size of the legend key (o.3 -1 cm)
-    legend.key.height = unit(.02, "cm"),      # Optionally adjust height separately
-    legend.key.width = unit(0.1, "cm"),        # Optionally adjust width separately
-    legend.text = element_text(size=3),
-    legend.title = element_text(size=3),
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    legend.box = "horizontal",
+    legend.key.size = unit(0.25, "cm"),
+    legend.key.height = unit(0.02, "cm"),
+    legend.key.width = unit(0.1, "cm"),
+    legend.text = element_text(size=3.2),
+    legend.title = element_text(size=3.2),
     legend.spacing.x = unit(0.05, "cm"),
-    legend.spacing.y = unit(0.05, "cm")
+    legend.spacing.y = unit(0.05, "cm"),
+    legend.margin = margin(0, 0, 0, 0), # Reduce margin around the legend
+    legend.box.margin = margin(0, 0, 0, 0), # Adjust margin around the legend box
+    legend.box.spacing = unit(0.05, "cm") # Adjust spacing between legend box and plot
   ) 
 # Display the combined plot
 print(combined_plot)
