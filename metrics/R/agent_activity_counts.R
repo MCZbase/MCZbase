@@ -119,7 +119,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
        fill = "") +
   scale_color_manual(values = palette) +
   scale_fill_manual(values = c(palette), labels = unique(agents_data_sorted$RoleLabel)) +
-  scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) +
+  scale_y_continuous(labels = scales::comma) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space and text smaller
   theme_minimal() +
   theme(plot.title = element_text(size=unit(7,"pt"), face="bold"), 
         axis.text.x = element_text(size=unit(3.2,"pt"),angle =50, hjust = 1),
