@@ -95,15 +95,17 @@ main_data <- na.omit(main_data)
 # The display is below: Define a custom palette corresponding to the roles
 cpalette <- c("#E69F00","#FF4500","#006400","#03839c","#d24678",
              "#665433","#5928ed","#0073e6","#8b0000","#8B008B",
-             "#00008b","#a0522d","#2f2f2f","#e22345","#984ea3",
-             "#6A5ACD"
-             # ,"#cd4b19","#2e8b57","#ff7f00","#394df2",
+             "#00008b","#a0522d","#2f2f2f","#e22345","#657843",
+             "#6A5ACD")
+
+# extra color-blind safe colors
+             # #984ea3","#cd4b19","#2e8b57","#ff7f00","#394df2",
              # "#096d28","#4b0082","#a892f5","#f00000","#334445",
              # "#a8786f","#5a5a5a","#0072B2","#657843","#a65628",
              # "#f75147","#8B3a3a","#56B4E9","#234b34","#432666",
              # "#b53b56","#708090","#4682b4","#106a93","#b51963",
              # "#556B2F","#483D8B","#c42e24","#4daf4a","#2f4f4f"
-)
+#)
 
 # Use RoleLabel for legend labels, which should be unique
 legend_labels <- unique(agents_data_sorted$RoleLabel)
