@@ -142,7 +142,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
     # legend.box = "vertical",
     legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
      legend.key.size = unit(0.5, "lines"),
-    # legend.box.margin = margin(0, 0, 0, 0), # Tighten the box margin if needed
+     legend.box.margin = margin(0, 0, 0, 0), # Tighten the box margin if needed
      legend.text = element_text(size=3.2),
      legend.title = element_text(size=4.5),
      legend.spacing.x = unit(0.05, "cm"),
@@ -186,7 +186,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
 
 # Combine the plots using patchwork, place outliers to the left and merge legends
 combined_plot <- main_plot + outliers_plot +
-  plot_layout(guides = 'collect', widths = c(19, 1)) 
+  plot_layout(guides = 'collect', widths = c(19, 1.75)) 
  
 # Display the combined plot
 #print(combined_plot)
