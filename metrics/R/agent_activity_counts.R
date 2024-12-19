@@ -17,6 +17,8 @@ agents_data_name <- agents_data %>%
 agents_data_role <- agents_data_name %>%
   mutate(Role = paste(TABLE_NAME, COLUMN_NAME, sep = "."))
 
+
+
 agents_data_sorted <- agents_data_role %>%
   arrange(AgentInfo)
 
@@ -66,7 +68,7 @@ total_counts_sorted <- total_counts_filtered %>%
 
 # Assign and connect the role numbers to the roles based on the order in the datasheet
 # find a way to order them by the agents and not by position
-role_order <- c(agents_data_sorted$Role[1:26])
+role_order <- c(agents_data_sorted$Role[1:16])
 role_numbers <- setNames(1:length(role_order), role_order)
 
 suppressWarnings({
@@ -91,45 +93,20 @@ outliers$AgentInfo <- factor(outliers$AgentInfo, levels = total_counts_sorted$Ag
 
 main_data <- na.omit(main_data)
 # The display is below: Define a custom palette corresponding to the roles
-palette <- c("#E69F00","#FF4500","#006400","#03839c","#d24678",
+cpalette <- c("#E69F00","#FF4500","#006400","#03839c","#d24678",
              "#665433","#5928ed","#0073e6","#8b0000","#8B008B",
              "#00008b","#a0522d","#2f2f2f","#e22345","#984ea3",
-             "#6A5ACD","#cd4b19","#2e8b57","#ff7f00","#394df2",
-             "#096d28","#4b0082","#a892f5","#f00000","#334445",
-             "#a8786f","#5a5a5a","#0072B2","#657843","#a65628",
-             "#f75147","#8B3a3a","#56B4E9","#234b34","#432666",
-             "#b53b56","#708090","#4682b4","#106a93","#b51963",
-             "#556B2F","#483D8B","#c42e24","#4daf4a","#2f4f4f"
+             "#6A5ACD"
+             # ,"#cd4b19","#2e8b57","#ff7f00","#394df2",
+             # "#096d28","#4b0082","#a892f5","#f00000","#334445",
+             # "#a8786f","#5a5a5a","#0072B2","#657843","#a65628",
+             # "#f75147","#8B3a3a","#56B4E9","#234b34","#432666",
+             # "#b53b56","#708090","#4682b4","#106a93","#b51963",
+             # "#556B2F","#483D8B","#c42e24","#4daf4a","#2f4f4f"
 )
 
 # Use RoleLabel for legend labels, which should be unique
 legend_labels <- unique(agents_data_sorted$RoleLabel)
-legend_labels
-# Use case_when to create a new label column
-legend_labels <- tibble(legend_labels = category_id) %>%
-  mutate(label = case_when(
-    id == 1 ~ "1. COLL_OBJECT.LAST_EDITED_PERSON_ID" ,
-    id == 2 ~ "2. GEOLOGY_ATTRIBUTES.GEO_ATT_DETERMINER_ID",
-    id == 3 ~ "3. LAT_LONG.VERIFIED_BY_AGENT_ID" ,
-    id == 4 ~ "4. SHIPMENT.PACKED_BY_AGENT_ID"  ,
-    id == 5 ~ "5. ENCUMBRANCE.ENCUMBERING_AGENT_ID",
-    id == 6 ~ "6. LAT_LONG.DETERMINED_BY_AGENT_ID",
-    id == 7 ~ "7. TRANS.TRANS_ENTERED_AGENT_ID" ,
-    id == 8 ~ "8. ATTRIBUTES.DETERMINED_BY_AGENT_ID" ,
-    id == 9 ~ "9. COLL_OBJECT.ENTERED_PERSON_ID",
-    id == 10 ~ "10. DEACC_ITEM.RECONCILED_BY_PERSON_ID" ,
-    id == 11 ~ "11. UNDERSCORE_COLLECTION.UNDERSCORE_AGENT_ID" ,
-    id == 12 ~ "12. Collected Specimens"  ,
-    id == 13 ~ "13. IDENTIFICATION_AGENT.AGENT_ID" ,
-    id == 14 ~ "14. LOAN_ITEM.CREATED_BY_AGENT_ID",
-    id == 15 ~ "15. PERMIT.CONTACT_AGENT_ID",
-    id == 16 ~ "16. MEDIA_RELATIONS.CREATED_BY_AGENT_ID" 
-    TRUE ~ "Other"
-  )) %>%
-  pull(label)
-
-
-
 
 # Main plot for standard range, exclude full stacks that are moved to outliers
 main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role)) +
@@ -141,12 +118,12 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
                 size = 1, color = "white"
                 ) +
   labs(title = "Counts by Role and Agent",
-       x = "Agent Info",
-       y = "COUNT (<= 100,000)", 
-       fill = "") +
-  scale_color_manual(values = palette) +
-  scale_fill_manual(values = c(palette), labels = unique(agents_data_sorted$RoleLabel)) +
-  scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller
+                x = "Agent Info",
+                y = "COUNT (<= 100,000)", 
+                ) +
+  scale_color_manual(values=cpalette,labels=unique(agents_data_sorted$RoleLabel)) +
+  scale_fill_manual(values=cpalette,labels=legend_labels) +
+  scale_y_continuous(labels = scales::comma, expand=c(0.02, 0.02)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller
   theme_minimal() +
   theme(plot.title = element_text(size=unit(7,"pt"), face="bold"), 
         axis.text.x = element_text(size=unit(3.2,"pt"),angle =50, hjust = 1),
@@ -164,8 +141,8 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
                 paste0(as.integer(factor(Role)), ""), "")), 
                 size = 1, color = "white", position=position_stack(vjust=0.5)
                 ) +
-  scale_fill_manual(values = palette, 
-                    labels = unique(agents_data_sorted$RoleLabel),
+  scale_fill_manual(values = cpalette, 
+                    labels = legend_labels,
                     guide="none"
                     ) +
   scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) + 
@@ -186,28 +163,22 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
 combined_plot <- main_plot + outliers_plot +
   plot_layout(guides = 'collect', widths = c(19.5, 1.5)) & 
   theme(
-    # legend.position = "bottom",
-    # legend.direction = "horizontal",
-    # legend.box = "horizontal",
-    # legend.key.size = unit(0.25, "cm"),
-    # legend.key.height = unit(0.02, "cm"),
-    # legend.key.width = unit(0.1, "cm"),
     legend.position.inside = c(1, 1), # Adjust the coords to fit your specific data
     legend.direction = "vertical",   # Typically more space-efficient when inside plots
     legend.box = "vertical",
     legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
     legend.key.size = unit(0.5, "lines"),
-    legend.box.margin = margin(0, 0, 1, 1), # Tighten the box margin if needed
-    legend.text = element_text(size=3.2),
-    legend.title = element_text(size=3.2),
+    legend.box.margin = margin(0, 0, 0, 0), # Tighten the box margin if needed
+    legend.text = element_text(size=6.2),
+    legend.title = element_text(size=6.2),
     legend.spacing.x = unit(0.05, "cm"),
     legend.spacing.y = unit(0.05, "cm"),
     plot.margin = margin(5,5,5,5),
-    legend.margin = margin(0, 0, 1, 1), # Reduce margin around the legend
+    legend.margin = margin(3, 3, 6, 3), # Reduce margin around the legend
     legend.box.spacing = unit(0.02, "cm") # Adjust spacing between legend box and plot
   ) 
 # Display the combined plot
-#print(combined_plot)
+print(combined_plot)
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
 ggsave('/var/www/html/arctos/metrics/R/Agent_Activity.svg', plot=combined_plot, width = 7, height = 3.5)
