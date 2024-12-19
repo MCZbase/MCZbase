@@ -96,8 +96,7 @@ main_data <- na.omit(main_data)
 # The display is below: Define a custom palette corresponding to the roles
 cpalette <- c("#E69F00","#FF4500","#006400","#03839c","#d24678",
              "#665433","#5928ed","#0073e6","#8b0000","#8B008B",
-             "#00008b","#a0522d","#2f2f2f","#e22345","#657843",
-             "#6A5ACD")
+             "#00008b","#a0522d","#2f2f2f","#e22345","#657843")
 
 # extra color-blind safe colors
              # #984ea3","#cd4b19","#2e8b57","#ff7f00","#394df2",
