@@ -21,7 +21,7 @@
 </cfif>
 <cfset MAGIC_MCZ_COLLECTION = 12>
 <cfset MAGIC_MCZ_CRYO = 11>
-<cfset LOANNUMBERPATTERN = '^[12][0-9]{3}-[-0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'>
+<cfset LOANNUMBERPATTERN = '^[12][0-9]{3}-[\-0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'>
 <!--
 transactions/Loan.cfm
 
