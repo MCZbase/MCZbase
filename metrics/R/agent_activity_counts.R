@@ -48,6 +48,7 @@ agents_data_sorted <- agents_data_sorted %>%
     AdjustedCount = ifelse(COUNT <= 0, 1, ifelse(COUNT > 1, COUNT+100, COUNT)), 
     Role = factor(Role, levels = unique(Role))  # Automatically set factor levels
   )
+
 ##############code above finds outliers
 # Set threshold for outliers
 threshold <- 100000

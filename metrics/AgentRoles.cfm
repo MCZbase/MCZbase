@@ -29,7 +29,7 @@ limitations under the License.
 <cfset filePath = "/metrics/datafiles/">
 	
 <cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">	
-	select distinct agent_id, agent_name, table_name, column_name, count from mczbase.cf_temp_agent_role_summary 
+	select distinct agent_id, agent_name, CONCAT(table_name, '.' || column_name) AS ROLE, count from mczbase.cf_temp_agent_role_summary 
 	where agent_id <> 0 
 	and agent_id <> 9734 
 	and agent_id <> 102573 
