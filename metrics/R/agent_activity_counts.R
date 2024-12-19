@@ -165,25 +165,24 @@ combined_plot <- main_plot + outliers_plot +
     # legend.key.size = unit(0.25, "cm"),
     # legend.key.height = unit(0.02, "cm"),
     # legend.key.width = unit(0.1, "cm"),
-    legend.position = c(0.85, 0.85), # Adjust the coords to fit your specific data
+    legend.position.inside = c(1, 1), # Adjust the coords to fit your specific data
     legend.direction = "vertical",   # Typically more space-efficient when inside plots
     legend.box = "vertical",
     legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
     legend.key.size = unit(0.5, "lines"),
-    legend.title = element_text(size=8),
-    legend.text = element_text(size=8),
     legend.box.margin = margin(0, 0, 0, 0), # Tighten the box margin if needed
     legend.text = element_text(size=3.2),
     legend.title = element_text(size=3.2),
     legend.spacing.x = unit(0.05, "cm"),
     legend.spacing.y = unit(0.05, "cm"),
+    plot.margin = margin(5,5,5,5),
     legend.margin = margin(0, 0, 0, 0), # Reduce margin around the legend
     legend.box.spacing = unit(0.02, "cm") # Adjust spacing between legend box and plot
   ) 
 # Display the combined plot
-print(combined_plot)
+#print(combined_plot)
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
-ggsave('/var/www/html/arctos/metrics/R/Agent_Activity.svg', plot=combined_plot, width = 7, height = 4.5)
+ggsave('/var/www/html/arctos/metrics/R/Agent_Activity.svg', plot=combined_plot, width = 7, height = 3.5)
 
 
