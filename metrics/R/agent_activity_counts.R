@@ -159,19 +159,26 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
 combined_plot <- main_plot + outliers_plot +
   plot_layout(guides = 'collect', widths = c(19.5, 1.5)) & 
   theme(
-    legend.position = "bottom",
-    legend.direction = "horizontal",
-    legend.box = "horizontal",
-    legend.key.size = unit(0.25, "cm"),
-    legend.key.height = unit(0.02, "cm"),
-    legend.key.width = unit(0.1, "cm"),
+    # legend.position = "bottom",
+    # legend.direction = "horizontal",
+    # legend.box = "horizontal",
+    # legend.key.size = unit(0.25, "cm"),
+    # legend.key.height = unit(0.02, "cm"),
+    # legend.key.width = unit(0.1, "cm"),
+    legend.position = c(0.85, 0.85), # Adjust the coords to fit your specific data
+    legend.direction = "vertical",   # Typically more space-efficient when inside plots
+    legend.box = "vertical",
+    legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
+    legend.key.size = unit(0.5, "lines"),
+    legend.title = element_text(size=8),
+    legend.text = element_text(size=8),
+    legend.box.margin = margin(0, 0, 0, 0), # Tighten the box margin if needed
     legend.text = element_text(size=3.2),
     legend.title = element_text(size=3.2),
     legend.spacing.x = unit(0.05, "cm"),
     legend.spacing.y = unit(0.05, "cm"),
     legend.margin = margin(0, 0, 0, 0), # Reduce margin around the legend
-    legend.box.margin = margin(0, 0, 0, 0), # Adjust margin around the legend box
-    legend.box.spacing = unit(0.05, "cm") # Adjust spacing between legend box and plot
+    legend.box.spacing = unit(0.02, "cm") # Adjust spacing between legend box and plot
   ) 
 # Display the combined plot
 print(combined_plot)
