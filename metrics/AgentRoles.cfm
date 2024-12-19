@@ -39,7 +39,18 @@ limitations under the License.
 	group by agent_id, agent_name, table_name, column_name, count
 </cfquery>
 
+<cfquery name="getLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">	
+	select distinct table_name ||','|| column_name AS Label 
+	from mczbase.cf_temp_agent_role_summary 
+	where agent_id <> 0 
+	and agent_id <> 9734 
+	and agent_id <> 102573 
+	and agent_id <> 104339 
+	and column_name <> 'PERSON_ID'
+	group by Label
+</cfquery>
 <cfoutput>
+	#getLabel.Label#
 <cfset csv = queryToCSV(getStats)> 
 <cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
 </cfoutput>
