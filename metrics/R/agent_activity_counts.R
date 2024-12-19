@@ -171,7 +171,7 @@ combined_plot <- main_plot + outliers_plot +
     legend.box = "vertical",
     legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
     legend.key.size = unit(0.5, "lines"),
-    legend.box.margin = margin(0, 0, 0, 0), # Tighten the box margin if needed
+    legend.box.margin = margin(0, 0, .5, .5), # Tighten the box margin if needed
     legend.text = element_text(size=3.2),
     legend.title = element_text(size=3.2),
     legend.spacing.x = unit(0.05, "cm"),
