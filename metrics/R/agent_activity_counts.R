@@ -51,7 +51,7 @@ agents_data_sorted <- agents_data_sorted %>%
     Role = factor(Role, levels = unique(Role))  # Automatically set factor levels
   )
 # truncates the legend values
-agents_data_sorted$RoleLabel <- substr(agents_data_sorted$RoleLabel,1,15) 
+agents_data_sorted$RoleLabel <- substr(agents_data_sorted$RoleLabel,1,13) 
 ##############code above finds outliers
 # Set threshold for outliers
 threshold <- 100000
@@ -147,7 +147,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
     plot.margin = margin(5,0,5,5),
     legend.margin = margin(3, 3, 6, 3), # Reduce margin around the legend
     legend.box.spacing = unit(0.02, "cm"), # Adjust spacing between legend box and plot
-    legend.position.inside = c(0.8, 0.2), # Adjust the coords to fit your specific data
+    legend.position.inside = c(0.95, 0.95), # Adjust the coords to fit your specific data
     legend.position = c(.95, .95),
     legend.justification = c("right", "top"),
     legend.box.just = "right",
@@ -183,7 +183,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
 
 # Combine the plots using patchwork, place outliers to the left and merge legends
 combined_plot <- main_plot + outliers_plot +
-  plot_layout(guides = 'collect', widths = c(19.5, 1.5)) 
+  plot_layout(guides = 'collect', widths = c(19, 1)) 
  
 # Display the combined plot
 #print(combined_plot)
