@@ -47,7 +47,6 @@ limitations under the License.
 	and agent_id <> 102573 
 	and agent_id <> 104339 
 	and column_name <> 'PERSON_ID'
-	group by Label
 </cfquery>
 <cfoutput>
 	#getLabel.Label#
