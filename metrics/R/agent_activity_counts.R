@@ -4,7 +4,7 @@ library(ggplot2)
 library(dplyr)
 library(patchwork)
 library(svglite)
-#agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
+agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
 agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
 # removes NAs
 agents_data <- agents_roles[complete.cases(agents_roles), ]
@@ -171,13 +171,13 @@ combined_plot <- main_plot + outliers_plot +
     legend.box = "vertical",
     legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
     legend.key.size = unit(0.5, "lines"),
-    legend.box.margin = margin(0, 0, .5, .5), # Tighten the box margin if needed
+    legend.box.margin = margin(0, 0, 1, 1), # Tighten the box margin if needed
     legend.text = element_text(size=3.2),
     legend.title = element_text(size=3.2),
     legend.spacing.x = unit(0.05, "cm"),
     legend.spacing.y = unit(0.05, "cm"),
     plot.margin = margin(5,5,5,5),
-    legend.margin = margin(0, 0, 0, 0), # Reduce margin around the legend
+    legend.margin = margin(0, 0, 1, 1), # Reduce margin around the legend
     legend.box.spacing = unit(0.02, "cm") # Adjust spacing between legend box and plot
   ) 
 # Display the combined plot
