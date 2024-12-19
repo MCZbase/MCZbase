@@ -38,7 +38,7 @@ total_counts <- total_counts %>%
 
 suppressWarnings({
 total_counts_filtered <- total_counts %>%
-  dplyr::filter(TotalCount > 2500)
+  dplyr::filter(TotalCount > 3000)
 })
 #head(total_counts_filtered)
 # Create the RoleLabel by combining RoleNumber and Role
@@ -131,7 +131,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         axis.title.x = element_text(size=unit(5,"pt")),
         axis.title.y = element_text(size=unit(5,"pt")), 
   )+
-  theme(
+ basic + theme(
     legend.direction = "vertical",   # Typically more space-efficient when inside plots
     legend.box = "vertical",
     legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
@@ -142,9 +142,14 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
     legend.spacing.x = unit(0.05, "cm"),
     legend.spacing.y = unit(0.05, "cm"),
     plot.margin = margin(5,5,5,5),
-    legend.margin = margin(3, 3, 6, 3), # Reduce margin around the legend
+   # legend.margin = margin(3, 3, 6, 3), # Reduce margin around the legend
     legend.box.spacing = unit(0.02, "cm"), # Adjust spacing between legend box and plot
-    legend.position.inside = c(0.8, 0.2), # Adjust the coords to fit your specific data
+   # legend.position.inside = c(0.8, 0.2), # Adjust the coords to fit your specific data
+    legend.position = c(.95, .95),
+    legend.justification = c("right", "top"),
+    legend.box.just = "right",
+    legend.margin = margin(6, 6, 6, 6)
+  )
   ) 
 
 # Outliers plot, now includes whole removed stacks
