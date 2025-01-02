@@ -151,8 +151,8 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   theme_minimal() +
   theme(plot.title = element_text(size=unit(7,"pt"), face="bold"),
         plot.margin = margin(t=1,r=1,b=1,l=1),
-        axis.text.x = element_text(margin=margin(t=0.25), size=unit(3.5,"pt"), angle =50, hjust = 1),
-        axis.text.y = element_text(margin=margin(t=0.25), size=unit(3.5,"pt")),
+        axis.text.x = element_text(margin=margin(t=0.025), size=unit(3.5,"pt"), angle =50, hjust = 1),
+        axis.text.y = element_text(margin=margin(t=0.025), size=unit(3.5,"pt")),
         axis.title.x = element_text(size=unit(5,"pt")),
         axis.title.y = element_text(size=unit(5,"pt")), 
         legend.direction = "vertical",   # Typically more space-efficient when inside plots
