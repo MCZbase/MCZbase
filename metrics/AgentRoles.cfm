@@ -71,12 +71,12 @@ limitations under the License.
 			<div class="col-12">
 				Script output: [#chartOutput#]
 			</div>
-		</cfif>
+		</cfif>--->
 		<cfif len(#chartError#) gt 0>
 			<div class="col-12 my-3 border py-2">
 				Script errors: [#chartError#]
 			</div>
-		</cfif>--->
+		</cfif>
 		<div class="row mx-0">
 			<div class="col-12">
 				<h1 class="h4 my-2">Data Visualization: <a href="#filePath##targetFile#">Agent Activity <img src="/images/linkOut.gif"/></a></h1>
