@@ -7,8 +7,8 @@ library(ggplot2)
 library(dplyr)
 library(patchwork)
 library(svglite)
-#agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
-agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
+agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
+#agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
 # removes NAs
 agents_data <- agents_roles[complete.cases(agents_roles), ]
 
@@ -52,7 +52,26 @@ agents_data_sorted <- agents_data_sorted %>%
     Role = factor(Role, levels = unique(Role))  # Automatically set factor levels
   )
 # truncates the legend values
-agents_data_sorted$RoleLabel <- substr(agents_data_sorted$RoleLabel,1,10) 
+#agents_data_sorted$RoleLabel <- substr(agents_data_sorted$RoleLabel,1,22) 
+
+agents_data_sorted$RoleLabel <- agents_data_sorted$RoleLabel %>%
+  mutate(simplified_type = case_when(
+    str_detect(type,"COLL_OBJECT.LAST") ~ "Last to Edit Spec. Record",
+    str_detect(type, "GEOLOGY") ~ "Geology Att. Determiner",
+    str_detect(type, "ENCUMBRANCE") ~ "Created Encumbrance",
+    str_detect(type, "MEDIA_RELATIONS.CR") ~ "Created Media",
+    str_detect(type, "SHIPMENT.PACKED") ~ "Packed Loan Shipment",
+    str_detect(type, "LAT_LONG.DET") ~ "Geo Determiner",
+    str_detect(type, "TRANS.TRANS_ENTER") ~ "Transactions",
+    str_detect(type, "COLL_OBJECT.ENT") ~ "Created Speciment Record",
+    str_detect(type, "DEACC_ITEM.REC") ~ "Deaccession Reconciled",
+    str_detect(type, "COLLECTOR.AGENT") ~ "Collector",
+    str_detect(type, "PERMIT.CONTACT") ~ "Permit Tracker",
+    str_detect(type, "ATTRIBUTES.DET") ~ "Attribute Determiner",
+    str_detect(type, "IDENTIFICATION_") ~ "Identified_Specimen",
+    str_detect(type, "LAT_LONG.VER") ~ "Geo Verifier",
+    str_detect(type, "LOAN_ITEM.CRE") ~ "Created Loan"
+  ))
 ##############code above finds outliers
 # Set threshold for outliers
 threshold <- 100000
@@ -187,7 +206,7 @@ combined_plot <- main_plot + outliers_plot +
   )
  
 # Display the combined plot
-#print(combined_plot)
+print(combined_plot)
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
 ggsave('/var/www/html/arctos/metrics/datafiles/Agent_Activity.svg', plot=combined_plot, width = 7, height = 3.5)
