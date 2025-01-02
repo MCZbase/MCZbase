@@ -7,7 +7,7 @@ library(ggplot2)
 library(dplyr)
 library(patchwork)
 library(svglite)
-#agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
+agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
 agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
 # removes NAs
 agents_data <- agents_roles[complete.cases(agents_roles), ]
@@ -167,7 +167,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
 
 # Combine the plots using patchwork, place outliers to the left and merge legends
 combined_plot <- main_plot + outliers_plot +
-  plot_layout(guides = 'collect', widths = c(19, 1.75)) +
+  plot_layout(guides = 'collect', widths = c(18.25, 1.75)) +
   theme(
     legend.direction = "vertical",   # Typically more space-efficient when inside plots
     legend.box = "vertical",
@@ -179,17 +179,17 @@ combined_plot <- main_plot + outliers_plot +
     legend.spacing.x = unit(0.05, "cm"),
     legend.spacing.y = unit(0.05, "cm"),
     # plot.margin = margin(5,0,5,5),
-    legend.margin = margin(3, 3, 6, 3), # Reduce margin around the legend
+   # legend.margin = margin(3, 3, 6, 3), # Reduce margin around the legend
     legend.box.spacing = unit(0.02, "cm"), # Adjust spacing between legend box and plot
     legend.position.inside = c(0.95, 0.95), # Adjust the coords to fit your specific data
-    legend.position = c(.95, .95),
+   # legend.position = c(.95, .95),
     legend.justification = c("right", "top"),
     legend.box.just = "right",
     legend.margin = margin(6, 2, 6, 2)
   )
  
 # Display the combined plot
-#print(combined_plot)
+print(combined_plot)
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
 ggsave('/var/www/html/arctos/metrics/R/Agent_Activity.svg', plot=combined_plot, width = 7, height = 3.5)
