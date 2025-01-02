@@ -79,7 +79,7 @@ limitations under the License.
 		</cfif>--->
 		<div class="row mx-0">
 			<div class="col-12">
-				<h1 class="h3 mt-3 mb-0">Data Visualization: <a href="#filePath##targetFile#">Agent Activity <img src="/images/linkOut.gif"/></a></h1>
+				<h1 class="h4 my-2">Data Visualization: <a href="#filePath##targetFile#">Agent Activity <img src="/images/linkOut.gif"/></a></h1>
 			</div>
 		</div>
 	</div>	
