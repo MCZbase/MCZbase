@@ -8,8 +8,8 @@ library(dplyr)
 library(patchwork)
 library(svglite)
 library(stringr)
-agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
-#agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
+#agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
+agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
 # removes NAs
 agents_data <- agents_roles[complete.cases(agents_roles), ]
 
@@ -208,7 +208,7 @@ combined_plot <- main_plot + outliers_plot +
   )
  
 # Display the combined plot
-print(combined_plot)
+#print(combined_plot)
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
 ggsave('/var/www/html/arctos/metrics/datafiles/Agent_Activity.svg', plot=combined_plot, width = 7, height = 3.5)
