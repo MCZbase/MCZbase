@@ -189,7 +189,7 @@ combined_plot <- main_plot + outliers_plot +
   )
  
 # Display the combined plot
-print(combined_plot)
+#print(combined_plot)
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
 ggsave('/var/www/html/arctos/metrics/R/Agent_Activity.svg', plot=combined_plot, width = 7, height = 3.5)
