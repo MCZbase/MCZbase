@@ -155,7 +155,23 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         axis.text.y = element_text(size=unit(3.2,"pt")),
         axis.title.x = element_text(size=unit(5,"pt")),
         axis.title.y = element_text(size=unit(5,"pt")), 
-        legend.text = element_text(size=3.2)
+        legend.direction = "vertical",   # Typically more space-efficient when inside plots
+        legend.box = "vertical",
+        legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
+        legend.key.size = unit(0.5, "lines"),
+        legend.box.margin = margin(0, 0, 0, 0), # Tighten the box margin if needed
+        legend.text = element_text(size=3.2),
+        legend.title = element_text(size=4.5),
+        legend.spacing.x = unit(0.05, "cm"),
+        legend.spacing.y = unit(0.05, "cm"),
+        # plot.margin = margin(5,0,5,5),
+        # legend.margin = margin(3, 3, 6, 3), # Reduce margin around the legend
+        legend.box.spacing = unit(0.02, "cm"), # Adjust spacing between legend box and plot
+        legend.position.inside = c(0.95, 0.95), # Adjust the coords to fit your specific data
+        legend.position = c(.95, .95),
+        legend.justification = c("right", "top"),
+        legend.box.just = "right",
+        legend.margin = margin(6, 2, 6, 2)
   )
 
 # Outliers plot, now includes whole removed stacks
@@ -189,23 +205,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
 combined_plot <- main_plot + outliers_plot +
   plot_layout(guides = 'collect', widths = c(18.25, 1.75)) +
   theme(
-    legend.direction = "vertical",   # Typically more space-efficient when inside plots
-    legend.box = "vertical",
-    legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
-    legend.key.size = unit(0.5, "lines"),
-    legend.box.margin = margin(0, 0, 0, 0), # Tighten the box margin if needed
-    legend.text = element_text(size=3.2),
-    legend.title = element_text(size=4.5),
-    legend.spacing.x = unit(0.05, "cm"),
-    legend.spacing.y = unit(0.05, "cm"),
-    # plot.margin = margin(5,0,5,5),
-   # legend.margin = margin(3, 3, 6, 3), # Reduce margin around the legend
-    legend.box.spacing = unit(0.02, "cm"), # Adjust spacing between legend box and plot
-    legend.position.inside = c(0.95, 0.95), # Adjust the coords to fit your specific data
-    legend.position = c(.95, .95),
-    legend.justification = c("right", "top"),
-    legend.box.just = "right",
-    legend.margin = margin(6, 2, 6, 2)
+
   )
  
 # Display the combined plot
