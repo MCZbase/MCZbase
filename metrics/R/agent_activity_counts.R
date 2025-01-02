@@ -57,21 +57,25 @@ agents_data_sorted <- agents_data_sorted %>%
 
 agents_data_sorted <- agents_data_sorted %>%
   mutate(simplified = case_when(
-    str_detect(RoleLabel,"COLL_OBJECT.LAST_EDITED_PERSON_ID") ~ "Last to Edit Spec. Record",
-    str_detect(RoleLabel, "GEOLOGY_ATTRIBUTES.GEO_ATT_DETERMINER_ID") ~ "Geology Att. Determiner",
-    str_detect(RoleLabel, "ENCUMBRANCE.ENCUMBERING_AGENT_ID") ~ "Created Encumbrance",
-    str_detect(RoleLabel, "MEDIA_RELATIONS.CREATED_BY_AGENT_ID") ~ "Created Media",
-    str_detect(RoleLabel, "SHIPMENT.PACKED_BY_AGENT_ID") ~ "Packed Loan Shipment",
-    str_detect(RoleLabel, "LAT_LONG.DETERMINED_BY_AGENT_ID") ~ "Georef Determiner",
-    str_detect(RoleLabel, "TRANS.TRANS_ENTERED_AGENT_ID") ~ "Transactions",
-    str_detect(RoleLabel, "COLL_OBJECT.ENTERED_PERSON_ID") ~ "Created Speciment Record",
-    str_detect(RoleLabel, "DEACC_ITEM.RECONCILED_BY_PERSON_ID") ~ "Deaccession Reconciled",
-    str_detect(RoleLabel, "COLLECTOR.AGENT_ID") ~ "Collector",
-    str_detect(RoleLabel, "PERMIT.CONTACT_AGENT_ID") ~ "Permit Tracker",
-    str_detect(RoleLabel, "ATTRIBUTES.DETERMINED_BY_AGENT_ID") ~ "Attribute Determiner",
-    str_detect(RoleLabel, "IDENTIFICATION_AGENT.AGENT_ID") ~ "Identified Specimen",
-    str_detect(RoleLabel, "LAT_LONG.VERIFIED_BY_AGENT_ID") ~ "Georef Verifier",
-    str_detect(RoleLabel, "LOAN_ITEM.CREATED_BY_AGENT_ID") ~ "Created Loan",
+    str_detect(RoleLabel,"COLL_OBJECT.LAST_EDITED_PERSON_ID") ~ "1. Last to Edit Spec. Record",
+    str_detect(RoleLabel, "GEOLOGY_ATTRIBUTES.GEO_ATT_DETERMINER_ID") ~ "2. Geology Att. Determiner",
+    str_detect(RoleLabel, "LAT_LONG.VERIFIED_BY_AGENT_ID") ~ "3. Georeference Verifier",
+    str_detect(RoleLabel, "MEDIA_RELATIONS.CREATED_BY_AGENT_ID") ~ "4. Created Media",
+    str_detect(RoleLabel, "SHIPMENT.PACKED_BY_AGENT_ID") ~ "5. Packed Loan Shipment",
+    str_detect(RoleLabel, "ENCUMBRANCE.ENCUMBERING_AGENT_ID") ~ "6. Created Encumbrance",
+    str_detect(RoleLabel, "LAT_LONG.DETERMINED_BY_AGENT_ID") ~ "7. Georeference Determiner",
+    str_detect(RoleLabel, "TRANS.TRANS_ENTERED_AGENT_ID") ~ "8. Transactions",
+    str_detect(RoleLabel, "ATTRIBUTES.DETERMINED_BY_AGENT_ID") ~ "9. Attribute Determiner",
+    str_detect(RoleLabel, "COLL_OBJECT.ENTERED_PERSON_ID") ~ "10. Created Speciment Record",
+    str_detect(RoleLabel, "DEACC_ITEM.RECONCILED_BY_PERSON_ID") ~ "11. Deaccession Reconciled",
+    str_detect(RoleLabel, "COLLECTOR.AGENT_ID") ~ "12. Collector",
+    str_detect(RoleLabel, "IDENTIFICATION_AGENT.AGENT_ID") ~ "13. Identified Specimen",
+    str_detect(RoleLabel, "LOAN_ITEM.CREATED_BY_AGENT_ID") ~ "14. Created Loan",
+    str_detect(RoleLabel, "PERMIT.CONTACT_AGENT_ID") ~ "15. Permit Tracker",
+    
+    
+    
+    
     TRUE ~ "other"
   ))
 ##############code above finds outliers
