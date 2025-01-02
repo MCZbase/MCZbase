@@ -180,7 +180,7 @@ combined_plot <- main_plot + outliers_plot +
    # legend.margin = margin(3, 3, 6, 3), # Reduce margin around the legend
     legend.box.spacing = unit(0.02, "cm"), # Adjust spacing between legend box and plot
     legend.position.inside = c(0.95, 0.95), # Adjust the coords to fit your specific data
-   # legend.position = c(.95, .95),
+    legend.position = c(.95, .95),
     legend.justification = c("right", "top"),
     legend.box.just = "right",
     legend.margin = margin(6, 2, 6, 2)
