@@ -93,7 +93,7 @@ total_counts_sorted <- total_counts_filtered %>%
 
 ## Assign and connect the role numbers to the roles based on the order in the datasheet
 ## find a way to order them by the agents and not by position
-role_order <- c(agents_data_sorted$Role[1:16])
+role_order <- c(agents_data_sorted$Role[1:15])
 role_numbers <- setNames(1:length(role_order), role_order)
 
 
@@ -201,7 +201,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
 
 ## Combine the plots using patchwork, place outliers to the left and merge legends
 combined_plot <- main_plot + outliers_plot +
-  plot_layout(guides = 'collect', widths = c(19, 1.6))
+  plot_layout(guides = 'collect', widths = c(19, 1.5))
  
 ## Display the combined plot
 #print(combined_plot)
