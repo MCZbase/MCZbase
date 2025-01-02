@@ -164,7 +164,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         legend.box.margin = margin(0, 0, 0, 0), # Tighten the box margin if needed
         legend.text = element_text(size=3.2),
         legend.title = element_text(size=4.5),
-        legend.spacing.x = unit(0.05, "cm"),
+        legend.spacing.x = unit(0.02, "cm"),
         legend.spacing.y = unit(0.05, "cm"),
         # plot.margin = margin(5,0,5,5),
         # legend.margin = margin(3, 3, 6, 3), # Reduce margin around the legend
