@@ -153,8 +153,8 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   scale_y_continuous(labels = scales::comma, expand=c(0.02, 0.02)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller
   theme_minimal() +
   theme(plot.title = element_text(size=unit(7,"pt"), face="bold"), 
-        axis.text.x = element_text(size=unit(3.2,"pt"),angle =50, hjust = 1),
-        axis.text.y = element_text(size=unit(3.2,"pt")),
+        axis.text.x = element_text(size=unit(3.5,"pt"),angle =50, hjust = 1),
+        axis.text.y = element_text(size=unit(3.5,"pt")),
         axis.title.x = element_text(size=unit(5,"pt")),
         axis.title.y = element_text(size=unit(5,"pt")), 
         legend.direction = "vertical",   # Typically more space-efficient when inside plots
@@ -164,7 +164,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         legend.box.margin = margin(0.05, 0.05, 0.05, 0.05), # Tighten the box margin if needed
         legend.text = element_text(size=3.4),
         legend.title = element_text(size=4.5),
-        legend.spacing.x = unit(0.75, "cm"),
+        legend.spacing.x = unit(2, "cm"),
         legend.spacing.y = unit(0.05, "cm"),
         legend.justification = c("right", "top"),
         legend.box.just = "right",
