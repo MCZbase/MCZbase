@@ -25,7 +25,7 @@ agents_data_role <- agents_data_name %>%
 agents_data_sorted <- agents_data_role %>%
   arrange(AgentInfo)
 
-agents_data_sorted$AgentInfo <- substr(agents_data_sorted$AgentInfo,1,25) 
+agents_data_sorted$AgentInfo <- substr(agents_data_sorted$AgentInfo,1,20) 
 ## Calculate total counts per AgentInfo
 total_counts <- agents_data_sorted %>%
   group_by(AgentInfo) %>%
@@ -201,7 +201,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
 
 ## Combine the plots using patchwork, place outliers to the left and merge legends
 combined_plot <- main_plot + outliers_plot +
-  plot_layout(guides = 'collect', widths = c(18.3, 1.6))
+  plot_layout(guides = 'collect', widths = c(19, 1.6))
  
 ## Display the combined plot
 #print(combined_plot)
