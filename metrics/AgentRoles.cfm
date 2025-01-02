@@ -60,10 +60,7 @@ limitations under the License.
 <cfoutput>
 	<div class="container-fluid">
 		<div class="row mx-0">
-			<h1 class="h3 mt-3">Data Visualization: Agent Activity</h1>
-			<div class="col-12">
-				<p>Data <a href="#filePath##targetFile#">download table</a>. Stacked barchart with outlier y-axis showing greater than 100,000 total counts (instances of agent activity).</p>
-			</div>
+			<h1 class="h3 mt-3">Data Visualization: <a href="#filePath##targetFile#">Agent Activity <img src="images/linkOut.gif"/></a></h1>
 		</div>
 		<div class="row">
 			
@@ -72,7 +69,7 @@ limitations under the License.
 				<img src="/metrics/datafiles/Agent_Activity.svg" width="100%"/>
 			</div>
 		</div>
-		<cfif len(#chartOutput#) gt 0>
+<!---		<cfif len(#chartOutput#) gt 0>
 			<div class="col-12">
 				Script output: [#chartOutput#]
 			</div>
@@ -81,7 +78,7 @@ limitations under the License.
 			<div class="col-12 my-3 border py-2">
 				Script errors: [#chartError#]
 			</div>
-		</cfif>
+		</cfif>--->
 	</div>	
 	
 </cfoutput>
