@@ -157,7 +157,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         axis.title.y = element_text(size=unit(5,"pt")), 
         legend.direction = "vertical",   # Typically more space-efficient when inside plots
         legend.box = "vertical",
-        legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
+        legend.background = element_rect(margin=margin(0.1,0,0.1,0),fill=alpha('white', 0.0)), # Make the legend background transparent
         legend.key.size = unit(0.355, "lines"),
         legend.box.margin = margin(0.05, 0.05, 0.05, 0.05), # Tighten the box margin if needed
         legend.text = element_text(margin=margin(0, 0, 0, 0.02), size=3.4),
