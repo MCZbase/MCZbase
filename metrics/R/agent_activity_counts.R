@@ -173,7 +173,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
        # legend.position = c(.95, .95),
         legend.justification = c("right", "top"),
         legend.box.just = "right",
-        legend.margin = margin(6, 2, 6, 2)
+        legend.margin = margin(6, 2, 2, 2)
   )
 
 ## Outliers plot, now includes whole removed stacks
