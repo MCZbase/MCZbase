@@ -147,7 +147,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   labs(title = "Counts by Role and Agent",x = "Agent Info",y = "COUNT (<= 100,000)") +
   scale_color_manual(values=cpalette,labels=unique(agents_data_sorted$simplified)) +
   scale_fill_manual(values=cpalette,labels=agents_data_sorted$simplified) +
-  scale_y_continuous(labels = scales::comma, expand=c(0.0, 0.0)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller
+  scale_y_continuous(labels = scales::comma, expand=c(0.0, 0.02)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller
   theme_minimal() +
   theme(plot.title = element_text(size=unit(7,"pt"), face="bold"),
         plot.margin = margin(t=1,r=1,b=1,l=1),
@@ -165,7 +165,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         legend.spacing.y = unit(0.05, "cm"),
         legend.justification = c("right", "top"),
         legend.box.just = "right",
-        legend.title = element_text(margin = margin(0, 0, .02, 1), size=4.5, hjust=0.5), 
+        legend.title = element_text(margin = margin(0, 0, .02, 1), size=5, hjust=0.5), 
         legend.margin = margin(2, 2, 2, 2)
   )
 
@@ -182,7 +182,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
                     labels = legend_labels,
                     guide="none"
                     ) +
-  scale_y_continuous(labels = scales::comma, expand = c(0.0, 0.0)) + 
+  scale_y_continuous(labels = scales::comma, expand = c(0.0, 0.02)) + 
   theme_minimal() +
   labs(title = "Outliers", 
        x = NULL, 
