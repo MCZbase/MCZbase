@@ -59,11 +59,7 @@ limitations under the License.
 </cftry>
 <cfoutput>
 	<div class="container-fluid">
-		<div class="row mx-0">
-			<div class="col-12">
-				<h1 class="h3 mt-3 mb-0">Data Visualization: <a href="#filePath##targetFile#">Agent Activity <img src="/images/linkOut.gif"/></a></h1>
-			</div>
-		</div>
+
 		<div class="row">
 			
 			<div class="col-12 px-0">
@@ -81,6 +77,11 @@ limitations under the License.
 				Script errors: [#chartError#]
 			</div>
 		</cfif>--->
+		<div class="row mx-0">
+			<div class="col-12">
+				<h1 class="h3 mt-3 mb-0">Data Visualization: <a href="#filePath##targetFile#">Agent Activity <img src="/images/linkOut.gif"/></a></h1>
+			</div>
+		</div>
 	</div>	
 	
 </cfoutput>
