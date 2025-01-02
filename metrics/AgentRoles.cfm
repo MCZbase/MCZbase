@@ -61,14 +61,14 @@ limitations under the License.
 	<div class="container-fluid">
 		<div class="row mx-0">
 			<div class="col-12">
-				<h1 class="h3 mt-3">Data Visualization: <a href="#filePath##targetFile#">Agent Activity <img src="/images/linkOut.gif"/></a></h1>
+				<h1 class="h3 mt-3 mb-0">Data Visualization: <a href="#filePath##targetFile#">Agent Activity <img src="/images/linkOut.gif"/></a></h1>
 			</div>
 		</div>
 		<div class="row">
 			
 			<div class="col-12 px-0">
 				<!--- chart created by R script --->
-				<img src="/metrics/datafiles/Agent_Activity.svg"/>
+				<img src="/metrics/datafiles/Agent_Activity.svg" width="90%"/>
 			</div>
 		</div>
 <!---		<cfif len(#chartOutput#) gt 0>
