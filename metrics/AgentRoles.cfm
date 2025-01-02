@@ -60,7 +60,9 @@ limitations under the License.
 <cfoutput>
 	<div class="container-fluid">
 		<div class="row mx-0">
-			<h1 class="h3 mt-3">Data Visualization: <a href="#filePath##targetFile#">Agent Activity <img src="images/linkOut.gif"/></a></h1>
+			<div class="col-12">
+				<h1 class="h3 mt-3">Data Visualization: <a href="#filePath##targetFile#">Agent Activity <img src="/images/linkOut.gif"/></a></h1>
+			</div>
 		</div>
 		<div class="row">
 			
