@@ -8,6 +8,7 @@ library(dplyr)
 library(patchwork)
 library(svglite)
 library(stringr)
+library(ggtext)
 ## change to locally saved csv for running the code while developing
 #agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
 agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
@@ -144,13 +145,15 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
                 position = position_stack(vjust = 0.5),
                 size = 1, color = "white"
                 ) +
-  labs(title = "Counts by Role and Agent (> 3500 shown)",x = "Agent Info",y = "COUNT (<= 100,000)") +
+  labs(title = "Counts by Role and Agent", subtitle = "(> 3500 shown)",
+       x = "Agent Info",y = "COUNT (<= 100,000)") +
   scale_color_manual(values=cpalette,labels=unique(agents_data_sorted$simplified)) +
   scale_fill_manual(values=cpalette,labels=agents_data_sorted$simplified) +
   scale_y_continuous(labels = scales::comma, expand=c(0.02, 0.02)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller
   theme_minimal() +
   theme(plot.title = element_text(size=unit(7,"pt"), face="bold"),
         plot.margin = margin(t=1,r=1,b=1,l=1),
+        plot.subtitle = element_markdown(size = 6),
         axis.text.x = element_text(margin=margin(t=0.025), size=unit(3.5,"pt"), angle =50, hjust = 1),
         axis.text.y = element_text(margin=margin(t=0.025), size=unit(3.5,"pt")),
         axis.title.x = element_text(size=unit(5,"pt")),
