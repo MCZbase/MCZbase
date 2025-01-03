@@ -3,17 +3,19 @@
 
 # Read in the libraries
 library(readr)
-library(ggplot2)
+library(ggraph)
 library(dplyr)
 library(patchwork)
 library(svglite)
 library(stringr)
+library(igraph)
+library(viridis)
 ## change to locally saved csv for running the code while developing
-#agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
-agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
+agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
+#agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
 ## removes NAs
 agents_data <- agents_roles[complete.cases(agents_roles), ]
-
+agents_data <- agents_data[agents_data$AGENT_ID == 91972, ]
 
 ## Unite AgentID and AgentName to create a unique AgentInfo combination
 agents_data_name <- agents_data %>%
@@ -44,6 +46,37 @@ total_counts_filtered <- total_counts %>%
   dplyr::filter(TotalCount > 3500)
 })
 #head(total_counts_filtered)
+
+
+library(data.tree)
+
+# Rebuild the data
+edges <-agents_data_sorted$TABLE_NAME
+
+vertices <- agents_data_sorted$COLUMN_NAME
+vertices
+# Transform it in a 'tree' format
+tree <- FromDataFrameNetwork(edges)
+
+# Then I can easily get the level of each node, and add it to the initial data frame:
+mylevels <- data.frame( name=agents_data_sorted$TABLE_NAME('TABLE_NAME'), level=agents_data_sorted$COLUMN_NAME("COLUMN_NAME") )
+vertices <- vertices %>% 
+  left_join(., mylevels, by=c("name"="TABLE_NAME"))
+
+# Now we can add label for level1 and 2 only for example:
+vertices <- vertices %>% 
+  mutate(new_label=ifelse(level==2, shortName, NA))
+mygraph <- graph_from_data_frame( edges, vertices=vertices )
+
+# Make the graph
+p <- ggraph(mygraph, layout = 'circlepack', weight=size) + 
+  geom_node_circle(aes(fill = as.factor(depth), color = as.factor(depth) )) +
+  scale_fill_manual(values=c("0" = "white", "1" = viridis(4)[1], "2" = viridis(4)[2], "3" = viridis(4)[3], "4"=viridis(4)[4])) +
+  scale_color_manual( values=c("0" = "white", "1" = "black", "2" = "black", "3" = "black", "4"="black") ) +
+  geom_node_label( aes(label=new_label), size=4) +
+  theme_void() + 
+  theme(legend.position="FALSE", plot.margin = unit(rep(0,4), "cm"))
+p
 ## Create the RoleLabel by combining RoleNumber and Role
 ## Assign RoleNumbers and automate factor conversion
 agents_data_sorted <- agents_data_sorted %>%
@@ -169,41 +202,12 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         legend.margin = margin(2, 2, 2, 2)
   )
 
-## Outliers plot, now includes whole removed stacks
-outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = Role)) +
-  geom_bar(stat = "identity", 
-           position = "stack"
-           ) + 
-  geom_text(aes(label = ifelse(AdjustedCount > 10000, 
-                paste0(as.integer(factor(Role)), ""), "")), 
-                size = 1, color = "white", position=position_stack(vjust=0.5)
-                ) +
-  scale_fill_manual(values = cpalette, 
-                    labels = legend_labels,
-                    guide="none"
-                    ) +
-  scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) + 
-  theme_minimal() +
-  labs(title = "Outliers", 
-       x = NULL, 
-       y = "COUNT (> 100,000)", 
-       fill = NULL
-       ) +
-  theme(plot.title = element_text(size=unit(7,"pt"), face="bold"), 
-        axis.title.y = element_text(size=unit(5,"pt")),
-        axis.title.x = element_text(size=unit(5,"pt")),
-        axis.text.x = element_text(margin=margin(t=0.25,b=0), size=unit(3.5,"pt"), angle =50, hjust = 1),
-        axis.text.y = element_text(margin=margin(t=0.25), size=unit(3.5,"pt"))
-        ) 
 
-## Combine the plots using patchwork, place outliers to the left and merge legends
-combined_plot <- main_plot + outliers_plot +
-  plot_layout(guides = 'collect', widths = c(92.5, 7.5))
  
 ## Display the combined plot
-#print(combined_plot)
+print(combined_plot)
 
 ## !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
-ggsave('/var/www/html/arctos/metrics/datafiles/Agent_Activity.svg', plot=combined_plot, width = 6.5, height = 3)
+ggsave('/var/www/html/arctos/metrics/datafiles/OneAgent_Activity.svg', plot=main_plot, width = 6.5, height = 3)
 
 
