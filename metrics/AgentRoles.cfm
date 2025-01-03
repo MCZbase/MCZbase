@@ -83,6 +83,58 @@ limitations under the License.
 			</div>
 		</div>
 	</div>	
+
+<cfset targetFile = "agent_activity_counts.csv">
+<cfset filePath = "/metrics/datafiles/">
+<cfset agent_id = '91972'>	
+<cfquery name="getPersonStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">	
+	select distinct agent_name, table_name, column_name, count 
+	from mczbase.cf_temp_agent_role_summary 
+	where agent_id = #agent_id#
+	and column_name <> 'PERSON_ID'
+	group by agent_id, agent_name, table_name, column_name, count
+</cfquery>
+<cfoutput>
+<cfset csv = queryToCSV(getStats)> 
+<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
+</cfoutput>
+
+<cftry>
+	<cfexecute name = "/usr/bin/Rscript" 
+		arguments = "/#application.webDirectory#/metrics/R/agent_activity_counts.R" 
+		variable = "chartOutput"
+		timeout = "10000"
+		errorVariable = "chartError"> 
+	</cfexecute>
+<cfcatch>
+	<h3>Error loading chart</h3>
+	<cfdump var="#cfcatch#">
+	<cfset chartOutput = "">
+	<cfset errorVariable="">
+</cfcatch>
+</cftry>
+<cfoutput>
+	<div class="container-fluid">
+
+		<div class="row">
+			
+			<div class="col-12 px-0">
+				<!--- chart created by R script --->
+				<img src="/metrics/datafiles/OneAgent_Activity.svg" width="90%"/>
+			</div>
+		</div>
+<!---		<cfif len(#chartOutput#) gt 0>
+			<div class="col-12">
+				Script output: [#chartOutput#]
+			</div>
+		</cfif>--->
+<!---		<cfif len(#chartError#) gt 0>
+			<div class="col-12 my-3 border py-2">
+				Script errors: [#chartError#]
+			</div>
+		</cfif>--->
+	
+	</div>	
 	
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
