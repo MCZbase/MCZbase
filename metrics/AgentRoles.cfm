@@ -67,12 +67,12 @@ limitations under the License.
 				<img src="/metrics/datafiles/Agent_Activity.svg" width="90%"/>
 			</div>
 		</div>
-<!---		<cfif len(#chartOutput#) gt 0>
+<!---	<cfif len(#chartOutput#) gt 0>
 			<div class="col-12">
 				Script output: [#chartOutput#]
 			</div>
-		</cfif>--->
-<!---		<cfif len(#chartError#) gt 0>
+		</cfif>
+		<cfif len(#chartError#) gt 0>
 			<div class="col-12 my-3 border py-2">
 				Script errors: [#chartError#]
 			</div>
@@ -84,63 +84,5 @@ limitations under the License.
 		</div>
 	</div>	
 
-
-		
-		
-		
-		
-<!---		
-		
-<cfset the_agent_id = '91972'>	
-<cfset targetFile2 = "one_agents_activity_counts.csv">
-<cfquery name="getPersonStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">	
-	select distinct agent_name, table_name, column_name, count 
-	from mczbase.cf_temp_agent_role_summary 
-	where agent_id = #the_agent_id#
-	and column_name <> 'PERSON_ID'
-	group by agent_id, agent_name, table_name, column_name, count
-</cfquery>
-<cfoutput>
-<cfset csv2 = queryToCSV(getPersonStats)> 
-<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv2#" addnewline="No">
-</cfoutput>
-
-<cftry>
-	<cfexecute name = "/usr/bin/Rscript" 
-		arguments = "/#application.webDirectory#/metrics/R/one_agent_activity_counts.R" 
-		variable = "chartOutput"
-		timeout = "10000"
-		errorVariable = "chartError"> 
-	</cfexecute>
-<cfcatch>
-	<h3>Error loading chart</h3>
-	<cfdump var="#cfcatch#">
-	<cfset chartOutput = "">
-	<cfset errorVariable="">
-</cfcatch>
-</cftry>
-<cfoutput>
-	<div class="container-fluid">
-
-		<div class="row">
-			
-			<div class="col-12 px-0">
-				<!--- chart created by R script --->
-		<!---		<img src="/metrics/datafiles/OneAgent_Activity.svg" width="90%"/>
-			</div>
-		</div>--->
-<!---		<cfif len(#chartOutput#) gt 0>
-			<div class="col-12">
-				Script output: [#chartOutput#]
-			</div>
-		</cfif>--->
-<!---		<cfif len(#chartError#) gt 0>
-			<div class="col-12 my-3 border py-2">
-				Script errors: [#chartError#]
-			</div>
-		</cfif>--->
-	<!---
-	</div>	
-	--->
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
