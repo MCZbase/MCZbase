@@ -83,25 +83,25 @@ limitations under the License.
 			</div>
 		</div>
 	</div>	
+</cfoutput>
 
-<cfset targetFile = "agent_activity_counts.csv">
-<cfset filePath = "/metrics/datafiles/">
-<cfset agent_id = '91972'>	
+<cfset the_agent_id = '91972'>	
+<cfset targetFile2 = "one_agents_activity_counts.csv">
 <cfquery name="getPersonStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">	
 	select distinct agent_name, table_name, column_name, count 
 	from mczbase.cf_temp_agent_role_summary 
-	where agent_id = #agent_id#
+	where agent_id = #the_agent_id#
 	and column_name <> 'PERSON_ID'
 	group by agent_id, agent_name, table_name, column_name, count
 </cfquery>
 <cfoutput>
-<cfset csv = queryToCSV(getStats)> 
-<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
+<cfset csv2 = queryToCSV(getPersonStats)> 
+<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv2#" addnewline="No">
 </cfoutput>
 
 <cftry>
 	<cfexecute name = "/usr/bin/Rscript" 
-		arguments = "/#application.webDirectory#/metrics/R/agent_activity_counts.R" 
+		arguments = "/#application.webDirectory#/metrics/R/one_agent_activity_counts.R" 
 		variable = "chartOutput"
 		timeout = "10000"
 		errorVariable = "chartError"> 
