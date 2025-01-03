@@ -83,7 +83,7 @@ limitations under the License.
 			</div>
 		</div>
 	</div>	
-</cfoutput>
+
 
 		
 		
@@ -139,7 +139,7 @@ limitations under the License.
 				Script errors: [#chartError#]
 			</div>
 		</cfif>--->
-	
+	<!---
 	</div>	
 	--->
 </cfoutput>
