@@ -72,11 +72,11 @@ limitations under the License.
 				Script output: [#chartOutput#]
 			</div>
 		</cfif>--->
-		<cfif len(#chartError#) gt 0>
+<!---		<cfif len(#chartError#) gt 0>
 			<div class="col-12 my-3 border py-2">
 				Script errors: [#chartError#]
 			</div>
-		</cfif>
+		</cfif>--->
 		<div class="row mx-0">
 			<div class="col-12">
 				<h1 class="h4 my-2">Data Visualization: <a href="#filePath##targetFile#">Agent Activity <img src="/images/linkOut.gif"/></a></h1>
@@ -85,6 +85,12 @@ limitations under the License.
 	</div>	
 </cfoutput>
 
+		
+		
+		
+		
+<!---		
+		
 <cfset the_agent_id = '91972'>	
 <cfset targetFile2 = "one_agents_activity_counts.csv">
 <cfquery name="getPersonStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">	
@@ -120,9 +126,9 @@ limitations under the License.
 			
 			<div class="col-12 px-0">
 				<!--- chart created by R script --->
-				<img src="/metrics/datafiles/OneAgent_Activity.svg" width="90%"/>
+		<!---		<img src="/metrics/datafiles/OneAgent_Activity.svg" width="90%"/>
 			</div>
-		</div>
+		</div>--->
 <!---		<cfif len(#chartOutput#) gt 0>
 			<div class="col-12">
 				Script output: [#chartOutput#]
@@ -135,6 +141,6 @@ limitations under the License.
 		</cfif>--->
 	
 	</div>	
-	
+	--->
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
