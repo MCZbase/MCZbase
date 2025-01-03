@@ -145,7 +145,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
                 position = position_stack(vjust = 0.5),
                 size = 1, color = "white"
                 ) +
-  labs(title = "Counts by Role and Agent <span style='font-size: 14px;'>(> 3500 shown)</span>",
+  labs(title = "Counts by Role and Agent (total count must be > 3500 to be shown)",
        x = "Agent Info",y = "COUNT (<= 100,000)") +
   scale_color_manual(values=cpalette,labels=unique(agents_data_sorted$simplified)) +
   scale_fill_manual(values=cpalette,labels=agents_data_sorted$simplified) +
