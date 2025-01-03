@@ -8,7 +8,7 @@ library(dplyr)
 library(patchwork)
 library(svglite)
 library(stringr)
-library(ggtext)
+
 ## change to locally saved csv for running the code while developing
 #agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
 agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
