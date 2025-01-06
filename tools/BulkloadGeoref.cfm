@@ -542,7 +542,7 @@ limitations under the License.
 					WHERE DETERMINED_BY_AGENT not in (select AGENT_NAME from AGENT_NAME 
 						where AGENT_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DETERMINED_BY_AGENT#">) and agent_name_type = 'preferred_agent_name') 
 				</cfquery>
-			<cfelseif len(getTempData.Determined_by_agent) eq 0 AND isNumeric(getTempData.DETERMINED_BY_AGENT>
+			<cfelseif len(getTempData.Determined_by_agent) eq 0 AND isNumeric(getTempData.DETERMINED_BY_AGENT)>
 				<cfquery name="missingDetAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
