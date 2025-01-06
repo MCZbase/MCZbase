@@ -441,7 +441,7 @@ limitations under the License.
 				UPDATE cf_temp_id
 				SET 
 					status = concat(nvl2(status, status || '; ', ''), 'Only 1 current ID per cataloged item is valid (accepted_id_fg)')
-				WHERE accepted_id_fg >= 1
+				WHERE accepted_id_fg >= 2
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="flagNotMatchedToStoredAs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
