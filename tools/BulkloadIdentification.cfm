@@ -450,6 +450,7 @@ limitations under the License.
 			<cfquery name="findAcceptedIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT collection_object_id, accepted_id_fg,COUNT(collection_object_id) AS fg_count
 				FROM cf_temp_id
+				where accepted_id_fg=1
 				GROUP BY collection_object_id, accepted_id_fg
 				HAVING COUNT(collection_object_id) > 1
 			</cfquery>
