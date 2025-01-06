@@ -458,7 +458,7 @@ limitations under the License.
 				UPDATE cf_temp_id
 				SET status = concat(nvl2(status, status || '; ', ''), 'Only 1 current ID per cataloged item is valid (accepted_id_fg)')
 				WHERE accepted_id_fg = 1 
-				and collection_object_id <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#findAcceptedIDs.collection_object_id#"> 
+				and collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#findAcceptedIDs.collection_object_id#"> 
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!--- obtain the information needed to QC each row --->
