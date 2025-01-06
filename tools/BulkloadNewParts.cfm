@@ -28,11 +28,6 @@ limitations under the License.
 			<cfloop index="i" from="1" to="#NUM_PART_ATTRIBUTE_PAIRS#">
 				,part_att_name_#i#, part_att_val_#i#, part_att_units_#i#, part_att_detby_#i#, part_att_madedate_#i#, part_att_rem_#i#
 			</cfloop>
-			part_att_name_2, part_att_val_2, part_att_units_2, part_att_detby_2, part_att_madedate_2, part_att_rem_2,
-			part_att_name_3, part_att_val_3, part_att_units_3, part_att_detby_3, part_att_madedate_3, part_att_rem_3,
-			part_att_name_4, part_att_val_4, part_att_units_4, part_att_detby_4, part_att_madedate_4, part_att_rem_4,
-			part_att_name_5, part_att_val_5, part_att_units_5, part_att_detby_5, part_att_madedate_5, part_att_rem_5,
-			part_att_name_6, part_att_val_6, part_att_units_6, part_att_detby_6, part_att_madedate_6, part_att_rem_6
 		FROM cf_temp_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -691,42 +686,14 @@ limitations under the License.
 							<th>part_remarks</th>
 							<th>CONDITION</th>
 							<th>CONTAINER_UNIQUE_ID</th>
-							<th>PART_ATT_NAME_1</th>
-							<th>PART_ATT_VAL_1</th>
-							<th>PART_ATT_UNITS_1</th>
-							<th>PART_ATT_DETBY_1</th>
-							<th>PART_ATT_MADEDATE_1</th>
-							<th>PART_ATT_REM_1</th>
-							<th>PART_ATT_NAME_2</th>
-							<th>PART_ATT_VAL_2</th>
-							<th>PART_ATT_UNITS_2</th>
-							<th>PART_ATT_DETBY_2</th>
-							<th>PART_ATT_MADEDATE_2</th>
-							<th>PART_ATT_REM_2</th>
-							<th>PART_ATT_NAME_3</th>
-							<th>PART_ATT_VAL_3</th>
-							<th>PART_ATT_UNITS_3</th>
-							<th>PART_ATT_DETBY_3</th>
-							<th>PART_ATT_MADEDATE_3</th>
-							<th>PART_ATT_REM_3</th>
-							<th>PART_ATT_NAME_4</th>
-							<th>PART_ATT_VAL_4</th>
-							<th>PART_ATT_UNITS_4</th>
-							<th>PART_ATT_DETBY_4</th>
-							<th>PART_ATT_MADEDATE_4</th>
-							<th>PART_ATT_REM_4</th>
-							<th>PART_ATT_NAME_5</th>
-							<th>PART_ATT_VAL_5</th>
-							<th>PART_ATT_UNITS_5</th>
-							<th>PART_ATT_DETBY_5</th>
-							<th>PART_ATT_MADEDATE_5</th>
-							<th>PART_ATT_REM_5</th>
-							<th>PART_ATT_NAME_6</th>
-							<th>PART_ATT_VAL_6</th>
-							<th>PART_ATT_UNITS_6</th>
-							<th>PART_ATT_DETBY_6</th>
-							<th>PART_ATT_MADEDATE_6</th>
-							<th>PART_ATT_REM_6</th>
+							<cfloop index="i" from="1" to="#NUM_PART_ATTRIBUTE_PAIRS#">
+								<th>PART_ATT_NAME_#i#</th>
+								<th>PART_ATT_VAL_#i#</th>
+								<th>PART_ATT_UNITS_#i#</th>
+								<th>PART_ATT_DETBY_#i#</th>
+								<th>PART_ATT_MADEDATE_#i#</th>
+								<th>PART_ATT_REM_#i#</th>
+							</cfloop>
 						</tr>
 					</thead>
 					<tbody>
@@ -745,42 +712,14 @@ limitations under the License.
 								<td>#part_remarks#</td>
 								<td>#condition#</td>
 								<td>#container_unique_id#</td>
-								<td>#part_att_name_1#</td>
-								<td>#part_att_val_1#</td>
-								<td>#part_att_units_1#</td>
-								<td>#part_att_detby_1#</td>
-								<td>#part_att_madedate_1#</td>
-								<td>#part_att_rem_1#</td>
-								<td>#part_att_name_2#</td>
-								<td>#part_att_val_2#</td>
-								<td>#part_att_units_2#</td>
-								<td>#part_att_detby_2#</td>
-								<td>#part_att_madedate_2#</td>
-								<td>#part_att_rem_2#</td>
-								<td>#part_att_name_3#</td>
-								<td>#part_att_val_3#</td>
-								<td>#part_att_units_3#</td>
-								<td>#part_att_detby_3#</td>
-								<td>#part_att_madedate_3#</td>
-								<td>#part_att_rem_3#</td>
-								<td>#part_att_name_4#</td>
-								<td>#part_att_val_4#</td>
-								<td>#part_att_units_4#</td>
-								<td>#part_att_detby_4#</td>
-								<td>#part_att_madedate_4#</td>
-								<td>#part_att_rem_4#</td>
-								<td>#part_att_name_5#</td>
-								<td>#part_att_val_5#</td>
-								<td>#part_att_units_5#</td>
-								<td>#part_att_detby_5#</td>
-								<td>#part_att_madedate_5#</td>
-								<td>#part_att_rem_5#</td>
-								<td>#part_att_name_6#</td>
-								<td>#part_att_val_6#</td>
-								<td>#part_att_units_6#</td>
-								<td>#part_att_detby_6#</td>
-								<td>#part_att_madedate_6#</td>
-								<td>#part_att_rem_6#</td>
+								<cfloop index="i" from="1" to="#NUM_PART_ATTRIBUTE_PAIRS#">
+									<td>evaluate("part_att_name_#i#")</td>
+									<td>evaluate("part_att_val_#i#")</td>
+									<td>evaluate("part_att_units_#i#")</td>
+									<td>evaluate("part_att_detby_#i#")</td>
+									<td>evaluate("part_att_madedate_#i#")</td>
+									<td>evaluate("part_att_rem_#i#")</td>
+								</cfloop>
 							</tr>
 						</cfloop>
 					</tbody>
@@ -1035,42 +974,14 @@ limitations under the License.
 										<th>PART_REMARKS</th>
 										<th>CONDITION</th>
 										<th>CONTAINER_UNIQUE_ID</th>
-										<th>PART_ATT_NAME_1</th>
-										<th>PART_ATT_VAL_1</th>
-										<th>PART_ATT_UNITS_1</th>
-										<th>PART_ATT_DETBY_1</th>
-										<th>PART_ATT_MADEDATE_1</th>
-										<th>PART_ATT_REM_1</th>
-										<th>PART_ATT_NAME_2</th>
-										<th>PART_ATT_VAL_2</th>
-										<th>PART_ATT_UNITS_2</th>
-										<th>PART_ATT_DETBY_2</th>
-										<th>PART_ATT_MADEDATE_2</th>
-										<th>PART_ATT_REM_2</th>
-										<th>PART_ATT_NAME_3</th>
-										<th>PART_ATT_VAL_3</th>
-										<th>PART_ATT_UNITS_3</th>
-										<th>PART_ATT_DETBY_3</th>
-										<th>PART_ATT_MADEDATE_3</th>
-										<th>PART_ATT_REM_3</th>
-										<th>PART_ATT_NAME_4</th>
-										<th>PART_ATT_VAL_4</th>
-										<th>PART_ATT_UNITS_4</th>
-										<th>PART_ATT_DETBY_4</th>
-										<th>PART_ATT_MADEDATE_4</th>
-										<th>PART_ATT_REM_4</th>
-										<th>PART_ATT_NAME_5</th>
-										<th>PART_ATT_VAL_5</th>
-										<th>PART_ATT_UNITS_5</th>
-										<th>PART_ATT_DETBY_5</th>
-										<th>PART_ATT_MADEDATE_5</th>
-										<th>PART_ATT_REM_5</th>
-										<th>PART_ATT_NAME_6</th>
-										<th>PART_ATT_VAL_6</th>
-										<th>PART_ATT_UNITS_6</th>
-										<th>PART_ATT_DETBY_6</th>
-										<th>PART_ATT_MADEDATE_6</th>
-										<th>PART_ATT_REM_6</th>
+										<cfloop index="i" from="1" to="#NUM_PART_ATTRIBUTE_PAIRS#">
+											<th>PART_ATT_NAME_#i#</th>
+											<th>PART_ATT_VAL_#i#</th>
+											<th>PART_ATT_UNITS_#i#</th>
+											<th>PART_ATT_DETBY_#i#</th>
+											<th>PART_ATT_MADEDATE_#i#</th>
+											<th>PART_ATT_REM_#i#</th>
+										</cfloop>
 									</tr> 
 								</thead>
 								<tbody>
@@ -1091,42 +1002,14 @@ limitations under the License.
 											<td>#getProblemData.part_remarks#</td>
 											<td>#getProblemData.CONDITION#</td>
 											<td>#getProblemData.CONTAINER_UNIQUE_ID# </td>
-											<td>#getProblemData.part_att_name_1#</td>
-											<td>#getProblemData.part_att_val_1#</td>
-											<td>#getProblemData.part_att_units_1#</td>
-											<td>#getProblemData.part_att_detby_1#</td>
-											<td>#getProblemData.part_att_madedate_1#</td>
-											<td>#getProblemData.part_att_rem_1#</td>
-											<td>#getProblemData.part_att_name_2#</td>
-											<td>#getProblemData.part_att_val_2#</td>
-											<td>#getProblemData.part_att_units_2#</td>
-											<td>#getProblemData.part_att_detby_2#</td>
-											<td>#getProblemData.part_att_madedate_2#</td>
-											<td>#getProblemData.part_att_rem_2#</td>
-											<td>#getProblemData.part_att_name_3#</td>
-											<td>#getProblemData.part_att_val_3#</td>
-											<td>#getProblemData.part_att_units_3#</td>
-											<td>#getProblemData.part_att_detby_3#</td>
-											<td>#getProblemData.part_att_madedate_3#</td>
-											<td>#getProblemData.part_att_rem_3#</td>
-											<td>#getProblemData.part_att_name_4#</td>
-											<td>#getProblemData.part_att_val_4#</td>
-											<td>#getProblemData.part_att_units_4#</td>
-											<td>#getProblemData.part_att_detby_4#</td>
-											<td>#getProblemData.part_att_madedate_4#</td>
-											<td>#getProblemData.part_att_rem_4#</td>
-											<td>#getProblemData.part_att_name_5#</td>
-											<td>#getProblemData.part_att_val_5#</td>
-											<td>#getProblemData.part_att_units_5#</td>
-											<td>#getProblemData.part_att_detby_5#</td>
-											<td>#getProblemData.part_att_madedate_5#</td>
-											<td>#getProblemData.part_att_rem_5#</td>
-											<td>#getProblemData.part_att_name_6#</td>
-											<td>#getProblemData.part_att_val_6#</td>
-											<td>#getProblemData.part_att_units_6#</td>
-											<td>#getProblemData.part_att_detby_6#</td>
-											<td>#getProblemData.part_att_madedate_6#</td>
-											<td>#getProblemData.part_att_rem_6#</td>
+											<cfloop index="i" from="1" to="#NUM_PART_ATTRIBUTE_PAIRS#">
+												<td>#evaluate("getProblemData.part_att_name_"&i)#</td>
+												<td>#evaluate("getProblemData.part_att_val_"&i)#</td>
+												<td>#evaluate("getProblemData.part_att_units_"&i)#</td>
+												<td>#evaluate("getProblemData.part_att_detby_"&i)#</td>
+												<td>#evaluate("getProblemData.part_att_madedate_"&i)#</td>
+												<td>#evaluate("getProblemData.part_att_rem_"&i)#</td>
+											</cfloop>
 										</tr>
 										<cfset i= i+1>
 									</cfloop>
