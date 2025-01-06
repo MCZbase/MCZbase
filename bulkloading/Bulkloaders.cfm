@@ -16,13 +16,7 @@
 				</ul>
 				<h3 class="h4">Add Data to Existing Specimens (batch tools)</h3>
 				<ul>
-					<cfif findNoCase('redesign',Session.gitBranch) EQ 0>
-						<!--- TODO: remove this test when switchover to BulkloadNewParts is complete --->
-						<li><a href="/tools/BulkloadParts.cfm">Bulkload New Parts</a></li>
-					<cfelse>
-						<!--- currently only for use in redesign2 branch --->
-						<li><a href="/tools/BulkloadNewParts.cfm">Bulkload New Parts</a></li>
-					</cfif>
+					<li><a href="/tools/BulkloadNewParts.cfm">Bulkload New Parts</a></li>
 					<li><a href="/tools/BulkloadAttributes.cfm">Bulkload Attributes</a></li>
 					<li><a href="/tools/BulkloadCitations.cfm">Bulkload Citations</a></li>
 					<li><a href="/tools/BulkloadOtherId.cfm">Bulkload Identifiers (bulk add Other ID numbers)</a></li>
