@@ -437,13 +437,7 @@ limitations under the License.
 				WHERE nature_of_id not in (select nature_of_id from ctnature_of_id)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="flagNotManyAcceptedIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_id
-				SET 
-					status = concat(nvl2(status, status || '; ', ''), 'Only 1 current ID per cataloged item is valid (accepted_id_fg)')
-				WHERE accepted_id_fg >= 2
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+
 			<cfquery name="flagNotMatchedToStoredAs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_id
 				SET 
@@ -479,6 +473,20 @@ limitations under the License.
 				<cfset formulas = ListAppend(formulas,getFormulas.taxa_formula,'|')>
 			</cfloop>
 			<cfloop query="getTempTableQC">
+				<cfquery name="flagNotManyAcceptedIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT COUNT(accepted_id_fg) AS fg_count
+					FROM cf_temp_id
+					GROUP BY collection_object_id
+					HAVING COUNT(accepted_id_fg) > 1
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="flagAcceptedIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_id
+					SET 
+						status = concat(nvl2(status, status || '; ', ''), 'Only 1 current ID per cataloged item is valid (accepted_id_fg)')
+					WHERE flagNotManyAcceptedIDs.fg_count > 1
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 				<!--- if formula text is end part of scientific name, separate it off and place in taxon formula --->
 				<cfset tf = "A">
 				<cfset TaxonomyTaxonName = getTempTableQC.scientific_name>
