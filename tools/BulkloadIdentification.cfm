@@ -456,10 +456,10 @@ limitations under the License.
 			</cfquery>
 			<cfset multiIDs = [] >
 			<!--- Loop over the query results if there are any rows --->
-			<cfif duplicateIDs.RecordCount gt 0>
+			<cfif findAcceptedIDs.RecordCount gt 0>
 				<cfloop query="findAcceptedIDs">
 					<!--- Append each duplicated ID to the array --->
-					<cfset ArrayAppend(duplicatedIdList, duplicateIDs.ID)>
+					<cfset ArrayAppend(duplicatedIdList, findAcceptedIDs.collection_object_ID)>
 				</cfloop>
 			</cfif>
 			<p>Duplicated IDs: #ArrayToList(duplicatedIdList, ", ")#</p>
