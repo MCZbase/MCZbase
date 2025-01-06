@@ -502,7 +502,7 @@ limitations under the License.
 					<cfif #isTaxon.recordcount# is 0>
 						<cfquery name="probColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_id
-							SET status = concat(nvl2(status, status || '; ', ''),'taxon record for ' || scientific_name || ' not found, it may contain an incorrect forumula.')
+							SET status = concat(nvl2(status, status || '; ', ''),'taxon record for ' || scientific_name || ' not found, it may contain an incorrect forumula')
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TaxonomyTaxonName#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">
