@@ -533,7 +533,7 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Check to see that there is a valid determined_by_agent entry--->	
-			<cfif len(getTempData.DETERMINED_BY_AGENT) GT 0 AND !isNumeric(getTempData.DETERMINED_BY_AGENT>
+			<cfif len(getTempData.DETERMINED_BY_AGENT) GT 0 AND !isNumeric(getTempData.DETERMINED_BY_AGENT)>
 				<cfquery name="chkMatchDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
