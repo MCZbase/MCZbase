@@ -907,7 +907,7 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							</cfif>
-							<cfloop from="0" to="#NUM_PART_ATTRIBUTE_PAIRS#" index="i">
+							<cfloop from="1" to="#NUM_PART_ATTRIBUTE_PAIRS#" index="i">
 								<cfif len(evaluate("part_att_name_#i#")) GT 0>
 									<cfset numAgentID = "">
 									<cfset det_agent_name = trim(evaluate("part_att_detby_#i#"))>
