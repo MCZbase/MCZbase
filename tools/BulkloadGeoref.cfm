@@ -533,25 +533,23 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Check to see that there is a valid determined_by_agent entry--->	
-			<cfif len(getTempData.DETERMINED_BY_AGENT) GT 0>
+			<cfif len(getTempData.DETERMINED_BY_AGENT) GT 0 AND !isNumeric(getTempData.DETERMINED_BY_AGENT>
 				<cfquery name="chkMatchDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'unable to match ['|| determined_by_agent ||'].')
-					WHERE 
-						(DETERMINED_BY_AGENT not in (select AGENT_NAME from AGENT_NAME 
-						where AGENT_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DETERMINED_BY_AGENT#">) and agent_name_type = 'preferred_agent_name') OR 
-						DETERMINED_BY_AGENT not in (select AGENT_ID from AGENT_NAME where AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DETERMINED_BY_AGENT#">))
+						status = concat(nvl2(status, status || '; ', ''),'unable to match ['|| determined_by_agent ||'] or MISSING.')
+					WHERE DETERMINED_BY_AGENT not in (select AGENT_NAME from AGENT_NAME 
+						where AGENT_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DETERMINED_BY_AGENT#">) and agent_name_type = 'preferred_agent_name') 
 				</cfquery>
-			<cfelseif len(getTempData.Determined_by_agent) eq 0>
+			<cfelseif len(getTempData.Determined_by_agent) eq 0 AND isNumeric(getTempData.DETERMINED_BY_AGENT>
 				<cfquery name="missingDetAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'Provide a preferred agent name or agent_id
+						status = concat(nvl2(status, status || '; ', ''),'Provide an agent_id that matches one in MCZbase')
 					WHERE
-						DETERMINED_BY_AGENT is null and
+						DETERMINED_BY_AGENT is not null and
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
 						key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 				</cfquery>
