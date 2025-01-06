@@ -459,10 +459,10 @@ limitations under the License.
 			<cfif findAcceptedIDs.RecordCount gt 0>
 				<cfloop query="findAcceptedIDs">
 					<!--- Append each duplicated ID to the array --->
-					<cfset ArrayAppend(duplicatedIdList, findAcceptedIDs.collection_object_ID)>
+					<cfset ArrayAppend(multiIDs, findAcceptedIDs.collection_object_ID)>
 				</cfloop>
 			</cfif>
-			<p>Duplicated IDs: #ArrayToList(duplicatedIdList, ", ")#</p>
+			<p>Duplicated IDs: #ArrayToList(multiIDs, ", ")#</p>
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT key,
