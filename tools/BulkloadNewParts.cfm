@@ -794,11 +794,11 @@ limitations under the License.
 				<cfset problem_key = "">
 				<cftransaction>
 					<cfquery name="countSpecimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT count(*) ct, collection_object_id
+						SELECT count(distinct collection_object_id) ct
 						FROM cf_temp_parts 
 						WHERE status IS NULL
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						GROUP BY collection_object_id
+						GROUP BY username
 					</cfquery>
 					<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT * 
