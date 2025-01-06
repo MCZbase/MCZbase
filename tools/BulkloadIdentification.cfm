@@ -454,13 +454,7 @@ limitations under the License.
 				GROUP BY collection_object_id, accepted_id_fg
 				HAVING COUNT(collection_object_id) > 1
 			</cfquery>
-			<cfquery name="flagAcceptedIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_id
-				SET status = concat(nvl2(status, status || '; ', ''), 'Only 1 current ID per cataloged item is valid (accepted_id_fg)')
-				WHERE accepted_id_fg = 1 
-				and collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#findAcceptedIDs.collection_object_id#"> 
-				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT key,
@@ -486,6 +480,13 @@ limitations under the License.
 				<cfset formulas = ListAppend(formulas,getFormulas.taxa_formula,'|')>
 			</cfloop>
 			<cfloop query="getTempTableQC">
+				<cfquery name="flagAcceptedIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_id
+					SET status = concat(nvl2(status, status || '; ', ''), 'Only 1 current ID per cataloged item is valid (accepted_id_fg)')
+					WHERE accepted_id_fg = 1 
+					and collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#findAcceptedIDs.collection_object_id#"> 
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 
 				<!--- if formula text is end part of scientific name, separate it off and place in taxon formula --->
 				<cfset tf = "A">
