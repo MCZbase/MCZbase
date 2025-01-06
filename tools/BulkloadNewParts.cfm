@@ -815,14 +815,6 @@ limitations under the License.
 											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_remarks#">)
 									</cfquery>
 							</cfif>
-							<cfif len(#changed_date#) gt 0>
-								<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									UPDATE SPECIMEN_PART_PRES_HIST 
-									SET CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') 
-									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.NEXTID#">
-										and is_current_fg = 1
-								</cfquery>
-							</cfif>
 							<cfif len(#container_unique_id#) gt 0>
 								<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT container_id 
