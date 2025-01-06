@@ -16,14 +16,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+<cfset NUM_PART_ATTRIBUTE_PAIRS = 6>
+
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT 
 			status, 
 			institution_acronym, collection_cde, other_id_type, other_id_number, collection_object_id,
 			part_name, preserve_method, coll_obj_disposition, condition, lot_count, lot_count_modifier, 
-			part_remarks, container_unique_id, 
-			part_att_name_1, part_att_val_1, part_att_units_1, part_att_detby_1, part_att_madedate_1, part_att_rem_1,
+			part_remarks, container_unique_id
+			<cfloop index="i" from="1" to="#NUM_PART_ATTRIBUTE_PAIRS#">
+				,part_att_name_#i#, part_att_val_#i#, part_att_units_#i#, part_att_detby_#i#, part_att_madedate_#i#, part_att_rem_#i#
+			</cfloop>
 			part_att_name_2, part_att_val_2, part_att_units_2, part_att_detby_2, part_att_madedate_2, part_att_rem_2,
 			part_att_name_3, part_att_val_3, part_att_units_3, part_att_detby_3, part_att_madedate_3, part_att_rem_3,
 			part_att_name_4, part_att_val_4, part_att_units_4, part_att_detby_4, part_att_madedate_4, part_att_rem_4,
@@ -41,8 +45,10 @@ limitations under the License.
 </cfif>
 
 <cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,CONTAINER_UNIQUE_ID,PART_NAME,PRESERVE_METHOD,LOT_COUNT_MODIFIER,LOT_COUNT,CONDITION,COLL_OBJ_DISPOSITION,PART_REMARKS,PART_ATT_NAME_1,PART_ATT_VAL_1,PART_ATT_UNITS_1,PART_ATT_DETBY_1,PART_ATT_MADEDATE_1,PART_ATT_REM_1,PART_ATT_NAME_2,PART_ATT_VAL_2,PART_ATT_UNITS_2,PART_ATT_DETBY_2,PART_ATT_MADEDATE_2,PART_ATT_REM_2,PART_ATT_NAME_3,PART_ATT_VAL_3,PART_ATT_UNITS_3,PART_ATT_DETBY_3,PART_ATT_MADEDATE_3,PART_ATT_REM_3,PART_ATT_NAME_4,PART_ATT_VAL_4,PART_ATT_UNITS_4,PART_ATT_DETBY_4,PART_ATT_MADEDATE_4,PART_ATT_REM_4,PART_ATT_NAME_5,PART_ATT_VAL_5,PART_ATT_UNITS_5,PART_ATT_DETBY_5,PART_ATT_MADEDATE_5,PART_ATT_REM_5,PART_ATT_NAME_6,PART_ATT_VAL_6,PART_ATT_UNITS_6,PART_ATT_DETBY_6,PART_ATT_MADEDATE_6,PART_ATT_REM_6">
-<cfset NUM_PART_ATTRIBUTE_PAIRS = 6>
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR">
+<cfif listlen(fieldlist) NEQ listlen(fieldTypes)>
+	<cfthrow message = "Error: Bug in the definition of fieldlist[#listlen(fieldlist)#] and fieldType[#listlen(fieldType)#] lists, lists must be the same length, but are not.">
+</cfif>
 <cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,LOT_COUNT,CONDITION,COLL_OBJ_DISPOSITION">
 
 <cfif isDefined("action") AND action is "getCSVHeader">
@@ -244,8 +250,10 @@ limitations under the License.
 								<cfset loadedRows = loadedRows + insert_result.recordcount>
 								<cfcatch>
 									<!--- identify the problematic row --->
-									<cfset error_message="#COLUMN_ERR# from line #row# in input file.  
-									<div class='mb-2 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12 small'>Header:[#colNames#]</div>   <div class='mb-2 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12 small'>Row:[#ArrayToList(collValuesArray)#] </div>Error: This is the GET FILE SECTION#cfcatch.message#"><!--- " --->
+									<cfset error_message="#COLUMN_ERR# from line #row# in input file.">
+									<cfset error_message = "#error_message# <div class='mb-2 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12 small'> Header:[#colNames#] </div>"><!--- " --->
+									<cfset error_message = "#error_message# <div class='mb-2 h4 font-weight-normal align-items-start align-items list-group list-group-horizontal flex-wrap col-12 small'> Row:[#ArrayToList(collValuesArray)#] </div>"><!--- " --->
+									<cfset error_message = "#error_message# Error: #cfcatch.message#">
 									<cfif isDefined("cfcatch.queryError")>
 										<cfset error_message = "#error_message# #cfcatch.queryError#">
 									</cfif>
