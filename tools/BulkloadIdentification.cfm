@@ -454,7 +454,7 @@ limitations under the License.
 				GROUP BY collection_object_id, accepted_id_fg
 				HAVING COUNT(collection_object_id) > 1
 			</cfquery>
-			<cfset multiIDs = 'findAcceptedIDs.FG_COUNT gt 1'>
+			<cfset multiIDs = findAcceptedIDs.COUNT gt 1>
 				   
 				 #multiIDs#,
 			<!--- obtain the information needed to QC each row --->
