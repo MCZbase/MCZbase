@@ -474,16 +474,16 @@ limitations under the License.
 			</cfloop>
 			<cfloop query="getTempTableQC">
 				<cfquery name="findAcceptedIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT COUNT(accepted_id_fg) AS fg_count
+					SELECT collection_object_id, accepted_id_fg,COUNT(collection_object_id) AS fg_count
 					FROM cf_temp_id
-					GROUP BY collection_object_id
-					HAVING COUNT(accepted_id_fg) > 1
+					GROUP BY collection_object_id, accepted_id_fg
+					HAVING COUNT(collection_object_id) > 1
 				</cfquery>
+				<cfset acceptable = findAcceptedIDs.recordcount gt 1>
 				<cfquery name="flagAcceptedIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_id
-					SET 
-						status = concat(nvl2(status, status || '; ', ''), 'Only 1 current ID per cataloged item is valid (accepted_id_fg)')
-					WHERE  findAcceptedIDs.fg_count <> 1
+					SET status = concat(nvl2(status, status || '; ', ''), 'Only 1 current ID per cataloged item is valid (accepted_id_fg)')
+					WHERE accepted_id_fg <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#findAcceptedIDs.fg_count#"> 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<!--- if formula text is end part of scientific name, separate it off and place in taxon formula --->
