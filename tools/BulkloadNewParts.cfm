@@ -908,9 +908,9 @@ limitations under the License.
 								</cfif>
 							</cfif>
 							<cfloop from="0" to="#NUM_PART_ATTRIBUTE_PAIRS#" index="i">
-								<cfif len(eval("part_att_name_#i#")) GT 0>
+								<cfif len(evaluate("part_att_name_#i#")) GT 0>
 									<cfset numAgentID = "">
-									<cfset det_agent_name = trim(eval("part_att_detby_#i#"))>
+									<cfset det_agent_name = trim(evaluate("part_att_detby_#i#"))>
 									<cfif len(det_agent_name) GT 0>
 										<cfquery name="getDetAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT agent_id 
@@ -921,11 +921,11 @@ limitations under the License.
 											<cfset numAgentID = getDetAgent.agent_id>
 										</cfloop>
 									</cfif>
-									<cfset att_name = trim(eval("getTempData.part_att_name_#i#"))>
-									<cfset att_val = trim(eval("getTempData.part_att_val_#i#"))>
-									<cfset att_units = trim(eval("getTempData.part_att_units_#i#"))>
-									<cfset att_madedate = trim(eval("getTempData.part_att_madedate_#i#"))>
-									<cfset att_rem = trim(eval("getTempData.part_att_rem_#i#"))>
+									<cfset att_name = trim(evaluate("getTempData.part_att_name_#i#"))>
+									<cfset att_val = trim(evaluate("getTempData.part_att_val_#i#"))>
+									<cfset att_units = trim(evaluate("getTempData.part_att_units_#i#"))>
+									<cfset att_madedate = trim(evaluate("getTempData.part_att_madedate_#i#"))>
+									<cfset att_rem = trim(evaluate("getTempData.part_att_rem_#i#"))>
 									<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										INSERT INTO specimen_part_attribute (
 											collection_object_id, 
