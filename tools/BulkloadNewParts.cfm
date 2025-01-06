@@ -793,429 +793,432 @@ limitations under the License.
 				<h2 class="h4">Third step: Apply changes</h2>
 				<cfset problem_key = "">
 				<cftransaction>
-				<cfquery name="countSpecimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT count(*) ct, collection_object_id
-					FROM cf_temp_parts 
-					WHERE status IS NULL
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					GROUP BY collection_object_id
-				</cfquery>
-				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT * 
-					FROM cf_temp_parts 
-					WHERE status IS NULL
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cfquery name= "getEntBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT 
-						agent_id 
-					FROM agent_name 
-					WHERE 
-						agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cftry>
-				<cfif getEntBy.recordcount is 0>
-					<cfabort showerror = "You aren't a recognized agent!">
-				<cfelseif getEntBy.recordcount gt 1>
-					<cfabort showerror = "Your login has has multiple matches.">
-				</cfif>
-				<cfif getTempData.recordcount EQ 0>
-					<cfthrow message="You have no rows to load in the Part bulkloader table (cf_temp_parts).  <a href='/tools/BulkloadNewParts.cfm' class='text-danger'>Start again</a>"><!--- " --->
-				</cfif>
-				<cfset enteredbyid = getEntBy.agent_id>
-					<cfset part_updates = 0>
-					<cfloop query="getTempData">
-						<cfif len(#use_part_id#) is 0>
-							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								select sq_collection_object_id.nextval NEXTID from dual
-							</cfquery>
-							<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateColl_result">
-								INSERT INTO coll_object (
-									COLLECTION_OBJECT_ID,
-									COLL_OBJECT_TYPE,
-									ENTERED_PERSON_ID,
-									COLL_OBJECT_ENTERED_DATE,
-									LAST_EDITED_PERSON_ID,
-									COLL_OBJ_DISPOSITION,
-									LOT_COUNT_MODIFIER,
-									LOT_COUNT,
-									CONDITION,
-									FLAGS )
-								VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.NEXTID#">,
-									'SP',
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,
-									sysdate,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.coll_obj_disposition#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.lot_count_modifier#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.lot_count#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.condition#">,
-									0 )
-							</cfquery>
-							<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								INSERT INTO specimen_part (
-									COLLECTION_OBJECT_ID,
-									PART_NAME,
-									PRESERVE_METHOD,
-									DERIVED_FROM_CAT_ITEM)
-								VALUES (
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.NEXTID#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PART_NAME#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PRESERVE_METHOD#">,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">)
-							</cfquery>
-							<cfif len(#part_remarks#) gt 0>
-									<!---- new remark --->
-									<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										INSERT INTO coll_object_remark (
-											collection_object_id, 
-											coll_object_remarks
-										) VALUES (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.NEXTID#">,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_remarks#">)
-									</cfquery>
-							</cfif>
-							<cfif len(#changed_date#) gt 0>
-								<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									UPDATE SPECIMEN_PART_PRES_HIST 
-									SET CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') 
-									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.NEXTID#">
-										and is_current_fg = 1
+					<cfquery name="countSpecimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT count(*) ct, collection_object_id
+						FROM cf_temp_parts 
+						WHERE status IS NULL
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						GROUP BY collection_object_id
+					</cfquery>
+					<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT * 
+						FROM cf_temp_parts 
+						WHERE status IS NULL
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+					<cfquery name= "getEntBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT 
+							agent_id 
+						FROM agent_name 
+						WHERE 
+							agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+					<cftry>
+					<cfif getEntBy.recordcount is 0>
+						<cfabort showerror = "You aren't a recognized agent!">
+					<cfelseif getEntBy.recordcount gt 1>
+						<cfabort showerror = "Your login has has multiple matches.">
+					</cfif>
+					<cfif getTempData.recordcount EQ 0>
+						<cfthrow message="You have no rows to load in the Part bulkloader table (cf_temp_parts).  <a href='/tools/BulkloadNewParts.cfm' class='text-danger'>Start again</a>"><!--- " --->
+					</cfif>
+					<cfset enteredbyid = getEntBy.agent_id>
+						<cfset part_updates = 0>
+						<cfloop query="getTempData">
+							<cfset problem_key = getTempData.key>
+							<cfif len(#use_part_id#) is 0>
+								<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									select sq_collection_object_id.nextval NEXTID from dual
 								</cfquery>
-							</cfif>
-							<cfif len(#container_unique_id#) gt 0>
-								<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT container_id 
-									FROM coll_obj_cont_hist 
-									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.NEXTID#">
+								<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateColl_result">
+									INSERT INTO coll_object (
+										COLLECTION_OBJECT_ID,
+										COLL_OBJECT_TYPE,
+										ENTERED_PERSON_ID,
+										COLL_OBJECT_ENTERED_DATE,
+										LAST_EDITED_PERSON_ID,
+										COLL_OBJ_DISPOSITION,
+										LOT_COUNT_MODIFIER,
+										LOT_COUNT,
+										CONDITION,
+										FLAGS )
+									VALUES (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.NEXTID#">,
+										'SP',
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,
+										sysdate,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.coll_obj_disposition#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.lot_count_modifier#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.lot_count#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.condition#">,
+										0 )
 								</cfquery>
-									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										UPDATE container 
-										SET 
-											parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
-										WHERE 
-											container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_container_id.container_id#">
-									</cfquery>
-								<cfif #len(change_container_type)# gt 0>
-									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										UPDATE container 
-										SET
-											container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#change_container_type#">
-										WHERE 
-											container_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.parent_container_id#">
-									</cfquery>
-								</cfif>
-							</cfif>
-							<cfloop from="1" to="#NUM_PART_ATTRIBUTE_PAIRS#" index="i">
-								<cfif len(evaluate("part_att_name_#i#")) GT 0>
-									<cfset numAgentID = "">
-									<cfset det_agent_name = trim(evaluate("part_att_detby_#i#"))>
-									<cfif len(det_agent_name) GT 0>
-										<cfquery name="getDetAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											SELECT agent_id 
-											FROM agent_name 
-											WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#det_agent_name#">
+								<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									INSERT INTO specimen_part (
+										COLLECTION_OBJECT_ID,
+										PART_NAME,
+										PRESERVE_METHOD,
+										DERIVED_FROM_CAT_ITEM)
+									VALUES (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.NEXTID#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PART_NAME#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PRESERVE_METHOD#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">)
+								</cfquery>
+								<cfif len(#part_remarks#) gt 0>
+										<!---- new remark --->
+										<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											INSERT INTO coll_object_remark (
+												collection_object_id, 
+												coll_object_remarks
+											) VALUES (
+												<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.NEXTID#">,
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.part_remarks#">)
 										</cfquery>
-										<cfloop query="getDetAgent">
-											<cfset numAgentID = getDetAgent.agent_id>
-										</cfloop>
-									</cfif>
-									<cfset att_name = trim(evaluate("getTempData.part_att_name_#i#"))>
-									<cfset att_val = trim(evaluate("getTempData.part_att_val_#i#"))>
-									<cfset att_units = trim(evaluate("getTempData.part_att_units_#i#"))>
-									<cfset att_madedate = trim(evaluate("getTempData.part_att_madedate_#i#"))>
-									<cfset att_rem = trim(evaluate("getTempData.part_att_rem_#i#"))>
-									<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										INSERT INTO specimen_part_attribute (
-											collection_object_id, 
-											attribute_type, 
-											attribute_value, 
-											attribute_units, 
-											determined_date, 
-											determined_by_agent_id, 
-											attribute_remark
-										) VALUES (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.NEXTID#">,
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#att_name#">, 
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#att_val#">, 
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#att_units#">, 
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#att_madedate#">, 
-											<cfif len(numAgentId) GT 0>
-												<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#numAgentId#">,
-											<cfelse>
-												NULL,
-											</cfif> 
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#att_rem#">
-										)
+								</cfif>
+								<cfif len(#changed_date#) gt 0>
+									<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE SPECIMEN_PART_PRES_HIST 
+										SET CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') 
+										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.NEXTID#">
+											and is_current_fg = 1
 									</cfquery>
 								</cfif>
-							</cfloop>
-						<cfelse>
-							<!--- there is an existing matching container that is not in a parent_container;
-								all we need to do is move the container to a parent IF it exists and is specified, or nothing otherwise --->
-							<cfif len(#coll_obj_disposition#) gt 0>
-								<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update coll_object set 
-									COLL_OBJ_DISPOSITION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.coll_obj_disposition#"> 
-									where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.use_part_id#">
-								</cfquery>
-							</cfif>
-							<cfif len(#condition#) gt 0>
-								<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update coll_object set 
-									condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.condition#">
-									where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.use_part_id#">
-								</cfquery>
-							</cfif>
-							<cfif len(#lot_count#) gt 0>
-								<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update coll_object set 
-									lot_count = #lot_count#, 
-									lot_count_modifier='#lot_count_modifier#' 
-									where collection_object_id = #use_part_id#
-								</cfquery>
-							</cfif>
-							<cfif len(#new_preserve_method#) gt 0>
-								<cfquery name="change_preservemethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update SPECIMEN_PART set 
-									PRESERVE_METHOD = '#NEW_PRESERVE_METHOD#' 
-									where collection_object_id =#use_part_id#
-								</cfquery>
-							</cfif>
-							<cfif len(#append_to_remarks#) gt 0>
-								<cfquery name="remarksCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select * from coll_object_remark 
-									where collection_object_id = #use_part_id#
-								</cfquery>
-								<cfif remarksCount.recordcount is 0>
-									<cfquery name="insertRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										INSERT INTO coll_object_remark 
-										(collection_object_id, coll_object_remarks)
-										VALUES 
-										(#use_part_id#, '#append_to_remarks#')
+								<cfif len(#container_unique_id#) gt 0>
+									<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT container_id 
+										FROM coll_obj_cont_hist 
+										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.NEXTID#">
 									</cfquery>
-								<cfelse>
-									<cfquery name="updateRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										update coll_object_remark
-										set coll_object_remarks = DECODE(coll_object_remarks, null, '#append_to_remarks#', coll_object_remarks || '; #append_to_remarks#')
+										<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											UPDATE container 
+											SET 
+												parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
+											WHERE 
+												container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_container_id.container_id#">
+										</cfquery>
+									<cfif #len(change_container_type)# gt 0>
+										<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											UPDATE container 
+											SET
+												container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#change_container_type#">
+											WHERE 
+												container_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.parent_container_id#">
+										</cfquery>
+									</cfif>
+								</cfif>
+								<cfloop from="1" to="#NUM_PART_ATTRIBUTE_PAIRS#" index="i">
+									<cfif len(evaluate("part_att_name_#i#")) GT 0>
+										<cfset numAgentID = "">
+										<cfset det_agent_name = trim(evaluate("part_att_detby_#i#"))>
+										<cfif len(det_agent_name) GT 0>
+											<cfquery name="getDetAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT agent_id 
+												FROM agent_name 
+												WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#det_agent_name#">
+											</cfquery>
+											<cfloop query="getDetAgent">
+												<cfset numAgentID = getDetAgent.agent_id>
+											</cfloop>
+										</cfif>
+										<cfset att_name = trim(evaluate("getTempData.part_att_name_#i#"))>
+										<cfset att_val = trim(evaluate("getTempData.part_att_val_#i#"))>
+										<cfset att_units = trim(evaluate("getTempData.part_att_units_#i#"))>
+										<cfset att_madedate = trim(evaluate("getTempData.part_att_madedate_#i#"))>
+										<cfset att_rem = trim(evaluate("getTempData.part_att_rem_#i#"))>
+										<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											INSERT INTO specimen_part_attribute (
+												collection_object_id, 
+												attribute_type, 
+												attribute_value, 
+												attribute_units, 
+												determined_date, 
+												determined_by_agent_id, 
+												attribute_remark
+											) VALUES (
+												<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.NEXTID#">,
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#att_name#">, 
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#att_val#">, 
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#att_units#">, 
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#att_madedate#">, 
+												<cfif len(numAgentId) GT 0>
+													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#numAgentId#">,
+												<cfelse>
+													NULL,
+												</cfif> 
+												<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#att_rem#">
+											)
+										</cfquery>
+									</cfif>
+								</cfloop>
+								<cfset part_updates = part_updates + updateColl_result.recordcount>
+							<cfelse>
+								<!--- there is an existing matching container that is not in a parent_container;
+									all we need to do is move the container to a parent IF it exists and is specified, or nothing otherwise --->
+								<cfif len(#coll_obj_disposition#) gt 0>
+									<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										update coll_object set 
+										COLL_OBJ_DISPOSITION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.coll_obj_disposition#"> 
+										where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.use_part_id#">
+									</cfquery>
+								</cfif>
+								<cfif len(#condition#) gt 0>
+									<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										update coll_object set 
+										condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.condition#">
+										where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.use_part_id#">
+									</cfquery>
+								</cfif>
+								<cfif len(#lot_count#) gt 0>
+									<cfquery name="upCond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										update coll_object set 
+										lot_count = #lot_count#, 
+										lot_count_modifier='#lot_count_modifier#' 
 										where collection_object_id = #use_part_id#
 									</cfquery>
 								</cfif>
-							</cfif>
-							<cfif len(#container_unique_id#) gt 0>
-								<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									select container_id from coll_obj_cont_hist where collection_object_id = #use_part_id#
-								</cfquery>
-									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										update container set parent_container_id=#parent_container_id#
-										where container_id = #part_container_id.container_id#
-									</cfquery>
-								<cfif #len(change_container_type)# gt 0>
-									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										update container set
-										container_type='#change_container_type#'
-										where container_id=#parent_container_id#
+								<cfif len(#new_preserve_method#) gt 0>
+									<cfquery name="change_preservemethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										update SPECIMEN_PART set 
+										PRESERVE_METHOD = '#NEW_PRESERVE_METHOD#' 
+										where collection_object_id =#use_part_id#
 									</cfquery>
 								</cfif>
-							</cfif>
-							<cfif len(#changed_date#) gt 0>
-								<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update SPECIMEN_PART_PRES_HIST set 
-									CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') 
-									where collection_object_id =#use_part_id# 
-									and is_current_fg = 1
-								</cfquery>
-							</cfif>
-							<cfset part_updates = part_updates + updateColl_result.recordcount>
-						</cfif>
-						<cfquery name="upLoaded" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE cf_temp_parts 
-							SET status = ''
-							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						</cfquery>
-					</cfloop>
-					<cfif part_updates eq 1>
-						<cfset plur= "">
-					<cfelse>
-						<cfset plur = "s">
-					</cfif>
-					<cfif countSpecimens.ct eq 1>
-						<cfset splur = "">
-					<cfelse>
-						<cfset splur = "s">
-					</cfif>
-					<h3 class="mt-3">#part_updates# part#plur# added for #countSpecimens.ct# cataloged item#splur#.</h3>
-					<h3><span class="text-success">Success!</span> Parts loaded.
-					<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(getTempData.collection_object_id)#" class="btn-link font-weight-lessbold">
-						See in Specimen Results.
-					</a>
-					</h3>
-					<cftransaction action="commit">
-				<cfcatch>
-					<cftransaction action="ROLLBACK">
-					<h3>There was a problem updating the specimen parts. </h3>
-					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT *
-						FROM cf_temp_parts
-						WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
-					</cfquery>
-					<cfif getProblemData.recordcount GT 0>
-						<h3>
-							Fix the issues and <a href="/tools/BulkloadNewParts.cfm">start again</a>. Error loading row (<span class="text-danger">#part_updates + 1#</span>) from the CSV: 
-							<cfif len(cfcatch.detail) gt 0>
-								<span class="font-weight-normal border-bottom border-danger">
-									<cfif cfcatch.detail contains "institution_acronym">
-										Invalid Institution Acronyn; Should be 'MCZ'.
-									<cfelseif cfcatch.detail contains "collection_cde">
-										Problem with collection_cde
-									<cfelseif cfcatch.detail contains "other_id_type">
-										Invalid or missing other_id_type
-									<cfelseif cfcatch.detail contains "other_id_number">
-										Invalid other_id_number
-									<cfelseif cfcatch.detail contains "part_name">
-										Invalid CITED_TAXON_NAME_ID
-									<cfelseif cfcatch.detail contains "preserve_method">
-										Problem with preserve_method
-									<cfelseif cfcatch.detail contains "lot_count_modifier">
-										Invalid disposition
-									<cfelseif cfcatch.detail contains "part_name">
-										Invalid part_name
-									<cfelseif cfcatch.detail contains "part_value">
-										Invalid part_value
-									<cfelseif cfcatch.detail contains "unique constraint">
-										This change has already been entered. Remove from spreadsheet and try again. (<a href="/tools/BulkloadNewParts.cfm">Reload.</a>)
-									<cfelseif cfcatch.detail contains "no data">
-										No data or the wrong data (#cfcatch.detail#)
+								<cfif len(#append_to_remarks#) gt 0>
+									<cfquery name="remarksCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										select * from coll_object_remark 
+										where collection_object_id = #use_part_id#
+									</cfquery>
+									<cfif remarksCount.recordcount is 0>
+										<cfquery name="insertRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											INSERT INTO coll_object_remark 
+											(collection_object_id, coll_object_remarks)
+											VALUES 
+											(#use_part_id#, '#append_to_remarks#')
+										</cfquery>
 									<cfelse>
-										<!--- provide the raw error message if it isn't readily interpretable --->
-										#cfcatch.detail#
+										<cfquery name="updateRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											update coll_object_remark
+											set coll_object_remarks = DECODE(coll_object_remarks, null, '#append_to_remarks#', coll_object_remarks || '; #append_to_remarks#')
+											where collection_object_id = #use_part_id#
+										</cfquery>
 									</cfif>
-								</span>
+								</cfif>
+								<cfif len(#container_unique_id#) gt 0>
+									<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										select container_id from coll_obj_cont_hist where collection_object_id = #use_part_id#
+									</cfquery>
+										<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											update container set parent_container_id=#parent_container_id#
+											where container_id = #part_container_id.container_id#
+										</cfquery>
+									<cfif #len(change_container_type)# gt 0>
+										<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											update container set
+											container_type='#change_container_type#'
+											where container_id=#parent_container_id#
+										</cfquery>
+									</cfif>
+								</cfif>
+								<cfif len(#changed_date#) gt 0>
+									<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										update SPECIMEN_PART_PRES_HIST set 
+										CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') 
+										where collection_object_id =#use_part_id# 
+										and is_current_fg = 1
+									</cfquery>
+								</cfif>
+								<cfset part_updates = part_updates + updateColl_result.recordcount>
 							</cfif>
+							<cfquery name="upLoaded" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								UPDATE cf_temp_parts 
+								SET status = ''
+								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							</cfquery>
+						</cfloop>
+						<cfif part_updates eq 1>
+							<cfset plur= "">
+						<cfelse>
+							<cfset plur = "s">
+						</cfif>
+						<cfif countSpecimens.ct eq 1>
+							<cfset splur = "">
+						<cfelse>
+							<cfset splur = "s">
+						</cfif>
+						<h3 class="mt-3">#part_updates# part#plur# added for #countSpecimens.ct# cataloged item#splur#.</h3>
+						<h3><span class="text-success">Success!</span> Parts loaded.
+						<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(getTempData.collection_object_id)#" class="btn-link font-weight-lessbold">
+							See in Specimen Results.
+						</a>
 						</h3>
-						<table class='sortable small table table-responsive table-striped d-lg-table mt-3'>
-							<thead>
-								<tr>
-									<th>COUNT</th>
-									<th>BULKLOADING&nbsp;STATUS</th>
-									<th>INSTITUTION_ACRONYM</th>
-									<th>COLLECTION_CDE</th>
-									<th>OTHER_ID_TYPE</th>
-									<th>OTHER_ID_NUMBER</th>
-									<th>PART_NAME</th>
-									<th>PRESERVE_METHOD</th>
-									<th>DISPOSITION</th>
-									<th>LOT_COUNT_MODIFIER</th>
-									<th>LOT_COUNT</th>
-									<th>PART_REMARKS</th>
-									<th>CONDITION</th>
-									<th>CONTAINER_UNIQUE_ID</th>
-									<th>PART_ATT_NAME_1</th>
-									<th>PART_ATT_VAL_1</th>
-									<th>PART_ATT_UNITS_1</th>
-									<th>PART_ATT_DETBY_1</th>
-									<th>PART_ATT_MADEDATE_1</th>
-									<th>PART_ATT_REM_1</th>
-									<th>PART_ATT_NAME_2</th>
-									<th>PART_ATT_VAL_2</th>
-									<th>PART_ATT_UNITS_2</th>
-									<th>PART_ATT_DETBY_2</th>
-									<th>PART_ATT_MADEDATE_2</th>
-									<th>PART_ATT_REM_2</th>
-									<th>PART_ATT_NAME_3</th>
-									<th>PART_ATT_VAL_3</th>
-									<th>PART_ATT_UNITS_3</th>
-									<th>PART_ATT_DETBY_3</th>
-									<th>PART_ATT_MADEDATE_3</th>
-									<th>PART_ATT_REM_3</th>
-									<th>PART_ATT_NAME_4</th>
-									<th>PART_ATT_VAL_4</th>
-									<th>PART_ATT_UNITS_4</th>
-									<th>PART_ATT_DETBY_4</th>
-									<th>PART_ATT_MADEDATE_4</th>
-									<th>PART_ATT_REM_4</th>
-									<th>PART_ATT_NAME_5</th>
-									<th>PART_ATT_VAL_5</th>
-									<th>PART_ATT_UNITS_5</th>
-									<th>PART_ATT_DETBY_5</th>
-									<th>PART_ATT_MADEDATE_5</th>
-									<th>PART_ATT_REM_5</th>
-									<th>PART_ATT_NAME_6</th>
-									<th>PART_ATT_VAL_6</th>
-									<th>PART_ATT_UNITS_6</th>
-									<th>PART_ATT_DETBY_6</th>
-									<th>PART_ATT_MADEDATE_6</th>
-									<th>PART_ATT_REM_6</th>
-								</tr> 
-							</thead>
-							<tbody>
-								<cfset i=1>
-								<cfloop query="getProblemData">
+						<cftransaction action="commit">
+					<cfcatch>
+						<cftransaction action="ROLLBACK">
+						<h3>There was a problem updating the specimen parts.</h3>
+						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT *
+							FROM cf_temp_parts
+							WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
+						</cfquery>
+						<h3>Fix the issues and <a href="/tools/BulkloadNewParts.cfm">start again</a>.</h3>
+						<cfif getProblemData.recordcount GT 0>
+							<h3>
+								Error loading row (<span class="text-danger">#part_updates + 1#</span>) from the CSV: 
+								<cfif len(cfcatch.detail) gt 0>
+									<span class="font-weight-normal border-bottom border-danger">
+										<cfif cfcatch.detail contains "institution_acronym">
+											Invalid Institution Acronyn; Should be 'MCZ'.
+										<cfelseif cfcatch.detail contains "collection_cde">
+											Problem with collection_cde
+										<cfelseif cfcatch.detail contains "other_id_type">
+											Invalid or missing other_id_type
+										<cfelseif cfcatch.detail contains "other_id_number">
+											Invalid other_id_number
+										<cfelseif cfcatch.detail contains "part_name">
+											Invalid CITED_TAXON_NAME_ID
+										<cfelseif cfcatch.detail contains "preserve_method">
+											Problem with preserve_method
+										<cfelseif cfcatch.detail contains "lot_count_modifier">
+											Invalid disposition
+										<cfelseif cfcatch.detail contains "part_name">
+											Invalid part_name
+										<cfelseif cfcatch.detail contains "part_value">
+											Invalid part_value
+										<cfelseif cfcatch.detail contains "unique constraint">
+											This change has already been entered. Remove from spreadsheet and try again. (<a href="/tools/BulkloadNewParts.cfm">Reload.</a>)
+										<cfelseif cfcatch.detail contains "no data">
+											No data or the wrong data (#cfcatch.detail#)
+										<cfelse>
+											<!--- provide the raw error message if it isn't readily interpretable --->
+											#cfcatch.detail#
+										</cfif>
+									</span>
+								</cfif>
+							</h3>
+							<table class='sortable small table table-responsive table-striped d-lg-table mt-3'>
+								<thead>
 									<tr>
-										<td>#i#</td>
-										<td>#getProblemData.STATUS# </td>
-										<td>#getProblemData.INSTITUTION_ACRONYM# </td>
-										<td>#getProblemData.COLLECTION_CDE# </td>
-										<td>#getProblemData.OTHER_ID_TYPE#</td>
-										<td>#getProblemData.OTHER_ID_NUMBER#</td>
-										<td>#getProblemData.PART_NAME#</td>
-										<td>#getProblemData.PRESERVE_METHOD#</td>
-										<td>#getProblemData.COLL_OBJ_DISPOSITION# </td>
-										<td>#getProblemData.LOT_COUNT_MODIFIER# </td>
-										<td>#getProblemData.LOT_COUNT#</td>
-										<td>#getProblemData.part_remarks#</td>
-										<td>#getProblemData.CONDITION#</td>
-										<td>#getProblemData.CONTAINER_UNIQUE_ID# </td>
-										<td>#getProblemData.part_att_name_1#</td>
-										<td>#getProblemData.part_att_val_1#</td>
-										<td>#getProblemData.part_att_units_1#</td>
-										<td>#getProblemData.part_att_detby_1#</td>
-										<td>#getProblemData.part_att_madedate_1#</td>
-										<td>#getProblemData.part_att_rem_1#</td>
-										<td>#getProblemData.part_att_name_2#</td>
-										<td>#getProblemData.part_att_val_2#</td>
-										<td>#getProblemData.part_att_units_2#</td>
-										<td>#getProblemData.part_att_detby_2#</td>
-										<td>#getProblemData.part_att_madedate_2#</td>
-										<td>#getProblemData.part_att_rem_2#</td>
-										<td>#getProblemData.part_att_name_3#</td>
-										<td>#getProblemData.part_att_val_3#</td>
-										<td>#getProblemData.part_att_units_3#</td>
-										<td>#getProblemData.part_att_detby_3#</td>
-										<td>#getProblemData.part_att_madedate_3#</td>
-										<td>#getProblemData.part_att_rem_3#</td>
-										<td>#getProblemData.part_att_name_4#</td>
-										<td>#getProblemData.part_att_val_4#</td>
-										<td>#getProblemData.part_att_units_4#</td>
-										<td>#getProblemData.part_att_detby_4#</td>
-										<td>#getProblemData.part_att_madedate_4#</td>
-										<td>#getProblemData.part_att_rem_4#</td>
-										<td>#getProblemData.part_att_name_5#</td>
-										<td>#getProblemData.part_att_val_5#</td>
-										<td>#getProblemData.part_att_units_5#</td>
-										<td>#getProblemData.part_att_detby_5#</td>
-										<td>#getProblemData.part_att_madedate_5#</td>
-										<td>#getProblemData.part_att_rem_5#</td>
-										<td>#getProblemData.part_att_name_6#</td>
-										<td>#getProblemData.part_att_val_6#</td>
-										<td>#getProblemData.part_att_units_6#</td>
-										<td>#getProblemData.part_att_detby_6#</td>
-										<td>#getProblemData.part_att_madedate_6#</td>
-										<td>#getProblemData.part_att_rem_6#</td>
-									</tr>
-									<cfset i= i+1>
-								</cfloop>
-							</tbody>
-						</table>
-					</cfif>
-					<div>#cfcatch.message#</div>
-					<!--- Always provide global admins with a dump --->
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-						<cfdump var="#cfcatch#">
-					</cfif>
-				</cfcatch>
-				</cftry>
+										<th>COUNT</th>
+										<th>BULKLOADING&nbsp;STATUS</th>
+										<th>INSTITUTION_ACRONYM</th>
+										<th>COLLECTION_CDE</th>
+										<th>OTHER_ID_TYPE</th>
+										<th>OTHER_ID_NUMBER</th>
+										<th>PART_NAME</th>
+										<th>PRESERVE_METHOD</th>
+										<th>DISPOSITION</th>
+										<th>LOT_COUNT_MODIFIER</th>
+										<th>LOT_COUNT</th>
+										<th>PART_REMARKS</th>
+										<th>CONDITION</th>
+										<th>CONTAINER_UNIQUE_ID</th>
+										<th>PART_ATT_NAME_1</th>
+										<th>PART_ATT_VAL_1</th>
+										<th>PART_ATT_UNITS_1</th>
+										<th>PART_ATT_DETBY_1</th>
+										<th>PART_ATT_MADEDATE_1</th>
+										<th>PART_ATT_REM_1</th>
+										<th>PART_ATT_NAME_2</th>
+										<th>PART_ATT_VAL_2</th>
+										<th>PART_ATT_UNITS_2</th>
+										<th>PART_ATT_DETBY_2</th>
+										<th>PART_ATT_MADEDATE_2</th>
+										<th>PART_ATT_REM_2</th>
+										<th>PART_ATT_NAME_3</th>
+										<th>PART_ATT_VAL_3</th>
+										<th>PART_ATT_UNITS_3</th>
+										<th>PART_ATT_DETBY_3</th>
+										<th>PART_ATT_MADEDATE_3</th>
+										<th>PART_ATT_REM_3</th>
+										<th>PART_ATT_NAME_4</th>
+										<th>PART_ATT_VAL_4</th>
+										<th>PART_ATT_UNITS_4</th>
+										<th>PART_ATT_DETBY_4</th>
+										<th>PART_ATT_MADEDATE_4</th>
+										<th>PART_ATT_REM_4</th>
+										<th>PART_ATT_NAME_5</th>
+										<th>PART_ATT_VAL_5</th>
+										<th>PART_ATT_UNITS_5</th>
+										<th>PART_ATT_DETBY_5</th>
+										<th>PART_ATT_MADEDATE_5</th>
+										<th>PART_ATT_REM_5</th>
+										<th>PART_ATT_NAME_6</th>
+										<th>PART_ATT_VAL_6</th>
+										<th>PART_ATT_UNITS_6</th>
+										<th>PART_ATT_DETBY_6</th>
+										<th>PART_ATT_MADEDATE_6</th>
+										<th>PART_ATT_REM_6</th>
+									</tr> 
+								</thead>
+								<tbody>
+									<cfset i=1>
+									<cfloop query="getProblemData">
+										<tr>
+											<td>#i#</td>
+											<td>#getProblemData.STATUS# </td>
+											<td>#getProblemData.INSTITUTION_ACRONYM# </td>
+											<td>#getProblemData.COLLECTION_CDE# </td>
+											<td>#getProblemData.OTHER_ID_TYPE#</td>
+											<td>#getProblemData.OTHER_ID_NUMBER#</td>
+											<td>#getProblemData.PART_NAME#</td>
+											<td>#getProblemData.PRESERVE_METHOD#</td>
+											<td>#getProblemData.COLL_OBJ_DISPOSITION# </td>
+											<td>#getProblemData.LOT_COUNT_MODIFIER# </td>
+											<td>#getProblemData.LOT_COUNT#</td>
+											<td>#getProblemData.part_remarks#</td>
+											<td>#getProblemData.CONDITION#</td>
+											<td>#getProblemData.CONTAINER_UNIQUE_ID# </td>
+											<td>#getProblemData.part_att_name_1#</td>
+											<td>#getProblemData.part_att_val_1#</td>
+											<td>#getProblemData.part_att_units_1#</td>
+											<td>#getProblemData.part_att_detby_1#</td>
+											<td>#getProblemData.part_att_madedate_1#</td>
+											<td>#getProblemData.part_att_rem_1#</td>
+											<td>#getProblemData.part_att_name_2#</td>
+											<td>#getProblemData.part_att_val_2#</td>
+											<td>#getProblemData.part_att_units_2#</td>
+											<td>#getProblemData.part_att_detby_2#</td>
+											<td>#getProblemData.part_att_madedate_2#</td>
+											<td>#getProblemData.part_att_rem_2#</td>
+											<td>#getProblemData.part_att_name_3#</td>
+											<td>#getProblemData.part_att_val_3#</td>
+											<td>#getProblemData.part_att_units_3#</td>
+											<td>#getProblemData.part_att_detby_3#</td>
+											<td>#getProblemData.part_att_madedate_3#</td>
+											<td>#getProblemData.part_att_rem_3#</td>
+											<td>#getProblemData.part_att_name_4#</td>
+											<td>#getProblemData.part_att_val_4#</td>
+											<td>#getProblemData.part_att_units_4#</td>
+											<td>#getProblemData.part_att_detby_4#</td>
+											<td>#getProblemData.part_att_madedate_4#</td>
+											<td>#getProblemData.part_att_rem_4#</td>
+											<td>#getProblemData.part_att_name_5#</td>
+											<td>#getProblemData.part_att_val_5#</td>
+											<td>#getProblemData.part_att_units_5#</td>
+											<td>#getProblemData.part_att_detby_5#</td>
+											<td>#getProblemData.part_att_madedate_5#</td>
+											<td>#getProblemData.part_att_rem_5#</td>
+											<td>#getProblemData.part_att_name_6#</td>
+											<td>#getProblemData.part_att_val_6#</td>
+											<td>#getProblemData.part_att_units_6#</td>
+											<td>#getProblemData.part_att_detby_6#</td>
+											<td>#getProblemData.part_att_madedate_6#</td>
+											<td>#getProblemData.part_att_rem_6#</td>
+										</tr>
+										<cfset i= i+1>
+									</cfloop>
+								</tbody>
+							</table>
+						</cfif>
+						<div>#cfcatch.message#</div>
+						<!--- Always provide global admins with a dump --->
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+							<cfdump var="#cfcatch#">
+						</cfif>
+					</cfcatch>
+					</cftry>
 				</cftransaction>
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_parts 
