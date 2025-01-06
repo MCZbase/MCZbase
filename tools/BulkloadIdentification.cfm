@@ -489,8 +489,13 @@ limitations under the License.
 				<cfset formulas = ListAppend(formulas,getFormulas.taxa_formula,'|')>
 			</cfloop>
 			<cfloop query="getTempTableQC">
-	
-
+				<cfquery name="getFormulas" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_id
+					SET status = concat(nvl2(status, status || '; ', ''),'multiple current identifications found for this cataloged_item (accepted_id_fg)')
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and collection_object_id in #ArrayToList(multiIDs, ", ")#
+					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">
+				</cfquery>
 				<!--- if formula text is end part of scientific name, separate it off and place in taxon formula --->
 				<cfset tf = "A">
 				<cfset TaxonomyTaxonName = getTempTableQC.scientific_name>
