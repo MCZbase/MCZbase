@@ -713,12 +713,12 @@ limitations under the License.
 								<td>#condition#</td>
 								<td>#container_unique_id#</td>
 								<cfloop index="i" from="1" to="#NUM_PART_ATTRIBUTE_PAIRS#">
-									<td>evaluate("part_att_name_#i#")</td>
-									<td>evaluate("part_att_val_#i#")</td>
-									<td>evaluate("part_att_units_#i#")</td>
-									<td>evaluate("part_att_detby_#i#")</td>
-									<td>evaluate("part_att_madedate_#i#")</td>
-									<td>evaluate("part_att_rem_#i#")</td>
+									<td>#evaluate("part_att_name_"&i)#</td>
+									<td>#evaluate("part_att_val_"&i)#</td>
+									<td>#evaluate("part_att_units_"&i)#</td>
+									<td>#evaluate("part_att_detby_"&i)#</td>
+									<td>#evaluate("part_att_madedate_"&i)#</td>
+									<td>#evaluate("part_att_rem_"&i)#</td>
 								</cfloop>
 							</tr>
 						</cfloop>
