@@ -448,9 +448,10 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="findAcceptedIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT collection_object_id, COUNT(accepted_id_fg) AS fg_count
+				SELECT count(*), collection_object_id
 				FROM cf_temp_id
 				where accepted_id_fg = 1
+				and username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				GROUP BY collection_object_id
 				HAVING COUNT(collection_object_id) > 1
 			</cfquery>
