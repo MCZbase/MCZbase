@@ -16,13 +16,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+
+<cfset NUMBER_OF_OTHER_NAME_PAIRS = 3>
+
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT agent_type,preferred_name,first_name,middle_name,last_name,
 			birth_date,death_date,agent_remark,prefix,suffix,
-			other_name_1,other_name_type_1,other_name_2,other_name_type_2,
-			other_name_3,other_name_type_3,
+			<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
+				other_name_#i#, other_name_type_#i#,
+			</cfloop>
 			agentguid_guid_type,agentguid,status
 		FROM cf_temp_agents 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -36,9 +40,27 @@ limitations under the License.
 </cfif>
 <!--- end special case dump of problems --->
 
-<cfset fieldlist = "AGENT_TYPE,PREFERRED_NAME,FIRST_NAME,MIDDLE_NAME,LAST_NAME,BIRTH_DATE,DEATH_DATE,AGENT_REMARK,PREFIX,SUFFIX,OTHER_NAME_1,OTHER_NAME_TYPE_1,OTHER_NAME_2,OTHER_NAME_TYPE_2,OTHER_NAME_3,OTHER_NAME_TYPE_3,AGENTGUID_GUID_TYPE,AGENTGUID">
-<cfset fieldTypes = "CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<!--- build lists of fields for CSV file and their types --->
+<cfset fieldlist = "AGENT_TYPE,PREFERRED_NAME,FIRST_NAME,MIDDLE_NAME,LAST_NAME,BIRTH_DATE,DEATH_DATE,AGENT_REMARK,PREFIX,SUFFIX">
+<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
+	<cfset fieldlist = ListAppend(fieldlist,"OTHER_NAME_#i#")>
+	<cfset fieldlist = ListAppend(fieldlist,"OTHER_NAME_TYPE_#i#")>
+</cfloop>
+<cfset fieldlist = ListAppend(fieldlist,"AGENTGUID_GUID_TYPE")>
+<cfset fieldlist = ListAppend(fieldlist,"AGENTGUID")>
+<cfset fieldTypes = "CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
+	<cfset fieldTypes = ListAppend(fieldlist,"CF_SQL_VARCHAR")>
+	<cfset fieldTypes = ListAppend(fieldlist,"CF_SQL_VARCHAR")>
+</cfloop>
+<cfset fieldTypes = ListAppend(fieldlist,"CF_SQL_VARCHAR")>
+<cfset fieldTypes = ListAppend(fieldlist,"CF_SQL_VARCHAR")>
+
 <cfset requiredfieldlist = "AGENT_TYPE,PREFERRED_NAME,LAST_NAME">
+
+<cfif listlen(fieldlist) NEQ listlen(fieldTypes)>
+	<cfthrow message = "Error: Bug in the definition of fieldlist[#listlen(fieldlist)#] and fieldType[#listlen(fieldType)#] lists, lists must be the same length, but are not.">
+</cfif>
 
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
@@ -356,13 +378,48 @@ limitations under the License.
 					AGENTGUID_GUID_TYPE IS NOT NULL AND 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
+				<cfquery name="invNAMEType1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_agents
+					SET 
+						status = concat(nvl2(status, status || '; ', ''), 'A *valid* OTHER_NAME_TYPE_#i# was not provided - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTAGENT_NAME_TYPE">controlled vocabulary</a>')
+					WHERE 
+						OTHER_NAME_TYPE_#i# not in (select AGENT_NAME_TYPE from CTAGENT_NAME_TYPE) AND 
+						OTHER_NAME_TYPE_#i# IS NOT NULL AND 
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="invNAMEType1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_agents
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'An OTHER_NAME_TYPE_#i# was not provided for OTHER_NAME_#i#')
+					WHERE 
+						OTHER_NAME_TYPE_#i# IS NULL AND 
+						OTHER_NAME_#i# IS NOT NULL AND 
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="invNAMEType1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_agents
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'An OTHER_NAME_#i# was not provided with OTHER_NAME_TYPE_#i#')
+					WHERE 
+						OTHER_NAME_TYPE_#i# IS NOT NULL AND 
+						OTHER_NAME_#i# IS NULL AND 
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfloop>
 
 			<!--- validation checks iterating through input rows --->
 			<cfset key = ''>
 			<cfset i = 1>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					key,to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,status
+					key,
+					to_char(birth_date,'YYYY-MM-DD') birth_date, agent_type, preferred_name, first_name, middle_name, last_name,
+					to_char(death_date,'YYYY-MM-DD') death_date, agent_remark, prefix, suffix,
+					<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
+						other_name_#i#,other_name_type_#i#,
+					</cfloop>
+					agentguid_guid_type,agentguid,status
 				FROM 
 					cf_temp_agents
 				WHERE 
@@ -375,134 +432,6 @@ limitations under the License.
 						UPDATE cf_temp_agents
 						SET 
 							status = concat(nvl2(status, status || '; ', ''), 'A BIRTH_DATE was not provided with DEATH_DATE')
-						WHERE 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-					</cfquery>
-				</cfif>
-				<cfif len(getTempData.OTHER_NAME_TYPE_1) gt 0>
-					<cfquery name="invNAMEType1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_agents
-						SET 
-							status = concat(nvl2(status, status || '; ', ''), 'A *valid* OTHER_NAME_TYPE_1 was not provided - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTAGENT_NAME_TYPE">controlled vocabulary</a>')
-						WHERE 
-							OTHER_NAME_TYPE_1 not in (select AGENT_NAME_TYPE from CTAGENT_NAME_TYPE) AND 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-					</cfquery>
-					<cfif len(getTempData.other_name_1) gt 0>
-						<cfquery name="invNAMEType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE cf_temp_agents
-							SET 
-								status = concat(nvl2(status, status || '; ', ''),'OTHER_NAME_1 without valid OTHER_NAME_TYPE_1')
-							WHERE 
-								OTHER_NAME_TYPE_1 not in (select AGENT_NAME_TYPE from CTAGENT_NAME_TYPE) AND 
-								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-						</cfquery>
-					</cfif>
-				</cfif>
-				<cfif len(getTempData.other_name_1) gt 0 and len(getTempData.other_name_type_1) eq 0>
-					<cfquery name="invNAMEType1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_agents
-						SET 
-							status = concat(nvl2(status, status || '; ', ''),'An OTHER_NAME_TYPE_1 was not provided for OTHER_NAME_1')
-						WHERE 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-					</cfquery>
-				</cfif>
-				<cfif len(getTempData.OTHER_NAME_1) eq 0 and len(getTempData.OTHER_NAME_TYPE_1) gt 0>
-					<cfquery name="invNAMEType1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_agents
-						SET 
-							status = concat(nvl2(status, status || '; ', ''),'An OTHER_NAME_1 was not provided with OTHER_NAME_TYPE_1')
-						WHERE 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-					</cfquery>
-				</cfif>
-						
-				<cfif len(getTempData.OTHER_NAME_TYPE_2) gt 0>
-					<cfquery name="invNAMEType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_agents
-						SET 
-							status = concat(nvl2(status, status || '; ', ''), 'A *valid* OTHER_NAME_TYPE_2 was not provided - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTAGENT_NAME_TYPE">controlled vocabulary</a>')
-						WHERE 
-							OTHER_NAME_TYPE_2 not in (select AGENT_NAME_TYPE from CTAGENT_NAME_TYPE) AND 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-					</cfquery>
-					<cfif len(getTempData.other_name_2) gt 0>
-						<cfquery name="invNAMEType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE cf_temp_agents
-							SET 
-								status = concat(nvl2(status, status || '; ', ''),'Cannot evaluate OTHER_NAME_2 without valid OTHER_NAME_TYPE_2')
-							WHERE 
-								OTHER_NAME_TYPE_2 not in (select AGENT_NAME_TYPE from CTAGENT_NAME_TYPE) AND 
-								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-						</cfquery>
-					</cfif>
-				</cfif>
-				<cfif len(getTempData.other_name_2) gt 0 and len(getTempData.other_name_type_2) eq 0>
-					<cfquery name="invNAMEType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_agents
-						SET 
-							status = concat(nvl2(status, status || '; ', ''),'An OTHER_NAME_TYPE_2 was not provided')
-						WHERE 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-					</cfquery>
-				</cfif>
-				<cfif len(getTempData.OTHER_NAME_2) eq 0 and len(getTempData.OTHER_NAME_TYPE_2) gt 0>
-					<cfquery name="invNAMEType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_agents
-						SET 
-							status = concat(nvl2(status, status || '; ', ''),'An OTHER_NAME_2 was not provided with OTHER_NAME_TYPE_2')
-						WHERE 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-					</cfquery>
-				</cfif>
-						
-				<cfif len(getTempData.OTHER_NAME_TYPE_3) gt 0>
-					<cfquery name="invNAMEType3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_agents
-						SET 
-							status = concat(nvl2(status, status || '; ', ''), 'A *valid* OTHER_NAME_TYPE_3 was not provided - check <a href="/vocabularies/ControlledVocabulary.cfm?table=CTAGENT_NAME_TYPE">controlled vocabulary</a>')
-						WHERE 
-							OTHER_NAME_TYPE_3 not in (select AGENT_NAME_TYPE from CTAGENT_NAME_TYPE) AND 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-					</cfquery>
-					<cfif len(getTempData.other_name_3) gt 0>
-						<cfquery name="invNAMEType3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE cf_temp_agents
-							SET 
-								status = concat(nvl2(status, status || '; ', ''),'Cannot evaluate OTHER_NAME_3 without valid OTHER_NAME_TYPE_3')
-							WHERE 
-								OTHER_NAME_TYPE_3 not in (select AGENT_NAME_TYPE from CTAGENT_NAME_TYPE) AND 
-								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-						</cfquery>
-					</cfif>
-				</cfif>
-				<cfif len(getTempData.other_name_3) gt 0 and len(getTempData.other_name_type_3) eq 0>
-					<cfquery name="invNAMEType3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_agents
-						SET 
-							status = concat(nvl2(status, status || '; ', ''),'An OTHER_NAME_TYPE_3 was not provided')
-						WHERE 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-					</cfquery>
-				</cfif>
-				<cfif len(getTempData.OTHER_NAME_3) eq 0 and len(getTempData.OTHER_NAME_TYPE_3) gt 0>
-					<cfquery name="invNAMEType3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_agents
-						SET 
-							status = concat(nvl2(status, status || '; ', ''),'An OTHER_NAME_3 was not provided with OTHER_NAME_TYPE_3')
 						WHERE 
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
@@ -608,7 +537,14 @@ limitations under the License.
 			
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,status
+					to_char(birth_date,'YYYY-MM-DD') birth_date,
+					agent_type, preferred_name,first_name,middle_name,last_name,
+					to_char(death_date,'YYYY-MM-DD') death_date,
+					agent_remark,prefix,suffix,
+					<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
+						other_name_#i#,other_name_type_#i#,
+					</cfloop>
+					agentguid_guid_type,agentguid,status
 				FROM 
 					cf_temp_agents
 				WHERE 
@@ -640,12 +576,10 @@ limitations under the License.
 						<th>AGENT_REMARK</th>
 						<th>PREFIX</th>
 						<th>SUFFIX</th>
-						<th>OTHER_NAME_1</th>
-						<th>OTHER_NAME_TYPE_1</th>
-						<th>OTHER_NAME_2</th>
-						<th>OTHER_NAME_TYPE_2</th>
-						<th>OTHER_NAME_3</th>
-						<th>OTHER_NAME_TYPE_3</th>
+						<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
+							<th>OTHER_NAME_#i#</th>
+							<th>OTHER_NAME_TYPE_#i#</th>
+						</cfloop>
 						<th>AGENTGUID_GUID_TYPE</th>
 						<th>AGENTGUID</th>
 					</tr>
@@ -663,12 +597,10 @@ limitations under the License.
 							<td>#data.AGENT_REMARK#</td>
 							<td>#data.PREFIX#</td>
 							<td>#data.SUFFIX#</td>
-							<td>#data.OTHER_NAME_1#</td>
-							<td>#data.OTHER_NAME_TYPE_1#</td>
-							<td>#data.OTHER_NAME_2#</td>
-							<td>#data.OTHER_NAME_TYPE_2#</td>
-							<td>#data.OTHER_NAME_3#</td>
-							<td>#data.OTHER_NAME_TYPE_3#</td>
+							<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
+								<td>#evaluate("data.OTHER_NAME_"&i)#</td>
+								<td>#evaluate("data.OTHER_NAME_TYPE_"&i)#</td>
+							</cfloop>
 							<td>#data.agentguid_guid_type#</td>
 							<td>#data.agentguid#</td>
 						</tr>
@@ -685,7 +617,15 @@ limitations under the License.
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
-						key,to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type, preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid
+						key, 
+						to_char(birth_date,'YYYY-MM-DD') birth_date,
+						agent_type, preferred_name, first_name, middle_name, last_name,
+						to_char(death_date,'YYYY-MM-DD') death_date,
+						agent_remark, prefix, suffix,
+						<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
+							other_name_#i#,other_name_type_#i#,
+						</cfloop>
+						agentguid_guid_type, agentguid
 					FROM cf_temp_agents
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -759,51 +699,25 @@ limitations under the License.
 									'#dateformat(DEATH_DATE,"yyyy-mm-dd")#')
 							</cfquery>
 						</cfif>
-						<cfif len(#OTHER_NAME_1#) gt 0>
-							<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								insert into agent_name (
-									AGENT_NAME_ID,
-									AGENT_ID,
-									AGENT_NAME_TYPE,
-									AGENT_NAME 
-								) values (
-									SQ_AGENT_NAME_ID.NEXTVAL,
-									#savePK.agent_id#,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_NAME_TYPE_1#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_NAME_1#">
-								)
-							</cfquery>
-						</cfif>
-						<cfif len(#OTHER_NAME_2#) gt 0>
-							<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								INSERT into agent_name (
-									AGENT_NAME_ID,
-									AGENT_ID,
-									AGENT_NAME_TYPE,
-									AGENT_NAME 
-								) values (
-									SQ_AGENT_NAME_ID.NEXTVAL,
-									#savePK.agent_id#,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_NAME_TYPE_2#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_NAME_2#">
-								)
-							</cfquery>
-						</cfif>
-						<cfif len(#OTHER_NAME_3#) gt 0>
-							<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								INSERT into agent_name (
-									AGENT_NAME_ID,
-									AGENT_ID,
-									AGENT_NAME_TYPE,
-									AGENT_NAME 
-								) values (
-									SQ_AGENT_NAME_ID.NEXTVAL,
-									#savePK.agent_id#,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_NAME_TYPE_3#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_NAME_3#">
-								)
-							</cfquery>
-						</cfif>
+						<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
+							<cfif len(evaluate("OTHER_NAME_"&i)) gt 0>
+								<cfset nametype = evaluate("OTHER_NAME_TYPE_"&i)>
+								<cfset name = evaluate("OTHER_NAME_"&i)>
+								<cfquery name="newAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									insert into agent_name (
+										AGENT_NAME_ID,
+										AGENT_ID,
+										AGENT_NAME_TYPE,
+										AGENT_NAME 
+									) values (
+										SQ_AGENT_NAME_ID.NEXTVAL,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#savePK.agent_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nametype#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#name#">
+									)
+								</cfquery>
+							</cfif>
+						</cfloop>
 						<cfif pkResult.recordcount gt 1>
 							<cfthrow message="Error: Attempting to insert a duplicate agent">
 						</cfif>
@@ -819,7 +733,14 @@ limitations under the License.
 					<h3>There was a problem updating the agents. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
-							to_char(birth_date,'YYYY-MM-DD') birth_date,agent_type,preferred_name,first_name,middle_name,last_name,to_char(death_date,'YYYY-MM-DD') death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid
+							to_char(birth_date,'YYYY-MM-DD') birth_date,
+							agent_type, preferred_name, first_name, middle_name, last_name,
+							to_char(death_date,'YYYY-MM-DD') death_date, 
+							agent_remark, prefix, suffix,
+							<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
+								other_name_#i#,other_name_type_#i#,
+							</cfloop>
+							agentguid_guid_type,agentguid
 						FROM cf_temp_agents
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 					</cfquery>
@@ -873,12 +794,10 @@ limitations under the License.
 									<th>AGENT_REMARK</th>
 									<th>PREFIX</th>
 									<th>SUFFIX</th>
-									<th>OTHER_NAME_1</th>
-									<th>OTHER_NAME_TYPE_1</th>
-									<th>OTHER_NAME_2</th>
-									<th>OTHER_NAME_TYPE_2</th>
-									<th>OTHER_NAME_3</th>
-									<th>OTHER_NAME_TYPE_3</th>
+									<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
+										<th>OTHER_NAME_#i#</th>
+										<th>OTHER_NAME_TYPE_#i#</th>
+									</cfloop>
 									<th>AGENTGUID_GUID_TYPE</th>
 									<th>AGENTGUID</th>
 								</tr> 
@@ -898,12 +817,10 @@ limitations under the License.
 										<td>#getProblemData.AGENT_REMARK# </td>
 										<td>#getProblemData.PREFIX# </td>
 										<td>#getProblemData.SUFFIX#</td>
-										<td>#getProblemData.OTHER_NAME_1#</td>
-										<td>#getProblemData.OTHER_NAME_TYPE_1#</td>
-										<td>#getProblemData.OTHER_NAME_2#</td>
-										<td>#getProblemData.OTHER_NAME_TYPE_2#</td>
-										<td>#getProblemData.OTHER_NAME_3#</td>
-										<td>#getProblemData.OTHER_NAME_TYPE_3#</td>
+										<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
+											<td>#evaluate("getProblemData.OTHER_NAME_"&i)#</td>
+											<td>#evaluate("getProblemData.OTHER_NAME_TYPE_"&i)#</td>
+										</cfloop>
 										<td>#getProblemData.AGENTGUID_GUID_TYPE#</td>
 										<td>#getProblemData.AGENTGUID#</td>
 									</tr>
