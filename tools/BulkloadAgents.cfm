@@ -375,7 +375,7 @@ limitations under the License.
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'#requiredField# is missing')
 					WHERE 
-						(#requiredField# is null OR trim(#required_field#) IS NULL) AND
+						(#requiredField# is null OR trim(#requiredField#) IS NULL) AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
