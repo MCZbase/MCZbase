@@ -59,7 +59,7 @@ limitations under the License.
 <cfset requiredfieldlist = "AGENT_TYPE,PREFERRED_NAME,LAST_NAME">
 
 <cfif listlen(fieldlist) NEQ listlen(fieldTypes)>
-	<cfthrow message = "Error: Bug in the definition of fieldlist[#listlen(fieldlist)#] and fieldType[#listlen(fieldType)#] lists, lists must be the same length, but are not.">
+	<cfthrow message = "Error: Bug in the definition of fieldlist[#listlen(fieldlist)#] and fieldType[#listlen(fieldTypes)#] lists, lists must be the same length, but are not.">
 </cfif>
 
 <!--- special case handling to dump column headers as csv --->
