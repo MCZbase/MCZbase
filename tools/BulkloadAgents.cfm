@@ -90,11 +90,11 @@ limitations under the License.
 			<p>Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored</p>
 			<ul class="list-group list-group-horizontal mb-3">
 				<li class="list-group-item font-weight-lessbold">
-					<a href="/vocabularies/ControlledVocabulary.cfm?table=ctagent_name_type">VALID AGENT NAME TYPES</a> </li> <span class="mt-1"> | </span>
+					<a href="/vocabularies/ControlledVocabulary.cfm?table=CTAGENT_NAME_TYPE">VALID AGENT NAME TYPES</a> </li> <span class="mt-1"> | </span>
 				<li class="list-group-item font-weight-lessbold">
-					<a href="/vocabularies/ControlledVocabulary.cfm?table=ctagent_type">VALID AGENT TYPES</a></li> <span class="mt-1"> | </span>
+					<a href="/vocabularies/ControlledVocabulary.cfm?table=CTAGENT_TYPE">VALID AGENT TYPES</a></li> <span class="mt-1"> | </span>
 				<li class="list-group-item font-weight-lessbold">
-					<a href="/vocabularies/ControlledVocabulary.cfm?table=ctguid_type">VALID AGENT GUID GUID TYPES</a> 
+					<a href="/vocabularies/ControlledVocabulary.cfm?table=CTGUID_TYPE">VALID AGENT GUID GUID TYPES</a> 
 				</li>
 			</ul>
 
