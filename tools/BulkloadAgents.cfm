@@ -396,7 +396,7 @@ limitations under the License.
 					agent_type <> 'person' AND
 					(
 						first_name IS NOT NULL OR
-						middie_name IS NOT NULL OR
+						middle_name IS NOT NULL OR
 						last_name IS NOT NULL OR
 						prefix IS NOT NULL OR
 						suffix IS NOT NULL
