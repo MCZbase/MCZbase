@@ -399,7 +399,7 @@ limitations under the License.
 						middie_name IS NOT NULL OR
 						last_name IS NOT NULL OR
 						prefix IS NOT NULL OR
-						suffix IS NOT NULL OR
+						suffix IS NOT NULL
 					) AND 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
