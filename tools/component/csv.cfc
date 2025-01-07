@@ -18,7 +18,7 @@ limitations under the License.
 	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 </cfif>
 
-<!--- output a label and select where the options on the select match a set of java 
+<!--- output an html label and select control where the options on the select match a set of java 
   StandardCharset names, and the select has name and id of characterSet.
   @see loadCsvFile for consumption of these option values.
 --->
