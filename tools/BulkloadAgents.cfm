@@ -487,10 +487,9 @@ limitations under the License.
 					(
 						AGENTGUID_GUID_TYPE IS NULL
 						AND AGENTGUID IS NOT NULL
-					} OR ( 
+					) OR ( 
 						AGENTGUID_GUID_TYPE IS NOT NULL
 						AND AGENTGUID IS NULL
-					} OR ( 
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
