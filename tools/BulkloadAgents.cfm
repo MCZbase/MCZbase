@@ -725,11 +725,12 @@ limitations under the License.
 						</cfif>
 						<cfset agent_updates = agent_updates + pkResult.recordcount>
 					</cfloop>
-					<p>Number of agents to add: #agent_updates# </p>
+					<p>Number of agents added: #agent_updates# </p>
 					<cfif getTempData.recordcount eq agent_updates and pkResult.recordcount eq 1>
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
 					<cftransaction action="commit">
+					<!--- TODO: Link to agents --->
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<h3>There was a problem updating the agents. </h3>
