@@ -59,6 +59,8 @@ File names that represent actions that can be taken with objects SHOULD be a low
 
 In general, use filenames and organization of directories such that redesign files can coexist with the files they will replace. For example, /shared/ replaces /includes/, and /Taxa.cfm replaces /Taxonomy.cfm (while TaxonomyDetails.cfm and other top level Taxonomy... pages move to /taxonomy/ as showTaxonomy.cfm etc.)
 
+Advantage of Verb Noun is the ability to distinguish between Create/Edit/Search in shortened browser tabs.  Advantage of Noun Verb (Crystal's suggestion) is the ability to distinguish between the category of information in shortened browser tabs.  Both have advantages and disadvantages.  
+
 ### Core Pages For an Object
 
 For a given database concept (e.g. Taxonomy, Publication, Media), there SHOULD, in general, be three cfm files representing 4 pages:
@@ -214,14 +216,6 @@ Except for placing a value in pageTitle for \_header.cfm, avoid using the reques
 
 	<cfset pageTitle = "Search Taxonomy">
 	<cfinclude template = "/shared/_header.cfm">
-Typical pattern is Verb Noun, but this is not consistent.  
-
-Advantage of Verb Noun is the ability to distinguish between Create/Edit/Search
-in shortened browser tabs.  Advantage of Noun Verb (Crystal's suggestion) is
-the ability to distinguish between the category of information in shortend
-browser tabs.  Both have advantages and disadvantages.  
-
-But we should be consistent.
 
 Avoid:
 
@@ -229,6 +223,42 @@ Avoid:
 	<cfinclude template = "someTemplateThatUsesSomeParameter.cfm">
 
 Pass variables explicitly to .cfc methods, and declare those variables explicitly using cfargument.
+
+The following scopes must be explicit: cgi, url, form, cookie, file, client.
+
+Cookie scope is widely used with cfid: 
+
+    #cookie.cfid#
+
+HTTP GET url parameters (and forms posted with method=get) use the url scope (except in cfcomponents).  The url scope MUST be declared explicitly.  This can be accomplished with a cfset that puts an url scope variable into the variables scope as below (or by using the url scope for all references to the variable). 
+
+    <cfset variables.result_id = url.result_id>
+
+HTTP POST parameters (from forms posted with method=post) use the form scope (except in cfcomponents).  The form scope MUST be declared explicitly.  his can be accomplished with a cfset
+that puts an form scope variable into the variables scope as below (or by using the url scope for all references to the variable).
+
+    <cfset variables.endDate=form.endDate>
+
+Forms and form handlers MUST be matched in their use of POST and GET, and variables in the url and form scope in the handlers MUST be explicitly declared.   
+
+The "link to this search" url on search forms passes parameters for the search into a set of http GET parameters.  The page MUST handle each of these with url scope (and MUST appropriately wrap uses of them in urlencode() or htmlencode() functions).
+
+When a form submission occurrs to a cfmethod in a cfcomponent, use argment scope instead of url or form scope.
+
+Much existing code relies on the deprecated ability of ColdFusion to not care about the distinction between GET and POST, when encountered, this MUST be corrected (to allow for a future upgrade to ColdFusion where 
+
+It is a good practice to be explicit about variables scope.
+
+     <cfset variables.endDate=form.endDate>
+
+Use explicit argument scope and variables scope for backing methods that use threading to make the argument values available within the thread:
+
+    <cffunction name="getSomthing" access="remote" returntype="any" returnformat="plain">
+       <cfargument name="result_id" type="string" required="yes">
+       <cfset variable.result_id = arguments.result_id>
+       <cfthread name="getSomethingThread" >
+		    <cfquery ....
+              result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
 
 ### Functions
 
