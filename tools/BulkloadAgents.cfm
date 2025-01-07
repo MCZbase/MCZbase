@@ -50,11 +50,11 @@ limitations under the License.
 <cfset fieldlist = ListAppend(fieldlist,"AGENTGUID")>
 <cfset fieldTypes = "CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
-	<cfset fieldTypes = ListAppend(fieldlist,"CF_SQL_VARCHAR")>
-	<cfset fieldTypes = ListAppend(fieldlist,"CF_SQL_VARCHAR")>
+	<cfset fieldTypes = ListAppend(fieldTypes,"CF_SQL_VARCHAR")>
+	<cfset fieldTypes = ListAppend(fieldTypes,"CF_SQL_VARCHAR")>
 </cfloop>
-<cfset fieldTypes = ListAppend(fieldlist,"CF_SQL_VARCHAR")>
-<cfset fieldTypes = ListAppend(fieldlist,"CF_SQL_VARCHAR")>
+<cfset fieldTypes = ListAppend(fieldTypes,"CF_SQL_VARCHAR")>
+<cfset fieldTypes = ListAppend(fieldTypes,"CF_SQL_VARCHAR")>
 
 <cfset requiredfieldlist = "AGENT_TYPE,PREFERRED_NAME,LAST_NAME">
 
