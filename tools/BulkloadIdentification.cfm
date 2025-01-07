@@ -489,7 +489,7 @@ limitations under the License.
 				<cfset formulas = ListAppend(formulas,getFormulas.taxa_formula,'|')>
 			</cfloop>
 			<cfloop query="getTempTableQC">
-				<cfif len(multiIDs) NEQ 0>
+				<cfif NOT ArrayIsEmpty(multiIDs)>
 					<cfquery name="getMultiIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_id
 						SET status = concat(nvl2(status, status || '; ', ''),'multiple current identifications found for this cataloged_item (accepted_id_fg)')
