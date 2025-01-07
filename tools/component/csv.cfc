@@ -38,6 +38,10 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 	
+<!--- output an html label and select control where the options on the select match a set of java 
+  StandardCharset names, and the select has name and id of characterSet.
+  @see loadCsvFile for consumption of these option values.
+--->
 <cffunction name="getCharsetSelectHTML" returntype="string" access="remote" returnformat="plain">
 	<cfoutput>
 		<label for="characterSet" class="data-entry-label">Character Set:</label> 
