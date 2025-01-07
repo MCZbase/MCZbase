@@ -493,7 +493,7 @@ limitations under the License.
 				<cfif NOT ArrayIsEmpty(multiIDs)>
 					<cfquery name="getMultiIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_id
-						SET status = concat(nvl2(status, status || '; ', ''),'multiple current identifications found for this cataloged_item (accepted_id_fg<cfif NOT IsNull(flag)>=#getTempTableQC.accepted_id_fg#<cfelse></cfif>)')
+						SET status = concat(nvl2(status, status || '; ', ''),'multiple current identifications found for this cataloged_item (accepted_id_fg=#flag#)')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and collection_object_id in #ArrayToList(multiIDs, ", ")#
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">
