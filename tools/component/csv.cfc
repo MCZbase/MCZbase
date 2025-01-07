@@ -18,6 +18,26 @@ limitations under the License.
 	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 </cfif>
 
+	
+<cffunction name="getDecimalParts" returntype="struct">
+	<cfargument name="dec_lat" type="string" required="true">
+	<cfargument name="dec_long" type="string" required="true">
+	<cfset var result = StructNew()>
+	<cfset var numberStr1 = arguments.dec_lat & "">
+	<cfset var numberStr2 = arguments.dec_long & "">
+	<cfset var decimalLatPart = "0">
+	<cfset var decimalLongPart = "0">
+	<cfif ListLen(numberStr1, ".") GT 1>
+		<cfset decimalLatPart = ListGetAt(numberStr1, 2, ".")>
+	</cfif>
+	<cfif ListLen(numberStr2, ".") GT 1>
+		<cfset decimalLongPart = ListGetAt(numberStr2, 2, ".")>
+	</cfif>
+	<cfset result.dot_dec_lat = decimalLatPart>
+	<cfset result.dot_dec_long = decimalLongPart>
+	<cfreturn result>
+</cffunction>
+	
 <!--- output an html label and select control where the options on the select match a set of java 
   StandardCharset names, and the select has name and id of characterSet.
   @see loadCsvFile for consumption of these option values.
@@ -212,7 +232,7 @@ limitations under the License.
 				</cfif>
 			</cfif>
 		</cfloop>
-		<table class='table table-responsive'>
+		<table class='table table-responsive small'>
 			<cfloop list="#fieldlist#" index="field" delimiters=",">
 				<cfset hint="">
 				<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">

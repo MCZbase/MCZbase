@@ -58,7 +58,7 @@ limitations under the License.
 	<h1 class="h2 mt-2">Bulkload Identification</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>This tool is used to bulkload identifications.Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Additional colums will be ignored.</p>
+			<p>This tool is used to bulkload identifications. Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Additional colums will be ignored.</p>
 			<p>Indentification bulkloads support one scientific name with any taxon formula that includes only the A taxon, and up to two agents as the determiners.</p>
 			<p>See controlled vocabularies for: 
 				<a href="/vocabularies/ControlledVocabulary.cfm?table=CTNATURE_OF_ID" target="_blank">NATURE_OF_ID</a>, 
@@ -437,6 +437,7 @@ limitations under the License.
 				WHERE nature_of_id not in (select nature_of_id from ctnature_of_id)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+
 			<cfquery name="flagNotMatchedToStoredAs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_id
 				SET 
@@ -446,7 +447,23 @@ limitations under the License.
 					AND accepted_id_fg = 1
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-				
+			<cfquery name="findAcceptedIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT count(*), collection_object_id
+				FROM cf_temp_id
+				where accepted_id_fg = 1
+				and username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				GROUP BY collection_object_id
+				HAVING COUNT(collection_object_id) > 1
+			</cfquery>
+			<cfset multiIDs = [] >
+			<!--- Loop over the query results if there are any rows --->
+			<cfif findAcceptedIDs.RecordCount gt 0>
+				<cfloop query="findAcceptedIDs">
+					<!--- Append each duplicated ID to the array --->
+					<cfset ArrayAppend(multiIDs, findAcceptedIDs.collection_object_ID)>
+				</cfloop>
+			</cfif>
+
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT key,
@@ -472,6 +489,13 @@ limitations under the License.
 				<cfset formulas = ListAppend(formulas,getFormulas.taxa_formula,'|')>
 			</cfloop>
 			<cfloop query="getTempTableQC">
+				<cfquery name="getMultiIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_id
+					SET status = concat(nvl2(status, status || '; ', ''),'multiple current identifications found for this cataloged_item (accepted_id_fg)')
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and collection_object_id in #ArrayToList(multiIDs, ", ")#
+					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">
+				</cfquery>
 				<!--- if formula text is end part of scientific name, separate it off and place in taxon formula --->
 				<cfset tf = "A">
 				<cfset TaxonomyTaxonName = getTempTableQC.scientific_name>
@@ -495,7 +519,7 @@ limitations under the License.
 					<cfif #isTaxon.recordcount# is 0>
 						<cfquery name="probColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_id
-							SET status = concat(nvl2(status, status || '; ', ''),'taxon record for ' || scientific_name || ' not found, it may contain an incorrect forumula.')
+							SET status = concat(nvl2(status, status || '; ', ''),'taxon record for ' || scientific_name || ' not found, it may contain an incorrect forumula')
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TaxonomyTaxonName#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">
