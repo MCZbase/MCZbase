@@ -448,6 +448,9 @@
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 								<a class="dropdown-item" href="/Reports/listReports.cfm">List of Label Reports</a>
 							</cfif>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+								<a class="dropdown-item" href="https://github.com/MCZbase/MCZbase/blob/master/documentation/README.md">Developer&##39;guide</a>
+							</cfif>
 					 		<a class="dropdown-item" target="_blank" href="/info/api.cfm">API</a>
 						</div>
 					</li>
