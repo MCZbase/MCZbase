@@ -2,7 +2,32 @@
 <script src="/lib/misc/sorttable.js"></script>
 <cfset title = "Container Locations">
 <cfoutput>
-<cfif isdefined("container_id")>
+<cfif isdefined("url.container_id") and len(url.container_id) GT 0>
+	<cfset variables.container_id = url.container_id>
+<cfelse>
+	<cfif isdefined("url.barcode") and len(url.barcode) GT 0>
+		<cfset variables.barcode = url.barcode>
+		<cfquery name="getContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT container_id 
+			FROM container 
+			WHERE 
+				barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.barcode#">
+		</cfquery>
+		<cfloop query="getContainerId">
+			<cfset variables.container_id = getContainerID.container_id >
+		</cfloop>
+	</cfif>
+</cfif>
+<cfif isdefined("variables.container_id") AND len(variables.container_id) GT 0>
+	<cfquery name="getContainerInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT barcode, container_type, label
+		FROM container 
+		WHERE 
+			container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.container_id#">
+	</cfquery>
+	<cfif getContainerInfo.recordcount EQ 0>
+		<cfthrow message="Container [#encodeForHtml(variables.container_id)#] not found.">
+	</cfif>
 	<cfquery name="leaf" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			container.container_id,
@@ -18,71 +43,74 @@
 			container.parent_container_id=p.container_id (+) and
 			container.container_type='collection object'
 		start with
-			container.container_id=#container_id#
+			container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.container_id#">
 		connect by
 			container.parent_container_id = prior container.container_id
 	</cfquery>
 	<strong>
-	<a href="ContainerDetails.cfm?container_id=#container_id#" target="_detail">Container #container_id#</a>
-	 has #leaf.recordcount# leaf containers:</strong>
+		<a href="ContainerDetails.cfm?container_id=#encodeForUrl(variables.container_id)#" target="_detail">
+			Container #encodeForHtml(variables.container_id)#
+		</a> 
+   	[#getContainerInfo.container_type#: #getContainerInfo.barcode#]
+		 has #leaf.recordcount# leaf containers:
+	</strong>
 	<table border id="t" class="sortable">
 		<tr>
 			<td><strong>Container Name</strong></td>
-			<td><strong>Description</strong></td>
+			<td><strong>Container Description</strong></td>
 			<td><strong>In Unique ID</strong></td>
-			<td><strong>Remarks</strong></td>
+			<td><strong>Container Remarks</strong></td>
 			<td><strong>Part Name</strong></td>
 			<td><strong>Cat Num</strong></td>
 			<td><strong>Scientific Name</strong></td>
 			<td><strong>Stored As</strong></td>
 		</tr>
 		<cfloop query="leaf">
-		<cfquery name="specData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select
-				cataloged_item.collection_object_id,
-				scientific_name,
-				part_name,
-				cat_num,
-				cataloged_item.collection_cde,
-				institution_acronym,
-				get_storedas_by_contid(#container_id#) storedAs
-			FROM
-				coll_obj_cont_hist,
-				specimen_part,
-				cataloged_item,
-				identification,
-				collection
-			WHERE
-				coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id AND
-				specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
-				cataloged_item.collection_object_id = identification.collection_object_id AND
-				cataloged_item.collection_id=collection.collection_id AND
-				accepted_id_fg=1 AND
-				container_id=#container_id#
-		</cfquery>
-		<tr>
-			<td>
-				<a href="ContainerDetails.cfm?container_id=#container_id#" target="_detail">#label#</a>
-			&nbsp;</td>
-			<td>#description#&nbsp;</td>
-			<td>#barcode#&nbsp;</td>
-			<td>#container_remarks#&nbsp;</td>
-			<td>#specData.part_name#</td>
-			<td>
-				<a href="/SpecimenDetail.cfm?collection_object_id=#specData.collection_object_id#">
-					#specData.institution_acronym# #specData.collection_cde# #specData.cat_num#
-				</a>
-			</td>
-			<td>#specData.scientific_name#</td>
-			<td>#specData.storedAs#</td>
-		</tr>
+			<cfquery name="specData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					cataloged_item.collection_object_id,
+					scientific_name,
+					part_name,
+					cat_num,
+					cataloged_item.collection_cde,
+					institution_acronym,
+					get_storedas_by_contid(#variables.container_id#) storedAs
+				FROM
+					coll_obj_cont_hist,
+					specimen_part,
+					cataloged_item,
+					identification,
+					collection
+				WHERE
+					coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id AND
+					specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
+					cataloged_item.collection_object_id = identification.collection_object_id AND
+					cataloged_item.collection_id=collection.collection_id AND
+					accepted_id_fg=1 AND
+					container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#leaf.container_id#">
+			</cfquery>
+			<cfloop query="specData">
+			<tr>
+					<td>
+						<a href="ContainerDetails.cfm?container_id=#leaf.container_id#" target="_detail">#leaf.label#</a>
+					&nbsp;</td>
+					<td>#leaf.description#&nbsp;</td>
+					<td>#leaf.barcode#&nbsp;</td>
+					<td>#leaf.container_remarks#&nbsp;</td>
+					<td>#specData.part_name#</td>
+					<td>
+						<a href="/SpecimenDetail.cfm?collection_object_id=#specData.collection_object_id#">
+							#specData.institution_acronym# #specData.collection_cde# #specData.cat_num#
+						</a>
+					</td>
+					<td>#specData.scientific_name#</td>
+					<td>#specData.storedAs#</td>
+				</tr>
+			</cfloop>
 		</cfloop>
 	</table>
 </cfif>
 </cfoutput>
-
-
-
 
 <!---------------- start search by container ---------------->
 <cfif #action# is "nothing">

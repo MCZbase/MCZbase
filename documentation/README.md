@@ -652,7 +652,15 @@ From left to right.
 
 ### Typography
 
-Font size for displayed data should be .875em.  The font-weight is 500 and font-style is normal.  Label font-weight is 450 and font-style is normal. As was described in the Section Heading part of this document, the headings should be listed by their tag in order with style being controlled with a class of the same name (see css: custom_styles.css) and in some cases margins, padding, and smallcaps are added (e.g., Search Transactions page has many headers so the overarching title is styled a little differently <h1 class="h3 smallcaps pl-1">). The font-family listed for the <body> of the site is apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";.
+Font size for displayed data should be .875em.  The font-weight is 500 and font-style is normal.  Label font-weight is 450 and font-style is normal. As was described in the Section Heading part of this document, the headings should be listed by their tag in order with style being controlled with a class of the same name (see css: custom_styles.css) and in some cases margins, padding, and smallcaps are added.  
+
+For example: Search Transactions page has many headers so the overarching title is styled a little differently: 
+
+     <h1 class="h3 smallcaps pl-1">
+
+TODO: Check the following assertion, it doesn't seem current:
+
+The font-family listed for the class on the body tag is: apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";.
 
 ### Buttons
 
