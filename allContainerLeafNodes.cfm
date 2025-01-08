@@ -19,6 +19,15 @@
 	</cfif>
 </cfif>
 <cfif isdefined("variables.container_id") AND len(variables.container_id) GT 0>
+	<cfquery name="getContainerInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT barcode, container_type, label
+		FROM container 
+		WHERE 
+			container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.container_id#">
+	</cfquery>
+	<cfif getContainerInfo.recordcount EQ 0>
+		<cfthrow message="Container [#encodeForHtml(variables.container_id)#] not found.">
+	</cfif>
 	<cfquery name="leaf" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			container.container_id,
@@ -39,8 +48,12 @@
 			container.parent_container_id = prior container.container_id
 	</cfquery>
 	<strong>
-	<a href="ContainerDetails.cfm?container_id=#encodeForUrl(variables.container_id)#" target="_detail">Container #encodeForHtml(variables.container_id)#</a>
-	 has #leaf.recordcount# leaf containers:</strong>
+		<a href="ContainerDetails.cfm?container_id=#encodeForUrl(variables.container_id)#" target="_detail">
+			Container #encodeForHtml(variables.container_id)#
+		</a> 
+   	[#getContainerInfo.container_type#: #getContainerInfo.barcode#]
+		 has #leaf.recordcount# leaf containers:
+	</strong>
 	<table border id="t" class="sortable">
 		<tr>
 			<td><strong>Container Name</strong></td>
