@@ -2,7 +2,23 @@
 <script src="/lib/misc/sorttable.js"></script>
 <cfset title = "Container Locations">
 <cfoutput>
-<cfif isdefined("container_id")>
+<cfif isdefined("url.container_id") and len(url.container_id) GT 0>
+	<cfset variables.container_id = url.container_id>
+<cfelse>
+	<cfif isdefined("url.barcode") and len(url.barcode) GT 0>
+		<cfset variables.barcode = url.barcode>
+		<cfquery name="getContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT container_id 
+			FROM container 
+			WHERE 
+				barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.barcode#">
+		</cfquery>
+		<cfloop query="getContainerId">
+			<cfset variables.container_id = getContainerID.container_id >
+		</cfloop>
+	</cfif>
+</cfif>
+<cfif isdefined("variables.container_id") AND len(variables.container_id) GT 0>
 	<cfquery name="leaf" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select
 			container.container_id,
@@ -18,12 +34,12 @@
 			container.parent_container_id=p.container_id (+) and
 			container.container_type='collection object'
 		start with
-			container.container_id=#container_id#
+			container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.container_id#">
 		connect by
 			container.parent_container_id = prior container.container_id
 	</cfquery>
 	<strong>
-	<a href="ContainerDetails.cfm?container_id=#container_id#" target="_detail">Container #container_id#</a>
+	<a href="ContainerDetails.cfm?container_id=#encodeForUrl(variables.container_id)#" target="_detail">Container #encodeForHtml(variables.container_id)#</a>
 	 has #leaf.recordcount# leaf containers:</strong>
 	<table border id="t" class="sortable">
 		<tr>
@@ -45,7 +61,7 @@
 				cat_num,
 				cataloged_item.collection_cde,
 				institution_acronym,
-				get_storedas_by_contid(#container_id#) storedAs
+				get_storedas_by_contid(#variables.container_id#) storedAs
 			FROM
 				coll_obj_cont_hist,
 				specimen_part,
@@ -58,11 +74,11 @@
 				cataloged_item.collection_object_id = identification.collection_object_id AND
 				cataloged_item.collection_id=collection.collection_id AND
 				accepted_id_fg=1 AND
-				container_id=#container_id#
+				container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.container_id#">
 		</cfquery>
 		<tr>
 			<td>
-				<a href="ContainerDetails.cfm?container_id=#container_id#" target="_detail">#label#</a>
+				<a href="ContainerDetails.cfm?container_id=#encodeForUrl(variables.container_id)#" target="_detail">#label#</a>
 			&nbsp;</td>
 			<td>#description#&nbsp;</td>
 			<td>#barcode#&nbsp;</td>
@@ -80,9 +96,6 @@
 	</table>
 </cfif>
 </cfoutput>
-
-
-
 
 <!---------------- start search by container ---------------->
 <cfif #action# is "nothing">
