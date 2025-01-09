@@ -19,6 +19,9 @@ limitations under the License.
 
 <cfset NUMBER_OF_OTHER_NAME_PAIRS = 3>
 
+<cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
+<cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
+
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -157,9 +160,16 @@ limitations under the License.
 		</cfoutput>
 	</cfif>	
 	
+
 	<!------------------------------------------------------->
 
 	<cfif #action# is "getFile">
+
+		<!--- get form variables --->
+		<cfif isDefined("form.fileToUpload")><cfset variables.fileToUpload = form.fileToUpload></cfif>
+		<cfif isDefined("form.format")><cfset variables.format = form.format></cfif>
+		<cfif isDefined("form.characterSet")><cfset variables.characterSet = form.characterSet></cfif>
+
 		<h2 class="h4">First step: Reading data from CSV file.</h2>
 		<cfoutput>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
@@ -425,11 +435,11 @@ limitations under the License.
 			<cfquery name="dupName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 				UPDATE cf_temp_agents
 				SET 
-					status = concat(nvl2(status, status || '; ', ''), 'AGENT_NAME already exists')
+					status = concat(nvl2(status, status || '; ', ''), 'An agent with PREFERRED_NAME [' || preferred_name || '] already exists')
 				WHERE 
 					preferred_name in (
 						select agent_name from preferred_agent_name
-						) AND
+					) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="invGuidType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -439,6 +449,18 @@ limitations under the License.
 				WHERE 
 					AGENTGUID_GUID_TYPE not in (select guid_type from ctguid_type) AND 
 					AGENTGUID_GUID_TYPE IS NOT NULL AND 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="duplicateGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_agents
+				SET 
+					status = concat(nvl2(status, status || '; ', ''), 'An Agent record with this AGENTGUID already exists')
+				WHERE 
+					AGENTGUID_GUID_TYPE in (select guid_type from ctguid_type) AND 
+					AGENTGUID IS NOT NULL AND 
+					AGENTGUID IN (
+						SELECT agentguid FROM agent WHERE agentguid IS NOT NULL 	
+					) AND 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
@@ -636,6 +658,7 @@ limitations under the License.
 		<h2 class="h4 mb-3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset problem_key = "">
+			<cfset agent_id_list = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
@@ -683,6 +706,7 @@ limitations under the License.
 							FROM agent
 							WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
 						</cfquery>
+						<cfset agent_id_list = ListAppend(agent_id_list,savePK.agent_id) >
 						<cfquery name="newPrefAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into agent_name (
 								AGENT_NAME_ID, 
@@ -697,11 +721,6 @@ limitations under the License.
 							)
 						</cfquery>
 						<cfset agentNAMEID = #savePK.preferred_agent_name_id#>
-						<cfquery name="agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
-							SELECT preferred_agent_name_id 
-							FROM agent
-							WHERE preferred_agent_name_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentNAMEID#">
-						</cfquery>
 						<cfif #agent_type# is "person">
 							<cfquery name="newPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								INSERT into person (
@@ -754,6 +773,9 @@ limitations under the License.
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
 					<cftransaction action="commit">
+					<cfif agent_updates GT 0>
+						<h3><a href="/Agents.cfm?execute=true&method=getAgents&agent_id=#agent_id_list#">View New Agent Records</a></h3>
+					</cfif>
 					<!--- TODO: Link to agents --->
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
@@ -873,3 +895,4 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 </main>
+<cfinclude template="/shared/_footer.cfm">

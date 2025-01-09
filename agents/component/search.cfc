@@ -384,6 +384,8 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("agent_id") AND isnumeric(#agent_id#)>
 					AND agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				<cfelseif isdefined("agent_id") AND FindNoCase(",",agent_id) GT 0>
+					AND agent_name.agent_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#" list="yes">)
 				</cfif>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					<cfif isdefined("agent_remarks") AND len(agent_remarks) GT 0>
