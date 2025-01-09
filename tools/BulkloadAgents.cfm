@@ -439,7 +439,7 @@ limitations under the License.
 				WHERE 
 					preferred_name in (
 						select agent_name from preferred_agent_name
-						) AND
+					) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="invGuidType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -449,6 +449,18 @@ limitations under the License.
 				WHERE 
 					AGENTGUID_GUID_TYPE not in (select guid_type from ctguid_type) AND 
 					AGENTGUID_GUID_TYPE IS NOT NULL AND 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="duplicateGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_agents
+				SET 
+					status = concat(nvl2(status, status || '; ', ''), 'An Agent record with this AGENTGUID already exists')
+				WHERE 
+					AGENTGUID_GUID_TYPE in (select guid_type from ctguid_type) AND 
+					AGENTGUID IS NOT NULL AND 
+					AGENTGUID IN (
+						SELECT agentguid FROM agent WHERE agentguid IS NOT NULL 	
+					) AND 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
