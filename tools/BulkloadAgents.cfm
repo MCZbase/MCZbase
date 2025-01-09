@@ -883,3 +883,4 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 </main>
+<cfinclude template="/shared/_footer.cfm">
