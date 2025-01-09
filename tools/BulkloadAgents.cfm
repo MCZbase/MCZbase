@@ -557,10 +557,10 @@ limitations under the License.
 			
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					birth_date,
 					agent_type, preferred_name,first_name,middle_name,last_name,
-					death_date,
-					agent_remark,prefix,suffix,
+					prefix,suffix,
+					birth_date, death_date,
+					agent_remark, biography,
 					<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
 						other_name_#i#,other_name_type_#i#,
 					</cfloop>
@@ -674,7 +674,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.agent_remark#">,
 								sq_agent_name_id.nextval,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.agentguid_guid_type#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.agentguid#">
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.agentguid#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.biography#">
 							)
 						</cfquery>
@@ -721,7 +721,8 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MIDDLE_NAME#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SUFFIX#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#birth_date#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#death_date#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#death_date#">
+								)
 							</cfquery>
 						</cfif>
 						<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
@@ -759,10 +760,10 @@ limitations under the License.
 					<h3>There was a problem updating the agents. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
-							birth_date,
 							agent_type, preferred_name, first_name, middle_name, last_name,
-							death_date, 
-							agent_remark, prefix, suffix,
+							prefix, suffix,
+							birth_date, death_date, 
+							agent_remark, biography,
 							<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
 								other_name_#i#,other_name_type_#i#,
 							</cfloop>
