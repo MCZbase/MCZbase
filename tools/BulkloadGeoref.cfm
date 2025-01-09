@@ -596,9 +596,10 @@ limitations under the License.
 				<!--- Verification Agent --->
 		
 				<cfif verificationstatus eq "rejected by MCZ collection" OR verificationstatus eq "verified by MCZ collection" OR verificationstatus eq "verified by collector">
-					<cfset agentProblem2 = "">
+					
 					<cfset verificationstatus = "">
 					<cfset verified_by_agent_id = "">
+					<cfset agentProblem2 = "">
 					<cfif len(verified_by) gt 0>
 						<cfset relatedVerAgentID = "">
 						<cfquery name="findAgentVer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -630,7 +631,7 @@ limitations under the License.
 							UPDATE
 								cf_temp_georef
 							SET
-								status = concat(nvl2(status, status || '; ', ''),'VERIFIED_BY is invalid ['|| agentProblem2 ||']')
+								status = concat(nvl2(status, status || '; ', ''),'VERIFIED_BY is invalid #agentProblem2#')
 							WHERE 
 								VERIFIED_BY is not null 
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -640,7 +641,7 @@ limitations under the License.
 						<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							update cf_temp_georef 
 							set 
-								status = concat(nvl2(status, status || '; ', ''),'VERIFIED_BY_AGENT_ID doesn't match agent in MCZbase)
+								status = concat(nvl2(status, status || '; ', ''),'VERIFIED_BY_AGENT_ID does not match agent in MCZbase)
 							WHERE verified_by_agent_id not in (select agent_id from agent_name)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
