@@ -68,7 +68,7 @@ limitations under the License.
 				<label for="templatearea" class="data-entry-label mb-1">
 					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadGeoref.cfm?action=getCSVHeader">download</a>)
 				</label>
-				<textarea style="height: 100px;" cols="90" id="templatearea" class="w-100 data-entry-textarea small">#fieldlist#</textarea>
+				<textarea style="height: 60px;" cols="90" id="templatearea" class="w-100 data-entry-textarea small">#fieldlist#</textarea>
 			</div>
 			<div class="accordion accordion-flush mt-3" id="accordionFlushExample">
 				<div class="accordion-item">
