@@ -66,9 +66,9 @@ limitations under the License.
 		
 			<div id="template" class="my-1 mx-0">
 				<label for="templatearea" class="data-entry-label mb-1">
-					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadGeoref.cfm?action=getCSVHeader" class="font-weight-lessbold">download</a>)
+					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadGeoref.cfm?action=getCSVHeader">download</a>)
 				</label>
-				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
+				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea small">#fieldlist#</textarea>
 			</div>
 			<div class="accordion accordion-flush mt-3" id="accordionFlushExample">
 				<div class="accordion-item">
