@@ -632,6 +632,14 @@ limitations under the License.
 							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
 					</cfif>
+				<cfelseif len(verified_by_agent_id) gt 0 AND (verificationstatus neq "rejected by MCZ collection" OR verificationstatus neq "verified by MCZ collection" OR verificationstatus neq "verified by collector")>
+					<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update cf_temp_georef 
+						set verified_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relatedVerAgentID#">
+						WHERE verified_by is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+					</cfquery>
 				</cfif>
 				<!---Make coordinates accepted if there is a valid locality_id--->
 				<cfquery name="updateLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
