@@ -539,7 +539,7 @@ limitations under the License.
 				<cfloop query = "getTempData">
 					<cfquery name="updateSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
-						set spec_locality = (select spec_locality from locality where locality_id = #getTempData.locality_id#)
+						set speclocality = (select spec_locality from locality where locality_id = #getTempData.locality_id#)
 						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
@@ -560,7 +560,7 @@ limitations under the License.
 				<cfloop query = "getTempData">
 					<cfquery name="updateSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
-						set locality_id = (select locality_id from locality where spec_locality = #getTempData.spec_locality#)
+						set locality_id = (select locality_id from locality where spec_locality = #getTempData.speclocality#)
 						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="session.username">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
