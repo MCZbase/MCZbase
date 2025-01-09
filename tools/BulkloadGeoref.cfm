@@ -430,7 +430,7 @@ limitations under the License.
 			<!---Get Data from the temp table and the codetables with relevant information--->
 			<cfset key = ''>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,VERIFICATIONSTATUS,COORDINATE_PRECISION,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,EXTENT,EXTENT_UNITS,GPSACCURACY,VERIFIED_BY,SPATIALFIT,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG, KEY
+				select HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,VERIFICATIONSTATUS,COORDINATE_PRECISION,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,EXTENT,EXTENT_UNITS,GPSACCURACY,VERIFIED_BY,VERIFIED_BY_AGENT_ID,DETERMINED_BY_AGENT_ID,SPATIALFIT,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG, KEY
 				From CF_TEMP_GEOREF
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -595,8 +595,6 @@ limitations under the License.
 					
 				<!--- Verification Agent --->
 				<cfset agentProblem2 = "">
-				<cfset verificationstatus = "">
-				<cfset verified_by_agent_id = getTempData.verified_by_agent_id>
 				<cfif verificationstatus eq "rejected by MCZ collection" OR verificationstatus eq "verified by MCZ collection" OR verificationstatus eq "verified by collector">
 					<cfif len(verified_by) gt 0>
 						<cfset relatedVerAgentID = "">
