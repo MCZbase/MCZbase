@@ -694,7 +694,7 @@ limitations under the License.
 							FROM agent
 							WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
 						</cfquery>
-						<cfset agent_id_list = ListAppend(agent_id_list,savePK.agent_id >
+						<cfset agent_id_list = ListAppend(agent_id_list,savePK.agent_id) >
 						<cfquery name="newPrefAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into agent_name (
 								AGENT_NAME_ID, 
