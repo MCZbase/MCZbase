@@ -19,6 +19,9 @@ limitations under the License.
 
 <cfset NUMBER_OF_OTHER_NAME_PAIRS = 3>
 
+<cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
+<cfif isDefined("form.action")><cfset variables.action = url.action></cfif>
+
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -157,9 +160,16 @@ limitations under the License.
 		</cfoutput>
 	</cfif>	
 	
+
 	<!------------------------------------------------------->
 
 	<cfif #action# is "getFile">
+
+		<!--- get form variables --->
+		<cfif isDefined("form.fileToUpload")><cfset variables.fileToUpload = form.fileToUpload></cfif>
+		<cfif isDefined("form.format")><cfset variables.format = form.format></cfif>
+		<cfif isDefined("form.characterSet")><cfset variables.characterSet = form.characterSet></cfif>
+
 		<h2 class="h4">First step: Reading data from CSV file.</h2>
 		<cfoutput>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
