@@ -595,6 +595,8 @@ limitations under the License.
 					
 				<!--- Verification Agent --->
 				<cfset agentProblem2 = "">
+				<cfset verificationstatus = "">
+				<cfset verified_by_agent_id = "">
 				<cfif verificationstatus eq "rejected by MCZ collection" OR verificationstatus eq "verified by MCZ collection" OR verificationstatus eq "verified by collector">
 					<cfif len(verified_by) gt 0>
 						<cfset relatedVerAgentID = "">
