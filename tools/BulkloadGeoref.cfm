@@ -596,7 +596,7 @@ limitations under the License.
 				<!--- Verification Agent --->
 				<cfset agentProblem2 = "">
 				<cfset verificationstatus = "">
-				<cfif verificationstatus eq "rejected by MCZ collection" OR verificationstatus eq "verified by MCZ collection" OR verificationstatus eq "verified by collector">
+				<cfif len(verified_by_agent_id) gt 0 AND verificationstatus eq "rejected by MCZ collection" OR verificationstatus eq "verified by MCZ collection" OR verificationstatus eq "verified by collector">
 					<cfset relatedVerAgentID = "">
 					<cfquery name="findAgentVer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT agent_id 
@@ -632,13 +632,19 @@ limitations under the License.
 							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
 					</cfif>
-				<cfelseif len(verified_by_agent_id) gt 0 AND (verificationstatus neq "rejected by MCZ collection" OR verificationstatus neq "verified by MCZ collection" OR verificationstatus neq "verified by collector")>
+				</cfif>
+				<cfif len(verified_by_agent_id) gt 0 AND (verificationstatus eq "unverified" OR verificationstatus eq "migration" OR verificationstatus eq "unknown")>
 					<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_georef 
-						set verified_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relatedVerAgentID#">
-						WHERE verified_by is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+						UPDATE cf_temp_georef 
+						SET
+							status = concat(nvl2(status, status || '; ', ''),'check VERIFICATIONSTATUS')
+						WHERE 
+							verified_by_agent_id is not null
+						AND
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								WHERE verified_by is null
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
 				</cfif>
 				<!---Make coordinates accepted if there is a valid locality_id--->
