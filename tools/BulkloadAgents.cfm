@@ -22,8 +22,9 @@ limitations under the License.
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT agent_type,preferred_name,first_name,middle_name,last_name,
-			birth_date,death_date,agent_remark,prefix,suffix,
+		SELECT agent_type,preferred_name,
+			first_name,middle_name,last_name, prefix,suffix,
+			birth_date,death_date,agent_remark, biography,
 			<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
 				other_name_#i#, other_name_type_#i#,
 			</cfloop>
@@ -41,14 +42,14 @@ limitations under the License.
 <!--- end special case dump of problems --->
 
 <!--- build lists of fields for CSV file and their types --->
-<cfset fieldlist = "AGENT_TYPE,PREFERRED_NAME,FIRST_NAME,MIDDLE_NAME,LAST_NAME,BIRTH_DATE,DEATH_DATE,AGENT_REMARK,PREFIX,SUFFIX">
+<cfset fieldlist = "AGENT_TYPE,PREFERRED_NAME,FIRST_NAME,MIDDLE_NAME,LAST_NAME,PREFIX,SUFFIX,BIRTH_DATE,DEATH_DATE,AGENT_REMARK,BIOGRAPHY">
 <cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
 	<cfset fieldlist = ListAppend(fieldlist,"OTHER_NAME_#i#")>
 	<cfset fieldlist = ListAppend(fieldlist,"OTHER_NAME_TYPE_#i#")>
 </cfloop>
 <cfset fieldlist = ListAppend(fieldlist,"AGENTGUID_GUID_TYPE")>
 <cfset fieldlist = ListAppend(fieldlist,"AGENTGUID")>
-<cfset fieldTypes = "CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<cfset fieldTypes = "CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
 	<cfset fieldTypes = ListAppend(fieldTypes,"CF_SQL_VARCHAR")>
 	<cfset fieldTypes = ListAppend(fieldTypes,"CF_SQL_VARCHAR")>
@@ -364,9 +365,27 @@ limitations under the License.
 			<cfquery name="invAgntType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_agents
 				SET 
-					status = concat(nvl2(status, status || '; ', ''),'AGENT_TYPE not valid for bulkloader. Must be "person"</a>')
+					status = concat(nvl2(status, status || '; ', ''),'AGENT_TYPE not valid."</a>')
 				WHERE 
 					AGENT_TYPE not in (select agent_type from ctagent_type) AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+			</cfquery>
+			<cfquery name="invBirthDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_agents
+				SET 
+					status = concat(nvl2(status, status || '; ', ''),'BIRTH_DATE not in correct form (yyyy, yyyy-mm, or yyyy-mm-dd)</a>')
+				WHERE 
+					birth_date IS NOT NULL AND
+					IS_ISO8601(birth_date) <> 'valid' AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+			</cfquery>
+			<cfquery name="invDeathDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_agents
+				SET 
+					status = concat(nvl2(status, status || '; ', ''),'DEATH_DATE not in correct form (yyyy, yyyy-mm, or yyyy-mm-dd)</a>')
+				WHERE 
+					death_date IS NOT NULL AND
+					IS_ISO8601(death_date) <> 'valid' AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 			</cfquery>
 			<cfloop list="#requiredfieldlist#" index="requiredField">
@@ -497,12 +516,11 @@ limitations under the License.
 			<!--- validation checks iterating through input rows --->
 			<cfset key = ''>
 			<cfset i = 1>
-			<!--- TODO: birth_date and death_date fields are now varchars, holding yyyy, yyyy-mm, or yyyy=mm-dd values, date fields are deprecated in person table --->
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					key,
-					to_char(birth_date,'YYYY-MM-DD') birth_date, agent_type, preferred_name, first_name, middle_name, last_name,
-					to_char(death_date,'YYYY-MM-DD') death_date, agent_remark, prefix, suffix,
+					birth_date, agent_type, preferred_name, first_name, middle_name, last_name,
+					death_date, agent_remark, prefix, suffix,
 					<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
 						other_name_#i#,other_name_type_#i#,
 					</cfloop>
@@ -539,9 +557,9 @@ limitations under the License.
 			
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					to_char(birth_date,'YYYY-MM-DD') birth_date,
+					birth_date,
 					agent_type, preferred_name,first_name,middle_name,last_name,
-					to_char(death_date,'YYYY-MM-DD') death_date,
+					death_date,
 					agent_remark,prefix,suffix,
 					<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
 						other_name_#i#,other_name_type_#i#,
@@ -570,20 +588,21 @@ limitations under the License.
 						<th>BULKLOADING&nbsp;STATUS</th>
 						<th>AGENT_TYPE</th>
 						<th>PREFERRED_NAME</th>
+						<th>PREFIX</th>
 						<th>FIRST_NAME</th>
 						<th>MIDDLE_NAME</th>
 						<th>LAST_NAME</th>
+						<th>SUFFIX</th>
 						<th>BIRTH_DATE</th>
 						<th>DEATH_DATE</th>
 						<th>AGENT_REMARK</th>
-						<th>PREFIX</th>
-						<th>SUFFIX</th>
 						<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
 							<th>OTHER_NAME_#i#</th>
 							<th>OTHER_NAME_TYPE_#i#</th>
 						</cfloop>
 						<th>AGENTGUID_GUID_TYPE</th>
 						<th>AGENTGUID</th>
+						<th>BIOGRAPHY</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -591,20 +610,21 @@ limitations under the License.
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 							<td>#data.AGENT_TYPE#</td>
 							<td>#data.PREFERRED_NAME#</td>
+							<td>#data.PREFIX#</td>
 							<td>#data.FIRST_NAME#</td>
 							<td>#data.MIDDLE_NAME#</td>
 							<td>#data.LAST_NAME#</td>
+							<td>#data.SUFFIX#</td>
 							<td>#data.BIRTH_DATE#</td>
 							<td>#data.DEATH_DATE#</td>
 							<td>#data.AGENT_REMARK#</td>
-							<td>#data.PREFIX#</td>
-							<td>#data.SUFFIX#</td>
 							<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
 								<td>#evaluate("data.OTHER_NAME_"&i)#</td>
 								<td>#evaluate("data.OTHER_NAME_TYPE_"&i)#</td>
 							</cfloop>
 							<td>#data.agentguid_guid_type#</td>
 							<td>#data.agentguid#</td>
+							<td>#data.biography#</td>
 						</tr>
 					</cfloop>
 				</tbody>
@@ -620,10 +640,11 @@ limitations under the License.
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						key, 
-						to_char(birth_date,'YYYY-MM-DD') birth_date,
+						birth_date,
+						death_date,
 						agent_type, preferred_name, first_name, middle_name, last_name,
-						to_char(death_date,'YYYY-MM-DD') death_date,
-						agent_remark, prefix, suffix,
+						prefix, suffix,
+						agent_remark, biography, 
 						<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
 							other_name_#i#,other_name_type_#i#,
 						</cfloop>
@@ -645,7 +666,8 @@ limitations under the License.
 								AGENT_REMARKS, 
 								PREFERRED_AGENT_NAME_ID,
 								AGENTGUID_GUID_TYPE,
-								AGENTGUID
+								AGENTGUID,
+								BIOGRAPHY
 							) values (
 								sq_agent_id.nextval,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.agent_type#">,
@@ -653,6 +675,7 @@ limitations under the License.
 								sq_agent_name_id.nextval,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.agentguid_guid_type#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.agentguid#">
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.biography#">
 							)
 						</cfquery>
 						<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
@@ -697,8 +720,8 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#FIRST_NAME#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MIDDLE_NAME#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SUFFIX#">,
-									'#dateformat(BIRTH_DATE,"yyyy-mm-dd")#',
-									'#dateformat(DEATH_DATE,"yyyy-mm-dd")#')
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#birth_date#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#death_date#">,
 							</cfquery>
 						</cfif>
 						<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
@@ -736,9 +759,9 @@ limitations under the License.
 					<h3>There was a problem updating the agents. </h3>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
-							to_char(birth_date,'YYYY-MM-DD') birth_date,
+							birth_date,
 							agent_type, preferred_name, first_name, middle_name, last_name,
-							to_char(death_date,'YYYY-MM-DD') death_date, 
+							death_date, 
 							agent_remark, prefix, suffix,
 							<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
 								other_name_#i#,other_name_type_#i#,
@@ -787,22 +810,23 @@ limitations under the License.
 							<thead>
 								<tr>
 									<th>COUNT</th>
-									<th>BIRTH_DATE</th>
 									<th>AGENT_TYPE</th>
 									<th>PREFERRED_NAME</th>
+									<th>PREFIX</th>
 									<th>FIRST_NAME</th>
 									<th>MIDDLE_NAME</th>
 									<th>LAST_NAME</th>
+									<th>SUFFIX</th>
+									<th>BIRTH_DATE</th>
 									<th>DEATH_DATE</th>
 									<th>AGENT_REMARK</th>
-									<th>PREFIX</th>
-									<th>SUFFIX</th>
 									<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
 										<th>OTHER_NAME_#i#</th>
 										<th>OTHER_NAME_TYPE_#i#</th>
 									</cfloop>
 									<th>AGENTGUID_GUID_TYPE</th>
 									<th>AGENTGUID</th>
+									<th>BIOGRAPHY</th>
 								</tr> 
 							</thead>
 							<tbody>
@@ -810,22 +834,23 @@ limitations under the License.
 								<cfloop query="getProblemData">
 									<tr>
 										<td>#i#</td>
-										<td>#getProblemData.BIRTH_DATE# </td>
 										<td>#getProblemData.AGENT_TYPE# </td>
 										<td>#getProblemData.PREFERRED_NAME# </td>
+										<td>#getProblemData.PREFIX# </td>
 										<td>#getProblemData.FIRST_NAME#</td>
 										<td>#getProblemData.MIDDLE_NAME#</td>
 										<td>#getProblemData.LAST_NAME#</td>
+										<td>#getProblemData.SUFFIX#</td>
+										<td>#getProblemData.BIRTH_DATE# </td>
 										<td>#getProblemData.DEATH_DATE#</td>
 										<td>#getProblemData.AGENT_REMARK# </td>
-										<td>#getProblemData.PREFIX# </td>
-										<td>#getProblemData.SUFFIX#</td>
 										<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
 											<td>#evaluate("getProblemData.OTHER_NAME_"&i)#</td>
 											<td>#evaluate("getProblemData.OTHER_NAME_TYPE_"&i)#</td>
 										</cfloop>
 										<td>#getProblemData.AGENTGUID_GUID_TYPE#</td>
 										<td>#getProblemData.AGENTGUID#</td>
+										<td>#getProblemData.BIOGRAPHY# </td>
 									</tr>
 									<cfset i= i+1>
 								</cfloop>
