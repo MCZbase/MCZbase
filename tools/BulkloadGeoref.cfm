@@ -19,7 +19,7 @@ limitations under the License.
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT status, highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,extent_units,gpsaccuracy,verificationstatus,verified_by,spatialfit,nearest_named_place,lat_long_for_NNP_FG,coordinate_precision,accepted_lat_long_fg 
+		SELECT status, highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,extent_units,gpsaccuracy,verificationstatus,verified_by,spatialfit,nearest_named_place,lat_long_for_NNP_FG,coordinate_precision,accepted_lat_long_fg,determined_by_agent_id 
 		FROM cf_temp_georef 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -32,9 +32,9 @@ limitations under the License.
 	<cfabort>
 </cfif>
 
-<cfset fieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,VERIFICATIONSTATUS,COORDINATE_PRECISION,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,EXTENT,EXTENT_UNITS,GPSACCURACY,VERIFIED_BY,SPATIALFIT,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG">
+<cfset fieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,VERIFICATIONSTATUS,COORDINATE_PRECISION,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,EXTENT,EXTENT_UNITS,GPSACCURACY,VERIFIED_BY,SPATIALFIT,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG,DETERMINED_BY_AGENT_ID">
 	
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL">
 	
 <cfset requiredfieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,VERIFICATIONSTATUS,COORDINATE_PRECISION">
 
@@ -512,128 +512,100 @@ limitations under the License.
 			</cfquery>
 			<!-- Check that either spec_locality or locality_id is entered-->
 			<cfif len(getTempData.locality_id) gt 0 OR len(getTempData.SPECLOCALITY) eq 0>
-				<cfquery name="warningLOCALITYID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="warningMissingLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'LOCALITY_ID or SPECLOCALITY needs to be entered')
 					WHERE 
 						locality_id is null AND 
-						SPECLOCALITY is null and
+						SPECLOCALITY is null AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
 			<!--If only locality_id is entered, see if it matches one in MCZbase and enter the related spec_locality-->
-			<cfif len(getTempData.locality_id) gt 0 AND len(getTempData.speclocality) eq 0>
-				<!---Check Locality_ID--->
+			<cfif len(getTempData.locality_id) gt 0>
 				<cfquery name="warningLOCALITYID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'LOCALITY_ID does not exist in MCZbase')
 					WHERE 
-						LOCALITY_ID not in (select LOCALITY_ID from locality) AND 
+						LOCALITY_ID not in (
+								select LOCALITY_ID from locality 
+								)
+					AND 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			<cfelse>
-				<cfloop query = "getTempData">
-					<cfquery name="updateSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_georef
-						set SPECLOCALITY = (select spec_locality from locality where locality_id = #getTempData.locality_id#)
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-					</cfquery>
-				</cfloop>
 			</cfif>
 			<!--If only spec_locality is entered, see if it matches one in MCZbase and enter the related locality_id-->
-			<cfif len(getTempData.speclocality) gt 0 AND len(getTempData.locality_ID) eq 0>
+			<cfif len(getTempData.speclocality) gt 0>
 				<cfquery name="warningSpec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'SPECLOCALITY does not exist in MCZbase')
 					WHERE 
-						SPECLOCALITY not in (select spec_locality from locality) AND 
+						SPECLOCALITY not in (
+							select spec_locality from locality
+							) 
+					AND 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			<cfelse>
-				<cfloop query = "getTempData">
-					<cfquery name="updateSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_georef
-						set locality_id = (select locality_id from locality where spec_locality = #getTempData.speclocality#)
-						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="session.username">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-					</cfquery>
-				</cfloop>
 			</cfif>
-			
-			<cfset relatedAgentID = "">
-			<cfset agentProblem = "">
-			<cfquery name="findAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT agent_id 
-				FROM agent_name 
-				WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent#">
-					and agent_name_type = 'preferred'
-			</cfquery>
-			<cfif findAgent.recordCount EQ 1>
-				<cfset relatedAgentID = findAgent.agent_id>
-			<cfelseif findAgent.recordCount EQ 0>
-				<!--- relax criteria, find agent by any name. --->
-				<cfquery name="findAgentAny" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfloop query="getTempData">
+				<cfset relatedAgentID = "">
+				<cfset agentProblem = "">
+				<cfquery name="findAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT agent_id 
 					FROM agent_name 
 					WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent#">
+						and agent_name_type = 'preferred'
 				</cfquery>
-				<cfif findAgentAny.recordCount EQ 1>
-					<cfset relatedAgentID = findAgentAny.agent_id>
-				<cfelseif findAgentAny.recordCount EQ 0>
-					<cfset agentProblem = "No matches to any agent name">
+				<cfif findAgent.recordCount EQ 1>
+					<cfset relatedAgentID = findAgent.agent_id>
+				<cfelseif findAgent.recordCount EQ 0>
+					<!--- relax criteria, find agent by any name. --->
+					<cfquery name="findAgentAny" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT agent_id 
+						FROM agent_name 
+						WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent#">
+					</cfquery>
+					<cfif findAgentAny.recordCount EQ 1>
+						<cfset relatedAgentID = findAgentAny.agent_id>
+					<cfelseif findAgentAny.recordCount EQ 0>
+						<cfset agentProblem = "No matches to any agent name">
+					<cfelse>
+						<cfset agentProblem = "Matches to multiple agent names, use agent_id">
+					</cfif>
 				<cfelse>
-					<cfset agentProblem = "Matches to multiple agent names, use agent_id">
+					<cfset agentProblem = "Matches to multiple preferred agent names, use agent_id">
 				</cfif>
-			<cfelse>
-				<cfset agentProblem = "Matches to multiple preferred agent names, use agent_id">
-			</cfif>
-			<!---Check to see that there is a valid determined_by_agent entry--->	
-			<cfif len(relatedAgentID) GT 0>
-				<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_georef 
-					set determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relatedAgentID#">
-					WHERE determined_by_agent_id is not null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-				</cfquery>
-			</cfif>
-			<cfif len(getTempData.determined_by_agent_id) GT 0>
-				<cfquery name="warningFailedAgentMatch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_georef
-					SET
-						determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent_id#">
-					WHERE
-						DETERMINED_BY_AGENT_ID in (select agent_id from agent_name where agent_id = #getTempData.determined_by_agent_id#)
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
-						key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-				</cfquery>
-			</cfif>
-			<cfif len(getTempData.DETERMINED_BY_AGENT) EQ 0 AND len(getTempData.DETERMINED_BY_AGENT_ID) EQ 0>
-				<cfquery name="chkEmptyDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_georef
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'Enter a determiner name or agent_id')
-					WHERE 
-						DETERMINED_BY_AGENT is null and DETERMINED_BY_AGENT_ID is null
-				</cfquery>
-			</cfif>
+				<!---Check to see that there is a valid determined_by_agent entry--->	
+				<cfif len(relatedAgentID) GT 0>
+					<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update cf_temp_georef 
+						set determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relatedAgentID#">
+						WHERE determined_by_agent is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+					</cfquery>
+				</cfif>
 
-			<cfloop query="getTempData">
+			
 				<!---Make coordinates accepted if there is a valid locality_id--->
 				<cfquery name="updateLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE lat_long
+					UPDATE cf_temp_georef
 					SET accepted_lat_long_fg = 0
 					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
+				<cfif len(getTempData.locality_id) gt 0 AND len(getTempData.speclocality) eq 0>
+					<cfquery name="updateSpecL" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_TEm
+					</cfquery>
+				</cfif>
 
 				<!---SET DETERMINED_DATE to YYYY-MM-DD--->
 				<cfif DatePart("yyyy",getTempData.DETERMINED_DATE) gte '1700'>
@@ -641,7 +613,7 @@ limitations under the License.
 						update cf_temp_georef
 						set determined_date =  TO_DATE(<cfqueryparam cfsqltype="CF_SQL_DATE" value="#getTempData.DETERMINED_DATE#">, 'YYYY-MM-DD')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				<cfelse>
 					<cfquery name="getDeterminedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -649,7 +621,7 @@ limitations under the License.
 						SET status = concat(nvl2(status, status || '; ', ''),'Year is invalid "#determined_date#"')
 						WHERE determined_date is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
 
