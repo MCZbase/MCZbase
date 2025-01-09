@@ -435,7 +435,7 @@ limitations under the License.
 			<cfquery name="dupName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 				UPDATE cf_temp_agents
 				SET 
-					status = concat(nvl2(status, status || '; ', ''), 'An agent with PREFERRED_NAME [' || agent_name || '] already exists')
+					status = concat(nvl2(status, status || '; ', ''), 'An agent with PREFERRED_NAME [' || preferred_name || '] already exists')
 				WHERE 
 					preferred_name in (
 						select agent_name from preferred_agent_name
