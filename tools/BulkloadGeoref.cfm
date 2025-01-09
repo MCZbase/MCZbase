@@ -511,15 +511,15 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!-- Check that either spec_locality or locality_id is entered-->
-			<cfif len(getTempData.locality_id) gt 0 OR len(getTempData.spec_locality) eq 0>
+			<cfif len(getTempData.locality_id) gt 0 OR len(getTempData.SPECLOCALITY) eq 0>
 				<cfquery name="warningLOCALITYID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'LOCALITY_ID or SPEC_LOCALITY needs to be entered')
+						status = concat(nvl2(status, status || '; ', ''),'LOCALITY_ID or SPECLOCALITY needs to be entered')
 					WHERE 
 						locality_id is null AND 
-						spec_locality is null and
+						SPECLOCALITY is null and
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
