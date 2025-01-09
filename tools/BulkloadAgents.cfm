@@ -557,10 +557,10 @@ limitations under the License.
 			
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					birth_date,
 					agent_type, preferred_name,first_name,middle_name,last_name,
-					death_date,
-					agent_remark,prefix,suffix,
+					prefix,suffix,
+					birth_date, death_date,
+					agent_remark, biography,
 					<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
 						other_name_#i#,other_name_type_#i#,
 					</cfloop>
