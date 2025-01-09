@@ -601,7 +601,7 @@ limitations under the License.
 					<cfquery name="findAgentVer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT agent_id 
 						FROM agent_name 
-						WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.verified_by_agent#">
+						WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.verified_by#">
 							and agent_name_type = 'preferred'
 					</cfquery>
 					<cfif findAgentVer.recordCount EQ 1>
@@ -611,7 +611,7 @@ limitations under the License.
 						<cfquery name="findAgentAnyVer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT agent_id 
 							FROM agent_name 
-							WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.verified_by_agent#">
+							WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.verified_by#">
 						</cfquery>
 						<cfif findAgentAnyDet.recordCount EQ 1>
 							<cfset relatedAgentID = findAgentAnyVer.agent_id>
@@ -627,7 +627,7 @@ limitations under the License.
 						<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							update cf_temp_georef 
 							set verified_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relatedVerAgentID#">
-							WHERE verified_by_agent is not null
+							WHERE verified_by is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
