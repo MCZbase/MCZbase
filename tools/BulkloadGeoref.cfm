@@ -524,7 +524,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<!--If only locality_id is entered, see if it matches one in MCZbase and enter the related spec_locality-->
-			<cfif len(getTempData.locality_id) gt 0 AND len(getTempData.spec_locality) eq 0>
+			<cfif len(getTempData.locality_id) gt 0 AND len(getTempData.speclocality) eq 0>
 				<!---Check Locality_ID--->
 				<cfquery name="warningLOCALITYID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
@@ -546,7 +546,7 @@ limitations under the License.
 				</cfloop>
 			</cfif>
 			<!--If only spec_locality is entered, see if it matches one in MCZbase and enter the related locality_id-->
-			<cfif len(getTempData.spec_locality) gt 0 AND len(getTempData.locality_ID) eq 0>
+			<cfif len(getTempData.speclocality) gt 0 AND len(getTempData.locality_ID) eq 0>
 				<cfquery name="warningSpec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
