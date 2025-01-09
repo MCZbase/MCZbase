@@ -554,7 +554,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfloop query="getTempData">
-				<cfset agentProblem = "">
+				<cfset agentProblem1 = "">
 			<!--- Determination Agent --->
 				<cfset relatedAgentID = "">
 				<cfquery name="findAgentDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -575,12 +575,12 @@ limitations under the License.
 					<cfif findAgentAnyDet.recordCount EQ 1>
 						<cfset relatedAgentID = findAgentAnyDet.agent_id>
 					<cfelseif findAgentAnyDet.recordCount EQ 0>
-						<cfset agentProblem = "No matches to any agent name">
+						<cfset agentProblem1 = "No matches to any agent name">
 					<cfelse>
-						<cfset agentProblem = "Matches to multiple agent names, use agent_id">
+						<cfset agentProblem1 = "Matches to multiple agent names, use agent_id">
 					</cfif>
 				<cfelse>
-					<cfset agentProblem = "Matches to multiple preferred agent names, use agent_id">
+					<cfset agentProblem1 = "Matches to multiple preferred agent names, use agent_id">
 				</cfif>
 				<!---Check to see that there is a valid determined_by_agent entry--->	
 				<cfif len(relatedAgentID) GT 0>
@@ -594,6 +594,7 @@ limitations under the License.
 				</cfif>
 					
 				<!--- Verification Agent --->
+				<cfset agentProblem2 = "">
 				<cfset verification_status = "">
 				<cfif verification_status eq "rejected by MCZ collection" OR verification_status eq "verified by MCZ collection" OR verification_status eq "verified by collector">
 					<cfset relatedVerAgentID = "">
@@ -615,12 +616,12 @@ limitations under the License.
 						<cfif findAgentAnyDet.recordCount EQ 1>
 							<cfset relatedAgentID = findAgentAnyVer.agent_id>
 						<cfelseif findAgentAnyDet.recordCount EQ 0>
-							<cfset agentProblem = "No matches to any agent name">
+							<cfset agentProblem2 = "No matches to any agent name">
 						<cfelse>
-							<cfset agentProblem = "Matches to multiple agent names, use agent_id">
+							<cfset agentProblem2 = "Matches to multiple agent names, use agent_id">
 						</cfif>
 					<cfelse>
-						<cfset agentProblem = "Matches to multiple preferred agent names, use agent_id">
+						<cfset agentProblem2 = "Matches to multiple preferred agent names, use agent_id">
 					</cfif>
 					<cfif len(relatedVerAgentID) GT 0>
 						<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
