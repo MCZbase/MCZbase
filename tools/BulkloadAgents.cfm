@@ -646,6 +646,7 @@ limitations under the License.
 		<h2 class="h4 mb-3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset problem_key = "">
+			<cfset agent_id_list = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
@@ -693,6 +694,7 @@ limitations under the License.
 							FROM agent
 							WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insResult.GENERATEDKEY#">
 						</cfquery>
+						<cfset agent_id_list = ListAppend(agent_id_list,savePK.agent_id >
 						<cfquery name="newPrefAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into agent_name (
 								AGENT_NAME_ID, 
@@ -707,11 +709,6 @@ limitations under the License.
 							)
 						</cfquery>
 						<cfset agentNAMEID = #savePK.preferred_agent_name_id#>
-						<cfquery name="agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
-							SELECT preferred_agent_name_id 
-							FROM agent
-							WHERE preferred_agent_name_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentNAMEID#">
-						</cfquery>
 						<cfif #agent_type# is "person">
 							<cfquery name="newPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								INSERT into person (
@@ -764,6 +761,9 @@ limitations under the License.
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
 					<cftransaction action="commit">
+					<cfif agent_updates GT 0>
+						<h3><a href="/Agents.cfm?execute=true&method=getAgents&agent_id=#agent_id_list#">View New Agent Records</a></h3>
+					</cfif>
 					<!--- TODO: Link to agents --->
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
