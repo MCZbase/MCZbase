@@ -20,7 +20,7 @@ limitations under the License.
 <cfset NUMBER_OF_OTHER_NAME_PAIRS = 3>
 
 <cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
-<cfif isDefined("form.action")><cfset variables.action = url.action></cfif>
+<cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
 
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
