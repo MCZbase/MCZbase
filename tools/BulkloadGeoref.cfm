@@ -594,7 +594,7 @@ limitations under the License.
 				</cfif>
 					
 				<!--- Verification Agent --->
-				<cfif verification_status = "rejected by MCZ collection" OR verification_status = "verified by MCZ collection" OR verification_status = "verified by collector">
+				<cfif verification_status eq "rejected by MCZ collection" OR verification_status eq "verified by MCZ collection" OR verification_status eq "verified by collector">
 					<cfset relatedVerAgentID = "">
 					<cfquery name="findAgentVer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT agent_id 
