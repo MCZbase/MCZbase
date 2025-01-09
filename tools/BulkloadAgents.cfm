@@ -722,6 +722,7 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SUFFIX#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#birth_date#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#death_date#">
+								)
 							</cfquery>
 						</cfif>
 						<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
