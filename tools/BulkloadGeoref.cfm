@@ -539,7 +539,7 @@ limitations under the License.
 				<cfloop query = "getTempData">
 					<cfquery name="updateSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_georef
-						set speclocality = (select spec_locality from locality where locality_id = #getTempData.locality_id#)
+						set SPECLOCALITY = (select spec_locality from locality where locality_id = #getTempData.locality_id#)
 						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
@@ -551,9 +551,9 @@ limitations under the License.
 					UPDATE
 						cf_temp_georef
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'Spec_locality does not exist in MCZbase')
+						status = concat(nvl2(status, status || '; ', ''),'SPECLOCALITY does not exist in MCZbase')
 					WHERE 
-						spec_locality not in (select spec_locality from locality) AND 
+						SPECLOCALITY not in (select spec_locality from locality) AND 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			<cfelse>
