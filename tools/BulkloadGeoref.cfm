@@ -72,8 +72,8 @@ limitations under the License.
 			</div>
 			<div class="accordion accordion-flush mt-3" id="accordionFlushExample">
 				<div class="accordion-item">
-					<h2 class="accordion-header" id="flush-headingSix">
-						<button class="h3 accordion-button collapsed btn-link text-decoration-dotted text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
+					<h2 class="accordion-header h3" id="flush-headingSix">
+						<button class="accordion-button collapsed btn-link text-decoration-dotted text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
 							Columns for Spreadsheet with Data Entry Instructions
 						</button>
 					</h2>
