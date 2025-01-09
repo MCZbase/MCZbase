@@ -512,59 +512,46 @@ limitations under the License.
 			</cfquery>
 			<!-- Check that either spec_locality or locality_id is entered-->
 			<cfif len(getTempData.locality_id) gt 0 OR len(getTempData.SPECLOCALITY) eq 0>
-				<cfquery name="warningLOCALITYID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="warningMissingLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'LOCALITY_ID or SPECLOCALITY needs to be entered')
 					WHERE 
 						locality_id is null AND 
-						SPECLOCALITY is null and
+						SPECLOCALITY is null AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
 			<!--If only locality_id is entered, see if it matches one in MCZbase and enter the related spec_locality-->
-			<cfif len(getTempData.locality_id) gt 0 AND len(getTempData.speclocality) eq 0>
-				<!---Check Locality_ID--->
+			<cfif len(getTempData.locality_id) gt 0>
 				<cfquery name="warningLOCALITYID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'LOCALITY_ID does not exist in MCZbase')
 					WHERE 
-						LOCALITY_ID not in (select LOCALITY_ID from locality) AND 
+						LOCALITY_ID not in (
+								select LOCALITY_ID from locality 
+								)
+					AND 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			<cfelse>
-				<cfloop query = "getTempData">
-					<cfquery name="updateSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_georef
-						set SPECLOCALITY = (select spec_locality from locality where locality_id = #getTempData.locality_id#)
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-					</cfquery>
-				</cfloop>
 			</cfif>
 			<!--If only spec_locality is entered, see if it matches one in MCZbase and enter the related locality_id-->
-			<cfif len(getTempData.speclocality) gt 0 AND len(getTempData.locality_ID) eq 0>
+			<cfif len(getTempData.speclocality) gt 0>
 				<cfquery name="warningSpec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
 						cf_temp_georef
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'SPECLOCALITY does not exist in MCZbase')
 					WHERE 
-						SPECLOCALITY not in (select spec_locality from locality) AND 
+						SPECLOCALITY not in (
+							select spec_locality from locality
+							) 
+					AND 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			<cfelse>
-				<cfloop query = "getTempData">
-					<cfquery name="updateSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_georef
-						set locality_id = (select locality_id from locality where spec_locality = #getTempData.speclocality#)
-						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="session.username">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-					</cfquery>
-				</cfloop>
 			</cfif>
 			
 			<cfset relatedAgentID = "">
@@ -630,10 +617,17 @@ limitations under the License.
 			<cfloop query="getTempData">
 				<!---Make coordinates accepted if there is a valid locality_id--->
 				<cfquery name="updateLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE lat_long
+					UPDATE cf_temp_georef
 					SET accepted_lat_long_fg = 0
 					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
+				<cfif len(getTempData.locality_id) gt 0 AND len(getTempData.speclocality) eq 0>
+					<cfquery name="updateSpecL" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_TEm
+					</cfquery>
+				</cfif>
 
 				<!---SET DETERMINED_DATE to YYYY-MM-DD--->
 				<cfif DatePart("yyyy",getTempData.DETERMINED_DATE) gte '1700'>
@@ -641,7 +635,7 @@ limitations under the License.
 						update cf_temp_georef
 						set determined_date =  TO_DATE(<cfqueryparam cfsqltype="CF_SQL_DATE" value="#getTempData.DETERMINED_DATE#">, 'YYYY-MM-DD')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				<cfelse>
 					<cfquery name="getDeterminedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -649,7 +643,7 @@ limitations under the License.
 						SET status = concat(nvl2(status, status || '; ', ''),'Year is invalid "#determined_date#"')
 						WHERE determined_date is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
 
