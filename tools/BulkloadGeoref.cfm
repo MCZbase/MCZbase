@@ -652,7 +652,7 @@ limitations under the License.
 							<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_georef 
 								SET
-									status = concat(nvl2(status, status || '; ', ''),'check VERIFICATIONSTATUS when VERIFIED_BY_AGENT_ID is present')
+									status = concat(nvl2(status, status || '; ', ''),'check VERIFICATIONSTATUS--invalid value when VERIFIED_BY_AGENT_ID is present')
 								WHERE 
 									verified_by_agent_id is not null 
 								AND
