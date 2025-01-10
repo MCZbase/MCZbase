@@ -606,48 +606,48 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfloop query="getTempData">
-			<cfif len(determined_by_agent) gt 0>
-				<cfset agentProblem1 = "">
-			<!--- Determination Agent --->
-				<cfset relatedAgentID = "">
-				<cfquery name="findAgentDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT agent_id 
-					FROM agent_name 
-					WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent#">
-						and agent_name_type = 'preferred'
-				</cfquery>
-				<cfif findAgentDet.recordCount EQ 1>
-					<cfset relatedAgentID = findAgentDet.agent_id>
-				<cfelseif findAgentDet.recordCount EQ 0>
-					<!--- relax criteria, find agent by any name. --->
-					<cfquery name="findAgentAnyDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfif len(determined_by_agent) gt 0>
+					<cfset agentProblem1 = "">
+				<!--- Determination Agent --->
+					<cfset relatedAgentID = "">
+					<cfquery name="findAgentDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT agent_id 
 						FROM agent_name 
 						WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent#">
+							and agent_name_type = 'preferred'
 					</cfquery>
-					<cfif findAgentAnyDet.recordCount EQ 1>
-						<cfset relatedAgentID = findAgentAnyDet.agent_id>
-					<cfelseif findAgentAnyDet.recordCount EQ 0>
-						<cfset agentProblem1 = "No matches to any agent name">
+					<cfif findAgentDet.recordCount EQ 1>
+						<cfset relatedAgentID = findAgentDet.agent_id>
+					<cfelseif findAgentDet.recordCount EQ 0>
+						<!--- relax criteria, find agent by any name. --->
+						<cfquery name="findAgentAnyDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT agent_id 
+							FROM agent_name 
+							WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent#">
+						</cfquery>
+						<cfif findAgentAnyDet.recordCount EQ 1>
+							<cfset relatedAgentID = findAgentAnyDet.agent_id>
+						<cfelseif findAgentAnyDet.recordCount EQ 0>
+							<cfset agentProblem1 = "No matches to any agent name">
+						<cfelse>
+							<cfset agentProblem1 = "Matches to multiple agent names, use agent_id">
+						</cfif>
 					<cfelse>
-						<cfset agentProblem1 = "Matches to multiple agent names, use agent_id">
+						<cfset agentProblem1 = "Matches to multiple preferred agent names, use agent_id">
 					</cfif>
-				<cfelse>
-					<cfset agentProblem1 = "Matches to multiple preferred agent names, use agent_id">
+					<!---Check to see that there is a valid determined_by_agent entry--->	
+					<cfif len(relatedAgentID) GT 0>
+						<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							update cf_temp_georef 
+							set determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relatedAgentID#">
+							WHERE determined_by_agent is not null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+						</cfquery>
+					</cfif>
 				</cfif>
-				<!---Check to see that there is a valid determined_by_agent entry--->	
-				<cfif len(relatedAgentID) GT 0>
-					<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update cf_temp_georef 
-						set determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relatedAgentID#">
-						WHERE determined_by_agent is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-					</cfquery>
-				</cfif>
-			</cfif>
-			<cfif len(verified_by) gt 0>
-				<cfset agentProblem2 = "">
+				<cfif len(verified_by) gt 0>
+					<cfset agentProblem2 = "">
 					<cfset relatedVerAgentID = "">
 					<cfquery name="findAgentVer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT agent_id 
@@ -685,7 +685,6 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
 				</cfif>
-			</cfif>
 				<!--- Verification Agent --->
 				<cfif verificationstatus eq "rejected by MCZ collection" OR verificationstatus eq "verified by MCZ collection" OR verificationstatus eq "verified by collector">
 					<cfif len(relatedVerAgentID) gt 0>
