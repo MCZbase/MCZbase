@@ -516,7 +516,7 @@ limitations under the License.
 					status = concat(nvl2(status, status || '; ', ''),'GEOREFMETHOD does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGEOREFMETHOD">controlled vocabulary</a>')
 				WHERE 
 					GEOREFMETHOD not in (select GEOREFMETHOD from MCZBASE.CTGEOREFMETHOD) AND
-					georefmethod is not null and
+					GEOREFMETHOD is not null and
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Check Datum in code table--->
