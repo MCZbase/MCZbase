@@ -90,9 +90,9 @@ limitations under the License.
 							Columns for Spreadsheet with Data Entry Instructions <i class="fa fa-plus mx-2"></i> <!-- Plus when collapsed -->
 						</button>
 					</h2>
-					<div id="flush-collapseSix" class="accordion-collapse collapse bg-verylightteal border rounded" aria-labelledby="flush-headingSix" data-parent="##accordionFlushExample">
+					<div id="flush-collapseSix" style="margin-top: -2rem; z-index: -1;" class="accordion-collapse collapse bg-verylightteal border rounded" aria-labelledby="flush-headingSix" data-parent="##accordionFlushExample">
 						<div class="accordion-body" style="margin-top: -1rem">
-							<p class="px-2 pt-5"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
+							<p class="px-3 pt-5"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
 							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
 								<cfloop list="#fieldlist#" index="field" delimiters=",">
 									<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
