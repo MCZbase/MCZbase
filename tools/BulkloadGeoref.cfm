@@ -674,14 +674,14 @@ limitations under the License.
 					<cfelse>
 						<cfset agentProblem2 = "Matches to multiple preferred agent names, use agent_id">
 					</cfif>
+						<h3>#agentProblem2#</h3>
 					<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
 							cf_temp_georef
 						SET
 							status = concat(nvl2(status, status || '; ', ''),'VERIFIED_BY is invalid #agentProblem2#')
 						WHERE 
-							VERIFIED_BY is not null 
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
 				</cfif>
