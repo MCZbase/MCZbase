@@ -537,6 +537,7 @@ limitations under the License.
 				SET
 					status = concat(nvl2(status, status || '; ', ''),'MAX_ERROR_UNITS are invalid - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_ERROR_UNITS">controlled vocabulary</a>')
 				WHERE 
+					MAX_ERROR_UNITS is not null AND
 					MAX_ERROR_UNITS not in (select LAT_LONG_ERROR_UNITS from MCZBASE.CTLAT_LONG_ERROR_UNITS) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
