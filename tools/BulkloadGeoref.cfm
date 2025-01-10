@@ -486,7 +486,6 @@ limitations under the License.
 				UPDATE cf_temp_georef
 				SET status = concat(nvl2(status, status || '; ', ''),'LAT_LONG_REF_SOURCE is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_REF_SOURCE">controlled vocabulary</a>')
 				WHERE LAT_LONG_REF_SOURCE not in (select LAT_LONG_REF_SOURCE from CTLAT_LONG_REF_SOURCE WHERE LAT_LONG_REF_SOURCE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LAT_LONG_REF_SOURCE#">) AND
-					LAT_LONG_REF_SOURCE IS NOT NULL AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Check Georefmethod code table--->
@@ -501,7 +500,6 @@ limitations under the License.
 				UPDATE cf_temp_georef
 				SET status = concat(nvl2(status, status || '; ', ''),'Datum does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTDATUM">controlled vocabulary</a>')
 				WHERE DATUM not in (select DATUM from CTDATUM where DATUM = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DATUM#">) AND
-					DATUM is not null and
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Check max_error_units in code table--->
