@@ -74,7 +74,7 @@ limitations under the License.
 	<h1 class="h2 mt-2">Bulkload Geography</h1>
 	
 	    <style>
-        #copyButton {
+/*        #copyButton {
             cursor: pointer;
             padding: 5px 10px;
             background-color: #007bff;
@@ -82,7 +82,7 @@ limitations under the License.
             border: none;
             border-radius: 5px;
             margin-top: 10px;
-        }
+        }*/
     </style>
 	<cfif #action# is "nothing">
 		<cfoutput>
