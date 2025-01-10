@@ -41,7 +41,7 @@
 	<main class="container" id="content">
 		<section class="row"> 
 			<div class="col-12">
-				<h2 class="h3 mt-4 mx-2">Summary: Cryogenic Collection Counts</h2>
+				<h2 class="h3 mt-4 mx-2">Cryogenic Collection Count Summary</h2>
 			</div>
 			<div class="col-12">
 				<table border id="t" class="sortable table table-responsive d-xl-table">
