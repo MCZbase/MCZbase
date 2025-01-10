@@ -41,23 +41,27 @@
 	<main class="container" id="content">
 		<section class="row"> 
 			<div class="col-12">
-				<h2 class="h3 mt-4 mx-2">Summary Cryogenic Collection Counts</h2>
+				<h2 class="h3 mt-4 mx-2">Summary: Cryogenic Collection Counts</h2>
 			</div>
 			<div class="col-12">
 				<table border id="t" class="sortable table table-responsive d-xl-table">
-					<tr>
-						<th>Collection</th>
-						<th>Number of Cataloged Items</th>
-						<th>Number of Tissue Vials</th>
-						<th>Sum of Part Counts</th>
-					</tr>
-					<cfloop query="dp">
+					<thead class="thead-light">
 						<tr>
-							<td>#Collection#</td>
-							<td>#number_of_cataloged_items#</td>
-							<td>#number_of_tissues_vials#</td>
-							<td>#sum_of_part_counts#</td>
+							<th>Collection</th>
+							<th>Number of Cataloged Items</th>
+							<th>Number of Tissue Vials</th>
+							<th>Sum of Part Counts</th>
 						</tr>
+					</thead>
+					<cfloop query="dp">
+						<tbody>
+							<tr>
+								<td>#Collection#</td>
+								<td>#number_of_cataloged_items#</td>
+								<td>#number_of_tissues_vials#</td>
+								<td>#sum_of_part_counts#</td>
+							</tr>
+						</tbody>
 					</cfloop>
 				</table>
 			</div>
