@@ -73,20 +73,32 @@ limitations under the License.
 <main class="container-fluid py-3 px-5" id="content">
 	<h1 class="h2 mt-2">Bulkload Geography</h1>
 	
-	
+	    <style>
+        #copyButton {
+            cursor: pointer;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        textarea {
+            height: 56px;
+            margin-bottom: 10px;
+        }
+    </style>
 	<cfif #action# is "nothing">
 		<cfoutput>
 			<p>Load a new georeference to a locality record. HigherGeography, SpecLocality, and locality_id must all match MCZbase data or this form will not work. There are still plenty of ways to hook a georeference to the wrong socket&mdash;make sure you know what you are doing before you try to use this form.  If in doubt, give your filled-out template to Collections Operations to load. Include column headings, spelled exactly as below. Click view template and download to create a csv with the column headers in place.</p>
-		
 			<div id="template" class="my-1 mx-0">
 				<label for="templatearea" class="data-entry-label mb-1">
 					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadGeoref.cfm?action=getCSVHeader">download</a>)
 				</label>
-				<textarea style="height: 56px;" cols="90" id="templatearea" class="w-100 data-entry-textarea small">#fieldlist#</textarea>
+				<textarea cols="90" id="templatearea" class="w-100 data-entry-textarea small">#fieldlist#</textarea>
 			</div>
 			<div class="accordion" id="accordionIdentifiers">
 				<div class="card mb-2 bg-light">
-					<!---<cfset blockidentifiers = getIdentifiersHTML(collection_object_id = "#collection_object_id#")>--->
 					<div class="card-header" id="headingIdentifiers">
 						<h3 class="h5 my-0">
 							<button type="button" role="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane">
@@ -96,7 +108,7 @@ limitations under the License.
 					</div>
 					<div id="identifiersPane" class="collapse show" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
 						<div class="card-body" id="identifiersCardBody">
-						<p class="px-3 pt-5"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
+						<p class="px-3 pt-2"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
 							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
 								<cfloop list="#fieldlist#" index="field" delimiters=",">
 									<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
@@ -127,51 +139,32 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-			
-	
-	
-	
-	
-	<!---		<div class="accordion accordion-flush mt-3" id="accordionFlushExample">
-				<div class="accordion-item">
-					<h2 class="accordion-header h3" id="flush-headingSix">
-						<button class="accordion-button collapsed btn-link text-decoration-dotted text-left w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
-							Columns for Spreadsheet with Data Entry Instructions <i class="fa fa-plus mx-2"></i> 
-						</button>
-					</h2>
-					<div id="flush-collapseSix" style="margin-top: -2rem; z-index: -1;" class="accordion-collapse collapse bg-verylightteal border rounded" aria-labelledby="flush-headingSix" data-parent="##accordionFlushExample">
-						<div class="accordion-body" style="margin-top: -1rem">
-							<p class="px-3 pt-5"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
-							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
-								<cfloop list="#fieldlist#" index="field" delimiters=",">
-									<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
-										SELECT comments
-										FROM sys.all_col_comments
-										WHERE 
-											owner = 'MCZBASE'
-											and table_name = 'CF_TEMP_GEOREF'
-											and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
-									</cfquery>
-									<cfset comment = "">
-									<cfif getComments.recordcount GT 0>
-										<cfset comment = getComments.comments>
-									</cfif>
-									<cfset aria = "">
-									<cfif listContains(requiredfieldlist,field,",")>
-										<cfset class="text-danger">
-										<cfset aria = "aria-label='Required Field'">
-									<cfelse>
-										<cfset class="text-dark">
-									</cfif>
-									<li class="pb-1 mx-3">
-										<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
-									</li>
-								</cfloop>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>--->
+			<button id="copyButton">Copy Text</button>
+
+			<script>
+				document.getElementById('copyButton').addEventListener('click', function() {
+					// Get the textarea element
+					var textArea = document.getElementById('textArea');
+
+					// Select the text content
+					textArea.select();
+
+					try {
+						// Copy the selected text to the clipboard
+						var successful = document.execCommand('copy');
+						var msg = successful ? 'successful' : 'unsuccessful';
+						console.log('Copy command was ' + msg);
+					} catch (err) {
+						console.log('Oops, unable to copy', err);
+					}
+
+					// Optionally deselect the text after copying to avoid confusion
+					window.getSelection().removeAllRanges();
+
+					// Optional: Provide feedback to the user
+					alert('Text copied to clipboard!');
+				});
+			</script>
 			<div>
 				<h2 class="h4 mt-4">Upload a comma-delimited text file (csv)</h2>
 				<form name="getFiles" method="post" enctype="multipart/form-data" action="/tools/BulkloadGeoref.cfm">
