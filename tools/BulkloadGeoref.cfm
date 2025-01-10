@@ -48,11 +48,11 @@ limitations under the License.
 <script>
     $(document).ready(function() {
         $('.accordion').on('show.bs.collapse', function(e) {
-            $(e.target).prev('.card-header').find('.toggle-icon').removeClass('fa-plus').addClass('fa-minus');
+            $(e.target).prev('.accordion-header').find('.toggle-icon').removeClass('fa-plus').addClass('fa-minus');
         });
 
         $('.accordion').on('hide.bs.collapse', function(e) {
-            $(e.target).prev('.card-header').find('.toggle-icon').removeClass('fa-minus').addClass('fa-plus');
+            $(e.target).prev('.accordion-header').find('.toggle-icon').removeClass('fa-minus').addClass('fa-plus');
         });
     });
 </script>
