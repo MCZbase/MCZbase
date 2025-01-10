@@ -633,14 +633,6 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
-				<!--- Remaining fragment of multi-purpose add/update part code, preventing use by setting use_part_id to null. --->
-				<cfquery name="setPartID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_parts 
-					SET use_part_id = NULL
-					WHERE 
-						status LIKE '%NOTE: PART EXISTS%' 
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
 			</cfloop>
 			<cfquery name="markNoPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_parts 
