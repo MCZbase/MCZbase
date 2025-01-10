@@ -490,13 +490,7 @@ limitations under the License.
 				WHERE DATUM not in (select DATUM from CTDATUM where DATUM = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DATUM#">) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-				<!---Check Datum in code table--->
-			<cfquery name="warningDatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'Datum does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTDATUM">controlled vocabulary</a>')
-				WHERE DATUM not in (select DATUM from CTDATUM where DATUM = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DATUM#">) AND
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+
 			<!---Check max_error_units in code table--->
 			<cfquery name="warningErrorUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
@@ -571,6 +565,14 @@ limitations under the License.
 					WHERE HIGHERGEOGRAPHY not in (select HIGHER_GEOG from GEOG_AUTH_REC where higher_geog = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.HIGHERGEOGRAPHY#">) AND
 						HIGHERGEOGRAPHY is not null 
 					AND	username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+				</cfquery>
+				<!---Check Extent in code table--->
+				<cfquery name="warningExtent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_georef
+					SET status = concat(nvl2(status, status || '; ', ''),'EXTENT_UNITS does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTDATUM">controlled vocabulary</a>')
+					WHERE EXTENT_UNITS not in (select EXTENT_UNITS from CTEXTENT_UNITS where EXTENT_UNITS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.EXTENT_UNITS#">) 
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 				</cfquery>
 				<cfif len(determined_by_agent) gt 0>
