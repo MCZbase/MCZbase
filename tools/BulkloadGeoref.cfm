@@ -485,7 +485,7 @@ limitations under the License.
 			<cfquery name="warningRefSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
 				SET status = concat(nvl2(status, status || '; ', ''),'LAT_LONG_REF_SOURCE is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_REF_SOURCE">controlled vocabulary</a>')
-				WHERE LAT_LONG_REF_SOURCE not in (select LAT_LONG_REF_SOURCE from MCZBASE.CTLAT_LONG_REF_SOURCE WHERE LAT_LONG_REF_SOURCE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LAT_LONG_REF_SOURCE#">) AND
+				WHERE LAT_LONG_REF_SOURCE not in (select LAT_LONG_REF_SOURCE from CTLAT_LONG_REF_SOURCE WHERE LAT_LONG_REF_SOURCE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LAT_LONG_REF_SOURCE#">) AND
 					LAT_LONG_REF_SOURCE IS NOT NULL AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -493,7 +493,7 @@ limitations under the License.
 			<cfquery name="warningGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
 				SET status = concat(nvl2(status, status || '; ', ''),'GEOREFMETHOD does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGEOREFMETHOD">controlled vocabulary</a>')
-				WHERE GEOREFMETHOD not in (select GEOREFMETHOD from MCZBASE.CTGEOREFMETHOD where GEOREFMETHOD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.georefmethod#">) AND
+				WHERE GEOREFMETHOD not in (select GEOREFMETHOD from CTGEOREFMETHOD where GEOREFMETHOD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.GEOREFMETHOD#">) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Check Datum in code table--->
@@ -516,7 +516,7 @@ limitations under the License.
 			<cfquery name="warningVerification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
 				SET status = concat(nvl2(status, status || '; ', ''),'verificationstatus is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTVERIFICATIONSTATUS">controlled vocabulary</a>')
-				WHERE VERIFICATIONSTATUS not in (select VERIFICATIONSTATUS from MCZBASE.CTVERIFICATIONSTATUS WHERE verificationstatus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.VERIFICATIONSTATUS#">) AND
+				WHERE VERIFICATIONSTATUS not in (select VERIFICATIONSTATUS from CTVERIFICATIONSTATUS WHERE verificationstatus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.VERIFICATIONSTATUS#">) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Check Higher Geography to see if it exists--->
