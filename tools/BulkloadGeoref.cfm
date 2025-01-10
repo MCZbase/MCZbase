@@ -83,22 +83,18 @@ limitations under the License.
             border-radius: 5px;
             margin-top: 10px;
         }
-        textarea {
-            height: 56px;
-            margin-bottom: 10px;
-        }
     </style>
 	<cfif #action# is "nothing">
 		<cfoutput>
 			<p>Load a new georeference to a locality record. HigherGeography, SpecLocality, and locality_id must all match MCZbase data or this form will not work. There are still plenty of ways to hook a georeference to the wrong socket&mdash;make sure you know what you are doing before you try to use this form.  If in doubt, give your filled-out template to Collections Operations to load. Include column headings, spelled exactly as below. Click view template and download to create a csv with the column headers in place.</p>
 			
-			<button id="copyButton">Copy Text</button>
+			<button class="btn btn-xs btn-primary" id="copyButton">Copy Text</button>
 			
 			<div id="template" class="my-1 mx-0">
 				<label for="templatearea" class="data-entry-label mb-1">
 					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadGeoref.cfm?action=getCSVHeader">download</a>)
 				</label>
-				<textarea cols="90" id="templatearea" class="w-100 data-entry-textarea small">#fieldlist#</textarea>
+				<textarea style="height: 56px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
 			</div>
 			<div class="accordion" id="accordionIdentifiers">
 				<div class="card mb-2 bg-light">
