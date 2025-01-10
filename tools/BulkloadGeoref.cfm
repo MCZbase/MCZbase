@@ -493,14 +493,14 @@ limitations under the License.
 			<cfquery name="warningGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
 				SET status = concat(nvl2(status, status || '; ', ''),'GEOREFMETHOD does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGEOREFMETHOD">controlled vocabulary</a>')
-				WHERE GEOREFMETHOD not in (select GEOREFMETHOD from MCZBASE.CTGEOREFMETHOD where GEOREFMETHOD = #getTempData.georefmethod#) AND
+				WHERE GEOREFMETHOD not in (select GEOREFMETHOD from MCZBASE.CTGEOREFMETHOD where GEOREFMETHOD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.georefmethod#">) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Check Datum in code table--->
 			<cfquery name="warningDatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
 				SET status = concat(nvl2(status, status || '; ', ''),'Datum does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTDATUM">controlled vocabulary</a>')
-				WHERE DATUM not in (select DATUM from CTDATUM) AND
+				WHERE DATUM not in (select DATUM from CTDATUM ) AND
 					DATUM is not null and
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
