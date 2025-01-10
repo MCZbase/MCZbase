@@ -87,9 +87,7 @@ limitations under the License.
 	<cfif #action# is "nothing">
 		<cfoutput>
 			<p>Load a new georeference to a locality record. HigherGeography, SpecLocality, and locality_id must all match MCZbase data or this form will not work. There are still plenty of ways to hook a georeference to the wrong socket&mdash;make sure you know what you are doing before you try to use this form.  If in doubt, give your filled-out template to Collections Operations to load. Include column headings, spelled exactly as below. Click view template and download to create a csv with the column headers in place.</p>
-			
 			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
-			
 			<div id="template" class="my-1 mx-0">
 				<label for="templatearea" class="data-entry-label" style="line-height: inherit;">
 					Copy this header line, paste it into a blank worksheet, and save it as a .csv file or <a href="/tools/BulkloadGeoref.cfm?action=getCSVHeader" class="font-weight-bold">download</a> it.
@@ -105,7 +103,7 @@ limitations under the License.
 							</button>
 						</h3>
 					</div>
-					<div id="identifiersPane" class="collapse show" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
+					<div id="identifiersPane" class="collapse" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
 						<div class="card-body" id="identifiersCardBody">
 						<p class="px-3 pt-2"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
 							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
