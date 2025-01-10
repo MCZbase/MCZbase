@@ -446,7 +446,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="badDisposition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_parts 
-				SET status = concat(nvl2(status, status || '; ', ''),'Invalid DISPOSITION')
+				SET status = concat(nvl2(status, status || '; ', ''),'Invalid COLL_OBJ_DISPOSITION')
 				WHERE 
 					COLL_OBJ_DISPOSITION NOT IN (
 						select COLL_OBJ_DISPOSITION from CTCOLL_OBJ_DISP
@@ -633,14 +633,6 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
-				<!--- Remaining fragment of multi-purpose add/update part code, preventing use by setting use_part_id to null. --->
-				<cfquery name="setPartID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_parts 
-					SET use_part_id = NULL
-					WHERE 
-						status LIKE '%NOTE: PART EXISTS%' 
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
 			</cfloop>
 			<cfquery name="markNoPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_parts 
@@ -821,20 +813,13 @@ limitations under the License.
 									FROM coll_obj_cont_hist 
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.NEXTID#">
 								</cfquery>
+								<cfif part_container_id.recordcount GT 0>
 									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										UPDATE container 
 										SET 
 											parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
 										WHERE 
 											container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_container_id.container_id#">
-									</cfquery>
-								<cfif #len(change_container_type)# gt 0>
-									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										UPDATE container 
-										SET
-											container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#change_container_type#">
-										WHERE 
-											container_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.parent_container_id#">
 									</cfquery>
 								</cfif>
 							</cfif>
@@ -933,7 +918,7 @@ limitations under the License.
 										<cfelseif cfcatch.detail contains "preserve_method">
 											Problem with preserve_method
 										<cfelseif cfcatch.detail contains "lot_count_modifier">
-											Invalid disposition
+											Invalid lot_count_modifier
 										<cfelseif cfcatch.detail contains "part_name">
 											Invalid part_name
 										<cfelseif cfcatch.detail contains "part_value">
@@ -960,7 +945,7 @@ limitations under the License.
 										<th>OTHER_ID_NUMBER</th>
 										<th>PART_NAME</th>
 										<th>PRESERVE_METHOD</th>
-										<th>DISPOSITION</th>
+										<th>COL_OBJ_DISPOSITION</th>
 										<th>LOT_COUNT_MODIFIER</th>
 										<th>LOT_COUNT</th>
 										<th>PART_REMARKS</th>
