@@ -19,6 +19,7 @@ limitations under the License.
 
 <cfset NUMBER_OF_OTHER_NAME_PAIRS = 3>
 
+<!--- page can submit with action either as a form post parameter or as a url parameter, obtain either into variable scope. --->
 <cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
 <cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
 

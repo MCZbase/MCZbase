@@ -16,8 +16,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+
+<!--- page can submit with action either as a form post parameter or as a url parameter, obtain either into variable scope. --->
+<cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
+<cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
+
 <!--- special case handling to dump problem data as csv --->
-<cfif isDefined("action") AND action is "dumpProblems">
+<cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,publication_title as publication,
 			publication_id,cited_scientific_name,cited_taxon_name_id,occurs_page_number,citation_page_uri,type_status,citation_remarks
@@ -40,7 +45,7 @@ limitations under the License.
 <cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,CITED_SCIENTIFIC_NAME,TYPE_STATUS,PUBLICATION_ID">
 
 <!--- special case handling to dump column headers as csv --->
-<cfif isDefined("action") AND action is "getCSVHeader">
+<cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
 	<cfset csv = "">
 	<cfset separator = "">
 	<cfloop list="#fieldlist#" index="field" delimiters=",">
@@ -56,12 +61,12 @@ limitations under the License.
 <cfset pageTitle = "Bulkload Citations">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
-<cfif not isDefined("action") OR len(action) EQ 0><cfset action="entryPoint"></cfif>
+<cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset variables.action="entryPoint"></cfif>
 <main class="container-fluid py-3 px-xl-5" id="content">
 	<h1 class="h2 mt-2">Bulkload Citations</h1>
 
 	<!------------------------------------------------------->
-	<cfif #action# is "entryPoint">
+	<cfif variables.action is "entryPoint">
 		<cfoutput>
 			<p>
 				This tool adds citations to the specimen record. The publication, cited taxon, and specimens have to be in MCZbase prior to uploading this .csv. This tool ignores rows that are exactly the same. Additional columns will be ignored. The cited_scientific_name must match that of exactly one <a href="/Taxa.cfm" class="font-weight-bold">taxon record</a>.  The publication_id value must match a <a href="/Publications.cfm" class="font-weight-bold">Publication</a>. The other_id_type and other_id_number values must also be in the database. Search for them via the <a href="/Specimens.cfm" class="font-weight-bold">Specimen Search</a>. Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number.  Citations must be unique by cataloged item, publication, and taxon, duplicates within the file or with existing citation records will be marked as errors.
@@ -123,7 +128,11 @@ limitations under the License.
 	</cfif>	
 	
 	<!------------------------------------------------------->
-	<cfif #action# is "getFile">
+	<cfif variables.action is "getFile">
+		<!--- get form variables --->
+		<cfif isDefined("form.fileToUpload")><cfset variables.fileToUpload = form.fileToUpload></cfif>
+		<cfif isDefined("form.format")><cfset variables.format = form.format></cfif>
+		<cfif isDefined("form.characterSet")><cfset variables.characterSet = form.characterSet></cfif>
 		<cfoutput>
 			<h2 class="h4">First step: Reading data from CSV file.</h2>
 			<!--- Set some constants to identify error cases in cfcatch block --->
@@ -318,7 +327,7 @@ limitations under the License.
 	</cfif>
 
 	<!------------------------------------------------------->
-	<cfif #action# is "validate">
+	<cfif variables.action is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfset key = ''>
@@ -617,7 +626,7 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 	<!-------------------------------------------------------------------------------------------->
-	<cfif action is "load">
+	<cfif variables.action is "load">
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset problem_key = "">
