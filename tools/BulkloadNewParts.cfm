@@ -821,20 +821,13 @@ limitations under the License.
 									FROM coll_obj_cont_hist 
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEXTID.NEXTID#">
 								</cfquery>
+								<cfif part_container_id.recordcount GT 0>
 									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										UPDATE container 
 										SET 
 											parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
 										WHERE 
 											container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_container_id.container_id#">
-									</cfquery>
-								<cfif #len(change_container_type)# gt 0>
-									<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										UPDATE container 
-										SET
-											container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#change_container_type#">
-										WHERE 
-											container_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.parent_container_id#">
 									</cfquery>
 								</cfif>
 							</cfif>
