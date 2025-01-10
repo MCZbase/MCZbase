@@ -31,7 +31,7 @@ limitations under the License.
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-<!---    <style>
+    <style>
         .accordion-button::after {
             content: none;
         }
@@ -44,18 +44,8 @@ limitations under the License.
         .accordion-button .fa-plus {
             transform: rotate(45deg);
         }
-    </style>--->
-<script>
-    $(document).ready(function() {
-        $('.accordion').on('show.bs.collapse', function(e) {
-            $(e.target).prev('.accordion-header').find('.toggle-icon').removeClass('fa-plus').addClass('fa-minus');
-        });
+    </style>
 
-        $('.accordion').on('hide.bs.collapse', function(e) {
-            $(e.target).prev('.accordion-header').find('.toggle-icon').removeClass('fa-minus').addClass('fa-plus');
-        });
-    });
-</script>
 <cfset fieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,VERIFICATIONSTATUS,COORDINATE_PRECISION,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,EXTENT,EXTENT_UNITS,GPSACCURACY,VERIFIED_BY,SPATIALFIT,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG,DETERMINED_BY_AGENT_ID,VERIFIED_BY_AGENT_ID">
 	
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL">
@@ -94,6 +84,54 @@ limitations under the License.
 				</label>
 				<textarea style="height: 56px;" cols="90" id="templatearea" class="w-100 data-entry-textarea small">#fieldlist#</textarea>
 			</div>
+			<div class="accordion" id="accordionIdentifiers">
+				<div class="card mb-2 bg-light">
+					<cfset blockidentifiers = getIdentifiersHTML(collection_object_id = "#collection_object_id#")>
+					<div class="card-header" id="headingIdentifiers">
+						<h3 class="h5 my-0">
+							<button type="button" role="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane">
+								Columns for Spreadsheet with Data Entry Instructions
+							</button>
+						</h3>
+					</div>
+					<div id="identifiersPane" class="collapse show" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
+						<div class="card-body" id="identifiersCardBody">
+						<p class="px-3 pt-5"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
+							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
+								<cfloop list="#fieldlist#" index="field" delimiters=",">
+									<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+										SELECT comments
+										FROM sys.all_col_comments
+										WHERE 
+											owner = 'MCZBASE'
+											and table_name = 'CF_TEMP_GEOREF'
+											and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+									</cfquery>
+									<cfset comment = "">
+									<cfif getComments.recordcount GT 0>
+										<cfset comment = getComments.comments>
+									</cfif>
+									<cfset aria = "">
+									<cfif listContains(requiredfieldlist,field,",")>
+										<cfset class="text-danger">
+										<cfset aria = "aria-label='Required Field'">
+									<cfelse>
+										<cfset class="text-dark">
+									</cfif>
+									<li class="pb-1 mx-3">
+										<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
+									</li>
+								</cfloop>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+	
+	
+	
+	
 			<div class="accordion accordion-flush mt-3" id="accordionFlushExample">
 				<div class="accordion-item">
 					<h2 class="accordion-header h3" id="flush-headingSix">
