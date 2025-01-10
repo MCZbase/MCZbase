@@ -88,7 +88,7 @@ limitations under the License.
 		<cfoutput>
 			<p>Load a new georeference to a locality record. HigherGeography, SpecLocality, and locality_id must all match MCZbase data or this form will not work. There are still plenty of ways to hook a georeference to the wrong socket&mdash;make sure you know what you are doing before you try to use this form.  If in doubt, give your filled-out template to Collections Operations to load. Include column headings, spelled exactly as below. Click view template and download to create a csv with the column headers in place.</p>
 			
-			<button class="btn btn-xs btn-primary" id="copyButton">Copy Text</button>
+			<button class="btn btn-xs btn-primary" id="copyButton">Copy Column Headers</button>
 			
 			<div id="template" class="my-1 mx-0">
 				<label for="templatearea" class="data-entry-label mb-1">
@@ -100,7 +100,7 @@ limitations under the License.
 				<div class="card mb-2 bg-light">
 					<div class="card-header" id="headingIdentifiers">
 						<h3 class="h5 my-0">
-							<button type="button" role="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane">
+							<button type="button" role="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="false" aria-controls="identifiersPane">
 								Columns for Spreadsheet with Data Entry Instructions
 							</button>
 						</h3>
