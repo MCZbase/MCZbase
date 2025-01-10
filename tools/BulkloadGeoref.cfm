@@ -74,7 +74,7 @@ limitations under the License.
 				<div class="accordion-item">
 					<h2 class="accordion-header h3" id="flush-headingSix">
 						<button class="accordion-button collapsed btn-link text-decoration-dotted text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
-							Columns for Spreadsheet with Data Entry Instructions
+							Columns for Spreadsheet with Data Entry Instructions <i class="fa fa-plus"></i> <!-- Plus when collapsed -->
 						</button>
 					</h2>
 					<div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" data-parent="##accordionFlushExample">
