@@ -16,8 +16,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+
+<!--- page can submit with action either as a form post parameter or as a url parameter, obtain either into variable scope. --->
+<cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
+<cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
+
 <!--- special case handling to dump problem data as csv --->
-<cfif isDefined("action") AND action is "dumpProblems">
+<cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT container_unique_id,parent_unique_id,container_type,container_name, 
 			description, remarks, width, height, length, number_positions,
@@ -39,7 +44,7 @@ limitations under the License.
 <cfset requiredfieldlist = "container_unique_id,container_type,container_name">
 
 <!--- special case handling to dump column headers as csv --->
-<cfif isDefined("action") AND action is "getCSVHeader">
+<cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
 	<cfset csv = "">
 	<cfset separator = "">
 	<cfloop list="#fieldlist#" index="field" delimiters=",">
@@ -55,10 +60,10 @@ limitations under the License.
 <cfset pageTitle = "Bulk Edit Container">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
-<cfif not isDefined("action") OR len(action) EQ 0><cfset action="entryPoint"></cfif>
+<cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset variables.action="entryPoint"></cfif>
 <main class="container-fluid py-3 px-xl-5" id="content">
 	<h1 class="h2 mt-2">Bulkload Container Edit Parent</h1>
-	<cfif #action# is "entryPoint">
+	<cfif variables.action is "entryPoint">
 		<cfoutput>
 			<p>This tool is used to edit container information and/or move parts to a different parent container. Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored. The container_unique_id, container_name, and parent_unique_id fields take a mix of text, hyphens, underscores, and numbers. (Numbers should match values in MCZbase.) Only number entries are expected in the width, height, length, and number_positions fields.</p>
 			<p>The container_unique_id is the container's unique identifier to update. All other values provided will change this record. Specify the current value for container type and container name if you wish to avoid changing those, leave others blank to retain current values. To place a container in a new parent container, specify the Unique Identifier for the new parent container in parent_unique_id. Check the Help > Controlled Vocabulary page and select the <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCONTAINER_TYPE">CTCONTAINER_TYPE</a> list for types. Submit a bug report to request an additional type when needed.</p>
@@ -119,7 +124,11 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
-	<cfif #action# is "getFile">
+	<cfif variables.action is "getFile">
+		<!--- get form variables --->
+		<cfif isDefined("form.fileToUpload")><cfset variables.fileToUpload = form.fileToUpload></cfif>
+		<cfif isDefined("form.format")><cfset variables.format = form.format></cfif>
+		<cfif isDefined("form.characterSet")><cfset variables.characterSet = form.characterSet></cfif>
 		<cfoutput>
 			<h2 class="h4">First step: Reading data from CSV file.</h2>
 			<!--- Compare the numbers of headers expected against provided in CSV file --->
@@ -314,7 +323,7 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
-	<cfif #action# is "validate">
+	<cfif variables.action is "validate">
 		<cfoutput>
 			<h2 class="h4 mb-4">Second step: Data Validation</h2>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -411,7 +420,7 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 	<!-------------------------------------------------------------------------------------------->
-	<cfif action is "load">
+	<cfif variables.action is "load">
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cftransaction>
