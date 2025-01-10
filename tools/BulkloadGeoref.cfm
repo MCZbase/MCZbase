@@ -493,7 +493,7 @@ limitations under the License.
 				SET
 					status = concat(nvl2(status, status || '; ', ''),'Original Lat Long Units are invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_UNITS">controlled vocabulary</a>')
 				WHERE 
-					orig_lat_long_units not in (select ORIG_LAT_LONG_UNITS from MCZBASE.CTLAT_LONG_UNITS) AND
+					orig_lat_long_units not in (select ORIG_LAT_LONG_UNITS from CTLAT_LONG_UNITS) AND
 					ORIG_LAT_LONG_UNITS is not null AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -515,7 +515,7 @@ limitations under the License.
 				SET
 					status = concat(nvl2(status, status || '; ', ''),'GEOREFMETHOD does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGEOREFMETHOD">controlled vocabulary</a>')
 				WHERE 
-					GEOREFMETHOD not in (select GEOREFMETHOD from MCZBASE.CTGEOREFMETHOD) AND
+					GEOREFMETHOD not in (select GEOREFMETHOD from CTGEOREFMETHOD) AND
 					GEOREFMETHOD is not null and
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -526,7 +526,7 @@ limitations under the License.
 				SET
 					status = concat(nvl2(status, status || '; ', ''),'Datum does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTDATUM">controlled vocabulary</a>')
 				WHERE 
-					DATUM not in (select DATUM from MCZBASE.CTDATUM) AND
+					DATUM not in (select DATUM from CTDATUM) AND
 					DATUM is not null and
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -538,7 +538,7 @@ limitations under the License.
 					status = concat(nvl2(status, status || '; ', ''),'MAX_ERROR_UNITS are invalid - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_ERROR_UNITS">controlled vocabulary</a>')
 				WHERE 
 					MAX_ERROR_UNITS is not null AND
-					MAX_ERROR_UNITS not in (select LAT_LONG_ERROR_UNITS from MCZBASE.CTLAT_LONG_ERROR_UNITS) AND
+					MAX_ERROR_UNITS not in (select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Check VERIFICATIONSTATUS--->
