@@ -481,8 +481,6 @@ limitations under the License.
 					ORIG_LAT_LONG_UNITS is not null AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			
-
 			<!---Check Datum in code table--->
 			<cfquery name="warningDatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
@@ -571,7 +569,7 @@ limitations under the License.
 				<cfquery name="warningExtent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_georef
 					SET status = concat(nvl2(status, status || '; ', ''),'EXTENT_UNITS does not exist')
-					WHERE EXTENT_UNITS not in (select EXTENT_UNITS from MCZBASE.CTEXTENT_UNITS where EXTENT_UNITS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.EXTENT_UNITS#">) 
+					WHERE EXTENT_UNITS not in (select UNITS from MCZBASE.CTEXTENT_UNITS where UNITS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.EXTENT_UNITS#">) 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 				</cfquery>
