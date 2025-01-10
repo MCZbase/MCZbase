@@ -31,7 +31,7 @@ limitations under the License.
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-    <style>
+<!---    <style>
         .accordion-button::after {
             content: none;
         }
@@ -44,7 +44,18 @@ limitations under the License.
         .accordion-button .fa-plus {
             transform: rotate(45deg);
         }
-    </style>
+    </style>--->
+<script>
+    $(document).ready(function() {
+        $('.accordion').on('show.bs.collapse', function(e) {
+            $(e.target).prev('.card-header').find('.toggle-icon').removeClass('fa-plus').addClass('fa-minus');
+        });
+
+        $('.accordion').on('hide.bs.collapse', function(e) {
+            $(e.target).prev('.card-header').find('.toggle-icon').removeClass('fa-minus').addClass('fa-plus');
+        });
+    });
+</script>
 <cfset fieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,VERIFICATIONSTATUS,COORDINATE_PRECISION,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,EXTENT,EXTENT_UNITS,GPSACCURACY,VERIFIED_BY,SPATIALFIT,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG,DETERMINED_BY_AGENT_ID,VERIFIED_BY_AGENT_ID">
 	
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL">
