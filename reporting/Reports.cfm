@@ -28,6 +28,7 @@ Landing pad page with lists of various self service reports.
 			<div class="col-12">
 				<h1 class="h2">Reports</h1>
 				<ul>
+					<li class="py-1"><a href="/reporting/CryoCounts.cfm">Cryogenic Collecton Count Summary</a> &ndash; Cataloged items, tissue vials, and part counts per collection</li>
 					<li class="py-1"><a href="/info/recentgeorefs.cfm">Recently Georeferenced Localities</a> &ndash; Listed by collection or timeframe; sort by oldest, newest; links to each locality georeferenced</li>
 					<li class="py-1"><a href="/info/collnHoldgByClass.cfm">Holdings by Class</a> &ndash; Report lists collection alphabetically in the first column; lists class alphabetically in the second column; sum of parts with that name in MCZbase in the third column; count of part name used per collection with link to specimen results</li>
 					<li class="py-1"><a href="/info/noParts.cfm">Partless Specimen Records</a> &ndash; Find specimens with no parts per collection (or in all collections) </li>
