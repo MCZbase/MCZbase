@@ -91,7 +91,7 @@ limitations under the License.
 			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
 			
 			<div id="template" class="my-1 mx-0">
-				<label for="templatearea" class="data-entry-label mb-1">
+				<label for="templatearea" class="data-entry-label">
 					Copy this header line, paste it into a blank worksheet, and save it as a .csv file or <a href="/tools/BulkloadGeoref.cfm?action=getCSVHeader">download</a> it.
 				</label>
 				<textarea style="height: 56px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
