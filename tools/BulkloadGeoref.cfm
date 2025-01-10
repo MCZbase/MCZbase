@@ -489,7 +489,13 @@ limitations under the License.
 					LAT_LONG_REF_SOURCE IS NOT NULL AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-		
+			<!---Check Georefmethod code table--->
+			<cfquery name="warningGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_georef
+				SET status = concat(nvl2(status, status || '; ', ''),'GEOREFMETHOD does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGEOREFMETHOD">controlled vocabulary</a>')
+				WHERE GEOREFMETHOD not in (select GEOREFMETHOD from MCZBASE.CTGEOREFMETHOD) AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<!---Check Datum in code table--->
 			<cfquery name="warningDatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
@@ -706,15 +712,6 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
-							
-					<!---Check Georefmethod code table--->
-			<cfquery name="warningGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'GEOREFMETHOD does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGEOREFMETHOD">controlled vocabulary</a>')
-				WHERE GEOREFMETHOD not in (select GEOREFMETHOD from CTGEOREFMETHOD) AND
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-					key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value = "#getTempData.key#">
-			</cfquery>
 				<!---Check to see if the CSV georef is a dup of one already in the locality record--->
 				<cfquery name="warningLocalityID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_georef
