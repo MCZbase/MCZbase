@@ -65,7 +65,7 @@
 						<cfquery name="it" dbtype="query">
 							select is_tissue 
 							from p 
-							where part_name = <cfqueryparam cfsqltype="CF_SQK_VARCHAR" value="#dp.part_name#">
+							where part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dp.part_name#">
 							group by is_tissue
 						</cfquery>
 						<cfif it.recordcount gt 1>
