@@ -446,7 +446,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="badDisposition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_parts 
-				SET status = concat(nvl2(status, status || '; ', ''),'Invalid DISPOSITION')
+				SET status = concat(nvl2(status, status || '; ', ''),'Invalid COLL_OBJ_DISPOSITION')
 				WHERE 
 					COLL_OBJ_DISPOSITION NOT IN (
 						select COLL_OBJ_DISPOSITION from CTCOLL_OBJ_DISP
@@ -933,7 +933,7 @@ limitations under the License.
 										<cfelseif cfcatch.detail contains "preserve_method">
 											Problem with preserve_method
 										<cfelseif cfcatch.detail contains "lot_count_modifier">
-											Invalid disposition
+											Invalid lot_count_modifier
 										<cfelseif cfcatch.detail contains "part_name">
 											Invalid part_name
 										<cfelseif cfcatch.detail contains "part_value">
@@ -960,7 +960,7 @@ limitations under the License.
 										<th>OTHER_ID_NUMBER</th>
 										<th>PART_NAME</th>
 										<th>PRESERVE_METHOD</th>
-										<th>DISPOSITION</th>
+										<th>COL_OBJ_DISPOSITION</th>
 										<th>LOT_COUNT_MODIFIER</th>
 										<th>LOT_COUNT</th>
 										<th>PART_REMARKS</th>
