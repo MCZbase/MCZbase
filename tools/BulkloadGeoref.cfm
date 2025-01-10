@@ -16,8 +16,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+
+<!--- page can submit with action either as a form post parameter or as a url parameter, obtain either into variable scope. --->
+<cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
+<cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
+
 <!--- special case handling to dump problem data as csv --->
-<cfif isDefined("action") AND action is "dumpProblems">
+<cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT status, highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,extent_units,gpsaccuracy,verificationstatus,verified_by,spatialfit,nearest_named_place,lat_long_for_NNP_FG,coordinate_precision,accepted_lat_long_fg,determined_by_agent_id 
 		FROM cf_temp_georef 
@@ -53,7 +58,7 @@ limitations under the License.
 <cfset requiredfieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,VERIFICATIONSTATUS,COORDINATE_PRECISION">
 
 <!--- special case handling to dump column headers as csv --->
-<cfif isDefined("action") AND action is "getCSVHeader">
+<cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
 	<cfset csv = "">
 	<cfset separator = "">
 	<cfloop list="#fieldlist#" index="field" delimiters=",">
@@ -69,7 +74,7 @@ limitations under the License.
 <cfset pageTitle = "Bulkload Georeferences">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
-<cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
+<cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset variables.action="entryPoint"></cfif>
 <main class="container-fluid py-3 px-5" id="content">
 	<h1 class="h2 mt-2">Bulkload Geography</h1>
 	
@@ -84,7 +89,7 @@ limitations under the License.
             margin-top: 10px;
         }*/
     </style>
-	<cfif #action# is "nothing">
+	<cfif variables.action is "entryPoint">
 		<cfoutput>
 			<p>Load a new georeference to a locality record. HigherGeography, SpecLocality, and locality_id must all match MCZbase data or this form will not work. There are still plenty of ways to hook a georeference to the wrong socket&mdash;make sure you know what you are doing before you try to use this form.  If in doubt, give your filled-out template to Collections Operations to load. Include column headings, spelled exactly as below. Click view template and download to create a csv with the column headers in place.</p>
 			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
@@ -208,7 +213,11 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
-	<cfif #action# is "getFile">
+	<cfif variables.action is "getFile">
+		<!--- get form variables from post --->
+		<cfif isDefined("form.fileToUpload")><cfset variables.fileToUpload = form.fileToUpload></cfif>
+		<cfif isDefined("form.format")><cfset variables.format = form.format></cfif>
+		<cfif isDefined("form.characterSet")><cfset variables.characterSet = form.characterSet></cfif>
 		<cfoutput>
 			<h2 class="h4">First step: Reading data from CSV file.</h2>
 			<!--- Set some constants to identify error cases in cfcatch block --->
@@ -474,7 +483,7 @@ limitations under the License.
 			</cfoutput>
 		</cfif>
 	<!------------------------------------------------------->
-	<cfif #action# is "validate">
+	<cfif variables.action is "validate">
 
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
@@ -871,7 +880,7 @@ limitations under the License.
 	</cfif>
 	<!-------------------------------------------------------------------------------------------->
 
-	<cfif #action# is "load">
+	<cfif variables.action is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset problem_key = "">
