@@ -481,13 +481,7 @@ limitations under the License.
 					ORIG_LAT_LONG_UNITS is not null AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<!---Check lat_long_ref_source--->
-			<cfquery name="warningRefSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'LAT_LONG_REF_SOURCE is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_REF_SOURCE">controlled vocabulary</a>')
-				WHERE LAT_LONG_REF_SOURCE not in (select LAT_LONG_REF_SOURCE from CTLAT_LONG_REF_SOURCE WHERE LAT_LONG_REF_SOURCE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LAT_LONG_REF_SOURCE#">) AND
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+			
 			<!---Check Georefmethod code table--->
 			<cfquery name="warningGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
@@ -496,6 +490,13 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Check Datum in code table--->
+			<cfquery name="warningDatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_georef
+				SET status = concat(nvl2(status, status || '; ', ''),'Extent units do not match - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTEXTENT_UNITS">controlled vocabulary</a>')
+				WHERE DATUM not in (select DATUM from CTDATUM where DATUM = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.DATUM#">) AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+				<!---Check Datum in code table--->
 			<cfquery name="warningDatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
 				SET status = concat(nvl2(status, status || '; ', ''),'Datum does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTDATUM">controlled vocabulary</a>')
@@ -560,6 +561,14 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfloop query="getTempData">
+				<!---Check lat_long_ref_source--->
+				<cfquery name="warningRefSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_georef
+					SET status = concat(nvl2(status, status || '; ', ''),'LAT_LONG_REF_SOURCE is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_REF_SOURCE">controlled vocabulary</a>')
+					WHERE LAT_LONG_REF_SOURCE not in (select LAT_LONG_REF_SOURCE from CTLAT_LONG_REF_SOURCE WHERE LAT_LONG_REF_SOURCE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.LAT_LONG_REF_SOURCE#">) 
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+				</cfquery>
 				<cfif len(determined_by_agent) gt 0>
 					<cfset agentProblem1 = "">
 					<!--- Determination Agent --->
