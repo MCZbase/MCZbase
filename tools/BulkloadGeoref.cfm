@@ -606,6 +606,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfloop query="getTempData">
+			<cfif len(determined_by_agent) gt 0>
 				<cfset agentProblem1 = "">
 			<!--- Determination Agent --->
 				<cfset relatedAgentID = "">
@@ -644,10 +645,9 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
 				</cfif>
-				<cfset verificationstatus = "">
-				<cfset verified_by = "">
+			</cfif>
+			<cfif len(verified_by) gt 0>
 				<cfset agentProblem2 = "">
-				<cfif len(verified_by) gt 0>
 					<cfset relatedVerAgentID = "">
 					<cfquery name="findAgentVer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT agent_id 
@@ -685,6 +685,7 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
 				</cfif>
+			</cfif>
 				<!--- Verification Agent --->
 				<cfif verificationstatus eq "rejected by MCZ collection" OR verificationstatus eq "verified by MCZ collection" OR verificationstatus eq "verified by collector">
 					<cfif len(relatedVerAgentID) gt 0>
