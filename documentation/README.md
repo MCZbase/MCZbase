@@ -247,6 +247,22 @@ When a form submission occurrs to a cfmethod in a cfcomponent, use argment scope
 
 Much existing code relies on the deprecated ability of ColdFusion to not care about the distinction between GET and POST, when encountered, this MUST be corrected (to allow for a future upgrade to ColdFusion where 
 
+In most cases of .cfm pages that call themselves, this will involve adding a line for each variable that would be provided in an http url parameter (get, url scope), and setting a variables scope variable of the same name: 
+
+    <cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
+    <cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset veriables.action="entryPoint"></cfif>
+
+    <cfif isDefined("variables.action") and variables.action EQ "someaction">
+        ...
+
+In some cases, such as the bulkloaders, the same .cfm page may be called with either a get or a post, here a variables scope variable needs to be extracted from both the url scope and the form scope, possibly with some logic to give one priority.
+
+    <cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
+    <cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
+
+    <cfif isDefined("variables.action") AND variables.action is "dumpProblems">
+       ...
+
 It is a good practice to be explicit about variables scope.
 
      <cfset variables.endDate=form.endDate>

@@ -24,7 +24,7 @@ limitations under the License.
 <cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
 
 <!--- special case handling to dump problem data as csv --->
-<cfif isDefined("action") AND action is "dumpProblems">
+<cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT agent_type,preferred_name,
 			first_name,middle_name,last_name, prefix,suffix,
@@ -68,7 +68,7 @@ limitations under the License.
 </cfif>
 
 <!--- special case handling to dump column headers as csv --->
-<cfif isDefined("action") AND action is "getCSVHeader">
+<cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
 	<cfset csv = "">
 	<cfset separator = "">
 	<cfloop list="#fieldlist#" index="field" delimiters=",">
@@ -84,12 +84,12 @@ limitations under the License.
 <cfset pageTitle = "Bulkload Agents">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
-<cfif not isDefined("action") OR len(action) EQ 0><cfset action="entryPoint"></cfif>
+<cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset veriables.action="entryPoint"></cfif>
 <main class="container-fluid py-3 px-xl-5" id="content">
 	<h1 class="h2 mt-2">Bulkload Agents</h1>
 	<!------------------------------------------------------->
 	
-	<cfif #action# is "entryPoint">
+	<cfif variables.action is "entryPoint">
 		<cfoutput>
 			<p>This tool is used to bulkload agents.</p>
 			<p>Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored</p>
@@ -164,7 +164,7 @@ limitations under the License.
 
 	<!------------------------------------------------------->
 
-	<cfif #action# is "getFile">
+	<cfif variables.action is "getFile">
 
 		<!--- get form variables --->
 		<cfif isDefined("form.fileToUpload")><cfset variables.fileToUpload = form.fileToUpload></cfif>
@@ -369,7 +369,7 @@ limitations under the License.
 			
 	<!------------------------------------------------------->
 
-	<cfif #action# is "validate">
+	<cfif variables.action is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
 			<!--- Checks on data without needing to iterate through rows --->
@@ -655,7 +655,7 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 	<!-------------------------------------------------------------------------------------------->
-	<cfif action is "load">
+	<cfif variables.action is "load">
 		<h2 class="h4 mb-3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset problem_key = "">
