@@ -86,7 +86,7 @@ limitations under the License.
 			</div>
 			<div class="accordion" id="accordionIdentifiers">
 				<div class="card mb-2 bg-light">
-					<cfset blockidentifiers = getIdentifiersHTML(collection_object_id = "#collection_object_id#")>
+					<!---<cfset blockidentifiers = getIdentifiersHTML(collection_object_id = "#collection_object_id#")>--->
 					<div class="card-header" id="headingIdentifiers">
 						<h3 class="h5 my-0">
 							<button type="button" role="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane">
@@ -132,11 +132,11 @@ limitations under the License.
 	
 	
 	
-			<div class="accordion accordion-flush mt-3" id="accordionFlushExample">
+	<!---		<div class="accordion accordion-flush mt-3" id="accordionFlushExample">
 				<div class="accordion-item">
 					<h2 class="accordion-header h3" id="flush-headingSix">
 						<button class="accordion-button collapsed btn-link text-decoration-dotted text-left w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
-							Columns for Spreadsheet with Data Entry Instructions <i class="fa fa-plus mx-2"></i> <!-- Plus when collapsed -->
+							Columns for Spreadsheet with Data Entry Instructions <i class="fa fa-plus mx-2"></i> 
 						</button>
 					</h2>
 					<div id="flush-collapseSix" style="margin-top: -2rem; z-index: -1;" class="accordion-collapse collapse bg-verylightteal border rounded" aria-labelledby="flush-headingSix" data-parent="##accordionFlushExample">
@@ -171,7 +171,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-			</div>
+			</div>--->
 			<div>
 				<h2 class="h4 mt-4">Upload a comma-delimited text file (csv)</h2>
 				<form name="getFiles" method="post" enctype="multipart/form-data" action="/tools/BulkloadGeoref.cfm">
