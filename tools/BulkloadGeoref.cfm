@@ -91,6 +91,9 @@ limitations under the License.
 	<cfif #action# is "nothing">
 		<cfoutput>
 			<p>Load a new georeference to a locality record. HigherGeography, SpecLocality, and locality_id must all match MCZbase data or this form will not work. There are still plenty of ways to hook a georeference to the wrong socket&mdash;make sure you know what you are doing before you try to use this form.  If in doubt, give your filled-out template to Collections Operations to load. Include column headings, spelled exactly as below. Click view template and download to create a csv with the column headers in place.</p>
+			
+			<button id="copyButton">Copy Text</button>
+			
 			<div id="template" class="my-1 mx-0">
 				<label for="templatearea" class="data-entry-label mb-1">
 					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadGeoref.cfm?action=getCSVHeader">download</a>)
@@ -139,12 +142,12 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-			<button id="copyButton">Copy Text</button>
+			
 
 			<script>
 				document.getElementById('copyButton').addEventListener('click', function() {
 					// Get the textarea element
-					var textArea = document.getElementById('textArea');
+					var textArea = document.getElementById('templatearea');
 
 					// Select the text content
 					textArea.select();
@@ -789,17 +792,6 @@ limitations under the License.
 				</cfquery>
 
 			</cfloop>
-			<!---This is not working for all required fields because of the constraints in the cf_temp_georef table--->
-<!---			<cfloop list="#requiredfieldlist#" index="requiredField">
-				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_georef
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),'#requiredField# is missing')
-					WHERE #requiredField# is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			</cfloop>--->
-
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_georef
