@@ -77,18 +77,6 @@ limitations under the License.
 <cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset variables.action="entryPoint"></cfif>
 <main class="container-fluid py-3 px-5" id="content">
 	<h1 class="h2 mt-2">Bulkload Geography</h1>
-	
-	    <style>
-/*        #copyButton {
-            cursor: pointer;
-            padding: 5px 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            margin-top: 10px;
-        }*/
-    </style>
 	<cfif variables.action is "entryPoint">
 		<cfoutput>
 			<p>Load a new georeference to a locality record. HigherGeography, SpecLocality, and locality_id must all match MCZbase data or this form will not work. There are still plenty of ways to hook a georeference to the wrong socket&mdash;make sure you know what you are doing before you try to use this form.  If in doubt, give your filled-out template to Collections Operations to load. Include column headings, spelled exactly as below. Click view template and download to create a csv with the column headers in place.</p>
@@ -141,8 +129,6 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-			
-
 			<script>
 				document.getElementById('copyButton').addEventListener('click', function() {
 					// Get the textarea element
@@ -208,7 +194,6 @@ limitations under the License.
 						</div>
 					</div>
 				</form>
-				
 			</div>
 		</cfoutput>
 	</cfif>
@@ -227,12 +212,11 @@ limitations under the License.
 			<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
 			<cfset TABLE_NAME = "CF_TEMP_GEOREF">
 				<cftry>
-					<!--- cleanup any incomplete work by the same user --->
+				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					DELETE FROM CF_TEMP_GEOREF
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-
 				<!---Parse the CSV file using Apache Commons CSV library. Include with ColdFusion so columns with comma delimiters will be separated properly.--->
 					<cfset fileProxy = CreateObject("java","java.io.File") >
 					<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat">
@@ -313,11 +297,6 @@ limitations under the License.
 						</cfdefaultcase>
 					</cfswitch>
 					<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#csvFormat#)>
-					<!--- cleanup any incomplete work by the same user --->
-<!---					<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
-						DELETE FROM cf_temp_georef
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>--->
 					<!--- obtain an iterator to loops through the rows/records in the csv --->
 					<cfset iterator = records.iterator()>
 					<!---Obtain the first line of the file as the header line, we can not use the withHeader() method to do this in coldfusion --->
@@ -352,7 +331,6 @@ limitations under the License.
 
 					<!--- Identify duplicate columns and fail if found --->
 					<cfset dupFieldsResponse = checkDuplicateFields(foundHeaders=variables.foundHeaders,DUP_COLUMN_ERR=DUP_COLUMN_ERR)>
-						
 						
 					<cfset colNames="#foundHeaders#">
 					<cfset loadedRows = 0>
@@ -487,100 +465,74 @@ limitations under the License.
 
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
-			<!--- Checks that do not require looping through the data, check for missing required data, missing values from key value pairs, bad formats (e.g., data) and values that do not match database code tables--->
+			<!--- Checks that do not require looping through the data, check for missing required data, missing values from key value pairs, bad formats and values that do not match database code tables--->
 			<!---Get Data from the temp table and the codetables with relevant information--->
 			<cfset key = ''>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,VERIFICATIONSTATUS,COORDINATE_PRECISION,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,EXTENT,EXTENT_UNITS,GPSACCURACY,VERIFIED_BY,VERIFIED_BY_AGENT_ID,DETERMINED_BY_AGENT_ID,SPATIALFIT,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG, KEY
+				select HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,VERIFICATIONSTATUS,COORDINATE_PRECISION,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,EXTENT,EXTENT_UNITS,GPSACCURACY,VERIFIED_BY,VERIFIED_BY_AGENT_ID,DETERMINED_BY_AGENT_ID,SPATIALFIT,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG,KEY
 				From CF_TEMP_GEOREF
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Check ORIG_LAT_LONG_UNITS in code table--->
 			<cfquery name="warningOrigLatLongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE
-					cf_temp_georef
-				SET
-					status = concat(nvl2(status, status || '; ', ''),'Original Lat Long Units are invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_UNITS">controlled vocabulary</a>')
-				WHERE 
-					orig_lat_long_units not in (select ORIG_LAT_LONG_UNITS from CTLAT_LONG_UNITS) AND
+				UPDATE cf_temp_georef
+				SET status = concat(nvl2(status, status || '; ', ''),'Original Lat Long Units are invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_UNITS">controlled vocabulary</a>')
+				WHERE orig_lat_long_units not in (select ORIG_LAT_LONG_UNITS from CTLAT_LONG_UNITS) AND
 					ORIG_LAT_LONG_UNITS is not null AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Check lat_long_ref_source--->
 			<cfquery name="warningRefSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE
-					cf_temp_georef
-				SET
-					status = concat(nvl2(status, status || '; ', ''),'LAT_LONG_REF_SOURCE is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_REF_SOURCE">controlled vocabulary</a>')
-				WHERE 
-					LAT_LONG_REF_SOURCE not in (select LAT_LONG_REF_SOURCE from MCZBASE.CTLAT_LONG_REF_SOURCE) AND
+				UPDATE cf_temp_georef
+				SET status = concat(nvl2(status, status || '; ', ''),'LAT_LONG_REF_SOURCE is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_REF_SOURCE">controlled vocabulary</a>')
+				WHERE LAT_LONG_REF_SOURCE not in (select LAT_LONG_REF_SOURCE from MCZBASE.CTLAT_LONG_REF_SOURCE) AND
 					LAT_LONG_REF_SOURCE IS NOT NULL AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Check Georefmethod code table--->
 			<cfquery name="warningGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE
-					cf_temp_georef
-				SET
-					status = concat(nvl2(status, status || '; ', ''),'GEOREFMETHOD does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGEOREFMETHOD">controlled vocabulary</a>')
-				WHERE 
-					GEOREFMETHOD not in (select GEOREFMETHOD from CTGEOREFMETHOD) AND
-					GEOREFMETHOD is not null and
+				UPDATE cf_temp_georef
+				SET status = concat(nvl2(status, status || '; ', ''),'GEOREFMETHOD does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGEOREFMETHOD">controlled vocabulary</a>')
+				WHERE GEOREFMETHOD not in (select GEOREFMETHOD from CTGEOREFMETHOD) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Check Datum in code table--->
 			<cfquery name="warningDatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE
-					cf_temp_georef
-				SET
-					status = concat(nvl2(status, status || '; ', ''),'Datum does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTDATUM">controlled vocabulary</a>')
-				WHERE 
-					DATUM not in (select DATUM from CTDATUM) AND
+				UPDATE cf_temp_georef
+				SET status = concat(nvl2(status, status || '; ', ''),'Datum does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTDATUM">controlled vocabulary</a>')
+				WHERE DATUM not in (select DATUM from CTDATUM) AND
 					DATUM is not null and
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Check max_error_units in code table--->
 			<cfquery name="warningErrorUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE
-					cf_temp_georef
-				SET
-					status = concat(nvl2(status, status || '; ', ''),'MAX_ERROR_UNITS are invalid - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_ERROR_UNITS">controlled vocabulary</a>')
-				WHERE 
-					MAX_ERROR_UNITS is not null AND
+				UPDATE cf_temp_georef
+				SET status = concat(nvl2(status, status || '; ', ''),'MAX_ERROR_UNITS are invalid - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTLAT_LONG_ERROR_UNITS">controlled vocabulary</a>')
+				WHERE MAX_ERROR_UNITS is not null AND
 					MAX_ERROR_UNITS not in (select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Check VERIFICATIONSTATUS--->
 			<cfquery name="warningVerification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE
-					cf_temp_georef
-				SET
-					status = concat(nvl2(status, status || '; ', ''),'verificationstatus is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTVERIFICATIONSTATUS">controlled vocabulary</a>')
-				WHERE 
-					VERIFICATIONSTATUS not in (select VERIFICATIONSTATUS from MCZBASE.CTVERIFICATIONSTATUS) 
-				AND
+				UPDATE cf_temp_georef
+				SET status = concat(nvl2(status, status || '; ', ''),'verificationstatus is invalid - see <a href="/vocabularies/ControlledVocabulary.cfm?table=CTVERIFICATIONSTATUS">controlled vocabulary</a>')
+				WHERE VERIFICATIONSTATUS not in (select VERIFICATIONSTATUS from MCZBASE.CTVERIFICATIONSTATUS) AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Check Higher Geography to see if it exists--->
 			<cfquery name="warningHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE
-					cf_temp_georef
-				SET
-					status = concat(nvl2(status, status || '; ', ''),'Higher Geography does not exist')
-				WHERE 
-					HIGHERGEOGRAPHY not in (select HIGHER_GEOG from GEOG_AUTH_REC) AND
+				UPDATE cf_temp_georef
+				SET status = concat(nvl2(status, status || '; ', ''),'Higher Geography does not exist')
+				WHERE HIGHERGEOGRAPHY not in (select HIGHER_GEOG from GEOG_AUTH_REC) AND
 					HIGHERGEOGRAPHY is not null AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!-- Check that either spec_locality or locality_id is entered-->
 			<cfif len(getTempData.locality_id) gt 0 OR len(getTempData.SPECLOCALITY) eq 0>
 				<cfquery name="warningMissingLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_georef
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'LOCALITY_ID or SPECLOCALITY needs to be entered')
-					WHERE 
-						locality_id is null AND 
+					UPDATE cf_temp_georef
+					SET status = concat(nvl2(status, status || '; ', ''),'LOCALITY_ID or SPECLOCALITY needs to be entered')
+					WHERE locality_id is null AND 
 						SPECLOCALITY is null AND
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -588,16 +540,10 @@ limitations under the License.
 			<!--If only locality_id is entered, see if it matches one in MCZbase and enter the related spec_locality-->
 			<cfif len(getTempData.locality_id) gt 0>
 				<cfquery name="warningLOCALITYID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_georef
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'LOCALITY_ID does not exist in MCZbase')
-					WHERE 
-						LOCALITY_ID not in (
-								select LOCALITY_ID from locality 
-								)
-					AND 
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					UPDATE cf_temp_georef
+					SET status = concat(nvl2(status, status || '; ', ''),'LOCALITY_ID does not exist in MCZbase')
+					WHERE LOCALITY_ID not in (select LOCALITY_ID from locality)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
 			<!--If only spec_locality is entered, see if it matches one in MCZbase and enter the related locality_id-->
@@ -618,7 +564,7 @@ limitations under the License.
 			<cfloop query="getTempData">
 				<cfif len(determined_by_agent) gt 0>
 					<cfset agentProblem1 = "">
-				<!--- Determination Agent --->
+					<!--- Determination Agent --->
 					<cfset relatedAgentID = "">
 					<cfquery name="findAgentDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT agent_id 
@@ -768,12 +714,9 @@ limitations under the License.
 				</cfif>
 				<!---Check to see if the CSV georef is a dup of one already in the locality record--->
 				<cfquery name="warningLocalityID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_georef
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'This georeference exists on the locality record. Remove row.')
-					WHERE 
-						dec_lat in (select dec_lat from lat_long where dec_lat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.dec_lat#">)
+					UPDATE cf_temp_georef
+					SET status = concat(nvl2(status, status || '; ', ''),'This georeference exists on the locality record. Remove row.')
+					WHERE dec_lat in (select dec_lat from lat_long where dec_lat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.dec_lat#">)
 						and dec_long in (select dec_long from lat_long where dec_long = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.dec_long#">) 
 						and georefmethod in (select georefmethod from lat_long where georefmethod = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.georefmethod#">)
 						and max_error_distance in (select max_error_distance from lat_long where max_error_distance = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.max_error_distance#">)
@@ -784,7 +727,6 @@ limitations under the License.
 						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 				</cfquery>
-
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
@@ -802,7 +744,6 @@ limitations under the License.
 					There is a problem with #countNonEmptyStatus.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadGeoref.cfm?action=dumpProblems" class="btn-link font-weight-lessbold">download</a>). Fix the problems in the data and <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
 				</h3>
 			<cfelse>
-	
 				<h3 class="mt-3">
 					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadGeoref.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good or <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
 				</h3>
