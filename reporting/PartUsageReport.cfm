@@ -1,5 +1,5 @@
-<!--
- partusage.cfm
+<!---
+ PartUsageReport.cfm
 
  Copyright 2008-2017 Contributors to Arctos
  Copyright 2008-2021 President and Fellows of Harvard College
@@ -16,7 +16,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 
--->
+--->
 <cfset pageTitle = "Part Usage by Type">
 <cfinclude template="/shared/_header.cfm">
 
@@ -63,10 +63,10 @@
 					<cfloop query="dp">
 						<!--- determine if this part name is consistently, or inconsistently used or not used as a tissue --->
 						<cfquery name="it" dbtype="query">
-							select is_tissue 
-							from p 
-							where part_name = <cfqueryparam cfsqltype="CF_SQK_VARCHAR" value="#dp.part_name#">
-							group by is_tissue
+							SELECT is_tissue 
+							FROM p 
+							WHERE part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dp.part_name#">
+							GROUP BY is_tissue
 						</cfquery>
 						<cfif it.recordcount gt 1>
 							<cfset tiss='sometimes'>
@@ -79,13 +79,14 @@
 						</cfif>
 						<!--- obtain summary by collection counts --->
 						<cfquery name="cp" dbtype="query">
-							select collection,collection_id,cnt 
-							from p 
-							where part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dp.part_name#">
-							group by collection,collection_id,cnt
+							SELECT collection,collection_id,cnt 
+							FROM p 
+							WHERE part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dp.part_name#">
+							GROUP BY collection,collection_id,cnt
 						</cfquery>
 						<cfquery name="tc" dbtype="query">
-							select sum(cnt) sc from cp
+							SELECT sum(cnt) sc 
+							FROM cp
 						</cfquery>
 						<tr>
 							<td>#part_name#</td>
