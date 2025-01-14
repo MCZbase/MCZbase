@@ -36,20 +36,6 @@ limitations under the License.
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-    <style>
-        .accordion-button::after {
-            content: none;
-        }
-        .accordion-header .fa {
-            transition: transform 0.3s ease-in-out;
-        }
-        .accordion-button.collapsed .fa-plus {
-            transform: rotate(0deg);
-        }
-        .accordion-button .fa-plus {
-            transform: rotate(45deg);
-        }
-    </style>
 
 <cfset fieldlist = "HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,VERIFICATIONSTATUS,COORDINATE_PRECISION,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,EXTENT,EXTENT_UNITS,GPSACCURACY,VERIFIED_BY,SPATIALFIT,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG,DETERMINED_BY_AGENT_ID,VERIFIED_BY_AGENT_ID">
 	
@@ -80,6 +66,23 @@ limitations under the License.
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
 <cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset variables.action="entryPoint"></cfif>
 <main class="container-fluid py-3 px-5" id="content">
+	<!--- Style elements for proof of concept accordion that will need to move to a css file --->
+	<!--- NOTE: This should be replaced with a jquery-ui accordion --->
+	<style>
+			.accordion-button::after {
+			content: none;
+		}
+			.accordion-header .fa {
+			transition: transform 0.3s ease-in-out;
+		}
+			.accordion-button.collapsed .fa-plus {
+			transform: rotate(0deg);
+		}
+			.accordion-button .fa-plus {
+			transform: rotate(45deg);
+		}
+	</style>
+	<!--- End proof of concept style block --->
 	<h1 class="h2 mt-2">Bulkload Geography</h1>
 	<cfif variables.action is "entryPoint">
 		<cfoutput>
