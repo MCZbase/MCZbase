@@ -480,6 +480,8 @@ limitations under the License.
 				From CF_TEMP_GEOREF
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+
+			<!--- Validating data in bulk --->
 			<!---Check ORIG_LAT_LONG_UNITS in code table--->
 			<cfquery name="warningOrigLatLongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
@@ -512,7 +514,7 @@ limitations under the License.
 				AND	username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 
-			<!-- Check that either spec_locality or locality_id is entered-->
+			<!--- Check that either spec_locality or locality_id is entered --->
 			<cfif len(getTempData.locality_id) gt 0 OR len(getTempData.SPECLOCALITY) eq 0>
 				<cfquery name="warningMissingLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_georef
@@ -522,7 +524,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
-			<!--If only locality_id is entered, see if it matches one in MCZbase and enter the related spec_locality-->
+			<!--- If only locality_id is entered, see if it matches one in MCZbase and enter the related spec_locality --->
 			<cfif len(getTempData.locality_id) gt 0>
 				<cfquery name="warningLOCALITYID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_georef
@@ -531,7 +533,7 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
-			<!--If only spec_locality is entered, see if it matches one in MCZbase and enter the related locality_id-->
+			<!--- If only spec_locality is entered, see if it matches one in MCZbase and enter the related locality_id --->
 			<cfif len(getTempData.speclocality) gt 0>
 				<cfquery name="warningSpec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE
@@ -546,6 +548,8 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
+
+			<!--- Validation queries that test against individual rows looping through data in temp table --->
 			<cfloop query="getTempData">
 				<!---Check lat_long_ref_source--->
 				<cfquery name="warningRefSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -563,7 +567,7 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 				</cfquery>
-				<!---Check Higher Geography to see if it exists--->
+				<!--- Check Higher Geography to see if it exists--->
 				<cfquery name="warningHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_georef
 					SET status = concat(nvl2(status, status || '; ', ''),'Higher Geography does not exist')
@@ -572,7 +576,7 @@ limitations under the License.
 					AND	username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 				</cfquery>
-				<!---Check Extent in code table--->
+				<!--- Check Extent in code table--->
 				<cfquery name="warningExtent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_georef
 					SET status = concat(nvl2(status, status || '; ', ''),'EXTENT_UNITS does not exist')
