@@ -86,7 +86,7 @@ limitations under the License.
 	<h1 class="h2 mt-2">Bulkload Geography</h1>
 	<cfif variables.action is "entryPoint">
 		<cfoutput>
-			<p>Load a new georeference to a locality record. HigherGeography, SpecLocality, and locality_id must all match MCZbase data or this form will not work. There are still plenty of ways to hook a georeference to the wrong socket&mdash;make sure you know what you are doing before you try to use this form.  If in doubt, give your filled-out template to Collections Operations to load. Include column headings, spelled exactly as below. Click view template and download to create a csv with the column headers in place.</p>
+			<p>Load a new georeference to a locality record. HigherGeography, SpecLocality, and locality_id must all match MCZbase data or this form will not work. There are still plenty of ways to hook a georeference to the wrong locality&mdash;make sure you know what you are doing before you try to use this bulkloader.  If in doubt, give your filled-out template to Collections Operations to load.  Include column headings, spelled exactly as below.  Click view template and download to create a csv with the column headers in place.</p>
 			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
 			<div id="template" class="my-1 mx-0">
 				<label for="templatearea" class="data-entry-label" style="line-height: inherit;">
