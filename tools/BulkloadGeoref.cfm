@@ -687,6 +687,9 @@ limitations under the License.
 				</cfif>
 				<!---Make coordinates accepted if there is a valid locality_id--->
 				<cfif len(getTempData.locality_id) gt 0>
+					<!--- TODO: Check this query, it does not do what the comment above says it does. --->
+					<!--- TODO: Instead, it sets the coordinates to unaccepted if the value in cf_temp_georef.locality_id is the value in cf_temp_georef.locality_id... --->
+					<!--- TODO: Static value of 1 is saved, regardless of value in field --->
 					<cfquery name="updateLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
 						SET accepted_lat_long_fg = 0
@@ -696,6 +699,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfif len(getTempData.locality_id) eq 0 and len(getTempData.speclocality) gt 0>
+					<!--- TODO: Only spec_locality is used to lookup locality id, not combination of higher_geog and locality_id --->
 					<cfquery name="updateLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
 						SET locality_id = (select locality_id from locality where spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.speclocality#">)
@@ -840,6 +844,7 @@ limitations under the License.
 							<td>#data.NEAREST_NAMED_PLACE#</td>
 							<td>#data.USERNAME#</td>
 							<td>#data.VERIFIED_BY#</td>
+<!--- TODO: This displays a constant for accepted_lat_long_fg, but the value is not set to this constant (but actually only set to zero), while the static value 1 is hard coded in the insert query. --->
 							<td>1</td>
 							<td>#data.EXTENT_UNITS#</td>
 							<td>#data.LAT_LONG_FOR_NNP_FG#</td>
@@ -1070,7 +1075,6 @@ limitations under the License.
 										<td>#getProblemData.VERIFIED_BY#</td>
 										<td>#getProblemData.VERIFIED_BY_AGENT_ID#</td>
 										<td>1</td>
-								
 										<td>#getProblemData.LAT_LONG_FOR_NNP_FG#</td>
 									</tr>
 									<cfset i= i+1>
