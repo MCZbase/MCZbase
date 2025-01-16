@@ -557,13 +557,7 @@ limitations under the License.
 				WHERE LAT_LONG_REF_SOURCE not in (select LAT_LONG_REF_SOURCE from CTLAT_LONG_REF_SOURCE)
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<!---Check Georefmethod code table--->
-			<cfquery name="warningGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'GEOREFMETHOD does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGEOREFMETHOD">controlled vocabulary</a>')
-				WHERE GEOREFMETHOD not in (select GEOREFMETHOD from CTGEOREFMETHOD)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+
 			<!--- Check Extent in code table--->
 			<cfquery name="warningExtent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
@@ -782,6 +776,16 @@ limitations under the License.
 						SET status = concat(nvl2(status, status || '; ', ''),'SPATIALFIT is not valid')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+					</cfquery>
+				</cfif>
+				<cfif notNull(getTempData.GEOREFMETHOD)>
+					<!---Check Georefmethod code table--->
+					<cfquery name="warningGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_georef
+						SET status = concat(nvl2(status, status || '; ', ''),'GEOREFMETHOD does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGEOREFMETHOD">controlled vocabulary</a>')
+						WHERE GEOREFMETHOD not in (select GEOREFMETHOD from CTGEOREFMETHOD)
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
 				</cfif>
 			</cfloop>
