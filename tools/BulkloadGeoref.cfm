@@ -683,25 +683,7 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
 				</cfif>
-				<cfif len(determined_by_agent_id) gt 0>
-					<cfif len(determined_by_agent) gt 0>
-						<cfquery name="chkDA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							update cf_temp_georef
-							set status = concat(nvl2(status, status || '; ', ''), 'DETERMINED_BY_AGENT does not match determined_by_agent_id')
-							where determined_by_agent = (select agent_name from agent_name where agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.determined_by_agent_ID#">)
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-						</cfquery>
-					<cfelse>
-						<cfquery name="chkDA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							update cf_temp_georef
-							set determined_by_agent = (select agent_name from agent_name where agent_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.determined_by_agent_ID#">)
-							where determined_by_agent is null
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-						</cfquery>
-					</cfif>
-				</cfif>
+			
 				<!--- Verification Agent --->
 				<cfif verificationstatus eq "rejected by MCZ collection" OR verificationstatus eq "verified by MCZ collection" OR verificationstatus eq "verified by collector">
 					<cfif len(relatedVerAgentID) gt 0>
