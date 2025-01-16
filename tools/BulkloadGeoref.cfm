@@ -875,7 +875,7 @@ limitations under the License.
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
-					<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT *
 						FROM cf_temp_georef
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -883,7 +883,7 @@ limitations under the License.
 					<cfquery name="updateAccpt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update lat_long
 						set accepted_lat_long_fg = 0
-						WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
+						WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getData.locality_id#">
 					</cfquery>
 					<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT count(distinct locality_id) loc 
@@ -891,12 +891,12 @@ limitations under the License.
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<cfset georef_updates = 0>
-					<cfif getTempData.recordcount EQ 0>
+					<cfif getData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
 					</cfif>
-					<cfloop query="getTempData">
+					<cfloop query="getData">
 						<cfset username="#session.username#">
-						<cfset problem_key = getTempData.key>
+						<cfset problem_key = getData.key>
 						<cfset lat_long_id = ''>
 						<cfquery name="makeGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT into lat_long (
@@ -952,10 +952,10 @@ limitations under the License.
 						<cfset georef_updates = georef_updates + insResult.recordcount>
 					</cfloop>
 					<p class="mt-2">Number of Georeferences added: <b>#georef_updates#</b> </p>
-					<cfif #getTempData.recordcount# eq #georef_updates#>
+					<cfif #getData.recordcount# eq #georef_updates#>
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
-					<cfif #insResult.recordcount# gt #getTempData.recordcount#>
+					<cfif #insResult.recordcount# gt #getData.recordcount#>
 						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
 					</cfif>
 					<cftransaction action="commit">
