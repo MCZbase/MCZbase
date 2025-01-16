@@ -578,9 +578,9 @@ limitations under the License.
 					AND HIGHERGEOGRAPHY is not null 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="warningHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="warningSpatialFit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'Higher Geography does not exist')
+				SET status = concat(nvl2(status, status || '; ', ''),'SPATIALFIT is not valid')
 				WHERE (SPATIALFIT = 0 OR SPATIALFIT = 1 OR SPATIALFIT is null) 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
