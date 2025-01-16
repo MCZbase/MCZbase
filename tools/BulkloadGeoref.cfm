@@ -580,20 +580,34 @@ limitations under the License.
 			<!--- Validation queries that test against individual rows looping through data in temp table --->
 			<cfloop query="getTempData">
 				<!--- Check if Higher Geography matches locality  --->
-				<cfquery name="warningHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_georef
-					SET status = concat(nvl2(status, status || '; ', ''),'Higher Geography is not correct for the given locality_id')
-					WHERE HIGHERGEOGRAPHY not in (
-							select HIGHER_GEOG 
-							from GEOG_AUTH_REC 
-								join locality on geog_auth_rec.GEOG_AUTH_REC_ID = locality.geog_auth_rec_id 
-							where locality_id <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
-						)
-					 	AND HIGHERGEOGRAPHY is not null 
-					 	AND locality_id is not null 
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-				</cfquery>
+				<cfif len(locality_id) gt 0>
+					<cfquery name="warningHGSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_georef
+						SET status = concat(nvl2(status, status || '; ', ''),'Higher Geography is not correct for the given locality_id')
+						WHERE HIGHERGEOGRAPHY not in (
+								select HIGHER_GEOG 
+								from GEOG_AUTH_REC 
+									join locality on geog_auth_rec.GEOG_AUTH_REC_ID = locality.geog_auth_rec_id 
+								where locality_id <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
+							)
+							AND HIGHERGEOGRAPHY is not null 
+							AND locality_id is not null 
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+					</cfquery>
+					<cfquery name="warningHGSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_georef
+						SET status = concat(nvl2(status, status || '; ', ''),'SPECLOCALITY is not correct for the given locality_id')
+						WHERE SPECLOCALITY not in (
+								select spec_locality
+								from locality 
+								where locality_id <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
+							)
+							AND locality_id is not null 
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+					</cfquery>
+				</cfif>
 				<cfif len(determined_by_agent) gt 0>
 					<cfset agentProblem1 = "">
 					<!--- Determination Agent --->
@@ -685,25 +699,32 @@ limitations under the License.
 						</cfquery>
 					</cfif>
 				</cfif>
-				<!---Make coordinates accepted if there is a valid locality_id--->
-				<cfif len(getTempData.locality_id) gt 0>
-					<!--- TODO: Check this query, it does not do what the comment above says it does. --->
-					<!--- TODO: Instead, it sets the coordinates to unaccepted if the value in cf_temp_georef.locality_id is the value in cf_temp_georef.locality_id... --->
-					<!--- TODO: Static value of 1 is saved, regardless of value in field --->
-					<cfquery name="updateLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_georef
-						SET accepted_lat_long_fg = 0
-						WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-					</cfquery>
-				</cfif>
-				<cfif len(getTempData.locality_id) eq 0 and len(getTempData.speclocality) gt 0>
+		
+
+				<cfif len(getTempData.highergeography) gt 0 and len(getTempData.speclocality) gt 0>
 					<!--- TODO: Only spec_locality is used to lookup locality id, not combination of higher_geog and locality_id --->
+				<cfquery name="updateLocality_ID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_georef
+					SET locality_id = (
+							select Locality_id 
+							from LOCALITY
+								join GEOG_AUTH_REC on geog_auth_rec.GEOG_AUTH_REC_ID = locality.geog_auth_rec_id 
+							where spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.speclocality#">
+							and higher_geog = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.highergeography#">
+						)
+					 	AND HIGHERGEOGRAPHY is not null 
+					 	AND speclocality is not null 
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+				</cfquery>
+				</cfif>
+				<cfif len(getTempData.locality_id) gt 0>
+					<!---Make coordinates accepted if there is a valid locality_id--->
 					<cfquery name="updateLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
-						SET locality_id = (select locality_id from locality where spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.speclocality#">)
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						SET accepted_lat_long_fg = 1
+						WHERE locality_id in (select locality_id from locality where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
