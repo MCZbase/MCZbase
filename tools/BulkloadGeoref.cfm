@@ -601,7 +601,7 @@ limitations under the License.
 						WHERE SPECLOCALITY not in (
 								select spec_locality
 								from locality 
-								where locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
+								where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
 							)
 							AND locality_id is not null 
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -703,20 +703,20 @@ limitations under the License.
 
 				<cfif len(getTempData.highergeography) gt 0 and len(getTempData.speclocality) gt 0>
 					<!--- TODO: Only spec_locality is used to lookup locality id, not combination of higher_geog and locality_id --->
-				<cfquery name="updateLocality_ID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_georef
-					SET locality_id = (
-							select Locality_id 
-							from LOCALITY
-								join GEOG_AUTH_REC on geog_auth_rec.GEOG_AUTH_REC_ID = locality.geog_auth_rec_id 
-							where spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.speclocality#">
-							and higher_geog = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.highergeography#">
-						)
-					 	AND HIGHERGEOGRAPHY is not null 
-					 	AND speclocality is not null 
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-				</cfquery>
+					<cfquery name="updateLocality_ID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_georef
+						SET locality_id = (
+								select Locality_id 
+								from LOCALITY
+									join GEOG_AUTH_REC on geog_auth_rec.GEOG_AUTH_REC_ID = locality.geog_auth_rec_id 
+								where spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.speclocality#">
+								and higher_geog = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.highergeography#">
+							)
+							AND HIGHERGEOGRAPHY is not null 
+							AND speclocality is not null 
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+					</cfquery>
 				</cfif>
 				<cfif len(getTempData.locality_id) gt 0>
 					<!---Make coordinates accepted if there is a valid locality_id--->
