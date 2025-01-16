@@ -699,8 +699,6 @@ limitations under the License.
 						</cfquery>
 					</cfif>
 				</cfif>
-		
-
 				<cfif len(locality_id) eq 0 AND len(getTempData.highergeography) gt 0 and len(getTempData.speclocality) gt 0>
 					<!--- TODO: Only spec_locality is used to lookup locality id, not combination of higher_geog and locality_id --->
 					<cfquery name="updateLocality_ID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -865,8 +863,7 @@ limitations under the License.
 							<td>#data.NEAREST_NAMED_PLACE#</td>
 							<td>#data.USERNAME#</td>
 							<td>#data.VERIFIED_BY#</td>
-<!--- TODO: This displays a constant for accepted_lat_long_fg, but the value is not set to this constant (but actually only set to zero), while the static value 1 is hard coded in the insert query. --->
-							<td>1</td>
+							<td>#data.accepted_lat_long_fg#</td>
 							<td>#data.EXTENT_UNITS#</td>
 							<td>#data.LAT_LONG_FOR_NNP_FG#</td>
 							<td>#data.DETERMINED_BY_AGENT_ID#</td>
