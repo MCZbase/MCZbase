@@ -701,7 +701,7 @@ limitations under the License.
 				</cfif>
 		
 
-				<cfif len(getTempData.highergeography) gt 0 and len(getTempData.speclocality) gt 0>
+				<cfif len(locality_id) eq 0 AND len(getTempData.highergeography) gt 0 and len(getTempData.speclocality) gt 0>
 					<!--- TODO: Only spec_locality is used to lookup locality id, not combination of higher_geog and locality_id --->
 					<cfquery name="updateLocality_ID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
@@ -709,11 +709,11 @@ limitations under the License.
 								select Locality_id 
 								from LOCALITY
 									join GEOG_AUTH_REC on geog_auth_rec.GEOG_AUTH_REC_ID = locality.geog_auth_rec_id 
-								where spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.speclocality#">
-								and higher_geog = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.highergeography#">
+								where spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SPECLOCALITY#">
+								and higher_geog = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.HIGHERGEOGRAPHY#">
 							)
 							AND HIGHERGEOGRAPHY is not null 
-							AND speclocality is not null 
+							AND SPECLOCALITY is not null 
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
