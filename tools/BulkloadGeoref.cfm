@@ -578,13 +578,15 @@ limitations under the License.
 					AND HIGHERGEOGRAPHY is not null 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif getTempData.SPATIALFIT EQ 1 OR getTempData.SPATIALFIT EQ 0 OR isNull(getTempData.SPATIALFIT)>
-				<cfset getTempData.SPATIALFIT = getTempData.SPATIALFIT>
+			<cfset SPATIALFIT = getTempData.SPATIALFIT>
+			<cfif SPATIALFIT EQ 1 OR SPATIALFIT EQ 0 OR isNull(SPATIALFIT)>
+			
 			<cfelse>
 				<cfquery name="warningSpatialFit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_georef
 					SET status = concat(nvl2(status, status || '; ', ''),'SPATIALFIT is not valid')
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					WHERE spatialfit <> #SPATIALFIT#
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
 			<!--- Validation queries that test against individual rows looping through data in temp table --->
