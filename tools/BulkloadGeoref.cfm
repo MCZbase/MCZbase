@@ -588,7 +588,7 @@ limitations under the License.
 								select HIGHER_GEOG 
 								from GEOG_AUTH_REC 
 									join locality on geog_auth_rec.GEOG_AUTH_REC_ID = locality.geog_auth_rec_id 
-								where locality_id <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
+								where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
 							)
 							AND HIGHERGEOGRAPHY is not null 
 							AND locality_id is not null 
@@ -601,7 +601,7 @@ limitations under the License.
 						WHERE SPECLOCALITY not in (
 								select spec_locality
 								from locality 
-								where locality_id <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
+								where locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
 							)
 							AND locality_id is not null 
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
