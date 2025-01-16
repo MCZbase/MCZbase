@@ -579,9 +579,7 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset SPATIALFIT = getTempData.SPATIALFIT>
-			<cfif SPATIALFIT EQ 1 OR SPATIALFIT EQ 0 OR isNull(SPATIALFIT)>
-			
-			<cfelse>
+			<cfif SPATIALFIT GT 1>
 				<cfquery name="warningSpatialFit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_georef
 					SET status = concat(nvl2(status, status || '; ', ''),'SPATIALFIT is not valid')
