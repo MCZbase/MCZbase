@@ -24,7 +24,7 @@ limitations under the License.
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT status, highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,extent_units,gpsaccuracy,verificationstatus,verified_by,spatialfit,nearest_named_place,lat_long_for_NNP_FG,coordinate_precision,accepted_lat_long_fg,determined_by_agent_id 
+		SELECT status, highergeography,speclocality,locality_id,dec_lat,dec_long,max_error_distance,max_error_units,lat_long_remarks,determined_by_agent,georefmethod,orig_lat_long_units,datum,determined_date,lat_long_ref_source,extent,extent_units,gpsaccuracy,verificationstatus,verified_by,spatialfit,nearest_named_place,lat_long_for_NNP_FG,coordinate_precision,determined_by_agent_id 
 		FROM cf_temp_georef 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -579,6 +579,7 @@ limitations under the License.
 
 			<!--- Validation queries that test against individual rows looping through data in temp table --->
 			<cfloop query="getTempData">
+				
 				<!--- Check if Higher Geography matches locality  --->
 				<cfif len(locality_id) gt 0>
 					<cfquery name="warningHGSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -716,16 +717,7 @@ limitations under the License.
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
 				</cfif>
-				<cfif len(getTempData.locality_id) gt 0>
-					<!---Make coordinates accepted if there is a valid locality_id--->
-					<cfquery name="updateLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_georef
-						SET accepted_lat_long_fg = 1
-						WHERE locality_id in (select locality_id from locality where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-					</cfquery>
-				</cfif>
+
 				<!---SET DETERMINED_DATE to YYYY-MM-DD--->
 				<cfif DatePart("yyyy",getTempData.DETERMINED_DATE) gte '1700'>
 					<cfquery name="getDeterminedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -840,7 +832,6 @@ limitations under the License.
 					<cfloop query="data">
 						<tr>
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
-						
 							<td>#data.HIGHERGEOGRAPHY#</td>
 							<td>#data.SPECLOCALITY#</td>
 							<td>#data.LOCALITY_ID#</td>
@@ -863,7 +854,7 @@ limitations under the License.
 							<td>#data.NEAREST_NAMED_PLACE#</td>
 							<td>#data.USERNAME#</td>
 							<td>#data.VERIFIED_BY#</td>
-							<td>#data.accepted_lat_long_fg#</td>
+							<td>1</td>
 							<td>#data.EXTENT_UNITS#</td>
 							<td>#data.LAT_LONG_FOR_NNP_FG#</td>
 							<td>#data.DETERMINED_BY_AGENT_ID#</td>
@@ -882,6 +873,11 @@ limitations under the License.
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
+					<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update lat_long
+						set accepted_lat_long_fg = 0
+						WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
+					</cfquery>
 					<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT *
 						FROM cf_temp_georef
