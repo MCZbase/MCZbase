@@ -688,7 +688,7 @@ limitations under the License.
 						<cfquery name="chkDA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							update cf_temp_georef
 							set status = concat(nvl2(status, status || '; ', ''), 'DETERMINED_BY_AGENT does not match determined_by_agent_id')
-							where determined_by_agent = (select agent_name from agent_name where agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.determined_by_agent_ID#">)
+							where determined_by_agent = (select agent_name from agent_name where agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.determined_by_agent_ID#"> and agent_name_type= 'preferred')
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
