@@ -702,7 +702,7 @@ limitations under the License.
 						SET status = concat(nvl2(status, status || '; ', ''),'VerificationStatus term is not valid')
 						WHERE VERIFICATIONSTATUS not in (
 								select verificationstatus 
-								from CTVERIFICATIONSTATUS) 
+								from CTVERIFICATIONSTATUS where verificationstatus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.verificationstatus#">) 
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
