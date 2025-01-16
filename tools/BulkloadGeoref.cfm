@@ -712,7 +712,7 @@ limitations under the License.
 								where spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.SPECLOCALITY#">
 								and higher_geog = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.HIGHERGEOGRAPHY#">
 							)
-							AND HIGHERGEOGRAPHY is not null 
+							WHERE HIGHERGEOGRAPHY is not null 
 							AND SPECLOCALITY is not null 
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
