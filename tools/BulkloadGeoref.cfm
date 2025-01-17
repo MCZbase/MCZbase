@@ -838,14 +838,12 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfif len(duplicateIDs.locality_ID) gt 0>
-					<cfloop query="duplicateIDs">
-						<cfquery name="warningSpatialFit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE cf_temp_georef
-							SET status = concat(nvl2(status, status || '; ', ''),'DUPLICATE (first?)')
-							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-						</cfquery>
-					</cfloop>
+					<cfquery name="warningSpatialFit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_georef
+						SET status = concat(nvl2(status, status || '; ', ''),'DUPLICATE (first?)')
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+					</cfquery>
 				</cfif>
 			</cfloop>
 
