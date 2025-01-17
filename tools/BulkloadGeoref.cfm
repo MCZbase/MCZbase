@@ -580,6 +580,34 @@ limitations under the License.
 						</cfquery>
 					</cfif>		
 				<cfelse>
+					<cfif len(SPECLOCALITY) eq 0>
+						<cfquery name="updateSpecLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_georef
+							SET SPECLOCALITY = (
+									select spec_locality 
+									from LOCALITY
+									where locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
+								)
+								WHERE locality_ID is not null 
+								AND SPECLOCALITY is null 
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+						</cfquery>
+					</cfif>
+					<cfif len(HIGHERGEOGRAPHY) eq 0>
+						<cfquery name="updatehighergeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_georef
+							SET HIGHERGEOGRAPHY = (
+									select GEOG_AUTH_REC 
+									from LOCALITY
+									where locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
+								)
+								WHERE locality_ID is not null 
+								AND HIGHERGEOGRAPHY is null 
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+						</cfquery>
+					</cfif>
 					<cfquery name="warningHGSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
 						SET status = concat(nvl2(status, status || '; ', ''),'Higher Geography is not correct for the given locality_id')
