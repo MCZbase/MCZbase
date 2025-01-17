@@ -599,10 +599,10 @@ limitations under the License.
 							UPDATE cf_temp_georef
 							SET HIGHERGEOGRAPHY = (
 									select higher_geog 
-									from LOCALITY
-									where locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
+									from geog_auth_rec
+									where geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
 								)
-								WHERE locality_ID is not null 
+								WHERE geog_auth_rec_id is not null 
 								AND HIGHERGEOGRAPHY is null 
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
