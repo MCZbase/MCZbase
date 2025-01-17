@@ -857,7 +857,7 @@ limitations under the License.
 				SELECT LOCALITY_ID, COUNT(*) as count
 				FROM CF_TEMP_GEOREF
 				GROUP BY LOCALITY_ID
-				HAVING COUNT(*) > 1;
+				HAVING COUNT(*) > 1
 			</cfquery>
 			 <table class='sortable px-0 mx-0 table small table-responsive table-striped w-100'>
 				<tr>
