@@ -833,6 +833,20 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 			</cfloop>
+			<cfquery name="duplicateIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT LOCALITY_ID
+				FROM CF_TEMP_GEOREF
+				GROUP BY LOCALITY_ID
+				HAVING COUNT(*) > 1
+			</cfquery>
+			<cfif len(duplicateIDs.locality_ID) gt 0>
+				<cfquery name="warningSpatialFit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_georef
+					SET status = concat(nvl2(status, status || '; ', ''),'Locality_id is duplicate--already has a georef in this CSV')
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+				</cfquery>
+			</cfif>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_georef
@@ -853,12 +867,7 @@ limitations under the License.
 					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadGeoref.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good or <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
 				</h3>
 			</cfif>
-			<cfquery name="duplicateIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT LOCALITY_ID, COUNT(*) as count
-				FROM CF_TEMP_GEOREF
-				GROUP BY LOCALITY_ID
-				HAVING COUNT(*) > 1
-			</cfquery>
+	
 			<table class='sortable px-0 mx-0 table small table-responsive table-striped w-100'>
 				<thead class="thead-light">
 					<tr>
@@ -894,11 +903,6 @@ limitations under the License.
 				</thead>
 				<tbody>
 					<cfloop query="data">
-						<cfset isDuplicate = false>
-						<cfloop query = "duplicateIDs">
-							<cfset isDuplicate = true>
-							<cfbreak>
-						</cfloop>
 						<tr>
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 							<td>#data.HIGHERGEOGRAPHY#</td>
