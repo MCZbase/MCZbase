@@ -603,8 +603,8 @@ limitations under the License.
 									join locality on geog_auth_rec.GEOG_AUTH_REC_ID = locality.geog_auth_rec_id
 									where locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
 								)
-								WHERE geog_auth_rec_id is not null 
-								AND HIGHERGEOGRAPHY is null 
+								WHERE HIGHERGEOGRAPHY is null
+								and locality_id is not null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
