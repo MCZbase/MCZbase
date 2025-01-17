@@ -522,16 +522,12 @@ limitations under the License.
 			<!--- If only spec_locality is entered, see if it matches one in MCZbase and enter the related locality_id --->
 			<cfif len(getTempData.speclocality) gt 0>
 				<cfquery name="warningSpec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE
-						cf_temp_georef
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'SPECLOCALITY does not exist in MCZbase')
-					WHERE 
-						SPECLOCALITY not in (
+					UPDATE cf_temp_georef
+					SET status = concat(nvl2(status, status || '; ', ''),'SPECLOCALITY does not exist in MCZbase')
+					WHERE SPECLOCALITY not in (
 							select spec_locality from locality
 							) 
-					AND 
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
 			<!---Check lat_long_ref_source--->
@@ -555,12 +551,6 @@ limitations under the License.
 				WHERE HIGHERGEOGRAPHY not in (select HIGHER_GEOG from GEOG_AUTH_REC) 
 					AND HIGHERGEOGRAPHY is not null 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="duplicateIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT LOCALITY_ID, SPECLOCALITY, HIGHERGEOGRAPHY
-				FROM CF_TEMP_GEOREF
-				GROUP BY LOCALITY_ID, SPECLOCALITY, HIGHERGEOGRAPHY
-				HAVING COUNT(*) > 1
 			</cfquery>
 			<!--- Validation queries that test against individual rows looping through data in temp table --->
 			<cfloop query="getTempData">
@@ -837,9 +827,13 @@ limitations under the License.
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
 				</cfif>
-
 			</cfloop>
-
+			<cfquery name="duplicateIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT LOCALITY_ID, SPECLOCALITY, HIGHERGEOGRAPHY
+				FROM CF_TEMP_GEOREF
+				GROUP BY LOCALITY_ID, SPECLOCALITY, HIGHERGEOGRAPHY
+				HAVING COUNT(*) > 1
+			</cfquery>
 			<cfif len(duplicateIDs.locality_ID) gt 0>
 				<cfquery name="warningSpatialFit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_georef
