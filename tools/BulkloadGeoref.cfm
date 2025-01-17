@@ -821,6 +821,7 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
 				</cfif>
+
 				<cfif len(getTempData.GEOREFMETHOD) gt 0>
 					<!---Check Georefmethod code table--->
 					<cfquery name="warningGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -852,6 +853,24 @@ limitations under the License.
 					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadGeoref.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good or <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
 				</h3>
 			</cfif>
+			<cfquery name="duplicateIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT LOCALITY_ID, COUNT(*) as count
+				FROM CF_TEMP_GEOREF
+				GROUP BY LOCALITY_ID
+				HAVING COUNT(*) > 1;
+			</cfquery>
+			 <table class='sortable px-0 mx-0 table small table-responsive table-striped w-100'>
+				<tr>
+					<th>Locality_ID</th>
+					<th>Count</th>
+				</tr>
+				<cfloop query="duplicateIDs">
+					<tr>
+						<td>#duplicateIDs.Locality_ID#</td>
+						<td>#duplicateIDs.count#</td>
+					</tr>
+				</cfloop>
+			</table>
 			<table class='sortable px-0 mx-0 table small table-responsive table-striped w-100'>
 				<thead class="thead-light">
 					<tr>
@@ -888,6 +907,7 @@ limitations under the License.
 				<tbody>
 					<cfloop query="data">
 						<tr>
+							<td>
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 							<td>#data.HIGHERGEOGRAPHY#</td>
 							<td>#data.SPECLOCALITY#</td>
