@@ -600,7 +600,8 @@ limitations under the License.
 							SET HIGHERGEOGRAPHY = (
 									select higher_geog 
 									from geog_auth_rec
-									where geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
+									join locality on geog_auth_rec.GEOG_AUTH_REC_ID = locality.geog_auth_rec_id
+									where locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
 								)
 								WHERE geog_auth_rec_id is not null 
 								AND HIGHERGEOGRAPHY is null 
