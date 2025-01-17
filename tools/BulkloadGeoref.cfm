@@ -730,7 +730,7 @@ limitations under the License.
 				<cfelse>
 					<cfquery name="warningNotVerif" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'VerificationStatus entry is not valid')
+						SET status = concat(nvl2(status, status || '; ', ''),'VERIFICATIONSTATUS entry is not valid')
 						WHERE VERIFICATIONSTATUS not in (
 								select verificationstatus 
 								from CTVERIFICATIONSTATUS where verificationstatus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.verificationstatus#">) 
