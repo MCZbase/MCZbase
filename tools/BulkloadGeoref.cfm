@@ -907,7 +907,7 @@ limitations under the License.
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 							<td>#data.HIGHERGEOGRAPHY#</td>
 							<td>#data.SPECLOCALITY#</td>
-							<td>#data.LOCALITY_ID# <cfif isDuplicate><span style="color: red;">Duplicate</span><cfelse></cfif></td>
+							<td>#data.LOCALITY_ID# </td>
 							<td>#data.DEC_LAT#</td>
 							<td>#data.DEC_LONG#</td>
 							<td>#data.DETERMINED_BY_AGENT#</td>
