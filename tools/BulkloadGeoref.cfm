@@ -609,6 +609,7 @@ limitations under the License.
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
 					</cfif>
+					
 					<cfquery name="warningHGSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
 						SET status = concat(nvl2(status, status || '; ', ''),'Higher Geography is not correct for the given locality_id')
@@ -633,6 +634,15 @@ limitations under the License.
 							)
 							AND locality_id is not null 
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+					</cfquery>
+				</cfif>
+				<cfif len(getTempData.lat_long_remarks) GTE 4000>
+					<cfquery name="warningLocRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_georef
+						SET status = concat(nvl2(status, status || '; ', ''),'LAT_LONG_REMARKS are too long')
+						WHERE (LAT_LONG_REMARKS is not null) AND
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
 				</cfif>
