@@ -859,18 +859,6 @@ limitations under the License.
 				GROUP BY LOCALITY_ID
 				HAVING COUNT(*) > 1
 			</cfquery>
-			 <table class='sortable px-0 mx-0 table small table-responsive table-striped w-100'>
-				<tr>
-					<th>Locality_ID</th>
-					<th>Count</th>
-				</tr>
-				<cfloop query="duplicateIDs">
-					<tr>
-						<td>#duplicateIDs.Locality_ID#</td>
-						<td>#duplicateIDs.count#</td>
-					</tr>
-				</cfloop>
-			</table>
 			<table class='sortable px-0 mx-0 table small table-responsive table-striped w-100'>
 				<thead class="thead-light">
 					<tr>
@@ -906,12 +894,16 @@ limitations under the License.
 				</thead>
 				<tbody>
 					<cfloop query="data">
+						<cfset isDuplicate = false>
+						<cfloop query = "duplicateIDs">
+							<cfset isDuplicate = true>
+							<cfbreak>
+						</cfloop>
 						<tr>
-							<td>
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 							<td>#data.HIGHERGEOGRAPHY#</td>
 							<td>#data.SPECLOCALITY#</td>
-							<td>#data.LOCALITY_ID#</td>
+							<td>#data.LOCALITY_ID# <cfif isDuplicate><span style="color: red;">Duplicate</span><cfelse></cfif></td>
 							<td>#data.DEC_LAT#</td>
 							<td>#data.DEC_LONG#</td>
 							<td>#data.DETERMINED_BY_AGENT#</td>
