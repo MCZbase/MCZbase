@@ -833,9 +833,9 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfquery name="duplicateIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT LOCALITY_ID
+					SELECT LOCALITY_ID, SPECLOCALITY, HIGHERGEOGRAPHY
 					FROM CF_TEMP_GEOREF
-					GROUP BY LOCALITY_ID
+					GROUP BY LOCALITY_ID, SPECLOCALITY, HIGHERGEOGRAPHY
 					HAVING COUNT(*) > 1
 				</cfquery>
 				<cfif len(duplicateIDs.locality_ID) gt 0>
