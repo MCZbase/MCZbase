@@ -797,19 +797,17 @@ limitations under the License.
 				SELECT *
 				FROM cf_temp_georef
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				order by key
 			</cfquery>
-			<cfquery name="countNonEmptyStatus" dbtype="query">
-				SELECT count(*) c, status 
+			<cfquery name="problemsInData" dbtype="query">
+				SELECT count(*) c 
 				FROM data 
 				WHERE status is not null
-				group by status
 			</cfquery>
 			<cfif len(countNonEmptyStatus.status) gt 0>
-				<cfloop query="data">
-					<h3 class="mt-3">
-						There is a problem with #countNonEmptyStatus.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadGeoref.cfm?action=dumpProblems" class="btn-link font-weight-lessbold">download</a>). Fix the problems in the data and <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
-					</h3>
-				</cfloop>
+				<h3 class="mt-3">
+					There is a problem with #problemsInData.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadGeoref.cfm?action=dumpProblems" class="btn-link font-weight-lessbold">download</a>). Fix the problems in the data and <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
+				</h3>
 			<cfelse>
 				<h3 class="mt-3">
 					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadGeoref.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good or <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
