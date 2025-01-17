@@ -804,7 +804,7 @@ limitations under the License.
 				FROM data 
 				WHERE status is not null
 			</cfquery>
-			<cfif len(problemsInData.status) gt 0>
+			<cfif len(problemsInData.c) gt 0>
 				<h3 class="mt-3">
 					There is a problem with #problemsInData.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadGeoref.cfm?action=dumpProblems" class="btn-link font-weight-lessbold">download</a>). Fix the problems in the data and <a href="/tools/BulkloadGeoref.cfm" class="text-danger">start again</a>.
 				</h3>
