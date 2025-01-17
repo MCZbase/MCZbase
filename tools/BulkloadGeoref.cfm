@@ -598,7 +598,7 @@ limitations under the License.
 						<cfquery name="updatehighergeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_georef
 							SET HIGHERGEOGRAPHY = (
-									select GEOG_AUTH_REC 
+									select higher_geog 
 									from LOCALITY
 									where locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">
 								)
