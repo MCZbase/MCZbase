@@ -556,7 +556,12 @@ limitations under the License.
 					AND HIGHERGEOGRAPHY is not null 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-
+			<cfquery name="duplicateIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT LOCALITY_ID, SPECLOCALITY, HIGHERGEOGRAPHY
+				FROM CF_TEMP_GEOREF
+				GROUP BY LOCALITY_ID, SPECLOCALITY, HIGHERGEOGRAPHY
+				HAVING COUNT(*) > 1
+			</cfquery>
 			<!--- Validation queries that test against individual rows looping through data in temp table --->
 			<cfloop query="getTempData">
 				<!--- Check that either spec_locality or locality_id is entered --->
@@ -832,24 +837,19 @@ limitations under the License.
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
 				</cfif>
-	
+				<cfif len(duplicateIDs.locality_ID) gt 0>
+					<cfloop query="duplicateIDs">
+						<cfquery name="warningSpatialFit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_georef
+							SET status = concat(nvl2(status, status || '; ', ''),'DUPLICATE (first?)')
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+						</cfquery>
+					</cfloop>
+				</cfif>
 			</cfloop>
-			<cfquery name="duplicateIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT LOCALITY_ID, SPECLOCALITY, HIGHERGEOGRAPHY
-				FROM CF_TEMP_GEOREF
-				GROUP BY LOCALITY_ID, SPECLOCALITY, HIGHERGEOGRAPHY
-				HAVING COUNT(*) > 1
-			</cfquery>
-			<cfif len(duplicateIDs.locality_ID) gt 0>
-				<cfloop query="duplicateIDs">
-					<cfquery name="warningSpatialFit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'DUPLICATE (first?)')
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-					</cfquery>
-				</cfloop>
-			</cfif>
+
+
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_georef
