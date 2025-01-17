@@ -560,18 +560,15 @@ limitations under the License.
 			<!--- Validation queries that test against individual rows looping through data in temp table --->
 			<cfloop query="getTempData">
 				<!--- Check that either spec_locality or locality_id is entered --->
-				<cfif (len(getTempData.HIGHERGEOGRAPHY) eq 0 AND len(getTempData.SPECLOCALITY) eq 0) OR len(getTempData.LOCALITY_ID)>
+				<cfif len(getTempData.LOCALITY_ID) eq 0>
 					<cfquery name="warningMissingSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
 						SET status = concat(nvl2(status, status || '; ', ''),'HIGHERGEOGRAPHY/SPECLOCALITY needs to be entered')
-						WHERE (HIGHERGEOGRAPHY is null OR
-							SPECLOCALITY is null) AND
+						WHERE (HIGHERGEOGRAPHY is null OR SPECLOCALITY is null) AND
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
-				</cfif>
-				<!--- Check if Higher Geography matches locality  --->
-				<cfif len(locality_id) gt 0>
+				<cfelse>
 					<cfquery name="warningHGSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
 						SET status = concat(nvl2(status, status || '; ', ''),'Higher Geography is not correct for the given locality_id')
