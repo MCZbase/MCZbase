@@ -509,16 +509,7 @@ limitations under the License.
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 
-			<!--- Check that either spec_locality or locality_id is entered --->
-			<cfif len(getTempData.locality_id) gt 0 OR len(getTempData.SPECLOCALITY) eq 0>
-				<cfquery name="warningMissingLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_georef
-					SET status = concat(nvl2(status, status || '; ', ''),'LOCALITY_ID or SPECLOCALITY needs to be entered')
-					WHERE locality_id is null AND 
-						SPECLOCALITY is null AND
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			</cfif>
+	
 			<!--- If only locality_id is entered, see if it matches one in MCZbase and enter the related spec_locality --->
 			<cfif len(getTempData.locality_id) gt 0>
 				<cfquery name="warningLOCALITYID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -568,7 +559,17 @@ limitations under the License.
 
 			<!--- Validation queries that test against individual rows looping through data in temp table --->
 			<cfloop query="getTempData">
-				
+				<!--- Check that either spec_locality or locality_id is entered --->
+				<cfif len(getTempData.locality_id) gt 0 OR len(getTempData.SPECLOCALITY) eq 0>
+					<cfquery name="warningMissingSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_georef
+						SET status = concat(nvl2(status, status || '; ', ''),'LOCALITY_ID or SPECLOCALITY needs to be entered')
+						WHERE locality_id is null AND 
+							SPECLOCALITY is null AND
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+					</cfquery>
+				</cfif>
 				<!--- Check if Higher Geography matches locality  --->
 				<cfif len(locality_id) gt 0>
 					<cfquery name="warningHGSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
