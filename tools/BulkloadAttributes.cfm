@@ -66,6 +66,7 @@ limitations under the License.
 			<p>
 				This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv. It ignores rows that are exactly the same. Additional columns will be ignored. The attributes and attribute values must appear as they do on the <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists for <a href="/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE">ATTRIBUTE_TYPE</a> and for some attributes the controlled vocabularies are listed in <a href="/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_CODE_TABLES">ATTRIBUTE_CODE_TABLES</a>. Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number.
 			</p>
+			<h2 class="h4">Use template to Load Data</h2>
 			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
 			<div id="template" class="my-1 mx-0">
 				<label for="templatearea" class="data-entry-label" style="line-height: inherit;">
@@ -120,6 +121,30 @@ limitations under the License.
 					</div>
 				</div>
 			</form>
+			<script>
+				document.getElementById('copyButton').addEventListener('click', function() {
+					// Get the textarea element
+					var textArea = document.getElementById('templatearea');
+
+					// Select the text content
+					textArea.select();
+
+					try {
+						// Copy the selected text to the clipboard
+						var successful = document.execCommand('copy');
+						var msg = successful ? 'successful' : 'unsuccessful';
+						console.log('Copy command was ' + msg);
+					} catch (err) {
+						console.log('Oops, unable to copy', err);
+					}
+
+					// Optionally deselect the text after copying to avoid confusion
+					window.getSelection().removeAllRanges();
+
+					// Optional: Provide feedback to the user
+					alert('Text copied to clipboard!');
+				});
+			</script>
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
