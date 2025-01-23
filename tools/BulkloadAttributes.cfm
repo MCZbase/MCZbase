@@ -117,25 +117,28 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
-				<div class="form-row border rounded p-2">
-					<input type="hidden" name="action" value="getFile">
-					<div class="col-12 col-md-4">
-						<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
-						<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
+			<div>
+				<h2 class="h4 mt-4">Upload a comma-delimited text file (csv)</h2>
+				<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
+					<div class="form-row border rounded p-2">
+						<input type="hidden" name="action" value="getFile">
+						<div class="col-12 col-md-4">
+							<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
+							<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
+						</div>
+						<div class="col-12 col-md-3">
+							<cfset charsetSelect = getCharsetSelectHTML()>
+						</div>
+						<div class="col-12 col-md-3">
+							<cfset formatSelect = getFormatSelectHTML()>
+						</div>
+						<div class="col-12 col-md-2">
+							<label for="submitButton" class="data-entry-label">&nbsp;</label>
+							<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
+						</div>
 					</div>
-					<div class="col-12 col-md-3">
-						<cfset charsetSelect = getCharsetSelectHTML()>
-					</div>
-					<div class="col-12 col-md-3">
-						<cfset formatSelect = getFormatSelectHTML()>
-					</div>
-					<div class="col-12 col-md-2">
-						<label for="submitButton" class="data-entry-label">&nbsp;</label>
-						<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
-					</div>
-				</div>
-			</form>
+				</form>
+			</div>
 			<script>
 				document.getElementById('copyButton').addEventListener('click', function() {
 					// Get the textarea element
