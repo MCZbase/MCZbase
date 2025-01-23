@@ -934,8 +934,7 @@ limitations under the License.
 			<table class='px-0 small sortable table table-responsive table-striped w-100'>
 				<thead class="thead-light">
 					<tr>
-						<th>STATUS</th>
-						<td>Part Check</td>
+						<th>BULKLOADING&nbsp;STATUS</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
@@ -1027,9 +1026,7 @@ limitations under the License.
 								<cfelse>
 									<strong>ERROR: #status#</strong>
 								</cfif>
-								
 							</td>
-							<td><cfif len(getTempDataToShow.status) eq 0>Cleared to load<cfelse><strong>#getTempDataToShow.status#</strong></cfif></td>
 							<td>#institution_acronym#</td>
 							<td>#collection_cde#</td>
 							<td>#OTHER_ID_TYPE#</td>
