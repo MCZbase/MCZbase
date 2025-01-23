@@ -344,7 +344,7 @@
 				MUSEUM OF COMPARATIVE ZOOLOGY<br>
 				HARVARD UNIVERSITY<br>
 				<br>
-				LOAN NOTIFICATION REPORT FOR #DateFormat(Now(),"DD-mmmm-YYYY")#
+				LOAN NOTIFICATION REPORT FOR #DateFormat(Now(),"dd-mmmm-YYYY")#
 				<br><br>
 				Dear Colleague,
 				<br><br>
@@ -375,9 +375,9 @@
 				<cfif lines EQ 1>------<br></cfif>
 				Loan Number: #subLoans.loan_number#
 				<br>
-				Loan Date: #DateFormat(loan.trans_date, "DD-mmmm-YYYY")#
+				Loan Date: #DateFormat(loan.trans_date, "dd-mmmm-YYYY")#
 				<br>
-				Due Date: #DateFormat(loan.return_due_date, "DD-mmmm-YYYY")#
+				Due Date: #DateFormat(loan.return_due_date, "dd-mmmm-YYYY")#
 				<br>
 				Original Total Number of Items:	#counts.total#
 				<br>
