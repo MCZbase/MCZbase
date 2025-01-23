@@ -79,7 +79,7 @@ limitations under the License.
 					<div class="card-header" id="headingIdentifiers">
 						<h3 class="h5 my-0">
 							<button type="button" role="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="false" aria-controls="identifiersPane">
-								Columns for Spreadsheet with Data Entry Instructions
+								Data Entry Instructions per Column
 							</button>
 						</h3>
 					</div>
