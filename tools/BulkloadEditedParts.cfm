@@ -935,6 +935,7 @@ limitations under the License.
 				<thead class="thead-light">
 					<tr>
 						<th>STATUS</th>
+						<td>Part Check</td>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
