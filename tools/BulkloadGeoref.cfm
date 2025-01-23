@@ -482,7 +482,15 @@ limitations under the License.
 				From CF_TEMP_GEOREF
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-
+			<!---Prevent Duplicate Accepted IDs from loading--->
+			<cfquery name="warningSpatialFit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE CF_TEMP_GEOREF 
+				SET status = concat(nvl2(status, status || '; ', ''),'Duplicate Locality Record')
+				where locality_id in 
+				(select locality_id from CF_TEMP_GEOREF group by locality_id 
+				having count(*) > 1)
+				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<!--- Validating data in bulk --->
 			<!---Check ORIG_LAT_LONG_UNITS in code table--->
 			<cfquery name="warningOrigLatLongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -508,7 +516,6 @@ limitations under the License.
 					MAX_ERROR_UNITS not in (select LAT_LONG_ERROR_UNITS from CTLAT_LONG_ERROR_UNITS ) 
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-
 	
 			<!--- If only locality_id is entered, see if it matches one in MCZbase and enter the related spec_locality --->
 			<cfif len(getTempData.locality_id) gt 0>
@@ -828,20 +835,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 			</cfloop>
-			<cfquery name="duplicateIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT LOCALITY_ID, SPECLOCALITY, HIGHERGEOGRAPHY
-				FROM CF_TEMP_GEOREF
-				GROUP BY LOCALITY_ID, SPECLOCALITY, HIGHERGEOGRAPHY
-				HAVING COUNT(*) > 1
-			</cfquery>
-			<cfif len(duplicateIDs.locality_ID) gt 0>
-				<cfquery name="warningSpatialFit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_georef
-					SET status = concat(nvl2(status, status || '; ', ''),'Duplicate Locality Record (first?)')
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-				</cfquery>
-			</cfif>
+
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_georef
