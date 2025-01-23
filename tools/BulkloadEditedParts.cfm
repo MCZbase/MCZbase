@@ -1026,8 +1026,9 @@ limitations under the License.
 								<cfelse>
 									<strong>ERROR: #status#</strong>
 								</cfif>
-								<cfif len(getTempDataToShow.status) eq 0>Cleared to load<cfelse><strong>#getTempDataToShow.status#</strong></cfif>
+								
 							</td>
+							<td><cfif len(getTempDataToShow.status) eq 0>Cleared to load<cfelse><strong>#getTempDataToShow.status#</strong></cfif></td>
 							<td>#institution_acronym#</td>
 							<td>#collection_cde#</td>
 							<td>#OTHER_ID_TYPE#</td>
