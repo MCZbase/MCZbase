@@ -649,6 +649,26 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 			</cfquery>
 
+			<!--- Correct any http://mczbase.mcz URIs to https://mczbase.mcz --->
+			<cfquery name="getURIs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT MEDIA_URI, KEY,USERNAME
+				FROM 
+					cf_temp_media
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfloop query="getURIs">
+				<cfif Find("http://mczbase.mcz.harvard.edu",getURIs.media_uri) EQ 1>
+					<cfquery name="fixURI" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_media
+						SET media_uri = regexp_replace(media_uri,'^http://mczbase.mcz.harvard.edu','https://mczbase.mcz.harvard.edu')
+						WHERE 
+							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getURIs.key#">
+					</cfquery>
+				</cfif> 
+			</cfloop>
+
 			<!--- Required fields missing warning --->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
