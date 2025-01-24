@@ -984,7 +984,6 @@ limitations under the License.
 				ORDER BY key
 			</cfquery>	
 			<!--------NO ERRORS ABOVE? Loop through updated table to add IDs if there are no status messages------->
-			<cfif len(getTempMedia2.WIDTH) gt 0>
 				<cfloop query = "getTempMedia2">				
 					<cfloop index="i" from="1" to="#NUMBER_OF_RELATIONSHIP_PAIRS#">
 						<!--- This generalizes the two key:value pairs (to media_relationship and MEDIA_RELATED_TO)--->
@@ -1102,9 +1101,9 @@ limitations under the License.
 													key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 											</cfquery>
 										</cfloop>
-									<!-------------------------------------------------------------------------->			
-									<!---Update and check media relationships that can take either ID or Name--->
 									<cfelseif getMediaRel.media_relationship contains 'agent' and !isNumeric(getMediaRel.MEDIA_RELATED_TO)>
+										<!-------------------------------------------------------------------------->			
+										<!---Update and check media relationships that can take either ID or Name--->
 										<cfset relatedAgentID = "">
 										<cfset agentProblem = "">
 										<cfquery name="findAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1347,7 +1346,6 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 				</cfloop>
-			</cfif>
 			<!---Display the issues if there is an error and give the links to either continue or start again.--->
 			<cfquery name="problemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
