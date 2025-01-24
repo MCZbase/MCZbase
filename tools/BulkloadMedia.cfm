@@ -970,7 +970,7 @@ limitations under the License.
 				<!----------END height and width labels------------------->
 
 				<!--- MD5HASH---------------------------------------------->
-				<cfif left(getTempMedia.media_uri,47) EQ 'https://mczbase.mcz.harvard.edu/specimen_images/' >
+				<cfif left(getTempMedia.media_uri,48) EQ 'https://mczbase.mcz.harvard.edu/specimen_images/' >
 					<!--- build an md5hash of all local files --->
 					<cfhttp url="#getTempMedia.media_uri#" method="get" getAsBinary="yes" result="result">
 					<cfset MD5HASH=Hash(result.filecontent,"MD5")>
