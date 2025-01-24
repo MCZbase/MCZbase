@@ -649,6 +649,26 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 			</cfquery>
 
+			<!--- Correct any http://mczbase.mcz URIs to https://mczbase.mcz --->
+			<cfquery name="getURIs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT MEDIA_URI, KEY,USERNAME
+				FROM 
+					cf_temp_media
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfloop query="getURIs">
+				<cfif Find("http://mczbase.mcz.harvard.edu",getURIs.media_uri) EQ 1>
+					<cfquery name="fixURI" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							cf_temp_media
+						SET media_uri = regexp_replace(media_uri,'^http://mczbase.mcz.harvard.edu','https://mczbase.mcz.harvard.edu')
+						WHERE 
+							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getURIs.key#">
+					</cfquery>
+				</cfif> 
+			</cfloop>
+
 			<!--- Required fields missing warning --->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -950,7 +970,7 @@ limitations under the License.
 				<!----------END height and width labels------------------->
 
 				<!--- MD5HASH---------------------------------------------->
-				<cfif left(getTempMedia.media_uri,47) EQ 'https://mczbase.mcz.harvard.edu/specimen_images/' >
+				<cfif left(getTempMedia.media_uri,48) EQ 'https://mczbase.mcz.harvard.edu/specimen_images/' >
 					<!--- build an md5hash of all local files --->
 					<cfhttp url="#getTempMedia.media_uri#" method="get" getAsBinary="yes" result="result">
 					<cfset MD5HASH=Hash(result.filecontent,"MD5")>
@@ -983,9 +1003,9 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				ORDER BY key
 			</cfquery>	
-			<!--------NO ERRORS ABOVE? Loop through updated table to add IDs if there are no status messages------->
-			<cfif len(getTempMedia2.WIDTH) gt 0>
-				<cfloop query = "getTempMedia2">				
+			<!-------- Loop through updated table to add IDs for relationships if there are no status messages------->
+			<cfloop query = "getTempMedia2">
+				<cfif len(getTempMedia2.status) EQ 0> 
 					<cfloop index="i" from="1" to="#NUMBER_OF_RELATIONSHIP_PAIRS#">
 						<!--- This generalizes the two key:value pairs (to media_relationship and MEDIA_RELATED_TO)--->
 						<cfquery name="getMediaRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1102,9 +1122,9 @@ limitations under the License.
 													key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 											</cfquery>
 										</cfloop>
-									<!-------------------------------------------------------------------------->			
-									<!---Update and check media relationships that can take either ID or Name--->
 									<cfelseif getMediaRel.media_relationship contains 'agent' and !isNumeric(getMediaRel.MEDIA_RELATED_TO)>
+										<!-------------------------------------------------------------------------->			
+										<!---Update and check media relationships that can take either ID or Name--->
 										<cfset relatedAgentID = "">
 										<cfset agentProblem = "">
 										<cfquery name="findAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1346,8 +1366,8 @@ limitations under the License.
 							</cfif>
 						</cfif>
 					</cfloop>
-				</cfloop>
-			</cfif>
+				</cfif>
+			</cfloop>
 			<!---Display the issues if there is an error and give the links to either continue or start again.--->
 			<cfquery name="problemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
