@@ -983,8 +983,9 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				ORDER BY key
 			</cfquery>	
-			<!--------NO ERRORS ABOVE? Loop through updated table to add IDs if there are no status messages------->
-				<cfloop query = "getTempMedia2">				
+			<!-------- Loop through updated table to add IDs for relationships if there are no status messages------->
+			<cfloop query = "getTempMedia2">
+				<cfif len(getTempMedia2.status) EQ 0> 
 					<cfloop index="i" from="1" to="#NUMBER_OF_RELATIONSHIP_PAIRS#">
 						<!--- This generalizes the two key:value pairs (to media_relationship and MEDIA_RELATED_TO)--->
 						<cfquery name="getMediaRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1345,7 +1346,8 @@ limitations under the License.
 							</cfif>
 						</cfif>
 					</cfloop>
-				</cfloop>
+				</cfif>
+			</cfloop>
 			<!---Display the issues if there is an error and give the links to either continue or start again.--->
 			<cfquery name="problemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
