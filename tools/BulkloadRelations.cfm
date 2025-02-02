@@ -58,11 +58,7 @@ limitations under the License.
 	<h1 class="h2 mt-2">Bulkload Relations</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>This tool adds biological relationships to the specimen record. Include column headings, spelled exactly as below.  Additional columns will be ignored.</p>
-			<p>Identify cataloged items to relate with institution codes, collection codes, and other ids, where other_id_type can be <strong>catalog number</strong> or one of the other id types in <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCOLL_OTHER_ID_TYPE">CTCOLL_OTHER_ID_TYPE</a>.  You must identify the cataloged item on each side of the relationship.</p>
-			<p>The relationships must appear as they do on the controlled vocabulary for <a href="/vocabularies/ControlledVocabulary.cfm?table=CTBIOL_RELATIONS">BIOL_RELATIONS</a> Upload a comma-delimited text file (csv).  Assert the BIOL_INDIV_RELATIONSHIP, not the inverse relationship.  The relationship (and inverse relationship) must be in the code table prior to uploading this .csv.</p>
-			<p>To assert that MCZ:Orn:200 is the egg of MCZ:Orn:1, use other_id_value=200, relationship=egg of, related_other_id_value=1.  Only the forward relationships are stored in the database.<p>
-			</p>
+			<p>This tool adds biological relationships to the specimen record. Include column headings, spelled exactly as below. Additional columns will be ignored. Identify cataloged items to relate with institution codes, collection codes, and other ids, where other_id_type can be <strong>catalog number</strong> or one of the other id types in <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCOLL_OTHER_ID_TYPE">CTCOLL_OTHER_ID_TYPE</a>. You must identify the cataloged item on each side of the relationship. The relationships must appear as they do on the controlled vocabulary for <a href="/vocabularies/ControlledVocabulary.cfm?table=CTBIOL_RELATIONS">BIOL_RELATIONS</a> Upload a comma-delimited text file (csv). Assert the BIOL_INDIV_RELATIONSHIP, not the inverse relationship.  The relationship (and inverse relationship) must be in the code table prior to uploading this .csv. To assert that MCZ:Orn:200 is the egg of MCZ:Orn:1, use other_id_value=200, relationship=egg of, related_other_id_value=1.  Only the forward relationships are stored in the database.</p>
 			<h2 class="h4">Use Template to Load Data</h2>
 			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
 			<div id="template" class="my-1 mx-0">

@@ -61,12 +61,13 @@ limitations under the License.
 		<cfoutput>
 			<p>This tool is used to bulkload Other IDs (other numbers for specimens). Click view template download a comma-delimited text file (csv) to enter and upload data. OR, create a csv by including column headings spelled exactly as listed below. Pay attention to capitalization where it is required. Messages will help to locate, identify, and fix problems with the data in the uploaded .csv file. Note: The errors preventing upload are displayed first and then any warnings about content. </p>
 			<p>Check the Help > Controlled Vocabulary page and select the <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCOLL_OTHER_ID_TYPE">CTCOLL_OTHER_ID_TYPE</a> list for types ("catalog number" can also be used). Values can be combinations of letters, special characters, and numbers or just numbers. Submit a bug report to request an additional type when needed.</p>
-			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
-			<div id="template" style="margin: 1rem 0;display:none;">
-				<label for="templatearea" class="data-entry-label mb-1">
-					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadOtherId.cfm?action=getCSVHeader" class="font-weight-lessbold">download</a>)
+			<h2 class="h4">Use Template to Load Data</h2>
+			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
+			<div id="template" class="my-1 mx-0">
+			<label for="templatearea" class="data-entry-label" style="line-height: inherit;">
+					Copy this header line, paste it into a blank worksheet, and save it as a .csv file or <a href="/tools/BulkloadRelations.cfm?action=getCSVHeader" class="font-weight-bold">download</a> a template.
 				</label>
-				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
+				<textarea style="height: 30px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
 			</div>
 			<div class="accordion" id="accordionOtherid">
 				<div class="card mb-2 bg-light">
