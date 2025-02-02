@@ -114,7 +114,7 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-			<div>
+			<div class="">
 				<h2 class="h4 mt-4">Upload a comma-delimited text file (csv)</h2>
 				<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadIdentification.cfm">
 					<div class="form-row border rounded p-2">
