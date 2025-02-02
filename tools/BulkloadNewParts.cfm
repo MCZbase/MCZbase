@@ -75,7 +75,7 @@ limitations under the License.
 				<label for="templatearea" class="data-entry-label" style="line-height: inherit;">
 					Copy this header line, paste it into a blank worksheet, and save it as a .csv file or <a href="/tools/BulkloadNewParts.cfm?action=getCSVHeader" class="font-weight-bold">download</a> a template.
 				</label>
-				<textarea style="height: 30px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
+				<textarea style="height: 61px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
 			</div>
 			<div class="accordion" id="accordionID">
 				<div class="card mb-2 bg-light">
@@ -118,48 +118,50 @@ limitations under the License.
 						</div>
 					</div>
 				<div>
-					<h2 class="h4 mt-4">Upload a comma-delimited text file (csv)</h2>
-					<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadNewParts.cfm">
-						<div class="form-row border rounded p-2 mb-3">
-							<input type="hidden" name="action" value="getFile">
-							<div class="col-12 col-md-4">
-								<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
-								<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
-							</div>
-							<div class="col-12 col-md-3">
-								<label for="characterSet" class="data-entry-label">Character Set:</label> 
-								<select name="characterSet" id="characterSet" required class="data-entry-select reqdClr">
-									<option selected></option>
-									<option value="utf-8" >utf-8</option>
-									<option value="iso-8859-1">iso-8859-1</option>
-									<option value="windows-1252">windows-1252 (Win Latin 1)</option>
-									<option value="MacRoman">MacRoman</option>
-									<option value="x-MacCentralEurope">Macintosh Latin-2</option>
-									<option value="windows-1250">windows-1250 (Win Eastern European)</option>
-									<option value="windows-1251">windows-1251 (Win Cyrillic)</option>
-									<option value="utf-16">utf-16</option>
-									<option value="utf-32">utf-32</option>
-								</select>
-							</div>
-							<div class="col-12 col-md-3">
-								<label for="format" class="data-entry-label">Format:</label> 
-								<select name="format" id="format" required class="data-entry-select reqdClr">
-									<option value="DEFAULT" selected >Standard CSV</option>
-									<option value="TDF">Tab Separated Values</option>
-									<option value="EXCEL">CSV export from MS Excel</option>
-									<option value="RFC4180">Strict RFC4180 CSV</option>
-									<option value="ORACLE">Oracle SQL*Loader CSV</option>
-									<option value="MYSQL">CSV export from MYSQL</option>
-								</select>
-							</div>
-							<div class="col-12 col-md-2">
-								<label for="submitButton" class="data-entry-label">&nbsp;</label>
-								<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
-							</div>
+			</div>
+			<div class="">
+				<h2 class="h4 mt-4">Upload a comma-delimited text file (csv)</h2>
+				<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadNewParts.cfm">
+					<div class="form-row border rounded p-2 mb-3">
+						<input type="hidden" name="action" value="getFile">
+						<div class="col-12 col-md-4">
+							<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
+							<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
 						</div>
-					</form>
-				</div>
-				<script>
+						<div class="col-12 col-md-3">
+							<label for="characterSet" class="data-entry-label">Character Set:</label> 
+							<select name="characterSet" id="characterSet" required class="data-entry-select reqdClr">
+								<option selected></option>
+								<option value="utf-8" >utf-8</option>
+								<option value="iso-8859-1">iso-8859-1</option>
+								<option value="windows-1252">windows-1252 (Win Latin 1)</option>
+								<option value="MacRoman">MacRoman</option>
+								<option value="x-MacCentralEurope">Macintosh Latin-2</option>
+								<option value="windows-1250">windows-1250 (Win Eastern European)</option>
+								<option value="windows-1251">windows-1251 (Win Cyrillic)</option>
+								<option value="utf-16">utf-16</option>
+								<option value="utf-32">utf-32</option>
+							</select>
+						</div>
+						<div class="col-12 col-md-3">
+							<label for="format" class="data-entry-label">Format:</label> 
+							<select name="format" id="format" required class="data-entry-select reqdClr">
+								<option value="DEFAULT" selected >Standard CSV</option>
+								<option value="TDF">Tab Separated Values</option>
+								<option value="EXCEL">CSV export from MS Excel</option>
+								<option value="RFC4180">Strict RFC4180 CSV</option>
+								<option value="ORACLE">Oracle SQL*Loader CSV</option>
+								<option value="MYSQL">CSV export from MYSQL</option>
+							</select>
+						</div>
+						<div class="col-12 col-md-2">
+							<label for="submitButton" class="data-entry-label">&nbsp;</label>
+							<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
+						</div>
+					</div>
+				</form>
+			</div>
+			<script>
 				document.getElementById('copyButton').addEventListener('click', function() {
 					// Get the textarea element
 					var textArea = document.getElementById('templatearea');
@@ -182,9 +184,9 @@ limitations under the License.
 					// Optional: Provide feedback to the user
 					alert('Text copied to clipboard!');
 				});
-				</script>
-			</cfoutput>
-		</cfif>	
+			</script>
+		</cfoutput>
+	</cfif>	
 		<!------------------------------------------------------->
 		<cfif #action# is "getFile">
 				<cfoutput>
