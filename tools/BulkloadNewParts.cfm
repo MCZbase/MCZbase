@@ -117,7 +117,7 @@ limitations under the License.
 							</ul>
 						</div>
 					</div>
-				<div>
+				</div>
 			</div>
 			<div class="">
 				<h2 class="h4 mt-4">Upload a comma-delimited text file (csv)</h2>
