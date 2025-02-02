@@ -102,17 +102,17 @@ limitations under the License.
 				</label>
 				<textarea style="height: 30px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
 			</div>
-			<div class="accordion" id="accordionAgents">
+			<div class="accordion" id="accordionID">
 				<div class="card mb-2 bg-light">
-					<div class="card-header" id="headingAgents">
+					<div class="card-header" id="headingID">
 						<h3 class="h5 my-0">
-							<button type="button" role="button" aria-label="agents pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##agentsPane" aria-expanded="false" aria-controls="agentsPane">
+							<button type="button" role="button" aria-label="agents pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane" aria-expanded="false" aria-controls="IDPane">
 								Data Entry Instructions per Column
 							</button>
 						</h3>
 					</div>
-					<div id="agentPane" class="collapse" aria-labelledby="headingAgents" data-parent="##accordionAgents">
-						<div class="card-body" id="agentsCardBody">
+					<div id="IDPane" class="collapse" aria-labelledby="headingID" data-parent="##accordionID">
+						<div class="card-body" id="IDCardBody">
 							<p class="px-3 pt-2"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
 							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
 								<cfloop list="#fieldlist#" index="field" delimiters=",">
@@ -143,52 +143,53 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-				<div class="">
-					<h2 class="h4 mt-4">Upload a comma-delimited text file (csv)</h2>
-					<form name="agts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAgents.cfm">
-						<div class="form-row border rounded p-2">
-							<input type="hidden" name="action" value="getFile">
-							<div class="col-12 col-md-4">
-								<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
-								<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
-							</div>
-							<div class="col-12 col-md-3">
-								<cfset charsetSelect = getCharsetSelectHTML()>
-							</div>
-							<div class="col-12 col-md-3">
-								<cfset formatSelect = getFormatSelectHTML()>
-							</div>
-							<div class="col-12 col-md-2">
-								<label for="submitButton" class="data-entry-label">&nbsp;</label>
-								<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
-							</div>
+			</div>
+			<div class="">
+				<h2 class="h4 mt-4">Upload a comma-delimited text file (csv)</h2>
+				<form name="agts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAgents.cfm">
+					<div class="form-row border rounded p-2">
+						<input type="hidden" name="action" value="getFile">
+						<div class="col-12 col-md-4">
+							<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
+							<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
 						</div>
-					</form>
-				</div>
-				<script>
-					document.getElementById('copyButton').addEventListener('click', function() {
-						// Get the textarea element
-						var textArea = document.getElementById('templatearea');
+						<div class="col-12 col-md-3">
+							<cfset charsetSelect = getCharsetSelectHTML()>
+						</div>
+						<div class="col-12 col-md-3">
+							<cfset formatSelect = getFormatSelectHTML()>
+						</div>
+						<div class="col-12 col-md-2">
+							<label for="submitButton" class="data-entry-label">&nbsp;</label>
+							<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
+						</div>
+					</div>
+				</form>
+			</div>
+			<script>
+				document.getElementById('copyButton').addEventListener('click', function() {
+					// Get the textarea element
+					var textArea = document.getElementById('templatearea');
 
-						// Select the text content
-						textArea.select();
+					// Select the text content
+					textArea.select();
 
-						try {
-							// Copy the selected text to the clipboard
-							var successful = document.execCommand('copy');
-							var msg = successful ? 'successful' : 'unsuccessful';
-							console.log('Copy command was ' + msg);
-						} catch (err) {
-							console.log('Oops, unable to copy', err);
-						}
+					try {
+						// Copy the selected text to the clipboard
+						var successful = document.execCommand('copy');
+						var msg = successful ? 'successful' : 'unsuccessful';
+						console.log('Copy command was ' + msg);
+					} catch (err) {
+						console.log('Oops, unable to copy', err);
+					}
 
-						// Optionally deselect the text after copying to avoid confusion
-						window.getSelection().removeAllRanges();
+					// Optionally deselect the text after copying to avoid confusion
+					window.getSelection().removeAllRanges();
 
-						// Optional: Provide feedback to the user
-						alert('Text copied to clipboard!');
-					});
-				</script>
+					// Optional: Provide feedback to the user
+					alert('Text copied to clipboard!');
+				});
+			</script>
 		</cfoutput>
 	</cfif>	
 	
