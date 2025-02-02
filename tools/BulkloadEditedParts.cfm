@@ -90,71 +90,102 @@ limitations under the License.
 	<!------------------------------------------------------->
 	<cfif variables.action is "entryPoint">
 		<cfoutput>
-			<p>This tool edits existing part records of specimen records. It creates metadata for the part history. The cataloged items must be in the database and they can be entered using the catalog number or other ID.  Parts must also exist, new parts will not be added with this tool.  Error messages will appear if the values need to match values in MCZbase and if required columns are missing. Additional columns will be ignored.  The first line of the file must be the column headings, spelled exactly as below. </p>
-			<p>Institution Acronym, Collection Code, and an identifying number for the cataloged item must be specified, as must either PART_COLLECTION_OBJECT_ID or the values of PART_NAME,PRESERVE_METHOD,COLL_OBJ_DISPOSITION,CONDITION,LOT_COUNT,LOT_COUNT_MODIFIER, and CURRENT_REMARKS to uniquely identify the part to be modified.</p> 
-			<p>To change lot count or lot count modifier, both NEW_LOT_COUNT and NEW_LOT_COUNT_MODIFIER will be used.</p>
-			<p>If any of the PART_ATT_..._1 fields are populated, they will be used to add new part attributes to the specified part.  They do not edit existing part attributes, and cannot duplicate existing part attribute attribute_type:attribute_value pairs.</p>
-			<p>A file of parts to be edited can be obtained from the <strong>Parts Report/Download</strong> option from the <strong>Manage</strong> page for a specimen search result.  The Download Parts CSV option on the Parts Report/Download page has the correct format to upload here.</p>
-			<div class="w-100 p-1">
-				<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
-				<div id="template" style="display:none;margin: 1em 0;">
-					<label for="templatearea" class="data-entry-label">
-						Copy this header line and save it as a .csv file (<a href="/tools/BulkloadEditedParts.cfm?action=getCSVHeader" class="font-weight-lessbold">download</a>)
-					</label>
-					<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
-				</div>
+			<p>This tool edits existing part records of specimen records. It creates metadata for the part history. The cataloged items must be in the database and they can be entered using the catalog number or other ID. Parts must also exist, new parts will not be added with this tool. Error messages will appear if the values need to match values in MCZbase and if required columns are missing. Additional columns will be ignored. The first line of the file must be the column headings, spelled exactly as below. Institution Acronym, Collection Code, and an identifying number for the cataloged item must be specified, as must either PART_COLLECTION_OBJECT_ID or the values of PART_NAME,PRESERVE_METHOD, COLL_OBJ_DISPOSITION, CONDITION, LOT_COUNT,LOT_COUNT_MODIFIER, and CURRENT_REMARKS to uniquely identify the part to be modified.</p><p>To change lot count or lot count modifier, both NEW_LOT_COUNT and NEW_LOT_COUNT_MODIFIER will be used. If any of the PART_ATT_..._1 fields are populated, they will be used to add new part attributes to the specified part. They do not edit existing part attributes, and cannot duplicate existing part attribute attribute_type: attribute_value pairs. A file of parts to be edited can be obtained from the <b>Parts Report/Download</b> option from the <b>Manage</b> page for a specimen search result. The Download Parts CSV option on the Parts Report/Download page has the correct format to upload here.</p>
+			<h2 class="h4">Use Template to Load Data</h2>
+			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
+			<div id="template" class="my-1 mx-0">
+				<label for="templatearea" class="data-entry-label" style="line-height: inherit;">
+					Copy this header line, paste it into a blank worksheet, and save it as a .csv file or <a href="/tools/BulkloadAttributes.cfm?action=getCSVHeader" class="font-weight-bold">download</a> a template.
+				</label>
+				<textarea style="height: 30px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
 			</div>
-			<div class="w-100 p-1">
-				<span class="btn btn-xs btn-info" onclick="document.getElementById('fieldmetadata').style.display='block';">View List of Columns with descriptions.</span>
-				<div id="fieldmetadata" style="display:none;margin: 1em 0;">
-					<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-					<ul class="mb-4 h5 font-weight-normal list-group mx-3">
-						<cfloop list="#fieldlist#" index="field" delimiters=",">
-							<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
-								SELECT comments
-								FROM sys.all_col_comments
-								WHERE 
-									owner = 'MCZBASE'
-									and table_name = 'CF_TEMP_EDIT_PARTS'
-									and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
-							</cfquery>
-							<cfset comment = "">
-							<cfif getComments.recordcount GT 0>
-								<cfset comment = getComments.comments>
-							</cfif>
-							<cfset aria = "">
-							<cfif listContains(requiredfieldlist,field,",")>
-								<cfset class="text-danger">
-								<cfset aria = "aria-label='Required Field'">
-							<cfelse>
-								<cfset class="text-dark">
-							</cfif>
-							<li class="pb-1 mx-3">
-								<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
-							</li>
-						</cfloop>
-					</ul>
-				</div>
-			</div>
-			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadEditedParts.cfm">
-				<div class="form-row border rounded p-2 mb-3">
-					<input type="hidden" name="action" value="getFile">
-					<div class="col-12 col-md-4">
-						<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
-						<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
+			<div class="accordion" id="accordionID">
+				<div class="card mb-2 bg-light">
+					<div class="card-header" id="headingID">
+						<h3 class="h5 my-0">
+							<button type="button" role="button" aria-label="Edit Parts pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane" aria-expanded="false" aria-controls="IDPane">
+								Data Entry Instructions per Column
+							</button>
+						</h3>
 					</div>
-					<div class="col-12 col-md-3">
-						<cfset charsetSelect = getCharsetSelectHTML()>
-					</div>
-					<div class="col-12 col-md-3">
-						<cfset formatSelect = getFormatSelectHTML()>
-					</div>
-					<div class="col-12 col-md-2">
-						<label for="submitButton" class="data-entry-label">&nbsp;</label>
-						<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
+					<div id="IDPane" class="collapse" aria-labelledby="headingID" data-parent="##accordionID">
+						<div class="card-body" id="IDCardBody">
+							<p class="px-3 pt-2"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
+							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
+								<cfloop list="#fieldlist#" index="field" delimiters=",">
+									<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+										SELECT comments
+										FROM sys.all_col_comments
+										WHERE 
+											owner = 'MCZBASE'
+											and table_name = 'CF_TEMP_EDIT_PARTS'
+											and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+									</cfquery>
+									<cfset comment = "">
+									<cfif getComments.recordcount GT 0>
+										<cfset comment = getComments.comments>
+									</cfif>
+									<cfset aria = "">
+									<cfif listContains(requiredfieldlist,field,",")>
+										<cfset class="text-danger">
+										<cfset aria = "aria-label='Required Field'">
+									<cfelse>
+										<cfset class="text-dark">
+									</cfif>
+									<li class="pb-1 mx-3">
+										<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
+									</li>
+								</cfloop>
+							</ul>
+						</div>
 					</div>
 				</div>
-			</form>
+				<div>	
+					<h2 class="h4 mt-4">Upload a comma-delimited text file (csv)</h2>
+					<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadEditedParts.cfm">
+						<div class="form-row border rounded p-2 mb-3">
+							<input type="hidden" name="action" value="getFile">
+							<div class="col-12 col-md-4">
+								<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
+								<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
+							</div>
+							<div class="col-12 col-md-3">
+								<cfset charsetSelect = getCharsetSelectHTML()>
+							</div>
+							<div class="col-12 col-md-3">
+								<cfset formatSelect = getFormatSelectHTML()>
+							</div>
+							<div class="col-12 col-md-2">
+								<label for="submitButton" class="data-entry-label">&nbsp;</label>
+								<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
+							</div>
+						</div>
+					</form>
+				</div>
+				<script>
+					document.getElementById('copyButton').addEventListener('click', function() {
+						// Get the textarea element
+						var textArea = document.getElementById('templatearea');
+
+						// Select the text content
+						textArea.select();
+
+						try {
+							// Copy the selected text to the clipboard
+							var successful = document.execCommand('copy');
+							var msg = successful ? 'successful' : 'unsuccessful';
+							console.log('Copy command was ' + msg);
+						} catch (err) {
+							console.log('Oops, unable to copy', err);
+						}
+
+						// Optionally deselect the text after copying to avoid confusion
+						window.getSelection().removeAllRanges();
+
+						// Optional: Provide feedback to the user
+						alert('Text copied to clipboard!');
+					});
+				</script>
 		</cfoutput>
 	</cfif>	
 	<!------------------------------------------------------->

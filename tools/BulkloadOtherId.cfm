@@ -68,54 +68,94 @@ limitations under the License.
 				</label>
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
-			
-			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-			<ul class="mb-4 h5 font-weight-normal list-group mx-3">
-				<cfloop list="#fieldlist#" index="field" delimiters=",">
-					<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
-						SELECT comments
-						FROM sys.all_col_comments
-						WHERE 
-							owner = 'MCZBASE'
-							and table_name = 'CF_TEMP_OIDS'
-							and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
-					</cfquery>
-					<cfset comment = "">
-					<cfif getComments.recordcount GT 0>
-						<cfset comment = getComments.comments>
-					</cfif>
-					<cfset aria = "">
-					<cfif listContains(requiredfieldlist,field,",")>
-						<cfset class="text-danger">
-						<cfset aria = "aria-label='Required Field'">
-					<cfelse>
-						<cfset class="text-dark">
-					</cfif>
-					<li class="pb-1 mx-3">
-						<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
-					</li>
-				</cfloop>
-			</ul>
-
-			<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadOtherId.cfm">
-				<div class="form-row border rounded p-2">
-					<input type="hidden" name="action" value="getFile">
-					<div class="col-12 col-md-4">
-						<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
-						<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
+			<div class="accordion" id="accordionOtherid">
+				<div class="card mb-2 bg-light">
+					<div class="card-header" id="headingOtherid">
+						<h3 class="h5 my-0">
+							<button type="button" role="button" aria-label="other id pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##otheridPane" aria-expanded="false" aria-controls="otheridPane">
+								Data Entry Instructions per Column
+							</button>
+						</h3>
 					</div>
-					<div class="col-12 col-md-3">
-						<cfset charsetSelect = getCharsetSelectHTML()>
-					</div>
-					<div class="col-12 col-md-3">
-						<cfset formatSelect = getFormatSelectHTML()>
-					</div>
-					<div class="col-12 col-md-2">
-						<label for="submitButton" class="data-entry-label">&nbsp;</label>
-						<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
+					<div id="otheridPane" class="collapse" aria-labelledby="headingOtherid" data-parent="##accordionOtherid">
+						<div class="card-body" id="otheridCardBody">
+							<p class="px-3 pt-2"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
+							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
+								<cfloop list="#fieldlist#" index="field" delimiters=",">
+									<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+										SELECT comments
+										FROM sys.all_col_comments
+										WHERE 
+											owner = 'MCZBASE'
+											and table_name = 'CF_TEMP_OIDS'
+											and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+									</cfquery>
+									<cfset comment = "">
+									<cfif getComments.recordcount GT 0>
+										<cfset comment = getComments.comments>
+									</cfif>
+									<cfset aria = "">
+									<cfif listContains(requiredfieldlist,field,",")>
+										<cfset class="text-danger">
+										<cfset aria = "aria-label='Required Field'">
+									<cfelse>
+										<cfset class="text-dark">
+									</cfif>
+									<li class="pb-1 mx-3">
+										<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
+									</li>
+								</cfloop>
+							</ul>
+						</div>
 					</div>
 				</div>
-			</form>
+			</div>
+			<div class="">
+				<h2 class="h4 mt-4">Upload a comma-delimited text file (csv)</h2>
+				<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadOtherId.cfm">
+					<div class="form-row border rounded p-2">
+						<input type="hidden" name="action" value="getFile">
+						<div class="col-12 col-md-4">
+							<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
+							<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
+						</div>
+						<div class="col-12 col-md-3">
+							<cfset charsetSelect = getCharsetSelectHTML()>
+						</div>
+						<div class="col-12 col-md-3">
+							<cfset formatSelect = getFormatSelectHTML()>
+						</div>
+						<div class="col-12 col-md-2">
+							<label for="submitButton" class="data-entry-label">&nbsp;</label>
+							<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
+						</div>
+					</div>
+				</form>
+			</div>
+			<script>
+				document.getElementById('copyButton').addEventListener('click', function() {
+					// Get the textarea element
+					var textArea = document.getElementById('templatearea');
+
+					// Select the text content
+					textArea.select();
+
+					try {
+						// Copy the selected text to the clipboard
+						var successful = document.execCommand('copy');
+						var msg = successful ? 'successful' : 'unsuccessful';
+						console.log('Copy command was ' + msg);
+					} catch (err) {
+						console.log('Oops, unable to copy', err);
+					}
+
+					// Optionally deselect the text after copying to avoid confusion
+					window.getSelection().removeAllRanges();
+
+					// Optional: Provide feedback to the user
+					alert('Text copied to clipboard!');
+				});
+			</script>
 		</cfoutput>
 	</cfif>	
 	<!------------------------------------------------------->

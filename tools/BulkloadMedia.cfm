@@ -39,7 +39,7 @@ limitations under the License.
 
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfset separator = "">
-	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	<!---<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT 
 			REGEXP_REPLACE( status, '\s*</?\w+((\s+\w+(\s*=\s*(".*?"|''.*?''|[^''">\s]+))?)+\s*|\s*)/?>\s*', NULL, 1, 0, 'im') AS STATUS, 
 			MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,SUBJECT,MADE_DATE,DESCRIPTION,MEDIA_LICENSE_ID,MASK_MEDIA,
@@ -53,7 +53,7 @@ limitations under the License.
 		FROM cf_temp_media 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
-	</cfquery>
+	</cfquery>--->
 	<cfinclude template="/shared/component/functions.cfc">
 	<cfset csv = queryToCSV(getProblemData)>
 	<cfheader name="Content-Type" value="text/csv">
@@ -153,17 +153,67 @@ limitations under the License.
 	
 	<cfif #action# is "nothing">
 		<cfoutput>
-
 			<p>This tool adds media records. The media can be related to records that have to be in MCZbase prior to uploading this csv. Duplicate columns will be ignored. Some of the values must appear as they do on the controlled vocabulary lists.  For media on the shared storage, you may <a href="/tools/BulkloadMedia.cfm?action=pickTopDirectory">create a bulkloader sheet</a> from files that have no media record.
 			</p>
-			<div class="accordion accordion-flush" id="accordionFlushExample">
-				<div class="accordion-item">
-					<h2 class="accordion-header h3" id="flush-headingOne">
-						<button type="button" class="btn-link text-decoration-dotted text-left h-100 w-100 btn btn-primary" aria-label="collapsiblePane" data-toggle="collapse" data-target="##flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne" title="Controlled Vocabulary">
+			<h2 class="h4">Use Template to Load Data</h2>
+			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
+			<div id="template" class="my-1 mx-0">
+				<label for="templatearea" class="data-entry-label" style="line-height: inherit;">
+					Copy this header line, paste it into a blank worksheet, and save it as a .csv file or <a href="/tools/#pageTitle#.cfm?action=getCSVHeader" class="font-weight-bold">download</a> a template.
+				</label>
+				<textarea style="height: 30px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
+			</div>
+			<div class="accordion" id="accordionID1">
+				<div class="desc card mb-2 bg-light">
+					<div class="card-header" id="headingID1">
+						<h3 class="h5 my-0">
+							<button type="button" role="button" aria-label="id pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane1" aria-expanded="false" aria-controls="IDPane1">
+								Data Entry Instructions per Column
+							</button>
+						</h3>
+					</div>
+					<div id="IDPane1" class="collapse" aria-labelledby="headingID1" data-parent="##accordionID1">
+						<div class="card-body" id="IDCardBody">
+							<p class="px-3 pt-2"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
+							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
+								<cfloop list="#fieldlist#" index="field" delimiters=",">
+									<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+										SELECT comments
+										FROM sys.all_col_comments
+										WHERE 
+											owner = 'MCZBASE'
+											and table_name = 'CF_TEMP_MEDIA'
+											and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+									</cfquery>
+									<cfset comment = "">
+									<cfif getComments.recordcount GT 0>
+										<cfset comment = getComments.comments>
+									</cfif>
+									<cfset aria = "">
+									<cfif listContains(requiredfieldlist,field,",")>
+										<cfset class="text-danger">
+										<cfset aria = "aria-label='Required Field'">
+									<cfelse>
+										<cfset class="text-dark">
+									</cfif>
+									<li class="pb-1 mx-3">
+										<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
+									</li>
+								</cfloop>
+							</ul>
+						</div>
+					</div>
+				</div>
+										
+				<div class="vocab card mb-2 bg-light">
+					<div class="card-header" id="headingID2">
+						<h3 class="h5 my-0">
+							<button type="button" role="button" aria-label="id pane 2" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane2" aria-expanded="false" aria-controls="IDPane2 "title="Controlled Vocabulary">
 							Controlled Vocabulary Lists
-						</button>
-					</h2>
-					<div id="flush-collapseOne" class="accordion-collapse collapse mb-3" aria-labelledby="flush-headingOne" data-parent="##accordionFlushExample">
+							</button>
+						</h3>
+					</div>
+					<div id="IDPane2" class="collapse" aria-labelledby="headingID2" data-parent="##accordionID1">
 						<div class="accordion-body">
 							<p class="px-2 pt-2 pb-0 mb-0">Find controlled vocabulary in MCZbase.</p>
 							<ul class="list-group list-group-horizontal-md">
@@ -177,21 +227,23 @@ limitations under the License.
 									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMIME_TYPE">MIME_TYPE</a> </li><span class="mt-1 d-none d-md-inline-block"> | </span>
 								<li class="list-group-item font-weight-lessbold">
 									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LICENSE">MEDIA_LICENSE</a>
-							  	</li>
+								</li>
 							</ul>
 						</div>
 					</div>
-			  	</div>
-				<div class="accordion-item">
-					<h2 class="accordion-header h3" id="flush-headingTwo">
-						<button class="accordion-button collapsed btn-link text-decoration-dotted text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo" title="Steps">
-						Steps for Bulkloading
-						</button>
-					</h2>
-					<div id="flush-collapseTwo" class="accordion-collapse collapse mb-3" aria-labelledby="flush-headingTwo" data-parent="##accordionFlushExample">
-					  	<div class="accordion-body">			
-						  	<dl class="pt-2">
-								<dt class="float-left px-2">Preparation</dt><dd>Prepare a spreadsheet for bulkload.</dd>
+				</div>
+										
+				<div class="steps card mb-2 bg-light">
+					<div class="card-header" id="headingID3">
+						<h3 class="h5 my-0">
+							<button type="button" role="button" aria-label="id pane 3" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane3" aria-expanded="false" aria-controls="IDPane3">
+							Steps for Bulkloading
+							</button>
+						</h3>
+					<div id="IDPane3" class="collapse" aria-labelledby="headingID3" data-parent="##accordionID1">
+						<div class="accordion-body">			
+							<dl class="pt-2">
+								<dt class="float-left px-2">Preparation:</dt><dd>Prepare a spreadsheet for bulkload.</dd>
 									<ul>
 										<li>Create a spreadsheet with the appropriate column headers (you can use the <a href="/tools/BulkloadMedia.cfm?action=getCSVHeader">template</a>). Make sure that the required fields are included. </li>
 										<li>Ensure MEDIA_URI and PREVIEW_URI fields contain media that exists on the shared drive or external URL. A preview_URI will be created from the media_URI if one is not provided. This gives you the opportunity to pick a representative image (or part of the larger image) that is clearly visible.</li>
@@ -200,20 +252,23 @@ limitations under the License.
 									</ul>
 								<dt class="float-left px-2">Step 1:</dt><dd>Upload a comma-delimited text file (csv). It is best to work in a spreadsheet application and then save a sheet as a CSV file (using save options to make sure that formatting choices are retained). You can go back to the spreadsheet to make the changes and save it again to a CSV with another filename if changes are needed.</dd>
 								<dt class="float-left px-2">Step 2:</dt><dd>Validation. Check the table of data. If there are validation problems, you may download the data as a spreadsheet including the validation messages.</dd>
-								<dt class="float-left px-2">Step 3</dt><dd>Load the data. </dd>
+								<dt class="float-left px-2">Step 3:</dt><dd>Load the data. </dd>
 							</dl>
 						</div>
 					</div>
 				</div>
-				<div class="accordion-item">
-					<h2 class="accordion-header h3" id="flush-headingThree">
-						<button class="accordion-button collapsed btn-link text-decoration-dotted text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree" title="Media Relationships">
-							Media Relationship Entries
-						</button>
-					</h2>
-					<div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-parent="##accordionFlushExample">
-					  	<div class="accordion-body">
-							<p class="pt-2 pb-0 mb-0 px-2">Some relationships require a relationship-specific ID and others can take a value. See the allowed entries for the relationships below:</p>
+			</div>
+										
+				<div class="rels card mb-2 bg-light">
+					<div class="card-header" id="headingID4">
+						<h3 class="h5 my-0">
+							<button type="button" role="button" aria-label="id pane 4" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane4" aria-expanded="false" aria-controls="IDPane4">
+								Media Relationship Entries
+							</button>
+						</h3>
+					</div>
+					<div id="IDPane4" class="collapse" aria-labelledby="headingID4" data-parent="##accordionID1">
+						<div class="accordion-body">			
 							<!--- Load from code table, lookup primary key for target table and display that for all media relationships --->
 							<!--- Add configuration for additional fields this bulkloader supports --->
 							<cfset alsoSupported = StructNew()>
@@ -271,13 +326,16 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-				<div class="accordion-item">
-					<h2 class="accordion-header h3" id="flush-headingFour">
-						<button class="accordion-button collapsed btn-link text-decoration-dotted text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-							Media Licenses
-						</button>
-					</h2>
-					<div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-parent="##accordionFlushExample">
+								
+				<div class="license card mb-2 bg-light">
+					<div class="card-header" id="headingID5">
+						<h3 class="h5 my-0">
+							<button type="button" role="button" aria-label="id pane 5" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane5" aria-expanded="false" aria-controls="IDPane5">
+								Media Licenses
+							</button>
+						</h3>
+					</div>
+					<div id="IDPane5" class="collapse" aria-labelledby="headingID4" data-parent="##accordionID1">
 						<div class="accordion-body">
 							<cfquery name="getMediaLicences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT media_license_id, display, description, uri 
@@ -293,69 +351,25 @@ limitations under the License.
 							</dl>
 						</div>
 					</div>
-				</div>		
-				<div class="accordion-item">
-					<h2 class="accordion-header" id="flush-headingFive">
-					  <button class="accordion-button collapsed btn-link text-decoration-dotted text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
-						Mask Media
-					  </button>
-					</h2>
-					<div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-parent="##accordionFlushExample">
-					  	<div class="accordion-body">
+				</div>
+								
+				<div class="mask card mb-2 bg-light">
+					<div class="card-header" id="headingID5">
+						<h3 class="h5 my-0">
+							<button type="button" role="button" aria-label="id pane 5" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane5" aria-expanded="false" aria-controls="IDPane5">
+								Mask Media
+							</button>
+						</h3>
+					</div>
+					<div id="IDPane5" class="collapse" aria-labelledby="headingID4" data-parent="##accordionID1">
+						<div class="accordion-body">
 							<p class="px-2 mb-3 pb-1">To mark media as hidden from the public, enter 1 in the MASK_MEDIA column. Enter zero or leave blank for public media.</p>
 						</div>
 					</div>
 				</div>
-				<div class="accordion-item">
-					<h2 class="accordion-header" id="flush-headingSix">
-					  <button class="accordion-button collapsed btn-link text-decoration-dotted text-left h-100 w-100 btn btn-primary" type="button" data-toggle="collapse" data-target="##flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
-						Columns for Spreadsheet with Data Entry Instructions
-					  </button>
-					</h2>
-					<div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" data-parent="##accordionFlushExample">
-					  	<div class="accordion-body">
-							<p class="px-2"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
-							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
-								<cfloop list="#fieldlist#" index="field" delimiters=",">
-									<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
-										SELECT comments
-										FROM sys.all_col_comments
-										WHERE 
-											owner = 'MCZBASE'
-											and table_name = 'CF_TEMP_MEDIA'
-											and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
-									</cfquery>
-									<cfset comment = "">
-									<cfif getComments.recordcount GT 0>
-										<cfset comment = getComments.comments>
-									</cfif>
-									<cfset aria = "">
-									<cfif listContains(requiredfieldlist,field,",")>
-										<cfset class="text-danger">
-										<cfset aria = "aria-label='Required Field'">
-									<cfelse>
-										<cfset class="text-dark">
-									</cfif>
-									<li class="pb-1 mx-3">
-										<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
-									</li>
-								</cfloop>
-							</ul>
-						</div>
-					</div>
-				</div>
 			</div>
-			<div>
+			<div class="">
 				<h2 class="h4 mt-4">Upload a comma-delimited text file (csv)</h2>
-				<p>Include column headings, spelled exactly as below. Use "catalog number" as the value of other_id_type to match on catalog number. Click view template and download to create a csv with the column headers in place.</p>
-				<span class="btn btn-xs btn-info mb-3" onclick="document.getElementById('template').style.display='block';">View template</span>
-				<div id="template" style="margin: 1rem 0;display:none;">
-					<label for="templatearea" class="data-entry-label mb-1">
-						Copy this header line and save it as a .csv file (<a href="/tools/#pageTitle#.cfm?action=getCSVHeader" class="font-weight-lessbold">download</a>)
-					</label>
-					<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
-				</div>	
-
 				<form name="getFiles" method="post" enctype="multipart/form-data" action="/tools/#pageTitle#.cfm">
 					<div class="form-row border rounded p-2">
 						<input type="hidden" name="action" value="getFile">
@@ -395,9 +409,31 @@ limitations under the License.
 						</div>
 					</div>
 				</form>
-				
 			</div>
-			
+			<script>
+				document.getElementById('copyButton').addEventListener('click', function() {
+					// Get the textarea element
+					var textArea = document.getElementById('templatearea');
+
+					// Select the text content
+					textArea.select();
+
+					try {
+						// Copy the selected text to the clipboard
+						var successful = document.execCommand('copy');
+						var msg = successful ? 'successful' : 'unsuccessful';
+						console.log('Copy command was ' + msg);
+					} catch (err) {
+						console.log('Oops, unable to copy', err);
+					}
+
+					// Optionally deselect the text after copying to avoid confusion
+					window.getSelection().removeAllRanges();
+
+					// Optional: Provide feedback to the user
+					alert('Text copied to clipboard!');
+				});
+			</script>
 		</cfoutput>
 	</cfif>
 
