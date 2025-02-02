@@ -140,54 +140,55 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-				<div class="">
+			</div>
+			<div>
 				<h2 class="h4 mt-4">Upload a comma-delimited text file (csv)</h2>
-					<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadEditedParts.cfm">
-						<div class="form-row border rounded p-2 mb-3">
-							<input type="hidden" name="action" value="getFile">
-							<div class="col-12 col-md-4">
-								<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
-								<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
-							</div>
-							<div class="col-12 col-md-3">
-								<cfset charsetSelect = getCharsetSelectHTML()>
-							</div>
-							<div class="col-12 col-md-3">
-								<cfset formatSelect = getFormatSelectHTML()>
-							</div>
-							<div class="col-12 col-md-2">
-								<label for="submitButton" class="data-entry-label">&nbsp;</label>
-								<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
-							</div>
+				<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadEditedParts.cfm">
+					<div class="form-row border rounded p-2">
+						<input type="hidden" name="action" value="getFile">
+						<div class="col-12 col-md-4">
+							<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
+							<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
 						</div>
-					</form>
-				</div>
-				<script>
-					document.getElementById('copyButton').addEventListener('click', function() {
-						// Get the textarea element
-						var textArea = document.getElementById('templatearea');
+						<div class="col-12 col-md-3">
+							<cfset charsetSelect = getCharsetSelectHTML()>
+						</div>
+						<div class="col-12 col-md-3">
+							<cfset formatSelect = getFormatSelectHTML()>
+						</div>
+						<div class="col-12 col-md-2">
+							<label for="submitButton" class="data-entry-label">&nbsp;</label>
+							<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
+						</div>
+					</div>
+				</form>
+			</div>
+			<script>
+				document.getElementById('copyButton').addEventListener('click', function() {
+					// Get the textarea element
+					var textArea = document.getElementById('templatearea');
 
-						// Select the text content
-						textArea.select();
+					// Select the text content
+					textArea.select();
 
-						try {
-							// Copy the selected text to the clipboard
-							var successful = document.execCommand('copy');
-							var msg = successful ? 'successful' : 'unsuccessful';
-							console.log('Copy command was ' + msg);
-						} catch (err) {
-							console.log('Oops, unable to copy', err);
-						}
+					try {
+						// Copy the selected text to the clipboard
+						var successful = document.execCommand('copy');
+						var msg = successful ? 'successful' : 'unsuccessful';
+						console.log('Copy command was ' + msg);
+					} catch (err) {
+						console.log('Oops, unable to copy', err);
+					}
 
-						// Optionally deselect the text after copying to avoid confusion
-						window.getSelection().removeAllRanges();
+					// Optionally deselect the text after copying to avoid confusion
+					window.getSelection().removeAllRanges();
 
-						// Optional: Provide feedback to the user
-						alert('Text copied to clipboard!');
-					});
-				</script>
+					// Optional: Provide feedback to the user
+					alert('Text copied to clipboard!');
+				});
+			</script>
 		</cfoutput>
-	</cfif>	
+	</cfif>
 	<!------------------------------------------------------->
 	<cfif variables.action is "getFile">
 		<!--- get form variables --->
