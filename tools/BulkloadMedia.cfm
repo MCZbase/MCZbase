@@ -164,15 +164,43 @@ limitations under the License.
 				<textarea style="height: 60px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
 			</div>
 			<div class="accordion" id="accordionID1">
-				<div class="desc card bg-light">
+				<div class="steps card bg-light">
 					<div class="card-header" id="headingID1">
 						<h3 class="h5 my-0">
-							<button type="button" role="button" aria-label="id pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane1" aria-expanded="false" aria-controls="IDPane1">
-								Data Entry Instructions per Column
+							<button type="button" role="button" aria-label="id pane 3" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane1" aria-expanded="false" aria-controls="IDPane1">
+							Steps for Bulkloading
 							</button>
 						</h3>
 					</div>
 					<div id="IDPane1" class="collapse" aria-labelledby="headingID1" data-parent="##accordionID1">
+						<div class="accordion-body">			
+							<dl class="pt-2 px-3">
+								<dt class="float-left px-2">Preparation:</dt><dd class="px-5 mx-3">Prepare a spreadsheet for bulkload.</dd>
+									<ul class="px-5 mx-3">
+										<li>Create a spreadsheet with the appropriate column headers (you can use the <a href="/tools/BulkloadMedia.cfm?action=getCSVHeader">template</a>). Make sure that the required fields are included. </li>
+										<li>Ensure MEDIA_URI and PREVIEW_URI fields contain media that exists on the shared drive or external URL. A preview_URI will be created from the media_URI if one is not provided. This gives you the opportunity to pick a representative image (or part of the larger image) that is clearly visible.</li>
+										<li>For media on the shared storage, you may <a href="/tools/BulkloadMedia.cfm?action=pickTopDirectory">create a bulkloader sheet</a> from files that have no media record.</li>
+										<li>Check to see that records exist for the relationships fields (e.g., cataloged_item, agent, collecting_event).</li>
+									</ul>
+								<dt class="float-left px-2">Step 1:</dt>
+									<dd class="px-5 mx-3">Upload a comma-delimited text file (csv). It is best to work in a spreadsheet application and then save a sheet as a CSV file (using save options to make sure that formatting choices are retained). You can go back to the spreadsheet to make the changes and save it again to a CSV with another filename if changes are needed.</dd>
+								<dt class="float-left px-2">Step 2:</dt>
+									<dd class="px-5 mx-3">Validation. Check the table of data. If there are validation problems, you may download the data as a spreadsheet including the validation messages.</dd>
+								<dt class="float-left px-2">Step 3:</dt>
+									<dd class="px-5 mx-3">Load the data. </dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				<div class="desc card bg-light">
+					<div class="card-header" id="headingID2">
+						<h3 class="h5 my-0">
+							<button type="button" role="button" aria-label="id pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane2" aria-expanded="false" aria-controls="IDPane2">
+								Data Entry Instructions per Column
+							</button>
+						</h3>
+					</div>
+					<div id="IDPane2" class="collapse" aria-labelledby="headingID2" data-parent="##accordionID1">
 						<div class="card-body" id="IDCardBody">
 							<p class="px-3 pt-2"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
 							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
@@ -206,14 +234,14 @@ limitations under the License.
 				</div>
 										
 				<div class="vocab card bg-light">
-					<div class="card-header" id="headingID2">
+					<div class="card-header" id="headingID3">
 						<h3 class="h5 my-0">
-							<button type="button" role="button" aria-label="id pane 2" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane2" aria-expanded="false" aria-controls="IDPane2 "title="Controlled Vocabulary">
+							<button type="button" role="button" aria-label="id pane 2" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane3" aria-expanded="false" aria-controls="IDPane3" title="Controlled Vocabulary">
 							Controlled Vocabulary Lists
 							</button>
 						</h3>
 					</div>
-					<div id="IDPane2" class="collapse" aria-labelledby="headingID2" data-parent="##accordionID1">
+					<div id="IDPane3" class="collapse" aria-labelledby="headingID3" data-parent="##accordionID1">
 						<div class="accordion-body">
 							<p class="px-3 pt-3 mb-0">Find controlled vocabulary in MCZbase.</p>
 							<ul class="list-group pt-1 pb-2 px-3 list-group-horizontal-md">
@@ -233,34 +261,7 @@ limitations under the License.
 					</div>
 				</div>
 										
-				<div class="steps card bg-light">
-					<div class="card-header" id="headingID3">
-						<h3 class="h5 my-0">
-							<button type="button" role="button" aria-label="id pane 3" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane3" aria-expanded="false" aria-controls="IDPane3">
-							Steps for Bulkloading
-							</button>
-						</h3>
-					</div>
-					<div id="IDPane3" class="collapse" aria-labelledby="headingID3" data-parent="##accordionID1">
-						<div class="accordion-body">			
-							<dl class="pt-2 px-3">
-								<dt class="float-left px-2">Preparation:</dt><dd class="px-5 mx-3">Prepare a spreadsheet for bulkload.</dd>
-									<ul class="px-5 mx-3">
-										<li>Create a spreadsheet with the appropriate column headers (you can use the <a href="/tools/BulkloadMedia.cfm?action=getCSVHeader">template</a>). Make sure that the required fields are included. </li>
-										<li>Ensure MEDIA_URI and PREVIEW_URI fields contain media that exists on the shared drive or external URL. A preview_URI will be created from the media_URI if one is not provided. This gives you the opportunity to pick a representative image (or part of the larger image) that is clearly visible.</li>
-										<li>For media on the shared storage, you may <a href="/tools/BulkloadMedia.cfm?action=pickTopDirectory">create a bulkloader sheet</a> from files that have no media record.</li>
-										<li>Check to see that records exist for the relationships fields (e.g., cataloged_item, agent, collecting_event).</li>
-									</ul>
-								<dt class="float-left px-2">Step 1:</dt>
-									<dd class="px-5 mx-3">Upload a comma-delimited text file (csv). It is best to work in a spreadsheet application and then save a sheet as a CSV file (using save options to make sure that formatting choices are retained). You can go back to the spreadsheet to make the changes and save it again to a CSV with another filename if changes are needed.</dd>
-								<dt class="float-left px-2">Step 2:</dt>
-									<dd class="px-5 mx-3">Validation. Check the table of data. If there are validation problems, you may download the data as a spreadsheet including the validation messages.</dd>
-								<dt class="float-left px-2">Step 3:</dt>
-									<dd class="px-5 mx-3">Load the data. </dd>
-							</dl>
-						</div>
-					</div>
-				</div>
+			
 										
 				<div class="rels card bg-light">
 					<div class="card-header" id="headingID4">
