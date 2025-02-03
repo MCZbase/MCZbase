@@ -991,7 +991,7 @@ limitations under the License.
 						
 				<!--------------------------------------------------------->
 				<!--- Check Height and Width and add if not entered-------->
-				<cfif isimagefile(getTempMedia.media_uri)>
+				<cfif getTempMedia.media_uri EQ 'image' AND  isimagefile(getTempMedia.media_uri)>
 					<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
 					<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_media
