@@ -67,16 +67,16 @@ limitations under the License.
 				</label>
 				<textarea style="height: 30px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
 			</div>
-			<div class="accordion" id="accordionRelations">
+			<div class="accordion" id="accordionID">
 				<div class="card mb-2 bg-light">
-					<div class="card-header" id="headingRelations">
+					<div class="card-header" id="headingID">
 						<h3 class="h5 my-0">
-							<button type="button" role="button" aria-label="Relations pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##RelationsPane" aria-expanded="false" aria-controls="RelationsPane">
+							<button type="button" role="button" aria-label="Relations pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane" aria-expanded="false" aria-controls="IDPane">
 								Data Entry Instructions per Column
 							</button>
 						</h3>
 					</div>
-					<div id="RelationsPane" class="collapse" aria-labelledby="headingIdentifiers" data-parent="##RelationsIdentifiers">
+					<div id="IDPane" class="collapse" aria-labelledby="headingID" data-parent="##accordionID">
 						<div class="card-body" id="RelationsCardBody">
 							<p class="px-3 pt-2"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
 							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
