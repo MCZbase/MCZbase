@@ -974,7 +974,7 @@ limitations under the License.
 				<!--- MD5HASH---------------------------------------------->
 				<cfif left(getTempMedia.media_uri,48) EQ 'https://mczbase.mcz.harvard.edu/specimen_images/' >
 					<!--- build an md5hash of all local files --->
-					<cfset filefull = "#Application.webDirectory#/#Replace(getTempMedla.media_uri,"https://mczbase.mcz.harvard.edu/specimen_images/","")#">
+					<cfset filefull = "#Application.webDirectory#/#Replace(getTempMedia.media_uri,"https://mczbase.mcz.harvard.edu/specimen_images/","")#">
 					<!--- TODO: Replace with Java or shell construction of md5hash, without cfhttp load of full file into memory --->
 					<cfif fileExists("#filefull#")>
 						<cfset info = GetFileInfo("#filefull#")>
