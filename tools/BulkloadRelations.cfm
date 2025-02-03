@@ -76,7 +76,7 @@ limitations under the License.
 							</button>
 						</h3>
 					</div>
-					<div id="IDPane" class="collapse" aria-labelledby="headingID" data-parent="##RelationsID">
+					<div id="IDPane" class="collapse" aria-labelledby="headingID" data-parent="##accordionID">
 						<div class="card-body" id="RelationsCardBody">
 							<p class="px-3 pt-2"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
 							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
