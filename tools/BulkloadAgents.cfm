@@ -100,7 +100,7 @@ limitations under the License.
 				<label for="templatearea" class="data-entry-label" style="line-height: inherit;">
 					Copy this header line, paste it into a blank worksheet, and save it as a .csv file or <a href="/tools/BulkloadAgents.cfm?action=getCSVHeader" class="font-weight-bold">download</a> a template.
 				</label>
-				<textarea style="height: 30px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
+				<textarea style="height: 55px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
 			</div>
 			<div class="accordion" id="accordionID">
 				<div class="card mb-2 bg-light">

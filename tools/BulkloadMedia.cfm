@@ -161,18 +161,46 @@ limitations under the License.
 				<label for="templatearea" class="data-entry-label" style="line-height: inherit;">
 					Copy this header line, paste it into a blank worksheet, and save it as a .csv file or <a href="/tools/#pageTitle#.cfm?action=getCSVHeader" class="font-weight-bold">download</a> a template.
 				</label>
-				<textarea style="height: 30px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
+				<textarea style="height: 60px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
 			</div>
 			<div class="accordion" id="accordionID1">
-				<div class="desc card mb-2 bg-light">
+				<div class="steps card bg-light">
 					<div class="card-header" id="headingID1">
 						<h3 class="h5 my-0">
-							<button type="button" role="button" aria-label="id pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane1" aria-expanded="false" aria-controls="IDPane1">
-								Data Entry Instructions per Column
+							<button type="button" role="button" aria-label="id pane 3" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane1" aria-expanded="false" aria-controls="IDPane1">
+							Steps for Bulkloading
 							</button>
 						</h3>
 					</div>
 					<div id="IDPane1" class="collapse" aria-labelledby="headingID1" data-parent="##accordionID1">
+						<div class="accordion-body">			
+							<dl class="pt-2 px-3">
+								<dt class="float-left px-2">Preparation:</dt><dd class="px-5 mx-3">Prepare a spreadsheet for bulkload.</dd>
+									<ul class="px-5 mx-3">
+										<li>Create a spreadsheet with the appropriate column headers (you can use the <a href="/tools/BulkloadMedia.cfm?action=getCSVHeader">template</a>). Make sure that the required fields are included. </li>
+										<li>Ensure MEDIA_URI and PREVIEW_URI fields contain media that exists on the shared drive or external URL. A preview_URI will be created from the media_URI if one is not provided. This gives you the opportunity to pick a representative image (or part of the larger image) that is clearly visible.</li>
+										<li>For media on the shared storage, you may <a href="/tools/BulkloadMedia.cfm?action=pickTopDirectory">create a bulkloader sheet</a> from files that have no media record.</li>
+										<li>Check to see that records exist for the relationships fields (e.g., cataloged_item, agent, collecting_event).</li>
+									</ul>
+								<dt class="float-left px-2">Step 1:</dt>
+									<dd class="px-5 mx-3">Upload a comma-delimited text file (csv). It is best to work in a spreadsheet application and then save a sheet as a CSV file (using save options to make sure that formatting choices are retained). You can go back to the spreadsheet to make the changes and save it again to a CSV with another filename if changes are needed.</dd>
+								<dt class="float-left px-2">Step 2:</dt>
+									<dd class="px-5 mx-3">Validation. Check the table of data. If there are validation problems, you may download the data as a spreadsheet including the validation messages.</dd>
+								<dt class="float-left px-2">Step 3:</dt>
+									<dd class="px-5 mx-3">Load the data. </dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				<div class="desc card bg-light">
+					<div class="card-header" id="headingID2">
+						<h3 class="h5 my-0">
+							<button type="button" role="button" aria-label="id pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane2" aria-expanded="false" aria-controls="IDPane2">
+								Data Entry Instructions per Column
+							</button>
+						</h3>
+					</div>
+					<div id="IDPane2" class="collapse" aria-labelledby="headingID2" data-parent="##accordionID1">
 						<div class="card-body" id="IDCardBody">
 							<p class="px-3 pt-2"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
 							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
@@ -205,18 +233,18 @@ limitations under the License.
 					</div>
 				</div>
 										
-				<div class="vocab card mb-2 bg-light">
-					<div class="card-header" id="headingID2">
+				<div class="vocab card bg-light">
+					<div class="card-header" id="headingID3">
 						<h3 class="h5 my-0">
-							<button type="button" role="button" aria-label="id pane 2" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane2" aria-expanded="false" aria-controls="IDPane2 "title="Controlled Vocabulary">
+							<button type="button" role="button" aria-label="id pane 2" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane3" aria-expanded="false" aria-controls="IDPane3" title="Controlled Vocabulary">
 							Controlled Vocabulary Lists
 							</button>
 						</h3>
 					</div>
-					<div id="IDPane2" class="collapse" aria-labelledby="headingID2" data-parent="##accordionID1">
+					<div id="IDPane3" class="collapse" aria-labelledby="headingID3" data-parent="##accordionID1">
 						<div class="accordion-body">
-							<p class="px-2 pt-2 pb-0 mb-0">Find controlled vocabulary in MCZbase.</p>
-							<ul class="list-group list-group-horizontal-md">
+							<p class="px-3 pt-3 mb-0">Find controlled vocabulary in MCZbase.</p>
+							<ul class="list-group pt-1 pb-2 px-3 list-group-horizontal-md">
 								<li class="list-group-item font-weight-lessbold">
 									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL</a> </li> <span class="mt-1 d-none d-md-inline-block"> | </span>
 								<li class="list-group-item font-weight-lessbold">
@@ -233,33 +261,9 @@ limitations under the License.
 					</div>
 				</div>
 										
-				<div class="steps card mb-2 bg-light">
-					<div class="card-header" id="headingID3">
-						<h3 class="h5 my-0">
-							<button type="button" role="button" aria-label="id pane 3" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane3" aria-expanded="false" aria-controls="IDPane3">
-							Steps for Bulkloading
-							</button>
-						</h3>
-					<div id="IDPane3" class="collapse" aria-labelledby="headingID3" data-parent="##accordionID1">
-						<div class="accordion-body">			
-							<dl class="pt-2">
-								<dt class="float-left px-2">Preparation:</dt><dd>Prepare a spreadsheet for bulkload.</dd>
-									<ul>
-										<li>Create a spreadsheet with the appropriate column headers (you can use the <a href="/tools/BulkloadMedia.cfm?action=getCSVHeader">template</a>). Make sure that the required fields are included. </li>
-										<li>Ensure MEDIA_URI and PREVIEW_URI fields contain media that exists on the shared drive or external URL. A preview_URI will be created from the media_URI if one is not provided. This gives you the opportunity to pick a representative image (or part of the larger image) that is clearly visible.</li>
-										<li>For media on the shared storage, you may <a href="/tools/BulkloadMedia.cfm?action=pickTopDirectory">create a bulkloader sheet</a> from files that have no media record.</li>
-										<li>Check to see that records exist for the relationships fields (e.g., cataloged_item, agent, collecting_event).</li>
-									</ul>
-								<dt class="float-left px-2">Step 1:</dt><dd>Upload a comma-delimited text file (csv). It is best to work in a spreadsheet application and then save a sheet as a CSV file (using save options to make sure that formatting choices are retained). You can go back to the spreadsheet to make the changes and save it again to a CSV with another filename if changes are needed.</dd>
-								<dt class="float-left px-2">Step 2:</dt><dd>Validation. Check the table of data. If there are validation problems, you may download the data as a spreadsheet including the validation messages.</dd>
-								<dt class="float-left px-2">Step 3:</dt><dd>Load the data. </dd>
-							</dl>
-						</div>
-					</div>
-				</div>
-			</div>
+			
 										
-				<div class="rels card mb-2 bg-light">
+				<div class="rels card bg-light">
 					<div class="card-header" id="headingID4">
 						<h3 class="h5 my-0">
 							<button type="button" role="button" aria-label="id pane 4" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane4" aria-expanded="false" aria-controls="IDPane4">
@@ -295,8 +299,8 @@ limitations under the License.
 									AND cols.position = 1
 								ORDER BY auto_table
 							</cfquery>
-							<p><strong>Note:</strong>Special case for media bulkloads of media related to accessions: If making a relationship to an accession, use the ACCN_NUMBER, but prefix it with an A, soley for the purpose of this bulkload, for example, enter A23252 for accession number 23252 (or use the TRANSACTION_ID, prefixed with a T)</p>
-							<table class="table table-responsive small table-striped mx-2 mb-4">
+							<p class="px-3 pt-3 pb-2 mb-0"><b>Note:</b> Special case for media bulkloads of media related to accessions: If making a relationship to an accession, use the ACCN_NUMBER, but prefix it with an A, soley for the purpose of this bulkload, for example, enter A23252 for accession number 23252 (or use the TRANSACTION_ID, prefixed with a T)</p>
+							<table class="table table-responsive small table-striped mx-3 mb-4">
 								<thead class="thead-light">
 									<tr>
 										<th>Table</th><br>
@@ -327,7 +331,7 @@ limitations under the License.
 					</div>
 				</div>
 								
-				<div class="license card mb-2 bg-light">
+				<div class="license card bg-light">
 					<div class="card-header" id="headingID5">
 						<h3 class="h5 my-0">
 							<button type="button" role="button" aria-label="id pane 5" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane5" aria-expanded="false" aria-controls="IDPane5">
@@ -335,14 +339,14 @@ limitations under the License.
 							</button>
 						</h3>
 					</div>
-					<div id="IDPane5" class="collapse" aria-labelledby="headingID4" data-parent="##accordionID1">
+					<div id="IDPane5" class="collapse" aria-labelledby="headingID5" data-parent="##accordionID1">
 						<div class="accordion-body">
 							<cfquery name="getMediaLicences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT media_license_id, display, description, uri 
 								FROM ctmedia_license
 								ORDER BY media_license_id
 							</cfquery>
-							<p class="pt-2 pb-1 px-2 mb-1">The MEDIA_LICENSE_ID should be entered using the numeric codes below. If omitted this will default to the &quot;1 - MCZ Permissions &amp; Copyright&quot; license.</p>
+							<p class="px-3 py-2 mb-0">The MEDIA_LICENSE_ID should be entered using the numeric codes below. If omitted this will default to the &quot;1 - MCZ Permissions &amp; Copyright&quot; license.</p>
 							<h3 class="small90 pl-3">Media License Codes:</h3>
 							<dl class="pl-3 mb-4">
 								<cfloop query="getMediaLicences">
@@ -354,16 +358,16 @@ limitations under the License.
 				</div>
 								
 				<div class="mask card mb-2 bg-light">
-					<div class="card-header" id="headingID5">
+					<div class="card-header" id="headingID6">
 						<h3 class="h5 my-0">
-							<button type="button" role="button" aria-label="id pane 5" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane5" aria-expanded="false" aria-controls="IDPane5">
+							<button type="button" role="button" aria-label="id pane 5" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane6" aria-expanded="false" aria-controls="IDPane6">
 								Mask Media
 							</button>
 						</h3>
 					</div>
-					<div id="IDPane5" class="collapse" aria-labelledby="headingID4" data-parent="##accordionID1">
+					<div id="IDPane6" class="collapse" aria-labelledby="headingID6" data-parent="##accordionID1">
 						<div class="accordion-body">
-							<p class="px-2 mb-3 pb-1">To mark media as hidden from the public, enter 1 in the MASK_MEDIA column. Enter zero or leave blank for public media.</p>
+							<p class="px-4 my-3">To mark media as hidden from the public, enter 1 in the MASK_MEDIA column. Enter zero or leave blank for public media.</p>
 						</div>
 					</div>
 				</div>
@@ -884,7 +888,7 @@ limitations under the License.
 				<!--- Check MEDIA_URI ------------->
 				<cfset urlToCheck = "#getTempMedia.media_uri#">
 				<cfset validstyle = ''>
-				<cfhttp url="#urlToCheck#" method="GET" timeout="10" throwonerror="false">
+				<cfhttp url="#urlToCheck#" method="HEAD" timeout="10" throwonerror="false">
 				<cfif cfhttp.statusCode NEQ '200 OK'>	
 					<cfquery name="warningBadURI1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
@@ -988,7 +992,7 @@ limitations under the License.
 						
 				<!--------------------------------------------------------->
 				<!--- Check Height and Width and add if not entered-------->
-				<cfif isimagefile(getTempMedia.media_uri)>
+				<cfif getTempMedia.media_type EQ 'image' AND  isimagefile(getTempMedia.media_uri)>
 					<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
 					<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_media
@@ -1010,15 +1014,23 @@ limitations under the License.
 				<!--- MD5HASH---------------------------------------------->
 				<cfif left(getTempMedia.media_uri,48) EQ 'https://mczbase.mcz.harvard.edu/specimen_images/' >
 					<!--- build an md5hash of all local files --->
-					<cfhttp url="#getTempMedia.media_uri#" method="get" getAsBinary="yes" result="result">
-					<cfset MD5HASH=Hash(result.filecontent,"MD5")>
-					<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_media
-						SET MD5HASH = '#MD5HASH#'
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-						AND
-							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-					</cfquery>
+					<cfset filefull = "#Application.webDirectory#/#Replace(getTempMedia.media_uri,"https://mczbase.mcz.harvard.edu/specimen_images/","")#">
+					<!--- TODO: Replace with Java or shell construction of md5hash, without cfhttp load of full file into memory --->
+					<cfif fileExists("#filefull#")>
+						<cfset info = GetFileInfo("#filefull#")>
+						<cfset size = info.size>
+						<cfif size LT 3115008><!--- 3MB --->
+							<cfhttp url="#getTempMedia.media_uri#" method="get" getAsBinary="yes" result="result">
+							<cfset MD5HASH=Hash(result.filecontent,"MD5")>
+							<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								UPDATE cf_temp_media
+								SET MD5HASH = '#MD5HASH#'
+								where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+								AND
+									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+							</cfquery>
+						</cfif>
+					</cfif>
 				</cfif>
 				<!----------END MD5HASH----------------------------------->
 
