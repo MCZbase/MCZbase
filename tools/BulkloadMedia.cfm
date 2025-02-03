@@ -161,7 +161,7 @@ limitations under the License.
 				<label for="templatearea" class="data-entry-label" style="line-height: inherit;">
 					Copy this header line, paste it into a blank worksheet, and save it as a .csv file or <a href="/tools/#pageTitle#.cfm?action=getCSVHeader" class="font-weight-bold">download</a> a template.
 				</label>
-				<textarea style="height: 30px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
+				<textarea style="height: 55px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
 			</div>
 			<div class="accordion" id="accordionID1">
 				<div class="desc card mb-2 bg-light">
@@ -205,7 +205,7 @@ limitations under the License.
 					</div>
 				</div>
 										
-				<div class="vocab card mb-2 bg-light">
+				<div class="vocab card bg-light">
 					<div class="card-header" id="headingID2">
 						<h3 class="h5 my-0">
 							<button type="button" role="button" aria-label="id pane 2" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane2" aria-expanded="false" aria-controls="IDPane2 "title="Controlled Vocabulary">
@@ -233,7 +233,7 @@ limitations under the License.
 					</div>
 				</div>
 										
-				<div class="steps card mb-2 bg-light">
+				<div class="steps card bg-light">
 					<div class="card-header" id="headingID3">
 						<h3 class="h5 my-0">
 							<button type="button" role="button" aria-label="id pane 3" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane3" aria-expanded="false" aria-controls="IDPane3">
@@ -243,23 +243,26 @@ limitations under the License.
 					<div id="IDPane3" class="collapse" aria-labelledby="headingID3" data-parent="##accordionID1">
 						<div class="accordion-body">			
 							<dl class="pt-2">
-								<dt class="float-left px-2">Preparation:</dt><dd>Prepare a spreadsheet for bulkload.</dd>
-									<ul>
+								<dt class="float-left px-2">Preparation:</dt><dd class="px-5 mx-3">Prepare a spreadsheet for bulkload.</dd>
+									<ul class="px-5 mx-3">
 										<li>Create a spreadsheet with the appropriate column headers (you can use the <a href="/tools/BulkloadMedia.cfm?action=getCSVHeader">template</a>). Make sure that the required fields are included. </li>
 										<li>Ensure MEDIA_URI and PREVIEW_URI fields contain media that exists on the shared drive or external URL. A preview_URI will be created from the media_URI if one is not provided. This gives you the opportunity to pick a representative image (or part of the larger image) that is clearly visible.</li>
 										<li>For media on the shared storage, you may <a href="/tools/BulkloadMedia.cfm?action=pickTopDirectory">create a bulkloader sheet</a> from files that have no media record.</li>
 										<li>Check to see that records exist for the relationships fields (e.g., cataloged_item, agent, collecting_event).</li>
 									</ul>
-								<dt class="float-left px-2">Step 1:</dt><dd>Upload a comma-delimited text file (csv). It is best to work in a spreadsheet application and then save a sheet as a CSV file (using save options to make sure that formatting choices are retained). You can go back to the spreadsheet to make the changes and save it again to a CSV with another filename if changes are needed.</dd>
-								<dt class="float-left px-2">Step 2:</dt><dd>Validation. Check the table of data. If there are validation problems, you may download the data as a spreadsheet including the validation messages.</dd>
-								<dt class="float-left px-2">Step 3:</dt><dd>Load the data. </dd>
+								<dt class="float-left px-2">Step 1:</dt>
+									<dd class="px-5 mx-3">Upload a comma-delimited text file (csv). It is best to work in a spreadsheet application and then save a sheet as a CSV file (using save options to make sure that formatting choices are retained). You can go back to the spreadsheet to make the changes and save it again to a CSV with another filename if changes are needed.</dd>
+								<dt class="float-left px-2">Step 2:</dt>
+									<dd class="px-5 mx-3">Validation. Check the table of data. If there are validation problems, you may download the data as a spreadsheet including the validation messages.</dd>
+								<dt class="float-left px-2">Step 3:</dt>
+									<dd class="px-5 mx-3">Load the data. </dd>
 							</dl>
 						</div>
 					</div>
 				</div>
 			</div>
 										
-				<div class="rels card mb-2 bg-light">
+				<div class="rels card bg-light">
 					<div class="card-header" id="headingID4">
 						<h3 class="h5 my-0">
 							<button type="button" role="button" aria-label="id pane 4" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane4" aria-expanded="false" aria-controls="IDPane4">
@@ -295,7 +298,7 @@ limitations under the License.
 									AND cols.position = 1
 								ORDER BY auto_table
 							</cfquery>
-							<p><strong>Note:</strong>Special case for media bulkloads of media related to accessions: If making a relationship to an accession, use the ACCN_NUMBER, but prefix it with an A, soley for the purpose of this bulkload, for example, enter A23252 for accession number 23252 (or use the TRANSACTION_ID, prefixed with a T)</p>
+							<p class="px-2 pt-2 pb-0 mb-0">Note: Special case for media bulkloads of media related to accessions: If making a relationship to an accession, use the ACCN_NUMBER, but prefix it with an A, soley for the purpose of this bulkload, for example, enter A23252 for accession number 23252 (or use the TRANSACTION_ID, prefixed with a T)</p>
 							<table class="table table-responsive small table-striped mx-2 mb-4">
 								<thead class="thead-light">
 									<tr>
