@@ -614,13 +614,13 @@ limitations under the License.
 				<cfif #a1.recordcount# is not 1>
 					<cfif len(#a1.agent_id#) is 0>
 						UPDATE cf_temp_id
-						SET status = concat(nvl2(status, status || '; ', ''),'agent_1 ['|| agent_1 ||'] not in database')
+						SET status = concat(nvl2(status, status || '; ', ''),'agent_1 #a1.agent_id# is not in database')
 						WHERE agent_1 is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">
 					<cfelse>
 						UPDATE cf_temp_id
-						SET status = concat(nvl2(status, status || '; ', ''),'agent_1 matched #a1.recordcount# records in the database')
+						SET status = concat(nvl2(status, status || '; ', ''),'AGENT_1 matched #a1.recordcount# records in the database')
 						WHERE agent_1 is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">
