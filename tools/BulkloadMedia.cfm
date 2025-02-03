@@ -974,15 +974,23 @@ limitations under the License.
 				<!--- MD5HASH---------------------------------------------->
 				<cfif left(getTempMedia.media_uri,48) EQ 'https://mczbase.mcz.harvard.edu/specimen_images/' >
 					<!--- build an md5hash of all local files --->
-					<cfhttp url="#getTempMedia.media_uri#" method="get" getAsBinary="yes" result="result">
-					<cfset MD5HASH=Hash(result.filecontent,"MD5")>
-					<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_media
-						SET MD5HASH = '#MD5HASH#'
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-						AND
-							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-					</cfquery>
+					<cfset filefull = "#Application.webDirectory#/#Replace(getTempMedla.media_uri,"https://mczbase.mcz.harvard.edu/specimen_images/","")#">
+					<!--- TODO: Replace with Java or shell construction of md5hash, without cfhttp load of full file into memory --->
+					<cfif fileExists("#filefull#")>
+						<cfset info = GetFileInfo("#filefull#")>
+						<cfset size = info.size>
+						<cfif size LT 3115008><!--- 3MB --->
+							<cfhttp url="#getTempMedia.media_uri#" method="get" getAsBinary="yes" result="result">
+							<cfset MD5HASH=Hash(result.filecontent,"MD5")>
+							<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								UPDATE cf_temp_media
+								SET MD5HASH = '#MD5HASH#'
+								where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+								AND
+									key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+							</cfquery>
+						</cfif>
+					</cfif>
 				</cfif>
 				<!----------END MD5HASH----------------------------------->
 
