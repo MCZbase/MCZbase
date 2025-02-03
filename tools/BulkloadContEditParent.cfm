@@ -39,9 +39,9 @@ limitations under the License.
 </cfif>
 <!--- end special case dump of problems --->
 
-<cfset fieldlist = "container_unique_id,parent_unique_id,container_type,container_name,description,remarks,width,height,length,number_positions">
+<cfset fieldlist = "CONTAINER_UNIQUE_ID,PARENT_UNIQUE_ID,CONTAINER_TYPE,CONTAINER_NAME,DESCRIPTION,REMARKS,WIDTH,HEIGHT,LENGTH,NUMBER_POSITIONS">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL">
-<cfset requiredfieldlist = "container_unique_id,container_type,container_name">
+<cfset requiredfieldlist = "CONTAINER_UNIQUE_ID,CONTAINER_TYPE,CONTAINER_NAME">
 
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
