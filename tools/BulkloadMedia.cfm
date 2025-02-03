@@ -161,10 +161,10 @@ limitations under the License.
 				<label for="templatearea" class="data-entry-label" style="line-height: inherit;">
 					Copy this header line, paste it into a blank worksheet, and save it as a .csv file or <a href="/tools/#pageTitle#.cfm?action=getCSVHeader" class="font-weight-bold">download</a> a template.
 				</label>
-				<textarea style="height: 55px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
+				<textarea style="height: 77px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
 			</div>
 			<div class="accordion" id="accordionID1">
-				<div class="desc card mb-2 bg-light">
+				<div class="desc card bg-light">
 					<div class="card-header" id="headingID1">
 						<h3 class="h5 my-0">
 							<button type="button" role="button" aria-label="id pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane1" aria-expanded="false" aria-controls="IDPane1">
@@ -330,7 +330,7 @@ limitations under the License.
 					</div>
 				</div>
 								
-				<div class="license card mb-2 bg-light">
+				<div class="license card bg-light">
 					<div class="card-header" id="headingID5">
 						<h3 class="h5 my-0">
 							<button type="button" role="button" aria-label="id pane 5" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##IDPane5" aria-expanded="false" aria-controls="IDPane5">
