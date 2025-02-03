@@ -455,6 +455,7 @@ limitations under the License.
 					DELETE FROM cf_temp_media
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<!--- 
 				<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					DELETE FROM cf_temp_media_relations
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -463,6 +464,7 @@ limitations under the License.
 					DELETE FROM cf_temp_media_labels 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				--->
 
 				<cfset variables.foundHeaders =""><!--- populated by loadCsvFile --->
 				<cfset variables.size=""><!--- populated by loadCsvFile --->
