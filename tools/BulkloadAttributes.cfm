@@ -74,19 +74,18 @@ limitations under the License.
 				</label>
 				<textarea style="height: 30px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
 			</div>
-			<div class="accordion" id="accordionIdentifiers">
+			<div class="accordion" id="accordionAtt">
 				<div class="card mb-2 bg-light">
-					<div class="card-header" id="headingIdentifiers">
+					<div class="card-header" id="headingAtt">
 						<h3 class="h5 my-0">
-							<button type="button" role="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="false" aria-controls="identifiersPane">
+							<button type="button" role="button" aria-label="attribute pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##attPane" aria-expanded="false" aria-controls="attPane">
 								Data Entry Instructions per Column
 							</button>
 						</h3>
 					</div>
-					<div id="identifiersPane" class="collapse" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
-						<div class="card-body" id="identifiersCardBody">
+					<div id="attPane" class="collapse" aria-labelledby="headingAtt" data-parent="##accordionAtt">
+						<div class="card-body" id="attCardBody">
 							<p class="px-3 pt-2"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
-			
 							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
 								<cfloop list="#fieldlist#" index="field" delimiters=",">
 									<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
@@ -117,7 +116,7 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-			<div>
+			<div class="">
 				<h2 class="h4 mt-4">Upload a comma-delimited text file (csv)</h2>
 				<form name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
 					<div class="form-row border rounded p-2">
