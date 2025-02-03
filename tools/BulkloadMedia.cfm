@@ -215,7 +215,7 @@ limitations under the License.
 					</div>
 					<div id="IDPane2" class="collapse" aria-labelledby="headingID2" data-parent="##accordionID1">
 						<div class="accordion-body">
-							<p class="px-2 pt-3 pb-0 mb-0">Find controlled vocabulary in MCZbase.</p>
+							<p class="px-3 pt-3 mb-0">Find controlled vocabulary in MCZbase.</p>
 							<ul class="list-group pt-1 pb-2 px-3 list-group-horizontal-md">
 								<li class="list-group-item font-weight-lessbold">
 									<a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">MEDIA_LABEL</a> </li> <span class="mt-1 d-none d-md-inline-block"> | </span>
@@ -298,7 +298,7 @@ limitations under the License.
 									AND cols.position = 1
 								ORDER BY auto_table
 							</cfquery>
-							<p class="px-4 pt-2 pb-2 mb-0"><b>Note:</b> Special case for media bulkloads of media related to accessions: If making a relationship to an accession, use the ACCN_NUMBER, but prefix it with an A, soley for the purpose of this bulkload, for example, enter A23252 for accession number 23252 (or use the TRANSACTION_ID, prefixed with a T)</p>
+							<p class="px-3 pt-3 pb-2 mb-0"><b>Note:</b> Special case for media bulkloads of media related to accessions: If making a relationship to an accession, use the ACCN_NUMBER, but prefix it with an A, soley for the purpose of this bulkload, for example, enter A23252 for accession number 23252 (or use the TRANSACTION_ID, prefixed with a T)</p>
 							<table class="table table-responsive small table-striped mx-3 mb-4">
 								<thead class="thead-light">
 									<tr>
@@ -345,7 +345,7 @@ limitations under the License.
 								FROM ctmedia_license
 								ORDER BY media_license_id
 							</cfquery>
-							<p class="px-4 pt-2 pb-2 mb-0">The MEDIA_LICENSE_ID should be entered using the numeric codes below. If omitted this will default to the &quot;1 - MCZ Permissions &amp; Copyright&quot; license.</p>
+							<p class="px-3 py-2 mb-0">The MEDIA_LICENSE_ID should be entered using the numeric codes below. If omitted this will default to the &quot;1 - MCZ Permissions &amp; Copyright&quot; license.</p>
 							<h3 class="small90 pl-3">Media License Codes:</h3>
 							<dl class="pl-3 mb-4">
 								<cfloop query="getMediaLicences">
