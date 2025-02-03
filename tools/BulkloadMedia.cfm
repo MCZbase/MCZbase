@@ -848,7 +848,7 @@ limitations under the License.
 				<!--- Check MEDIA_URI ------------->
 				<cfset urlToCheck = "#getTempMedia.media_uri#">
 				<cfset validstyle = ''>
-				<cfhttp url="#urlToCheck#" method="GET" timeout="10" throwonerror="false">
+				<cfhttp url="#urlToCheck#" method="HEAD" timeout="10" throwonerror="false">
 				<cfif cfhttp.statusCode NEQ '200 OK'>	
 					<cfquery name="warningBadURI1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE
