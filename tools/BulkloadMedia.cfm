@@ -39,7 +39,7 @@ limitations under the License.
 
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfset separator = "">
-	<!---<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT 
 			REGEXP_REPLACE( status, '\s*</?\w+((\s+\w+(\s*=\s*(".*?"|''.*?''|[^''">\s]+))?)+\s*|\s*)/?>\s*', NULL, 1, 0, 'im') AS STATUS, 
 			MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,SUBJECT,MADE_DATE,DESCRIPTION,MEDIA_LICENSE_ID,MASK_MEDIA,
@@ -53,7 +53,7 @@ limitations under the License.
 		FROM cf_temp_media 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
-	</cfquery>--->
+	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc">
 	<cfset csv = queryToCSV(getProblemData)>
 	<cfheader name="Content-Type" value="text/csv">
