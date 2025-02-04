@@ -1006,8 +1006,9 @@ limitations under the License.
 				<cfif len(height) GT 0 and len(width) GT 0>
 					<cfquery name="setHWFromUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_media
-							SET  height = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#height#">
-							SET  width = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#height#">
+						SET  
+							height = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#height#">,
+							width = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#height#">
 						WHERE 
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 							AND
@@ -1019,8 +1020,9 @@ limitations under the License.
 						<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
 						<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_media
-								SET  height = <cfif len(getTempMedia.height) gt 0>#getTempMedia.height#<cfelse>#imgInfo.height#</cfif>
-								SET  width = <cfif len(getTempMedia.height) gt 0>#getTempMedia.width#<cfelse>#imgInfo.width#</cfif>
+							SET  
+								height = <cfif len(getTempMedia.height) gt 0>#getTempMedia.height#<cfelse>#imgInfo.height#</cfif>,
+								width = <cfif len(getTempMedia.height) gt 0>#getTempMedia.width#<cfelse>#imgInfo.width#</cfif>
 							WHERE 
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 								AND
