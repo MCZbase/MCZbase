@@ -153,7 +153,7 @@ limitations under the License.
 	
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>This tool adds media records. The media can be related to records that have to be in MCZbase prior to uploading this csv. Duplicate columns will be ignored. Some of the values must appear as they do on the controlled vocabulary lists.  For media on the shared storage, you may <a href="/tools/BulkloadMedia.cfm?action=pickTopDirectory">create a bulkloader sheet</a> from files that have no media record.
+			<p>This tool adds media records. The media can be related to records that have to be in MCZbase prior to uploading this csv. Duplicate columns will be ignored. Some of the values must appear as they do on the controlled vocabulary lists.  For media on the shared storage, you may <a href="/tools/BulkloadMedia.cfm?action=pickTopDirectory">create a bulkloader sheet</a> from files that have no media record.  For very large image files you must include height and width attributes.
 			</p>
 			<h2 class="h4">Use Template to Load Data</h2>
 			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
@@ -991,23 +991,42 @@ limitations under the License.
 				</cfloop>
 						
 				<!--------------------------------------------------------->
-				<!--- Check Height and Width and add if not entered-------->
-				<cfif getTempMedia.media_type EQ 'image' AND  isimagefile(getTempMedia.media_uri)>
-					<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
-					<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfset height = "">
+				<cfset width= "">
+				<cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" index="i">
+					<cfset label = evaluate("getTempMedia.MEDIA_LABEL_#i#")>
+					<cfset value = evaluate("getTempMedia.LABEL_VALUE_#i#")>
+					<cfif label EQ "height" AND len(value) GT 0 >
+						<cfset height = value>
+					</cfif>
+					<cfif label EQ "width" AND len(value) GT 0 >
+						<cfset width = value>
+					</cfif>
+				</cfloop>
+				<cfif len(height) GT 0 and len(width) GT 0>
+					<cfquery name="setHWFromUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_media
-						SET  height = <cfif len(getTempMedia.height) gt 0>#getTempMedia.height#<cfelse>#imgInfo.height#</cfif>
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-						AND
+							SET  height = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#height#">
+							SET  width = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#height#">
+						WHERE 
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+							AND
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
-					<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_media
-						SET  width = <cfif len(getTempMedia.height) gt 0>#getTempMedia.width#<cfelse>#imgInfo.width#</cfif>
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND
-							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-					</cfquery>
+				<cfelse>
+					<!--- Check Height and Width and add if not entered-------->
+					<cfif getTempMedia.media_type EQ 'image' AND  isimagefile(getTempMedia.media_uri)>
+						<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
+						<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_media
+								SET  height = <cfif len(getTempMedia.height) gt 0>#getTempMedia.height#<cfelse>#imgInfo.height#</cfif>
+								SET  width = <cfif len(getTempMedia.height) gt 0>#getTempMedia.width#<cfelse>#imgInfo.width#</cfif>
+							WHERE 
+								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+								AND
+								key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+						</cfquery>
+					</cfif>
 				</cfif>
 				<!----------END height and width labels------------------->
 
