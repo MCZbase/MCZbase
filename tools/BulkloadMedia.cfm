@@ -1274,7 +1274,7 @@ limitations under the License.
 												join (select * from coll_obj_cont_hist where current_container_fg = 1)  ch on (sp.collection_object_id = ch.collection_object_id)
 												join  container c on (ch.container_id = c.container_id)
 												join  container pc on (c.parent_container_id = pc.container_id)
-											where pc.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lv#">
+											where pc.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.media_related_to#">
 										</cfquery>
 										<cfif c.recordcount is 1 and len(c.collection_object_id) gt 0>
 											<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
