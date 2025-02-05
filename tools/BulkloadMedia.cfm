@@ -16,6 +16,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+
+<!--- increase timout to three minutes --->
+<cfsetting requestTimeOut = "180" />
+
 <!--- Set configuration for lists of fields --->  
 <cfset NUMBER_OF_LABEL_VALUE_PAIRS = 8>
 <cfset NUMBER_OF_RELATIONSHIP_PAIRS = 4>
