@@ -1018,7 +1018,7 @@ limitations under the License.
 				<cfelseif getTempMedia.media_type EQ 'image'>
 					<!--- Check Height and Width and add if not entered-------->
 					<cfset foundHW = false>
-					<cfset filefull = "#Application.webDirectory#/#Replace(getTempMedia.media_uri,"https://mczbase.mcz.harvard.edu/specimen_images/","")#">
+					<cfset filefull = "#Application.webDirectory#/#Replace(getTempMedia.media_uri,"https://mczbase.mcz.harvard.edu/","")#">
 					<cfif fileExists("#filefull#")>
 						<cfset standardOut = "">
 						<cftry>
@@ -1075,7 +1075,7 @@ limitations under the License.
 				<!--- MD5HASH---------------------------------------------->
 				<cfif left(getTempMedia.media_uri,48) EQ 'https://mczbase.mcz.harvard.edu/specimen_images/' >
 					<!--- build an md5hash of all local files --->
-					<cfset filefull = "#Application.webDirectory#/#Replace(getTempMedia.media_uri,"https://mczbase.mcz.harvard.edu/specimen_images/","")#">
+					<cfset filefull = "#Application.webDirectory#/#Replace(getTempMedia.media_uri,"https://mczbase.mcz.harvard.edu/","")#">
 					<cfif fileExists("#filefull#")>
 						<cfset info = GetFileInfo("#filefull#")>
 						<cfset size = info.size>
