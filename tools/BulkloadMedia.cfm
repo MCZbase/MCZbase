@@ -1233,7 +1233,7 @@ limitations under the License.
 											</cfloop>
 										</cfif>
 									<cfelseif #getMediaRel.media_relationship# contains 'specimen_part' and len(getMediaRel.MEDIA_RELATED_TO) gt 0>
-										<cfloop list="#getMediaRel.MEDIA_RELATED_TO_#" index="l" delimiters=":">
+										<cfloop list="#getMediaRel.MEDIA_RELATED_TO#" index="l" delimiters=":">
 											<cfset IA = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,1,":")>
 											<cfset CCDE = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,2,":")>
 											<cfset CI = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,3,":")>
