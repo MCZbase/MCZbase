@@ -1,6 +1,7 @@
 <cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
+<script type="text/javascript" src="/shared/js/shared-scripts.js"></script> 
 <cfoutput>
 <script language="javascript" type="text/javascript">
 	$(document).ready(function() {
