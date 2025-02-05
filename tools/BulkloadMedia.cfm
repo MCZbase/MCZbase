@@ -1084,7 +1084,7 @@ limitations under the License.
 							<!--- small file, just load and calculate --->
 							<cfhttp url="#getTempMedia.media_uri#" method="get" getAsBinary="yes" result="result">
 							<cfset MD5HASH=Hash(result.filecontent,"MD5")>
-						<cfelse
+						<cfelse>
 							<!--- large file, handle in shell --->
 							<cfexecute name="/usr/bin/md5sum" arguments="'#filefull#'" variable="standardOut" errorVariable="errorOut"  timeout="10" >
 							<cfif isDefined("standardOut") AND len(standardOut) GT 0>
