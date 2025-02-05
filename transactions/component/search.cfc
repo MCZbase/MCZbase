@@ -1040,7 +1040,7 @@ limitations under the License.
 				loan left join trans on loan.transaction_id = trans.transaction_id
 			WHERE 
 				upper(loan_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(term)#%">
-			ORDER BY loan_number
+			ORDER BY
 				to_number(regexp_substr (loan.loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan.loan_number, '[0-9]+', 1, 2)), loan.loan_number
 		</cfquery>
 		<cfset rows = search_result.recordcount>
