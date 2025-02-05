@@ -1087,7 +1087,7 @@ limitations under the License.
 						<cfelse>
 							<!--- large file, handle in shell --->
 							<cftry>
-								<cfexecute name="/usr/bin/md5sum" arguments="#filefull#" variable="standardOut" errorVariable="errorOut"  timeout="12" >
+								<cfexecute name="/usr/bin/md5sum" arguments="#filefull#" variable="standardOut" errorVariable="errorOut"  timeout="4" >
 								<cfif isDefined("standardOut") AND len(standardOut) GT 0>
 									<cfset MD5HASH = ListFirst(standardOut," ",false)>
 								</cfif>
