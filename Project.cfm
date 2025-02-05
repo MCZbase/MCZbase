@@ -582,7 +582,21 @@
 			<a name="pub"></a>
 			<p>
 				<strong>Project Publications</strong>
-				<a href="/SpecimenUsage.cfm?toproject_id=#getDetails.project_id#">[ add Publication ]</a>
+				<form name="addPublication" method="post" action="Project.cfm">
+					<div style="width: 100%; border: 1px gray; border-style: solid; padding: 3px;">
+						<input type="hidden" name="action" id="addPublicationAction" value="addPublication">
+						<input type="hidden" name="project_id" value="#getDetails.project_id#">
+						<input type="hidden" name="publication_id" id="publication_id" value="">
+						<label for="publication">Publication</label>
+						<input type="text" name="publication" id="publication" value="" style="width: 90%">
+						<input type="submit" id="addPublicationButton" value="Add Publication" class="savBtn">
+						<script>
+							$(document).ready(function () {
+								makePublicationAutocompleteMeta("publication", "publication_id")
+							});
+						</script>
+					</div>
+				</form>
 				<cfset i=1>
 				<cfloop query="publications">
 		 			<div #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
@@ -667,6 +681,21 @@
 				<cfif isDefined("project_loan_remarks") AND len(project_loan_remarks) GT 0>
 					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#project_loan_remarks#">
 				</cfif>
+			)
+		</cfquery>
+	<cflocation url="Project.cfm?Action=editProject&project_id=#project_id###trans" addtoken="false">
+	</cfoutput>
+</cfif>				
+<!------------------------------------------------------------------------------------------->
+<cfif action is "addPublication">
+	<cfoutput>
+		<cfquery name="addPublication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			INSERT INTO project_publication (
+				 project_id,
+				 publication_id
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.project_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.publication_id#">
 			)
 		</cfquery>
 	<cflocation url="Project.cfm?Action=editProject&project_id=#project_id###trans" addtoken="false">
