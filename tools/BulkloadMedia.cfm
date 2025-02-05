@@ -16,6 +16,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+
+<!--- increase timout to three minutes --->
+<cfsetting requestTimeOut = "180" />
+
 <!--- Set configuration for lists of fields --->  
 <cfset NUMBER_OF_LABEL_VALUE_PAIRS = 8>
 <cfset NUMBER_OF_RELATIONSHIP_PAIRS = 4>
@@ -39,7 +43,7 @@ limitations under the License.
 
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfset separator = "">
-	<!---<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT 
 			REGEXP_REPLACE( status, '\s*</?\w+((\s+\w+(\s*=\s*(".*?"|''.*?''|[^''">\s]+))?)+\s*|\s*)/?>\s*', NULL, 1, 0, 'im') AS STATUS, 
 			MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,SUBJECT,MADE_DATE,DESCRIPTION,MEDIA_LICENSE_ID,MASK_MEDIA,
@@ -53,7 +57,7 @@ limitations under the License.
 		FROM cf_temp_media 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
-	</cfquery>--->
+	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc">
 	<cfset csv = queryToCSV(getProblemData)>
 	<cfheader name="Content-Type" value="text/csv">
@@ -153,7 +157,7 @@ limitations under the License.
 	
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>This tool adds media records. The media can be related to records that have to be in MCZbase prior to uploading this csv. Duplicate columns will be ignored. Some of the values must appear as they do on the controlled vocabulary lists.  For media on the shared storage, you may <a href="/tools/BulkloadMedia.cfm?action=pickTopDirectory">create a bulkloader sheet</a> from files that have no media record.
+			<p>This tool adds media records. The media can be related to records that have to be in MCZbase prior to uploading this csv. Duplicate columns will be ignored. Some of the values must appear as they do on the controlled vocabulary lists.  For media on the shared storage, you may <a href="/tools/BulkloadMedia.cfm?action=pickTopDirectory">create a bulkloader sheet</a> from files that have no media record.  For very large image files you may include height and width attributes to skip automatic calculation if that is too slow.
 			</p>
 			<h2 class="h4">Use Template to Load Data</h2>
 			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
@@ -991,37 +995,112 @@ limitations under the License.
 				</cfloop>
 						
 				<!--------------------------------------------------------->
-				<!--- Check Height and Width and add if not entered-------->
-				<cfif getTempMedia.media_type EQ 'image' AND  isimagefile(getTempMedia.media_uri)>
-					<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
-					<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfset height = "">
+				<cfset width= "">
+				<cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" index="i">
+					<cfset label = evaluate("getTempMedia.MEDIA_LABEL_#i#")>
+					<cfset value = evaluate("getTempMedia.LABEL_VALUE_#i#")>
+					<cfif label EQ "height" AND len(value) GT 0 >
+						<cfset height = value>
+					</cfif>
+					<cfif label EQ "width" AND len(value) GT 0 >
+						<cfset width = value>
+					</cfif>
+				</cfloop>
+				<cfif len(height) GT 0 and len(width) GT 0>
+					<!--- if user specified attributes, use these --->
+					<cfquery name="setHWFromUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_media
-						SET  height = <cfif len(getTempMedia.height) gt 0>#getTempMedia.height#<cfelse>#imgInfo.height#</cfif>
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-						AND
+						SET  
+							height = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#height#">,
+							width = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#height#">
+						WHERE 
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+							AND
 							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
 					</cfquery>
-					<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_media
-						SET  width = <cfif len(getTempMedia.height) gt 0>#getTempMedia.width#<cfelse>#imgInfo.width#</cfif>
-						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND
-							key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
-					</cfquery>
+				<cfelseif getTempMedia.media_type EQ 'image'>
+					<!--- Check Height and Width and add if not entered-------->
+					<cfset foundHW = false>
+					<cfset filefull = "#Application.webDirectory#/#Replace(getTempMedia.media_uri,"https://mczbase.mcz.harvard.edu/","")#">
+					<cfif fileExists("#filefull#")>
+						<cfset standardOut = "">
+						<cftry>
+							<!--- try to use ImageMagick identify to find height/width --->
+							<!--- note that slide scans are multi-image tiffs, so more than one line of output with h x w values. --->
+							<cfexecute name="/usr/bin/identify" arguments="#filefull#" variable="standardOut" errorVariable="errorOut"  timeout="10" >
+							<cfif isDefined("standardOut") AND len(standardOut) GT 0>
+								<!--- look for the height x width part of the string in the identify output (option -format "%h,%w" is not working) --->
+								<cfset heightxwidth = REMatch(" [0-9]+x[0-9]+ ",standardOut)>
+								<cfif ArrayLen(heightxwidth) GT 0>
+									<cfset aheight = Trim(ListFirst(ArrayFirst(heightxwidth),"x"))>
+									<cfset awidth = Trim(ListLast(ArrayFirst(heightxwidth),"x"))>
+									<cfif len(aheight) GT 0 AND len(awidth) GT 0>
+										<cfset foundHW = true>
+										<cfquery name="setHWFromIM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											UPDATE cf_temp_media
+											SET  
+												height = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#aheight#">,
+												width = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#awidth#">
+											WHERE 
+												username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+												AND
+												key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+										</cfquery>
+									</cfif>
+								</cfif>
+							</cfif>
+						<cfcatch></cfcatch>
+						</cftry>
+						<cfif NOT foundHW>
+							<cfset info = GetFileInfo("#filefull#")>
+							<cfset size = info.size>
+							<cfif size LT 3221225472><!--- 30 MB --->
+								<!--- failover for smaller files, load image into memory and use coldfusion to find height/width --->
+								<cfif getTempMedia.media_type EQ 'image' AND  isimagefile(getTempMedia.media_uri)>
+									<cfimage action="info" source="#getTempMedia.media_uri#" structname="imgInfo"/>
+									<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										UPDATE cf_temp_media
+										SET  
+											height = <cfif len(getTempMedia.height) gt 0>#getTempMedia.height#<cfelse>#imgInfo.height#</cfif>,
+											width = <cfif len(getTempMedia.height) gt 0>#getTempMedia.width#<cfelse>#imgInfo.width#</cfif>
+										WHERE 
+											username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+											AND
+											key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia.key#">
+									</cfquery>
+								</cfif>
+							</cfif>
+						</cfif>
+					</cfif>
 				</cfif>
 				<!----------END height and width labels------------------->
 
 				<!--- MD5HASH---------------------------------------------->
 				<cfif left(getTempMedia.media_uri,48) EQ 'https://mczbase.mcz.harvard.edu/specimen_images/' >
 					<!--- build an md5hash of all local files --->
-					<cfset filefull = "#Application.webDirectory#/#Replace(getTempMedia.media_uri,"https://mczbase.mcz.harvard.edu/specimen_images/","")#">
-					<!--- TODO: Replace with Java or shell construction of md5hash, without cfhttp load of full file into memory --->
+					<cfset filefull = "#Application.webDirectory#/#Replace(getTempMedia.media_uri,"https://mczbase.mcz.harvard.edu/","")#">
 					<cfif fileExists("#filefull#")>
 						<cfset info = GetFileInfo("#filefull#")>
 						<cfset size = info.size>
+						<cfset MD5HASH = "">
 						<cfif size LT 3115008><!--- 3MB --->
+							<!--- small file, just load and calculate --->
 							<cfhttp url="#getTempMedia.media_uri#" method="get" getAsBinary="yes" result="result">
 							<cfset MD5HASH=Hash(result.filecontent,"MD5")>
+						<cfelseif size LT 3221225472><!--- 300 MB --->
+							<!--- large file, handle in shell, but skip very large, likely to timeout load --->
+							<cftry>
+								<cfexecute name="/usr/bin/md5sum" arguments="#filefull#" variable="standardOut" errorVariable="errorOut"  timeout="4" >
+								<cfif isDefined("standardOut") AND len(standardOut) GT 0>
+									<cfset MD5HASH = ListFirst(standardOut," ",false)>
+								</cfif>
+							<cfcatch>
+								<!--- may timeout with large files on shared storage --->
+							</cfcatch>
+							</cftry>
+						</cfif>
+						<cfif len(MD5HASH) GT 0>
 							<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_media
 								SET MD5HASH = '#MD5HASH#'
