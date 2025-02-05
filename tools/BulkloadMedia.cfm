@@ -1045,7 +1045,7 @@ limitations under the License.
 										</cfquery>
 									</cfif>
 								</cfif>
-							<cfif>
+							</cfif>
 						<cfcatch></cfcatch>
 						</cftry>
 						<cfif NOT foundHW>
