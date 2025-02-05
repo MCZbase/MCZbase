@@ -513,7 +513,7 @@
 								$('##'+nameControl).autocomplete({
 									source: function (request, response) {
 										$.ajax({
-											url: "/transactions/component/functions.cfc",
+											url: "/transactions/component/search.cfc",
 											data: { term: request.term, method: 'getLoanAutocomplete' },
 											dataType: 'json',
 											success : function (data) { response(data); },
