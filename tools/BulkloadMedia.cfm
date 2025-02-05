@@ -1086,10 +1086,15 @@ limitations under the License.
 							<cfset MD5HASH=Hash(result.filecontent,"MD5")>
 						<cfelse>
 							<!--- large file, handle in shell --->
-							<cfexecute name="/usr/bin/md5sum" arguments="'#filefull#'" variable="standardOut" errorVariable="errorOut"  timeout="10" >
-							<cfif isDefined("standardOut") AND len(standardOut) GT 0>
-								<cfset MD5HASH = ListFirst(standardOut," ",false)>
-							</cfif>
+							<cftry>
+								<cfexecute name="/usr/bin/md5sum" arguments="#filefull#" variable="standardOut" errorVariable="errorOut"  timeout="12" >
+								<cfif isDefined("standardOut") AND len(standardOut) GT 0>
+									<cfset MD5HASH = ListFirst(standardOut," ",false)>
+								</cfif>
+							<cfcatch>
+								<!--- may timeout with large files on shared storage --->
+							</cfcatch>
+							</cftry>
 						</cfif>
 						<cfif len(MD5HASH) GT 0>
 							<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
