@@ -1023,14 +1023,14 @@ limitations under the License.
 						<cfset standardOut = "">
 						<cftry>
 							<!--- try to use ImageMagick identify to find height/width --->
-							<!--- note that slide scans are multi-image tiffs, so just get first line of output with head -n 1 --->
-							<cfexecute name="bash" arguments="/usr/bin/identify '#filefull#' | head -n 1" variable="standardOut" errorVariable="errorOut"  timeout="10" >
+							<!--- note that slide scans are multi-image tiffs, so more than one line of output with h x w values. --->
+							<cfexecute name="/usr/bin/identify" arguments="#filefull#" variable="standardOut" errorVariable="errorOut"  timeout="10" >
 							<cfif isDefined("standardOut") AND len(standardOut) GT 0>
 								<!--- look for the height x width part of the string in the identify output (option -format "%h,%w" is not working) --->
 								<cfset heightxwidth = REMatch(" [0-9]+x[0-9]+ ",standardOut)>
-								<cfif ArrayLen(heightxwidth) EQ 1>
-									<cfset height = Trim(ListFirst(heightxwidth,"x"))>
-									<cfset width = Trim(ListLast(heightxwidth,"x"))>
+								<cfif ArrayLen(heightxwidth) GT 0>
+									<cfset height = Trim(ListFirst(ArrayFirst(heightxwidth),"x"))>
+									<cfset width = Trim(ListLast(ArrayFirst(heightxwidth),"x"))>
 									<cfif len(height) GT 0 AND len(width) GT 0>
 										<cfset foundHW = true>
 										<cfquery name="setHWFromIM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
