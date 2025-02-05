@@ -1276,7 +1276,7 @@ limitations under the License.
 												join  container pc on (c.parent_container_id = pc.container_id)
 											where pc.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.media_related_to#">
 										</cfquery>
-										<cfif c.recordcount is 1 and len(c.collection_object_id) gt 0>
+										<cfif c.recordcount is 1 and len(c.part_id) gt 0>
 											<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												UPDATE cf_temp_media 
 												SET media_related_to_#i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#c.part_id#"> AND
