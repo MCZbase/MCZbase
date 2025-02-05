@@ -282,7 +282,7 @@ limitations under the License.
 							<cfset alsoSupported = StructNew()>
 							<cfset alsoSupported['agent']="AGENT_NAME">
 							<cfset alsoSupported['cataloged_item']="GUID">
-							<cfset alsoSupported['specimen_part']="GUID">
+							<cfset alsoSupported['specimen_part']="PART CONTAINER BARCODE, or GUID">
 							<cfset alsoSupported['underscore_collection']="COLLECTION_NAME">
 							<cfset alsoSupported['project']="PROJECT_NAME">
 							<cfset alsoSupported['accn']="ACCN_NUMBER">
