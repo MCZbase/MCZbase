@@ -1029,15 +1029,15 @@ limitations under the License.
 								<!--- look for the height x width part of the string in the identify output (option -format "%h,%w" is not working) --->
 								<cfset heightxwidth = REMatch(" [0-9]+x[0-9]+ ",standardOut)>
 								<cfif ArrayLen(heightxwidth) GT 0>
-									<cfset height = Trim(ListFirst(ArrayFirst(heightxwidth),"x"))>
-									<cfset width = Trim(ListLast(ArrayFirst(heightxwidth),"x"))>
-									<cfif len(height) GT 0 AND len(width) GT 0>
+									<cfset aheight = Trim(ListFirst(ArrayFirst(heightxwidth),"x"))>
+									<cfset awidth = Trim(ListLast(ArrayFirst(heightxwidth),"x"))>
+									<cfif len(aheight) GT 0 AND len(awidth) GT 0>
 										<cfset foundHW = true>
 										<cfquery name="setHWFromIM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											UPDATE cf_temp_media
 											SET  
-												height = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#height#">,
-												width = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#height#">
+												height = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#aheight#">,
+												width = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#awidth#">
 											WHERE 
 												username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 												AND
