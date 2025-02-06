@@ -1693,7 +1693,7 @@ limitations under the License.
 								AND len(getTempData.width) GT 0 
 								AND len(preview_uri) EQ 0 
 								AND getTempData.media_type EQ "image" 
-								AND Find("http://mczbase.mcz.harvard.edu/specimen_images/",getTempData.media_uri) EQ 1
+								AND Find("https://mczbase.mcz.harvard.edu/specimen_images/",getTempData.media_uri) EQ 1
 								AND Val(getTempData.width) GTE 400 
 							>
 								<!--- Generate a thumbnail link for on the iiif server --->
