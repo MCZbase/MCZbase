@@ -1694,7 +1694,7 @@ limitations under the License.
 								AND len(preview_uri) EQ 0 
 								AND getTempData.media_type EQ "image" 
 								AND Find("http://mczbase.mcz.harvard.edu/specimen_images/",getTempData.media_uri) EQ 1
-								AND getTempData.width GTE 400 
+								AND Val(getTempData.width) GTE 400 
 							>
 								<!--- Generate a thumbnail link for on the iiif server --->
 								<cfset apreview_uri = "https://iiif.mcz.harvard.edu/iiif/3/#media_id#/full/%5E400,/0/default.jpg">
@@ -1713,7 +1713,7 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_uri#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.mime_type#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_type#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.preview_uri#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#apreview_uri#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#medialicenseid_local#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maskmedia_local#">
 								)
