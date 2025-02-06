@@ -282,7 +282,7 @@ limitations under the License.
 							<cfset alsoSupported = StructNew()>
 							<cfset alsoSupported['agent']="AGENT_NAME">
 							<cfset alsoSupported['cataloged_item']="GUID">
-							<cfset alsoSupported['specimen_part']="GUID">
+							<cfset alsoSupported['specimen_part']="PART CONTAINER BARCODE, or GUID">
 							<cfset alsoSupported['underscore_collection']="COLLECTION_NAME">
 							<cfset alsoSupported['project']="PROJECT_NAME">
 							<cfset alsoSupported['accn']="ACCN_NUMBER">
@@ -1213,44 +1213,89 @@ limitations under the License.
 									<!--- SPECIAL CASES - Cataloged_item and specimen_part--->
 									<cfif #getMediaRel.MEDIA_RELATED_TO# contains "MCZ:">
 										<cfif #getMediaRel.media_relationship# contains 'cataloged_item' and len(getMediaRel.MEDIA_RELATED_TO) gt 0>
-											<cfset l=3>
-											<cfloop list="#getMediaRel.MEDIA_RELATED_TO#" index="l" delimiters=":">
-												<cfset IA = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,1,":")>
-												<cfset CCDE = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,2,":")>
-												<cfset CI = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,3,":")>
-												<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-													update cf_temp_media set MEDIA_RELATED_TO_#i# =
-													(
-														select collection_object_id
-														from #theTable# 
-														where cat_num = '#CI#' 
-														and collection_cde = '#CCDE#'
-													)
-													WHERE MEDIA_RELATED_TO_#i# is not null AND
-														username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
-														key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
-												</cfquery>
-											</cfloop>
-										</cfif>
-									<cfelseif #getMediaRel.media_relationship# contains 'specimen_part' and len(getMediaRel.MEDIA_RELATED_TO) gt 0>
-										<cfloop list="#getMediaRel.MEDIA_RELATED_TO#" index="l" delimiters=":">
 											<cfset IA = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,1,":")>
 											<cfset CCDE = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,2,":")>
 											<cfset CI = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,3,":")>
 											<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												update cf_temp_media set MEDIA_RELATED_TO_#i# =
-												(
-													select #theTable#.collection_object_id
-													from #theTable#,cataloged_item
-													where cataloged_item.cat_num = '#CI#' 
-													and cataloged_item.collection_cde = '#CCDE#'
-													and cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
-												)
-												WHERE MEDIA_RELATED_TO_#i# is not null AND
+												update cf_temp_media 
+												set MEDIA_RELATED_TO_#i# =
+													(
+														select collection_object_id
+														from cataloged_item 
+														where cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CI#">
+															and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CCDE#">
+														)
+													WHERE MEDIA_RELATED_TO_#i# is not null AND
+													username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+													key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+											</cfquery>
+										<cfelseif #getMediaRel.media_relationship# contains 'specimen_part' and len(getMediaRel.MEDIA_RELATED_TO) gt 0>
+											<cfset IA = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,1,":")>
+											<cfset CCDE = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,2,":")>
+											<cfset CI = listGetAt(#getMediaRel.MEDIA_RELATED_TO#,3,":")>
+											<cfquery name="chkCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												select sp.collection_object_id
+												from cataloged_item 
+													join specimen_part sp on cataloged_item.collection_object_id = sp.derived_from_cat_item
+												where cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CI#">
+													and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CCDE#">
+											</cfquery>
+											<cfif chkCount NEQ 1>
+												<cfquery name="warningFailedPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+													UPDATE
+														cf_temp_media
+													SET
+														status = concat(nvl2(status, status || '; ', ''),'failed to find exactly one specimen part for media_related_to_id_#i#  with GUID ['|| media_related_to_#i# ||'].')
+													WHERE
+														username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+														key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+												</cfquery>
+											<cfelse>
+												<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+													update cf_temp_media 
+													set MEDIA_RELATED_TO_#i# =
+														(
+															select sp.collection_object_id
+															from cataloged_item 
+																join specimen_part sp on cataloged_item.collection_object_id = sp.derived_from_cat_item
+															where cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CI#">
+																and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CCDE#">
+															)
+														WHERE MEDIA_RELATED_TO_#i# is not null AND
+														username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+														key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+												</cfquery>
+											</cfif> 
+										</cfif>
+									<cfelseif #getMediaRel.media_relationship# contains 'specimen_part' and len(getMediaRel.MEDIA_RELATED_TO) gt 0>
+										<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											select sp.collection_object_id as part_id
+											from specimen_part sp
+												join (select * from coll_obj_cont_hist where current_container_fg = 1)  ch on (sp.collection_object_id = ch.collection_object_id)
+												join  container c on (ch.container_id = c.container_id)
+												join  container pc on (c.parent_container_id = pc.container_id)
+											where pc.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.media_related_to#">
+										</cfquery>
+										<cfif c.recordcount is 1 and len(c.part_id) gt 0>
+											<cfquery name="chkCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												UPDATE cf_temp_media 
+												SET media_related_to_#i# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#c.part_id#">
+												WHERE media_related_to_#i# IS NOT NULL AND
 													username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 													key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMediaRel.key#">
 											</cfquery>
-										</cfloop>
+										<cfelseif REFIND("^[0-9]+$",getMediaRel.MEDIA_RELATED_TO) EQ 0>
+											
+											<cfquery name="warningFailedPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												UPDATE
+													cf_temp_media
+												SET
+													status = concat(nvl2(status, status || '; ', ''),'failed to find a specimen part for media_related_to_id_#i# using part container barcode ['|| media_related_to_#i# ||'].')
+													WHERE
+														username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> and
+														key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempMedia2.key#">
+											</cfquery>
+										</cfif>
 									<cfelseif getMediaRel.media_relationship contains 'agent' and !isNumeric(getMediaRel.MEDIA_RELATED_TO)>
 										<!-------------------------------------------------------------------------->			
 										<!---Update and check media relationships that can take either ID or Name--->
@@ -1624,34 +1669,6 @@ limitations under the License.
 										AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
 								</cfquery>
 							</cfif>
-							<cfset hasHeightProvided = false>
-							<cfquery name="checkForHeight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								SELECT count(*) ct
-								FROM cf_temp_media
-								WHERE 
-									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
-									<cfloop index="lvidx" from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#">
-										AND media_label_#lvidx# = 'height'
-										AND label_value_#lvidx# IS NOT NULL
-									</cfloop>
-							</cfquery>
-							<cfif checkForHeight.ct GT 0>
-								<cfset hasHeightProvided = true>
-							</cfif>
-							<cfset hasWidthProvided = false>
-							<cfquery name="checkForWidth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								SELECT count(*) ct
-								FROM cf_temp_media
-								WHERE 
-									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
-									<cfloop index="lvidx" from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#">
-										AND media_label_#lvidx# = 'width'
-										AND label_value_#lvidx# IS NOT NULL
-									</cfloop>
-							</cfquery>
-							<cfif checkForWidth.ct GT 0>
-								<cfset hasWidthProvided = true>
-							</cfif>
 
 							<cfset username = '#session.username#'>
 							<cfset problem_key = getTempData.key>
@@ -1671,6 +1688,17 @@ limitations under the License.
 							<cfelse>
 								<cfset maskmedia_local = mask_media>
 							</cfif>
+							<cfset apreview_uri = getTempData.preview_uri>
+							<cfif len(getTempData.height) GT 0 
+								AND len(getTempData.width) GT 0 
+								AND len(preview_uri) EQ 0 
+								AND getTempData.media_type EQ "image" 
+								AND Find("https://mczbase.mcz.harvard.edu/specimen_images/",getTempData.media_uri) EQ 1
+								AND Val(getTempData.width) GTE 400 
+							>
+								<!--- Generate a thumbnail link for on the iiif server --->
+								<cfset apreview_uri = "https://iiif.mcz.harvard.edu/iiif/3/#media_id#/full/%5E400,/0/default.jpg">
+							</cfif>
 							<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="insResult">
 								INSERT into media (
 									media_id,
@@ -1685,7 +1713,7 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_uri#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.mime_type#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.media_type#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.preview_uri#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#apreview_uri#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#medialicenseid_local#">,
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maskmedia_local#">
 								)
@@ -1764,38 +1792,33 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 								)
 							</cfquery>
-							<cfif isimagefile(getTempData.media_uri) AND (NOT hasHeightProvided OR NOT hasWidthProvided)>
-								<cfimage action="info" source="#getTempData.media_uri#" structname="imgInfo"/>
-								<cfif NOT hasHeightProvided>
-									<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										insert into media_labels (
-											media_id,
-											MEDIA_LABEL,
-											LABEL_VALUE,
-											ASSIGNED_BY_AGENT_ID
-										) values (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-											'height',
-											<cfif len(getTempData.height) gt 0>#getTempData.height#<cfelse>#imgInfo.height#</cfif>,
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-										)
-									</cfquery>
-								</cfif>
-								<cfif NOT hasWidthProvided>
-									<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										insert into media_labels (
-											media_id,
-											MEDIA_LABEL,
-											LABEL_VALUE,
-											ASSIGNED_BY_AGENT_ID
-										) values (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-											'width',
-											<cfif len(getTempData.width) gt 0>#getTempData.width#<cfelse>#imgInfo.width#</cfif>,
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-										)
-									</cfquery>
-								</cfif>
+							<cfif len(getTempData.height) GT 0 and len(getTempData.width) GT 0 >
+								<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									insert into media_labels (
+										media_id,
+										MEDIA_LABEL,
+										LABEL_VALUE,
+										ASSIGNED_BY_AGENT_ID
+									) values (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+										'height',
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.height#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+									)
+								</cfquery>
+								<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									insert into media_labels (
+										media_id,
+										MEDIA_LABEL,
+										LABEL_VALUE,
+										ASSIGNED_BY_AGENT_ID
+									) values (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+										'width',
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.width#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+									)
+								</cfquery>
 							</cfif>
 							<cfif len(getTempData.MD5HASH) GT 0>
 								<cfquery name="makehash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1816,7 +1839,9 @@ limitations under the License.
 								<cfif len(evaluate('getTempData.media_label_'&kvpNum)) gt 0>
 									<cfset mediaLabel = evaluate('getTempData.media_label_'&kvpNum)>
 									<cfset mediaLabelValue = evaluate('getTempData.label_value_'&kvpNum)>
-									<cfif len(trim(mediaLabel)) GT 0 AND len(trim(mediaLabelValue)) GT 0>
+									<cfif mediaLabel EQ "height" OR mediaLabel EQ "width"> 
+										<!--- skip, height and width values are in getTempData.height and width after validation step --->
+									<cfelseif len(trim(mediaLabel)) GT 0 AND len(trim(mediaLabelValue)) GT 0>
 										<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
 											INSERT into media_labels (
 												media_id,
