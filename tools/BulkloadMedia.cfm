@@ -1688,6 +1688,17 @@ limitations under the License.
 							<cfelse>
 								<cfset maskmedia_local = mask_media>
 							</cfif>
+							<cfset apreview_uri = getTempData.preview_uri>
+							<cfif len(getTempData.height) GT 0 
+								AND len(getTempData.width) GT 0 
+								AND len(preview_uri) EQ 0 
+								AND getTempData.media_type EQ "image" 
+								AND Find("http://mczbase.mcz.harvard.edu/specimen_images/",getTempData.media_uri) EQ 1
+								AND getTempData.width GTE 400 
+							>
+								<!--- Generate a thumbnail link for on the iiif server --->
+								<cfset apreview_uri = "https://iiif.mcz.harvard.edu/iiif/3/#media_id#/full/%5E400,/0/default.jpg">
+							</cfif>
 							<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="insResult">
 								INSERT into media (
 									media_id,
