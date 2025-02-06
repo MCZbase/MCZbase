@@ -1669,34 +1669,6 @@ limitations under the License.
 										AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
 								</cfquery>
 							</cfif>
-							<cfset hasHeightProvided = false>
-							<cfquery name="checkForHeight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								SELECT count(*) ct
-								FROM cf_temp_media
-								WHERE 
-									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
-									<cfloop index="lvidx" from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#">
-										AND media_label_#lvidx# = 'height'
-										AND label_value_#lvidx# IS NOT NULL
-									</cfloop>
-							</cfquery>
-							<cfif checkForHeight.ct GT 0>
-								<cfset hasHeightProvided = true>
-							</cfif>
-							<cfset hasWidthProvided = false>
-							<cfquery name="checkForWidth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								SELECT count(*) ct
-								FROM cf_temp_media
-								WHERE 
-									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
-									<cfloop index="lvidx" from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#">
-										AND media_label_#lvidx# = 'width'
-										AND label_value_#lvidx# IS NOT NULL
-									</cfloop>
-							</cfquery>
-							<cfif checkForWidth.ct GT 0>
-								<cfset hasWidthProvided = true>
-							</cfif>
 
 							<cfset username = '#session.username#'>
 							<cfset problem_key = getTempData.key>
@@ -1809,38 +1781,33 @@ limitations under the License.
 									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 								)
 							</cfquery>
-							<cfif isimagefile(getTempData.media_uri) AND (NOT hasHeightProvided OR NOT hasWidthProvided)>
-								<cfimage action="info" source="#getTempData.media_uri#" structname="imgInfo"/>
-								<cfif NOT hasHeightProvided>
-									<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										insert into media_labels (
-											media_id,
-											MEDIA_LABEL,
-											LABEL_VALUE,
-											ASSIGNED_BY_AGENT_ID
-										) values (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-											'height',
-											<cfif len(getTempData.height) gt 0>#getTempData.height#<cfelse>#imgInfo.height#</cfif>,
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-										)
-									</cfquery>
-								</cfif>
-								<cfif NOT hasWidthProvided>
-									<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										insert into media_labels (
-											media_id,
-											MEDIA_LABEL,
-											LABEL_VALUE,
-											ASSIGNED_BY_AGENT_ID
-										) values (
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-											'width',
-											<cfif len(getTempData.width) gt 0>#getTempData.width#<cfelse>#imgInfo.width#</cfif>,
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
-										)
-									</cfquery>
-								</cfif>
+							<cfif len(getTempData.height) GT 0 and len(getTempData.width) GT 0 >
+								<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									insert into media_labels (
+										media_id,
+										MEDIA_LABEL,
+										LABEL_VALUE,
+										ASSIGNED_BY_AGENT_ID
+									) values (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+										'height',
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.height#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+									)
+								</cfquery>
+								<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									insert into media_labels (
+										media_id,
+										MEDIA_LABEL,
+										LABEL_VALUE,
+										ASSIGNED_BY_AGENT_ID
+									) values (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+										'width',
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.width#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+									)
+								</cfquery>
 							</cfif>
 							<cfif len(getTempData.MD5HASH) GT 0>
 								<cfquery name="makehash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1861,7 +1828,9 @@ limitations under the License.
 								<cfif len(evaluate('getTempData.media_label_'&kvpNum)) gt 0>
 									<cfset mediaLabel = evaluate('getTempData.media_label_'&kvpNum)>
 									<cfset mediaLabelValue = evaluate('getTempData.label_value_'&kvpNum)>
-									<cfif len(trim(mediaLabel)) GT 0 AND len(trim(mediaLabelValue)) GT 0>
+									<cfif mediaLabel EQ "height" OR mediaLabel EQ "width"> 
+										<!--- skip, height and width values are in getTempData.height and width after validation step --->
+									<cfelseif len(trim(mediaLabel)) GT 0 AND len(trim(mediaLabelValue)) GT 0>
 										<cfquery name="makeLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="LabResult">
 											INSERT into media_labels (
 												media_id,
