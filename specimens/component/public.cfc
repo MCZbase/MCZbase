@@ -921,7 +921,7 @@ limitations under the License.
 							specimen_part.collection_object_id part_id,
 							<cfif oneOfUs EQ 1>
 								pc.label, 
-								pc.container_id as container_id	
+								pc.container_id as container_id,
 							<cfelse>
 								null as label,
 								null as container_id,
