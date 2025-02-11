@@ -1080,7 +1080,7 @@ limitations under the License.
 									<cfif oneOfus is "1">
 										<cfquery name="container_parentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT
-												label, barcode, parent_install_date, container_remarks, container_type
+												label, barcode, parent_install_date, container_remarks, container_type,
 												container_id, parent_container_id
 											FROM
 												container
