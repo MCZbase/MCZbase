@@ -1084,7 +1084,7 @@ limitations under the License.
 												container_id, parent_container_id
 											FROM
 												container
-											START WITH container_id = <cfsqlparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.container_id#">
+											START WITH container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.container_id#">
 											CONNECT BY PRIOR parent_container_id = container_id
 										</cfquery>
 										<td class="pb-0">
