@@ -412,9 +412,10 @@ limitations under the License.
 											border: 1px solid ##ccc;  /* Optional styling */
 											padding: 10px;
 										}
+										p.top {margin-top: 1rem;}
 									</style>
 									<!--- identify the problematic row --->
-									<cfset error_message="<p>#COLUMN_ERR# from Row #row# in input file. It only shows the first error. There could be more once this one is resolved.</p>  <p class='wrapped-text'>Headers: <br>[#colNames#]</p><p class='wrapped-text'>Row #row#: <br>[#ArrayToList(collValuesArray)#]</p><p><red>Error Message: #cfcatch.message#</red></p>">
+									<cfset error_message="<p class='top'>Error Location: #COLUMN_ERR# from Row #row# in input file. </p><p class='wrapped-text'>Headers: <br>[#colNames#]</p><p class='wrapped-text'>Row #row#: <br>[#ArrayToList(collValuesArray)#]</p><p>Error Message: <red>#cfcatch.message#</red></p>">
 										<!--- " --->
 									<cfif isDefined("cfcatch.queryError")>
 										<cfset error_message = "#error_message# #cfcatch.queryError#">
