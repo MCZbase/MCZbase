@@ -404,6 +404,23 @@ limitations under the License.
 									<cfset loadedRows = loadedRows + insert_result.recordcount>
 								<cfcatch>
 									 <cfoutput>
+										<style>
+												table {
+													width: 100%;  /* Responsive width */
+												}
+
+												th, td {
+													padding: 8px;
+													border: 1px solid #ddd;  /* Optional styling */
+													text-align: left;
+												}
+
+												table th, table td {
+													white-space: normal;  /* Allow text to wrap */
+													word-wrap: break-word;  /* Break long words if necessary */
+													max-width: 150px;  /* Limit width to trigger wrapping */
+												}
+										 </style>
 										<script type="text/javascript">
 											try {
 												// Switching let to var
@@ -430,7 +447,7 @@ limitations under the License.
 										</script>
 									</cfoutput>
 									<!--- identify the problematic row --->
-									<cfset error_message="<p>#COLUMN_ERR# from Row #row# in input file. It only shows the first error. There could be more once this one is resolved.</p>  <p>Headers: [#colNames#]</p><p>Row #row#: [#ArrayToList(collValuesArray)#]</p><p><b>Error Message: #cfcatch.message#</p>">
+									<cfset error_message="<p>#COLUMN_ERR# from Row #row# in input file. It only shows the first error. There could be more once this one is resolved.</p> #colNames2# <p>Headers: [#colNames#]</p><p>Row #row#: [#ArrayToList(collValuesArray)#]</p><p><b>Error Message: #cfcatch.message#</p>">
 										<!--- " --->
 									<cfif isDefined("cfcatch.queryError")>
 										<cfset error_message = "#error_message# #cfcatch.queryError#">
