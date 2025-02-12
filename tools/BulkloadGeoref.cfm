@@ -348,7 +348,6 @@ limitations under the License.
 					<cfset foundHighCount = 0>
 					<cfset foundHighAscii = "">
 					<cfset foundMultiByte = "">
-						<cfset colNames2 = "">
 					<!--- Iterate through the remaining rows inserting the data into the temp table. --->
 					<cfset row = 0>
 					<cfloop condition="#iterator.hasNext()#">
@@ -404,51 +403,9 @@ limitations under the License.
 								</cfquery>
 									<cfset loadedRows = loadedRows + insert_result.recordcount>
 								<cfcatch>
-									 <cfoutput>
-										<style>
-												table {
-													width: 100%;  /* Responsive width */
-												}
-
-												th, td {
-													padding: 8px;
-													border: 1px solid ##ddd;  /* Optional styling */
-													text-align: left;
-												}
-
-												table th, table td {
-													white-space: normal;  /* Allow text to wrap */
-													word-wrap: break-word;  /* Break long words if necessary */
-													max-width: 150px;  /* Limit width to trigger wrapping */
-												}
-										 </style>
-										<script type="text/javascript">
-											try {
-												// Switching let to var
-												var colNames2 = "<cfoutput>#colNames#</cfoutput>";
-
-												// Split the headers into an array
-												var headersArray = csvHeaders.split(",");
-
-												// Create a simple table to display the headers
-												var table = document.createElement('table');
-												var headerRow = table.insertRow();
-
-												headersArray.forEach(function(header) {
-													var cell = headerRow.insertCell();
-													cell.textContent = header;  // Set the header content
-													cell.style.whiteSpace = 'normal';  // Ensure text can wrap
-												});
-
-												// Append the table to the document body
-												document.body.appendChild(table);
-											} catch (e) {
-												console.error("Error processing headers:", e);
-											}
-										</script>
-									</cfoutput>
+									<style>red {color: red;}</style>
 									<!--- identify the problematic row --->
-									<cfset error_message="<p>#COLUMN_ERR# from Row #row# in input file. It only shows the first error. There could be more once this one is resolved.</p> #colNames2# <p>Headers: [#colNames#]</p><p>Row #row#: [#ArrayToList(collValuesArray)#]</p><p><b>Error Message: #cfcatch.message#</p>">
+									<cfset error_message="<p>#COLUMN_ERR# from Row #row# in input file. It only shows the first error. There could be more once this one is resolved.</p>  <p>Headers: [#colNames#]</p><p>Row #row#: [#ArrayToList(collValuesArray)#]</p><p><red>Error Message: #cfcatch.message#</red></p>">
 										<!--- " --->
 									<cfif isDefined("cfcatch.queryError")>
 										<cfset error_message = "#error_message# #cfcatch.queryError#">
