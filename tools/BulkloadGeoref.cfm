@@ -409,7 +409,7 @@ limitations under the License.
 											max-width: 100%;  /* Adjust as needed for your layout */
 											white-space: normal;  /* Allow wrapping */
 											word-wrap: break-word;  /* Break long words if necessary */
-											border: 1px solid #ccc;  /* Optional styling */
+											border: 1px solid ##ccc;  /* Optional styling */
 											padding: 10px;
 										}
 									</style>
