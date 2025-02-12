@@ -419,9 +419,9 @@ limitations under the License.
 									</cfif>
 
 									<!--- Output parts for example purposes --->
-									<cfdump var="#errorType#" label="Error Type">
-									<cfdump var="#errorDescription#" label="Error Description">
-									<cfdump var="#sqlState#" label="SQL State">
+									<cfdump var="#errorType#" label="Error Type"> : 
+									<cfdump var="#errorDescription#" label="Error Description"> : 
+									<cfdump var="#sqlState#" label="SQL State"> :
 									<cfdump var="#errorCode#" label="Error Code">
 									<!--- identify the problematic row --->
 							<!---		<cfset error_message="<p>#COLUMN_ERR# from Row #row# in input file. It only shows the first error. There could be more once this one is resolved.</p>  Header: [#colNames#]
