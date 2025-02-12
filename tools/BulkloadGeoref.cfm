@@ -410,8 +410,8 @@ limitations under the License.
 											white-space: normal;  /* Allow wrapping */
 											word-wrap: break-word;  /* Break long words if necessary */
 											border: 1px solid ##ccc;  /* Optional styling */
-											padding: 10px;
-											margin-bottom: 0;
+											padding: 5px 10px;
+											margin-bottom: 2px;
 										}
 										p.top {margin-top: 1rem;}
 									</style>
