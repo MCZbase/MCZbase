@@ -403,15 +403,35 @@ limitations under the License.
 								</cfquery>
 									<cfset loadedRows = loadedRows + insert_result.recordcount>
 								<cfcatch>
+									<!--- Capture and process the error message --->
+									<cfset errorMessage = cfcatch.message>
+									<cfset sqlState = cfcatch.sqlstate>
+									<cfset errorCode = cfcatch.errorcode>
+
+									<!--- Separate the error message into parts (assuming it's structured) --->
+									<cfset parts = listToArray(errorMessage, ":")>
+									<cfif arrayLen(parts) GT 1>
+									<cfset errorType = parts[1]>
+										<cfset errorDescription = parts[2]>
+									<cfelse>
+										<cfset errorType = "Unknown">
+										<cfset errorDescription = errorMessage>
+									</cfif>
+
+									<!--- Output parts for example purposes --->
+									<cfdump var="#errorType#" label="Error Type">
+									<cfdump var="#errorDescription#" label="Error Description">
+									<cfdump var="#sqlState#" label="SQL State">
+									<cfdump var="#errorCode#" label="Error Code">
 									<!--- identify the problematic row --->
-									<cfset error_message="<p>#COLUMN_ERR# from Row #row# in input file. It only shows the first error. There could be more once this one is resolved.</p>  Header: [#colNames#]
-														  <br><br>Row #row#: [#ArrayToList(collValuesArray)#]<br> <br><span class='color:red;'>Error Message: #cfcatch.message#</span>"><!--- " --->
-									<cfif isDefined("cfcatch.queryError")>
+							<!---		<cfset error_message="<p>#COLUMN_ERR# from Row #row# in input file. It only shows the first error. There could be more once this one is resolved.</p>  Header: [#colNames#]
+														  <br><br>Row #row#: [#ArrayToList(collValuesArray)#]<br> <br><span class='color:red;'>Error Message: #cfcatch.message#</span>">---><!--- " --->
+								<!---	<cfif isDefined("cfcatch.queryError")>
 										<cfset error_message = "#error_message# #cfcatch.queryError#">
 									</cfif>
-									<cfthrow message = "#error_message#">
+									<cfthrow message = "#error_message#">--->
 								</cfcatch>
-								</cftry>
+							</cftry>
 						</cfloop>
 						<cfif foundHighCount GT 0>
 							<h3 class="h4">Found characters where the encoding is probably important in the input data.</h3>
