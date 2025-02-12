@@ -411,7 +411,7 @@ limitations under the License.
 
 												th, td {
 													padding: 8px;
-													border: 1px solid #ddd;  /* Optional styling */
+													border: 1px solid ##ddd;  /* Optional styling */
 													text-align: left;
 												}
 
