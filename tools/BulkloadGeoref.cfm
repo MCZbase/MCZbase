@@ -415,7 +415,7 @@ limitations under the License.
 										document.write(wrappedText);
 									</script>
 									<!--- identify the problematic row --->
-									<cfset error_message="<p>#COLUMN_ERR# from Row #row# in input file. It only shows the first error. There could be more once this one is resolved.</p>  <p>Header: [#colNames#]</p><p>Row #row#: [#ArrayToList(collValuesArray)#]</p><p><b>Error Message: #cfcatch.message#</p>">
+									<cfset error_message="<p>#COLUMN_ERR# from Row #row# in input file. It only shows the first error. There could be more once this one is resolved.</p>  <p>Header: [#wrappedText#]</p><p>Row #row#: [#ArrayToList(collValuesArray)#]</p><p><b>Error Message: #cfcatch.message#</p>">
 										<!--- " --->
 									<cfif isDefined("cfcatch.queryError")>
 										<cfset error_message = "#error_message# #cfcatch.queryError#">
