@@ -412,16 +412,9 @@ limitations under the License.
 											border: 1px solid ##ccc;  /* Optional styling */
 											padding: 10px;
 										}
-										wrapped-text {
-											max-width: 100%;  /* Adjust as needed for your layout */
-											white-space: normal;  /* Allow wrapping */
-											word-wrap: break-word;  /* Break long words if necessary */
-											border: 1px solid ##ccc;  /* Optional styling */
-											padding: 10px;
-										}
 									</style>
 									<!--- identify the problematic row --->
-									<cfset error_message="<p>#COLUMN_ERR# from Row #row# in input file. It only shows the first error. There could be more once this one is resolved.</p>  <wrapped-text>Headers: [#colNames#]</wrapped-text><p class='wrapped-text'>Row #row#: [#ArrayToList(collValuesArray)#]</p><p><red>Error Message: #cfcatch.message#</red></p>">
+									<cfset error_message="<p>#COLUMN_ERR# from Row #row# in input file. It only shows the first error. There could be more once this one is resolved.</p>  <p class='wrapped-text'>Headers: <br>[#colNames#]</p><p class='wrapped-text'>Row #row#: <br>[#ArrayToList(collValuesArray)#]</p><p><red>Error Message: #cfcatch.message#</red></p>">
 										<!--- " --->
 									<cfif isDefined("cfcatch.queryError")>
 										<cfset error_message = "#error_message# #cfcatch.queryError#">
