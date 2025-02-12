@@ -1155,6 +1155,11 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 			then pc.label
 			else null
 		End label,
+		Case
+			when #oneOfus#= 1
+			then pc.container_id
+			else null
+		End container_id,
 		nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
 		sampled_from_obj_id,
 		coll_object.COLL_OBJ_DISPOSITION part_disposition,
@@ -1189,7 +1194,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 <cfquery name="parts" dbtype="query">
         select
                 part_id,
-                label,
+                label, container_id,
                 part_name,
                 sampled_from_obj_id,
                 part_disposition,
@@ -1200,7 +1205,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
                 rparts
         group by
                 part_id,
-                label,
+                label, container_id,
                 part_name,
                 sampled_from_obj_id,
                 part_disposition,
@@ -1262,7 +1267,23 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 									</td>
 									<td class="inside">#lot_count#</td>
 									<cfif oneOfus is 1>
-										<td class="inside">#label#</td>
+										<cfquery name="container_parentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT
+												label, barcode, parent_install_date, container_remarks, container_type,
+												container_id, parent_container_id
+											FROM
+												container
+											START WITH container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.container_id#">
+											CONNECT BY PRIOR parent_container_id = container_id
+										</cfquery>
+										<td class="inside">
+											<ul>
+											<cfloop query="container_parentage">
+												<li>#container_parentage.barcode# (#container_parentage.container_type#) since #container_parentage.parent_install_date#</li>
+											</cfloop>
+											</ul>
+											#label#
+										</td>
 									</cfif>
 									<td class="inside">#part_remarks#</td>
 								</tr>
