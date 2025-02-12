@@ -411,11 +411,12 @@ limitations under the License.
 											word-wrap: break-word;  /* Break long words if necessary */
 											border: 1px solid ##ccc;  /* Optional styling */
 											padding: 10px;
+											margin-bottom: 0;
 										}
 										p.top {margin-top: 1rem;}
 									</style>
 									<!--- identify the problematic row --->
-									<cfset error_message="<p class='top wrapped-text'>Error Location: #COLUMN_ERR# from Row #row# in input file. Headers: <br>[#colNames#]<br> Row #row#: <br>[#ArrayToList(collValuesArray)#] <br>Error Message: <red>#cfcatch.message#</red></p>">
+									<cfset error_message="<p class='top'>Error Location: <br>#COLUMN_ERR# from Row #row# in input file. </p>  <p class='wrapped-text'>Headers: <br>[#colNames#]</p><p class='wrapped-text'>Row #row#: <br>[#ArrayToList(collValuesArray)#]</p><p><red>Error Message: #cfcatch.message#</red></p>">
 										<!--- " --->
 									<cfif isDefined("cfcatch.queryError")>
 										<cfset error_message = "#error_message# #cfcatch.queryError#">
