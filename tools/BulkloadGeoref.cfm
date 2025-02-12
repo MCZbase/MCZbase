@@ -406,10 +406,10 @@ limitations under the License.
 									<script>
 
 										// Split the text into an array using a comma as a delimiter
-										let colNames = inputText.split(",");
+										var colNames = inputText.split(",");
 
 										// Join the array elements with line breaks
-										let wrappedText = colNames.join("<br/>");
+										var wrappedText = colNames.join("<br/>");
 
 										// Output the result
 										document.write(wrappedText);
