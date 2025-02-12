@@ -4031,18 +4031,13 @@ limitations under the License.
 			<cfquery name="outside" dbtype="query">
 				select count(distinct(agent_id)) c from transAgents where trans_agent_role='received by'
 			</cfquery>
-			<cfquery name="recievedfrom" dbtype="query">
-				select count(distinct(agent_id)) c from transAgents where trans_agent_role='received from'
-			</cfquery>
 			<cfquery name="authorized" dbtype="query">
 				select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house authorized by'
 			</cfquery>
 			<cfquery name="recipientinstitution" dbtype="query">
 				select count(distinct(agent_id)) c from transAgents where trans_agent_role='recipient institution'
 			</cfquery>
-			<cfif loanDetails.loan_type EQ "borrow" AND  inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recievedfrom.c GT 0 >
-				<cfset okToPrint = true>
-			<cfelseif loanDetails.loan_type NEQ "borrow" AND inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
+			<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
 				<cfset okToPrint = true>
 			<cfelse>
 				<cfif inhouse.c GT 1>
