@@ -403,7 +403,32 @@ limitations under the License.
 								</cfquery>
 									<cfset loadedRows = loadedRows + insert_result.recordcount>
 								<cfcatch>
-									
+									 <cfoutput>
+										<script type="text/javascript">
+											try {
+												// Switching let to var
+												var colNames2 = "<cfoutput>#colNames#</cfoutput>";
+
+												// Split the headers into an array
+												var headersArray = csvHeaders.split(",");
+
+												// Create a simple table to display the headers
+												var table = document.createElement('table');
+												var headerRow = table.insertRow();
+
+												headersArray.forEach(function(header) {
+													var cell = headerRow.insertCell();
+													cell.textContent = header;  // Set the header content
+													cell.style.whiteSpace = 'normal';  // Ensure text can wrap
+												});
+
+												// Append the table to the document body
+												document.body.appendChild(table);
+											} catch (e) {
+												console.error("Error processing headers:", e);
+											}
+										</script>
+									</cfoutput>
 									<!--- identify the problematic row --->
 									<cfset error_message="<p>#COLUMN_ERR# from Row #row# in input file. It only shows the first error. There could be more once this one is resolved.</p>  <p>Headers: [#colNames#]</p><p>Row #row#: [#ArrayToList(collValuesArray)#]</p><p><b>Error Message: #cfcatch.message#</p>">
 										<!--- " --->
