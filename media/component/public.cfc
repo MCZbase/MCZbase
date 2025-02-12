@@ -953,7 +953,7 @@ include this function and use it.
 											<cfif media_rel.media_relationship contains 'borrow'>
 												<cfif oneofus eq 1>
 													<cfloop query="borrow">
-														<a class="font-weight-lessbold" href="/transactions/Borrow.cfm?transaction_id=#borrow.transaction_id#"> #borrow.borrow_number#</a><cfif borrow.recordcount gt 1><span>, </span></cfif>
+														<a class="font-weight-lessbold" href="/transactions/Borrow.cfm?Action=edit&transaction_id=#borrow.transaction_id#"> #borrow.borrow_number#</a><cfif borrow.recordcount gt 1><span>, </span></cfif>
 													</cfloop>
 												<cfelse>
 													<span class="d-inline font-italic">Hidden</span>
