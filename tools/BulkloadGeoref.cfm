@@ -416,7 +416,7 @@ limitations under the License.
 										p.top {margin-top: 1rem;}
 									</style>
 									<!--- identify the problematic row --->
-									<cfset error_message="<p class='wrapped-text'>Headers for Reference: <br>[#colNames#]</p><p class='wrapped-text'>Errors from Row #row# of input file: <br>[#ArrayToList(collValuesArray)#]</p><p>Error Message: <red>#cfcatch.message#</red></p>">
+									<cfset error_message="<p class='wrapped-text'>Headers: <br>[#colNames#]</p><p class='wrapped-text'>Errors from Row #row# of input file: <br>[#ArrayToList(collValuesArray)#]</p><p>Error Message: <red>#cfcatch.message#</red></p>">
 										<!--- " --->
 									<cfif isDefined("cfcatch.queryError")>
 										<cfset error_message = "#error_message# #cfcatch.queryError#">
