@@ -348,6 +348,7 @@ limitations under the License.
 					<cfset foundHighCount = 0>
 					<cfset foundHighAscii = "">
 					<cfset foundMultiByte = "">
+						<cfset colNames2 = "">
 					<!--- Iterate through the remaining rows inserting the data into the temp table. --->
 					<cfset row = 0>
 					<cfloop condition="#iterator.hasNext()#">
