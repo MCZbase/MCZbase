@@ -404,8 +404,8 @@ limitations under the License.
 									<cfset loadedRows = loadedRows + insert_result.recordcount>
 								<cfcatch>
 									<!--- identify the problematic row --->
-									<cfset error_message="<p>#COLUMN_ERR# from Row #row# in input file.</p>  Header: [#colNames#]
-														  <br><br>Row #row#: [#ArrayToList(collValuesArray)#]<br> <br>Error: #cfcatch.message#"><!--- " --->
+									<cfset error_message="<p>#COLUMN_ERR# from Row #row# in input file. It only shows the first error. There could be more once this one is resolved.</p>  Header: [#colNames#]
+														  <br><br>Row #row#: [#ArrayToList(collValuesArray)#]<br> <br><span class='color:red;'>Error Message: #cfcatch.message#</span>"><!--- " --->
 									<cfif isDefined("cfcatch.queryError")>
 										<cfset error_message = "#error_message# #cfcatch.queryError#">
 									</cfif>
