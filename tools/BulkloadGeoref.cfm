@@ -749,13 +749,15 @@ limitations under the License.
 					</cfif>
 					<!---update the table with the agentID found above--->	
 					<cfif findAgentVer.recordCount EQ 1 OR findAgentAnyVer.recordCount EQ 1 OR len(relatedAgentID)gt 0>
-						<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE cf_temp_georef 
-							SET verified_by_agent_id = #relatedAgentID#
-							WHERE verified_by_agent_ID is null
-								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-						</cfquery>
+						<cfif verificationstatus eq "rejected by MCZ collection" OR verificationstatus eq "verified by MCZ collection" OR verificationstatus eq "verified by collector">
+							<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								UPDATE cf_temp_georef 
+								SET verified_by_agent_id = #relatedAgentID#
+								WHERE verified_by_agent_ID is null
+									AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+							</cfquery>
+						</cfif>
 					<cfelse>
 						<cfquery name="warningVerifNoMatch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_georef
@@ -769,7 +771,7 @@ limitations under the License.
 				</cfif>
 				<!--- Verification Agent --->
 				<cfif verificationstatus eq "rejected by MCZ collection" OR verificationstatus eq "verified by MCZ collection" OR verificationstatus eq "verified by collector">
-					<cfif len(relatedVerAgentID) gt 0>
+<!---					<cfif len(relatedVerAgentID) gt 0>
 						<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE
 								cf_temp_georef
@@ -778,7 +780,7 @@ limitations under the License.
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
-					</cfif>
+					</cfif>--->
 				<cfelse>
 					<cfquery name="warningNotVerif" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
@@ -791,7 +793,7 @@ limitations under the License.
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
 				</cfif>
-		
+
 				<cfif len(locality_id) eq 0 AND len(getTempData.highergeography) gt 0 and len(getTempData.speclocality) gt 0>
 					<!--- TODO: Only spec_locality is used to lookup locality id, not combination of higher_geog and locality_id --->
 					<cfquery name="updateLocality_ID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
