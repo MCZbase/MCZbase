@@ -582,11 +582,12 @@ limitations under the License.
 					AND HIGHERGEOGRAPHY is not null 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset agentProblem1 = "">
-			<!--- Determination Agent --->
-			<cfset relatedAgentID = "">
+
 			<!--- Validation queries that test against individual rows looping through data in temp table --->
 			<cfloop query="getTempData">
+				<cfset agentProblem1 = "">
+				<!--- Determination Agent --->
+				<cfset relatedAgentID = "">
 				<!--- Check that either spec_locality or locality_id is entered --->
 				<cfif len(getTempData.LOCALITY_ID) eq 0>
 					<cfif len(getTempData.HIGHERGEOGRAPHY) eq 0>
