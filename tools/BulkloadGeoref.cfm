@@ -582,6 +582,9 @@ limitations under the License.
 					AND HIGHERGEOGRAPHY is not null 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfset agentProblem1 = "">
+			<!--- Determination Agent --->
+			<cfset relatedAgentID = "">
 			<!--- Validation queries that test against individual rows looping through data in temp table --->
 			<cfloop query="getTempData">
 				<!--- Check that either spec_locality or locality_id is entered --->
@@ -634,7 +637,6 @@ limitations under the License.
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
 					</cfif>
-					
 					<cfquery name="warningHGSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
 						SET status = concat(nvl2(status, status || '; ', ''),'Higher Geography is not correct for the given locality_id')
@@ -662,10 +664,7 @@ limitations under the License.
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
 				</cfif>
-				<cfif len(determined_by_agent) gt 0>
-					<cfset agentProblem1 = "">
-					<!--- Determination Agent --->
-					<cfset relatedAgentID = "">
+				<cfif len(getTempData.determined_by_agent) gt 0>
 					<cfquery name="findAgentDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT agent_id 
 						FROM agent_name 
@@ -692,13 +691,22 @@ limitations under the License.
 						<cfset agentProblem1 = "Matches to multiple preferred agent names, use agent_id">
 					</cfif>
 					<!---Check to see that there is a valid determined_by_agent entry--->	
-					<cfif len(relatedAgentID) GT 0>
+					<cfif len(relatedAgentID) eq 1>
 						<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_georef 
 							SET determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relatedAgentID#">
 							WHERE determined_by_agent is not null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+						</cfquery>
+					<cfelse>
+						<cfquery name="warningDetermined" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_georef
+							SET status = concat(nvl2(status, status || '; ', ''),'Determiner not found')
+							WHERE determined_by_agent is not null 
+							AND determined_by_agent <> #relatedAgentID#
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
 					</cfif>
 				</cfif>
@@ -735,7 +743,7 @@ limitations under the License.
 							cf_temp_georef
 						SET
 							status = concat(nvl2(status, status || '; ', ''),'VERIFIED_BY is invalid #agentProblem2#')
-						WHERE verified_by_agent_id <>  <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relatedVerAgentID#">
+						WHERE verified_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relatedVerAgentID#">
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
