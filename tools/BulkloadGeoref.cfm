@@ -739,15 +739,25 @@ limitations under the License.
 					<cfelse>
 						<cfset agentProblem2 = "Matches to multiple preferred agent names, use agent_id">
 					</cfif>
-					<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							cf_temp_georef
-						SET
-							status = concat(nvl2(status, status || '; ', ''),'VERIFIED_BY is invalid #agentProblem2#')
-						WHERE verified_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relatedVerAgentID#">
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-					</cfquery>
+					<!---update the table with the agentID found above--->	
+					<cfif findAgentVer.recordCount EQ 1 OR findAgentAnyVer.recordCount EQ 1>
+						<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_georef 
+							SET verified_by_agent_id = #relatedAgentID#
+							WHERE verified_by_agent_ID is null
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+						</cfquery>
+					<cfelse>
+						<cfquery name="warningDetermined" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_georef
+							SET status = concat(nvl2(status, status || '; ', ''),'Verified_by not found #agentProblem2#')
+							WHERE verified_by_agent is not null 
+								AND verified_by_agent not in (select agent_name from agent_name)
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+						</cfquery>
+					</cfif>
 				</cfif>
 			
 				<!--- Verification Agent --->
