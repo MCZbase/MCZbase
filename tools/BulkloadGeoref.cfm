@@ -912,7 +912,7 @@ limitations under the License.
 			<table class='sortable px-0 mx-0 table small table-responsive table-striped w-100'>
 				<thead class="thead-light">
 					<tr>
-						<th>STATUS&nbsp;<span class="text-light">for&nbsp;Bulkloader</span></th>
+						<th>STATUS&nbsp;<span style='color:#e9ecef'>for&nbsp;Bulkloader</span></th>
 						<th>HIGHERGEOGRAPHY</th>
 						<th>SPECLOCALITY</th>
 						<th>LOCALITY_ID</th>
