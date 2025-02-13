@@ -710,6 +710,14 @@ limitations under the License.
 								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
 					</cfif>
+				<cfelse>
+					<cfquery name="warningDetMissing" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_georef
+						SET status = concat(nvl2(status, status || '; ', ''),'Determined_by_agent needs a value')
+						WHERE determined_by_agent is null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+					</cfquery>
 				</cfif>
 				<cfif len(verified_by) gt 0>
 					<cfset agentProblem2 = "">
@@ -760,12 +768,12 @@ limitations under the License.
 					</cfif>
 				<cfelse>
 					<cfquery name="warningVerifiedMissing" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'Verified_by needs a value')
-						WHERE verified_by is null
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-					</cfquery>
+							UPDATE cf_temp_georef
+							SET status = concat(nvl2(status, status || '; ', ''),'Verified_by needs a value')
+							WHERE verified_by is null
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+						</cfquery>
 				</cfif>
 			
 				<!--- Verification Agent --->
@@ -785,9 +793,9 @@ limitations under the License.
 						UPDATE cf_temp_georef
 						SET status = concat(nvl2(status, status || '; ', ''),'VERIFICATIONSTATUS entry is not valid')
 						WHERE 
-							(VERIFICATIONSTATUS not in (
+							VERIFICATIONSTATUS not in (
 								select verificationstatus 
-								from CTVERIFICATIONSTATUS where verificationstatus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.verificationstatus#">) OR VERIFIED_BY is null)
+								from CTVERIFICATIONSTATUS where verificationstatus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.verificationstatus#">) 
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
