@@ -740,7 +740,7 @@ limitations under the License.
 						<cfset agentProblem2 = "matches to multiple preferred agent names, use agent_id">
 					</cfif>
 					<!---update the table with the agentID found above--->	
-					<cfif findAgentVer.recordCount EQ 1 OR findAgentAnyVer.recordCount EQ 1 OR len(verified_by_agent_ID) eq 0>
+					<cfif findAgentVer.recordCount EQ 1 OR findAgentAnyVer.recordCount EQ 1 OR len(relatedAgentID)gt 0>
 						<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_georef 
 							SET verified_by_agent_id = #relatedAgentID#
