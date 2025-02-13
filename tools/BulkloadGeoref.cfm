@@ -690,12 +690,12 @@ limitations under the License.
 					<cfelse>
 						<cfset agentProblem1 = "Matches to multiple preferred agent names, use agent_id">
 					</cfif>
-					<!---Check to see that there is a valid determined_by_agent entry--->	
+					<!---update the table with the agentID found above--->	
 					<cfif len(relatedAgentID) eq 1>
 						<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_georef 
 							SET determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relatedAgentID#">
-							WHERE determined_by_agent is not null
+							WHERE determined_by_agent_ID is null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
@@ -704,9 +704,9 @@ limitations under the License.
 							UPDATE cf_temp_georef
 							SET status = concat(nvl2(status, status || '; ', ''),'Determiner not found #agentProblem1#')
 							WHERE determined_by_agent is not null 
-							AND determined_by_agent not in (select agent_name from agent_name)
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+								AND determined_by_agent not in (select agent_name from agent_name)
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
 					</cfif>
 				</cfif>
