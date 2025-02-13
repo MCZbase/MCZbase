@@ -732,12 +732,12 @@ limitations under the License.
 						<cfif findAgentAnyVer.recordCount EQ 1>
 							<cfset relatedAgentID = findAgentAnyVer.agent_id>
 						<cfelseif findAgentAnyVer.recordCount EQ 0>
-							<cfset agentProblem2 = "No matches to any agent name">
+							<cfset agentProblem2 = "no matches to any agent name">
 						<cfelse>
-							<cfset agentProblem2 = "Matches to multiple agent names, use agent_id">
+							<cfset agentProblem2 = "matches to multiple agent names, use agent_id">
 						</cfif>
 					<cfelse>
-						<cfset agentProblem2 = "Matches to multiple preferred agent names, use agent_id">
+						<cfset agentProblem2 = "matches to multiple preferred agent names, use agent_id">
 					</cfif>
 					<!---update the table with the agentID found above--->	
 					<cfif findAgentVer.recordCount EQ 1 OR findAgentAnyVer.recordCount EQ 1>
@@ -751,7 +751,7 @@ limitations under the License.
 					<cfelse>
 						<cfquery name="warningDetermined" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_georef
-							SET status = concat(nvl2(status, status || '; ', ''),'Verified_by not found #agentProblem2#')
+							SET status = concat(nvl2(status, status || '; ', ''),'Verified_by not found because there were #agentProblem2#')
 							WHERE verified_by is not null 
 								AND verified_by not in (select agent_name from agent_name)
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
