@@ -692,10 +692,10 @@ limitations under the License.
 						<cfset agentProblem1 = "Matches to multiple preferred agent names, use agent_id">
 					</cfif>
 					<!---update the table with the agentID found above--->	
-					<cfif len(relatedAgentID) eq 1>
+					<cfif findAgentDet.recordCount EQ 1 OR findAgentAnyDet.recordCount EQ 1>
 						<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_georef 
-							SET determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relatedAgentID#">
+							SET determined_by_agent_id = #relatedAgentID#
 							WHERE determined_by_agent_ID is null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
