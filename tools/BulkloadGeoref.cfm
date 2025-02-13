@@ -903,7 +903,7 @@ limitations under the License.
 			<table class='sortable px-0 mx-0 table small table-responsive table-striped w-100'>
 				<thead class="thead-light">
 					<tr>
-						<th>STATUS</th>
+						<th >STATUS <span class="text-transparent">for Bulkloader</span></th>
 						<th>HIGHERGEOGRAPHY</th>
 						<th>SPECLOCALITY</th>
 						<th>LOCALITY_ID</th>
