@@ -702,9 +702,9 @@ limitations under the License.
 					<cfelse>
 						<cfquery name="warningDetermined" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_georef
-							SET status = concat(nvl2(status, status || '; ', ''),'Determiner not found')
+							SET status = concat(nvl2(status, status || '; ', ''),'Determiner not found #agentProblem1#')
 							WHERE determined_by_agent is not null 
-							AND determined_by_agent <> #relatedAgentID#
+							AND determined_by_agent not in (select agent_name from agent_name)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
