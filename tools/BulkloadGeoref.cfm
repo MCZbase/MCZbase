@@ -771,16 +771,15 @@ limitations under the License.
 				</cfif>
 				<!--- Verification Agent --->
 				<cfif verificationstatus eq "rejected by MCZ collection" OR verificationstatus eq "verified by MCZ collection" OR verificationstatus eq "verified by collector">
-<!---					<cfif len(relatedVerAgentID) gt 0>
+					<cfif len(verified_by) eq 0>
 						<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE
-								cf_temp_georef
-							SET
-								VERIFIED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relatedVerAgentID#">
-							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+							UPDATE cf_temp_georef
+							SET status = concat(nvl2(status, status || '; ', ''),'Verified_by not found')
+							WHERE verified_by is null
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
-					</cfif>--->
+					</cfif>
 				<cfelse>
 					<cfquery name="warningNotVerif" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
@@ -913,7 +912,7 @@ limitations under the License.
 			<table class='sortable px-0 mx-0 table small table-responsive table-striped w-100'>
 				<thead class="thead-light">
 					<tr>
-						<th >STATUS <span class="text-transparent">for Bulkloader</span></th>
+						<th >STATUS <span class="text-white">for Bulkloader</span></th>
 						<th>HIGHERGEOGRAPHY</th>
 						<th>SPECLOCALITY</th>
 						<th>LOCALITY_ID</th>
