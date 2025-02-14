@@ -1273,7 +1273,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 												container_id, parent_container_id
 											FROM
 												container
-											START WITH container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.container_id#">
+											START WITH container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mpart.container_id#">
 											CONNECT BY PRIOR parent_container_id = container_id
 										</cfquery>
 										<td class="inside">
