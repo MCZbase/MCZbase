@@ -1,4 +1,4 @@
-<!--- tools/bulkloadLoanItems.cfm.cfm add georeferences to localities in bulk.
+<!--- tools/bulkloadLoanItems.cfm.cfm add Loan Items (parts) to a loan in bulk.
 
 Copyright 2008-2017 Contributors to Arctos
 Copyright 2008-2025 President and Fellows of Harvard College
@@ -97,7 +97,7 @@ limitations under the License.
 			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
 			<div id="template" class="my-1 mx-0">
 				<label for="templatearea" class="data-entry-label" style="line-height: inherit;">
-					Copy this header line, paste it into a blank worksheet, and save it as a .csv file or <a href="/tools/BulkloadGeoref.cfm?action=getCSVHeader" class="font-weight-bold">download</a> a template.
+					Copy this header line, paste it into a blank worksheet, and save it as a .csv file or <a href="/tools/BulkloadLoanItems.cfm?action=getCSVHeader" class="font-weight-bold">download</a> a template.
 				</label>
 				<textarea style="height: 56px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
 			</div>
@@ -120,7 +120,7 @@ limitations under the License.
 										FROM sys.all_col_comments
 										WHERE 
 											owner = 'MCZBASE'
-											and table_name = 'CF_TEMP_GEOREF'
+											and table_name = 'CF_TEMP_LOAN_ITEMS'
 											and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
 									</cfquery>
 									<cfset comment = "">
@@ -169,7 +169,7 @@ limitations under the License.
 			</script>
 			<div>
 				<h2 class="h4 mt-4">Upload a comma-delimited text file (csv)</h2>
-				<form name="getFiles" method="post" enctype="multipart/form-data" action="/tools/BulkloadGeoref.cfm">
+				<form name="getFiles" method="post" enctype="multipart/form-data" action="/tools/BulkloadLoanItems.cfm">
 					<div class="form-row border rounded p-2">
 						<input type="hidden" name="action" value="getFile">
 						<div class="col-12 col-md-4">
