@@ -803,8 +803,8 @@ limitations under the License.
 							AND verified_by not in (select agent_name from agent_name)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-					</cfquery>
-				</cfif>--->
+					</cfquery>--->
+				</cfif>
 				<!--- Verification Agent --->
 				<cfif verificationstatus eq "rejected by MCZ collection" OR verificationstatus eq "verified by MCZ collection" OR verificationstatus eq "verified by collector">
 					<cfif len(verified_by) eq 0>
