@@ -188,9 +188,6 @@ limitations under the License.
 <cfif CGI.script_name IS "/Specimens.cfm" AND isdefined("session.roles") AND listfindnocase(session.roles,"manage_transactions")>
 	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 </cfif>
-<cfif CGI.script_name IS "/Specimens.cfm" AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-	<script type="text/javascript" src="/specimens/js/specimens.js"></script>
-</cfif>
 <cfif CGI.script_name IS "/specimens/adminSpecimenSearch.cfm" OR CGI.script_name IS "/specimens/viewSpecimenSearchMetadata.cfm">
 	<script type="text/javascript" src="/specimens/js/metadata.js"></script> 
 </cfif>
