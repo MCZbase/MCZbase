@@ -1,3 +1,4 @@
+<cfset jquery11=true>
 <cfinclude template="/includes/_header.cfm">
 <cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
 	<cfset session.sdmapclass='tinymap'>
@@ -9,7 +10,6 @@
 <cftry>
 	<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 		<script type="text/javascript" src="/specimens/js/specimens.js"></script>
-		<script type="text/javascript" src="/lib/jquery-ui-1.12.1/jquery-ui.js"></script><!--- Use JQuery-UI widgets when available. ---> 
 	</cfif>
 	<script>
 		/*map customization and polygon functionality commented  out for now. This will be useful as we implement more features -bkh*/
