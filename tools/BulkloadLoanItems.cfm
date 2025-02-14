@@ -1,11 +1,34 @@
-<cfif isDefined("action") AND action is "dumpProblems">
+<!--- tools/bulkloadLoanItems.cfm.cfm add georeferences to localities in bulk.
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2025 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--->
+<!--- page can submit with action either as a form post parameter or as a url parameter, obtain either into variable scope. --->
+<cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
+<cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
+<cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID,STATUS
-		FROM CF_TEMP_LOAN_ITEM 
+		SELECT 
+			REGEXP_REPLACE( status, '\s*</?\w+((\s+\w+(\s*=\s*(".*?"|''.*?''|[^''">\s]+))?)+\s*|\s*)/?>\s*', NULL, 1, 0, 'im') AS STATUS, INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID,STATUS
+		FROM cf_temp_loan_item 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
 	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc">
+	<cfinclude template="/shared/functionLib.cfm">
 	<cfset csv = queryToCSV(getProblemData)>
 	<cfheader name="Content-Type" value="text/csv">
 	<cfoutput>#csv#</cfoutput>
@@ -13,12 +36,15 @@
 </cfif>
 <!--- end special case dump of problems --->
 
-<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER">
-<cfset fieldTypes = "CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID">
+<cfset fieldTypes = "CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL">
+<cfif listlen(fieldlist) NEQ listlen(fieldTypes)>
+	<cfthrow message = "Error: Bug in the definition of fieldlist[#listlen(fieldlist)#] and fieldType[#listlen(fieldTypes)#] lists, lists must be the same length, but are not.">
+</cfif>
 <cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,BARCODE,SUBSAMPLE,LOAN_NUMBER">
 
 <!--- special case handling to dump column headers as csv --->
-<cfif isDefined("action") AND action is "getCSVHeader">
+<cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
 	<cfset csv = "">
 	<cfset separator = "">
 	<cfloop list="#fieldlist#" index="field" delimiters=",">
@@ -35,11 +61,27 @@
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="entryPoint"></cfif>
-<main class="container-fluid py-3 px-xl-5" id="content">
-	<h1 class="h2 mt-2">Bulkload Loan Items</h1>
-	<!------------------------------------------------------->
 	
-	<cfif #action# is "entryPoint">
+<main class="container-fluid py-3 px-5" id="content">
+	<!--- Style elements for proof of concept accordion that will need to move to a css file --->
+	<!--- NOTE: This should be replaced with a jquery-ui accordion --->
+	<style>
+			.accordion-button::after {
+			content: none;
+		}
+			.accordion-header .fa {
+			transition: transform 0.3s ease-in-out;
+		}
+			.accordion-button.collapsed .fa-plus {
+			transform: rotate(0deg);
+		}
+			.accordion-button .fa-plus {
+			transform: rotate(45deg);
+		}
+	</style>
+	<!--- End proof of concept style block --->
+	<h1 class="h2 mt-2">Bulkload Loan Items</h1>
+	<cfif variables.action is "entryPoint">
 		<cfoutput>
 			<p>This tool is used to bulkload loan items (connect parts to a loan).</p>
 			<p>The following must all be true to use this form:</p>
@@ -47,67 +89,128 @@
 				<li>Items in the file you load are not already on loan (check part disposition)</li>
 				<li>Encumbrances have been checked</li>
 				<li>A loan has been created in MCZbase.</li>
-				<li>Loan Item reconciled person is you (mkennedy) - automatically added</li>
+				<li>Loan Item reconciled person is you (#session.username#) - automatically added</li>
 				<li>Loan Item reconciled date is today (2024-07-18) - automatically added</li>
 			</ul>
-			<p>Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below. Additional colums will be ignored</p>
-		
-			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
-			<div id="template" style="margin: 1rem 0;display:none;">
-				<label for="templatearea" class="data-entry-label mb-1">
-					Copy this header line and save it as a .csv file (or <a href="/tools/BulkloadLoanItems.cfm?action=getCSVHeader" class="font-weight-lessbold">download</a>)
+			
+			<h2 class="h4">Use Template to Load Data</h2>
+			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
+			<div id="template" class="my-1 mx-0">
+				<label for="templatearea" class="data-entry-label" style="line-height: inherit;">
+					Copy this header line, paste it into a blank worksheet, and save it as a .csv file or <a href="/tools/BulkloadGeoref.cfm?action=getCSVHeader" class="font-weight-bold">download</a> a template.
 				</label>
-				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
+				<textarea style="height: 56px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
 			</div>
-			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
-			<ul class="mb-4 h5 font-weight-normal list-group mx-3">
-				<cfloop list="#fieldlist#" index="field" delimiters=",">
-					<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
-						SELECT comments
-						FROM sys.all_col_comments
-						WHERE 
-							owner = 'MCZBASE'
-							and table_name = 'CF_TEMP_LOAN_ITEM'
-							and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
-					</cfquery>
-					<cfset comment = "">
-
-					<cfif getComments.recordcount GT 0>
-						<cfset comment = getComments.comments>
-					</cfif>
-					<cfset aria = "">
-					<cfif listContains(requiredfieldlist,field,",")>
-						<cfset class="text-danger">
-						<cfset aria = "aria-label='Required Field'">
-					<cfelse>
-						<cfset class="text-dark">
-					</cfif>
-					<li class="pb-1 mx-3">
-						<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
-					</li>
-				</cfloop>
-			</ul>
-			<form name="agts" method="post" enctype="multipart/form-data" action="/tools/BulkloadLoanItems.cfm">
-				<div class="form-row border rounded p-2">
-					<input type="hidden" name="action" value="getFile">
-					<div class="col-12 col-md-4">
-						<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
-						<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
+			<div class="accordion" id="accordionIdentifiers">
+				<div class="card mb-2 bg-light">
+					<div class="card-header" id="headingIdentifiers">
+						<h3 class="h5 my-0">
+							<button type="button" role="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="false" aria-controls="identifiersPane">
+								Data Entry Instructions per Column
+							</button>
+						</h3>
 					</div>
-					<div class="col-12 col-md-3">
-						<cfset charsetSelect = getCharsetSelectHTML()>
-					</div>
-					<div class="col-12 col-md-3">
-						<cfset formatSelect = getFormatSelectHTML()>
-					</div>
-					<div class="col-12 col-md-2">
-						<label for="submitButton" class="data-entry-label">&nbsp;</label>
-						<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
+					<div id="identifiersPane" class="collapse" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
+						<div class="card-body" id="identifiersCardBody">
+						<p class="px-3 pt-2"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
+							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
+								<cfloop list="#fieldlist#" index="field" delimiters=",">
+									<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+										SELECT comments
+										FROM sys.all_col_comments
+										WHERE 
+											owner = 'MCZBASE'
+											and table_name = 'CF_TEMP_GEOREF'
+											and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+									</cfquery>
+									<cfset comment = "">
+									<cfif getComments.recordcount GT 0>
+										<cfset comment = getComments.comments>
+									</cfif>
+									<cfset aria = "">
+									<cfif listContains(requiredfieldlist,field,",")>
+										<cfset class="text-danger">
+										<cfset aria = "aria-label='Required Field'">
+									<cfelse>
+										<cfset class="text-dark">
+									</cfif>
+									<li class="pb-1 mx-3">
+										<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
+									</li>
+								</cfloop>
+							</ul>
+						</div>
 					</div>
 				</div>
-			</form>
+			</div>
+			<script>
+				document.getElementById('copyButton').addEventListener('click', function() {
+					// Get the textarea element
+					var textArea = document.getElementById('templatearea');
+
+					// Select the text content
+					textArea.select();
+
+					try {
+						// Copy the selected text to the clipboard
+						var successful = document.execCommand('copy');
+						var msg = successful ? 'successful' : 'unsuccessful';
+						console.log('Copy command was ' + msg);
+					} catch (err) {
+						console.log('Oops, unable to copy', err);
+					}
+
+					// Optionally deselect the text after copying to avoid confusion
+					window.getSelection().removeAllRanges();
+
+					// Optional: Provide feedback to the user
+					alert('Text copied to clipboard!');
+				});
+			</script>
+			<div>
+				<h2 class="h4 mt-4">Upload a comma-delimited text file (csv)</h2>
+				<form name="getFiles" method="post" enctype="multipart/form-data" action="/tools/BulkloadGeoref.cfm">
+					<div class="form-row border rounded p-2">
+						<input type="hidden" name="action" value="getFile">
+						<div class="col-12 col-md-4">
+							<label for="fileToUpload" class="data-entry-label">File to bulkload:</label> 
+							<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
+						</div>
+						<div class="col-12 col-md-3">
+							<label for="characterSet" class="data-entry-label">Character Set:</label> 
+							<select name="characterSet" id="characterSet" required class="data-entry-select reqdClr">
+								<option selected></option>
+								<option value="utf-8" >utf-8</option>
+								<option value="iso-8859-1">iso-8859-1</option>
+								<option value="windows-1252">windows-1252 (Win Latin 1)</option>
+								<option value="MacRoman">MacRoman</option>
+								<option value="x-MacCentralEurope">Macintosh Latin-2</option>
+								<option value="windows-1250">windows-1250 (Win Eastern European)</option>
+								<option value="windows-1251">windows-1251 (Win Cyrillic)</option>
+								<option value="utf-16">utf-16</option>
+								<option value="utf-32">utf-32</option>
+							</select>
+						</div>
+						<div class="col-12 col-md-3">
+							<label for="format" class="data-entry-label">Format:</label> 
+							<select name="format" id="format" required class="data-entry-select reqdClr">
+								<option value="DEFAULT" selected >Standard CSV</option>
+								<option value="TDF">Tab Separated Values</option>
+								<option value="EXCEL">CSV export from MS Excel</option>
+								<option value="RFC4180">Strict RFC4180 CSV</option>
+								<option value="ORACLE">Oracle SQL*Loader CSV</option>
+								<option value="MYSQL">CSV export from MYSQL</option>
+							</select>
+						</div>
+						<div class="col-12 col-md-2">
+							<label for="submitButton" class="data-entry-label">&nbsp;</label>
+							<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
+						</div>
+					</div>
+				</form>
+			</div>
 		</cfoutput>
-	</cfif>	
+	</cfif>
 	
 	<!------------------------------------------------------->
 
