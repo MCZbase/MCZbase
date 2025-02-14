@@ -1,6 +1,8 @@
 <!---
 specimens/component/functions.cfc
-Copyright 2019 President and Fellows of Harvard College
+
+Copyright 2019-2025 President and Fellows of Harvard College
+
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -5364,5 +5366,67 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
+
+
+<!--- getPartContainersHTML get a block of html containing container hierarchy placement for a collection object
+ @param collection_object_id for the part, or list of parts, for which to return containers.
+ @return a block of html suitable for placement within a dialog listing container hierarchy placement.
+--->
+<cffunction name="getPartContainersHTML" access="remote" returntype="any" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
+	<cfthread name="getContainerThread#tn#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT DISTINCT
+						specimen_part.collection_object_id part_id,
+						pc.label, 
+						pc.container_id as container_id,
+						nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
+						sampled_from_obj_id,
+						coll_object.COLL_OBJ_DISPOSITION part_disposition,
+						coll_object.CONDITION part_condition,
+						nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count,
+					FROM
+						specimen_part
+						left join coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
+						left join coll_obj_cont_hist on coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id
+						left join container oc on coll_obj_cont_hist.container_id=oc.container_id
+						left join container pc on oc.parent_container_id=pc.container_id
+					WHERE
+						specimen_part.derived_from_cat_item in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+				</cfquery>
+				<cfloop query="getPart">
+					<cfif len(getPart.sampled_from_obj_id) GT 0><cfset subsample=" [subsample] "><cfelse><cfset subsample=""></cfif> 
+					<h2 class="h3">Container Placement for #getPart.partName# #subsample#</h3>
+					<cfquery name="container_parentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							label, barcode, parent_install_date, container_remarks, container_type,
+							container_id, parent_container_id
+						FROM
+							container
+						START WITH container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPart.container_id#">
+						CONNECT BY PRIOR parent_container_id = container_id
+					</cfquery>
+					<ul>
+						<cfloop query="container_parentage">
+							<li><a href="/findContainer.cfm?barcode=#container_parentage.barcode#" target="_blank">#container_parentage.barcode#</a> (#container_parentage.container_type#) since #container_parentage.parent_install_date#</li>
+						</cfloop>
+					</ul>
+				</cfloop>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getContainerThread#tn#"/>
+	<cfreturn cfthread["getContainerThread#tn#"].output>
+</cffunction>	
 
 </cfcomponent>
