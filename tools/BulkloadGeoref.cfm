@@ -750,7 +750,7 @@ limitations under the License.
 							WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.verified_by#">
 						</cfquery>
 						<cfif findAgentAnyVer.recordCount EQ 1>
-							<cfset relatedAgentID = findAgentAnyVer.agent_id>
+							<cfset relatedVerAgentID = findAgentAnyVer.agent_id>
 							<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_georef 
 								SET verified_by_agent_id = #relatedAgentID#
@@ -790,7 +790,7 @@ limitations under the License.
 				<cfelseif len(verified_by) eq 0 AND (verificationstatus eq "rejected by MCZ collection" OR verificationstatus eq "verified by MCZ collection" OR verificationstatus eq "verified by collector")>
 					<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef 
-						SET verified_by_agent_id = #relatedAgentID#
+						SET verified_by_agent_id = #relatedVerAgentID#
 						WHERE verified_by_agent_ID is null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
