@@ -723,7 +723,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 						
-						
+				<!---Verified by checked against all names for agents and checked against verificationstatus--->			
 				<cfif len(verified_by) gt 0>
 					<cfset agentProblem2 = "">
 					<cfset relatedVerAgentID = "">
@@ -787,7 +787,7 @@ limitations under the License.
 								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
 					</cfif>
-				<cfelseif len(verified_by) eq 0 AND (verificationstatus eq "rejected by MCZ collection" OR verificationstatus eq "verified by MCZ collection" OR verificationstatus eq "verified by collector")>
+				<!---<cfelseif len(verified_by) eq 0 AND (verificationstatus eq "rejected by MCZ collection" OR verificationstatus eq "verified by MCZ collection" OR verificationstatus eq "verified by collector")>
 					<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef 
 						SET verified_by_agent_id = #relatedVerAgentID#
@@ -798,12 +798,12 @@ limitations under the License.
 				<cfelse>
 					<cfquery name="warningVerifNoMatch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'Verified_by not found because there were #agentProblem2#')
+						SET status = concat(nvl2(status, status || '; ', ''),'Verified_by check--not found because there were #agentProblem2#')
 						WHERE verified_by is not null 
 							AND verified_by not in (select agent_name from agent_name)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-					</cfquery>
+					</cfquery>--->
 				</cfif>
 				<!--- Verification Agent --->
 				<cfif verificationstatus eq "rejected by MCZ collection" OR verificationstatus eq "verified by MCZ collection" OR verificationstatus eq "verified by collector">
@@ -826,6 +826,8 @@ limitations under the License.
 						</cfquery>
 					</cfif>
 				</cfif>
+				<!---End verificationstatus and verified_by agent code--->		
+						
 
 				<cfif len(locality_id) eq 0 AND len(getTempData.highergeography) gt 0 and len(getTempData.speclocality) gt 0>
 					<!--- TODO: Only spec_locality is used to lookup locality id, not combination of higher_geog and locality_id --->
