@@ -1267,22 +1267,13 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 									</td>
 									<td class="inside">#lot_count#</td>
 									<cfif oneOfus is 1>
-										<cfquery name="container_parentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											SELECT
-												label, barcode, parent_install_date, container_remarks, container_type,
-												container_id, parent_container_id
-											FROM
-												container
-											START WITH container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.container_id#">
-											CONNECT BY PRIOR parent_container_id = container_id
-										</cfquery>
+										<div id="partContDialog_#collection_object_id#"></div>
 										<td class="inside">
-											<ul>
-											<cfloop query="container_parentage">
-												<li>#container_parentage.barcode# (#container_parentage.container_type#) since #container_parentage.parent_install_date#</li>
-											</cfloop>
-											</ul>
 											#label#
+											<span class="small mb-0 pb-0">
+												<a href="javascript:void(0)" aria-label="Part Container Placement"
+													onClick=" openPartContainersDialog(#collection_object_id#, 'partContDialog_#collection_object_id#'); ">Placement</a>
+											</span>
 										</td>
 									</cfif>
 									<td class="inside">#part_remarks#</td>
