@@ -824,7 +824,13 @@ limitations under the License.
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
-					</cfif>
+					<cfelse>
+						<cfquery name="warningExtraVerAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_georef
+							SET status = concat(nvl2(status, status || '; ', ''),'VERIFICATIONSTATUS entry is needed')
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+						</cfquery>			
 				</cfif>
 				<!---End verificationstatus and verified_by agent code--->		
 						
