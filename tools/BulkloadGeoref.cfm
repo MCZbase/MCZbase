@@ -737,7 +737,7 @@ limitations under the License.
 						<cfset relatedVerAgentID = findAgentVer.agent_id>
 						<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_georef 
-							SET verified_by_agent_id = #relatedAgentID#
+							SET verified_by_agent_id = #relatedVerAgentID#
 							WHERE verified_by_agent_ID is null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
@@ -753,7 +753,7 @@ limitations under the License.
 							<cfset relatedVerAgentID = findAgentAnyVer.agent_id>
 							<cfquery name="chkDAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_georef 
-								SET verified_by_agent_id = #relatedAgentID#
+								SET verified_by_agent_id = #relatedVerAgentID#
 								WHERE verified_by_agent_ID is null
 									AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 									and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
