@@ -5403,7 +5403,9 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					<h2 class="h3">Container Placement for #getPart.part_name# #subsample#</h3>
 					<cfquery name="container_parentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
-							label, barcode, parent_install_date, container_remarks, container_type,
+							label, barcode, 
+							to_char(parent_install_date,'yyyy-mm-dd') parent_install_date, 
+							container_remarks, container_type,
 							container_id, parent_container_id
 						FROM
 							container
@@ -5413,7 +5415,13 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					<ul>
 						<cfloop query="container_parentage">
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-								<li><a href="/findContainer.cfm?barcode=#container_parentage.barcode#" target="_blank">#container_parentage.barcode#</a> (#container_parentage.container_type#) since #container_parentage.parent_install_date#</li>
+								<li>
+									<a href="/findContainer.cfm?barcode=#container_parentage.barcode#" target="_blank">#container_parentage.barcode#</a>
+									(#container_parentage.container_type#) 
+									<cfif len(container_parentage.parent_install_date) GT 0>
+										install date #container_parentage.parent_install_date#
+									</cfif>
+								</li>
 							<cfelse>
 								<li><#container_parentage.barcode#</a> (#container_parentage.container_type#)</li>
 							</cfif>
