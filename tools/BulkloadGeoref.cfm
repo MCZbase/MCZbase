@@ -817,16 +817,14 @@ limitations under the License.
 						</cfquery>
 					</cfif>
 				<cfelse>
-					<cfquery name="warningNotVerif" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'VERIFICATIONSTATUS entry is not valid')
-						WHERE 
-							VERIFICATIONSTATUS not in (
-								select verificationstatus 
-								from CTVERIFICATIONSTATUS where verificationstatus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.verificationstatus#">) 
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-					</cfquery>
+					<cfif len(verified_by) gt 0>
+						<cfquery name="warningExtraVerAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_georef
+							SET status = concat(nvl2(status, status || '; ', ''),'VERIFICATIONSTATUS entry is not valid or VERIFIED_BY not needed')
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+						</cfquery>
+					</cfif>
 				</cfif>
 
 				<cfif len(locality_id) eq 0 AND len(getTempData.highergeography) gt 0 and len(getTempData.speclocality) gt 0>
