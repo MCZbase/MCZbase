@@ -1,7 +1,7 @@
 <!---
 specimens/Specimen.cfm
 
-Copyright 2019-2024 President and Fellows of Harvard College
+Copyright 2019-2025 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -34,6 +34,9 @@ limitations under the License.
 <!--- Set page title to reflect failure condition, if queries succeed it will be changed to reflect specimen record found --->
 <cfset pageTitle = "MCZbase Specimen not found.">
 <script type='text/javascript' src='/media/js/media.js'></script>
+<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+	<script type="text/javascript" src="/specimens/js/specimens.js"></script>
+</cfif>
 <cfif isdefined("collection_object_id")>
 	<cfoutput>
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
