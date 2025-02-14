@@ -258,7 +258,7 @@ function openPartContainersDialog(collection_object_id, dialogid) {
 			}
 		},
 		open: function (event, ui) {
-			if (getMaxZIndex && typeof(getMaxZIndex) == "function") { 
+			if (typeof(getMaxZIndex) === "function") { 
 				// force the dialog to lay above any other elements in the page.
 				var maxZindex = getMaxZIndex();
 				$('.ui-dialog').css({'z-index': maxZindex + 6 });
