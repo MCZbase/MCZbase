@@ -475,10 +475,11 @@ limitations under the License.
 					</cfif>
 					<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
 							#cfcatch.message#
-					<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
-							#cfcatch.message#
+					<cfelseif Find("#COLUMN_ERR#",cfcatch.detail) GT 0>
+							#cfcatch.message# #cfcatch.detail#
 					<cfelse>
 						<cfdump var="#cfcatch#">
+							
 					</cfif>
 				</cfcatch>
 				</cftry>
