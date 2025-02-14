@@ -422,7 +422,7 @@ limitations under the License.
 									<cfset error_message="<p class='top'>#COLUMN_ERR# from Row #row# in input file. </p>  <p class='wrapped-text'>Header Row: <br>[#colNames#]</p><p class='wrapped-text'>First error is in Row #row#: <br>[#ArrayToList(collValuesArray)#]</p><p class='wrapped-text'>Error Message:<br> <red>#cfcatch.message#</red></p>">
 										<!--- " --->
 									
-									<!---<cfthrow message = "#error_message#">--->
+									<cfthrow message = "#error_message#">
 								</cfcatch>
 								</cftry>
 						</cfloop>
