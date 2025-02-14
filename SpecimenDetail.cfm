@@ -9,6 +9,7 @@
 <cftry>
 	<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 		<script type="text/javascript" src="/specimens/js/specimens.js"></script>
+		<script type="text/javascript" src="/lib/jquery-ui-1.12.1/jquery-ui.js"></script><!--- Use JQuery-UI widgets when available. ---> 
 	</cfif>
 	<script>
 		/*map customization and polygon functionality commented  out for now. This will be useful as we implement more features -bkh*/
