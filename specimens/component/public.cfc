@@ -1076,24 +1076,14 @@ limitations under the License.
 										</cfif>
 									</td>
 									<td class="py-1">#lot_count#</td>
-								
 									<cfif oneOfus is "1">
-										<cfquery name="container_parentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											SELECT
-												label, barcode, parent_install_date, container_remarks, container_type,
-												container_id, parent_container_id
-											FROM
-												container
-											START WITH container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.container_id#">
-											CONNECT BY PRIOR parent_container_id = container_id
-										</cfquery>
+										<div id="partContDialog_#collection_object_id#"></div>
 										<td class="pb-0">
-											<ul>
-											<cfloop query="container_parentage">
-												<li>#container_parentage.barcode# (#container_parentage.container_type#) since #container_parentage.parent_install_date#</li>
-											</cfloop>
-											</ul>
-											#label#
+											#label# 
+											<span class="small mb-0 pb-0">
+												<a href="javascript:void(0)" aria-label="Part Container Placement"
+													onClick=" openPartContainersDialog(#collection_object_id#, 'partContDialog_#collection_object_id#'); ">Placement</a>
+											</span>
 										</td>
 									</cfif>
 									<td class="py-1">
@@ -1252,10 +1242,16 @@ limitations under the License.
 												</cfif>
 											</cfif>
 										</td>
-										
 										<td class="py-1">#lot_count#</td>
 										<cfif oneOfus is "1">
-											<td class="py-1">#label#</td>
+											<div id="partContDialog_#collection_object_id#"></div>
+											<td class="py-1">
+												#label# 
+												<span class="small mb-0 pb-0">
+													<a href="javascript:void(0)" aria-label="Part Container Placement"
+														onClick=" openPartContainersDialog(#collection_object_id#, 'partContDialog_#collection_object_id#'); ">Placement</a>
+												</span>
+											</td>
 										</cfif>
 										<td class="py-1">
 											<span class="small mb-0 pb-0">
