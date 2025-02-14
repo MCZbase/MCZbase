@@ -5388,7 +5388,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						sampled_from_obj_id,
 						coll_object.COLL_OBJ_DISPOSITION part_disposition,
 						coll_object.CONDITION part_condition,
-						nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count,
+						nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count
 					FROM
 						specimen_part
 						left join coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
