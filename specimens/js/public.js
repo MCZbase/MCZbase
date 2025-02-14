@@ -1148,10 +1148,9 @@ function localityMapSetup(){
 	});
 }
 
-/** Create a dialog for printing transaction paperwork. 
+/** Create a dialog for displaying history of a specimen part. 
   * 
-  * @param transaction_id the transaction for which to print the paperwork
-  * @param transaction_type the type of transaction (loan, accession, deaccession, borrow)
+  * @param collection_object_id the specimen part for which to retrieve the history.
   * @param dialogid the id of the div that is to contain the dialog, without a leading # selector.
   */
 function openHistoryDialog(collection_object_id, dialogid) { 
