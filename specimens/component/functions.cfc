@@ -5388,7 +5388,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						sampled_from_obj_id,
 						coll_object.COLL_OBJ_DISPOSITION part_disposition,
 						coll_object.CONDITION part_condition,
-						nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count,
+						nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count
 					FROM
 						specimen_part
 						left join coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
@@ -5400,7 +5400,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				</cfquery>
 				<cfloop query="getPart">
 					<cfif len(getPart.sampled_from_obj_id) GT 0><cfset subsample=" [subsample] "><cfelse><cfset subsample=""></cfif> 
-					<h2 class="h3">Container Placement for #getPart.partName# #subsample#</h3>
+					<h2 class="h3">Container Placement for #getPart.part_name# #subsample#</h3>
 					<cfquery name="container_parentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
 							label, barcode, parent_install_date, container_remarks, container_type,
@@ -5412,7 +5412,11 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					</cfquery>
 					<ul>
 						<cfloop query="container_parentage">
-							<li><a href="/findContainer.cfm?barcode=#container_parentage.barcode#" target="_blank">#container_parentage.barcode#</a> (#container_parentage.container_type#) since #container_parentage.parent_install_date#</li>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
+								<li><a href="/findContainer.cfm?barcode=#container_parentage.barcode#" target="_blank">#container_parentage.barcode#</a> (#container_parentage.container_type#) since #container_parentage.parent_install_date#</li>
+							<cfelse>
+								<li><#container_parentage.barcode#</a> (#container_parentage.container_type#)</li>
+							</cfif>
 						</cfloop>
 					</ul>
 				</cfloop>
