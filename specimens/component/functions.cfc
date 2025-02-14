@@ -5381,26 +5381,28 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 			<cftry>
 				<cfquery name="getPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT DISTINCT
+						flat.guid,
 						specimen_part.collection_object_id part_id,
 						pc.label, 
 						pc.container_id as container_id,
-						nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
-						sampled_from_obj_id,
+						nvl2(specimen_part.preserve_method, specimen_part.part_name || ' (' || specimen_part.preserve_method || ')',specimen_part.part_name) part_name,
+						specimen_part.sampled_from_obj_id,
 						coll_object.COLL_OBJ_DISPOSITION part_disposition,
 						coll_object.CONDITION part_condition,
-						nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count
+						nvl2(coll_object.lot_count_modifier, coll_object.lot_count_modifier || coll_object.lot_count, coll_object.lot_count) lot_count
 					FROM
 						specimen_part
 						left join coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
 						left join coll_obj_cont_hist on coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id
 						left join container oc on coll_obj_cont_hist.container_id=oc.container_id
 						left join container pc on oc.parent_container_id=pc.container_id
+						left join flat on specimen_part.DERIVED_FROM_CAT_ITEM = flat.collection_object_id
 					WHERE
 						specimen_part.derived_from_cat_item in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
 				</cfquery>
 				<cfloop query="getPart">
 					<cfif len(getPart.sampled_from_obj_id) GT 0><cfset subsample=" [subsample] "><cfelse><cfset subsample=""></cfif> 
-					<h2 class="h3">Container Placement for #getPart.part_name# #subsample#</h3>
+					<h2 class="h3">Container Placement for #getPart.guid# #getPart.part_name# #subsample#</h3>
 					<cfquery name="container_parentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
 							label, barcode, 
