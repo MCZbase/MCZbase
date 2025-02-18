@@ -23,7 +23,7 @@ limitations under the License.
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT 
 		<!---	REGEXP_REPLACE( status, '\s*</?\w+((\s+\w+(\s*=\s*(".*?"|''.*?''|[^''">\s]+))?)+\s*|\s*)/?>\s*', NULL, 1, 0, 'im') AS --->
-				STATUS, INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,CONDITION,DISPOSITION,PARTID,TRANSACTION_ID
+				STATUS, INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,CONDITION,DISPOSITION,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID
 		FROM cf_temp_loan_item 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -35,8 +35,8 @@ limitations under the License.
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,CONDITION,DISPOSITION,PARTID,TRANSACTION_ID">
-<cfset fieldTypes = "CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL">
+<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,CONDITION,DISPOSITION,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID">
+<cfset fieldTypes = "CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL">
 <cfif listlen(fieldlist) NEQ listlen(fieldTypes)>
 	<cfthrow message = "Error: Bug in the definition of fieldlist[#listlen(fieldlist)#] and fieldType[#listlen(fieldTypes)#] lists, lists must be the same length, but are not.">
 </cfif>
@@ -425,7 +425,7 @@ limitations under the License.
 			<cfloop query="getParts">
 				<cfif #getParts.other_id_type# eq "catalog number">
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_loan_item set PARTID = 
+						UPDATE cf_temp_loan_item set PART_COLLECTION_OBJECT_ID = 
 						(
 							select
 								specimen_part.collection_object_id
@@ -455,7 +455,7 @@ limitations under the License.
 					</cfquery>
 				<cfelse>
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_loan_item set PARTID = (
+						UPDATE cf_temp_loan_item set PART_COLLECTION_OBJECT_ID = (
 							select
 								specimen_part.collection_object_id
 							from
@@ -489,7 +489,7 @@ limitations under the License.
 
 			</cfloop>
 			<cfquery name="getTempDataQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID,STATUS,KEY
+				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID,STATUS,KEY
 				FROM 
 					CF_TEMP_LOAN_ITEM
 				WHERE 
@@ -506,7 +506,7 @@ limitations under the License.
 						where
 							key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
 					</cfquery>
-				<cfelseif getTempDataQC.recordcount gt 1 and len(partID) is 0 >
+				<cfelseif getTempDataQC.recordcount gt 1 and len(part_COLLECTION_OBJECT_ID) is 0 >
 					<cfquery name="BadCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update
 							cf_temp_loan_item
@@ -597,7 +597,7 @@ limitations under the License.
 							where
 							specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
 							cataloged_item.collection_id = collection.collection_id and
-						specimen_part.collection_object_id = '#getTempDataQC.PARTID#'
+						specimen_part.collection_object_id = '#getTempDataQC.PART_COLLECTION_OBJECT_ID#'
 						)
 					where ITEM_DESCRIPTION IS NULL 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -635,7 +635,7 @@ limitations under the License.
 				</cfquery>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,STATUS,TRANSACTION_ID,KEY
+				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PART_COLLECTION_OBJECT_ID,STATUS,TRANSACTION_ID,KEY
 				FROM 
 					cf_temp_LOAN_ITEM
 				WHERE 
@@ -668,7 +668,7 @@ limitations under the License.
 						<th>BARCODE</th>
 						<th>SUBSAMPLE</th>
 						<th>LOAN_NUMBER</th>
-						<th>PARTID</th>
+						<th>PART_COLLECTION_OBJECT_ID</th>
 						<th>TRANSACTION_ID</th>
 						<th>KEY</th>
 					</tr>
@@ -687,7 +687,7 @@ limitations under the License.
 							<td>#data.BARCODE#</td>
 							<td>#data.SUBSAMPLE#</td>
 							<td>#data.LOAN_NUMBER#</td>
-							<td>#data.PARTID#</td>
+							<td>#data.PART_COLLECTION_OBJECT_ID#</td>
 							<td>#data.TRANSACTION_ID#</td>
 							<td>#data.KEY#</td>
 						</tr>
@@ -710,7 +710,7 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getCountParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT count(distinct PARTID) ctObj 
+					SELECT count(distinct PART_COLLECTION_OBJECT_ID) ctObj 
 					FROM cf_temp_loan_item
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -731,7 +731,7 @@ limitations under the License.
 							<cfquery name="nid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								select sq_collection_object_id.nextval nid from dual
 							</cfquery>
-							<cfset thisPartId=nid.nid>
+							<cfset thisPART_COLLECTION_OBJECT_ID=nid.nid>
 							<cfquery name="makeSubsampleObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"result="updateLoanItem_result">
 								INSERT INTO coll_object (
 									COLLECTION_OBJECT_ID,
@@ -745,7 +745,7 @@ limitations under the License.
 									FLAGS
 								) (
 									select
-										#thisPartId#,
+										#thisPART_COLLECTION_OBJECT_ID#,
 										'SS',
 										#session.myAgentId#,
 										sysdate,
@@ -757,7 +757,7 @@ limitations under the License.
 									from
 										coll_object
 									where
-										collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PARTID#">
+										collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PART_COLLECTION_OBJECT_ID#">
 								)
 							</cfquery>
 							<cfquery name="makeSubsample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -769,24 +769,24 @@ limitations under the License.
 									sampled_from_obj_id
 								) ( 
 									select
-										#thisPartId#,
+										#thisPART_COLLECTION_OBJECT_ID#,
 										part_name,
 										PRESERVE_METHOD,
 										DERIVED_FROM_cat_item,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PARTID#">
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PART_COLLECTION_OBJECT_ID#">
 									FROM
 										specimen_part
 									WHERE
-										collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PARTID#">
+										collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PART_COLLECTION_OBJECT_ID#">
 								)
 							</cfquery>
 						<cfelse>
-							<cfset thisPartId=#PARTID#>
+							<cfset thisPART_COLLECTION_OBJECT_ID=#PART_COLLECTION_OBJECT_ID#>
 							<cfquery name="updateDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								update coll_object set 
 									coll_obj_disposition = 'on loan'
 								where
-									collection_object_id ='#thisPartId#'
+									collection_object_id ='#thisPART_COLLECTION_OBJECT_ID#'
 							</cfquery>
 						</cfif>
 						<cfquery name="move" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateLoan_result">
@@ -803,7 +803,7 @@ limitations under the License.
 							item_descr,
 							transaction_id
 							) VALUES (
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartID#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPART_COLLECTION_OBJECT_ID#">,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 							sysdate,
 							<cfif len(#getTempData.ITEM_INSTRUCTIONS#) gt 0>
@@ -818,7 +818,7 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="updateLoan1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateLoan1_result">
 							select transaction_id, collection_object_id from loan_item 
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PARTID#">
+							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PART_COLLECTION_OBJECT_ID#">
 							group by transaction_id, collection_object_id
 							having count(*) > 1
 						</cfquery>
@@ -839,7 +839,7 @@ limitations under the License.
 						<cftransaction action="ROLLBACK">
 						<h3>There was a problem updating the loan items.</h3>
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT STATUS,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PARTID,TRANSACTION_ID
+							SELECT STATUS,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID
 							FROM cf_temp_loan_item 
 							WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 						</cfquery>
@@ -907,7 +907,7 @@ limitations under the License.
 										<th>OTHER_ID_TYPE</th>
 										<th>OTHER_ID_NUMBER</th>
 										<th>LOAN_NUMBER</th>
-										<th>PARTID</th>
+										<th>PART_COLLECTION_OBJECT_ID</th>
 										<th>TRANSACTION_ID</th>
 										<th>BARCODE</th>
 										<th>PART_NAME</th>
@@ -924,7 +924,7 @@ limitations under the License.
 											<td>#getProblemData.other_id_type#</td>
 											<td>#getProblemData.other_id_number#</td>
 											<td>#getProblemData.loan_number# </td>
-											<td>#getProblemData.partid# </td>
+											<td>#getProblemData.PART_COLLECTION_OBJECT_ID# </td>
 											<td>#getProblemData.transaction_id# </td>
 											<td>#getProblemData.barcode#</td>
 											<td>#getProblemData.part_name# </td>
