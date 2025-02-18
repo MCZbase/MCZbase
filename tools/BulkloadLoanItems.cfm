@@ -415,15 +415,15 @@ limitations under the License.
 	<cfif #action# is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
-			<cfquery name="getTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,BARCODE,KEY
+			<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARK,CONDITION,BARCODE,KEY
 				FROM 
 					cf_temp_LOAN_ITEM
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfloop query="getTypes">
-				<cfif #getTypes.other_id_type# eq "catalog number">
+			<cfloop query="getParts">
+				<cfif #getParts.other_id_type# eq "catalog number">
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_loan_item set PARTID = 
 						(
@@ -433,7 +433,8 @@ limitations under the License.
 								cataloged_item,
 								collection,
 								specimen_part,
-								coll_object
+								coll_object,
+						
 							where
 								cataloged_item.collection_id = collection.collection_id and
 								cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
@@ -442,11 +443,13 @@ limitations under the License.
 								collection.collection_cde = cf_temp_loan_item.collection_cde and
 								part_name = cf_temp_loan_item.part_name and
 								cat_num = cf_temp_loan_item.other_id_number and
-								coll_obj_disposition != 'on loan'
+								coll_obj_disposition != 'on loan' and 
+								coll_object.condition = cf_temp_loan_item.condition and
+								coll_object_remark.coll_object_remarks = cf_temp_loan_item.part_remarks
 							),
 						status = null
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTypes.key#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParts.key#">
 					</cfquery>
 				<cfelse>
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -474,7 +477,7 @@ limitations under the License.
 							),
 						status=null
 						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTypes.key#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParts.key#">
 					</cfquery>
 				</cfif>
 
