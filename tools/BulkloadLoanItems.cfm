@@ -416,7 +416,7 @@ limitations under the License.
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,CONDITION,DISPOSITION,BARCODE,KEY
+				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,CONDITION,DISPOSITION,PRESERVE_METHOD,BARCODE,KEY
 				FROM 
 					cf_temp_LOAN_ITEM
 				WHERE 
@@ -442,10 +442,11 @@ limitations under the License.
 								specimen_part.collection_object_id = coll_object.collection_object_id and
 								collection.institution_acronym = 'MCZ' and
 								collection.collection_cde = cf_temp_loan_item.collection_cde and
-								part_name = cf_temp_loan_item.part_name and
-								cat_num = cf_temp_loan_item.other_id_number and
-								disposition != 'on loan' and 
+								specimen_part.part_name = cf_temp_loan_item.part_name and
+								cataloged_item.cat_num = cf_temp_loan_item.other_id_number and
+								coll_object.coll_obj_disposition != 'on loan' and 
 								coll_object.condition = cf_temp_loan_item.condition and
+								specimen_part.preserve_method = cf_temp_loan_item.preserve_method AND
 								coll_object_remark.coll_object_remarks = cf_temp_loan_item.part_remarks
 							),
 						status = null
@@ -477,6 +478,7 @@ limitations under the License.
 								other_id_type = cf_temp_loan_item.other_id_type and
 								coll_obj_disposition != 'on loan' and 
 								coll_object.condition = cf_temp_loan_item.condition and
+								specimen_part.preserve_method = cf_temp_loan_item.preserve_method AND
 								coll_object_remark.coll_object_remarks = cf_temp_loan_item.part_remarks
 							),
 						status=null
