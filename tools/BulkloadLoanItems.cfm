@@ -444,7 +444,7 @@ limitations under the License.
 								collection.collection_cde = cf_temp_loan_item.collection_cde and
 								part_name = cf_temp_loan_item.part_name and
 								cat_num = cf_temp_loan_item.other_id_number and
-								coll_obj_disposition != 'on loan' and 
+								disposition != 'on loan' and 
 								coll_object.condition = cf_temp_loan_item.condition and
 								coll_object_remark.coll_object_remarks = cf_temp_loan_item.part_remarks
 							),
