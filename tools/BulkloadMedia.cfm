@@ -1872,6 +1872,7 @@ limitations under the License.
 						</cfloop>
 						<cfif getTempData.recordcount eq media_updates>
 							<h3 class="text-success position-absolute" style="top:0;">Success - loaded #media_updates# media records</h3>
+							<div class="mt-2"><a href="/tools/BulkloadMedia.cfm">Bulkload More Media Records</a></div>
 							<div class="mt-2"><a href="/media/findMedia.cfm?execute=true&method=getMedia&media_id=#successfullInsertIDs#">Show in media search</a></div>
 							<div class="mt-2">
 								#successfullInserts#
