@@ -137,7 +137,7 @@ limitations under the License.
 					</li>
 				</cfloop>
 			</ul>
-			<cfform name="bulk" method="post" enctype="multipart/form-data" action="/tools/BulkloadPartContainer.cfm">
+			<form name="bulk" method="post" enctype="multipart/form-data" action="/tools/BulkloadPartContainer.cfm">
 				<div class="form-row border rounded p-2">
 					<input type="hidden" name="action" value="getFile">
 					<div class="col-12 col-md-4">
@@ -185,7 +185,7 @@ limitations under the License.
 	</cfif>	
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
-		<cfoutput>
+	<cfoutput>
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
 		<!--- Set some constants to identify error cases in cfcatch block --->
