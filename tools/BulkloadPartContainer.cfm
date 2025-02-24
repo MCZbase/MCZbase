@@ -59,14 +59,58 @@ limitations under the License.
 	<cfif #action# is "nothing">
 		<cfoutput>
 			<p>Use this form to put collection objects (that is, parts) in containers. Parts and containers must already exist. This form can be used for specimen records with multiple parts as long as the full names (name plus preserve method) of the parts are unique. Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored.</p>
-			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
-			<div id="template" style="display:none;margin: 1em 0;">
-				<label for="templatearea" class="data-entry-label">
-					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadPartContainer.cfm?action=getCSVHeader" class="font-weight-lessbold">download</a>)
+			<h2 class="h4">Use Template to Load Data</h2>
+			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
+			<div id="template" class="my-1 mx-0">
+				<label for="templatearea" class="data-entry-label" style="line-height: inherit;">
+					Copy this header line, paste it into a blank worksheet, and save it as a .csv file or <a href="/tools/BulkloadPartContainer.cfm?action=getCSVHeader" class="font-weight-bold">download</a> a template.
 				</label>
-				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
+				<textarea style="height: 30px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
 			</div>
-			<h2 class="mt-4 h4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
+			<div class="accordion" id="accordionPC">
+				<div class="card mb-2 bg-light">
+					<div class="card-header" id="headingPC">
+						<h3 class="h5 my-0">
+							<button type="button" role="button" aria-label="part container pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##pcPane" aria-expanded="false" aria-controls="pcPane">
+								Data Entry Instructions per Column
+							</button>
+						</h3>
+					</div>
+					<div id="pcPane" class="collapse" aria-labelledby="headingPC" data-parent="##accordionPC">
+						<div class="card-body" id="pcCardBody">
+							<p class="px-3 pt-2"> Columns in <span class="text-danger">red</span> are required; others are optional.</p>
+							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
+								<cfloop list="#fieldlist#" index="field" delimiters=",">
+									<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+										SELECT comments
+										FROM sys.all_col_comments
+										WHERE 
+											owner = 'MCZBASE'
+											and table_name = 'CF_TEMP_BARCODE_PARTS'
+											and column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+									</cfquery>
+									<cfset comment = "">
+									<cfif getComments.recordcount GT 0>
+										<cfset comment = getComments.comments>
+									</cfif>
+									<cfset aria = "">
+									<cfif listContains(requiredfieldlist,field,",")>
+										<cfset class="text-danger">
+										<cfset aria = "aria-label='Required Field'">
+									<cfelse>
+										<cfset class="text-dark">
+									</cfif>
+									<li class="pb-1 mx-3">
+										<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
+									</li>
+								</cfloop>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="">
+			<h2 class="h4 mt-4">Columns in <span class="text-danger">red</span> are required; others are optional:</h2>
 			<ul class="mb-4 h5 font-weight-normal list-group mx-3">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
@@ -109,12 +153,36 @@ limitations under the License.
 					<div class="col-12 col-md-2">
 						<label for="submitButton" class="data-entry-label">&nbsp;</label>
 						<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
+						</div>
 					</div>
-				</div>
-			</cfform>
+				</form>
+			</div>
+			<script>
+				document.getElementById('copyButton').addEventListener('click', function() {
+					// Get the textarea element
+					var textArea = document.getElementById('templatearea');
+
+					// Select the text content
+					textArea.select();
+
+					try {
+						// Copy the selected text to the clipboard
+						var successful = document.execCommand('copy');
+						var msg = successful ? 'successful' : 'unsuccessful';
+						console.log('Copy command was ' + msg);
+					} catch (err) {
+						console.log('Oops, unable to copy', err);
+					}
+
+					// Optionally deselect the text after copying to avoid confusion
+					window.getSelection().removeAllRanges();
+
+					// Optional: Provide feedback to the user
+					alert('Text copied to clipboard!');
+				});
+			</script>
 		</cfoutput>
-	</cfif>
-	
+	</cfif>	
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
 		<cfoutput>
