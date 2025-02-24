@@ -502,7 +502,7 @@ limitations under the License.
 					<cfset ArrayAppend(multiIDs, findAcceptedIDs.collection_object_ID)>
 					<cfquery name="getMultiIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_id
-						SET status = concat(nvl2(status, status || '; ', ''),'multiple current identifications found for this cataloged_item (accepted_id_fg=#flag#)')
+						SET status = concat(nvl2(status, status || '; ', ''),'multiple current identifications found for this cataloged_item (accepted_id_fg=1)')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and collection_object_id = #findAcceptedIDs.collection_object_id#
 						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.key#">
