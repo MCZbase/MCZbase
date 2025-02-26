@@ -12,8 +12,7 @@
   gtag('config', '<cfoutput>#Application.Google_uacct#</cfoutput>');
 </script>
 
-<link rel="stylesheet" href="/shared/css/custom_styles.css">
-<link rel="stylesheet" href="/shared/css/customstyles_jquery-ui.css">
+
 <style>
 	table td {border:none;}
 </style>
