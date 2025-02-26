@@ -355,6 +355,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 	.taxDetDiv {
 		padding-left:1em;
 	}
+	table.lines td {border: none;}
 </style>
 <cfoutput query="one">
 	<cfif oneOfUs is 1>
@@ -365,7 +366,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 			<input type="hidden" name="Srch" value="Part">
 			<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 	</cfif>
-	<table width="100%" style="background-color: white;"><!---- full page table ---->
+	<table class="lines" width="100%" style="background-color: white;"><!---- full page table ---->
 		<tr>
 			<td valign="top" width="50%">
 <!------------------------------------ Taxonomy ---------------------------------------------->
