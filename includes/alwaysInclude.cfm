@@ -5,7 +5,7 @@
 	<cfset content_url="">
 </cfif>
 <cfinclude template="/includes/functionLib.cfm">
-
+<link rel="stylesheet" type="text/css" href="/includes/style.css" >
 <cfif isdefined("jquery11")>
 <!--- Use jquery 1.11.x --->
 <link rel="stylesheet" href="/includes/jquery/jquery-ui-1.11.4.custom/jquery-ui.css">
@@ -15,7 +15,8 @@
 <script language="JavaScript" src="/includes/jquery/jquery-ui-1.11.4.custom/jquery-ui.min.js" type="text/javascript"></script>
 <script type='text/javascript' language="javascript" src='/includes/ajax.min.js'></script>
 <script language="JavaScript" src="/includes/jquery/jquery-ui.datepicker.1.11.4.js" type="text/javascript"></script>
-
+<link rel="stylesheet" href="/shared/css/customstyles_jquery-ui.css">
+<link rel="stylesheet" href="/shared/css/custom_styles.css">
 <cfelse>
 <!--- Use jquery 1.3.2 --->
 <cfoutput>
@@ -27,7 +28,7 @@
 </cfif>
 <link rel="stylesheet" href="/shared/css/customstyles_jquery-ui.css">
 <link rel="stylesheet" href="/shared/css/custom_styles.css">
-<link rel="stylesheet" type="text/css" href="/includes/style.css" >
+
 
 <script language="JavaScript" src="/shared/js/vocabulary_scripts.js" type="text/javascript"></script>
 <!--- Temporary file, to allow resolution of Redmine 674 Bugfix to f2fee81  making javascript messageDialog() available to Taxonomy.cfm without adding /shared/js/shared-scripts.js as an include in alwaysInclude.cfm --->
