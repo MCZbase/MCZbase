@@ -12,6 +12,10 @@
   gtag('config', '<cfoutput>#Application.Google_uacct#</cfoutput>');
 </script>
 
+
+<style>
+	table td {border:none;}
+</style>
 <cfif isdefined("usealternatehead") and #usealternatehead# eq "feedreader">
 	<cfinclude template="/includes/feedReaderInclude.cfm">
 <cfelseif isdefined("usealternatehead") and #usealternatehead# eq "DataEntry">

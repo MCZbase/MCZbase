@@ -47,7 +47,7 @@
 		WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParts.collection_cde#">
 		ORDER BY preserve_method
 	</cfquery>
-	<div class="ipad_scrolling" >
+	<div class="ipad_scrolling" style="margin: 2rem auto 0 auto;width: 80%;">
       <b>Edit Specimen Parts</b>
 		<br><a href="/findContainer.cfm?collection_object_id=#collection_object_id#" style="font-size: smaller;">Part Locations</a>
 		<br><a href="/editContainer.cfm?action=newContainer&label=#getParts.collection_cde#:#getParts.cat_num#" style="font-size: smaller;">New Container</a>
