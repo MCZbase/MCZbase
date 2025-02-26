@@ -492,6 +492,7 @@ limitations under the License.
 
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
+			<!--- Validating data in bulk --->
 			<!--- Checks that do not require looping through the data, check for missing required data, missing values from key value pairs, bad formats and values that do not match database code tables--->
 			<cfquery name="warningMissingAlternative" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE CF_TEMP_GEOREF
@@ -501,17 +502,24 @@ limitations under the License.
 					AND (HIGHERGEOGRAPHY is null OR SPECLOCALITY is null)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<!--- TODO: Support more fields than just dec_lat and dec_long. --->
+			<cfquery name="unsupportedUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE CF_TEMP_GEOREF
+				SET status = concat(nvl2(status, status || '; ', ''),'Unsupported orig_lat_long_units.')
+				WHERE
+					orig_lat_long_units <> 'decimal degrees'
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<!---Prevent Duplicate Accepted IDs from loading--->
-			<cfquery name="warningSpatialFit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="warningDuplicatedRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE CF_TEMP_GEOREF 
-				SET status = concat(nvl2(status, status || '; ', ''),'Duplicate Locality Record')
+				SET status = concat(nvl2(status, status || '; ', ''),'Only one record per locality_id is allowed')
 				WHERE 
 					locality_id in 
 						(select locality_id from CF_TEMP_GEOREF group by locality_id 
 						having count(*) > 1)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<!--- Validating data in bulk --->
 			<!---Check ORIG_LAT_LONG_UNITS in code table--->
 			<cfquery name="warningOrigLatLongUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
