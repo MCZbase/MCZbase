@@ -1036,24 +1036,17 @@ limitations under the License.
 						FROM cf_temp_georef
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-					<cfquery name="updateAccpt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE lat_long
-						SET accepted_lat_long_fg = 0
-						WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getData.locality_id#">
-					</cfquery>
-					<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT count(distinct locality_id) loc 
-						FROM cf_temp_georef
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
-					<cfset georef_updates = 0>
 					<cfif getData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
 					</cfif>
 					<cfloop query="getData">
-						<cfset username="#session.username#">
 						<cfset problem_key = getData.key>
-						<cfset lat_long_id = ''>
+						<!--- set any existing lat_long records to unnaccepted, allowing insert of new accepted ones --->
+						<cfquery name="updateAccpt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE lat_long
+							SET accepted_lat_long_fg = 0
+							WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getData.locality_id#">
+						</cfquery>
 						<cfquery name="makeGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT INTO lat_long (
 								lat_long_id,
