@@ -10,9 +10,6 @@
 <!--- Use jquery 1.11.x --->
 <link rel="stylesheet" href="/includes/jquery/jquery-ui-1.11.4.custom/jquery-ui.css">
 <link rel="stylesheet" href="/includes/jquery/jquery-ui-1.11.4.custom/jquery-ui.theme.css">
-
-<link rel="stylesheet" href="/shared/css/customstyles_jquery-ui.css">
-<link rel="stylesheet" href="/shared/css/custom_styles.css">
 <script type='text/javascript' language="javascript" src='/includes/jquery/1.11.3/jquery-1.11.3.min.js'></script>
 <script type='text/javascript' language="javascript" src='/includes/jquery/1.11.3/jquery-migrate-1.2.1.min.js'></script>
 <script language="JavaScript" src="/includes/jquery/jquery-ui-1.11.4.custom/jquery-ui.min.js" type="text/javascript"></script>
@@ -28,6 +25,8 @@
 <script type='text/javascript' language="javascript" src='/includes/ajax.min.js'></script>
 <script language="JavaScript" src="/includes/jquery/jquery.ui.datepicker.min.js" type="text/javascript"></script>
 </cfif>
+<link rel="stylesheet" href="/shared/css/customstyles_jquery-ui.css">
+<link rel="stylesheet" href="/shared/css/custom_styles.css">
 <script language="JavaScript" src="/shared/js/vocabulary_scripts.js" type="text/javascript"></script>
 <!--- Temporary file, to allow resolution of Redmine 674 Bugfix to f2fee81  making javascript messageDialog() available to Taxonomy.cfm without adding /shared/js/shared-scripts.js as an include in alwaysInclude.cfm --->
 <script language="JavaScript" src="/includes/js/messageDialogWorkaround.js" type="text/javascript"></script>
