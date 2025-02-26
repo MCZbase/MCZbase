@@ -200,7 +200,7 @@ override Bootstrap styles
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
 	color: black;
 }
-.ui-dialog-content ul.listgroupl.listgroupitem {
+ul.listgroupl.listgroupitem {
 	position:relative;
 	display:block;
 	padding:0.5rem 1rem;
