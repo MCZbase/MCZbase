@@ -1094,15 +1094,31 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MAX_ERROR_UNITS#">,
 								1,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT#" scale="5">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#" scale="3">,
+								<cfif len(EXTENT) gt 0>
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT#" scale="5">,
+								<cfelse>
+									NULL,
+								</cfif>
+								<cfif len(GPSACCURACY) gt 0>
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#" scale="3">,
+								<cfelse>
+									NULL,
+								</cfif>
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GEOREFMETHOD#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFICATIONSTATUS#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFIED_BY_AGENT_ID#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIALFIT#" scale="3">,
+								<cfif len(SPATIALFIT) gt 0>
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIALFIT#" scale="3">,
+								<cfelse>
+									NULL,
+								</cfif>
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEAREST_NAMED_PLACE#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#EXTENT_UNITS#" scale="5">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_FOR_NNP_FG#">
+								<cfif len(LAT_LONG_FOR_NNP_FG) gt 0>
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_LONG_FOR_NNP_FG#">
+								<cfelse>
+									NULL
+								</cfif>
 							)
 						</cfquery>
 						<cfset georef_updates = georef_updates + insResult.recordcount>
@@ -1255,9 +1271,11 @@ limitations under the License.
 						</table>
 					</cfif>
 					<div>#cfcatch.detail# <br>#cfcatch.message#</div>
-					<div>
-						<cfdump var="#cfcatch#">
-					</div>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+						<div>
+							<cfdump var="#cfcatch#">
+						</div>
+					</cfif>
 				</cfcatch>
 				</cftry>
 			</cftransaction>
