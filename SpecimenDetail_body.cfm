@@ -1099,7 +1099,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 			specimen_part.derived_from_cat_item=#one.collection_object_id#
 		</cfquery>
 		</td>
-		<td valign="top" width="50%">
+		<td valign="top" width="50%" style="border: none">
 	<!------------------------------------ identifiers ---------------------------------------------->
 			<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
