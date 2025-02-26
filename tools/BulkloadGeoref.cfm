@@ -1039,6 +1039,7 @@ limitations under the License.
 					<cfif getData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Georeference bulkloader table (cf_temp_georef). <a href='/tools/BulkloadGeoref.cfm'>Start over</a>">
 					</cfif>
+					<cfset georef_updates = 0>
 					<cfloop query="getData">
 						<cfset problem_key = getData.key>
 						<!--- set any existing lat_long records to unnaccepted, allowing insert of new accepted ones --->
