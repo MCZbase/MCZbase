@@ -16,7 +16,7 @@
 <script type='text/javascript' language="javascript" src='/includes/ajax.min.js'></script>
 <script language="JavaScript" src="/includes/jquery/jquery-ui.datepicker.1.11.4.js" type="text/javascript"></script>
 <link rel="stylesheet" href="/shared/css/customstyles_jquery-ui.css">
-<link rel="stylesheet" href="/shared/css/custom_styles.css">
+<!---<link rel="stylesheet" href="/shared/css/custom_styles.css">--->
 <cfelse>
 <!--- Use jquery 1.3.2 --->
 <cfoutput>
@@ -27,7 +27,7 @@
 <script language="JavaScript" src="/includes/jquery/jquery.ui.datepicker.min.js" type="text/javascript"></script>
 </cfif>
 <link rel="stylesheet" href="/shared/css/customstyles_jquery-ui.css">
-<link rel="stylesheet" href="/shared/css/custom_styles.css">
+<!---<link rel="stylesheet" href="/shared/css/custom_styles.css">--->
 
 
 <script language="JavaScript" src="/shared/js/vocabulary_scripts.js" type="text/javascript"></script>
