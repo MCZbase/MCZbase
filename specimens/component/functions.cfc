@@ -5402,7 +5402,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				</cfquery>
 				<cfloop query="getPart">
 					<cfif len(getPart.sampled_from_obj_id) GT 0><cfset subsample=" [subsample] "><cfelse><cfset subsample=""></cfif> 
-					<h2 class="h3">Container Placement for #getPart.guid# #getPart.part_name# #subsample#</h3>
+					<h3>Container Placement for #getPart.guid# #getPart.part_name# #subsample#</h3>
 					<cfquery name="container_parentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
 							label, barcode, 

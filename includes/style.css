@@ -5937,12 +5937,17 @@ form#borrow {
     background-color: #ccc;
 }
 form#newLoan {float: left;}
-.trans_container .likeLink {color: #468cc8;}
+
+.trans_container .likeLink {
+	color: #468cc8;
+}
 .agent_group {
 	border: 1px solid #ccc;
 	padding: 10px;
 }
-
+.ui-dialog {
+	background-color:white;
+}
 a.seeTipsLink {margin-left: 2.5em;
 	color: #114bc7;
 	font-size: 15px;
@@ -5962,6 +5967,10 @@ a.seeTipsLink {margin-left: 2.5em;
 	text-decoration:none;
 	background-color: white;
 	border:1px solid rgba(0,0,0,0.125);
+}
+.ui-button-text-only .ui-button-text {
+	font-family: Arial, Helvetica, sans-serif;
+	padding: 0.25rem .5rem;
 }
 .tipPane {
 			width: 96%;
