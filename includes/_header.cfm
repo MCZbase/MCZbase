@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="/shared/css/custom_styles.css">
 <link rel="stylesheet" href="/shared/css/customstyles_jquery-ui.css">
 <style>
-	table#pairs, th, td {border:none;}
+	table td {border:none;}
 </style>
 <cfif isdefined("usealternatehead") and #usealternatehead# eq "feedreader">
 	<cfinclude template="/includes/feedReaderInclude.cfm">
