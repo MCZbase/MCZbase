@@ -5374,17 +5374,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 --->
 <cffunction name="getPartContainersHTML" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<style>
-		ul.listgroupl.listgroupitem {
-			position:relative;
-			display:block;
-			padding:0.5rem 1rem;
-			color: #212529;
-			text-decoration:none;
-			background-color: white;
-			border:1px solid rgba(0,0,0,0.125);
-		}
-	</style>
+
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
 	<cfthread name="getContainerThread#tn#">
 		<cfoutput>
