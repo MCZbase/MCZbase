@@ -1255,6 +1255,9 @@ limitations under the License.
 						</table>
 					</cfif>
 					<div>#cfcatch.detail# <br>#cfcatch.message#</div>
+					<div>
+						<cfdump var="#cfcatch#">
+					</div>
 				</cfcatch>
 				</cftry>
 			</cftransaction>
