@@ -37,6 +37,7 @@ limitations under the License.
 <cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 	<script type="text/javascript" src="/specimens/js/specimens.js"></script>
 </cfif>
+<link rel="stylesheet" href="/shared/css/customstyles_jquery-ui.css">
 <cfif isdefined("collection_object_id")>
 	<cfoutput>
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
