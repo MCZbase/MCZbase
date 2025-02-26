@@ -507,7 +507,7 @@ limitations under the License.
 				UPDATE CF_TEMP_GEOREF
 				SET status = concat(nvl2(status, status || '; ', ''),'Unsupported orig_lat_long_units.')
 				WHERE
-					orig_latlong_units <> 'decimal degrees'
+					orig_lat_long_units <> 'decimal degrees'
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Prevent Duplicate Accepted IDs from loading--->
