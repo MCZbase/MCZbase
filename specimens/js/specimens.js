@@ -238,7 +238,7 @@ function loadPreservationsSummaryHTML (result_id,targetDivId) {
   * @param dialogid the id of the div that is to contain the dialog, without a leading # selector.
   */
 function openPartContainersDialog(collection_object_id, dialogid) { 
-	var title = "Part Container Placement.";
+	var title = "Part Container Placement";
 	var content = '<div id="'+dialogid+'_div" class="col-12 px-1 px-xl-2">Loading....</div>';
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
