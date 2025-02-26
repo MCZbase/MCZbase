@@ -5959,7 +5959,7 @@ a.seeTipsLink {margin-left: 2.5em;
 	width:179px;
 	border-radius: 5px;
 }
-.listgroup .listgroupitem {
+ul.listgroup .listgroupitem {
 	position:relative;
 	display:block;
 	padding:0.5rem 1rem;
