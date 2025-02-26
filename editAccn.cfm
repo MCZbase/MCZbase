@@ -198,7 +198,7 @@ editAccn.cfm?project_id=#getDetails.project_id#"
 				<input type="hidden" name="transaction_id" value="#accnData.transaction_id#">
 				<cfset tIA=accnData.collection_id>
 				<table border>
-					<tr>
+					<tr style="background-color:##ebebeb;">
 						<td>
 							<label for="collection_id">Collection</label>
 							<select name="collection_id" size="1"  class="reqdClr" id="collection_id">
