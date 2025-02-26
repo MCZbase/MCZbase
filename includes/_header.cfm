@@ -11,7 +11,7 @@
 
   gtag('config', '<cfoutput>#Application.Google_uacct#</cfoutput>');
 </script>
-
+<link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css">
 <cfif isdefined("usealternatehead") and #usealternatehead# eq "feedreader">
 	<cfinclude template="/includes/feedReaderInclude.cfm">
 <cfelseif isdefined("usealternatehead") and #usealternatehead# eq "DataEntry">
