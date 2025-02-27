@@ -62,8 +62,15 @@ limitations under the License.
 			, '' AS NEW_COLL_OBJ_DISPOSITION
 			, '' AS NEW_CONDITION
 		</cfif>
+		<cfif action IS "downloadPartLoanItems">
+			pc.barcode as CONTAINER_BARCODE
+			, '' as ITEM_INSTRUCTIONS
+			, '' AS ITEM_REMARKS
+			, '' AS LOAN_NUMBER
+			, '' AS TRANSACTION_ID
+		</cfif>
 		<cfif action IS "downloadBulkloaderAll">
-			,			 '' as PART_ATT_NAME_1
+			, '' as PART_ATT_NAME_1
 			, '' as PART_ATT_VAL_1
 			, '' as PART_ATT_UNITS_1
 			, '' as PART_ATT_DETBY_1
@@ -186,6 +193,15 @@ limitations under the License.
 	<cfset strOutput2 = QueryToCSV(getParts)>
 	<cfheader name="Content-Type" value="text/csv">
 	<cfheader name="Content-disposition" value="attachment;filename=PARTS_download.csv">
+	<cfoutput>#strOutput2#</cfoutput>
+	<cfabort>
+		
+<cfelseif action is "downloadPartLoanItems">
+	<!--- download csv for loan item bulkload --->
+	<cfinclude template="/shared/component/functions.cfc">
+	<cfset strOutput2 = QueryToCSV(getParts)>
+	<cfheader name="Content-Type" value="text/csv">
+	<cfheader name="Content-disposition" value="attachment;filename=PARTS_downloadForLoanItemsBulk.csv">
 	<cfoutput>#strOutput2#</cfoutput>
 	<cfabort>
 	<!--------------------------------------------------------------------->
