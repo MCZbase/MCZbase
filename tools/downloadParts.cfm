@@ -36,7 +36,7 @@ limitations under the License.
 		SP.collection_object_id as PART_COLLECTION_OBJECT_ID,
 		SP.PART_NAME,
 		SP.PRESERVE_METHOD,
-		CO.COLL_OBJ_DISPOSITION as DISPOSITION,
+		CO.COLL_OBJ_DISPOSITION,
 		CO.LOT_COUNT_MODIFIER,
 		CO.LOT_COUNT,
 		COR.COLL_OBJECT_REMARKS as CURRENT_REMARKS,
@@ -335,7 +335,7 @@ limitations under the License.
 									<!--- Note: Not including the part_collection_object_id in this table, just in the csv dump --->
 									<td>#PART_NAME#</td>
 									<td>#PRESERVE_METHOD#</td>
-									<td>#DISPOSITION#</td>
+									<td>#COLL_OBJ_DISPOSITION#</td>
 									<td>#LOT_COUNT_MODIFIER#</td>
 									<td>#LOT_COUNT#</td>
 									<td>#CURRENT_REMARKS#</td>
