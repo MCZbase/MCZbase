@@ -634,7 +634,7 @@ limitations under the License.
 				</cfquery>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT STATUS,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,CONTAINER_BARCODE,SUBSAMPLE,LOAN_NUMBER,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID,KEY
+				SELECT STATUS,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,CONTAINER_BARCODE,SUBSAMPLE,LOAN_NUMBER,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID,KEY
 				FROM 
 					cf_temp_LOAN_ITEM
 				WHERE 
@@ -661,6 +661,7 @@ limitations under the License.
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_NUMBER</th>
 						<th>PART_NAME</th>
+						<th>PART_REMARKS</th>
 						<th>ITEM_INSTRUCTIONS</th>
 						<th>ITEM_REMARKS</th>
 						<th>ITEM_DESCRIPTION</th>
@@ -680,6 +681,7 @@ limitations under the License.
 							<td>#data.OTHER_ID_TYPE#</td>
 							<td>#data.OTHER_ID_NUMBER#</td>
 							<td>#data.PART_NAME#</td>
+							<td>#data.PART_REMARKS#</td>
 							<td>#data.ITEM_INSTRUCTIONS#</td>
 							<td>#data.ITEM_REMARKS#</td>
 							<td>#data.ITEM_DESCRIPTION#</td>
