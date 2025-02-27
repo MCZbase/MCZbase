@@ -507,9 +507,34 @@ limitations under the License.
 				UPDATE CF_TEMP_GEOREF
 				SET status = concat(nvl2(status, status || '; ', ''),'Unsupported orig_lat_long_units.')
 				WHERE
-					orig_lat_long_units <> 'decimal degrees'
+					orig_lat_long_units <> 'decimal degrees' 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfquery name="UTMCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE CF_TEMP_GEOREF
+				SET status = concat(nvl2(status, status || '; ', ''),'If UTM_ZONE is provided both UTM easting and northing must be provided.')
+				WHERE
+					utm_zone is not null
+					AND (utm_ew is null or utm_ns is null)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="UTMCheckLen" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE CF_TEMP_GEOREF
+				SET status = concat(nvl2(status, status || '; ', ''),'UTM_ZONE can be no more than three characters, USNG and MGRS coordinates are not supported.')
+				WHERE
+					utm_zone is not null 
+					AND len(utm_zone) > 3
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="UTMEastingNorthingType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE CF_TEMP_GEOREF
+				SET status = concat(nvl2(status, status || '; ', ''),'UTM_EW and UTM_NS can only contain numbers, USNG and MGRS coordinates are not supported.')
+				WHERE
+					utm_ew is not null and utm_ns is not null
+					AND NOT (REGEXP_LIKE(utm_ew, '^[0-9]+$') AND REGEXP_LIKE(utm_ns, '^[0-9]+$'))
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<!---Prevent Duplicate Accepted IDs from loading--->
 			<!---Prevent Duplicate Accepted IDs from loading--->
 			<cfquery name="warningDuplicatedRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE CF_TEMP_GEOREF 
@@ -1088,7 +1113,10 @@ limitations under the License.
 								SPATIALFIT,
 								NEAREST_NAMED_PLACE,
 								EXTENT_UNITS,
-								LAT_LONG_FOR_NNP_FG
+								LAT_LONG_FOR_NNP_FG,
+								UTM_ZONE,
+								UTM_EW,
+								UTM_NS
 							) VALUES (
 								sq_lat_long_id.nextval,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">,
@@ -1125,7 +1153,22 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEAREST_NAMED_PLACE#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#EXTENT_UNITS#" scale="5">,
 								<cfif len(LAT_LONG_FOR_NNP_FG) gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_LONG_FOR_NNP_FG#">
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_LONG_FOR_NNP_FG#">,
+								<cfelse>
+									NULL,
+								</cfif>
+								<cfif len(UTM_ZONE) gt 0>
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#UTM_ZONE#">,
+								<cfelse>
+									NULL,
+								</cfif>
+								<cfif len(UTM_EW) gt 0>
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#UTM_EW#">,
+								<cfelse>
+									NULL,
+								</cfif>
+								<cfif len(UTM_NS) gt 0>
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#UTM_NS#">
 								<cfelse>
 									NULL
 								</cfif>
