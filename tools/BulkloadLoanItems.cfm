@@ -683,7 +683,7 @@ limitations under the License.
 							<td>#data.ITEM_INSTRUCTIONS#</td>
 							<td>#data.ITEM_REMARKS#</td>
 							<td>#data.ITEM_DESCRIPTION#</td>
-							<td>#data.BARCODE#</td>
+							<td>#data.CONTAINER_BARCODE#</td>
 							<td>#data.SUBSAMPLE#</td>
 							<td>#data.LOAN_NUMBER#</td>
 							<td>#data.PART_COLLECTION_OBJECT_ID#</td>
