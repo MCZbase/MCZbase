@@ -523,7 +523,7 @@ limitations under the License.
 				SET status = concat(nvl2(status, status || '; ', ''),'UTM_ZONE can be no more than three characters, USNG and MGRS coordinates are not supported.')
 				WHERE
 					utm_zone is not null 
-					AND len(utm_zone) > 3
+					AND length(utm_zone) > 3
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="UTMEastingNorthingType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
