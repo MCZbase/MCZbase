@@ -1379,7 +1379,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("dc8aae4b-134f-4d75-8a71-c4186239178e") --->
-			<cfset dqResponse = dwcOtherDateQC.validationDateidentifiedInrange(dateIdentified, eventDate)>
+			<cfset dqResponse = dwcOtherDateQC.validationDateidentifiedInrange(dateIdentified, eventDate,'','','')>
 			<cfset r.label = "dwc:dateIdentified in range" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
