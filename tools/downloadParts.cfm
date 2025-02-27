@@ -63,7 +63,6 @@ limitations under the License.
 			, '' AS NEW_CONDITION
 		</cfif>
 		<cfif action IS "downloadPartLoanItems">
-			, pc.barcode as CONTAINER_BARCODE
 			, '' as ITEM_INSTRUCTIONS
 			, '' AS ITEM_REMARKS
 			, '' AS LOAN_NUMBER
