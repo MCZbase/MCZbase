@@ -68,7 +68,6 @@ limitations under the License.
 			, '' AS LOAN_NUMBER
 			, '' AS TRANSACTION_ID
 			, COR.COLL_OBJECT_REMARKS as PART_REMARKS
-			, CO.COLL_OBJ_DISPOSITION
 		</cfif>
 		<cfif action IS "downloadBulkloaderAll">
 			, '' as PART_ATT_NAME_1
