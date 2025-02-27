@@ -22,7 +22,7 @@ limitations under the License.
 <cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT REGEXP_REPLACE( status, '\s*</?\w+((\s+\w+(\s*=\s*(".*?"|''.*?''|[^''">\s]+))?)+\s*|\s*)/?>\s*', NULL, 1, 0, 'im') AS 
-				STATUS, INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID
+				STATUS, INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID
 		FROM cf_temp_loan_item 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -34,7 +34,7 @@ limitations under the License.
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID">
+<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID">
 <cfset fieldTypes = "CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL">
 <cfif listlen(fieldlist) NEQ listlen(fieldTypes)>
 	<cfthrow message = "Error: Bug in the definition of fieldlist[#listlen(fieldlist)#] and fieldType[#listlen(fieldTypes)#] lists, lists must be the same length, but are not.">
@@ -415,7 +415,7 @@ limitations under the License.
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID,KEY
+				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID,KEY
 				FROM 
 					cf_temp_LOAN_ITEM
 				WHERE 
@@ -488,7 +488,7 @@ limitations under the License.
 				</cfloop>--->
 
 			<cfquery name="getTempDataQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID,STATUS,KEY
+				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID,STATUS,KEY
 				FROM 
 					CF_TEMP_LOAN_ITEM
 				WHERE 
@@ -559,13 +559,13 @@ limitations under the License.
 				<cfquery name="ctBarcodeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
 					UPDATE cf_temp_loan_item
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'Barcode (a.k.a. container_unique_id): ['|| barcode ||'] is not valid. If not known, enter "The Museum of Comparative Zoology"')
+						status = concat(nvl2(status, status || '; ', ''),'Barcode (a.k.a. container_unique_id): ['|| CONTAINER_BARCODE ||'] is not valid. If not known, enter "The Museum of Comparative Zoology"')
 					WHERE 
-						barcode IS NOT NULL
-						AND barcode NOT IN (
+						CONTAINER_barcode IS NOT NULL
+						AND CONTAINER_barcode NOT IN (
 							SELECT barcode
 							FROM container
-							WHERE barcode  = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.barcode#">
+							WHERE barcode  = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.container_barcode#">
 						)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
@@ -634,7 +634,7 @@ limitations under the License.
 				</cfquery>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT STATUS,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,BARCODE,SUBSAMPLE,LOAN_NUMBER,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID,KEY
+				SELECT STATUS,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,CONTAINER_BARCODE,SUBSAMPLE,LOAN_NUMBER,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID,KEY
 				FROM 
 					cf_temp_LOAN_ITEM
 				WHERE 
@@ -664,7 +664,7 @@ limitations under the License.
 						<th>ITEM_INSTRUCTIONS</th>
 						<th>ITEM_REMARKS</th>
 						<th>ITEM_DESCRIPTION</th>
-						<th>BARCODE</th>
+						<th>CONTAINER_BARCODE</th>
 						<th>SUBSAMPLE</th>
 						<th>LOAN_NUMBER</th>
 						<th>PART_COLLECTION_OBJECT_ID</th>
