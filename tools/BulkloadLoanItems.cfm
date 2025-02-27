@@ -39,7 +39,7 @@ limitations under the License.
 <cfif listlen(fieldlist) NEQ listlen(fieldTypes)>
 	<cfthrow message = "Error: Bug in the definition of fieldlist[#listlen(fieldlist)#] and fieldType[#listlen(fieldTypes)#] lists, lists must be the same length, but are not.">
 </cfif>
-<cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,CONDITION,COLL_OBJ_DISPOSITION,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER">
+<cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,CONDITION,COLL_OBJ_DISPOSITION,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER">
 
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
