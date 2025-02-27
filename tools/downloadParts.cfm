@@ -62,8 +62,14 @@ limitations under the License.
 			, '' AS NEW_COLL_OBJ_DISPOSITION
 			, '' AS NEW_CONDITION
 		</cfif>
+		<cfif action IS "downloadForLoanItems">
+			, '' as ITEM_INSTRUCTIONS
+			, '' AS ITEM_REMARKS
+			, '' AS LOAN_NUMBER
+			, '' AS TRANSACTION_ID
+		</cfif>
 		<cfif action IS "downloadBulkloaderAll">
-			,			 '' as PART_ATT_NAME_1
+			, '' as PART_ATT_NAME_1
 			, '' as PART_ATT_VAL_1
 			, '' as PART_ATT_UNITS_1
 			, '' as PART_ATT_DETBY_1
@@ -180,6 +186,15 @@ limitations under the License.
 	<cfoutput>#strOutput#</cfoutput>
 	<cfabort>
 	<!--------------------------------------------------------------------->
+<cfelseif action is "downloadForLoanItems">
+	<!--- download csv without the storage heirarchy suitable for rountrip edits with the part bulkloader including empty fields for attributes --->
+	<cfinclude template="/shared/component/functions.cfc">
+	<cfset strOutput = QueryToCSV(getParts)>
+	<cfheader name="Content-Type" value="text/csv">
+	<cfheader name="Content-disposition" value="attachment;filename=PARTS_downloadForLoanItems.csv">
+	<cfoutput>#strOutput#</cfoutput>
+	<cfabort>
+	<!--------------------------------------------------------------------->
 <cfelseif action is "download">
 	<!--- download csv including the storage heirarchy --->
 	<cfinclude template="/shared/component/functions.cfc">
@@ -260,6 +275,7 @@ limitations under the License.
 								<input type="button" value="Download Parts CSV for Bulkload Edited Parts" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Download Parts CSV for Bulkload Edited Parts with (blank) Attributes" onClick='document.getElementById("action").value="downloadBulkloaderAll";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Download Parts CSV with Container placements" onClick='document.getElementById("action").value="download";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
+								<input type="button" value="Download Parts CSV with Loan Fields" onClick='document.getElementById("action").value="download";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 							</div>
 						</div>			
 					</form>
