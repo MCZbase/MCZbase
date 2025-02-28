@@ -667,9 +667,11 @@ limitations under the License.
 				SET status = concat(nvl2(status, status || '; ', ''),'LAT_DEG must be a positive integer in the range 0 to 90.')
 				WHERE 
 					LAT_DEG is not null 
-					AND NOT regexp_like(LAT_DEG,'^[0-9]+$')
-					AND TO_NUMBER(LAT_DEG) < 0 
-					AND TO_NUMBER(LAT_DEG) > 90 
+					AND (
+						NOT regexp_like(LAT_DEG,'^[0-9]+$')
+						OR TO_NUMBER(LAT_DEG) < 0 
+						OR TO_NUMBER(LAT_DEG) > 90 
+					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="longTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -677,23 +679,34 @@ limitations under the License.
 				SET status = concat(nvl2(status, status || '; ', ''),'LONG_DEG must be a positive integer in the range 0 to 180.')
 				WHERE 
 					LONG_DEG is not null 
-					AND NOT regexp_like(LONG_DEG,'^[0-9]+$')
-					AND TO_NUMBER(LONG_DEG) < 0 
-					AND TO_NUMBER(LONG_DEG) > 180
+					AND ( 
+						NOT regexp_like(LONG_DEG,'^[0-9]+$')
+						OR TO_NUMBER(LONG_DEG) < 0 
+						OR TO_NUMBER(LONG_DEG) > 180
+					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="minTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'LAT_MIN and LONG_MIN must be positive integers in the range 0 to 60.')
+				SET status = concat(nvl2(status, status || '; ', ''),'LAT_MIN must be a positive integer in the range 0 to 60.')
 				WHERE 
 					LAT_MIN is not null 
-					AND NOT regexp_like(LAT_MIN,'^[0-9]+$')
-					AND TO_NUMBER(LAT_MIN) < 0 
-					AND TO_NUMBER(LAT_MIN) > 60
+					AND (NOT regexp_like(LAT_MIN,'^[0-9]+$')
+						OR TO_NUMBER(LAT_MIN) < 0 
+						OR TO_NUMBER(LAT_MIN) > 60
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="minTypeCheck1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_georef
+				SET status = concat(nvl2(status, status || '; ', ''),'LONG_MIN must be a positive integer in the range 0 to 60.')
+				WHERE 
 					AND LONG_MIN is not null 
-					AND NOT regexp_like(LONG_MIN,'^[0-9]+$')
-					AND TO_NUMBER(LONG_MIN) < 0 
-					AND TO_NUMBER(LONG_MIN) > 60
+					AND (
+						NOT regexp_like(LONG_MIN,'^[0-9]+$')
+						OR TO_NUMBER(LONG_MIN) < 0 
+						OR TO_NUMBER(LONG_MIN) > 60
+					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="secTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -701,31 +714,44 @@ limitations under the License.
 				SET status = concat(nvl2(status, status || '; ', ''),'LAT_SEC and LONG_SEC must be positive numbers in the range 0 to 60.')
 				WHERE 
 					LAT_MIN is not null 
-					AND NOT regexp_like(LAT_MIN,'^[0-9.]+$')
-					AND TO_NUMBER(LAT_MIN) < 0 
-					AND TO_NUMBER(LAT_MIN) > 60
+					AND (
+						NOT regexp_like(LAT_MIN,'^[0-9.]+$')
+						OR TO_NUMBER(LAT_MIN) < 0 
+						OR TO_NUMBER(LAT_MIN) > 60
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="secTypeCheck1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_georef
+				SET status = concat(nvl2(status, status || '; ', ''),'LAT_SEC and LONG_SEC must be positive numbers in the range 0 to 60.')
+				WHERE 
 					AND LONG_MIN is not null 
-					AND NOT regexp_like(LONG_MIN,'^[0-9.]+$')
-					AND TO_NUMBER(LONG_MIN) < 0 
-					AND TO_NUMBER(LONG_MIN) > 60
+					AND ( NOT regexp_like(LONG_MIN,'^[0-9.]+$')
+						OR TO_NUMBER(LONG_MIN) < 0 
+						OR TO_NUMBER(LONG_MIN) > 60
+					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="decLatCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
 				SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT must be a number in the range 0 to 90.')
 				WHERE 
-					NOT regexp_like(DEC_LAT,'^[0-9.-]+$')
-					AND TO_NUMBER(DEC_LAT) < 0 
-					AND TO_NUMBER(DEC_LAT) > 90
+					DEC_LAT is not null
+					AND ( NOT regexp_like(DEC_LAT,'^[0-9.-]+$')
+						OR TO_NUMBER(DEC_LAT) < 0 
+						OR TO_NUMBER(DEC_LAT) > 90
+					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="decLongCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
 				SET status = concat(nvl2(status, status || '; ', ''),'DEC_LONG must be a number in the range 0 to 180.')
-				WHERE 
-					NOT regexp_like(DEC_LONG,'^[0-9.-]+$')
-					AND TO_NUMBER(DEC_LONG) < 0 
-					AND TO_NUMBER(DEC_LONG) > 180
+				WHERE
+					DEC_LONG is not null 
+					AND (NOT regexp_like(DEC_LONG,'^[0-9.-]+$')
+						OR TO_NUMBER(DEC_LONG) < 0 
+						OR TO_NUMBER(DEC_LONG) > 180
+					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 
