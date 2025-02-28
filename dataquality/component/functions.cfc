@@ -1328,6 +1328,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset day=ToString(flatrow.day) >
 
 			<cfobject type="Java" class="org.filteredpush.qc.date.DwCOtherDateDQ" name="dwcOtherDateQC">
+			<cfobject type="Java" class="org.filteredpush.qc.date.DwCOtherDateDQDefaults" name="dwcOtherDateQCDefaults">
 			<cfobject type="Java" class="org.filteredpush.qc.date.DwCEventDQ" name="dwcEventDQ">
 			<cfobject type="Java" class="org.filteredpush.qc.date.DwCEventDQDefaults" name="dwcEventDQDefaults">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Mechanism" name="Mechanism">
@@ -1379,7 +1380,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("dc8aae4b-134f-4d75-8a71-c4186239178e") --->
-			<cfset dqResponse = dwcOtherDateQC.validationDateidentifiedInrange(dateIdentified, eventDate)>
+			<cfset dqResponse = dwcOtherDateQCDefaults.validationDateidentifiedInrange(dateIdentified, eventDate)>
 			<cfset r.label = "dwc:dateIdentified in range" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -1666,7 +1667,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("dc8aae4b-134f-4d75-8a71-c4186239178e") --->
-			<cfset dqResponse = dwcOtherDateQC.validationDateidentifiedInrange(dateIdentified, eventDate)>
+			<cfset dqResponse = dwcOtherDateQCDefaults.validationDateidentifiedInrange(dateIdentified, eventDate)>
 			<cfset r.label = "dwc:dateIdentified in range" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >

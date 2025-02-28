@@ -2037,14 +2037,7 @@ div.ui-datepicker {
 	filter: Alpha(Opacity=70);
 	font-weight: normal;
 }
-.ui-icon {
-	width: 16px;
-	height: 16px;
-	background-image: url(/images/css/ui-icons_222222_256x240.png);
-}
-.ui-widget-content .ui-icon {
-	background-image: url(/images/css/ui-icons_222222_256x240.png);
-}
+
 .ui-widget-header .ui-icon {
 	background-image: url(/images/css/ui-icons_ffffff_256x240.png);
 }
@@ -2062,6 +2055,14 @@ div.ui-datepicker {
 }
 .ui-state-error .ui-icon, .ui-state-error-text .ui-icon {
 	background-image: url(/images/css/ui-icons_ffd27a_256x240.png);
+}
+.ui-icon {
+	width: 16px;
+	height: 16px;
+	background-image: url(/images/css/ui-icons_222222_256x240.png);
+}
+.ui-widget-content .ui-icon {
+	background-image: url(/images/css/ui-icons_222222_256x240.png);
 }
 .ui-corner-tl {
 	-moz-border-radius-topleft: 4px;
@@ -5937,26 +5938,25 @@ form#borrow {
     background-color: #ccc;
 }
 form#newLoan {float: left;}
-.trans_container .likeLink {color: #468cc8;}
+
+.trans_container .likeLink {
+	color: #468cc8;
+}
 .agent_group {
 	border: 1px solid #ccc;
 	padding: 10px;
 }
-.ui-widget-header {
-	border: 1px solid #A41034;
-    background: #c1272d url(images/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x;
-    color: #ffffff;background-color:#c1272d; }
-		a.seeTipsLink {margin-left: 2.5em;
-			color: #114bc7;
-			font-size: 15px;
-			cursor: pointer;
-			display:block;
-			background-color: lightgray;
-			border: 1px solid #888;
-			padding: 3px 6px;
-			width:179px;
-			border-radius: 5px;
-	}
+a.seeTipsLink {margin-left: 2.5em;
+	color: #114bc7;
+	font-size: 15px;
+	cursor: pointer;
+	display:block;
+	background-color: lightgray;
+	border: 1px solid #888;
+	padding: 3px 6px;
+	width:179px;
+	border-radius: 5px;
+}
 .tipPane {
 			width: 96%;
 			padding: 10px 30px;
@@ -6117,4 +6117,31 @@ span.uncertaintyDisplay {
 		}
 	/* END specimendetail map stuff */
 	
-	
+	/* dialog popup for placement of containers in part row; */
+ul.listgroup {
+	margin-top: 1rem;
+}
+li.listgroupitem {
+	position:relative;
+	display:block;
+	padding:0.5rem 1rem;
+	color: #212529;
+	text-decoration:none;
+	background-color: white;
+	border:1px solid rgba(0,0,0,0.125);
+}
+.ui-button-text-only .ui-button-text {
+	font-family: Arial, Helvetica, sans-serif;
+	padding: 0.25rem .5rem;
+}
+.ui-widget.ui-widget-content {
+	border: 2px solid #bac5c6;
+	box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.13);
+	background-color: white;
+}
+.ui-dialog .ui-dialog-buttonpane {
+	margin-top: .5em;
+	padding: 0 1em;
+}
+
+/* above dialog popup for placement of containers in part row; */

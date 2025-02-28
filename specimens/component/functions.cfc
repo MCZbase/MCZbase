@@ -5402,7 +5402,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				</cfquery>
 				<cfloop query="getPart">
 					<cfif len(getPart.sampled_from_obj_id) GT 0><cfset subsample=" [subsample] "><cfelse><cfset subsample=""></cfif> 
-					<h2 class="h3">Container Placement for #getPart.guid# #getPart.part_name# #subsample#</h3>
+					<h3>Container Placement for #getPart.guid# #getPart.part_name# #subsample#</h3>
 					<cfquery name="container_parentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
 							label, barcode, 
@@ -5414,10 +5414,10 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						START WITH container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPart.container_id#">
 						CONNECT BY PRIOR parent_container_id = container_id
 					</cfquery>
-					<ul>
+					<ul class="listgroup">
 						<cfloop query="container_parentage">
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-								<li>
+								<li class="listgroupitem">
 									<a href="/findContainer.cfm?barcode=#container_parentage.barcode#" target="_blank">#container_parentage.barcode#</a>
 									(#container_parentage.container_type#) 
 									<cfif len(container_parentage.parent_install_date) GT 0>

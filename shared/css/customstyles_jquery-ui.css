@@ -122,7 +122,7 @@ override Bootstrap styles
 }
 .ui-dialog .ui-dialog-titlebar-close {
 	background-color: white;
-	background-image: url("/shared/images/close.png");
+	background-image: url("https://mczbase.mcz.harvard.edu/shared/images/close.png");
 	background-repeat: no-repeat;
 	background-size: 16px;
 	border: 2px solid #ddd;
@@ -180,11 +180,34 @@ override Bootstrap styles
 	color: #036ee0 !important;
 }
  .ui-autocomplete-loading {
-     background: transparent url("../../images/spinner_16px_reqd_bg.gif") right center no-repeat;
+     background: transparent url("https://mczbase.mcz.harvard.edu/shared/images/spinner_16px_reqd_bg.gif") right center no-repeat;
   }
 .left-3 {
 	left:30%!important;
 	right: 30%!important;
+}
+.ui-dialog {
+	font-family:Arial, Helvetica, "sans-serif"
+}
+.ui-widget-header {
+	border: 1px solid #A41034;
+	border: 1px solid #dddddd;
+	background: #c1272d url(https://mczbase.mcz.harvard.edu/shared/images/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x;
+	background: #ebebeb url(https://mczbase.mcz.harvard.edu/shared/images/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x;
+	color: #ffffff;
+	color: #000000;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	color: black;
+}
+ul.listgroupl.listgroupitem {
+	position:relative;
+	display:block;
+	padding:0.5rem 1rem;
+	color: #212529;
+	text-decoration:none;
+	background-color: white;
+	border:1px solid rgba(0,0,0,0.125);
 }
 @media (max-width: 1200px) {
 .left-3 {
