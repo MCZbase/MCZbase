@@ -431,7 +431,7 @@ limitations under the License.
 						where
 						key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
 					</cfquery>
-				<cfelseif>
+				<cfelse>
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update
 							cf_temp_loan_item
