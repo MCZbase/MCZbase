@@ -701,7 +701,7 @@ limitations under the License.
 				UPDATE cf_temp_georef
 				SET status = concat(nvl2(status, status || '; ', ''),'LONG_MIN must be a positive integer in the range 0 to 60.')
 				WHERE 
-					AND LONG_MIN is not null 
+					LONG_MIN is not null 
 					AND (
 						NOT regexp_like(LONG_MIN,'^[0-9]+$')
 						OR TO_NUMBER(LONG_MIN) < 0 
@@ -725,7 +725,7 @@ limitations under the License.
 				UPDATE cf_temp_georef
 				SET status = concat(nvl2(status, status || '; ', ''),'LAT_SEC and LONG_SEC must be positive numbers in the range 0 to 60.')
 				WHERE 
-					AND LONG_MIN is not null 
+					LONG_MIN is not null 
 					AND ( NOT regexp_like(LONG_MIN,'^[0-9.]+$')
 						OR TO_NUMBER(LONG_MIN) < 0 
 						OR TO_NUMBER(LONG_MIN) > 60
