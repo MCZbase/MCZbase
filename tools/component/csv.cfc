@@ -312,9 +312,10 @@ limitations under the License.
 		</cfloop>
 		<cfif containsAdditional >
 			<cfif additionalCount GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
-			<cfif additionalCount GT 1 and #fieldList# contains 'LOAN_NUMBER'><cfset extra=" above. Use them to find the loan objects"></cfif>
+			<cfif additionalCount GT 1 and #fieldList# contains 'LOAN_NUMBER'><cfset extra="The extra columns will not affect the load and may help to find the specimens."></cfif>
 			<cfif additionalCount GT 1><cfset plural1a="are"><cfelse><cfset plural1a="is"></cfif>
-			<h3 class="h4">Warning: Found #additionalCount# additional column header#plural1# in the CSV that #plural1a# not in the list of expected headers #extra#: </h3>
+			<h3 class="h4">Warning: Found #additionalCount# additional column header#plural1# in the CSV that #plural1a# not in the list of expected headers above: </h3>
+			<h4>#extra#</h4>
 			<!--- Identify additional columns that will be ignored --->
 			<ul class="pb-1 h4">
 				<cfloop list="#foundHeaders#" item="aField">
