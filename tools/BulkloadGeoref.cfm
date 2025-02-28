@@ -1334,26 +1334,6 @@ limitations under the License.
 						<cfset georef_updates = georef_updates + insResult.recordcount>
 					</cfloop>
 					<p class="mt-2">Number of Georeferences added: <b>#georef_updates#</b> </p>
-								<cfif len(UTM_ZONE) gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#UTM_ZONE#">,
-								<cfelse>
-									NULL,
-								</cfif>
-								<cfif len(UTM_EW) gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#UTM_EW#">,
-								<cfelse>
-									NULL,
-								</cfif>
-								<cfif len(UTM_NS) gt 0>
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#UTM_NS#">
-								<cfelse>
-									NULL
-								</cfif>
-							)
-						</cfquery>
-						<cfset georef_updates = georef_updates + insResult.recordcount>
-					</cfloop>
-					<p class="mt-2">Number of Georeferences added: <b>#georef_updates#</b> </p>
 					<cfif #getData.recordcount# eq #georef_updates#>
 						<h3 class="text-success">Success - loaded</h3>
 					</cfif>
