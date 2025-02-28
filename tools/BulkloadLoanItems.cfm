@@ -113,7 +113,7 @@ limitations under the License.
 					</div>
 					<div id="identifiersPane" class="collapse" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
 						<div class="card-body" id="identifiersCardBody">
-						<p class="px-3 pt-2"> Columns in <span class="text-danger">red</span> are required; others are optional. All of these columns can be retrieved from the Part Download/Report function of Manage Specimen Search Results.</p>
+						<p class="px-3 pt-2"> Columns in <span class="text-danger">red</span> are required; others are optional. <strong>All of these columns can be retrieved from the Part Download/Report function of Manage Specimen Search Results.</strong></p>
 							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
 								<cfloop list="#fieldlist#" index="field" delimiters=",">
 									<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
