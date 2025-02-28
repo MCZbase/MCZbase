@@ -441,7 +441,7 @@ limitations under the License.
 							select specimen_part.collection_object_id 
 							from specimen_part, cataloged_item 
 							where specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
-							)
+							) and
 						key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#"> and
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
 					</cfquery>
