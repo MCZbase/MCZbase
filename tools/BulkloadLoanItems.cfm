@@ -83,7 +83,7 @@ limitations under the License.
 	<cfif variables.action is "entryPoint">
 		<cfoutput>
 			<cfset username = "#session.username#">
-			<p>This tool is used to bulkload loan items (connect parts to a loan).</p>
+			<p>This tool is used to bulkload loan items (connect parts to a loan) and add item_descriptions and item remarks more easily through a spreadsheet.</p>
 			<p>The following must all be true to use this form:</p>
 			<ul>
 				<li>Items in the file you load are not already on loan (check part disposition)</li>
