@@ -436,7 +436,7 @@ limitations under the License.
 						update
 							cf_temp_loan_item
 						set
-							status=concat(nvl2(status, status || '; ', ''),'No matching part found; Item Description no created')
+							status=concat(nvl2(status, status || '; ', ''),'No matching part found; Item Description not created')
 						where part_collection_object_id not in (
 							select specimen_part.collection_object_id 
 							from specimen_part, cataloged_item 
@@ -549,7 +549,7 @@ limitations under the License.
 						cf_temp_loan_item
 						set ITEM_DESCRIPTION = 
 						(
-							select collection.collection_cde || ' ' || cat_num || ' ' || part_name
+							select collection.collection_cde || ' ' || cat_num || ' ' || part_name ||'(' || preserve_method ||')' ||')
 							from
 							cataloged_item,
 							collection,
