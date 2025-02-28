@@ -81,7 +81,7 @@ limitations under the License.
 	<h1 class="h2 mt-2">Bulkload Loan Items</h1>
 	<cfif variables.action is "entryPoint">
 		<cfoutput>
-			<cfset username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">>
+			<cfset username = "#session.username#">
 			<p>This tool is used to bulkload loan items (connect parts to a loan).</p>
 			<p>The following must all be true to use this form:</p>
 			<ul>
