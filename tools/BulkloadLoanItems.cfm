@@ -40,7 +40,7 @@ limitations under the License.
 <cfif listlen(fieldlist) NEQ listlen(fieldTypes)>
 	<cfthrow message = "Error: Bug in the definition of fieldlist[#listlen(fieldlist)#] and fieldType[#listlen(fieldTypes)#] lists, lists must be the same length, but are not.">
 </cfif>
-<cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,CONDITION,COLL_OBJ_DISPOSITION,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER">
+<cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,SCIENTIFIC_NAME,PART_COLLECTION_OBJECT_ID,PART_NAME,CONDITION,COLL_OBJ_DISPOSITION,PRESERVE_METHOD,SUBSAMPLE,">
 
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
@@ -113,7 +113,7 @@ limitations under the License.
 					</div>
 					<div id="identifiersPane" class="collapse" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
 						<div class="card-body" id="identifiersCardBody">
-						<p class="px-3 pt-2"> Columns in <span class="text-danger">red</span> are required; others are optional. <strong>All of these columns can be retrieved from the Part Download/Report function of Manage Specimen Search Results.</strong></p>
+						<p class="px-3 pt-2"> Columns in <span class="text-danger">blue</span> come from download; others are optional need to be entered into CSV. <strong>All of these columns can be retrieved from the Part Download/Report function of Manage Specimen Search Results.</strong></p>
 							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
 								<cfloop list="#fieldlist#" index="field" delimiters=",">
 									<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
