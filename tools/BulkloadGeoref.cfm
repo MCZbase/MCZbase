@@ -481,6 +481,9 @@ limitations under the License.
 					<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
 							#cfcatch.message#
 					<cfelse>
+						<cfif Find("cannot insert NULL into",cfcatch.message) GT 0>
+							A value is missing from a required field.
+						</cfif>
 						<cfdump var="#cfcatch#">
 					</cfif>
 				</cfcatch>
