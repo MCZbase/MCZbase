@@ -734,22 +734,22 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="decLatCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT must be a number in the range 0 to 90.')
+				SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT must be a number in the range -90 to 90.')
 				WHERE 
 					DEC_LAT is not null
 					AND ( NOT regexp_like(DEC_LAT,'^[0-9.-]+$')
-						OR TO_NUMBER(DEC_LAT) < 0 
+						OR TO_NUMBER(DEC_LAT) < -90
 						OR TO_NUMBER(DEC_LAT) > 90
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="decLongCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'DEC_LONG must be a number in the range 0 to 180.')
+				SET status = concat(nvl2(status, status || '; ', ''),'DEC_LONG must be a number in the range -180 to 180.')
 				WHERE
 					DEC_LONG is not null 
 					AND (NOT regexp_like(DEC_LONG,'^[0-9.-]+$')
-						OR TO_NUMBER(DEC_LONG) < 0 
+						OR TO_NUMBER(DEC_LONG) < -180 
 						OR TO_NUMBER(DEC_LONG) > 180
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
