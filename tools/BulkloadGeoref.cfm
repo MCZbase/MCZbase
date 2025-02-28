@@ -644,8 +644,8 @@ limitations under the License.
 				SET status = concat(nvl2(status, status || '; ', ''),'LAT_DIR must be N or S.')
 				WHERE 
 					LAT_DIR is not null 
-					AND LAT_DIR <> "N" 
-					AND LAT_DIR <> "S" 
+					AND LAT_DIR <> 'N' 
+					AND LAT_DIR <> 'S' 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="longDirCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -653,8 +653,8 @@ limitations under the License.
 				SET status = concat(nvl2(status, status || '; ', ''),'LONG_DIR must be W or W.')
 				WHERE 
 					LAT_DIR is not null 
-					AND LONG_DIR <> "E" 
-					AND LONG_DIR <> "W" 
+					AND LONG_DIR <> 'E' 
+					AND LONG_DIR <> 'W' 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="latTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
