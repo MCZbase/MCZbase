@@ -685,7 +685,7 @@ limitations under the License.
 					AND NOT regexp_like(LAT_MIN,'^[0-9]+$')
 					AND TO_NUMBER(LAT_MIN) < 0 
 					AND TO_NUMBER(LAT_MIN) > 60
-					LONG_MIN is not null 
+					AND LONG_MIN is not null 
 					AND NOT LONG_MIN regxp_like '^[0-9]+$'
 					AND TO_NUMBER(LONG_MIN) < 0 
 					AND TO_NUMBER(LONG_MIN) > 60
@@ -699,7 +699,7 @@ limitations under the License.
 					AND NOT regexp_like(LAT_MIN,'^[0-9.]+$')
 					AND TO_NUMBER(LAT_MIN) < 0 
 					AND TO_NUMBER(LAT_MIN) > 60
-					LONG_MIN is not null 
+					AND LONG_MIN is not null 
 					AND NOT regexp_like(LONG_MIN,'^[0-9.]+$')
 					AND TO_NUMBER(LONG_MIN) < 0 
 					AND TO_NUMBER(LONG_MIN) > 60
