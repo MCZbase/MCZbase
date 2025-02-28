@@ -847,8 +847,8 @@ limitations under the License.
 											Problem with ITEM_REMARKS (#cfcatch.detail#)
 										<cfelseif cfcatch.detail contains "OTHER_ID_NUMBER">
 											Problem with OTHER_ID_NUMBER (#cfcatch.detail#)
-										<cfelseif cfcatch.detail contains "BARCODE">
-											Problem with BARCODE (#cfcatch.detail#)
+										<cfelseif cfcatch.detail contains "CONTAINER_BARCODE">
+											Problem with CONTAINER_BARCODE (#cfcatch.detail#)
 										<cfelseif cfcatch.detail contains "no data">
 											No data or the wrong data (#cfcatch.detail#)
 										<cfelse>
@@ -888,7 +888,7 @@ limitations under the License.
 											<td>#getProblemData.loan_number# </td>
 											<td>#getProblemData.PART_COLLECTION_OBJECT_ID# </td>
 											<td>#getProblemData.transaction_id# </td>
-											<td>#getProblemData.barcode#</td>
+											<td>#getProblemData.container_barcode#</td>
 											<td>#getProblemData.part_name# </td>
 											<td>#getProblemData.item_description# </td>
 											<td>#getProblemData.subsample# </td>
