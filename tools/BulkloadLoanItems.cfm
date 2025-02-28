@@ -87,7 +87,7 @@ limitations under the License.
 				<li>Items in the file you load are not already on loan (check part disposition)</li>
 				<li>Encumbrances have been checked</li>
 				<li>A loan has been created in MCZbase.</li>
-				<li>Loan Item reconciled person is you (username) - automatically added</li>
+				<li>Loan Item reconciled person is you (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">) - automatically added</li>
 				<li>Loan Item reconciled date is today (2024-07-18) - automatically added</li>
 				<li>Worksheet/CSV was generated from a manage specimen results Parts Report/Download and clicking the button "Download Parts CSV with Loan Item fields"</li>
 			</ul>
