@@ -437,7 +437,7 @@ limitations under the License.
 							cf_temp_loan_item
 						set
 							status=concat(nvl2(status, status || '; ', ''),'No matching part found')
-						where part_collection_object_id in (
+						where part_collection_object_id not in (
 							select specimen_part.collection_object_id 
 							from specimen_part, cataloged_item 
 							where specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
