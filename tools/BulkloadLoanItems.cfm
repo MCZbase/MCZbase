@@ -549,7 +549,7 @@ limitations under the License.
 						cf_temp_loan_item
 						set ITEM_DESCRIPTION = 
 						(
-							select collection.collection_cde || ' ' || cat_num || ' ' || part_name ||'(' || preserve_method ||')')
+							select collection.collection_cde || ' ' || cat_num || ' ' || part_name || '' || preserve_method || '' ||
 							from
 							cataloged_item,
 							collection,
