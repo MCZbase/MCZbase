@@ -416,8 +416,12 @@ limitations under the License.
 										p.top {margin-top: 1rem;}
 									</style>
 							
-									<!--- identify the problematic row --->
-									<cfset error_message="<p class='top'>#COLUMN_ERR# from Row #row# in input file. </p>  <p class='wrapped-text'>Header Row: <br>[#colNames#]</p><p class='wrapped-text'>First error is in Row #row#: <br>[#ArrayToList(collValuesArray)#]</p><p class='wrapped-text'>Error Message:<br> <red>#cfcatch.message#</red>">
+									<!--- identify the problematic row, and problem as much as possible --->
+									<cfset err_help = "">
+									<cfif Find("cannot insert NULL into",cfcatch.message) GT 0>
+										<cfset err_help = "<strong>A value is missing from a required field</strong>.<br>">
+									</cfif>
+									<cfset error_message="<p class='top'>#COLUMN_ERR# from Row #row# in input file. </p>  <p class='wrapped-text'>Header Row: <br>[#colNames#]</p><p class='wrapped-text'>First error is in Row #row#: <br>[#ArrayToList(collValuesArray)#]</p><p class='wrapped-text'>#err_help#Error Message:<br> <red>#cfcatch.message#</red>">
 										<!--- " --->
 									<cfif isDefined("cfcatch.queryError")>
 										<cfset error_message = "#error_message# #cfcatch.queryError#</p>">
@@ -481,9 +485,6 @@ limitations under the License.
 					<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
 							#cfcatch.message#
 					<cfelse>
-						<cfif Find("cannot insert NULL into",cfcatch.message) GT 0>
-							A value is missing from a required field.
-						</cfif>
 						<cfdump var="#cfcatch#">
 					</cfif>
 				</cfcatch>
