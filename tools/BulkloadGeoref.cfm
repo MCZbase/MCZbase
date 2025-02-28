@@ -686,7 +686,7 @@ limitations under the License.
 					AND TO_NUMBER(LAT_MIN) < 0 
 					AND TO_NUMBER(LAT_MIN) > 60
 					AND LONG_MIN is not null 
-					AND NOT LONG_MIN regxp_like '^[0-9]+$'
+					AND NOT regexp_like(LONG_MIN,'^[0-9]+$')
 					AND TO_NUMBER(LONG_MIN) < 0 
 					AND TO_NUMBER(LONG_MIN) > 60
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
