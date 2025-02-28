@@ -662,7 +662,7 @@ limitations under the License.
 				SET status = concat(nvl2(status, status || '; ', ''),'LAT_DEG must be a positive integer in the range 0 to 90.')
 				WHERE 
 					LAT_DEG is not null 
-					AND NOT LAT_DEG regxp_like '^[0-9]+$'
+					AND NOT regexp_like(LAT_DEG,'^[0-9]+$')
 					AND TO_NUMBER(LAT_DEG) < 0 
 					AND TO_NUMBER(LAT_DEG) > 90 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -672,7 +672,7 @@ limitations under the License.
 				SET status = concat(nvl2(status, status || '; ', ''),'LONG_DEG must be a positive integer in the range 0 to 180.')
 				WHERE 
 					LONG_DEG is not null 
-					AND NOT LONG_DEG regxp_like '^[0-9]+$'
+					AND NOT regexp_like(LONG_DEG,'^[0-9]+$')
 					AND TO_NUMBER(LONG_DEG) < 0 
 					AND TO_NUMBER(LONG_DEG) > 180
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -682,7 +682,7 @@ limitations under the License.
 				SET status = concat(nvl2(status, status || '; ', ''),'LAT_MIN and LONG_MIN must be positive integers in the range 0 to 60.')
 				WHERE 
 					LAT_MIN is not null 
-					AND NOT LAT_MIN regxp_like '^[0-9]+$'
+					AND NOT regexp_like(LAT_MIN,'^[0-9]+$')
 					AND TO_NUMBER(LAT_MIN) < 0 
 					AND TO_NUMBER(LAT_MIN) > 60
 					LONG_MIN is not null 
@@ -696,11 +696,11 @@ limitations under the License.
 				SET status = concat(nvl2(status, status || '; ', ''),'LAT_SEC and LONG_SEC must be positive numbers in the range 0 to 60.')
 				WHERE 
 					LAT_MIN is not null 
-					AND NOT LAT_MIN regxp_like '^[0-9.]+$'
+					AND NOT regexp_like(LAT_MIN,'^[0-9.]+$')
 					AND TO_NUMBER(LAT_MIN) < 0 
 					AND TO_NUMBER(LAT_MIN) > 60
 					LONG_MIN is not null 
-					AND NOT LONG_MIN regxp_like '^[0-9.]+$'
+					AND NOT regexp_like(LONG_MIN,'^[0-9.]+$')
 					AND TO_NUMBER(LONG_MIN) < 0 
 					AND TO_NUMBER(LONG_MIN) > 60
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -709,7 +709,7 @@ limitations under the License.
 				UPDATE cf_temp_georef
 				SET status = concat(nvl2(status, status || '; ', ''),'DEC_LAT must be a number in the range 0 to 90.')
 				WHERE 
-					NOT DEC_LAT regxp_like '^[0-9.-]+$'
+					NOT regexp_like(DEC_LAT,'^[0-9.-]+$')
 					AND TO_NUMBER(DEC_LAT) < 0 
 					AND TO_NUMBER(DEC_LAT) > 90
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -718,7 +718,7 @@ limitations under the License.
 				UPDATE cf_temp_georef
 				SET status = concat(nvl2(status, status || '; ', ''),'DEC_LONG must be a number in the range 0 to 180.')
 				WHERE 
-					NOT DEC_LONG regxp_like '^[0-9.-]+$'
+					NOT regexp_like(DEC_LONG,'^[0-9.-]+$')
 					AND TO_NUMBER(DEC_LONG) < 0 
 					AND TO_NUMBER(DEC_LONG) > 180
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
