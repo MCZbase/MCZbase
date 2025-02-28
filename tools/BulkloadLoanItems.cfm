@@ -421,71 +421,32 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<!---Get part id from download--->
-			<!---	<cfloop query="getParts">
-					<cfif #getParts.other_id_type# eq "catalog number">
-						<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE cf_temp_loan_item set PART_COLLECTION_OBJECT_ID = 
-							(
-								select
-									specimen_part.collection_object_id
-								from
-									cataloged_item,
-									collection,
-									specimen_part,
-									coll_object,
-									coll_object_remark
-								where
-									cataloged_item.collection_id = collection.collection_id and
-									cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
-									specimen_part.collection_object_id = coll_object.collection_object_id and
-									collection.institution_acronym = 'MCZ' and
-									collection.collection_cde = cf_temp_loan_item.collection_cde and
-									specimen_part.part_name = cf_temp_loan_item.part_name and
-									cataloged_item.cat_num = cf_temp_loan_item.other_id_number and
-									coll_object.coll_obj_disposition != 'on loan' and 
-									coll_object.condition = cf_temp_loan_item.condition and
-									specimen_part.preserve_method = cf_temp_loan_item.preserve_method AND
-									coll_object_remark.coll_object_remarks = cf_temp_loan_item.part_remarks
-								),
-							status = null
-							where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParts.key#">
-						</cfquery>
-					<cfelse>
-						<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE cf_temp_loan_item set PART_COLLECTION_OBJECT_ID = (
-								select
-									specimen_part.collection_object_id
-								from
-									cataloged_item,
-									collection,
-									specimen_part,
-									coll_object,
-									coll_obj_other_id_num,
-									coll_object_remarks
-								where
-									cataloged_item.collection_id = collection.collection_id and
-									cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id and
-									cataloged_item.collection_object_id = specimen_part.derived_from_cat_item and
-									specimen_part.collection_object_id = coll_object.collection_object_id and
-									collection.institution_acronym = 'MCZ'
-								and
-									collection.collection_cde =  cf_temp_loan_item.collection_cde and
-									part_name =  cf_temp_loan_item.part_name and
-									display_value = cf_temp_loan_item.other_id_number and
-									other_id_type = cf_temp_loan_item.other_id_type and
-									coll_obj_disposition != 'on loan' and 
-									coll_object.condition = cf_temp_loan_item.condition and
-									specimen_part.preserve_method = cf_temp_loan_item.preserve_method AND
-									coll_object_remark.coll_object_remarks = cf_temp_loan_item.part_remarks
-								),
-							status=null
-							where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParts.key#">
-						</cfquery>
-					</cfif>
-				</cfloop>--->
+<!---			<cfloop query="getParts">
+				<cfif len(PART_COLLECTION_OBJECT_ID) eq 0>
+					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update
+							cf_temp_loan_item
+						set
+							status=concat(nvl2(status, status || '; ', ''),'Part ID missing')
+						where
+						key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
+					</cfquery>
+				<cfelseif>
+					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						update
+							cf_temp_loan_item
+						set
+							status=concat(nvl2(status, status || '; ', ''),'No matching part found')
+						where part_collection_object_id in (
+							select specimen_part.collection_object_id 
+							from specimen_part, cataloged_item 
+							where specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+							)
+						key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#"> and
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
+					</cfquery>
+				</cfif>
+			</cfloop>--->
 
 			<cfquery name="getTempDataQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID,STATUS,KEY
