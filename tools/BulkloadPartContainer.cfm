@@ -415,8 +415,9 @@ limitations under the License.
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
-			</cfloop>
 						<br>#getTempTableTypes.collection_object_id#<br>
+			</cfloop>
+						
 			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select key,collection_object_id
 				from cf_temp_barcode_parts
