@@ -529,7 +529,7 @@ limitations under the License.
 						preserve_method IS NOT NULL
 						AND preserve_method NOT IN (
 							SELECT preserve_method
-							FROM ctspecimen_preserve_method 
+							FROM ctspecimen_preserv_method 
 							WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.collection_cde#">
 						)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
