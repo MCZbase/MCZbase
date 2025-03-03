@@ -416,7 +416,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 			</cfloop>
-						<br>#collection_object_id#<br>
+						<br>#getTempTableTypes.collection_object_id#<br>
 			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select key,collection_object_id
 				from cf_temp_barcode_parts
