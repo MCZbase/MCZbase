@@ -540,7 +540,10 @@ limitations under the License.
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'Part Temp Identifier ['|| part_collection_object_id ||'] not found')
 					WHERE 
-						part_collection_object_id not in (select collection_object_id from specimen_part)
+						part_collection_object_id not in (
+							select sp.collection_object_id from specimen_part sp,cataloged_item ci
+							where sp.derived_from_cat_item = ci.collection_object_id
+					
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
 				</cfquery>
