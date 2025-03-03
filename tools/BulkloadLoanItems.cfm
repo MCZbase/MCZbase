@@ -22,7 +22,7 @@ limitations under the License.
 <cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT 
-		REGEXP_REPLACE( status, '\s*</?\w+((\s+\w+(\s*=\s*(".*?"|''.*?''|[^''">\s]+))?)+\s*|\s*)/?>\s*', NULL, 1, 0, 'im') AS 
+	<!---	REGEXP_REPLACE( status, '\s*</?\w+((\s+\w+(\s*=\s*(".*?"|''.*?''|[^''">\s]+))?)+\s*|\s*)/?>\s*', NULL, 1, 0, 'im') AS --->
 				STATUS, INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID
 		FROM cf_temp_loan_item 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -36,7 +36,7 @@ limitations under the License.
 	<cfabort>
 </cfif>
 <cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID,ITEM_INSTRUCTIONS,ITEM_REMARKS,LOAN_NUMBER,TRANSACTION_ID">
-<cfset fieldTypes = "CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL">
+<cfset fieldTypes = "CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL">
 <cfif listlen(fieldlist) NEQ listlen(fieldTypes)>
 	<cfthrow message = "Error: Bug in the definition of fieldlist[#listlen(fieldlist)#] and fieldType[#listlen(fieldTypes)#] lists, lists must be the same length, but are not.">
 </cfif>
