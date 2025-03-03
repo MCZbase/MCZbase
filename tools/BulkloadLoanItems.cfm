@@ -133,14 +133,14 @@ limitations under the License.
 									<cfif listContains(requiredfieldlist,field,",")>
 										<cfset class="text-danger">
 										<cfset aria = "aria-label='Required Field'">
-									<cfelseif listContains(bluefieldlist,field,",")>
+									<cfelseif listContains(bluefieldlist,field2,",")>
 										<cfset class="text-primary">
-										<cfset aria = "aria-label='Required Field'">
+										<cfset aria = "aria-label='Part Field'">
 									<cfelse>
 										<cfset class="text-dark">
 									</cfif>
 									<li class="pb-1 mx-3">
-										<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
+										<span class="#class# font-weight-lessbold" #aria#>#field2#: </span> <span class="text-secondary">#comment#</span>
 									</li>
 								</cfloop>
 							</ul>
