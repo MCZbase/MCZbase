@@ -396,7 +396,6 @@ limitations under the License.
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#">
 					</cfquery>
-						#collection_object_id#
 				<cfelse>
 					<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						update cf_temp_barcode_parts set collection_object_id = (
@@ -417,8 +416,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				
-			</cfloop>
-						
+			</cfloop>			
 			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select key,collection_object_id
 				from cf_temp_barcode_parts
@@ -428,45 +426,57 @@ limitations under the License.
 				<!--- get current container based on coll_obj_cont_hist or default--->
 				<cfquery name="getCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts 
-					SET part_container_id = (select container_id from coll_obj_cont_hist 
-					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#check.collection_object_id#">)
-					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-					and key = '#key#'
+					SET 
+						part_container_id = (select container_id from coll_obj_cont_hist 
+					where 
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#check.collection_object_id#">)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+						AND key = '#key#'
 				</cfquery>
 				<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),' There is no part match to a cataloged item on "'||other_id_type||'" = "'||other_id_number||'" in collection "'||collection_cde||'"')
 					WHERE collection_object_id IS NULL
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = '#key#'
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = '#key#'
 				</cfquery>
 			</cfloop>
 			<cfquery name="check2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select key,container_unique_id
-				from cf_temp_barcode_parts 
-				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				select 
+					key,container_unique_id
+				from 
+					cf_temp_barcode_parts 
+				where 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="check2">
 				<cfquery name="isGoodParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					update cf_temp_barcode_parts set container_id = (select container_id from container 
-					where container_type <> 'collection object' 
-					and barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check2.container_unique_id#"> )
-					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = '#key#'
+					update cf_temp_barcode_parts set container_id = (
+						select container_id from container 
+						where container_type <> 'collection object' 
+						and barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check2.container_unique_id#"> 
+						)
+					where 
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = '#key#'
 				</cfquery>
 				<cfquery name="setter1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts 
-					SET parent_container_id = (select parent_container_id from container
-					where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check2.container_unique_id#">)
-					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-					and key = '#key#'
+					SET parent_container_id = (
+						select parent_container_id from container
+						where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check2.container_unique_id#">
+						)
+					where 
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+						and key = '#key#'
 				</cfquery>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_barcode_parts 
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="pf" dbtype="query">
 				SELECT count(*) c 
