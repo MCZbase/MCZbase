@@ -29,9 +29,9 @@ limitations under the License.
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,PART_REMARKS,CONTAINER_UNIQUE_ID">
+<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
-<cfset requiredfieldlist = "OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,PART_REMARKS,CONTAINER_UNIQUE_ID">
+<cfset requiredfieldlist = "OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID">
 	
 
 <!--- special case handling to dump column headers as csv --->
@@ -373,7 +373,6 @@ limitations under the License.
 					trim(other_id_number) oidnum,
 					trim(part_name) part_name,
 					trim(preserve_method) preserve_method,
-					trim(part_remarks) part_remarks,
 					trim(container_unique_id) container_unique_id,
 					key
 				from
@@ -517,8 +516,12 @@ limitations under the License.
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT key,parent_container_id,part_container_id,container_id,container_unique_id,collection_object_id FROM cf_temp_barcode_parts
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				SELECT 
+					key,parent_container_id,part_container_id,container_id,container_unique_id,collection_object_id 
+				FROM 
+					cf_temp_barcode_parts
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset problem_key = "">
 			<cftransaction>
@@ -550,8 +553,10 @@ limitations under the License.
 					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT * 
-						FROM cf_temp_barcode_parts 
-						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
+						FROM 
+							cf_temp_barcode_parts 
+						WHERE 
+							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
 					<h3>Error updating row (#container_updates + 1#): #cfcatch.message#</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
