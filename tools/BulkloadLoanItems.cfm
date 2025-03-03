@@ -521,6 +521,20 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
 				</cfquery>
+				<cfquery name="ctPresMethodProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
+					UPDATE cf_temp_loan_item
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'Preserve_Method ['|| preserve_method ||'] not allowed for collection_cde ' || collection_cde)
+					WHERE 
+						preserve_method IS NOT NULL
+						AND preserve_method NOT IN (
+							SELECT preserve_method
+							FROM ctspecimen_preserve_method 
+							WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.collection_cde#">
+						)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
+				</cfquery>
 				<cfquery name="ctBarcodeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
 					UPDATE cf_temp_loan_item
 					SET
