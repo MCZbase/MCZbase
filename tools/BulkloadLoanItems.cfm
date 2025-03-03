@@ -543,7 +543,7 @@ limitations under the License.
 						part_collection_object_id not in (
 							select sp.collection_object_id from specimen_part sp,cataloged_item ci
 							where sp.derived_from_cat_item = ci.collection_object_id
-					
+						)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
 				</cfquery>
