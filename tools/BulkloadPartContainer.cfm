@@ -375,7 +375,6 @@ limitations under the License.
 					trim(preserve_method) preserve_method,
 					trim(part_remarks) part_remarks,
 					trim(container_unique_id) container_unique_id,
-					print_fg, 
 					key
 				from
 					cf_temp_barcode_parts
