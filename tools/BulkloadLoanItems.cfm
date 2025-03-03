@@ -589,15 +589,6 @@ limitations under the License.
 					AND institution_acronym <> 'MCZ'
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfloop list="#requiredfieldlist#" index="requiredField">
-				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_loan_item
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),'#requiredField# is missing')
-					WHERE #requiredField# is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT STATUS,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,CONTAINER_BARCODE,SUBSAMPLE,LOAN_NUMBER,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID,KEY
 				FROM 
