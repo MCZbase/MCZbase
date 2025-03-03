@@ -40,7 +40,6 @@ limitations under the License.
 <cfif listlen(fieldlist) NEQ listlen(fieldTypes)>
 	<cfthrow message = "Error: Bug in the definition of fieldlist[#listlen(fieldlist)#] and fieldType[#listlen(fieldTypes)#] lists, lists must be the same length, but are not.">
 </cfif>
-<cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID">
 <cfset bluefieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID">
 
 <!--- special case handling to dump column headers as csv --->
@@ -94,15 +93,6 @@ limitations under the License.
 				<li>Loan Item reconciled date is today (2024-07-18) - automatically added</li>
 				<li>Worksheet/CSV was generated from a manage specimen results Parts Report/Download and clicking the button "Download Parts CSV with Loan Item fields"</li>
 			</ul>
-			
-<!---			<h2 class="h4">Use Template to Load Data</h2>
-			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
-			<div id="template" class="my-1 mx-0">
-				<label for="templatearea" class="data-entry-label" style="line-height: inherit;">
-					Copy this header line, paste it into a blank worksheet, and save it as a .csv file or <a href="/tools/BulkloadLoanItems.cfm?action=getCSVHeader" class="font-weight-bold">download</a> a template.
-				</label>
-				<textarea style="height: 36px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
-			</div>--->
 			<div class="accordion" id="accordionIdentifiers">
 				<div class="card mb-2 bg-light">
 					<div class="card-header" id="headingIdentifiers">
@@ -131,16 +121,13 @@ limitations under the License.
 									</cfif>
 									<cfset aria = "">
 									<cfif listContains(requiredfieldlist,field,",")>
-										<cfset class="text-danger">
-										<cfset aria = "aria-label='Required Field'">
-									<cfelseif listContains(bluefieldlist,field2,",")>
 										<cfset class="text-primary">
-										<cfset aria = "aria-label='Part Field'">
+										<cfset aria = "aria-label='Required Field'">
 									<cfelse>
 										<cfset class="text-dark">
 									</cfif>
 									<li class="pb-1 mx-3">
-										<span class="#class# font-weight-lessbold" #aria#>#field2#: </span> <span class="text-secondary">#comment#</span>
+										<span class="#class# font-weight-lessbold" #aria#>#field#: </span> <span class="text-secondary">#comment#</span>
 									</li>
 								</cfloop>
 							</ul>
@@ -246,7 +233,7 @@ limitations under the License.
 				<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
 				<div class="col-12 my-4 px-0">
 					<h3 class="h4">Found #variables.size# columns in header of csv file.</h3>
-					There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).
+					There are #ListLen(fieldList)# columns expected in the header.
 				</div>
 
 				<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
