@@ -418,39 +418,6 @@ limitations under the License.
 	<cfif #action# is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
-			<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID,KEY
-				FROM 
-					cf_temp_LOAN_ITEM
-				WHERE 
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfloop query="getParts">
-				<cfif len(PART_COLLECTION_OBJECT_ID) eq 0>
-					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update
-							cf_temp_loan_item
-						set
-							status=concat(nvl2(status, status || '; ', ''),'Part ID missing')
-						where
-						key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
-					</cfquery>
-				<cfelse>
-					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update
-							cf_temp_loan_item
-						set
-							status=concat(nvl2(status, status || '; ', ''),'No matching part found (has the part_collection_object_id changed since the download?)')
-						where part_collection_object_id not in (
-							select specimen_part.collection_object_id 
-							from specimen_part, cataloged_item 
-							where specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
-							) and
-						key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#"> and
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.USERNAME#">
-					</cfquery>
-				</cfif>
-			</cfloop>
 			<cfquery name="getTempDataQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID,STATUS,KEY
 				FROM 
@@ -459,27 +426,6 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTempDataQC">
-				<cfif getTempDataQC.recordcount is 0><!--- no part --->
-				<!---no part--->
-					<cfquery name="BadCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update
-							cf_temp_loan_item
-						set
-							status=concat(nvl2(status, status || '; ', ''),'No Parts Found')
-						where
-							key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
-					</cfquery>
-				<cfelseif getTempDataQC.recordcount gt 1 and len(part_COLLECTION_OBJECT_ID) is 0 >
-					<cfquery name="BadCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						update
-							cf_temp_loan_item
-						set
-							status=concat(nvl2(status, status || '; ', ''),'PART COLLECTION OBJECT ID could not be made. Check other_id_type, other_id_number, collection_cde, and part_name. Make sure part is not already on loan')
-						where
-							key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#KEY#">
-							and username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
-				</cfif>
 				<cfquery name="loanID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
 						cf_temp_loan_item
@@ -494,6 +440,16 @@ limitations under the License.
 						)
 					where 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#"> 
+				</cfquery>
+				<cfquery name="bad_loan_num" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					update
+						cf_temp_loan_item
+					set
+						status = concat(nvl2(status, status || '; ', ''),'Part Collection Object ID is missing--check download values')
+					where 
+						part_collection_object_id is null
+						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#"> 
 				</cfquery>
 				<cfquery name="bad_loan_num" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
