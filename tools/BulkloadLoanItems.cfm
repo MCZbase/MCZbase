@@ -549,6 +549,8 @@ limitations under the License.
 						ITEM_DESCRIPTION IS NOT NULL
 						AND ITEM_DESCRIPTION NOT like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#getTempDataQC.collection_cde#%">
 						AND ITEM_DESCRIPTION not like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#getTempDataQC.OTHER_ID_NUMBER#%">
+						AND ITEM_DESCRIPTION not like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#getTempDataQC.PART_name#%">
+						AND ITEM_DESCRIPTION not like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#getTempDataQC.Preserve_method#%">
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
 				</cfquery>
