@@ -859,7 +859,7 @@ limitations under the License.
 								</cfif>
 							</h3>
 							<!--- Note: we can not link to a dump of the temp table as it will be cleared for this user at the end of this step --->
-							<p class="h3">Fix the problems and <a href="/tools/BulkloadLoanItems.cfm">Reload your file</a></p> 
+							<p class="h3 font-weight-normal">Fix the problems and <a href="/tools/BulkloadLoanItems.cfm">Reload your file</a></p> 
 							<table class='px-0 sortable small table-danger w-100 table table-responsive table-striped mt-3'>
 								<thead>
 									<tr>
