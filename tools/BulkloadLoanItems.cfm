@@ -602,7 +602,8 @@ limitations under the License.
 			<cfquery name="pf" dbtype="query">
 				SELECT count(*) c 
 				FROM data 
-				WHERE status is not null
+				WHERE 
+					status is not null
 			</cfquery>
 			<h3 class="mt-3">
 				<cfif pf.c gt 0>
