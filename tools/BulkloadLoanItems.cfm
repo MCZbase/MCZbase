@@ -546,7 +546,7 @@ limitations under the License.
 						UPDATE cf_temp_loan_item
 						SET
 							status = concat(nvl2(status, status || '; ', ''),'Identifier is not valid. Check collection_cde and other_id_number')
-						where PART_COLLECTION_OBJECT_ID not in 
+						where PART_COLLECTION_OBJECT_ID in 
 							(select collection_object_id from cataloged_item 
 							where cat_num = '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.other_id_number#">'
 							and collection_cde = '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.collection_cde#">')
