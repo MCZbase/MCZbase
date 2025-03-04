@@ -436,7 +436,7 @@ limitations under the License.
 							(
 								select sp.collection_object_id from cataloged_item ci, specimen_part sp 
 								where ci.collection_object_id = sp.derived_from_cat_item
-								and ci.cat_item = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.other_id_number#">
+								and ci.cat_num= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.other_id_number#">
 								and ci.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.collection_cde#">
 							)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
