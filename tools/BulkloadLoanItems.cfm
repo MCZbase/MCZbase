@@ -40,7 +40,8 @@ limitations under the License.
 <cfif listlen(fieldlist) NEQ listlen(fieldTypes)>
 	<cfthrow message = "Error: Bug in the definition of fieldlist[#listlen(fieldlist)#] and fieldType[#listlen(fieldTypes)#] lists, lists must be the same length, but are not.">
 </cfif>
-<cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID">
+<cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,CONDITION,COLL_OBJ_DISPOSITION,LOAN_NUMBER">
+<cfset partDownloadList = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID">
 
 
 <!--- special case handling to dump column headers as csv --->
@@ -130,9 +131,9 @@ limitations under the License.
 										<cfset comment = getComments.comments>
 									</cfif>
 									<cfset aria = "">
-									<cfif listContains(requiredfieldlist,field,",")>
+									<cfif listContains(partDownloadList,field,",")>
 										<cfset class="text-primary">
-										<cfset aria = "aria-label='Required Field'">
+										<cfset aria = "aria-label='Dowloaded Field'">
 									<cfelse>
 										<cfset class="text-dark">
 									</cfif>
