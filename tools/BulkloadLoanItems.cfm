@@ -541,7 +541,17 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
 				</cfquery>
-					
+				<cfif getTempDataQC eq 'catalog number'>
+					<cfquery name="ctCatnumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
+						UPDATE cf_temp_loan_item
+						SET
+							status = concat(nvl2(status, status || '; ', ''),'Identifier is not valid. Check collection_cde and other_id_number')
+						WHERE 
+							PART_COLLECTION_OBJECT_ID not in (select collection_object_id from cataloged_item where cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.other_id_number#"> and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.other_id_number#">)
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
+					</cfquery>
+				</cfif>
 				<cfquery name="ctPresMethodProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
 					UPDATE cf_temp_loan_item
 					SET
