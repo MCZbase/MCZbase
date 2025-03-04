@@ -543,7 +543,7 @@ limitations under the License.
 				<cfquery name="ctCatnumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_loan_item
 						SET
-							status = concat(nvl2(status, status || '; ', ''),'MCZ:'|| collection_cde ||':'||other_id_number ||' '|| part_name ||' '|| preserve_method ||' is not valid for this part. Check collection_cde, other_id_number, part_name, and preserve_method.')
+							status = concat(nvl2(status, status || '; ', ''),'[MCZ:'|| collection_cde ||':'||other_id_number ||' '|| part_name ||'('|| preserve_method ||')] is not valid for this part. Check collection_cde, other_id_number, part_name, and preserve_method.')
 						where PART_COLLECTION_OBJECT_ID not in 
 							(
 								select sp.collection_object_id from cataloged_item ci, specimen_part sp 
