@@ -517,10 +517,11 @@ limitations under the License.
 						<th>PART_NAME</th>
 						<th>PRESERVE_METHOD</th>
 						<th>COLLECTION_OBJECT_ID</th>
+						<th>PART_CONTAINER_ID</th>
 						<th>CONTAINER_BARCODE</th>
 						<th>CONTAINER_ID</th>
 						<th>PARENT_CONTAINER_ID</th>
-						<th>PART_CONTAINER_ID</th>
+						
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -533,10 +534,11 @@ limitations under the License.
 							<td>#data.part_name#</td>
 							<td>#data.preserve_method#</td>
 							<td>#data.collection_object_id#</td>
+							<td>#data.part_container_id#</td>
 							<td>#data.CONTAINER_BARCODE#</td>
 							<td>#data.container_id#</td>
 							<td>#data.parent_container_id#</td>
-							<td>#data.part_container_id#</td>
+							
 						</tr>
 					</cfloop>
 				</tbody>
