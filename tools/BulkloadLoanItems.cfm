@@ -535,6 +535,8 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
 				</cfquery>
+					
+
 				<cfquery name="ctBarcodeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
 					UPDATE cf_temp_loan_item
 					SET
@@ -581,6 +583,18 @@ limitations under the License.
 						ITEM_DESCRIPTION IS NULL 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
+				</cfquery>
+					
+				<cfquery name="ctPresMethodProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
+					UPDATE cf_temp_loan_item
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'PART_COLLECTION_OBJECT_ID does not match expected value')
+					WHERE 
+						ITEM_DESCRIPTION IS NOT NULL
+						AND ITEM_DESCRIPTION NOT like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#getTempDataQC.collection_cde#%">
+						AND ITEM_DESCRIPTION not like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#getTempDataQC.OTHER_ID_NUMBER#%">
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
 				</cfquery>
 			</cfloop>
 			<cfquery name="ctSubsampleProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
