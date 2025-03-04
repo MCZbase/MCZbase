@@ -828,7 +828,7 @@ limitations under the License.
 										<cfif cfcatch.detail contains "Invalid LOAN_NUMBER">
 											LOAN_NUMBER is invalid; Does it exist in MCZbase?
 										<cfelseif cfcatch.detail contains "unique constraint (MCZBASE.PKEY_LOAN_ITEM) violated">
-											This part is already on the loan. Was sheet already entered or just this part?
+											This part is already on the loan. Was the CSV already loaded or just this part?
 										<cfelseif cfcatch.detail contains "collection_cde">
 											COLLECTION_CDE does not match abbreviated collection (#collection_codes#)
 										<cfelseif cfcatch.detail contains "institution_acronym">
