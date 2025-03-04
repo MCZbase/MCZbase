@@ -434,10 +434,10 @@ limitations under the License.
 							status = concat(nvl2(status, status || '; ', ''),'Identifier is not valid. Check collection_cde and other_id_number')
 						where PART_COLLECTION_OBJECT_ID not in 
 							(
-								select collection_object_id from cataloged_item ci, specimen_part sp 
-								where ci.collection_object_id = sp.collection_object_id
-								and cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.other_id_number#">
-								and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.collection_cde#">
+								select sp.collection_object_id from cataloged_item ci, specimen_part sp 
+								where ci.collection_object_id = sp.derived_from_cat_item
+								and ci.cat_item = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.other_id_number#">
+								and ci.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.collection_cde#">
 							)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
