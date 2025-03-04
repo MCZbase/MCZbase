@@ -431,7 +431,7 @@ limitations under the License.
 					<cfquery name="ctCatnumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_loan_item
 						SET
-							status = concat(nvl2(status, status || '; ', ''),'MCZ :'|| collection_cde ||':'||other_id_number ||' is not valid for this part. Check collection_cde and other_id_number')
+							status = concat(nvl2(status, status || '; ', ''),'MCZ:'|| collection_cde ||':'||other_id_number ||' is not valid for this part. Check collection_cde and other_id_number')
 						where PART_COLLECTION_OBJECT_ID not in 
 							(
 								select sp.collection_object_id from cataloged_item ci, specimen_part sp 
@@ -607,7 +607,7 @@ limitations under the License.
 			</cfquery>
 			<h3 class="mt-3">
 				<cfif pf.c gt 0>
-					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadLoanItems.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadLoanItems.cfm" class="text-danger">start again</a>.
+					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. Fix the problems in the data in this <a href="/tools/BulkloadLoanItems.cfm?action=dumpProblems">download</a> or your original CSV and <a href="/tools/BulkloadLoanItems.cfm" class="text-danger">start again</a>.
 				<cfelse>
 					<span class="text-success">Validation checks passed</span>. Look over the table below and <a href="/tools/BulkloadLoanItems.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good or <a href="/tools/BulkloadLoanItems.cfm" class="text-danger">start again</a>.
 				</cfif>
