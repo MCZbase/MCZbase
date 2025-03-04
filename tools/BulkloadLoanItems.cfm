@@ -427,24 +427,6 @@ limitations under the License.
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTempDataQC">
-			
-					<cfquery name="ctCatnumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_loan_item
-						SET
-							status = concat(nvl2(status, status || '; ', ''),'MCZ:'|| collection_cde ||':'||other_id_number ||' is not valid for this part. Check collection_cde and other_id_number.')
-						where PART_COLLECTION_OBJECT_ID not in 
-							(
-								select sp.collection_object_id from cataloged_item ci, specimen_part sp 
-								where ci.collection_object_id = sp.derived_from_cat_item
-								and ci.cat_num= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.other_id_number#">
-								and ci.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.collection_cde#">
-								and sp.part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.part_name#">
-								and sp.preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.preserve_method#">
-							)
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
-					</cfquery>
-			
 				<cfquery name="loanID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
 						cf_temp_loan_item
@@ -510,8 +492,6 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
 				</cfquery>
-					
-
 				<cfquery name="ctBarcodeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
 					UPDATE cf_temp_loan_item
 					SET
@@ -559,17 +539,34 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
 				</cfquery>
-				
+				<!---This checks to see if the collection_cde, other_id_number, part_name, and preserve_methods create a collection_object_id that matches the one provided in the part download/report. We want to make sure nothing was changed by mistake, making it harder to find the parts on the shelf based on the csv.--->
+				<cfquery name="ctCatnumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_loan_item
+						SET
+							status = concat(nvl2(status, status || '; ', ''),'MCZ:'|| collection_cde ||':'||other_id_number ||' '||part_name(preserve_method) ||' is not valid for this part. Check collection_cde, other_id_number, part_name, and preserve_method.')
+						where PART_COLLECTION_OBJECT_ID not in 
+							(
+								select sp.collection_object_id from cataloged_item ci, specimen_part sp 
+								where ci.collection_object_id = sp.derived_from_cat_item
+								and ci.cat_num= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.other_id_number#">
+								and ci.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.collection_cde#">
+								and sp.part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.part_name#">
+								and sp.preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.preserve_method#">
+							)
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
+					</cfquery>
+				<!---This checks to see if the part collection_object_id is correct by checking the generated item description against the collection_cde, other_id_number, part_name, and preserve_method, if the separate columns content does not match the contents of the item description, the bulkload will fail so they can check that expected parts will be connected to the loan--->
 				<cfquery name="ctPresMethodProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
 					UPDATE cf_temp_loan_item
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'PART_COLLECTION_OBJECT_ID does not match expected value')
 					WHERE 
 						ITEM_DESCRIPTION IS NOT NULL
-						AND ITEM_DESCRIPTION NOT like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#getTempDataQC.collection_cde#%">
+						AND ITEM_DESCRIPTION NOT like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#getTempDataQC.COLLECTION_CDE#%">
 						AND ITEM_DESCRIPTION not like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#getTempDataQC.OTHER_ID_NUMBER#%">
-						AND ITEM_DESCRIPTION not like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#getTempDataQC.PART_name#%">
-						AND ITEM_DESCRIPTION not like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#getTempDataQC.Preserve_method#%">
+						AND ITEM_DESCRIPTION not like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#getTempDataQC.PART_NAME#%">
+						AND ITEM_DESCRIPTION not like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#getTempDataQC.PRESERVE_METHOD#%">
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
 				</cfquery>
