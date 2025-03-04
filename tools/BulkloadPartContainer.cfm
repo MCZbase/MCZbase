@@ -448,7 +448,7 @@ limitations under the License.
 			</cfloop>
 			<cfquery name="check2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select 
-					key,container_unique_id
+					key,container_barcode
 				from 
 					cf_temp_barcode_parts 
 				where 
@@ -459,7 +459,7 @@ limitations under the License.
 					update cf_temp_barcode_parts set container_id = (
 						select container_id from container 
 						where container_type <> 'collection object' 
-						and barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check2.container_unique_id#"> 
+						and barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check2.container_barcode#"> 
 						)
 					where 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -469,7 +469,7 @@ limitations under the License.
 					UPDATE cf_temp_barcode_parts 
 					SET parent_container_id = (
 						select parent_container_id from container
-						where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check2.container_unique_id#">
+						where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check2.container_barcode#">
 						)
 					where 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
@@ -503,7 +503,7 @@ limitations under the License.
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_NUMBER</th>
 						<th>COLLECTION_OBJECT_ID</th>
-						<th>CONTAINER_UNIQUE_ID</th>
+						<th>CONTAINER_BARCODE</th>
 						<th>CONTAINER_ID</th>
 						<th>PARENT_CONTAINER_ID</th>
 						<th>PART_CONTAINER_ID</th>
@@ -517,7 +517,7 @@ limitations under the License.
 							<td>#data.other_ID_TYPE#</td>
 							<td>#data.other_id_number#</td>
 							<td>#data.collection_object_id#</td>
-							<td>#data.CONTAINER_UNIQUE_ID#</td>
+							<td>#data.CONTAINER_BARCODE#</td>
 							<td>#data.container_id#</td>
 							<td>#data.parent_container_id#</td>
 							<td>#data.part_container_id#</td>
@@ -534,7 +534,7 @@ limitations under the License.
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					key,parent_container_id,part_container_id,container_id,container_unique_id,collection_object_id 
+					key,parent_container_id,part_container_id,container_id,CONTAINER_BARCODE,collection_object_id 
 				FROM 
 					cf_temp_barcode_parts
 				WHERE 
@@ -553,7 +553,7 @@ limitations under the License.
 								container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">
 							WHERE
 								parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
-								and barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.container_unique_id#">
+								and barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.container_barcode#">
 						</cfquery>
 						<cfquery name="updateContainer1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer1_result">
 							UPDATE
@@ -580,7 +580,7 @@ limitations under the License.
 						<thead>
 							<tr>
 								<th>BULKLOADING&nbsp;STATUS</th>
-								<th>CONTAINER_UNIQUE_ID</th>
+								<th>CONTAINER_BARCODE</th>
 								<th>PART_CONTAINER_ID</th>
 								<th>CONTAINER_ID</th>
 							</tr> 
@@ -589,7 +589,7 @@ limitations under the License.
 							<cfloop query="getProblemData">
 								<tr>
 									<td><cfif len(getProblemData.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
-									<td>#getProblemData.container_unique_id#</td>
+									<td>#getProblemData.container_BARCODE#</td>
 									<td>#getProblemData.part_container_id#</td>
 									<td>#getProblemData.container_id#</t
 								></tr> 
