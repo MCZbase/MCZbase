@@ -428,9 +428,9 @@ limitations under the License.
 						SELECT ch.container_id
 						FROM coll_obj_cont_hist ch, container c
 						WHERE ch.container_id = c.container_id 
-						AND ch.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.collection_object_id#">)
+						AND ch.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check.collection_object_id#">)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#check.key#"> 
 				</cfquery>
 				<!--- get current container based on coll_obj_cont_hist or default--->
 				<cfquery name="getCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -443,7 +443,7 @@ limitations under the License.
 							where 
 								collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#check.collection_object_id#">
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-							AND key = '#key#'
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#check.key#">
 							)
 				</cfquery>
 				<cfquery name="bad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
