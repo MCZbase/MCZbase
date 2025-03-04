@@ -541,7 +541,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#"> 
 				</cfquery>
-				<cfif getTempDataQC eq 'catalog number'>
+				<cfif getTempDataQC.other_ID_NUMBER eq 'catalog number'>
 					<cfquery name="ctCatnumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
 						UPDATE cf_temp_loan_item
 						SET
