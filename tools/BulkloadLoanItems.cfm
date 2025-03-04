@@ -22,7 +22,7 @@ limitations under the License.
 <cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT 
-	<!---	REGEXP_REPLACE( status, '\s*</?\w+((\s+\w+(\s*=\s*(".*?"|''.*?''|[^''">\s]+))?)+\s*|\s*)/?>\s*', NULL, 1, 0, 'im') AS --->
+		REGEXP_REPLACE( status, '\s*</?\w+((\s+\w+(\s*=\s*(".*?"|''.*?''|[^''">\s]+))?)+\s*|\s*)/?>\s*', NULL, 1, 0, 'im') AS 
 				STATUS, INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID
 		FROM cf_temp_loan_item 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -440,7 +440,7 @@ limitations under the License.
 						update
 							cf_temp_loan_item
 						set
-							status=concat(nvl2(status, status || '; ', ''),'No matching part found (have part download values changed?)')
+							status=concat(nvl2(status, status || '; ', ''),'No matching part found (has the part_collection_object_id changed since the download?)')
 						where part_collection_object_id not in (
 							select specimen_part.collection_object_id 
 							from specimen_part, cataloged_item 
