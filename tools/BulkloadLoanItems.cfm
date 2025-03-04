@@ -431,7 +431,7 @@ limitations under the License.
 					<cfquery name="ctCatnumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_loan_item
 						SET
-							status = concat(nvl2(status, status || '; ', ''),'Identifier is not valid. Check collection_cde and other_id_number')
+							status = concat(nvl2(status, status || '; ', ''),'Warning: || collection_cde || other_id_number || is not valid. Check collection_cde and other_id_number')
 						where PART_COLLECTION_OBJECT_ID not in 
 							(
 								select sp.collection_object_id from cataloged_item ci, specimen_part sp 
