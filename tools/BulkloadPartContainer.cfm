@@ -457,17 +457,18 @@ limitations under the License.
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#">
 					</cfquery>
 				</cfif>
+				<cfif partColl.part_collection_object_id is null>
+					<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_barcode_parts  
+						SET 
+							status = concat(nvl2(status, status || '; ', ''), part could not be found.')
+						WHERE 
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#">
+					</cfquery>
+				</cfif>
 			</cfloop>
-			<cfif part_collection_object_id is null>
-				<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts  
-					SET 
-						status = concat(nvl2(status, status || '; ', ''), part could not be found.')
-					WHERE 
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#">
-				</cfquery>
-			</cfif>
+
 			<!--- Second set of Validation tests: container terms ---> 
 			<!--- check container terms, use list of keys for row by row validations of containers --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
