@@ -484,8 +484,7 @@ limitations under the License.
 				<cfquery name="partCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts  
 					SET 
-						status = concat(nvl2(status, status || '; ', ''), part could not be found.'
-						)
+						status = concat(nvl2(status, status || '; ', ''), part could not be found.')
 					WHERE 
 						part_collection_object_id is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
