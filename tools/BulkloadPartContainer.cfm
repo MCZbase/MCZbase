@@ -393,6 +393,7 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="dataParts">
+				<!---This gets the collection_object_id based on the catalog number/other id--->
 				<cfif #other_id_type# is "catalog number">
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
@@ -420,19 +421,34 @@ limitations under the License.
 							display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
 					</cfquery>
 				</cfif>
+				<!---Get the collection_object_id based on the specimen parts--->
 				<cfif len(collObj.collection_object_id) gt 0>
 					<!--- mark the collection object id for the cataloged item --->
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE 
 							cf_temp_barcode_parts
 						SET 
-							part_collection_object_id = (select collection_object_id from specimen_part where derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObj.collection_object_id#">),
+							part_collection_object_id = (
+								select specimen_part.collection_object_id
+								from specimen_part   
+									left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
+									left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+								where			
+									part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_name#">
+									and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.preserve_method#">
+									and derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObj.collection_object_id#">
+									<cfif len(dataParts.current_remarks) EQ 0>
+										and coll_object_remark.coll_object_remarks IS NULL
+									<cfelse>
+										and coll_object_remark.coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.current_remarks#">
+									</cfif>							
+								),
 							status = concat(nvl2(status, status || '; ', ''),'Found Part')
 						WHERE 
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 					</cfquery>
-				<cfelseif #collObj.recordcount# gt 1>
+				<cfelseif #collObj.recordcount# eq 0>
 					<cfquery name="getPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select specimen_part.collection_object_id
 						from specimen_part   
