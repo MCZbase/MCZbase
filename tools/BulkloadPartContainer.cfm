@@ -424,7 +424,7 @@ limitations under the License.
 				<!---Get the collection_object_id based on the specimen parts--->
 				<cfif len(collObj.collection_object_id) gt 0>
 					<!--- mark the collection object id for the cataloged item --->
-					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE 
 							cf_temp_barcode_parts
 						SET 
@@ -448,10 +448,10 @@ limitations under the License.
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 					</cfquery>
 				<cfelse>
-					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts  
 						SET 
-							status = concat(nvl2(status, status || '; ', ''), part could not be found.'
+							status = concat(nvl2(status, status || '; ', ''), cataloged_item could not be found.'
 							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#">
@@ -464,6 +464,16 @@ limitations under the License.
 				SELECT key, part_collection_object_id
 				FROM cf_temp_barcode_parts  
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="partCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_barcode_parts  
+				SET 
+					status = concat(nvl2(status, status || '; ', ''), part could not be found.'
+					)
+				WHERE 
+					part_collection_object_id is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#">
 			</cfquery>
 			<cfloop query="getTempTableQC">
 				<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
