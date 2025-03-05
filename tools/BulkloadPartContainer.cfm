@@ -442,8 +442,7 @@ limitations under the License.
 									<cfelse>
 										and coll_object_remark.coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.current_remarks#">
 									</cfif>							
-								),
-							status = concat(nvl2(status, status || '; ', ''),'Found Part')
+								)
 						WHERE 
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
