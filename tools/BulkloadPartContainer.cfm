@@ -485,7 +485,7 @@ limitations under the License.
 			<!--- Second set of Validation tests: container terms ---> 
 			<!--- check container terms, use list of keys for row by row validations of containers --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT key, container_barcode
+				SELECT key, container_barcode,part_collection_object_id
 				FROM cf_temp_barcode_parts  
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -493,9 +493,13 @@ limitations under the License.
 				<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts  
 					SET 
-						parent_container_id = (
-							select container_id from container 
-							where container.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.container_barcode#">
+						part_container_id = (
+							select c.container_id 
+							from 
+								container c, coll_obj_cont_hist ch
+							where 
+								ch.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.part_collection_object_id#">
+							AND	c.container_id = ch.container_id
 						)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
