@@ -439,7 +439,7 @@ limitations under the License.
 							AND part_collection_object_id IS NOT NULL
 							AND part_collection_object_id IN (
 								select collection_object_id from specimen_part 
-								where derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObj.collection_object_id#">
+								where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObj.collection_object_id#">
 							)
 					</cfquery>
 					<cfquery name="getPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -457,7 +457,7 @@ limitations under the License.
 								and coll_object_remark.coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.current_remarks#">
 							</cfif>
 					</cfquery>
-					<cfif getPart.recordcount EQ 1>
+					<!---<cfif getPart.recordcount EQ 1>
 						<cfquery name="setPartCollObjectID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_barcode_parts  
 								SET 
@@ -467,7 +467,7 @@ limitations under the License.
 								AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#">
 								AND part_collection_object_id IS NULL
 						</cfquery>
-					</cfif>
+					</cfif>--->
 				<cfelse>
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts  
