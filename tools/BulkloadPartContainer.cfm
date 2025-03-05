@@ -415,13 +415,13 @@ limitations under the License.
 							AND current_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.current_remarks#">),
 						status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
 
 			</cfloop>			
-			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select key,PART_collection_object_id,part_name,preserve_method
+	<!---		<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select key,part_collection_object_id,part_name,preserve_method
 				from cf_temp_barcode_parts
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -436,9 +436,8 @@ limitations under the License.
 						AND sp.part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check.part_name#">
 						AND sp.preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check.preserve_method#">)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#check.key#"> 
+					and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#check.key#"> 
 				</cfquery>
-				<!--- get current container based on coll_obj_cont_hist or default--->
 				<cfquery name="getCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts 
 					SET 
@@ -461,15 +460,15 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#check.key#">
 				</cfquery>
-			</cfloop>
-			<cfquery name="check2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			</cfloop>--->
+<!---			<cfquery name="check2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select 
 					key,container_barcode
 				from 
 					cf_temp_barcode_parts 
 				where 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+			</cfquery>--->
 		<!---	<cfloop query="check2">
 				<cfquery name="isGoodParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update cf_temp_barcode_parts set container_id = (
