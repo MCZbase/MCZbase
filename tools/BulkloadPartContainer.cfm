@@ -458,7 +458,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 			</cfloop>
-			<cfif partColl.part_collection_object_id is null>
+			<cfif part_collection_object_id is null>
 				<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts  
 					SET 
