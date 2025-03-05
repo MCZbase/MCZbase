@@ -451,20 +451,10 @@ limitations under the License.
 							part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_name#">
 							and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.preserve_method#">
 							and derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collObj.collection_object_id#">
-							<cfif len(data.current_remarks) EQ 0>
+							<cfif len(dataParts.current_remarks) EQ 0>
 								and coll_object_remark.coll_object_remarks IS NULL
 							<cfelse>
 								and coll_object_remark.coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.current_remarks#">
-							</cfif>
-							<cfif len(data.lot_count) EQ 0>
-								and coll_object.lot_count IS NULL
-							<cfelse>
-								and coll_object.lot_count= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.lot_count#">
-							</cfif>
-							<cfif len(data.lot_count_modifier) EQ 0>
-								and coll_object.lot_count_modifier IS NULL
-							<cfelse>
-								and coll_object.lot_count_modifier= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.lot_count_modifier#">
 							</cfif>
 					</cfquery>
 					<cfif getPart.recordcount EQ 1>
