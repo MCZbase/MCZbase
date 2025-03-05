@@ -447,25 +447,6 @@ limitations under the License.
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 					</cfquery>
-				<cfelse>
-					<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_barcode_parts  
-						SET 
-							status = concat(nvl2(status, status || '; ', ''), cataloged_item could not be found.'
-							)
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#">
-					</cfquery>
-				</cfif>
-				<cfif len(partColl.part_collection_object_id) eq 0>
-					<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_barcode_parts  
-						SET 
-							status = concat(nvl2(status, status || '; ', ''), part could not be found.')
-						WHERE 
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#">
-					</cfquery>
 				</cfif>
 			</cfloop>
 
