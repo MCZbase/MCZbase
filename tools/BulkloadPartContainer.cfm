@@ -467,29 +467,32 @@ limitations under the License.
 			</cfquery>
 
 			<cfloop query="getTempTableQC">
-				<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts  
-					SET 
-						part_container_id = (
-							select c.container_id 
-							from 
-								container c, coll_obj_cont_hist ch
-							where 
-								ch.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.part_collection_object_id#">
-							AND	c.container_id = ch.container_id
-						)
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
-				</cfquery>
-				<cfquery name="partCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts  
-					SET 
-						status = concat(nvl2(status, status || '; ', ''), part could not be found.')
-					WHERE 
-						part_collection_object_id is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#">
-				</cfquery>
+				<cfif len(part_collection_object_id) gt 0>
+					<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_barcode_parts  
+						SET 
+							part_container_id = (
+								select c.container_id 
+								from 
+									container c, coll_obj_cont_hist ch
+								where 
+									ch.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.part_collection_object_id#">
+								AND	c.container_id = ch.container_id
+							)
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
+					</cfquery>
+				<cfelse>
+					<cfquery name="partCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_barcode_parts  
+						SET 
+							status = concat(nvl2(status, status || '; ', ''), part could not be found.')
+						WHERE 
+							part_collection_object_id is null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#">
+					</cfquery>
+				</cfif>
 			</cfloop>
 			<cfquery name="getTempTableQC2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT key, part_container_id
