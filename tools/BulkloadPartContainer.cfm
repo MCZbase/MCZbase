@@ -421,7 +421,7 @@ limitations under the License.
 
 			</cfloop>			
 			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select key,collection_object_id,part_name,preserve_method
+				select key,PART_collection_object_id,part_name,preserve_method
 				from cf_temp_barcode_parts
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -432,7 +432,7 @@ limitations under the License.
 						FROM coll_obj_cont_hist ch, container c, specimen_part sp
 						WHERE ch.container_id = c.container_id 
 						AND sp.collection_object_id = ch.collection_object_id
-						AND ch.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check.collection_object_id#">
+						AND ch.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check.PART_collection_object_id#">
 						AND sp.part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check.part_name#">
 						AND sp.preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check.preserve_method#">)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -520,7 +520,7 @@ limitations under the License.
 						<th>OTHER_ID_NUMBER</th>
 						<th>PART_NAME</th>
 						<th>PRESERVE_METHOD</th>
-						<th>COLLECTION_OBJECT_ID</th>
+						<th>PART_COLLECTION_OBJECT_ID</th>
 						<th>PART_CONTAINER_ID</th>
 						<th>CONTAINER_BARCODE</th>
 						<th>CONTAINER_ID</th>
@@ -537,7 +537,7 @@ limitations under the License.
 							<td>#data.other_id_number#</td>
 							<td>#data.part_name#</td>
 							<td>#data.preserve_method#</td>
-							<td>#data.collection_object_id#</td>
+							<td>#data.PART_collection_object_id#</td>
 							<td>#data.part_container_id#</td>
 							<td>#data.CONTAINER_BARCODE#</td>
 							<td>#data.container_id#</td>
