@@ -459,7 +459,7 @@ limitations under the License.
 						status = concat(nvl2(status, status || '; ', ''),' There is no part match to a cataloged item on "'||other_id_type||'" = "'||other_id_number||'" in collection "'||collection_cde||'"')
 					WHERE collection_object_id IS NULL
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = '#key#'
+						AND key =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#check.key#">
 				</cfquery>
 			</cfloop>
 			<cfquery name="check2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
