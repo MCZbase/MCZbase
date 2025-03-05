@@ -386,7 +386,7 @@ limitations under the License.
 			SET status = ''
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
-			<cfloop query="data">
+			<cfloop query="dataParts">
 				<cfif #other_id_type# is "catalog number">
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
@@ -422,14 +422,14 @@ limitations under the License.
 								part_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObj.collection_object_id#">,
 								status = concat(nvl2(status, status || '; ', ''),'Found Cataloged Item')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#"> 
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 					</cfquery>
 					<!--- check that the specified part can be found --->
 					<cfquery name="markPartExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts 
 							SET status = 'VALID:' || concat(nvl2(status, status || '; ', ''),'Found Part')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#">
 							AND part_collection_object_id IS NOT NULL
 							AND part_collection_object_id IN (
 								select collection_object_id from specimen_part 
@@ -442,23 +442,23 @@ limitations under the License.
 							left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
 							left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 						where			
-							part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#data.part_name#">
-							and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#data.preserve_method#">
+							part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_name#">
+							and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.preserve_method#">
 							and derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collObj.collection_object_id#">
 							<cfif len(data.current_remarks) EQ 0>
 								and coll_object_remark.coll_object_remarks IS NULL
 							<cfelse>
-								and coll_object_remark.coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#data.current_remarks#">
+								and coll_object_remark.coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.current_remarks#">
 							</cfif>
 							<cfif len(data.lot_count) EQ 0>
 								and coll_object.lot_count IS NULL
 							<cfelse>
-								and coll_object.lot_count= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#data.lot_count#">
+								and coll_object.lot_count= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.lot_count#">
 							</cfif>
 							<cfif len(data.lot_count_modifier) EQ 0>
 								and coll_object.lot_count_modifier IS NULL
 							<cfelse>
-								and coll_object.lot_count_modifier= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#data.lot_count_modifier#">
+								and coll_object.lot_count_modifier= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.lot_count_modifier#">
 							</cfif>
 					</cfquery>
 					<cfif getPart.recordcount EQ 1>
@@ -468,7 +468,7 @@ limitations under the License.
 									part_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPart.collection_object_id#">,
 									status = 'VALID:' || concat(nvl2(status, status || '; ', ''),'Found Part')
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#">
+								AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#">
 								AND part_collection_object_id IS NULL
 						</cfquery>
 					</cfif>
@@ -481,7 +481,7 @@ limitations under the License.
 							'	#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.'
 							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#data.key#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#">
 					</cfquery>
 				</cfif>
 			</cfloop>
@@ -534,14 +534,14 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 				</cfquery>
 			</cfloop>
-			<cfquery name="pf" dbtype="query">
+			<cfquery name="data" dbtype="query">
 				SELECT count(*) c 
 				FROM data 
 				WHERE status is not null
 			</cfquery>
 			<h3>
-				<cfif pf.c gt 0>
-					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadPartContainer.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>.
+				<cfif data.c gt 0>
+					There is a problem with #data.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadPartContainer.cfm?action=dumpProblems">download</a>). Fix the problems in the data and <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>.
 				<cfelse>
 					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>.
 				</cfif>
