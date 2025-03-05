@@ -489,7 +489,7 @@ limitations under the License.
 					WHERE 
 						part_collection_object_id is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#">
 				</cfquery>
 			</cfloop>
 			<cfquery name="getTempTableQC2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
