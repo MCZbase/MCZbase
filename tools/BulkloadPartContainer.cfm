@@ -420,26 +420,19 @@ limitations under the License.
 							display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
 					</cfquery>
 				</cfif>
-				<cfif #collObj.recordcount# is 1>
+				<cfif len(collObj.collection_object_id) gt 0>
 					<!--- mark the collection object id for the cataloged item --->
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts
-							SET 
-								part_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObj.collection_object_id#">,
-								status = concat(nvl2(status, status || '; ', ''),'Found Cataloged Item')
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						SET 
+							part_collection_object_id = (select collection_object_id from specimen_part where derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObj.collection_object_id#">),
+							status = concat(nvl2(status, status || '; ', ''),'Found Part')
+						WHERE 
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 					</cfquery>
-					<!--- check that the specified part can be found --->
-					<cfquery name="markPartExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_barcode_parts 
-							SET status = concat(nvl2(status, status || '; ', ''),'Found Part')
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#">
-							AND part_collection_object_id IN (
-								select collection_object_id from specimen_part 
-								where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObj.collection_object_id#">
-							)
+		
+		
 					</cfquery>
 				<cfelseif #collObj.recordcount# gt 1>
 					<cfquery name="getPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
