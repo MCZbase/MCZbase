@@ -440,14 +440,7 @@ limitations under the License.
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 					</cfquery>
-				<cfelse>
-					<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_barcode_parts
-						SET status = concat(nvl2(status, status || '; ', ''), 'PART not found')
-						WHERE 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-					</cfquery>
+			
 				</cfif>
 			</cfloop>
 
@@ -493,6 +486,13 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.key#"> 
 				</cfquery>
+					<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_barcode_parts
+						SET status = concat(nvl2(status, status || '; ', ''), 'PART not found')
+						WHERE part_collection_object_id is null and
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					</cfquery>
 			</cfloop>
 				<cfquery name="getTempTableQC4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
