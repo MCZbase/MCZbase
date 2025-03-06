@@ -632,7 +632,7 @@ limitations under the License.
 						<h3>There was a problem updating the specimen parts.</h3>
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT *
-							FROM cf_temp_parts
+							FROM cf_temp_barcode_parts
 							WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 						</cfquery>
 						<h3>Fix the issues and <a href="/tools/BulkloadPartContainer.cfm">start again</a>.</h3>
