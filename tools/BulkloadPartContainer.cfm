@@ -467,7 +467,7 @@ limitations under the License.
 				</cfquery>
 			</cfloop>
 			<cfquery name="getTempTableQC2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT key, part_container_id
+				SELECT *
 				FROM cf_temp_barcode_parts  
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
