@@ -23,7 +23,7 @@ limitations under the License.
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CONTINER_BARCODE,PART_COLLECTION_OBJECT_ID
+		SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CURRENT_REMARKS,CONTAINER_BARCODE,PART_COLLECTION_OBJECT_ID
 		FROM cf_temp_barcode_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -380,18 +380,12 @@ limitations under the License.
 	<cfoutput>
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfset key = ''>
-		<cfset container_barcode = ''>
-		<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			UPDATE cf_temp_barcode_parts
-			SET status = ''
-			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		<cfquery name="dataParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT * 
+			FROM cf_temp_barcode_parts 
+			WHERE status is null
+				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
-			<cfquery name="dataParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT * 
-				FROM cf_temp_barcode_parts 
-				WHERE status is null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
 			<cfloop query="dataParts">
 				<!---This gets the collection_object_id based on the catalog number/other id--->
 				<cfif #other_id_type# is "catalog number">
@@ -423,7 +417,6 @@ limitations under the License.
 				</cfif>
 				<!---Get the collection_object_id based on the specimen parts--->
 				<cfif len(collObj.collection_object_id) gt 0>
-					<!--- mark the collection object id for the cataloged item --->
 					<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE 
 							cf_temp_barcode_parts
@@ -457,7 +450,6 @@ limitations under the License.
 				FROM cf_temp_barcode_parts  
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-
 			<cfloop query="getTempTableQC">
 				<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts  
@@ -483,7 +475,7 @@ limitations under the License.
 				<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts  
 					SET 
-						parent_container_id = (
+						current_parent_container_id = (
 							select c.parent_container_id 
 							from 
 								container c
@@ -492,6 +484,26 @@ limitations under the License.
 						)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.key#"> 
+				</cfquery>
+			</cfloop>
+			<cfquery name="getTempTableQC3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT key, current_parent_container_id,container_barcode
+				FROM cf_temp_barcode_parts  
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfloop query="getTempTableQC3">
+				<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_parts  
+					SET 
+						new_parent_container_id = (
+							select c.parent_container_id 
+							from 
+								container c
+							where 
+								c.container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC3.container_barcode#">
+						)
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC3.key#"> 
 				</cfquery>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
