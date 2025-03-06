@@ -618,7 +618,7 @@ limitations under the License.
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
-					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+<!---					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT * 
 						FROM 
 							cf_temp_barcode_parts 
@@ -626,6 +626,18 @@ limitations under the License.
 							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
 					<h3>Error updating row (#container_updates + 1#): #cfcatch.message#</h3>
+						--->
+						
+						<h3>There was a problem updating the specimen parts.</h3>
+						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT *
+							FROM cf_temp_barcode_parts
+							WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
+						</cfquery>
+						<h3>Fix the issues and <a href="/tools/BulkloadPartContainer.cfm">start again</a>.</h3>
+						<cfif getProblemData.recordcount GT 0>
+							<h3>
+								Error loading row (<span class="text-danger">#container_updates + 1#</span>) from the CSV: 
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
@@ -639,7 +651,7 @@ limitations under the License.
 							<cfloop query="getProblemData">
 								<tr>
 									<td><cfif len(getProblemData.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
-									<td>#getProblemData.container_BARCODE#</td>
+									<td>#getProblemData.New_container_BARCODE#</td>
 									<td>#getProblemData.part_container_id#</td>
 									<td>#getProblemData.NEW_PARENT_container_id#</t
 								></tr> 
