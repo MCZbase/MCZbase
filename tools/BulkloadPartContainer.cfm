@@ -570,8 +570,8 @@ limitations under the License.
 							<th>PART_CONTAINER_ID</th>
 							<th>NEW_CONTAINER_BARCODE</th>
 							<th>CURRENT_CONTAINER_BARCODE</th>
-							<th>CURRENT_PARENT_CONTAINER_ID</th>
-							<th>NEW_PARENT_CONTAINER_ID</th>
+							<!---<th>CURRENT_PARENT_CONTAINER_ID</th>
+							<th>NEW_PARENT_CONTAINER_ID</th>--->
 
 						</tr>
 					</thead>
@@ -589,8 +589,8 @@ limitations under the License.
 								<td>#data.part_container_id#</td>
 								<td>#data.NEW_CONTAINER_BARCODE#</td>
 								<td>#data.CURRENT_CONTAINER_BARCODE#</td>
-								<td>#data.current_parent_container_id#</td>
-								<td>#data.new_parent_container_id#</td>
+<!---								<td>#data.current_parent_container_id#</td>
+								<td>#data.new_parent_container_id#</td>--->
 
 							</tr>
 						</cfloop>
