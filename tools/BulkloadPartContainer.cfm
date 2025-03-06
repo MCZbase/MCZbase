@@ -676,8 +676,7 @@ limitations under the License.
 											<td><cfif len(getProblemData.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
 											<td>#getProblemData.New_container_BARCODE#</td>
 											<td>#getProblemData.part_container_id#</td>
-											<td>#getProblemData.NEW_PARENT_container_id#</t
-										></tr> 
+											<td>#getProblemData.NEW_PARENT_container_id#</td></tr> 
 									</cfloop>
 								</tbody>
 							</table>
