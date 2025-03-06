@@ -381,7 +381,7 @@ limitations under the License.
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfset key = ''>
 		<cfquery name="dataParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT * 
+			SELECT collection_cde, institution_acronym,other_id_number,other_id_type,part_name,preserve_method 
 			FROM cf_temp_barcode_parts 
 			WHERE status is null
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -592,7 +592,7 @@ limitations under the License.
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					key,parent_container_id,part_container_id,container_id,CONTAINER_BARCODE,collection_object_id 
+					key,parent_container_id,part_container_id,container_id,CONTAINER_BARCODE,part_collection_object_id 
 				FROM 
 					cf_temp_barcode_parts
 				WHERE 
