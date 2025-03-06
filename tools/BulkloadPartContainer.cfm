@@ -601,7 +601,7 @@ limitations under the License.
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
-					<cfset container_updates = ''>
+					<cfset container_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfif len(#getTempData.new_container_barcode#) gt 0>
