@@ -440,6 +440,14 @@ limitations under the License.
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 					</cfquery>
+				<cfelse>
+					<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_barcode_parts
+						SET status = concat(nvl2(status, status || '; ', ''), 'PART not found')
+						WHERE 
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+					</cfquery>
 				</cfif>
 			</cfloop>
 
@@ -543,46 +551,46 @@ limitations under the License.
 					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>.
 				</cfif>
 			</h3>
-			<table class='px-0 sortable small table table-responsive table-striped'>
-			<thead class="thead-light">
-				<tr>
-					<th>BULKLOADING&nbsp;STATUS</th>
-					<th>INSTITUTION_ACRONYM</th>
-					<th>COLLECTION_CDE</th>
-					<th>OTHER_ID_TYPE</th>
-					<th>OTHER_ID_NUMBER</th>
-					<th>PART_NAME</th>
-					<th>PRESERVE_METHOD</th>
-					<th>PART_COLLECTION_OBJECT_ID</th>
-					<th>PART_CONTAINER_ID</th>
-					<th>NEW_CONTAINER_BARCODE</th>
-					<th>CURRENT_CONTAINER_BARCODE</th>
-					<th>CURRENT_PARENT_CONTAINER_ID</th>
-					<th>NEW_PARENT_CONTAINER_ID</th>
+				<table class='px-0 sortable small table table-responsive table-striped'>
+					<thead class="thead-light">
+						<tr>
+							<th>BULKLOADING&nbsp;STATUS</th>
+							<th>INSTITUTION_ACRONYM</th>
+							<th>COLLECTION_CDE</th>
+							<th>OTHER_ID_TYPE</th>
+							<th>OTHER_ID_NUMBER</th>
+							<th>PART_NAME</th>
+							<th>PRESERVE_METHOD</th>
+							<th>PART_COLLECTION_OBJECT_ID</th>
+							<th>PART_CONTAINER_ID</th>
+							<th>NEW_CONTAINER_BARCODE</th>
+							<th>CURRENT_CONTAINER_BARCODE</th>
+							<th>CURRENT_PARENT_CONTAINER_ID</th>
+							<th>NEW_PARENT_CONTAINER_ID</th>
 
-				</tr>
-			<tbody>
-				<cfloop query="data">
-					<tr>
-						<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
-						<td>#data.institution_acronym#</td>
-						<th>#data.collection_cde#</th>
-						<td>#data.other_ID_TYPE#</td>
-						<td>#data.other_id_number#</td>
-						<td>#data.part_name#</td>
-						<td>#data.preserve_method#</td>
-						<td>#data.PART_collection_object_id#</td>
-						<td>#data.part_container_id#</td>
-						<td>#data.NEW_CONTAINER_BARCODE#</td>
-						<td>#data.CURRENT_CONTAINER_BARCODE#</td>
-						<td>#data.current_parent_container_id#</td>
-						<td>#data.new_parent_container_id#</td>
+						</tr>
+					</thead>
+					<tbody>
+						<cfloop query="data">
+							<tr>
+								<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
+								<td>#data.institution_acronym#</td>
+								<th>#data.collection_cde#</th>
+								<td>#data.other_ID_TYPE#</td>
+								<td>#data.other_id_number#</td>
+								<td>#data.part_name#</td>
+								<td>#data.preserve_method#</td>
+								<td>#data.PART_collection_object_id#</td>
+								<td>#data.part_container_id#</td>
+								<td>#data.NEW_CONTAINER_BARCODE#</td>
+								<td>#data.CURRENT_CONTAINER_BARCODE#</td>
+								<td>#data.current_parent_container_id#</td>
+								<td>#data.new_parent_container_id#</td>
 
-					</tr>
-				</cfloop>
-			</tbody>
-		</table>
-		</div>
+							</tr>
+						</cfloop>
+					</tbody>
+				</table>
 			</div>
 		</cfoutput>
 	</cfif>
