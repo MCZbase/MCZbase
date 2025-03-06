@@ -485,6 +485,13 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.key#"> 
 				</cfquery>
+			</cfloop>
+				<cfquery name="getTempTableQC4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT *
+				FROM cf_temp_barcode_parts  
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfloop query="getTempTableQC4">
 				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts  
 					SET 
@@ -493,10 +500,10 @@ limitations under the License.
 							from 
 								container c
 							where 
-								c.container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC2.current_parent_container_id#">
+								c.container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC4.current_parent_container_id#">
 						)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.key#"> 
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC4.key#"> 
 				</cfquery>
 			</cfloop>
 			<cfquery name="getTempTableQC3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
