@@ -607,19 +607,11 @@ limitations under the License.
 						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
 							UPDATE
 								container
-							SET
-								container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">
-							WHERE
-								parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
-								and barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.container_barcode#">
-						</cfquery>
-						<cfquery name="updateContainer1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer1_result">
-							UPDATE
-								coll_obj_cont_hist
-							SET
-								container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">
-							WHERE
-								collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">
+							set 
+								parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.new_parent_container_id#">
+							where 
+								parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.current_container_id#"> AND
+								container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
 						</cfquery>
 						<cfset container_updates = container_updates + updateContainer_result.recordcount>
 					</cfloop>
@@ -638,9 +630,9 @@ limitations under the License.
 						<thead>
 							<tr>
 								<th>BULKLOADING&nbsp;STATUS</th>
-								<th>CONTAINER_BARCODE</th>
+								<th>NEW_CONTAINER_BARCODE</th>
 								<th>PART_CONTAINER_ID</th>
-								<th>CONTAINER_ID</th>
+								<th>NEW_PARENT_CONTAINER_ID</th>
 							</tr> 
 						</thead>
 						<tbody>
@@ -649,7 +641,7 @@ limitations under the License.
 									<td><cfif len(getProblemData.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
 									<td>#getProblemData.container_BARCODE#</td>
 									<td>#getProblemData.part_container_id#</td>
-									<td>#getProblemData.container_id#</t
+									<td>#getProblemData.NEW_PARENT_container_id#</t
 								></tr> 
 							</cfloop>
 						</tbody>
