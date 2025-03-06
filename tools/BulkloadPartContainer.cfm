@@ -587,7 +587,7 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 	<!-------------------------------------------------------------------------------------------->
-	<cfif variable.action is "load">
+	<cfif variables.action is "load">
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
