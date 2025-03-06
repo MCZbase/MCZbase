@@ -386,64 +386,62 @@ limitations under the License.
 			WHERE status is null
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
-			<cfloop query="dataParts">
-				<!---This gets the collection_object_id based on the catalog number/other id--->
-				<cfif #other_id_type# is "catalog number">
-					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT
-							collection_object_id
-						FROM
-							cataloged_item 
-							join collection on cataloged_item.collection_id = collection.collection_id
-						WHERE
-							collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#"> and
-							collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#"> and
-							cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
-					</cfquery>
-				<cfelse>
-					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT
-							coll_obj_other_id_num.collection_object_id
-						FROM
-							coll_obj_other_id_num
-							join cataloged_item on coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id 
-							join collection on cataloged_item.collection_id = collection.collection_id
-						WHERE
-							collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#"> and
-							collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#"> and
-							other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_type#"> and
-							display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
-					</cfquery>
-				</cfif>
-				<!---Get the collection_object_id based on the specimen parts--->
-				<cfif len(collObj.collection_object_id) gt 0>
-					<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE 
-							cf_temp_barcode_parts
-						SET 
-							part_collection_object_id = (
-								select specimen_part.collection_object_id
-								from specimen_part   
-									left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
-									left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
-								where			
-									part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_name#">
-									and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.preserve_method#">
-									and derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObj.collection_object_id#">
-									<cfif len(dataParts.current_remarks) EQ 0>
-										and coll_object_remark.coll_object_remarks IS NULL
-									<cfelse>
-										and coll_object_remark.coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.current_remarks#">
-									</cfif>							
-								)
-						WHERE 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
-					</cfquery>
-			
-				</cfif>
-			</cfloop>
-
+		<cfloop query="dataParts">
+			<!---This gets the collection_object_id based on the catalog number/other id--->
+			<cfif #other_id_type# is "catalog number">
+				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						collection_object_id
+					FROM
+						cataloged_item 
+						join collection on cataloged_item.collection_id = collection.collection_id
+					WHERE
+						collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#"> and
+						collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#"> and
+						cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
+				</cfquery>
+			<cfelse>
+				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						coll_obj_other_id_num.collection_object_id
+					FROM
+						coll_obj_other_id_num
+						join cataloged_item on coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id 
+						join collection on cataloged_item.collection_id = collection.collection_id
+					WHERE
+						collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#"> and
+						collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#"> and
+						other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_type#"> and
+						display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
+				</cfquery>
+			</cfif>
+			<!---Get the collection_object_id based on the specimen parts--->
+			<cfif len(collObj.collection_object_id) gt 0>
+				<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE 
+						cf_temp_barcode_parts
+					SET 
+						part_collection_object_id = (
+							select specimen_part.collection_object_id
+							from specimen_part   
+								left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
+								left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+							where			
+								part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_name#">
+								and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.preserve_method#">
+								and derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObj.collection_object_id#">
+								<cfif len(dataParts.current_remarks) EQ 0>
+									and coll_object_remark.coll_object_remarks IS NULL
+								<cfelse>
+									and coll_object_remark.coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.current_remarks#">
+								</cfif>							
+							)
+					WHERE 
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
+				</cfquery>
+			</cfif>
+		</cfloop>
 			<!--- Second set of Validation tests: container terms ---> 
 			<!--- check container terms, use list of keys for row by row validations of containers --->
 			<cfquery name="getTempTableQC1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -500,6 +498,19 @@ limitations under the License.
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>	
 			<cfloop query="getTempTableQC3">
+				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_parts  
+					SET 
+						NEW_PARENT_CONTAINER_ID = (
+							select c.barcode 
+							from 
+								container c
+							where 
+								c.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC4.new_container_barcode#">
+						)
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC3.key#"> 
+				</cfquery>
 				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
 					SET status = concat(nvl2(status, status || '; ', ''), 'CONTAINER not found')
