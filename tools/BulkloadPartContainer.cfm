@@ -638,26 +638,28 @@ limitations under the License.
 						<cfif getProblemData.recordcount GT 0>
 							<h3>
 								Error loading row (<span class="text-danger">#container_updates + 1#</span>) from the CSV: 
-					<table class='sortable table table-responsive table-striped d-lg-table'>
-						<thead>
-							<tr>
-								<th>BULKLOADING&nbsp;STATUS</th>
-								<th>NEW_CONTAINER_BARCODE</th>
-								<th>PART_CONTAINER_ID</th>
-								<th>NEW_PARENT_CONTAINER_ID</th>
-							</tr> 
-						</thead>
-						<tbody>
-							<cfloop query="getProblemData">
-								<tr>
-									<td><cfif len(getProblemData.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
-									<td>#getProblemData.New_container_BARCODE#</td>
-									<td>#getProblemData.part_container_id#</td>
-									<td>#getProblemData.NEW_PARENT_container_id#</t
-								></tr> 
-							</cfloop>
-						</tbody>
-					</table>
+							</h3>
+							<table class='sortable table table-responsive table-striped d-lg-table'>
+								<thead>
+									<tr>
+										<th>BULKLOADING&nbsp;STATUS</th>
+										<th>NEW_CONTAINER_BARCODE</th>
+										<th>PART_CONTAINER_ID</th>
+										<th>NEW_PARENT_CONTAINER_ID</th>
+									</tr> 
+								</thead>
+								<tbody>
+									<cfloop query="getProblemData">
+										<tr>
+											<td><cfif len(getProblemData.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
+											<td>#getProblemData.New_container_BARCODE#</td>
+											<td>#getProblemData.part_container_id#</td>
+											<td>#getProblemData.NEW_PARENT_container_id#</t
+										></tr> 
+									</cfloop>
+								</tbody>
+							</table>
+						</cfif>
 					<cfrethrow>
 				</cfcatch>
 				</cftry>
