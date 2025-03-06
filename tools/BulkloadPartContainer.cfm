@@ -605,15 +605,15 @@ limitations under the License.
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfif len(#getTempData.new_container_barcode#) gt 0>
-						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
-							UPDATE
-								container
-							set 
-								parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.new_parent_container_id#">
-							where 
-								container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
-						</cfquery>
-						
+							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
+								UPDATE
+									container
+								set 
+									parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.new_parent_container_id#">
+								where 
+									container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
+							</cfquery>	
+						</cfif>
 					</cfloop>
 					<cfset container_updates = container_updates + updateContainer_result.recordcount>
 					<cftransaction action="commit">
