@@ -610,7 +610,7 @@ limitations under the License.
 							set 
 								parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.new_parent_container_id#">
 							where 
-								parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.current_container_id#"> AND
+								parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.current_parent_container_id#"> AND
 								container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
 						</cfquery>
 						<cfset container_updates = container_updates + updateContainer_result.recordcount>
