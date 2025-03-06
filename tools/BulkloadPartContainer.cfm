@@ -603,6 +603,7 @@ limitations under the License.
 				<cftry>
 					<cfset container_updates = ''>
 					<cfloop query="getTempData">
+						#current_parent_container_id#<br>#part_container_id#
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
 							UPDATE
