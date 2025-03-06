@@ -471,9 +471,10 @@ limitations under the License.
 				FROM cf_temp_barcode_parts  
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-				#getTempTableQC.part_container_id#
+				
 			<cfloop query="getTempTableQC2">
-				<cfquery name="getPartContainerId2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				#getTempTableQC.part_container_id#
+				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts  
 					SET 
 						current_parent_container_id = (
@@ -490,12 +491,12 @@ limitations under the License.
 					<br>
 				#getTempTableQC2.current_parent_container_id#
 			<cfquery name="getTempTableQC3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT key, container_barcode
+				SELECT *
 				FROM cf_temp_barcode_parts  
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTempTableQC3">
-				<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts  
 					SET 
 						new_parent_container_id = (
@@ -556,8 +557,8 @@ limitations under the License.
 						<td>#data.PART_collection_object_id#</td>
 						<td>#data.part_container_id#</td>
 						<td>#data.CONTAINER_BARCODE#</td>
-						<td>#data.container_id#</td>
-						<td>#data.parent_container_id#</td>
+						<td>#data.current_parent_container_id#</td>
+						<td>#data._new_parent_container_id#</td>
 
 					</tr>
 				</cfloop>
