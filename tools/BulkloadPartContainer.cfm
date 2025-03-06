@@ -502,11 +502,11 @@ limitations under the License.
 					UPDATE cf_temp_barcode_parts  
 					SET 
 						NEW_PARENT_CONTAINER_ID = (
-							select c.barcode 
+							select c.container_id
 							from 
 								container c
 							where 
-								c.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC4.new_container_barcode#">
+								c.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC3.new_container_barcode#">
 						)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC3.key#"> 
