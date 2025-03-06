@@ -628,16 +628,47 @@ limitations under the License.
 					<h3>Error updating row (#container_updates + 1#): #cfcatch.message#</h3>
 						--->
 						
+						<cftransaction action="ROLLBACK">
 						<h3>There was a problem updating the specimen parts.</h3>
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT *
-							FROM cf_temp_barcode_parts
+							FROM cf_temp_parts
 							WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
 						</cfquery>
 						<h3>Fix the issues and <a href="/tools/BulkloadPartContainer.cfm">start again</a>.</h3>
 						<cfif getProblemData.recordcount GT 0>
 							<h3>
-								Error loading row (<span class="text-danger">#container_updates + 1#</span>) from the CSV: 
+								Error loading row (<span class="text-danger">#part_updates + 1#</span>) from the CSV: 
+								<cfif len(cfcatch.detail) gt 0>
+									<span class="font-weight-normal border-bottom border-danger">
+										<cfif cfcatch.detail contains "institution_acronym">
+											Invalid Institution Acronyn; Should be 'MCZ'.
+										<cfelseif cfcatch.detail contains "collection_cde">
+											Problem with collection_cde
+										<cfelseif cfcatch.detail contains "other_id_type">
+											Invalid or missing other_id_type
+										<cfelseif cfcatch.detail contains "other_id_number">
+											Invalid other_id_number
+										<cfelseif cfcatch.detail contains "part_name">
+											Invalid CITED_TAXON_NAME_ID
+										<cfelseif cfcatch.detail contains "preserve_method">
+											Problem with preserve_method
+										<cfelseif cfcatch.detail contains "lot_count_modifier">
+											Invalid lot_count_modifier
+										<cfelseif cfcatch.detail contains "part_name">
+											Invalid part_name
+										<cfelseif cfcatch.detail contains "part_value">
+											Invalid part_value
+										<cfelseif cfcatch.detail contains "unique constraint">
+											This change has already been entered. Remove from spreadsheet and try again. (<a href="/tools/BulkloadPartContainer.cfm">Reload.</a>)
+										<cfelseif cfcatch.detail contains "no data">
+											No data or the wrong data (#cfcatch.detail#)
+										<cfelse>
+											<!--- provide the raw error message if it isn't readily interpretable --->
+											#cfcatch.detail#
+										</cfif>
+									</span>
+								</cfif>
 							</h3>
 							<table class='sortable table table-responsive table-striped d-lg-table'>
 								<thead>
