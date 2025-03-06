@@ -536,7 +536,7 @@ limitations under the License.
 					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>.
 				</cfif>
 			</h3>
-			<table class='px-0 sortable small table table-responsive-xl table-striped'>
+			<table class='px-0 sortable small table table-responsive table-striped'>
 			<thead class="thead-light">
 				<tr>
 					<th>BULKLOADING&nbsp;STATUS</th>
