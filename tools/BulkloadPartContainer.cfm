@@ -609,7 +609,7 @@ limitations under the License.
 								UPDATE
 									container
 								set 
-									parent_container_id = (select container_id where barcode = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.new_container_barcode#">)
+									parent_container_id = (select container_id where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.new_container_barcode#">)
 								where 
 									container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
 							</cfquery>	
