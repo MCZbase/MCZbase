@@ -558,7 +558,7 @@ limitations under the License.
 						<td>#data.part_container_id#</td>
 						<td>#data.CONTAINER_BARCODE#</td>
 						<td>#data.current_parent_container_id#</td>
-						<td>#data._new_parent_container_id#</td>
+						<td>#data.new_parent_container_id#</td>
 
 					</tr>
 				</cfloop>
