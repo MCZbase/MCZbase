@@ -500,7 +500,7 @@ limitations under the License.
 							from 
 								container c
 							where 
-								c.container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC3.part_container_id#">
+								c.container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC3.new_part_container_id#">
 						)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC3.key#"> 
@@ -536,8 +536,8 @@ limitations under the License.
 					<th>PART_COLLECTION_OBJECT_ID</th>
 					<th>PART_CONTAINER_ID</th>
 					<th>CONTAINER_BARCODE</th>
-					<th>CONTAINER_ID</th>
-					<th>PARENT_CONTAINER_ID</th>
+					<th>CURRENT_PARENT_CONTAINER_ID</th>
+					<th>NEW_PARENT_CONTAINER_ID</th>
 
 				</tr>
 			<tbody>
