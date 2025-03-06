@@ -23,7 +23,7 @@ limitations under the License.
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CURRENT_REMARKS,CONTAINER_BARCODE,PART_COLLECTION_OBJECT_ID,CURRENT_PARENT_CONTAINER_ID
+		SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CURRENT_REMARKS,CONTAINER_BARCODE,PART_COLLECTION_OBJECT_ID,CURRENT_PARENT_CONTAINER_ID,NEW_PARENT_CONTAINER_ID
 		FROM cf_temp_barcode_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
