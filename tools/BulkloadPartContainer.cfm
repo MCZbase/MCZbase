@@ -638,7 +638,7 @@ limitations under the License.
 						<h3>Fix the issues and <a href="/tools/BulkloadPartContainer.cfm">start again</a>.</h3>
 						<cfif getProblemData.recordcount GT 0>
 							<h3>
-								Error loading row (<span class="text-danger">#container_updates + 1#</span>) from the CSV: 
+								Error loading row (<span class="text-danger"></span>) from the CSV: 
 								<cfif len(cfcatch.detail) gt 0>
 									<span class="font-weight-normal border-bottom border-danger">
 										<cfif cfcatch.detail contains "institution_acronym">
