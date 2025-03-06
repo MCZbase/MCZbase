@@ -603,8 +603,8 @@ limitations under the License.
 				<cftry>
 					<cfset container_updates = ''>
 					<cfloop query="getTempData">
-						#current_parent_container_id#<br>#part_container_id#<br>#new_parent_container_id#
 						<cfset problem_key = getTempData.key>
+						<cfif len(#getTempData.new_container_barcode#) gt 0>
 						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
 							UPDATE
 								container
@@ -613,8 +613,9 @@ limitations under the License.
 							where 
 								container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
 						</cfquery>
-						<cfset container_updates = container_updates + updateContainer_result.recordcount>
+						
 					</cfloop>
+					<cfset container_updates = container_updates + updateContainer_result.recordcount>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">						
