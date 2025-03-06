@@ -620,7 +620,7 @@ limitations under the License.
 				<cfcatch>
 					<cftransaction action="rollback">						
 						<cftransaction action="ROLLBACK">
-						<h3>There was a problem updating the specimen parts.</h3>
+						<h3>There was a problem updating row (#container_updates#) of the containers for parts .</h3>
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT *
 							FROM cf_temp_barcode_parts
