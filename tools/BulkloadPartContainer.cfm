@@ -400,7 +400,7 @@ limitations under the License.
 						collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#"> and
 						cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
 				</cfquery>
-			<cfelse>
+			<cfelseif dataParts.other_id_type eq 'type number'>
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						coll_obj_other_id_num.collection_object_id
