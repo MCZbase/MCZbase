@@ -381,7 +381,7 @@ limitations under the License.
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfset key = ''>
 		<cfquery name="dataParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT collection_cde, institution_acronym,other_id_number,other_id_type,part_name,preserve_method,current_remarks,key
+			SELECT collection_cde,institution_acronym,other_id_number,other_id_type,part_name,preserve_method,current_remarks,key
 			FROM cf_temp_barcode_parts 
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
@@ -416,7 +416,6 @@ limitations under the License.
 			</cfif>
 			<cfloop query = "collObj">
 				<!---Get the collection_object_id based on the specimen parts--->
-				<cfif len(collObj.collection_object_id) eq 0>
 					<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE 
 							cf_temp_barcode_parts
@@ -439,7 +438,6 @@ limitations under the License.
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 					</cfquery>
-				</cfif>
 			</cfloop>
 		</cfloop>						
 		<!--- Second set of Validation tests: container terms ---> 
