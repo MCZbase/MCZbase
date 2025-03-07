@@ -399,6 +399,7 @@ limitations under the License.
 						collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#"> and
 						cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
 				</cfquery>
+			
 <!---	CANNOT GET THE OTHER_ID part to work
 			<cfelse>
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -443,10 +444,13 @@ limitations under the License.
 		<!--- Second set of Validation tests: container terms ---> 
 		<!--- check container terms, use list of keys for row by row validations of containers --->
 		<cfquery name="getTempTableQC1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT part_collection_object_id, key
+			SELECT *
 			FROM cf_temp_barcode_parts  
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
+
+				<!---This checks to see if the part collection_object_id is correct by checking the generated item description against the collection_cde, other_id_number, part_name, and preserve_method, if the separate columns content does not match the contents of the item description, the bulkload will fail so they can check that expected parts will be connected to the loan--->
+			
 			<cfloop query="getTempTableQC1">
 				<!---Put the container ID of the collection_object into the table--->
 				<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -469,6 +473,23 @@ limitations under the License.
 					WHERE part_collection_object_id is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
+				</cfquery>
+				<!---This checks to see if the collection_cde, other_id_number, part_name, and preserve_methods create a collection_object_id that matches the one provided in the part download/report. We want to make sure nothing was changed by mistake, making it harder to find the parts on the shelf based on the csv.--->
+				<cfquery name="ctCatnumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_loan_item
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'[MCZ:'|| collection_cde ||':'||other_id_number ||' '|| part_name ||'('|| preserve_method ||')] is not valid for this part. Check collection_cde, other_id_number, part_name, and preserve_method.')
+					where PART_COLLECTION_OBJECT_ID not in 
+						(
+							select sp.collection_object_id from cataloged_item ci, specimen_part sp 
+							where ci.collection_object_id = sp.derived_from_cat_item
+							and ci.cat_num= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC1.other_id_number#">
+							and ci.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC1.collection_cde#">
+							and sp.part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC1.part_name#">
+							and sp.preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC1.preserve_method#">
+						)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC1.key#">
 				</cfquery>
 			</cfloop>
 			<!---Get current_parent_container_id. This is the container_id that currently shows in the part row--->
