@@ -388,7 +388,7 @@ limitations under the License.
 		</cfquery>
 		<cfloop query="dataParts">
 			<!---This gets the collection_object_id based on the catalog number/other id--->
-			<cfif #other_id_type# is "catalog number">
+			<cfif dataParts.other_id_type eq 'catalog number'>
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						collection_object_id
