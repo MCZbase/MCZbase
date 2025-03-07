@@ -429,7 +429,7 @@ limitations under the License.
 						left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
 						left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 					where
-						part_collection_object_id = #collObjID#
+						part_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collObjID#">
 						AND part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_name#">
 						AND preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.preserve_method#">
 							<cfif len(dataParts.current_remarks) EQ 0>
