@@ -416,7 +416,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 					#collObj.collection_object_id#<br>
-		</cfloop>#dataParts.collection_object_id#
+		</cfloop>
 		<!---Get the collection_object_id based on the specimen parts--->
 		<cfif len(collObj.collection_object_id) eq 0>
 			<cfquery name="dataColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
