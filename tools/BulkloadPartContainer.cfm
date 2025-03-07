@@ -414,7 +414,7 @@ limitations under the License.
 						display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
 				</cfquery>
 			</cfif>
-				#dataParts.collection_object_id#
+				#collection_object_id#
 		</cfloop>
 		<cfloop query = "getPartCollObjID">
 			<!---Get the collection_object_id based on the specimen parts--->
