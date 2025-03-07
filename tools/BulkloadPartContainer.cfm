@@ -414,8 +414,11 @@ limitations under the License.
 						display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
 				</cfquery>
 			</cfif>
-			<cfloop query = "collObj">
-				#collObj.collection_object_id#
+			<cfquery name="getPartCollObjID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT * from collObj
+			</cfquery>
+			<cfloop query = "getPartCollObjID">
+				#collection_object_id#
 				<!---Get the collection_object_id based on the specimen parts--->
 					<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE 
