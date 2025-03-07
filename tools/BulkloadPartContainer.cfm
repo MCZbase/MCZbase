@@ -438,7 +438,6 @@ limitations under the License.
 								where			
 									part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataColl.part_name#">
 									and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataColl.preserve_method#">
-									and derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObj.collection_object_id#">
 									<cfif len(dataColl.current_remarks) EQ 0>
 										and coll_object_remark.coll_object_remarks IS NULL
 									<cfelse>
@@ -447,7 +446,7 @@ limitations under the License.
 								)
 						WHERE 
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataColl.key#"> 
 					</cfquery>
 				</cfloop>
 			</cfif>
