@@ -468,7 +468,7 @@ limitations under the License.
 					SET status = concat(nvl2(status, status || '; ', ''), 'PART not found')
 					WHERE part_collection_object_id is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
 				</cfquery>
 			</cfloop>
 			<!---Get current_parent_container_id. This is the container_id that currently shows in the part row--->
