@@ -424,7 +424,7 @@ limitations under the License.
 				WHERE status is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif dataColl.part_collection_object_id is null>
+			<cfif len(dataColl.part_collection_object_id) eq 0>
 				<cfloop query="dataColl">
 					<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE 
