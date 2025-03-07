@@ -416,7 +416,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<!---Get the part collection_object_id based on the specimen record above collObj.collection_object_id--->
-			<cfif len(collObj.collection_object_id) eq 1>
+			<cfif len(collObj.collection_object_id) gt 1>
 				<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE 
 						cf_temp_barcode_parts
