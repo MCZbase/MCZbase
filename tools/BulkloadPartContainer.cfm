@@ -430,7 +430,7 @@ limitations under the License.
 								part_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collObj.collection_object_id#">
 								AND part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_name#">
 								AND preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.preserve_method#">
-								<cfif len(dataColl.current_remarks) EQ 0>
+								<cfif len(dataParts.current_remarks) EQ 0>
 									AND coll_object_remark.coll_object_remarks IS NULL
 								<cfelse>
 									AND coll_object_remark.coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.current_remarks#">
