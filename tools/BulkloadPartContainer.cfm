@@ -425,7 +425,6 @@ limitations under the License.
 							select specimen_part.collection_object_id
 							from specimen_part   
 								left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
-								left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 							where			
 								part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_name#">
 								and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.preserve_method#">
