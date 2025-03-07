@@ -415,7 +415,7 @@ limitations under the License.
 						display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
 				</cfquery>--->
 			</cfif>
-			<!---Get the collection_object_id based on the specimen parts--->
+			<!---Get the part_collection_object_id based on the specimen record COID--->
 			<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE 
 					cf_temp_barcode_parts
@@ -448,6 +448,7 @@ limitations under the License.
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 			<cfloop query="getTempTableQC1">
+				<!---Put the container ID of the collection_object into the table--->
 				<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts  
 					SET 
@@ -462,13 +463,22 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC1.key#"> 
 				</cfquery>
+				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_parts
+					SET status = concat(nvl2(status, status || '; ', ''), 'PART not found')
+					WHERE part_collection_object_id is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#">
+				</cfquery>
 			</cfloop>
+			<!---Get current_parent_container_id. This is the container_id that currently shows in the part row--->
 			<cfquery name="getTempTableQC2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT *
+				SELECT part_container_id, key
 				FROM cf_temp_barcode_parts  
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTempTableQC2">
+				<!---Use the part_container_id (i.e., collecton_object starter container) to find the current barcode (a.k.a. unique_container_id)--->
 				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts  
 					SET 
@@ -482,54 +492,10 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.key#"> 
 				</cfquery>
-				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts
-					SET status = concat(nvl2(status, status || '; ', ''), 'PART not found')
-					WHERE part_collection_object_id is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#">
-				</cfquery>
-				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts
-					SET status = concat(nvl2(status, status || '; ', ''), 'other_id_number is wrong for collection_cde and other_id_type ')
-					WHERE part_collection_object_id is null
-					and other_id_number not in (
-							select cat_num from cataloged_item 
-							where other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC2.other_id_type#">
-							and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC2.collection_cde#">
-						)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#">
-				</cfquery>
-				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts
-					SET status = concat(nvl2(status, status || '; ', ''), 'collection_cde is wrong for other_id_type and other_id_number')
-					WHERE part_collection_object_id is null
-					and collection_cde not in (
-							select collection_cde from cataloged_item 
-							where other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC2.other_id_type#">
-							and other_id_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC2.other_id_number#">
-						)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#">
-				</cfquery>
-				<cfif #other_id_type# is not "catalog number">
-					<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_barcode_parts
-						SET status = concat(nvl2(status, status || '; ', ''), 'collection_cde is wrong for other_id_type and other_id_number')
-						WHERE part_collection_object_id is null
-						and other_ID_TYPE not in (
-								select other_id_type from coll_obj_other_id_num 
-								where other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC2.other_id_type#">
-								and other_id_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC2.other_id_number#">
-							)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#">
-					</cfquery>
-				</cfif>
 			</cfloop>
+			<!---Find the new container's container_id so it can be placed in the collection object's parent_container_id field with an update--->
 			<cfquery name="getTempTableQC3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT *
+				SELECT container_barcode, key
 				FROM cf_temp_barcode_parts  
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>	
@@ -547,6 +513,7 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC3.key#"> 
 				</cfquery>
+				<!---If the new entry in container_barcode is not already in MCZbase, show container not found--->
 				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
 					SET status = concat(nvl2(status, status || '; ', ''), 'CONTAINER not found')
@@ -555,8 +522,10 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC3.key#">
 				</cfquery>
 			</cfloop>
+			<!---Find the current container that shows in the part row on the specimen record and put it in the table so the change can be seen easily--->
+			<!---This comes from the collection object container parent in getTempTableQC2--->
 			<cfquery name="getTempTableQC4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT *
+				SELECT current_parent_container_id, key
 				FROM cf_temp_barcode_parts  
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -602,8 +571,8 @@ limitations under the License.
 							<th>OTHER_ID_NUMBER</th>
 							<th>PART_NAME</th>
 							<th>PRESERVE_METHOD</th>
-							<th>PART_COLLECTION_OBJECT_ID</th>
-							<th>PART_CONTAINER_ID</th>
+						<!---	<th>PART_COLLECTION_OBJECT_ID</th>
+							<th>PART_CONTAINER_ID</th>--->
 							<th>CONTAINER_BARCODE</th>
 							<th>CURRENT_CONTAINER_BARCODE</th>
 							<!---<th>CURRENT_PARENT_CONTAINER_ID</th>
@@ -621,8 +590,8 @@ limitations under the License.
 								<td>#data.other_id_number#</td>
 								<td>#data.part_name#</td>
 								<td>#data.preserve_method#</td>
-								<td>#data.PART_collection_object_id#</td>
-								<td>#data.part_container_id#</td>
+							<!---	<td>#data.PART_collection_object_id#</td>
+								<td>#data.part_container_id#</td>--->
 								<td>#data.CONTAINER_BARCODE#</td>
 								<td>#data.CURRENT_CONTAINER_BARCODE#</td>
 <!---								<td>#data.current_parent_container_id#</td>
