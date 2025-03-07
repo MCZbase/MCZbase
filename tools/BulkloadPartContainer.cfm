@@ -495,14 +495,14 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
-					SET status = concat(nvl2(status, status || '; ', ''), 'PART not found;')
+					SET status = concat(nvl2(status, status || '; ', ''), 'PART not found')
 					WHERE part_collection_object_id is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#">
 				</cfquery>
 				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
-					SET status = concat(nvl2(status, status || '; ', ''), 'PART not found--other_id_number is wrong for collection_cde ')
+					SET status = concat(nvl2(status, status || '; ', ''), 'other_id_number is wrong for collection_cde and other_id_type ')
 					WHERE part_collection_object_id is null
 					and other_id_number not in (
 							select cat_num from cataloged_item 
@@ -514,7 +514,7 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
-					SET status = concat(nvl2(status, status || '; ', ''), 'PART not found--other_id_number is wrong for collection_cde ')
+					SET status = concat(nvl2(status, status || '; ', ''), 'collection_cde is wrong for other_id_type and other_id_number')
 					WHERE part_collection_object_id is null
 					and collection_cde not in (
 							select collection_cde from cataloged_item 
