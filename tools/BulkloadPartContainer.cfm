@@ -451,7 +451,7 @@ limitations under the License.
 					</cfquery>
 				</cfloop>
 			</cfif>
-		</cfif>
+		
 		<!--- Second set of Validation tests: container terms ---> 
 		<!--- check container terms, use list of keys for row by row validations of containers --->
 		<cfquery name="getTempTableQC1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
