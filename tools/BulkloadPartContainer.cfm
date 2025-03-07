@@ -418,6 +418,12 @@ limitations under the License.
 			</cfif>
 			<cfset collObjID = #collObj.collection_object_id#>
 		</cfloop>	
+		<cfquery name="dataParts2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT *
+			FROM cf_temp_barcode_parts 
+			WHERE status is null
+				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		</cfquery>
 			<cfquery name="partID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE 
 					cf_temp_barcode_parts
@@ -430,12 +436,12 @@ limitations under the License.
 							left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 						where
 							part_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collObjID#">
-							AND part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_name#">
-							AND preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.preserve_method#">					
+							AND part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts2.part_name#">
+							AND preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts2.preserve_method#">					
 						)
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts2.key#"> 
 			</cfquery>
 			<!---Get the part collection_object_id based on the specimen record above collObj.collection_object_id--->
 			<!---	<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
