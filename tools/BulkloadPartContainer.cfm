@@ -571,6 +571,7 @@ limitations under the License.
 							<th>OTHER_ID_NUMBER</th>
 							<th>PART_NAME</th>
 							<th>PRESERVE_METHOD</th>
+							<th>CURRENT_REMARKS</th>
 						<!---	<th>PART_COLLECTION_OBJECT_ID</th>
 							<th>PART_CONTAINER_ID</th>--->
 							<th>CONTAINER_BARCODE</th>
@@ -590,6 +591,7 @@ limitations under the License.
 								<td>#data.other_id_number#</td>
 								<td>#data.part_name#</td>
 								<td>#data.preserve_method#</td>
+								<td>#data.current_remarks#</td>
 							<!---	<td>#data.PART_collection_object_id#</td>
 								<td>#data.part_container_id#</td>--->
 								<td>#data.CONTAINER_BARCODE#</td>
