@@ -386,6 +386,7 @@ limitations under the License.
 			WHERE status is null
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
+		<cfset collObjID = 0>
 		<cfloop query="dataParts">
 			<!---This gets the collection_object_id based on the catalog number/other id--->
 			<cfif dataParts.other_id_type eq 'catalog number'>
