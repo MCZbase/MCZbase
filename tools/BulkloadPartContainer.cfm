@@ -414,14 +414,26 @@ limitations under the License.
 						other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_type#"> and
 						display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
 				</cfquery>
-			</cfif></cfloop>
+			</cfif>
 			<cfif len(collObj.collection_object_id) eq 1>
 				<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE 
 						cf_temp_barcode_parts
 					SET 
 						part_collection_object_id = (
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collObj.collection_object_id#">					
+							select specimen_part.collection_object_id
+							from specimen_part   
+								left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
+								left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+							where
+								part_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collObj.collection_object_id#">
+								AND part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataColl.part_name#">
+								AND preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataColl.preserve_method#">
+								<cfif len(dataColl.current_remarks) EQ 0>
+									AND coll_object_remark.coll_object_remarks IS NULL
+								<cfelse>
+									AND coll_object_remark.coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataColl.current_remarks#">
+								</cfif>							
 							)
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -429,7 +441,7 @@ limitations under the License.
 				</cfquery>
 		
 			</cfif>
-		
+		</cfloop>
 		<!---Get the collection_object_id based on the specimen parts--->
 		<cfif len(collObj.collection_object_id) eq 0>
 			<cfquery name="dataColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -486,13 +498,13 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.key#"> 
 				</cfquery>
-			<!---	<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
 					SET status = concat(nvl2(status, status || '; ', ''), 'PART not found')
 					WHERE part_collection_object_id is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC2.key#">
-				</cfquery>--->
+				</cfquery>
 				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
 					SET status = concat(nvl2(status, status || '; ', ''), 'other_id_number is wrong for collection_cde and other_id_type ')
