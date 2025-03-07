@@ -417,7 +417,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfset collObjID = #collObj.collection_object_id#>
-		
+		#dataParts.part_name#
 		<cfquery name="partID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE 
 				cf_temp_barcode_parts
