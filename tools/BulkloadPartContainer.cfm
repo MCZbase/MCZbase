@@ -627,8 +627,9 @@ limitations under the License.
 									container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
 							</cfquery>	
 						</cfif>
+						<cfset container_updates = container_updates + updateContainer_result.recordcount>
 					</cfloop>
-					<cfset container_updates = container_updates + updateContainer_result.recordcount>
+
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">						
