@@ -387,7 +387,7 @@ limitations under the License.
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfloop query="dataParts">
-			<cfif len(dataParts.collection_object_id) eq 0>
+			<cfif len(dataParts.part_collection_object_id) eq 0>
 			<!---This gets the collection_object_id based on the catalog number/other id--->
 				<cfif #other_id_type# is "catalog number">
 					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
