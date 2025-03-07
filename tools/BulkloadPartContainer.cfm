@@ -399,6 +399,7 @@ limitations under the License.
 						collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#"> and
 						cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
 				</cfquery>
+<!---	CANNOT GET THE OTHER_ID part to work
 			<cfelse>
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
@@ -412,11 +413,8 @@ limitations under the License.
 						collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#"> and
 						other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_type#"> and
 						display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
-				</cfquery>
+				</cfquery>--->
 			</cfif>
-				#collObj.collection_object_id#
-		
-	
 			<!---Get the collection_object_id based on the specimen parts--->
 			<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE 
@@ -738,7 +736,7 @@ limitations under the License.
 				</cftry>
 			</cftransaction>
 			<cfif container_updates GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
-			<h3 class="mt-4">Updated #container_updates# parts#plural# with containers.</h3>
+			<h3 class="mt-4">Updated #container_updates# part#plural# with containers.</h3>
 			<h3 class="text-success">Success, changes applied.</h3>
 			<!--- cleanup --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
