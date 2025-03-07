@@ -419,7 +419,7 @@ limitations under the License.
 		<!---Get the collection_object_id based on the specimen parts--->
 		<cfif len(collObj.collection_object_id) eq 0>
 			<cfquery name="dataColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT collection_cde, institution_acronym,other_id_number,other_id_type,part_name,preserve_method,current_remarks,key
+				SELECT collection_cde, institution_acronym,other_id_number,other_id_type,part_name,preserve_method,current_remarks,part_collection_object_id,key
 				FROM cf_temp_barcode_parts 
 				WHERE status is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
