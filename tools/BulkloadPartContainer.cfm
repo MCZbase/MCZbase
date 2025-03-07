@@ -23,7 +23,7 @@ limitations under the License.
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CURRENT_REMARKS,NEW_CONTAINER_BARCODE,CURRENT_CONTAINER_BARCODE,PART_COLLECTION_OBJECT_ID,CURRENT_PARENT_CONTAINER_ID,NEW_PARENT_CONTAINER_ID
+		SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CURRENT_REMARKS,CONTAINER_BARCODE,CURRENT_CONTAINER_BARCODE,PART_COLLECTION_OBJECT_ID,CURRENT_PARENT_CONTAINER_ID,NEW_PARENT_CONTAINER_ID
 		FROM cf_temp_barcode_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -35,12 +35,12 @@ limitations under the License.
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CURRENT_REMARKS,NEW_CONTAINER_BARCODE,CURRENT_CONTAINER_BARCODE,PART_COLLECTION_OBJECT_ID,CURRENT_PARENT_CONTAINER_ID,NEW_PARENT_CONTAINER_ID">
+<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CURRENT_REMARKS,CONTAINER_BARCODE,CURRENT_CONTAINER_BARCODE,PART_COLLECTION_OBJECT_ID,CURRENT_PARENT_CONTAINER_ID,NEW_PARENT_CONTAINER_ID">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL">
 <cfif listlen(fieldlist) NEQ listlen(fieldTypes)>
 	<cfthrow message = "Error: Bug in the definition of fieldlist[#listlen(fieldlist)#] and fieldType[#listlen(fieldTypes)#] lists, lists must be the same length, but are not.">
 </cfif>
-<cfset requiredfieldlist = "OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,CURRENT_REMARKS,NEW_CONTAINER_BARCODE,PART_COLLECTION_OBJECT_ID">
+<cfset requiredfieldlist = "OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,CURRENT_REMARKS,CONTAINER_BARCODE,PART_COLLECTION_OBJECT_ID">
 
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
@@ -506,7 +506,7 @@ limitations under the License.
 							from 
 								container c
 							where 
-								c.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC3.new_container_barcode#">
+								c.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC3.container_barcode#">
 						)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC3.key#"> 
@@ -514,7 +514,7 @@ limitations under the License.
 				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
 					SET status = concat(nvl2(status, status || '; ', ''), 'CONTAINER not found')
-					WHERE new_container_barcode not in (select barcode from container) 
+					WHERE container_barcode not in (select barcode from container) 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC3.key#">
 				</cfquery>
@@ -568,7 +568,7 @@ limitations under the License.
 							<th>PRESERVE_METHOD</th>
 							<th>PART_COLLECTION_OBJECT_ID</th>
 							<th>PART_CONTAINER_ID</th>
-							<th>NEW_CONTAINER_BARCODE</th>
+							<th>CONTAINER_BARCODE</th>
 							<th>CURRENT_CONTAINER_BARCODE</th>
 							<!---<th>CURRENT_PARENT_CONTAINER_ID</th>
 							<th>NEW_PARENT_CONTAINER_ID</th>--->
@@ -587,7 +587,7 @@ limitations under the License.
 								<td>#data.preserve_method#</td>
 								<td>#data.PART_collection_object_id#</td>
 								<td>#data.part_container_id#</td>
-								<td>#data.NEW_CONTAINER_BARCODE#</td>
+								<td>#data.CONTAINER_BARCODE#</td>
 								<td>#data.CURRENT_CONTAINER_BARCODE#</td>
 <!---								<td>#data.current_parent_container_id#</td>
 								<td>#data.new_parent_container_id#</td>--->
@@ -605,7 +605,7 @@ limitations under the License.
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					new_parent_container_id, part_container_id, new_container_barcode,new_container_barcode,key
+					new_parent_container_id, part_container_id, container_barcode,key
 				FROM 
 					cf_temp_barcode_parts
 				WHERE 
@@ -617,12 +617,12 @@ limitations under the License.
 					<cfset container_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfif len(#getTempData.new_container_barcode#) gt 0>
+						<cfif len(#getTempData.container_barcode#) gt 0>
 							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
 								UPDATE
 									container
 								set 
-									parent_container_id = (select container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.new_container_barcode#">)
+									parent_container_id = (select container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.container_barcode#">)
 								where 
 									container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
 							</cfquery>	
@@ -678,7 +678,7 @@ limitations under the License.
 								<thead>
 									<tr>
 										<th>BULKLOADING&nbsp;STATUS</th>
-										<th>NEW_CONTAINER_BARCODE</th>
+										<th>CONTAINER_BARCODE</th>
 										<th>PART_CONTAINER_ID</th>
 										<th>NEW_PARENT_CONTAINER_ID</th>
 									</tr> 
@@ -687,7 +687,7 @@ limitations under the License.
 									<cfloop query="getProblemData">
 										<tr>
 											<td><cfif len(getProblemData.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
-											<td>#getProblemData.New_container_BARCODE#</td>
+											<td>#getProblemData.container_BARCODE#</td>
 											<td>#getProblemData.part_container_id#</td>
 											<td>#getProblemData.NEW_PARENT_container_id#</td></tr> 
 									</cfloop>
