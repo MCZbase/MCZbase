@@ -156,6 +156,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset min_elev_in_m = queryrow.min_elev_in_m>
 
 			<cfobject type="Java" class="org.filteredpush.qc.georeference.DwCGeoRefDQ" name="dwcGeoRefDQ">
+			<cfobject type="Java" class="org.filteredpush.qc.georeference.DwCGeoRefDQDefaults" name="dwcGeoRefDQDefaults">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Mechanism" name="Mechanism">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Provides" name="Provides">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Validation" name="Validation">
@@ -232,9 +233,19 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset preamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
-			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCountryFound",array2String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationCountryFound(country, "The Getty Thesaurus of Geographic Names (TGN)") >
-			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCountryFound",array2String).getAnnotation(Validation.getClass()).description() >
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationMindepthLessthanMaxdepth",array2String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationMindepthLessthanMaxdepth(min_depth_in_m, max_depth_in_m) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationMindepthLessthanMaxdepth",array2String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationCountryFound",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationCountryFound(country) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationCountryFound",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
@@ -413,9 +424,19 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset postamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
-			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCountryFound",array2String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationCountryFound(country, "The Getty Thesaurus of Geographic Names (TGN)") >
-			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCountryFound",array2String).getAnnotation(Validation.getClass()).description() >
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationMindepthLessthanMaxdepth",array2String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationMindepthLessthanMaxdepth(min_depth_in_m, max_depth_in_m) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationMindepthLessthanMaxdepth",array2String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationCountryFound",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationCountryFound(country) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationCountryFound",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
