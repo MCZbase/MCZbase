@@ -433,7 +433,7 @@ limitations under the License.
 						AND other_id_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.COLLECTION_CDE#">
 						AND other_id_number <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.OTHER_ID_NUMBER#">
 						AND part_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.PART_NAME#">
-						AND preserve_method <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.PRESERVE_METHOD#">
+						AND preserve_method <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.PRESERVE_METHOD#">
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
 				</cfquery>
