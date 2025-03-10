@@ -411,7 +411,7 @@ limitations under the License.
 						collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.collection_cde#"> and
 						collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.institution_acronym#"> and
 						COLL_OBJ_OTHER_ID_NUM.other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.other_id_type#"> and
-						COLL_OBJ_OTHER_ID_NUM.other_id_number=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.other_id_number#"> 
+						COLL_OBJ_OTHER_ID_NUM.display_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.other_id_number#"> 
 				</cfquery>
 			</cfif>
 			<cfloop query="getCOID">
