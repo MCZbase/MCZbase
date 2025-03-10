@@ -359,7 +359,6 @@ limitations under the License.
 									<td>#LOT_COUNT#</td>
 									<td>#CURRENT_REMARKS#</td>
 									<td>#CONDITION#</td>
-									<td>#NEW_CONTAINER_BARCODE#</td>
 									<td class="contcoll">#CONTAINER_BARCODE#</td>
 									<td class="contcoll">#P1_BARCODE#</td>
 									<td class="contcoll">#P2_BARCODE#</td>
