@@ -430,7 +430,7 @@ limitations under the License.
 						status = concat(nvl2(status, status || '; ', ''),'PART_COLLECTION_OBJECT_ID not found with specimen record')
 					WHERE 
 						other_id_number IS NOT NULL
-						and collection_object_id not in (
+						and part_collection_object_id not in (
 							select sp.collection_object_id from specimen_part sp, cataloged_item ci where sp.derived_from_cat_itme = ci.collection_object_id
 							)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
