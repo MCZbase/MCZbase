@@ -670,7 +670,7 @@ limitations under the License.
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					new_parent_container_id, part_container_id, new_container_barcode,key
+					new_parent_container_id, part_container_id, container_barcode,new_container_barcode,key
 				FROM 
 					cf_temp_barcode_parts
 				WHERE 
