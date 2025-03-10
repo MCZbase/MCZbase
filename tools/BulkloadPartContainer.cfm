@@ -696,6 +696,13 @@ limitations under the License.
 					</cfquery>
 				</cfloop>
 			</cfif>
+			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT *
+				FROM 
+					cf_temp_barcode_parts
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
