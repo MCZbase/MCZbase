@@ -381,7 +381,7 @@ limitations under the License.
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfset key = ''>
 		<cfquery name="dataParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT collection_cde,institution_acronym,other_id_number,other_id_type,part_name,preserve_method,container_barcode,current_remarks,key
+			SELECT collection_cde,institution_acronym,other_id_number,other_id_type,part_name,preserve_method,new_container_barcode,current_remarks,key
 			FROM cf_temp_barcode_parts 
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
@@ -440,7 +440,6 @@ limitations under the License.
 					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 			</cfquery>
 		</cfloop>
-							
 		<!--- Second set of Validation tests: container terms ---> 
 		<!--- check container terms, use list of keys for row by row validations of containers --->
 		<cfquery name="getTempTableQC1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -448,9 +447,7 @@ limitations under the License.
 			FROM cf_temp_barcode_parts  
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
-
-				<!---This checks to see if the part collection_object_id is correct by checking the generated item description against the collection_cde, other_id_number, part_name, and preserve_method, if the separate columns content does not match the contents of the item description, the bulkload will fail so they can check that expected parts will be connected to the loan--->
-			
+			<!---This checks to see if the part collection_object_id is correct by checking the generated item description against the collection_cde, other_id_number, part_name, and preserve_method, if the separate columns content does not match the contents of the item description, the bulkload will fail so they can check that expected parts will be connected to the loan--->
 			<cfloop query="getTempTableQC1">
 				<!---Put the container ID of the collection_object into the table--->
 				<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -469,7 +466,7 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
-					SET status = concat(nvl2(status, status || '; ', ''), 'PART not found')
+					SET status = concat(nvl2(status, status || '; ', ''), 'Part container not found')
 					WHERE part_collection_object_id is null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
@@ -537,7 +534,7 @@ limitations under the License.
 				<!---If the new entry in container_barcode is not already in MCZbase, show container not found--->
 				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
-					SET status = concat(nvl2(status, status || '; ', ''), 'CONTAINER not found')
+					SET status = concat(nvl2(status, status || '; ', ''), 'New CONTAINER not found')
 					WHERE NEW_container_barcode not in (select barcode from container) 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC3.key#">
@@ -617,7 +614,7 @@ limitations under the License.
 								<td>#data.current_remarks#</td>
 							<!---	<td>#data.PART_collection_object_id#</td>
 								<td>#data.part_container_id#</td>--->
-								<td>#data.CONTAINER_BARCODE#</td>
+								<td>#data.NEW_CONTAINER_BARCODE#</td>
 								<td>#data.CONTAINER_BARCODE#</td>
 <!---								<td>#data.current_parent_container_id#</td>
 								<td>#data.new_parent_container_id#</td>--->
