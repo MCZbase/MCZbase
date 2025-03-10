@@ -471,7 +471,7 @@ limitations under the License.
 		</cfquery>
 			<!---This checks to see if the part collection_object_id is correct by checking the generated item description against the collection_cde, other_id_number, part_name, and preserve_method, if the separate columns content does not match the contents of the item description, the bulkload will fail so they can check the expected parts --->
 			<cfloop query="getTempTableQC1">
-				<cfquery name="PartProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
+<!---				<cfquery name="PartProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 					UPDATE cf_temp_barcode_parts
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'PART_COLLECTION_OBJECT_ID not found with specimen record')
@@ -486,7 +486,7 @@ limitations under the License.
 							)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
-				</cfquery>
+				</cfquery>--->
 				<!---Put the container ID of the collection_object into the table--->
 				<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts  
@@ -513,7 +513,7 @@ limitations under the License.
 				<cfquery name="ctCatnumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'[MCZ:'|| collection_cde ||':'||other_id_number ||' '|| part_name ||'('|| preserve_method ||')] is not valid for this part. Check collection_cde, other_id_number, part_name, and preserve_method.')
+						status = concat(nvl2(status, status || '; ', ''),'PART_COLLECTION_OBJECT_ID provided does not match [MCZ:'|| collection_cde ||':'||other_id_number ||' '|| part_name ||'('|| preserve_method ||')]')
 					where PART_COLLECTION_OBJECT_ID not in 
 						(
 							select sp.collection_object_id from cataloged_item ci, specimen_part sp 
