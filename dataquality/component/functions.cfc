@@ -71,6 +71,13 @@ libraries found in github.com/filteredpush/ repositories.
                   accepted_lat_long.dec_lat as decimal_latitude, 
                   accepted_lat_long.dec_long as decimal_longitude, 
                   decode(accepted_lat_long.datum,'WGS84','EPSG:4326',accepted_lat_long.datum) as geodeticDatum,
+                  accepted_lat_long.datum as verbatimSRS,
+                  accepted_lat_long.utm_zone || ' ' accepted_lat_long.utm_ew || ' ' accepted_lat_long.utm_ns as verbatimCoordinates,
+                  decode(accepted_lat_long.orig_lat_long_units,
+                                'decimal degrees','geographic',
+                                'deg. min. sec.', 'geographic',
+                                'UTM', 'UTM',
+                                'degrees dec. minutes','geographic') as verbatimCoordinateSystem,
 						to_meters(accepted_lat_long.max_error_distance, accepted_lat_long.max_error_units) coordinateuncertaintyinmeters,
                   decode(accepted_lat_long.orig_lat_long_units,
                                 'decimal degrees',
@@ -150,6 +157,12 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset geodeticDatum = queryrow.geodeticDatum>
 			<cfset verbatimlatitude = queryrow.verbatimlatitude>
 			<cfset verbatimlongitude = queryrow.verbatimlongitude>
+			<cfset verbatimSRS = queryrow.verbatimSRS>
+			<cfset verbatimCoordinateSystem = queryrow.verbatimCoordinateSystem>
+			<cfset verbatimCoordinates = ''>
+			<cfif verbatimCoordinateSystem EQ 'UTM'>
+				<cfset verbatimCoordinates = queryrow.verbatimCoordinates>
+			</cfif>
 			<cfset max_depth_in_m = queryrow.max_depth_in_m>
 			<cfset min_depth_in_m = queryrow.min_depth_in_m>
 			<cfset max_elev_in_m = queryrow.max_elev_in_m>
@@ -164,11 +177,17 @@ libraries found in github.com/filteredpush/ repositories.
 			<!--- Obtain mechanism from annotation on class --->
 			<cfset result.mechanism = dwcGeoRefDQ.getClass().getAnnotation(Mechanism.getClass()).label() >
 			<cfset aString = ""><!--- a String variable, for invocation of getClass() --->
+			<cfset array1String = ArrayNew(1)>
+			<cfset ArraySet(array1String,1,1,aString.getClass())>
+			<cfset array2String = ArrayNew(1)>
+			<cfset ArraySet(array2String,1,2,aString.getClass())>
+			<cfset array5String = ArrayNew(1)>
+			<cfset ArraySet(array5String,1,5,aString.getClass())>
+			<cfset array8String = ArrayNew(1)>
+			<cfset ArraySet(array8String,1,8,aString.getClass())>
 
 			<!--- pre-amendment phase --->
 
-			<cfset array5String = ArrayNew(1)>
-			<cfset ArraySet(array5String,1,5,aString.getClass())>
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCoordinatesCountrycodeConsistent",array5String).getAnnotation(Provides.getClass()).value() >
 			<cfset dqResponse = dwcGeoRefDQ.validationCoordinatesCountrycodeConsistent(javaCast("string",decimal_latitude),javaCast("string",decimal_longitude), countrycode, "10000", "") >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCoordinatesCountrycodeConsistent",array5String).getAnnotation(Validation.getClass()).description() >
@@ -179,8 +198,6 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset preamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
-			<cfset array2String = ArrayNew(1)>
-			<cfset ArraySet(array2String,1,2,aString.getClass())>
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCoordinatesNotzero",array2String).getAnnotation(Provides.getClass()).value() >
 			<cfset dqResponse = dwcGeoRefDQ.validationCoordinatesNotzero(javaCast("string",decimal_latitude),javaCast("string",decimal_longitude)) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCoordinatesNotzero",array2String).getAnnotation(Validation.getClass()).description() >
@@ -191,8 +208,6 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset preamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
-			<cfset array1String = ArrayNew(1)>
-			<cfset ArraySet(array1String,1,1,aString.getClass())>
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCoordinateuncertaintyInrange",array1String).getAnnotation(Provides.getClass()).value() >
 			<cfset dqResponse = dwcGeoRefDQ.validationCoordinateuncertaintyInrange(javaCast("string",coordinateuncertaintyinmeters)) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCoordinateuncertaintyInrange",array1String).getAnnotation(Validation.getClass()).description() >
@@ -236,6 +251,46 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationMindepthLessthanMaxdepth",array2String).getAnnotation(Provides.getClass()).value() >
 			<cfset dqResponse = dwcGeoRefDQ.validationMindepthLessthanMaxdepth(min_depth_in_m, max_depth_in_m) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationMindepthLessthanMaxdepth",array2String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationMinelevationInrange",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationMinelevationInrange(min_elev_in_m) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationMinelevationInrange",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationMaxelevationInrange",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationMaxelevationInrange(max_elev_in_m) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationMaxelevationInrange",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationMindepthInrange",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationMindepthInrange(min_depth_in_m) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationMinelevationInrange",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationMaxdepthInrange",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationMaxdepthInrange(max_depth_in_m) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationMaxdepthInrange",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
@@ -355,11 +410,26 @@ libraries found in github.com/filteredpush/ repositories.
          <cfset amendment[providesGuid] = r >
          <cfset r=structNew()>
 
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("amendmentCoordinatesFromVerbatim",array8String).getAnnotation(Provides.getClass()).value() >
+         <cfset dqResponse= dwcGeoRefDQ.amendmentCoordinatesFromVerbatim(decimal_latitude,decimal_longitude,geodeticDatum,verbatimCoordinates,verbatimLatitude,verbatimLongitude,verbatimSRS,verbatimCoordinateSystem) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("amendmentCoordinatesFromVerbatim",array8String).getAnnotation(AmendmentC.getClass()).description() >
+         <cfset r.type = "AMENDMENT" >
+         <cfset r.status = dqResponse.getResultState().getLabel() >
+         <cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
+            <cfset decimal_latitude = dqResponse.getValue().getObject().get("dwc:decimalLatitude") >
+            <cfset decimal_longitude  = dqResponse.getValue().getObject().get("dwc:decimalLongitude") >
+            <cfset geodeticDatum = dqResponse.getValue().getObject().get("dwc:geodeticDatum") >
+            <cfset r.value = dqResponse.getValue().getObject().toString() >
+         <cfelse>
+            <cfset r.value = "">
+         </cfif>
+         <cfset r.comment = dqResponse.getComment() >
+         <cfset amendment[providesGuid] = r >
+         <cfset r=structNew()>
+
 
 			<!--- post-amendment phase --->
 
-			<cfset array5String = ArrayNew(1)>
-			<cfset ArraySet(array5String,1,5,aString.getClass())>
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCoordinatesCountrycodeConsistent",array5String).getAnnotation(Provides.getClass()).value() >
 			<cfset dqResponse = dwcGeoRefDQ.validationCoordinatesCountrycodeConsistent(javaCast("string",decimal_latitude),javaCast("string",decimal_longitude), countrycode, "10000", "") >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCoordinatesCountrycodeConsistent",array5String).getAnnotation(Validation.getClass()).description() >
@@ -370,8 +440,6 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset postamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
-			<cfset array2String = ArrayNew(1)>
-			<cfset ArraySet(array2String,1,2,aString.getClass())>
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCoordinatesNotzero",array2String).getAnnotation(Provides.getClass()).value() >
 			<cfset dqResponse = dwcGeoRefDQ.validationCoordinatesNotzero(javaCast("string",decimal_latitude),javaCast("string",decimal_longitude)) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCoordinatesNotzero",array2String).getAnnotation(Validation.getClass()).description() >
@@ -382,8 +450,6 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset postamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
-			<cfset array1String = ArrayNew(1)>
-			<cfset ArraySet(array1String,1,1,aString.getClass())>
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCoordinateuncertaintyInrange",array1String).getAnnotation(Provides.getClass()).value() >
 			<cfset dqResponse = dwcGeoRefDQ.validationCoordinateuncertaintyInrange(javaCast("string",coordinateuncertaintyinmeters)) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCoordinateuncertaintyInrange",array1String).getAnnotation(Validation.getClass()).description() >
@@ -427,6 +493,46 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationMindepthLessthanMaxdepth",array2String).getAnnotation(Provides.getClass()).value() >
 			<cfset dqResponse = dwcGeoRefDQ.validationMindepthLessthanMaxdepth(min_depth_in_m, max_depth_in_m) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationMindepthLessthanMaxdepth",array2String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationMinelevationInrange",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationMinelevationInrange(min_elev_in_m) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationMinelevationInrange",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationMaxelevationInrange",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationMaxelevationInrange(max_elev_in_m) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationMaxelevationInrange",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationMindepthInrange",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationMindepthInrange(min_depth_in_m) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationMinelevationInrange",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationMaxdepthInrange",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationMaxdepthInrange(max_depth_in_m) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationMaxdepthInrange",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
