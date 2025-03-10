@@ -668,14 +668,37 @@ limitations under the License.
 	<cfif variables.action is "load">
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
-			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT 
-					new_parent_container_id,collection_cde,other_id_type,other_id_number,institution_acronym,part_container_id,container_barcode,new_container_barcode,key
+			<cfquery name="getSpecRec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT collection_cde,other_id_type,other_id_number,institution_acronym,key
 				FROM 
 					cf_temp_barcode_parts
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfquery name="getCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCOID_result">
+				SELECT
+					collection_object_id
+				FROM
+					cataloged_item 
+					join collection on cataloged_item.collection_id = collection.collection_id
+				WHERE
+					collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSpecRec.collection_cde#"> and
+					collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSpecRec.institution_acronym#"> and
+					collection.other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSpecRec.other_id_type#"> and
+					cataloged_item.cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSpecRec.other_id_number#"> 
+			</cfquery>
+			
+			<cfif getSpecRec.other_id_type eq 'catalog number' and getCOID_result.recordcount lt 50>
+				<cfloop query="collObj">
+					<cfquery name="" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_barcode_parts
+						SET collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSpecRec.other_id_number#">
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC3.key#">
+					</cfquery>
+				</cfloop>
+			</cfif>
+
 			<!---This gets the collection_object_id based on the catalog number/other id--->
 
 			<cfset problem_key = "">
@@ -684,19 +707,6 @@ limitations under the License.
 					<cfset container_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-							<cfif getTempData.other_id_type eq 'catalog number' and getTempData.recordcount lt 50>
-								<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="collObj_result">
-									SELECT
-										collection_object_id
-									FROM
-										cataloged_item 
-										join collection on cataloged_item.collection_id = collection.collection_id
-									WHERE
-										collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#"> and
-										collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#"> and
-										cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
-								</cfquery>
-							</cfif>
 							<cfif len(#getTempData.new_container_barcode#) gt 0>
 								<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
 									UPDATE
