@@ -553,11 +553,11 @@ limitations under the License.
 			</cfquery>
 		
 			<cfloop query="getTempTableQC4">
-				<cfif len(new_container_barcode) eq 0>
+				<cfif len(container_barcode) eq 0>
 					<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts  
 						SET 
-							new_container_barcode = (
+							container_barcode = (
 								select c.barcode 
 								from 
 									container c
