@@ -469,7 +469,7 @@ limitations under the License.
 			FROM cf_temp_barcode_parts  
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
-			<!---This checks to see if the part collection_object_id is correct by checking the generated item description against the collection_cde, other_id_number, part_name, and preserve_method, if the separate columns content does not match the contents of the item description, the bulkload will fail so they can check that expected parts will be connected to the loan--->
+			<!---This checks to see if the part collection_object_id is correct by checking the generated item description against the collection_cde, other_id_number, part_name, and preserve_method, if the separate columns content does not match the contents of the item description, the bulkload will fail so they can check the expected parts --->
 			<cfloop query="getTempTableQC1">
 				<cfquery name="PartProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 					UPDATE cf_temp_barcode_parts
@@ -511,7 +511,7 @@ limitations under the License.
 				</cfquery>
 				<!---This checks to see if the collection_cde, other_id_number, part_name, and preserve_methods create a collection_object_id that matches the one provided in the part download/report. We want to make sure nothing was changed by mistake, making it harder to find the parts on the shelf based on the csv.--->
 				<cfquery name="ctCatnumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_loan_item
+					UPDATE cf_temp_barcode_parts
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'[MCZ:'|| collection_cde ||':'||other_id_number ||' '|| part_name ||'('|| preserve_method ||')] is not valid for this part. Check collection_cde, other_id_number, part_name, and preserve_method.')
 					where PART_COLLECTION_OBJECT_ID not in 
