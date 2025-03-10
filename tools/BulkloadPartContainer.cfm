@@ -433,8 +433,8 @@ limitations under the License.
 						other_id_number IS NOT NULL
 						and part_collection_object_id not in (
 							select sp.collection_object_id from specimen_part sp, cataloged_item ci where sp.derived_from_cat_item = ci.collection_object_id
-							and cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.other_id_number#">
-							and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.collection_cde#">
+							and ci.cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.other_id_number#">
+							and ci.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.collection_cde#">
 							)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
