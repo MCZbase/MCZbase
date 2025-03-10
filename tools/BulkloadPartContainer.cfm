@@ -684,7 +684,6 @@ limitations under the License.
 				WHERE
 					collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSpecRec.collection_cde#"> and
 					collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSpecRec.institution_acronym#"> and
-					collection.other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSpecRec.other_id_type#"> and
 					cataloged_item.cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSpecRec.other_id_number#"> 
 			</cfquery>
 			
