@@ -42,6 +42,15 @@ limitations under the License.
 		COR.COLL_OBJECT_REMARKS as CURRENT_REMARKS,
 		<cfif action IS "downloadBulkloader" OR action IS "downloadBulkloaderAll">
 			pc.barcode as CONTAINER_UNIQUE_ID,
+		<cfelseif action IS "downloadBulkPartContainer">
+			'' as NEW_CONTAINER_BARCODE,
+			pc.barcode as CONTAINER_BARCODE,
+			nvl(pc1.barcode,pc1.label) as P1_BARCODE,
+			nvl(pc2.barcode,pc2.label) as P2_BARCODE,
+			nvl(pc3.barcode,pc3.label) as P3_BARCODE,
+			nvl(pc4.barcode,pc4.label) as P4_BARCODE,
+			nvl(pc5.barcode,pc5.label) as P5_BARCODE,
+			nvl(pc6.barcode,pc6.label) as P6_BARCODE,
 		<cfelse>
 			pc.barcode as CONTAINER_BARCODE,
 			nvl(pc1.barcode,pc1.label) as P1_BARCODE,
@@ -196,7 +205,16 @@ limitations under the License.
 	<cfheader name="Content-disposition" value="attachment;filename=PARTS_download.csv">
 	<cfoutput>#strOutput2#</cfoutput>
 	<cfabort>
-		
+<!------------------------------------------------------------------------>
+<cfelseif action is "downloadBulkPartContainer">
+	<!--- download csv for part container bulkload --->
+	<cfinclude template="/shared/component/functions.cfc">
+	<cfset strOutput2 = QueryToCSV(getParts)>
+	<cfheader name="Content-Type" value="text/csv">
+	<cfheader name="Content-disposition" value="attachment;filename=PARTS_downloadForPartContainerBulk.csv">
+	<cfoutput>#strOutput2#</cfoutput>
+	<cfabort>
+<!------------------------------------------------------------------------->
 <cfelseif action is "downloadPartLoanItems">
 	<!--- download csv for loan item bulkload --->
 	<cfinclude template="/shared/component/functions.cfc">
