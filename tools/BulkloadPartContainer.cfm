@@ -744,18 +744,26 @@ limitations under the License.
 								<thead>
 									<tr>
 										<th>BULKLOADING&nbsp;STATUS</th>
-										<th>CONTAINER_BARCODE</th>
+										<th>COLLECTION_CDE</th>
+										<th>OTHER_ID_TYPE</th>
+										<th>OTHER_ID_NUMBER</th>
 										<th>PART_CONTAINER_ID</th>
+										<th>NEW_CONTAINER_BARCODE</th>
+										
 										<th>NEW_PARENT_CONTAINER_ID</th>
+										<th></th>
 									</tr> 
 								</thead>
 								<tbody>
 									<cfloop query="getProblemData">
 										<tr>
 											<td><cfif len(getProblemData.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
-											<td>#getProblemData.container_BARCODE#</td>
-											<td>#getProblemData.part_container_id#</td>
-											<td>#getProblemData.NEW_PARENT_container_id#</td></tr> 
+											<td>#getProblemData.COLLECTION_CDE#</td>
+											<td>#getProblemData.OTHER_ID_TYPE#</td>
+											<td>#getProblemData.OTHER_ID_NUMBER#</td>
+											<td>#getProblemData.NEW_CONTAINER_BARCODE#</td>
+											<td>#getProblemData.PART_CONTAINER_ID#</td>
+											<td>#getProblemData.NEW_PARENT_CONTAINER_ID#</td></tr> 
 									</cfloop>
 								</tbody>
 							</table>
