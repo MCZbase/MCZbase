@@ -427,13 +427,12 @@ limitations under the License.
 				<cfquery name="PartProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 					UPDATE cf_temp_barcode_parts
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'PART_COLLECTION_OBJECT_ID does not match expected value')
+						status = concat(nvl2(status, status || '; ', ''),'PART_COLLECTION_OBJECT_ID not found with specimen record')
 					WHERE 
 						other_id_number IS NOT NULL
-						AND other_id_type != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.COLLECTION_CDE#">
-						AND other_id_number != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.OTHER_ID_NUMBER#">
-						AND part_name != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.PART_NAME#">
-						AND preserve_method != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.PRESERVE_METHOD#">
+						and collection_object_id not in (
+							select sp.collection_object_id from specimen_part sp, cataloged_item ci where sp.derived_from_cat_itme = ci.collection_object_id
+							)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
 				</cfquery>
