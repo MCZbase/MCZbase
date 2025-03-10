@@ -698,9 +698,6 @@ limitations under the License.
 					</cfquery>
 				</cfloop>
 			</cfif>
-
-			<!---This gets the collection_object_id based on the catalog number/other id--->
-
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
