@@ -656,7 +656,6 @@ limitations under the License.
 								<td>#data.CONTAINER_BARCODE#</td>
 								<td>#data.current_parent_container_id#</td>
 								<td>#data.new_parent_container_id#</td>
-
 							</tr>
 						</cfloop>
 					</tbody>
@@ -691,7 +690,7 @@ limitations under the License.
 				<cfloop query="getCOID">
 					<cfquery name="" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts
-						SET collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSpecRec.other_id_number#">
+						SET collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCOID.collection_object_id#">
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getSpecRec.key#">
 					</cfquery>
