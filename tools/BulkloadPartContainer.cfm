@@ -424,6 +424,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 				</cfquery>
+				<!---Check to see that a provided part_collection_object_id matches the expected cat_num--->
 				<cfquery name="PartProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 					UPDATE cf_temp_barcode_parts
 					SET
@@ -432,6 +433,9 @@ limitations under the License.
 						other_id_number IS NOT NULL
 						and part_collection_object_id not in (
 							select sp.collection_object_id from specimen_part sp, cataloged_item ci where sp.derived_from_cat_item = ci.collection_object_id
+							and other_id_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.other_id_number#">
+							and other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.other_id_type#">
+							and collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.collection_cde#">
 							)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
