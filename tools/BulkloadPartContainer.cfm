@@ -435,7 +435,7 @@ limitations under the License.
 							where			
 								part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_name#">
 								and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.preserve_method#">
-								and derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObj.collection_object_id#">
+								and derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCOID.collection_object_id#">
 								<cfif len(dataParts.current_remarks) EQ 0>
 									and coll_object_remark.coll_object_remarks IS NULL
 								<cfelse>
