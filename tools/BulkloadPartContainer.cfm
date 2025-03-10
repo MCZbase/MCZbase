@@ -547,7 +547,7 @@ limitations under the License.
 			<!---This comes from the collection object container parent in getTempTableQC2--->
 			
 			<cfquery name="getTempTableQC4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT current_parent_container_id, key
+				SELECT current_parent_container_id, new_container_barcode,key
 				FROM cf_temp_barcode_parts  
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
