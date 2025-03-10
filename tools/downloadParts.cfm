@@ -294,7 +294,7 @@ limitations under the License.
 								<input type="submit" value="Filter Parts" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Download Parts CSV for Bulkload Edited Parts" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Download Parts CSV for Bulkload Edited Parts with (blank) Attributes" onClick='document.getElementById("action").value="downloadBulkloaderAll";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
-								<input type="button" value="Download Parts CSV with Container placements" onClick='document.getElementById("action").value="download";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
+								<input type="button" value="Download Parts CSV with Container placements" onClick='document.getElementById("action").value="downloadBulkPartContainer";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Download Parts CSV with Loan Item fields" onClick='document.getElementById("action").value="downloadPartLoanItems";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 							</div>
 						</div>			
@@ -359,6 +359,7 @@ limitations under the License.
 									<td>#LOT_COUNT#</td>
 									<td>#CURRENT_REMARKS#</td>
 									<td>#CONDITION#</td>
+									<td>#NEW_CONTAINER_BARCODE#</td>
 									<td class="contcoll">#CONTAINER_BARCODE#</td>
 									<td class="contcoll">#P1_BARCODE#</td>
 									<td class="contcoll">#P2_BARCODE#</td>
