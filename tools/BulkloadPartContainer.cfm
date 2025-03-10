@@ -401,17 +401,13 @@ limitations under the License.
 				</cfquery>
 			<cfelse>
 				<cfquery name="getCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCOID_result">
-					SELECT
-						collection_object_id
-					FROM
-						cataloged_item ci
-						join collection c on ci.collection_id = c.collection_id
-						join COLL_OBJ_OTHER_ID_NUM cn on cn.collection_object_id = ci.collection_object_id
-					WHERE
-						collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.collection_cde#"> and
-						collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.institution_acronym#"> and
-						COLL_OBJ_OTHER_ID_NUM.other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.other_id_type#"> and
-						COLL_OBJ_OTHER_ID_NUM.display_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.other_id_number#"> 
+					SELECT ci.collection_object_id FROM cataloged_item ci 
+						join collection c on ci.collection_id = c.collection_id 
+						join COLL_OBJ_OTHER_ID_NUM cn on cn.collection_object_id = ci.collection_object_id 
+						WHERE c.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.collection_cde#"> and
+							c.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.institution_acronym#"> and
+							cn.other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.other_id_type#"> and
+							cn.display_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.other_id_number#"> 
 				</cfquery>
 			</cfif>
 			<cfloop query="getCOID">
