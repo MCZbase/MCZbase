@@ -400,6 +400,7 @@ limitations under the License.
 						cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
 				</cfquery>
 			</cfif>
+			
 			<!---Get the part_collection_object_id based on the specimen record COID--->
 			<cfif #collObj_result.recordcount# eq 1>
 				<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -442,13 +443,12 @@ limitations under the License.
 									and coll_object_remark.coll_object_remarks IS NULL
 								<cfelse>
 									and coll_object_remark.coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.current_remarks#">
-								</cfif>							
+								</cfif>
 							)
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 				</cfquery>
-				
 			<cfelse>
 				<cfquery name="getPartColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
@@ -670,28 +670,43 @@ limitations under the License.
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					new_parent_container_id, part_container_id, container_barcode,new_container_barcode,key
+					new_parent_container_id,collection_cde,other_id_number,institution_acronym,part_container_id,container_barcode,new_container_barcode,key
 				FROM 
 					cf_temp_barcode_parts
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<!---This gets the collection_object_id based on the catalog number/other id--->
+
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
 					<cfset container_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfif len(#getTempData.new_container_barcode#) gt 0>
-							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
-								UPDATE
-									container
-								set 
-									parent_container_id = (select container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.new_container_barcode#">)
-								where 
-									container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
-							</cfquery>	
-						</cfif>
+							<cfif getTempData.other_id_type eq 'catalog number' and getTempData.recordcount lt 50>
+								<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="collObj_result">
+									SELECT
+										collection_object_id
+									FROM
+										cataloged_item 
+										join collection on cataloged_item.collection_id = collection.collection_id
+									WHERE
+										collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#"> and
+										collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#"> and
+										cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">
+								</cfquery>
+							</cfif>
+							<cfif len(#getTempData.new_container_barcode#) gt 0>
+								<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
+									UPDATE
+										container
+									set 
+										parent_container_id = (select container_id from container where barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.new_container_barcode#">)
+									where 
+										container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
+								</cfquery>	
+							</cfif>
 						<cfset container_updates = container_updates + updateContainer_result.recordcount>
 					</cfloop>
 
@@ -775,7 +790,7 @@ limitations under the License.
 			<cfif container_updates GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
 			<h3 class="mt-4">Updated #container_updates# part#plural# with containers.</h3>
 				<h3 class="text-success">Success, changes applied. </h3>
-				<h3><a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#encodeForUrl(valuelist(getProblemData.collection_object_id))#&closeParens1=0">Specimen Records</a></h3>
+				<h3><a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJ.%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#encodeForUrl(valuelist(getTempData.collection_object_id))#&closeParens1=0">Specimen Records</a></h3>
 			<!--- cleanup --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_barcode_parts 
