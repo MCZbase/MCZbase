@@ -545,7 +545,7 @@ limitations under the License.
 			</cfloop>
 			<!---Find the current container that shows in the part row on the specimen record and put it in the table so the change can be seen easily--->
 			<!---This comes from the collection object container parent in getTempTableQC2--->
-			<cfif len(container_barcode) eq 0>
+			<cfif len(getTempTableQC1.container_barcode) eq 0>
 				<cfquery name="getTempTableQC4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT current_parent_container_id, container_barcode,key
 					FROM cf_temp_barcode_parts  
