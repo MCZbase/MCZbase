@@ -424,7 +424,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 				</cfquery>
-				<!---Check to see that a provided part_collection_object_id matches the expected cat_num--->
+			<cfelseif len(part_collection_object_id) 
 				
 				<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE 
@@ -682,7 +682,7 @@ limitations under the License.
 					<cfset container_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfif len(#getTempData.container_barcode#) gt 0>
+						<cfif len(#getTempData.new_container_barcode#) gt 0>
 							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateContainer_result">
 								UPDATE
 									container
