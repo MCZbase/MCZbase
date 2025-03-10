@@ -545,15 +545,13 @@ limitations under the License.
 			</cfloop>
 			<!---Find the current container that shows in the part row on the specimen record and put it in the table so the change can be seen easily--->
 			<!---This comes from the collection object container parent in getTempTableQC2--->
-			
-			<cfquery name="getTempTableQC4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT current_parent_container_id, container_barcode,key
-				FROM cf_temp_barcode_parts  
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-		
-			<cfloop query="getTempTableQC4">
-				<cfif len(container_barcode) eq 0>
+			<cfif len(container_barcode) eq 0>
+				<cfquery name="getTempTableQC4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT current_parent_container_id, container_barcode,key
+					FROM cf_temp_barcode_parts  
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfloop query="getTempTableQC4">
 					<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts  
 						SET 
@@ -567,17 +565,8 @@ limitations under the License.
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC4.key#"> 
 					</cfquery>
-				<!---I already have this check at line 540
-					<cfelse>
-					<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_barcode_parts
-						SET status = concat(nvl2(status, status || '; ', ''), 'CONTAINER not found')
-						WHERE NEW_container_barcode not in (select barcode from container) 
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC3.key#">
-					</cfquery>--->
-				</cfif>
-			</cfloop>
+				</cfloop>
+			</cfif>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT * 
 				FROM cf_temp_barcode_parts 
