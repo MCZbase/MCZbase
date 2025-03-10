@@ -688,12 +688,12 @@ limitations under the License.
 			</cfquery>
 			
 			<cfif getSpecRec.other_id_type eq 'catalog number' and getCOID_result.recordcount lt 50>
-				<cfloop query="collObj">
+				<cfloop query="getCOID">
 					<cfquery name="" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts
 						SET collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSpecRec.other_id_number#">
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC3.key#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getSpecRec.key#">
 					</cfquery>
 				</cfloop>
 			</cfif>
