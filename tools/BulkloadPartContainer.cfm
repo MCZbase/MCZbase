@@ -404,9 +404,9 @@ limitations under the License.
 					SELECT
 						collection_object_id
 					FROM
-						cataloged_item 
-						join collection on cataloged_item.collection_id = collection.collection_id
-						join COLL_OBJ_OTHER_ID_NUM cn on cn.collection_object_id = cataloged_item.collection_object_id
+						cataloged_item ci
+						join collection c on ci.collection_id = c.collection_id
+						join COLL_OBJ_OTHER_ID_NUM cn on cn.collection_object_id = ci.collection_object_id
 					WHERE
 						collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.collection_cde#"> and
 						collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.institution_acronym#"> and
@@ -446,7 +446,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 				</cfquery>
-			<cfelseif len(part_collection_object_id) >
+<!---			<cfelseif len(part_collection_object_id) >
 				
 				<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE 
@@ -469,7 +469,7 @@ limitations under the License.
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
-				</cfquery>
+				</cfquery>--->
 			<cfelse>
 				<cfquery name="getPartColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
