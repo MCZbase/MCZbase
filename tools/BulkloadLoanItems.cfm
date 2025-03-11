@@ -802,7 +802,7 @@ limitations under the License.
 						<cftransaction action="ROLLBACK">
 						<h3>There was a problem updating the loan items.</h3>
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT STATUS,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,CONTAINER_BARCODE,SUBSAMPLE,LOAN_NUMBER,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID
+							SELECT STATUS,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,CONTAINER_BARCODE,SUBSAMPLE,LOAN_NUMBER,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID
 							FROM cf_temp_loan_item 
 							WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 						</cfquery>
@@ -876,6 +876,7 @@ limitations under the License.
 										<th>TRANSACTION_ID</th>
 										<th>BARCODE</th>
 										<th>PART_NAME</th>
+										<th>PRESERVE_METHOD</th>
 										<th>ITEM_DESCRIPTION</th>
 										<th>SUBSAMPLE</th>
 									</tr> 
@@ -893,6 +894,7 @@ limitations under the License.
 											<td>#getProblemData.transaction_id# </td>
 											<td>#getProblemData.container_barcode#</td>
 											<td>#getProblemData.part_name# </td>
+											<td>#getProblemData.preserve_method#</td>
 											<td>#getProblemData.item_description# </td>
 											<td>#getProblemData.subsample# </td>
 										</tr>
