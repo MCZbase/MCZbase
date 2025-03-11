@@ -792,7 +792,9 @@ limitations under the License.
 							WHERE
 								loan.transaction_id = loan_item.transaction_id 
 								AND loan.transaction_id in (
-									select transaction_id from updateLoan1
+									select transaction_id
+									from loan_item 
+									where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PART_COLLECTION_OBJECT_ID#">
 									)
 						</cfquery>
 						<cfset loan_updates = loan_updates + updateLoan_result.recordcount>
