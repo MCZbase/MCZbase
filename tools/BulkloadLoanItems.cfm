@@ -95,15 +95,7 @@ limitations under the License.
 				<li>Loan Item reconciled date is today (2024-07-18) - automatically added</li>
 				<li>Worksheet/CSV was generated from a manage specimen results Parts Report/Download and clicking the button "Download Parts CSV with Loan Item fields"</li>
 			</ul>
-			
-<!---			<h2 class="h4">Use Template to Load Data</h2>
-			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
-			<div id="template" class="my-1 mx-0">
-				<label for="templatearea" class="data-entry-label" style="line-height: inherit;">
-					Copy this header line, paste it into a blank worksheet, and save it as a .csv file or <a href="/tools/BulkloadLoanItems.cfm?action=getCSVHeader" class="font-weight-bold">download</a> a template.
-				</label>
-				<textarea style="height: 36px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
-			</div>--->
+			<p>Additional part-related columns are included to help identify the parts (shown at validation step)]. They are not needed for this bulkloader.</p>
 			<div class="accordion" id="accordionIdentifiers">
 				<div class="card mb-2 bg-light">
 					<div class="card-header" id="headingIdentifiers">
