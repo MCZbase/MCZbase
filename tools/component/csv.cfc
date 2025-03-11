@@ -314,7 +314,7 @@ limitations under the License.
 			<cfif additionalCount GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 			<cfif additionalCount GT 1><cfset plural1a="are"><cfelse><cfset plural1a="is"></cfif>
 			<cfif #fieldList# contains 'loan_number'><cfset message="Note:"><cfelse><cfset message="Warning:"></cfif>
-			<h3 class="h4">#Message#: Found #additionalCount# additional column header#plural1# in the CSV that #plural1a# not in the list of expected headers above: </h3>
+			<h3 class="h4">#Message# Found #additionalCount# additional column header#plural1# in the CSV that #plural1a# not in the list of expected headers above: </h3>
 			<!--- Identify additional columns that will be ignored --->
 			<ul class="pb-1 h4">
 				<cfloop list="#foundHeaders#" item="aField">
