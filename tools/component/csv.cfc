@@ -313,7 +313,7 @@ limitations under the License.
 		<cfif containsAdditional >
 			<cfif additionalCount GT 1><cfset plural1="s"><cfelse><cfset plural1=""></cfif>
 			<cfif additionalCount GT 1 and #fieldList# contains 'LOAN_NUMBER' OR #fieldList# contains 'PART_COLLECTION_OBJECT_ID'>
-				<cfset extra="The extra columns from the part download will not affect the load and may help to find the specimens.">
+				<cfset extra="The extra columns from the part download will not affect the load and may help to find specimens in the collection space.">
 			<cfelse>
 				<cfset extra="">
 			</cfif>
