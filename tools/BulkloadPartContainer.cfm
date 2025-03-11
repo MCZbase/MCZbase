@@ -401,13 +401,11 @@ limitations under the License.
 				</cfquery>
 			<cfelse>
 				<cfquery name="getCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCOID_result">
-					SELECT ci.collection_object_id FROM cataloged_item ci 
-						join collection c on ci.collection_id = c.collection_id 
-						join COLL_OBJ_OTHER_ID_NUM cn on cn.collection_object_id = ci.collection_object_id 
-						WHERE c.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.collection_cde#"> and
-							c.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.institution_acronym#"> and
-							cn.other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.other_id_type#"> and
-							cn.display_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.other_id_number#"> 
+					update cf_temp_barcode_parts 
+					SET status = concat(nvl2(status, status || '; ', ''), 'cat_num or collection_cde not found; catalog number other_id_type only')
+					WHERE other_id_type is not 'catalog number'
+					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
 				</cfquery>
 			</cfif>
 			<cfloop query="getCOID">
