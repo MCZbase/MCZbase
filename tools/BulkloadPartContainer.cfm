@@ -468,7 +468,7 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC1.key#"> 
 				</cfquery>
-				<!---This checks to see if the collection_cde, other_id_number, part_name, and preserve_methods create a collection_object_id that matches the one provided in the part download/report. We want to make sure nothing was changed by mistake, making it harder to find the parts on the shelf based on the csv.--->
+				<!---This checks to see if the collection_cde, other_id_number, part_name, and preserve_methods create a collection_object_id that matches the one provided in the part download/report. We want to make sure nothing was changed by mistake, making it harder to find the parts on the shelf based on the csv. --->
 				<cfquery name="ctCatnumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
 					SET
@@ -592,6 +592,7 @@ limitations under the License.
 					<span class="text-success">Validation checks passed.</span> Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load" class="btn-link font-weight-lessbold">click to continue</a> if it all looks good. Or, <a href="/tools/BulkloadPartContainer.cfm" class="text-danger">start again</a>.
 				</cfif>
 			</h3>
+				<!---Hiding fields that were used in development and may confuse user--->
 				<table class='px-0 sortable small table table-responsive table-striped'>
 					<thead class="thead-light">
 						<tr>
@@ -604,11 +605,11 @@ limitations under the License.
 							<th>PRESERVE_METHOD</th>
 							<th>CURRENT_REMARKS</th>
 							<th>PART_COLLECTION_OBJECT_ID</th>
-							<th>PART_CONTAINER_ID</th>
+						<!---	<th>PART_CONTAINER_ID</th>--->
 							<th>NEW_CONTAINER_BARCODE</th>
 							<th>CONTAINER_BARCODE</th>
-							<th>CURRENT_PARENT_CONTAINER_ID</th>
-							<th>NEW_PARENT_CONTAINER_ID</th>
+						<!---	<th>CURRENT_PARENT_CONTAINER_ID</th>
+							<th>NEW_PARENT_CONTAINER_ID</th>--->
 
 						</tr>
 					</thead>
@@ -624,11 +625,11 @@ limitations under the License.
 								<td>#data.preserve_method#</td>
 								<td>#data.current_remarks#</td>
 								<td>#data.PART_collection_object_id#</td>
-								<td>#data.part_container_id#</td>
+								<!---<td>#data.part_container_id#</td>--->
 								<td>#data.NEW_CONTAINER_BARCODE#</td>
 								<td>#data.CONTAINER_BARCODE#</td>
-								<td>#data.current_parent_container_id#</td>
-								<td>#data.new_parent_container_id#</td>
+						<!---		<td>#data.current_parent_container_id#</td>
+								<td>#data.new_parent_container_id#</td>--->
 							</tr>
 						</cfloop>
 					</tbody>
