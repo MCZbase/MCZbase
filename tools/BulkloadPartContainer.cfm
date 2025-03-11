@@ -70,9 +70,9 @@ limitations under the License.
 	<cfif variables.action is "entryPoint">
 		<cfoutput>
 			<p>Use this form to put collection objects (that is, parts) in containers. Only the other_id_type of "catalog number" is accepted in this bulkloader. The unique string representing the container is used (not the container_id consisting of only numbers&mdash;the ID will be generated and visible in the validation step). Parts and containers must already exist.</p>
-			<p>This form can be used for specimen records with multiple parts as long as the combination of the following column values are unique: part name, preserve method, and part remarks.</p>
+			<p><b>Multiple Parts OK:</b> This bulkloader can be used for specimen records with multiple parts as long as the combination of the following column values are unique: part name, preserve method, and part remarks.</p>
 			<p>Upload a comma-delimited text file (csv). You can either enter the data using the template below or edit a part report. </p>
-			<p>The best way to avoid ambiguous parts is to use a part report from the specimen search results > Manage > Part Download/Report feature. When using the part report, select the "Download Parts CSV with Container placements", check that the parts downloaded are expected, and add the new_container_barcode (a.k.a., new unique_container_id). The additional columns downloaded will be ignored and will appear in the warning section of the validation screen with any other columns not needed for the bulkload. </p>
+			<p><b>Edit a Part Report:</b> The best way to avoid ambiguous parts is to use a part report from the specimen search results > Manage > Part Download/Report feature. When using the part report, select the "Download Parts CSV with Container placements", check that the parts downloaded are expected, and add the new_container_barcode (a.k.a., new unique_container_id). The additional columns downloaded will be ignored and will appear in the warning section of the validation screen with any other columns not needed for the bulkload. </p>
 			<h2 class="h4">Use Template to Load Data</h2>
 			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
 			<div id="template" class="my-1 mx-0">
