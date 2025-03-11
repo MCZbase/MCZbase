@@ -498,8 +498,7 @@ limitations under the License.
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
 					</cfquery>
 				</cfif>
-			</cfloop>
-			<cfif len(getTempTableQC1.new_container_barcode) eq 0>
+				<cfif len(getTempTableQC1.new_container_barcode) eq 0>
 					<cfquery name="ctCatnumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts
 						SET
