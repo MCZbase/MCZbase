@@ -71,7 +71,7 @@ limitations under the License.
 		<cfoutput>
 			<p>Use this form to put collection objects (that is, parts) in containers. Only the other_id_type of "catalog number" is accepted in this bulkloader. The unique string representing the container is used (not the container_id consisting of only numbers&mdash;the ID will be generated and visible in the validation step). Parts and containers must already exist.</p>
 			<p>This form can be used for specimen records with multiple parts as long as the combination of the following column values are unique: part name, preserve method, and part remarks.</p>
-			<p>Upload a comma-delimited text file (csv). You can either enter the data using the template below or edit a report. </p>
+			<p>Upload a comma-delimited text file (csv). You can either enter the data using the template below or edit a part report. </p>
 			<p>The best way to avoid ambiguous parts is to use a part report from the specimen search results > Manage > Part Download/Report feature. When using the part report, select the "Download Parts CSV with Container placements", check that the parts downloaded are expected, and add the new_container_barcode (a.k.a., new unique_container_id). The additional columns downloaded will be ignored and will appear in the warning section of the validation screen with any other columns not needed for the bulkload. </p>
 			<h2 class="h4">Use Template to Load Data</h2>
 			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
@@ -607,9 +607,9 @@ limitations under the License.
 							<th>PART_NAME</th>
 							<th>PRESERVE_METHOD</th>
 							<th>CURRENT_REMARKS</th>
-							<!---below: ID fields that users may or may not need to see--->
 							<th>NEW_CONTAINER_BARCODE</th>
 							<th>CONTAINER_BARCODE</th>
+							<!---below: ID fields that users may or may not need to see--->
 							<th>CURRENT_PARENT_CONTAINER_ID</th>
 							<th>NEW_PARENT_CONTAINER_ID</th>
 							<th>PART_COLLECTION_OBJECT_ID</th>
@@ -730,26 +730,39 @@ limitations under the License.
 								<thead>
 									<tr>
 										<th>BULKLOADING&nbsp;STATUS</th>
+										<th>INSTITUTION_ACRONYM</th>
 										<th>COLLECTION_CDE</th>
 										<th>OTHER_ID_TYPE</th>
 										<th>OTHER_ID_NUMBER</th>
-										<th>PART_CONTAINER_ID</th>
+										<th>PART_NAME</th>
+										<th>PRESERVE_METHOD</th>
+										<th>CURRENT_REMARKS</th>
 										<th>NEW_CONTAINER_BARCODE</th>
-										
+										<th>CONTAINER_BARCODE</th>
+										<th>CURRENT_PARENT_CONTAINER_ID</th>
 										<th>NEW_PARENT_CONTAINER_ID</th>
-										<th></th>
+										<th>PART_COLLECTION_OBJECT_ID</th>
+										<th>PART_CONTAINER_ID</th>
 									</tr> 
 								</thead>
 								<tbody>
 									<cfloop query="getProblemData">
 										<tr>
 											<td><cfif len(getProblemData.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
+											<td>#getProblemData.INSTITUTION_ACRONYM#</td>
 											<td>#getProblemData.COLLECTION_CDE#</td>
 											<td>#getProblemData.OTHER_ID_TYPE#</td>
 											<td>#getProblemData.OTHER_ID_NUMBER#</td>
+											<td>#getProblemData.PART_NAME#</td>
+											<td>#getProblemData.PRESERVE_METHOD#</td>
+											<td>#getProblemData.CURRENT_REMARKS#</td>
 											<td>#getProblemData.NEW_CONTAINER_BARCODE#</td>
+											<td>#getProblemData.CONTAINER_BARCODE#</td>
+											<td>#getProblemData.CURRENT_PARENT_CONTAINER_ID#</td>
+											<td>#getProblemData.NEW_PARENT_CONTAINER_ID#</td>
+											<td>#getProblemData.PART_COLLECTION_OBJECT_ID#</td>
 											<td>#getProblemData.PART_CONTAINER_ID#</td>
-											<td>#getProblemData.NEW_PARENT_CONTAINER_ID#</td></tr> 
+										</tr> 
 									</cfloop>
 								</tbody>
 							</table>
