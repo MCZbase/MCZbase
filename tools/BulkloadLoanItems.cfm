@@ -794,11 +794,17 @@ limitations under the License.
 					<cfif getTempData.recordcount eq loan_updates>
 						<p>Number of loan items updated: #getCountParts.ctObj# in #loan_updates# cataloged_items (on #getCountLoans.ctTrans# loan#plural#)</p>
 						<h3 class="text-success">Success - loaded</h3>
-					<cfelse>
-						<cfthrow message="Error: Number of successful updates did not match number of records to update.">
-					</cfif>
-					<cftransaction action="COMMIT">
-				<cfcatch>
+						<cfif container_updates GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
+						<h3 class="mt-4">Updated #container_updates# part#plural# with containers.</h3>
+						<h3 class="text-success">Success, changes applied. </h3>
+						<h3><a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=LOAN%3ALOAN_NUMBER&searchText1=#encodeForUrl(valuelist(getTempData.loan_number))#&closeParens1=0">Loan(s)</a>
+						</h3>
+						<!--- cleanup --->
+						<cfelse>
+							<cfthrow message="Error: Number of successful updates did not match number of records to update.">
+						</cfif>
+						<cftransaction action="COMMIT">
+					<cfcatch>
 						<cftransaction action="ROLLBACK">
 						<h3>There was a problem updating the loan items.</h3>
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
