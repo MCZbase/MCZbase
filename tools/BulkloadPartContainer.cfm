@@ -713,7 +713,7 @@ limitations under the License.
 									SET status = concat(nvl2(status, status || '; ', ''), 'New CONTAINER not found')
 									WHERE NEW_container_barcode is null
 										AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-										AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC3.key#">
+										AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
 								</cfquery>
 							</cfif>
 						<cfset container_updates = container_updates + updateContainer_result.recordcount>
