@@ -792,10 +792,8 @@ limitations under the License.
 					</cfloop>
 					<cfif #getCountLoans.ctTrans# gt 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
 					<cfif getTempData.recordcount eq loan_updates>
-						<p>Number of loan items updated: #getCountParts.ctObj# in #loan_updates# cataloged_items (on #getCountLoans.ctTrans# loan#plural#)</p>
-						<h3 class="text-success">Success - loaded</h3>
 						<cfif loan_updates GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
-						<h3 class="mt-4">Updated #loan_updates# part#plural# with containers.</h3>
+						<h3 class="mt-4">Added #loan_updates# part#plural# to #getCountLoans.ctTrans# loan#plural#.</h3>
 						<h3 class="text-success">Success, changes applied. </h3>
 						<h3><a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=LOAN%3ALOAN_NUMBER&searchText1=#encodeForUrl(valuelist(getTempData.loan_number))#&closeParens1=0">Loan(s)</a>
 						</h3>
