@@ -621,6 +621,7 @@ limitations under the License.
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_NUMBER</th>
 						<th>PART_NAME</th>
+						<th>PRESERVE_METHOD</th>
 						<th>PART_REMARKS</th>
 						<th>ITEM_INSTRUCTIONS</th>
 						<th>ITEM_REMARKS</th>
@@ -641,6 +642,7 @@ limitations under the License.
 							<td>#data.OTHER_ID_TYPE#</td>
 							<td>#data.OTHER_ID_NUMBER#</td>
 							<td>#data.PART_NAME#</td>
+							<td>#data.PRESERVE_METHOD#</td>
 							<td>#data.PART_REMARKS#</td>
 							<td>#data.ITEM_INSTRUCTIONS#</td>
 							<td>#data.ITEM_REMARKS#</td>
