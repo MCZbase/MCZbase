@@ -468,13 +468,6 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC1.key#"> 
 				</cfquery>
-				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts
-					SET status = concat(nvl2(status, status || '; ', ''), 'Part container not found')
-					WHERE part_collection_object_id is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
-				</cfquery>
 				<!---This checks to see if the collection_cde, other_id_number, part_name, and preserve_methods create a collection_object_id that matches the one provided in the part download/report. We want to make sure nothing was changed by mistake, making it harder to find the parts on the shelf based on the csv.--->
 				<cfquery name="ctCatnumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
