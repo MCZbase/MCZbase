@@ -531,7 +531,7 @@ limitations under the License.
 					UPDATE cf_temp_barcode_parts
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'PART_COLLECTION_OBJECT_ID provided does not match [MCZ:'|| collection_cde ||':'||other_id_number ||' '|| part_name ||'('|| preserve_method ||')]')
-					where PART_COLLECTION_OBJECT_ID not in 
+					where (PART_COLLECTION_OBJECT_ID not in 
 						(
 							select sp.collection_object_id from cataloged_item ci, specimen_part sp 
 							where ci.collection_object_id = sp.derived_from_cat_item
@@ -540,8 +540,20 @@ limitations under the License.
 							and sp.part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC1.part_name#">
 							and sp.preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC1.preserve_method#">
 						)
+					OR
+						PART_COLLECTION_OBJECT_ID not in 
+						(
+						select collection_object_id 
+						from coll_obj_other_id_num cn, specimen_part sp, cataloged_item ci
+						where sp.collection_object_id = cn.collection_object_id 
+						and sp.derived_from_cat_item = ci.collection_object_id
+						and sp.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC1.collection_object_id#"> 
+						and sp.part_name = <cfqueryparam cfsqltype = "cf_sql_varchar" value="#getTempTableQC1.part_name#">
+						and sp.preserve_method = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#getTempTableQC1.preserve_method#">
+						and ci.collection_cde = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#getTempTableQC1.collection_cde#">
+						) )
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#"> 
 				</cfquery>
 			</cfloop>
 			<!---Get current_parent_container_id. This is the container_id that currently shows in the part row--->
