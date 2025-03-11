@@ -409,7 +409,7 @@ limitations under the License.
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
 					</cfquery>
 			</cfif>
-		</cfloop>	
+		
 			<cfif len(getCOID) gt 0>
 				<cfloop query="getCOID">
 					<cfquery name="" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
