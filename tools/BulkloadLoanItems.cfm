@@ -791,7 +791,7 @@ limitations under the License.
 							FROM loan,loan_item 
 							WHERE
 								loan.transaction_id = loan_item.transaction_id 
-								AND transaction_id in (
+								AND loan.transaction_id in (
 									select transaction_id from updateLoan1
 									)
 						</cfquery>
