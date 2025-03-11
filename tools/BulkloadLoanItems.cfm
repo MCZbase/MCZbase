@@ -672,6 +672,11 @@ limitations under the License.
 					from cf_temp_loan_item
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<cfquery name="getTempLoanNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select distinct loan_number
+					from cf_temp_loan_item
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 				<cfquery name="getCountParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(distinct PART_COLLECTION_OBJECT_ID) ctObj 
 					FROM cf_temp_loan_item
@@ -796,7 +801,7 @@ limitations under the License.
 						<cfif loan_updates GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
 						<h3 class="mt-4">Added #loan_updates# part#plural# to #getCountLoans.ctTrans# loan#plural#.</h3>
 						<h3 class="text-success">Success, changes applied. </h3>
-						<h3><a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=LOAN%3ALOAN_NUMBER&searchText1=#encodeForUrl(valuelist(getTempData.loan_number))#&closeParens1=0">See Loan#plural#</a>
+						<h3><a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=LOAN%3ALOAN_NUMBER&searchText1=#encodeForUrl(valuelist(getTempLoanNum.loan_number))#&closeParens1=0">See Loan#plural#</a>
 						</h3>
 						<!--- cleanup --->
 						<cfelse>
