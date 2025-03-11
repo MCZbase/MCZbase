@@ -442,30 +442,6 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 				</cfquery>
-<!---			<cfelseif len(part_collection_object_id) >
-				
-				<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE 
-						cf_temp_barcode_parts
-					SET 
-						part_collection_object_id = (
-							select specimen_part.collection_object_id
-							from specimen_part   
-								left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
-							where			
-								part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_name#">
-								and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.preserve_method#">
-								and derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObj.collection_object_id#">
-								<cfif len(dataParts.current_remarks) EQ 0>
-									and coll_object_remark.coll_object_remarks IS NULL
-								<cfelse>
-									and coll_object_remark.coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.current_remarks#">
-								</cfif>
-							)
-					WHERE 
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
-				</cfquery>--->
 			<cfelse>
 				<cfquery name="getPartColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
@@ -540,20 +516,6 @@ limitations under the License.
 							and sp.part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC1.part_name#">
 							and sp.preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC1.preserve_method#">
 						)
-						
-						cf.PART_COLLECTION_OBJECT_ID not in 
-						(
-						select cn.collection_object_id 
-						from coll_obj_other_id_num cn, specimen_part sp, cataloged_item ci
-						where sp.collection_object_id = cn.collection_object_id 
-						and sp.derived_from_cat_item = ci.collection_object_id
-						and sp.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC1.collection_object_id#"> 
-						and sp.part_name = <cfqueryparam cfsqltype = "cf_sql_varchar" value="#getTempTableQC1.part_name#">
-						and sp.preserve_method = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#getTempTableQC1.preserve_method#">
-						and ci.collection_cde = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#getTempTableQC1.collection_cde#">
-						) )
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#"> 
 				</cfquery>
 			</cfloop>
 			<!---Get current_parent_container_id. This is the container_id that currently shows in the part row--->
