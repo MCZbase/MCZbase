@@ -528,10 +528,10 @@ limitations under the License.
 				</cfquery>
 				<!---This checks to see if the collection_cde, other_id_number, part_name, and preserve_methods create a collection_object_id that matches the one provided in the part download/report. We want to make sure nothing was changed by mistake, making it harder to find the parts on the shelf based on the csv.--->
 				<cfquery name="ctCatnumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts
+					UPDATE cf_temp_barcode_parts cf
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'PART_COLLECTION_OBJECT_ID provided does not match [MCZ:'|| collection_cde ||':'||other_id_number ||' '|| part_name ||'('|| preserve_method ||')]')
-					where (PART_COLLECTION_OBJECT_ID not in 
+						status = concat(nvl2(status, status || '; ', ''),'cf.PART_COLLECTION_OBJECT_ID provided does not match [MCZ:'|| cf.collection_cde ||':'||cf.other_id_number ||' '|| cf.part_name ||'('|| cf.preserve_method ||')]')
+					where cf.PART_COLLECTION_OBJECT_ID not in 
 						(
 							select sp.collection_object_id from cataloged_item ci, specimen_part sp 
 							where ci.collection_object_id = sp.derived_from_cat_item
@@ -540,10 +540,10 @@ limitations under the License.
 							and sp.part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC1.part_name#">
 							and sp.preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC1.preserve_method#">
 						)
-					OR
-						PART_COLLECTION_OBJECT_ID not in 
+						
+						cf.PART_COLLECTION_OBJECT_ID not in 
 						(
-						select collection_object_id 
+						select cn.collection_object_id 
 						from coll_obj_other_id_num cn, specimen_part sp, cataloged_item ci
 						where sp.collection_object_id = cn.collection_object_id 
 						and sp.derived_from_cat_item = ci.collection_object_id
