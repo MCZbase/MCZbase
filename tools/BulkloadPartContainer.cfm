@@ -707,6 +707,14 @@ limitations under the License.
 									where 
 										container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_container_id#">
 								</cfquery>	
+							<cfelse>
+								<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									UPDATE cf_temp_barcode_parts
+									SET status = concat(nvl2(status, status || '; ', ''), 'New CONTAINER not found')
+									WHERE NEW_container_barcode is null
+										AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC3.key#">
+								</cfquery>
 							</cfif>
 						<cfset container_updates = container_updates + updateContainer_result.recordcount>
 					</cfloop>
