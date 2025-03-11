@@ -380,6 +380,7 @@ limitations under the License.
 	<cfoutput>
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfset key = ''>
+		<!---Bring the fields from the cf_temp_barcode_part to the process (excludes unused columns)--->
 		<cfquery name="dataParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT collection_cde,institution_acronym,other_id_number,other_id_type,part_name,preserve_method,new_container_barcode,current_remarks,key
 			FROM cf_temp_barcode_parts 
@@ -387,7 +388,7 @@ limitations under the License.
 		</cfquery>
 		<cfloop query="dataParts">
 			<cfif dataParts.other_id_type eq 'catalog number'>
-			<!---This gets the collection_object_id based on the catalog number/other id--->
+			<!---This gets the collection_object_id based on the catalog number; We are only using cataloged number and cat_num in this bulkloader even thoough the sheet says the generaal:  other_id_type and other_id_number--->
 				<cfquery name="getCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCOID_result">
 					SELECT
 						collection_object_id
@@ -400,6 +401,7 @@ limitations under the License.
 						cataloged_item.cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.other_id_number#"> 
 				</cfquery>
 			</cfif>
+			<!---Not 100% necessary but we update the cf_temp_barcode_parts with the collection_object_id--->
 			<cfloop query="getCOID">
 				<cfquery name="" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
@@ -408,7 +410,7 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
 				</cfquery>
 			</cfloop>
-			<!---Get the part_collection_object_id based on the specimen record COID--->
+			<!---Get the part_collection_object_id based on the specimen record's collection_object_id from query getCOID--->
 			<cfif #getCOID_result.recordcount# eq 1>
 				<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE 
@@ -437,9 +439,6 @@ limitations under the License.
 					UPDATE cf_temp_barcode_parts
 					SET status = concat(nvl2(status, status || '; ', ''), 'cat_num / collection_cde not found')
 					WHERE part_collection_object_id is null
-						and collection_cde not in (select collection_cde from cataloged_item)
-						and other_id_number not in (select cat_num from cataloged_item)
-						and institution_acronym <> 'MCZ'
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
 				</cfquery>
