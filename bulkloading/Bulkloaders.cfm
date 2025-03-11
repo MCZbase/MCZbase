@@ -20,6 +20,7 @@
 					<li><a href="/tools/BulkloadAttributes.cfm">Bulkload Attributes</a></li>
 					<li><a href="/tools/BulkloadCitations.cfm">Bulkload Citations</a></li>
 					<li><a href="/tools/BulkloadOtherId.cfm">Bulkload Identifiers (bulk add Other ID numbers)</a></li>
+<<<<<<< HEAD
 					<cfif findNoCase('redesign',Session.gitBranch) EQ 0>
 						<!--- TODO: remove this test when switchover to BulkloadLoanItems is complete --->
 						<!--- Deprecated? --->
@@ -28,6 +29,9 @@
 						<!--- currently only for use in redesign2 branch --->
 						<li><a href="/tools/BulkloadLoanItems.cfm">Bulkload Loan Items (bulk add parts to loans)</a></li>
 					</cfif>
+=======
+					<li><a href="/tools/BulkloadLoanItems.cfm">Bulkload Loan Items (bulk add parts to loans)</a></li>
+>>>>>>> test
 					<li><a href="/tools/BulkloadIdentification.cfm">Bulkload Identifications</a></li>
 					<li><a href="/tools/BulkloadRelations.cfm">Bulkload Relationships (add relationships between specimens)</a></li>
 					<li><a href="/tools/BulkloadPartContainer.cfm">Bulkload Parts to Containers (place parts in containers)</a></li>
