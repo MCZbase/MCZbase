@@ -69,7 +69,7 @@ limitations under the License.
 	<!------------------------------------------------------->
 	<cfif variables.action is "entryPoint">
 		<cfoutput>
-			<p>Use this form to put collection objects (that is, parts) in containers. Use other_id_type = "catalog number" and other_id_number = "<cat_num>" Parts and containers must already exist. This form can be used for specimen records with multiple parts as long as the full names (part name plus preserve method and part remarks) of the parts are unique. Upload a comma-delimited text file (csv). The best way to avoid ambiguous parts is to use a part report from the specimen search results > Manage > Part Download/Report feature. Be sure to check parts and add the new_container_barcode (a.k.a., new unique_container_id) when using the part report. Additional columns will be ignored. </p>
+			<p>Use this form to put collection objects (that is, parts) in containers. Use other_id_type = "catalog number" and other_id_number = |cat_num|. Parts and containers must already exist. This form can be used for specimen records with multiple parts as long as the full names (part name plus preserve method and part remarks) of the parts are unique. Upload a comma-delimited text file (csv). The best way to avoid ambiguous parts is to use a part report from the specimen search results > Manage > Part Download/Report feature. Be sure to check parts and add the new_container_barcode (a.k.a., new unique_container_id) when using the part report. Additional columns will be ignored. </p>
 			<h2 class="h4">Use Template to Load Data</h2>
 			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
 			<div id="template" class="my-1 mx-0">
