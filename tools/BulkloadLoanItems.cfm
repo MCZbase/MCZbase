@@ -786,17 +786,6 @@ limitations under the License.
 								group by transaction_id, collection_object_id
 								having count(*) > 1
 						</cfquery>
-						<cfquery name="updateLoan2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateLoan2_result">
-							SELECT distinct loan_number 
-							FROM loan,loan_item 
-							WHERE
-								loan.transaction_id = loan_item.transaction_id 
-								AND loan.transaction_id in (
-									select transaction_id
-									from loan_item 
-									where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.PART_COLLECTION_OBJECT_ID#">
-									)
-						</cfquery>
 						<cfset loan_updates = loan_updates + updateLoan_result.recordcount>
 						<cfif updateLoan1_result.recordcount gt 0>
 							<cfthrow message = "Error: attempting to insert duplicated loan item.">
@@ -807,7 +796,7 @@ limitations under the License.
 						<cfif loan_updates GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
 						<h3 class="mt-4">Added #loan_updates# part#plural# to #getCountLoans.ctTrans# loan#plural#.</h3>
 						<h3 class="text-success">Success, changes applied. </h3>
-						<h3><a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=LOAN%3ALOAN_NUMBER&searchText1=#encodeForUrl(valuelist(updateLoan2.transaction_id))#&closeParens1=0">See Loan#pural#</a>
+						<h3><a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=LOAN%3ALOAN_NUMBER&searchText1=#encodeForUrl(valuelist(getTempData.loan_number))#&closeParens1=0">See Loan#pural#</a>
 						</h3>
 						<!--- cleanup --->
 						<cfelse>
