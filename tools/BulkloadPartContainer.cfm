@@ -502,7 +502,7 @@ limitations under the License.
 					<cfquery name="ctCatnumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts
 						SET
-							status = concat(nvl2(status, status || '; ', ''),'NEW_CONTAINER_BARCODE value is missing')]')
+							status = concat(nvl2(status, status || '; ', ''),'NEW_CONTAINER_BARCODE value is missing')
 						where 
 							new_container_barcode is null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
