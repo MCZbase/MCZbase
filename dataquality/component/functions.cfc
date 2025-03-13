@@ -67,6 +67,7 @@ libraries found in github.com/filteredpush/ repositories.
                   (CASE WHEN geog_auth_rec.continent_ocean like '% Ocean' THEN '' ELSE geog_auth_rec.continent_ocean END) as continent, 
                   country, 
                   MCZBASE.get_countrycode(geog_auth_rec.country) countrycode,
+						state_prov as stateProvince,
                   spec_locality as locality,
                   accepted_lat_long.dec_lat as decimal_latitude, 
                   accepted_lat_long.dec_long as decimal_longitude, 
@@ -151,6 +152,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<!--- store local copies of query results to use in pre-amendment phase and overwrite in ammendment phase  --->
 			<cfset country = queryrow.country>
 			<cfset countrycode = queryrow.countrycode>
+			<cfset stateProvince = queryrow.stateProvince>
 			<cfset decimal_latitude = queryrow.decimal_latitude>
 			<cfset decimal_longitude = queryrow.decimal_longitude>
 			<cfset coordinateuncertaintyinmeters = queryrow.coordinateuncertaintyinmeters>
@@ -181,6 +183,8 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset ArraySet(array1String,1,1,aString.getClass())>
 			<cfset array2String = ArrayNew(1)>
 			<cfset ArraySet(array2String,1,2,aString.getClass())>
+			<cfset array3String = ArrayNew(1)>
+			<cfset ArraySet(array3String,1,3,aString.getClass())>
 			<cfset array5String = ArrayNew(1)>
 			<cfset ArraySet(array5String,1,5,aString.getClass())>
 			<cfset array8String = ArrayNew(1)>
@@ -248,6 +252,16 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset preamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationCoordinatesStateprovinceConsistent",array3String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationCoordinatesStateprovinceConsistent(decimal_latitude,decimal_longitude,stateProvince) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationCoordinatesStateprovinceConsistent",array3String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationMindepthLessthanMaxdepth",array2String).getAnnotation(Provides.getClass()).value() >
 			<cfset dqResponse = dwcGeoRefDQ.validationMindepthLessthanMaxdepth(min_depth_in_m, max_depth_in_m) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationMindepthLessthanMaxdepth",array2String).getAnnotation(Validation.getClass()).description() >
@@ -298,9 +312,9 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset preamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
-			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationCountryFound",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQDefaults.validationCountryFound(country) >
-			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationCountryFound",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationCountryFound",array2String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationCountryFound(country,countryCode) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationCountryFound",array2String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
@@ -427,12 +441,47 @@ libraries found in github.com/filteredpush/ repositories.
          <cfset amendment[providesGuid] = r >
          <cfset r=structNew()>
 
+			<cfquery name="verbatimDepth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT verbatimdepth
+				FROM collecting_event
+				WHERE locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+					AND verbatimdepth IS NOT NULL
+			<cfquery>
+			<cfif verbatimDepth.recordcount GT 0 and len(min_depth_in_m) EQ 0 and len(max_depth_in_m) EQ 0>
+				<!--- get a non-empty verbatim depth value --->
+				<cfset verbatimDepth = verbatimDepth.verbatimdepth>
+				<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("amendmentMindepthMaxdepthFromVerbatim",array3String).getAnnotation(Provides.getClass()).value() >
+      	   <cfset dqResponse= dwcGeoRefDQ.amendmentMindepthMaxdepthFromVerbatim(verbatimDepth,max_depth_in_m,min_depth_in_m) >
+				<cfset r.label = dwcGeoRefDQ.getClass().getMethod("amendmentMindepthMaxdepthFromVerbatim",array3String).getAnnotation(AmendmentC.getClass()).description() >
+      	   <cfset r.type = "AMENDMENT" >
+         	<cfset r.status = dqResponse.getResultState().getLabel() >
+    	     <cfif r.status EQ "FILLED_IN">
+      	      <cfset min_depth_in_m = dqResponse.getValue().getObject().get("dwc:minimumDepthInMeters") >
+         	   <cfset max_depth_in_m  = dqResponse.getValue().getObject().get("dwc:maximumDepthInMeters") >
+  	          <cfset r.value = dqResponse.getValue().getObject().toString() >
+   	      <cfelse>
+      	      <cfset r.value = "">
+         	</cfif>
+     			<cfset r.comment = dqResponse.getComment() >
+      	   <cfset amendment[providesGuid] = r >
+         	<cfset r=structNew()>
+			</cfif>
 
 			<!--- post-amendment phase --->
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCoordinatesCountrycodeConsistent",array5String).getAnnotation(Provides.getClass()).value() >
 			<cfset dqResponse = dwcGeoRefDQ.validationCoordinatesCountrycodeConsistent(javaCast("string",decimal_latitude),javaCast("string",decimal_longitude), countrycode, "10000", "") >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCoordinatesCountrycodeConsistent",array5String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationCoordinatesStateprovinceConsistent",array3String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationCoordinatesStateprovinceConsistent(decimal_latitude,decimal_longitude,stateProvince) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationCoordinatesStateprovinceConsistent",array3String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
@@ -540,9 +589,9 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset postamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
-			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationCountryFound",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQDefaults.validationCountryFound(country) >
-			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationCountryFound",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset providesGuid = dwcGeoRefDQDefaults.getClass().getMethod("validationCountryFound",array2String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQDefaults.validationCountryFound(country,countryCode) >
+			<cfset r.label = dwcGeoRefDQDefaults.getClass().getMethod("validationCountryFound",array2String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
