@@ -57,3 +57,5 @@ includes/style_backup.css
 includes/_header_withPaulsChanges.cfm
 /lib/fontawesome/fontawesome-free-5.5.0-web/less/_mixins.css
 /lib/fontawesome/fontawesome-free-5.5.0-web/less/_variables.css
+.bracketsGitTemp
+metrics/R/chart1.png
