@@ -546,8 +546,12 @@ limitations under the License.
 				SET status = concat(nvl2(status, status || '; ', ''),'Only one record per locality_id is allowed')
 				WHERE 
 					locality_id in 
-						(select locality_id from CF_TEMP_GEOREF group by locality_id 
-						having count(*) > 1)
+						(	select locality_id 
+							from CF_TEMP_GEOREF 
+							where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							group by locality_id 
+							having count(*) > 1
+						)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Check ORIG_LAT_LONG_UNITS in code table--->
