@@ -772,19 +772,21 @@ limitations under the License.
 			<cfloop query="getTempData">
 				<!--- check for any existing accepted lat_long records --->
 				<!--- currently unable to insert if accepted record exists --->
-				<cfquery name="warningMissingSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_georef
-					SET status = concat(nvl2(status, status || '; ', ''),'There is already an accepted georeference for this locality.')
-					WHERE 
-						locality_id IN (
-							SELECT locality_id
-							FROM LAT_LONG
-							WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
-								AND accepted_lat_long_fg = 1
-						)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-				</cfquery>
+				<cfif len(getTempData.LOCALITY_ID) GT 0>
+					<cfquery name="warningMissingSpecLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_georef
+						SET status = concat(nvl2(status, status || '; ', ''),'There is already an accepted georeference for this locality.')
+						WHERE 
+							locality_id IN (
+								SELECT locality_id
+								FROM LAT_LONG
+								WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">
+									AND accepted_lat_long_fg = 1
+							)
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+					</cfquery>
+				</cfif>
 				<cfset agentProblem1 = "">
 				<!--- Determination Agent --->
 				<cfset relatedAgentID = "">
