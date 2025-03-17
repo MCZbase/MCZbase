@@ -579,7 +579,7 @@ Typical use:
 										<select name="minDepthOper" id="MinDepthOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
 											<cfif minDepthOper IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 											<option value="=" #selected#>is</option>
-											<cfif minDepthOper IS "<>"#><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<cfif minDepthOper IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 											<option value="<>" #selected#>is not</option><!--- " --->
 											<cfif minDepthOper IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 											<option value=">" #selected#>more than</option><!--- " --->
