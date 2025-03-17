@@ -2,7 +2,7 @@
 
 localities/searchLocationForm.cfm
 
-Copyright 2023 President and Fellows of Harvard College
+Copyright 2023-2025 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -578,13 +578,13 @@ Typical use:
 										<label for="minDepthOper" class="data-entry-label sr-only">Operator</label>
 										<select name="minDepthOper" id="MinDepthOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
 											<cfif minDepthOper IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-											<option value="=">is</option>
-											<cfif minDepthOper IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-											<option value="<>">is not</option><!--- " --->
+											<option value="=" #selected#>is</option>
+											<cfif minDepthOper IS "<>"#><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="<>" #selected#>is not</option><!--- " --->
 											<cfif minDepthOper IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-											<option value=">">more than</option><!--- " --->
+											<option value=">" #selected#>more than</option><!--- " --->
 											<cfif minDepthOper IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-											<option value="<">less than</option>
+											<option value="<" #selected#>less than</option>
 										</select>
 										<cfif not isDefined("min_depth")><cfset min_depth=""></cfif>
 										<label for="min_depth" class="data-entry-label text-light sr-only">Minimum Depth</label>
