@@ -766,7 +766,7 @@ limitations under the License.
 					MAX_ERROR_DISTANCE is not null 
 					AND (
 						NOT regexp_like(MAX_ERROR_DISTANCE,'^[0-9.]+$')
-						OR trim(MAX_ERROR_DISTANCE) EQ '0' 
+						OR trim(MAX_ERROR_DISTANCE) = '0' 
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
