@@ -1058,7 +1058,7 @@ limitations under the License.
 				</cfif>
 
 				<!--- Check that DETERMINED_DATE is YYYY-MM-DD--->
-				<cfif REMatch(getTempData.DETERMINED_DATE,"^[0-9]{4}-[0-9]{2}-[0-9]{2}$")>
+				<cfif REFind( "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", getTempData.DETERMINED_DATE) GT 0>
 					<cfif NOT isDate(parseDateTime(getTempData.DETERMINED_DATE,"yyyy-MM-dd"))>
 						<cfquery name="getDeterminedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_georef
