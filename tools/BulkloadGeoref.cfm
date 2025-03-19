@@ -1066,12 +1066,10 @@ limitations under the License.
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 						</cfquery>
-					<cfif DatePart("yyyy",parseDateTime(getTempData.DETERMINED_DATE,"yyyy-MM-dd")) gte '1700'>
-						<!--- Acceptable date range --->
-					<cfelse>
+					<cfelseif DatePart("yyyy",parseDateTime(getTempData.DETERMINED_DATE,"yyyy-MM-dd")) LT '1700'>
 						<cfquery name="getDeterminedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_georef
-							SET status = concat(nvl2(status, status || '; ', ''),'DETERMINED_DATE Year must be after 1700 "#determined_date#"')
+							SET status = concat(nvl2(status, status || '; ', ''),'DETERMINED_DATE Year must be 1700 or later "#determined_date#"')
 							WHERE determined_date is not null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
