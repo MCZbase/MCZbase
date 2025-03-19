@@ -1147,7 +1147,7 @@ limitations under the License.
 					<cfquery name="warningLocalityID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
 						SET status = concat(nvl2(status, status || '; ', ''),'This georeference exists on the locality record. Remove row.')
-						WHERE dec_lat in (select dec_lat from lat_long where dec_lat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKeyKey.dec_lat#">)
+						WHERE dec_lat in (select dec_lat from lat_long where dec_lat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKey.dec_lat#">)
 							and dec_long in (select dec_long from lat_long where dec_long = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKey.dec_long#">) 
 							and georefmethod in (select georefmethod from lat_long where georefmethod = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKey.georefmethod#">)
 							and max_error_distance in (select max_error_distance from lat_long where max_error_distance = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKey.max_error_distance#">)
