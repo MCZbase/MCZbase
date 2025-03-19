@@ -493,6 +493,8 @@ limitations under the License.
 		</cfif>
 	<!------------------------------------------------------->
 	<cfif variables.action is "validate">
+		<!--- Load utility class for evaluating date strings --->
+		<cfobject type="Java" class="org.filteredpush.qc.date.DateUtils" name="dateUtils">
 
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
@@ -1059,7 +1061,7 @@ limitations under the License.
 
 				<!--- Check that DETERMINED_DATE is YYYY-MM-DD--->
 				<cfif REFind( "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", getTempData.DETERMINED_DATE) GT 0>
-					<cfif NOT isDate(parseDateTime(getTempData.DETERMINED_DATE,"yyyy-MM-dd"))>
+					<cfif NOT dateUtils.eventDateValid(#getTempData.DETERMINED_DATE#)>
 						<cfquery name="getDeterminedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_georef
 							SET status = concat(nvl2(status, status || '; ', ''),'DETERMINED_DATE is in the correct format but is not a valid date "#determined_date#"')
