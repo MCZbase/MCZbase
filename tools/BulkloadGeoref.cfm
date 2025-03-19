@@ -494,7 +494,7 @@ limitations under the License.
 	<!------------------------------------------------------->
 	<cfif variables.action is "validate">
 		<!--- Load utility class for evaluating date strings --->
-		<cfobject type="Java" class="org.filteredpush.qc.date.DateUtils" name="dateUtils">
+		<cfobject type="Java" class="org.filteredpush.qc.date.util.DateUtils" name="dateUtils">
 
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
