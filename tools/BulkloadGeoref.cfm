@@ -1109,7 +1109,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<!---Check to see if the CSV georef is a dup of one already in the locality record--->
-				<cfif REFind("^[0-9.-]+$",getTempData.dec_lat) GT 0 AND REFind("^[0-9.-]+$",getTempData.dec_long) GT 0 AND REFind("^[0-9.]*$",max_error_distance) GT 0 AND REFind("^[0-9.]*$",locality_id) GT 0>
+				<cfif REFind("^[0-9.-]+$",getTempData.dec_lat) GT 0 AND REFind("^[0-9.-]+$",getTempData.dec_long) GT 0 AND ( REFind("^[0-9.]*$",max_error_distance) GT 0 OR max_error_distance EQ '') AND REFind("^[0-9]*$",locality_id) GT 0>
 					<cfquery name="warningLocalityID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
 						SET status = concat(nvl2(status, status || '; ', ''),'This georeference exists on the locality record. Remove row.')
