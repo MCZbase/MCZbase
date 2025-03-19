@@ -1108,30 +1108,6 @@ limitations under the License.
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 					</cfquery>
 				</cfif>
-				<!---Check to see if the CSV georef is a dup of one already in the locality record--->
-				<cfif REFind("^[0-9.-]+$",getTempData.dec_lat) GT 0 AND REFind("^[0-9.-]+$",getTempData.dec_long) GT 0 AND ( REFind("^[0-9.]*$",getTempData.max_error_distance) GT 0 OR getTempData.max_error_distance EQ '') AND REFind("^[0-9]*$",getTempData.locality_id) GT 0>
-					<cfquery name="warningLocalityID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'This georeference exists on the locality record. Remove row.')
-						WHERE dec_lat in (select dec_lat from lat_long where dec_lat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.dec_lat#">)
-							and dec_long in (select dec_long from lat_long where dec_long = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.dec_long#">) 
-							and georefmethod in (select georefmethod from lat_long where georefmethod = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.georefmethod#">)
-							and max_error_distance in (select max_error_distance from lat_long where max_error_distance = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.max_error_distance#">)
-							and datum in (select datum from lat_long where datum = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.datum#">)
-							and max_error_units in (select MAX_ERROR_UNITS from lat_long where MAX_ERROR_UNITS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.max_error_units#">)
-							and NEAREST_NAMED_PLACE in (select NEAREST_NAMED_PLACE from lat_long where NEAREST_NAMED_PLACE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.NEAREST_NAMED_PLACE#">)
-							and locality_id = (select locality_id from lat_long where locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.locality_id#">)
-							and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
-					</cfquery>
-				<cfelse>
-					<cfquery name="warningSpatialFit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_georef
-						SET status = concat(nvl2(status, status || '; ', ''),'Prerequisites for checking for duplicate georeferences not met, dec_lat, dec_long_max_error_distance, locality_id must be numbers.')
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-					</cfquery>
-				</cfif>
 				<cfif getTempData.SPATIALFIT GT 1>
 					<cfquery name="warningSpatialFit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_georef
@@ -1148,6 +1124,45 @@ limitations under the License.
 						SET status = concat(nvl2(status, status || '; ', ''),'GEOREFMETHOD does not exist - See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTGEOREFMETHOD">controlled vocabulary</a>')
 						WHERE GEOREFMETHOD not in (select GEOREFMETHOD from CTGEOREFMETHOD)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+					</cfquery>
+				</cfif>
+
+				<!--- Reload Data from the temp table --->
+				<cfquery name="getTempDataKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT HIGHERGEOGRAPHY,SPECLOCALITY,LOCALITY_ID,DEC_LAT,DEC_LONG,DETERMINED_BY_AGENT,
+						GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,
+						VERIFICATIONSTATUS,COORDINATE_PRECISION,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,
+						LAT_LONG_REMARKS,EXTENT,EXTENT_UNITS,GPSACCURACY,
+						VERIFIED_BY,VERIFIED_BY_AGENT_ID,DETERMINED_BY_AGENT_ID,
+						SPATIALFIT,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG,
+						LAT_DEG, LAT_MIN, LAT_SEC, LAT_DIR, LONG_DEG, LONG_MIN, LONG_SEC, LONG_DIR,
+						KEY
+					FROM CF_TEMP_GEOREF
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+				</cfquery>
+				<!---Check to see if the CSV georef is a dup of one already in the locality record--->
+				<cfif REFind("^[0-9.-]+$",getTempDataKey.dec_lat) GT 0 AND REFind("^[0-9.-]+$",getTempDataKey.dec_long) GT 0 AND ( REFind("^[0-9.]*$",getTempDataKey.max_error_distance) GT 0 OR getTempDataKey.max_error_distance EQ '') AND REFind("^[0-9]*$",getTempDataKey.locality_id) GT 0>
+					<cfquery name="warningLocalityID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_georef
+						SET status = concat(nvl2(status, status || '; ', ''),'This georeference exists on the locality record. Remove row.')
+						WHERE dec_lat in (select dec_lat from lat_long where dec_lat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKeyKey.dec_lat#">)
+							and dec_long in (select dec_long from lat_long where dec_long = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKey.dec_long#">) 
+							and georefmethod in (select georefmethod from lat_long where georefmethod = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKey.georefmethod#">)
+							and max_error_distance in (select max_error_distance from lat_long where max_error_distance = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKey.max_error_distance#">)
+							and datum in (select datum from lat_long where datum = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKey.datum#">)
+							and max_error_units in (select MAX_ERROR_UNITS from lat_long where MAX_ERROR_UNITS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKey.max_error_units#">)
+							and NEAREST_NAMED_PLACE in (select NEAREST_NAMED_PLACE from lat_long where NEAREST_NAMED_PLACE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKey.NEAREST_NAMED_PLACE#">)
+							and locality_id = (select locality_id from lat_long where locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataKey.locality_id#">)
+							and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
+					</cfquery>
+				<cfelse>
+					<cfquery name="warningSpatialFit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_georef
+						SET status = concat(nvl2(status, status || '; ', ''),'Prerequisites for checking for duplicate georeferences not met, dec_lat, dec_long_max_error_distance, locality_id must be numbers.')
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 					</cfquery>
 				</cfif>
