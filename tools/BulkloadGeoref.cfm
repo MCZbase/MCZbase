@@ -1213,7 +1213,6 @@ limitations under the License.
 						<th>GPSACCURACY</th>
 						<th>SPATIALFIT</th>
 						<th>NEAREST_NAMED_PLACE</th>
-						<th>USERNAME</th>
 						<th>VERIFIED_BY</th>
 						<th>ACCEPTED_LAT_LONG_FG</th>
 						<th>EXTENT_UNITS</th>
@@ -1248,7 +1247,6 @@ limitations under the License.
 							<td>#data.GPSACCURACY#</td>
 							<td>#data.SPATIALFIT#</td>
 							<td>#data.NEAREST_NAMED_PLACE#</td>
-							<td>#data.USERNAME#</td>
 							<td>#data.VERIFIED_BY#</td>
 							<td>1</td>
 							<td>#data.EXTENT_UNITS#</td>
