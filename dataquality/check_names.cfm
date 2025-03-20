@@ -155,7 +155,7 @@ limitations under the License.
 					</cfloop>
 				</table>
 			<cfcatch type="any">
-				<cfset error_message="<h4>Error reading line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
+				<cfset error_message="<h4>Error reading line #row# in input file.  <br>Header:[#ArrayToList(colNameArray)#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
 				<cfif isDefined("cfcatch.queryError")>
 					<cfset error_message = "#error_message# #cfcatch.queryError#">
 				</cfif>
