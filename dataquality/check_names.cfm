@@ -89,31 +89,46 @@ limitations under the License.
 			<cfinclude template="/shared/_header.cfm">
 		</cfif>
 		<cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
-		<cfoutput>
-			<cfset row = 0>
-			<cftry>
-				<cfset variables.foundHeaders =""><!--- populated by loadCsvFile --->
-				<cfset variables.size=""><!--- populated by loadCsvFile --->
-				<cfset iterator = loadCsvFile(FileToUpload=FileToUpload,format=format,characterSet=characterSet)>			
+
+		<cfset row = 0>
+		<cftry>
+			<cfset variables.foundHeaders =""><!--- populated by loadCsvFile --->
+			<cfset variables.size=""><!--- populated by loadCsvFile --->
+			<cfif NOT asCSV>
+				<cfoutput>
+			</cfif>
+			<cfset iterator = loadCsvFile(FileToUpload=FileToUpload,format=format,characterSet=characterSet)>			
+			<cfif NOT asCSV>
+				</cfoutput>
+			</cfif>
 	
-				<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
-				<cfset colNameArray = listToArray(ucase(variables.foundHeaders))><!--- the list of columns/fields found in the input file --->
-				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
-				<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
-				<cfif NOT asCSV>
+			<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
+			<cfset colNameArray = listToArray(ucase(variables.foundHeaders))><!--- the list of columns/fields found in the input file --->
+			<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
+			<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
+			<cfif NOT asCSV>
+				<cfoutput>
 					<div class="col-12 my-4 px-0">
 						<h3 class="h4">Found #variables.size# columns in header of csv file.</h3>
 						There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).
 					</div>
-				</cfif>
-				<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
-				<cfset TABLE_NAME = ""><!--- not used in this case --->
-				<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,TABLE_NAME=TABLE_NAME)>
-				<cfset resultsArray = ArrayNew(1)>
-				<!--- Create an HTML table to display the results --->
-				<cfif asCSV>
-					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE")>
-				<cfelse>
+				</cfoutput>
+			</cfif>
+			<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
+			<cfset TABLE_NAME = ""><!--- not used in this case --->
+			<cfif NOT asCSV>
+				<cfoutput>
+			</cfif>
+			<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,TABLE_NAME=TABLE_NAME)>
+			<cfif NOT asCSV>
+				</cfoutput>
+			</cfif>
+			<cfset resultsArray = ArrayNew(1)>
+			<!--- Create an HTML table to display the results --->
+			<cfif asCSV>
+				<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE")>
+			<cfelse>
+				<cfoutput>
 					<table border="1">
 						<thead>
 							<tr>
@@ -121,41 +136,43 @@ limitations under the License.
 								<th>Status</th>
 							</tr>
 						</thead>
-				</cfif>
-					<cfloop condition="#iterator.hasNext()#">
-						<!--- obtain the values in the current row --->
-						<cfset rowData = iterator.next()>
-						<cfset row = row + 1>
-						<cfset columnsCountInRow = rowData.size()>
-						<cfset collValuesArray= ArrayNew(1)>
-						<cfset scientificName = "">
-						<!--- loop through the columns in the row finding the scientific name column --->
-						<cfloop index="i" from="0" to="#rowData.size() - 1#">
-							<!--- loading cells from object instead of list allows commas inside cells --->
-							<cfset thisBit = "#rowData.get(JavaCast('int',i))#" >
-							<!--- store in a coldfusion array so we won't need JavaCast to reference by position --->
-							<cfset ArrayAppend(collValuesArray,thisBit)>
-							<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
-								<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
-									<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
-									<cfset val =trim(collValuesArray[fieldPos])>
-									<cfset scientificName = val>
-								</cfif>
-							</cfloop>
-						</cfloop>
-						<cfif len(trim(scientificName)) GT 0>
-							<!--- Execute a query to check the scientific name against MCZbase taxonomy --->
-							<cfquery name="checkScientificName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
-								SELECT  test_name, decode(t.scientific_name, null, 0, 1) as found 
-								FROM 
-									( SELECT <cfqueryparam value="#scientificName#" cfsqltype="CF_SQL_VARCHAR" maxlength="255"> as test_name FROM DUAL) d 
-									LEFT JOIN taxonomy t
-										ON t.scientific_name = <cfqueryparam value="#scientificName#" cfsqltype="CF_SQL_VARCHAR" maxlength="255">
-							</cfquery>
-							<!--- Display the scientific name and its status --->
-							<cfif asCSV>
-								<cfset ArrayAppend(resultsArray, "#scientificName#,#checkScientificName.found#")>
-							<cfelse>
+				</cfoutput>
+			</cfif>
+			<cfloop condition="#iterator.hasNext()#">
+				<!--- obtain the values in the current row --->
+				<cfset rowData = iterator.next()>
+				<cfset row = row + 1>
+				<cfset columnsCountInRow = rowData.size()>
+				<cfset collValuesArray= ArrayNew(1)>
+				<cfset scientificName = "">
+				<!--- loop through the columns in the row finding the scientific name column --->
+				<cfloop index="i" from="0" to="#rowData.size() - 1#">
+					<!--- loading cells from object instead of list allows commas inside cells --->
+					<cfset thisBit = "#rowData.get(JavaCast('int',i))#" >
+					<!--- store in a coldfusion array so we won't need JavaCast to reference by position --->
+					<cfset ArrayAppend(collValuesArray,thisBit)>
+					<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
+						<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
+							<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
+							<cfset val =trim(collValuesArray[fieldPos])>
+							<cfset scientificName = val>
+						</cfif>
+					</cfloop>
+				</cfloop>
+				<cfif len(trim(scientificName)) GT 0>
+					<!--- Execute a query to check the scientific name against MCZbase taxonomy --->
+					<cfquery name="checkScientificName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
+						SELECT  test_name, decode(t.scientific_name, null, 0, 1) as found 
+						FROM 
+							( SELECT <cfqueryparam value="#scientificName#" cfsqltype="CF_SQL_VARCHAR" maxlength="255"> as test_name FROM DUAL) d 
+							LEFT JOIN taxonomy t
+								ON t.scientific_name = <cfqueryparam value="#scientificName#" cfsqltype="CF_SQL_VARCHAR" maxlength="255">
+					</cfquery>
+					<!--- Display the scientific name and its status --->
+					<cfif asCSV>
+						<cfset ArrayAppend(resultsArray, "#scientificName#,#checkScientificName.found#")>
+					<cfelse>
+						<cfoutput>
 							<tr>
 								<td>#scientificName#</td>
 								<td>
@@ -166,23 +183,31 @@ limitations under the License.
 									</cfif>
 								</td>
 							</tr>
-							</cfif>
-						</cfif>
-					</cfloop>
-				<cfif asCSV>#ArrayToList(resultsArray, Chr(13) & Chr(10))#
-				<cfelse>
-					</table>
+						</cfoutput>
+					</cfif>
 				</cfif>
+			</cfloop>
+			<cfif asCSV>#ArrayToList(resultsArray, Chr(13) & Chr(10))#
+			<cfelse>
+				<cfoutput>
+					</table>
+				</cfoutput>
+			</cfif>
 			<cfcatch type="any">
 				<cfif not isDefined("collNameArray")><cfset colNameArray = ArrayNew(1)></cfif>
 				<cfif not isDefined("collValuesArray")><cfset collValuesArray = ArrayNew(1)></cfif>
-				<cfset error_message="<h4>Error reading line #row# in input file.  <br>Header:[#ArrayToList(colNameArray)#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
-				<cfif isDefined("cfcatch.queryError")>
-					<cfset error_message = "#error_message# #cfcatch.queryError#">
-				</cfif>
-				<h3 class="h4">Error processing file</h3>
-				<p>There was an error processing the file. Please check the file and try again.</p>
-				#error_message#
+				<cfouptut>
+					<cfset error_message="<h4>Error reading line #row# in input file.  <br>Header:[#ArrayToList(colNameArray)#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
+					<cfif isDefined("cfcatch.queryError")>
+						<cfset error_message = "#error_message# #cfcatch.queryError#">
+					</cfif>
+					<h3 class="h4">Error processing file</h3>
+					<p>There was an error processing the file. Please check the file and try again.</p>
+					#error_message#
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+						<cfdump var="#cfcatch#">
+					</cfif>
+				</cfoutput>
 			</cfcatch>
 			</cftry>
 		</cfoutput>
