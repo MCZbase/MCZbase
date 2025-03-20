@@ -68,6 +68,11 @@ limitations under the License.
 		<cfinclude template="/shared/_footer.cfm">
 	</cfcase>
 	<cfcase value="checkNames">
+		<!--- Set some constants to identify error cases in cfcatch block --->
+		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
+		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
+		<cfset COLUMN_ERR = "Error inserting data">
+		<cfset NO_HEADER_ERR = "No header line found, csv file appears to be empty.">
 
 		<!--- get form variables --->
 		<cfif isDefined("form.fileToUpload")><cfset variables.fileToUpload = form.fileToUpload></cfif>
