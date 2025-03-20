@@ -83,6 +83,7 @@ limitations under the License.
 		<cfelse>
 			<cfinclude template="/shared/_header.cfm">
 			<cfinclude template="/shared/_header.cfm">
+		</cfif>
 		<cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
 		<cfoutput>
 			<cfset row = 0>
@@ -159,9 +160,9 @@ limitations under the License.
 				<cfif isDefined("cfcatch.queryError")>
 					<cfset error_message = "#error_message# #cfcatch.queryError#">
 				</cfif>
-					<h3 class="h4">Error processing file</h3>
-					<p>There was an error processing the file. Please check the file and try again.</p>
-					#error_message#
+				<h3 class="h4">Error processing file</h3>
+				<p>There was an error processing the file. Please check the file and try again.</p>
+				#error_message#
 			</cfcatch>
 			</cftry>
 		</cfoutput>
