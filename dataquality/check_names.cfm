@@ -106,6 +106,7 @@ limitations under the License.
 				</div>
 	
 				<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
+				<cfset TABLE_NAME = ""><!--- not used in this case --->
 				<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,TABLE_NAME=TABLE_NAME)>
 				<!--- Create an HTML table to display the results --->
 				<table border="1">

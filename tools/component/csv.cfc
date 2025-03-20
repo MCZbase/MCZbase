@@ -236,7 +236,7 @@ limitations under the License.
 			<cfloop list="#fieldlist#" index="field" delimiters=",">
 				<cfset hint="">
 				<cfset comment = "">
-				<cfif isDefined("TABLE_NAME")>
+				<cfif isDefined("TABLE_NAME") AND len(TABLE_NAME) GT 0>
 					<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
 						SELECT comments 
 							from sys.all_col_comments
