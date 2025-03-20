@@ -41,7 +41,7 @@ limitations under the License.
 							<input type="hidden" name="action" value="checkNames">
 							<div class="col-12 col-md-4">
 								<label for="fileToUpload" class="data-entry-label">File to check:</label> 
-								<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0">
+								<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0 required" required>
 							</div>
 							<div class="col-12 col-md-2">
 								<cfset charsetSelect = getCharsetSelectHTML()>
@@ -51,7 +51,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="returnAsCSV" class="data-entry-label">Return as:</label>
-								<select name="returnAsCSV" id="returnAsCSV" class="data-entry-input p-0 m-0">
+								<select name="returnAsCSV" id="returnAsCSV" class="data-entry-input p-0 m-0 required">
 									<option value="html" selected>HTML</option>
 									<option value="csv">CSV</option>
 								</select>
@@ -196,7 +196,7 @@ limitations under the License.
 			<cfcatch type="any">
 				<cfif not isDefined("collNameArray")><cfset colNameArray = ArrayNew(1)></cfif>
 				<cfif not isDefined("collValuesArray")><cfset collValuesArray = ArrayNew(1)></cfif>
-				<cfouptut>
+				<cfoutput>
 					<cfset error_message="<h4>Error reading line #row# in input file.  <br>Header:[#ArrayToList(colNameArray)#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
 					<cfif isDefined("cfcatch.queryError")>
 						<cfset error_message = "#error_message# #cfcatch.queryError#">
