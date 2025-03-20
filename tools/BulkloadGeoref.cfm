@@ -684,8 +684,8 @@ limitations under the License.
 					LAT_DEG is not null 
 					AND (
 						NOT regexp_like(LAT_DEG,'^[0-9]+$')
-						OR TO_NUMBER(LAT_DEG) < 0 
-						OR TO_NUMBER(LAT_DEG) > 90 
+						OR TO_NUMBER(LAT_DEG default -100 on conversion error) < 0 
+						OR TO_NUMBER(LAT_DEG default 0 on conversion error) > 90 
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -696,8 +696,8 @@ limitations under the License.
 					LONG_DEG is not null 
 					AND ( 
 						NOT regexp_like(LONG_DEG,'^[0-9]+$')
-						OR TO_NUMBER(LONG_DEG) < 0 
-						OR TO_NUMBER(LONG_DEG) > 180
+						OR TO_NUMBER(LONG_DEG default -1 on conversion error) < 0 
+						OR TO_NUMBER(LONG_DEG default 0 on conversion error) > 180
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -707,8 +707,8 @@ limitations under the License.
 				WHERE 
 					LAT_MIN is not null 
 					AND (NOT regexp_like(LAT_MIN,'^[0-9]+$')
-						OR TO_NUMBER(LAT_MIN) < 0 
-						OR TO_NUMBER(LAT_MIN) > 60
+						OR TO_NUMBER(LAT_MIN default -1 on conversion error) < 0 
+						OR TO_NUMBER(LAT_MIN default 0 on conversion error) > 60
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -719,8 +719,8 @@ limitations under the License.
 					LONG_MIN is not null 
 					AND (
 						NOT regexp_like(LONG_MIN,'^[0-9]+$')
-						OR TO_NUMBER(LONG_MIN) < 0 
-						OR TO_NUMBER(LONG_MIN) > 60
+						OR TO_NUMBER(LONG_MIN default -1 on conversion error) < 0 
+						OR TO_NUMBER(LONG_MIN default 0 on conversion error) > 60
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -731,8 +731,8 @@ limitations under the License.
 					LAT_MIN is not null 
 					AND (
 						NOT regexp_like(LAT_MIN,'^[0-9.]+$')
-						OR TO_NUMBER(LAT_MIN) < 0 
-						OR TO_NUMBER(LAT_MIN) > 60
+						OR TO_NUMBER(LAT_MIN default -1 on conversion error) < 0 
+						OR TO_NUMBER(LAT_MIN default 0 on conversion error) > 60
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -742,8 +742,8 @@ limitations under the License.
 				WHERE 
 					LONG_MIN is not null 
 					AND ( NOT regexp_like(LONG_MIN,'^[0-9.]+$')
-						OR TO_NUMBER(LONG_MIN) < 0 
-						OR TO_NUMBER(LONG_MIN) > 60
+						OR TO_NUMBER(LONG_MIN default -1 on conversion error) < 0 
+						OR TO_NUMBER(LONG_MIN default 0 on conversion error) > 60
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -836,7 +836,7 @@ limitations under the License.
 					AND (
 						NOT regexp_like(GPSACCURACY,'^[0-9.]+$')
 						OR TO_NUMBER(GPSACCURACY default 0 on conversion error) < 0 
-						OR ( TO_NUMBER(GPSACCURACY default 0 on coversion error) > 0 AND TO_NUMBER(GPSACCURACY default 0 on conversion error) < 1 )
+						OR ( TO_NUMBER(GPSACCURACY default 0 on conversion error) > 0 AND TO_NUMBER(GPSACCURACY default 0 on conversion error) < 1 )
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -847,8 +847,8 @@ limitations under the License.
 					SPATIALFIT is not null 
 					AND (
 						NOT regexp_like(SPATIALFIT,'^[0-9.]+$')
-						OR TO_NUMBER(SPATIALFIT) < 0 
-						OR ( TO_NUMBER(SPATIALFIT) > 0 AND TO_NUMBER(SPATIALFIT) < 1 )
+						OR TO_NUMBER(SPATIALFIT default 0 on conversion error) < 0 
+						OR ( TO_NUMBER(SPATIALFIT default 0 on conversion error) > 0 AND TO_NUMBER(SPATIALFIT default 0 on conversion error) < 1 )
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
