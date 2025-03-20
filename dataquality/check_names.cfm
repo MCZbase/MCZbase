@@ -36,7 +36,7 @@ limitations under the License.
 				<h1 class="h2 mt-2">Check scientific names against MCZbase taxonomy records</h1>
 				<div>
 					<h2 class="h4 mt-4">Upload a comma-delimited text file (csv) containing a SCIENTIFIC_NAME column</h2>
-					<form name="agts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAgents.cfm">
+					<form name="csvform" method="post" enctype="multipart/form-data" action="/dataquality/check_names.cfm">
 						<div class="form-row border rounded p-2">
 							<input type="hidden" name="action" value="checkNames">
 							<div class="col-12 col-md-4">
