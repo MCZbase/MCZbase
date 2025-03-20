@@ -121,7 +121,6 @@ limitations under the License.
 					<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,TABLE_NAME=TABLE_NAME)>
 				</cfoutput>
 			<cfelse>
-				<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,TABLE_NAME=TABLE_NAME)>
 			</cfif>
 			<cfset resultsArray = ArrayNew(1)>
 			<!--- Create an HTML table to display the results --->
