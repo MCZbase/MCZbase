@@ -753,8 +753,8 @@ limitations under the License.
 				WHERE 
 					DEC_LAT is not null
 					AND ( NOT regexp_like(DEC_LAT,'^[0-9.-]+$')
-						OR TO_NUMBER(DEC_LAT) < -90
-						OR TO_NUMBER(DEC_LAT) > 90
+						OR TO_NUMBER(DEC_LAT default -100 on conversion error) < -90
+						OR TO_NUMBER(DEC_LAT default 0 on conversion error) > 90
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -764,8 +764,8 @@ limitations under the License.
 				WHERE
 					DEC_LONG is not null 
 					AND (NOT regexp_like(DEC_LONG,'^[0-9.-]+$')
-						OR TO_NUMBER(DEC_LONG) < -180 
-						OR TO_NUMBER(DEC_LONG) > 180
+						OR TO_NUMBER(DEC_LONG default -200 on conversion error) < -180 
+						OR TO_NUMBER(DEC_LONG default 0 on conversion error) > 180
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -835,8 +835,8 @@ limitations under the License.
 					GPSACCURACY is not null 
 					AND (
 						NOT regexp_like(GPSACCURACY,'^[0-9.]+$')
-						OR TO_NUMBER(GPSACCURACY) < 0 
-						OR ( TO_NUMBER(GPSACCURACY) > 0 AND TO_NUMBER(GPSACCURACY) < 1 )
+						OR TO_NUMBER(GPSACCURACY default 0 on conversion error) < 0 
+						OR ( TO_NUMBER(GPSACCURACY default 0 on coversion error) > 0 AND TO_NUMBER(GPSACCURACY default 0 on conversion error) < 1 )
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
