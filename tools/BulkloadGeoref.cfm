@@ -795,7 +795,7 @@ limitations under the License.
 				SET status = concat(nvl2(status, status || '; ', ''),'if LAT_LONG_FOR_NNP_FG is provided NEAREST_NAMED_PLACE must also have a value.')
 				WHERE 
 					LAT_LONG_FOR_NNP_FG is not null 
-					NEAREST_NAMED_PLACE is null 
+					AND NEAREST_NAMED_PLACE is null 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="errordistanceTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
