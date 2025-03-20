@@ -99,7 +99,7 @@ limitations under the License.
 					<cfset iterator = loadCsvFile(FileToUpload=FileToUpload,format=format,characterSet=characterSet)>			
 				</cfoutput>
 			<cfelse>
-				<cfset iterator = loadCsvFile(FileToUpload=FileToUpload,format=format,characterSet=characterSet)>			
+				<cfset iterator = loadCsvFileSilent(FileToUpload=FileToUpload,format=format,characterSet=characterSet)>			
 			</cfif>
 	
 			<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
@@ -186,7 +186,8 @@ limitations under the License.
 					</cfif>
 				</cfif>
 			</cfloop>
-			<cfif asCSV>#ArrayToList(resultsArray, Chr(13) & Chr(10))#
+			<cfif asCSV>
+				<cfoutput>#ArrayToList(resultsArray, Chr(13) & Chr(10))#</cfoutput>
 			<cfelse>
 				<cfoutput>
 					</table>
