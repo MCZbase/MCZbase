@@ -41,17 +41,17 @@ limitations under the License.
 							<input type="hidden" name="action" value="checkNames">
 							<div class="col-12 col-md-4">
 								<label for="fileToUpload" class="data-entry-label">File to check:</label> 
-								<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0 required" required>
+								<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0 reqdClr" required>
 							</div>
 							<div class="col-12 col-md-2">
-								<cfset charsetSelect = getCharsetSelectHTML()>
+								<cfset charsetSelect = getCharsetSelectHTML(default="utf-8")>
 							</div>
 							<div class="col-12 col-md-2">
 								<cfset formatSelect = getFormatSelectHTML()>
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="returnAsCSV" class="data-entry-label">Return as:</label>
-								<select name="returnAsCSV" id="returnAsCSV" class="data-entry-input p-0 m-0 required">
+								<select name="returnAsCSV" id="returnAsCSV" class="data-entry-input p-0 m-0 reqdClr">
 									<option value="html" selected>HTML</option>
 									<option value="csv">CSV</option>
 								</select>

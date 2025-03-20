@@ -43,11 +43,16 @@ limitations under the License.
   @see loadCsvFile for consumption of these option values.
 --->
 <cffunction name="getCharsetSelectHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument default="none" name="default" type="string" required="no">
 	<cfoutput>
 		<label for="characterSet" class="data-entry-label">Character Set:</label> 
 		<select name="characterSet" id="characterSet" required class="data-entry-select reqdClr">
-			<option selected></option>
-			<option value="utf-8" >utf-8</option>
+			<cfif default EQ "utf-8">
+				<option value="utf-8" selected >utf-8</option>
+			<cfelse>
+				<option selected></option>
+				<option value="utf-8" >utf-8</option>
+			</cfif>
 			<option value="iso-8859-1">iso-8859-1</option>
 			<option value="windows-1252">windows-1252 (Win Latin 1)</option>
 			<option value="MacRoman">MacRoman</option>
