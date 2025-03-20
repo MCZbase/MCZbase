@@ -847,7 +847,8 @@ limitations under the License.
 					SPATIALFIT is not null 
 					AND (
 						NOT regexp_like(SPATIALFIT,'^[0-9.]+$')
-						OR trim(SPATIALFIT) = '0' 
+						OR TO_NUMBER(SPATIALFIT) < 0 
+						OR ( TO_NUMBER(SPATIALFIT) > 0 AND TO_NUMBER(SPATIALFIT) < 1 )
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
