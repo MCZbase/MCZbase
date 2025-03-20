@@ -760,7 +760,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="decLongCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'DEC_LONG must be a number in the range -180 to 180.')
+				SET status = concat(nvl2(status, status || '; ', ''),'DEC_LONG must be a number in the range -180 to 180')
 				WHERE
 					DEC_LONG is not null 
 					AND (NOT regexp_like(DEC_LONG,'^[0-9.-]+$')
@@ -772,7 +772,7 @@ limitations under the License.
 
 			<cfquery name="precisionTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'COORDINATE_PRECISION, is required and must be an integer in the range 0 to 6 inclusive.')
+				SET status = concat(nvl2(status, status || '; ', ''),'COORDINATE_PRECISION, is required and must be an integer in the range 0 to 6 inclusive')
 				WHERE 
 					( 	
 						COORDINATE_PRECISION is null 
@@ -782,7 +782,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="nnpflagTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'LAT_LONG_FOR_NNP_FG, if provided, must be either 0 or 1.')
+				SET status = concat(nvl2(status, status || '; ', ''),'LAT_LONG_FOR_NNP_FG, if provided, must be either 0 or 1')
 				WHERE 
 					LAT_LONG_FOR_NNP_FG is not null 
 					AND (
@@ -792,7 +792,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="nnpflagTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'if LAT_LONG_FOR_NNP_FG is provided NEAREST_NAMED_PLACE must also have a value.')
+				SET status = concat(nvl2(status, status || '; ', ''),'if LAT_LONG_FOR_NNP_FG is provided NEAREST_NAMED_PLACE must also have a value')
 				WHERE 
 					LAT_LONG_FOR_NNP_FG is not null 
 					AND NEAREST_NAMED_PLACE is null 
@@ -800,7 +800,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="errordistanceTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'MAX_ERROR_DISTANCE must be a positive number and must not be zero.')
+				SET status = concat(nvl2(status, status || '; ', ''),'MAX_ERROR_DISTANCE must be numeric, a positive number, and must not be zero')
 				WHERE 
 					MAX_ERROR_DISTANCE is not null 
 					AND (
@@ -811,7 +811,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="extentTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'EXTENT, if provided, must be a positive number and must not be zero.')
+				SET status = concat(nvl2(status, status || '; ', ''),'EXTENT, if provided, must be a positive number and must not be zero')
 				WHERE 
 					EXTENT is not null 
 					AND (
@@ -822,7 +822,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="extentwithunitsTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'If EXTENT is provided, EXTENT_UNITS must also be provided.')
+				SET status = concat(nvl2(status, status || '; ', ''),'If EXTENT is provided, EXTENT_UNITS must also be provided')
 				WHERE 
 					EXTENT is not null 
 					AND EXTENT_UNITS is null
@@ -830,7 +830,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="gpsaccuracyTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'GPSACCURACY, if provided, must be a positive number and must not be zero.')
+				SET status = concat(nvl2(status, status || '; ', ''),'GPSACCURACY, if provided, must be a positive number and must not be zero')
 				WHERE 
 					GPSACCURACY is not null 
 					AND (
@@ -842,7 +842,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="spatialfitTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_georef
-				SET status = concat(nvl2(status, status || '; ', ''),'SPATIALFIT, if provided, must be zero, or a positive number greater than or equal to 1.')
+				SET status = concat(nvl2(status, status || '; ', ''),'SPATIALFIT, if provided, must be zero, or a positive number greater than or equal to 1')
 				WHERE 
 					SPATIALFIT is not null 
 					AND (
