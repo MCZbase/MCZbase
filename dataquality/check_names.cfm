@@ -82,7 +82,6 @@ limitations under the License.
 			<cfheader name="Content-Disposition" value="attachment; filename=checkNamesResults.csv">
 		<cfelse>
 			<cfinclude template="/shared/_header.cfm">
-			<cfinclude template="/shared/_header.cfm">
 		</cfif>
 		<cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
 		<cfoutput>
