@@ -193,24 +193,23 @@ limitations under the License.
 					</table>
 				</cfoutput>
 			</cfif>
-			<cfcatch type="any">
-				<cfif not isDefined("collNameArray")><cfset colNameArray = ArrayNew(1)></cfif>
-				<cfif not isDefined("collValuesArray")><cfset collValuesArray = ArrayNew(1)></cfif>
-				<cfoutput>
-					<cfset error_message="<h4>Error reading line #row# in input file.  <br>Header:[#ArrayToList(colNameArray)#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
-					<cfif isDefined("cfcatch.queryError")>
-						<cfset error_message = "#error_message# #cfcatch.queryError#">
-					</cfif>
-					<h3 class="h4">Error processing file</h3>
-					<p>There was an error processing the file. Please check the file and try again.</p>
-					#error_message#
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-						<cfdump var="#cfcatch#">
-					</cfif>
-				</cfoutput>
-			</cfcatch>
-			</cftry>
-		</cfoutput>
+		<cfcatch type="any">
+			<cfif not isDefined("collNameArray")><cfset colNameArray = ArrayNew(1)></cfif>
+			<cfif not isDefined("collValuesArray")><cfset collValuesArray = ArrayNew(1)></cfif>
+			<cfoutput>
+				<cfset error_message="<h4>Error reading line #row# in input file.  <br>Header:[#ArrayToList(colNameArray)#] <br>Row:[#ArrayToList(collValuesArray)#] <br>Error: #cfcatch.message#"><!--- " --->
+				<cfif isDefined("cfcatch.queryError")>
+					<cfset error_message = "#error_message# #cfcatch.queryError#">
+				</cfif>
+				<h3 class="h4">Error processing file</h3>
+				<p>There was an error processing the file. Please check the file and try again.</p>
+				#error_message#
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+					<cfdump var="#cfcatch#">
+				</cfif>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
 		<cfif NOT asCSV>
 			<cfinclude template="/shared/_footer.cfm">
 		</cfif>
