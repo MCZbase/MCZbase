@@ -96,10 +96,10 @@ limitations under the License.
 			<cfset variables.size=""><!--- populated by loadCsvFile --->
 			<cfif NOT asCSV>
 				<cfoutput>
-			</cfif>
-			<cfset iterator = loadCsvFile(FileToUpload=FileToUpload,format=format,characterSet=characterSet)>			
-			<cfif NOT asCSV>
+					<cfset iterator = loadCsvFile(FileToUpload=FileToUpload,format=format,characterSet=characterSet)>			
 				</cfoutput>
+			<cfelse>
+				<cfset iterator = loadCsvFile(FileToUpload=FileToUpload,format=format,characterSet=characterSet)>			
 			</cfif>
 	
 			<!--- Note: As we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number, thus arrays --->
@@ -118,10 +118,10 @@ limitations under the License.
 			<cfset TABLE_NAME = ""><!--- not used in this case --->
 			<cfif NOT asCSV>
 				<cfoutput>
-			</cfif>
-			<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,TABLE_NAME=TABLE_NAME)>
-			<cfif NOT asCSV>
+					<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,TABLE_NAME=TABLE_NAME)>
 				</cfoutput>
+			<cfelse>
+				<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,TABLE_NAME=TABLE_NAME)>
 			</cfif>
 			<cfset resultsArray = ArrayNew(1)>
 			<!--- Create an HTML table to display the results --->
