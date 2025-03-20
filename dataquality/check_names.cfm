@@ -100,22 +100,28 @@ limitations under the License.
 				<cfset colNameArray = listToArray(ucase(variables.foundHeaders))><!--- the list of columns/fields found in the input file --->
 				<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 				<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
-				<div class="col-12 my-4 px-0">
-					<h3 class="h4">Found #variables.size# columns in header of csv file.</h3>
-					There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).
-				</div>
-	
+				<cfif NOT asCSV>
+					<div class="col-12 my-4 px-0">
+						<h3 class="h4">Found #variables.size# columns in header of csv file.</h3>
+						There are #ListLen(fieldList)# columns expected in the header (of these #ListLen(requiredFieldList)# are required).
+					</div>
+				</cfif>
 				<!--- check for required fields in header line, list all fields, throw exception and fail if any required fields are missing --->
 				<cfset TABLE_NAME = ""><!--- not used in this case --->
 				<cfset reqFieldsResponse = checkRequiredFields(fieldList=fieldList,requiredFieldList=requiredFieldList,NO_COLUMN_ERR=NO_COLUMN_ERR,TABLE_NAME=TABLE_NAME)>
+				<cfset resultsArray = ArrayNew(1)>
 				<!--- Create an HTML table to display the results --->
-				<table border="1">
-					<thead>
-						<tr>
-							<th>Scientific Name</th>
-							<th>Status</th>
-						</tr>
-					</thead>
+				<cfif asCSV>
+					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE")>
+				<cfelse>
+					<table border="1">
+						<thead>
+							<tr>
+								<th>Scientific Name</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+				</cfif>
 					<cfloop condition="#iterator.hasNext()#">
 						<!--- obtain the values in the current row --->
 						<cfset rowData = iterator.next()>
@@ -147,6 +153,9 @@ limitations under the License.
 										ON t.scientific_name = <cfqueryparam value="#scientificName#" cfsqltype="CF_SQL_VARCHAR" maxlength="255">
 							</cfquery>
 							<!--- Display the scientific name and its status --->
+							<cfif asCSV>
+								<cfset ArrayAppend(resultsArray, "#scientificName#,#checkScientificName.found#")>
+							<cfelse>
 							<tr>
 								<td>#scientificName#</td>
 								<td>
@@ -157,9 +166,13 @@ limitations under the License.
 									</cfif>
 								</td>
 							</tr>
+							</cfif>
 						</cfif>
 					</cfloop>
-				</table>
+				<cfif asCSV>#ArrayToList(resultsArray, Chr(13) & Chr(10))#
+				<cfelse>
+					</table>
+				</cfif>
 			<cfcatch type="any">
 				<cfif not isDefined("collNameArray")><cfset colNameArray = ArrayNew(1)></cfif>
 				<cfif not isDefined("collValuesArray")><cfset collValuesArray = ArrayNew(1)></cfif>
