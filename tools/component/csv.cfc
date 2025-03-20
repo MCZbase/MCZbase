@@ -235,19 +235,21 @@ limitations under the License.
 		<table class='table table-responsive small'>
 			<cfloop list="#fieldlist#" index="field" delimiters=",">
 				<cfset hint="">
-				<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
-					select comments 
-						from sys.all_col_comments
-					where 
-						owner = 'MCZBASE'
-					AND
-						TABLE_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(TABLE_NAME)#" />
-					AND
-						column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
-				</cfquery>
 				<cfset comment = "">
-				<cfif getComments.recordcount GT 0>
-					<cfset comment = getComments.comments>
+				<cfif isDefined("TABLE_NAME")>
+					<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
+						SELECT comments 
+							from sys.all_col_comments
+						WHERE 
+							owner = 'MCZBASE'
+						AND
+							TABLE_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(TABLE_NAME)#" />
+						AND
+							column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(field)#" />
+					</cfquery>
+					<cfif getComments.recordcount GT 0>
+						<cfset comment = getComments.comments>
+					</cfif>
 				</cfif>
 				<cfif listContains(requiredfieldlist,field,",")>
 					<cfset class="text-danger">
