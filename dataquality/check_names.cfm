@@ -198,7 +198,7 @@ limitations under the License.
 		
 						<cfset comparator = icznComparator.init(.75,.5)>
 						<cfset lookupName = nameUsage.init()>
-						<cfset lookupName.setScientificName(scientific_name)>
+						<cfset lookupName.setScientificName(scientificName)>
 						<cfset lookupName.setAuthorship("")>
 
 						<!--- lookup in GBIF Backbone --->
