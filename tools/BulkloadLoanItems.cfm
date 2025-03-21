@@ -458,13 +458,12 @@ limitations under the License.
 				<p class="text-danger">Multiple loans found in the data.  This is allowed, but not expected.  Do you mean to add items to more than one loan</p>
 			</cfif>
 			<cfquery name="itemCollectionSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT count(*) ct, collection_cde
+				SELECT count(distinct collection_cde) ct
 				FROM 
 					CF_TEMP_LOAN_ITEM
 				WHERE 
 					collection_cde is not null
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				GROUP BY collection_cde
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfif itemCollectionSummary.ct GT 1>
 				<p class="text-danger">Multiple collection codes found in the data.  This is allowed, but not expected.  Do you mean to add items from more than one collection?</p>
