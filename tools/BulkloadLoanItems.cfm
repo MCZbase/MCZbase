@@ -442,7 +442,7 @@ limitations under the License.
 					CF_TEMP_LOAN_ITEM
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				GROUP BY loan_number
+				GROUP BY part_name, preserve_method, collection_cde
 			</cfquery>
 			<cfif itemSummary.recordcount GT 0>
 				<p>Loan Items to add:</p>
