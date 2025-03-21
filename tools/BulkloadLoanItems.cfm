@@ -86,14 +86,18 @@ limitations under the License.
 		<cfoutput>
 			<cfset username = "#session.username#">
 			<p>This tool is used to bulkload loan items (connect parts to a loan) while adding item descriptions and item remarks more easily through a spreadsheet.</p>
+			<p>This tool is most easily used working with a CSV file generated from Manage specimen search results with Parts Report/Download using the "Download Parts CSV with Loan Item fields" option.</p>
 			<p>The following must all be true to use this form:</p>
 			<ul>
-				<li>Items in the file you load are not already on loan (check part disposition)</li>
-				<li>Encumbrances have been checked</li>
-				<li>A loan has been created in MCZbase.</li>
-				<li>Loan Item reconciled person is you (#username#) - automatically added</li>
-				<li>Loan Item reconciled date is today (2024-07-18) - automatically added</li>
-				<li>Worksheet/CSV was generated from a manage specimen results Parts Report/Download and clicking the button "Download Parts CSV with Loan Item fields"</li>
+				<li>The loan to which to add the items has been created in MCZbase, enter the LOAN_NUMBER in the CSV.</li>
+				<li>Items in the file you load are not already in the loan you want to add them to.</li>
+				<li>Items in the file you load do not have a part disposition of "on loan" or any of the "deaccessioned" dispositions.</li>
+				<li>You must have checked any Encumbrances.</li>
+			</ul>
+			<p>The following information will be added to each loan items on a successfull load:</p>
+			<ul>
+				<li>You (#username#) will be recorded as the person adding the items to the loan.</li>
+				<li>The loan items will be marked as being added to the loan today (#DateFormat(Now(),"yyyy-mm-dd")#).</li>
 			</ul>
 			<p>Additional part-related columns are included to help identify the parts (shown at validation step)]. They are not needed for this bulkloader.</p>
 			<div class="accordion mt-2" id="accordionIdentifiers">
@@ -487,7 +491,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#"> 
 				</cfquery>
-				<cfquery name="bad_loan_num" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="no_part_collection_object_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
 						cf_temp_loan_item
 					set
@@ -497,13 +501,30 @@ limitations under the License.
 						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#"> 
 				</cfquery>
-				<cfquery name="bad_loan_num" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="bad_loan_number" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
 						cf_temp_loan_item
 					set
-						status = concat(nvl2(status, status || '; ', ''),'Loan ['|| loan_number ||'] does not exist')
+						status = concat(nvl2(status, status || '; ', ''),'Loan ['|| loan_number ||'] not found.')
 					where 
 						transaction_id is null
+						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#"> 
+				</cfquery>
+				<!--- check part disposition --->
+				<cfquery name="checkDisposition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_loan_item
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'Part ['|| part_name ||'] does not have a loanable disposition.')
+					WHERE
+						part_collection_object_id IS NOT NULL
+						AND part_collection_object_id NOT IN (
+							SELECT collection_object_id
+							FROM specimen_part
+							WHERE 
+								part_disposition = 'on loan'
+								or part_disposition like 'deaccessioned%'
+						)
 						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#"> 
 				</cfquery>
