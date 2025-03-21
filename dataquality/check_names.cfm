@@ -222,7 +222,7 @@ limitations under the License.
 							<cfset r.GUID = returnName.getGuid()>
 							<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
 							<cfset r.HABITATFLAGS = "">
-							<cfset gbifName = "#returnName.getScientificName# #returnName.getAuthorship#">
+							<cfset gbifName = "#returnName.getScientificName()# #returnName.getAuthorship()#">
 						</cfif>
 						<cfset result["GBIF Backbone"] = r>
 						
