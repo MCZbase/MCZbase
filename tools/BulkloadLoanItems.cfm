@@ -674,8 +674,6 @@ limitations under the License.
 						<th>SUBSAMPLE</th>
 						<th>LOAN_NUMBER</th>
 						<th>PART_COLLECTION_OBJECT_ID</th>
-						<th>TRANSACTION_ID</th>
-						<th>KEY</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -695,8 +693,6 @@ limitations under the License.
 							<td>#data.SUBSAMPLE#</td>
 							<td>#data.LOAN_NUMBER#</td>
 							<td>#data.PART_COLLECTION_OBJECT_ID#</td>
-							<td>#data.TRANSACTION_ID#</td>
-							<td>#data.KEY#</td>
 						</tr>
 					</cfloop>
 				</tbody>
