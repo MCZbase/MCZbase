@@ -36,6 +36,15 @@ limitations under the License.
 				<h1 class="h2 mt-2">Check scientific names against MCZbase taxonomy records</h1>
 				<div>
 					<h2 class="h4 mt-4">Upload a comma-delimited text file (csv) containing a SCIENTIFIC_NAME column</h2>
+					<p>
+						This tool will check if the names exist as taxon records in MCZbase, and optionally in the GBIF backbone taxonomy.
+						Any columns other than SCIENTIFIC_NAME will be ignored.  SCIENTIFIC_NAME should contain just the canonical name 
+						of the taxon, and should not include the authorship.  The tool will return a list of the names checked, and whether
+						exact matches for them exist in MCZbase.  If the GBIF option is selected, it will also return matches to the name 
+						in the GBIF backbone taxonomy.  The results can be returned as an HTML table or as a CSV file.  This tool does
+						not alter the MCZbase database.  It may be used to check if all names in list of names exist as MCZbase taxonomy
+						records before attempting to add them in an specimen bulkload or an identification upload.
+					</p>
 					<form name="csvform" method="post" enctype="multipart/form-data" action="/dataquality/check_names.cfm">
 						<div class="form-row border rounded p-2">
 							<input type="hidden" name="action" value="checkNames">
