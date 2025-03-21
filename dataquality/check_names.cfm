@@ -242,13 +242,7 @@ limitations under the License.
 									</cfif>
 								</td>
 								<cfif variables.gbifLookup>
-									<td>
-										<cfif len(trim(gbifName)) GT 0>
-											#gbifName#
-										<cfelse>
-											Not Matched
-										</cfif>
-									</td>
+									<td>#gbifName#</td>
 								</cfif>
 							</tr>
 						</cfoutput>
