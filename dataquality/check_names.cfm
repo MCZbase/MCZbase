@@ -244,6 +244,7 @@ limitations under the License.
 											Not Matched
 										</cfif>
 									</td>
+								</cfif>
 							</tr>
 						</cfoutput>
 					</cfif>
