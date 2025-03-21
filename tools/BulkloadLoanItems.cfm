@@ -448,7 +448,7 @@ limitations under the License.
 				<p>Loan Items to add:</p>
 				<ul>
 					<cfloop query="itemSummary">
-						<li>#ct# items with part_name=#part_name#, preserve_method=#preserve_method#, collection_cde=#collection_cde#</li>
+						<li>#ct# #collection_cde# items: #part_name# (#preserve_method#)</li>
 					</cfloop>
 				</ul>
 			</cfif>
