@@ -520,10 +520,11 @@ limitations under the License.
 						part_collection_object_id IS NOT NULL
 						AND part_collection_object_id NOT IN (
 							SELECT collection_object_id
-							FROM specimen_part
+							FROM specimen_part 
+								join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 							WHERE 
-								part_disposition = 'on loan'
-								or part_disposition like 'deaccessioned%'
+								coll_obj_disposition = 'on loan'
+								or coll_obj_disposition like 'deaccessioned%'
 						)
 						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#"> 
