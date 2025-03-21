@@ -57,11 +57,12 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-4">
-								<label for="gbifLookup" class="data-entry-label">Also Look up in:</label>
-								<select name="gbifLookup" id="gbifLookup" class="data-entry-input p-0 m-0 reqdClr">
+								<label for="remoteLookup" class="data-entry-label">Also Look up in:</label>
+								<select name="remoteLookup" id="remoteLookup" class="data-entry-input p-0 m-0">
 									<option value="" selected></option>
 									<option value="GBIF">GBIF Backbone Taxonomy</option>
 								</select>
+							</div>
 							<div class="col-12 col-md-2">
 								<label for="submitButton" class="data-entry-label">&nbsp;</label>
 								<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
@@ -84,8 +85,12 @@ limitations under the License.
 		<cfif isDefined("form.fileToUpload")><cfset variables.fileToUpload = form.fileToUpload></cfif>
 		<cfif isDefined("form.format")><cfset variables.format = form.format></cfif>
 		<cfif isDefined("form.characterSet")><cfset variables.characterSet = form.characterSet></cfif>
-		<cfif isDefined("form.gbifLookup")>
-			<cfset variables.gbifLookup = form.gbifLookup>
+		<cfif isDefined("form.remoteLookup")>
+			<cfif form.remoteLookup EQ "GBIF">
+				<cfset variables.gbifLookup = true>
+			<cfelse>
+				<cfset variables.gbifLookup = false>
+			</cfif>
 		<cfelse>
 			<cfset variables.gbifLookup = false>
 		</cfif>
