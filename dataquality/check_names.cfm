@@ -141,7 +141,11 @@ limitations under the License.
 			<cfset resultsArray = ArrayNew(1)>
 			<!--- Create an HTML table to display the results --->
 			<cfif asCSV>
-				<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE")>
+				<cfif variables.gbifLookup>
+					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,GBIF")>
+				<cfelse>
+					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE")>
+				</cfif>
 			<cfelse>
 				<cfoutput>
 					<table border="1">
@@ -187,12 +191,15 @@ limitations under the License.
 								ON t.scientific_name = <cfqueryparam value="#scientificName#" cfsqltype="CF_SQL_VARCHAR" maxlength="255">
 					</cfquery>
 					<cfset gbifName = "">
+					<cfset gbifNameWithAuth = "">
 					<cfif variables.gbifLookup>
 						<!--- Lookup name in GBIF Backbone taxonomy --->
 						<cfobject type="Java" class="org.filteredpush.qc.sciname.services.Validator" name="validator">
+						<!---
 						<cfobject type="Java" class="org.filteredpush.qc.sciname.services.WoRMSService" name="wormsService">
-						<cfobject type="Java" class="org.filteredpush.qc.sciname.services.GBIFService" name="gbifService">
 						<cfobject type="Java" class="org.filteredpush.qc.sciname.services.IRMNGService" name="irmngService">
+						--->
+						<cfobject type="Java" class="org.filteredpush.qc.sciname.services.GBIFService" name="gbifService">
 						<cfobject type="Java" class="edu.harvard.mcz.nametools.NameUsage" name="nameUsage">
 						<cfobject type="Java" class="edu.harvard.mcz.nametools.ICZNAuthorNameComparator" name="icznComparator">
 		
@@ -222,14 +229,19 @@ limitations under the License.
 							<cfset r.GUID = returnName.getGuid()>
 							<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
 							<cfset r.HABITATFLAGS = "">
-							<cfset gbifName = "#returnName.getScientificName()# #returnName.getAuthorship()#">
+							<cfset gbifName = "#returnName.getScientificName()#">
+							<cfset gbifNameWithAuth = "#returnName.getScientificName()# #returnName.getAuthorship()#">
 						</cfif>
 						<cfset result["GBIF Backbone"] = r>
 						
 					</cfif>
 					<!--- Display the scientific name and its status --->
 					<cfif asCSV>
-						<cfset ArrayAppend(resultsArray, "#scientificName#,#checkScientificName.found#")>
+						<cfif variables.gbifLookup>
+							<cfset ArrayAppend(resultsArray, "#scientificName#,#checkScientificName.found#,#gbifName#")>
+						<cfelse>
+							<cfset ArrayAppend(resultsArray, "#scientificName#,#checkScientificName.found#")>
+						</cfif>
 					<cfelse>
 						<cfoutput>
 							<tr>
@@ -242,7 +254,7 @@ limitations under the License.
 									</cfif>
 								</td>
 								<cfif variables.gbifLookup>
-									<td>#gbifName#</td>
+									<td>#gbifNameWithAuth#</td>
 								</cfif>
 							</tr>
 						</cfoutput>
