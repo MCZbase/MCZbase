@@ -452,6 +452,24 @@ limitations under the License.
 					</cfloop>
 				</ul>
 			</cfif>
+
+			<!--- sanity checks --->
+			<cfif listLoans.recordcount GT 1>
+				<p class="text-danger">Multiple loans found in the data.  This is allowed, but not expected.  Do you mean to add items to more than one loan</p>
+			</cfif>
+			<cfquery name="itemCollectionSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT count(*) ct, collection_cde
+				FROM 
+					CF_TEMP_LOAN_ITEM
+				WHERE 
+					collection_cde is not null
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				GROUP BY collection_cde
+			</cfquery>
+			<cfif itemCollectionSummary.ct GT 1>
+				<p class="text-danger">Multiple collection codes found in the data.  This is allowed, but not expected.  Do you mean to add items from more than one collection?</p>
+			</cfif>
+
 			<h3 class="h4">Data Validation</3>
 			<cfloop query="getTempDataQC">
 				<cfquery name="loanID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
