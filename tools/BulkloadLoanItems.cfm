@@ -23,7 +23,7 @@ limitations under the License.
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT 
 		REGEXP_REPLACE( status, '\s*</?\w+((\s+\w+(\s*=\s*(".*?"|''.*?''|[^''">\s]+))?)+\s*|\s*)/?>\s*', NULL, 1, 0, 'im') AS 
-				STATUS, INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID
+				STATUS, INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID
 		FROM cf_temp_loan_item 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -35,8 +35,8 @@ limitations under the License.
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID,ITEM_INSTRUCTIONS,ITEM_REMARKS,LOAN_NUMBER,TRANSACTION_ID">
-<cfset fieldTypes = "CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL">
+<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID,ITEM_INSTRUCTIONS,ITEM_REMARKS,LOAN_NUMBER">
+<cfset fieldTypes = "CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfif listlen(fieldlist) NEQ listlen(fieldTypes)>
 	<cfthrow message = "Error: Bug in the definition of fieldlist[#listlen(fieldlist)#] and fieldType[#listlen(fieldTypes)#] lists, lists must be the same length, but are not.">
 </cfif>
@@ -418,6 +418,41 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<h3 class="h4">Summary</3>
+			<cfquery name="listLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT count(*) ct, loan_number
+				FROM 
+					CF_TEMP_LOAN_ITEM
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				GROUP BY loan_number
+			</cfquery>
+			<p>Found #getTempDataQC.recordcount# loan items for #listLoans.recordcount# loans.</p>
+			<cfif listLoans.recordcount GT 0>
+				<p>Loans:</p>
+				<ul>
+					<cfloop query="listLoans">
+						<li>#loan_number# with #ct# loan items to add</li>
+					</cfloop>
+				</ul>
+			</cfif>
+			<cfquery name="itemSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT count(*) ct, part_name, preserve_method, collection_cde
+				FROM 
+					CF_TEMP_LOAN_ITEM
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				GROUP BY loan_number
+			</cfquery>
+			<cfif itemSummary.recordcount GT 0>
+				<p>Loan Items to add:</p>
+				<ul>
+					<cfloop query="itemSummary">
+						<li>#ct# items with part_name=#part_name#, preserve_method=#preserve_method#, collection_cde=#collection_cde#</li>
+					</cfloop>
+				</ul>
+			</cfif>
+			<h3 class="h4">Data Validation</3>
 			<cfloop query="getTempDataQC">
 				<cfquery name="loanID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
