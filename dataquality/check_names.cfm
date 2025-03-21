@@ -43,10 +43,10 @@ limitations under the License.
 								<label for="fileToUpload" class="data-entry-label">File to check:</label> 
 								<input type="file" name="FiletoUpload" id="fileToUpload" class="data-entry-input p-0 m-0 reqdClr" required>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-3">
 								<cfset charsetSelect = getCharsetSelectHTML(default="utf-8")>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-3">
 								<cfset formatSelect = getFormatSelectHTML()>
 							</div>
 							<div class="col-12 col-md-2">
@@ -56,6 +56,12 @@ limitations under the License.
 									<option value="csv">CSV</option>
 								</select>
 							</div>
+							<div class="col-12 col-md-4">
+								<label for="gbifLookup" class="data-entry-label">Also Look up in:</label>
+								<select name="gbifLookup" id="gbifLookup" class="data-entry-input p-0 m-0 reqdClr">
+									<option value="" selected></option>
+									<option value="GBIF">GBIF Backbone Taxonomy</option>
+								</select>
 							<div class="col-12 col-md-2">
 								<label for="submitButton" class="data-entry-label">&nbsp;</label>
 								<input type="submit" id="submittButton" value="Upload this file" class="btn btn-primary btn-xs">
@@ -78,6 +84,11 @@ limitations under the License.
 		<cfif isDefined("form.fileToUpload")><cfset variables.fileToUpload = form.fileToUpload></cfif>
 		<cfif isDefined("form.format")><cfset variables.format = form.format></cfif>
 		<cfif isDefined("form.characterSet")><cfset variables.characterSet = form.characterSet></cfif>
+		<cfif isDefined("form.gbifLookup")>
+			<cfset variables.gbifLookup = form.gbifLookup>
+		<cfelse>
+			<cfset variables.gbifLookup = false>
+		</cfif>
 
 		<!--- if not returning as csv, include header --->
 		<cfset asCsv = false>
@@ -132,7 +143,10 @@ limitations under the License.
 						<thead>
 							<tr>
 								<th>Scientific Name</th>
-								<th>Status</th>
+								<th>MCZbase</th>
+								<cfif variables.gbifLookup>
+									<th>GBIF</th>
+								</cfif>
 							</tr>
 						</thead>
 				</cfoutput>
@@ -167,6 +181,47 @@ limitations under the License.
 							LEFT JOIN taxonomy t
 								ON t.scientific_name = <cfqueryparam value="#scientificName#" cfsqltype="CF_SQL_VARCHAR" maxlength="255">
 					</cfquery>
+					<cfset gbifName = "">
+					<cfif variables.gbifLookup>
+						<!--- Lookup name in GBIF Backbone taxonomy --->
+						<cfobject type="Java" class="org.filteredpush.qc.sciname.services.Validator" name="validator">
+						<cfobject type="Java" class="org.filteredpush.qc.sciname.services.WoRMSService" name="wormsService">
+						<cfobject type="Java" class="org.filteredpush.qc.sciname.services.GBIFService" name="gbifService">
+						<cfobject type="Java" class="org.filteredpush.qc.sciname.services.IRMNGService" name="irmngService">
+						<cfobject type="Java" class="edu.harvard.mcz.nametools.NameUsage" name="nameUsage">
+						<cfobject type="Java" class="edu.harvard.mcz.nametools.ICZNAuthorNameComparator" name="icznComparator">
+		
+						<cfset comparator = icznComparator.init(.75,.5)>
+						<cfset lookupName = nameUsage.init()>
+						<cfset lookupName.setScientificName(scientific_name)>
+						<cfset lookupName.setAuthorship("")>
+
+						<!--- lookup in GBIF Backbone --->
+						<cfset gbifAuthority = gbifService.init()>
+						<cfset r=structNew()>
+						<cftry>
+							<cfset returnName = gbifAuthority.validate(lookupName)>
+						<cfcatch>
+							<cfset r.MATCHDESCRIPTION = "Error">
+							<cfset r.SCIENTIFICNAME = "">
+							<cfset r.AUTHORSHIP = "">
+							<cfset r.GUID = "">
+							<cfset r.AUTHORSTRINGDISTANCE = "">
+							<cfset r.HABITATFLAGS = "">
+						</cfcatch>
+						</cftry>
+						<cfif isDefined("returnName")>
+							<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
+							<cfset r.SCIENTIFICNAME = returnName.getScientificName()>
+							<cfset r.AUTHORSHIP = returnName.getAuthorship()>
+							<cfset r.GUID = returnName.getGuid()>
+							<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
+							<cfset r.HABITATFLAGS = "">
+							<cfset gbifName = "#returnName.getScientificName# #returnName.getAuthorship#">
+						</cfif>
+						<cfset result["GBIF Backbone"] = r>
+						
+					</cfif>
 					<!--- Display the scientific name and its status --->
 					<cfif asCSV>
 						<cfset ArrayAppend(resultsArray, "#scientificName#,#checkScientificName.found#")>
@@ -181,6 +236,14 @@ limitations under the License.
 										Not Found
 									</cfif>
 								</td>
+								<cfif variables.gbifLookup>
+									<td>
+										<cfif len(trim(gbifName)) GT 0>
+											#gbifName#
+										<cfelse>
+											Not Matched
+										</cfif>
+									</td>
 							</tr>
 						</cfoutput>
 					</cfif>
