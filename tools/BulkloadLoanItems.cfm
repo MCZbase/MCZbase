@@ -519,7 +519,7 @@ limitations under the License.
 					WHERE
 						part_collection_object_id IS NOT NULL
 						AND part_collection_object_id NOT IN (
-							SELECT collection_object_id
+							SELECT specimen_part.collection_object_id
 							FROM specimen_part 
 								join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 							WHERE 
