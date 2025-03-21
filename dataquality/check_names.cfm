@@ -123,7 +123,7 @@ limitations under the License.
 				<cfoutput>
 					<main class="container-fluid py-3 px-xl-5" id="content">
 						<h1 class="h2 mt-2">Check of scientific names against MCZbase taxonomy records</h1>
-					   <p><a href="/dataquality/check_names.cfm">Return to the upload page</a></p>
+					   <p><a href="/dataquality/check_names.cfm">Start again</a></p>
 						<div>
 					<cfset iterator = loadCsvFile(FileToUpload=FileToUpload,format=format,characterSet=characterSet)>			
 				</cfoutput>
