@@ -520,72 +520,49 @@ libraries found in github.com/filteredpush/ repositories.
   @param taxon_name_id the primary key of the taxon record to look up 
   @return a json structure containing matches on each service 
 --->
-<cffunction name="lookupName" access="remote">
-	<cfargument name="taxon_name_id" type="string" required="yes">
+	<cffunction name="lookupName" access="remote">
+		<cfargument name="taxon_name_id" type="string" required="yes">
 
-	<cfset result=structNew()> <!--- overall result to return --->
+		<cfset result=structNew()> <!--- overall result to return --->
 
-	<cftry>
-		<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT scientific_name as item_label, 
-				kingdom, phylum, phylclass, phylorder, family, genus,
-				scientific_name, author_text,
-				taxonid,
-				scientificnameid,
-				taxon_name_id
-			FROM taxonomy
-			WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-		</cfquery>
-	
-		<cfif queryrow.recordcount EQ 1>
-			<cfloop query="queryrow">
+		<cftry>
+			<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT scientific_name as item_label, 
+					kingdom, phylum, phylclass, phylorder, family, genus,
+					scientific_name, author_text,
+					taxonid,
+					scientificnameid,
+					taxon_name_id
+				FROM taxonomy
+				WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+			</cfquery>
+		
+			<cfif queryrow.recordcount EQ 1>
+				<cfloop query="queryrow">
 
-				<cfobject type="Java" class="org.filteredpush.qc.sciname.services.Validator" name="validator">
-				<cfobject type="Java" class="org.filteredpush.qc.sciname.services.WoRMSService" name="wormsService">
-				<cfobject type="Java" class="org.filteredpush.qc.sciname.services.GBIFService" name="gbifService">
-				<cfobject type="Java" class="org.filteredpush.qc.sciname.services.IRMNGService" name="irmngService">
-				<cfobject type="Java" class="edu.harvard.mcz.nametools.NameUsage" name="nameUsage">
-				<cfobject type="Java" class="edu.harvard.mcz.nametools.ICZNAuthorNameComparator" name="icznComparator">
+					<cfobject type="Java" class="org.filteredpush.qc.sciname.services.Validator" name="validator">
+					<cfobject type="Java" class="org.filteredpush.qc.sciname.services.WoRMSService" name="wormsService">
+					<cfobject type="Java" class="org.filteredpush.qc.sciname.services.GBIFService" name="gbifService">
+					<cfobject type="Java" class="org.filteredpush.qc.sciname.services.IRMNGService" name="irmngService">
+					<cfobject type="Java" class="edu.harvard.mcz.nametools.NameUsage" name="nameUsage">
+					<cfobject type="Java" class="edu.harvard.mcz.nametools.ICZNAuthorNameComparator" name="icznComparator">
 
-				<cfset comparator = icznComparator.init(.75,.5)>
-				<cfset lookupName = nameUsage.init()>
-				<cfset lookupName.setInputDbPK(val(queryrow.taxon_name_id))>
-				<cfset lookupName.setScientificName(queryrow.scientific_name)>
-				<cfset lookupName.setAuthorship(queryrow.author_text)>
-				<cfset lookupName.setAuthorComparator(comparator)>
-				<cfif len(queryrow.family) GT 0>
-					<cfset lookupName.setFamily(queryrow.family)>
-				</cfif>
-				<cfif len(queryrow.kingdom) GT 0>
-					<cfset lookupName.setKingdom(queryrow.kingdom)>
-				</cfif>
-				
-				<!--- lookup in WoRMS --->
-				<cfset wormsAuthority = wormsService.init(false)>
-				<cfset returnName = wormsAuthority.validate(lookupName)>
-				<cfset r=structNew()>
-				<cfif isDefined("returnName")>
-					<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
-					<cfset r.SCIENTIFICNAME = returnName.getScientificName()>
-					<cfset r.AUTHORSHIP = returnName.getAuthorship()>
-					<cfset r.GUID = returnName.getGuid()>
-					<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
-					<cfset habitatVals = "">
-					<cfset separator = "">
-					<cfset habitats = returnName.getExtension()>
-					<cfif  habitats.get("marine") EQ "true"><cfset habitatVals = "Marine"><cfset separator=", "></cfif>
-					<cfif  habitats.get("brackish") EQ "true"><cfset habitatVals = "#habitatVals##separator#Brackish"><cfset separator=", "></cfif>
-					<cfif  habitats.get("freshwater") EQ "true"><cfset habitatVals = "#habitatVals##separator#Freshwater"><cfset separator=", "></cfif>
-					<cfif  habitats.get("terrestrial") EQ "true"><cfset habitatVals = "#habitatVals##separator#Terrestrial"><cfset separator=", "></cfif>
-					<cfif  habitats.get("extinct") EQ "true"><cfset habitatVals = "#habitatVals##separator#Extinct"><cfset separator=", "></cfif>
-					<cfset r.HABITATFLAGS = "#habitatVals#">
-				</cfif>
-				<cfset result["WoRMS"] = r>
-
-				<cfif find(" ", trim(queryrow.scientific_name)) EQ 0>
-					<!--- lookup genera and higher taxa in IRMNG --->
-					<cfset irmngAuthority = irmngService.init(false)>
-					<cfset returnName = irmngAuthority.validate(lookupName)>
+					<cfset comparator = icznComparator.init(.75,.5)>
+					<cfset lookupName = nameUsage.init()>
+					<cfset lookupName.setInputDbPK(val(queryrow.taxon_name_id))>
+					<cfset lookupName.setScientificName(queryrow.scientific_name)>
+					<cfset lookupName.setAuthorship(queryrow.author_text)>
+					<cfset lookupName.setAuthorComparator(comparator)>
+					<cfif len(queryrow.family) GT 0>
+						<cfset lookupName.setFamily(queryrow.family)>
+					</cfif>
+					<cfif len(queryrow.kingdom) GT 0>
+						<cfset lookupName.setKingdom(queryrow.kingdom)>
+					</cfif>
+					
+					<!--- lookup in WoRMS --->
+					<cfset wormsAuthority = wormsService.init(false)>
+					<cfset returnName = wormsAuthority.validate(lookupName)>
 					<cfset r=structNew()>
 					<cfif isDefined("returnName")>
 						<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
@@ -593,55 +570,78 @@ libraries found in github.com/filteredpush/ repositories.
 						<cfset r.AUTHORSHIP = returnName.getAuthorship()>
 						<cfset r.GUID = returnName.getGuid()>
 						<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
+						<cfset habitatVals = "">
+						<cfset separator = "">
+						<cfset habitats = returnName.getExtension()>
+						<cfif  habitats.get("marine") EQ "true"><cfset habitatVals = "Marine"><cfset separator=", "></cfif>
+						<cfif  habitats.get("brackish") EQ "true"><cfset habitatVals = "#habitatVals##separator#Brackish"><cfset separator=", "></cfif>
+						<cfif  habitats.get("freshwater") EQ "true"><cfset habitatVals = "#habitatVals##separator#Freshwater"><cfset separator=", "></cfif>
+						<cfif  habitats.get("terrestrial") EQ "true"><cfset habitatVals = "#habitatVals##separator#Terrestrial"><cfset separator=", "></cfif>
+						<cfif  habitats.get("extinct") EQ "true"><cfset habitatVals = "#habitatVals##separator#Extinct"><cfset separator=", "></cfif>
+						<cfset r.HABITATFLAGS = "#habitatVals#">
 					</cfif>
-					<cfset result["IRMNG"] = r>
-				</cfif>
+					<cfset result["WoRMS"] = r>
 
-				<!--- lookup in GBIF Backbone --->
-				<cfset gbifAuthority = gbifService.init()>
-				<cfset r=structNew()>
-				<cftry>
+					<cfif find(" ", trim(queryrow.scientific_name)) EQ 0>
+						<!--- lookup genera and higher taxa in IRMNG --->
+						<cfset irmngAuthority = irmngService.init(false)>
+						<cfset returnName = irmngAuthority.validate(lookupName)>
+						<cfset r=structNew()>
+						<cfif isDefined("returnName")>
+							<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
+							<cfset r.SCIENTIFICNAME = returnName.getScientificName()>
+							<cfset r.AUTHORSHIP = returnName.getAuthorship()>
+							<cfset r.GUID = returnName.getGuid()>
+							<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
+						</cfif>
+						<cfset result["IRMNG"] = r>
+					</cfif>
+
+					<!--- lookup in GBIF Backbone --->
+					<cfset gbifAuthority = gbifService.init()>
+					<cfset r=structNew()>
+					<cftry>
+						<cfset returnName = gbifAuthority.validate(lookupName)>
+					<cfcatch>
+						<cfset r.MATCHDESCRIPTION = "Error">
+						<cfset r.SCIENTIFICNAME = "">
+						<cfset r.AUTHORSHIP = "">
+						<cfset r.GUID = "">
+						<cfset r.AUTHORSTRINGDISTANCE = "">
+						<cfset r.HABITATFLAGS = "">
+					</cfcatch>
+					</cftry>
+					<cfif isDefined("returnName")>
+						<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
+						<cfset r.SCIENTIFICNAME = returnName.getScientificName()>
+						<cfset r.AUTHORSHIP = returnName.getAuthorship()>
+						<cfset r.GUID = returnName.getGuid()>
+						<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
+						<cfset r.HABITATFLAGS = "">
+					</cfif>
+					<cfset result["GBIF Backbone"] = r>
+
+					<!--- lookup in GBIF copy of paleobiology db --->
+					<cfset gbifAuthority = gbifService.init(gbifService.KEY_PALEIOBIOLOGY_DATABASE)>
 					<cfset returnName = gbifAuthority.validate(lookupName)>
-				<cfcatch>
-					<cfset r.MATCHDESCRIPTION = "Error">
-					<cfset r.SCIENTIFICNAME = "">
-					<cfset r.AUTHORSHIP = "">
-					<cfset r.GUID = "">
-					<cfset r.AUTHORSTRINGDISTANCE = "">
-					<cfset r.HABITATFLAGS = "">
-				</cfcatch>
-				</cftry>
-				<cfif isDefined("returnName")>
-					<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
-					<cfset r.SCIENTIFICNAME = returnName.getScientificName()>
-					<cfset r.AUTHORSHIP = returnName.getAuthorship()>
-					<cfset r.GUID = returnName.getGuid()>
-					<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
-					<cfset r.HABITATFLAGS = "">
-				</cfif>
-				<cfset result["GBIF Backbone"] = r>
-
-				<!--- lookup in GBIF copy of paleobiology db --->
-				<cfset gbifAuthority = gbifService.init(gbifService.KEY_PALEIOBIOLOGY_DATABASE)>
-				<cfset returnName = gbifAuthority.validate(lookupName)>
-				<cfset r=structNew()>
-				<cfif isDefined("returnName")>
-					<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
-					<cfset r.SCIENTIFICNAME = returnName.getScientificName()>
-					<cfset r.AUTHORSHIP = returnName.getAuthorship()>
-					<cfset r.GUID = returnName.getGuid()>
-					<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
-					<cfset r.HABITATFLAGS = "">
-				</cfif>
-				<cfset result["Paleobiology DB in GBIF"] = r>
-			</cfloop>
-		</cfif>
-   <cfcatch>
-		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-		<cfset function_called = "#GetFunctionCalledName()#">
-		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-		<cfabort>
-   </cfcatch>
+					<cfset r=structNew()>
+					<cfif isDefined("returnName")>
+						<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
+						<cfset r.SCIENTIFICNAME = returnName.getScientificName()>
+						<cfset r.AUTHORSHIP = returnName.getAuthorship()>
+						<cfset r.GUID = returnName.getGuid()>
+						<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
+						<cfset r.HABITATFLAGS = "">
+					</cfif>
+					<cfset result["Paleobiology DB in GBIF"] = r>
+				</cfloop>
+			</cfif>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
 	</cftry>
    <cfreturn serializeJSON(result) >
 </cffunction>
@@ -1820,5 +1820,30 @@ libraries found in github.com/filteredpush/ repositories.
 	</cftry>
     <cfreturn serializeJSON(result) >
 </cffunction>
+
+	<cffunction name="interpretDate" access="remote">
+		<cfargument name="verbatimDate" type="string" required="yes">
+
+		<cfset result=structNew()> <!--- result to return --->
+
+		<cftry>
+			<cfobject type="Java" class="org.filteredpush.qc.date.util.DateUtils" name="dateUtils">
+			<cfobject type="Java" class="org.filteredpush.qc.date.EventResult" name="eventDate">
+	
+			<cfset eventDate = dateUtils.extractDateToDayFromVerbatimER(verbatimDate, 1700)>
+
+			<cfset result.VALUE=eventDate.getResult()>
+			<cfset result.STATUS=eventDate.getResultState().toString()>
+	
+		<cfcatch>
+			<cfset result.STATUS="fail">
+			<cfset result.VALUE="">
+			<cfset line = cfcatch.tagcontext[1].line>
+			<cfset result.ERROR=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
+    	</cfcatch>
+		</cftry>
+
+		<cfreturn serializeJSON(result) >
+	</cffunction>
 
 </cfcomponent>

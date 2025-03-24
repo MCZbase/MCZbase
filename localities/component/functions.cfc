@@ -18,6 +18,7 @@ limitations under the License.
 --->
 <cfcomponent>
 <cfinclude template="/shared/component/functions.cfc" runOnce="true"><!--- For getCommentForField, reportError --->
+<cfinclude template="/dataquality/component/functions.cfc" runOnce="true"><!--- For interpretDate --->
 <cf_rolecheck>
 
 <!--- Save preferences for open/closed sections of geography/locality/collecting event 
@@ -4834,6 +4835,20 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<!--- TODO: interpret and populate began_date/ended_date --->
 						<script>
 							function fillDatesFromVerbatim() { 
+								var verbatimDate = $("##verbatim_date").val()
+ 								jQuery.getJSON("/dataquality/component/functions.cfc",
+      						{
+         						method : "interpretDate",
+						         verbatimDate : verbatimDate,
+						         returnformat : "json",
+							      },
+					   		   function (result) {
+										console.log(result);
+									}
+								}
+   						).fail(function(jqXHR,textStatus,error){
+   						   handleFail(jqXHR,textStatus,error,"looking up sovereign nation from higher geography");
+							   });
 							} 
 						</script>
 					</div>
