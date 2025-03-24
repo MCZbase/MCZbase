@@ -23,7 +23,7 @@ limitations under the License.
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT 
 		REGEXP_REPLACE( status, '\s*</?\w+((\s+\w+(\s*=\s*(".*?"|''.*?''|[^''">\s]+))?)+\s*|\s*)/?>\s*', NULL, 1, 0, 'im') AS 
-				STATUS, INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID
+				STATUS, INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,LOAN_NUMBER,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID
 		FROM cf_temp_loan_item 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -35,13 +35,13 @@ limitations under the License.
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID,ITEM_INSTRUCTIONS,ITEM_REMARKS,LOAN_NUMBER,TRANSACTION_ID">
-<cfset fieldTypes = "CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL">
+<cfset fieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID,ITEM_INSTRUCTIONS,ITEM_REMARKS,LOAN_NUMBER">
+<cfset fieldTypes = "CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfif listlen(fieldlist) NEQ listlen(fieldTypes)>
 	<cfthrow message = "Error: Bug in the definition of fieldlist[#listlen(fieldlist)#] and fieldType[#listlen(fieldTypes)#] lists, lists must be the same length, but are not.">
 </cfif>
 <cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID,LOAN_NUMBER">
-<cfset partDownloadList = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,SUBSAMPLE,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID">
+<cfset partDownloadList = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PART_REMARKS,CONTAINER_BARCODE,PRESERVE_METHOD,CONDITION,COLL_OBJ_DISPOSITION,PART_COLLECTION_OBJECT_ID">
 
 
 <!--- special case handling to dump column headers as csv --->
@@ -86,14 +86,18 @@ limitations under the License.
 		<cfoutput>
 			<cfset username = "#session.username#">
 			<p>This tool is used to bulkload loan items (connect parts to a loan) while adding item descriptions and item remarks more easily through a spreadsheet.</p>
+			<p>This tool is most easily used working with a CSV file generated from Manage specimen search results with Parts Report/Download using the "Download Parts CSV with Loan Item fields" option.</p>
 			<p>The following must all be true to use this form:</p>
 			<ul>
-				<li>Items in the file you load are not already on loan (check part disposition)</li>
-				<li>Encumbrances have been checked</li>
-				<li>A loan has been created in MCZbase.</li>
-				<li>Loan Item reconciled person is you (#username#) - automatically added</li>
-				<li>Loan Item reconciled date is today (2024-07-18) - automatically added</li>
-				<li>Worksheet/CSV was generated from a manage specimen results Parts Report/Download and clicking the button "Download Parts CSV with Loan Item fields"</li>
+				<li>The loan to which to add the items has been created in MCZbase, enter the LOAN_NUMBER in the CSV.</li>
+				<li>Items in the file you load are not already in the loan you want to add them to.</li>
+				<li>Items in the file you load do not have a part disposition of "on loan" or any of the "deaccessioned" dispositions.</li>
+				<li>You must have checked any Encumbrances.</li>
+			</ul>
+			<p>The following information will be added to each loan items on a successfull load:</p>
+			<ul>
+				<li>You (#username#) will be recorded as the person adding the items to the loan.</li>
+				<li>The loan items will be marked as being added to the loan today (#DateFormat(Now(),"yyyy-mm-dd")#).</li>
 			</ul>
 			<p>Additional part-related columns are included to help identify the parts (shown at validation step)]. They are not needed for this bulkloader.</p>
 			<div class="accordion mt-2" id="accordionIdentifiers">
@@ -107,7 +111,7 @@ limitations under the License.
 					</div>
 					<div id="identifiersPane" class="collapse" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
 						<div class="card-body" id="identifiersCardBody">
-						<p class="px-3 pt-2"> <strong>Columns in <span class="text-primary">blue</span> are retrieved from the Part Download/Report function of Manage Specimen Search Results</strong>. Other column values need to be entered into CSV before uploading [exception: TRANSACTION_ID value is autogenerated from the loan_number entry]. </p>
+						<p class="px-3 pt-2"> <strong>Values for columns in <span class="text-primary">blue</span> are retrieved from the Part Download/Report function of Manage Specimen Search Results</strong>, they describe the part to be placed in the loan. Values for Columns in Black describe the part as a loan item and need to be added to the CSV before uploading.</p>
 							<ul class="mb-4 h5 font-weight-normal list-group mx-3">
 								<cfloop list="#fieldlist#" index="field" delimiters=",">
 									<cfquery name = "getComments"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#"  result="getComments_result">
@@ -418,6 +422,58 @@ limitations under the License.
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<h3 class="h4">Summary</3>
+			<cfquery name="listLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT count(*) ct, loan_number
+				FROM 
+					CF_TEMP_LOAN_ITEM
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				GROUP BY loan_number
+			</cfquery>
+			<p>Found #getTempDataQC.recordcount# loan items for #listLoans.recordcount# loans.</p>
+			<cfif listLoans.recordcount GT 0>
+				<p>Loans:</p>
+				<ul>
+					<cfloop query="listLoans">
+						<li>#loan_number# with #ct# loan items to add</li>
+					</cfloop>
+				</ul>
+			</cfif>
+			<cfquery name="itemSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT count(*) ct, part_name, preserve_method, collection_cde
+				FROM 
+					CF_TEMP_LOAN_ITEM
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				GROUP BY part_name, preserve_method, collection_cde
+			</cfquery>
+			<cfif itemSummary.recordcount GT 0>
+				<p>Loan Items to add:</p>
+				<ul>
+					<cfloop query="itemSummary">
+						<li>#ct# #collection_cde# items: #part_name# (#preserve_method#)</li>
+					</cfloop>
+				</ul>
+			</cfif>
+
+			<!--- sanity checks --->
+			<cfif listLoans.recordcount GT 1>
+				<p class="text-danger">Multiple loans found in the data.  This is allowed, but not expected.  Do you mean to add items to more than one loan</p>
+			</cfif>
+			<cfquery name="itemCollectionSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT count(distinct collection_cde) ct
+				FROM 
+					CF_TEMP_LOAN_ITEM
+				WHERE 
+					collection_cde is not null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfif itemCollectionSummary.ct GT 1>
+				<p class="text-danger">Multiple collection codes found in the data.  This is allowed, but not expected.  Do you mean to add items from more than one collection?</p>
+			</cfif>
+
+			<h3 class="h4">Data Validation</3>
 			<cfloop query="getTempDataQC">
 				<cfquery name="loanID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
@@ -435,7 +491,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#"> 
 				</cfquery>
-				<cfquery name="bad_loan_num" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="no_part_collection_object_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
 						cf_temp_loan_item
 					set
@@ -445,13 +501,31 @@ limitations under the License.
 						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#"> 
 				</cfquery>
-				<cfquery name="bad_loan_num" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="bad_loan_number" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					update
 						cf_temp_loan_item
 					set
-						status = concat(nvl2(status, status || '; ', ''),'Loan ['|| loan_number ||'] does not exist')
+						status = concat(nvl2(status, status || '; ', ''),'Loan ['|| loan_number ||'] not found.')
 					where 
 						transaction_id is null
+						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#"> 
+				</cfquery>
+				<!--- check part disposition --->
+				<cfquery name="checkDisposition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_loan_item
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'Part ['|| part_name ||'] does not have a loanable disposition.')
+					WHERE
+						part_collection_object_id IS NOT NULL
+						AND part_collection_object_id NOT IN (
+							SELECT specimen_part.collection_object_id
+							FROM specimen_part 
+								join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+							WHERE 
+								coll_obj_disposition = 'on loan'
+								or coll_obj_disposition like 'deaccessioned%'
+						)
 						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#"> 
 				</cfquery>
@@ -562,6 +636,21 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
 				</cfquery>
+				<!--- check that part is not allready in target loan --->
+				<cfquery name="checkPartNotInLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
+					UPDATE cf_temp_loan_item
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'This item is already in loan ["'|| loan_number ||'"]')
+					WHERE 
+						part_collection_object_id is not null
+						AND part_collection_object_id in (
+							select collection_object_id
+							from loan_item
+							where loan_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempDataQC.loan_number#">
+						)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempDataQC.key#">
+				</cfquery>
 			</cfloop>
 			<cfquery name="ctSubsampleProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="flatAttributeProblems_result">
 				UPDATE cf_temp_loan_item
@@ -584,6 +673,7 @@ limitations under the License.
 					AND institution_acronym <> 'MCZ'
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT STATUS,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,PART_REMARKS,ITEM_INSTRUCTIONS,ITEM_REMARKS,ITEM_DESCRIPTION,CONTAINER_BARCODE,SUBSAMPLE,LOAN_NUMBER,PART_COLLECTION_OBJECT_ID,TRANSACTION_ID,KEY
 				FROM 
@@ -622,8 +712,6 @@ limitations under the License.
 						<th>SUBSAMPLE</th>
 						<th>LOAN_NUMBER</th>
 						<th>PART_COLLECTION_OBJECT_ID</th>
-						<th>TRANSACTION_ID</th>
-						<th>KEY</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -643,8 +731,6 @@ limitations under the License.
 							<td>#data.SUBSAMPLE#</td>
 							<td>#data.LOAN_NUMBER#</td>
 							<td>#data.PART_COLLECTION_OBJECT_ID#</td>
-							<td>#data.TRANSACTION_ID#</td>
-							<td>#data.KEY#</td>
 						</tr>
 					</cfloop>
 				</tbody>

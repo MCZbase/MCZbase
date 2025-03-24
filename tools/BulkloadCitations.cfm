@@ -25,7 +25,8 @@ limitations under the License.
 <cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,publication_title as publication,
-			publication_id,cited_scientific_name,cited_taxon_name_id,occurs_page_number,citation_page_uri,type_status,citation_remarks
+			publication_id,cited_scientific_name,cited_taxon_name_id,occurs_page_number,citation_page_uri,type_status,citation_remarks,
+			status
 		FROM cf_temp_citation 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
