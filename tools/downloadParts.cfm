@@ -43,7 +43,6 @@ limitations under the License.
 		<cfif action IS "downloadBulkloader" OR action IS "downloadBulkloaderAll">
 			pc.barcode as CONTAINER_UNIQUE_ID,
 		<cfelseif action IS "downloadBulkPartContainer">
-			'' as NEW_CONTAINER_BARCODE,
 			pc.barcode as CONTAINER_BARCODE,
 			nvl(pc1.barcode,pc1.label) as P1_BARCODE,
 			nvl(pc2.barcode,pc2.label) as P2_BARCODE,
@@ -70,6 +69,9 @@ limitations under the License.
 			, '' AS NEW_LOT_COUNT_MODIFIER
 			, '' AS NEW_COLL_OBJ_DISPOSITION
 			, '' AS NEW_CONDITION
+		</cfif>
+		<cfif action IS "downloadBulkPartContainerMove">
+			, '' as NEW_CONTAINER_BARCODE
 		</cfif>
 		<cfif action IS "downloadPartLoanItems">
 			, '' as ITEM_INSTRUCTIONS
@@ -215,6 +217,15 @@ limitations under the License.
 	<cfoutput>#strOutput2#</cfoutput>
 	<cfabort>
 <!------------------------------------------------------------------------->
+<cfelseif action is "downloadBulkPartContainerMove">
+	<!--- download csv for part container bulkload with move to column --->
+	<cfinclude template="/shared/component/functions.cfc">
+	<cfset strOutput2 = QueryToCSV(getParts)>
+	<cfheader name="Content-Type" value="text/csv">
+	<cfheader name="Content-disposition" value="attachment;filename=PARTS_downloadForPartContainer.csv">
+	<cfoutput>#strOutput2#</cfoutput>
+	<cfabort>
+<!------------------------------------------------------------------------->
 <cfelseif action is "downloadPartLoanItems">
 	<!--- download csv for loan item bulkload --->
 	<cfinclude template="/shared/component/functions.cfc">
@@ -239,7 +250,7 @@ limitations under the License.
 						</cfif>
 					</h1>
 					<p class= "col-12 mt-2">
-						Obtain a list of parts, including CSV downloads suitable for editing and reload into the <a href="/tools/BulkloadEditedParts.cfm" target="_blank">Bulkload Edited Parts</a> tool.
+						Obtain a list of parts, including CSV downloads suitable for editing and reload into the <a href="/tools/BulkloadEditedParts.cfm" target="_blank">Bulkload Edited Parts</a> the <a href="/tools/BulkloadPartContainer.cfm" target="_blank">Bulkload Parts to Containers</a> and <a href="/tools/BulkloadLoanItems.cfm" target="_blank">Bulkload Loan Items</a> tools.
 					</p>
 					<form name="filterResults">
 						<div class="form-row mt-2 mb-3 mx-0">
@@ -295,6 +306,7 @@ limitations under the License.
 								<input type="button" value="Download Parts CSV for Bulkload Edited Parts" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Download Parts CSV for Bulkload Edited Parts with (blank) Attributes" onClick='document.getElementById("action").value="downloadBulkloaderAll";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Download Parts CSV with Container placements" onClick='document.getElementById("action").value="downloadBulkPartContainer";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
+								<input type="button" value="Download Parts CSV with Container placements To Move" onClick='document.getElementById("action").value="downloadBulkPartContainerMove";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Download Parts CSV with Loan Item fields" onClick='document.getElementById("action").value="downloadPartLoanItems";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 							</div>
 						</div>			
