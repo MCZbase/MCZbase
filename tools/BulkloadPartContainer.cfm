@@ -600,7 +600,7 @@ limitations under the License.
 									cataloged_item ci, specimen_part sp
 								where 
 									ci.collection_object_id = sp.derived_from_cat_item
-									sp.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.part_collection_object_id#">
+									AND sp.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.part_collection_object_id#">
 							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC6.key#"> 
