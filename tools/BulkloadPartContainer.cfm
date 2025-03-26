@@ -553,10 +553,10 @@ limitations under the License.
 				FROM cf_temp_barcode_parts  
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="getPartContainerNew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_barcode_parts
 				SET status = concat(nvl2(status, status || '; ', ''), 'New CONTAINER not found')
-				WHERE NEW_container_barcode not in (select barcode from container) 
+				WHERE NEW_PARENT_CONTAINER_ID is null 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQCX.key#">
 			</cfquery>
