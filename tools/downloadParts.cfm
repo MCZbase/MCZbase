@@ -67,9 +67,6 @@ limitations under the License.
 			, '' AS NEW_COLL_OBJ_DISPOSITION
 			, '' AS NEW_CONDITION
 		</cfif>
-		<cfif action IS "downloadBulkPartContainerMove">
-			, '' as NEW_CONTAINER_BARCODE
-		</cfif>
 		<cfif action IS "downloadPartLoanItems">
 			, '' as ITEM_INSTRUCTIONS
 			, '' AS ITEM_REMARKS
