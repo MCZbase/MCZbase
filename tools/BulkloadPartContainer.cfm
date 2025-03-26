@@ -563,7 +563,7 @@ limitations under the License.
 			<!---This comes from the collection object container parent in getTempTableQC2--->
 			<cfif len(getTempTableQC1.container_barcode) eq 0>
 				<cfquery name="getTempTableQC5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT current_parent_container_id, container_barcode,collection_object_id,collection_cde,other_id_number,key
+					SELECT current_parent_container_id, container_barcode,part_collection_object_id,collection_cde,other_id_number,key
 					FROM cf_temp_barcode_parts  
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
