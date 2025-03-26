@@ -589,7 +589,7 @@ limitations under the License.
 				FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif len(other_id_number) eq 0>
+			<cfif len(getTempTableQC6.other_id_number) eq 0>
 				<cfloop query="getTempTableQC6">
 					<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts
