@@ -297,8 +297,9 @@ limitations under the License.
 								<input type="text" id="filterBarcode" name="filterBarcode" class="data-entry-input" value="#filterBARCODE#">
 							</div>
 							<div class="col-12 col-md-12 col-xl-2">
-								<button type="button" id="toggleButton" class="btn btn-xs btn-secondary mt-1 mt-xl-3" onclick="toggleColumns();">Show Containers</button>
-								<input type="submit" value="Filter Parts" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
+								
+								<input type="submit" value="Filter Parts" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();' class="mt-1 mt-xl-3 btn btn-xs mb-2 btn-secondary"></input>
+								<button type="button" id="toggleButton" class="btn btn-xs btn-secondary mt-1 mt-xl-3 mx-1" onclick="toggleColumns();">Show Containers</button>
 							</div>
 						</div>
 						<div class="form-row mx-0">
