@@ -527,7 +527,7 @@ limitations under the License.
 			</cfloop>
 			<!---Find the new container's container_id so it can be placed in the collection object's parent_container_id field with an update--->
 			<cfquery name="getTempTableQC3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT NEW_container_barcode, key
+				SELECT new_container_barcode, key
 				FROM cf_temp_barcode_parts  
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>	
@@ -546,7 +546,7 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC3.key#"> 
 				</cfquery>
 			</cfloop>
-			<cfquery name="getTempTableQCX" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="getTempTableQC4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_barcode_parts  
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -557,17 +557,17 @@ limitations under the License.
 				SET status = concat(nvl2(status, status || '; ', ''), 'New container not found in MCZbase')
 				WHERE NEW_PARENT_CONTAINER_ID is null 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQCX.key#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC4.key#">
 			</cfquery>
 			<!---Find the current container that shows in the part row on the specimen record and put it in the table so the change can be seen easily--->
 			<!---This comes from the collection object container parent in getTempTableQC2--->
 			<cfif len(getTempTableQC1.container_barcode) eq 0>
-				<cfquery name="getTempTableQC4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT current_parent_container_id, container_barcode,key
+				<cfquery name="getTempTableQC5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT current_parent_container_id, container_barcode,collection_cde,other_id_number,key
 					FROM cf_temp_barcode_parts  
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfloop query="getTempTableQC4">
+				<cfloop query="getTempTableQC5">
 					<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts  
 						SET 
@@ -576,10 +576,23 @@ limitations under the License.
 								from 
 									container c
 								where 
-									c.container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC4.current_parent_container_id#">
+									c.container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC5.current_parent_container_id#">
 							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC4.key#"> 
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC5.key#"> 
+					</cfquery>
+					<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_barcode_parts  
+						SET 
+							other_id_number, collection_cde  = (
+								select cat_num, collection_cde 
+								from 
+									cataloged_item
+								where 
+									cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC5.collection_object_id#">
+							)
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC5.key#"> 
 					</cfquery>
 				</cfloop>
 			</cfif>
