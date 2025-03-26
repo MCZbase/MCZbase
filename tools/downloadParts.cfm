@@ -287,15 +287,17 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-12 col-xl-2">
 								<button type="button" id="toggleButton" class="btn btn-xs btn-secondary mt-1 mt-xl-3" onclick="toggleColumns();">Show Containers</button>
+								<input type="submit" value="Filter Parts" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 							</div>
 						</div>
 						<div class="form-row mx-0">
 							<div class="col-12">
-								<input type="submit" value="Filter Parts" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
-								<input type="button" value="Download Parts CSV for Bulkload Edited Parts" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
-								<input type="button" value="Download Parts CSV for Bulkload Edited Parts with (blank) Attributes" onClick='document.getElementById("action").value="downloadBulkloaderAll";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
-								<input type="button" value="Download Parts CSV with Container placements" onClick='document.getElementById("action").value="downloadBulkPartContainer";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
-								<input type="button" value="Download Parts CSV with Loan Item fields" onClick='document.getElementById("action").value="downloadPartLoanItems";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
+								<h2 class="h4">Download Results to a CSV:</h2>
+								
+								<input type="button" value="Bulkload Edited Parts" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
+								<input type="button" value="Bulkload Edited Parts with (blank) Attributes" onClick='document.getElementById("action").value="downloadBulkloaderAll";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
+								<input type="button" value="Container placements" onClick='document.getElementById("action").value="downloadBulkPartContainer";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
+								<input type="button" value="Bulkload with (blank) Loan Item fields" onClick='document.getElementById("action").value="downloadPartLoanItems";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 							</div>
 						</div>			
 					</form>
