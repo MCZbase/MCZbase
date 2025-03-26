@@ -39,29 +39,24 @@ limitations under the License.
 		CO.COLL_OBJ_DISPOSITION,
 		CO.LOT_COUNT_MODIFIER,
 		CO.LOT_COUNT,
-		COR.COLL_OBJECT_REMARKS as CURRENT_REMARKS,
+		CO.CONDITION,
 		<cfif action IS "downloadBulkloader" OR action IS "downloadBulkloaderAll">
 			pc.barcode as CONTAINER_UNIQUE_ID,
 		<cfelseif action IS "downloadBulkPartContainer">
 			pc.barcode as CONTAINER_BARCODE,
 		<cfelseif action IS "downloadBulkPartContainerMove">
 			pc.barcode as CONTAINER_BARCODE,
-<!---			nvl(pc1.barcode,pc1.label) as P1_BARCODE,
-			nvl(pc2.barcode,pc2.label) as P2_BARCODE,
-			nvl(pc3.barcode,pc3.label) as P3_BARCODE,
-			nvl(pc4.barcode,pc4.label) as P4_BARCODE,
-			nvl(pc5.barcode,pc5.label) as P5_BARCODE,
-			nvl(pc6.barcode,pc6.label) as P6_BARCODE,--->
+			 '' as NEW_CONTAINER_BARCODE,
 		<cfelse>
 			pc.barcode as CONTAINER_BARCODE,
-		nvl(pc1.barcode,pc1.label) as P1_BARCODE,
+			nvl(pc1.barcode,pc1.label) as P1_BARCODE,
 			nvl(pc2.barcode,pc2.label) as P2_BARCODE,
 			nvl(pc3.barcode,pc3.label) as P3_BARCODE,
 			nvl(pc4.barcode,pc4.label) as P4_BARCODE,
 			nvl(pc5.barcode,pc5.label) as P5_BARCODE,
 			nvl(pc6.barcode,pc6.label) as P6_BARCODE,
 		</cfif>
-		CO.CONDITION
+		COR.COLL_OBJECT_REMARKS as CURRENT_REMARKS
 		<cfif action IS "downloadBulkloader" OR action IS "downloadBulkloaderAll">
 			, '' as APPEND_TO_REMARKS
 			, '' AS CHANGED_DATE
