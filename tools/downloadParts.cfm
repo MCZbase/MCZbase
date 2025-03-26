@@ -299,7 +299,7 @@ limitations under the License.
 							<div class="col-12 col-md-12 col-xl-2">
 								
 								<input type="submit" value="Filter Parts" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();' class="mt-1 mt-xl-3 btn btn-xs mb-2 btn-secondary"></input>
-								<button type="button" id="toggleButton" class="btn btn-xs btn-secondary mt-1 mt-xl-3 mx-1" onclick="toggleColumns();">Show Containers</button>
+								<button type="button" id="toggleButton" class="btn btn-xs btn-secondary mt-1 mt-xl-2 mx-1" onclick="toggleColumns();">Show Containers</button>
 							</div>
 						</div>
 						<div class="form-row mx-0">
