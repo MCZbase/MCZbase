@@ -306,7 +306,7 @@ limitations under the License.
 							<div class="col-12">
 								<h2 class="h4">Download Parts CSV for:</h2>
 								<input type="button" value="Bulkloading Edited Parts" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
-								<input type="button" value="Bulkloading Part Attributes" onClick='document.getElementById("action").value="downloadBulkloaderAll";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
+								<input type="button" value="Bulkloading Edited Part w/Attributes" onClick='document.getElementById("action").value="downloadBulkloaderAll";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Container Placements" onClick='document.getElementById("action").value="downloadBulkPartContainer";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Bulkloading Parts to New Containers" onClick='document.getElementById("action").value="downloadBulkPartContainerMove";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Bulkloading Loan Items" onClick='document.getElementById("action").value="downloadPartLoanItems";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
