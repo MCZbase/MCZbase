@@ -584,8 +584,8 @@ limitations under the License.
 					<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts  
 						SET 
-							other_id_number, collection_cde  = (
-								select cat_num, collection_cde 
+							other_id_number  = (
+								select cat_num
 								from 
 									cataloged_item
 								where 
