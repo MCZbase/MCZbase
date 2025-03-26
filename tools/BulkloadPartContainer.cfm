@@ -563,7 +563,7 @@ limitations under the License.
 			<!---This comes from the collection object container parent in getTempTableQC2--->
 			<cfif len(getTempTableQC1.container_barcode) eq 0>
 				<cfquery name="getTempTableQC5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT current_parent_container_id, container_barcode,collection_cde,other_id_number,key
+					SELECT current_parent_container_id, container_barcode,collection_object_id,collection_cde,other_id_number,key
 					FROM cf_temp_barcode_parts  
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -582,16 +582,17 @@ limitations under the License.
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC5.key#"> 
 					</cfquery>
 					<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_barcode_parts  
+						UPDATE cf_temp_barcode_parts 
 						SET 
-							other_id_number  = (
+							other_id_number = (
 								select cat_num
 								from 
 									cataloged_item
 								where 
 									cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC5.collection_object_id#">
 							)
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						WHERE other_id_number is null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC5.key#"> 
 					</cfquery>
 				</cfloop>
