@@ -243,7 +243,7 @@ limitations under the License.
 		<main class="container-fluid py-3" id="content">
 			<div class="row mx-0">
 				<div class="col-12">
-					<h1 class="h2 mt-2 mx-xl-3">
+					<h1 class="h2 mt-2 mx-xl-2">
 						List/Download Parts from a Specimen Search
 						<cfif isDefined("result_id") and len(result_id) GT 0>
 							(manage result #result_id#)
