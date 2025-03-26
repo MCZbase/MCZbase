@@ -546,14 +546,15 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC3.key#"> 
 				</cfquery>
 				<!---If the new entry in container_barcode is not already in MCZbase, show container not found--->
-				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts
-					SET status = concat(nvl2(status, status || '; ', ''), 'New CONTAINER not found')
-					WHERE NEW_container_barcode not in (select barcode from container) 
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC3.key#">
-				</cfquery>
+
 			</cfloop>
+			<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_barcode_parts
+				SET status = concat(nvl2(status, status || '; ', ''), 'New CONTAINER not found')
+				WHERE NEW_container_barcode not in (select barcode from container) 
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC3.key#">
+			</cfquery>
 			<!---Find the current container that shows in the part row on the specimen record and put it in the table so the change can be seen easily--->
 			<!---This comes from the collection object container parent in getTempTableQC2--->
 			<cfif len(getTempTableQC1.container_barcode) eq 0>
