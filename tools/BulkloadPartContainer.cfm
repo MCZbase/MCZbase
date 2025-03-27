@@ -648,11 +648,10 @@ limitations under the License.
 							<th>NEW_CONTAINER_BARCODE</th>
 							<th>CONTAINER_BARCODE</th>
 							<!---below: ID fields that users may or may not need to see--->
-							<th>CURRENT_PARENT_CONTAINER_ID</th>
+			<!---				<th>CURRENT_PARENT_CONTAINER_ID</th>
 							<th>NEW_PARENT_CONTAINER_ID</th>
 							<th>PART_COLLECTION_OBJECT_ID</th>
-							<th>PART_CONTAINER_ID</th>
-
+							<th>PART_CONTAINER_ID</th>--->
 						</tr>
 					</thead>
 					<tbody>
@@ -669,10 +668,10 @@ limitations under the License.
 								<td>#data.NEW_CONTAINER_BARCODE#</td>
 								<td>#data.CONTAINER_BARCODE#</td>
 								<!---below: ID fields that users may or may not need to see--->
-								<td>#data.current_parent_container_id#</td>
+<!---								<td>#data.current_parent_container_id#</td>
 								<td>#data.new_parent_container_id#</td>
 								<td>#data.PART_collection_object_id#</td>
-								<td>#data.part_container_id#</td>
+								<td>#data.part_container_id#</td>--->
 							</tr>
 						</cfloop>
 					</tbody>
