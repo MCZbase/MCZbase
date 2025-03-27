@@ -407,8 +407,8 @@
 				For Cryogenic Collection loans, if you have any remaining material (e.g., tissue, DNA), please email the Collection Manager to discuss whether it should be returned.
 				To officially close this loan, please also provide publication information and NCBI sequence accession numbers to the MCZ-CRYO.<br><br>
 				NCBI accessions will automatically link to MCZbase records if information is submitted correctly:<br>
-				https://mcz.harvard.edu/files/mcz/files/guidelines_for_submitting_to_genbank.pdf<br>
-				https://mcz.harvard.edu/files/mcz/files/ncbi_bioproject_biosample_data.pdf<br>
+				https://www.mcz.harvard.edu/sites/g/files/omnuum6431/files/2025-01/guidelines_for_submitting_to_genbank.pdf<br>
+				https://www.mcz.harvard.edu/sites/g/files/omnuum6431/files/2025-03/ncbi_bioproject_biosample_data.pdf<br>
 				<br>
 				Thank you.<br>
 				<cfelse>
