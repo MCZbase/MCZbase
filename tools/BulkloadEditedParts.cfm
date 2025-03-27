@@ -36,7 +36,7 @@ limitations under the License.
 <cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT 
-			STATUS,
+			decode(status,' :Found Cataloged Item; Found Part','',STATUS) as STATUS,
 			INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,
 			PART_COLLECTION_OBJECT_ID,
 			PART_NAME,PRESERVE_METHOD,COLL_OBJ_DISPOSITION,LOT_COUNT_MODIFIER,LOT_COUNT,CURRENT_REMARKS,
