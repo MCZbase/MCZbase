@@ -594,27 +594,29 @@ limitations under the License.
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Backfill the other_id_type and catalog number if it isn't there.--->
-			<cfif len(getTempTableQC6.other_id_number) eq 0 AND (len(getTempTableQC6.other_id_type) EQ 0 OR getTempTable.other_id_type EQ "catalog number" ) >
-				<cfloop query="getTempTableQC6">
-					<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_barcode_parts
-						SET 
-							other_id_type = 'catalog number',
-							other_id_number = (
- 								select ci.cat_num 
- 								from 
- 									cataloged_item ci, specimen_part sp
- 									cataloged_item ci
- 									join specimen_part sp on ci.collection_object_id = sp.derived_from_cat_item
- 								where 
- 									ci.collection_object_id = sp.derived_from_cat_item
- 									AND sp.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.part_collection_object_id#">
- 									sp.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.part_collection_object_id#">
- 							)
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC6.key#"> 
-					</cfquery>
-				</cfloop>
+			<cfif len(getTempTableQC6.other_id_number) eq 0>
+				<cfif len(getTempTableQC6.other_id_type) eq 0 OR getTempTable.other_id_type EQ "catalog number">
+					<cfloop query="getTempTableQC6">
+						<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_barcode_parts
+							SET 
+								other_id_type = 'catalog number',
+								other_id_number = (
+									select ci.cat_num 
+									from 
+										cataloged_item ci, specimen_part sp
+										cataloged_item ci
+										join specimen_part sp on ci.collection_object_id = sp.derived_from_cat_item
+									where 
+										ci.collection_object_id = sp.derived_from_cat_item
+										AND sp.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.part_collection_object_id#">
+										sp.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.part_collection_object_id#">
+								)
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC6.key#"> 
+						</cfquery>
+					</cfloop>
+				</cfif>
 			</cfif>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT * 
