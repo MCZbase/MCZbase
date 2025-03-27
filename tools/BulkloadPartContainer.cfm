@@ -589,6 +589,7 @@ limitations under the License.
 				FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<!---Backfill the other_id_type and catalog number if it isn't there.--->
 			<cfif len(getTempTableQC6.other_id_number) eq 0 AND (len(getTempTableQC6.other_id_type) EQ 0 OR getTempTable.other_id_type EQ "catalog number" ) >
 				<cfloop query="getTempTableQC6">
 					<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
