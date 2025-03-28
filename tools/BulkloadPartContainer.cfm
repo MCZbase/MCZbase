@@ -425,15 +425,15 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
 				</cfquery>
-				<cfquery name="warningOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts
-					SET status = concat(nvl2(status, status || '; ', ''), 'CATALOG NUMBER-collection_object_id is not found')
-					WHERE (other_id_number is null AND OTHER_ID_TYPE is null and COLLECTION_CDE is null)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
-				</cfquery>
+	
 			</cfif>
-			
+			<cfquery name="warningOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_barcode_parts
+				SET status = concat(nvl2(status, status || '; ', ''), 'CATALOG NUMBER-collection_object_id is not found')
+				WHERE (other_id_number is null AND OTHER_ID_TYPE is null and COLLECTION_CDE is null)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
+			</cfquery>
 			<cfquery name="getCollCode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT *
 				FROM cf_temp_barcode_parts 
