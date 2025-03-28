@@ -398,7 +398,7 @@ limitations under the License.
 			<cfif len(dataParts.other_id_number) gt 0>
 				<cfquery name="getCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCOID_result">
 					SELECT
-						collection_object_id
+						cataloged_item.collection_object_id
 					FROM
 						cataloged_item 
 						join collection on cataloged_item.collection_id = collection.collection_id
