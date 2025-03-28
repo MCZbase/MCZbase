@@ -427,6 +427,7 @@ limitations under the License.
 						specimen_part.collection_object_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_collection_object_id#"> 
 				</cfquery>
 			</cfif>
+			<cfloop query="getCOID">
 			<!---Get the part_collection_object_id based on the specimen record's collection_object_id from query getCOID--->
 			<!---<cfif #getCOID.recordcount# eq 1>--->
 				<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -452,6 +453,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 				</cfquery>
+			</cfloop>
 		<!---	</cfif>--->
 		</cfloop>
 
