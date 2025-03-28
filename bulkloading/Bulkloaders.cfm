@@ -9,10 +9,11 @@
 				<div class="">
 					<h3 class="h4">Bulkload Specimens</h3>
 				<ul>
-					<li><a href="/Bulkloader/">Bulkload Specimens</a></li>
-					<li><a href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a></li>
-					<li><a href="/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a></li>
-					<li><a href="/Bulkloader/browseBulk.cfm">Browse Bulkloader</a></li>
+					<li><a href="/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a> (Create CSV files for Specimen Bulkloader)</li>
+					<li><a href="/Bulkloader/BulkloadSpecimens.cfm">Bulkload Specimens</a> (Load CSV files into Specimen Bulkloader)</li>
+					<li><a href="/Bulkloader/browseBulk.cfm">Browse and Edit</a> (Records in Specimen Bulkloader)</a></li>
+					<li><a href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a> (status values for records in the Specimen Bulkloader)</li>
+					<li><a href="/Bulkloader/">Bulkload Specimens Instructions</a></li>
 				</ul>
 				<h3 class="h4">Add Data to Existing Specimens (batch tools)</h3>
 				<ul>

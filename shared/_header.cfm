@@ -435,15 +435,15 @@ limitations under the License.
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Bulkload</div>
-										<a class="dropdown-item" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a>
-										<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a>
+										<a class="dropdown-item" href="/Bulkloader/bulkloaderBuilder.cfm">Specimen Bulkload Builder</a>
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Bulkloader/BulkloadSpecimens.cfm">Bulkload Specimens</a>
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="/Bulkloader/BulkloadSpecimens.cfm">Bulkload Specimens</a>
 										</cfif>
-										<a class="dropdown-item" href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a>
-										<a class="dropdown-item" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a>
+										<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit Specimen Bulkloads</a>
+										<a class="dropdown-item" href="/Bulkloader/bulkloader_status.cfm">Specimen Bulkloader Status</a>
+										<a class="dropdown-item" href="/bulkloading/Bulkloaders.cfm">All Bulkloaders</a>
 										<a class="dropdown-item" href="/tools/PublicationStatus.cfm">Publication Staging</a>
 										<a class="dropdown-item" href="/tools/DataLoanBulkload.cfm">Data Loan Items</a>
 										<a class="dropdown-item" href="/dataquality/check_names.cfm">Check CSV of Taxon Names</a>
