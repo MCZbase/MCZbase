@@ -42,10 +42,20 @@ limitations under the License.
 		CO.CONDITION,
 		COR.COLL_OBJECT_REMARKS as CURRENT_REMARKS
 		<cfif action IS "downloadBulkloader" OR action IS "downloadBulkloaderAll">
+			<!--- "Bulkloading Edited Parts" --->
+			<!--- "Bulkloading Edited Parts w/Attributes" --->
 			,pc.barcode as CONTAINER_UNIQUE_ID
 		<cfelseif action IS "downloadBulkPartContainer">
+			<!--- "View Container Placements" --->
 			,pc.barcode as CONTAINER_BARCODE
+			,nvl(pc1.barcode,pc1.label) as PARENT1_BARCODE
+			,nvl(pc2.barcode,pc2.label) as PARENT2_BARCODE
+			,nvl(pc3.barcode,pc3.label) as PARENT3_BARCODE
+			,nvl(pc4.barcode,pc4.label) as PARENT4_BARCODE
+			,nvl(pc5.barcode,pc5.label) as PARENT5_BARCODE
+			,nvl(pc6.barcode,pc6.label) as PARENT6_BARCODE
 		<cfelseif action IS "downloadBulkPartContainerMove">
+			<!--- "Bulkloading Parts to New Containers" --->
 			,pc.barcode as CONTAINER_BARCODE
 			,'' as NEW_CONTAINER_BARCODE
 			,nvl(pc1.barcode,pc1.label) as CURRENT_PARENT1_BARCODE
@@ -54,7 +64,8 @@ limitations under the License.
 			,nvl(pc4.barcode,pc4.label) as CURRENT_PARENT4_BARCODE
 			,nvl(pc5.barcode,pc5.label) as CURRENT_PARENT5_BARCODE
 			,nvl(pc6.barcode,pc6.label) as CURRENT_PARENT6_BARCODE
-		<cfelse>
+		<cfelseif action IS "downloadBulkParLoanItems">
+			<!--- "Bulkloading Loan Items" --->
 			,pc.barcode as CONTAINER_BARCODE
 			,nvl(pc1.barcode,pc1.label) as PARENT1_BARCODE
 			,nvl(pc2.barcode,pc2.label) as PARENT2_BARCODE
@@ -62,8 +73,13 @@ limitations under the License.
 			,nvl(pc4.barcode,pc4.label) as PARENT4_BARCODE
 			,nvl(pc5.barcode,pc5.label) as PARENT5_BARCODE
 			,nvl(pc6.barcode,pc6.label) as PARENT6_BARCODE
+		<cfelse>
+			<!--- currently unused failover --->
+			,pc.barcode as CONTAINER_BARCODE
 		</cfif>
 		<cfif action IS "downloadBulkloader" OR action IS "downloadBulkloaderAll">
+			<!--- "Bulkloading Edited Parts" --->
+			<!--- "Bulkloading Edited Parts w/Attributes" --->
 			, '' as APPEND_TO_REMARKS
 			, '' AS CHANGED_DATE
 			, '' AS NEW_PART_NAME
@@ -74,6 +90,7 @@ limitations under the License.
 			, '' AS NEW_CONDITION
 		</cfif>
 		<cfif action IS "downloadPartLoanItems">
+			<!--- "Bulkloading Loan Items" --->
 			, '' as ITEM_INSTRUCTIONS
 			, '' AS ITEM_REMARKS
 			, '' AS LOAN_NUMBER
@@ -82,6 +99,7 @@ limitations under the License.
 			, COR.COLL_OBJECT_REMARKS as PART_REMARKS
 		</cfif>
 		<cfif action IS "downloadBulkloaderAll">
+			<!--- "Bulkloading Edited Parts w/Attributes" --->
 			, '' as PART_ATT_NAME_1
 			, '' as PART_ATT_VAL_1
 			, '' as PART_ATT_UNITS_1
