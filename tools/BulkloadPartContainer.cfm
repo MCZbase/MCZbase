@@ -686,6 +686,7 @@ limitations under the License.
 							<th>COLLECTION_CDE</th>
 							<th>OTHER_ID_TYPE</th>
 							<th>OTHER_ID_NUMBER</th>
+							<th>SCIENTIFIC_NAME</th>
 							<th>PART_NAME</th>
 							<th>PRESERVE_METHOD</th>
 							<th>CURRENT_REMARKS</th>
@@ -708,6 +709,7 @@ limitations under the License.
 								<th>#data.collection_cde#</th>
 								<td>#data.other_ID_TYPE#</td>
 								<td>#data.other_id_number#</td>
+								<td>#data.scientific_name#</td>
 								<td>#data.part_name#</td>
 								<td>#data.preserve_method#</td>
 								<td>#data.current_remarks#</td>
