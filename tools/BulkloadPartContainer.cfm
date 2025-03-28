@@ -610,7 +610,25 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC6.key#"> 
 				</cfquery>
-		
+				<!---This checks to see if the collection_cde, other_id_number, part_name, and preserve_methods create a collection_object_id that matches the one provided in the part download/report. We want to make sure nothing was changed by mistake, making it harder to find the parts on the shelf based on the csv. --->
+				<cfquery name="ctCatnumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_parts
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'PART_COLLECTION_OBJECT_ID provided does not match [MCZ:'|| collection_cde ||':'||other_id_number ||' '|| part_name ||'('|| preserve_method ||')]')
+					where 
+					other_id_number is not null
+					and PART_COLLECTION_OBJECT_ID not in 
+						(
+							select sp.collection_object_id from cataloged_item ci, specimen_part sp 
+							where ci.collection_object_id = sp.derived_from_cat_item
+							and ci.cat_num= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.other_id_number#">
+							and ci.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.collection_cde#">
+							and sp.part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.part_name#">
+							and sp.preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.preserve_method#">
+						)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC6.key#">
+				</cfquery>
 			</cfloop>
 			<!---Backfill the other_id_type and catalog number if it isn't there.--->
 			<cfif len(getTempTableQC6.part_collection_object_id) neq 0>
