@@ -686,7 +686,7 @@ limitations under the License.
 							<th>NEW_CONTAINER_BARCODE</th>
 							<th>CONTAINER_BARCODE</th>
 							<th>PART_COLLECTION_OBJECT_ID</th>
-							<th>COLLECTION_OBJECT_ID</th>
+						<!---	<th>COLLECTION_OBJECT_ID</th>--->
 							<!---below: ID fields that users may or may not need to see--->
 			<!---				<th>CURRENT_PARENT_CONTAINER_ID</th>
 							<th>NEW_PARENT_CONTAINER_ID</th>
@@ -708,7 +708,7 @@ limitations under the License.
 								<td>#data.NEW_CONTAINER_BARCODE#</td>
 								<td>#data.CONTAINER_BARCODE#</td>
 								<td>#data.part_collection_object_id#</td>
-								<td>#data.collection_object_id#</td>
+						<!---		<td>#data.collection_object_id#</td>--->
 								<!---below: ID fields that users may or may not need to see--->
 <!---								<td>#data.current_parent_container_id#</td>
 								<td>#data.new_parent_container_id#</td>
