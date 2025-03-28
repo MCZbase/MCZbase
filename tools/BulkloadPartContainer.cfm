@@ -394,7 +394,7 @@ limitations under the License.
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfloop query="dataParts">
-			<cfif dataParts.other_id_type eq 'catalog number'>
+			
 			<!---This gets the collection_object_id based on the catalog number; We are only using cataloged number and cat_num in this bulkloader even thoough the sheet says the generaal:  other_id_type and other_id_number--->
 				<cfif len(dataParts.other_id_number) gt 0>
 					<cfquery name="getCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCOID_result">
@@ -427,7 +427,7 @@ limitations under the License.
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
 					</cfquery>
 				</cfif>
-			</cfif>
+		
 			<!---Not 100% necessary but we update the cf_temp_barcode_parts with the collection_object_id--->
 			<cfloop query="getCOID">
 				<cfquery name="" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
