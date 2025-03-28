@@ -417,7 +417,6 @@ limitations under the License.
 					WHERE
 						specimen_part.collection_object_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_collection_object_id#"> 
 				</cfquery>
-		
 			</cfif>
 			<!---Get the part_collection_object_id based on the specimen record's collection_object_id from query getCOID--->
 			<cfif #getCOID_result.recordcount# eq 1>
@@ -444,13 +443,6 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 				</cfquery>
-			<cfelse>
-				<cfquery name="getPartColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts
-					SET status = concat(nvl2(status, status || '; ', ''), ''PART_COLLECTION_OBJECT_ID not valid')
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
-				</cfquery>
 			</cfif>
 		</cfloop>
 		<!--- Second set of Validation tests: container terms ---> 
@@ -462,6 +454,13 @@ limitations under the License.
 		</cfquery>
 			<!---This checks to see if the part collection_object_id is correct by checking the generated item description against the collection_cde, other_id_number, part_name, and preserve_method, if the separate columns content does not match the contents of the item description, the bulkload will fail so they can check the expected parts --->
 			<cfloop query="getTempTableQC1">
+				<cfquery name="getPartColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_parts
+					SET status = concat(nvl2(status, status || '; ', ''), ''PART_COLLECTION_OBJECT_ID not valid')
+					WHERE part_collection_object_id is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
+				</cfquery>
 				<!---Put the container ID of the collection_object into the table--->
 				<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts  
