@@ -618,9 +618,10 @@ limitations under the License.
 					other_id_number is not null
 					and PART_COLLECTION_OBJECT_ID not in 
 						(
-							select sp.collection_object_id from cataloged_item ci, specimen_part sp 
-							where ci.collection_object_id = sp.derived_from_cat_item
-							and ci.cat_num= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.other_id_number#">
+							select sp.collection_object_id 
+								from cataloged_item ci
+								join specimen_part sp on ci.collection_object_id = sp.derived_from_cat_item
+							where ci.cat_num= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.other_id_number#">
 							and ci.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.collection_cde#">
 							and sp.part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.part_name#">
 							and sp.preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.preserve_method#">
