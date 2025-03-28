@@ -585,7 +585,7 @@ limitations under the License.
 				</cfloop>
 			</cfif>
 			<cfquery name="getTempTableQC6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT *
+				SELECT part_name, preserve_method,key
 				FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -613,8 +613,6 @@ limitations under the License.
 						(
 							select sp.collection_object_id from cataloged_item ci, specimen_part sp 
 							where ci.collection_object_id = sp.derived_from_cat_item
-							and ci.cat_num= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.other_id_number#">
-							and ci.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.collection_cde#">
 							and sp.part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.part_name#">
 							and sp.preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.preserve_method#">
 						)
