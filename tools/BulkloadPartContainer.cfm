@@ -448,7 +448,7 @@ limitations under the License.
 							)
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts2.key#"> 
+						
 				</cfquery>
 			</cfloop>
 		</cfif>
