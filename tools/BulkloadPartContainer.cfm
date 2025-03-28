@@ -619,7 +619,6 @@ limitations under the License.
 								other_id_number = (
 									select ci.cat_num 
 									from 
-										cataloged_item ci, specimen_part sp
 										cataloged_item ci
 										join specimen_part sp on ci.collection_object_id = sp.derived_from_cat_item
 									where 
