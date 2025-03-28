@@ -428,7 +428,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<!---Get the part_collection_object_id based on the specimen record's collection_object_id from query getCOID--->
-			<cfif #getCOID.collection_object_id# eq 1>
+			<!---<cfif #getCOID.recordcount# eq 1>--->
 				<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE 
 						cf_temp_barcode_parts
@@ -452,9 +452,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 				</cfquery>
-			<cfelse>
-				How
-			</cfif>
+		<!---	</cfif>--->
 		</cfloop>
 
 		<!--- Second set of Validation tests: container terms ---> 
