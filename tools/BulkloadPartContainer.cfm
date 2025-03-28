@@ -422,7 +422,7 @@ limitations under the License.
 		<!---Get the part_collection_object_id based on the specimen record's collection_object_id from query getCOID--->
 		<cfif #getCOID_result.recordcount# eq 1>
 			<cfquery name="dataParts2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT *
+				SELECT other_id_type,collection_cde,institution_acronym, other_id_number,collection_object_id,preserve_method,part_name,current_remarks,part_collection_object_id,key
 				FROM cf_temp_barcode_parts 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
