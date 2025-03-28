@@ -395,7 +395,7 @@ limitations under the License.
 		</cfquery>
 		<cfloop query="dataParts">
 			<!---This gets the collection_object_id based on the catalog number; We are only using cataloged number and cat_num in this bulkloader even thoough the sheet says the generaal:  other_id_type and other_id_number--->
-			<cfif len(dataParts.other_id_number) gt 0>
+			<cfif len(dataParts.other_id_number) gt 0 and #dataParts.other_id_type# = 'catalog number'>
 				<cfquery name="getCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCOID_result">
 					SELECT
 						cataloged_item.collection_object_id
@@ -452,15 +452,8 @@ limitations under the License.
 			<cfelse>
 				<cfquery name="getPartColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
-					SET status = concat(nvl2(status, status || '; ', ''), 'Part not found')
+					SET status = concat(nvl2(status, status || '; ', ''), 'Part ID not found')
 					WHERE part_collection_object_id is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
-				</cfquery>
-				<cfquery name="warningOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts
-					SET status = concat(nvl2(status, status || '; ', ''), 'CATALOG NUMBER-collection_object_id is not found')
-					WHERE (other_id_number is null AND OTHER_ID_TYPE is null and COLLECTION_CDE is null)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
 				</cfquery>
