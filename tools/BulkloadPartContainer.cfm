@@ -643,8 +643,6 @@ limitations under the License.
 						</cfquery>
 					</cfloop>
 				</cfif>
-			<cfelse>
-				#part.collecton_object_id#
 			</cfif>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT * 
