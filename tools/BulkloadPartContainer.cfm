@@ -397,7 +397,7 @@ limitations under the License.
 			<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_barcode_parts
 				SET 
-					status = concat(nvl2(status, status || '; ', ''),'Check #requiredField#-generated from part_collection_object_id')
+					status = concat(nvl2(status, status || '; ', ''),'Check #requiredField#-generated from part COID')
 				WHERE #requiredField# is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
