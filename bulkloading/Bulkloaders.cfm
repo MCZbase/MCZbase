@@ -19,16 +19,17 @@
 					<li><a href="/tools/BulkloadNewParts.cfm">Bulkload New Parts</a></li>
 					<li><a href="/tools/BulkloadAttributes.cfm">Bulkload Attributes</a></li>
 					<li><a href="/tools/BulkloadCitations.cfm">Bulkload Citations</a></li>
-					<li><a href="/tools/BulkloadOtherId.cfm">Bulkload Identifiers (bulk add Other ID numbers)</a></li>
-					<li><a href="/tools/BulkloadLoanItems.cfm">Bulkload Loan Items (bulk add parts to loans)</a></li>
+					<li><a href="/tools/BulkloadOtherId.cfm">Bulkload Identifiers</a> (bulk add Other ID numbers)</li>
 					<li><a href="/tools/BulkloadIdentification.cfm">Bulkload Identifications</a></li>
-					<li><a href="/tools/BulkloadRelations.cfm">Bulkload Relationships (add relationships between specimens)</a></li>
-					<li><a href="/tools/BulkloadPartContainer.cfm">Bulkload Parts to Containers (place parts in containers)</a></li>
+					<li><a href="/tools/BulkloadRelations.cfm">Bulkload Relationships</a> (add relationships between specimens)</li>
 				</ul>
 				<h3 class="h4">Manipulate existing data</h3>
 				<ul>
-					<li><a href="/tools/BulkloadEditedParts.cfm">Bulkload Edited Parts (edit part data, or append to part remarks)</a></li>
-					<li><a href="/tools/BulkloadContEditParent.cfm">Bulkload Container - Edit Parent</a></li>
+					<li><a href="/tools/BulkloadLoanItems.cfm">Bulkload Loan Items</a> (bulk add parts to loans) *</li>
+					<li><a href="/tools/BulkloadEditedParts.cfm">Bulkload Edited Parts</a> (edit part data, or append to part remarks) *</li>
+					<li><a href="/tools/BulkloadPartContainer.cfm">Bulkload Parts to Containers</a> (place parts in containers) *</li>
+					<li><a href="/tools/BulkloadContEditParent.cfm">Bulkload Container - Edit Parent</a> (move containers into containers</li>
+					<li>Bulkloaders marked with * can work with Specimen Search -> Manage -> Parts Report/Download csv files.</li>
 				</ul>
 				<h3 class="h4">Bulkload Data Other than Specimens</h3>
 				<ul>
