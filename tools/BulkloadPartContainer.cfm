@@ -609,9 +609,7 @@ limitations under the License.
 					UPDATE cf_temp_barcode_parts
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'PART_COLLECTION_OBJECT_ID provided does not match [MCZ:'|| collection_cde ||':'||other_id_number ||' '|| part_name ||'('|| preserve_method ||')]')
-					where 
-					other_id_number is not null
-					and PART_COLLECTION_OBJECT_ID not in 
+					where PART_COLLECTION_OBJECT_ID not in 
 						(
 							select sp.collection_object_id from cataloged_item ci, specimen_part sp 
 							where ci.collection_object_id = sp.derived_from_cat_item
