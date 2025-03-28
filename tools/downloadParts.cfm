@@ -48,20 +48,20 @@ limitations under the License.
 		<cfelseif action IS "downloadBulkPartContainerMove">
 			,pc.barcode as CONTAINER_BARCODE
 			,'' as NEW_CONTAINER_BARCODE
-			,nvl(pc1.barcode,pc1.label) as P1_BARCODE
-			,nvl(pc2.barcode,pc2.label) as P2_BARCODE
-			,nvl(pc3.barcode,pc3.label) as P3_BARCODE
-			,nvl(pc4.barcode,pc4.label) as P4_BARCODE
-			,nvl(pc5.barcode,pc5.label) as P5_BARCODE
-			,nvl(pc6.barcode,pc6.label) as P6_BARCODE
+			,nvl(pc1.barcode,pc1.label) as CURRENT_PARENT1_BARCODE
+			,nvl(pc2.barcode,pc2.label) as CURRENT_PARENT2_BARCODE
+			,nvl(pc3.barcode,pc3.label) as CURRENT_PARENT3_BARCODE
+			,nvl(pc4.barcode,pc4.label) as CURRENT_PARENT4_BARCODE
+			,nvl(pc5.barcode,pc5.label) as CURRENT_PARENT5_BARCODE
+			,nvl(pc6.barcode,pc6.label) as CURRENT_PARENT6_BARCODE
 		<cfelse>
 			,pc.barcode as CONTAINER_BARCODE
-			,nvl(pc1.barcode,pc1.label) as P1_BARCODE
-			,nvl(pc2.barcode,pc2.label) as P2_BARCODE
-			,nvl(pc3.barcode,pc3.label) as P3_BARCODE
-			,nvl(pc4.barcode,pc4.label) as P4_BARCODE
-			,nvl(pc5.barcode,pc5.label) as P5_BARCODE
-			,nvl(pc6.barcode,pc6.label) as P6_BARCODE
+			,nvl(pc1.barcode,pc1.label) as PARENT1_BARCODE
+			,nvl(pc2.barcode,pc2.label) as PARENT2_BARCODE
+			,nvl(pc3.barcode,pc3.label) as PARENT3_BARCODE
+			,nvl(pc4.barcode,pc4.label) as PARENT4_BARCODE
+			,nvl(pc5.barcode,pc5.label) as PARENT5_BARCODE
+			,nvl(pc6.barcode,pc6.label) as PARENT6_BARCODE
 		</cfif>
 		<cfif action IS "downloadBulkloader" OR action IS "downloadBulkloaderAll">
 			, '' as APPEND_TO_REMARKS
