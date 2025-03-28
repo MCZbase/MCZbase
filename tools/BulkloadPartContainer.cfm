@@ -389,24 +389,45 @@ limitations under the License.
 		<cfset key = ''>
 		<!---Bring the fields from the cf_temp_barcode_part to the process (excludes unused columns)--->
 		<cfquery name="dataParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT collection_cde,institution_acronym,other_id_number,other_id_type,part_name,preserve_method,new_container_barcode,current_remarks,key
+			SELECT *
 			FROM cf_temp_barcode_parts 
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfloop query="dataParts">
-			<cfif dataParts.other_id_type eq 'catalog number' OR len(dataParts.OTHER_ID_TYPE) eq 0>
+			<cfif dataParts.other_id_type eq 'catalog number'>
 			<!---This gets the collection_object_id based on the catalog number; We are only using cataloged number and cat_num in this bulkloader even thoough the sheet says the generaal:  other_id_type and other_id_number--->
-				<cfquery name="getCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCOID_result">
-					SELECT
-						collection_object_id
-					FROM
-						cataloged_item 
-						join collection on cataloged_item.collection_id = collection.collection_id
-					WHERE
-						collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.collection_cde#"> and
-						collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.institution_acronym#"> and
-						cataloged_item.cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.other_id_number#"> 
-				</cfquery>
+				<cfif len(dataParts.other_id_number) gt 0>
+					<cfquery name="getCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCOID_result">
+						SELECT
+							collection_object_id
+						FROM
+							cataloged_item 
+							join collection on cataloged_item.collection_id = collection.collection_id
+						WHERE
+							collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.collection_cde#"> and
+							collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.institution_acronym#"> and
+							cataloged_item.cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.other_id_number#"> 
+					</cfquery>
+				<cfif len(dataParts.part_collection_object_id) gt 0>
+					<cfquery name="getCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCOID_result">
+						SELECT
+							collection_object_id
+						FROM
+							cataloged_item 
+							join collection on cataloged_item.collection_id = collection.collection_id
+							join specimen_part on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+						WHERE
+							specimen_part.collection_object_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_collection_object_id#"> 
+					</cfquery>
+				<cfelse>
+					<cfquery name="getPartColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_barcode_parts
+						SET status = concat(nvl2(status, status || '; ', ''), 'Other_id_number is not found')
+						WHERE part_collection_object_id is null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
+					</cfquery>
+				</cfif>
 			</cfif>
 			<!---Not 100% necessary but we update the cf_temp_barcode_parts with the collection_object_id--->
 			<cfloop query="getCOID">
