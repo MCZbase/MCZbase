@@ -44,6 +44,7 @@ limitations under the License.
 		<cfif action IS "downloadBulkloader" OR action IS "downloadBulkloaderAll">
 			<!--- "Bulkloading Edited Parts" --->
 			<!--- "Bulkloading Edited Parts w/Attributes" --->
+			<!--- container hierarchy not needed for these bulkloaders --->
 			,pc.barcode as CONTAINER_UNIQUE_ID
 		<cfelseif action IS "downloadBulkPartContainer">
 			<!--- "View Container Placements" --->
@@ -55,7 +56,7 @@ limitations under the License.
 			,nvl(pc5.barcode,pc5.label) as PARENT5_BARCODE
 			,nvl(pc6.barcode,pc6.label) as PARENT6_BARCODE
 		<cfelseif action IS "downloadBulkPartContainerMove">
-			<!--- "Bulkloading Parts to New Containers" --->
+			<!--- "Bulkloading Parts to New Containers" clearer labeling of columns for users --->
 			,pc.barcode as CONTAINER_BARCODE
 			,'' as NEW_CONTAINER_BARCODE
 			,nvl(pc1.barcode,pc1.label) as CURRENT_PARENT1_BARCODE
@@ -74,9 +75,16 @@ limitations under the License.
 			,nvl(pc5.barcode,pc5.label) as PARENT5_BARCODE
 			,nvl(pc6.barcode,pc6.label) as PARENT6_BARCODE
 		<cfelse>
-			<!--- currently unused failover --->
+			<!--- failover for normal load of page, include columns shown in display below --->
 			,pc.barcode as CONTAINER_BARCODE
+			,nvl(pc1.barcode,pc1.label) as PARENT1_BARCODE
+			,nvl(pc2.barcode,pc2.label) as PARENT2_BARCODE
+			,nvl(pc3.barcode,pc3.label) as PARENT3_BARCODE
+			,nvl(pc4.barcode,pc4.label) as PARENT4_BARCODE
+			,nvl(pc5.barcode,pc5.label) as PARENT5_BARCODE
+			,nvl(pc6.barcode,pc6.label) as PARENT6_BARCODE
 		</cfif>
+		<!--- add additional blank columns for bulkloaders --->
 		<cfif action IS "downloadBulkloader" OR action IS "downloadBulkloaderAll">
 			<!--- "Bulkloading Edited Parts" --->
 			<!--- "Bulkloading Edited Parts w/Attributes" --->
@@ -392,12 +400,12 @@ limitations under the License.
 									<td>#CURRENT_REMARKS#</td>
 									<td>#CONDITION#</td>
 									<td class="contcoll">#CONTAINER_BARCODE#</td>
-									<td class="contcoll">#P1_BARCODE#</td>
-									<td class="contcoll">#P2_BARCODE#</td>
-									<td class="contcoll">#P3_BARCODE#</td>
-									<td class="contcoll">#P4_BARCODE#</td>
-									<td class="contcoll">#P5_BARCODE#</td>
-									<td class="contcoll">#P6_BARCODE#</td>
+									<td class="contcoll">#PARENT1_BARCODE#</td>
+									<td class="contcoll">#PARENT2_BARCODE#</td>
+									<td class="contcoll">#PARENT3_BARCODE#</td>
+									<td class="contcoll">#PARENT4_BARCODE#</td>
+									<td class="contcoll">#PARENT5_BARCODE#</td>
+									<td class="contcoll">#PARENT6_BARCODE#</td>
 								</tr>
 							</cfloop>
 						</tbody>
