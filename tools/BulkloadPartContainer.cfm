@@ -408,7 +408,7 @@ limitations under the License.
 							collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.institution_acronym#"> and
 							cataloged_item.cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.other_id_number#"> 
 					</cfquery>
-				<cfif len(dataParts.part_collection_object_id) gt 0>
+				<cfelseif len(dataParts.part_collection_object_id) gt 0>
 					<cfquery name="getCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCOID_result">
 						SELECT
 							cataloged_item.collection_object_id
