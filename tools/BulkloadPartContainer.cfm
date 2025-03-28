@@ -439,6 +439,7 @@ limitations under the License.
 								part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_name#">
 								and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.preserve_method#">
 								and derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCOID.collection_object_id#">
+								and collection_cde = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.collection_cde#"
 								<cfif len(dataParts.current_remarks) EQ 0>
 									and coll_object_remark.coll_object_remarks IS NULL
 								<cfelse>
@@ -452,9 +453,8 @@ limitations under the License.
 			<cfelse>
 				<cfquery name="getPartColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
-					SET status = concat(nvl2(status, status || '; ', ''), ''PART_COLLECTION_OBJECT_ID provided does not match [MCZ:'|| collection_cde ||':'||other_id_number ||' '|| part_name ||'('|| preserve_method ||')]'')
-					WHERE part_collection_object_id is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					SET status = concat(nvl2(status, status || '; ', ''), ''PART_COLLECTION_OBJECT_ID not valid')
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
 				</cfquery>
 			</cfif>
@@ -686,7 +686,6 @@ limitations under the License.
 							<th>COLLECTION_CDE</th>
 							<th>OTHER_ID_TYPE</th>
 							<th>OTHER_ID_NUMBER</th>
-							<th>SCIENTIFIC_NAME</th>
 							<th>PART_NAME</th>
 							<th>PRESERVE_METHOD</th>
 							<th>CURRENT_REMARKS</th>
@@ -709,7 +708,6 @@ limitations under the License.
 								<th>#data.collection_cde#</th>
 								<td>#data.other_ID_TYPE#</td>
 								<td>#data.other_id_number#</td>
-								<td>#data.scientific_name#</td>
 								<td>#data.part_name#</td>
 								<td>#data.preserve_method#</td>
 								<td>#data.current_remarks#</td>
