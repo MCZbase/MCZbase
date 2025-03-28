@@ -623,13 +623,13 @@ limitations under the License.
 							SET 
 								other_id_type = 'catalog number',
 								collection_cde = (
-									select collection_cde 
+									select ci.collection_cde 
 									from 
 										cataloged_item ci 
 										join specimen_part sp on ci.collection_object_id = sp.derived_from_cat_item
 									where 
 										sp.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.part_collection_object_id#">
-								)
+								),
 								other_id_number = (
 									select ci.cat_num 
 									from 
