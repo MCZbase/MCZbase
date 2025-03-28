@@ -433,8 +433,13 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
 				</cfquery>
 			</cfif>
-			<!---Not 100% necessary but we update the cf_temp_barcode_parts with the collection_object_id--->
-			<cfloop query="getCOID">
+			
+			<cfquery name="getCollCode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT *
+				FROM cf_temp_barcode_parts 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfloop query="getCollCode">
 				<cfquery name="upOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
 					SET collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCOID.collection_object_id#">
