@@ -448,7 +448,7 @@ limitations under the License.
 		<!--- Second set of Validation tests: container terms ---> 
 		<!--- check container terms, use list of keys for row by row validations of containers --->
 		<cfquery name="getTempTableQC1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT institution_acronym, collection_cde, other_id_type, other_id_number, part_name_current_remarks, new_container_barcode,container_barcode,part_collection_object_id,key
+			SELECT institution_acronym, collection_cde, other_id_type, other_id_number, part_name,current_remarks, new_container_barcode,container_barcode,part_collection_object_id,key
 			FROM cf_temp_barcode_parts  
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
