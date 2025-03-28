@@ -615,7 +615,7 @@ limitations under the License.
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Backfill the other_id_type and catalog number if it isn't there.--->
-			<cfif len(getTempTableQC6.part_collection_object_id) eq 0>
+			<cfif len(getTempTableQC6.part_collection_object_id) neq 0>
 				<cfif len(getTempTableQC6.other_id_number) eq 0 OR len(getTempTableQC6.other_id_type) eq 0 OR getTempTableQC6.other_id_type EQ "catalog number" OR (getTempTableQC6.collection_cde) eq 0>
 					<cfloop query="getTempTableQC6">
 						<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -643,6 +643,8 @@ limitations under the License.
 						</cfquery>
 					</cfloop>
 				</cfif>
+			<cfelse>
+				#part.collecton_object_id#
 			</cfif>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT * 
