@@ -742,7 +742,7 @@ limitations under the License.
 							</cfif>
 						<cfset container_updates = container_updates + updateContainer_result.recordcount>
 					</cfloop>
-
+					#updateContainer_result.recordcount#
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">						
@@ -834,7 +834,7 @@ limitations under the License.
 				</cftry>
 			</cftransaction>
 			<cfif container_updates GT 1><cfset plural="s"><cfelse><cfset plural=""></cfif>
-			<h3 class="mt-4">Updated #container_updates# part#plural# with containers.</h3>
+			<h3 class="mt-4">Updated #container_updates# part#plural# with containers in x catalog records.</h3>
 				<h3 class="text-success">Success, changes applied. </h3>
 				<h3><a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#encodeForUrl(valuelist(getTempData.collection_object_id))#&closeParens1=0">Specimen Records</a></h3>
 			<!--- cleanup --->
