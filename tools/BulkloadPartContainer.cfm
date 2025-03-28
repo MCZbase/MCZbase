@@ -616,7 +616,7 @@ limitations under the License.
 			</cfquery>
 			<!---Backfill the other_id_type and catalog number if it isn't there.--->
 			<cfif len(getTempTableQC6.other_id_number) eq 0>
-				<cfif len(getTempTableQC6.other_id_type) eq 0 OR getTempTableQC6.other_id_type EQ "catalog number">
+				<cfif len(getTempTableQC6.other_id_type) eq 0 OR getTempTableQC6.other_id_type EQ "catalog number" OR (getTempTableQC6.collection_cde) eq 0>
 					<cfloop query="getTempTableQC6">
 						<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_barcode_parts
