@@ -93,9 +93,9 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-12 pt-4 col-md-4 float-left">
-					<h1 class="h2">Bulkload Builder</h2>
+					<h1 class="h2">Specimen Bulkload Builder</h2>
 					<p>
-						Build your own Bulkloader template and download it in a tab-delimited text or csv format.
+						Build your own Specimen Bulkloader template and download it in a tab-delimited text or csv format.
 						You may toggle groups on and off below or click on individual items on the right. Scroll down to review everything checked before clicking download.
 					</p>
 				<form name="controls" id="controls">
