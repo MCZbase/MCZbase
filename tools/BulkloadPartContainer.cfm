@@ -23,7 +23,11 @@ limitations under the License.
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CURRENT_REMARKS,NEW_CONTAINER_BARCODE,CONTAINER_BARCODE,PART_COLLECTION_OBJECT_ID,CURRENT_PARENT_CONTAINER_ID,NEW_PARENT_CONTAINER_ID
+		SELECT
+			STATUS, 
+			INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,
+			PRESERVE_METHOD,CURRENT_REMARKS,NEW_CONTAINER_BARCODE,CONTAINER_BARCODE,
+			PART_COLLECTION_OBJECT_ID,CURRENT_PARENT_CONTAINER_ID,NEW_PARENT_CONTAINER_ID
 		FROM cf_temp_barcode_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -385,24 +389,44 @@ limitations under the License.
 		<cfset key = ''>
 		<!---Bring the fields from the cf_temp_barcode_part to the process (excludes unused columns)--->
 		<cfquery name="dataParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT collection_cde,institution_acronym,other_id_number,other_id_type,part_name,preserve_method,new_container_barcode,current_remarks,key
+			SELECT *
 			FROM cf_temp_barcode_parts 
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfloop query="dataParts">
 			<cfif dataParts.other_id_type eq 'catalog number'>
 			<!---This gets the collection_object_id based on the catalog number; We are only using cataloged number and cat_num in this bulkloader even thoough the sheet says the generaal:  other_id_type and other_id_number--->
-				<cfquery name="getCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCOID_result">
-					SELECT
-						collection_object_id
-					FROM
-						cataloged_item 
-						join collection on cataloged_item.collection_id = collection.collection_id
-					WHERE
-						collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.collection_cde#"> and
-						collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.institution_acronym#"> and
-						cataloged_item.cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.other_id_number#"> 
-				</cfquery>
+				<cfif len(dataParts.other_id_number) gt 0>
+					<cfquery name="getCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCOID_result">
+						SELECT
+							collection_object_id
+						FROM
+							cataloged_item 
+							join collection on cataloged_item.collection_id = collection.collection_id
+						WHERE
+							collection.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.collection_cde#"> and
+							collection.institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.institution_acronym#"> and
+							cataloged_item.cat_num=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.other_id_number#"> 
+					</cfquery>
+				<cfelseif len(dataParts.part_collection_object_id) gt 0>
+					<cfquery name="getCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCOID_result">
+						SELECT
+							cataloged_item.collection_object_id
+						FROM
+							cataloged_item 
+							join specimen_part on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+						WHERE
+							specimen_part.collection_object_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_collection_object_id#"> 
+					</cfquery>
+				<cfelse>
+					<cfquery name="getPartColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_barcode_parts
+						SET status = concat(nvl2(status, status || '; ', ''), 'Other_id_number is not found')
+						WHERE part_collection_object_id is null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
+					</cfquery>
+				</cfif>
 			</cfif>
 			<!---Not 100% necessary but we update the cf_temp_barcode_parts with the collection_object_id--->
 			<cfloop query="getCOID">
@@ -590,27 +614,28 @@ limitations under the License.
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---Backfill the other_id_type and catalog number if it isn't there.--->
-			<cfif len(getTempTableQC6.other_id_number) eq 0 AND (len(getTempTableQC6.other_id_type) EQ 0 OR getTempTable.other_id_type EQ "catalog number" ) >
-				<cfloop query="getTempTableQC6">
-					<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_barcode_parts
-						SET 
-							other_id_type = 'catalog number',
-							other_id_number = (
- 								select ci.cat_num 
- 								from 
- 									cataloged_item ci, specimen_part sp
- 									cataloged_item ci
- 									join specimen_part sp on ci.collection_object_id = sp.derived_from_cat_item
- 								where 
- 									ci.collection_object_id = sp.derived_from_cat_item
- 									AND sp.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.part_collection_object_id#">
- 									sp.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.part_collection_object_id#">
- 							)
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC6.key#"> 
-					</cfquery>
-				</cfloop>
+			<cfif len(getTempTableQC6.other_id_number) eq 0>
+				<cfif len(getTempTableQC6.other_id_type) eq 0 OR getTempTable.other_id_type EQ "catalog number">
+					<cfloop query="getTempTableQC6">
+						<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE cf_temp_barcode_parts
+							SET 
+								other_id_type = 'catalog number',
+								other_id_number = (
+									select ci.cat_num 
+									from 
+										cataloged_item ci, specimen_part sp
+										cataloged_item ci
+										join specimen_part sp on ci.collection_object_id = sp.derived_from_cat_item
+									where 
+										ci.collection_object_id = sp.derived_from_cat_item
+										AND sp.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.part_collection_object_id#">
+								)
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC6.key#"> 
+						</cfquery>
+					</cfloop>
+				</cfif>
 			</cfif>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT * 
@@ -643,12 +668,13 @@ limitations under the License.
 							<th>CURRENT_REMARKS</th>
 							<th>NEW_CONTAINER_BARCODE</th>
 							<th>CONTAINER_BARCODE</th>
-							<!---below: ID fields that users may or may not need to see--->
-							<th>CURRENT_PARENT_CONTAINER_ID</th>
-							<th>NEW_PARENT_CONTAINER_ID</th>
 							<th>PART_COLLECTION_OBJECT_ID</th>
-							<th>PART_CONTAINER_ID</th>
-
+							<th>COLLECTION_OBJECT_ID</th>
+							<!---below: ID fields that users may or may not need to see--->
+			<!---				<th>CURRENT_PARENT_CONTAINER_ID</th>
+							<th>NEW_PARENT_CONTAINER_ID</th>
+						
+							<th>PART_CONTAINER_ID</th>--->
 						</tr>
 					</thead>
 					<tbody>
@@ -664,11 +690,13 @@ limitations under the License.
 								<td>#data.current_remarks#</td>
 								<td>#data.NEW_CONTAINER_BARCODE#</td>
 								<td>#data.CONTAINER_BARCODE#</td>
+								<td>#data.part_collection_object_id#</td>
+								<td>#data.collection_object_id#</td>
 								<!---below: ID fields that users may or may not need to see--->
-								<td>#data.current_parent_container_id#</td>
+<!---								<td>#data.current_parent_container_id#</td>
 								<td>#data.new_parent_container_id#</td>
 								<td>#data.PART_collection_object_id#</td>
-								<td>#data.part_container_id#</td>
+								<td>#data.part_container_id#</td>--->
 							</tr>
 						</cfloop>
 					</tbody>

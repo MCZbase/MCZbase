@@ -42,22 +42,52 @@ limitations under the License.
 		CO.CONDITION,
 		COR.COLL_OBJECT_REMARKS as CURRENT_REMARKS
 		<cfif action IS "downloadBulkloader" OR action IS "downloadBulkloaderAll">
+			<!--- "Bulkloading Edited Parts" --->
+			<!--- "Bulkloading Edited Parts w/Attributes" --->
+			<!--- container hierarchy not needed for these bulkloaders --->
 			,pc.barcode as CONTAINER_UNIQUE_ID
 		<cfelseif action IS "downloadBulkPartContainer">
+			<!--- "View Container Placements" --->
 			,pc.barcode as CONTAINER_BARCODE
+			,nvl(pc1.barcode,pc1.label) as PARENT1_BARCODE
+			,nvl(pc2.barcode,pc2.label) as PARENT2_BARCODE
+			,nvl(pc3.barcode,pc3.label) as PARENT3_BARCODE
+			,nvl(pc4.barcode,pc4.label) as PARENT4_BARCODE
+			,nvl(pc5.barcode,pc5.label) as PARENT5_BARCODE
+			,nvl(pc6.barcode,pc6.label) as PARENT6_BARCODE
 		<cfelseif action IS "downloadBulkPartContainerMove">
+			<!--- "Bulkloading Parts to New Containers" clearer labeling of columns for users --->
 			,pc.barcode as CONTAINER_BARCODE
 			,'' as NEW_CONTAINER_BARCODE
-		<cfelse>
+			,nvl(pc1.barcode,pc1.label) as CURRENT_PARENT1_BARCODE
+			,nvl(pc2.barcode,pc2.label) as CURRENT_PARENT2_BARCODE
+			,nvl(pc3.barcode,pc3.label) as CURRENT_PARENT3_BARCODE
+			,nvl(pc4.barcode,pc4.label) as CURRENT_PARENT4_BARCODE
+			,nvl(pc5.barcode,pc5.label) as CURRENT_PARENT5_BARCODE
+			,nvl(pc6.barcode,pc6.label) as CURRENT_PARENT6_BARCODE
+		<cfelseif action IS "downloadBulkParLoanItems">
+			<!--- "Bulkloading Loan Items" --->
 			,pc.barcode as CONTAINER_BARCODE
-			,nvl(pc1.barcode,pc1.label) as P1_BARCODE
-			,nvl(pc2.barcode,pc2.label) as P2_BARCODE
-			,nvl(pc3.barcode,pc3.label) as P3_BARCODE
-			,nvl(pc4.barcode,pc4.label) as P4_BARCODE
-			,nvl(pc5.barcode,pc5.label) as P5_BARCODE
-			,nvl(pc6.barcode,pc6.label) as P6_BARCODE
+			,nvl(pc1.barcode,pc1.label) as PARENT1_BARCODE
+			,nvl(pc2.barcode,pc2.label) as PARENT2_BARCODE
+			,nvl(pc3.barcode,pc3.label) as PARENT3_BARCODE
+			,nvl(pc4.barcode,pc4.label) as PARENT4_BARCODE
+			,nvl(pc5.barcode,pc5.label) as PARENT5_BARCODE
+			,nvl(pc6.barcode,pc6.label) as PARENT6_BARCODE
+		<cfelse>
+			<!--- failover for normal load of page, include columns shown in display below --->
+			,pc.barcode as CONTAINER_BARCODE
+			,nvl(pc1.barcode,pc1.label) as PARENT1_BARCODE
+			,nvl(pc2.barcode,pc2.label) as PARENT2_BARCODE
+			,nvl(pc3.barcode,pc3.label) as PARENT3_BARCODE
+			,nvl(pc4.barcode,pc4.label) as PARENT4_BARCODE
+			,nvl(pc5.barcode,pc5.label) as PARENT5_BARCODE
+			,nvl(pc6.barcode,pc6.label) as PARENT6_BARCODE
 		</cfif>
+		<!--- add additional blank columns for bulkloaders --->
 		<cfif action IS "downloadBulkloader" OR action IS "downloadBulkloaderAll">
+			<!--- "Bulkloading Edited Parts" --->
+			<!--- "Bulkloading Edited Parts w/Attributes" --->
 			, '' as APPEND_TO_REMARKS
 			, '' AS CHANGED_DATE
 			, '' AS NEW_PART_NAME
@@ -68,6 +98,7 @@ limitations under the License.
 			, '' AS NEW_CONDITION
 		</cfif>
 		<cfif action IS "downloadPartLoanItems">
+			<!--- "Bulkloading Loan Items" --->
 			, '' as ITEM_INSTRUCTIONS
 			, '' AS ITEM_REMARKS
 			, '' AS LOAN_NUMBER
@@ -76,6 +107,7 @@ limitations under the License.
 			, COR.COLL_OBJECT_REMARKS as PART_REMARKS
 		</cfif>
 		<cfif action IS "downloadBulkloaderAll">
+			<!--- "Bulkloading Edited Parts w/Attributes" --->
 			, '' as PART_ATT_NAME_1
 			, '' as PART_ATT_VAL_1
 			, '' as PART_ATT_UNITS_1
@@ -299,9 +331,9 @@ limitations under the License.
 						<div class="form-row mx-0">
 							<div class="col-12">
 								<h2 class="h4">Download Parts CSV for:</h2>
+								<input type="button" value="View Container Placements" onClick='document.getElementById("action").value="downloadBulkPartContainer";document.forms["filterResults"].submit();' title="Part fields plus container hierarchy: CONTAINER_BARCODE, P1_BARCODE, P2_BARCODE, P3_BARCODE, P4_BARCODE, P5_BARCODE, P6_BARCODE" class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Bulkloading Edited Parts" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();' title="Part fields plus: APPEND_TO_REMARKS, CHANGED_DATE, NEW_PART_NAME, NEW_PRESERVE_METHOD, NEW_LOT_COUNT, NEW_LOT_COUNT_MODIFIER, NEW_COLL_OBJ_DISPOSITION, NEW_CONDITION" class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Bulkloading Edited Parts w/Attributes" onClick='document.getElementById("action").value="downloadBulkloaderAll";document.forms["filterResults"].submit();' title="Edited Parts fields plus: PART_ATT_NAME_1, PART_ATT_VAL_1, PART_ATT_UNITS_1, PART_ATT_DETBY_1, PART_ATT_MADEDATE_1, PART_ATT_REM_1 X 6" class="btn btn-xs mb-2 btn-secondary"></input>
-								<input type="button" value="Container Placements" onClick='document.getElementById("action").value="downloadBulkPartContainer";document.forms["filterResults"].submit();' title="Part fields plus container hierarchy: CONTAINER_BARCODE, P1_BARCODE, P2_BARCODE, P3_BARCODE, P4_BARCODE, P5_BARCODE, P6_BARCODE" class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Bulkloading Parts to New Containers" onClick='document.getElementById("action").value="downloadBulkPartContainerMove";document.forms["filterResults"].submit();' title="Part fields and Container Hierarchy plus: blank NEW_CONTAINER_BARCODE column" class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Bulkloading Loan Items" onClick='document.getElementById("action").value="downloadPartLoanItems";document.forms["filterResults"].submit();' title="Part fields and Container Hierarchy plus: blank ITEM_INSTRUCTIONS, ITEM_REMARKS, LOAN_NUMBER, TRANSACTION_ID, SUBSAMPLE" class="btn btn-xs mb-2 btn-secondary"></input>
 							</div>
@@ -368,12 +400,12 @@ limitations under the License.
 									<td>#CURRENT_REMARKS#</td>
 									<td>#CONDITION#</td>
 									<td class="contcoll">#CONTAINER_BARCODE#</td>
-									<td class="contcoll">#P1_BARCODE#</td>
-									<td class="contcoll">#P2_BARCODE#</td>
-									<td class="contcoll">#P3_BARCODE#</td>
-									<td class="contcoll">#P4_BARCODE#</td>
-									<td class="contcoll">#P5_BARCODE#</td>
-									<td class="contcoll">#P6_BARCODE#</td>
+									<td class="contcoll">#PARENT1_BARCODE#</td>
+									<td class="contcoll">#PARENT2_BARCODE#</td>
+									<td class="contcoll">#PARENT3_BARCODE#</td>
+									<td class="contcoll">#PARENT4_BARCODE#</td>
+									<td class="contcoll">#PARENT5_BARCODE#</td>
+									<td class="contcoll">#PARENT6_BARCODE#</td>
 								</tr>
 							</cfloop>
 						</tbody>

@@ -32,7 +32,8 @@ limitations under the License.
 			<cfloop from="1" to="#NUMBER_OF_OTHER_NAME_PAIRS#" index="i">
 				other_name_#i#, other_name_type_#i#,
 			</cfloop>
-			agentguid_guid_type,agentguid,status
+			agentguid_guid_type,agentguid,
+			status
 		FROM cf_temp_agents 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key

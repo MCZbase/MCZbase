@@ -499,7 +499,7 @@ table##t th {
 		<div class="container-fluid container-xl">
 			<div class="row mx-0">
 				<div class="col-12 mt-3 pb-5 float-left">
-					<h1 class="h2 px-0 mt-3 pb-2">Browse Bulkloader</h2>
+					<h1 class="h2 px-0 mt-3 pb-2">Browse Specimen Bulkloader</h2>
 					<div class="col-12 col-md-5 px-0 pr-md-3 float-left">
 						<p>Pick any or all of enteredby agent, accession, or collection to edit and approve entered or loaded data.</p>
 							<ul>
