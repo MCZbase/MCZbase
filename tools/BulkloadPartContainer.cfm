@@ -426,16 +426,6 @@ limitations under the License.
 					WHERE
 						specimen_part.collection_object_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_collection_object_id#"> 
 				</cfquery>
-			<cfelse>
-				<cfquery name="ctCatnumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'Cannot find object')
-					where 
-						other_id_number is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#">
-				</cfquery>
 			</cfif>
 			<!---Get the part_collection_object_id based on the specimen record's collection_object_id from query getCOID--->
 			<cfif #getCOID_result.recordcount# eq 1>
@@ -462,6 +452,8 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 				</cfquery>
+			<cfelse>
+				Trouble
 			</cfif>
 		</cfloop>
 
