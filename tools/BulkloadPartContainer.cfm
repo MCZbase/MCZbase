@@ -387,16 +387,17 @@ limitations under the License.
 	<cfoutput>
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfset key = ''>
-		
-		<cfloop list="#requiredfieldlist#" index="requiredField">
-			<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_barcode_parts
-				SET 
-					status = concat(nvl2(status, status || '; ', ''),'Check #requiredField#')
-				WHERE #requiredField# is null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-		</cfloop>
+		<cfif len(part_collection_object_id) eq 0>
+			<cfloop list="#requiredfieldlist#" index="requiredField">
+				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_parts
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'Check #requiredField#')
+					WHERE #requiredField# is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfloop>
+		</cfif>
 		<cfloop list="#requiredfieldlist2#" index="requiredField2">
 			<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_barcode_parts
