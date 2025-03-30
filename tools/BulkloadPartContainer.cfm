@@ -403,7 +403,8 @@ limitations under the License.
 						SET 
 							status = concat(nvl2(status, status || '; ', ''),'Check #requiredField#')
 						WHERE #requiredField# is null
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 					</cfquery>
 				</cfloop>
 			</cfif>
@@ -413,7 +414,8 @@ limitations under the License.
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'Check #requiredField2#')
 					WHERE #requiredField2# is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 				</cfquery>
 			</cfloop>
 			<!---This gets the collection_object_id based on the catalog number; We are only using cataloged number and cat_num in this bulkloader even thoough the sheet says the general:  other_id_type and other_id_number--->
