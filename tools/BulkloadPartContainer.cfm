@@ -387,34 +387,35 @@ limitations under the License.
 	<cfoutput>
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfset key = ''>
-		<cfif len(part_collection_object_id) eq 0>
-			<cfloop list="#requiredfieldlist#" index="requiredField">
-				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts
-					SET 
-						status = concat(nvl2(status, status || '; ', ''),'Check #requiredField#')
-					WHERE #requiredField# is null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			</cfloop>
-		</cfif>
-		<cfloop list="#requiredfieldlist2#" index="requiredField2">
-			<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE cf_temp_barcode_parts
-				SET 
-					status = concat(nvl2(status, status || '; ', ''),'Check #requiredField2#')
-				WHERE #requiredField2# is null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-		</cfloop>
+		
 		<!---Bring the fields from the cf_temp_barcode_part to the process (excludes unused columns)--->
 		<cfquery name="dataParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CURRENT_REMARKS,NEW_CONTAINER_BARCODE,CONTAINER_BARCODE,PART_COLLECTION_OBJECT_ID,CURRENT_PARENT_CONTAINER_ID,NEW_PARENT_CONTAINER_ID,key
 			FROM cf_temp_barcode_parts 
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
-
+		
 		<cfloop query="dataParts">
+			<cfif len(dataParts.part_collection_object_id) eq 0>
+				<cfloop list="#requiredfieldlist#" index="requiredField">
+					<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_barcode_parts
+						SET 
+							status = concat(nvl2(status, status || '; ', ''),'Check #requiredField#')
+						WHERE #requiredField# is null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+				</cfloop>
+			</cfif>
+			<cfloop list="#requiredfieldlist2#" index="requiredField2">
+				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_parts
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'Check #requiredField2#')
+					WHERE #requiredField2# is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfloop>
 			<!---This gets the collection_object_id based on the catalog number; We are only using cataloged number and cat_num in this bulkloader even thoough the sheet says the general:  other_id_type and other_id_number--->
 			<cfif len(dataParts.other_id_number) gt 0 and #dataParts.other_id_type# eq 'catalog number'>
 				<cfquery name="getCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCOID_result">
