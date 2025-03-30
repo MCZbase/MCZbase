@@ -450,7 +450,7 @@ limitations under the License.
 					UPDATE cf_temp_barcode_parts
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'Check #requiredField#-generated from part COID')
-					WHERE (#requiredField# ='collection_cde' and #requiredField# = 'other_id_number') OR (#dataParts.part_collection_object_id# is null)
+					WHERE (#requiredField# ='collection_cde' and #requiredField# = 'other_id_number') OR (#requiredField# = part_collection_object_id AND part_collection_object_id is not null) 
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
