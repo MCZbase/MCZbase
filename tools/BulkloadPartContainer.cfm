@@ -403,7 +403,7 @@ limitations under the License.
 						SET 
 							status = concat(nvl2(status, status || '; ', ''),'Check #requiredField#')
 						WHERE #requiredField# is null
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 					</cfquery>
 				</cfloop>
@@ -414,7 +414,7 @@ limitations under the License.
 					SET 
 						status = concat(nvl2(status, status || '; ', ''),'Check #requiredField2#')
 					WHERE #requiredField2# is null
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 				</cfquery>
 			</cfloop>
