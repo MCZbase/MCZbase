@@ -483,7 +483,7 @@ limitations under the License.
 				<cfif len(part_collection_object_id) gt 0>
 					<cfquery name="getPartCollID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts
-						SET status = concat(nvl2(status, status || '; ', ''), 'PART_COLLECTION_OBJECT_ID missing')
+						SET status = concat(nvl2(status, status || '; ', ''), 'PART_COLLECTION_OBJECT_ID not valid')
 						WHERE part_collection_object_id not in (select collection_object_id from specimen_part)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
