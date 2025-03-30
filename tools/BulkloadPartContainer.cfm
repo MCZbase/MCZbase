@@ -45,7 +45,7 @@ limitations under the License.
 	<cfthrow message = "Error: Bug in the definition of fieldlist[#listlen(fieldlist)#] and fieldType[#listlen(fieldTypes)#] lists, lists must be the same length, but are not.">
 </cfif>
 <cfset requiredfieldlist = "OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,NEW_CONTAINER_BARCODE">
-<cfset requiredfieldlist2 = "PART_collection_object_id, PART_NAME_PRESERVE_METHOD,NEW_CONTAINER_BARCODE">
+<cfset requiredfieldlist2 = "PART_collection_object_id, PART_NAME,PRESERVE_METHOD,NEW_CONTAINER_BARCODE">
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
 	<cfset csv = "">
