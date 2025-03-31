@@ -475,7 +475,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 		</cfloop>
-		<!--- Second set of Validation tests: container terms ---> 
+	
 		<!--- check container terms, use list of keys for row by row validations of containers --->
 		<cfquery name="getTempTableQC1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CURRENT_REMARKS,NEW_CONTAINER_BARCODE,CONTAINER_BARCODE,PART_COLLECTION_OBJECT_ID,CURRENT_PARENT_CONTAINER_ID,NEW_PARENT_CONTAINER_ID,key
@@ -484,6 +484,7 @@ limitations under the License.
 		</cfquery>
 			<!---This checks to see if the part collection_object_id is correct by checking the generated item description against the collection_cde, other_id_number, part_name, and preserve_method, if the separate columns content does not match the contents of the item description, the bulkload will fail so they can check the expected parts --->
 			<cfloop query="getTempTableQC1">
+				<!--- Based on part_collection_object_id--->
 				<cfif len(part_collection_object_id) gt 0>
 					<cfquery name="getPartCollID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts
@@ -521,28 +522,30 @@ limitations under the License.
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
 					</cfquery>
+					<!---Put the container ID of the collection_object into the table--->
+					<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_barcode_parts  
+						SET 
+							part_container_id = (
+								select c.container_id 
+								from 
+									container c, coll_obj_cont_hist ch
+								where 
+									ch.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC1.part_collection_object_id#">
+								AND	c.container_id = ch.container_id
+							)
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC1.key#"> 
+					</cfquery>
 				</cfif>
-				<!---Put the container ID of the collection_object into the table--->
-				<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts  
-					SET 
-						part_container_id = (
-							select c.container_id 
-							from 
-								container c, coll_obj_cont_hist ch
-							where 
-								ch.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC1.part_collection_object_id#">
-							AND	c.container_id = ch.container_id
-						)
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC1.key#"> 
-				</cfquery>
+						
+				<!--- Second set of Validation tests: container terms ---> 
 				<!---Did they forget to add the new_container_barcode after downloading the part report?--->
 				<cfif len(getTempTableQC1.new_container_barcode) eq 0>
 					<cfquery name="ctCatnumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts
 						SET
-							status = concat(nvl2(status, status || '; ', ''),'NEW_CONTAINER_BARCODE value is missing')
+							status = concat(nvl2(status, status || '; ', ''),'NEW_CONTAINER_BARCODE value is missing here')
 						where 
 							new_container_barcode is null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
