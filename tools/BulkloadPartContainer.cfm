@@ -583,21 +583,23 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC3.key#"> 
 				</cfquery>
 			</cfloop>
-			<cfquery name="getTempTableQC4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT NEW_PARENT_CONTAINER_ID, key
-				FROM cf_temp_barcode_parts  
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<!---If the new entry in container_barcode is not already in MCZbase, show container not found--->
-			<cfloop query="getTempTableQC4">
-				<cfquery name="getPartContainerNew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE cf_temp_barcode_parts
-					SET status = concat(nvl2(status, status || '; ', ''), 'New container not found in MCZbase')
-					WHERE NEW_PARENT_CONTAINER_ID is null 
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC4.key#">
+			<cfif len(getTempTableQC3.new_container_barcode) gt 0>
+				<cfquery name="getTempTableQC4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT NEW_PARENT_CONTAINER_ID, key
+					FROM cf_temp_barcode_parts  
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			</cfloop>
+				<!---If the new entry in container_barcode is not already in MCZbase, show container not found--->
+				<cfloop query="getTempTableQC4">
+					<cfquery name="getPartContainerNew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_barcode_parts
+						SET status = concat(nvl2(status, status || '; ', ''), 'New container not found in MCZbase')
+						WHERE NEW_PARENT_CONTAINER_ID is null 
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC4.key#">
+					</cfquery>
+				</cfloop>
+			</cfif>
 			<!---Find the current container that shows in the part row on the specimen record and put it in the table so the change can be seen easily--->
 			<!---This comes from the collection object container parent in getTempTableQC2--->
 			<cfif len(getTempTableQC1.container_barcode) eq 0>
