@@ -179,6 +179,7 @@
 								</div>
 								<div style="float:left; width: 49%;">
 									<div class="h5 dropdown-header px-4 text-danger">Bulkloading</div>
+									<a class="dropdown-item" target="_top" href="/bulkloading/Bulkloaders.cfm">All Bulkloaders</a>
 									<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Specimen Bulkloader Builder</a>
 									<cfif targetMenu EQ "production">
 										<a class="dropdown-item" href="/Bulkloader/BulkloadSpecimens.cfm">Bulkload Specimens</a>
@@ -187,7 +188,6 @@
 									</cfif>
 									<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit Specimen Bulkloads</a>
 									<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloader_status.cfm">Specimen Bulkload Status</a>
-									<a class="dropdown-item" target="_top" href="/bulkloading/Bulkloaders.cfm">All Bulkloaders</a>
 									<a class="dropdown-item" target="_top" href="/tools/PublicationStatus.cfm">Publication Staging</a>
 									<a class="dropdown-item" target="_top" href="/tools/DataLoanBulkload.cfm">Data Loan Items</a>
 									<a class="dropdown-item" href="/dataquality/check_names.cfm">Check CSV of Taxon Names</a>
