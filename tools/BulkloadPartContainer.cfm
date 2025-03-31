@@ -394,14 +394,8 @@ limitations under the License.
 			FROM cf_temp_barcode_parts 
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
-		<cfquery name="dataPartID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT collection_object_id 
-			FROM specimen_parts
-			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_collection_object_id#">
-			
-		</cfquery>
 		<cfloop query="dataParts">
-			<cfif len(dataParts.part_collection_object_id) eq 0 OR #dataPartID.recordcount# eq 0>
+			<cfif len(dataParts.part_collection_object_id) eq 0>
 				<cfloop list="#requiredfieldlist#" index="requiredField">
 					<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts
@@ -413,18 +407,17 @@ limitations under the License.
 					</cfquery>
 				</cfloop>
 			</cfif>
-			<cfif len(dataParts.collection_cde) eq 0 OR len(dataParts.other_id_type) eq 0 OR len(dataParts.other_id_number) eq 0>
-				<cfloop list="#requiredfieldlist2#" index="requiredField2">
-					<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_barcode_parts
-						SET 
-							status = concat(nvl2(status, status || '; ', ''),'#requiredField2# missing')
-						WHERE #requiredField2# is null
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
-					</cfquery>
-				</cfloop>
-			</cfif>
+			<cfloop list="#requiredfieldlist2#" index="requiredField2">
+				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE cf_temp_barcode_parts
+					SET 
+						status = concat(nvl2(status, status || '; ', ''),'#requiredField2# missing')
+					WHERE #requiredField2# is null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
+				</cfquery>
+			</cfloop>
+
 			<!---This gets the collection_object_id based on the catalog number; We are only using cataloged number and cat_num in this bulkloader even thoough the sheet says the general:  other_id_type and other_id_number--->
 			<cfif len(dataParts.other_id_number) gt 0 and #dataParts.other_id_type# eq 'catalog number'>
 				<cfquery name="getCOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCOID_result">
