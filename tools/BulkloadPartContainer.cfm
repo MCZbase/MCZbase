@@ -45,7 +45,7 @@ limitations under the License.
 	<cfthrow message = "Error: Bug in the definition of fieldlist[#listlen(fieldlist)#] and fieldType[#listlen(fieldTypes)#] lists, lists must be the same length, but are not.">
 </cfif>
 <cfset requiredfieldlist = "OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,NEW_CONTAINER_BARCODE">
-<cfset requiredfieldlist2 = "PART_collection_object_id, PART_NAME,PRESERVE_METHOD,NEW_CONTAINER_BARCODE">
+<cfset requiredfieldlist2 = "PART_COLLECTION_OBJECT_ID,PART_NAME,PRESERVE_METHOD,NEW_CONTAINER_BARCODE">
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
 	<cfset csv = "">
@@ -396,6 +396,7 @@ limitations under the License.
 		</cfquery>
 		<cfloop query="dataParts">
 			<cfif len(dataParts.part_collection_object_id) eq 0>
+				<!---requiredlist1: OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,NEW_CONTAINER_BARCODE--->
 				<cfloop list="#requiredfieldlist#" index="requiredField">
 					<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts
@@ -407,6 +408,7 @@ limitations under the License.
 					</cfquery>
 				</cfloop>
 			</cfif>
+			<!---requiredlist2: PART_COLLECTION_OBJECT_ID,PART_NAME,PRESERVE_METHOD,NEW_CONTAINER_BARCODE--->
 			<cfloop list="#requiredfieldlist2#" index="requiredField2">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
@@ -442,7 +444,7 @@ limitations under the License.
 						specimen_part.collection_object_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_collection_object_id#"> 
 				</cfquery>
 			</cfif>
-			<!---Get the part_collection_object_id based on the specimen record's collection_object_id from query getCOID--->
+			<!---Get the part_collection_object_id based on the specimen record's collection_object_id from query getCOID only if field is empty--->
 			<cfif #getCOID.recordcount# eq 1 and len(part_collection_object_id) eq 0>
 				<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE 
