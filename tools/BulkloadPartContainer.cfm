@@ -583,7 +583,7 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC3.key#"> 
 				</cfquery>
 			</cfloop>
-			<cfif len(getTempTableQC3.new_container_barcode) gt 0>
+			<cfif len(getTempTableQC1.new_container_barcode) gt 0>
 				<cfquery name="getTempTableQC4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT NEW_PARENT_CONTAINER_ID, key
 					FROM cf_temp_barcode_parts  
