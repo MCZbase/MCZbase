@@ -443,7 +443,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<!---Get the part_collection_object_id based on the specimen record's collection_object_id from query getCOID--->
-			<cfif #getCOID.recordcount# eq 1>
+			<cfif #getCOID.recordcount# eq 1 and len(part_collection_object_id) eq 0>
 				<cfquery name="partColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE 
 						cf_temp_barcode_parts
