@@ -394,7 +394,12 @@ limitations under the License.
 			FROM cf_temp_barcode_parts 
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
-		
+		<cfquery name="dataParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT collection_object_id 
+			FROM specimen_parts
+			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_collection_object_id#">
+			
+		</cfquery>
 		<cfloop query="dataParts">
 			<cfif len(dataParts.part_collection_object_id) eq 0>
 				<cfloop list="#requiredfieldlist#" index="requiredField">
