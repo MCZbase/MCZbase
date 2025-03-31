@@ -482,7 +482,6 @@ limitations under the License.
 			FROM cf_temp_barcode_parts  
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
-		<!---This checks to see if the part collection_object_id is correct by checking the generated item description against the collection_cde, other_id_number, part_name, and preserve_method, if the separate columns content does not match the contents of the item description, the bulkload will fail so they can check the expected parts --->
 		<cfloop query="getTempTableQC1">
 			<!--- Based on part_collection_object_id--->
 			<cfif len(part_collection_object_id) gt 0>
@@ -493,6 +492,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
 				</cfquery>
+				<!---update the collection_object_id field based on part_collection_object_id so the catalog number can be back filled later--->
 				<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts  
 					SET 
@@ -504,6 +504,7 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC1.key#"> 
 				</cfquery>
+				<!--- see if part name is valid based on part_collection_object_id (if filled in)--->
 				<cfquery name="probPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
 					SET
@@ -513,6 +514,7 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
 				</cfquery>
+				<!--- see if preserve method is valid based on part_collection_object_id (if filled in)--->
 				<cfquery name="probPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts
 					SET
@@ -522,8 +524,8 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
 				</cfquery>
-				<!---Put the container ID of the collection_object into the table--->
-				<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<!---Put the container ID of the collection_object into the table to exchange parent_container_id later; development check--->
+				<!---<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts  
 					SET 
 						part_container_id = (
@@ -536,7 +538,7 @@ limitations under the License.
 						)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC1.key#"> 
-				</cfquery>
+				</cfquery>--->
 			</cfif>
 		</cfloop>
 		<!--- Second set of Validation tests: container terms ---> 
@@ -548,7 +550,7 @@ limitations under the License.
 		</cfquery>
 		<cfloop query="getTempTableQC2">
 			<!---Use the part_container_id (i.e., collecton_object starter container) to find the current barcode (a.k.a. unique_container_id)--->
-			<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<!---<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_barcode_parts  
 				SET 
 					current_parent_container_id = (
@@ -560,7 +562,7 @@ limitations under the License.
 					)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.key#"> 
-			</cfquery>
+			</cfquery>--->
 		</cfloop>
 		<!---Find the new container's container_id so it can be placed in the collection object's parent_container_id field with an update--->
 		<cfquery name="getTempTableQC3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
