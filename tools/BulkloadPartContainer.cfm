@@ -384,10 +384,14 @@ limitations under the License.
 <!------------------------------------------------------->
 <!------------------------------------------------------->
 <cfif variables.action is "validate">
+	<!---This provides the collection_cde,other_id_type, other_id_number if the part_collection_object_id is provided to be used as reference/verification--->
+	<!---If the collection_cde, other_id_type, and other_id_number, part_name, preserve_method are provided, it gets the part_collection_object_id--->
+	<!---If required fields are provided along with the part_collection_object_id and they do not match what is in spec record/part row, it notifies the user--->
+	<!---If duplicate rows are listed based on the part_collection_object_id (whether generated from required fields or provided), it notifies the user--->
 	<cfoutput>
 		<h2 class="h4 mb-3">Second step: Data Validation</h2>
 		<cfset key = ''>
-		
+		<!------>
 		<!---Bring the fields from the cf_temp_barcode_part to the process (excludes unused columns)--->
 		<cfquery name="dataParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CURRENT_REMARKS,NEW_CONTAINER_BARCODE,CONTAINER_BARCODE,PART_COLLECTION_OBJECT_ID,CURRENT_PARENT_CONTAINER_ID,NEW_PARENT_CONTAINER_ID,key
@@ -516,7 +520,6 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC1.key#"> 
 				</cfquery>
-	
 				<!---Did they forget to add the new_container_barcode after downloading the part report?--->
 				<cfif len(getTempTableQC1.new_container_barcode) eq 0>
 					<cfquery name="ctCatnumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -723,13 +726,8 @@ limitations under the License.
 							<th>CURRENT_REMARKS</th>
 							<th>NEW_CONTAINER_BARCODE</th>
 							<th>CONTAINER_BARCODE</th>
+							<!---kept part_collection_object_id since it appears on the download--->
 							<th>PART_COLLECTION_OBJECT_ID</th>
-						<!---	<th>COLLECTION_OBJECT_ID</th>--->
-							<!---below: ID fields that users may or may not need to see--->
-			<!---				<th>CURRENT_PARENT_CONTAINER_ID</th>
-							<th>NEW_PARENT_CONTAINER_ID</th>
-						
-							<th>PART_CONTAINER_ID</th>--->
 						</tr>
 					</thead>
 					<tbody>
@@ -745,13 +743,8 @@ limitations under the License.
 								<td>#data.current_remarks#</td>
 								<td>#data.NEW_CONTAINER_BARCODE#</td>
 								<td>#data.CONTAINER_BARCODE#</td>
+								<!---kept part_collection_object_id since it appears on the download--->
 								<td>#data.part_collection_object_id#</td>
-						<!---		<td>#data.collection_object_id#</td>--->
-								<!---below: ID fields that users may or may not need to see--->
-<!---								<td>#data.current_parent_container_id#</td>
-								<td>#data.new_parent_container_id#</td>
-								<td>#data.PART_collection_object_id#</td>
-								<td>#data.part_container_id#</td>--->
 							</tr>
 						</cfloop>
 					</tbody>
