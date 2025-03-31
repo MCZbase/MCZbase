@@ -542,7 +542,7 @@ limitations under the License.
 					<cfquery name="probPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_barcode_parts
 						SET
-							status = concat(nvl2(status, status || '; ', ''),'part_name value is invalid')
+							status = concat(nvl2(status, status || '; ', ''),'preserve_method value is invalid')
 						where 
 							preserve_method not in (select part_name from specimen_part where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC1.part_collection_object_id#">)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
