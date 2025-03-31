@@ -470,7 +470,6 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#dataParts.key#"> 
 				</cfquery>
 			</cfif>
-			
 		</cfloop>
 
 		<!--- Second set of Validation tests: container terms ---> 
@@ -526,6 +525,26 @@ limitations under the License.
 							status = concat(nvl2(status, status || '; ', ''),'NEW_CONTAINER_BARCODE value is missing')
 						where 
 							new_container_barcode is null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
+					</cfquery>
+				</cfif>
+				<cfif len(getTempTableQC1.part_name) gt 0>
+					<cfquery name="probPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_barcode_parts
+						SET
+							status = concat(nvl2(status, status || '; ', ''),'part_name is invalid')
+						where 
+							part_name not in (select part_name from specimen_part where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC1.part_collection_object_id#">)
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
+					</cfquery>
+					<cfquery name="probPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE cf_temp_barcode_parts
+						SET
+							status = concat(nvl2(status, status || '; ', ''),'part_name value is invalid')
+						where 
+							preserve_method not in (select part_name from specimen_part where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC1.part_collection_object_id#">)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
 					</cfquery>
