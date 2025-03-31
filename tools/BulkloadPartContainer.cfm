@@ -524,8 +524,8 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
 				</cfquery>
-				<!---Put the container ID of the collection_object into the table to exchange parent_container_id later; development check--->
-				<!---<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<!---Put the container ID of the collection_object into the table to exchange parent_container_id later--->
+				<cfquery name="getPartContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE cf_temp_barcode_parts  
 					SET 
 						part_container_id = (
@@ -538,7 +538,7 @@ limitations under the License.
 						)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC1.key#"> 
-				</cfquery>--->
+				</cfquery>
 			</cfif>
 		</cfloop>
 		<!--- Second set of Validation tests: container terms ---> 
@@ -550,7 +550,7 @@ limitations under the License.
 		</cfquery>
 		<cfloop query="getTempTableQC2">
 			<!---Use the part_container_id (i.e., collecton_object starter container) to find the current barcode (a.k.a. unique_container_id)--->
-			<!---<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_barcode_parts  
 				SET 
 					current_parent_container_id = (
@@ -562,7 +562,7 @@ limitations under the License.
 					)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC2.key#"> 
-			</cfquery>--->
+			</cfquery>
 		</cfloop>
 		<!---Find the new container's container_id so it can be placed in the collection object's parent_container_id field with an update--->
 		<cfquery name="getTempTableQC3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
