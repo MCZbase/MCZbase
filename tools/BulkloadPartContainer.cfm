@@ -544,7 +544,7 @@ limitations under the License.
 						SET
 							status = concat(nvl2(status, status || '; ', ''),'preserve_method is invalid')
 						where 
-							preserve_method not in (select part_name from specimen_part where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC1.part_collection_object_id#">)
+							preserve_method not in (select preserve_method from specimen_part where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC1.part_collection_object_id#">)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
 					</cfquery>
