@@ -538,21 +538,8 @@ limitations under the License.
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC1.key#"> 
 					</cfquery>
 				</cfif>
-						
-				<!--- Second set of Validation tests: container terms ---> 
-				<!---Did they forget to add the new_container_barcode after downloading the part report?--->
-				<cfif len(getTempTableQC1.new_container_barcode) eq 0>
-					<cfquery name="ctCatnumProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE cf_temp_barcode_parts
-						SET
-							status = concat(nvl2(status, status || '; ', ''),'NEW_CONTAINER_BARCODE value is missing here')
-						where 
-							new_container_barcode is null
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
-					</cfquery>
-				</cfif>
 			</cfloop>
+			<!--- Second set of Validation tests: container terms ---> 
 			<!---Get current_parent_container_id. This is the container_id that currently shows in the part row--->
 			<cfquery name="getTempTableQC2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,CURRENT_REMARKS,NEW_CONTAINER_BARCODE,CONTAINER_BARCODE,PART_COLLECTION_OBJECT_ID,CURRENT_PARENT_CONTAINER_ID,PART_CONTAINER_ID,NEW_PARENT_CONTAINER_ID,key
