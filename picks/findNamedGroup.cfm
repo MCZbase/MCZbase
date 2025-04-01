@@ -1,7 +1,7 @@
 <cfinclude template="../includes/_pickHeader.cfm">
 <cfoutput>
 	<cfif action is "nothing">
-		<form name="searchForNamedCollection" action="findNamedCollection.cfm" method="post">
+		<form name="searchForNamedCollection" action="findNamedGroup.cfm" method="post">
 			<input type="hidden" name="action" value="srch">
 			<input type="hidden" name="NameFld" value="#NameFld#">
 			<input type="hidden" name="IdFld" value="#IdFld#">
