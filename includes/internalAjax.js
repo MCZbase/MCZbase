@@ -389,6 +389,11 @@ function getBorrow(StringFld,IdFld,formName){
 	var pickwin=url+"?BorrowNumFld="+StringFld+"&BorrowIdFld="+IdFld+"&formName="+formName;
 	pickwin=window.open(pickwin,"","width=600,height=400, resizable,scrollbars");
 }
+function getNamedGroup(StringFld, IdFld, formName) {
+    var url = "/picks/findNamedGroup.cfm";
+    var pickwin = url + "?NameFld=" + StringFld + "&IdFld=" + IdFld + "&formName=" + formName;
+    pickwin = window.open(pickwin, "", "width=600,height=400, resizable,scrollbars");
+}
 function pickedRelationship (id){
 	var relationship=document.getElementById(id).value;
 	var formName=document.getElementById(id).form.getAttribute('name');
@@ -431,6 +436,8 @@ function pickedRelationship (id){
 		getBorrow(dispInputName,idInputName,formName);
 	} else if (relatedTable=='media'){
 		findMedia(dispInputName,idInputName);
+	} else if (relatedTable=='underscore_collection'){
+		getNamedGroup(dispInputName,idInputName);
 	} else if (relatedTable=='delete'){
 		document.getElementById(dispInputName).value='Marked for deletion.....';
 	} else {
