@@ -7,7 +7,7 @@
 			<input type="hidden" name="IdFld" value="#IdFld#">
 			<input type="hidden" name="formName" value="#formName#">
 			<label for="collection_name">Name for the group of cataloged items</label>
-			<input type="text" name="colleciton_name" id="collection_name" >
+			<input type="text" name="collection_name" id="collection_name" >
 			<input type="submit"
 				value="Search"
 				class="lnkBtn"
