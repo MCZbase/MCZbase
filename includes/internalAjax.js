@@ -437,7 +437,7 @@ function pickedRelationship (id){
 	} else if (relatedTable=='media'){
 		findMedia(dispInputName,idInputName);
 	} else if (relatedTable=='underscore_collection'){
-		getNamedGroup(dispInputName,idInputName);
+		getNamedGroup(dispInputName,idInputName,formName);
 	} else if (relatedTable=='delete'){
 		document.getElementById(dispInputName).value='Marked for deletion.....';
 	} else {
