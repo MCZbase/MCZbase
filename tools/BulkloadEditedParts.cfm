@@ -943,8 +943,8 @@ limitations under the License.
 									lot_count_modifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.lot_count_modifier#">,
 									coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.coll_obj_disposition#">,
 									current_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupCurrent.coll_object_remarks#">
-								WHERE
-									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
+								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
 									AND part_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.part_collection_object_id#">
 							</cfquery>
 						</cfif>
@@ -1142,6 +1142,7 @@ limitations under the License.
 					SELECT * 
 					FROM cf_temp_edit_parts 
 					WHERE status not in ('LOADED', 'PART NOT FOUND')
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name= "getEntBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT agent_id 
