@@ -48,27 +48,32 @@ limitations under the License.
 	select taxon_relationship  from cttaxon_relation order by taxon_relationship
 </cfquery>
 <cfquery name="ctSourceAuth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select source_authority from CTTAXONOMIC_AUTHORITY order by source_authority
-</cfquery>
-<cfquery name="ctnomenclatural_code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select nomenclatural_code from ctnomenclatural_code order by sort_order
-</cfquery>
-<cfquery name="cttaxon_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select taxon_status from cttaxon_status order by taxon_status
-</cfquery>
-<cfquery name="cttaxon_habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select taxon_habitat from cttaxon_habitat order by taxon_habitat
-</cfquery>
-<cfquery name="ctguid_type_taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
-	from ctguid_type 
-	where applies_to like '%taxonomy.taxonid%'
-</cfquery>
-<cfquery name="ctguid_type_scientificname" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
-	from ctguid_type 
-	where applies_to like '%taxonomy.scientificnameid%'
-</cfquery>
+   SELECT distinct CTTAXONOMIC_AUTHORITY.source_authority 
+   FROM CTTAXONOMIC_AUTHORITY
+      LEFT JOIN taxonomy on CTTAXONOMIC_AUTHORITY.source_authority = taxonomy.source_authority
+   ORDER BY 
+       (SELECT case when count(*) > 2000 then 1 else 0 end FROM taxonomy WHERE taxonomy.source_authority = CTTAXONOMIC_AUTHORITY.source_authority) DESC,
+      cttaxonomic_authority.SOURCE_AUTHORITY
+</CFQUERY>
+<CFQUERY NAME="CTNOMENCLATURAL_CODE" DATASOURCE="USER_LOGIN" USERNAME="#SESSION.DBUSER#" PASSWORD="#DECRYPT(SESSION.EPW,COOKIE.CFID)#">
+	SELECT NOMENCLATURAL_CODE FROM CTNOMENCLATURAL_CODE ORDER BY SORT_ORDER
+</CFQUERY>
+<CFQUERY NAME="CTTAXON_STATUS" DATASOURCE="USER_LOGIN" USERNAME="#SESSION.DBUSER#" PASSWORD="#DECRYPT(SESSION.EPW,COOKIE.CFID)#">
+	SELECT TAXON_STATUS FROM CTTAXON_STATUS ORDER BY TAXON_STATUS
+</CFQUERY>
+<CFQUERY NAME="CTTAXON_HABITAT" DATASOURCE="USER_LOGIN" USERNAME="#SESSION.DBUSER#" PASSWORD="#DECRYPT(SESSION.EPW,COOKIE.CFID)#">
+	SELECT TAXON_HABITAT FROM CTTAXON_HABITAT ORDER BY TAXON_HABITAT
+</CFQUERY>
+<CFQUERY NAME="CTGUID_TYPE_TAXON" DATASOURCE="USER_LOGIN" USERNAME="#SESSION.DBUSER#" PASSWORD="#DECRYPT(SESSION.EPW,COOKIE.CFID)#">
+	SELECT GUID_TYPE, PLACEHOLDER, PATTERN_REGEX, RESOLVER_REGEX, RESOLVER_REPLACEMENT, SEARCH_URI
+	FROM CTGUID_TYPE 
+	WHERE APPLIES_TO LIKE '%TAXONOMY.TAXONID%'
+</CFQUERY>
+<CFQUERY NAME="CTGUID_TYPE_SCIENTIFICNAME" DATASOURCE="USER_LOGIN" USERNAME="#SESSION.DBUSER#" PASSWORD="#DECRYPT(SESSION.EPW,COOKIE.CFID)#">
+	SELECT GUID_TYPE, PLACEHOLDER, PATTERN_REGEX, RESOLVER_REGEX, RESOLVER_REPLACEMENT, SEARCH_URI
+	FROM CTGUID_TYPE 
+	WHERE APPLIES_TO LIKE '%TAXONOMY.SCIENTIFICNAMEID%'
+</CFQUERY>
 <cfset title="Edit Taxon">
 <cfif !isdefined("subgenus_message")>
 	<cfset subgenus_message ="">
@@ -1582,7 +1587,7 @@ limitations under the License.
 					
 						<div class="col-12 col-md-4 col-xl-7 px-1">
 							<label for="author_text" class="data-entry-label">Authorship (including year)</label>
-							<input type="text" name="author_text" id="author_text" value="#encodeForHTML(getClonedFromTaxon.author_text)#" class="data-entry-input">
+							<input type="text" name="author_text" id="author_text" value="" class="data-entry-input">
 							<span class="infoLink botanical"
 								onclick=" window.open('https://ipni.org/?q='+$('##genus').val()+'%20'+$('##species').val(),'_blank'); ">
 								 <small class="link-color">Find in IPNI</small>
@@ -1590,7 +1595,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-2 col-xl-2 px-1">
 							<label for="year_of_publication" class="data-entry-label">Year</label>
-							<input type="text" name="year_of_publication" id="year_of_publication" value="#encodeForHTML(getClonedFromTaxon.year_of_publication)#" class="data-entry-input">
+							<input type="text" name="year_of_publication" id="year_of_publication" value="" class="data-entry-input">
 						</div>
 					</div>
 

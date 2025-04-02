@@ -584,6 +584,12 @@ limitations under the License.
 									} 
 									html += '</div>';
 									jQuery('##divRss').append(html);
+								},
+								error: function(jqXHR, textStatus, errorThrown) {
+ 									console.error('Error fetching feed:', textStatus, errorThrown);
+									console.error('Status Code:', jqXHR.status);
+									console.error('Response Text:', jqXHR.responseText);
+									jQuery('##divRss').empty().append('<div class="shell h-100"><h2 class="h3 py-2 px-2 text-center">Error fetching recent wiki changes. Please try again later.</h2></div>');
 								}
 							});
 						});

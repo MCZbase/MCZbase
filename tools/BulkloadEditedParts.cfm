@@ -810,6 +810,7 @@ limitations under the License.
 			</cfquery>
 
 			<!--- confirm that parts can be uniquely found, if part_collection_object_id is not specified depends on lookup of collection_object_id --->
+			<!--- not clear that this query is used, as part_collection_object_id should be specified by this point --->
 			<cfquery name="findunmatched" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
 				SET status = concat(
@@ -836,6 +837,59 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND cf_temp_edit_parts.collection_object_id IS NOT NULL
 					AND cf_temp_edit_parts.part_collection_object_id IS NULL
+			</cfquery>
+			<!--- confirm that the part exists with data values as specified in the csv file --->
+			<cfquery name="confirmRemarkMatch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_edit_parts 
+				SET status = concat(
+						nvl2(status, status || '; ', ''),
+						'ERROR: Provided current_remarks do not match the part remarks for this record' 
+					)
+				WHERE cf_temp_edit_parts.key NOT in 
+					(
+						select cf_temp_edit_parts.key
+						from cf_temp_edit_parts 
+							join specimen_part on  
+								cf_temp_edit_parts.part_name=specimen_part.part_name and
+								cf_temp_edit_parts.preserve_method=specimen_part.preserve_method and
+								cf_temp_edit_parts.collection_object_id=specimen_part.derived_from_cat_item
+							left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
+							left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+						where			
+							nvl(cf_temp_edit_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL') and
+							AND cf_temp_edit_parts.part_collection_object_id = specimen_part.collection_object_id
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND cf_temp_edit_parts.collection_object_id IS NOT NULL
+					AND cf_temp_edit_parts.part_collection_object_id IS NOT NULL
+			</cfquery>
+			<!--- confirm that the lot count and lot count modifier match the data values specified in the csv file --->
+			<cfquery name="confirmLotMatched" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE cf_temp_edit_parts 
+				SET status = concat(
+						nvl2(status, status || '; ', ''),
+						'ERROR: provided lot_count and lot_count_modifier do not match the part values for this record' 
+					)
+				WHERE cf_temp_edit_parts.key NOT in 
+					(
+						select cf_temp_edit_parts.key
+						from cf_temp_edit_parts 
+							join specimen_part on  
+								cf_temp_edit_parts.part_name=specimen_part.part_name and
+								cf_temp_edit_parts.preserve_method=specimen_part.preserve_method and
+								cf_temp_edit_parts.collection_object_id=specimen_part.derived_from_cat_item
+							left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
+							left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+						where			
+							nvl2(cf_temp_edit_parts.lot_count,cf_temp_edit_parts.lot_count,-1) 
+								= nvl2(coll_object.lot_count,coll_object.lot_count,-1) 
+							AND nvl2(cf_temp_edit_parts.lot_count_modifier,cf_temp_edit_parts.lot_count_modifier,'NULL') 
+								= nvl2(coll_object.lot_count_modifier,coll_object.lot_count_modifier,'NULL')
+							AND cf_temp_edit_parts.part_collection_object_id = specimen_part.collection_object_id
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND cf_temp_edit_parts.collection_object_id IS NOT NULL
+					AND cf_temp_edit_parts.part_collection_object_id IS NOT NULL
 			</cfquery>
 			<cfquery name="findduplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_edit_parts 
