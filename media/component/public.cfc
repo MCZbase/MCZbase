@@ -793,13 +793,12 @@ include this function and use it.
 				</cfquery>
 				<cfquery name="underscore" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT DISTINCT underscore_collection.underscore_collection_id, 	underscore_collection.collection_name
-					FROM underscore_collection
-						join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-						join cataloged_item on underscore_relation.COLLECTION_OBJECT_ID = cataloged_item.collection_object_id
-						join media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key
-							and media_relations.media_relationship = 'shows underscore_collection'
+					FROM 
+						media_relations 
+						join underscore_collection on media_relations.related_primary_key = underscore_relation.collection_object_id 
 					WHERE
 						media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and media_relations.media_relationship = 'shows underscore_collection'
 				</cfquery>
 		
 				<!---Loop through the media to see what the metadata is for the featured image on the page--->
@@ -1306,14 +1305,13 @@ include this function and use it.
 					order by part_name
 				</cfquery>
 				<cfquery name="underscore" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT DISTINCT underscore_collection.underscore_collection_id, 	underscore_collection.collection_name
-					FROM underscore_collection
-						join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-						join cataloged_item on underscore_relation.COLLECTION_OBJECT_ID = cataloged_item.collection_object_id
-						join media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key
-							and media_relations.media_relationship = 'shows underscore_collection'
+					SELECT DISTINCT underscore_collection.underscore_collection_id, underscore_collection.collection_name
+					FROM 
+						media_relations 
+						join underscore_collection on media_relations.related_primary_key = underscore_relation.collection_object_id 
 					WHERE
 						media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and media_relations.media_relationship = 'shows underscore_collection'
 				</cfquery>
 		
 				<!---Loop through the media to see what the metadata is for the featured image on the page--->
