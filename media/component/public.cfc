@@ -792,7 +792,8 @@ include this function and use it.
 					order by part_name
 				</cfquery>
 				<cfquery name="underscore" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select cataloged_item.collection_object_id
+					select cataloged_item.collection_object_id,
+					underscore_collection.underscore_collection_id, underscore_collection.collection_name
 					from underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 					left join cataloged_item on underscore_relation.COLLECTION_OBJECT_ID = cataloged_item.collection_object_id
