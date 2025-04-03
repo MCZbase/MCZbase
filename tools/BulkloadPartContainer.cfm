@@ -621,7 +621,7 @@ limitations under the License.
 			<!--- confirm that part is actually in the current container --->
 			<cfquery name="checkPartContainerCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_barcode_parts
-				SET status = concat(nvl2(status, status || '; ', ''), 'Part is not currently in container_barcode [#getTempTableQC1.container_barcode#] not found in MCZbase')
+				SET status = concat(nvl2(status, status || '; ', ''), 'Part is not currently in container_barcode [#getTempTableQC1.container_barcode#]')
 				WHERE 
 					container_barcode not in (
 						select p.barcode 
