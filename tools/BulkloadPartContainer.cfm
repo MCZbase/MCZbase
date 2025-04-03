@@ -546,7 +546,7 @@ limitations under the License.
 						join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
 						join collection on cataloged_item.collection_id = collection.collection_id
 					WHERE
-						coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.part_collection_object_id#"> and
+						coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.part_collection_object_id#">
 				</cfquery>
 				<cfif dataParts.recordcount EQ 0>
 					<cfquery name="noMatchInstitution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
