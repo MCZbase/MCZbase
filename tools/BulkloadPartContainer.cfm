@@ -397,7 +397,7 @@ limitations under the License.
 				SET 
 					status = concat(nvl2(status, status || '; ', ''),'#requiredField# missing')
 				WHERE #requiredField# is null
-				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		</cfloop>
 		<cfquery name="checkIDType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -449,7 +449,7 @@ limitations under the License.
 							status = concat(nvl2(status, status || '; ', ''),'institution:collection:cat_num [#dataParts.institution_acronym#:#dataParts.collection_cde#:#dataParts.other_id_number#] not found')
 						WHERE 
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
 					</cfquery>
 				<cfelse> 
 					<!--- cataloged item for part_collection_object_id found --->
@@ -472,7 +472,7 @@ limitations under the License.
 								status = concat(nvl2(status, status || '; ', ''),'no part #dataParts.part_name# (#dataParts.preserve_method#) found for #dataParts.institution_acronym#:#dataParts.collection_cde#:#dataParts.other_id_number#')
 							WHERE 
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
+								and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
 						</cfquery>
 					<cfelseif getPart.recordcount EQ 1>
 						<!--- part found --->
@@ -482,7 +482,7 @@ limitations under the License.
 								part_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getPart.collection_object_id#">
 							WHERE 
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
+								and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
 						</cfquery>
 					<cfelseif getPart.recordcount GT 1>
 						<!--- duplicate parts found, check using remark --->
@@ -506,7 +506,7 @@ limitations under the License.
 									status = concat(nvl2(status, status || '; ', ''),'no part #dataParts.part_name# (#dataParts.preserve_method#) found for #dataParts.institution_acronym#:#dataParts.collection_cde#:#dataParts.other_id_number# with remarks [#dataParts.current_remarks#]')
 								WHERE 
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
+									and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
 							</cfquery>
 						<cfelseif getPart.recordcount EQ 1>
 							<!--- part found --->
@@ -516,7 +516,7 @@ limitations under the License.
 									part_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getPartwitRemark.collection_object_id#">
 								WHERE 
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
+									and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
 							</cfquery>
 						<cfelseif getPart.recordcount GT 1>
 							<!--- duplicate parts still found --->
@@ -526,7 +526,7 @@ limitations under the License.
 									status = concat(nvl2(status, status || '; ', ''),'unable to match a unique part on part_name, preserve_method, and remarks, specify a part_collection_object_id')
 								WHERE 
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-									key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
+									and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
 							</cfquery>
 						</cfif>
 					</cfif>
