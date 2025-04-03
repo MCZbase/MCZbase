@@ -795,7 +795,7 @@ include this function and use it.
 					SELECT DISTINCT underscore_collection.underscore_collection_id, 	underscore_collection.collection_name
 					FROM 
 						media_relations 
-						join underscore_collection on media_relations.related_primary_key = underscore_relation.collection_object_id 
+						join underscore_collection on media_relations.related_primary_key = underscore_collection.underscore_collection_id 
 					WHERE
 						media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and media_relations.media_relationship = 'shows underscore_collection'
@@ -1308,7 +1308,7 @@ include this function and use it.
 					SELECT DISTINCT underscore_collection.underscore_collection_id, underscore_collection.collection_name
 					FROM 
 						media_relations 
-						join underscore_collection on media_relations.related_primary_key = underscore_relation.collection_object_id 
+						join underscore_collection on media_relations.related_primary_key = underscore_collection.underscore_collection_id 
 					WHERE
 						media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and media_relations.media_relationship = 'shows underscore_collection'
