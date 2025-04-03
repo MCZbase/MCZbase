@@ -306,7 +306,7 @@ limitations under the License.
 			<cfset temp = QuerySetCell(result, "link", "/name/#d.scientific_name#", i)>
 		<cfelseif table_name is "underscore_collection">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT collection_name, underscore_collection_id 
+				SELECT collection_name data, underscore_collection_id 
 				FROM underscore_collection 
 				WHERE underscore_collection_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
