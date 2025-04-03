@@ -81,7 +81,7 @@ limitations under the License.
 				2 as topsort
 			FROM
 				underscore_collection
-				join media_relations on underscore_collection.undersscore_collection_id = media_relations.related_primary_key 
+				join media_relations on underscore_collection.underscore_collection_id = media_relations.related_primary_key 
 				join media on media_relations.media_id = media.media_id
 			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				AND media_relations.media_relationship like '% underscore_collection'
