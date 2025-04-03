@@ -619,7 +619,7 @@ limitations under the License.
 		</cfquery>
 		<cfloop query="getTempTableQC1">
 			<!--- confirm that part is actually in the current container --->
-			<cfquery name="getPartContainerNew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="checkPartContainerCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_barcode_parts
 				SET status = concat(nvl2(status, status || '; ', ''), 'Part is not currently in container_barcode [#getTempTableQC1.container_barcode#] not found in MCZbase')
 				WHERE 
@@ -631,6 +631,7 @@ limitations under the License.
 						where 
 							current_container_fg = 1
 							and p.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC1.container_barcode#">	
+							and coll_obj_cont_hist.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC1.part_collection_object_id#">	
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
