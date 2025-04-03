@@ -798,7 +798,7 @@ include this function and use it.
 						join underscore_collection on media_relations.related_primary_key = underscore_collection.underscore_collection_id 
 					WHERE
 						media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-						and media_relations.media_relationship = 'shows underscore_collection'
+						and media_relations.media_relationship like '% underscore_collection'
 				</cfquery>
 		
 				<!---Loop through the media to see what the metadata is for the featured image on the page--->
@@ -1037,7 +1037,7 @@ include this function and use it.
 												</cfloop>
 											</cfif>
 											<!---Display underscore_collection--->
-											<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
+											<cfif media_rel.auto_table eq 'underscore_collection'>:
 												<cfloop query="underscore">
 													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#"> #underscore.collection_name#</a><cfif underscore.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
@@ -1311,7 +1311,7 @@ include this function and use it.
 						join underscore_collection on media_relations.related_primary_key = underscore_collection.underscore_collection_id 
 					WHERE
 						media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-						and media_relations.media_relationship = 'shows underscore_collection'
+						and media_relations.media_relationship like '% underscore_collection'
 				</cfquery>
 		
 				<!---Loop through the media to see what the metadata is for the featured image on the page--->
@@ -1549,8 +1549,8 @@ include this function and use it.
 													<span class="font-weight-lessbold">#specpart.part_name# </span>
 												</cfloop>
 											</cfif>
-											<!---Display underscore_collection--->
-											<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
+											<!---Display underscore_collection related named groups--->
+											<cfif media_rel.auto_table eq 'underscore_collection'>:
 												<cfloop query="underscore">
 													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#"> #underscore.collection_name#</a><cfif underscore.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
