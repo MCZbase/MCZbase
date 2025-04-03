@@ -535,9 +535,10 @@ limitations under the License.
 				<!--- case 2: part_collection_object_id needs to be validated against other fields --->
 				<cfquery name="checkData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCOID_result">
 					SELECT 
-						institution_acronym,
+						collection.institution_acronym,
 						cataloged_item.collection_object_id,
-						cat_num, coll_object.collection_cde,
+						cataloged_item.cat_num, 
+						cataloged_item.collection_cde,
 						part_name, preserve_method 
 					FROM
 						coll_object 
