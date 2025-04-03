@@ -405,7 +405,7 @@ limitations under the License.
 			SET 
 				status = concat(nvl2(status, status || '; ', ''),' OTHER_ID_TYPE must be "catalog number"')
 			WHERE 
-				(other_id_type is null OR other_id_type <> "catalog number") 
+				(other_id_type is null OR other_id_type <> 'catalog number') 
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<!--- Load temp table cf_temp_barcode_part and iterate --->
