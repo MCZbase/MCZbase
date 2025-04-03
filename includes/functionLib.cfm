@@ -417,7 +417,16 @@
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
 			<cfset temp = QuerySetCell(result, "link_text", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/name/#d.scientific_name#", i)>
+         <cfset temp = QuerySetCell(result, "link", "/name/#d.scientific_name#", i)>
+		<cfelseif table_name is "underscore_collection">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT collection_name data, underscore_collection_id 
+				FROM underscore_collection 
+				WHERE underscore_collection_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
+			</cfquery>
+			<cfset temp = QuerySetCell(result, "summary", "#encodeForHtml(d.data)#", i)>
+			<cfset temp = QuerySetCell(result, "link_text", "#encodeForHtml(d.data)#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/grouping/showNamedCollection.cfm?underscore_collection_id=#encodeForUrl(d.underscore_collection_id)#", i)>
 		<cfelse>
 		<cfset temp = QuerySetCell(result, "summary", "#table_name# is not currently supported.", i)>
 		<cfset temp = QuerySetCell(result, "link_text", "#table_name# is not currently supported.", i)>
@@ -551,7 +560,7 @@
 				where project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/ProjectDetail.cfm?project_id=#related_primary_key#", i)>
+         <cfset temp = QuerySetCell(result, "link", "/ProjectDetail.cfm?project_id=#related_primary_key#", i)>
 			<cfset temp = QuerySetCell(result, "rel_type", "project", i)>
 		<cfelseif table_name is "taxonomy">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -560,8 +569,17 @@
 				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/name/#d.scientific_name#", i)>
+         <cfset temp = QuerySetCell(result, "link", "/name/#d.scientific_name#", i)>
 			<cfset temp = QuerySetCell(result, "rel_type", "taxonomy", i)>
+		<cfelseif table_name is "underscore_collection">
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT collection_name data, underscore_collection_id 
+				FROM underscore_collection 
+				WHERE underscore_collection_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
+			</cfquery>
+			<cfset temp = QuerySetCell(result, "summary", "#encodeForHtml(d.data)#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/grouping/showNamedCollection.cfm?underscore_collection_id=#encodeForUrl(d.underscore_collection_id)#", i)>
+			<cfset temp = QuerySetCell(result, "rel_type", "underscore_collection", i)>
 		<cfelse>
 			<cfset temp = QuerySetCell(result, "summary", "#table_name# is not currently supported.", i)>
 		</cfif>

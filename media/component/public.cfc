@@ -797,12 +797,13 @@ include this function and use it.
 					order by part_name
 				</cfquery>
 				<cfquery name="underscore" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select underscore_collection_id, collection_name
-					from UNDERSCORE_COLLECTION
-						left join media_relations on UNDERSCORE_COLLECTION.underscore_collection_id = media_relations.related_primary_key
-					where media_relations.media_relationship = 'shows underscore_collection'
-					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					and rownum = 1
+					SELECT DISTINCT underscore_collection.underscore_collection_id, 	underscore_collection.collection_name
+					FROM 
+						media_relations 
+						join underscore_collection on media_relations.related_primary_key = underscore_collection.underscore_collection_id 
+					WHERE
+						media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and media_relations.media_relationship like '% underscore_collection'
 				</cfquery>
 				<cfquery name="project" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select project.project_id, project.project_name
@@ -1054,7 +1055,7 @@ include this function and use it.
 												</cfloop>
 											</cfif>
 											<!---Display underscore_collection--->
-											<cfif media_rel.media_relationship eq 'shows underscore_collection'>
+											<cfif media_rel.auto_table eq 'underscore_collection'>:
 												<cfloop query="underscore">
 													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#">  #underscore.collection_name# (ID =#underscore.underscore_collection_id#)</a><cfif underscore.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
@@ -1328,13 +1329,13 @@ include this function and use it.
 					order by part_name
 				</cfquery>
 				<cfquery name="underscore" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select cataloged_item.collection_object_id
-					from underscore_collection
-					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-					left join cataloged_item on underscore_relation.COLLECTION_OBJECT_ID = cataloged_item.collection_object_id
-					left join media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key
-					and media_relations.media_relationship = 'shows underscore_collection'
-					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+					SELECT DISTINCT underscore_collection.underscore_collection_id, underscore_collection.collection_name
+					FROM 
+						media_relations 
+						join underscore_collection on media_relations.related_primary_key = underscore_collection.underscore_collection_id 
+					WHERE
+						media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and media_relations.media_relationship like '% underscore_collection'
 				</cfquery>
 <!---				<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select project_id,project_name
@@ -1579,8 +1580,8 @@ include this function and use it.
 													<span class="font-weight-lessbold"> #specpart.part_name# </span>
 												</cfloop>
 											</cfif>
-											<!---Display underscore_collection--->
-											<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
+											<!---Display underscore_collection related named groups--->
+											<cfif media_rel.auto_table eq 'underscore_collection'>:
 												<cfloop query="underscore">
 													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#"> #underscore.collection_name#</a><cfif underscore.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
