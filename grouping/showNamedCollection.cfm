@@ -71,6 +71,21 @@ limitations under the License.
 				) 
 		</cfquery>
 		<cfset otherimagetypes = 0>
+		<cfquery name="directMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="directMedia_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#" >
+			SELECT distinct media.media_id, 
+				media.media_uri, 
+				MCZBASE.get_media_descriptor(media.media_id) as alt,
+				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
+				media.media_type,
+				media.mime_type,
+				2 as topsort
+			FROM
+				underscore_collection
+				join media_relations on underscore_collection.undersscore_collection_id = media_relations.related_primary_key 
+				join media on media_relations.media_id = media.media_id
+			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				AND media_relations.media_relationship like '% underscore_collection'
+		</cfquery>
 		<cfquery name="specimenMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="specimenMedia_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 			<cfif len(displayed_media_id) GT 0>
 			SELECT distinct media.media_id, 
@@ -120,6 +135,12 @@ limitations under the License.
 			FROM specimenMedia_raw 
 			WHERE encumb < 1
 				AND media_type <> 'image' AND NOT (mime_type = 'image/jpeg' OR mime_type = 'image/png')
+			ORDER BY media_id
+		</cfquery>
+		<cfquery name="directMedia" dbtype="query">
+			SELECT * 
+			FROM directMedia_raw 
+			WHERE encumb < 1
 			ORDER BY media_id
 		</cfquery>
 		<cfif specimenImagesForCarousel.recordcount GT 0>
@@ -1095,7 +1116,7 @@ limitations under the License.
 											</cfif>
 										</div>
 									</cfif>
-									<cfset otherMediaCount = specimenNonImageMedia.recordcount + agentNonImageMedia.recordcount + collectingNonImageMedia.recordcount>
+									<cfset otherMediaCount = specimenNonImageMedia.recordcount + agentNonImageMedia.recordcount + collectingNonImageMedia.recordcount + directMedia.recordcount>
 									<cfif otherMediaCount GT 0>
 										<cfset shownMedia = "">
 										<div class="col-12 pb-3">
@@ -1122,6 +1143,18 @@ limitations under the License.
 														<div class="card-body bg-white py-0">
 															<div id="collapseOtherMedia" aria-labelledby="headingOtherMedia" data-parent="##accordionForOtherMedia" class="#bodyClass#">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+																<cfloop query="directMedia">
+																	<!--- media directly linked to the named group --->
+																	<cfif NOT ListContains(shownMedia,directMedia.media_id)>
+																		<cfset shownMedia = ListAppend(shownMedia,directMedia.media_id)>
+																		<li class="list-group-item col-12 col-sm-6 col-md-4 col-lg-3 float-left"> 
+																			<cfset mediablock= getMediaBlockHtml(media_id="#directMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+																			<div id="mediaBlock#media_id#" class="border rounded pt-2 px-2">
+																				#mediablock#
+																			</div>
+																		</li>
+																	</cfif>
+																</cfloop>
 																<cfloop query="specimenNonImageMedia">
 																	<cfif NOT ListContains(shownMedia,specimenNonImageMedia.media_id)>
 																		<cfset shownMedia = ListAppend(shownMedia,specimenNonImageMedia.media_id)>
