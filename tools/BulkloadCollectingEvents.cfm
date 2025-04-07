@@ -722,10 +722,146 @@ limitations under the License.
 					</cfif>
 					<cfset coll_event_updates = 0>
 					<cfloop query="getData">
+						<cfquery name="nextColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT sq_collecting_event_id.nextval nextColl FROM dual
+						</cfquery>
 						<cfquery name="makeCollectingEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT INTO collecting_event (
+								COLLECTING_EVENT_ID,
+								LOCALITY_ID,
+								BEGAN_DATE,
+								ENDED_DATE,
+								VERBATIM_DATE,
+								COLLECTING_SOURCE,
+								VERBATIM_LOCALITY,
+								VERBATIMDEPTH,
+								VERBATIMELEVATION,
+								COLL_EVENT_REMARKS,
+								COLLECTING_METHOD,
+								HABITAT_DESC,
+								collecting_time,
+								VERBATIMCOORDINATES,
+								VERBATIMLATITUDE,
+								VERBATIMLONGITUDE,
+								VERBATIMCOORDINATESYSTEM,
+								VERBATIMSRS,
+								STARTDAYOFYEAR,
+								ENDDAYOFYEAR,
+								FISH_FIELD_NUMBER,
+								DATE_DETERMINED_BY_AGENT_ID,
+								VALID_DISTRIBUTION_FG ,
+								VERBATIM_COLLECTORS ,
+								VERBATIM_FIELD_NUMBERS ,
+								VERBATIM_HABITAT
 							) VALUES (
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextColl.nextColl#">
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getData.LOCALITY_ID#">
+								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.BEGAN_DATE#">
+								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.ENDED_DATE#">
+								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.VERBATIM_DATE#">
+								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.COLLECTING_SOURCE#">
+								<cfif len(#VERBATIM_LOCALITY#) gt 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.VERBATIM_LOCALITY#">
+								<cfelse>
+									,NULL
+								</cfif>
+								<cfif len(#VERBATIMDEPTH#) gt 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.VERBATIMDEPTH#">
+								<cfelse>
+									,NULL
+								</cfif>
+								<cfif len(#VERBATIMELEVATION#) gt 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.VERBATIMELEVATION#">
+								<cfelse>
+									,NULL
+								</cfif>
+								<cfif len(#COLL_EVENT_REMARKS#) gt 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.COLL_EVENT_REMARKS#">
+								<cfelse>
+									,NULL
+								</cfif>
+								<cfif len(#COLLECTING_METHOD#) gt 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.COLLECTING_METHOD#">
+								<cfelse>
+									,NULL
+								</cfif>
+								<cfif len(#HABITAT_DESC#) gt 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.HABITAT_DESC#">
+								<cfelse>
+									,NULL
+								</cfif>
+								<cfif len(#collecting_time#) gt 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.collecting_time#">
+								<cfelse>
+									,NULL
+								</cfif>
+								<cfif len(#VERBATIMCOORDINATES#) gt 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.VERBATIMCOORDINATES#">
+								<cfelse>
+									,NULL
+								</cfif>
+								<cfif len(#VERBATIMLATITUDE#) gt 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.VERBATIMLATITUDE#">
+								<cfelse>
+									,NULL
+								</cfif>
+								<cfif len(#VERBATIMLONGITUDE#) gt 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.VERBATIMLONGITUDE#">
+								<cfelse>
+									,NULL
+								</cfif>
+								<cfif len(#VERBATIMCOORDINATESYSTEM#) gt 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.VERBATIMCOORDINATESYSTEM#">
+								<cfelse>
+									,NULL
+								</cfif>
+								<cfif len(#VERBATIMSRS#) gt 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.VERBATIMSRS#">
+								<cfelse>
+									,NULL
+								</cfif>
+								<cfif len(#STARTDAYOFYEAR#) gt 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.STARTDAYOFYEAR#">
+								<cfelse>
+									,NULL
+								</cfif>
+								<cfif len(#ENDDAYOFYEAR#) gt 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.ENDDAYOFYEAR#">
+								<cfelse>
+									,NULL
+								</cfif>
+								<cfif len(#fish_field_number#) gt 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.fish_field_number#">
+								<cfelse>
+									,NULL
+								</cfif>
+								<cfif len(#date_determined_by_agent_id#) gt 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.date_determined_by_agent_id#">
+								<cfelse>
+									,NULL
+								</cfif>
+								<cfif len(#valid_distribution_fg#) gt 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.valid_distribution_fg#">
+								<cfelse>
+									,1
+								</cfif>
+								<cfif len(#verbatim_collectors#) gt 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.verbatim_collectors#">
+								<cfelse>
+									,NULL
+								</cfif>
+								<cfif len(#verbatim_field_numbers#) gt 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.verbatim_field_numbers#">
+								<cfelse>
+									,NULL
+								</cfif>
+								<cfif len(#verbatim_habitat#) gt 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getData.verbatim_habitat#">
+								<cfelse>
+									,NULL
+								</cfif>
 							)
+						</cfquery>
 						</cfquery>
 						<cfset coll_event_updates = coll_event_updates + insResult.recordcount>
 					</cfloop>
