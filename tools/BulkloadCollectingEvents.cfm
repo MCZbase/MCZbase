@@ -692,12 +692,64 @@ limitations under the License.
 				<thead class="thead-light">
 					<tr>
 						<th>STATUS&nbsp;<span style='color:##e9ecef'>for&nbsp;Bulkloader</span></th>
+						<th>DATE_DETERMINED_BY_AGENT_ID</th>
+						<th>LOCALITY_ID</th>
+						<th>VERBATIM_DATE</th>
+						<th>VERBATIM_LOCALITY</th>
+						<th>COLL_EVENT_REMARKS</th>
+						<th>VALID_DISTRIBUTION_FG</th>
+						<th>COLLECTING_SOURCE</th>
+						<th>COLLECTING_METHOD</th>
+						<th>HABITAT_DESC</th>
+						<th>DATE_DETERMINED_BY_AGENT</th>
+						<th>FISH_FIELD_NUMBER</th>
+						<th>BEGAN_DATE</th>
+						<th>ENDED_DATE</th>
+						<th>COLLECTING_TIME</th>
+						<th>VERBATIMCOORDINATES</th>
+						<th>VERBATIMLATITUDE</th>
+						<th>VERBATIMLONGITUDE</th>
+						<th>VERBATIMCOORDINATESYSTEM</th>
+						<th>VERBATIMSRS</th>
+						<th>STARTDAYOFYEAR</th>
+						<th>ENDDAYOFYEAR</th>
+						<th>VERBATIMELEVATION</th>
+						<th>VERBATIMDEPTH</th>
+						<th>VERBATIM_COLLECTORS</th>
+						<th>VERBATIM_FIELD_NUMBERS</th>
+						<th>VERBATIM_HABITAT</th>
 					</tr>
 				</thead>
 				<tbody>
 					<cfloop query="data">
 						<tr>
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
+							<td>#data.DATE_DETERMINED_BY_AGENT_ID#</td>
+							<td>#data.LOCALITY_ID#</td>
+							<td>#data.VERBATIM_DATE#</td>
+							<td>#data.VERBATIM_LOCALITY#</td>
+							<td>#data.COLL_EVENT_REMARKS#</td>
+							<td>#data.VALID_DISTRIBUTION_FG#</td>
+							<td>#data.COLLECTING_SOURCE#</td>
+							<td>#data.COLLECTING_METHOD#</td>
+							<td>#data.HABITAT_DESC#</td>
+							<td>#data.DATE_DETERMINED_BY_AGENT#</td>
+							<td>#data.FISH_FIELD_NUMBER#</td>
+							<td>#data.BEGAN_DATE#</td>
+							<td>#data.ENDED_DATE#</td>
+							<td>#data.COLLECTING_TIME#</td>
+							<td>#data.VERBATIMCOORDINATES#</td>
+							<td>#data.VERBATIMLATITUDE#</td>
+							<td>#data.VERBATIMLONGITUDE#</td>
+							<td>#data.VERBATIMCOORDINATESYSTEM#</td>
+							<td>#data.VERBATIMSRS#</td>
+							<td>#data.STARTDAYOFYEAR#</td>
+							<td>#data.ENDDAYOFYEAR#</td>
+							<td>#data.VERBATIMELEVATION#</td>
+							<td>#data.VERBATIMDEPTH#</td>
+							<td>#data.VERBATIM_COLLECTORS#</td>
+							<td>#data.VERBATIM_FIELD_NUMBERS#</td>
+							<td>#data.VERBATIM_HABITAT#</td>
 						</tr>
 					</cfloop>
 				</tbody>
@@ -895,6 +947,31 @@ limitations under the License.
 								<tr>
 									<th>ROW</th>
 									<th>LOCALITY_ID</th>
+									<th>DATE_DETERMINED_BY_AGENT_ID</th>
+									<th>VERBATIM_DATE</th>
+									<th>VERBATIM_LOCALITY</th>
+									<th>COLL_EVENT_REMARKS</th>
+									<th>VALID_DISTRIBUTION_FG</th>
+									<th>COLLECTING_SOURCE</th>
+									<th>COLLECTING_METHOD</th>
+									<th>HABITAT_DESC</th>
+									<th>DATE_DETERMINED_BY_AGENT</th>
+									<th>FISH_FIELD_NUMBER</th>
+									<th>BEGAN_DATE</th>
+									<th>ENDED_DATE</th>
+									<th>COLLECTING_TIME</th>
+									<th>VERBATIMCOORDINATES</th>
+									<th>VERBATIMLATITUDE</th>
+									<th>VERBATIMLONGITUDE</th>
+									<th>VERBATIMCOORDINATESYSTEM</th>
+									<th>VERBATIMSRS</th>
+									<th>STARTDAYOFYEAR</th>
+									<th>ENDDAYOFYEAR</th>
+									<th>VERBATIMELEVATION</th>
+									<th>VERBATIMDEPTH</th>
+									<th>VERBATIM_COLLECTORS</th>
+									<th>VERBATIM_FIELD_NUMBERS</th>
+									<th>VERBATIM_HABITAT</th>
 								</tr> 
 							</thead>
 							<tbody>
@@ -903,6 +980,31 @@ limitations under the License.
 									<tr>										
 										<td>#i#</td>
 										<td>#getProblemData.LOCALITY_ID#</td>
+										<td>#getProblemData.DATE_DETERMINED_BY_AGENT_ID#</td>
+										<td>#getProblemData.VERBATIM_DATE#</td>
+										<td>#getProblemData.VERBATIM_LOCALITY#</td>
+										<td>#getProblemData.COLL_EVENT_REMARKS#</td>
+										<td>#getProblemData.VALID_DISTRIBUTION_FG#</td>
+										<td>#getProblemData.COLLECTING_SOURCE#</td>
+										<td>#getProblemData.COLLECTING_METHOD#</td>
+										<td>#getProblemData.HABITAT_DESC#</td>
+										<td>#getProblemData.DATE_DETERMINED_BY_AGENT#</td>
+										<td>#getProblemData.FISH_FIELD_NUMBER#</td>
+										<td>#getProblemData.BEGAN_DATE#</td>
+										<td>#getProblemData.ENDED_DATE#</td>
+										<td>#getProblemData.COLLECTING_TIME#</td>
+										<td>#getProblemData.VERBATIMCOORDINATES#</td>
+										<td>#getProblemData.VERBATIMLATITUDE#</td>
+										<td>#getProblemData.VERBATIMLONGITUDE#</td>
+										<td>#getProblemData.VERBATIMCOORDINATESYSTEM#</td>
+										<td>#getProblemData.VERBATIMSRS#</td>
+										<td>#getProblemData.STARTDAYOFYEAR#</td>
+										<td>#getProblemData.ENDDAYOFYEAR#</td>
+										<td>#getProblemData.VERBATIMELEVATION#</td>
+										<td>#getProblemData.VERBATIMDEPTH#</td>
+										<td>#getProblemData.VERBATIM_COLLECTORS#</td>
+										<td>#getProblemData.VERBATIM_FIELD_NUMBERS#</td>
+										<td>#getProblemData.VERBATIM_HABITAT#</td>
 									</tr>
 									<cfset i= i+1>
 								</cfloop>
