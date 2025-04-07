@@ -862,7 +862,6 @@ limitations under the License.
 								</cfif>
 							)
 						</cfquery>
-						</cfquery>
 						<cfset coll_event_updates = coll_event_updates + insResult.recordcount>
 					</cfloop>
 					<p class="mt-2">Number of Collecting Events added: <b>#coll_event_updates#</b> </p>
