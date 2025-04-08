@@ -37,11 +37,12 @@ limitations under the License.
 				<div>
 					<h2 class="h4 mt-4">Upload a comma-delimited text file (csv) containing a SCIENTIFIC_NAME column</h2>
 					<p>
-						This tool will check if the names exist as taxon records in MCZbase, and optionally in the GBIF backbone taxonomy.
+						This tool will check if the names exist as taxon records in MCZbase, and optionally in the GBIF backbone taxonomy and or WoRMS.
 						Any columns other than SCIENTIFIC_NAME will be ignored.  SCIENTIFIC_NAME should contain just the canonical name 
 						of the taxon, and should not include the authorship.  The tool will return a list of the names checked, and whether
 						exact matches for them exist in MCZbase.  If the GBIF option is selected, it will also return matches to the name 
-						in the GBIF backbone taxonomy.  The results can be returned as an HTML table or as a CSV file.  This tool does
+						in the GBIF backbone taxonomy.  If the WoRMS options is selected, it will also return matches to the name in WoRMS.
+						The results can be returned as an HTML table or as a CSV file.  This tool does
 						not alter the MCZbase database.  It may be used to check if all names in list of names exist as MCZbase taxonomy
 						records before attempting to add them in an specimen bulkload or an identification upload.
 					</p>
@@ -70,6 +71,8 @@ limitations under the License.
 								<select name="remoteLookup" id="remoteLookup" class="data-entry-input p-0 m-0">
 									<option value="" selected></option>
 									<option value="GBIF">GBIF Backbone Taxonomy</option>
+									<option value="WoRMS">WoRMS</option>
+									<option value="ALL">GBIF Backbone Taxonomy and WoRMS</option>
 								</select>
 							</div>
 							<div class="col-12 col-md-2">
@@ -95,13 +98,19 @@ limitations under the License.
 		<cfif isDefined("form.format")><cfset variables.format = form.format></cfif>
 		<cfif isDefined("form.characterSet")><cfset variables.characterSet = form.characterSet></cfif>
 		<cfif isDefined("form.remoteLookup")>
-			<cfif form.remoteLookup EQ "GBIF">
+			<cfif form.remoteLookup EQ "GBIF" or form.remoteLookup EQ "ALL">
 				<cfset variables.gbifLookup = true>
 			<cfelse>
 				<cfset variables.gbifLookup = false>
 			</cfif>
+			<cfif form.remoteLookup EQ "WoRMS" or form.remoteLookup EQ "ALL">
+				<cfset variables.wormsLookup = true>
+			<cfelse>
+				<cfset variables.wormsLookup = false>
+			</cfif>
 		<cfelse>
 			<cfset variables.gbifLookup = false>
+			<cfset variables.wormsLookup = false>
 		</cfif>
 
 		<!--- if not returning as csv, include header --->
@@ -154,8 +163,12 @@ limitations under the License.
 			<cfset resultsArray = ArrayNew(1)>
 			<!--- Create an HTML table to display the results --->
 			<cfif asCSV>
-				<cfif variables.gbifLookup>
+				<cfif variables.gbifLookup AND NOT variables.wormsLookup>
 					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,GBIF")>
+				<cfelseif variables.wormsLookup AND NOT variables.gbifLookup>
+					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,WORMS")>
+				<cfelseif variables.wormsLookup AND variables.gbifLookup>
+					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,GBIF,WORMS")>
 				<cfelse>
 					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE")>
 				</cfif>
@@ -168,6 +181,9 @@ limitations under the License.
 								<th>MCZbase</th>
 								<cfif variables.gbifLookup>
 									<th>GBIF</th>
+								</cfif>
+								<cfif variables.gbifLookup>
+									<th>WoRMS</th>
 								</cfif>
 							</tr>
 						</thead>
@@ -248,12 +264,58 @@ limitations under the License.
 							<cfset gbifNameWithAuth = "#returnName.getScientificName()# #returnName.getAuthorship()#">
 						</cfif>
 						<cfset result["GBIF Backbone"] = r>
-						
 					</cfif>
+					<cfif variables.wormsLookup>
+						<!--- Lookup name in WoRMS --->
+						<cfobject type="Java" class="org.filteredpush.qc.sciname.services.Validator" name="validator">
+						<cfobject type="Java" class="org.filteredpush.qc.sciname.services.WoRMSService" name="wormsService">
+						<!---
+						<cfobject type="Java" class="org.filteredpush.qc.sciname.services.IRMNGService" name="irmngService">
+						<cfobject type="Java" class="org.filteredpush.qc.sciname.services.GBIFService" name="gbifService">
+						--->
+						<cfobject type="Java" class="edu.harvard.mcz.nametools.NameUsage" name="nameUsage">
+						<cfobject type="Java" class="edu.harvard.mcz.nametools.ICZNAuthorNameComparator" name="icznComparator">
+		
+						<cfset comparator = icznComparator.init(.75,.5)>
+						<cfset lookupName = nameUsage.init()>
+						<cfset lookupName.setScientificName(scientificName)>
+						<cfset lookupName.setAuthorship("")>
+
+						<!--- lookup in WoRMS --->
+						<cfset wormsAuthority = wormsService.init()>
+						<cfset r=structNew()>
+						<cftry>
+							<cfset returnName = wormsAuthority.validate(lookupName)>
+						<cfcatch>
+							<cfset r.MATCHDESCRIPTION = "Error">
+							<cfset r.SCIENTIFICNAME = "">
+							<cfset r.AUTHORSHIP = "">
+							<cfset r.GUID = "">
+							<cfset r.AUTHORSTRINGDISTANCE = "">
+							<cfset r.HABITATFLAGS = "">
+						</cfcatch>
+						</cftry>
+						<cfif isDefined("returnName")>
+							<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
+							<cfset r.SCIENTIFICNAME = returnName.getScientificName()>
+							<cfset r.AUTHORSHIP = returnName.getAuthorship()>
+							<cfset r.GUID = returnName.getGuid()>
+							<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
+							<cfset r.HABITATFLAGS = "">
+							<cfset wormsName = "#returnName.getScientificName()#">
+							<cfset wormsNameWithAuth = "#returnName.getScientificName()# #returnName.getAuthorship()#">
+						</cfif>
+						<cfset result["WoRMS"] = r>
+					</cfif>
+
 					<!--- Display the scientific name and its status --->
 					<cfif asCSV>
-						<cfif variables.gbifLookup>
+						<cfif variables.gbifLookup AND NOT variables.wormsLookup>
 							<cfset ArrayAppend(resultsArray, "#scientificName#,#checkScientificName.found#,#gbifName#")>
+						<cfelseif variables.wormsLookup AND NOT variables.gbifLookup>
+							<cfset ArrayAppend(resultsArray, "#scientificName#,#checkScientificName.found#,#wormsName#")>
+						<cfelseif variables.wormsLookup AND variables.gbifLookup>
+							<cfset ArrayAppend(resultsArray, "#scientificName#,#checkScientificName.found#,#gbifName#,#wormsName#")>
 						<cfelse>
 							<cfset ArrayAppend(resultsArray, "#scientificName#,#checkScientificName.found#")>
 						</cfif>
@@ -270,6 +332,9 @@ limitations under the License.
 								</td>
 								<cfif variables.gbifLookup>
 									<td>#gbifNameWithAuth#</td>
+								</cfif>
+								<cfif variables.wormsLookup>
+									<td>#wormsNameWithAuth#</td>
 								</cfif>
 							</tr>
 						</cfoutput>
