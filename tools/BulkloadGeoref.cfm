@@ -1499,9 +1499,8 @@ limitations under the License.
 					<p class="mt-2">Number of Georeferences added: <b>#georef_updates#</b> </p>
 					<cfif #getData.recordcount# eq #georef_updates#>
 						<h3 class="text-success">Success - loaded</h3>
-					</cfif>
-					<cfif #insResult.recordcount# gt #getData.recordcount#>
-						<h3 class="text-danger">Not loaded - these have already been loaded</h3>
+					<cfelse>
+						<cfthrow message="Number to insert not equal to number inserted.">
 					</cfif>
 					<cftransaction action="commit">
 				<cfcatch>
@@ -1575,7 +1574,7 @@ limitations under the License.
 						<table class='mx-0 px-0 sortable table-danger table table-responsive table-striped mt-3'>
 							<thead class="thead-light">
 								<tr>
-									<th>COUNT</th>
+									<th>ROW</th>
 									<th>HIGHERGEOGRAPHY</th>
 									<th>SPECLOCALITY</th>
 									<th>LOCALITY_ID</th>
