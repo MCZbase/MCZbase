@@ -36,7 +36,6 @@ limitations under the License.
 				<h1 class="h2 mt-2">Check scientific names against MCZbase taxonomy records</h1>
 				<div>
 					<h2 class="h4 mt-4">Upload a comma-delimited text file (csv) containing a SCIENTIFIC_NAME column</h2>
-					<h2 class="h4 mt-4">SCIENTIFIC_NAME must be the first column.</h2>
 					<p>
 						This tool will check if the names exist as taxon records in MCZbase, and optionally in the GBIF backbone taxonomy.
 						Any columns other than SCIENTIFIC_NAME will be ignored.  SCIENTIFIC_NAME should contain just the canonical name 
@@ -187,6 +186,8 @@ limitations under the License.
 					<cfset thisBit = "#rowData.get(JavaCast('int',i))#" >
 					<!--- store in a coldfusion array so we won't need JavaCast to reference by position --->
 					<cfset ArrayAppend(collValuesArray,thisBit)>
+				</cfloop>
+				<cfloop index="i" from="0" to="#rowData.size() - 1#">
 					<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
 						<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
 							<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
