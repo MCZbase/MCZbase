@@ -36,7 +36,6 @@ limitations under the License.
 				<h1 class="h2 mt-2">Check scientific names against MCZbase taxonomy records</h1>
 				<div>
 					<h2 class="h4 mt-4">Upload a comma-delimited text file (csv) containing a SCIENTIFIC_NAME column</h2>
-					<h2 class="h4 mt-4">SCIENTIFIC_NAME must be the first column.</h2>
 					<p>
 						This tool will check if the names exist as taxon records in MCZbase, and optionally in the GBIF backbone taxonomy.
 						Any columns other than SCIENTIFIC_NAME will be ignored.  SCIENTIFIC_NAME should contain just the canonical name 
