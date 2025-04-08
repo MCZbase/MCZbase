@@ -186,6 +186,8 @@ limitations under the License.
 					<cfset thisBit = "#rowData.get(JavaCast('int',i))#" >
 					<!--- store in a coldfusion array so we won't need JavaCast to reference by position --->
 					<cfset ArrayAppend(collValuesArray,thisBit)>
+				</cfloop>
+				<cfloop index="i" from="0" to="#rowData.size() - 1#">
 					<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
 						<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
 							<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
