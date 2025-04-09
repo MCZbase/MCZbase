@@ -223,6 +223,8 @@ limitations under the License.
 					</cfquery>
 					<cfset gbifName = "">
 					<cfset gbifNameWithAuth = "">
+					<cfset wormsName = "">
+					<cfset wormsNameWithAuth = "">
 					<cfif variables.gbifLookup>
 						<!--- Lookup name in GBIF Backbone taxonomy --->
 						<cfobject type="Java" class="org.filteredpush.qc.sciname.services.Validator" name="validator">
