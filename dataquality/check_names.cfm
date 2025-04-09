@@ -44,7 +44,8 @@ limitations under the License.
 						in the GBIF backbone taxonomy.  If the WoRMS options is selected, it will also return matches to the name in WoRMS.
 						The results can be returned as an HTML table or as a CSV file.  This tool does
 						not alter the MCZbase database.  It may be used to check if all names in list of names exist as MCZbase taxonomy
-						records before attempting to add them in an specimen bulkload or an identification upload.
+						records before attempting to add them in an specimen bulkload or an identification upload.  A list of unique
+						scientific names from the input data will be returned.
 					</p>
 					<form name="csvform" method="post" enctype="multipart/form-data" action="/dataquality/check_names.cfm">
 						<div class="form-row border rounded p-2">
@@ -189,6 +190,7 @@ limitations under the License.
 						</thead>
 				</cfoutput>
 			</cfif>
+			<cfset evaluatedNames = "">
 			<cfloop condition="#iterator.hasNext()#">
 				<!--- obtain the values in the current row --->
 				<cfset rowData = iterator.next()>
@@ -212,7 +214,8 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 				</cfloop>
-				<cfif len(trim(scientificName)) GT 0>
+				<cfif len(trim(scientificName)) GT 0 AND ListContains(evaluatedNames, scientificName,"|") EQ 0>
+					<cfset evaluatedNames = ListAppend(evaluatedNames, scientificName,"|")>
 					<!--- Execute a query to check the scientific name against MCZbase taxonomy --->
 					<cfquery name="checkScientificName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
 						SELECT  test_name, decode(t.scientific_name, null, 0, 1) as found 
