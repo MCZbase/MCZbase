@@ -88,6 +88,12 @@ limitations under the License.
 		<cfinclude template="/shared/_footer.cfm">
 	</cfcase>
 	<cfcase value="checkNames">
+		<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT taxa_formula,
+				'^(' || replace(replace(replace(replace(replace(taxa_formula,'.','\.'),'(','\('),')','\)'), 'A', '.*)'),'B','(.*)') || '$' as regex
+			FROM cttaxa_formula
+			WHERE taxa_formula != 'A'
+		</cfquery>
 		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
 		<cfset DUP_COLUMN_ERR = "One or more columns are duplicated in the header line of the csv file.">
