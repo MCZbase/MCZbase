@@ -88,9 +88,9 @@ limitations under the License.
 		<cfinclude template="/shared/_footer.cfm">
 	</cfcase>
 	<cfcase value="checkNames">
-		<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		<cfquery name="ctTaxaFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT taxa_formula,
-				'^(' || replace(replace(replace(replace(replace(taxa_formula,'.','\.'),'(','\('),')','\)'), 'A', '.*)'),'B','(.*)') || '$' as regex
+				'^(' || replace(replace(replace(replace(replace(taxa_formula,'.','\.'),'(','\('),')','\)'), 'A', '.+)'),'B','(.+)') || '$' as regex
 			FROM cttaxa_formula
 			WHERE taxa_formula != 'A'
 		</cfquery>
@@ -230,6 +230,32 @@ limitations under the License.
 							LEFT JOIN taxonomy t
 								ON t.scientific_name = <cfqueryparam value="#scientificName#" cfsqltype="CF_SQL_VARCHAR" maxlength="255">
 					</cfquery>
+					<cfif checkScientificName.recordCount EQ 0>
+						<cfloop query="ctTaxaFormula">
+							<cfset bitA = "">
+							<cfif REFindNoCase(ctTaxaFormula.regex, scientificName) GT 0>
+							<cfset bits = REMatch(ctTaxaFormula.regex, scientificName)>
+							<cfif ctTaxaFormula.taxa_formula contains("B")>
+								<cfif ArrayLen(bits) EQ 2>
+									<cfset bitA = bits[1]>
+									<cfset bitB = bits[2]>
+								</cfif>
+							<cfelse>
+								<cfif ArrayLen(bits) EQ 1>
+									<cfset bitA = bits[1]>
+								</cfif>
+							</cfif>
+							<cfif len(bitA) GT 0>
+								<cfquery name="checkScientificName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
+									SELECT  test_name, decode(t.scientific_name, null, 0, 1) as found 
+									FROM 
+										( SELECT <cfqueryparam value="#scientificName#" cfsqltype="CF_SQL_VARCHAR" maxlength="255"> as test_name FROM DUAL) d 
+										LEFT JOIN taxonomy t
+											ON t.scientific_name = <cfqueryparam value="#bitA#" cfsqltype="CF_SQL_VARCHAR" maxlength="255">
+								</cfquery>
+							</cfif>
+						</cfif>
+					</cfif>
 					<cfset gbifName = "">
 					<cfset gbifNameWithAuth = "">
 					<cfset wormsName = "">
