@@ -182,7 +182,7 @@ limitations under the License.
 								<cfif variables.gbifLookup>
 									<th>GBIF</th>
 								</cfif>
-								<cfif variables.gbifLookup>
+								<cfif variables.wormsLookup>
 									<th>WoRMS</th>
 								</cfif>
 							</tr>
