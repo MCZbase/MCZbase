@@ -282,7 +282,7 @@ limitations under the License.
 						<cfset lookupName.setAuthorship("")>
 
 						<!--- lookup in WoRMS --->
-						<cfset wormsAuthority = wormsService.init()>
+						<cfset wormsAuthority = wormsService.init(false)>
 						<cfset r=structNew()>
 						<cftry>
 							<cfset returnName = wormsAuthority.validate(lookupName)>
