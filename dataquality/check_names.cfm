@@ -255,7 +255,7 @@ limitations under the License.
 									</cfquery>
 								</cfif>
 							</cfif>
-						</cfif>
+						</cfloop>
 					</cfif>
 					<cfset gbifName = "">
 					<cfset gbifNameWithAuth = "">
