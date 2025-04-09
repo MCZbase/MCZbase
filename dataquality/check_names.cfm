@@ -234,25 +234,26 @@ limitations under the License.
 						<cfloop query="ctTaxaFormula">
 							<cfset bitA = "">
 							<cfif REFindNoCase(ctTaxaFormula.regex, scientificName) GT 0>
-							<cfset bits = REMatch(ctTaxaFormula.regex, scientificName)>
-							<cfif ctTaxaFormula.taxa_formula contains("B")>
-								<cfif ArrayLen(bits) EQ 2>
-									<cfset bitA = bits[1]>
-									<cfset bitB = bits[2]>
+								<cfset bits = REMatch(ctTaxaFormula.regex, scientificName)>
+								<cfif ctTaxaFormula.taxa_formula contains("B")>
+									<cfif ArrayLen(bits) EQ 2>
+										<cfset bitA = bits[1]>
+										<cfset bitB = bits[2]>
+									</cfif>
+								<cfelse>
+									<cfif ArrayLen(bits) EQ 1>
+										<cfset bitA = bits[1]>
+									</cfif>
 								</cfif>
-							<cfelse>
-								<cfif ArrayLen(bits) EQ 1>
-									<cfset bitA = bits[1]>
+								<cfif len(bitA) GT 0>
+									<cfquery name="checkScientificName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
+										SELECT  test_name, decode(t.scientific_name, null, 0, 1) as found 
+										FROM 
+											( SELECT <cfqueryparam value="#scientificName#" cfsqltype="CF_SQL_VARCHAR" maxlength="255"> as test_name FROM DUAL) d 
+											LEFT JOIN taxonomy t
+												ON t.scientific_name = <cfqueryparam value="#bitA#" cfsqltype="CF_SQL_VARCHAR" maxlength="255">
+									</cfquery>
 								</cfif>
-							</cfif>
-							<cfif len(bitA) GT 0>
-								<cfquery name="checkScientificName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
-									SELECT  test_name, decode(t.scientific_name, null, 0, 1) as found 
-									FROM 
-										( SELECT <cfqueryparam value="#scientificName#" cfsqltype="CF_SQL_VARCHAR" maxlength="255"> as test_name FROM DUAL) d 
-										LEFT JOIN taxonomy t
-											ON t.scientific_name = <cfqueryparam value="#bitA#" cfsqltype="CF_SQL_VARCHAR" maxlength="255">
-								</cfquery>
 							</cfif>
 						</cfif>
 					</cfif>
