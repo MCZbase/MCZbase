@@ -2113,14 +2113,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfreturn cfthread["localityGeoRefFormThread#tn#"].output>
 </cffunction>
 
-												
-
-<!--- given a locality_id create the html for a dialog to add a georeference to the locality
-  @param locality_id the locality to which to add the georeference.
-  @param geolocateImmediate optional, if yes, then immediately invoke geolocate on opening the dialog.
-  @return html for a dialog, or html with an error message.
---->
-												
 <cffunction name="getDecimalParts" returntype="struct">
 	<cfargument name="dec_lat" type="string" required="true">
 	<cfargument name="dec_long" type="string" required="true">
@@ -2139,9 +2131,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfset result.dot_dec_long = decimalLongPart>
 	<cfreturn result>
 </cffunction>
-			
 		
-		
+<!--- given a locality_id create the html for a dialog to add a georeference to the locality
+  @param locality_id the locality to which to add the georeference.
+  @param geolocateImmediate optional, if yes, then immediately invoke geolocate on opening the dialog.
+  @return html for a dialog, or html with an error message.
+--->
 <cffunction name="georeferenceDialogHtml" access="remote" returntype="string">
 	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="geolocateImmediate" type="string" required="no" default="no">
