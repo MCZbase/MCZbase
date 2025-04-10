@@ -197,6 +197,8 @@ limitations under the License.
 				</cfoutput>
 			</cfif>
 			<cfset evaluatedNames = "">
+			<cfset distinctNameCount = 0>
+			<cfset matchedNameCount = 0>
 			<cfloop condition="#iterator.hasNext()#">
 				<!--- obtain the values in the current row --->
 				<cfset rowData = iterator.next()>
@@ -222,6 +224,7 @@ limitations under the License.
 				</cfloop>
 				<cfif len(trim(scientificName)) GT 0 AND ListContains(evaluatedNames, scientificName,"|") EQ 0>
 					<cfset evaluatedNames = ListAppend(evaluatedNames, scientificName,"|")>
+					<cfset distinctNameCount = distinctNameCount + 1>
 					<!--- Execute a query to check the scientific name against MCZbase taxonomy --->
 					<cfquery name="checkScientificName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
 						SELECT  test_name, decode(t.scientific_name, null, 0, 1) as found,
@@ -352,6 +355,10 @@ limitations under the License.
 						<cfset result["WoRMS"] = r>
 					</cfif>
 
+					<cfif checkScientificName.found EQ 1>
+						<cfset matchedNameCount = matchedNameCount + 1>
+					</cfif>
+
 					<!--- Display the scientific name and its status --->
 					<cfif asCSV>
 						<cfset formula = "">
@@ -402,6 +409,11 @@ limitations under the License.
 			<cfelse>
 				<cfoutput>
 					</table>
+					<h2>Results Summary</h2>
+					<div>
+						<p>Total distinct names evaluated: #distinctNameCount#</p>
+						<p>Total names matched in MCZbase: #matchedNameCount#</p>
+					</div>
 				</cfoutput>
 			</cfif>
 		<cfcatch type="any">
