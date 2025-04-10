@@ -52,7 +52,7 @@ limitations under the License.
 	<cfthrow message = "Error: Bug in the definition of fieldlist[#listlen(fieldlist)#] and fieldType[#listlen(fieldTypes)#] lists, lists must be the same length, but are not.">
 </cfif>
 	
-<cfset requiredfieldlist = "LOCALITY_ID,VERBATIM_DATE,VERBATIM_LOCALITY,BEGAN_DATE,ENDED_DATE">
+<cfset requiredfieldlist = "LOCALITY_ID,VERBATIM_DATE,BEGAN_DATE,ENDED_DATE,COLLECTING_SOURCE">
 
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
@@ -529,12 +529,29 @@ limitations under the License.
 					AND locality_id not in (select locality_id from locality)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<!--- assume valid distribution flag is 1, yes, the normal case if not specified --->
+			<cfquery name="flagAssume1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE CF_TEMP_COLLECTING_EVENT
+				SET 
+					valid_distribution_fg = 1
+				WHERE
+					valid_distribution_fg is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfquery name="flagNot01" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE CF_TEMP_COLLECTING_EVENT
 				SET status = concat(nvl2(status, status || '; ', ''),'valid_distribution_fg must be 0 or 1.')
 				WHERE
 					valid_distribution_fg is not null
 					AND NOT regexp_like(valid_distribution_fg,'^[01]+$')
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="checkCollectingSouurce" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE CF_TEMP_COLLECTING_EVENT
+				SET status = concat(nvl2(status, status || '; ', ''),'collecting source not in controlled vocabulary.')
+				WHERE
+					collecting_source is not null
+					AND collecting_source not in (select collecting_source from ctcollecting_source)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 
