@@ -294,6 +294,16 @@ limitations under the License.
 						<cfset r=structNew()>
 						<cftry>
 							<cfset returnName = gbifAuthority.validate(lookupName)>
+							<cfif isDefined("returnName") >
+								<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
+								<cfset r.SCIENTIFICNAME = returnName.getScientificName()>
+								<cfset r.AUTHORSHIP = returnName.getAuthorship()>
+								<cfset r.GUID = returnName.getGuid()>
+								<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
+								<cfset r.HABITATFLAGS = "">
+								<cfset gbifName = "#returnName.getScientificName()#">
+								<cfset gbifNameWithAuth = "#returnName.getScientificName()# #returnName.getAuthorship()#">
+							</cfif>
 						<cfcatch>
 							<cfset r.MATCHDESCRIPTION = "Error">
 							<cfset r.SCIENTIFICNAME = "">
@@ -303,16 +313,6 @@ limitations under the License.
 							<cfset r.HABITATFLAGS = "">
 						</cfcatch>
 						</cftry>
-						<cfif isDefined("returnName")>
-							<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
-							<cfset r.SCIENTIFICNAME = returnName.getScientificName()>
-							<cfset r.AUTHORSHIP = returnName.getAuthorship()>
-							<cfset r.GUID = returnName.getGuid()>
-							<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
-							<cfset r.HABITATFLAGS = "">
-							<cfset gbifName = "#returnName.getScientificName()#">
-							<cfset gbifNameWithAuth = "#returnName.getScientificName()# #returnName.getAuthorship()#">
-						</cfif>
 						<cfset result["GBIF Backbone"] = r>
 					</cfif>
 					<cfif variables.wormsLookup>
@@ -336,6 +336,16 @@ limitations under the License.
 						<cfset r=structNew()>
 						<cftry>
 							<cfset returnName = wormsAuthority.validate(lookupName)>
+							<cfif isDefined("returnName")>
+								<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
+								<cfset r.SCIENTIFICNAME = returnName.getScientificName()>
+								<cfset r.AUTHORSHIP = returnName.getAuthorship()>
+								<cfset r.GUID = returnName.getGuid()>
+								<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
+								<cfset r.HABITATFLAGS = "">
+								<cfset wormsName = "#returnName.getScientificName()#">
+								<cfset wormsNameWithAuth = "#returnName.getScientificName()# #returnName.getAuthorship()#">
+							</cfif>
 						<cfcatch>
 							<cfset r.MATCHDESCRIPTION = "Error">
 							<cfset r.SCIENTIFICNAME = "">
@@ -345,16 +355,6 @@ limitations under the License.
 							<cfset r.HABITATFLAGS = "">
 						</cfcatch>
 						</cftry>
-						<cfif isDefined("returnName")>
-							<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
-							<cfset r.SCIENTIFICNAME = returnName.getScientificName()>
-							<cfset r.AUTHORSHIP = returnName.getAuthorship()>
-							<cfset r.GUID = returnName.getGuid()>
-							<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
-							<cfset r.HABITATFLAGS = "">
-							<cfset wormsName = "#returnName.getScientificName()#">
-							<cfset wormsNameWithAuth = "#returnName.getScientificName()# #returnName.getAuthorship()#">
-						</cfif>
 						<cfset result["WoRMS"] = r>
 					</cfif>
 
