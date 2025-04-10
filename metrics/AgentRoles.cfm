@@ -79,7 +79,7 @@ limitations under the License.
 				Script errors: [#chartError#]
 			</div>
 		</cfif>--->
-		<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_transactions")>
+		<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin")>
 			<div class="row mx-0">
 				<div class="col-12">
 					<h1 class="h4 my-2">Data Visualization: <a href="#filePath##targetFile#">Agent Activity Data <img src="/images/linkOut.gif"/></a></h1>
