@@ -598,7 +598,15 @@ limitations under the License.
 				</cfif>
 						
 				<!--- Check that began_date and ended date are in the form YYYY-MM-DD--->
-				<cfif REFind( "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", getTempData.BEGAN_DATE) GT 0>
+				<cfif REFind( "^[0-9]{4}(-[0-9]{2}){0-2}$", getTempData.BEGAN_DATE) GT 0>
+					<cfset pattern = "yyyy-MM-dd">
+					<cfif REFind( "^[0-9]{4}$", getTempData.BEGAN_DATE) GT 0>
+						<cfset pattern = "yyyy">
+					<cfelseif REFind( "^[0-9]{4}-[0-9]{2}$", getTempData.BEGAN_DATE) GT 0>
+						<cfset pattern = "yyyy-MM">
+					<cfelseif REFind( "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", getTempData.BEGAN_DATE) GT 0>
+						<cfset pattern = "yyyy-MM-dd">
+					</cfif>
 					<cfif NOT dateUtils.eventDateValid(#getTempData.BEGAN_DATE#)>
 						<cfquery name="checkBeganDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_collecting_event
@@ -606,7 +614,7 @@ limitations under the License.
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
 						</cfquery>
-					<cfelseif DatePart("yyyy",parseDateTime(getTempData.BEGAN_DATE,"yyyy-MM-dd")) LT '1700'>
+					<cfelseif DatePart("yyyy",parseDateTime(getTempData.BEGAN_DATE,pattern)) LT '1700'>
 						<cfquery name="checkBeganDate1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE cf_temp_collecting_event
 							SET status = concat(nvl2(status, status || '; ', ''),'BEGAN_DATE Year must be 1700 or later "#began_date#"')
@@ -618,7 +626,7 @@ limitations under the License.
 				<cfelse>
 					<cfquery name="checkBeganDate3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE cf_temp_collecting_event
-						SET status = concat(nvl2(status, status || '; ', ''),'BEGAN_DATE is not in the form yyyy-mm-dd "#began_date#"')
+						SET status = concat(nvl2(status, status || '; ', ''),'BEGAN_DATE is not in the form yyyy, yyyy-mm, or yyyy-mm-dd "#began_date#"')
 						WHERE began_date is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#"> 
