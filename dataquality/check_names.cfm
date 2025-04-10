@@ -171,13 +171,13 @@ limitations under the License.
 			<!--- Create an HTML table to display the results --->
 			<cfif asCSV>
 				<cfif variables.gbifLookup AND NOT variables.wormsLookup>
-					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,GBIF")>
+					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,MCZBASE_FORMULA,GBIF")>
 				<cfelseif variables.wormsLookup AND NOT variables.gbifLookup>
-					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,WORMS")>
+					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,MCZBASE_FORMULA,WORMS")>
 				<cfelseif variables.wormsLookup AND variables.gbifLookup>
-					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,GBIF,WORMS")>
+					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,MCZBASE_FORMULA,GBIF,WORMS")>
 				<cfelse>
-					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE")>
+					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,MCZBASE_FORMULA")>
 				</cfif>
 			<cfelse>
 				<cfoutput>
@@ -231,6 +231,7 @@ limitations under the License.
 							LEFT JOIN taxonomy t
 								ON t.scientific_name = <cfqueryparam value="#scientificName#" cfsqltype="CF_SQL_VARCHAR" maxlength="255">
 					</cfquery>
+					<cfset matchedFormula = "">
 					<cfif checkScientificName.found EQ 0>
 						<cfloop query="ctTaxaFormula">
 							<cfset bitA = "">
@@ -249,6 +250,7 @@ limitations under the License.
 									</cfif>
 								</cfif>
 								<cfif len(bitA) GT 0>
+									<cfset matchedFormula = ctTaxaFormula.taxa_formula>
 									<cfquery name="checkScientificName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
 										SELECT  test_name, decode(t.scientific_name, null, 0, 1) as found,
 											'formula' as matchtype
@@ -352,14 +354,22 @@ limitations under the License.
 
 					<!--- Display the scientific name and its status --->
 					<cfif asCSV>
+						<cfset formula = "">
+						<cfset foundState = checkScientificName.found#,#gbifName>
+						<cfif checkScientificName.found EQ 1>
+							<cfif checkScientificName.matchtype EQ 'formula'>
+								<cfset foundState = 2>
+								<cfset formula = matchedFormula>
+							</cfif>
+						</cfif>
 						<cfif variables.gbifLookup AND NOT variables.wormsLookup>
-							<cfset ArrayAppend(resultsArray, "#scientificName#,#checkScientificName.found#,#gbifName#")>
+							<cfset ArrayAppend(resultsArray, "#scientificName#,#foundState#,#formula#,#gbifName#")>
 						<cfelseif variables.wormsLookup AND NOT variables.gbifLookup>
-							<cfset ArrayAppend(resultsArray, "#scientificName#,#checkScientificName.found#,#wormsName#")>
+							<cfset ArrayAppend(resultsArray, "#scientificName#,#foundState#,#formula#,#wormsName#")>
 						<cfelseif variables.wormsLookup AND variables.gbifLookup>
-							<cfset ArrayAppend(resultsArray, "#scientificName#,#checkScientificName.found#,#gbifName#,#wormsName#")>
+							<cfset ArrayAppend(resultsArray, "#scientificName#,#foundState#,#formula#,#gbifName#,#wormsName#")>
 						<cfelse>
-							<cfset ArrayAppend(resultsArray, "#scientificName#,#checkScientificName.found#")>
+							<cfset ArrayAppend(resultsArray, "#scientificName#,#foundState#,#formula#")>
 						</cfif>
 					<cfelse>
 						<cfoutput>
@@ -368,7 +378,7 @@ limitations under the License.
 								<td>
 									<cfif checkScientificName.found EQ 1>
 										<cfif checkScientificName.matchtype EQ 'formula'>
-											Formula Match
+											Found (#matchedFormula#)
 										<cfelse>
 											Found
 										</cfif>
