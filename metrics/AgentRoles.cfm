@@ -64,7 +64,7 @@ limitations under the License.
 			
 			<div class="col-12 px-0">
 				<!--- chart created by R script --->
-				<img src="/metrics/datafiles/Agent_Activity.svg" width="95%" alt="Stacked bar chart for agent roles arranged by activity in MCZbase; x-axis are agents in descending order, y-axis are activity counts 0-100,000 on main chart for each role labeled in the legend; the agents with the activity are off the main chart to the right with higher y-axis count labels (100,001 to over 800,000)"/>
+				<img src="/metrics/datafiles/Agent_Activity.svg" width="95%" alt="Stacked bar chart for agent roles arranged by activity in MCZbase; x-axis are agents in descending order, y-axis are activity counts 0-100,000 on main chart for each role labeled in the legend; the agents with the most activity are off the main chart to the right with higher y-axis count labels (100,001 to over 800,000)"/>
 			</div>
 		</div>
 		
