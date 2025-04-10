@@ -224,30 +224,34 @@ limitations under the License.
 					<cfset evaluatedNames = ListAppend(evaluatedNames, scientificName,"|")>
 					<!--- Execute a query to check the scientific name against MCZbase taxonomy --->
 					<cfquery name="checkScientificName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
-						SELECT  test_name, decode(t.scientific_name, null, 0, 1) as found 
+						SELECT  test_name, decode(t.scientific_name, null, 0, 1) as found,
+							'full' as matchtype
 						FROM 
 							( SELECT <cfqueryparam value="#scientificName#" cfsqltype="CF_SQL_VARCHAR" maxlength="255"> as test_name FROM DUAL) d 
 							LEFT JOIN taxonomy t
 								ON t.scientific_name = <cfqueryparam value="#scientificName#" cfsqltype="CF_SQL_VARCHAR" maxlength="255">
 					</cfquery>
-					<cfif checkScientificName.recordCount EQ 0>
+					<cfif checkScientificName.found EQ 0>
 						<cfloop query="ctTaxaFormula">
 							<cfset bitA = "">
 							<cfif REFindNoCase(ctTaxaFormula.regex, scientificName) GT 0>
-								<cfset bits = REMatch(ctTaxaFormula.regex, scientificName)>
+								<cfset matches = REFind(ctTaxaFormula.regex, scientificName,1,true)>
+								<cfset bits = matches.MATCH>
+								<!--- matches.MATCH will be an array with first element the full match, and subsequent elements the captured groups --->
 								<cfif ctTaxaFormula.taxa_formula contains("B")>
-									<cfif ArrayLen(bits) EQ 2>
-										<cfset bitA = bits[1]>
-										<cfset bitB = bits[2]>
+									<cfif ArrayLen(bits) EQ 3>
+										<cfset bitA = bits[2]>
+										<cfset bitB = bits[3]>
 									</cfif>
 								<cfelse>
-									<cfif ArrayLen(bits) EQ 1>
-										<cfset bitA = bits[1]>
+									<cfif ArrayLen(bits) EQ 2>
+										<cfset bitA = bits[2]>
 									</cfif>
 								</cfif>
 								<cfif len(bitA) GT 0>
 									<cfquery name="checkScientificName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insert_result">
-										SELECT  test_name, decode(t.scientific_name, null, 0, 1) as found 
+										SELECT  test_name, decode(t.scientific_name, null, 0, 1) as found,
+											'formula' as matchtype
 										FROM 
 											( SELECT <cfqueryparam value="#scientificName#" cfsqltype="CF_SQL_VARCHAR" maxlength="255"> as test_name FROM DUAL) d 
 											LEFT JOIN taxonomy t
@@ -363,7 +367,11 @@ limitations under the License.
 								<td>#scientificName#</td>
 								<td>
 									<cfif checkScientificName.found EQ 1>
-										Found
+										<cfif checkScientificName.matchtype EQ 'formula'>
+											Formula Match
+										<cfelse>
+											Found
+										</cfif>
 									<cfelse>
 										Not Found
 									</cfif>
