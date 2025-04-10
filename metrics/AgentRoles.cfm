@@ -67,6 +67,8 @@ limitations under the License.
 				<img src="/metrics/datafiles/Agent_Activity.svg" width="95%"/>
 			</div>
 		</div>
+		
+		<!---Used during development--->
 <!---	<cfif len(#chartOutput#) gt 0>
 			<div class="col-12">
 				Script output: [#chartOutput#]
