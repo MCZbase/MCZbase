@@ -24,7 +24,11 @@ limitations under the License.
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template = "/shared/component/functions.cfc">
-
+	
+	
+	
+<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin")>
+	
 <cfset targetFile = "chart_data.csv">
 <cfset filePath = "/metrics/datafiles/">
 
@@ -92,4 +96,7 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category-
 		</cfif>
 	</div>
 </cfoutput>
+		
+		
+</cfif>
 <cfinclude template="/shared/_footer.cfm">
