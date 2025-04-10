@@ -405,6 +405,11 @@ limitations under the License.
 							</tr>
 						</cfoutput>
 					</cfif>
+					<cfset formula="">
+					<cfset gibfName =  "">
+					<cfset wormsName =  "">
+					<cfset gibfNameWithAuth =  "">
+					<cfset wormsNameWithAuth =  "">
 				</cfif>
 			</cfloop>
 			<cfif asCSV>
