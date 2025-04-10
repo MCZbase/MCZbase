@@ -355,7 +355,7 @@ limitations under the License.
 					<!--- Display the scientific name and its status --->
 					<cfif asCSV>
 						<cfset formula = "">
-						<cfset foundState = checkScientificName.found#,#gbifName>
+						<cfset foundState = checkScientificName.found>
 						<cfif checkScientificName.found EQ 1>
 							<cfif checkScientificName.matchtype EQ 'formula'>
 								<cfset foundState = 2>
