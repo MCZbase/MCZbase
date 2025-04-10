@@ -37,7 +37,7 @@ limitations under the License.
 				<div>
 					<h2 class="h4 mt-4">Upload a comma-delimited text file (csv) containing a SCIENTIFIC_NAME column</h2>
 					<p>
-						This tool will check if the names exist as taxon records in MCZbase, and optionally in the GBIF backbone taxonomy and or WoRMS.
+						This tool will check if the names exist as taxon records in MCZbase, and optionally in the GBIF backbone taxonomy and/or WoRMS.
 						Any columns other than SCIENTIFIC_NAME will be ignored.  SCIENTIFIC_NAME should contain just the canonical name 
 						of the taxon, and should not include the authorship.  The tool will return a list of the names checked, and whether
 						exact matches for them exist in MCZbase.  If the GBIF option is selected, it will also return matches to the name 
@@ -45,7 +45,10 @@ limitations under the License.
 						The results can be returned as an HTML table or as a CSV file.  This tool does
 						not alter the MCZbase database.  It may be used to check if all names in list of names exist as MCZbase taxonomy
 						records before attempting to add them in an specimen bulkload or an identification upload.  A list of unique
-						scientific names from the input data will be returned.
+						scientific names from the input data will be returned.  This tool will identify exact matches against MCZbase taxon record and matches against MCZbase taxon records using a taxon formula (as would apply if you are loading identifications into MCZbase using a taxon formula).
+					</p>
+					<p>
+						To use this tool to check names in a Specimen Bulkloader CSV file, save the content of the TAXON_NAME column in a separate CSV file, rename it SCIENTIFIC_NAME, and check that file here.  You do not have to deduplicate the names in the file, this tool will do that for you and produce a report on the matches on unique names in your input file.  
 					</p>
 					<form name="csvform" method="post" enctype="multipart/form-data" action="/dataquality/check_names.cfm">
 						<div class="form-row border rounded p-2">
