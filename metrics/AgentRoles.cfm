@@ -77,11 +77,13 @@ limitations under the License.
 				Script errors: [#chartError#]
 			</div>
 		</cfif>--->
-		<div class="row mx-0">
-			<div class="col-12">
-				<h1 class="h4 my-2">Data Visualization: <a href="#filePath##targetFile#">Agent Activity Data <img src="/images/linkOut.gif"/></a></h1>
+		<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+			<div class="row mx-0">
+				<div class="col-12">
+					<h1 class="h4 my-2">Data Visualization: <a href="#filePath##targetFile#">Agent Activity Data <img src="/images/linkOut.gif"/></a></h1>
+				</div>
 			</div>
-		</div>
+		</cfif>
 	</div>	
 
 </cfoutput>
