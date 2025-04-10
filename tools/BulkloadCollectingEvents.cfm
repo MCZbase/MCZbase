@@ -795,6 +795,7 @@ limitations under the License.
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset problem_key = "">
+			<cfset addedCollectingEventIDs = "">
 			<cftransaction>
 				<cftry>
 					<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -810,6 +811,7 @@ limitations under the License.
 						<cfquery name="nextColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT sq_collecting_event_id.nextval nextColl FROM dual
 						</cfquery>
+						<cfset addedCollectingEventIDs = ListAppend(addedCollectingEventIDs,nextColl.nextColl) >
 						<cfquery name="makeCollectingEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insResult">
 							INSERT INTO collecting_event (
 								COLLECTING_EVENT_ID,
@@ -952,6 +954,10 @@ limitations under the License.
 					<p class="mt-2">Number of Collecting Events added: <b>#coll_event_updates#</b> </p>
 					<cfif #getData.recordcount# eq #coll_event_updates#>
 						<h3 class="text-success">Success - loaded</h3>
+						<div>
+							<p class="mt-2"><a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&MinElevOper=%3D&MaxElevOper=%3D&MinElevOperM=%3D&MaxElevOperM=%3D&minDepthOper=%3D&MaxDepthOper=%3D&minDepthOperM=%3D&MaxDepthOperM=%3D&geology_attribute_hier=0&gs_comparator=%3D&&collecting_event_id=#encodeForUrl(addedCollectingEventIds)#&begDateOper=%3D&endDateOper=%3D&accentInsensitive=1&include_counts=0">Added Collecting Events</a></p>
+							<p class="mt-2"><a href="/tools/BulkloadCollectingEvents.cfm" class="btn btn-primary">Add more</a></p>
+						</div>
 					<cfelse>
 						<cfthrow message="Number to insert not equal to number inserted.">
 					</cfif>
