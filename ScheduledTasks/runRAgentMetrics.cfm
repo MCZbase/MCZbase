@@ -22,6 +22,7 @@ on that data to produce a graphic.
 @see: /metrics/datafiles/Agent_Activity.svg generated graphics file
 @see: filePath/targetFile below for data file
 --->
+<cfinclude template = "/shared/component/functions.cfc"><!--- for queryToCSV() function --->
 <!--- these must match the values in /metrics/AgentRoles.cfm --->
 <cfset targetFile = "agent_activity_counts.csv">
 <cfset filePath = "/metrics/datafiles/">
