@@ -1,10 +1,33 @@
-## This will not load if there are any errors.  Run through it locally to check changes before expecting it to load
-## local path must be commented out; print(combined_plot) should be commented out too.
+# /ScheduledTasks/runRAgentMetrics.cfm
+#
+#Copyright 2024-2025 President and Fellows of Harvard College
+#
+#Licensed under the Apache License, Version 2.0 (the "License");
+#you may not use this file except in compliance with the License.
+#You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+#Unless required by applicable law or agreed to in writing, software
+#distributed under the License is distributed on an "AS IS" BASIS,
+#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#See the License for the specific language governing permissions and
+#limitations under the License.
+#
+# R Script to generate agent activity graphic metrics/datafiles/Agent_Activity.svg'
+#
+# @see: /metrics/R/agent_activity_counts.R
+# @see: /metrics/AgentRoles.cfm
 
+## This will not generate the svg file if there are any errors.  
+## Run this script manually through R to debug
+
+## Prerequisite dependencies 
+#
 ## Install required packages
 # dnf install R fontconfig-devel
 ## fonntconfig-devel is required for install of svglite R package, which depends on systemfonts R package, which requires fontconfig/fontconfig.h
-
+#
 ## Run the following as a user with permissions to write to: /usr/lib64/R/library/
 # install.packages(c("readr", "ggplot2", "dplyr", "patchwork", "svglite", "stringr"))
 #
@@ -210,10 +233,8 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
 combined_plot <- main_plot + outliers_plot +
   plot_layout(guides = 'collect', widths = c(92.5, 7.5))
  
-## Display the combined plot
+## Display the combined plot, can have comment removed for debugging.
 #print(combined_plot)
 
-## !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
+## Save the svg file to the expected location.
 ggsave('/var/www/html/arctos/metrics/datafiles/Agent_Activity.svg', plot=combined_plot, width = 6.5, height = 3)
-
-
