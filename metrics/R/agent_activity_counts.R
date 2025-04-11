@@ -1,6 +1,14 @@
 ## This will not load if there are any errors.  Run through it locally to check changes before expecting it to load
 ## local path must be commented out; print(combined_plot) should be commented out too.
 
+## Install required packages
+# dnf install R fontconfig-devel
+## fonntconfig-devel is required for install of svglite R package, which depends on systemfonts R package, which requires fontconfig/fontconfig.h
+
+## Run the following as a user with permissions to write to: /usr/lib64/R/library/
+# install.packages(c("readr", "ggplot2", "dplyr", "patchwork", "svglite", "stringr"))
+#
+
 # Read in the libraries
 library(readr)
 library(ggplot2)
@@ -146,7 +154,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
                 size = 1, color = "white"
                 ) +
   labs(title = "Counts by Role and Agent (total count must be > 3500 to be shown)",
-       x = "Agent Info",y = "COUNT (<= 100,000)") +
+       x = "Agent",y = "COUNT (<= 100,000)") +
   scale_color_manual(values=cpalette,labels=unique(agents_data_sorted$simplified)) +
   scale_fill_manual(values=cpalette,labels=agents_data_sorted$simplified) +
   scale_y_continuous(labels = scales::comma, expand=c(0.02, 0.02)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller

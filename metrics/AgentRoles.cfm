@@ -1,8 +1,8 @@
-<!--
+<!---
 
-* /metrics/testMetrics.cfm
+* /metrics/AgentMetrics.cfm
 
-Copyright 2024 President and Fellows of Harvard College
+Copyright 2024-2025 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ limitations under the License.
 
 * Dashboard for obtaining annual reporting and other collections metrics.
 
--->
+--->
 
 
 <cfset pageTitle="Agent Roles | Metrics">
@@ -28,6 +28,7 @@ limitations under the License.
 <cfset targetFile = "agent_activity_counts.csv">
 <cfset filePath = "/metrics/datafiles/">
 	
+<!--- TODO: Move to scheduled job --->
 <cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">	
 	select distinct agent_id, agent_name, table_name, column_name, count 
 	from mczbase.cf_temp_agent_role_summary 
@@ -43,6 +44,7 @@ limitations under the License.
 <cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
 </cfoutput>
 
+<!--- TODO: Move to scheduled job --->
 <cftry>
 	<cfexecute name = "/usr/bin/Rscript" 
 		arguments = "/#application.webDirectory#/metrics/R/agent_activity_counts.R" 
@@ -69,17 +71,18 @@ limitations under the License.
 		</div>
 		
 		<!---Used during development--->
-<!---	<cfif len(#chartOutput#) gt 0>
-			<div class="col-12">
-				Script output: [#chartOutput#]
-			</div>
-		</cfif>
-		<cfif len(#chartError#) gt 0>
-			<div class="col-12 my-3 border py-2">
-				Script errors: [#chartError#]
-			</div>
-		</cfif>--->
 		<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin")>
+			<!--- TODO: Move to scheduled job --->
+			<cfif len(#chartOutput#) gt 0>
+				<div class="col-12">
+					Script output: [#chartOutput#]
+				</div>
+			</cfif>
+			<cfif len(#chartError#) gt 0>
+				<div class="col-12 my-3 border py-2">
+					Script errors: [#chartError#]
+				</div>
+			</cfif>
 			<div class="row mx-0">
 				<div class="col-12">
 					<h1 class="h4 my-2">Data Visualization: <a href="#filePath##targetFile#">Agent Activity Data <img src="/images/linkOut.gif"/></a></h1>
