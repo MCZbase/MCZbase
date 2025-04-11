@@ -46,6 +46,7 @@
 					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
 						<li><a href="/tools/BulkloadGeoref.cfm">Bulkload Georeferences</a></li>
+						<li><a href="/tools/BulkloadCollectingEvents.cfm">Bulkload Collecting Events</a></li>
 					</cfif>
 				</ul>
 				<h3 class="h4">Unused</h3>
