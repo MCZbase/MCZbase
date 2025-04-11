@@ -27,7 +27,6 @@ limitations under the License.
 
 <cfset pageTitle="Agent Roles | Metrics">
 <cfinclude template="/shared/_header.cfm">
-<cfinclude template = "/shared/component/functions.cfc">
 
 <!---  These must match the values in ScheduledTasks/runRAgentMetrics.cfm --->
 <cfset targetFile = "agent_activity_counts.csv">
