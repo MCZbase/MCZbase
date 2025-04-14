@@ -48,7 +48,7 @@ limitations under the License.
 		<!---Used during development--->
 		<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin")>
 			<div class="row">
-				<div class="col-12 px-0">
+				<div class="col-12 px-5 mx-auto">
 					<h1 class="h4 my-2">Data Visualization: <a href="#filePath##targetFile#">Agent Activity Data <img src="/images/linkOut.gif"/></a></h1>
 				</div>
 			</div>
