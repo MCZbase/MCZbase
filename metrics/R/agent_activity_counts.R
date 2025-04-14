@@ -201,8 +201,8 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         legend.spacing.y = unit(0.05, "cm"),
         legend.justification = c("right", "top"),
         legend.box.just = "right",
-        legend.title = element_text(size=0.8, hjust=0.5), 
-        legend.margin = margin(2, 2, 0, 2)
+        legend.title = element_text(size=rel(0.6), hjust=0.5), 
+        legend.margin = margin(2, 2, 2, 2)
   )
 
 ## Outliers plot, now includes whole removed stacks
@@ -217,7 +217,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
                     guide="none"
                     ) +
   scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) + 
-  theme_minimal() +
+  theme_minimal(base_size = 12) +
   labs(title = "Outliers", 
        x = NULL, 
        y = "COUNT (> 100,000)", 
