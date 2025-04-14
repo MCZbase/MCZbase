@@ -185,9 +185,9 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   scale_fill_manual(values=cpalette,labels=agents_data_sorted$simplified) +
   scale_y_continuous(labels = scales::comma, expand=c(0.02, 0.02)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller
   theme_minimal(base_size = 12) +
-  theme(plot.title = element_text(size=rel(0.6), face="bold"),
+  theme(plot.title = element_text(size=rel(0.6), face="bold",family="Arial"),
         plot.margin = margin(t=1,r=1,b=0,l=10),
-        axis.text.x = element_text(margin=margin(t=-1,b=-1), size=rel(0.5), color='white', angle =0, hjust = 0),
+        axis.text.x = element_text(margin=margin(t=0,b=-0), size=rel(0.5), color='white', angle =0, hjust = 0),
         axis.text.y = element_text(margin=margin(t=0.025), size=rel(0.5)),
         axis.title.x = element_text(margin=margin(t=0.0,b=0), size=rel(0.5)),
         axis.title.y = element_text(size=rel(0.5)), 
@@ -201,7 +201,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         legend.spacing.y = unit(0.05, "cm"),
         legend.justification = c("right", "top"),
         legend.box.just = "right",
-        legend.title = element_text(size=rel(0.4), hjust=0.5), 
+        legend.title = element_text(size=rel(0.45), hjust=0.5, family="Arial"), 
         legend.margin = margin(2, 2, 2, 2)
   )
 
