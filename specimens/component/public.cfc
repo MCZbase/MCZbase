@@ -2347,14 +2347,6 @@ limitations under the License.
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Locality: </li>
 							<li class="list-group-item col-7 col-xl-8 px-0 ">#loc_collevent.verbatim_locality#</li>
 						</cfif>
-						<cfif len(loc_collevent.verbatim_collectors) gt 0>
-							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Collectors: </li>
-							<li class="list-group-item col-7 col-xl-8 px-0 ">#loc_collevent.verbatim_collectors#</li>
-						</cfif>
-						<cfif len(loc_collevent.verbatim_field_numbers) gt 0>
-							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Field Numbers: </li>
-							<li class="list-group-item col-7 col-xl-8 px-0 ">#loc_collevent.verbatim_field_numbers#</li>
-						</cfif>
 						<cfif len(loc_collevent.verbatimcoordinates) gt 0>
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Coordinates: </li>
 							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.verbatimcoordinates#</li>
@@ -2637,6 +2629,14 @@ limitations under the License.
 						<cfif len(loc_collevent.fish_field_number) gt 0>
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Ich. Field Number: </li>
 							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.fish_field_number#</li>
+						</cfif>
+						<cfif len(loc_collevent.verbatim_collectors) gt 0>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Collectors: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0 ">#loc_collevent.verbatim_collectors#</li>
+						</cfif>
+						<cfif len(loc_collevent.verbatim_field_numbers) gt 0>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Field Numbers: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0 ">#loc_collevent.verbatim_field_numbers#</li>
 						</cfif>
 						<cfquery name="collEventNumbers"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT
