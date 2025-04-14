@@ -185,12 +185,12 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   scale_fill_manual(values=cpalette,labels=agents_data_sorted$simplified) +
   scale_y_continuous(labels = scales::comma, expand=c(0.02, 0.02)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller
   theme_minimal(base_size = 12) +
-  theme(plot.title = element_text(size=rel(0.6), face="bold",family="Arial"),
+  theme(plot.title = element_text(size=rel(0.55), face="bold",family="Arial"),
         plot.margin = margin(t=1,r=1,b=0,l=10),
-        axis.text.x = element_text(margin=margin(t=0,b=-0), size=rel(0.5), color='white', angle =0, hjust = 0),
-        axis.text.y = element_text(margin=margin(t=0.025), size=rel(0.5)),
-        axis.title.x = element_text(margin=margin(t=0.0,b=0), size=rel(0.5)),
-        axis.title.y = element_text(size=rel(0.5)), 
+        axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.45), color='white', angle =0, hjust = 0),
+        axis.text.y = element_text(margin=margin(t=0.025), size=rel(0.45)),
+        axis.title.x = element_text(margin=margin(t=0.0,b=0), size=rel(0.45)),
+        axis.title.y = element_text(size=rel(0.45)), 
         legend.direction = "vertical",   # Typically more space-efficient when inside plots
         legend.box = "vertical",
         legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
@@ -223,15 +223,15 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
        y = "COUNT (> 100,000)", 
        fill = NULL
        ) +
-  theme(plot.title = element_text(size=rel(.6), face="bold"), 
-        axis.title.y = element_text(size=rel(0.5)),
-        axis.title.x = element_text(size=rel(0.5)),
+  theme(plot.title = element_text(size=rel(0.55), face="bold",family="Arial"), 
+        axis.title.y = element_text(size=rel(0.45)),
+        axis.title.x = element_text(size=rel(0.45)),
         axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.002),color='white', angle =35, hjust = 1), #these agent login names are not shown
-        axis.text.y = element_text(margin=margin(t=0.25), size=rel(.5))
+        axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.45))
         ) 
 
 ## Combine the plots using patchwork, place outliers to the left and merge legends
-combined_plot <- main_plot + outliers_plot + plot_layout(guides = 'collect', widths = c(92.5, 7.5))
+combined_plot <- main_plot + outliers_plot + plot_layout(guides = 'collect', widths = c(92.5, 7.25))
 
  
 ## Display the combined plot, can have comment removed for debugging.
