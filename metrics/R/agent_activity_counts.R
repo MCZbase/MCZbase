@@ -180,7 +180,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
     scale_fill_manual(values=cpalette,labels=agents_data_sorted$simplified) +
     scale_y_continuous(labels = scales::comma, expand=c(0.02, 0.02)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller
     theme_minimal(base_size = 12) +
-    theme(plot.title = element_text(size=rel(0.55), face="bold",family="Arial"),
+    theme(plot.title = element_text(size=rel(0.5), face="bold",family="Arial"),
         plot.margin = margin(t=1,r=1,b=0,l=10),
         axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.45), color='white', angle =0, hjust = 0),
         axis.text.y = element_text(margin=margin(t=0.025), size=rel(0.45)),
@@ -195,7 +195,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         legend.spacing.x = unit(0.02, "cm"),
         legend.spacing.y = unit(0.02, "cm"),
         legend.justification = c("right", "top"),
-        legend.box.just = "right",
+        legend.box.just = "left",
         legend.title = element_text(size=rel(0.45), hjust=0.5, family="Arial"), 
         legend.margin = margin(3, 3, 3, 3)
     )
@@ -218,10 +218,10 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
               y = "COUNT (> 100,000)", 
               fill = NULL
               ) +
-      theme(plot.title = element_text(size=rel(0.55), face="bold",family="Arial"), 
+      theme(plot.title = element_text(size=rel(0.5), face="bold",family="Arial"), 
               axis.title.y = element_text(size=rel(0.45)),
               axis.title.x = element_text(size=rel(0.45),family="Arial"),
-              axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.002),color='white', angle =35, hjust = 1), #these agent login names are not shown
+              axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.002),color='white', angle =20, hjust = 1), #these agent login names are not shown
               axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.45))
               ) 
 
@@ -233,4 +233,4 @@ combined_plot <- main_plot + outliers_plot + plot_layout(guides = 'collect', wid
 #print(combined_plot)
 
 ## Save the svg file to the expected location.
-ggsave('/var/www/html/arctos/metrics/datafiles/Agent_Activity.svg', plot=combined_plot, width = 6.5, height = 2.5)
+ggsave('/var/www/html/arctos/metrics/datafiles/Agent_Activity.svg', plot=combined_plot, width = 6.5, height = 2.9)
