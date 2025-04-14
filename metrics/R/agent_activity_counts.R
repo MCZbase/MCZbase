@@ -183,8 +183,8 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
     theme(plot.title = element_text(size=rel(0.5), face="bold",family="Arial"),
         plot.margin = margin(t=1,r=1,b=0,l=10),
         axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.45), color='white', angle =0, hjust = 0),
-        axis.text.y = element_text(margin=margin(t=0.025), size=rel(0.45)),
-        axis.title.x = element_text(margin=margin(t=0.0,b=0), size=rel(0.45)),
+        axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.45)),
+        axis.title.x = element_text(margin=margin(t=0,b=0), size=rel(0.45)),
         axis.title.y = element_text(size=rel(0.45)), 
         legend.direction = "vertical",   # Typically more space-efficient when inside plots
         legend.box = "vertical",
@@ -196,7 +196,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         legend.spacing.y = unit(0.02, "cm"),
         legend.justification = c("right", "top"),
         legend.box.just = "left",
-        legend.title = element_text(margin=margin(b=0.5),size=rel(0.45), hjust=0.5, family="Arial"), 
+        legend.title = element_text(margin=margin(b=0.65),size=rel(0.45), hjust=0.5, family="Arial"), 
         legend.margin = margin(3, 3, 3, 3)
     )
 
@@ -221,7 +221,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
       theme(plot.title = element_text(size=rel(0.5), face="bold",family="Arial"), 
               axis.title.y = element_text(size=rel(0.45)),
               axis.title.x = element_text(size=rel(0.45),family="Arial"),
-              axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.002),color='white', angle =20, hjust = 1), #these agent login names are not shown
+              axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.002),color='white', angle =20, hjust = 0), #these agent login names are not shown
               axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.45))
               ) 
 
