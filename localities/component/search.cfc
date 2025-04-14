@@ -1838,9 +1838,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="enddayofyear" type="string" required="no">
 	<cfargument name="collectingtime" type="string" required="no">
 	<cfargument name="fish_field_number" type="string" required="no">
-	<cfargument name="verbatim_collectors" type="string" required="no">
-	<cfargument name="verbatim_field_numbers" type="string" required="no">
-	<cfargument name="verbatim_habitat" type="string" required="no">
+	<cfargument name="verbatim_collectors" type="string" required="no"><!--- unused, function becomes too long --->
+	<cfargument name="verbatim_field_numbers" type="string" required="no"><!--- unused, function becomes too long --->
+	<cfargument name="verbatim_habitat" type="string" required="no"><!--- unused, function becomes too long --->
 	<cfargument name="date_determined_by_agent_id" type="string" required="no">
 	<cfargument name="date_determined_by_agent" type="string" required="no">
 	<cfargument name="valid_distribution_fg" type="string" required="no">
@@ -2821,6 +2821,14 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				</cfif>
 				<cfif isdefined("fish_field_number") AND len(fish_field_number) gt 0>
 					<cfset setup = setupClause(field="collecting_event.fish_field_number",value="#fish_field_number#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("verbatim_collectors") AND len(verbatim_collectors) gt 0>
+					<cfset setup = setupClause(field="collecting_event.verbatim_collectors",value="#verbatim_collectors#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
