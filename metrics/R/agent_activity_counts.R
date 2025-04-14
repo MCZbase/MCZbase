@@ -41,8 +41,8 @@ library(svglite)
 library(stringr)
 
 ## change to locally saved csv for running the code while developing
-#agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
-agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
+agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
+#agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
 ## removes NAs
 agents_data <- agents_roles[complete.cases(agents_roles), ]
 
@@ -178,33 +178,30 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
                 ) +
                 labs(
                 title = "Counts by Role and Agent (total count must be > 3500 to be shown)",
-                caption = "This stacked bar chart displays the database activity for each agent, focusing on those with more than 3,500 total actions. To appear on the outlier plot to the right, an agent must have exceeded 100,000 actions. The aim of this visualization is to highlight the variability in each agent's role.\nMuch of the variation in activity is attributed to the specific needs of the collections, rather than reflecting the individual effort of staff members. For example, if an agent is responsible for identifying animals and organizing specimens for researchers, their activity stacks would likely be smaller \ncompared to those of a new employee whose primary role is entering ledger records.",
-                x = "Agent Info", 
+                x = "Agent Activity", 
                 y = "COUNT (<= 100,000)"
                 ) +
   scale_color_manual(values=cpalette,labels=unique(agents_data_sorted$simplified)) +
   scale_fill_manual(values=cpalette,labels=agents_data_sorted$simplified) +
   scale_y_continuous(labels = scales::comma, expand=c(0.02, 0.02)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller
   theme_minimal(base_size = 12) +
-  theme(plot.title = element_text(size=rel(1.2), face="bold"),
-        plot.subtitle = element_text(size = rel(1)),
-        plot.caption = element_text(hjust = 0),
+  theme(plot.title = element_text(size=rel(1), face="bold"),
         plot.margin = margin(t=1,r=1,b=0,l=10),
-        axis.text.x = element_text(margin=margin(t=-1,b=-1), size=rel(1), color='white', angle =0, hjust = 0),
-        axis.text.y = element_text(margin=margin(t=0.025), size=rel(1)),
-        axis.title.x = element_text(margin=margin(t=0.0,b=0), size=rel(1)),
-        axis.title.y = element_text(size=rel(1)), 
+        axis.text.x = element_text(margin=margin(t=-1,b=-1), size=rel(0.8), color='white', angle =0, hjust = 0),
+        axis.text.y = element_text(margin=margin(t=0.025), size=rel(0.8)),
+        axis.title.x = element_text(margin=margin(t=0.0,b=0), size=rel(0.8)),
+        axis.title.y = element_text(size=rel(0.8)), 
         legend.direction = "vertical",   # Typically more space-efficient when inside plots
         legend.box = "vertical",
         legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
-        legend.key.size = unit(rel(0.9), "lines"),
+        legend.key.size = unit(0.7, "lines"),
         legend.box.margin = margin(0.05, 0.05, 0.05, 0.05), # Tighten the box margin if needed
-        legend.text = element_text(margin=margin(0, 0, 0, 0.02), size=rel(1)),
+        legend.text = element_text(margin=margin(0, 0, 0, 0.02), size=rel(0.70)),
         legend.spacing.x = unit(0.02, "cm"),
         legend.spacing.y = unit(0.05, "cm"),
         legend.justification = c("right", "top"),
         legend.box.just = "right",
-        legend.title = element_text(margin = margin(0, 0, .02, 1), size=rel(1), hjust=0.5), 
+        legend.title = element_text(margin = margin(0, 0, .02, 1), size=rel(0.8), hjust=0.5), 
         legend.margin = margin(2, 2, 2, 2)
   )
 
@@ -228,9 +225,9 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
        y = "COUNT (> 100,000)", 
        fill = NULL
        ) +
-  theme(plot.title = element_text(size=rel(1.2), face="bold"), 
-        axis.title.y = element_text(size=rel(1.1)),
-        axis.title.x = element_text(size=rel(1.1)),
+  theme(plot.title = element_text(size=rel(1), face="bold"), 
+        axis.title.y = element_text(size=rel(0.8)),
+        axis.title.x = element_text(size=rel(0.8)),
         axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.002),color='white', angle =35, hjust = 1), #these agent login names are not shown
         axis.text.y = element_text(margin=margin(t=0.25), size=rel(1))
         ) 
@@ -240,7 +237,7 @@ combined_plot <- main_plot + outliers_plot + plot_layout(guides = 'collect', wid
 
  
 ## Display the combined plot, can have comment removed for debugging.
-#print(combined_plot)
+print(combined_plot)
 
 ## Save the svg file to the expected location.
 ggsave('/var/www/html/arctos/metrics/datafiles/Agent_Activity.svg', plot=combined_plot, width = 6.5, height = 3)
