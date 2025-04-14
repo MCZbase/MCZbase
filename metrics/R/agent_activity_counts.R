@@ -41,8 +41,8 @@ library(svglite)
 library(stringr)
 
 ## change to locally saved csv for running the code while developing
-#agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
-agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
+agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
+#agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
 ## removes NAs
 agents_data <- agents_roles[complete.cases(agents_roles), ]
 
@@ -151,9 +151,9 @@ outliers$AgentInfo <- factor(outliers$AgentInfo, levels = total_counts_sorted$Ag
 main_data <- na.omit(main_data)
 ## The display is below: Define a custom palette corresponding to the roles
 cpalette <- c("#E69F00","#FF4500","#006400","#03839c","#d24678",
-             "#665433","#5928ed","#0073e6","#8b0000","#8B008B",
-             "#00008b","#a0522d","#2f2f2f","#e22345","#657843",
-             "#708090")
+              "#665433","#5928ed","#0073e6","#8B008B","#8B0000",
+              "#00008b","#a0522d","#2f2f2f","#e22345","#657843",
+              "#708090")
 
 ## extra color-blind safe colors
              # #984ea3","#cd4b19","#2e8b57","#ff7f00","#394df2",
@@ -174,31 +174,37 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   geom_text(aes(label = ifelse(AdjustedCount > 3000, 
                 paste0(as.integer(factor(Role)), ""), "")),  
                 position = position_stack(vjust = 0.5),
-                size = 1, color = "white"
+                size = rel(1), color = "white"  # was 1 without rel()
                 ) +
-  labs(title = "Counts by Role and Agent (total count must be > 3500 to be shown)",
-       x = "Agent",y = "COUNT (<= 100,000)") +
+                labs(
+                title = "Counts by Role and Agent (total count must be > 3500 to be shown)",
+                caption = "This stacked bar chart displays the database activity for each agent, focusing on those with more than 3,500 total actions. To appear on the outlier plot to the right, an agent must have exceeded 100,000 actions. The aim of this visualization is to highlight the variability in each agent's role.\nMuch of the variation in activity is attributed to the specific needs of the collections, rather than reflecting the individual effort of staff members. For example, if an agent is responsible for identifying animals and organizing specimens for researchers, their activity stacks would likely be smaller \ncompared to those of a new employee whose primary role is entering ledger records.",
+                x = "Agent Info", 
+                y = "COUNT (<= 100,000)"
+                ) +
   scale_color_manual(values=cpalette,labels=unique(agents_data_sorted$simplified)) +
   scale_fill_manual(values=cpalette,labels=agents_data_sorted$simplified) +
   scale_y_continuous(labels = scales::comma, expand=c(0.02, 0.02)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller
-  theme_minimal() +
-  theme(plot.title = element_text(size=unit(7,"pt"), face="bold"),
-        plot.margin = margin(t=1,r=1,b=0,l=1),
-        axis.text.x = element_text(margin=margin(t=-1,b=-1), size=unit(0.5,"pt"), color='white', angle =0, hjust = 0),
-        axis.text.y = element_text(margin=margin(t=0.025), size=unit(3.5,"pt")),
-        axis.title.x = element_text(margin=margin(t=0.0,b=0), size=unit(5,"pt")),
-        axis.title.y = element_text(size=unit(5,"pt")), 
+  theme_minimal(base_size = 12) +
+  theme(plot.title = element_text(size=rel(1.2), face="bold"),
+        plot.subtitle = element_text(size = rel(1)),
+        plot.caption = element_text(hjust = 0),
+        plot.margin = margin(t=1,r=1,b=0,l=10),
+        axis.text.x = element_text(margin=margin(t=-1,b=-1), size=rel(1), color='white', angle =0, hjust = 0),
+        axis.text.y = element_text(margin=margin(t=0.025), size=rel(1)),
+        axis.title.x = element_text(margin=margin(t=0.0,b=0), size=rel(1)),
+        axis.title.y = element_text(size=rel(1)), 
         legend.direction = "vertical",   # Typically more space-efficient when inside plots
         legend.box = "vertical",
         legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
-        legend.key.size = unit(0.355, "lines"),
+        legend.key.size = unit(rel(0.9), "lines"),
         legend.box.margin = margin(0.05, 0.05, 0.05, 0.05), # Tighten the box margin if needed
-        legend.text = element_text(margin=margin(0, 0, 0, 0.02), size=4),
+        legend.text = element_text(margin=margin(0, 0, 0, 0.02), size=rel(1)),
         legend.spacing.x = unit(0.02, "cm"),
         legend.spacing.y = unit(0.05, "cm"),
         legend.justification = c("right", "top"),
         legend.box.just = "right",
-        legend.title = element_text(margin = margin(0, 0, .02, 1), size=6, hjust=0.5), 
+        legend.title = element_text(margin = margin(0, 0, .02, 1), size=rel(1), hjust=0.5), 
         legend.margin = margin(2, 2, 2, 2)
   )
 
@@ -209,7 +215,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
            ) + 
   geom_text(aes(label = ifelse(AdjustedCount > 10000, 
                 paste0(as.integer(factor(Role)), ""), "")), 
-                size = 1, color = "white", position=position_stack(vjust=0.5)
+                size = rel(0.001), color = "white", position=position_stack(vjust=0.5)
                 ) +
   scale_fill_manual(values = cpalette, 
                     labels = legend_labels,
@@ -222,19 +228,20 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
        y = "COUNT (> 100,000)", 
        fill = NULL
        ) +
-  theme(plot.title = element_text(size=unit(7,"pt"), face="bold"), 
-        axis.title.y = element_text(size=unit(5,"pt")),
-        axis.title.x = element_text(size=unit(5,"pt")),
-        axis.text.x = element_text(margin=margin(t=-1,b=0), size=unit(0.5,"pt"),color='white', angle =35, hjust = 1), #these agent login names are not shown
-        axis.text.y = element_text(margin=margin(t=0.25), size=unit(3.5,"pt"))
+  theme(plot.title = element_text(size=rel(1.2), face="bold"), 
+        axis.title.y = element_text(size=rel(1.1)),
+        axis.title.x = element_text(size=rel(1.1)),
+        axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.002),color='white', angle =35, hjust = 1), #these agent login names are not shown
+        axis.text.y = element_text(margin=margin(t=0.25), size=rel(1))
         ) 
 
 ## Combine the plots using patchwork, place outliers to the left and merge legends
-combined_plot <- main_plot + outliers_plot +
-  plot_layout(guides = 'collect', widths = c(92.5, 7.5))
+combined_plot <- main_plot + outliers_plot + plot_layout(guides = 'collect', widths = c(92.5, 7.5)) +
+ theme()
+
  
 ## Display the combined plot, can have comment removed for debugging.
-#print(combined_plot)
+print(combined_plot)
 
 ## Save the svg file to the expected location.
 ggsave('/var/www/html/arctos/metrics/datafiles/Agent_Activity.svg', plot=combined_plot, width = 6.5, height = 3)
