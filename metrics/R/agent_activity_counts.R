@@ -41,8 +41,8 @@ library(svglite)
 library(stringr)
 
 ## change to locally saved csv for running the code while developing
-agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
-#agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
+#agents_roles <- read_csv('C:/Users/mih744/RedesignMCZbase/metrics/datafiles/agent_activity_counts.csv', show_col_types=FALSE)
+agents_roles <- read_csv('/var/www/html/arctos/metrics/datafiles/agent_activity_counts.csv', show_col_types = FALSE)
 ## removes NAs
 agents_data <- agents_roles[complete.cases(agents_roles), ]
 
@@ -241,7 +241,7 @@ combined_plot <- main_plot + outliers_plot + plot_layout(guides = 'collect', wid
 
  
 ## Display the combined plot, can have comment removed for debugging.
-print(combined_plot)
+#print(combined_plot)
 
 ## Save the svg file to the expected location.
 ggsave('/var/www/html/arctos/metrics/datafiles/Agent_Activity.svg', plot=combined_plot, width = 6.5, height = 3)
