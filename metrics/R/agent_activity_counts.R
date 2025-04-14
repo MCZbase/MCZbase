@@ -222,7 +222,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
        ) +
   theme(plot.title = element_text(size=rel(0.55), face="bold",family="Arial"), 
         axis.title.y = element_text(size=rel(0.45)),
-        axis.title.x = element_text(size=rel(0.45)),
+        axis.title.x = element_text(size=rel(0.45),family="Arial"),
         axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.002),color='white', angle =35, hjust = 1), #these agent login names are not shown
         axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.45))
         ) 
