@@ -1838,13 +1838,16 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="enddayofyear" type="string" required="no">
 	<cfargument name="collectingtime" type="string" required="no">
 	<cfargument name="fish_field_number" type="string" required="no">
-	<cfargument name="verbatim_collectors" type="string" required="no"><!--- unused, function becomes too long --->
+	<cfargument name="verbatim_collectors" type="string" required="no">
 	<cfargument name="verbatim_field_numbers" type="string" required="no"><!--- unused, function becomes too long --->
 	<cfargument name="verbatim_habitat" type="string" required="no"><!--- unused, function becomes too long --->
 	<cfargument name="date_determined_by_agent_id" type="string" required="no">
 	<cfargument name="date_determined_by_agent" type="string" required="no">
 	<cfargument name="valid_distribution_fg" type="string" required="no">
 	<cfargument name="show_unused" type="string" required="no">
+
+	<!--- NOTE: Fields just about at limit, adding more invocations of setupClause to query will result in "Branch target offset too large for short " error. --->
+
 	<!--- 
 	"LEGACY_SPEC_LOCALITY_FG" NUMBER,  Unused
 	--->

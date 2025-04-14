@@ -1111,9 +1111,9 @@ Typical use:
 										<input type="text" name="verbatimlatitude" id="verbatimlatitude" class="data-entry-input" value="#encodeForHtml(verbatimlatitude)#">
 									</div>
 									<div class="col-12 col-md-2 py-2">
-										<cfif NOT isDefined("verbatimlongigude") ><cfset verbatimlongigude=""></cfif>
-										<label for="verbatimlongigude" class="data-entry-label">Verbatim Longitude</label>
-										<input type="text" name="verbatimlongigude" id="verbatimlongigude" class="data-entry-input" value="#encodeForHtml(verbatimlongigude)#">
+										<cfif NOT isDefined("verbatimlongitude") ><cfset verbatimlongitude=""></cfif>
+										<label for="verbatimlongitude" class="data-entry-label">Verbatim Longitude</label>
+										<input type="text" name="verbatimlongitude" id="verbatimlongitude" class="data-entry-input" value="#encodeForHtml(verbatimlongitude)#">
 									</div>
 									<div class="col-12 col-md-2 pt-md-4 pt-lg-2 py-2">
 										<cfif NOT isDefined("valid_distribution_fg") ><cfset valid_distribution_fg=""></cfif>
@@ -1166,6 +1166,11 @@ Typical use:
 											<cfif collnEvOper EQ "eventSharedOnlyBy"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 											<option value="eventSharedOnlyBy" #selected#>shared only including (pick collection above)</option>
 										</select>
+									</div>
+									<div class="col-12 col-md-2 py-2">
+										<cfif NOT isDefined("verbatim_collectors") ><cfset verbatim_collectors=""></cfif>
+										<label for="verbatim_collectors" class="data-entry-label">Verbatim Collectors</label>
+										<input type="text" name="verbatim_collectors" id="verbatim_collectors" class="data-entry-input" value="#encodeForHtml(verbatim_collectors)#">
 									</div>
 								</cfif>
 							</div>
