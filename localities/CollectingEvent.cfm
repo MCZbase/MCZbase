@@ -558,6 +558,9 @@ limitations under the License.
 					STARTDAYOFYEAR,
 					ENDDAYOFYEAR,
 					fish_field_number,
+					verbatim_collectors,
+					verbatim_field_numbers,
+					verbatim_habitat,
 					date_determined_by_agent_id
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextColl.nextColl#">
