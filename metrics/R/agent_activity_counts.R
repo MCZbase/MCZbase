@@ -171,7 +171,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   geom_text(aes(label = ifelse(AdjustedCount > 3000, 
                 paste0(as.integer(factor(Role)), ""), "")),  
                 position = position_stack(vjust = 0.5),
-                size = rel(1), color = "white"  # was 1 without rel()
+                size = rel(1.1), color = "white"  # was 1 without rel()
                 ) +
                 labs(
                 title = "Counts by Role and Agent (total count must be > 3500 to be shown)",
