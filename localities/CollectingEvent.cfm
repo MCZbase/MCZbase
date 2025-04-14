@@ -20,14 +20,25 @@ limitations under the License.
 
 --->
 
-<cfif not isdefined("action")>
-	<cfif not isdefined("collecting_event_id")>
-		<cfset action="new">
+<cfif isdefined("form.action") and len(form.action) GT 0>
+	<cfset variables.action=form.action>
+<cfelseif isdefined("url.action") and len(url.action) GT 0>
+	<cfset variables.action=url.action>
+</cfif>
+<cfif isdefined("form.collecting_event_id") and len(form.collecting_event_id) GT 0>
+	<cfset variables.collecting_event_id=form.collecting_event_id>
+<cfelseif isdefined("url.collecting_event_id") and len(url.collecting_event_id) GT 0>
+	<cfset variables.collecting_event_id=url.collecting_event_id>
+</cfif>
+
+<cfif not isdefined("variables.action")>
+	<cfif not isdefined("variables.collecting_event_id")>
+		<cfset variables.action="new">
 	<cfelse>
-		<cfset action="edit">
+		<cfset variables.action="edit">
 	</cfif>
 </cfif>
-<cfswitch expression="#action#">
+<cfswitch expression="#variables.action#">
 	<cfcase value="edit">
 		<cfset pageTitle="Edit Collecting Event">
 	</cfcase>
@@ -50,7 +61,7 @@ limitations under the License.
 <cfinclude template="/localities/component/functions.cfc" runonce="true">
 <cfinclude template="/localities/component/public.cfc" runonce="true">
 
-<cfswitch expression="#action#">
+<cfswitch expression="#variables.action#">
 	<cfcase value="edit">
 		<cfquery name="lookupEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT collecting_event_id, locality_id,
@@ -59,7 +70,7 @@ limitations under the License.
 				verbatim_date
 			FROM collecting_event
 			WHERE
-				collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+				collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collecting_event_id#">
 		</cfquery>
 		<cfif lookupEvent.recordcount EQ 0>
 			<cfoutput>
@@ -67,7 +78,7 @@ limitations under the License.
 					<section class="row">
 						<div class="col-12 mt-2 mb-1">
 							<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">
-								Collecting event (#encodeForHtml(collecting_event_id)#) not found.
+								Collecting event (#encodeForHtml(variables.collecting_event_id)#) not found.
 							</h1>
 						</div>
 					</section>
@@ -114,7 +125,7 @@ limitations under the License.
 							<div class="col-12 col-md-10 col-xl-9 pl-xl-0 float-left">
 								<h1 class="h2 mt-2 pl-1 ml-2" id="formheading">
 									Edit Collecting Event#extra#
-									<a role="button" href="/localities/viewCollectingEvent.cfm?collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">View</a>
+									<a role="button" href="/localities/viewCollectingEvent.cfm?collecting_event_id=#encodeForURL(lookupEvent.collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">View</a>
 								</h1>
 								<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 pt-3 pb-2">
 									<cfquery name="collectingEventUses" datasource="uam_god">
@@ -129,7 +140,7 @@ limitations under the License.
 											join cataloged_item on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
 											left join collection on cataloged_item.collection_id = collection.collection_id
 										WHERE
-											collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+											collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupEvent.collecting_event_id#">
 										GROUP BY
 											collection.collection,
 											collection.collection_cde,
@@ -139,7 +150,7 @@ limitations under the License.
 									<div>
 										<cfif #collectingEventUses.recordcount# is 0>
 											<h2 class="h4 px-1">
-												This Collecting Event (#collecting_event_id#) contains no specimens. 
+												This Collecting Event (#lookupEvent.collecting_event_id#) contains no specimens. 
 												Please delete it if you don&apos;t have plans for it!
 											</h2>
 											<cfquery name="deleteBlocks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -147,7 +158,7 @@ limitations under the License.
 													count(*) ct, 'media' as block
 												FROM media_relations
 												WHERE
-													related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+													related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupEvent.collecting_event_id#">
 													and media_relationship like '% collecting_event'
 													and media_id is not null
 												UNION
@@ -156,7 +167,7 @@ limitations under the License.
 												FROM
 													coll_event_number
 												WHERE
-													collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+													collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupEvent.collecting_event_id#">
 													and coll_event_number_id is not null
 											</cfquery>
 											<cfset hasBlock = false>
@@ -167,7 +178,7 @@ limitations under the License.
 											</cfloop>
 											<cfif NOT hasBlock>
 												<button type="button" class="btn btn-xs btn-danger" 
-													onClick="confirmDialog('Delete this collecting event?', 'Confirm Delete Collecting Event', function() { location.assign('/localities/CollectingEvent.cfm?action=delete&collecting_event_id=#encodeForUrl(collecting_event_id)#'); } );" 
+													onClick="confirmDialog('Delete this collecting event?', 'Confirm Delete Collecting Event', function() { location.assign('/localities/CollectingEvent.cfm?action=delete&collecting_event_id=#encodeForUrl(lookupEvent.collecting_event_id)#'); } );" 
 												>
 													Delete Collecting Event
 												</button>
@@ -184,8 +195,8 @@ limitations under the License.
 											</cfif>
 										<cfelseif #collectingEventUses.recordcount# is 1>
 											<h2 class="h4 px-1">
-												This CollectingEvent (#collecting_event_id#) contains 
-												<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#">
+												This CollectingEvent (#encodeForHtml(lookupEvent.collecting_event_id)#) contains 
+												<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#encodeForUrl(lookupEvent.collecting_event_id)#">
 													#collectingEventUses.numOfSpecs# #collectingEventUses.collection_cde# specimens.
 												</a>
 												<span> See <a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#collectingEventUses.locality_id#&include_counts=true&include_ce_counts=true">other collecting events at this locality</a>.</span>
@@ -196,14 +207,14 @@ limitations under the License.
 												<cfset totalSpecimens=totalSpecimens+collectingEventUses.numOfSpecs>
 											</cfloop>
 											<h2 class="h4 px-2">
-												This Collecting Event (#collecting_event_id#)
-												contains the following <a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#">#totalSpecimens# specimens</a>
+												This Collecting Event (#encodeForHtml(lookupEvent.collecting_event_id)#)
+												contains the following <a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#encodeForUrl(lookupEvent.collecting_event_id)#">#totalSpecimens# specimens</a>
 											</h2>
 											<ul class="px-2 pl-xl-4 ml-xl-1 small95">
 												<cfloop query="collectingEventUses">
 													<li>
 														<cfif numOfSpecs EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-														<a href="/Specimens.cfm?execute=true&builderMaxRows=2&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#&nestdepth2=2&JoinOperator2=and&field2=CATALOGED_ITEM%3ACOLLECTION_CDE&searchText2=%3D#collectingEventUses.collection_cde#">
+														<a href="/Specimens.cfm?execute=true&builderMaxRows=2&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#enodeForUrl(lookupEvent.collecting_event_id)#&nestdepth2=2&JoinOperator2=and&field2=CATALOGED_ITEM%3ACOLLECTION_CDE&searchText2=%3D#collectingEventUses.collection_cde#">
 															#numOfSpecs# #collection_cde# specimen#plural#
 														</a>
 													</li>
@@ -213,11 +224,11 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 pt-2 pb-1">
-									<cfset summary = getCollectingEventSummary(collecting_event_id="#collecting_event_id#")>
+									<cfset summary = getCollectingEventSummary(collecting_event_id="#lookupEvent.collecting_event_id#")>
 									<div id="summary" class="p-2"><span class="sr-only">Summary: </span>#summary#</div>
 								</div>
 								<div class="border rounded px-2 my-2 p-2" arial-labeledby="formheading">
-									<cfset blockform = getCollectingEventFormHtml(collecting_event_id = "#collecting_event_id#",mode="edit")>
+									<cfset blockform = getCollectingEventFormHtml(collecting_event_id = "#lookupEvent.collecting_event_id#",mode="edit")>
 									<form name="editCollectingEventForm" id="editCollectingEventForm">
 										<input type="hidden" name="method" value="updateCollectingEvent">
 										<input type="hidden" name="returnformat" value="json">
@@ -274,7 +285,7 @@ limitations under the License.
 									</script>
 								</div>
 								<div class="border rounded p-2 my-1 ">
-									<a class="btn btn-xs btn-secondary" target="_blank" href="/localities/CollectingEvent.cfm?action=new&clone_from_collecting_event_id=#collecting_event_id#">Clone</a>
+									<a class="btn btn-xs btn-secondary" target="_blank" href="/localities/CollectingEvent.cfm?action=new&clone_from_collecting_event_id=#encodeForUrl(lookupEvent.collecting_event_id)#">Clone</a>
 								</div>
 							</div>
 							<section class="col-12 px-md-0 col-md-2 col-xl-3 float-left">
@@ -288,13 +299,13 @@ limitations under the License.
 						<div class="col-12 px-0 px-md-3 form-row">
 							<div class="col-12">
 								<div class="border rounded px-2 p-3 my-2" arial-labeledby="formheading">
-									<cfset blocknumbers = getEditCollectingEventNumbersHtml(collecting_event_id="#collecting_event_id#")>
+									<cfset blocknumbers = getEditCollectingEventNumbersHtml(collecting_event_id="#lookupEvent.collecting_event_id#")>
 									<div id="collEventNumbersDiv">#blocknumbers#</div>
 								</div>
 							</div>
 							<div class="col-12">
 								<div class="border bg-light rounded p-3 my-2">
-									<cfset media = getCollectingEventMediaHtml(collecting_event_id="#collecting_event_id#")>
+									<cfset media = getCollectingEventMediaHtml(collecting_event_id="#lookupEvent.collecting_event_id#")>
 									<div id="mediaDiv" class="row">#media#</div>
 									<div id="addMediaDiv">
 										<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -305,8 +316,8 @@ limitations under the License.
 										</cfquery>
 										<cfloop query="relations">
 											<cfset onelinesummary = replace(replace(onelinesummary,'"','','all'),"'","","all")>
-											<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" openlinkmediadialog('mediaDialogDiv', 'Collecting Event: #onelinesummary#', '#collecting_event_id#', '#relations.relation#', reloadMediaRelationships); ">
-											<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" opencreatemediadialog('mediaDialogDiv', 'Collecting Event: #onelinesummary#', '#collecting_event_id#', '#relations.relation#', reloadMediaRelationships); ">
+											<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" openlinkmediadialog('mediaDialogDiv', 'Collecting Event: #onelinesummary#', '#lookupEvent.collecting_event_id#', '#relations.relation#', reloadMediaRelationships); ">
+											<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" opencreatemediadialog('mediaDialogDiv', 'Collecting Event: #onelinesummary#', '#lookupEvent.collecting_event_id#', '#relations.relation#', reloadMediaRelationships); ">
 										</cfloop>
 									</div>
 									<div id="mediaDialogDiv"></div>
@@ -328,7 +339,7 @@ limitations under the License.
 											left join person on agent.agent_id = person.person_id
 										WHERE 
 											collector_role = 'c'
-											AND collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+											AND collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupEvent.collecting_event_id#">
 										GROUP BY
 											agent.agent_id,
 											birth_date, death_date
@@ -349,14 +360,14 @@ limitations under the License.
 					</section>
 					<script>
 						function reloadSummary() { 
-							loadCollEventSummaryHTML('#collecting_event_id#','summary');
+							loadCollEventSummaryHTML('#lookupEvent.collecting_event_id#','summary');
 							reloadMap();
 						}
 						function reloadNumbers()  {
-							loadCollEventNumbersHTML('#collecting_event_id#','collEventNumbersDiv');
+							loadCollEventNumbersHTML('#lookupEvent.collecting_event_id#','collEventNumbersDiv');
 						}
 						function reloadMediaRelationships()  {
-							loadCollEventMediaHTML('#collecting_event_id#','mediaDiv');
+							loadCollEventMediaHTML('#lookupEvent.collecting_event_id#','mediaDiv');
 						}
 						function reloadMap()  {
 							loadLocalityMapHTML($("##locality_id").val(),'mapDiv');
@@ -369,18 +380,33 @@ limitations under the License.
 		</cfif>
 	</cfcase>
 	<cfcase value="new">
+		<!--- support POST or GET --->
+		<cfif isDefined ("form.locality_id")>
+			<cfset variables.locality_id = form.locality_id>
+		<cfelseif isDefined ("url.locality_id")>
+			<cfset variables.locality_id = url.locality_id>
+		<cfelse>
+			<cfset variables.locality_id = "">
+		</cfif>
+		<cfif isDefined ("form.clone_from_collecting_event_id")>
+			<cfset variables.clone_from_collecting_event_id = form.clone_from_collecting_event_id>
+		<cfelseif isDefined ("url.clone_from_collecting_event_id")>
+			<cfset variables.clone_from_collecting_event_id = url.clone_from_collecting_event_id>
+		<cfelse>
+			<cfset variables.clone_from_collecting_event_id = "">
+		</cfif>
 		<cfset extra = "">
-		<cfif isDefined("locality_id") AND len(locality_id) GT 0 AND NOT (isDefined("clone_from_collecting_event_id") and len(clone_from_collecting_event_id) GT 0)>
+		<cfif len(variables.locality_id) GT 0 AND len(variables.clone_from_collecting_event_id) EQ 0>
 			<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT higher_geog, spec_locality, locality.geog_auth_rec_id
 				FROM 
 					locality
 					join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 				WHERE 
-					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.locality_id#">
 			</cfquery>
 			<cfif lookupLocality.recordcount EQ 0>
-				<cfthrow message="No locality found for the provided locality_id #encodeForHtml(locality_id)#">
+				<cfthrow message="No locality found for the provided locality_id #encodeForHtml(variables.locality_id)#">
 			</cfif>
 			<cfset geog_auth_rec_id = "">
 			<cfloop query="lookupLocality">
@@ -388,9 +414,9 @@ limitations under the License.
 				<cfset geog_auth_rec_id = "#lookupLocality.geog_auth_rec_id#">
 			</cfloop>
 			<cfset blockform = getCollectingEventFormHtml(geog_auth_rec_id = "#geog_auth_rec_id#",mode="create")>
-		<cfelseif isDefined("clone_from_collecting_event_id") and len(clone_from_collecting_event_id) GT 0>
-			<cfset extra = " cloned from #encodeForHtml(clone_from_collecting_event_id)#">
-				<cfset blockform = getCollectingEventFormHtml(clone_from_collecting_event_id = "#clone_from_collecting_event_id#",mode="create")>
+		<cfelseif len(variables.clone_from_collecting_event_id) GT 0>
+			<cfset extra = " cloned from #encodeForHtml(variables.clone_from_collecting_event_id)#">
+				<cfset blockform = getCollectingEventFormHtml(clone_from_collecting_event_id = "#variables.clone_from_collecting_event_id#",mode="create")>
 		<cfelse>
 			<cfset blockform = getCollectingEventFormHtml(mode="create")>
 		</cfif>
@@ -422,18 +448,26 @@ limitations under the License.
 		</cfoutput>
 	</cfcase>
 	<cfcase value="delete">
-		<cfif not isDefined("collecting_event_id") OR len(collecting_event_id) EQ 0>
+		<!--- support POST or GET --->
+		<cfif isDefined ("form.collecting_event_id")>
+			<cfset variables.collecting_event_id = form.collecting_event_id>
+		<cfelseif isDefined ("url.collecting_event_id")>
+			<cfset variables.collecting_event_id = url.collecting_event_id>
+		<cfelse>
+			<cfset variables.collecting_event_id = "">
+		</cfif>
+		<cfif not isDefined("variables.collecting_event_id") OR len(variables.collecting_event_id) EQ 0>
 			<cfthrow message = "Error: No collecting_event_id provided to delete.">
 		</cfif>
 		<cfoutput>
 			<cfquery name="hasSpecimens" datasource="uam_god">
 				SELECT count(collection_object_id) ct from cataloged_item
-				WHERE collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+				WHERE collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collecting_event_id#">
 			</cfquery>
 			<cfif #hasSpecimens.ct# gt 0>
 				<cfquery name="lookupVisible" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT count(collection_object_id) ct from cataloged_item
-					WHERE collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+					WHERE collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collecting_event_id#">
 				</cfquery>
 				<h2 class="h2">Unable to delete.</h2>
 				<div>
@@ -443,7 +477,7 @@ limitations under the License.
 					<cfelseif lookupVisible.ct NEQ hasSpecimens.ct>
 						Of these #hasSpecimens.ct# cataloged items, only #lookupVisible.ct# are in a collection to which you have access.
 					</cfif>
-					<a href="/localities/CollectingEvent.cfm?Action=editCollEvent&collecting_event_id=#collecting_event_id#">Return</a> to editing.
+					<a href="/localities/CollectingEvent.cfm?Action=editCollEvent&collecting_event_id=#encodeForUrl(variables.collecting_event_id)#">Return</a> to editing.
 				</div>
 			<cfelseif hasSpecimens.ct EQ 0>
 				<!--- check if something else would block deletion --->
@@ -452,7 +486,7 @@ limitations under the License.
 						count(*) ct, 'media' as block
 					FROM media_relations
 					WHERE
-						related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+						related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collecting_event_id#">
 						and media_relationship like '% collecting_event'
 						and media_id is not null
 					UNION
@@ -461,7 +495,7 @@ limitations under the License.
 					FROM
 						coll_event_number
 					WHERE
-						collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+						collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collecting_event_id#">
 						and coll_event_number_id is not null
 				</cfquery>
 				<cfset hasBlock = false>
@@ -477,7 +511,7 @@ limitations under the License.
 					<cftransaction>
 						<cfquery name="deleteCollEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteCollEvent_result">
 							DELETE from collecting_event
-							WHERE collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+							WHERE collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collecting_event_id#">
 						</cfquery>
 						<cfif deleteCollEvent_result.recordcount EQ 1>
 							<h2>Successfully deleted collecting event.</h2>
@@ -496,6 +530,7 @@ limitations under the License.
 		</cfoutput>
 	</cfcase>
 	<cfcase value="makenewCollectingEvent">
+		<!--- assumes POST of form data --->
 		<cftransaction>
 			<cfquery name="nextColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT sq_collecting_event_id.nextval nextColl FROM dual
@@ -523,98 +558,116 @@ limitations under the License.
 					STARTDAYOFYEAR,
 					ENDDAYOFYEAR,
 					fish_field_number,
+					verbatim_collectors,
+					verbatim_field_numbers,
+					verbatim_habitat,
 					date_determined_by_agent_id
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextColl.nextColl#">
-					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">
-					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BEGAN_DATE#">
-					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ENDED_DATE#">
-					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIM_DATE#">
-					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_SOURCE#">
-					<cfif len(#VERBATIM_LOCALITY#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIM_LOCALITY#">
+					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.LOCALITY_ID#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.BEGAN_DATE#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.ENDED_DATE#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.VERBATIM_DATE#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.COLLECTING_SOURCE#">
+					<cfif len(#form.VERBATIM_LOCALITY#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.VERBATIM_LOCALITY#">
 					<cfelse>
 						,NULL
 					</cfif>
-					<cfif len(#VERBATIMDEPTH#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMDEPTH#">
+					<cfif len(#form.VERBATIMDEPTH#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.VERBATIMDEPTH#">
 					<cfelse>
 						,NULL
 					</cfif>
-					<cfif len(#VERBATIMELEVATION#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMELEVATION#">
+					<cfif len(#form.VERBATIMELEVATION#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.VERBATIMELEVATION#">
 					<cfelse>
 						,NULL
 					</cfif>
-					<cfif len(#COLL_EVENT_REMARKS#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLL_EVENT_REMARKS#">
+					<cfif len(#form.COLL_EVENT_REMARKS#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.COLL_EVENT_REMARKS#">
 					<cfelse>
 						,NULL
 					</cfif>
-					<cfif len(#COLLECTING_METHOD#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_METHOD#">
+					<cfif len(#form.COLLECTING_METHOD#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.COLLECTING_METHOD#">
 					<cfelse>
 						,NULL
 					</cfif>
-					<cfif len(#HABITAT_DESC#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HABITAT_DESC#">
+					<cfif len(#form.HABITAT_DESC#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.HABITAT_DESC#">
 					<cfelse>
 						,NULL
 					</cfif>
-					<cfif len(#collecting_time#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collecting_time#">
+					<cfif len(#form.collecting_time#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.collecting_time#">
 					<cfelse>
 						,NULL
 					</cfif>
-					<cfif len(#VERBATIMCOORDINATES#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMCOORDINATES#">
+					<cfif len(#form.VERBATIMCOORDINATES#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.VERBATIMCOORDINATES#">
 					<cfelse>
 						,NULL
 					</cfif>
-					<cfif len(#VERBATIMLATITUDE#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMLATITUDE#">
+					<cfif len(#form.VERBATIMLATITUDE#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.VERBATIMLATITUDE#">
 					<cfelse>
 						,NULL
 					</cfif>
-					<cfif len(#VERBATIMLONGITUDE#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMLONGITUDE#">
+					<cfif len(#form.VERBATIMLONGITUDE#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.VERBATIMLONGITUDE#">
 					<cfelse>
 						,NULL
 					</cfif>
-					<cfif len(#VERBATIMCOORDINATESYSTEM#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMCOORDINATESYSTEM#">
+					<cfif len(#form.VERBATIMCOORDINATESYSTEM#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.VERBATIMCOORDINATESYSTEM#">
 					<cfelse>
 						,NULL
 					</cfif>
-					<cfif len(#VERBATIMSRS#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMSRS#">
+					<cfif len(#form.VERBATIMSRS#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.VERBATIMSRS#">
 					<cfelse>
 						,NULL
 					</cfif>
-					<cfif len(#STARTDAYOFYEAR#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#STARTDAYOFYEAR#">
+					<cfif len(#form.STARTDAYOFYEAR#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.STARTDAYOFYEAR#">
 					<cfelse>
 						,NULL
 					</cfif>
-					<cfif len(#ENDDAYOFYEAR#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ENDDAYOFYEAR#">
+					<cfif len(#form.ENDDAYOFYEAR#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.ENDDAYOFYEAR#">
 					<cfelse>
 						,NULL
 					</cfif>
-					<cfif len(#fish_field_number#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fish_field_number#">
+					<cfif len(#form.fish_field_number#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.fish_field_number#">
 					<cfelse>
 						,NULL
 					</cfif>
-					<cfif len(#date_determined_by_agent_id#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#date_determined_by_agent_id#">
+					<cfif len(#form.verbatim_collectors#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.verbatim_collectors#">
+					<cfelse>
+						,NULL
+					</cfif>
+					<cfif len(#form.verbatim_field_numbers#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.verbatim_field_numbers#">
+					<cfelse>
+						,NULL
+					</cfif>
+					<cfif len(#form.verbatim_habitat#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.verbatim_habitat#">
+					<cfelse>
+						,NULL
+					</cfif>
+					<cfif len(#form.date_determined_by_agent_id#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.date_determined_by_agent_id#">
 					<cfelse>
 						,NULL
 					</cfif>
 				)
 			</cfquery>
 		<cftransaction>
-		<cflocation addtoken="no" url="/localities/CollectingEvent.cfm?collecting_event_id=#nextColl.nextColl#">
+		<cflocation addtoken="no" url="/localities/CollectingEvent.cfm?collecting_event_id=#encodeForUrl(nextColl.nextColl)#">
 	</cfcase>
 </cfswitch>
 

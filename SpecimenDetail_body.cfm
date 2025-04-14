@@ -109,6 +109,9 @@
 		collecting_event.verbatimlongitude verblong,
 		collecting_event.verbatimcoordinatesystem,
 		collecting_event.verbatimSRS,
+		collecting_event.verbatim_collectors,
+		collecting_event.verbatim_field_numbers,
+		collecting_event.verbatim_habitat,
 		accepted_lat_long.dec_lat,
 		accepted_lat_long.dec_long,
 		accepted_lat_long.max_error_distance,
@@ -734,6 +737,12 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 							<td id="SDCellRight">#one.habitat_desc#</td>
 						</tr>
 					</cfif>
+					<cfif len(one.verbatim_habitat) gt 0>
+						<tr class="detailData">
+							<td id="SDCellLeft" class="innerDetailLabel">Verbatim Habitat:</td>
+							<td id="SDCellRight">#one.verbatim_habitat#</td>
+						</tr>
+					</cfif>
 					<cfif len(one.associated_species) gt 0>
 						<div class="detailBlock">
 							<tr class="detailData">
@@ -901,6 +910,18 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 						<td id="SDCellLeft" class="innerDetailLabel">Ich. Field Number:</td>
 						<td id="SDCellRight">#fish_field_number#</td>
 					</tr>
+					</cfif>
+					<cfif len(one.verbatim_collectors) gt 0>
+						<tr class="detailData">
+							<td id="SDCellLeft" class="innerDetailLabel">Verbatim Collectors:</td>
+							<td id="SDCellRight">#one.verbatim_collectors#</td>
+						</tr>
+					</cfif>
+					<cfif len(one.verbatim_field_numbers) gt 0>
+						<tr class="detailData">
+							<td id="SDCellLeft" class="innerDetailLabel">Verbatim Field Numbers:</td>
+							<td id="SDCellRight">#one.verbatim_field_numbers#</td>
+						</tr>
 					</cfif>
 					<cfif len(one.coll_event_remarks) gt 0>
 					<tr class="detailData">
