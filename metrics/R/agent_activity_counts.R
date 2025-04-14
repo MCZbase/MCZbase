@@ -219,11 +219,11 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
               fill = NULL
               ) +
       theme(plot.title = element_text(size=rel(0.5), face="bold",family="Arial"), 
-              axis.title.y = element_text(size=rel(0.45)),
-              axis.title.x = element_text(size=rel(0.45),family="Arial"),
-              axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.002),color='white', angle =20, hjust = 0), #these agent login names are not shown
-              axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.45))
-              ) 
+            axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.45), color='white', angle =0, hjust = 0),
+            axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.45)),
+            axis.title.x = element_text(margin=margin(t=0,b=0), size=rel(0.45)),
+            axis.title.y = element_text(size=rel(0.45))
+            ) 
 
 ## Combine the plots using patchwork, place outliers to the left and merge legends
 combined_plot <- main_plot + outliers_plot + plot_layout(guides = 'collect', widths = c(92.5, 6.8))
