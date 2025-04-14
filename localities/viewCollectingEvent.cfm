@@ -65,7 +65,8 @@ limitations under the License.
 		startdayofyear, enddayofyear, 
 		verbatimcoordinates, verbatimlatitude, verbatimlongitude,
 		verbatimcoordinatesystem, verbatimsrs,
-		verbatimelevation, verbatimdepth
+		verbatimelevation, verbatimdepth,
+		verbatim_collectors, verbatim_field_numbers, verbatim_habitat
 	FROM
 		collecting_event
 		left join preferred_agent_name on collecting_event.date_determined_by_agent_id = preferred_agent_name.agent_id
@@ -174,6 +175,18 @@ limitations under the License.
 							<cfif len(verbatimelevation) gt 0>
 								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Elevation: </li>
 								<li class="list-group-item col-7 col-xl-8 px-0 last">#verbatimelevation#</li>
+							</cfif>
+							<cfif len(verbatim_collectors) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Collectors: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#verbatim_collectors#</li>
+							</cfif>
+							<cfif len(verbatim_field_numbers) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Field Numbers: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#verbatim_field_numbers#</li>
+							</cfif>
+							<cfif len(verbatim_habitat) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Habitat: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#verbatim_habitat#</li>
 							</cfif>
 							<cfif len(habitat_desc) gt 0>
 								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Habitat: </li>

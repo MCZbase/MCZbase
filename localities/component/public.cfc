@@ -1532,7 +1532,7 @@ limitations under the License.
 							<cfloop query="getVerbatimGeoref">
 								<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
 								<li>
-									<a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#variables.locality_id#&MinElevOper=%3D&MaxElevOper=%3D&MinElevOperM=%3D&MaxElevOperM=%3D&minDepthOper=%3D&MaxDepthOper=%3D&minDepthOperM=%3D&MaxDepthOperM=%3D&geology_attribute_hier=0&gs_comparator=%3D&begDateOper=%3D&endDateOper=%3D&verbatimCoordinates=#encodeForUrl(verbatimcoordinates)#&verbatimCoordinateSystem=#encodeForUrl(verbatimcoordinatesystem)#&verbatimSRS=%3D#encodeForUrl(verbatimsrs)#&verbatimlatitude=#encodeForUrl(verbatimlatitude)#&verbatimlongigude=#encodeForUrl(verbatimlongitude)#&accentInsensitive=1&include_counts=0">
+									<a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#variables.locality_id#&MinElevOper=%3D&MaxElevOper=%3D&MinElevOperM=%3D&MaxElevOperM=%3D&minDepthOper=%3D&MaxDepthOper=%3D&minDepthOperM=%3D&MaxDepthOperM=%3D&geology_attribute_hier=0&gs_comparator=%3D&begDateOper=%3D&endDateOper=%3D&verbatimCoordinates=#encodeForUrl(verbatimcoordinates)#&verbatimCoordinateSystem=#encodeForUrl(verbatimcoordinatesystem)#&verbatimSRS=%3D#encodeForUrl(verbatimsrs)#&verbatimlatitude=#encodeForUrl(verbatimlatitude)#&verbatimlongitude=#encodeForUrl(verbatimlongitude)#&accentInsensitive=1&include_counts=0">
 										#verbatimcoordinatesystem# #verbatimcoordinates# #verbatimlatitude# #verbatimlongitude# #verbatimsrs#
 									</a> 
 									 #counts#
