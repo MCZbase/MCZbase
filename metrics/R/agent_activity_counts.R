@@ -156,12 +156,9 @@ cpalette <- c("#E69F00","#FF4500","#006400","#03839c","#d24678",
               "#708090")
 
 ## extra color-blind safe colors
-             # #984ea3","#cd4b19","#2e8b57","#ff7f00","#394df2",
-             # "#096d28","#4b0082","#a892f5","#f00000","#334445",
-             # "#a8786f","#5a5a5a","#0072B2","#657843","#a65628",
-             # "#f75147","#8B3a3a","#56B4E9","#234b34","#432666",
-            #  "#b53b56","#708090","#4682b4","#106a93","#b51963",
-             # "#556B2F","#483D8B","#c42e24","#4daf4a","#2f4f4f"
+    # "#984ea3","#cd4b19","#2e8b57","#ff7f00","#394df2","#096d28","#4b0082","#a892f5","#f00000","#334445",
+    # "#a8786f","#5a5a5a","#0072B2","#657843","#a65628","#f75147","#8B3a3a","#56B4E9","#234b34","#432666",
+    # "#b53b56","#708090","#4682b4","#106a93","#b51963","#556B2F","#483D8B","#c42e24","#4daf4a","#2f4f4f"
 
 
 ## Use RoleLabel for legend labels, which should be unique
@@ -231,7 +228,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
         ) 
 
 ## Combine the plots using patchwork, place outliers to the left and merge legends
-combined_plot <- main_plot + outliers_plot + plot_layout(guides = 'collect', widths = c(92.5, 7.25))
+combined_plot <- main_plot + outliers_plot + plot_layout(guides = 'collect', widths = c(92.5, 6.8))
 
  
 ## Display the combined plot, can have comment removed for debugging.
