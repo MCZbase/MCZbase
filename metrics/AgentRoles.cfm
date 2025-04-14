@@ -34,7 +34,7 @@ limitations under the License.
 
 <cfoutput>
 	<div class="container-fluid">
-		
+		<h1 class="sr-only">Agent Activity Comparisons</h1>
 		<div class="row">
 			<div class="col-12 px-0">
 				<!--- chart created by R script /metrics/R/agent_activity_counts.R --->
@@ -49,7 +49,7 @@ limitations under the License.
 		<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin")>
 			<div class="row mx-0">
 				<div class="col-12 px-5 mx-auto">
-					<h1 class="h4 my-2">Data Visualization: <a href="#filePath##targetFile#">Agent Activity Data <img src="/images/linkOut.gif"/></a></h1>
+					<p class="h4 my-2">Data Visualization: <a href="#filePath##targetFile#">Agent Activity Data <img src="/images/linkOut.gif"/></a></p>
 				</div>
 			</div>
 		</cfif>
