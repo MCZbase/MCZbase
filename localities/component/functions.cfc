@@ -4616,6 +4616,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="verbatimCoordinateSystem" type="string" required="no">
 	<cfargument name="verbatimSRS" type="string" required="no">
 	<cfargument name="verbatim_date" type="string" required="no">
+	<cfargument name="verbatim_collectors" type="string" required="no">
+	<cfargument name="verbatim_field_numbers" type="string" required="no">
+	<cfargument name="verbatim_habitat" type="string" required="no">
 	<cfargument name="collecting_time" type="string" required="no">
 	
 	<cfif isDefined("arguments.verbatim_date")>
@@ -4645,6 +4648,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfif isDefined("arguments.verbatimSRS")>
 		<cfset variables.verbatimSRS = arguments.verbatimSRS>
 	</cfif>
+	<cfif isDefined("arguments.verbatim_collectors")>
+		<cfset variables.verbatim_collectors = arguments.verbatim_collectors>
+	</cfif>
+	<cfif isDefined("arguments.verbatim_field_numbers")>
+		<cfset variables.verbatim_field_numbers = arguments.verbatim_field_numbers>
+	</cfif>
+	<cfif isDefined("arguments.verbatim_habitat")>
+		<cfset variables.verbatim_habitat = arguments.verbatim_habitat>
+	</cfif>
 	<cfif isDefined("arguments.collecting_time")>
 		<cfset variables.collecting_time = arguments.collecting_time>
 	</cfif>
@@ -4666,7 +4678,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				coll_event_remarks, collecting_source, habitat_desc,
 				valid_distribution_fg, collecting_method, 
 				fish_field_number,
-				date_determined_by_agent_id
+				date_determined_by_agent_id,
+				verbatim_collectors, verbatim_field_numbers, verbatim_habitat
 			FROM collecting_event
 			WHERE
 				collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_collecting_event_id#">
@@ -4685,6 +4698,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfset variables.verbatimSRS = eventToCloneFrom.verbatimSRS>
 			<cfset variables.verbatim_date = eventToCloneFrom.verbatim_date>
 			<cfset variables.collecting_time = eventToCloneFrom.collecting_time>
+			<cfset variables.verbatim_habitat = eventToCloneFrom.verbatim_habitat>
+			<cfset variables.verbatim_field_numbers = eventToCloneFrom.verbatim_field_numbers>
+			<cfset variables.verbatim_collectors = eventToCloneFrom.verbatim_collectors>
 			<cfset startDayOfYear = eventToCloneFrom.startDayOfYear>
 			<cfset endDayOfYear = eventToCloneFrom.endDayOfYear>
 			<cfset began_date = eventToCloneFrom.began_date>
@@ -4709,7 +4725,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				coll_event_remarks, collecting_source, habitat_desc,
 				date_began_date, date_ended_date,
 				valid_distribution_fg, collecting_method,
-				date_determined_by_agent_id, fish_field_number
+				date_determined_by_agent_id, fish_field_number,
+				verbatim_collectors, verbatim_field_numbers, verbatim_habitat
 			FROM collecting_event
 			WHERE
 				collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
@@ -4728,6 +4745,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<cfset variables.verbatimCoordinateSystem = getEvent.verbatimCoordinateSystem>
 				<cfset variables.verbatimSRS = getEvent.verbatimSRS>
 				<cfset variables.verbatim_date = getEvent.verbatim_date>
+				<cfset variables.verbatim_habitat = getEvent.verbatim_habitat>
+				<cfset variables.verbatim_field_numbers = getEvent.verbatim_field_numbers>
+				<cfset variables.verbatim_collectors = getEvent.verbatim_collectors>
 				<cfset variables.collecting_time = getEvent.collecting_time>
 				<cfset startDayOfYear = getEvent.startDayOfYear>
 				<cfset endDayOfYear = getEvent.endDayOfYear>
@@ -4973,7 +4993,22 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<div class="col-12 col-md-3">
 						<label for="verbatimSRS" class="data-entry-label">Verbatim SRS (ellipsoid model/datum)</label>
 						<cfif not isDefined("verbatimSRS")><cfset verbatimSRS = ""></cfif>
-						<input type="text" name="verbatimSRS" value="#encodeForHTML(verbatimSRS)#" id="verbatimSRS" class="data-entry-input">
+						<input type="text" name="verbatimSRS" value="#encodeForHTML(verbatimSRS)#" id="verbatimSRS" class="data-entry-input" placeholder="EPSG:">
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="verbatim_habitat" class="data-entry-label">Verbatim Habitat</label>
+						<cfif not isDefined("verbatim_habitat")><cfset verbatim_habitat = ""></cfif>
+						<input type="text" name="verbatim_habitat" value="#encodeForHTML(verbatim_habitat)#" id="verbatim_habitat" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="verbatim_collectors" class="data-entry-label">Verbatim Collectors</label>
+						<cfif not isDefined("verbatim_collectors")><cfset verbatim_collectors = ""></cfif>
+						<input type="text" name="verbatim_collectors" value="#encodeForHTML(verbatim_collectors)#" id="verbatim_collectors" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="verbatim_field_numbers" class="data-entry-label">Verbatim Field Numbers</label>
+						<cfif not isDefined("verbatim_field_numbers")><cfset verbatim_field_numbers = ""></cfif>
+						<input type="text" name="verbatim_field_numbers" value="#encodeForHTML(verbatim_field_numbers)#" id="verbatim_field_numbers" class="data-entry-input">
 					</div>
 					<div class="col-12 col-md-3 mb-2">
 						<label for="valid_distribution_fg" class="data-entry-label">Valid Distribution</label>
@@ -5213,11 +5248,43 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="verbatimLongitude" type="string" required="no">
 	<cfargument name="verbatimCoordinateSystem" type="string" required="no">
 	<cfargument name="verbatimSRS" type="string" required="no">
+	<cfargument name="verbatim_collectors" type="string" required="no">
+	<cfargument name="verbatim_field_numbers" type="string" required="no">
+	<cfargument name="verbatim_habitat" type="string" required="no">
 	<cfargument name="collecting_time" type="string" required="no">
+	<cfargument name="fish_field_number" type="string" required="no">
+	<cfargument name="coll_event_remarks" type="string" required="no">
+	<cfargument name="startDayOfYear" type="string" required="no">
+	<cfargument name="endDayOfYear" type="string" required="no">
+	<cfargument name="collecting_method" type="string" required="no">
 	<cfargument name="date_determined_by_agent_id" type="string" required="no">
 	<cfargument name="valid_distribution_fg" type="string" required="no">
 
 	<cfif not isDefined("action")><cfset action="update"></cfif>
+	<cfset variables.collecting_event_id = arguments.collecting_event_id>
+	<cfset variables.began_date = arguments.began_date>
+	<cfset variables.ended_date = arguments.ended_date>
+	<cfset variables.verbatim_date = arguments.verbatim_date>
+	<cfset variables.collecting_source = arguments.collecting_source>
+	<cfset variables.locality_id = arguments.locality_id>
+	<cfif isDefined("arguments.verbatim_locality")> <cfset variables.verbatim_locality = arguments.verbatim_locality> <cfelse> <cfset variables.verbatim_locality = ""> </cfif>
+	<cfif isDefined("arguments.verbatimDepth")> <cfset variables.verbatimdepth = arguments.verbatimDepth> <cfelse> <cfset variables.verbatimdepth = ""> </cfif>
+	<cfif isDefined("arguments.verbatimElevation")> <cfset variables.verbatimelevation = arguments.verbatimElevation> <cfelse> <cfset variables.verbatimelevation = ""> </cfif>
+	<cfif isDefined("arguments.verbatimCoordinates")> <cfset variables.verbatimCoordinates = arguments.verbatimCoordinates> <cfelse> <cfset variables.verbatimCoordinates = ""> </cfif>
+	<cfif isDefined("arguments.verbatimLatitude")> <cfset variables.verbatimLatitude = arguments.verbatimLatitude> <cfelse> <cfset variables.verbatimLatitude = ""> </cfif>
+	<cfif isDefined("arguments.verbatimLongitude")> <cfset variables.verbatimLongitude = arguments.verbatimLongitude> <cfelse> <cfset variables.verbatimLongitude = ""> </cfif>
+	<cfif isDefined("arguments.verbatimCoordinateSystem")> <cfset variables.verbatimCoordinateSystem = arguments.verbatimCoordinateSystem> <cfelse> <cfset variables.verbatimCoordinateSystem = ""> </cfif>
+	<cfif isDefined("arguments.verbatimSRS")> <cfset variables.verbatimSRS = arguments.verbatimSRS> <cfelse> <cfset variables.verbatimSRS = ""> </cfif>
+	<cfif isDefined("arguments.verbatim_collectors")> <cfset variables.verbatim_collectors = arguments.verbatim_collectors> <cfelse> <cfset variables.verbatim_collectors = ""> </cfif>
+	<cfif isDefined("arguments.verbatim_field_numbers")> <cfset variables.verbatim_field_numbers = arguments.verbatim_field_numbers> <cfelse> <cfset variables.verbatim_field_numbers = ""> </cfif>
+	<cfif isDefined("arguments.collecting_method")> <cfset variables.collecting_method = arguments.collecting_method> <cfelse> <cfset variables.collecting_method = ""> </cfif>
+	<cfif isDefined("arguments.collecting_time")> <cfset variables.collecting_time = arguments.collecting_time> <cfelse> <cfset variables.collecting_time = ""> </cfif>
+	<cfif isDefined("arguments.date_determined_by_agent_id")> <cfset variables.date_determined_by_agent_id = arguments.date_determined_by_agent_id> <cfelse> <cfset variables.date_determined_by_agent_id = ""> </cfif>
+	<cfif isDefined("arguments.fish_field_number")> <cfset variables.fish_field_number = arguments.fish_field_number> <cfelse> <cfset variables.fish_field_number = ""> </cfif>
+	<cfif isDefined("arguments.coll_event_remarks")> <cfset variables.coll_event_remarks = arguments.coll_event_remarks> <cfelse> <cfset variables.coll_event_remarks = ""> </cfif>
+	<cfif isDefined("arguments.startDayOfYear")> <cfset variables.startDayOfYear = arguments.startDayOfYear> <cfelse> <cfset variables.startDayOfYear = ""> </cfif>
+	<cfif isDefined("arguments.endDayOfYear")> <cfset variables.endDayOfYear = arguments.endDayOfYear> <cfelse> <cfset variables.endDayOfYear = ""> </cfif>
+	<cfif isDefined("arguments.valid_distribution_fg")> <cfset variables.valid_distribution_fg = arguments.valid_distribution_fg> <cfelse> <cfset variables.valid_distribution_fg = "1"> </cfif>
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
@@ -5313,6 +5380,21 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						,valid_distribution_fg = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#valid_distribution_fg#">
 					<cfelse>
 						,valid_distribution_fg = null
+					</cfif>
+					<cfif len(#verbatim_collectors#) gt 0>
+						,verbatim_collectors = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_collectors#">
+					<cfelse>
+						,verbatim_collectors = null
+					</cfif>
+					<cfif len(#verbatim_field_numbers#) gt 0>
+						,verbatim_field_numbers = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_field_numbers#">
+					<cfelse>
+						,verbatim_field_numbers = null
+					</cfif>
+					<cfif len(#verbatim_habitat#) gt 0>
+						,verbatim_habitat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_habitat#">
+					<cfelse>
+						,verbatim_habitat = null
 					</cfif>
 	 			WHERE
 					 collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
