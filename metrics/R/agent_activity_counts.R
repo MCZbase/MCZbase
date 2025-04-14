@@ -207,9 +207,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
 
 ## Outliers plot, now includes whole removed stacks
 outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = Role)) +
-  geom_bar(stat = "identity", 
-           position = "stack"
-           ) + 
+  geom_bar(stat = "identity", position = "stack") + 
   geom_text(aes(label = ifelse(AdjustedCount > 10000, 
                 paste0(as.integer(factor(Role)), ""), "")), 
                 size = rel(0.001), color = "white", position=position_stack(vjust=0.5)
@@ -225,11 +223,11 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
        y = "COUNT (> 100,000)", 
        fill = NULL
        ) +
-  theme(plot.title = element_text(size=rel(1), face="bold"), 
-        axis.title.y = element_text(size=rel(0.8)),
-        axis.title.x = element_text(size=rel(0.8)),
+  theme(plot.title = element_text(size=rel(.6), face="bold"), 
+        axis.title.y = element_text(size=rel(0.5)),
+        axis.title.x = element_text(size=rel(0.5)),
         axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.002),color='white', angle =35, hjust = 1), #these agent login names are not shown
-        axis.text.y = element_text(margin=margin(t=0.25), size=rel(1))
+        axis.text.y = element_text(margin=margin(t=0.25), size=rel(.5))
         ) 
 
 ## Combine the plots using patchwork, place outliers to the left and merge legends
