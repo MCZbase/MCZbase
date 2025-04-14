@@ -5010,7 +5010,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<cfif not isDefined("verbatim_field_numbers")><cfset verbatim_field_numbers = ""></cfif>
 						<input type="text" name="verbatim_field_numbers" value="#encodeForHTML(verbatim_field_numbers)#" id="verbatim_field_numbers" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-3 mb-2">
+					<div class="col-12 col-md-6 mb-2">
 						<label for="valid_distribution_fg" class="data-entry-label">Valid Distribution</label>
 						<cfif not isDefined("variables.valid_distribution_fg")>
 							<cfset variables.valid_distribution_fg = "1">
