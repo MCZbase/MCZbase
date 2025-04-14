@@ -203,7 +203,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
 ## Outliers plot, now includes whole removed stacks
 outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = Role)) +
       geom_bar(stat = "identity", position = "stack") + 
-      geom_text(aes(label = ifelse(AdjustedCount > 10000, 
+      geom_text(aes(label = ifelse(AdjustedCount > 100000, 
               paste0(as.integer(factor(Role)), ""), "")), 
               size = 1, color = "white", position=position_stack(vjust=0.5)
               ) +
