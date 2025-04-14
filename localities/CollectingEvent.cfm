@@ -27,7 +27,7 @@ limitations under the License.
 </cfif>
 <cfif isdefined("form.collecting_event_id") and len(form.collecting_event_id) GT 0>
 	<cfset variables.collecting_event_id=form.collecting_event_id>
-<cfelse isdefined("url.collecting_event_id") and len(url.collecting_event_id) GT 0>
+<cfelseif isdefined("url.collecting_event_id") and len(url.collecting_event_id) GT 0>
 	<cfset variables.collecting_event_id=url.collecting_event_id>
 </cfif>
 
