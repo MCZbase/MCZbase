@@ -154,12 +154,10 @@ cpalette <- c("#E69F00","#FF4500","#006400","#03839c","#d24678",
               "#665433","#5928ed","#0073e6","#8B008B","#8B0000",
               "#00008b","#a0522d","#2f2f2f","#e22345","#657843",
               "#708090")
-
 ## extra color-blind safe colors
     # "#984ea3","#cd4b19","#2e8b57","#ff7f00","#394df2","#096d28","#4b0082","#a892f5","#f00000","#334445",
     # "#a8786f","#5a5a5a","#0072B2","#657843","#a65628","#f75147","#8B3a3a","#56B4E9","#234b34","#432666",
     # "#b53b56","#708090","#4682b4","#106a93","#b51963","#556B2F","#483D8B","#c42e24","#4daf4a","#2f4f4f"
-
 
 ## Use RoleLabel for legend labels, which should be unique
 legend_labels <- unique(agents_data_sorted$RoleLabel)
@@ -171,7 +169,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   geom_text(aes(label = ifelse(AdjustedCount > 3000, 
                 paste0(as.integer(factor(Role)), ""), "")),  
                 position = position_stack(vjust = 0.5),
-                size = rel(1.1), color = "white"  # was 1 without rel()
+                size = 1, color = "white"  
                 ) +
                 labs(
                 title = "Counts by Role and Agent (total count must be > 3500 to be shown)",
