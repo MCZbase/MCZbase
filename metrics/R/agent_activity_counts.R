@@ -196,7 +196,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         legend.spacing.y = unit(0.02, "cm"),
         legend.justification = c("right", "top"),
         legend.box.just = "left",
-        legend.title = element_text(size=rel(0.45), hjust=0.5, family="Arial"), 
+        legend.title = element_text(margin=margin(b=0),size=rel(0.45), hjust=0.5, family="Arial"), 
         legend.margin = margin(3, 3, 3, 3)
     )
 
