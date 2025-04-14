@@ -520,6 +520,9 @@ limitations under the License.
 									{ name: 'ENDDAYOFYEAR', type: 'string'},
 									{ name: 'VERBATIMELEVATION', type: 'string'},
 									{ name: 'VERBATIMDEPTH', type: 'string'},
+									{ name: 'VERBATIM_COLLECTORS', type: 'string'},
+									{ name: 'VERBATIM_FIELD_NUMBERS', type: 'string'},
+									{ name: 'VERBATIM_HABITAT', type: 'string'},
 									{ name: 'COLL_EVENT_REMARKS', type: 'string' }
 								],
 								updaterow: function (rowid, rowdata, commit) {
@@ -611,6 +614,9 @@ limitations under the License.
 									{ text: 'Verb. Long.', datafield: 'VERBATIMLONGITUDE',width: 200, hideabel: true, hidden: getColHidProp('VERBATIMLONGITUDE',true)  },
 									{ text: 'Verb. Coord System', datafield: 'VERBATIMCOORDINATESYSTEM',width: 200, hideabel: true, hidden: getColHidProp('VERBATIMCOORDINATESYSTEM',true)  },
 									{ text: 'Verb. Datum', datafield: 'VERBATIMSRS',width: 150, hideabel: true, hidden: getColHidProp('VERBATIMSRS',true)  },
+									{ text: 'Verb. Collectors', datafield: 'VERBATIM_COLLECTORS',width: 200, hideabel: true, hidden: getColHidProp('VERBATIM_COLLECTORS',true)  },
+									{ text: 'Verb. Field Nos.', datafield: 'VERBATIM_FIELD_NUMBERS',width: 200, hideabel: true, hidden: getColHidProp('VERBATIM_FIELD_NUMBERS',true)  },
+									{ text: 'Verb. Habitat', datafield: 'VERBATIM_HABITAT',width: 200, hideabel: true, hidden: getColHidProp('VERBATIM_HABITAT',true)  },
 									{ text: 'Start Day', datafield: 'STARTDAYOFYEAR',width: 100, hideabel: true, hidden: getColHidProp('STARTDAYOFYEAR',true)  },
 									{ text: 'End Day', datafield: 'ENDDAYOFYEAR',width: 100, hideabel: true, hidden: getColHidProp('ENDDAYOFYEAR',true)  },
 									{ text: 'Verb. Elevation', datafield: 'VERBATIMELEVATION',width: 150, hideabel: true, hidden: getColHidProp('VERBATIMELEVATION',true)  },
