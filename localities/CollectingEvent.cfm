@@ -393,7 +393,7 @@ limitations under the License.
 			<cfset variables.clone_from_collecting_event_id = "">
 		</cfif>
 		<cfset extra = "">
-		<cfif len(variables.locality_id) GT 0 AND NOT and len(variables.clone_from_collecting_event_id) GT 0)>
+		<cfif len(variables.locality_id) GT 0 AND len(variables.clone_from_collecting_event_id) EQ 0>
 			<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT higher_geog, spec_locality, locality.geog_auth_rec_id
 				FROM 
