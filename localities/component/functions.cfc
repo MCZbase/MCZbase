@@ -4976,24 +4976,24 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<input type="text" name="verbatimCoordinates" value="#encodeForHTML(verbatimCoordinates)#" id="verbatimCoordinates"  class="data-entry-input">
 					</div>
 					<div class="col-12 col-md-3 mb-2">
-						<label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate Sys. (e.g., decimal degrees)</label>
+						<label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate System</label>
 						<cfif not isDefined("verbatimCoordinateSystem")><cfset verbatimCoordinateSystem = ""></cfif>
-						<input type="text" name="verbatimCoordinateSystem" value="#encodeForHTML(verbatimCoordinateSystem)#" id="verbatimCoordinateSystem" class="data-entry-input">
+						<input type="text" name="verbatimCoordinateSystem" value="#encodeForHTML(verbatimCoordinateSystem)#" id="verbatimCoordinateSystem" class="data-entry-input" title="The coordinate system used by the verbatim coordinates (geographic in decimal degrees, geographic in degrees minutes seconds, UTM, MGRS, USNG, PLSS, Ordinance Survey grid, etc).  This is not a verbatim value, but metadata about the verbatim coordinates.">
 					</div>
 					<div class="col-12 col-md-3 mb-2">
 						<label for="verbatimLatitude" class="data-entry-label">Verbatim Latitude</label>
 						<cfif not isDefined("verbatimLatitude")><cfset verbatimLatitude = ""></cfif>
-						<input type="text" name="verbatimLatitude" value="#encodeForHTML(verbatimLatitude)#" id="verbatimLatitude" class="data-entry-input">
+						<input type="text" name="verbatimLatitude" value="#encodeForHTML(verbatimLatitude)#" id="verbatimLatitude" class="data-entry-input" title="If the verbatim coordinates are geographic coordinates, repeat the latitude portion of the verbatim coordinates here.">
 					</div>
 					<div class="col-12 col-md-3 mb-2">
 						<label for="verbatimLongitude" class="data-entry-label">Verbatim Longitude</label>
 						<cfif not isDefined("verbatimLongitude")><cfset verbatimLongitude = ""></cfif>
-						<input type="text" name="verbatimLongitude" value="#encodeForHTML(verbatimLongitude)#" id="verbatimLongitude" class="data-entry-input">
+						<input type="text" name="verbatimLongitude" value="#encodeForHTML(verbatimLongitude)#" id="verbatimLongitude" class="data-entry-input" title="If the verbatim coordinates are geographic coordinates, repeat the longitude portion of the verbatim coordinates here.">
 					</div>
 					<div class="col-12 col-md-3">
 						<label for="verbatimSRS" class="data-entry-label">Verbatim SRS (ellipsoid model/datum)</label>
 						<cfif not isDefined("verbatimSRS")><cfset verbatimSRS = ""></cfif>
-						<input type="text" name="verbatimSRS" value="#encodeForHTML(verbatimSRS)#" id="verbatimSRS" class="data-entry-input" placeholder="EPSG:">
+						<input type="text" name="verbatimSRS" title="The EPSG code for the spatial reference system in which the verbatim coordinates are represented.  This is not a verbatim value, but metadata about the verbatim coordinates." value="#encodeForHTML(verbatimSRS)#" id="verbatimSRS" class="data-entry-input" placeholder="EPSG:">
 					</div>
 					<div class="col-12 col-md-3">
 						<label for="verbatim_habitat" class="data-entry-label">Verbatim Habitat</label>
