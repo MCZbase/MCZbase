@@ -233,4 +233,4 @@ combined_plot <- main_plot + outliers_plot + plot_layout(guides = 'collect', wid
 #print(combined_plot)
 
 ## Save the svg file to the expected location.
-ggsave('/var/www/html/arctos/metrics/datafiles/Agent_Activity.svg', plot=combined_plot, width = 6.5, height = 2.9)
+ggsave('/var/www/html/arctos/metrics/datafiles/Agent_Activity.svg', plot=combined_plot, width = 6.5, height = 2.8)
