@@ -34,9 +34,8 @@ limitations under the License.
 
 <cfoutput>
 	<div class="container-fluid">
-
+		
 		<div class="row">
-			
 			<div class="col-12 px-0">
 				<!--- chart created by R script /metrics/R/agent_activity_counts.R --->
 				<img src="/metrics/datafiles/Agent_Activity.svg" width="99%" alt="Stacked bar chart for agent roles arranged by activity in MCZbase; x-axis are agents in descending order, y-axis are activity counts 0-100,000 on main chart for each role labeled in the legend; the agents with the most activity are off the main chart to the right with higher y-axis count labels (100,001 to over 800,000)"/>
@@ -48,12 +47,13 @@ limitations under the License.
 		
 		<!---Used during development--->
 		<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin")>
-			<div class="row mx-0">
-				<div class="col-12">
+			<div class="row">
+				<div class="col-12 px-0">
 					<h1 class="h4 my-2">Data Visualization: <a href="#filePath##targetFile#">Agent Activity Data <img src="/images/linkOut.gif"/></a></h1>
 				</div>
 			</div>
 		</cfif>
+		
 	</div>	
 
 </cfoutput>
