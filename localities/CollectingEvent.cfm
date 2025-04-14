@@ -20,19 +20,22 @@ limitations under the License.
 
 --->
 
-<cfif not isdefined("form.action")>
-	<cfif not isdefined("form.collecting_event_id")>
+<cfif isdefined("form.action") and len(form.action) GT 0>
+	<cfset variables.action=form.action>
+<cfelseif isdefined("url.action") and len(url.action) GT 0>
+	<cfset variables.action=url.action>
+</cfif>
+<cfif isdefined("form.collecting_event_id") and len(form.collecting_event_id) GT 0>
+	<cfset variables.collecting_event_id=form.collecting_event_id>
+<cfelse isdefined("url.collecting_event_id") and len(url.collecting_event_id) GT 0>
+	<cfset variables.collecting_event_id=url.collecting_event_id>
+</cfif>
+
+<cfif not isdefined("variables.action")>
+	<cfif not isdefined("variables.collecting_event_id")>
 		<cfset variables.action="new">
 	<cfelse>
 		<cfset variables.action="edit">
-		<cfset variables.collecting_event_id = form.collecting_event_id>
-	</cfif>
-<cfelseif not isdefined("url.action")>
-	<cfif not isdefined("url.collecting_event_id")>
-		<cfset variables.action="new">
-	<cfelse>
-		<cfset variables.action="edit">
-		<cfset variables.collecting_event_id = url.collecting_event_id>
 	</cfif>
 </cfif>
 <cfswitch expression="#variables.action#">
