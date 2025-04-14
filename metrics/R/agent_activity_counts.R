@@ -185,7 +185,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
   scale_fill_manual(values=cpalette,labels=agents_data_sorted$simplified) +
   scale_y_continuous(labels = scales::comma, expand=c(0.02, 0.02)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller
   theme_minimal(base_size = 12) +
-  theme(plot.title = element_text(size=rel(0.7), face="bold"),
+  theme(plot.title = element_text(size=rel(0.6), face="bold"),
         plot.margin = margin(t=1,r=1,b=0,l=10),
         axis.text.x = element_text(margin=margin(t=-1,b=-1), size=rel(0.5), color='white', angle =0, hjust = 0),
         axis.text.y = element_text(margin=margin(t=0.025), size=rel(0.5)),
@@ -202,7 +202,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         legend.justification = c("right", "top"),
         legend.box.just = "right",
         legend.title = element_text(size=0.8, hjust=0.5), 
-        legend.margin = margin(2, 2, 2, 2)
+        legend.margin = margin(2, 2, 0, 2)
   )
 
 ## Outliers plot, now includes whole removed stacks
