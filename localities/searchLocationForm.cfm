@@ -1153,7 +1153,7 @@ Typical use:
 											});
 										</script>
 									</div>
-									<div class="col-12 col-md-3 px-3 px-md-2 py-1">
+									<div class="col-12 col-md-3 px-3 px-md-2 py-2">
 										<cfif not isDefined("collnEvOper")><cfset collnEvOper=""></cfif>
 										<label for="collnEvOper" class="data-entry-label">Event Use</label>
 										<select name="collnEvOper" id="collnEvOper" size="1" class="data-entry-select">
@@ -1167,7 +1167,7 @@ Typical use:
 											<option value="eventSharedOnlyBy" #selected#>shared only including (pick collection above)</option>
 										</select>
 									</div>
-									<div class="col-12 col-md-2 py-2">
+									<div class="col-12 col-md-3 py-2">
 										<cfif NOT isDefined("verbatim_collectors") ><cfset verbatim_collectors=""></cfif>
 										<label for="verbatim_collectors" class="data-entry-label">Verbatim Collectors</label>
 										<input type="text" name="verbatim_collectors" id="verbatim_collectors" class="data-entry-input" value="#encodeForHtml(verbatim_collectors)#">
