@@ -1981,6 +1981,8 @@ limitations under the License.
 						to_char(collecting_event.date_began_date,'yyyy-mm-dd') date_began_date,
 						to_char(collecting_event.date_ended_date,'yyyy-mm-dd') date_ended_date,
 						collecting_event.verbatim_date,
+						collecting_event.verbatim_collectors,
+						collecting_event.verbatim_field_numbers,
 						collecting_event.began_date,
 						collecting_event.ended_date,
 						collecting_event.startdayofyear,
@@ -2000,8 +2002,10 @@ limitations under the License.
 						collecting_event.collecting_method,
 						<cfif maskCoordinates>
 							'[Masked]' as  habitat_desc,
+							'' as verbatim_habitat,
 						<cfelse>
 							collecting_event.habitat_desc,
+							collecting_event.verbatim_habitat,
 						</cfif>
 						MCZBASE.get_agentnameoftype(collecting_event.date_determined_by_agent_id) as date_determiner,
 						collecting_event.date_determined_by_agent_id,
@@ -2343,6 +2347,14 @@ limitations under the License.
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Locality: </li>
 							<li class="list-group-item col-7 col-xl-8 px-0 ">#loc_collevent.verbatim_locality#</li>
 						</cfif>
+						<cfif len(loc_collevent.verbatim_collectors) gt 0>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Collectors: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0 ">#loc_collevent.verbatim_collectors#</li>
+						</cfif>
+						<cfif len(loc_collevent.verbatim_field_numbers) gt 0>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Field Numbers: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0 ">#loc_collevent.verbatim_field_numbers#</li>
+						</cfif>
 						<cfif len(loc_collevent.verbatimcoordinates) gt 0>
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Coordinates: </li>
 							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.verbatimcoordinates#</li>
@@ -2404,6 +2416,10 @@ limitations under the License.
 						<cfif len(microhabitat) gt 0>
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Microhabitat: </li>
 							<li class="list-group-item col-7 col-xl-8 px-0">#microhabitat#</li>
+						</cfif>
+						<cfif len(loc_collevent.verbatim_habitat) gt 0>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Habitat: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.verbatim_habitat#</li>
 						</cfif>
 						<cfif len(loc_collevent.locality_remarks) gt 0>
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Locality Remarks: </li>
