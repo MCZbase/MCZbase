@@ -211,7 +211,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
               labels = legend_labels,
               guide="none"
               ) +
-      scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02),limits=c(100000,NA),breaks=seq(100000,800000, by=200000)) + 
+      scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02),limits=c(100000,800000)) + 
       theme_minimal(base_size = 12) +
       labs(title = "Outliers", 
               x = NULL, 
