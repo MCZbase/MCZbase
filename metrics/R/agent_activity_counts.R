@@ -164,9 +164,9 @@ legend_labels <- unique(agents_data_sorted$RoleLabel)
 
 ## Main plot for standard range, exclude full stacks that are moved to outliers
 main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role)) +
-  geom_bar(stat = "identity", position = "stack") +
-  guides(color = guide_legend(title = "Agent Role Legend")) +
-  geom_text(aes(label = ifelse(AdjustedCount > 3000, 
+    geom_bar(stat = "identity", position = "stack") +
+    guides(color = guide_legend(title = "Agent Role Legend")) +
+    geom_text(aes(label = ifelse(AdjustedCount > 3000, 
                 paste0(as.integer(factor(Role)), ""), "")),  
                 position = position_stack(vjust = 0.5),
                 size = 1, color = "white"  
@@ -176,11 +176,11 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
                 x = "Agent Activity", 
                 y = "COUNT (<= 100,000)"
                 ) +
-  scale_color_manual(values=cpalette,labels=unique(agents_data_sorted$simplified)) +
-  scale_fill_manual(values=cpalette,labels=agents_data_sorted$simplified) +
-  scale_y_continuous(labels = scales::comma, expand=c(0.02, 0.02)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller
-  theme_minimal(base_size = 12) +
-  theme(plot.title = element_text(size=rel(0.55), face="bold",family="Arial"),
+    scale_color_manual(values=cpalette,labels=unique(agents_data_sorted$simplified)) +
+    scale_fill_manual(values=cpalette,labels=agents_data_sorted$simplified) +
+    scale_y_continuous(labels = scales::comma, expand=c(0.02, 0.02)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller
+    theme_minimal(base_size = 12) +
+    theme(plot.title = element_text(size=rel(0.55), face="bold",family="Arial"),
         plot.margin = margin(t=1,r=1,b=0,l=10),
         axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.45), color='white', angle =0, hjust = 0),
         axis.text.y = element_text(margin=margin(t=0.025), size=rel(0.45)),
@@ -198,32 +198,32 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         legend.box.just = "right",
         legend.title = element_text(size=rel(0.45), hjust=0.5, family="Arial"), 
         legend.margin = margin(2, 2, 2, 2)
-  )
+    )
 
 ## Outliers plot, now includes whole removed stacks
 outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = Role)) +
-  geom_bar(stat = "identity", position = "stack") + 
-  geom_text(aes(label = ifelse(AdjustedCount > 10000, 
-                paste0(as.integer(factor(Role)), ""), "")), 
-                size = rel(0.001), color = "white", position=position_stack(vjust=0.5)
-                ) +
-  scale_fill_manual(values = cpalette, 
-                    labels = legend_labels,
-                    guide="none"
-                    ) +
-  scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) + 
-  theme_minimal(base_size = 12) +
-  labs(title = "Outliers", 
-       x = NULL, 
-       y = "COUNT (> 100,000)", 
-       fill = NULL
-       ) +
-  theme(plot.title = element_text(size=rel(0.55), face="bold",family="Arial"), 
-        axis.title.y = element_text(size=rel(0.45)),
-        axis.title.x = element_text(size=rel(0.45),family="Arial"),
-        axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.002),color='white', angle =35, hjust = 1), #these agent login names are not shown
-        axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.45))
-        ) 
+      geom_bar(stat = "identity", position = "stack") + 
+      geom_text(aes(label = ifelse(AdjustedCount > 10000, 
+              paste0(as.integer(factor(Role)), ""), "")), 
+              size = rel(0.05), color = "white", position=position_stack(vjust=0.5)
+              ) +
+      scale_fill_manual(values = cpalette, 
+              labels = legend_labels,
+              guide="none"
+              ) +
+      scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) + 
+      theme_minimal(base_size = 12) +
+      labs(title = "Outliers", 
+              x = NULL, 
+              y = "COUNT (> 100,000)", 
+              fill = NULL
+              ) +
+      theme(plot.title = element_text(size=rel(0.55), face="bold",family="Arial"), 
+              axis.title.y = element_text(size=rel(0.45)),
+              axis.title.x = element_text(size=rel(0.45),family="Arial"),
+              axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.002),color='white', angle =35, hjust = 1), #these agent login names are not shown
+              axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.45))
+              ) 
 
 ## Combine the plots using patchwork, place outliers to the left and merge legends
 combined_plot <- main_plot + outliers_plot + plot_layout(guides = 'collect', widths = c(92.5, 6.8))
