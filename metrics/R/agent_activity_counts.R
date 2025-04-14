@@ -236,8 +236,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
         ) 
 
 ## Combine the plots using patchwork, place outliers to the left and merge legends
-combined_plot <- main_plot + outliers_plot + plot_layout(guides = 'collect', widths = c(92.5, 7.5)) +
- theme()
+combined_plot <- main_plot + outliers_plot + plot_layout(guides = 'collect', widths = c(92.5, 7.5))
 
  
 ## Display the combined plot, can have comment removed for debugging.
