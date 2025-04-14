@@ -2827,30 +2827,6 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
-				<cfif isdefined("verbatim_collectors") AND len(verbatim_collectors) gt 0>
-					<cfset setup = setupClause(field="collecting_event.verbatim_collectors",value="#verbatim_collectors#")>
-					<cfif len(setup["value"]) EQ 0>
-						AND #setup["pre"]# #setup["post"]#
-					<cfelse>
-						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
-					</cfif>
-				</cfif>
-				<cfif isdefined("verbatim_field_numbers") AND len(verbatim_field_numbers) gt 0>
-					<cfset setup = setupClause(field="collecting_event.verbatim_field_numbers",value="#verbatim_field_numbers#")>
-					<cfif len(setup["value"]) EQ 0>
-						AND #setup["pre"]# #setup["post"]#
-					<cfelse>
-						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
-					</cfif>
-				</cfif>
-				<cfif isdefined("verbatim_habitat") AND len(verbatim_habitat) gt 0>
-					<cfset setup = setupClause(field="collecting_event.verbatim_habitat",value="#verbatim_habitat#")>
-					<cfif len(setup["value"]) EQ 0>
-						AND #setup["pre"]# #setup["post"]#
-					<cfelse>
-						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
-					</cfif>
-				</cfif>
 				<cfif isdefined("collecting_time") AND len(collecting_time) gt 0>
 					<cfset setup = setupClause(field="collecting_event.collecting_time",value="#collecting_time#")>
 					<cfif len(setup["value"]) EQ 0>
