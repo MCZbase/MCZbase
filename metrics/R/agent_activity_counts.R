@@ -205,7 +205,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
       geom_bar(stat = "identity", position = "stack") + 
       geom_text(aes(label = ifelse(AdjustedCount > 10000, 
               paste0(as.integer(factor(Role)), ""), "")), 
-              size = rel(0.05), color = "white", position=position_stack(vjust=0.5)
+              size = 1, color = "white", position=position_stack(vjust=0.5)
               ) +
       scale_fill_manual(values = cpalette, 
               labels = legend_labels,
