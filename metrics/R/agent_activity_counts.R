@@ -185,7 +185,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.38), color='white', angle =0, hjust = 0),
         axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.38), face="bold",family="sans"),
         axis.title.x = element_text(margin=margin(t=0,b=0), size=rel(0.38),family="sans"),
-        axis.title.y = element_text(size=rel(0.38), face="bold",family="sans"), 
+        axis.title.y = element_text(size=rel(0.38), face="bold",family="Roboto Medium"), 
         legend.direction = "vertical",   # Typically more space-efficient when inside plots
         legend.box = "vertical",
         legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
