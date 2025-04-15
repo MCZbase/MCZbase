@@ -172,7 +172,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
                 size = 1, color = "white"  
                 ) +
                 labs(
-                title = "Counts by Role and Agent (total count must be > 3500 to be shown)",
+                title = "Counts by Type of Action (Role) and Agent (total count must be > 3500 to be shown)",
                 x = "Agents (in rank order by number of actions)", 
                 y = "Count of actions (<= 100,000)"
                 ) +
