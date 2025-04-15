@@ -180,7 +180,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
     scale_fill_manual(values=cpalette,labels=agents_data_sorted$simplified) +
     scale_y_continuous(labels = scales::comma, expand=c(0.02, 0.02)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller
     theme_minimal(base_size = 12) +
-    theme(plot.title = element_text(size=rel(0.5), face="bold",family="Arial"),
+    theme(plot.title = element_text(size=rel(0.5), face="bold",family="sans"),
         plot.margin = margin(t=1,r=1,b=0,l=10),
         axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.45), color='white', angle =0, hjust = 0),
         axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.45)),
@@ -191,12 +191,12 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
         legend.key.size = unit(0.33, "lines"),
         legend.box.margin = margin(0.05, 0.05, 0.05, 0.0), # Tighten the box margin if needed
-        legend.text = element_text(margin=margin(l=0.5),size=rel(0.38),hjust=0),
+        legend.text = element_text(margin=margin(l=0.5),size=rel(0.35),hjust=0),
         legend.spacing.x = unit(0.02, "cm"),
         legend.spacing.y = unit(0.02, "cm"),
         legend.justification = c("right", "top"),
         legend.box.just = "left",
-        legend.title = element_text(margin=margin(b=0.65),size=rel(0.45), hjust=0.5, family="Arial"), 
+        legend.title = element_text(margin=margin(b=0.65),size=rel(0.45), hjust=0.5, family="sans"), 
         legend.margin = margin(3, 3, 3, 3)
     )
 
@@ -218,7 +218,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
               y = "COUNT (> 100,000)", 
               fill = NULL
               ) +
-      theme(plot.title = element_text(size=rel(0.5), face="bold",family="Arial"), 
+      theme(plot.title = element_text(size=rel(0.5), face="bold",family="sans"), 
             axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.45), color='white', angle =0, hjust = 0),
             axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.45)),
             axis.title.x = element_text(margin=margin(t=0,b=0), size=rel(0.45)),
