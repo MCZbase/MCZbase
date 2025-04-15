@@ -259,7 +259,7 @@ Some Totally Random String Data .....
 			SELECT underscore_collection_id, collection_name
 			FROM underscore_collection
 			ORDER BY collection_name
-		</cfquery
+		</cfquery>
 		<cfquery name="ctOrigElevUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	       	select orig_elev_units from ctorig_elev_units
 	    </cfquery>
