@@ -190,14 +190,14 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         legend.box = "vertical",
         legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
         legend.key.size = unit(0.33, "lines"),
-        legend.box.margin = margin(0.05, 0.05, 0.05, 0.0), # Tighten the box margin if needed
+        legend.box.margin = margin(t=1, r=1, b=1,l=1), # Tighten the box margin if needed
         legend.text = element_text(margin=margin(l=0.5),size=rel(0.33),hjust=0),
         legend.spacing.x = unit(0.02, "cm"),
         legend.spacing.y = unit(0.02, "cm"),
         legend.justification = c("right", "top"),
         legend.box.just = "left",
         legend.title = element_text(margin=margin(b=0.9),size=rel(0.42), hjust=0.5, family="sans"), 
-        legend.margin = margin(t=2, r=1, b=3, l=1)#inside or outside of box?
+        legend.margin = margin(t=3, r=3, b=3, l=3)#inside or outside of box?
     )
 
 ## Outliers plot, now includes whole removed stacks
@@ -219,7 +219,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
               fill = NULL
               ) +
       theme(plot.title = element_text(size=rel(0.45), face="bold",family="sans"), 
-            plot.margin = margin(t=0,r=1,b=0,l=2),
+            plot.margin = margin(t=0,r=1,b=0,l=3),
             axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.4), color='white', angle =0, hjust = 0),
             axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.4)),
             axis.title.x = element_text(margin=margin(t=0,b=0), size=rel(0.4)),
