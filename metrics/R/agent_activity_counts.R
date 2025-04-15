@@ -219,6 +219,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
               fill = NULL
               ) +
       theme(plot.title = element_text(size=rel(0.45), face="bold",family="sans"), 
+            plot.margin = margin(t=0,r=0,b=0,l=0),
             axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.4), color='white', angle =0, hjust = 0),
             axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.4)),
             axis.title.x = element_text(margin=margin(t=0,b=0), size=rel(0.4)),
