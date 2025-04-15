@@ -215,7 +215,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
       theme_minimal(base_size = 12) +
       labs(title = "Outliers", 
               x = NULL, 
-              y = "COUNT (> 100,000)", 
+              y = "Count of actions (> 100,000)", 
               fill = NULL
               ) +
       theme(plot.title = element_text(size=rel(0.45), face="bold",family="sans"), 
