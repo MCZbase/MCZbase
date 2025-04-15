@@ -172,12 +172,12 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
                 size = 1, color = "white"  
                 ) +
                 labs(
-                title = "Counts by Type of Action (Role) and Agent",
+                title = "Main Data Plot",
                 x = "Agents (in rank order by number of actions)", 
                 y = "Count of actions (3500 to 100,000)"
                 ) +
     scale_color_manual(values=cpalette,labels=unique(agents_data_sorted$simplified)) +
-    scale_fill_manual(values=cpalette,labels=agents_data_sorted$simplified) +
+    scale_fill_manual(name="Type of Action",values=cpalette,labels=agents_data_sorted$simplified) +
     scale_y_continuous(labels = scales::comma, expand=c(0.02, 0.02)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller
     theme_minimal(base_size = 12) +
     theme(plot.title = element_text(size=rel(0.45), face="bold",family="sans"),
