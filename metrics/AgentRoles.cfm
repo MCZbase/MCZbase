@@ -25,7 +25,7 @@ limitations under the License.
 --->
 
 
-<cfset pageTitle="Agent Roles | Metrics">
+<cfset pageTitle="Agent Activity | Metrics">
 <cfinclude template="/shared/_header.cfm">
 
 <!---  These must match the values in ScheduledTasks/runRAgentMetrics.cfm --->
@@ -34,13 +34,13 @@ limitations under the License.
 
 <cfoutput>
 	<div class="container-fluid">
-		<h1 class="sr-only">Agent Activity Comparisons</h1>
+		<h1 class="h2">Visualization of Agent activity by type of task (role)</h1>
 		<div class="row">
 			<div class="col-12 px-0">
 				<!--- chart created by R script /metrics/R/agent_activity_counts.R --->
 				<img src="/metrics/datafiles/Agent_Activity.svg" width="100%" alt="Stacked bar chart for agent roles arranged by activity in MCZbase; x-axis are agents in descending order, y-axis are activity counts 0-100,000 on main chart for each role labeled in the legend; the agents with the most activity are off the main chart to the right with higher y-axis count labels (100,001 to over 800,000)"/>
 				<div class="px-5 mx-auto mb-3">
-					<p class="mx-3" style="margin-top:-2%;">This stacked bar chart displays the database activity for each agent, focusing on those with more than 3,500 total actions. To appear on the outlier plot to the right, an agent must have exceeded 100,000 actions. The aim of this visualization is to highlight the variability in each agent's role. Much of the variation in activity is attributed to the specific needs of the collections, rather than reflecting the individual effort of staff members. For example, if an agent is responsible for identifying animals and organizing specimens for researchers, their activity stacks would likely be smaller compared to those of a new employee whose primary role is entering ledger records.</p>
+					<p class="mx-3" style="margin-top:-2%;">This stacked bar chart displays the database activity for each agent, focusing on those with more than 3,500 total actions.  A few agents have very large numbers of actions, these appear in the outlier plot to the right, where the agent must have exceeded 100,000 actions. This visualization highlights the variability in the types of actions that people carry out in the database, that is variability in each agent&##39;s role. Much of the variation in activity is attributed to the specific needs of the collections, rather than reflecting the individual effort of staff members.  Substantial curatorial effort involves physical activity in the collections, which is not not captured here, and different tasks involve very different amounts of time and effort per action recorded in the database. For example, an agent responsible for identifying specimens (a time consuming task) and organizing specimens for researchers (a physical activity with few changes in the database), are likely be relatively small compared to those of another employee whose primary role is rapid capture of specimen records.</p>
 				</div>
 			</div>
 		</div>
