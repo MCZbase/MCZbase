@@ -181,7 +181,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
     scale_y_continuous(labels = scales::comma, expand=c(0.02, 0.02)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller
     theme_minimal(base_size = 12) +
     theme(plot.title = element_text(size=rel(0.45), face="bold",family="sans"),
-        plot.margin = margin(t=1,r=1,b=0,l=10),
+        plot.margin = margin(t=0,r=1,b=0,l=10),
         axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.4), color='white', angle =0, hjust = 0),
         axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.4)),
         axis.title.x = element_text(margin=margin(t=0,b=0), size=rel(0.4)),
