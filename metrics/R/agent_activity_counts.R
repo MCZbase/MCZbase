@@ -183,9 +183,9 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
     theme(plot.title = element_text(size=rel(0.4), face="bold",family="sans"),
         plot.margin = margin(t=0,r=1,b=0,l=10),
         axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.38), color='white', angle =0, hjust = 0),
-        axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.38)),
+        axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.38), face="bold",family="sans"),
         axis.title.x = element_text(margin=margin(t=0,b=0), size=rel(0.38),family="sans"),
-        axis.title.y = element_text(size=rel(0.38),family="sans"), 
+        axis.title.y = element_text(size=rel(0.38), face="bold",family="sans"), 
         legend.direction = "vertical",   # Typically more space-efficient when inside plots
         legend.box = "vertical",
         legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
@@ -222,8 +222,8 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
             plot.margin = margin(t=0,r=1,b=0,l=3),
             axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.38), color='white', angle =0, hjust = 0),
             axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.38)),
-            axis.title.x = element_text(margin=margin(t=0,b=0), size=rel(0.38),family="sans"),
-            axis.title.y = element_text(size=rel(0.38),family="sans")
+            axis.title.x = element_text(margin=margin(t=0,b=0), size=rel(0.38),face="bold",family="sans"),
+            axis.title.y = element_text(size=rel(0.38),face="bold",family="sans")
             ) 
 
 ## Combine the plots using patchwork, place outliers to the left and merge legends
