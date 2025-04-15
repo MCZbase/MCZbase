@@ -34,7 +34,7 @@ limitations under the License.
 
 <cfoutput>
 	<div class="container-fluid">
-		<h1 class="h2">Visualization of Agent activity by type of task (role)</h1>
+		<h1 class="h2 pt-2 mt-1">Visualization of Agent activity by type of task (role)</h1>
 		<div class="row">
 			<div class="col-12 px-0">
 				<!--- chart created by R script /metrics/R/agent_activity_counts.R --->
