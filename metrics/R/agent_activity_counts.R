@@ -219,7 +219,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
               fill = NULL
               ) +
       theme(plot.title = element_text(size=rel(0.4),family="Roboto Black"), 
-            plot.margin = margin(t=0,r=1,b=0,l=3),
+            plot.margin = margin(t=0,r=0,b=0,l=3),
             axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.36), color='white', angle =0, hjust = 0),
             axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.36),family="Roboto Regular"),
             axis.title.x = element_text(margin=margin(t=0,b=0), size=rel(0.36),family="Roboto Black"),
