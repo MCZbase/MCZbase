@@ -196,7 +196,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         legend.spacing.y = unit(0.02, "cm"),
         legend.justification = c("right", "top"),
         legend.box.just = "left",
-        legend.title = element_text(margin=margin(b=0.9),size=rel(0.38), hjust=0.5, family="sans"), 
+        legend.title = element_text(margin=margin(b=2),size=rel(0.36), hjust=0.5, family="sans"), 
         legend.margin = margin(t=3, r=3, b=3, l=3)#inside or outside of box?
     )
 
