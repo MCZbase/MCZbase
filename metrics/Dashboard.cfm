@@ -183,7 +183,7 @@ limitations under the License.
 												<div class="form-group">
 													<input type="hidden" name="returnFormat" value="plain">
 													<input type="hidden" name="annualReport" value="yes" class="data-entry-input">
-													
+													<!---Make sure the year before the existing year of collections_reported_metrics exists  ...Table outside of MCZBASE schema called ARCHIVES_<date> (eg., 20180701)--->
 													<h3 class="h4 text-muted mt-1 mb-2">Select Fiscal Year</h3>
 													<cfquery name="fyDates" datasource="uam_god" cachedwithin="#createtimespan(0,0,0,0)#">
 														SELECT
@@ -269,6 +269,12 @@ limitations under the License.
 																<label for="endDate" class="data-entry-label mt-2">End Date</label>
 																<input name="endDate" id="endDate" type="text" class="mb-1 datetimeinput data-entry-input" placeholder="yyyy-mm-dd" value="#currentDate#" aria-label="end of range for dates to display metrics.">
 															</div>
+															<script>
+																$(document).ready(function() {
+																	$("##beginDate").datepicker({ dateFormat: 'yy-mm-dd'});
+																	$("##endDate").datepicker({ dateFormat: 'yy-mm-dd'});
+																});
+															</script>
 														</div>
 													</div>
 													<h3 class="h4 text-muted mt-3">Report to Show</h3>
@@ -407,3 +413,11 @@ limitations under the License.
 		</cfoutput>
 	</cfdefaultcase>
 </cfswitch>
+<script>
+	function toggleRow() {
+		const cells = document.querySelectorAll('.toggle1');
+		cells.forEach(function(cell) {
+			cell.classList.toggle('hidden');
+		});
+	}
+</script>

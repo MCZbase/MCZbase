@@ -76,4 +76,136 @@ Function getProjectAutocompleteMeta.  Search for projects by name with a substri
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<cffunction name="getProjects"  access="remote" returntype="any" returnformat="json">
+	<cfargument name="project_title" type="string" required="no">
+	<cfargument name="project_participant" type="string" required="no">
+	<cfargument name="project_sposor" type="string" required="no">
+	<cfargument name="project_year" type="string" required="no">
+	<cfargument name="project_type" type="string" required="no">
+	<cfargument name="min_proj_desc_length" type="string" required="no">
+
+	<cfset data = ArrayNew(1)>
+
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
+				SELECT distinct
+					project.project_id,
+					project.project_name,
+					project.start_date,
+					project.end_date,
+					agent_name.agent_name,
+					project_agent_role,
+					agent_position,
+					ACKNOWLEDGEMENT,
+					s_name.agent_name sponsor_name
+				FROM
+					project
+					left join project_agent on project.project_id = project_agent.project_id
+					left join agent_name on project_agent.agent_name_id = agent_name.agent_name_id
+					left join project_sponsor on project.project_id = project_sponsor.project_id
+					left join agent_name s_name on project_sponsor.agent_name_id = s_name.agent_name_id
+				WHERE
+					project.project_id is not null
+					<cfif isdefined("project_title") AND len(project_title) gt 0>
+						<cfset title = "#project_title#">
+						<cfset go="yes">
+						AND upper(regexp_replace(project.project_name,'<[^>]*>')) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(escapeQuotes(project_title))#%">
+					</cfif>
+					<cfif isdefined("min_proj_desc_length") AND len(min_proj_desc_length) gt 0>
+						<cfset go="yes">
+						AND project.project_description is not null and length(project.project_description) >= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#min_proj_desc_length#">
+					</cfif>
+					<cfif isdefined("project_participant") AND len(project_participant) gt 0>
+						<cfset go="yes">
+						AND project.project_id IN
+							( select project_id FROM project_agent
+								WHERE agent_name_id IN
+								( select agent_name_id FROM agent_name WHERE
+								upper(agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#escapeQuotes(ucase(project_participant))#%"> ))
+					</cfif>
+					<cfif isdefined("project_type") AND len(project_type) gt 0>
+						<cfset go="yes">
+						<cfif project_type is "loan">
+							AND project.project_id in (
+							select project_id from project_trans,loan_item
+							where project_trans.transaction_id=loan_item.transaction_id)
+						<cfelseif project_type is "accn">
+							AND project.project_id in (
+								select project_id from project_trans,cataloged_item
+								where project_trans.transaction_id=cataloged_item.accn_id)
+						<cfelseif project_type is "both">
+							AND project.project_id in (
+								select project_id from project_trans,loan_item
+								where project_trans.transaction_id=loan_item.transaction_id)
+							AND project.project_id in (
+								select project_id from project_trans,cataloged_item
+								where project_trans.transaction_id=cataloged_item.accn_id)
+						<cfelseif project_type is "neither">
+							AND project.project_id not in (
+								select project_id from project_trans,loan_item
+								where project_trans.transaction_id=loan_item.transaction_id)
+							AND project.project_id not in (
+								select project_id from project_trans,cataloged_item
+								where project_trans.transaction_id=cataloged_item.accn_id)
+						<cfelseif project_type is "loan_no_pub">
+							AND project.project_id in (
+								select project_id from project_trans,loan_item
+								where project_trans.transaction_id=loan_item.transaction_id)
+							AND project.project_id not in (
+								select project_id from project_publication)
+						</cfif>
+					</cfif>
+					<cfif isdefined("project_sponsor") AND len(#project_sponsor#) gt 0>
+						<cfset go="yes">
+						AND project.project_id IN
+						( select project_id FROM project_sponsor
+							WHERE agent_name_id IN
+							( select agent_name_id FROM agent_name WHERE
+							upper(agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(project_sponsor)#%"> ))
+					</cfif>
+					<cfif isdefined("project_year") AND isnumeric(#project_year#)>
+						<cfset go="yes">
+							AND (
+							 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_year#"> between to_number(to_char(start_date,'YYYY')) AND to_number(to_char(end_date,'YYYY'))
+							)
+					</cfif>
+					<cfif isdefined("publication_id") AND len(#publication_id#) gt 0>
+						<cfset go="yes">
+						AND project.project_id in
+							(select project_id from project_publication where publication_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">)
+					</cfif>
+					<cfif isdefined("project_id") AND len(#project_id#) gt 0>
+						<cfset go="yes">
+						AND project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
+					</cfif>
+					<cfif go is "no">
+						AND 1=2
+					</cfif>
+				ORDER BY project_name
+		</cfquery>
+	<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
+			</cfloop>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+
+
 </cfcomponent>

@@ -474,8 +474,8 @@ include this function and use it.
 								<cfset output='#output#(<a class="" href="#media_uri#">Full</a>)'>
 							</cfif>
 						</cfif>
-						<cfset output='#output#</p>'>
-						<cfset output='#output#<div class="py-1">'>
+						<cfset output='#output# </p>'>
+						<cfset output='#output# <div class="py-1">'>
 						<cfset showTitleText = trim(title)>
 						<cfif title contains 'ledger entry for'>
 							<cfset textAlign = "text-left">
@@ -527,7 +527,7 @@ include this function and use it.
 							<!--- close an unclosed italic tag resulting from truncation --->
 							<cfset showTitleText = "#showTitleText#</i>">
 						</cfif>
-						<cfset output='#output#<p class="#textAlign# col-12 my-0 py-0 px-1 smaller">#showTitleText#</p>'>
+						<cfset output='#output#<p class="#textAlign# col-12 my-0 py-0 px-1 smaller"> #showTitleText#</p>'>
 						<cfif len(#license_uri#) gt 0>
 							<cfif #captionAs# EQ "TextFull">
 								<!---height is needed on the caption within the <p> or the media will not flow well--the above comment works but may not work on other, non specimen detail pages--->
@@ -613,14 +613,13 @@ include this function and use it.
 					</cfquery>
 				</cfif>
 				<cfquery name="agents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select distinct agent_name.agent_name, agent.agent_id
+				select distinct agent_name.agent_name, media_relations.created_by_agent_id, agent.agent_id
 					from media_relations
 						left join agent on media_relations.related_primary_key = agent.agent_id
 						left join agent_name on agent_name.agent_id = agent.agent_id
-						left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					and media_relations.media_relationship = 'created by agent'
-						and agent_name_type = 'preferred'
+						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and media_relations.media_relationship = 'created by agent'
+						and agent_name.agent_name_type = 'preferred'
 					order by agent_name.agent_name
 				</cfquery>
 				<cfquery name="agents2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -631,7 +630,7 @@ include this function and use it.
 						left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and mczbase.ctmedia_relationship.media_relationship = 'shows agent'
-					and media_relations.media_relationship <> 'created by agent'
+						and media_relations.media_relationship <> 'created by agent'
 						and agent_name_type = 'preferred'
 					order by agent_name.agent_name
 				</cfquery>
@@ -727,7 +726,13 @@ include this function and use it.
 						left join lat_long on lat_long.locality_id = locality.locality_id
 					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and media_relations.media_relationship = 'shows locality'
-						and lat_long.accepted_lat_long_fg = 1
+				</cfquery>
+				<cfquery name="created_by" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select distinct agent_name
+					from media_relations
+						left join agent on media_relations.created_by_agent_id = agent.agent_id
+						left join agent_name on agent.agent_id = agent_name.agent_id
+					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				</cfquery>
 				<cfquery name="media1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select distinct mr.related_primary_key as pk, m.media_uri
@@ -800,7 +805,15 @@ include this function and use it.
 						media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and media_relations.media_relationship like '% underscore_collection'
 				</cfquery>
-		
+				<cfquery name="project" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select project.project_id, project.project_name
+					from project
+					left join media_relations on project.project_id = media_relations.related_primary_key
+					where media_relations.media_relationship = 'shows project'
+					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+					and rownum = 1
+				</cfquery>
+
 				<!---Loop through the media to see what the metadata is for the featured image on the page--->
 				<cfloop query="media">
 					<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -902,7 +915,7 @@ include this function and use it.
 									<th scope="row">Relationship#plural#:&nbsp; </span></th>
 									<td class="w-80">
 									<!---Loops through the media relationships (query = media_rel) and specific relationship queries above (queries=accn, agents1-5,collecting_events, daccns,loan, locali, media1-2,publication, spec, underscore) to find related media to the featured image on the page. Displays Media Relationship even if the links are not provided within the relatedLinks div (due to permissions or not being set up yet). It is somewhat scalable with regards to new relationship type entries on the code table--->
-									<cfset relationSeparator = "">
+									<cfset relationSeparator = " ">
 				
 									<cfloop query="media_rel">
 										#relationSeparator#
@@ -913,7 +926,7 @@ include this function and use it.
 											<cfif media_rel.media_relationship eq 'documents accn'>
 												<cfif oneofus eq 1>
 													<cfloop query="accns">
-														<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accns.transaction_id#" class="font-weight-lessbold">#accns.accn_number#</a><cfif accns.recordcount gt 1><span>, </span></cfif>
+														<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accns.transaction_id#" class="font-weight-lessbold"> #accns.accn_number#</a><cfif accns.recordcount gt 1><span>, </span> </cfif>
 													</cfloop>
 												<cfelse>
 													<span class="d-inline font-italic">Hidden</span>
@@ -922,31 +935,36 @@ include this function and use it.
 											<!---Display Agent: created by agent query--->
 											<cfif media_rel.media_relationship eq 'created by agent'>
 												<cfloop query="agents1">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents1.agent_id#"> #agents1.agent_name#</a><cfif agents1.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents1.agent_id#"> #agents1.agent_name#</a><cfif agents1.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Agent: shows agent query--->
 											<cfif media_rel.media_relationship eq 'shows agent'>
 												<cfloop query="agents2">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents2.agent_id#"> #agents2.agent_name#</a><cfif agents2.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents2.agent_id#"> #agents2.agent_name#</a><cfif agents2.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Agent: documents agent query--->
 											<cfif media_rel.media_relationship eq 'documents agent'>
 												<cfloop query="agents3">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents3.agent_id#"> #agents3.agent_name#</a><cfif agents3.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents3.agent_id#"> #agents3.agent_name#</a><cfif agents3.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
+					<!---						<cfif media_rel.media_relationship eq 'created by agent'>
+												<cfloop query="created_by">
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#created_by.agent_id#"> #created_by.agent_name#</a><cfif created_by.recordcount gt 1><span>, </span> </cfif>
+												</cfloop>
+											</cfif>--->
 											<!---Display Agent: shows handwriting of agent query--->
 											<cfif media_rel.media_relationship eq 'shows handwriting of agent'>
 												<cfloop query="agents4">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents4.agent_id#"> #agents4.agent_name#</a><cfif agents4.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents4.agent_id#"> #agents4.agent_name#</a><cfif agents4.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Agent: physical object created by agent query--->
 											<cfif media_rel.media_relationship eq 'physical object created by agent'>
 												<cfloop query="agents5">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents5.agent_id#"> #agents5.agent_name#</a><cfif agents5.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents5.agent_id#"> #agents5.agent_name#</a><cfif agents5.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Borrow--->
@@ -962,15 +980,15 @@ include this function and use it.
 											<!---Display Collecting Event: relationship = %collecting event--->
 											<cfif media_rel.media_relationship contains 'collecting_event'>
 												<cfloop query="collecting_events">
-													<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_events.collecting_event_id#">#collecting_events.verbatim_locality#  #collecting_events.collecting_source# #collecting_events.verbatim_date# 
-													<cfif collecting_events.ended_date gt 0>(#collecting_events.ended_date#)</cfif></a><cfif collecting_events.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_events.collecting_event_id#"> #collecting_events.verbatim_locality#  #collecting_events.collecting_source# #collecting_events.verbatim_date# 
+													<cfif collecting_events.ended_date gt 0> (#collecting_events.ended_date#)</cfif></a><cfif collecting_events.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Deaccession: relationship = documents deaccession--->
 											<cfif media_rel.media_relationship eq 'documents deaccession'>
 												<cfif oneofus eq 1>
 													<cfloop query="daccns">
-														<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#daccns.transaction_id#" class="font-weight-lessbold">#daccns.deacc_number#</a><cfif daccns.recordcount gt 1><span>, </span></cfif>
+														<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#daccns.transaction_id#" class="font-weight-lessbold"> #daccns.deacc_number#</a><cfif daccns.recordcount gt 1><span>, </span> </cfif>
 													</cfloop>
 												<cfelse>
 													<span class="d-inline font-italic">Hidden</span>
@@ -980,7 +998,7 @@ include this function and use it.
 											<cfif media_rel.media_relationship eq 'documents loan'>
 												<cfif oneofus eq 1>
 													<cfloop query="loan">
-														<a class="font-weight-lessbold" href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loan.transaction_id#"> #loan.loan_number#</a><cfif loan.recordcount gt 1><span>, </span></cfif>
+														<a class="font-weight-lessbold" href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loan.transaction_id#"> #loan.loan_number#</a><cfif loan.recordcount gt 1><span>, </span> </cfif>
 													</cfloop>
 												<cfelse>
 													<span class="d-inline font-italic">Hidden</span>
@@ -990,7 +1008,7 @@ include this function and use it.
 											<cfif media_rel.media_relationship contains 'permit'>
 												<cfif oneofus eq 1>
 													<cfloop query="permit">
-														<a class="font-weight-lessbold" href="/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#"> Permit ID: #permit.permit_id#/#permit.permit_type#</a><cfif permit.recordcount gt 1><span>, </span></cfif>
+														<a class="font-weight-lessbold" href="/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#"> Permit ID: #permit.permit_id#/#permit.permit_type#</a><cfif permit.recordcount gt 1><span>, </span> </cfif>
 													</cfloop>
 												<cfelse>
 													<span class="d-inline font-italic">Hidden</span>
@@ -999,7 +1017,7 @@ include this function and use it.
 											<!---Display Locality: relationship = shows locality--->
 											<cfif media_rel.media_relationship eq 'shows locality'>
 												<cfloop query="locali">
-													<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#locali.locality_id#">#locali.spec_locality# #NumberFormat(locali.dec_lat,'00.00')#, #NumberFormat(locali.dec_long,'00.00')# (datum: 
+													<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#locali.locality_id#"> #locali.spec_locality# #NumberFormat(locali.dec_lat,'00.00')#, #NumberFormat(locali.dec_long,'00.00')# (datum: 
 													<cfif len(locali.datum)gt 0>#locali.datum#<cfelse>none listed</cfif>) error: #locali.error##locali.units#</a><cfif locali.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
@@ -1020,30 +1038,37 @@ include this function and use it.
 											<!---Display shows publication--->
 											<cfif media_rel.media_relationship eq 'shows publication'> 
 												<cfloop query="publication">
-													<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#publication.pub_long# </a>
+													<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#"> #publication.pub_long# </a>
 													<cfif publication.recordcount gt 1><span> &##8226;&##8226; </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Specimens and Ledgers: relationship = %cataloged_item--->
 											<cfif media_rel.auto_table eq 'cataloged_item'> 
 												<cfloop query="spec">
-													<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><cfif spec.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/guid/#spec.guid#"> #spec.guid#</a><cfif spec.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Specimens parts--->
 											<cfif media_rel.auto_table eq 'specimen_part'> 
 												<cfloop query="specpart">
-													<span class="font-weight-lessbold">#specpart.part_name# </span>
+													<span class="font-weight-lessbold"> #specpart.part_name# </span>
 												</cfloop>
 											</cfif>
 											<!---Display underscore_collection--->
 											<cfif media_rel.auto_table eq 'underscore_collection'>:
 												<cfloop query="underscore">
-													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#"> #underscore.collection_name#</a><cfif underscore.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#">  #underscore.collection_name# (ID =#underscore.underscore_collection_id#)</a><cfif underscore.recordcount gt 1><span>, </span> </cfif>
+												</cfloop>
+											</cfif>
+											<!---Display project_name--->
+											<cfif media_rel.media_relationship eq 'shows project'>
+												<cfset project_name = listChangeDelims(LCase(#project.project_name#), '-', ' ,\' )>
+												<cfloop query="project">
+													<a class="font-weight-lessbold" href="/project/#project_name#"> #project.project_name#</a><cfif project.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
 										</div>
-										<cfset relationSeparator='<span class="px-1"> | </span>'><!--- ' --->
+										<cfset relationSeparator=' <span class="px-1"> | </span>'><!--- ' --->
 									</cfloop> 
 									</td>
 								</tr>
@@ -1256,7 +1281,6 @@ include this function and use it.
 						left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 					where m.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and ct.media_relationship = 'transcript for audio media'
-
 				</cfquery>
 				<cfif manageTransactions EQ 1>
 					<cfquery name="permit"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1313,7 +1337,14 @@ include this function and use it.
 						media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and media_relations.media_relationship like '% underscore_collection'
 				</cfquery>
-		
+<!---				<cfquery name="cProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select project_id,project_name
+					from project
+					left join media_relations on project.project_id = media_relations.related_primary_key
+					and media_relations.media_relationship = 'shows project'
+					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				</cfquery>--->
+					
 				<!---Loop through the media to see what the metadata is for the featured image on the page--->
 				<cfloop query="media">
 					<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1420,7 +1451,7 @@ include this function and use it.
 									<cfloop query="media_rel">
 										#relationSeparator#
 										<!---The links within the div with id = "relatedLinks" provides access to the pages linked to the featured media (media_id of the page)--->
-										#media_rel.label#<cfif len(media_rel.label) gt 0>:</cfif>
+										#media_rel.label#<cfif len(media_rel.label) gt 0>: </cfif>
 										<div id = "relatedLinks" class="comma2 d-inline">
 											<!---Display Accn: documents accn--->
 											<cfif media_rel.media_relationship eq 'documents accn'>
@@ -1503,10 +1534,10 @@ include this function and use it.
 											<cfif media_rel.media_relationship contains 'permit'>
 												<cfif oneofus eq 1>
 													<cfloop query="permit">
-														<a class="font-weight-lessbold" href="/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#"> Permit ID: #permit.permit_id#/#permit.permit_type#</a><cfif permit.recordcount gt 1><span>, </span></cfif>
+														<a class="font-weight-lessbold" href="/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#">  #permit.permit_id#/#permit.permit_type#</a><cfif permit.recordcount gt 1><span>, </span> </cfif>
 													</cfloop>
 												<cfelse>
-													<span class="d-inline font-italic">Hidden</span>
+													<span class="d-inline font-italic">Hidden </span>
 												</cfif>
 											</cfif>
 											<!---Display Locality: relationship = shows locality--->
@@ -1519,34 +1550,34 @@ include this function and use it.
 											<!---Display Media: relationship = related to media--->
 											<cfif media_rel.media_relationship eq 'related to media'> 
 												<cfloop query="media1">
-													<a class="font-weight-lessbold" href="/media/#media1.pk#"> /media/#media1.pk#</a>
+													<a class="font-weight-lessbold" href="/media/#media1.pk#"> /media/#media1.pk# </a>
 													<cfif media1.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Media: relationship = transcript for audio media--->
 											<cfif media_rel.media_relationship eq 'transcript for audio media'>
 												<cfloop query="media2">
-													<a class="font-weight-lessbold" href="/media/#media2.pk#"> /media/#media2.pk#</a>
+													<a class="font-weight-lessbold" href="/media/#media2.pk#"> /media/#media2.pk# </a>
 													<cfif media2.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display shows publication--->
-											<cfif media_rel.media_relationship eq 'shows publication'> 
+											<cfif media_rel.media_relationship eq 'shows publication'>:  
 												<cfloop query="publication">
-													<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#publication.pub_long# </a>
+													<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">         #publication.pub_long# </a>
 													<cfif publication.recordcount gt 1><span> &##8226;&##8226; </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Specimens and Ledgers: relationship = %cataloged_item--->
 											<cfif media_rel.auto_table eq 'cataloged_item'> 
 												<cfloop query="spec">
-													<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><cfif spec.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/guid/#spec.guid#"> #spec.guid# </a><cfif spec.recordcount gt 1><span>, </span> </cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Specimens parts--->
-											<cfif media_rel.auto_table eq 'specimen_part'> 
+											<cfif media_rel.auto_table eq 'specimen_part'>: 
 												<cfloop query="specpart">
-													<span class="font-weight-lessbold">#specpart.part_name# </span>
+													<span class="font-weight-lessbold"> #specpart.part_name# </span>
 												</cfloop>
 											</cfif>
 											<!---Display underscore_collection related named groups--->
@@ -1555,6 +1586,13 @@ include this function and use it.
 													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#"> #underscore.collection_name#</a><cfif underscore.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
+											<!---Display project--->
+											<!---<cfif media_rel.media_relationship eq 'shows project'>
+												<cfset cProject.project_name = replace(cProject_name," ","-","all")>
+												<cfloop query="cProject">
+													<a class="font-weight-lessbold" href="/project/#cProject.project_name#"> #cProject.project_name#</a><cfif cProject.recordcount gt 1><span>, </span></cfif>
+												</cfloop>
+											</cfif>--->
 										</div>
 										<cfset relationSeparator='<span class="px-1"> | </span>'><!--- ' --->
 									</cfloop> 

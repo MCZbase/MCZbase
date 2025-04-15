@@ -2113,6 +2113,25 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfreturn cfthread["localityGeoRefFormThread#tn#"].output>
 </cffunction>
 
+<cffunction name="getDecimalParts" returntype="struct">
+	<cfargument name="dec_lat" type="string" required="true">
+	<cfargument name="dec_long" type="string" required="true">
+	<cfset var result = StructNew()>
+	<cfset var numberStr1 = arguments.dec_lat & "">
+	<cfset var numberStr2 = arguments.dec_long & "">
+	<cfset var decimalLatPart = "0">
+	<cfset var decimalLongPart = "0">
+	<cfif ListLen(numberStr1, ".") GT 1>
+		<cfset decimalLatPart = ListGetAt(numberStr1, 2, ".")>
+	</cfif>
+	<cfif ListLen(numberStr2, ".") GT 1>
+		<cfset decimalLongPart = ListGetAt(numberStr2, 2, ".")>
+	</cfif>
+	<cfset result.dot_dec_lat = decimalLatPart>
+	<cfset result.dot_dec_long = decimalLongPart>
+	<cfreturn result>
+</cffunction>
+		
 <!--- given a locality_id create the html for a dialog to add a georeference to the locality
   @param locality_id the locality to which to add the georeference.
   @param geolocateImmediate optional, if yes, then immediately invoke geolocate on opening the dialog.
@@ -2127,6 +2146,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="getGeorefThread#tn#">
 		<cftry>
+
 			<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT ORIG_LAT_LONG_UNITS 
 				FROM ctlat_long_units
@@ -2177,6 +2197,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			</cfif>
 			<cfset locality_label = "#getLocalityMetadata.spec_locality##getLocalityMetadata.curated#">
 			<cfoutput>
+				
 				<h2 class="h3 mt-0 px-1 font-weight-bold">
 					New Georeference
 					<i class="fas fa-info-circle" onClick="getMCZDocs('Georeferencing')" aria-label="georeferencing help link"></i>
@@ -2199,6 +2220,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<div class="tab-content  pt-1 flex-wrap d-flex">
 							<div id="manualPanel" role="tabpanel" aria-labelledby="manualTabButton" tabindex="0" class="col-12 px-0 mx-0 active unfocus">
 								<form id="manualGeorefForm">
+								
 									<input type="hidden" name="method" value="addGeoreference">
 									<input type="hidden" name="field_mapping" value="generic"> 
 									<input type="hidden" name="locality_id" value="#locality_id#">
@@ -2405,7 +2427,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</script> 
 										</div>
 										<div class="col-12 col-md-3 mb-2">
-											<label for="coordinate_precision" class="data-entry-label">Precision</label>
+											<label for="coordinate_precision" class="data-entry-label">Precision of Coordinates</label>
 											<select name="coordinate_precision" id="coordinate_precision" class="data-entry-select reqdClr" required>
 												<option value=""></option>
 												<option value="0">Specified to 1&##176;</option>
@@ -2416,7 +2438,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												<option value="5">Specified to 0.00001&##176;, latitude known to 1 meter.</option>
 												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 											</select>
-										</div>
+										</div>	
 										<div class="col-12 col-md-3 mb-2">
 											<label for="gpsaccuracy" class="data-entry-label">GPS Accuracy</label>
 											<input type="text" name="gpsaccuracy" id="gpsaccuracy" class="data-entry-input" value="">
@@ -2606,19 +2628,109 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											$(document).ready(function() { 
 												$('.geolocateMetadata').hide();
 											});
-										</script>
-										<div class="col-12 col-md-3 pt-2">
-											<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
-												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " 
-												id="submitButton" >
-											<output id="manualFeedback" class="text-danger">&nbsp;</output>	
+										</script>												
+										<div class="col-12 col-md-auto pt-2">
+											<input type="button" value="Save" class="btn btn-xs btn-primary mr-2 mb-2"
+												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " id="submitButton" >
 										</div>
+										<div class="col-12 col-md-11 pt-2">
+											<output id="manualFeedback" class="text-danger d-inline"></output>		
+											<span id="coordinateError" class="text-danger">&nbsp;</span><br>
+											<span id="precisionError" class="text-danger">&nbsp;</span>
+											<span id="precisionSuggestion" class=""></span>
+										</div>
+										<script type="text/javascript">
+										  	$(document).ready(function () {
+												// Function to count the decimal places
+												function countDecimals(value) {
+													if (value.includes('.')) {
+														return value.split('.')[1].length;
+													}
+													return 0;
+												}
+												
+												function validateCoordinates() {
+													var lat = parseFloat($('##lat_deg').val());
+													var long = parseFloat($('##long_deg').val());
+
+													if (isNaN(lat) || lat < -90 || lat > 90) {
+														$('##coordinateError').html('Latitude value seems incorrect. Must be between -90 and 90.');
+														//console.error("Latitude out of range.");
+														return false;
+													} else if (isNaN(long) || long < -180 || long > 180) {
+														$('##coordinateError').html('Longitude value seems incorrect. Must be between -180 and 180.');
+														//console.error("Longitude out of range.");
+														return false;
+													} else {
+														$('##coordinateError').html('');
+														return true;
+													}
+												}
+												
+												// Function to check precision of latitude and longitude in decimal degrees
+												function validatePrecision() {
+													var lat = $('##lat_deg').val() || "0"; 
+													var long = $('##long_deg').val() || "0"; 
+													var selectedPrecision = parseInt($('##coordinate_precision').val(), 10);
+													var latPrecision = countDecimals(lat);
+													var longPrecision = countDecimals(long);
+
+													//  Check if the precision is less than the selected precision
+													if (latPrecision < selectedPrecision || longPrecision < selectedPrecision) {
+														$('##precisionError').html('Precision error: Coordinates do not have enough decimal places for the precision selected.');
+													} else {
+														$('##precisionError').html('');
+													}
+													var precisionMismatch = false;
+													var suggestionMessage = "";
+													if (latPrecision < selectedPrecision) {
+														suggestionMessage += `<li class="list-group-item text-dark">Latitude needs at least ${selectedPrecision} decimal places. Currently has: ${latPrecision}.</li> `;
+														precisionMismatch = true;
+													}
+													if (longPrecision < selectedPrecision) {
+														suggestionMessage += `<li class="list-group-item text-dark">Longitude needs at least ${selectedPrecision} decimal places. Currently has: ${longPrecision}.</li> `;
+														precisionMismatch = true;
+													}
+													if (precisionMismatch) {
+														$('##precisionError').html('Precision error: Insufficient decimal places.');
+														$('##precisionSuggestion').html(`<ul class="list-group px-5">${suggestionMessage}</ul>`);
+														// console.log("Precision check failed. Suggestions: ", suggestionMessage);
+														return false;
+													} else {
+														$('##precisionError').html('');
+														$('##precisionSuggestion').html('');
+													//	console.log("Precision check passed.");
+														return true;
+													}
+												}
+												$('##lat_deg, ##long_deg, ##coordinate_precision').on('input change', function() {
+													if (validatePrecision() && validateCoordinates()) {
+														$('##precisionError').html('');
+														$('##coordinateError').html('');
+														$('##precisionSuggestion').html('');
+													} else {
+														validatePrecision();
+														validateCoordinates();
+													}
+												});
+												// Attach submit event to the form
+												$('##manualGeorefForm').on('submit', function(event) {
+													if (!validatePrecision() && !validateCoordinates) {
+														event.preventDefault(); // Prevent form submission if precision check fails
+														
+													} else {
+														saveManualGeoref();	
+													}
+												});
+											});
+										</script>
 										<script>
 											function saveManualGeoref() { 
 												$('##manualFeedback').html('Saving....');
 												$('##manualFeedback').addClass('text-warning');
 												$('##manualFeedback').removeClass('text-success');
 												$('##manualFeedback').removeClass('text-danger');
+										
 												jQuery.ajax({
 													url : "/localities/component/functions.cfc",
 													type : "post",
@@ -2628,17 +2740,17 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														console.log(data);
 														$('##manualFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
 														$('##georeferenceDialogFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
+														
 														$('##manualFeedback').addClass('text-success');
 														$('##manualFeedback').removeClass('text-danger');
 														$('##manualFeedback').removeClass('text-warning');
 														$('##addGeorefDialog').dialog('close');
 													},
 													error: function(jqXHR,textStatus,error){
-														$('##manualFeedback').html('Error.');
+														$('##manualFeedback').html('Error exists.');
 														$('##manualFeedback').addClass('text-danger');
 														$('##manualFeedback').removeClass('text-success');
-														$('##manualFeedback').removeClass('text-warning');
-														handleFail(jqXHR,textStatus,error,'saving manually entered georeference for locality');
+														$('##manualFeedback').removeClass('text-warning');														
 													}
 												});
 											}
@@ -2834,7 +2946,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="gl_verified_by_agent" class="data-entry-label" id="gl_verified_by_agent_label">
 												Verified by
 												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##gl_verified_by_agent_id').val('#getCurrentUser.agent_id#');  $('##gl_verified_by_agent').val('#encodeForHtml(getCurrentUser.agent_name)#'); return false;" > (me) <span class="sr-only">Fill in verified by with #encodeForHtml(getCurrentUser.agent_name)#</span></a>
-</label>
+											</label>
 											<input type="hidden" name="verified_by_agent_id" id="gl_verified_by_agent_id">
 											<input type="text" name="verified_by_agent" id="gl_verified_by_agent" class="data-entry-input reqdClr">
 											<script>
@@ -3114,6 +3226,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="datum" type="string" required="yes">
 	<cfargument name="lat_long_ref_source" type="string" required="no">
 	<cfargument name="determined_by_agent_id" type="string" required="yes">
+	<cfargument name="determined_by_agent" type="string" required="yes">
 	<cfargument name="verified_by_agent_id" type="string" required="no">
 	<cfargument name="determined_date" type="string" required="no">
 	<cfargument name="georefmethod" type="string" required="no">

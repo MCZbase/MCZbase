@@ -1296,13 +1296,13 @@ limitations under the License.
 										</cfquery>
 										<cfquery name="getLatLongVer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getLatLongVer_result">
 											select 
-												count(*) cnt,
+												count(*) count,
 												count(distinct(locality_id)) locs 
 											from lat_long 
-											where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											where verified_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
 										<cfif #getLatLongDet.cnt# gt 0><cfset GeoDet = 1><cfelse><cfset GeoDet = 0></cfif>
-										<cfif #getLatLongVer.cnt# gt 0><cfset GeoVer = 1><cfelse><cfset GeoVer = 0></cfif>
+										<cfif #getLatLongVer.count# gt 0><cfset GeoVer = 1><cfelse><cfset GeoVer = 0></cfif>
 										<cfset totalRoles = #GeoDet# + #GeoVer#>
 										<cfif totalRoles eq 0>
 											<!--- cardState = collapsed --->
@@ -1316,7 +1316,7 @@ limitations under the License.
 										<div class="card-header" id="georefHeader">
 											<h2 class="h4 my-0">
 												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##georefCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="georefCardBodyWrap">
-													Georeferences (#getLatLongDet.cnt# determined, #getLatLongVer.cnt# verified)
+													Georeferences (#getLatLongDet.cnt# determined, #getLatLongVer.count# verified)
 												</button>
 											</h2>
 										</div>
@@ -1337,7 +1337,7 @@ limitations under the License.
 													</ul>
 												<cfelse>
 													<ul class="list-group">
-														<li class="list-group-item">Verified #getLatLongVer.cnt# coordinates for #getLatLongVer.locs# localities</li>
+														<li class="list-group-item">Verified #getLatLongVer.count# coordinates for #getLatLongVer.locs# localities</li>
 													</ul>
 												</cfif>
 											</div>
@@ -2119,6 +2119,15 @@ limitations under the License.
 							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="enteredSection"> 
 									<div class="card mb-2 bg-light">
+										<cfquery name="enteredHeader" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="entered_result">
+											select
+												count(*) cnt
+											from 
+												coll_object
+												join cataloged_item on coll_object.collection_object_id = cataloged_item.collection_object_id
+											where
+												ENTERED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										</cfquery>
 										<cfquery name="entered" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="entered_result">
 											select
 												count(*) cnt,
@@ -2146,8 +2155,7 @@ limitations under the License.
 										<div class="card-header" id="enteredHeader">
 											<h2 class="h4 my-0">
 												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##enteredCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="enteredCardBodyWrap">
-												MCZbase Records Entered (in #entered.recordcount# collections)
-												</button>
+												MCZbase Records Entered (<cfif #entered.recordcount# gt 0>#enteredHeader.cnt# specimen<cfif #entered.recordcount# gt 1>s<cfelse></cfif><cfelse>0</cfif>)</button>
 											</h2>
 										</div>
 										<div id="enteredCardBodyWrap" class="#bodyClass#" aria-labelledby="enteredHeader" data-parent="##enteredSection">
@@ -2174,6 +2182,15 @@ limitations under the License.
 							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="lastEditSection"> 
 									<div class="card mb-2 bg-light">
+										<cfquery name="lastEditHeader" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lastEdit_result">
+											select 
+												count(*) cnt
+											from 
+												coll_object
+												join cataloged_item on coll_object.collection_object_id = cataloged_item.collection_object_id
+											where 
+												LAST_EDITED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										</cfquery>
 										<cfquery name="lastEdit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lastEdit_result">
 											select 
 												count(*) cnt,
@@ -2189,6 +2206,11 @@ limitations under the License.
 												collection,
 												collection.collection_id
 										</cfquery>
+										<cfset i = 0>
+										<cfloop query="lastEdit">
+											<cfset i=i+1>
+												<cfif #i# gt 0><cfset plural = 's'><cfelse></cfif>
+										</cfloop>
 										<cfif lastEdit.recordcount GT 15 OR lastEdit.recordcount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
@@ -2201,7 +2223,7 @@ limitations under the License.
 										<div class="card-header" id="lastEditHeader">
 											<h2 class="h4 my-0">
 												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="lastEditCardBodyWrap">
-												MCZbase Records Last Edited By this agent (<cfif #lastEdit.cnt# gt 0>#lastEdit.cnt#<cfelse>0</cfif>)
+													MCZbase Records Last Edited By this agent (<cfif #lastEdit.cnt# gt 0>#lastEditHeader.cnt# specimen<cfif #lastEdit.recordcount# gt 1>s<cfelse></cfif><cfelse>0</cfif>)
 												</button>
 											</h2>
 										</div>

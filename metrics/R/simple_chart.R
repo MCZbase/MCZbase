@@ -15,7 +15,7 @@ df <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', show_col
 
 #local load for testing
 #df <- read_csv("C:/Users/mih744/Downloads/chart_data.csv")
-
+#df <- chart_data
 # make calculations based on collection grouping
 #df %>% group_by(COLLECTIONS)
 
@@ -27,16 +27,16 @@ df <- df[filter, ]
 # and creating a new column in cf_temp_chart_data
 df$COLLECTIONS <- c("Mala","Mamm","Ent","Orn","IZ", "VP","IP","Herp","Cryo","SC", "Ich")
 
-chart1 <- ggplot(df, aes(x="", y=CATALOGEDITEMS, fill=COLLECTION )) +
+chart1 <- ggplot(df, aes(x="", y=CATALOGEDITEMS, fill=COLLECTIONS )) +
   geom_bar(stat="identity", width=1) +
   coord_polar("y", start=0) +
-  labs(title = "Cataloged Items per Collection (data range: today minus one year)", 
+  labs(title = "Cataloged Items per Collection (data range: today minus 1 year)", 
        caption = "Source: Cataloged Items from MCZbase") +
  theme_void()
 # uncomment and use chart or print(chart1) during testing
-#chart1
+chart1
 
 # !!!make sure all instances in R plots, environment, Photoshop, etc are closed before refreshing webpage.
-ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png', chart1, width=7, height=5, units="in", dpi=96)
+ggsave('/var/www/html/arctos/metrics/R/chart1.png', chart1, width=7, height=5, units="in", dpi=96)
 
 

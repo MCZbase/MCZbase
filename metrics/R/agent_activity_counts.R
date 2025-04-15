@@ -151,90 +151,86 @@ outliers$AgentInfo <- factor(outliers$AgentInfo, levels = total_counts_sorted$Ag
 main_data <- na.omit(main_data)
 ## The display is below: Define a custom palette corresponding to the roles
 cpalette <- c("#E69F00","#FF4500","#006400","#03839c","#d24678",
-             "#665433","#5928ed","#0073e6","#8b0000","#8B008B",
-             "#00008b","#a0522d","#2f2f2f","#e22345","#657843",
-             "#708090")
-
+              "#665433","#5928ed","#0073e6","#8B008B","#8B0000",
+              "#00008b","#a0522d","#2f2f2f","#e22345","#657843",
+              "#708090")
 ## extra color-blind safe colors
-             # #984ea3","#cd4b19","#2e8b57","#ff7f00","#394df2",
-             # "#096d28","#4b0082","#a892f5","#f00000","#334445",
-             # "#a8786f","#5a5a5a","#0072B2","#657843","#a65628",
-             # "#f75147","#8B3a3a","#56B4E9","#234b34","#432666",
-            #  "#b53b56","#708090","#4682b4","#106a93","#b51963",
-             # "#556B2F","#483D8B","#c42e24","#4daf4a","#2f4f4f"
-
+    # "#984ea3","#cd4b19","#2e8b57","#ff7f00","#394df2","#096d28","#4b0082","#a892f5","#f00000","#334445",
+    # "#a8786f","#5a5a5a","#0072B2","#657843","#a65628","#f75147","#8B3a3a","#56B4E9","#234b34","#432666",
+    # "#b53b56","#708090","#4682b4","#106a93","#b51963","#556B2F","#483D8B","#c42e24","#4daf4a","#2f4f4f"
 
 ## Use RoleLabel for legend labels, which should be unique
 legend_labels <- unique(agents_data_sorted$RoleLabel)
 
 ## Main plot for standard range, exclude full stacks that are moved to outliers
 main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role)) +
-  geom_bar(stat = "identity", position = "stack") +
-  guides(color = guide_legend(title = "Agent Role Legend")) +
-  geom_text(aes(label = ifelse(AdjustedCount > 3000, 
+    geom_bar(stat = "identity", position = "stack") +
+    guides(color = guide_legend(title = "Agent Role Legend")) +
+    geom_text(aes(label = ifelse(AdjustedCount > 3000, 
                 paste0(as.integer(factor(Role)), ""), "")),  
                 position = position_stack(vjust = 0.5),
-                size = 1, color = "white"
+                size = 1, color = "white"  
                 ) +
-  labs(title = "Counts by Role and Agent (total count must be > 3500 to be shown)",
-       x = "Agent",y = "COUNT (<= 100,000)") +
-  scale_color_manual(values=cpalette,labels=unique(agents_data_sorted$simplified)) +
-  scale_fill_manual(values=cpalette,labels=agents_data_sorted$simplified) +
-  scale_y_continuous(labels = scales::comma, expand=c(0.02, 0.02)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller
-  theme_minimal() +
-  theme(plot.title = element_text(size=unit(7,"pt"), face="bold"),
-        plot.margin = margin(t=1,r=1,b=0,l=1),
-        axis.text.x = element_text(margin=margin(t=-1,b=-1), size=unit(0.5,"pt"), color='white', angle =0, hjust = 0),
-        axis.text.y = element_text(margin=margin(t=0.025), size=unit(3.5,"pt")),
-        axis.title.x = element_text(margin=margin(t=0.0,b=0), size=unit(5,"pt")),
-        axis.title.y = element_text(size=unit(5,"pt")), 
+                labs(
+                title = "Counts by Role and Agent (total count must be > 3500 to be shown)",
+                x = "Agent Activity", 
+                y = "COUNT (<= 100,000)"
+                ) +
+    scale_color_manual(values=cpalette,labels=unique(agents_data_sorted$simplified)) +
+    scale_fill_manual(values=cpalette,labels=agents_data_sorted$simplified) +
+    scale_y_continuous(labels = scales::comma, expand=c(0.02, 0.02)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller
+    theme_minimal(base_size = 12) +
+    theme(plot.title = element_text(size=rel(0.5), face="bold",family="Arial"),
+        plot.margin = margin(t=1,r=1,b=0,l=10),
+        axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.45), color='white', angle =0, hjust = 0),
+        axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.45)),
+        axis.title.x = element_text(margin=margin(t=0,b=0), size=rel(0.45)),
+        axis.title.y = element_text(size=rel(0.45)), 
         legend.direction = "vertical",   # Typically more space-efficient when inside plots
         legend.box = "vertical",
         legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
-        legend.key.size = unit(0.355, "lines"),
-        legend.box.margin = margin(0.05, 0.05, 0.05, 0.05), # Tighten the box margin if needed
-        legend.text = element_text(margin=margin(0, 0, 0, 0.02), size=4),
+        legend.key.size = unit(0.33, "lines"),
+        legend.box.margin = margin(0.05, 0.05, 0.05, 0.0), # Tighten the box margin if needed
+        legend.text = element_text(margin=margin(l=0.5),size=rel(0.38),hjust=0),
         legend.spacing.x = unit(0.02, "cm"),
-        legend.spacing.y = unit(0.05, "cm"),
+        legend.spacing.y = unit(0.02, "cm"),
         legend.justification = c("right", "top"),
-        legend.box.just = "right",
-        legend.title = element_text(margin = margin(0, 0, .02, 1), size=6, hjust=0.5), 
-        legend.margin = margin(2, 2, 2, 2)
-  )
+        legend.box.just = "left",
+        legend.title = element_text(margin=margin(b=0.65),size=rel(0.45), hjust=0.5, family="Arial"), 
+        legend.margin = margin(3, 3, 3, 3)
+    )
 
 ## Outliers plot, now includes whole removed stacks
 outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = Role)) +
-  geom_bar(stat = "identity", 
-           position = "stack"
-           ) + 
-  geom_text(aes(label = ifelse(AdjustedCount > 10000, 
-                paste0(as.integer(factor(Role)), ""), "")), 
-                size = 1, color = "white", position=position_stack(vjust=0.5)
-                ) +
-  scale_fill_manual(values = cpalette, 
-                    labels = legend_labels,
-                    guide="none"
-                    ) +
-  scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) + 
-  theme_minimal() +
-  labs(title = "Outliers", 
-       x = NULL, 
-       y = "COUNT (> 100,000)", 
-       fill = NULL
-       ) +
-  theme(plot.title = element_text(size=unit(7,"pt"), face="bold"), 
-        axis.title.y = element_text(size=unit(5,"pt")),
-        axis.title.x = element_text(size=unit(5,"pt")),
-        axis.text.x = element_text(margin=margin(t=-1,b=0), size=unit(0.5,"pt"),color='white', angle =35, hjust = 1), #these agent login names are not shown
-        axis.text.y = element_text(margin=margin(t=0.25), size=unit(3.5,"pt"))
-        ) 
+      geom_bar(stat = "identity", position = "stack") + 
+      geom_text(aes(label = ifelse(AdjustedCount > 100000, 
+              paste0(as.integer(factor(Role)), ""), "")), 
+              size = 1, color = "white", position=position_stack(vjust=0.5)
+              ) +
+      scale_fill_manual(values = cpalette, 
+              labels = legend_labels,
+              guide="none"
+              ) +
+      scale_y_continuous(labels = scales::comma, expand = c(0.02, 0.02)) + 
+      theme_minimal(base_size = 12) +
+      labs(title = "Outliers", 
+              x = NULL, 
+              y = "COUNT (> 100,000)", 
+              fill = NULL
+              ) +
+      theme(plot.title = element_text(size=rel(0.5), face="bold",family="Arial"), 
+            axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.45), color='white', angle =0, hjust = 0),
+            axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.45)),
+            axis.title.x = element_text(margin=margin(t=0,b=0), size=rel(0.45)),
+            axis.title.y = element_text(size=rel(0.45))
+            ) 
 
 ## Combine the plots using patchwork, place outliers to the left and merge legends
-combined_plot <- main_plot + outliers_plot +
-  plot_layout(guides = 'collect', widths = c(92.5, 7.5))
+combined_plot <- main_plot + outliers_plot + plot_layout(guides = 'collect', widths = c(92.5, 6.8))
+
  
 ## Display the combined plot, can have comment removed for debugging.
 #print(combined_plot)
 
 ## Save the svg file to the expected location.
-ggsave('/var/www/html/arctos/metrics/datafiles/Agent_Activity.svg', plot=combined_plot, width = 6.5, height = 3)
+ggsave('/var/www/html/arctos/metrics/datafiles/Agent_Activity.svg', plot=combined_plot, width = 6.5, height = 2.8)
