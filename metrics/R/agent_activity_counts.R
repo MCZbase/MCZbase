@@ -180,7 +180,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
     scale_fill_manual(name="Type of Action",values=cpalette,labels=agents_data_sorted$simplified) +
     scale_y_continuous(labels = scales::comma, expand=c(0.02, 0.02)) +  # removed this after comma: ", expand = c(0.02, 0.02)" makes space between labels and text smaller
     theme_minimal(base_size = 12) +
-    theme(plot.title = element_text(size=rel(0.4), family="Roboto Black"),
+    theme(plot.title = element_text(size=rel(0.38), family="Roboto Black"),
         plot.margin = margin(0,6,0,8, unit = "pt"),
         axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.36), color='white', angle =0, hjust = 0),
         axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.36), family="Roboto Regular"),
@@ -218,7 +218,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
               y = "Count of actions (> 100,000)", 
               fill = NULL
               ) +
-      theme(plot.title = element_text(size=rel(0.4),family="Roboto Black"), 
+      theme(plot.title = element_text(size=rel(0.38),family="Roboto Black"), 
             plot.margin = margin(0,0,0,0,unit="pt"),
             axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.36), color='white', angle =0, hjust = 0),
             axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.36),family="Roboto Regular"),
