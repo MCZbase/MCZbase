@@ -190,7 +190,7 @@ main_plot <- ggplot(main_data, aes(x = AgentInfo, y = AdjustedCount, fill=Role))
         legend.box = "vertical",
         legend.background = element_rect(fill=alpha('white', 0.0)), # Make the legend background transparent
         legend.key.size = unit(0.33, "lines"),
-        legend.box.margin = margin(3,3, 3, 3, unit = "pt"), # Tighten the box margin if needed
+        legend.box.margin = margin(3,3, 3, 0, unit = "pt"), # Tighten the outside box margin if needed
         legend.text = element_text(margin=margin(l=0.5),size=rel(0.32),hjust=0,family="Roboto Regular"),
         legend.spacing.x = unit(0.02, "cm"),
         legend.spacing.y = unit(0.02, "cm"),
@@ -219,7 +219,7 @@ outliers_plot <- ggplot(outliers, aes(x = AgentInfo, y = AdjustedCount, fill = R
               fill = NULL
               ) +
       theme(plot.title = element_text(size=rel(0.4),family="Roboto Black"), 
-            plot.margin = margin(0,0,0,3,unit="pt"),
+            plot.margin = margin(0,0,0,6,unit="pt"),
             axis.text.x = element_text(margin=margin(t=0,b=0), size=rel(0.36), color='white', angle =0, hjust = 0),
             axis.text.y = element_text(margin=margin(t=0.25), size=rel(0.36),family="Roboto Regular"),
             axis.title.x = element_text(margin=margin(t=0,b=0), size=rel(0.36),family="Roboto Black"),
