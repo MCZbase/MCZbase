@@ -567,15 +567,25 @@ limitations under the License.
 			</cfquery>
 			<cfloop query="getTempData">
 				<!--- verify that the spec_locality is the value in the locality with the specified locality_id --->
-				<cfquery name="geogIDOnLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE CF_TEMP_COLLECTING_EVENT
-					SET status = concat(nvl2(status, status || '; ', ''),'spec_locality is not correct for specified locality_id, did you provide the correct locality_id?')
-					WHERE
-						spec_locality is not null
-						AND NOT spec_locality in (select spec_locality from locality where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-				</cfquery>
+				<cfif len(getTempData.locality_id) eq 0>
+					<cfquery name="geogIDOnLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE CF_TEMP_COLLECTING_EVENT
+						SET status = concat(nvl2(status, status || '; ', ''),'Required locality_id is empty.')
+						WHERE
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+					</cfquery>
+				<cfelse> 
+					<cfquery name="geogIDOnLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE CF_TEMP_COLLECTING_EVENT
+						SET status = concat(nvl2(status, status || '; ', ''),'spec_locality is not correct for specified locality_id, did you provide the correct locality_id?')
+						WHERE
+							spec_locality is not null
+							AND NOT spec_locality in (select spec_locality from locality where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">)
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+					</cfquery>
+				</cfif>
 
 				<!--- lookup agent --->
 				<cfif len(getTempData.date_determined_by_agent) gt 0>
