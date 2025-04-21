@@ -16,8 +16,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+
+<cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
+<cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
+
 <!--- special case handling to dump problem data as csv --->
-<cfif isDefined("action") AND action is "dumpProblems">
+<cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			status, 
@@ -35,11 +39,13 @@ limitations under the License.
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
+
 <cfset fieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VALUE,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VALUE,BIOL_INDIV_RELATION_REMARKS">
 <cfset fieldTypes="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VALUE,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VALUE">
+
 <!--- special case handling to dump column headers as csv --->
-<cfif isDefined("action") AND action is "getCSVHeader">
+<cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
 	<cfset csv = "">
 	<cfset separator = "">
 	<cfloop list="#fieldlist#" index="field" delimiters=",">
@@ -55,12 +61,13 @@ limitations under the License.
 <cfset pageTitle = "Bulkload Relations">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv functions --->
-<cfif not isDefined("action") OR len(action) EQ 0>
-	<cfset action="nothing">
+
+<cfif not isDefined("variables.action") OR len(variables.action) EQ 0>
+	<cfset variables.action="nothing">
 </cfif>
 <main class="container-fluid px-xl-5 py-3" id="content">
 	<h1 class="h2 mt-2">Bulkload Relations</h1>
-	<cfif #action# is "nothing">
+	<cfif #variables.action# is "nothing">
 		<cfoutput>
 			<p>This tool adds biological relationships to the specimen record. Include column headings, spelled exactly as below. Additional columns will be ignored. Identify cataloged items to relate with institution codes, collection codes, and other ids, where other_id_type can be <strong>catalog number</strong> or one of the other id types in <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCOLL_OTHER_ID_TYPE">CTCOLL_OTHER_ID_TYPE</a>. You must identify the cataloged item on each side of the relationship. The relationships must appear as they do on the controlled vocabulary for <a href="/vocabularies/ControlledVocabulary.cfm?table=CTBIOL_RELATIONS">BIOL_RELATIONS</a> Upload a comma-delimited text file (csv). Assert the BIOL_INDIV_RELATIONSHIP, not the inverse relationship.  The relationship (and inverse relationship) must be in the code table prior to uploading this .csv. To assert that MCZ:Orn:200 is the egg of MCZ:Orn:1, use other_id_value=200, relationship=egg of, related_other_id_value=1.  Only the forward relationships are stored in the database.</p>
 			<h2 class="h4">Use Template to Load Data</h2>
@@ -162,7 +169,7 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
-	<cfif #action# is "getFile">
+	<cfif #variables.action# is "getFile">
 		<cfoutput>
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
@@ -372,7 +379,7 @@ limitations under the License.
 	</cfif>
 	<!------------------------------------------------------->
 	<!------------------------------------------------------->
-	<cfif #action# is "validate">
+	<cfif #variables.action# is "validate">
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -646,7 +653,7 @@ limitations under the License.
 	</cfif>
 				
 	<!---------------------Load data--------------------------------->
-	<cfif action is "load">
+	<cfif variables.action is "load">
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset problem_key = "">
