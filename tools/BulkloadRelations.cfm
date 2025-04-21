@@ -170,6 +170,11 @@ limitations under the License.
 	</cfif>
 	<!------------------------------------------------------->
 	<cfif #variables.action# is "getFile">
+
+		<cfif isDefined("form.fileToUpload")><cfset variables.fileToUpload = form.fileToUpload></cfif>
+		<cfif isDefined("form.format")><cfset variables.format = form.format></cfif>
+		<cfif isDefined("form.characterSet")><cfset variables.characterSet = form.characterSet></cfif>
+
 		<cfoutput>
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
