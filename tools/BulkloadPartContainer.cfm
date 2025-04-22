@@ -408,6 +408,14 @@ limitations under the License.
 				(other_id_type is null OR other_id_type <> 'catalog number') 
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
+		<cfquery name="probPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			UPDATE cf_temp_barcode_parts
+			SET
+				status = concat(nvl2(status, status || '; ', ''),'part_name is invalid')
+			WHERE 
+				part_name not in (select part_name from ctspecimen_part_name)
+				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		</cfquery>
 		<!--- Load temp table cf_temp_barcode_part and iterate --->
 		<cfquery name="dataParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,
@@ -418,14 +426,6 @@ limitations under the License.
 				KEY
 			FROM cf_temp_barcode_parts 
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-		</cfquery>
-		<cfquery name="probPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			UPDATE cf_temp_barcode_parts
-			SET
-				status = concat(nvl2(status, status || '; ', ''),'part_name is invalid')
-			WHERE 
-				part_name not in (select part_name from ctspecimen_part_name)
-				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfloop query="dataParts">
 			<cfif len(dataParts.part_collection_object_id) eq 0>
