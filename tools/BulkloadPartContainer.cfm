@@ -491,7 +491,7 @@ limitations under the License.
 								specimen_part.collection_object_id
 							FROM 
 								specimen_part 
-								join coll_object_remark specimen_part_remarks on specimen_part.collection_object_id = specimen_part_remarks.collection_object_id
+								left join coll_object_remark specimen_part_remarks on specimen_part.collection_object_id = specimen_part_remarks.collection_object_id
 							WHERE 
 								derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCOID.collection_object_id#">
 								and part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_name#">
