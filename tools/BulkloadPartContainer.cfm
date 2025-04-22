@@ -498,7 +498,7 @@ limitations under the License.
 								and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.preserve_method#">
 								and coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.current_remarks#">
 						</cfquery>
-						<cfif getPartWitRemark.recordcount EQ 0>
+						<cfif getPartWithRemark.recordcount EQ 0>
 							<!--- part not found --->
 							<cfquery name="probPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_barcode_parts
@@ -508,7 +508,7 @@ limitations under the License.
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 									and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
 							</cfquery>
-						<cfelseif getPart.recordcount EQ 1>
+						<cfelseif getPartWithRemark.recordcount EQ 1>
 							<!--- part found --->
 							<cfquery name="partFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_barcode_parts
@@ -518,7 +518,7 @@ limitations under the License.
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 									and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
 							</cfquery>
-						<cfelseif getPart.recordcount GT 1>
+						<cfelseif getPartWithRemark.recordcount GT 1>
 							<!--- duplicate parts still found --->
 							<cfquery name="probPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_barcode_parts
