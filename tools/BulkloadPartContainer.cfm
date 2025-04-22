@@ -496,7 +496,11 @@ limitations under the License.
 								derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCOID.collection_object_id#">
 								and part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_name#">
 								and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.preserve_method#">
-								and coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.current_remarks#">
+								<cfif len(dataParts.current_remarks) GT 0>
+									and coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.current_remarks#">
+								<cfelse>
+									and coll_object_remarks is null
+								</cfif>
 						</cfquery>
 						<cfif getPartWithRemark.recordcount EQ 0>
 							<!--- part not found --->
@@ -621,7 +625,7 @@ limitations under the License.
 			<!--- confirm that part is actually in the current container --->
 			<cfquery name="checkPartContainerCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_barcode_parts
-				SET status = concat(nvl2(status, status || '; ', ''), 'Part is not currently in container_barcode [#getTempTableQC1.container_barcode#]')
+				SET status = concat(nvl2(status, status || '; ', ''), 'Part is not currently in container_barcode [#getTempTableQC1.container_barcode#] (or part was not found)')
 				WHERE 
 					container_barcode not in (
 						select p.barcode 
