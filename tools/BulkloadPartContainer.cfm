@@ -625,7 +625,7 @@ limitations under the License.
 			<!--- confirm that part is actually in the current container --->
 			<cfquery name="checkPartContainerCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE cf_temp_barcode_parts
-				SET status = concat(nvl2(status, status || '; ', ''), 'Part is not currently in container_barcode [#getTempTableQC1.container_barcode#] (or part was not found)')
+				SET status = concat(nvl2(status, status || '; ', ''), 'Part is not currently in container_barcode [#getTempTableQC1.container_barcode#]')
 				WHERE 
 					container_barcode not in (
 						select p.barcode 
@@ -639,6 +639,7 @@ limitations under the License.
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
+					AND (status IS NULL OR status NOT LIKE '%no part%found for%')
 			</cfquery>
 			<!--- Based on part_collection_object_id--->
 			<cfif len(part_collection_object_id) gt 0>
