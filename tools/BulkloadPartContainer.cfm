@@ -639,7 +639,7 @@ limitations under the License.
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
-					AND (status IS NULL OR status NOT LIKE '%no part%found for%')
+					AND (status IS NULL OR NOT (status LIKE '%no part%found for%' OR status LIKE '%unable to match a unique part%'))
 			</cfquery>
 			<!--- Based on part_collection_object_id--->
 			<cfif len(part_collection_object_id) gt 0>
