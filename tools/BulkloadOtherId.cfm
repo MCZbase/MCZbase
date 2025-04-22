@@ -17,8 +17,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+
+<!--- page can submit with action either as a form post parameter or as a url parameter, obtain either into variable scope. --->
+<cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
+<cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
+
 <!--- special case handling to dump problem data as csv --->
-<cfif isDefined("action") AND action is "dumpProblems">
+<cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT status,institution_acronym,collection_cde,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number
 		FROM cf_temp_OIDS 
@@ -38,7 +43,7 @@ limitations under the License.
 <cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,EXISTING_OTHER_ID_TYPE,EXISTING_OTHER_ID_NUMBER,NEW_OTHER_ID_TYPE,NEW_OTHER_ID_NUMBER">
 
 <!--- special case handling to dump column headers as csv --->
-<cfif isDefined("action") AND action is "getCSVHeader">
+<cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
 	<cfset csv = "">
 	<cfset separator = "">
 	<cfloop list="#fieldlist#" index="field" delimiters=",">
@@ -54,10 +59,12 @@ limitations under the License.
 <cfset pageTitle = "Bulkload Other IDs">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
-<cfif not isDefined("action") OR len(action) EQ 0><cfset action="entryPoint"></cfif>
+
+<cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset variables.action="entryPoint"></cfif>
+
 <main class="container-fluid py-3 px-xl-5" id="content">
 	<h1 class="h2 mt-2">Bulkload Other IDs</h1>
-	<cfif #action# is "entryPoint">
+	<cfif #variables.action# is "entryPoint">
 		<cfoutput>
 			<p>This tool is used to bulkload Other IDs (other numbers for specimens). Copy the column headers or download a comma-delimited text file (csv), enter, and upload data. Pay attention to capitalization where it is required. Messages will help to locate, identify, and fix problems with the data in the uploaded .csv file. Note: The errors preventing upload are displayed first and then any warnings about content. Check the Help > Controlled Vocabulary page and select the <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCOLL_OTHER_ID_TYPE">CTCOLL_OTHER_ID_TYPE</a> list for types ("catalog number" can also be used). Values can be combinations of letters, special characters, and numbers or just numbers. Submit a bug report to request an additional type when needed.</p>
 			<h2 class="h4">Use Template to Load Data</h2>
@@ -159,7 +166,13 @@ limitations under the License.
 		</cfoutput>
 	</cfif>	
 	<!------------------------------------------------------->
-	<cfif #action# is "getFile">
+	<cfif #variables.action# is "getFile">
+
+		<!--- get form variables --->
+		<cfif isDefined("form.fileToUpload")><cfset variables.fileToUpload = form.fileToUpload></cfif>
+		<cfif isDefined("form.format")><cfset variables.format = form.format></cfif>
+		<cfif isDefined("form.characterSet")><cfset variables.characterSet = form.characterSet></cfif>
+
 		<cfoutput>
 			<h2 class="h3">First step: Reading data from CSV file.</h2>
 			<!--- Compare the numbers of headers expected against provided in CSV file --->
@@ -355,7 +368,7 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
-	<cfif #action# is "validate">
+	<cfif #variables.action# is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
 			<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -499,7 +512,7 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 	<!-------------------------------------------------------------------------------------------->
-	<cfif action is "load">
+	<cfif variables.action is "load">
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset problem_key = "">
