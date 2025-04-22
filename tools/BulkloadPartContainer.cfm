@@ -496,7 +496,7 @@ limitations under the License.
 								derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCOID.collection_object_id#">
 								and part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_name#">
 								and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.preserve_method#">
-								and part_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.current_remarks#">
+								and coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.current_remarks#">
 						</cfquery>
 						<cfif getPartWitRemark.recordcount EQ 0>
 							<!--- part not found --->
