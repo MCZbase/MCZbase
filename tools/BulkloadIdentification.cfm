@@ -17,8 +17,12 @@ limitations under the License.
 
 --->
 
+<!--- page can submit with action either as a form post parameter or as a url parameter, obtain either into variable scope. --->
+<cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
+<cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
+
 <!--- special case handling to dump problem data as csv --->
-<cfif isDefined("action") AND action is "dumpProblems">
+<cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT
 			status, 
@@ -41,7 +45,7 @@ limitations under the License.
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL">
 <cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,SCIENTIFIC_NAME,NATURE_OF_ID,ACCEPTED_ID_FG,AGENT_1">
 <!--- special case handling to dump column headers as csv --->
-<cfif isDefined("action") AND action is "getCSVHeader">
+<cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
 	<cfset csv = "">
 	<cfset separator = "">
 	<cfloop list="#fieldlist#" index="field" delimiters=",">
@@ -55,10 +59,12 @@ limitations under the License.
 <cfset pageTitle = "Bulkload Identification">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
-<cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
+
+<cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset variables.action="nothing"></cfif>
+
 <main class="container-fluid py-3 px-xl-5" id="content">
 	<h1 class="h2 mt-2">Bulkload Identification</h1>
-	<cfif #action# is "nothing">
+	<cfif #variables.action# is "nothing">
 		<cfoutput>
 			<p>This tool is used to bulkload identifications. Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Additional colums will be ignored. Indentification bulkloads support one scientific name with any taxon formula that includes only the A taxon, and up to two agents as the determiners.</p>
 			<p>See controlled vocabularies for: 
@@ -166,7 +172,13 @@ limitations under the License.
 	</cfif>
 			
 	<!------------------------------------------------------->
-	<cfif #action# is "getFile">
+	<cfif #variables.action# is "getFile">
+
+		<!--- get form variables --->
+		<cfif isDefined("form.fileToUpload")><cfset variables.fileToUpload = form.fileToUpload></cfif>
+		<cfif isDefined("form.format")><cfset variables.format = form.format></cfif>
+		<cfif isDefined("form.characterSet")><cfset variables.characterSet = form.characterSet></cfif>
+
 		<cfoutput>
 			<h2 class="h3">First step: Reading data from CSV file.</h2>
 			<!--- Compare the numbers of headers expected against provided in CSV file --->
@@ -361,7 +373,7 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
-	<cfif #action# is "validate">
+	<cfif #variables.action# is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
 			<!--- Do not allow other_id_type:other_id_number combinations other than catalog number to be repeated to reduce possibility of duplicated matches --->
@@ -788,7 +800,7 @@ limitations under the License.
 	</cfif>
 
 	<!-------------------------------------------------------------------------------------------->
-	<cfif action is "load">
+	<cfif variables.action is "load">
 		<h2 class="h4">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset problem_key = "">

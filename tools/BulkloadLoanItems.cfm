@@ -19,6 +19,7 @@ limitations under the License.
 <!--- page can submit with action either as a form post parameter or as a url parameter, obtain either into variable scope. --->
 <cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
 <cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
+
 <cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT 
@@ -61,7 +62,7 @@ limitations under the License.
 <cfset pageTitle = "Bulkload Loan Items">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
-<cfif not isDefined("action") OR len(action) EQ 0><cfset action="entryPoint"></cfif>
+<cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset variables.action="entryPoint"></cfif>
 	
 <main class="container-fluid py-3 px-5" id="content">
 	<!--- Style elements for proof of concept accordion that will need to move to a css file --->
@@ -213,7 +214,13 @@ limitations under the License.
 	
 	<!------------------------------------------------------->
 
-	<cfif #action# is "getFile">
+	<cfif #variables.action# is "getFile">
+
+		<!--- get form variables --->
+		<cfif isDefined("form.fileToUpload")><cfset variables.fileToUpload = form.fileToUpload></cfif>
+		<cfif isDefined("form.format")><cfset variables.format = form.format></cfif>
+		<cfif isDefined("form.characterSet")><cfset variables.characterSet = form.characterSet></cfif>
+
 		<h2 class="h4">First step: Reading data from CSV file.</h2>
 		<cfoutput>
 		<!--- Compare the numbers of headers expected against provided in CSV file --->
@@ -412,7 +419,7 @@ limitations under the License.
 			
 	<!------------------------------------------------------->
 
-	<cfif #action# is "validate">
+	<cfif #variables.action# is "validate">
 		<h2 class="h4">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getTempDataQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -740,7 +747,7 @@ limitations under the License.
 	<!-------------------------------------------------------------------------------------------->
 
 	<!-------------------------------------------------------------------------------------------->
-	<cfif #action# is "load">
+	<cfif #variables.action# is "load">
 		<h2 class="h4">Third step: Apply changes.</h2>
 			<cfoutput>
 				<cfset problem_key = "">
