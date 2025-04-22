@@ -778,6 +778,7 @@ limitations under the License.
 						(	select part_collection_object_id 
 							from CF_TEMP_BARCODE_PARTS
 							where part_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.part_collection_object_id#">
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							group by part_collection_object_id 
 							having count(*) > 1
 						)
