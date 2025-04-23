@@ -5542,7 +5542,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				<cftransaction action="commit"/>
 				<cfset row = StructNew()>
 				<cfset row["status"] = "added">
-				<cfset row["id"]>
+				<cfset row["id"] = "#underscore_collection_id#">
 				<cfset data[1] = row>
 			<cfelse>
 				<cfthrow message="Error other than one row affected.">
