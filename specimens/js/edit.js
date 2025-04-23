@@ -106,6 +106,32 @@ function openEditNamedGroupsDialog(collection_object_id,dialogId,guid,callback) 
 	});
 };
 
+function addToNamedGroup(underscore_collection_id,collection_object_id,callback) {
+	jQuery.ajax({	
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "addToNamedGroup",
+			underscore_collection_id: underscore_collection_id,
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var message  = "Added to named group";
+				if (callback instanceof Function) {
+					callback();
+				}
+			}
+			else {
+				messageDialog("Error adding to named group: " + result.DATA.MESSAGE[0],'Error');
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"adding to named group");
+		},
+		dataType: "json"
+	});
+}
+
 /** removeFromNamedGroup remove a cataloged_item from a named group.
  *
  * @param underscore_collection_id the named group from which to remove the cataloged_item
