@@ -115,9 +115,7 @@ function loadNamedGroups(collection_object_id,targetDivId) {
 		url: "/specimens/component/public.cfc",
 		data: { 
 			method : "getNamedGroupsHTML",
-			collection_object_id : collection_object_id,
-			returnformat : "json",
-			queryformat : 'column'
+			collection_object_id : collection_object_id
 		},
 		success: function (result) {
 			$("#" + targetDivId ).html(result);
