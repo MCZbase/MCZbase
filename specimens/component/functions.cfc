@@ -5498,7 +5498,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 								makeNamedCollectionPicker("underscore_collection_name","underscore_collection_id",true);
 							};
 							function handleAddToNamedGroup() {
-								var underscore_collection_id = document.addToNamedGroup.underscore_collection_id.value;
+								var underscore_collection_id = $("##underscore_collection_id").val();
 								var collection_object_id = "#variables.collection_object_id#";
 								addToNamedGroup(underscore_collection_id,collection_object_id,reloadNamedGroups);
 							}
