@@ -562,8 +562,12 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 						comparator = '"comparator": "<"';
 						wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
 					} else if (partCount EQ 1 OR partCount GT 4) { 
+						comparator = '"comparator": "="';
+						if (specialNumber CONTAINS "%" OR specialNumber CONTAINS "_") { 
+							comparator = '"comparator": "like"';
+						}
 						// unexpected, and likely failure case, but try something
-						wherebit = wherebit & comma & '{#nestDepth#,"join":"and","field": "' & displayFieldName &'","comparator": "=","value": "#specialNumber#"}';
+						wherebit = wherebit & comma & '{#nestDepth#,"join":"and","field": "' & displayFieldName &'","comparator": "#comparator#","value": "#specialNumber#"}';
 						comma = ",";
 					} 
 				} else { 
