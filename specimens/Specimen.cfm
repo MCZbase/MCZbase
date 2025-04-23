@@ -213,8 +213,11 @@ limitations under the License.
 </cfif>
 
 <cfoutput>
-	<!--- TODO: Split public.js into functions available for everyone and functions that support editing, load latter only with manage_specimens ---->
+	<!--- public.js provides functions available for everyone, edit.js provides functions that support editing ---->
 	<script type="text/javascript" src="/specimens/js/public.js"></script> 
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+		<script type="text/javascript" src="/specimens/js/edit.js"></script> 
+	</cfif>
    <cfif isdefined("session.username") AND len(session.username) gt 0>
 		<script>
 			function reloadAnnotations() { 

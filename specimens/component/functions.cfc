@@ -27,31 +27,35 @@ limitations under the License.
 <cffunction name="updateCondition" access="remote" returntype="query">
 	<cfargument name="part_id" type="numeric" required="yes">
 	<cfargument name="condition" type="string" required="yes">
+
+	<cfset variables.part_id = arguments.part_id>
+	<cfset variables.condition = arguments.condition>
+
 	<cftry>
 		<cftransaction>
 			<cfquery name="upIns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update coll_object 
 				set
-					condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">
+					condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.condition#">
 				where
-					COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+					COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.part_id#">
 			</cfquery>
 		</cftransaction>
 		<cfset result = querynew("PART_ID,MESSAGE")>
 		<cfset temp = queryaddrow(result,1)>
-		<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
+		<cfset temp = QuerySetCell(result, "part_id", "#variables.part_id#", 1)>
 		<cfset temp = QuerySetCell(result, "message", "success", 1)>
 		<cfcatch>
 			<cfset result = querynew("PART_ID,MESSAGE")>
 			<cfset temp = queryaddrow(result,1)>
-			<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
+			<cfset temp = QuerySetCell(result, "part_id", "#variables.part_id#", 1)>
 			<cfset temp = QuerySetCell(result, "message", "A query error occured: #cfcatch.Message# #cfcatch.Detail#", 1)>
 		</cfcatch>
 	</cftry>
 	<cfreturn result>
 </cffunction>
 
-<!---getEditImagesHTML obtain a block of html to populate an images editor dialog for a specimen.
+<!---getEditMediaHTML obtain a block of html to populate an media editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
  @return html for editing identifications for the specified cataloged item. 
@@ -5442,5 +5446,124 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	<cfthread action="join" name="getContainerThread#tn#"/>
 	<cfreturn cfthread["getContainerThread#tn#"].output>
 </cffunction>	
+
+<!---function getEditNamedGroupsHTML obtain an html block to popluate an edit dialog for named groups for 
+ a cataloged item
+ @param collection_object_id the cataloged item for which to edit named group membership.
+ @return html for editing the named group membership of a cataloged item
+--->
+<cffunction name="getEditNamedGroupsHTML" returntype="string" access="remote" returnformat="plain">
+
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+
+	<cfthread name="getNamedGroupThread">
+		<cftry>
+			<cfquery name="getUnderscoreRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					underscore_collection.underscore_collection_id, collection_name, mask_fg, underscore_collection_type,
+					to_char(underscore_relation.timestamp_added,'yyyy-mm-dd') as date_added,
+					underscore_relation.created_by
+				FROM 
+					underscore_relation
+					join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+				WHERE 	
+					underscore_relation.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+				ORDER BY 
+					underscore_collection.collection_name
+			</cfquery>
+			<cfoutput>
+				<div id="namedgroupHTML">
+					<ul>
+						<cfloop query="getUnderscoreRelations">
+							<li>
+								#getUnderscoreRelations.collection_name# (#getUnderscoreRelations.underscore_collection_type# created by #getUnderscoreRelations.created_by# on #getUnderscoreRelations.date_added#)
+								<input type="button" value="Remove" class="btn btn-xs btn-warning"
+									aria-label="Remove this cataloged item from this named group"
+									onClick="removeFromNamedGroup(#getUnderscoreRelations.underscore_collection_id#,#variables.collection_object_id#);">
+							</li>
+						</cfloop>
+					</ul>
+					<div>
+						<form name="addToNamedGroup">
+							<label for="underscore_collection_id">Add to Named Group:</label>
+							<select name="underscore_collection_id" id="underscore_collection_id" class="form-control">
+								<cfquery name="getUnderscoreCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT 
+										underscore_collection_id, collection_name
+									FROM 
+										underscore_collection
+									WHERE 
+										underscore_collection_type = 'named group'
+									ORDER BY 
+										collection_name
+								</cfquery>
+								<cfloop query="getUnderscoreCollection">
+									<option value="#getUnderscoreCollection.underscore_collection_id#">#getUnderscoreCollection.collection_name#</option>
+								</cfloop>
+							</select>
+							<input type="button" value="Add to Named Group" class="btn btn-xs btn-primary"
+								onClick="handleAddToNamedGroup();">
+						</form>
+						<script>
+							function handleAddToNamedGroup() {
+								var underscore_collection_id = document.addToNamedGroup.underscore_collection_id.value;
+								var collection_object_id = #variables.collection_object_id#;
+							}
+						</script>
+					</div>
+				</div>
+			</cfoutput>
+			<cfcatch>
+				<cfoutput>
+					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
+				</cfoutput>
+			</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getNamedGroupThread" />
+	<cfreturn getNamedGroupThread.output>
+</cffunction>
+
+<!--- function removeFromNamedGroup remove a cataloged item from a named group
+  @param underscore_collection_id the named group from which to remove the item.
+  @param collection_object_id the cataloged item to remove from the named group
+  @return a json structure with status=removed, or an http 500 response.
+--->
+<cffunction name="removeFromNamedGroup" returntype="any" access="remote" returnformat="json">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>	
+			<cfquery name="removeFromNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="removeFromNamedGroup_result">
+				DELETE 
+				FROM underscore_relation
+				WHERE
+					underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#"> AND
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+			</cfquery>
+			<cfif removeFromNamedGroup_result.recordcount EQ 1>
+				<cftransaction action="commit"/>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "removed">
+				<cfset row["id"] = "#underscore_collection_id#">
+				<cfset data[1] = row>
+			<cfelse>
+				<cfthrow message="Error other than one row affected.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 
 </cfcomponent>
