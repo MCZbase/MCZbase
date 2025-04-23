@@ -27,8 +27,7 @@ function updateIdentifications(identification_id,targetDiv) {
    alert("updateIdentifications incomplete implementation");
 	// TODO: implement pass update data
 	// TODO: probably refactor to update an identification
-	jQuery.ajax(
-	{
+	jQuery.ajax({
 		dataType: "json",
 		url: "/specimens/component/functions.cfc",
 		data: { 
@@ -47,8 +46,7 @@ function updateIdentifications(identification_id,targetDiv) {
 				$('#' + targetDiv).html(message);
 			}
 		}
-	},
-	)
+	});
 };
 
 /** openEditIdentificationsDialog (plural) open a dialog for editing 
@@ -76,7 +74,7 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
 		},
 		dataType: "html"
 	});
-};
+}
 
 
 /** openEditNamedGroupsDialog open a dialog for editing 
@@ -104,7 +102,7 @@ function openEditNamedGroupsDialog(collection_object_id,dialogId,guid,callback) 
 		},
 		dataType: "html"
 	});
-};
+}
 
 function addToNamedGroup(underscore_collection_id,collection_object_id,callback) {
 	jQuery.ajax({	
