@@ -5463,7 +5463,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 			<cfquery name="getUnderscoreRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					underscore_collection.underscore_collection_id, collection_name, mask_fg, underscore_collection_type,
-					to_char(underscore_relation.timestamp_added,'yyyy-mm-dd') as date_added,
+					to_char(underscore_relation.timestampadded,'yyyy-mm-dd') as date_added,
 					underscore_relation.createdby as created_by
 				FROM 
 					underscore_relation
