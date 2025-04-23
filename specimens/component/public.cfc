@@ -3129,7 +3129,7 @@ limitations under the License.
  @param collection_object_id for the cataloged item for which to return named groups.
  @return a block of html with cataloged item record groups, or if none, a list containing 'None'
 --->
-<cffunction name="getNamedGroupsHTML" access="remote" returntype="any" returnformat="json">
+<cffunction name="getNamedGroupsHTML" access="remote" returntype="any" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
 	<cfthread name="getNamedGroupsThread">
@@ -3193,7 +3193,7 @@ limitations under the License.
  @param collection_object_id for the collection object for which to return condition history.
  @return a block of html with condition history, or if none, a list containing 'None'
 --->
-<cffunction name="getHistoryHTML" access="remote" returntype="any" returnformat="json">
+<cffunction name="getHistoryHTML" access="remote" returntype="any" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
