@@ -94,7 +94,7 @@ function openEditNamedGroupsDialog(collection_object_id,dialogId,guid,callback) 
 		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getEditNamedGroupsHTML",
-			collection_object_id: collection_object_id,
+			collection_object_id: collection_object_id
 		},
 		success: function (result) {
 			$("#" + dialogId + "_div").html(result);
