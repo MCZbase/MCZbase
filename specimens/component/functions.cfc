@@ -5464,7 +5464,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				SELECT 
 					underscore_collection.underscore_collection_id, collection_name, mask_fg, underscore_collection_type,
 					to_char(underscore_relation.timestamp_added,'yyyy-mm-dd') as date_added,
-					underscore_relation.created_by
+					underscore_relation.createdby as created_by
 				FROM 
 					underscore_relation
 					join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
