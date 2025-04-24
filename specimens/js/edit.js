@@ -135,7 +135,7 @@ function addToNamedGroup(underscore_collection_id,collection_object_id,callback)
  * @param underscore_collection_id the named group from which to remove the cataloged_item
  * @param collection_object_id the cataloged_item to remove from the named group
  **/
-function removeFromNamedGroup(underscore_collection_id, collection_object_id) {
+function removeFromNamedGroup(underscore_collection_id, collection_object_id,callback) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
@@ -145,8 +145,11 @@ function removeFromNamedGroup(underscore_collection_id, collection_object_id) {
 		},
 		success: function (result) {
 			if (result[0].status=="removed") {
+				if (callback instanceof Function) {
+					callback();
+				}
 				var message  = "Removed from named group";
-				messageDialog(message,'Success');
+				console.log(message);
 			}
 			else {
 				messageDialog("Error removing from named group: " + result.DATA.MESSAGE[0],'Error');
@@ -158,3 +161,21 @@ function removeFromNamedGroup(underscore_collection_id, collection_object_id) {
 		dataType: "json"
 	});
 }
+
+function loadNamedGroupsList(collection_object_id,targetDivId) {
+	jQuery.ajax(
+	{
+		url: "/specimens/component/public.cfc",
+		data: { 
+			method : "getNamedGroupsDetailHTML",
+			collection_object_id : collection_object_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"load named groups detail list");
+		},
+		dataType: "html"
+	})
+};

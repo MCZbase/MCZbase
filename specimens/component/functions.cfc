@@ -5476,7 +5476,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 			<cfoutput>
 				<div id="namedgroupHTML">
 					<cfset namedGroupList = getNamedGroupsDetailHTML(variables.collection_object_id)>
-					#namedGroupList#
+					<div id="namedGroupDialogList">#namedGroupList#</div>
 					<!---
 					<ul>
 						<cfloop query="getUnderscoreRelations">
@@ -5501,10 +5501,14 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							jQuery(document).ready(function() {
 								makeNamedCollectionPicker("underscore_collection_name","underscore_collection_id",true);
 							});
+							function reloadNamedGroupsDialogAndPage() { 
+								reloadNamedGroups();
+								loadNamedGroupsList(#variables.collection_object_id#,"namedGroupDialogList");
+							}
 							function handleAddToNamedGroup() {
 								var underscore_collection_id = $("##underscore_collection_id").val();
 								var collection_object_id = "#variables.collection_object_id#";
-								addToNamedGroup(underscore_collection_id,collection_object_id,reloadNamedGroups);
+								addToNamedGroup(underscore_collection_id,collection_object_id,reloadNamedGroupsDialogAndPage);
 							}
 						</script>
 					</div>
@@ -5556,7 +5560,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 								<input type="button" value="Remove" class="btn btn-xs btn-warning"
 									aria-label="Remove this cataloged item from this named group"
-									onClick="removeFromNamedGroup(#getUnderscoreRelations.underscore_collection_id#,#variables.collection_object_id#);">
+									onClick="removeFromNamedGroup(#getUnderscoreRelations.underscore_collection_id#,#variables.collection_object_id#,reloadNamedGroupsDialogAndPage);">
 							</cfif>
 						</li>
 					</cfloop>
