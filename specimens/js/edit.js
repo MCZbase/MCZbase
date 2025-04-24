@@ -113,7 +113,7 @@ function addToNamedGroup(underscore_collection_id,collection_object_id,callback)
 			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
-			if (result.DATA.STATUS[0]==1) {
+			if (result[0].status=="added") {
 				var message  = "Added to named group";
 				if (callback instanceof Function) {
 					callback();
@@ -144,7 +144,7 @@ function removeFromNamedGroup(underscore_collection_id, collection_object_id) {
 			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
-			if (result.DATA.STATUS[0]==1) {
+			if (result[0].status=="removed") {
 				var message  = "Removed from named group";
 				messageDialog(message,'Success');
 			}
