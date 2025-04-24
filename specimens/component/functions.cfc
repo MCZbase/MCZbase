@@ -5537,7 +5537,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 
 	<cfset variables.collection_object_id = arguments.collection_object_id>
 
-	<cfthread name="getNamedGroupDetailThread">
+	<!--- cfthread name="getNamedGroupDetailThread" --->
 		<cftry>
 			<cfquery name="getUnderscoreRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
@@ -5572,9 +5572,9 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				</cfoutput>
 			</cfcatch>
 		</cftry>
-	</cfthread>
+	<!--- /cfthread>
 	<cfthread action="join" name="getNamedGroupDetailThread" />
-	<cfreturn getNamedGroupDetailThread.output>
+	<cfreturn getNamedGroupDetailThread.output --->
 </cffunction>
 
 
