@@ -5475,6 +5475,9 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 			</cfquery>
 			<cfoutput>
 				<div id="namedgroupHTML">
+					<cfset namedGroupList = getNamedGroupsDetailHTML(variables.collection_object_id)>
+					#namedGroupList#
+					<!---
 					<ul>
 						<cfloop query="getUnderscoreRelations">
 							<li>
@@ -5485,6 +5488,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							</li>
 						</cfloop>
 					</ul>
+					--->
 					<div>
 						<form name="addToNamedGroup">
 							<label for="underscore_collection_id">Add this cataloged item to Named Group:</label>
