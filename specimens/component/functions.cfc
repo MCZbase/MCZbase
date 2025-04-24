@@ -5556,7 +5556,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				<ul>
 					<cfloop query="getUnderscoreRelations">
 						<li>
-							#getUnderscoreRelations.collection_name# (#getUnderscoreRelations.underscore_collection_type# created by #getUnderscoreRelations.created_by# on #getUnderscoreRelations.date_added#)
+							#getUnderscoreRelations.collection_name# (#getUnderscoreRelations.underscore_collection_type#) <span class="smaller-text"> relation added by #getUnderscoreRelations.created_by# on #getUnderscoreRelations.date_added#</span>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 								<input type="button" value="Remove" class="btn btn-xs btn-warning"
 									aria-label="Remove this cataloged item from this named group"
