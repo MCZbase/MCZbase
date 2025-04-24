@@ -5475,7 +5475,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 			</cfquery>
 			<cfoutput>
 				<div id="namedgroupHTML">
-					<cfset namedGroupList = getNamedGroupsDetailHTML(variables.collection_object_id)>
+					<cfset namedGroupList = getNamedGroupsDetailHTML(collection_object_id = variables.collection_object_id)>
 					<div id="namedGroupDialogList">#namedGroupList#</div>
 					<!---
 					<ul>
@@ -5503,7 +5503,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							});
 							function reloadNamedGroupsDialogAndPage() { 
 								reloadNamedGroups();
-								loadNamedGroupsList(#variables.collection_object_id#,"namedGroupDialogList");
+								loadNamedGroupsList("#variables.collection_object_id#","namedGroupDialogList");
 							}
 							function handleAddToNamedGroup() {
 								var underscore_collection_id = $("##underscore_collection_id").val();
