@@ -5475,6 +5475,9 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 			</cfquery>
 			<cfoutput>
 				<div id="namedgroupHTML">
+					<cfset namedGroupList = getNamedGroupsDetailHTML(variables.collection_object_id)>
+					<div id="namedGroupDialogList">#namedGroupList#</div>
+					<!---
 					<ul>
 						<cfloop query="getUnderscoreRelations">
 							<li>
@@ -5485,6 +5488,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							</li>
 						</cfloop>
 					</ul>
+					--->
 					<div>
 						<form name="addToNamedGroup">
 							<label for="underscore_collection_id">Add this cataloged item to Named Group:</label>
@@ -5497,10 +5501,14 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							jQuery(document).ready(function() {
 								makeNamedCollectionPicker("underscore_collection_name","underscore_collection_id",true);
 							});
+							function reloadNamedGroupsDialogAndPage() { 
+								reloadNamedGroups();
+								loadNamedGroupsList(#variables.collection_object_id#,"namedGroupDialogList");
+							}
 							function handleAddToNamedGroup() {
 								var underscore_collection_id = $("##underscore_collection_id").val();
 								var collection_object_id = "#variables.collection_object_id#";
-								addToNamedGroup(underscore_collection_id,collection_object_id,reloadNamedGroups);
+								addToNamedGroup(underscore_collection_id,collection_object_id,reloadNamedGroupsDialogAndPage);
 							}
 						</script>
 					</div>
@@ -5516,6 +5524,59 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	<cfthread action="join" name="getNamedGroupThread" />
 	<cfreturn getNamedGroupThread.output>
 </cffunction>
+
+
+<!---function getNamedGroupsDetailHTML obtain an html block listing named groups for 
+ a cataloged item with detailed information
+ @param collection_object_id the cataloged item for which to show named group membership.
+ @return html showing the named group membership of a cataloged item
+--->
+<cffunction name="getNamedGroupsDetailHTML" returntype="string" access="remote" returnformat="plain">
+
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+
+	<cfthread name="getNamedGroupDetailThread">
+		<cftry>
+			<cfquery name="getUnderscoreRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					underscore_collection.underscore_collection_id, collection_name, mask_fg, underscore_collection_type,
+					to_char(underscore_relation.timestampadded,'yyyy-mm-dd') as date_added,
+					underscore_relation.createdby as created_by
+				FROM 
+					underscore_relation
+					join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+				WHERE 	
+					underscore_relation.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+				ORDER BY 
+					underscore_collection.collection_name
+			</cfquery>
+			<cfoutput>
+				<ul>
+					<cfloop query="getUnderscoreRelations">
+						<li>
+							#getUnderscoreRelations.collection_name# (#getUnderscoreRelations.underscore_collection_type#) <span class="smaller-text"> relation added by #getUnderscoreRelations.created_by# on #getUnderscoreRelations.date_added#</span>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+								<input type="button" value="Remove" class="btn btn-xs btn-warning"
+									aria-label="Remove this cataloged item from this named group"
+									onClick="removeFromNamedGroup(#getUnderscoreRelations.underscore_collection_id#,#variables.collection_object_id#,reloadNamedGroupsDialogAndPage);">
+							</cfif>
+						</li>
+					</cfloop>
+				</ul>
+			</cfoutput>
+			<cfcatch>
+				<cfoutput>
+					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
+				</cfoutput>
+			</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getNamedGroupDetailThread" />
+	<cfreturn getNamedGroupDetailThread.output>
+</cffunction>
+
 
 <!--- function addToNamedGroup add a cataloged item to a named group
   @param underscore_collection_id the named group to which to add the item.
