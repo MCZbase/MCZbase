@@ -5476,19 +5476,20 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 			<cfoutput>
 				<div id="namedgroupHTML">
 					<cfset namedGroupList = getNamedGroupsDetailHTML(collection_object_id = variables.collection_object_id)>
-					<div id="namedGroupDialogList">#namedGroupList#</div>
-					<!---
-					<ul>
-						<cfloop query="getUnderscoreRelations">
-							<li>
-								#getUnderscoreRelations.collection_name# (#getUnderscoreRelations.underscore_collection_type# created by #getUnderscoreRelations.created_by# on #getUnderscoreRelations.date_added#)
-								<input type="button" value="Remove" class="btn btn-xs btn-warning"
-									aria-label="Remove this cataloged item from this named group"
-									onClick="removeFromNamedGroup(#getUnderscoreRelations.underscore_collection_id#,#variables.collection_object_id#);">
-							</li>
-						</cfloop>
-					</ul>
-					--->
+					<cfif isDefined("namedGroupList") >
+						<div id="namedGroupDialogList">#namedGroupList#</div>
+					<cfelse>
+						<ul>
+							<cfloop query="getUnderscoreRelations">
+								<li>
+									#getUnderscoreRelations.collection_name# (#getUnderscoreRelations.underscore_collection_type# created by #getUnderscoreRelations.created_by# on #getUnderscoreRelations.date_added#)
+									<input type="button" value="Remove" class="btn btn-xs btn-warning"
+										aria-label="Remove this cataloged item from this named group"
+										onClick="removeFromNamedGroup(#getUnderscoreRelations.underscore_collection_id#,#variables.collection_object_id#);">
+								</li>
+							</cfloop>
+						</ul>
+					</cfif>
 					<div>
 						<form name="addToNamedGroup">
 							<label for="underscore_collection_id">Add this cataloged item to Named Group:</label>
