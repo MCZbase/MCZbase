@@ -165,7 +165,7 @@ function removeFromNamedGroup(underscore_collection_id, collection_object_id,cal
 function loadNamedGroupsList(collection_object_id,targetDivId) {
 	jQuery.ajax(
 	{
-		url: "/specimens/component/edit.cfc",
+		url: "/specimens/component/functions.cfc",
 		data: { 
 			method : "getNamedGroupsDetailHTML",
 			collection_object_id : collection_object_id
