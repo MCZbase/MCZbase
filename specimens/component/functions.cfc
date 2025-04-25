@@ -5468,13 +5468,19 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						<cfset namedGroupList = getNamedGroupsDetailHTML(collection_object_id = variables.collection_object_id)>
 					</div>
 					<!--- form to add current cataloged item to a named group --->
-					<div>
-						<form name="addToNamedGroup">
-							<label for="underscore_collection_id">Add this cataloged item to Named Group:</label>
-							<input type="hidden" name="underscore_collection_id" id="underscore_collection_id">
-							<input type="text" name="underscore_collection_name" id="underscore_collection_name">
-							<input type="button" value="Add" class="btn btn-xs btn-primary"
-								onClick="handleAddToNamedGroup();">
+					<div class="mt-2 container">
+					   <div class="form-row">	
+							<form name="addToNamedGroup">
+								<div class="col-12 col-md-11">
+									<label for="underscore_collection_id">Add this cataloged item to Named Group:</label>
+									<input type="hidden" name="underscore_collection_id" id="underscore_collection_id">
+									<input type="text" name="underscore_collection_name" id="underscore_collection_name">
+								</div>
+								<div class="col-12 col-md-1">
+									<label for="addButton">&nbsp;</label>
+									<input type="button" value="Add" class="btn btn-xs btn-primary" id="addButton"
+										onClick="handleAddToNamedGroup();">
+								</div>
 						</form>
 						<script>
 							jQuery(document).ready(function() {
@@ -5534,6 +5540,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				underscore_collection.collection_name
 		</cfquery>
 		<cfoutput>
+			<h2 class="h3">Named Groups</h2>
 			<ul>
 				<cfif getUnderscoreRelations.recordcount EQ 0>
 					<li>None</li>
