@@ -5463,42 +5463,53 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 		<cftry>
 			<cfoutput>
 				<div id="namedgroupHTML">
-					<div id="namedGroupDialogList">
-						<!--- include output from getNamedGroupsDetailHTML to show list of named group membership for the cataloged item --->
-						<cfset namedGroupList = getNamedGroupsDetailHTML(collection_object_id = variables.collection_object_id)>
-					</div>
-					<!--- form to add current cataloged item to a named group --->
-					<div class="mt-2 container">
-						<form name="addToNamedGroup">
-					   	<div class="form-row">	
-								<div class="col-12 col-md-11">
-									<label for="underscore_collection_id">Add this cataloged item to Named Group:</label>
-									<input type="hidden" name="underscore_collection_id" id="underscore_collection_id">
-									<input type="text" name="underscore_collection_name" id="underscore_collection_name" class="data-entry-input">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12 float-left">
+								<div class="add-form float-left">
+									<div class="add-form-header pt-1 px-2 col-12 float-left">
+										<h2 class="h3 text-white my-0 px-1 pb-1">Add to Named Group</h2>
+									</div>
+									<div class="card-body">
+										<!--- form to add current cataloged item to a named group --->
+										<form name="addToNamedGroup">
+									   	<div class="form-row">	
+												<div class="col-12 col-md-11">
+													<label for="underscore_collection_id">Add this cataloged item to Named Group:</label>
+													<input type="hidden" name="underscore_collection_id" id="underscore_collection_id">
+													<input type="text" name="underscore_collection_name" id="underscore_collection_name" class="data-entry-input">
+												</div>
+												<div class="col-12 col-md-1">
+													<label for="addButton" class="data-entry-label">&nbsp;</label>
+													<input type="button" value="Add" class="btn btn-xs btn-primary" id="addButton"
+														onClick="handleAddToNamedGroup();">
+												</div>
+											</div>
+										</form>
+										<script>
+											jQuery(document).ready(function() {
+												makeNamedCollectionPicker("underscore_collection_name","underscore_collection_id",true);
+											});
+											function reloadNamedGroupsDialogAndPage() { 
+												reloadNamedGroups();
+												loadNamedGroupsList("#variables.collection_object_id#","namedGroupDialogList");
+											}
+											function handleAddToNamedGroup() {
+												var underscore_collection_id = $("##underscore_collection_id").val();
+												var collection_object_id = "#variables.collection_object_id#";
+												addToNamedGroup(underscore_collection_id,collection_object_id,reloadNamedGroupsDialogAndPage);
+											}
+										</script>
+									</div><!--- end card-body for add form --->
+								</div><!--- end add-form for add to named group --->
+								<div id="namedGroupDialogList" class="col-12 float-left mt-4 mb-4 px-0">
+									<!--- include output from getNamedGroupsDetailHTML to show list of named group membership for the cataloged item --->
+									<cfset namedGroupList = getNamedGroupsDetailHTML(collection_object_id = variables.collection_object_id)>
 								</div>
-								<div class="col-12 col-md-1">
-									<label for="addButton" class="data-entry-label">&nbsp;</label>
-									<input type="button" value="Add" class="btn btn-xs btn-primary" id="addButton"
-										onClick="handleAddToNamedGroup();">
-								</div>
-							</div>
-						</form>
-						<script>
-							jQuery(document).ready(function() {
-								makeNamedCollectionPicker("underscore_collection_name","underscore_collection_id",true);
-							});
-							function reloadNamedGroupsDialogAndPage() { 
-								reloadNamedGroups();
-								loadNamedGroupsList("#variables.collection_object_id#","namedGroupDialogList");
-							}
-							function handleAddToNamedGroup() {
-								var underscore_collection_id = $("##underscore_collection_id").val();
-								var collection_object_id = "#variables.collection_object_id#";
-								addToNamedGroup(underscore_collection_id,collection_object_id,reloadNamedGroupsDialogAndPage);
-							}
-						</script>
-					</div>
-				</div>
+							</div><!--- end col-12 --->
+						</div><!--- end row --->
+					</div><!--- end container-fluid --->
+				</div><!--- end namedgroupHTML --->
 			</cfoutput>
 			<cfcatch>
 				<cfoutput>
