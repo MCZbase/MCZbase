@@ -5477,7 +5477,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 									<input type="text" name="underscore_collection_name" id="underscore_collection_name" class="data-entry-input">
 								</div>
 								<div class="col-12 col-md-1">
-									<label for="addButton">&nbsp;</label>
+									<label for="addButton" class="data-entry-label">&nbsp;</label>
 									<input type="button" value="Add" class="btn btn-xs btn-primary" id="addButton"
 										onClick="handleAddToNamedGroup();">
 								</div>
@@ -5529,7 +5529,9 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	<cftry>
 		<cfquery name="getUnderscoreRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT 
-				underscore_collection.underscore_collection_id, collection_name, mask_fg, underscore_collection_type,
+				underscore_collection.underscore_collection_id, collection_name,
+				decode(mask_fg, 1, 'Hidden', '') as mask_fg,
+				underscore_collection_type,
 				to_char(underscore_relation.timestampadded,'yyyy-mm-dd') as date_added,
 				underscore_relation.createdby as created_by
 			FROM 
@@ -5548,7 +5550,11 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				</cfif>
 				<cfloop query="getUnderscoreRelations">
 					<li>
-						#getUnderscoreRelations.collection_name# (#getUnderscoreRelations.underscore_collection_type#) <span class="smaller-text"> relation added by #getUnderscoreRelations.created_by# on #getUnderscoreRelations.date_added#</span>
+						<strong>#getUnderscoreRelations.mask_fg#</strong>
+						<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#encodeForUrl(getUnderscoreRelations.underscore_collection_id)#"
+							target="_blank">#getUnderscoreRelations.collection_name#</a>
+						(#getUnderscoreRelations.underscore_collection_type#)
+						<span class="smaller-text"> relation added by #getUnderscoreRelations.created_by# on #getUnderscoreRelations.date_added#</span>
 						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 							<input type="button" value="Remove" class="btn btn-xs btn-warning"
 								aria-label="Remove this cataloged item from this named group"
