@@ -515,7 +515,7 @@ limitations under the License.
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditTransactionsDialog(110406,'transactionsDialog','#guid#',reloadTransactions)">Transactions</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Meta&nbsp;Data</button>
+						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditNamedGroupsDialog(#collection_object_id#,'NamedGroupsDialog','#guid#',reloadNamedGroups)">Named&nbsp;Groups</button>
 					</li>
 					<!--- Navigation through records in a result set --->
 					<cfif navigable>
@@ -907,11 +907,6 @@ limitations under the License.
 										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-label="Meta Pane" aria-controls="MetaPane" data-toggle="collapse" data-target="##MetaPane">
 											Metadata
 										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditMetaDialog(#collection_object_id#,'metaDialog','#guid#',reloadMeta)">
-												Edit
-											</a>
-										</cfif>
 									</h3>
 								</div>
 								<div id="MetaPane" class="collapse show" aria-labelledby="headingMeta" data-parent="##accordionMeta">
