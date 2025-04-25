@@ -5463,8 +5463,10 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 		<cftry>
 			<cfoutput>
 				<div id="namedgroupHTML">
-					<!--- include output from getNamedGroupsDetailHTML to show list of named group membership for the cataloged item --->
-					<cfset namedGroupList = getNamedGroupsDetailHTML(collection_object_id = variables.collection_object_id)>
+					<div id="namedGroupDialogList">
+						<!--- include output from getNamedGroupsDetailHTML to show list of named group membership for the cataloged item --->
+						<cfset namedGroupList = getNamedGroupsDetailHTML(collection_object_id = variables.collection_object_id)>
+					</div>
 					<!--- form to add current cataloged item to a named group --->
 					<div>
 						<form name="addToNamedGroup">
@@ -5533,6 +5535,9 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 		</cfquery>
 		<cfoutput>
 			<ul>
+				<cfif getUnderscoreRelations.recordcount EQ 0>
+					<li>None</li>
+				</cfif>
 				<cfloop query="getUnderscoreRelations">
 					<li>
 						#getUnderscoreRelations.collection_name# (#getUnderscoreRelations.underscore_collection_type#) <span class="smaller-text"> relation added by #getUnderscoreRelations.created_by# on #getUnderscoreRelations.date_added#</span>
