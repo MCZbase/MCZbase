@@ -5451,6 +5451,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
  a cataloged item
  @param collection_object_id the cataloged item for which to edit named group membership.
  @return html for editing the named group membership of a cataloged item
+ @see getNamedGroupsDetailHTML for the html block listing named group membership of a cataloged item.
 --->
 <cffunction name="getEditNamedGroupsHTML" returntype="string" access="remote" returnformat="plain">
 
@@ -5460,37 +5461,11 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 
 	<cfthread name="getNamedGroupThread">
 		<cftry>
-			<cfquery name="getUnderscoreRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT 
-					underscore_collection.underscore_collection_id, collection_name, mask_fg, underscore_collection_type,
-					to_char(underscore_relation.timestampadded,'yyyy-mm-dd') as date_added,
-					underscore_relation.createdby as created_by
-				FROM 
-					underscore_relation
-					join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-				WHERE 	
-					underscore_relation.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
-				ORDER BY 
-					underscore_collection.collection_name
-			</cfquery>
 			<cfoutput>
 				<div id="namedgroupHTML">
+					<!--- include output from getNamedGroupsDetailHTML to show list of named group membership for the cataloged item --->
 					<cfset namedGroupList = getNamedGroupsDetailHTML(collection_object_id = variables.collection_object_id)>
-					<cfif isDefined("namedGroupList") >
-						<div id="namedGroupDialogList">#namedGroupList#</div>
-					</cfif>
-					<!---
-						<ul>
-							<cfloop query="getUnderscoreRelations">
-								<li>
-									#getUnderscoreRelations.collection_name# (#getUnderscoreRelations.underscore_collection_type# created by #getUnderscoreRelations.created_by# on #getUnderscoreRelations.date_added#)
-									<input type="button" value="Remove" class="btn btn-xs btn-warning"
-										aria-label="Remove this cataloged item from this named group"
-										onClick="removeFromNamedGroup(#getUnderscoreRelations.underscore_collection_id#,#variables.collection_object_id#);">
-								</li>
-							</cfloop>
-						</ul>
-					--->
+					<!--- form to add current cataloged item to a named group --->
 					<div>
 						<form name="addToNamedGroup">
 							<label for="underscore_collection_id">Add this cataloged item to Named Group:</label>
@@ -5529,9 +5504,12 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 
 
 <!---function getNamedGroupsDetailHTML obtain an html block listing named groups for 
- a cataloged item with detailed information
+ a cataloged item with detailed information, not threaded, able to be called from another
+ method that itself is threaded.
  @param collection_object_id the cataloged item for which to show named group membership.
- @return html showing the named group membership of a cataloged item
+ @return, nothing, but output is html showing the named group membership of a cataloged item 
+	or an error message.
+ @see getEditNamedGroupsHTML which calls this function.
 --->
 <cffunction name="getNamedGroupsDetailHTML" returntype="string" access="remote" returnformat="plain">
 
@@ -5539,46 +5517,41 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 
 	<cfset variables.collection_object_id = arguments.collection_object_id>
 
-	<!--- cfthread name="getNamedGroupDetailThread" --->
-		<cftry>
-			<cfquery name="getUnderscoreRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT 
-					underscore_collection.underscore_collection_id, collection_name, mask_fg, underscore_collection_type,
-					to_char(underscore_relation.timestampadded,'yyyy-mm-dd') as date_added,
-					underscore_relation.createdby as created_by
-				FROM 
-					underscore_relation
-					join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-				WHERE 	
-					underscore_relation.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
-				ORDER BY 
-					underscore_collection.collection_name
-			</cfquery>
+	<cftry>
+		<cfquery name="getUnderscoreRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT 
+				underscore_collection.underscore_collection_id, collection_name, mask_fg, underscore_collection_type,
+				to_char(underscore_relation.timestampadded,'yyyy-mm-dd') as date_added,
+				underscore_relation.createdby as created_by
+			FROM 
+				underscore_relation
+				join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+			WHERE 	
+				underscore_relation.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+			ORDER BY 
+				underscore_collection.collection_name
+		</cfquery>
+		<cfoutput>
+			<ul>
+				<cfloop query="getUnderscoreRelations">
+					<li>
+						#getUnderscoreRelations.collection_name# (#getUnderscoreRelations.underscore_collection_type#) <span class="smaller-text"> relation added by #getUnderscoreRelations.created_by# on #getUnderscoreRelations.date_added#</span>
+						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+							<input type="button" value="Remove" class="btn btn-xs btn-warning"
+								aria-label="Remove this cataloged item from this named group"
+								onClick="removeFromNamedGroup(#getUnderscoreRelations.underscore_collection_id#,#variables.collection_object_id#,reloadNamedGroupsDialogAndPage);">
+						</cfif>
+					</li>
+				</cfloop>
+			</ul>
+		</cfoutput>
+		<cfcatch>
 			<cfoutput>
-				<ul>
-					<cfloop query="getUnderscoreRelations">
-						<li>
-							#getUnderscoreRelations.collection_name# (#getUnderscoreRelations.underscore_collection_type#) <span class="smaller-text"> relation added by #getUnderscoreRelations.created_by# on #getUnderscoreRelations.date_added#</span>
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-								<input type="button" value="Remove" class="btn btn-xs btn-warning"
-									aria-label="Remove this cataloged item from this named group"
-									onClick="removeFromNamedGroup(#getUnderscoreRelations.underscore_collection_id#,#variables.collection_object_id#,reloadNamedGroupsDialogAndPage);">
-							</cfif>
-						</li>
-					</cfloop>
-				</ul>
+				<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
 			</cfoutput>
-			<cfcatch>
-				<cfoutput>
-					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
-				</cfoutput>
-			</cfcatch>
-		</cftry>
-	<!--- /cfthread>
-	<cfthread action="join" name="getNamedGroupDetailThread" />
-	<cfreturn getNamedGroupDetailThread.output --->
+		</cfcatch>
+	</cftry>
 </cffunction>
-
 
 <!--- function addToNamedGroup add a cataloged item to a named group
   @param underscore_collection_id the named group to which to add the item.
