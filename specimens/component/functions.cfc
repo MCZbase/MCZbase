@@ -118,10 +118,10 @@ limitations under the License.
 																<div id="Media_#i#">
 																	<div class="col-6 float-left p-2">
 																		<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
-																			<div id="mediaBlock#images.media_id#">
+																			<div id="mediaBlock#getMedia.media_id#">
 																				<!--- TODO: Display metadata and thumbnail for media with remove button --->
 																				<!--- TODO: Allow change to relationship type (between shows and documents cataloged_item) --->
-																				<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#images.media_id#",displayAs="thumb")>
+																				<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getMedia.media_id#",displayAs="thumb")>
 																			</div>
 																		</div>
 																	</div>
