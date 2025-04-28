@@ -214,7 +214,7 @@ limitations under the License.
 												<cfloop query="collectingEventUses">
 													<li>
 														<cfif numOfSpecs EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-														<a href="/Specimens.cfm?execute=true&builderMaxRows=2&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#enodeForUrl(lookupEvent.collecting_event_id)#&nestdepth2=2&JoinOperator2=and&field2=CATALOGED_ITEM%3ACOLLECTION_CDE&searchText2=%3D#collectingEventUses.collection_cde#">
+														<a href="/Specimens.cfm?execute=true&builderMaxRows=2&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#encodeForUrl(lookupEvent.collecting_event_id)#&nestdepth2=2&JoinOperator2=and&field2=CATALOGED_ITEM%3ACOLLECTION_CDE&searchText2=%3D#encodeForUrl(collectingEventUses.collection_cde)#">
 															#numOfSpecs# #collection_cde# specimen#plural#
 														</a>
 													</li>
