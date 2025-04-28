@@ -126,9 +126,8 @@ limitations under the License.
 																</cfquery>
 																<div class="col-6 float-left p-2">
 																	<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
-																		<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#images.media_id#",displayAs="thumb")>
 																		<div id="mediaBlock#images.media_id#">
-																			#mediaBlock#
+																			<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#images.media_id#",displayAs="thumb")>
 																		</div>
 																	</div>
 																</div>
