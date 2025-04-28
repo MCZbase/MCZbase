@@ -69,19 +69,17 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<h1 class="h3 px-1"> Edit Media <a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> </h1>
-							<form name="editMediaForm" id="editMediaForm">
-								<input type="hidden" name="method" value="updateMedia">
-								<input type="hidden" name="returnformat" value="json">
-								<input type="hidden" name="queryformat" value="column">
-								<input type="hidden" name="media_id" value="column">
-								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-								<div class="col-12 col-lg-12 float-left mb-4 px-0">
+							<!--- link existing media to cataloged item --->
+
+
+							<!--- remove relationships to existing media from cataloged item --->
+							<div class="col-12 col-lg-12 float-left mb-4 px-0">
 								<div id="accordionImages1">
 									<div class="card bg-light">
 										<div class="card-header p-0" id="headingImg1">
 											<h2 class="my-0 py-1 text-dark">
 												<button type="button" class="headerLnk px-3 w-100 border-0 text-left collapsed" data-toggle="collapse" data-target="##collapseImg1" aria-expanded="false" aria-controls="collapseImg1">
-													<span class="h3 px-2">Delete links to media</span> 
+													<span class="h3 px-2">Remove existing links to media</span> 
 												</button>
 											</h2>
 										</div>
@@ -89,90 +87,48 @@ limitations under the License.
 											<div class="card-body" id="mediaCardBody"> 
 												<div class="row mx-0">
 													<div class="col-12 px-0">
-														<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-															SELECT
+														<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+															SELECT distinct
+																media_relations.media_relationship,
 																media.media_id,
 																media.media_uri,
+																media.auto_filename,
 																media.preview_uri,
-																media.mime_type
+																media.mime_type,
+																media.media_type,
+																mczbase.get_media_descriptor(media.media_id) as media_descriptor
 															FROM
-																media
-																left join media_relations on media_relations.media_id = media.media_id
+																media_relations 
+																join media on media_relations.media_id = media.media_id
 															WHERE
 																media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+																AND (
+																	media_relations.media_relationship = 'shows cataloged_item'
+																	OR media_relations.media_relationship = 'documents cataloged_item'
+																)
 														</cfquery>
-													<cfset i = 1>
-													<cfloop query="images">
-														<div id="Media_#i#">
-															<cfif len(images.media_uri) gt 0>
-																<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-																	SELECT distinct
-																		media.media_id,
-																		media.auto_host,
-																		media.auto_path,
-																		media.auto_filename,
-																		media.media_uri,
-																		media.preview_uri as preview_uri,
-																		media.mime_type as mime_type,
-																		media.media_type,
-																		mczbase.get_media_descriptor(media.media_id) as media_descriptor
-																	FROM 
-																		media,
-																		media_relations
-																	WHERE 
-																		media_relations.media_id = media.media_id
-																	AND
-																		media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
-																</cfquery>
-																<div class="col-6 float-left p-2">
-																	<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
-																		<div id="mediaBlock#images.media_id#">
-																			<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#images.media_id#",displayAs="thumb")>
+														<!--- TODO: include media with specimen_part relationships --->
+														<cfif images.recordcount EQ 0>
+															<div class="col-12">
+																<h3 class="h3 text-danger">No media found for this cataloged item.</h3>
+															</div>
+														<cfelse>
+															<cfset i = 1>
+															<cfloop query="images">
+																<div id="Media_#i#">
+																	<div class="col-6 float-left p-2">
+																		<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
+																			<div id="mediaBlock#images.media_id#">
+																				<!--- TODO: Display metadata and thumbnail for media with remove button --->
+																				<!--- TODO: Allow change to relationship type (between shows and documents cataloged_item) --->
+																				<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#images.media_id#",displayAs="thumb")>
+																			</div>
 																		</div>
 																	</div>
 																</div>
-																<script>
-																	function editMediaSubmit(){
-																		$('##deleteMediaResultDiv').html('Deleting....');
-																		$('##deleteMediaResultDiv').addClass('text-warning');
-																		$('##deleteMediaResultDiv').removeClass('text-success');
-																		$('##deleteMediaResultDiv').removeClass('text-danger');
-																		$.ajax({
-																			url : "/specimens/component/functions.cfc",
-																			type : "post",
-																			dataType : "json",
-																			data: $("##editMediaForm").serialize(),
-																			success: function (result) {
-																				if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-																					$('##deleteMediaResultDiv').html('Deleted');
-																					$('##deleteMediaResultDiv').addClass('text-success');
-																					$('##deleteMediaResultDiv').removeClass('text-warning');
-																					$('##deleteMediaResultDiv').removeClass('text-danger');
-																				} else {
-																					// we shouldn't be able to reach this block, backing error should return an http 500 status
-																					$('##deleteMediaResultDiv').html('Error');
-																					$('##deleteMediaResultDiv').addClass('text-danger');
-																					$('##deleteMediaResultDiv').removeClass('text-warning');
-																					$('##deleteMediaResultDiv').removeClass('text-success');
-																					messageDialog('Error updating images: '+result.DATA.MESSAGE[0], 'Error saving images.');
-																				}
-																			},
-																			error: function(jqXHR,textStatus,error){
-																				$('##deleteMediaResultDiv').html('Error');
-																				$('##deleteMediaResultDiv').addClass('text-danger');
-																				$('##deleteMediaResultDiv').removeClass('text-warning');
-																				$('##deleteMediaResultDiv').removeClass('text-success');
-																				handleFail(jqXHR,textStatus,error,"deleting relationship between image and cataloged item");
-																			}
-																		});
-																	};
-																</script> 
-															<cfelse>
-																	None
-															</cfif>
-														</div>
-														<cfset i= i+1>
-													</cfloop>
+																<cfset i= i+1>
+															</cfloop>
+														</cfif>
 													</div>
 												</div>
 											</div>
@@ -180,113 +136,6 @@ limitations under the License.
 									</div>
 								</div>
 							</form>
-						</div>
-							<div class="col-12 col-lg-7 float-left px-0">
-								<div id="accordionImg">
-									<div class="card bg-light">
-										<div class="card-header p-0" id="headingImg">
-											<h2 class="my-0 py-1 text-dark">
-												<button type="button" class="headerLnk px-3 w-100 border-0 text-left collapsed" data-toggle="collapse" data-target="##collapseImg" aria-expanded="false" aria-controls="collapseImg">
-													<span class="h3 px-2">Add new media and link to this cataloged item</span> 
-												</button>
-											</h2>
-										</div>
-										<div id="collapseImg" class="collapse" aria-labelledby="heading1Im" data-parent="##accordionImg">
-											<div class="card-body"> 
-												<form name="newImgForm" id="newImgForm">
-													<input type="hidden" name="Action" value="createNew">
-													<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-													<div class="row mx-0 mt-0 pt-2 pb-1">
-														<div class="col-12 col-md-12 px-1">
-															<label for="media_uri" class="data-entry-label" >Media URI</label>
-															<input type="text" name="media_uri" id="media_uri" class="data-entry-input">
-														</div>
-													</div>
-													<div class="row mx-0 mt-0 pt-2 pb-1">
-														<div class="col-12 col-md-12 px-1">
-															<label for="media_uri" class="data-entry-label" >Media URI</label>
-															<input type="text" name="media_uri" id="media_uri" class="data-entry-input">
-														</div>
-													</div>
-													<div class="row mx-0 mt-0 py-1">
-														<div class="col-12 col-md-4 px-1">
-															<label for="media_type" class="data-entry-label" >Media Type</label>
-															<input type="text" name="media_type" id="media_type" class="data-entry-input">
-														</div>
-														<div class="col-12 col-md-4 px-1">
-															<label for="mime_type" class="data-entry-label" >Mime Type</label>
-															<input type="text" name="mime_type" id="mime_type" class="data-entry-input">
-														</div>
-														<div class="col-12 col-md-4 px-1">
-															<label for="mask_media_fg" class="data-entry-label" >Visibility</label>
-															<input type="text" name="mask_media_fg" id="mask_media_fg" class="data-entry-input">
-														</div>
-													</div>
-													<div class="row mx-0 mt-0 py-1">
-														<div class="col-12 col-md-12 px-1">
-															<label for="media_license_id" class="data-entry-label mt-0" >License</label>
-															<input type="text" name="media_license_id" id="media_license_id" class="data-entry-input">
-														</div>
-													</div>
-													<div class="row mx-0 mt-0 pt-2 pb-1">
-														<div class="col-12 col-md-4 px-1">
- 															Form inputs to add relationship
-														</div>
-													</div>
-													<div class="row mx-0 mt-0 py-1">
-														<div class="col-12 px-0">
-															Form inputs to add labels
-														</div>
-													</div>
-													<div class="row mx-0 mt-0 py-1">
-														<div class="col-12 col-md-12 px-1">
-															<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
-															onClick=" editImagesSubmit(); ">
-															<output id="saveImagesResultDiv" class="text-danger">&nbsp;</output>
-														</div>
-													</div>
-													<script>
-														function editImagesSubmit(){
-															$('##saveImagesResultDiv').html('Saving....');
-															$('##saveImagessResultDiv').addClass('text-warning');
-															$('##saveImagesResultDiv').removeClass('text-success');
-															$('##saveImagesResultDiv').removeClass('text-danger');
-															$.ajax({
-																url : "/specimens/component/functions.cfc",
-																type : "post",
-																dataType : "json",
-																data: $("##editImagesForm").serialize(),
-																success: function (result) {
-																	if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-																		$('##saveImagesResultDiv').html('Saved');
-																		$('##saveImagesResultDiv').addClass('text-success');
-																		$('##saveImagesResultDiv').removeClass('text-warning');
-																		$('##saveImagesResultDiv').removeClass('text-danger');
-																	} else {
-																		// we shouldn't be able to reach this block, backing error should return an http 500 status
-																		$('##saveImagesResultDiv').html('Error');
-																		$('##saveImagesResultDiv').addClass('text-danger');
-																		$('##saveImagesResultDiv').removeClass('text-warning');
-																		$('##saveImagesResultDiv').removeClass('text-success');
-																		messageDialog('Error updating images history: '+result.DATA.MESSAGE[0], 'Error saving images history.');
-																	}
-																},
-																error: function(jqXHR,textStatus,error){
-																	$('##saveImagesResultDiv').html('Error');
-																	$('##saveImagesResultDiv').addClass('text-danger');
-																	$('##saveImagesResultDiv').removeClass('text-warning');
-																	$('##saveImagesResultDiv').removeClass('text-success');
-																	handleFail(jqXHR,textStatus,error,"saving changes to images history");
-																}
-															});
-														};
-													</script> 
-												</form>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
