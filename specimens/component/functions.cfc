@@ -108,13 +108,13 @@ limitations under the License.
 																)
 														</cfquery>
 														<!--- TODO: include media with specimen_part relationships --->
-														<cfif images.recordcount EQ 0>
+														<cfif getMedia.recordcount EQ 0>
 															<div class="col-12">
 																<h3 class="h3 text-danger">No media found for this cataloged item.</h3>
 															</div>
 														<cfelse>
 															<cfset i = 1>
-															<cfloop query="images">
+															<cfloop query="getMedia">
 																<div id="Media_#i#">
 																	<div class="col-6 float-left p-2">
 																		<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
