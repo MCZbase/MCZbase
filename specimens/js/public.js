@@ -34,8 +34,9 @@ function loadSummaryHeaderHTML(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 };
-/** loadMedia populate an html block with the media for 
- * a cataloged item
+
+/** loadMedia populate an html block with the media 
+ * that shows a cataloged item
  * @param collection_object_id for the cataloged item for which
  *   to look up media
  * @param targetDivId the id for the div in the dom, without a leading #
@@ -58,6 +59,26 @@ function loadMedia(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 };
+// TODO: name and relationship type in conflict,
+// documents would show labels not ledgers.
+function loadLedger(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getMediaHTML",
+			collection_object_id: collection_object_id,
+			relationship_type: "documents" 
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading ledger media");
+		},
+		dataType: "html"
+	});
+};
+
 function loadSummaryHeader(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
@@ -86,23 +107,6 @@ function loadIdentifiers(collection_object_id,targetDivId) {
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"loading specimen identifiers");
-		},
-		dataType: "html"
-	});
-};
-function loadLedger(collection_object_id,targetDivId) { 
-	jQuery.ajax({
-		url: "/specimens/component/public.cfc",
-		data : {
-			method : "getMediaHTML",
-			collection_object_id: collection_object_id,
-			relationship_type: "documents" 
-		},
-		success: function (result) {
-			$("#" + targetDivId ).html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"loading ledger media");
 		},
 		dataType: "html"
 	});
@@ -159,23 +163,6 @@ function loadAnnotations(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 };
-/** TODO: Document this function **/ 
-function removeMedia(media_id,form) {
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "removeMedia",
-			media_id: media_id,
-		},
-		success: function (result) {
-			$("#mediaHTML").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing media");
-		},
-		dataType: "html"
-	});
-};
 
 // TODO: Fix documentation and uncomment, or remove if not needed 
 /** loadMedia populate an html block with the media 
@@ -200,63 +187,6 @@ function removeMedia(media_id,form) {
 //}
 
 
-/**openEditMediaDialog (plural) open a dialog for editing 
- * media objects for a cataloged item.
- * @param collection_object_id for the cataloged_item for which to edit media.
- * @param dialogId the id in the dom for the div to turn into the dialog without 
- *  a leading # selector.
- * @param guid the guid of the specimen to display in the dialog title
- * @param callback a callback function to invoke on closing the dialog.
- **/
-function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Media for " + guid;
-	createSpecimenEditDialog(dialogId,title,callback);
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getEditMediaHTML",
-			collection_object_id: collection_object_id,
-		},
-		success: function (result) {
-			$("#" + dialogId + "_div").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit Media dialog");
-		},
-		dataType: "html"
-	},
-	)
-};
-
-/** updateMedia function 
- * @method getMedia in functions.cfc
- * @param media_id
- * @param targetDiv the id
- **/
-function updateMedia(media_id,targetDiv) {
-	jQuery.ajax(
-	{
-		dataType: "json",
-		url: "/specimens/component/search.cfc",
-		data: { 
-			method : "getMediaHtml",
-			media_id : media_id,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		error: function (jqXHR, status, message) {
-			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
-		},
-		success: function (result) {
-			if (result.DATA.STATUS[0]==1) {
-				var message  = "There are Media";
-	
-				$('#' + targetDiv).html(message);
-			}
-		}
-	},
-	)
-};
 
 /** loadIdentifications populate an html block with the identification 
  * history for a cataloged item.
@@ -350,7 +280,7 @@ function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
 };
 
 
-
+// TODO: Wrong backing method
 function removeCitation(cited_taxon_name_id,form) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",

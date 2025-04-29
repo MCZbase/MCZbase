@@ -352,3 +352,85 @@ function openEditPreparatorsDialog(collection_object_id,dialogId,guid,callback) 
 	});
 };
 
+/**openEditMediaDialog (plural) open a dialog for editing 
+ * media objects for a cataloged item.
+ * @param collection_object_id for the cataloged_item for which to edit media.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ **/
+function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Media for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditMediaHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Media dialog");
+		},
+		dataType: "html"
+	},
+	)
+};
+
+function linkMedia(collection_object_id, media_id, relationship_type, callback) { 
+   jQuery.ajax({
+		dataType: "json",
+		url: "/specimens/component/functions.cfc",
+	});
+}
+
+/** updateMedia function 
+ * @method getMedia in functions.cfc
+ * @param media_id
+ * @param targetDiv the id
+ **/
+function updateMedia(media_id,targetDiv) {
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/specimens/component/search.cfc",
+		data: { 
+			method : "getMediaHtml",
+			media_id : media_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var message  = "There are Media";
+	
+				$('#' + targetDiv).html(message);
+			}
+		}
+	},
+	)
+};
+
+/** TODO: Document this function **/ 
+function removeMedia(media_id,form) {
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "removeMedia",
+			media_id: media_id,
+		},
+		success: function (result) {
+			$("#mediaHTML").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing media");
+		},
+		dataType: "html"
+	});
+};

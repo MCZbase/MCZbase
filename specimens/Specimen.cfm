@@ -237,6 +237,7 @@ limitations under the License.
 			} 
 			function reloadMedia() { 
 				// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type shows  and repopulate the specimen media block.
+				// TODO: Update media count
 				loadMedia(#collection_object_id#,'specimenMediaCardBody');
 			}
 			function reloadIdentifiers() { 
