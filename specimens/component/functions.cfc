@@ -65,13 +65,61 @@ limitations under the License.
 		<cfthread name="getEditMediaThread"> 
 			<cfoutput>
 			<cftry>
+				<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT media_relationship 
+					FROM ctmedia_relationship
+					WHERE media_relationship like '% cataloged_item'
+				</cfquery>
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-12">
+						<div class="col-12 float-left">
 							<h1 class="h3 px-1"> Edit Media <a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> </h1>
 							<!--- link existing media to cataloged item --->
-
-
+							<div class="add-form float-left">
+								<div class="add-form-header pt-1 px-2 col-12 float-left">
+									<h2 class="h3 text-white my-0 px-1 pb-1">Relate existing media to Cataloged Item</h2>
+								</div>
+								<div class="card-body">
+									<!--- form to add current media to cataloged item --->
+									<form name="formLinkMedia">
+										<div class="form-row">	
+											<div class="col-12">
+												<label for="underscore_collection_id">Media URI to link:</label>
+												<input type="hidden" name="media_id" id="media_id">
+												<input type="text" name="media_uri" id="media_uri" class="data-entry-input">
+											</div>
+											<div class="col-12 col-md-1">
+												<label for="relationship_type">Type of Relationship:</label>
+												<select name="relationship_type" id="relationship_tuype" size="1" class="reqdClr w-100" required>
+													<cfloop query="ctmedia_relationship">
+														<option value="#ctrelationship_type.relationship_type#">#ctrelationship_type.relationship_type#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-1">
+												<label for="addMediaButton" class="data-entry-label">&nbsp;</label>
+												<input type="button" value="Add" class="btn btn-xs btn-primary" id="addMediaButton"
+													onClick="handleAddMedia();">
+											</div>
+										</div>
+									</form>
+									<script>
+										jQuery(document).ready(function() {
+											makeRichMediaPickerControlMeta("media_uri","media_id",""); 
+										});
+										function reloadMediaDialogAndPage() { 
+											reloadMedia();
+											// TODO: Reload media in this dialog
+										}
+										function handleAddMedia() {
+											var media_id = $("##nedia_id").val();
+											var collection_object_id = "#variables.collection_object_id#";
+											var relationship_type = $("##relationship_type").val();
+											linkMedia(underscore_collection_id,media_id,relationship_type,reloadMediaDialogAndPage);
+										}
+									</script>
+								</div><!--- end card-body for add form --->
+							</div><!--- end add-form for link media --->
 							<!--- remove relationships to existing media from cataloged item --->
 							<div class="col-12 col-lg-12 float-left mb-4 px-0">
 								<div id="accordionImages1">
