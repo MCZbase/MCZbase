@@ -119,7 +119,7 @@ limitations under the License.
 									</form>
 									<script>
 										jQuery(document).ready(function() {
-											makeRichMediaPickerControlMeta2("media_uri","media_id",""); 
+											makeRichMediaPickerControlMeta2("media_uri","media_id","media_type"); 
 										});
 										function reloadMediaDialogAndPage() { 
 											reloadMedia();
