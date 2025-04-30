@@ -62,8 +62,15 @@ limitations under the License.
 --->
 <cffunction name="getEditMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		<cfthread name="getEditMediaThread"> 
-			<cfoutput>
+
+	<cfif isdefined("arguments.collection_object_id")>
+		<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfelse>
+		<cfset variables.collection_object_id = "">
+	</cfif>
+
+	<cfthread name="getEditMediaThread"> 
+		<cfoutput>
 			<cftry>
 				<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT media_relationship 
