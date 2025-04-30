@@ -92,7 +92,7 @@ limitations under the License.
 												<label for="relationship_type">Type of Relationship:</label>
 												<select name="relationship_type" id="relationship_tuype" size="1" class="reqdClr w-100" required>
 													<cfloop query="ctmedia_relationship">
-														<option value="#ctrelationship_type.relationship_type#">#ctrelationship_type.relationship_type#</option>
+														<option value="#ctmedia_relationship.media_relationship#">#ct_media_relationship.media_relationship#</option>
 													</cfloop>
 												</select>
 											</div>
