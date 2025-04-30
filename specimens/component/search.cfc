@@ -304,7 +304,8 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 	listOfNumbers = REReplace(listOfNumbers, "\s", ",","all");	// whitespace to comma
 	listOfNumbers = REReplace(listOfNumbers, "\*", "%","all");	// dos to sql wildcard
 	// strip out any other characters
-	listOfNumbers = REReplace(listOfNumbers, '[^0-9A-Za-z%,:"\-<>]',"","all");
+	// listOfNumbers = REReplace(listOfNumbers, '[^0-9A-Za-z%,:"\-<>]',"","all");
+	listOfNumbers = REReplace(listOfNumbers, '[^0-9A-Za-z%,:"<>_\-]',"","all");
 	// reduce repeating commas to a single comma
 	listOfNumbers = REReplace(listOfNumbers, ",,+",",","all");
 	// strip out leading/trailing commas
@@ -431,7 +432,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			// A-1-5-a // prefix and suffix with range alternative  (A-1-a to A-5-a)
 			mayBeQuoted = lparts[i];
 			// stricter tolerance for other characters than used in value clause below, do not include " and : when constructing atomParts
-			partFromList = REReplace(lparts[i], '[^0-9A-Za-z%\-<>]',"","all");
+			partFromList = REReplace(lparts[i], '[^0-9A-Za-z%_<>\-]',"","all");
 			atomParts = ListToArray(partFromList,"-",false);
 			partCount = ArrayLen(atomParts);
 			specialNumber = "";  // used to pass special case values to the number handling clause
@@ -561,8 +562,12 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 						comparator = '"comparator": "<"';
 						wherebit = wherebit & comma & '{#nestDepth#,"join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
 					} else if (partCount EQ 1 OR partCount GT 4) { 
+						comparator = '=';
+						if (specialNumber CONTAINS "%" OR specialNumber CONTAINS "_") { 
+							comparator = 'like';
+						}
 						// unexpected, and likely failure case, but try something
-						wherebit = wherebit & comma & '{#nestDepth#,"join":"and","field": "' & displayFieldName &'","comparator": "=","value": "#specialNumber#"}';
+						wherebit = wherebit & comma & '{#nestDepth#,"join":"and","field": "' & displayFieldName &'","comparator": "#comparator#","value": "#specialNumber#"}';
 						comma = ",";
 					} 
 				} else { 

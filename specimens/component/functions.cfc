@@ -27,31 +27,35 @@ limitations under the License.
 <cffunction name="updateCondition" access="remote" returntype="query">
 	<cfargument name="part_id" type="numeric" required="yes">
 	<cfargument name="condition" type="string" required="yes">
+
+	<cfset variables.part_id = arguments.part_id>
+	<cfset variables.condition = arguments.condition>
+
 	<cftry>
 		<cftransaction>
 			<cfquery name="upIns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				update coll_object 
 				set
-					condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">
+					condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.condition#">
 				where
-					COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+					COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.part_id#">
 			</cfquery>
 		</cftransaction>
 		<cfset result = querynew("PART_ID,MESSAGE")>
 		<cfset temp = queryaddrow(result,1)>
-		<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
+		<cfset temp = QuerySetCell(result, "part_id", "#variables.part_id#", 1)>
 		<cfset temp = QuerySetCell(result, "message", "success", 1)>
 		<cfcatch>
 			<cfset result = querynew("PART_ID,MESSAGE")>
 			<cfset temp = queryaddrow(result,1)>
-			<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
+			<cfset temp = QuerySetCell(result, "part_id", "#variables.part_id#", 1)>
 			<cfset temp = QuerySetCell(result, "message", "A query error occured: #cfcatch.Message# #cfcatch.Detail#", 1)>
 		</cfcatch>
 	</cftry>
 	<cfreturn result>
 </cffunction>
 
-<!---getEditImagesHTML obtain a block of html to populate an images editor dialog for a specimen.
+<!---getEditMediaHTML obtain a block of html to populate an media editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
  @return html for editing identifications for the specified cataloged item. 
@@ -61,23 +65,69 @@ limitations under the License.
 		<cfthread name="getEditMediaThread"> 
 			<cfoutput>
 			<cftry>
+				<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT media_relationship 
+					FROM ctmedia_relationship
+					WHERE media_relationship like '% cataloged_item'
+				</cfquery>
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-12">
+						<div class="col-12 float-left">
 							<h1 class="h3 px-1"> Edit Media <a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> </h1>
-							<form name="editMediaForm" id="editMediaForm">
-								<input type="hidden" name="method" value="updateMedia">
-								<input type="hidden" name="returnformat" value="json">
-								<input type="hidden" name="queryformat" value="column">
-								<input type="hidden" name="media_id" value="column">
-								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-								<div class="col-12 col-lg-12 float-left mb-4 px-0">
+							<!--- link existing media to cataloged item --->
+							<div class="add-form float-left">
+								<div class="add-form-header pt-1 px-2 col-12 float-left">
+									<h2 class="h3 text-white my-0 px-1 pb-1">Relate existing media to Cataloged Item</h2>
+								</div>
+								<div class="card-body">
+									<!--- form to add current media to cataloged item --->
+									<form name="formLinkMedia">
+										<div class="form-row">	
+											<div class="col-12">
+												<label for="underscore_collection_id">Media URI to link:</label>
+												<input type="hidden" name="media_id" id="media_id">
+												<input type="text" name="media_uri" id="media_uri" class="data-entry-input">
+											</div>
+											<div class="col-12 col-md-1">
+												<label for="relationship_type">Type of Relationship:</label>
+												<select name="relationship_type" id="relationship_tuype" size="1" class="reqdClr w-100" required>
+													<cfloop query="ctmedia_relationship">
+														<option value="#ctrelationship_type.relationship_type#">#ctrelationship_type.relationship_type#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-1">
+												<label for="addMediaButton" class="data-entry-label">&nbsp;</label>
+												<input type="button" value="Add" class="btn btn-xs btn-primary" id="addMediaButton"
+													onClick="handleAddMedia();">
+											</div>
+										</div>
+									</form>
+									<script>
+										jQuery(document).ready(function() {
+											makeRichMediaPickerControlMeta("media_uri","media_id",""); 
+										});
+										function reloadMediaDialogAndPage() { 
+											reloadMedia();
+											// TODO: Reload media in this dialog
+										}
+										function handleAddMedia() {
+											var media_id = $("##nedia_id").val();
+											var collection_object_id = "#variables.collection_object_id#";
+											var relationship_type = $("##relationship_type").val();
+											linkMedia(underscore_collection_id,media_id,relationship_type,reloadMediaDialogAndPage);
+										}
+									</script>
+								</div><!--- end card-body for add form --->
+							</div><!--- end add-form for link media --->
+							<!--- remove relationships to existing media from cataloged item --->
+							<div class="col-12 col-lg-12 float-left mb-4 px-0">
 								<div id="accordionImages1">
 									<div class="card bg-light">
 										<div class="card-header p-0" id="headingImg1">
 											<h2 class="my-0 py-1 text-dark">
 												<button type="button" class="headerLnk px-3 w-100 border-0 text-left collapsed" data-toggle="collapse" data-target="##collapseImg1" aria-expanded="false" aria-controls="collapseImg1">
-													<span class="h3 px-2">Delete links to media</span> 
+													<span class="h3 px-2">Remove existing links to media</span> 
 												</button>
 											</h2>
 										</div>
@@ -85,91 +135,48 @@ limitations under the License.
 											<div class="card-body" id="mediaCardBody"> 
 												<div class="row mx-0">
 													<div class="col-12 px-0">
-														<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-															SELECT
+														<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+															SELECT distinct
+																media_relations.media_relationship,
 																media.media_id,
 																media.media_uri,
+																media.auto_filename,
 																media.preview_uri,
-																media.mime_type
+																media.mime_type,
+																media.media_type,
+																mczbase.get_media_descriptor(media.media_id) as media_descriptor
 															FROM
-																media
-																left join media_relations on media_relations.media_id = media.media_id
+																media_relations 
+																join media on media_relations.media_id = media.media_id
 															WHERE
 																media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+																AND (
+																	media_relations.media_relationship = 'shows cataloged_item'
+																	OR media_relations.media_relationship = 'documents cataloged_item'
+																)
 														</cfquery>
-													<cfset i = 1>
-													<cfloop query="images">
-														<div id="Media_#i#">
-															<cfif len(images.media_uri) gt 0>
-																<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-																	SELECT distinct
-																		media.media_id,
-																		media.auto_host,
-																		media.auto_path,
-																		media.auto_filename,
-																		media.media_uri,
-																		media.preview_uri as preview_uri,
-																		media.mime_type as mime_type,
-																		media.media_type,
-																		mczbase.get_media_descriptor(media.media_id) as media_descriptor
-																	FROM 
-																		media,
-																		media_relations
-																	WHERE 
-																		media_relations.media_id = media.media_id
-																	AND
-																		media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
-																</cfquery>
-																<div class="col-6 float-left p-2">
-																	<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
-																		<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
-																		<div id="mediaBlock#images.media_id#">
-																			#mediaBlock#
+														<!--- TODO: include media with specimen_part relationships --->
+														<cfif getMedia.recordcount EQ 0>
+															<div class="col-12">
+																<h3 class="h3 text-danger">No media found for this cataloged item.</h3>
+															</div>
+														<cfelse>
+															<cfset i = 1>
+															<cfloop query="getMedia">
+																<div id="Media_#i#">
+																	<div class="col-6 float-left p-2">
+																		<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
+																			<div id="mediaBlock#getMedia.media_id#">
+																				<!--- TODO: Display metadata and thumbnail for media with remove button --->
+																				<!--- TODO: Allow change to relationship type (between shows and documents cataloged_item) --->
+																				<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getMedia.media_id#",displayAs="thumb")>
+																			</div>
 																		</div>
 																	</div>
 																</div>
-																<script>
-																	function editMediaSubmit(){
-																		$('##deleteMediaResultDiv').html('Deleting....');
-																		$('##deleteMediaResultDiv').addClass('text-warning');
-																		$('##deleteMediaResultDiv').removeClass('text-success');
-																		$('##deleteMediaResultDiv').removeClass('text-danger');
-																		$.ajax({
-																			url : "/specimens/component/functions.cfc",
-																			type : "post",
-																			dataType : "json",
-																			data: $("##editMediaForm").serialize(),
-																			success: function (result) {
-																				if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-																					$('##deleteMediaResultDiv').html('Deleted');
-																					$('##deleteMediaResultDiv').addClass('text-success');
-																					$('##deleteMediaResultDiv').removeClass('text-warning');
-																					$('##deleteMediaResultDiv').removeClass('text-danger');
-																				} else {
-																					// we shouldn't be able to reach this block, backing error should return an http 500 status
-																					$('##deleteMediaResultDiv').html('Error');
-																					$('##deleteMediaResultDiv').addClass('text-danger');
-																					$('##deleteMediaResultDiv').removeClass('text-warning');
-																					$('##deleteMediaResultDiv').removeClass('text-success');
-																					messageDialog('Error updating images: '+result.DATA.MESSAGE[0], 'Error saving images.');
-																				}
-																			},
-																			error: function(jqXHR,textStatus,error){
-																				$('##deleteMediaResultDiv').html('Error');
-																				$('##deleteMediaResultDiv').addClass('text-danger');
-																				$('##deleteMediaResultDiv').removeClass('text-warning');
-																				$('##deleteMediaResultDiv').removeClass('text-success');
-																				handleFail(jqXHR,textStatus,error,"deleting relationship between image and cataloged item");
-																			}
-																		});
-																	};
-																</script> 
-															<cfelse>
-																	None
-															</cfif>
-														</div>
-														<cfset i= i+1>
-													</cfloop>
+																<cfset i= i+1>
+															</cfloop>
+														</cfif>
 													</div>
 												</div>
 											</div>
@@ -177,113 +184,6 @@ limitations under the License.
 									</div>
 								</div>
 							</form>
-						</div>
-							<div class="col-12 col-lg-7 float-left px-0">
-								<div id="accordionImg">
-									<div class="card bg-light">
-										<div class="card-header p-0" id="headingImg">
-											<h2 class="my-0 py-1 text-dark">
-												<button type="button" class="headerLnk px-3 w-100 border-0 text-left collapsed" data-toggle="collapse" data-target="##collapseImg" aria-expanded="false" aria-controls="collapseImg">
-													<span class="h3 px-2">Add new media and link to this cataloged item</span> 
-												</button>
-											</h2>
-										</div>
-										<div id="collapseImg" class="collapse" aria-labelledby="heading1Im" data-parent="##accordionImg">
-											<div class="card-body"> 
-												<form name="newImgForm" id="newImgForm">
-													<input type="hidden" name="Action" value="createNew">
-													<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-													<div class="row mx-0 mt-0 pt-2 pb-1">
-														<div class="col-12 col-md-12 px-1">
-															<label for="media_uri" class="data-entry-label" >Media URI</label>
-															<input type="text" name="media_uri" id="media_uri" class="data-entry-input">
-														</div>
-													</div>
-													<div class="row mx-0 mt-0 pt-2 pb-1">
-														<div class="col-12 col-md-12 px-1">
-															<label for="media_uri" class="data-entry-label" >Media URI</label>
-															<input type="text" name="media_uri" id="media_uri" class="data-entry-input">
-														</div>
-													</div>
-													<div class="row mx-0 mt-0 py-1">
-														<div class="col-12 col-md-4 px-1">
-															<label for="media_type" class="data-entry-label" >Media Type</label>
-															<input type="text" name="media_type" id="media_type" class="data-entry-input">
-														</div>
-														<div class="col-12 col-md-4 px-1">
-															<label for="mime_type" class="data-entry-label" >Mime Type</label>
-															<input type="text" name="mime_type" id="mime_type" class="data-entry-input">
-														</div>
-														<div class="col-12 col-md-4 px-1">
-															<label for="mask_media_fg" class="data-entry-label" >Visibility</label>
-															<input type="text" name="mask_media_fg" id="mask_media_fg" class="data-entry-input">
-														</div>
-													</div>
-													<div class="row mx-0 mt-0 py-1">
-														<div class="col-12 col-md-12 px-1">
-															<label for="media_license_id" class="data-entry-label mt-0" >License</label>
-															<input type="text" name="media_license_id" id="media_license_id" class="data-entry-input">
-														</div>
-													</div>
-													<div class="row mx-0 mt-0 pt-2 pb-1">
-														<div class="col-12 col-md-4 px-1">
- 															Form inputs to add relationship
-														</div>
-													</div>
-													<div class="row mx-0 mt-0 py-1">
-														<div class="col-12 px-0">
-															Form inputs to add labels
-														</div>
-													</div>
-													<div class="row mx-0 mt-0 py-1">
-														<div class="col-12 col-md-12 px-1">
-															<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
-															onClick=" editImagesSubmit(); ">
-															<output id="saveImagesResultDiv" class="text-danger">&nbsp;</output>
-														</div>
-													</div>
-													<script>
-														function editImagesSubmit(){
-															$('##saveImagesResultDiv').html('Saving....');
-															$('##saveImagessResultDiv').addClass('text-warning');
-															$('##saveImagesResultDiv').removeClass('text-success');
-															$('##saveImagesResultDiv').removeClass('text-danger');
-															$.ajax({
-																url : "/specimens/component/functions.cfc",
-																type : "post",
-																dataType : "json",
-																data: $("##editImagesForm").serialize(),
-																success: function (result) {
-																	if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-																		$('##saveImagesResultDiv').html('Saved');
-																		$('##saveImagesResultDiv').addClass('text-success');
-																		$('##saveImagesResultDiv').removeClass('text-warning');
-																		$('##saveImagesResultDiv').removeClass('text-danger');
-																	} else {
-																		// we shouldn't be able to reach this block, backing error should return an http 500 status
-																		$('##saveImagesResultDiv').html('Error');
-																		$('##saveImagesResultDiv').addClass('text-danger');
-																		$('##saveImagesResultDiv').removeClass('text-warning');
-																		$('##saveImagesResultDiv').removeClass('text-success');
-																		messageDialog('Error updating images history: '+result.DATA.MESSAGE[0], 'Error saving images history.');
-																	}
-																},
-																error: function(jqXHR,textStatus,error){
-																	$('##saveImagesResultDiv').html('Error');
-																	$('##saveImagesResultDiv').addClass('text-danger');
-																	$('##saveImagesResultDiv').removeClass('text-warning');
-																	$('##saveImagesResultDiv').removeClass('text-success');
-																	handleFail(jqXHR,textStatus,error,"saving changes to images history");
-																}
-															});
-														};
-													</script> 
-												</form>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -5442,5 +5342,223 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	<cfthread action="join" name="getContainerThread#tn#"/>
 	<cfreturn cfthread["getContainerThread#tn#"].output>
 </cffunction>	
+
+<!---function getEditNamedGroupsHTML obtain an html block to popluate an edit dialog for named groups for 
+ a cataloged item
+ @param collection_object_id the cataloged item for which to edit named group membership.
+ @return html for editing the named group membership of a cataloged item
+ @see getNamedGroupsDetailHTML for the html block listing named group membership of a cataloged item.
+--->
+<cffunction name="getEditNamedGroupsHTML" returntype="string" access="remote" returnformat="plain">
+
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+
+	<cfthread name="getNamedGroupThread">
+		<cftry>
+			<cfoutput>
+				<div id="namedgroupHTML">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12 float-left">
+								<div class="add-form float-left">
+									<div class="add-form-header pt-1 px-2 col-12 float-left">
+										<h2 class="h3 text-white my-0 px-1 pb-1">Add to Named Group</h2>
+									</div>
+									<div class="card-body">
+										<!--- form to add current cataloged item to a named group --->
+										<form name="addToNamedGroup">
+									   	<div class="form-row">	
+												<div class="col-12 col-md-11">
+													<label for="underscore_collection_id">Add this cataloged item to Named Group:</label>
+													<input type="hidden" name="underscore_collection_id" id="underscore_collection_id">
+													<input type="text" name="underscore_collection_name" id="underscore_collection_name" class="data-entry-input">
+												</div>
+												<div class="col-12 col-md-1">
+													<label for="addButton" class="data-entry-label">&nbsp;</label>
+													<input type="button" value="Add" class="btn btn-xs btn-primary" id="addButton"
+														onClick="handleAddToNamedGroup();">
+												</div>
+											</div>
+										</form>
+										<script>
+											jQuery(document).ready(function() {
+												makeNamedCollectionPicker("underscore_collection_name","underscore_collection_id",true);
+											});
+											function reloadNamedGroupsDialogAndPage() { 
+												reloadNamedGroups();
+												loadNamedGroupsList("#variables.collection_object_id#","namedGroupDialogList");
+											}
+											function handleAddToNamedGroup() {
+												var underscore_collection_id = $("##underscore_collection_id").val();
+												var collection_object_id = "#variables.collection_object_id#";
+												addToNamedGroup(underscore_collection_id,collection_object_id,reloadNamedGroupsDialogAndPage);
+											}
+										</script>
+									</div><!--- end card-body for add form --->
+								</div><!--- end add-form for add to named group --->
+								<div id="namedGroupDialogList" class="col-12 float-left mt-4 mb-4 px-0">
+									<!--- include output from getNamedGroupsDetailHTML to show list of named group membership for the cataloged item --->
+									<cfset namedGroupList = getNamedGroupsDetailHTML(collection_object_id = variables.collection_object_id)>
+								</div>
+							</div><!--- end col-12 --->
+						</div><!--- end row --->
+					</div><!--- end container-fluid --->
+				</div><!--- end namedgroupHTML --->
+			</cfoutput>
+			<cfcatch>
+				<cfoutput>
+					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
+				</cfoutput>
+			</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getNamedGroupThread" />
+	<cfreturn getNamedGroupThread.output>
+</cffunction>
+
+
+<!---function getNamedGroupsDetailHTML obtain an html block listing named groups for 
+ a cataloged item with detailed information, not threaded, able to be called from another
+ method that itself is threaded.
+ @param collection_object_id the cataloged item for which to show named group membership.
+ @return, nothing, but output is html showing the named group membership of a cataloged item 
+	or an error message.
+ @see getEditNamedGroupsHTML which calls this function.
+--->
+<cffunction name="getNamedGroupsDetailHTML" returntype="string" access="remote" returnformat="plain">
+
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+
+	<cftry>
+		<cfquery name="getUnderscoreRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT 
+				underscore_collection.underscore_collection_id, collection_name,
+				decode(mask_fg, 1, 'Hidden', '') as mask_fg,
+				underscore_collection_type,
+				to_char(underscore_relation.timestampadded,'yyyy-mm-dd') as date_added,
+				underscore_relation.createdby as created_by
+			FROM 
+				underscore_relation
+				join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+			WHERE 	
+				underscore_relation.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+			ORDER BY 
+				underscore_collection.collection_name
+		</cfquery>
+		<cfoutput>
+			<h2 class="h3">Named Groups</h2>
+			<ul>
+				<cfif getUnderscoreRelations.recordcount EQ 0>
+					<li>None</li>
+				</cfif>
+				<cfloop query="getUnderscoreRelations">
+					<li>
+						<strong>#getUnderscoreRelations.mask_fg#</strong>
+						<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#encodeForUrl(getUnderscoreRelations.underscore_collection_id)#"
+							target="_blank">#getUnderscoreRelations.collection_name#</a>
+						(#getUnderscoreRelations.underscore_collection_type#)
+						<span class="smaller-text"> relation added by #getUnderscoreRelations.created_by# on #getUnderscoreRelations.date_added#</span>
+						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+							<input type="button" value="Remove" class="btn btn-xs btn-warning"
+								aria-label="Remove this cataloged item from this named group"
+								onClick="removeFromNamedGroup(#getUnderscoreRelations.underscore_collection_id#,#variables.collection_object_id#,reloadNamedGroupsDialogAndPage);">
+						</cfif>
+					</li>
+				</cfloop>
+			</ul>
+		</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
+			</cfoutput>
+		</cfcatch>
+	</cftry>
+</cffunction>
+
+<!--- function addToNamedGroup add a cataloged item to a named group
+  @param underscore_collection_id the named group to which to add the item.
+  @param collection_object_id the cataloged item to add to the named group
+  @return a json structure with status=added, or an http 500 response.
+--->
+<cffunction name="addToNamedGroup" returntype="any" access="remote" returnformat="json">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>	
+			<cfquery name="addToNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addToNamedGroup_result">
+				INSERT INTO underscore_relation (
+					underscore_collection_id, 
+					collection_object_id
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				)
+			</cfquery>
+			<cfif addToNamedGroup_result.recordcount EQ 1>
+				<cftransaction action="commit"/>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "added">
+				<cfset row["id"] = "#underscore_collection_id#">
+				<cfset data[1] = row>
+			<cfelse>
+				<cfthrow message="Error other than one row affected.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- function removeFromNamedGroup remove a cataloged item from a named group
+  @param underscore_collection_id the named group from which to remove the item.
+  @param collection_object_id the cataloged item to remove from the named group
+  @return a json structure with status=removed, or an http 500 response.
+--->
+<cffunction name="removeFromNamedGroup" returntype="any" access="remote" returnformat="json">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>	
+			<cfquery name="removeFromNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="removeFromNamedGroup_result">
+				DELETE 
+				FROM underscore_relation
+				WHERE
+					underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#"> AND
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+			</cfquery>
+			<cfif removeFromNamedGroup_result.recordcount EQ 1>
+				<cftransaction action="commit"/>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "removed">
+				<cfset row["id"] = "#underscore_collection_id#">
+				<cfset data[1] = row>
+			<cfelse>
+				<cfthrow message="Error other than one row affected.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 
 </cfcomponent>

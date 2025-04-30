@@ -213,8 +213,11 @@ limitations under the License.
 </cfif>
 
 <cfoutput>
-	<!--- TODO: Split public.js into functions available for everyone and functions that support editing, load latter only with manage_specimens ---->
+	<!--- public.js provides functions available for everyone, edit.js provides functions that support editing ---->
 	<script type="text/javascript" src="/specimens/js/public.js"></script> 
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+		<script type="text/javascript" src="/specimens/js/edit.js"></script> 
+	</cfif>
    <cfif isdefined("session.username") AND len(session.username) gt 0>
 		<script>
 			function reloadAnnotations() { 
@@ -234,6 +237,7 @@ limitations under the License.
 			} 
 			function reloadMedia() { 
 				// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type shows  and repopulate the specimen media block.
+				// TODO: Update media count
 				loadMedia(#collection_object_id#,'specimenMediaCardBody');
 			}
 			function reloadIdentifiers() { 
@@ -512,7 +516,7 @@ limitations under the License.
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditTransactionsDialog(110406,'transactionsDialog','#guid#',reloadTransactions)">Transactions</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Meta&nbsp;Data</button>
+						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditNamedGroupsDialog(#collection_object_id#,'NamedGroupsDialog','#guid#',reloadNamedGroups)">Named&nbsp;Groups</button>
 					</li>
 					<!--- Navigation through records in a result set --->
 					<cfif navigable>
@@ -904,11 +908,6 @@ limitations under the License.
 										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-label="Meta Pane" aria-controls="MetaPane" data-toggle="collapse" data-target="##MetaPane">
 											Metadata
 										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditMetaDialog(#collection_object_id#,'metaDialog','#guid#',reloadMeta)">
-												Edit
-											</a>
-										</cfif>
 									</h3>
 								</div>
 								<div id="MetaPane" class="collapse show" aria-labelledby="headingMeta" data-parent="##accordionMeta">

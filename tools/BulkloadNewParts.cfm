@@ -18,7 +18,11 @@ limitations under the License.
 --->
 <cfset NUM_PART_ATTRIBUTE_PAIRS = 6>
 
-<cfif isDefined("action") AND action is "dumpProblems">
+<!--- page can submit with action either as a form post parameter or as a url parameter, obtain either into variable scope. --->
+<cfif isDefined("url.action")><cfset variables.action = url.action></cfif>
+<cfif isDefined("form.action")><cfset variables.action = form.action></cfif>
+
+<cfif isDefined("variables.action") AND variables.action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT 
 			status, 
@@ -46,7 +50,7 @@ limitations under the License.
 </cfif>
 <cfset requiredfieldlist = "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,LOT_COUNT,CONDITION,COLL_OBJ_DISPOSITION">
 
-<cfif isDefined("action") AND action is "getCSVHeader">
+<cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
 	<cfset csv = "">
 	<cfset separator = "">
 	<cfloop list="#fieldlist#" index="field" delimiters=",">
@@ -62,11 +66,13 @@ limitations under the License.
 <cfset pageTitle = "Bulk New Parts">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/tools/component/csv.cfc" runOnce="true"><!--- for common csv testing functions --->
-<cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
+
+<cfif not isDefined("variables.action") OR len(variables.action) EQ 0><cfset variables.action="nothing"></cfif>
+
 <main class="container-fluid px-xl-5 py-3" id="content">
 	<h1 class="h2 mt-2">Bulkload New Parts </h1>
 	<!------------------------------------------------------->
-	<cfif #action# is "nothing">
+	<cfif #variables.action# is "nothing">
 		<cfoutput>
 			<p>This tool adds part rows to the specimen record. It creates metadata for part history and includes specimen part attributes fields (that can be empty). The cataloged items must be in the database and they can be entered using the catalog number or other ID. Error messages will appear if the values need to match values in MCZbase. It alerts you if columns are missing. Additional columns will be ignored. Include column headings, spelled exactly as below. </p>
 			<h2 class="h4">Use Template to Load Data</h2>
@@ -188,7 +194,13 @@ limitations under the License.
 		</cfoutput>
 	</cfif>	
 		<!------------------------------------------------------->
-		<cfif #action# is "getFile">
+		<cfif #variables.action# is "getFile">
+
+			<!--- get form variables --->
+			<cfif isDefined("form.fileToUpload")><cfset variables.fileToUpload = form.fileToUpload></cfif>
+			<cfif isDefined("form.format")><cfset variables.format = form.format></cfif>
+			<cfif isDefined("form.characterSet")><cfset variables.characterSet = form.characterSet></cfif>
+
 				<cfoutput>
 					<h2 class="h4">First step: Reading data from CSV file.</h2>
 					<!--- Compare the numbers of headers expected against provided in CSV file --->
@@ -391,7 +403,7 @@ limitations under the License.
 				</cfoutput>
 			</cfif>
 		<!------------------------------------------------------->
-		<cfif #action# is "validate">
+		<cfif #variables.action# is "validate">
 		<cfoutput>
 			<h2 class="h4">Second step: Data Validation</h2>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -762,7 +774,7 @@ limitations under the License.
 			</cfoutput>
 		</cfif>
 		<!-------------------------------------------------------------------------------------------->
-		<cfif #action# is "load">
+		<cfif #variables.action# is "load">
 			<cfoutput>
 				<h2 class="h4">Third step: Apply changes</h2>
 				<cfset problem_key = "">

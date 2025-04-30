@@ -26,7 +26,7 @@ limitations under the License.
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT 
 			REGEXP_REPLACE( status, '\s*</?\w+((\s+\w+(\s*=\s*(".*?"|''.*?''|[^''">\s]+))?)+\s*|\s*)/?>\s*', NULL, 1, 0, 'im') AS STATUS, 
-			higher_geography_id, locality_id,verbatim_date,verbatim_locality,coll_event_remarks,valid_distribution_fg,collecting_source,collecting_method,habitat_desc,
+			spec_locality, locality_id,verbatim_date,verbatim_locality,coll_event_remarks,valid_distribution_fg,collecting_source,collecting_method,habitat_desc,
 			date_determined_by_agent, date_determined_by_agent_id, fish_field_number,
 			began_date,ended_date,collecting_time,verbatimcoordinates,verbatimlatitude,verbatimlongitude,verbatimcoordinatesystem,
 			verbatimsrs,startdayofyear,enddayofyear,verbatimelevation,verbatimdepth,verbatim_collectors,verbatim_field_numbers,verbatim_habitat
@@ -42,9 +42,9 @@ limitations under the License.
 	<cfabort>
 </cfif>
 
-<!--- KEY,DATE_DETERMINED_BY_AGENT_ID,higher_geography_id,LOCALITY_ID,VERBATIM_DATE,VERBATIM_LOCALITY,COLL_EVENT_REMARKS,VALID_DISTRIBUTION_FG,COLLECTING_SOURCE,COLLECTING_METHOD,HABITAT_DESC,DATE_DETERMINED_BY_AGENT,FISH_FIELD_NUMBER,BEGAN_DATE,ENDED_DATE,COLLECTING_TIME,VERBATIMCOORDINATES,VERBATIMLATITUDE,VERBATIMLONGITUDE,VERBATIMCOORDINATESYSTEM,VERBATIMSRS,STARTDAYOFYEAR,ENDDAYOFYEAR,VERBATIMELEVATION,VERBATIMDEPTH,VERBATIM_COLLECTORS,VERBATIM_FIELD_NUMBERS,VERBATIM_HABITAT,USERNAME,STATUS --->
+<!--- KEY,DATE_DETERMINED_BY_AGENT_ID,spec_locality,LOCALITY_ID,VERBATIM_DATE,VERBATIM_LOCALITY,COLL_EVENT_REMARKS,VALID_DISTRIBUTION_FG,COLLECTING_SOURCE,COLLECTING_METHOD,HABITAT_DESC,DATE_DETERMINED_BY_AGENT,FISH_FIELD_NUMBER,BEGAN_DATE,ENDED_DATE,COLLECTING_TIME,VERBATIMCOORDINATES,VERBATIMLATITUDE,VERBATIMLONGITUDE,VERBATIMCOORDINATESYSTEM,VERBATIMSRS,STARTDAYOFYEAR,ENDDAYOFYEAR,VERBATIMELEVATION,VERBATIMDEPTH,VERBATIM_COLLECTORS,VERBATIM_FIELD_NUMBERS,VERBATIM_HABITAT,USERNAME,STATUS --->
 
-<cfset fieldlist = "HIGHER_GEOGRAPHY_ID,LOCALITY_ID,VERBATIM_DATE,VERBATIM_LOCALITY,COLL_EVENT_REMARKS,VALID_DISTRIBUTION_FG,COLLECTING_SOURCE,COLLECTING_METHOD,HABITAT_DESC,DATE_DETERMINED_BY_AGENT,FISH_FIELD_NUMBER,BEGAN_DATE,ENDED_DATE,COLLECTING_TIME,VERBATIMCOORDINATES,VERBATIMLATITUDE,VERBATIMLONGITUDE,VERBATIMCOORDINATESYSTEM,VERBATIMSRS,STARTDAYOFYEAR,ENDDAYOFYEAR,VERBATIMELEVATION,VERBATIMDEPTH,VERBATIM_COLLECTORS,VERBATIM_FIELD_NUMBERS,VERBATIM_HABITAT,DATE_DETERMINED_BY_AGENT_ID" >
+<cfset fieldlist = "SPEC_LOCALITY,LOCALITY_ID,VERBATIM_DATE,VERBATIM_LOCALITY,COLL_EVENT_REMARKS,VALID_DISTRIBUTION_FG,COLLECTING_SOURCE,COLLECTING_METHOD,HABITAT_DESC,DATE_DETERMINED_BY_AGENT,FISH_FIELD_NUMBER,BEGAN_DATE,ENDED_DATE,COLLECTING_TIME,VERBATIMCOORDINATES,VERBATIMLATITUDE,VERBATIMLONGITUDE,VERBATIMCOORDINATESYSTEM,VERBATIMSRS,STARTDAYOFYEAR,ENDDAYOFYEAR,VERBATIMELEVATION,VERBATIMDEPTH,VERBATIM_COLLECTORS,VERBATIM_FIELD_NUMBERS,VERBATIM_HABITAT,DATE_DETERMINED_BY_AGENT_ID" >
 
 <cfset fieldTypes="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL">
 
@@ -52,7 +52,7 @@ limitations under the License.
 	<cfthrow message = "Error: Bug in the definition of fieldlist[#listlen(fieldlist)#] and fieldType[#listlen(fieldTypes)#] lists, lists must be the same length, but are not.">
 </cfif>
 	
-<cfset requiredfieldlist = "HIGHER_GEOGRAPHY_ID,LOCALITY_ID,VERBATIM_DATE,BEGAN_DATE,ENDED_DATE,COLLECTING_SOURCE">
+<cfset requiredfieldlist = "SPEC_LOCALITY,LOCALITY_ID,VERBATIM_DATE,BEGAN_DATE,ENDED_DATE,COLLECTING_SOURCE">
 
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("variables.action") AND variables.action is "getCSVHeader">
@@ -513,14 +513,6 @@ limitations under the License.
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
-			<cfquery name="geogIDNotInteger" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE CF_TEMP_COLLECTING_EVENT
-				SET status = concat(nvl2(status, status || '; ', ''),'higher_geography_id is not an integer.')
-				WHERE
-					higher_geography_id is not null
-					AND NOT regexp_like(higher_geography_id,'^[0-9]+$')
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
 			<cfquery name="localityIDNotInteger" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE CF_TEMP_COLLECTING_EVENT
 				SET status = concat(nvl2(status, status || '; ', ''),'locality_id is not an integer.')
@@ -567,23 +559,33 @@ limitations under the License.
 			<!--- Get Data from the temp table and the codetables with relevant information --->
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					   began_date,ended_date, locality_id, higher_geography_id,
+					   began_date,ended_date, locality_id, spec_locality,
 						date_determined_by_agent,date_determined_by_agent_id,
 						KEY
 				FROM CF_TEMP_COLLECTING_EVENT
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTempData">
-				<!--- verify that the higher_geography_id is the geog_auth_rec_id for the specified locality_id --->
-				<cfquery name="geogIDOnLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE CF_TEMP_COLLECTING_EVENT
-					SET status = concat(nvl2(status, status || '; ', ''),'higher_geography_id is not correct for specified locality_id, did you provide the correct locality_id?')
-					WHERE
-						higher_geography_id is not null
-						AND NOT higher_geography_id in (select geog_auth_rec_id from locality where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-				</cfquery>
+				<!--- verify that the spec_locality is the value in the locality with the specified locality_id --->
+				<cfif len(getTempData.locality_id) eq 0>
+					<cfquery name="geogIDOnLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE CF_TEMP_COLLECTING_EVENT
+						SET status = concat(nvl2(status, status || '; ', ''),'Required locality_id is empty.')
+						WHERE
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+					</cfquery>
+				<cfelse> 
+					<cfquery name="geogIDOnLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE CF_TEMP_COLLECTING_EVENT
+						SET status = concat(nvl2(status, status || '; ', ''),'spec_locality is not correct for specified locality_id, did you provide the correct locality_id?')
+						WHERE
+							spec_locality is not null
+							AND NOT spec_locality in (select spec_locality from locality where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.locality_id#">)
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							AND key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
+					</cfquery>
+				</cfif>
 
 				<!--- lookup agent --->
 				<cfif len(getTempData.date_determined_by_agent) gt 0>
@@ -708,7 +710,7 @@ limitations under the License.
 				<!--- Reload Data from the temp table --->
 				<cfquery name="getTempDataKey" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
-						DATE_DETERMINED_BY_AGENT_ID,higher_geography_id,LOCALITY_ID,VERBATIM_DATE,VERBATIM_LOCALITY,COLL_EVENT_REMARKS,VALID_DISTRIBUTION_FG,
+						DATE_DETERMINED_BY_AGENT_ID,spec_locality,LOCALITY_ID,VERBATIM_DATE,VERBATIM_LOCALITY,COLL_EVENT_REMARKS,VALID_DISTRIBUTION_FG,
 						COLLECTING_SOURCE,COLLECTING_METHOD,HABITAT_DESC,DATE_DETERMINED_BY_AGENT,FISH_FIELD_NUMBER,BEGAN_DATE,ENDED_DATE,
 						COLLECTING_TIME,VERBATIMCOORDINATES,VERBATIMLATITUDE,VERBATIMLONGITUDE,VERBATIMCOORDINATESYSTEM,VERBATIMSRS,
 						STARTDAYOFYEAR,ENDDAYOFYEAR,VERBATIMELEVATION,VERBATIMDEPTH,VERBATIM_COLLECTORS,VERBATIM_FIELD_NUMBERS,
@@ -746,7 +748,7 @@ limitations under the License.
 					<tr>
 						<th>STATUS&nbsp;<span style='color:##e9ecef'>for&nbsp;Bulkloader</span></th>
 						<th>DATE_DETERMINED_BY_AGENT_ID</th>
-						<th>HIGHER_GEOGRAPHY_ID</th>
+						<th>SPEC_LOCALITY</th>
 						<th>LOCALITY_ID</th>
 						<th>VERBATIM_DATE</th>
 						<th>VERBATIM_LOCALITY</th>
@@ -779,7 +781,7 @@ limitations under the License.
 						<tr>
 							<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#data.status#</strong></cfif></td>
 							<td>#data.DATE_DETERMINED_BY_AGENT_ID#</td>
-							<td>#data.HIGHER_GEOGRAPHY_ID#</td>
+							<td>#data.SPEC_LOCALITY#</td>
 							<td>#data.LOCALITY_ID#</td>
 							<td>#data.VERBATIM_DATE#</td>
 							<td>#data.VERBATIM_LOCALITY#</td>

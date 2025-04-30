@@ -408,6 +408,14 @@ limitations under the License.
 				(other_id_type is null OR other_id_type <> 'catalog number') 
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
+		<cfquery name="probPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			UPDATE cf_temp_barcode_parts
+			SET
+				status = concat(nvl2(status, status || '; ', ''),'part_name is invalid')
+			WHERE 
+				part_name not in (select part_name from ctspecimen_part_name)
+				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		</cfquery>
 		<!--- Load temp table cf_temp_barcode_part and iterate --->
 		<cfquery name="dataParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,
@@ -418,14 +426,6 @@ limitations under the License.
 				KEY
 			FROM cf_temp_barcode_parts 
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-		</cfquery>
-		<cfquery name="probPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			UPDATE cf_temp_barcode_parts
-			SET
-				status = concat(nvl2(status, status || '; ', ''),'part_name is invalid')
-			WHERE 
-				part_name not in (select part_name from ctspecimen_part_name)
-				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfloop query="dataParts">
 			<cfif len(dataParts.part_collection_object_id) eq 0>
@@ -487,18 +487,22 @@ limitations under the License.
 					<cfelseif getPart.recordcount GT 1>
 						<!--- duplicate parts found, check using remark --->
 						<cfquery name="getPartwithRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPart_result">
-							SELECT 
+							SELECT
 								specimen_part.collection_object_id
 							FROM 
 								specimen_part 
-								join specimen_part_remarks on specimen_part.collection_object_id = specimen_part_remarks.collection_object_id
+								left join coll_object_remark specimen_part_remarks on specimen_part.collection_object_id = specimen_part_remarks.collection_object_id
 							WHERE 
 								derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCOID.collection_object_id#">
 								and part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.part_name#">
 								and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.preserve_method#">
-								and part_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.current_remarks#">
+								<cfif len(dataParts.current_remarks) GT 0>
+									and coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dataParts.current_remarks#">
+								<cfelse>
+									and coll_object_remarks is null
+								</cfif>
 						</cfquery>
-						<cfif getPartWitRemark.recordcount EQ 0>
+						<cfif getPartWithRemark.recordcount EQ 0>
 							<!--- part not found --->
 							<cfquery name="probPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_barcode_parts
@@ -508,7 +512,7 @@ limitations under the License.
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 									and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
 							</cfquery>
-						<cfelseif getPart.recordcount EQ 1>
+						<cfelseif getPartWithRemark.recordcount EQ 1>
 							<!--- part found --->
 							<cfquery name="partFound" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_barcode_parts
@@ -518,7 +522,7 @@ limitations under the License.
 									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 									and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#dataParts.key#"> 
 							</cfquery>
-						<cfelseif getPart.recordcount GT 1>
+						<cfelseif getPartWithRemark.recordcount GT 1>
 							<!--- duplicate parts still found --->
 							<cfquery name="probPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE cf_temp_barcode_parts
@@ -635,6 +639,7 @@ limitations under the License.
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC1.key#">
+					AND (status IS NULL OR NOT (status LIKE '%no part%found for%' OR status LIKE '%unable to match a unique part%'))
 			</cfquery>
 			<!--- Based on part_collection_object_id--->
 			<cfif len(part_collection_object_id) gt 0>
@@ -773,6 +778,7 @@ limitations under the License.
 						(	select part_collection_object_id 
 							from CF_TEMP_BARCODE_PARTS
 							where part_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC6.part_collection_object_id#">
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							group by part_collection_object_id 
 							having count(*) > 1
 						)
