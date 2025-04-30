@@ -69,6 +69,12 @@ limitations under the License.
 					SELECT media_relationship 
 					FROM ctmedia_relationship
 					WHERE media_relationship like '% cataloged_item'
+					ORDER by media_relationship
+				</cfquery>
+				<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT media_type 
+					FROM ctmedia_type
+					ORDER BY media_type
 				</cfquery>
 				<div class="container-fluid">
 					<div class="row">
@@ -88,7 +94,15 @@ limitations under the License.
 												<input type="hidden" name="media_id" id="media_id">
 												<input type="text" name="media_uri" id="media_uri" class="data-entry-input">
 											</div>
-											<div class="col-12 col-md-1">
+											<div class="col-12 col-md-3">
+												<label for="media_type">Media Type</label>
+												<select name="media_type" id="media_type" size="1" class="reqdClr w-100" required>
+													<cfloop query="ctmedia_type">
+														<option value="#ctmedia_type.media_type#">#ctmedia_type.media_type#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-3">
 												<label for="relationship_type">Type of Relationship:</label>
 												<select name="relationship_type" id="relationship_tuype" size="1" class="reqdClr w-100" required>
 													<cfloop query="ctmedia_relationship">
@@ -105,7 +119,7 @@ limitations under the License.
 									</form>
 									<script>
 										jQuery(document).ready(function() {
-											makeRichMediaPickerControlMeta("media_uri","media_id",""); 
+											makeRichMediaPickerControlMeta2("media_uri","media_id",""); 
 										});
 										function reloadMediaDialogAndPage() { 
 											reloadMedia();
