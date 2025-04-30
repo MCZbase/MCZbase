@@ -136,7 +136,7 @@ limitations under the License.
 											var media_id = $("##nedia_id").val();
 											var collection_object_id = "#variables.collection_object_id#";
 											var relationship_type = $("##relationship_type").val();
-											linkMedia(underscore_collection_id,media_id,relationship_type,reloadMediaDialogAndPage);
+											linkMedia(collection_object_id,media_id,relationship_type,reloadMediaDialogAndPage);
 										}
 									</script>
 								</div><!--- end card-body for add form --->
