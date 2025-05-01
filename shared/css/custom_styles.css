@@ -1328,7 +1328,9 @@ table.inputTable tr {
 .add-form-header {
 	background-color: #DEEBEC;
 }
-
+.add-form-header h1, .add-form-header h2 {
+	color: #333;
+}
 
 ::-ms-clear {
 	display: none;

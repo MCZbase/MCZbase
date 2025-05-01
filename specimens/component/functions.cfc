@@ -5385,18 +5385,18 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							<div class="col-12 float-left">
 								<div class="add-form float-left">
 									<div class="add-form-header pt-1 px-2 col-12 float-left">
-										<h2 class="h3 text-white my-0 px-1 pb-1">Add to Named Group</h2>
+										<h2 class="h3 my-0 px-1 pb-1">Add to Named Group</h2>
 									</div>
 									<div class="card-body">
 										<!--- form to add current cataloged item to a named group --->
 										<form name="addToNamedGroup">
-									   	<div class="form-row">	
-												<div class="col-12 col-md-11">
+											<div class="form-row">	
+												<div class="col-12 col-md-11 pt-3 px-2">
 													<label for="underscore_collection_id">Add this cataloged item to Named Group:</label>
 													<input type="hidden" name="underscore_collection_id" id="underscore_collection_id">
 													<input type="text" name="underscore_collection_name" id="underscore_collection_name" class="data-entry-input">
 												</div>
-												<div class="col-12 col-md-1">
+												<div class="col-1 col-md-1 pt-3">
 													<label for="addButton" class="data-entry-label">&nbsp;</label>
 													<input type="button" value="Add" class="btn btn-xs btn-primary" id="addButton"
 														onClick="handleAddToNamedGroup();">
