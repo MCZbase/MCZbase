@@ -1331,6 +1331,9 @@ table.inputTable tr {
 .add-form-header h1, .add-form-header h2 {
 	color: #333;
 }
+.search-box-header h1, .search-box-header h2 {
+	color: #fff;
+}
 
 ::-ms-clear {
 	display: none;
