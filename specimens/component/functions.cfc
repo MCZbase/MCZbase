@@ -286,7 +286,7 @@ limitations under the License.
 										</div>
 										<div class="col-12">
 											<input type="button" value="Change" class="btn btn-xs btn-primary" id="changeMediaButton_#i#"
-												onClick="handleChangeCIMediaRelationshipType($('##relationship_type_#i#'),'#getMedia.media_id#','#getMedia.collection_object_id#','#getMedia.media_relations_id#');">
+												onClick="handleChangeCIMediaRelationshipType($('##relationship_type_#i#').val(),'#getMedia.media_id#','#getMedia.collection_object_id#','#getMedia.media_relations_id#');">
 										</div>
 									</div>
 							</div>
