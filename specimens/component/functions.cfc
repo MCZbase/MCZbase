@@ -360,7 +360,7 @@ limitations under the License.
 				FROM media_relations 
 				WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.media_id#">
 					AND related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
-					AND relationship_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.relationship_type#">
+					AND media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.relationship_type#">
 			</cfquery>
 			<cfif checkMedia.recordcount GT 0>
 				<cfthrow message="This media record is already linked to this cataloged item with this relationship.">
