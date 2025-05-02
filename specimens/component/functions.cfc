@@ -196,6 +196,11 @@ limitations under the License.
 	<cfreturn getEditMediaThread.output>
 </cffunction>
 
+<!--- function getEditableMediaListHtmlUnthreaded get an html list of media objects related to a cataloged item for editing 
+  expects to be called from a thread.
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media list.
+ @return html for editing media for the specified cataloged item.
+--->
 <cffunction name="getEditableMediaListHTMLUnthreaded" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfset variables.collection_object_id = arguments.collection_object_id>
@@ -302,7 +307,7 @@ limitations under the License.
 	</cfoutput>
 </cffunction>
 
-/** 
+<!--- 
  * changeMediaRelationshipType change the type of a media relationship between a cataloged item and a media record
  *
  * @param media_relations_id the media_relations_id for the media relationship to change.
@@ -310,7 +315,7 @@ limitations under the License.
  * @param collection_object_id the collection_object_id as a crosscheck
  * @param media_id the media_id for the media as a crossheck.
  * @return a json structure with status=removed, or an http 500 response.
- */
+--->
 <cffunction name="changeMediaRelationshipType" returntype="any" access="remote" returnformat="json">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="collection_object_id" type="string" required="yes">
