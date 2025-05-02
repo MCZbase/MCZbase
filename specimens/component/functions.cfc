@@ -162,24 +162,17 @@ limitations under the License.
 								</div><!--- end card-body for add form --->
 							</div><!--- end add-form for link media --->
 							<!--- remove relationships to existing media from cataloged item --->
-							<div class="col-12 col-lg-12 float-left mb-4 px-0">
-								<div id="accordionImages1">
-									<div class="card bg-light">
-										<div class="card-header p-0" id="headingImg1">
-											<h2 class="my-0 py-1 text-dark">
-												<button type="button" class="headerLnk px-3 w-100 border-0 text-left collapsed" data-toggle="collapse" data-target="##collapseImg1" aria-expanded="false" aria-controls="collapseImg1">
-													<span class="h3 px-2">Edit existing links to media</span> 
-												</button>
-											</h2>
-										</div>
-										<div id="collapseImg1" class="collapse" aria-labelledby="headingImg1" data-parent="##accordionImages1">
-											<div class="card-body" id="mediaCardBody"> 
-												<cfset mediaBlock= getEditableMediaListHtmlUnthreaded(collection_object_id="#variables.collection_object_id#")>
-											</div>
-										</div>
+							<div class="col-12 col-lg-12 float-left mb-4 px-0 border">
+								<div class="bg-light p-0">
+									<h2 class="my-0 py-1 text-dark">
+										<span class="h3 px-2">Edit existing links to media</span> 
+									</h2>
+									</div>
+									<div id="mediaDialogListBody" style="overflow-y: auto;" > 
+										<cfset mediaBlock= getEditableMediaListHtmlUnthreaded(collection_object_id="#variables.collection_object_id#")>
 									</div>
 								</div>
-							</form>
+							</div>
 						</div>
 					</div>
 				</div>
