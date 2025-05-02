@@ -216,7 +216,9 @@ limitations under the License.
 				media.preview_uri,
 				media.mime_type,
 				media.media_type,
-				mczbase.get_media_descriptor(media.media_id) as media_descriptor
+				mczbase.get_media_descriptor(media.media_id) as media_descriptor,
+				mczbase.get_media_title(media.media_id) as media_title,
+				mczbase.get_medialabel(media.media_id.'aspect') as aspect
 			FROM
 				media_relations 
 				join media on media_relations.media_id = media.media_id
@@ -240,11 +242,12 @@ limitations under the License.
 				<div class="row mx-0">
 					<div class="col-12 col-md-3 float-left">
 						<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getMedia.media_id#",displayAs="thumb",captionAs="textNone")>
+						#getMedia.aspect#
 					</div>
 							<div class="col-12 col-md-3">
 								<!--- metadata for media record --->
-								#getMedia.media_descriptor#
-								<a href="/media.cfm?action=editMedia&media_id=#getMedia.media_id#" target="_blank" class="btn btn-secondary">Edit Media Record</a>
+								#getMedia.media_title#
+								(<a href="/media.cfm?action=editMedia&media_id=#getMedia.media_id#" target="_blank" >Edit</a>)
 							</div>
 							<div class="col-12 col-md-3">
 								<!--- TODO: Allow change to relationship type (between shows and documents cataloged_item) --->
