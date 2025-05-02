@@ -1311,13 +1311,30 @@ table.inputTable tr {
 	padding-bottom: .25rem;
 	width: 100%;
 	border-radius: .5rem;
-	border: 2px solid #3E6F7D;
 }
 .search-box-header, .add-form-header {
-	background-color: #3e6f7d;
 	padding: .15rem 1rem .1rem 1.65rem;
 	margin-top: -1px;
 }
+.search-box {
+	border: 2px solid #3E6F7D;
+}
+.search-box-header {
+	background-color: #3E6F7D;
+}
+.add-form {
+	border: 2px solid #DEEBEC;
+}
+.add-form-header {
+	background-color: #DEEBEC;
+}
+.add-form-header h1, .add-form-header h2 {
+	color: #333;
+}
+.search-box-header h1, .search-box-header h2 {
+	color: #fff;
+}
+
 ::-ms-clear {
 	display: none;
 }
