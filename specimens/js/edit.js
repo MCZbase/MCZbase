@@ -380,6 +380,12 @@ function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 	)
 };
 
+/** linkMedia function to add a link between a collection_object and a media object.
+ * @param collection_object_id the id of the collection_object to which to link the media
+ * @param media_id the id of the media object to link to the collection_object
+ * @param relationship_type the relationship type to use for the link
+ * @param callback a callback function to invoke on success.
+*/
 function linkMedia(collection_object_id, media_id, relationship_type, callback) { 
    jQuery.ajax({
 		dataType: "json",
@@ -409,6 +415,66 @@ function linkMedia(collection_object_id, media_id, relationship_type, callback) 
 		}
 	});
 }
+
+/** changeMediaRelationshipType function to change the relationship type for a link between a collection_object and a media object.
+ * @param relationship_type the new relationship type to use for the link
+ * @param media_id the id of the media object to link to the collection_object
+ * @param collection_object_id the id of the collection_object to which to link the media
+ * @param media_relations_id the id of the media relationship to update
+*/
+function handleChangeCIMediaRelationshipType(relationship_type,media_id,collection_object_id,media_relations_id) {	
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "changeMediaRelationshipType",
+			media_id: media_id,
+			collection_object_id: collection_object_id,
+			relationship_type: relationship_type,
+			media_relations_id: media_relations_id
+		},
+		success: function (result) {
+			if (result[0].status=="updated") {
+				var message  = "Updated media relationship type";
+				console.log(message);
+			}
+			else {
+				messageDialog("Error updating media relationship type: " + result.DATA.MESSAGE[0],'Error');
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"updating media relationship type");
+		},
+		dataType: "json"
+	});
+}
+
+/** removeMediaRelationship function to remove a link between a collection_object and a media object.
+ * @param media_relations_id the id of the media relationship to remove
+ * @param callback a callback function to invoke on success.
+*/
+function removeMediaRelationship(media_relations_id,callback) {
+	jQuery.ajax({
+		url: "/media/component/functions.cfc",
+		data : {
+			method : "removeMediaRelation",
+			media_relations_id: media_relations_id
+	 	},
+		success: function (result) {
+			if (result[0].status=="1") {
+				var message  = "Removed media relationship";
+				console.log(message);
+			}
+			else {
+				messageDialog("Error removing media relationship: " + result.DATA.MESSAGE[0],'Error');
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing media relationship");
+		},
+		dataType: "json"
+	});
+}
+
 
 /** updateMedia function 
  * @method getMedia in functions.cfc
