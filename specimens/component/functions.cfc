@@ -205,6 +205,7 @@ limitations under the License.
 			SELECT media_relationship 
 			FROM ctmedia_relationship
 			WHERE media_relationship like '% cataloged_item'
+				and media_relationship not like 'ledger %'
 			ORDER by media_relationship
 		</cfquery>
 		<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -216,9 +217,11 @@ limitations under the License.
 				media.preview_uri,
 				media.mime_type,
 				media.media_type,
+				decode(media.mask_media_fg,0,'public',1,'hidden',null,'public','error') as mask_media,
 				mczbase.get_media_descriptor(media.media_id) as media_descriptor,
 				mczbase.get_media_title(media.media_id) as media_title,
-				mczbase.get_medialabel(media.media_id,'aspect') as aspect
+				mczbase.get_medialabel(media.media_id,'aspect') as aspect,
+				mczbase.get_medialabel(media.media_id,'subject') as subject
 			FROM
 				media_relations 
 				join media on media_relations.media_id = media.media_id
@@ -242,24 +245,48 @@ limitations under the License.
 				<div class="row mx-0">
 					<div class="col-12 col-md-3 float-left">
 						<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getMedia.media_id#",displayAs="thumb",captionAs="textNone")>
-						#getMedia.aspect#
+						<div class="text-center">
+							#getMedia.auto_filename#
+						</div>
 					</div>
 							<div class="col-12 col-md-3">
 								<!--- metadata for media record --->
-								#getMedia.media_title#
-								(<a href="/media.cfm?action=edit&media_id=#getMedia.media_id#" target="_blank" >Edit</a>)
+								<ul>
+									<li>#getMedia.subect#</li>
+									<cif getMedia.aspect is not "">
+										<li>#getMedia.aspect#</li>
+									</cif>
+									<li>#getMedia.mime_type#</li>
+									<li>#getMedia.mask_media#</li>
+									<li>
+										(<a href="/media.cfm?action=edit&media_id=#getMedia.media_id#" target="_blank" >Edit</a>)
+									</li>
 							</div>
 							<div class="col-12 col-md-3">
-								<!--- TODO: Allow change to relationship type (between shows and documents cataloged_item) --->
-								<select name="relationship_type" id="relationship_type" size="1" class="reqdClr w-100" required>
-									<cfloop query="ctmedia_relationship">
-										<cfset selected="">
-										<cfif #ctmedia_relationship.media_relationship# EQ getMedia.media_relationship>
-											<cfset selected="selected='selected'">
-										</cfif>
-										<option value="#ctmedia_relationship.media_relationship#" #selected#>#ctmedia_relationship.media_relationship#</option>
-									</cfloop>
-								</select>
+								<!--- form to add current media to cataloged item --->
+								<form name="formChangeLink_#i#" id="formChangeLink_#i#">
+									<div class="form-row">	
+										<div class="col-12">
+											<label for="relationship_type_#i#">Relationship (#getMedia.media_relationship#):</label>
+										</div>
+										<div class="col-12">
+											<input type="hidden" name="media_id" id="media_id_#i#">
+			a								<!--- Change relationship type (between shows and documents cataloged_item) --->
+											<select name="relationship_type" id="relationship_type_#i#" size="1" class="reqdClr w-100" required>
+												<cfloop query="ctmedia_relationship">
+													<cfset selected="">
+													<cfif #ctmedia_relationship.media_relationship# EQ getMedia.media_relationship>
+														<cfset selected="selected='selected'">
+													</cfif>
+													<option value="#ctmedia_relationship.media_relationship#" #selected#>#ctmedia_relationship.media_relationship#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12">
+											<input type="button" value="Change" class="btn btn-xs btn-primary" id="changeMediaButton_#i#"
+												onClick="handleChangeMedia('#getMedia.media_id#',$('##relationship_type_#i#');">
+										</div>
+									</div>
 							</div>
 							<div class="col-12 col-md-3">
 								<button class="btn btn-xs btn-primary" onClick="handleRemoveMedia('#getMedia.media_id#');">Remove</button>
@@ -272,6 +299,7 @@ limitations under the License.
 		</cfif>
 	</cfoutput>
 </cffunction>
+
 <!--- function addMediaToCatItem relate a media record to cataloged item
   @param collection_object_id the collection_object_id for the cataloged item to which to add the media.
   @param media_id the media_id for the media to add to the cataloged item.
