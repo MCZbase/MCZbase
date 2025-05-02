@@ -57,6 +57,7 @@ function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775) {
 			//	$("#"+dialogId).dialog('submit');
 			//},
 			"Close Dialog": function() {
+				console.log("Button calling close on dialog in div with id: " + dialogId);
 				$("#"+dialogId).dialog('close');
 			}
 		},
@@ -69,13 +70,6 @@ function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775) {
 		},
 		close: function(event,ui) {
 			console.log("Close called on dialog in div with id: " + dialogId);
-			// debuging, detect duplicate ids in the dom
-			$('[id]').each(function(){
-				var ids = $('[id="'+this.id+'"]');
-				if(ids.length>1 && ids[0]==this) { 
-					console.warn('Duplicate id #'+this.id +' found in the DOM.');
-				}
-			});
 			if (jQuery.type(closecallback)==='function')	{
 				closecallback();
 			}
