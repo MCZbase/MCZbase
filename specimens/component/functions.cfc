@@ -231,7 +231,7 @@ limitations under the License.
   @param relationship_type the type of relationship to add between the media and the cataloged item.
   @return a json structure with status=added, or an http 500 response.
 --->
-<cffunction name="addNediaToCatItem" returntype="any" access="remote" returnformat="json">
+<cffunction name="addMediaToCatItem" returntype="any" access="remote" returnformat="json">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="relationship_type" type="string" required="yes">
