@@ -90,7 +90,7 @@ limitations under the License.
 							<!--- link existing media to cataloged item --->
 							<div class="add-form float-left">
 								<div class="add-form-header pt-1 px-2 col-12 float-left">
-									<h2 class="h3 text-white my-0 px-1 pb-1">Relate existing media to Cataloged Item</h2>
+									<h2 class="h3 my-0 px-1 pb-1">Relate existing media to Cataloged Item</h2>
 								</div>
 								<div class="card-body">
 									<!--- form to add current media to cataloged item --->
@@ -105,7 +105,11 @@ limitations under the License.
 												<label for="media_type">Media Type</label>
 												<select name="media_type" id="media_type" size="1" class="reqdClr w-100" required>
 													<cfloop query="ctmedia_type">
-														<option value="#ctmedia_type.media_type#">#ctmedia_type.media_type#</option>
+														<cfset selected="">
+														<cfif #ctmedia_type.media_type# EQ "image">
+															<cfset selected="selected='selected'">
+														</cfif>
+														<option value="#ctmedia_type.media_type#" #selected#>#ctmedia_type.media_type#</option>
 													</cfloop>
 												</select>
 											</div>
