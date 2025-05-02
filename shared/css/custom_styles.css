@@ -1307,7 +1307,6 @@ table.inputTable tr {
 }
 .search-box, .add-form {
 	background-color: #f5f5f5;
-	margin-top: 2rem;
 	padding-bottom: .25rem;
 	width: 100%;
 	border-radius: .5rem;
@@ -1318,12 +1317,14 @@ table.inputTable tr {
 }
 .search-box {
 	border: 2px solid #3E6F7D;
+	margin-top: 2rem;
 }
 .search-box-header {
 	background-color: #3E6F7D;
 }
 .add-form {
-	border: 2px solid #DEEBEC;
+	border: 2px solid #C7DADB;
+	margin-top:.1rem;
 }
 .add-form-header {
 	background-color: #DEEBEC;
