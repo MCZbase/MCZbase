@@ -210,6 +210,7 @@ limitations under the License.
 		</cfquery>
 		<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT distinct
+				media_relations.media_relations_id,
 				media_relations.media_relationship,
 				media.media_id,
 				media.media_uri,
@@ -221,7 +222,8 @@ limitations under the License.
 				mczbase.get_media_descriptor(media.media_id) as media_descriptor,
 				mczbase.get_media_title(media.media_id) as media_title,
 				mczbase.get_medialabel(media.media_id,'aspect') as aspect,
-				mczbase.get_medialabel(media.media_id,'subject') as subject
+				mczbase.get_medialabel(media.media_id,'subject') as subject,
+				media_relations.related_primary_key as collection_object_id
 			FROM
 				media_relations 
 				join media on media_relations.media_id = media.media_id
@@ -271,7 +273,7 @@ limitations under the License.
 										</div>
 										<div class="col-12">
 											<input type="hidden" name="media_id" id="media_id_#i#">
-			a								<!--- Change relationship type (between shows and documents cataloged_item) --->
+											<!--- Change relationship type (between shows and documents cataloged_item) --->
 											<select name="relationship_type" id="relationship_type_#i#" size="1" class="reqdClr w-100" required>
 												<cfloop query="ctmedia_relationship">
 													<cfset selected="">
@@ -284,12 +286,12 @@ limitations under the License.
 										</div>
 										<div class="col-12">
 											<input type="button" value="Change" class="btn btn-xs btn-primary" id="changeMediaButton_#i#"
-												onClick="handleChangeMedia('#getMedia.media_id#',$('##relationship_type_#i#');">
+												onClick="handleChangeCIMediaRelationshipType($('##relationship_type_#i#'),'#getMedia.media_id#','#getMedia.collection_object_id#','#getMedia.media_relations_id#');">
 										</div>
 									</div>
 							</div>
 							<div class="col-12 col-md-3">
-								<button class="btn btn-xs btn-primary" onClick="handleRemoveMedia('#getMedia.media_id#');">Remove</button>
+								<button class="btn btn-xs btn-primary" onClick="removeMediaRelationship('#getMedia.media_relations_id#');">Remove</button>
 							</div>
 						</div>
 						<cfset i= i+1>
@@ -298,6 +300,45 @@ limitations under the License.
 			</cfloop>
 		</cfif>
 	</cfoutput>
+</cffunction>
+
+<cfunction name="changeMediaRelationshipType" returntype="any" access="remote" returnformat="json">
+	<cfargument name="media_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="relationship_type" type="string" required="yes">
+	<cfargument name="media_relations_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>	
+			<cfquery name="changeMediaRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="changeMediaRel_result">
+				UPDATE media_relations
+				SET
+					media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.relationship_type#">
+				WHERE
+					media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.media_id#">
+					AND related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+					AND media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.media_relations_id#">
+			</cfquery>
+			<cfif changeMediaRel_result.recordcount EQ 1>
+				<cftransaction action="commit"/>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "changed">
+				<cfset row["id"] = "#media_relations_id#">
+				<cfset data[1] = row>
+			<cfelse>
+				<cfthrow message="Error other than one row affected.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
 <!--- function addMediaToCatItem relate a media record to cataloged item
