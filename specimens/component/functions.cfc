@@ -247,7 +247,7 @@ limitations under the License.
 							<div class="col-12 col-md-3">
 								<!--- metadata for media record --->
 								#getMedia.media_title#
-								(<a href="/media.cfm?action=editMedia&media_id=#getMedia.media_id#" target="_blank" >Edit</a>)
+								(<a href="/media.cfm?action=edit&media_id=#getMedia.media_id#" target="_blank" >Edit</a>)
 							</div>
 							<div class="col-12 col-md-3">
 								<!--- TODO: Allow change to relationship type (between shows and documents cataloged_item) --->
