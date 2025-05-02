@@ -97,7 +97,7 @@ limitations under the License.
 							<h1 class="h3 px-1"> 
 								Edit Media 
 								<a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> 
-								<a href="/media.cfm?action=newMedia" target="_blank" class="btn btn-secondary">Add New Media Record</a>
+								<a href="/media.cfm?action=newMedia" target="_blank" class="btn btn-secondary float-right">Add New Media Record</a>
 							</h1>
 							<!--- link existing media to cataloged item --->
 							<div class="add-form float-left">
@@ -106,7 +106,7 @@ limitations under the License.
 								</div>
 								<div class="card-body">
 									<!--- form to add current media to cataloged item --->
-									<form name="formLinkMedia">
+									<form name="formLinkMedia" id="formLinkMedia">
 										<div class="form-row">	
 											<div class="col-12">
 												<label for="underscore_collection_id">Filename of Media to link:</label>
@@ -168,58 +168,13 @@ limitations under the License.
 										<div class="card-header p-0" id="headingImg1">
 											<h2 class="my-0 py-1 text-dark">
 												<button type="button" class="headerLnk px-3 w-100 border-0 text-left collapsed" data-toggle="collapse" data-target="##collapseImg1" aria-expanded="false" aria-controls="collapseImg1">
-													<span class="h3 px-2">Remove existing links to media</span> 
+													<span class="h3 px-2">Edit existing links to media</span> 
 												</button>
 											</h2>
 										</div>
 										<div id="collapseImg1" class="collapse" aria-labelledby="headingImg1" data-parent="##accordionImages1">
 											<div class="card-body" id="mediaCardBody"> 
-												<div class="row mx-0">
-													<div class="col-12 px-0">
-														<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-															SELECT distinct
-																media_relations.media_relationship,
-																media.media_id,
-																media.media_uri,
-																media.auto_filename,
-																media.preview_uri,
-																media.mime_type,
-																media.media_type,
-																mczbase.get_media_descriptor(media.media_id) as media_descriptor
-															FROM
-																media_relations 
-																join media on media_relations.media_id = media.media_id
-															WHERE
-																media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-																AND (
-																	media_relations.media_relationship = 'shows cataloged_item'
-																	OR media_relations.media_relationship = 'documents cataloged_item'
-																)
-														</cfquery>
-														<!--- TODO: include media with specimen_part relationships --->
-														<cfif getMedia.recordcount EQ 0>
-															<div class="col-12">
-																<h3 class="h3 text-danger">No media found for this cataloged item.</h3>
-															</div>
-														<cfelse>
-															<cfset i = 1>
-															<cfloop query="getMedia">
-																<div id="Media_#i#">
-																	<div class="col-6 float-left p-2">
-																		<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
-																			<div id="mediaBlock#getMedia.media_id#">
-																				<!--- TODO: Display metadata and thumbnail for media with remove button --->
-																				<!--- TODO: Allow change to relationship type (between shows and documents cataloged_item) --->
-																				<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getMedia.media_id#",displayAs="thumb")>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-																<cfset i= i+1>
-															</cfloop>
-														</cfif>
-													</div>
-												</div>
+												<cfset mediaBlock= getEditableMediaListHtmlUnthreaded(collection_object_id="#variables.collection_object_id#")>
 											</div>
 										</div>
 									</div>
@@ -241,6 +196,79 @@ limitations under the License.
 	<cfreturn getEditMediaThread.output>
 </cffunction>
 
+<cffunction name="getEditableMediaListHTMLUnthreaded" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+
+	<cfoutput>
+		<div class="row mx-0">
+			<div class="col-12 px-0">
+				<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT media_relationship 
+					FROM ctmedia_relationship
+					WHERE media_relationship like '% cataloged_item'
+					ORDER by media_relationship
+				</cfquery>
+				<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT distinct
+						media_relations.media_relationship,
+						media.media_id,
+						media.media_uri,
+						media.auto_filename,
+						media.preview_uri,
+						media.mime_type,
+						media.media_type,
+						mczbase.get_media_descriptor(media.media_id) as media_descriptor
+					FROM
+						media_relations 
+						join media on media_relations.media_id = media.media_id
+					WHERE
+						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						AND (
+							media_relations.media_relationship = 'shows cataloged_item'
+							OR media_relations.media_relationship = 'documents cataloged_item'
+						)
+				</cfquery>
+				<!--- TODO: include media with specimen_part relationships --->
+				<cfif getMedia.recordcount EQ 0>
+					<div class="col-12">
+						<h3 class="h3 text-danger">No media found for this cataloged item.</h3>
+					</div>
+				<cfelse>
+					<cfset i = 1>
+					<cfloop query="getMedia">
+						<div id="Media_#i#">
+							<div class="col-12 col-md-3 float-left">
+								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getMedia.media_id#",displayAs="thumb",captionAs="textNone")>
+							</div>
+							<div class="col-12 col-md-3">
+								<!--- metadata for media record --->
+								#getMedia.mediaDescriptor#
+								<a href="/media.cfm?action=editMedia&media_id=#getMedia.media_id#" target="_blank" class="btn btn-secondary">Edit Media Record</a>
+							</div>
+							<div class="col-12 col-md-3">
+								<!--- TODO: Allow change to relationship type (between shows and documents cataloged_item) --->
+								<select name="relationship_type" id="relationship_type" size="1" class="reqdClr w-100" required>
+									<cfloop query="ctmedia_relationship">
+										<cfset selected="">
+										<cfif #ctmedia_relationship.media_relationship# EQ getMedia.media_relationship>
+											<cfset selected="selected='selected'">
+										</cfif>
+										<option value="#ctmedia_relationship.media_relationship#" #selected#>#ctmedia_relationship.media_relationship#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-md-3">
+								<button class="btn btn-xs btn-primary" onClick="handleRemoveMedia('#getMedia.media_id#');">Remove</button>
+							</div>
+						</div>
+						<cfset i= i+1>
+					</cfloop>
+				</cfif>
+			</div>
+		</div>
+	</cfoutput>
+</cffunction>
 <!--- function addMediaToCatItem relate a media record to cataloged item
   @param collection_object_id the collection_object_id for the cataloged item to which to add the media.
   @param media_id the media_id for the media to add to the cataloged item.
@@ -255,6 +283,16 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>	
+			<cfquery name="checkMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT media_id 
+				FROM media_relations 
+				WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.media_id#">
+					AND related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+					AND relationship_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.relationship_type#">
+			</cfquery>
+			<cfif checkMedia.recordcount GT 0>
+				<cfthrow message="This media record is already linked to this cataloged item with this relationship.">
+			</cfif>
 			<cfquery name="addMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addMedia_result">
 				INSERT INTO media_relations (
 					media_id, 
