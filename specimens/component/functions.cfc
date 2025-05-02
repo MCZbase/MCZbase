@@ -201,46 +201,46 @@ limitations under the License.
 	<cfset variables.collection_object_id = arguments.collection_object_id>
 
 	<cfoutput>
-		<div class="row mx-0">
-			<div class="col-12 px-0">
-				<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT media_relationship 
-					FROM ctmedia_relationship
-					WHERE media_relationship like '% cataloged_item'
-					ORDER by media_relationship
-				</cfquery>
-				<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT distinct
-						media_relations.media_relationship,
-						media.media_id,
-						media.media_uri,
-						media.auto_filename,
-						media.preview_uri,
-						media.mime_type,
-						media.media_type,
-						mczbase.get_media_descriptor(media.media_id) as media_descriptor
-					FROM
-						media_relations 
-						join media on media_relations.media_id = media.media_id
-					WHERE
-						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-						AND (
-							media_relations.media_relationship = 'shows cataloged_item'
-							OR media_relations.media_relationship = 'documents cataloged_item'
-						)
-				</cfquery>
-				<!--- TODO: include media with specimen_part relationships --->
-				<cfif getMedia.recordcount EQ 0>
-					<div class="col-12">
-						<h3 class="h3 text-danger">No media found for this cataloged item.</h3>
+		<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT media_relationship 
+			FROM ctmedia_relationship
+			WHERE media_relationship like '% cataloged_item'
+			ORDER by media_relationship
+		</cfquery>
+		<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT distinct
+				media_relations.media_relationship,
+				media.media_id,
+				media.media_uri,
+				media.auto_filename,
+				media.preview_uri,
+				media.mime_type,
+				media.media_type,
+				mczbase.get_media_descriptor(media.media_id) as media_descriptor
+			FROM
+				media_relations 
+				join media on media_relations.media_id = media.media_id
+			WHERE
+				media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				AND (
+					media_relations.media_relationship = 'shows cataloged_item'
+					OR media_relations.media_relationship = 'documents cataloged_item'
+				)
+		</cfquery>
+		<!--- TODO: include media with specimen_part relationships --->
+		<cfif getMedia.recordcount EQ 0>
+			<div class="row mx-0">
+				<div class="col-12">
+					<h3 class="h3 text-danger">No media found for this cataloged item.</h3>
+				</div>
+			</div>
+		<cfelse>
+			<cfset i = 1>
+			<cfloop query="getMedia">
+				<div class="row mx-0">
+					<div class="col-12 col-md-3 float-left">
+						<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getMedia.media_id#",displayAs="thumb",captionAs="textNone")>
 					</div>
-				<cfelse>
-					<cfset i = 1>
-					<cfloop query="getMedia">
-						<div id="Media_#i#">
-							<div class="col-12 col-md-3 float-left">
-								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getMedia.media_id#",displayAs="thumb",captionAs="textNone")>
-							</div>
 							<div class="col-12 col-md-3">
 								<!--- metadata for media record --->
 								#getMedia.media_descriptor#
@@ -263,10 +263,10 @@ limitations under the License.
 							</div>
 						</div>
 						<cfset i= i+1>
-					</cfloop>
-				</cfif>
-			</div>
-		</div>
+					</div>
+				</div>
+			</cfloop>
+		</cfif>
 	</cfoutput>
 </cffunction>
 <!--- function addMediaToCatItem relate a media record to cataloged item
