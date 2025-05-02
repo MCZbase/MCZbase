@@ -476,7 +476,6 @@ limitations under the License.
 					</cfif>
 					<!--- Task Bar of edit dialog controls --->
 					<li class="list-group-item px-0 mx-1">
-						<div id="mediaDialog"></div>
 						<cfif listcontainsnocase(session.roles,"manage_media")>
 							<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
 						</cfif>
