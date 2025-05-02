@@ -457,15 +457,17 @@ function removeMediaRelationship(media_relations_id,callback) {
 		url: "/media/component/functions.cfc",
 		data : {
 			method : "removeMediaRelation",
-			media_relations_id: media_relations_id
+			media_relations_id: media_relations_id,
+			returnformat : "json",
+			queryformat : 'column'
 	 	},
 		success: function (result) {
-			if (result[0].status=="1") {
+			if (result.DATA.STATUS == "1") { 
 				var message  = "Removed media relationship";
 				console.log(message);
 			}
 			else {
-				messageDialog("Error removing media relationship: " + result[0].message,'Error');
+				messageDialog("Error removing media relationship: " + result.DATA.message,'Error');
 			}
 		},
 		error: function (jqXHR, textStatus, error) {
