@@ -421,8 +421,9 @@ function linkMedia(collection_object_id, media_id, relationship_type, callback) 
  * @param media_id the id of the media object to link to the collection_object
  * @param collection_object_id the id of the collection_object to which to link the media
  * @param media_relations_id the id of the media relationship to update
+ * @param callback a callback function to invoke on success.
 */
-function handleChangeCIMediaRelationshipType(relationship_type,media_id,collection_object_id,media_relations_id) {	
+function handleChangeCIMediaRelationshipType(relationship_type,media_id,collection_object_id,media_relations_id,callback) {	
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
@@ -436,6 +437,9 @@ function handleChangeCIMediaRelationshipType(relationship_type,media_id,collecti
 			if (result[0].status=="changed") {
 				var message  = "Updated media relationship type";
 				console.log(message);
+				if (callback instanceof Function) {
+					callback();
+				}
 			}
 			else {
 				messageDialog("Error updating media relationship type: " + result[0].message,'Error');
@@ -465,6 +469,9 @@ function removeMediaRelationship(media_relations_id,callback) {
 			if (result.DATA.STATUS == "1") { 
 				var message  = "Removed media relationship";
 				console.log(message);
+				if (callback instanceof Function) {
+					callback();
+				}
 			}
 			else {
 				messageDialog("Error removing media relationship: " + result.DATA.message,'Error');
