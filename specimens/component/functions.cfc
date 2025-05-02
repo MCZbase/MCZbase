@@ -225,6 +225,54 @@ limitations under the License.
 	<cfreturn getEditMediaThread.output>
 </cffunction>
 
+<!--- function addMediaToCatItem relate a media record to cataloged item
+  @param collection_object_id the collection_object_id for the cataloged item to which to add the media.
+  @param media_id the media_id for the media to add to the cataloged item.
+  @param relationship_type the type of relationship to add between the media and the cataloged item.
+  @return a json structure with status=added, or an http 500 response.
+--->
+<cffunction name="addNediaToCatItem" returntype="any" access="remote" returnformat="json">
+	<cfargument name="media_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="relationship_type" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>	
+			<cfquery name="addMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addMedia_result">
+				INSERT INTO media_relations (
+					media_id, 
+					related_primary_key,
+					media_relationship,
+					created_by_agent_id
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.media_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.relationship_type#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">
+				)
+			</cfquery>
+			<cfif addMedia_result.recordcount EQ 1>
+				<cftransaction action="commit"/>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "added">
+				<cfset row["id"] = "#media_id#">
+				<cfset data[1] = row>
+			<cfelse>
+				<cfthrow message="Error other than one row affected.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 <!---getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.

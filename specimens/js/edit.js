@@ -384,6 +384,29 @@ function linkMedia(collection_object_id, media_id, relationship_type, callback) 
    jQuery.ajax({
 		dataType: "json",
 		url: "/specimens/component/functions.cfc",
+		data: { 
+			method : "addMediaToCatItem",
+			collection_object_id : collection_object_id,
+			media_id : media_id,
+			relationship_type : relationship_type,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		success: function (result) {
+			if (result[0].status=="added") {
+				var message  = "Added media to cataloged item";
+				console.log(message);
+				if (callback instanceof Function) {
+					callback();
+				}
+			}
+			else {
+				messageDialog("Error adding media to cataloged item: " + result[0].MESSAGE,'Error');
+			}
+		}
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"adding Media to cataloged item");
+		}
 	});
 }
 
