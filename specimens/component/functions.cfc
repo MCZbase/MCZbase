@@ -242,7 +242,7 @@ limitations under the License.
 		<cfelse>
 			<cfset i = 1>
 			<cfloop query="getMedia">
-				<div class="row mx-0">
+				<div class="row mx-0 border-top border-bottom py-1">
 					<div class="col-12 col-md-3 float-left">
 						<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getMedia.media_id#",displayAs="thumb",captionAs="textNone")>
 						<div class="text-center">
