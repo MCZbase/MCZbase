@@ -157,7 +157,7 @@ limitations under the License.
 													collection_object_id: collection_object_id
 												},
 												success: function (result) {
-													$("#mediaDialogListBody" ).html(result);
+													$("##mediaDialogListBody" ).html(result);
 												},
 												error: function (jqXHR, textStatus, error) {
 													handleFail(jqXHR,textStatus,error,"loading specimen media list for editing");
