@@ -243,7 +243,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3">
 								<!--- metadata for media record --->
-								#getMedia.mediaDescriptor#
+								#getMedia.media_descriptor#
 								<a href="/media.cfm?action=editMedia&media_id=#getMedia.media_id#" target="_blank" class="btn btn-secondary">Edit Media Record</a>
 							</div>
 							<div class="col-12 col-md-3">
