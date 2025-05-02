@@ -137,7 +137,7 @@ limitations under the License.
 											// TODO: Reload media in this dialog
 										}
 										function handleAddMedia() {
-											var media_id = $("##nedia_id").val();
+											var media_id = $("##media_id").val();
 											var collection_object_id = "#variables.collection_object_id#";
 											var relationship_type = $("##relationship_type").val();
 											linkMedia(collection_object_id,media_id,relationship_type,reloadMediaDialogAndPage);
