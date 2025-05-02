@@ -218,7 +218,7 @@ limitations under the License.
 				media.media_type,
 				mczbase.get_media_descriptor(media.media_id) as media_descriptor,
 				mczbase.get_media_title(media.media_id) as media_title,
-				mczbase.get_medialabel(media.media_id.'aspect') as aspect
+				mczbase.get_medialabel(media.media_id,'aspect') as aspect
 			FROM
 				media_relations 
 				join media on media_relations.media_id = media.media_id
