@@ -286,12 +286,12 @@ limitations under the License.
 										</div>
 										<div class="col-12">
 											<input type="button" value="Change" class="btn btn-xs btn-primary" id="changeMediaButton_#i#"
-												onClick="handleChangeCIMediaRelationshipType($('##relationship_type_#i#').val(),'#getMedia.media_id#','#getMedia.collection_object_id#','#getMedia.media_relations_id#');">
+												onClick="handleChangeCIMediaRelationshipType($('##relationship_type_#i#').val(),'#getMedia.media_id#','#getMedia.collection_object_id#','#getMedia.media_relations_id#',reloadMediaDialogAndPage);">
 										</div>
 									</div>
 							</div>
 							<div class="col-12 col-md-3">
-								<button class="btn btn-xs btn-primary" onClick="removeMediaRelationship('#getMedia.media_relations_id#');">Remove</button>
+								<button class="btn btn-xs btn-primary" onClick="removeMediaRelationship('#getMedia.media_relations_id#',reloadMediaDialogAndPage);">Remove</button>
 							</div>
 						</div>
 						<cfset i= i+1>
@@ -302,6 +302,15 @@ limitations under the License.
 	</cfoutput>
 </cffunction>
 
+/** 
+ * changeMediaRelationshipType change the type of a media relationship between a cataloged item and a media record
+ *
+ * @param media_relations_id the media_relations_id for the media relationship to change.
+ * @param relationship_type the new relationship type to change the media relationship to.
+ * @param collection_object_id the collection_object_id as a crosscheck
+ * @param media_id the media_id for the media as a crossheck.
+ * @return a json structure with status=removed, or an http 500 response.
+ */
 <cffunction name="changeMediaRelationshipType" returntype="any" access="remote" returnformat="json">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="collection_object_id" type="string" required="yes">
