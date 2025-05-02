@@ -302,7 +302,7 @@ limitations under the License.
 	</cfoutput>
 </cffunction>
 
-<cfunction name="changeMediaRelationshipType" returntype="any" access="remote" returnformat="json">
+<cffunction name="changeMediaRelationshipType" returntype="any" access="remote" returnformat="json">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="relationship_type" type="string" required="yes">
