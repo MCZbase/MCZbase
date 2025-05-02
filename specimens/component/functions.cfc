@@ -252,7 +252,7 @@ limitations under the License.
 							<div class="col-12 col-md-3">
 								<!--- metadata for media record --->
 								<ul>
-									<li>#getMedia.subect#</li>
+									<li>#getMedia.subject#</li>
 									<cif getMedia.aspect is not "">
 										<li>#getMedia.aspect#</li>
 									</cif>
