@@ -72,6 +72,14 @@ limitations under the License.
 	<cfthread name="getEditMediaThread"> 
 		<cfoutput>
 			<cftry>
+				<cfquery name="getGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						guid
+					FROM
+						flat
+					WHERE
+						flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
 				<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT media_relationship 
 					FROM ctmedia_relationship
@@ -86,18 +94,22 @@ limitations under the License.
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12 float-left">
-							<h1 class="h3 px-1"> Edit Media <a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> </h1>
+							<h1 class="h3 px-1"> 
+								Edit Media 
+								<a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> 
+								<a href="/media.cfm?action=newMedia" target="_blank" class="btn btn-secondary">Add New Media Record</a>
+							</h1>
 							<!--- link existing media to cataloged item --->
 							<div class="add-form float-left">
 								<div class="add-form-header pt-1 px-2 col-12 float-left">
-									<h2 class="h3 my-0 px-1 pb-1">Relate existing media to Cataloged Item</h2>
+									<h2 class="h3 my-0 px-1 pb-1">Relate existing media to #getGuid.guid#</h2>
 								</div>
 								<div class="card-body">
 									<!--- form to add current media to cataloged item --->
 									<form name="formLinkMedia">
 										<div class="form-row">	
 											<div class="col-12">
-												<label for="underscore_collection_id">Media URI to link:</label>
+												<label for="underscore_collection_id">Filename of Media to link:</label>
 												<input type="hidden" name="media_id" id="media_id">
 												<input type="text" name="media_uri" id="media_uri" class="data-entry-input">
 											</div>
@@ -115,9 +127,13 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-3">
 												<label for="relationship_type">Type of Relationship:</label>
-												<select name="relationship_type" id="relationship_tuype" size="1" class="reqdClr w-100" required>
+												<select name="relationship_type" id="relationship_type" size="1" class="reqdClr w-100" required>
 													<cfloop query="ctmedia_relationship">
-														<option value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
+														<cfset selected="">
+														<cfif #ctmedia_relationship.media_relationship# EQ "shows cataloged_item">
+															<cfset selected="selected='selected'">
+														</cfif>
+														<option value="#ctmedia_relationship.media_relationship#" #selected#>#ctmedia_relationship.media_relationship#</option>
 													</cfloop>
 												</select>
 											</div>
