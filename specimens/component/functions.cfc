@@ -154,7 +154,7 @@ limitations under the License.
 												url: "/specimens/component/functions.cfc",
 												data : {
 													method : "getEditableMediaListHtmlUnthreaded",
-													collection_object_id: collection_object_id
+													collection_object_id: "#variables.collection_object_id#"
 												},
 												success: function (result) {
 													$("##mediaDialogListBody" ).html(result);
