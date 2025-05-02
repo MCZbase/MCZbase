@@ -38,7 +38,8 @@ function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775) {
 	} else if (w>1333) { 
 		// cap width at 1200 pixel
 		w = 999;
-	} 
+	}
+	console.log("Creating dialog in div with id: " + dialogId);
 	var thedialog = $("#"+dialogId).html(content)
 	.dialog({
 		title: title,
@@ -67,11 +68,23 @@ function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775) {
 			
 		},
 		close: function(event,ui) {
+			console.log("Close called on dialog in div with id: " + dialogId);
+			// debuging, detect duplicate ids in the dom
+			$('[id]').each(function(){
+				var ids = $('[id="'+this.id+'"]');
+				if(ids.length>1 && ids[0]==this) { 
+					console.warn('Duplicate id #'+this.id +' found in the DOM.');
+				}
+			});
 			if (jQuery.type(closecallback)==='function')	{
 				closecallback();
 			}
 			$("#"+dialogId+"_div").html("");
-			$("#"+dialogId).dialog('destroy');
+			try {
+				$("#"+dialogId).dialog('destroy');
+			} catch (e) {
+				console.error("Error destroying dialog: " + e);
+			}
 		}
 	});
 	thedialog.dialog('open');
