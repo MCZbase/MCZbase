@@ -433,12 +433,12 @@ function handleChangeCIMediaRelationshipType(relationship_type,media_id,collecti
 			media_relations_id: media_relations_id
 		},
 		success: function (result) {
-			if (result[0].status=="updated") {
+			if (result[0].status=="changed") {
 				var message  = "Updated media relationship type";
 				console.log(message);
 			}
 			else {
-				messageDialog("Error updating media relationship type: " + result.DATA.MESSAGE[0],'Error');
+				messageDialog("Error updating media relationship type: " + result[0].message,'Error');
 			}
 		},
 		error: function (jqXHR, textStatus, error) {
@@ -465,7 +465,7 @@ function removeMediaRelationship(media_relations_id,callback) {
 				console.log(message);
 			}
 			else {
-				messageDialog("Error removing media relationship: " + result.DATA.MESSAGE[0],'Error');
+				messageDialog("Error removing media relationship: " + result[0].message,'Error');
 			}
 		},
 		error: function (jqXHR, textStatus, error) {
