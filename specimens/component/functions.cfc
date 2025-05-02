@@ -150,7 +150,20 @@ limitations under the License.
 										});
 										function reloadMediaDialogAndPage() { 
 											reloadMedia();
-											// TODO: Reload media in this dialog
+											jQuery.ajax({
+												url: "/specimens/component/functions.cfc",
+												data : {
+													method : "getEditableMediaListHtmlUnthreaded",
+													collection_object_id: collection_object_id
+												},
+												success: function (result) {
+													$("#mediaDialogListBody" ).html(result);
+												},
+												error: function (jqXHR, textStatus, error) {
+													handleFail(jqXHR,textStatus,error,"loading specimen media list for editing");
+												},
+												dataType: "html"
+											});
 										}
 										function handleAddMedia() {
 											var media_id = $("##media_id").val();
