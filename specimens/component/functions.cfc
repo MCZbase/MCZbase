@@ -249,52 +249,50 @@ limitations under the License.
 							#getMedia.auto_filename#
 						</div>
 					</div>
-							<div class="col-12 col-md-3">
-								<!--- metadata for media record --->
-								<ul>
-									<li>#getMedia.subject#</li>
-									<cif getMedia.aspect is not "">
-										<li>#getMedia.aspect#</li>
-									</cif>
-									<li>#getMedia.mime_type#</li>
-									<li>#getMedia.mask_media#</li>
-									<li>
-										(<a href="/media.cfm?action=edit&media_id=#getMedia.media_id#" target="_blank" >Edit</a>)
-									</li>
+					<div class="col-12 col-md-3">
+						<!--- metadata for media record --->
+						<ul>
+							<li>#getMedia.subject#</li>
+							<cif getMedia.aspect is not "">
+								<li>#getMedia.aspect#</li>
+							</cif>
+							<li>#getMedia.mime_type#</li>
+							<li>#getMedia.mask_media#</li>
+							<li>
+								(<a href="/media.cfm?action=edit&media_id=#getMedia.media_id#" target="_blank" >Edit</a>)
+							</li>
+					</div>
+					<div class="col-12 col-md-3">
+						<!--- form to add current media to cataloged item --->
+						<form name="formChangeLink_#i#" id="formChangeLink_#i#">
+							<div class="form-row">	
+								<div class="col-12">
+									<label for="relationship_type_#i#">Relationship (#getMedia.media_relationship#):</label>
+								</div>
+								<div class="col-12">
+									<input type="hidden" name="media_id" id="media_id_#i#">
+									<!--- Change relationship type (between shows and documents cataloged_item) --->
+									<select name="relationship_type" id="relationship_type_#i#" size="1" class="reqdClr w-100" required>
+										<cfloop query="ctmedia_relationship">
+											<cfset selected="">
+											<cfif #ctmedia_relationship.media_relationship# EQ getMedia.media_relationship>
+												<cfset selected="selected='selected'">
+											</cfif>
+											<option value="#ctmedia_relationship.media_relationship#" #selected#>#ctmedia_relationship.media_relationship#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12">
+									<input type="button" value="Change" class="btn btn-xs btn-primary" id="changeMediaButton_#i#"
+										onClick="handleChangeCIMediaRelationshipType($('##relationship_type_#i#').val(),'#getMedia.media_id#','#getMedia.collection_object_id#','#getMedia.media_relations_id#',reloadMediaDialogAndPage);">
+								</div>
 							</div>
-							<div class="col-12 col-md-3">
-								<!--- form to add current media to cataloged item --->
-								<form name="formChangeLink_#i#" id="formChangeLink_#i#">
-									<div class="form-row">	
-										<div class="col-12">
-											<label for="relationship_type_#i#">Relationship (#getMedia.media_relationship#):</label>
-										</div>
-										<div class="col-12">
-											<input type="hidden" name="media_id" id="media_id_#i#">
-											<!--- Change relationship type (between shows and documents cataloged_item) --->
-											<select name="relationship_type" id="relationship_type_#i#" size="1" class="reqdClr w-100" required>
-												<cfloop query="ctmedia_relationship">
-													<cfset selected="">
-													<cfif #ctmedia_relationship.media_relationship# EQ getMedia.media_relationship>
-														<cfset selected="selected='selected'">
-													</cfif>
-													<option value="#ctmedia_relationship.media_relationship#" #selected#>#ctmedia_relationship.media_relationship#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12">
-											<input type="button" value="Change" class="btn btn-xs btn-primary" id="changeMediaButton_#i#"
-												onClick="handleChangeCIMediaRelationshipType($('##relationship_type_#i#').val(),'#getMedia.media_id#','#getMedia.collection_object_id#','#getMedia.media_relations_id#',reloadMediaDialogAndPage);">
-										</div>
-									</div>
-							</div>
-							<div class="col-12 col-md-3">
-								<button class="btn btn-xs btn-primary" onClick="removeMediaRelationship('#getMedia.media_relations_id#',reloadMediaDialogAndPage);">Remove</button>
-							</div>
-						</div>
-						<cfset i= i+1>
+					</div>
+					<div class="col-12 col-md-3">
+						<button class="btn btn-xs btn-primary" onClick="removeMediaRelationship('#getMedia.media_relations_id#',reloadMediaDialogAndPage);">Remove</button>
 					</div>
 				</div>
+				<cfset i= i+1>
 			</cfloop>
 		</cfif>
 	</cfoutput>
