@@ -254,7 +254,7 @@ limitations under the License.
 				</div>
 			</div>
 		<cfelse>
-			<cfset i = 1>
+			<cfset variables.mpos = 1>
 			<cfloop query="getMedia">
 				<div class="row mx-0 border-top border-bottom py-1">
 					<div class="col-12 col-md-3 float-left">
@@ -278,15 +278,15 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-3">
 						<!--- form to add current media to cataloged item --->
-						<form name="formChangeLink_#i#" id="formChangeLink_#i#">
+						<form name="formChangeLink_#variables.mpos#" id="formChangeLink_#variables.mpos#">
 							<div class="form-row">	
 								<div class="col-12">
-									<label for="relationship_type_#i#">Relationship (#getMedia.media_relationship#):</label>
+									<label for="relationship_type_#variables.mpos#">Relationship (#getMedia.media_relationship#):</label>
 								</div>
 								<div class="col-12">
-									<input type="hidden" name="media_id" id="media_id_#i#">
+									<input type="hidden" name="media_id" id="media_id_#variables.mpos#">
 									<!--- Change relationship type (between shows and documents cataloged_item) --->
-									<select name="relationship_type" id="relationship_type_#i#" size="1" class="reqdClr w-100" required>
+									<select name="relationship_type" id="relationship_type_#variables.mpos#" size="1" class="reqdClr w-100" required>
 										<cfloop query="ctmedia_relationship">
 											<cfset selected="">
 											<cfif #ctmedia_relationship.media_relationship# EQ getMedia.media_relationship>
@@ -297,8 +297,8 @@ limitations under the License.
 									</select>
 								</div>
 								<div class="col-12">
-									<input type="button" value="Change" class="btn btn-xs btn-primary" id="changeMediaButton_#i#"
-										onClick="handleChangeCIMediaRelationshipType($('##relationship_type_#i#').val(),'#getMedia.media_id#','#getMedia.collection_object_id#','#getMedia.media_relations_id#',reloadMediaDialogAndPage);">
+									<input type="button" value="Change" class="btn btn-xs btn-primary" id="changeMediaButton_#variables.mpos#"
+										onClick="handleChangeCIMediaRelationshipType($('##relationship_type_#variables.mpos#').val(),'#getMedia.media_id#','#getMedia.collection_object_id#','#getMedia.media_relations_id#',reloadMediaDialogAndPage);">
 								</div>
 							</div>
 					</div>
@@ -306,7 +306,7 @@ limitations under the License.
 						<button class="btn btn-xs btn-primary" onClick="removeMediaRelationship('#getMedia.media_relations_id#',reloadMediaDialogAndPage);">Remove</button>
 					</div>
 				</div>
-				<cfset i= i+1>
+				<cfset variables.mposi= variables.mpos + 1>
 			</cfloop>
 		</cfif>
 	</cfoutput>
