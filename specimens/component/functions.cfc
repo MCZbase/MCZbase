@@ -150,6 +150,7 @@ limitations under the License.
 										});
 										function reloadMediaDialogAndPage() { 
 											reloadMedia();
+											reloadLedger();
 											jQuery.ajax({
 												url: "/specimens/component/functions.cfc",
 												data : {
