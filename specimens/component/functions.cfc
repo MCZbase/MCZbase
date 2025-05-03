@@ -267,9 +267,9 @@ limitations under the License.
 						<!--- metadata for media record --->
 						<ul>
 							<li>#getMedia.subject#</li>
-							<cif getMedia.aspect is not "">
+							<cfif getMedia.aspect is not "">
 								<li>#getMedia.aspect#</li>
-							</cif>
+							</cfif>
 							<li>#getMedia.mime_type#</li>
 							<li>#getMedia.mask_media#</li>
 							<li>
