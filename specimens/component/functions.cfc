@@ -306,7 +306,7 @@ limitations under the License.
 						<button class="btn btn-xs btn-primary" onClick="removeMediaRelationship('#getMedia.media_relations_id#',reloadMediaDialogAndPage);">Remove</button>
 					</div>
 				</div>
-				<cfset variables.mposi= variables.mpos + 1>
+				<cfset variables.mpos= variables.mpos + 1>
 			</cfloop>
 		</cfif>
 	</cfoutput>
