@@ -185,7 +185,7 @@ limitations under the License.
 											var media_id = $("##media_id").val();
 											var collection_object_id = "#variables.collection_object_id#";
 											var relationship_type = $("##relationship_type").val();
-											linkMedia(collection_object_id,media_id,relationship_type,reloadMediaDialogMediaList);
+											linkMedia(collection_object_id,media_id,relationship_type,reloadMediaDialogList);
 										}
 									</script>
 								</div><!--- end card-body for add form --->
