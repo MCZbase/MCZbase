@@ -35,6 +35,23 @@ function loadSummaryHeaderHTML(collection_object_id,targetDivId) {
 	});
 };
 
+function updateMediaCounts(collection_object_id,showsDivId) {
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getMediaCounts",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$('#' + showsDivId).html(result[0].shows);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading media counts");
+		},
+		dataType: "json"
+	});
+}
+
 /** loadMedia populate an html block with the media 
  * that shows a cataloged item
  * @param collection_object_id for the cataloged item for which

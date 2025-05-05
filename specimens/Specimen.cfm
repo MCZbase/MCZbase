@@ -236,9 +236,15 @@ limitations under the License.
 				loadSummaryHeaderHTML(#collection_object_id#,"specimenSummaryHeaderDiv");
 			} 
 			function reloadMedia() { 
-				// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type shows  and repopulate the specimen media block.
-				// TODO: Update media count
-				loadMedia(#collection_object_id#,'specimenMediaCardBody');
+				// if accordionMedia exists, reload its content, if it does not, reload the page.
+				if ($("#accordionMedia#").length) {
+					// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type shows  and repopulate the specimen media block.
+					loadMedia(#collection_object_id#,'specimenMediaCardBody');
+					// Update media count
+					updateMediaCounts(#collection_object_id#,'specimenMediaCount');
+				} else {
+					window.location.reload();
+				}
 			}
 			function reloadIdentifiers() { 
 				// invoke specimen/component/public.cfc function getIdentifiersHTML via ajax and repopulate the identifiers block.
@@ -579,7 +585,7 @@ limitations under the License.
 								<h3 class="h5 my-0 text-dark">
 									<button type="button" class="headerLnk text-left h-100 w-100" aria-label="mediaPane" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane" title="media">
 										Media
-										<span class="text-dark">(#specimenMediaCount#)</span>
+										<span class="text-dark">(<span id="specimenMediaCount">#specimenMediaCount#</span>)</span>
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
