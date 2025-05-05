@@ -237,7 +237,7 @@ limitations under the License.
 			} 
 			function reloadMedia() { 
 				// if accordionMedia exists, reload its content, if it does not, reload the page.
-				if ($("#accordionMedia#").length) {
+				if ($("##accordionMedia").length) {
 					// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type shows  and repopulate the specimen media block.
 					loadMedia(#collection_object_id#,'specimenMediaCardBody');
 					// Update media count
