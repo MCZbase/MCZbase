@@ -158,7 +158,7 @@ limitations under the License.
 													collection_object_id: "#variables.collection_object_id#"
 												},
 												success: function (result) {
-													if ($("mediaDialogListBody").length) {
+													if ($("##mediaDialogListBody").length) {
 														$("##mediaDialogListBody").html(result);
 													} else {
 														console.log("mediaDialogListBody " + " not found");
