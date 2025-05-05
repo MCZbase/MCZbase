@@ -149,26 +149,32 @@ limitations under the License.
 											makeRichMediaPickerControlMeta2("media_uri","media_id","media_type"); 
 										});
 										function reloadMediaDialogAndPage() { 
+											// reloadMedia internally checks if accordionMedia exists and reloads the page if it does not.
 											reloadMedia();
-											reloadLedger();
-											jQuery.ajax({
-												url: "/specimens/component/functions.cfc",
-												data : {
-													method : "getEditableMediaListHtmlUnthreaded",
-													collection_object_id: "#variables.collection_object_id#"
-												},
-												success: function (result) {
-													if ($("##mediaDialogListBody").length) {
-														$("##mediaDialogListBody").html(result);
-													} else {
-														console.log("mediaDialogListBody " + " not found");
-													}
-												},
-												error: function (jqXHR, textStatus, error) {
-													handleFail(jqXHR,textStatus,error,"loading specimen media list for editing");
-												},
-												dataType: "html"
-											});
+											if ($("##accordionMedia").length) {
+												// wrap in check for accordionMedia to avoid error dialogs appearing before page reload.
+												reloadLedger();
+												jQuery.ajax({
+													url: "/specimens/component/functions.cfc",
+													data : {
+														method : "getEditableMediaListHtmlUnthreaded",
+														collection_object_id: "#variables.collection_object_id#"
+													},
+													success: function (result) {
+														if ($("##mediaDialogListBody").length) {
+															$("##mediaDialogListBody").html(result);
+														} else {
+															console.log("mediaDialogListBody " + " not found");
+														}
+													},
+													error: function (jqXHR, textStatus, error) {
+														handleFail(jqXHR,textStatus,error,"loading specimen media list for editing");
+													},
+													dataType: "html"
+												});
+											} else {
+												console.log("accordionMedia not found when reloading media");
+											}
 										}
 										function handleAddMedia() {
 											var media_id = $("##media_id").val();
