@@ -243,6 +243,7 @@ limitations under the License.
 					// Update media count
 					updateMediaCounts(#collection_object_id#,'specimenMediaCount');
 				} else {
+					$("##editControlsBlock").html("<h2 class=h3>Reloading page...</h2>");
 					window.location.reload();
 				}
 			}
@@ -434,7 +435,7 @@ limitations under the License.
 		</cfif>
 		<!--- controls for editing record --->
 		<div class="container-lg d-none d-lg-block">
-			<div class="row mt-2">
+			<div class="row mt-2" id="editControlsBlock">
 				<ul class="list-group list-inline list-group-horizontal-md py-0 mx-auto">
 					<cfset resultBit = "">
 					<!--- Navigation through records in a result set --->
