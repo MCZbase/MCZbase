@@ -246,6 +246,8 @@ limitations under the License.
 		<cfset function_called = "#GetFunctionCalledName()#">
 		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfabort>
+	</cfcatch>
+	</cftry>
 </cffunction>
 
 <!--- getMediaHTML obtain a block of html listing media related to a cataloged item
