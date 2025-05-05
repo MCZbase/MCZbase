@@ -236,7 +236,7 @@ limitations under the License.
 			<cfset row = StructNew()>
 			<cfset row["shows"] = "#getCounts.showsCount#">
 			<cfset row["ledger"] = "#getCounts.ledgerCount#">
-			<cfset row["documents"] = "#getCounts.cocumentsCount#">
+			<cfset row["documents"] = "#getCounts.documentsCount#">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
