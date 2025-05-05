@@ -117,7 +117,7 @@ RewriteRule "^/guid/(MCZ:[A-Za-z]+:.*)"    /guid/handler.cfm?catalog=$1 [QSA,PT]
 		<cfif findNoCase('redesign',Session.gitBranch) GT 0>	
 			<cfset guid = catalog>
 			<cfinclude template="/specimens/Specimen.cfm">
-		<cfelseif findNoCase('test',Session.gitBranch) GT 0 AND isDefined('url.showNew') AND url.showNew EQ 'true' )>	
+		<cfelseif findNoCase('test',Session.gitBranch) GT 0 AND isDefined('url.showNew') AND url.showNew EQ 'true'>	
 			<cfset guid = catalog>
 			<cfinclude template="/specimens/Specimen.cfm">
 		<cfelse>

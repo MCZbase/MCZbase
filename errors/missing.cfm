@@ -71,9 +71,6 @@
 			<cfif findNoCase('redesign',Session.gitBranch) GT 0>	
 				<cfset guid = listgetat(rdurl,gPos+1,"/")>
 				<cfinclude template="/specimens/Specimen.cfm">
-			<cfelseif findNoCase('test',Session.gitBranch) GT 0 AND isDefined('url.showNew') AND url.showNew EQ 'true' )>	
-				<cfset guid = listgetat(rdurl,gPos+1,"/")>
-				<cfinclude template="/specimens/Specimen.cfm">
 			<cfelse>
 				<cfset guid = listgetat(rdurl,gPos+1,"/")>
 				<cfif listfindnocase(guid,"fish",":") or listfindnocase(guid,"bird",":")>
