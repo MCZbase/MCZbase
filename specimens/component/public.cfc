@@ -214,12 +214,12 @@ limitations under the License.
 <!--- getMediaCount obtain a count of media related to a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media counts
  @return a struct with keys 'shows', 'ledger' and 'documents' containing the count of media records for each type of media relationship.
--->
+--->
 <cffunction name="getMediaCount" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<!--- count media for cataloged item ---->
+		<!--- count media for cataloged item --->
 		<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				COUNT(CASE WHEN media_relations.media_relationship = 'shows cataloged_item' THEN media_id END) AS showsCount,
