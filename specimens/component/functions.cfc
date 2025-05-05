@@ -148,9 +148,20 @@ limitations under the License.
 										jQuery(document).ready(function() {
 											makeRichMediaPickerControlMeta2("media_uri","media_id","media_type"); 
 										});
+										// @deprecated, reloadMediaDialogList reloads just media list in the dialog, 
+										// rest of page is reloaded with reloadSpecimenMedia on dialog close.
 										function reloadMediaDialogAndPage() { 
-											reloadMedia();
-											reloadLedger();
+											// reload all media elements in the dialog and the page.
+											// reloadSpecimenMedia internally checks if accordionMedia exists and reloads the page if it does not.
+											reloadSpecimenMedia();
+											if ($("##accordionMedia").length) {
+												// wrap in check for accordionMedia to avoid error dialogs appearing before page reload.
+												reloadLedger();
+												reloadDialogMediaList();
+											}
+										}
+										function reloadMediaDialogList() {
+											// reload just the media list in the dialog
 											jQuery.ajax({
 												url: "/specimens/component/functions.cfc",
 												data : {
@@ -158,7 +169,11 @@ limitations under the License.
 													collection_object_id: "#variables.collection_object_id#"
 												},
 												success: function (result) {
-													$("##mediaDialogListBody" ).html(result);
+													if ($("##mediaDialogListBody").length) {
+														$("##mediaDialogListBody").html(result);
+													} else {
+														console.log("mediaDialogListBody " + " not found");
+													}
 												},
 												error: function (jqXHR, textStatus, error) {
 													handleFail(jqXHR,textStatus,error,"loading specimen media list for editing");
@@ -170,7 +185,7 @@ limitations under the License.
 											var media_id = $("##media_id").val();
 											var collection_object_id = "#variables.collection_object_id#";
 											var relationship_type = $("##relationship_type").val();
-											linkMedia(collection_object_id,media_id,relationship_type,reloadMediaDialogAndPage);
+											linkMedia(collection_object_id,media_id,relationship_type,reloadMediaDialogList);
 										}
 									</script>
 								</div><!--- end card-body for add form --->
@@ -298,12 +313,12 @@ limitations under the License.
 								</div>
 								<div class="col-12">
 									<input type="button" value="Change" class="btn btn-xs btn-primary" id="changeMediaButton_#variables.mpos#"
-										onClick="handleChangeCIMediaRelationshipType($('##relationship_type_#variables.mpos#').val(),'#getMedia.media_id#','#getMedia.collection_object_id#','#getMedia.media_relations_id#',reloadMediaDialogAndPage);">
+										onClick="handleChangeCIMediaRelationshipType($('##relationship_type_#variables.mpos#').val(),'#getMedia.media_id#','#getMedia.collection_object_id#','#getMedia.media_relations_id#',reloadMediaDialogList);">
 								</div>
 							</div>
 					</div>
 					<div class="col-12 col-md-3">
-						<button class="btn btn-xs btn-primary" onClick="removeMediaRelationship('#getMedia.media_relations_id#',reloadMediaDialogAndPage);">Remove</button>
+						<button class="btn btn-xs btn-primary" onClick="removeMediaRelationship('#getMedia.media_relations_id#',reloadMediaDialogList);">Remove</button>
 					</div>
 				</div>
 				<cfset variables.mpos= variables.mpos + 1>

@@ -210,7 +210,48 @@ limitations under the License.
 	<cfthread action="join" name="getSummaryHeaderThread" />
 	<cfreturn getSummaryHeaderThread.output>
 </cffunction>
-					
+
+<!--- getMediaCount obtain a count of media related to a cataloged item
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media counts
+ @return a struct with keys 'shows', 'ledger' and 'documents' containing the count of media records for each type of media relationship.
+--->
+<cffunction name="getMediaCounts" access="remote" returntype="any" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<!--- count media for cataloged item --->
+		<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
+				COUNT(CASE WHEN media_relations.media_relationship = 'shows cataloged_item' THEN media_id END) AS showsCount,
+				COUNT(CASE WHEN media_relations.media_relationship = 'ledger entry for cataloged_item' THEN media_id END) AS ledgerCount,
+				COUNT(CASE WHEN media_relations.media_relationship = 'documents cataloged_item' THEN media_id END) AS documentsCount
+			FROM
+				media_relations
+			WHERE
+				MCZBASE.is_media_encumbered(media_id) < 1 
+				AND related_primary_key = <cfqueryparam value="#arguments.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				AND media_relationship like '% cataloged_item'
+		</cfquery>
+		<cfset i=1>
+		<cfloop query="getCounts">
+			<cfset row = StructNew()>
+			<cfset row["shows"] = "#getCounts.showsCount#">
+			<cfset row["ledger"] = "#getCounts.ledgerCount#">
+			<cfset row["documents"] = "#getCounts.documentsCount#">
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 <!--- getMediaHTML obtain a block of html listing media related to a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media.
  @param relationship_type which relationships to show, one of 'shows' for shows cataloged item, 'documents' for

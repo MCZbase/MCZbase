@@ -235,10 +235,17 @@ limitations under the License.
 				// called from several other sections where data shown in summary may be changed.
 				loadSummaryHeaderHTML(#collection_object_id#,"specimenSummaryHeaderDiv");
 			} 
-			function reloadMedia() { 
-				// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type shows  and repopulate the specimen media block.
-				// TODO: Update media count
-				loadMedia(#collection_object_id#,'specimenMediaCardBody');
+			function reloadSpecimenMedia() { 
+				// if accordionMedia exists, reload its content, if it does not, reload the page.
+				if ($("##accordionMedia").length) {
+					// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type shows  and repopulate the specimen media block.
+					loadMedia(#collection_object_id#,'specimenMediaCardBody');
+					// Update media count
+					updateMediaCounts(#collection_object_id#,'specimenMediaCount');
+				} else {
+					$("##editControlsBlock").html("<h2 class=h3>Reloading page...</h2>");
+					window.location.reload();
+				}
 			}
 			function reloadIdentifiers() { 
 				// invoke specimen/component/public.cfc function getIdentifiersHTML via ajax and repopulate the identifiers block.
@@ -428,7 +435,7 @@ limitations under the License.
 		</cfif>
 		<!--- controls for editing record --->
 		<div class="container-lg d-none d-lg-block">
-			<div class="row mt-2">
+			<div class="row mt-2" id="editControlsBlock">
 				<ul class="list-group list-inline list-group-horizontal-md py-0 mx-auto">
 					<cfset resultBit = "">
 					<!--- Navigation through records in a result set --->
@@ -477,7 +484,7 @@ limitations under the License.
 					<!--- Task Bar of edit dialog controls --->
 					<li class="list-group-item px-0 mx-1">
 						<cfif listcontainsnocase(session.roles,"manage_media")>
-							<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
+							<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadSpecimenMedia)">Media</button>
 						</cfif>
 					</li>
 	<!---				<li class="list-group-item px-0 mx-1">
@@ -579,10 +586,10 @@ limitations under the License.
 								<h3 class="h5 my-0 text-dark">
 									<button type="button" class="headerLnk text-left h-100 w-100" aria-label="mediaPane" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane" title="media">
 										Media
-										<span class="text-dark">(#specimenMediaCount#)</span>
+										<span class="text-dark">(<span id="specimenMediaCount">#specimenMediaCount#</span>)</span>
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
+										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadSpecimenMedia)">Add/Remove</a>
 									</cfif>
 								</h3>
 							</div> 
@@ -600,6 +607,7 @@ limitations under the License.
 				<cfset twoThreeColumnClasses="col-sm-9 col-md-9 col-lg-9 col-xl-9 float-left">
 			<cfelse>
 				<!--- two column layout --->
+				<div id="mediaDialog"></div>
 				<cfset twoThreeColumnClasses="col-sm-12 col-md-12 col-lg-12 col-xl-12 float-left">
 			</cfif>
 
