@@ -232,6 +232,7 @@ limitations under the License.
 				AND related_primary_key = <cfqueryparam value="#arguments.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				AND media_relationship like '% cataloged_item'
 		</cfquery>
+		<cfset i=1>
 		<cfloop query="getCounts">
 			<cfset row = StructNew()>
 			<cfset row["shows"] = "#getCounts.showsCount#">
