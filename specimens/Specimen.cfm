@@ -235,7 +235,7 @@ limitations under the License.
 				// called from several other sections where data shown in summary may be changed.
 				loadSummaryHeaderHTML(#collection_object_id#,"specimenSummaryHeaderDiv");
 			} 
-			function reloadMedia() { 
+			function reloadSpecimenMedia() { 
 				// if accordionMedia exists, reload its content, if it does not, reload the page.
 				if ($("##accordionMedia").length) {
 					// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type shows  and repopulate the specimen media block.
@@ -483,7 +483,7 @@ limitations under the License.
 					<!--- Task Bar of edit dialog controls --->
 					<li class="list-group-item px-0 mx-1">
 						<cfif listcontainsnocase(session.roles,"manage_media")>
-							<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
+							<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadSpecimenMedia)">Media</button>
 						</cfif>
 					</li>
 	<!---				<li class="list-group-item px-0 mx-1">
@@ -588,7 +588,7 @@ limitations under the License.
 										<span class="text-dark">(<span id="specimenMediaCount">#specimenMediaCount#</span>)</span>
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
+										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadSpecimenMedia)">Add/Remove</a>
 									</cfif>
 								</h3>
 							</div> 
