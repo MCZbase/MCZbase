@@ -158,7 +158,11 @@ limitations under the License.
 													collection_object_id: "#variables.collection_object_id#"
 												},
 												success: function (result) {
-													$("##mediaDialogListBody" ).html(result);
+													if ($("mediaDialogListBody").length) {
+														$("##mediaDialogListBody").html(result);
+													} else {
+														console.log("mediaDialogListBody " + " not found");
+													}
 												},
 												error: function (jqXHR, textStatus, error) {
 													handleFail(jqXHR,textStatus,error,"loading specimen media list for editing");
