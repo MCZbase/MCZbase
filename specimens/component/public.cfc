@@ -249,6 +249,7 @@ limitations under the License.
 		<cfabort>
 	</cfcatch>
 	</cftry>
+	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
 <!--- getMediaHTML obtain a block of html listing media related to a cataloged item
