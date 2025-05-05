@@ -71,7 +71,7 @@
 			<cfif findNoCase('redesign',Session.gitBranch) GT 0>	
 				<cfset guid = listgetat(rdurl,gPos+1,"/")>
 				<cfinclude template="/specimens/Specimen.cfm">
-			<cfif findNoCase('test',Session.gitBranch) GT 0 AND isDefined('url.showNew') AND url.showNew EQ 'true' )>	
+			<cfelseif findNoCase('test',Session.gitBranch) GT 0 AND isDefined('url.showNew') AND url.showNew EQ 'true' )>	
 				<cfset guid = listgetat(rdurl,gPos+1,"/")>
 				<cfinclude template="/specimens/Specimen.cfm">
 			<cfelse>
