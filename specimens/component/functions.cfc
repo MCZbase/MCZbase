@@ -1345,6 +1345,7 @@ limitations under the License.
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
+
 <!---getEditOtherIDsHTML obtain a block of html to populate an other ids editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the other ids editor dialog.
  @return html for editing other ids for the specified cataloged item. 
@@ -1369,12 +1370,10 @@ limitations under the License.
 					cataloged_item.collection_cde,
 					collection.institution_acronym
 				from 
-					cataloged_item, 
-					coll_obj_other_id_num,
-					collection 
+					cataloged_item
+					left join coll_obj_other_id_num cataloged_item.collection_object_id=coll_obj_other_id_num.collection_object_id 
+					join collection  on cataloged_item.collection_id=collection.collection_id
 				where
-					cataloged_item.collection_id=collection.collection_id and
-					cataloged_item.collection_object_id=coll_obj_other_id_num.collection_object_id (+) and 
 					cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 			</cfquery>
 			<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
