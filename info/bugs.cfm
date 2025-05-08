@@ -398,6 +398,7 @@ limitations under the License.
 				<cfif len(Application.bugzilla_api_key) GT 0>
 					<!--- this should be the api key of bugzilla_user to have the bug attributed to MCZbase --->
 					<cfset bugzilla_api_key="#Application.bugzilla_api_key#">
+					<cfset bugzilla_path = "/bugzilla">
 
 					<!--- Sanitize the inputs to handle quotes --->
 					<cfset sanitizedSummary = Replace(summary, '"', '\"', 'all')>
@@ -420,7 +421,7 @@ limitations under the License.
 					<!--- Serialize the structure to JSON --->
 					<cfset jsonPayload = SerializeJSON(bugData)>
 
-					<cfhttp method="POST" url="https://#Application.bugzilla_api_url#/rest/bug" result="bugzillaResult">
+					<cfhttp method="POST" url="https://#Application.bugzilla_api_url##bugzilla_path#/rest/bug" result="bugzillaResult">
 						<cfhttpparam type="header" name="Content-Type" value="application/json">
 						<cfhttpparam type="header" name="Accept" value="application/json">
 						<cfhttpparam type="body" value='#jsonPayload#'>
