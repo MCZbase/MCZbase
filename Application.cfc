@@ -222,13 +222,15 @@ limitations under the License.
 		<cfset Application.g_sitekey = "" />
 		<cfset Application.bugzillaToEmail = "" />
 		<cfset Application.bugzillaFromEmail = "" />
+		<cfset Application.bugzilla_api_key = "" />
 		<cfset Application.genBankPwd= "" />
 		<cfset Application.allowed_profile= "" />
 		<cfset Application.allowed_tablespace= "" />
 		<cfquery name="cf_global_settings" datasource="uam_god">
-			select gmap_api_key, google_site_key, google_uacct, bugzilla_to_email, bugzilla_from_email, genbank_password, allowed_profile, allowed_tablespace
-			from cf_global_settings
-			where rownum < 2
+			SELECT gmap_api_key, google_site_key, google_uacct, bugzilla_to_email, bugzilla_from_email, genbank_password, 
+				allowed_profile, allowed_tablespace, bugzilla_api_key
+			FROM cf_global_settings
+			WHERE rownum < 2
 		</cfquery>
 		<cfloop query="cf_global_settings">
 			<cfset application.gmap_api_key="#cf_global_settings.gmap_api_key#" />
@@ -236,6 +238,7 @@ limitations under the License.
 			<cfset Application.Google_uacct = "#cf_global_settings.google_uacct#" />
 			<cfset Application.bugzillaToEmail = "#cf_global_settings.bugzilla_to_email#" />
 			<cfset Application.bugzillaFromEmail = "#cf_global_settings.bugzilla_from_email#" />
+			<cfset Application.bugzilla_api_key = "#cf_global_settings.bugzilla_api_key#" />
 			<cfset Application.genBankPwd=encrypt("#cf_global_settings.genbank_password#","genbank") />
 			<cfset Application.allowed_profile = "#cf_global_settings.allowed_profile#"/>
 			<cfset Application.allowed_tablespace = "#cf_global_settings.allowed_tablespace#"/>

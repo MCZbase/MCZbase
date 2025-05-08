@@ -395,6 +395,45 @@ limitations under the License.
 			</cfif>
 			<cfset newline= Chr(13) & Chr(10)>
 			<cftry>
+				<cfif len(Application.bugzilla_api_key) GT 0>
+					<!--- this should be the api key of bugzilla_user to have the bug attributed to MCZbase --->
+					<cfset bugzilla_api_key="#Application.bugzilla_api_key#">
+
+					<!--- Sanitize the inputs to handle quotes --->
+					<cfset sanitizedSummary = Replace(summary, '"', '\"', 'all')>
+					<cfset sanitizedDescription = Replace("Bug report by: #reported_name# (Username: #session.username#) Email: #user_email# IP Address: #ipaddress# #newline#Complaint: #complaint##newline##newline##human_importance#", '"', '\"', 'all')>
+        
+					<!--- Create a ColdFusion structure for the payload --->
+					<cfset bugData = {
+						"rep_platform": "PC",
+						"op_sys": "Linux",
+						"product": "MCZbase",
+						"component": "#bugzilla_component#",
+						"version": "2.5.1merge",
+						"summary": sanitizedSummary,
+						"description": sanitizedDescription,
+						"priority": "#ListLast(bugzilla_priority, ' ')#",
+						"severity": "normal",
+						"api_key": "#bugzilla_api_key#"
+					}>
+					        
+					<!--- Serialize the structure to JSON --->
+					<cfset jsonPayload = SerializeJSON(bugData)>
+
+					<cfhttp method="POST" url="https://#Application.bugzilla_api_url#/rest/bug" result="bugzillaResult">
+						<cfhttpparam type="header" name="Content-Type" value="application/json">
+						<cfhttpparam type="header" name="Accept" value="application/json">
+						<cfhttpparam type="body" value='#jsonPayload#'>
+					</cfhttp>
+					<cfdump var="#bugzillaResult#">
+				</cfif>
+			<cfcatch>
+				<cfset sentok="false">
+				<div>Error: Unable to post bugzilla report. #cfcatch.Message#</div>
+			</cfcatch>
+			</cftry>
+			<cfif 1 EQ 0>
+			<cftry>
 				<cfmail to="#bugzilla_mail#" subject="#summary#" from="#bugzilla_user#" type="text">
 @rep_platform = PC
 @op_sys = Linux
@@ -415,6 +454,7 @@ Complaint: #complaint#
 				<cfset sentok="false">
 			</cfcatch>
 			</cftry>
+			</cfif>
 			<div class="basic_box">
 				<cfif sentok eq "true">
 					<p align="center">Your report has been successfully submitted.</p>
