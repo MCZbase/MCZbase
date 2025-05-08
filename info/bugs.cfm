@@ -414,7 +414,7 @@ limitations under the License.
 						"summary": sanitizedSummary,
 						"description": sanitizedDescription,
 						"priority": "#ListLast(bugzilla_priority, ' ')#",
-						"severity": "normal",
+						"severity": "#ListLast(bugzilla_severity, ' ')#",
 						"api_key": "#bugzilla_api_key#"
 					}>
 					        
