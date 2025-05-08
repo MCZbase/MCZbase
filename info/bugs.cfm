@@ -429,7 +429,6 @@ limitations under the License.
 					<cfif NOT (bugzillaResult.statusCode EQ "200 OK" OR bugzillaResult.statusCode EQ "201 Created")>
 						<cfthrow message= "Error creating bug, response was: #bugzillaResult.statusCode#" >
 					</cfif>
-					<cfif 
 					<cfif isDefined("session.username") AND listcontainsnocase(session.roles,"global_admin")>
 						<cfdump var="#bugzillaResult#">
 					</cfif>
