@@ -426,36 +426,21 @@ limitations under the License.
 						<cfhttpparam type="header" name="Accept" value="application/json">
 						<cfhttpparam type="body" value='#jsonPayload#'>
 					</cfhttp>
-					<cfdump var="#bugzillaResult#">
+					<cfif NOT (bugzillaResult.statusCode EQ "200 OK" OR bugzillaResult.statusCode EQ "201 Created")>
+						<cfthrow message= "Error creating bug, response was: #bugzillaResult.statusCode#" >
+					</cfif>
+					<cfif 
+					<cfif isDefined("session.username") AND listcontainsnocase(session.roles,"global_admin")>
+						<cfdump var="#bugzillaResult#">
+					</cfif>
+				<cfelse>
+					<cfthrow message="Bugzilla integration is not configured. Please contact the system administrator.">
 				</cfif>
 			<cfcatch>
 				<cfset sentok="false">
 				<div>Error: Unable to post bugzilla report. #cfcatch.Message#</div>
 			</cfcatch>
 			</cftry>
-			<cfif 1 EQ 0>
-			<cftry>
-				<cfmail to="#bugzilla_mail#" subject="#summary#" from="#bugzilla_user#" type="text">
-@rep_platform = PC
-@op_sys = Linux
-@product = MCZbase
-@component = #bugzilla_component#
-@version = 2.5.1merge
-#bugzilla_priority##newline#
-#bugzilla_severity#
-	
-Bug report by: #reported_name# (Username: #session.username#)
-Email: #user_email# <cfif NOT (isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user"))>IP Address: #ipaddress#</cfif>
-Complaint: #complaint#
-#newline##newline#
-#human_importance#
-				</cfmail>
-			<cfcatch>
-				<div>Error: Unable to send bugreport to bugzilla. #cfcatch.Message#</div>
-				<cfset sentok="false">
-			</cfcatch>
-			</cftry>
-			</cfif>
 			<div class="basic_box">
 				<cfif sentok eq "true">
 					<p align="center">Your report has been successfully submitted.</p>
