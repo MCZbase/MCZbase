@@ -223,12 +223,13 @@ limitations under the License.
 		<cfset Application.bugzillaToEmail = "" />
 		<cfset Application.bugzillaFromEmail = "" />
 		<cfset Application.bugzilla_api_key = "" />
+		<cfset Application.bugzilla_api_url = "" />
 		<cfset Application.genBankPwd= "" />
 		<cfset Application.allowed_profile= "" />
 		<cfset Application.allowed_tablespace= "" />
 		<cfquery name="cf_global_settings" datasource="uam_god">
 			SELECT gmap_api_key, google_site_key, google_uacct, bugzilla_to_email, bugzilla_from_email, genbank_password, 
-				allowed_profile, allowed_tablespace, bugzilla_api_key
+				allowed_profile, allowed_tablespace, bugzilla_api_key, bugzilla_server
 			FROM cf_global_settings
 			WHERE rownum < 2
 		</cfquery>
@@ -239,6 +240,7 @@ limitations under the License.
 			<cfset Application.bugzillaToEmail = "#cf_global_settings.bugzilla_to_email#" />
 			<cfset Application.bugzillaFromEmail = "#cf_global_settings.bugzilla_from_email#" />
 			<cfset Application.bugzilla_api_key = "#cf_global_settings.bugzilla_api_key#" />
+			<cfset Application.bugzilla_api_url = "#cf_global_settings.bugzilla_server#" />
 			<cfset Application.genBankPwd=encrypt("#cf_global_settings.genbank_password#","genbank") />
 			<cfset Application.allowed_profile = "#cf_global_settings.allowed_profile#"/>
 			<cfset Application.allowed_tablespace = "#cf_global_settings.allowed_tablespace#"/>
