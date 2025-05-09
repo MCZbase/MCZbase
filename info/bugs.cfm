@@ -445,7 +445,7 @@ limitations under the License.
 					<p align="center">Your report has been successfully submitted.</p>
 					<p align="center">Thank you for helping to improve this site!</p>
 				</cfif>
-				<p align="center">Click <a href="/SpecimenSearch.cfm">here</a> to search MCZbase.</p>
+				<p align="center">Click <a href="/Specimens.cfm">here</a> to search MCZbase.</p>
 			</div>
 		</main>
 		</cfoutput>
