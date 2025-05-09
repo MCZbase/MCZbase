@@ -427,10 +427,10 @@ limitations under the License.
 						<cfhttpparam type="body" value='#jsonPayload#'>
 					</cfhttp>
 					<cfif NOT (bugzillaResult.statusCode EQ "200 OK" OR bugzillaResult.statusCode EQ "201 Created")>
+						<cfif isDefined("session.username") AND listcontainsnocase(session.roles,"global_admin")>
+							<cfdump var="#bugzillaResult#">
+						</cfif>
 						<cfthrow message= "Error creating bug, response was: #bugzillaResult.statusCode#" >
-					</cfif>
-					<cfif isDefined("session.username") AND listcontainsnocase(session.roles,"global_admin")>
-						<cfdump var="#bugzillaResult#">
 					</cfif>
 				<cfelse>
 					<cfthrow message="Bugzilla integration is not configured. Please contact the system administrator.">
