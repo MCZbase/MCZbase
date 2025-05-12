@@ -491,3 +491,59 @@ function removeMediaRelationship(media_relations_id,callback) {
 	});
 }
 
+/** openEditOtherIDsDialog (plural) open a dialog for editing 
+ * other IDs for a cataloged item.
+ *
+ * @param collection_object_id for the cataloged_item for which to edit other IDs.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Other IDs for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditOtherIDsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Other IDs dialog");
+		},
+		dataType: "html"
+	});
+};
+
+/** openEditCatalogDialog open a dialog for editing catalog number and accession
+ *  for a cataloged item.
+ *
+ * @param collection_object_id for the cataloged_item to edit..
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openEditCatalogDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Other IDs for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditCatalogHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit catalog dialog");
+		},
+		dataType: "html"
+	});
+};
+

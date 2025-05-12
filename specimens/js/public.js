@@ -277,25 +277,6 @@ function updateOtherID(coll_obj_other_id_num_id,targetDiv) {
 	)
 };
 
-function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Other IDs for " + guid;
-	createSpecimenEditDialog(dialogId,title,callback);
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getEditOtherIDsHTML",
-			collection_object_id: collection_object_id,
-		},
-		success: function (result) {
-			$("#" + dialogId + "_div").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit Other IDs dialog");
-		},
-		dataType: "html"
-	});
-};
-
 
 // TODO: Wrong backing method
 function removeCitation(cited_taxon_name_id,form) {

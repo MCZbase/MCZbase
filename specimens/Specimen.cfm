@@ -230,11 +230,18 @@ limitations under the License.
 		<!--- user can edit the specimen record --->
 		<!--- scripts for reloading sections of pages after edits, use as callabcks on edit dialogs --->
 		<script>
+			function reloadPage() { 
+				window.location.reload();
+			}
 			function reloadHeadingBar() { 
 				// invoke specimen/component/public function to reload summary header section.
 				// called from several other sections where data shown in summary may be changed.
 				loadSummaryHeaderHTML(#collection_object_id#,"specimenSummaryHeaderDiv");
 			} 
+			function reloadCatalog() { 
+				reloadHeadingBar();
+				reloadTransactions();
+			}
 			function reloadSpecimenMedia() { 
 				// if accordionMedia exists, reload its content, if it does not, reload the page.
 				if ($("##accordionMedia").length) {
@@ -244,7 +251,7 @@ limitations under the License.
 					updateMediaCounts(#collection_object_id#,'specimenMediaCount');
 				} else {
 					$("##editControlsBlock").html("<h2 class=h3>Reloading page...</h2>");
-					window.location.reload();
+					reloadPage();
 				}
 			}
 			function reloadIdentifiers() { 
@@ -483,13 +490,14 @@ limitations under the License.
 					</cfif>
 					<!--- Task Bar of edit dialog controls --->
 					<li class="list-group-item px-0 mx-1">
+						<div id="CatalogDialog"></div>
+						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage)">Catalog</button>
+					</li>
+					<li class="list-group-item px-0 mx-1">
 						<cfif listcontainsnocase(session.roles,"manage_media")>
 							<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadSpecimenMedia)">Media</button>
 						</cfif>
 					</li>
-	<!---				<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" >Identifiers</button>
-					</li>--->
 					<li class="list-group-item px-0 mx-1">
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
 					</li>

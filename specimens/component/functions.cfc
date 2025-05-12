@@ -1039,6 +1039,10 @@ limitations under the License.
 	<cfargument name="identification_id" type="string" required="yes">
 	<cfthread name="getIdentificationThread">
 		<cftry>
+			<cfquery name="formulas" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT taxa_formula 
+				FROM cttaxa_formula
+			</cfquery>
 			<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 1 as status, identification.identification_id, identification.collection_object_id, 
 					identification.scientific_name, identification.made_date, identification.nature_of_id, 
@@ -1067,14 +1071,14 @@ limitations under the License.
 											<input type="text" name="taxona" id="taxona" class="reqdClr form-control form-control-sm" value="#encodeForHTML(scientific_name)#" size="1" onChange="taxaPick('taxona_id','taxona','newID',this.value); return false;" onKeyPress="return noenter(event);">
 											<input type="hidden" name="taxona_id" id="taxona_id" class="reqdClr">
 										</div>
+										<!--- TODO:  Add additional name for B formulas --->
 										<div class="form-group w-25 mb-3 float-left">
 											<label for="taxa_formula">Formula:</label>
 											<select class="border custom-select form-control input-sm" id="select">
 												<option value="" disabled="" selected="">#taxa_formula#</option>
-												<!--- TODO: Shouldn't this be from a code table? --->
-												<option value="A">A</option>
-												<option value="B">B</option>
-												<option value="sp.">sp.</option>
+												<cfloop query="formulas">
+													<option value="#taxa_formula#">#taxa_formula#</option>
+												</cfloop>
 											</select>
 										</div>
 										<div class="form-group w-50 mb-3 ml-3 float-left">
@@ -1346,6 +1350,161 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- getEditCatalogHTML get html to populate a dialog for editing catalog number and related catalog information
+ @param collection_object_id for the cataloged item to edit.
+ @return html for editing the catalog number and related information
+--->
+<cffunction name="getEditCatalogHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfthread name="getEditCatalogThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getCatalog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						coll_object_type,
+						cataloged_item.cat_num,
+						cataloged_item.collection_cde,
+						collection.institution_acronym,
+						accn.accn_number,
+						accn.received_date,
+						accn.accn_status,
+						cataloged_item.accn_id
+					FROM
+						cataloged_item
+						join collection on cataloged_item.collection_id=collection.collection_id
+						join coll_object on cataloged_item.collection_object_id=coll_object.collection_object_id
+						join accn on cataloged_item.accn_id=accn.transaction_id
+					WHERE
+						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<cfloop query="getCatalog">
+					<cfquery name="getAccnAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							initcap(trans_agent_role) agent_role,
+							mczbase.get_agentnameoftype(agent_id,'preferred') agent_name 
+						FROM
+							trans_agent
+						WHERE
+							trans_agent.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatalog.accn_id#">
+						ORDER BY
+							trans_agent_role asc
+					</cfquery>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12 float-left mb-4 px=0 border">
+								<h2 class="h3 my-0 px-1 pb-1">Cataloged Item #getCatalog.institutionCde#:#getCatalog.collectionCde#:#getCatalog.cat_num#</h2>
+								<ul>
+									<li>Accession #getCatalog.accn_number#</li>
+									<li>Received Date: #dateformat(getCatalog.received_date,'mm/dd/yyyy')#</li>
+									<li>Accession Status: #getCatalog.accn_status#</li>
+									<cfloop query="getAccnAgents">
+										<li>#getAccnAgents.agent_role#: #getAccnAgents.agent_name#</li>
+									</cfloop>
+								</ul>
+							</div>
+							<div class="col-12 float-left mb-4 px=0 border">
+								<h1 class="h3 my-1">Change Accession for this cataloged item:</h1>
+								<div class="form-row">
+									<div class="col-12 col-sm-3 mb-0">
+										<label for="accn_number" class="data-entry-label">Accession</label>
+										<input type="text" name="accn_number"  class="data-entry-input" id="accn_number">
+									</div>
+									<div class="col-12 col-sm-3 mt-3"> <a class="btn btn-xs btn-secondary text-dark" href="/Transactions.cfm?action=findAccessions" target="_blank">Lookup</a></div>
+								</div>
+								<div class="col-12 px-0 mb-3">
+									<div id="g_num">
+										<input type="submit" id="s_btn" value="Add Items" class="btn btn-xs btn-primary">
+									</div>
+								</div>
+							</div>
+							<div class="col-12 float-left mb-4 px=0 border">
+								<!--- TODO: Type of object --->
+								#getCatalog.coll_object_type#
+							</div>
+							<div class="col-12 float-left mb-4 px=0 border">
+								<!--- Edit catalog number --->
+								<h1 class="h3 my-1">Change Catalog Number for this cataloged item:</h1>
+								<form name="editCatNumOtherIDs" id="editCatNumOtherIDsForm">
+									<input type="hidden" name="method" value="updateCatNumOtherID">
+									<input type="hidden" name="returnformat" value="json">
+									<input type="hidden" name="queryformat" value="column">
+									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+									<div class="form-row">
+										<div class="col-12 col-sm-4 mb-0">
+											<label for="collection_id" class="data-entry-label">Collection:</label>
+											<cfset thisCollId=#getIDs.collection_id#>
+											<select name="collection_id" size="1" class="mb-3 mb-md-0 data-entry-select reqdClr">
+												<cfloop query="ctcoll_cde">
+													<cfif #thisCollId# is #ctcoll_cde.collection_id#><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="#ctcoll_cde.collection_id#" #selected#>#ctcoll_cde.institution_acronym# #ctcoll_cde.collection_cde#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-sm-4 mb-0">
+											<label for="cat_num" class="data-entry-label">Catalog Number:</label>
+											<input type="text" name="cat_num" id="cat_num" class="data-entry-input" value="#getCatalog.cat_num#">
+										</div>
+										<div class="col-12 col-sm-4 mb-0">
+											<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
+												onClick="if (checkFormValidity($('##editCatNumOtherIdsForm')[0])) { editCatNumSubmit();  } ">
+											<output id="saveCatNumOtherIDsResultDiv" class="d-block text-danger">&nbsp;</output>
+										</div>
+										<script>
+											function editCatNumSubmit(){
+												setFeedbackControlState("saveCatNumOtherIDsResultDiv","saving")
+												$.ajax({
+													url : "/specimens/component/functions.cfc",
+													type : "post",
+													dataType : "json",
+													data: $("##editCatNumOtherIDsForm").serialize(),
+													success: function (result) {
+														if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+															setFeedbackControlState("saveCatNumOtherIDsResultDiv","saved")
+														} else {
+															setFeedbackControlState("saveCatNumOtherIDsResultDiv","error")
+															// we shouldn't be able to reach this block, backing error should return an http 500 status
+															messageDialog('Error updating Other IDs: '+result.DATA.MESSAGE[0], 'Error saving Cat Num Change ID.');
+														}
+													},
+													error: function(jqXHR,textStatus,error){
+														setFeedbackControlState("saveCatNumOtherIDsResultDiv","error")
+														handleFail(jqXHR,textStatus,error,"saving changes to Cat Num Other IDs");
+													}
+												});
+											};
+										</script> 
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</cfloop>
+			<cfcatch>
+				<cfif isDefined("cfcatch.queryError") >
+					<cfset queryError=cfcatch.queryError>
+				<cfelse>
+					<cfset queryError = ''>
+				</cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfcontent reset="yes">
+				<cfheader statusCode="500" statusText="#message#">
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getEditCatalogThread" />
+	<cfreturn getEditCatalogThread.output>
+</cffunction>
+
 <!---getEditOtherIDsHTML obtain a block of html to populate an other ids editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the other ids editor dialog.
  @return html for editing other ids for the specified cataloged item. 
@@ -1354,204 +1513,45 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditOtherIDsThread">
 		<cfoutput>
-		<cftry>
-			<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select 
-					coll_obj_other_id_num.COLL_OBJ_OTHER_ID_NUM_ID,
-					cataloged_item.cat_num,
-					cataloged_item.cat_num_prefix,
-					cataloged_item.cat_num_integer,
-					cataloged_item.cat_num_suffix,
-					coll_obj_other_id_num.other_id_prefix,
-					coll_obj_other_id_num.other_id_number,
-					coll_obj_other_id_num.other_id_suffix,
-					coll_obj_other_id_num.other_id_type, 
-					collection.collection_id,
-					cataloged_item.collection_cde,
-					collection.institution_acronym
-				from 
-					cataloged_item
-					left join coll_obj_other_id_num cataloged_item.collection_object_id=coll_obj_other_id_num.collection_object_id 
-					join collection  on cataloged_item.collection_id=collection.collection_id
-				where
-					cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-			</cfquery>
-			<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select other_id_type from ctcoll_other_id_type
-			</cfquery>
-			<cfquery name="cataf" dbtype="query">
-				select cat_num from getIDs group by cat_num
-			</cfquery>
-			<cfquery name="getOIDs" dbtype="query">
-				select 
-					COLL_OBJ_OTHER_ID_NUM_ID,
-					other_id_prefix,
-					other_id_number,
-					other_id_suffix,
-					other_id_type 
-				from 
-					getIDs 
-				group by 
-					COLL_OBJ_OTHER_ID_NUM_ID,
-					other_id_prefix,
-					other_id_number,
-					other_id_suffix,
-					other_id_type
-			</cfquery>
-			<cfquery name="ctcoll_cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select 
-					institution_acronym,
-					collection_cde,
-					collection_id 
-				from collection
-			</cfquery>
-			<cfoutput>
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-12 mt-2 bg-light border rounded p-3">
-							<h1 class="h3">Edit Existing Identifiers</h1>
-							<form name="editCatNumOtherIDs" id="editCatNumOtherIDsForm">
-									<input type="hidden" name="method" value="updateCatNumOtherID">
-									<input type="hidden" name="returnformat" value="json">
-									<input type="hidden" name="queryformat" value="column">
-									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-								<div class="mb-4">
-									Catalog&nbsp;Number:
-									<select name="collection_id" size="1" class="reqdClr mb-3 mb-md-0">
-										<cfset thisCollId=#getIDs.collection_id#>
-										<cfloop query="ctcoll_cde">
-											<option 
-											<cfif #thisCollId# is #collection_id#> selected </cfif>
-										value="#collection_id#">#institution_acronym# #collection_cde#</option>
-										</cfloop>
-									</select>
-									<input type="text" name="cat_num" value="#cataf.cat_num#" class="reqdClr">
-										<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
-										onClick="if (checkFormValidity($('##editCatNumOtherIdsForm')[0])) { editOtherIDsSubmit();  } ">
-										<output id="saveCatNumOtherIDsResultDiv" class="d-block text-danger">&nbsp;</output>
-									<script>
-												function editCatNumOtherIDsSubmit(){
-													$('##saveCatNumOtherIDsResultDiv').html('Saving....');
-													$('##saveCatNumOtherIDsResultDiv').addClass('text-warning');
-													$('##saveCatNumOtherIDsResultDiv').removeClass('text-success');
-													$('##saveCatNumOtherIDsResultDiv').removeClass('text-danger');
-													$.ajax({
-														url : "/specimens/component/functions.cfc",
-														type : "post",
-														dataType : "json",
-														data: $("##editCatNumOtherIDsForm").serialize(),
-														success: function (result) {
-															if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-																$('##saveCatNumOtherIDsResultDiv').html('Saved');
-																$('##saveCatNumOtherIDsResultDiv').addClass('text-success');
-																$('##saveCatNumOtherIDsResultDiv').removeClass('text-warning');
-																$('##saveCatNumOtherIDsResultDiv').removeClass('text-danger');
-															} else {
-																// we shouldn't be able to reach this block, backing error should return an http 500 status
-																$('##saveCatNumOtherIDsResultDiv').html('Error');
-																$('##saveCatNumOtherIDsResultDiv').addClass('text-danger');
-																$('##saveCatNumOtherIDsResultDiv').removeClass('text-warning');
-																$('##saveCatNumOtherIDsResultDiv').removeClass('text-success');
-																messageDialog('Error updating Other IDs: '+result.DATA.MESSAGE[0], 'Error saving Cat Num Change ID.');
-															}
-														},
-														error: function(jqXHR,textStatus,error){
-															$('##saveCatNumOtherIDsResultDiv').html('Error');
-															$('##saveCatNumOtherIDsResultDiv').addClass('text-danger');
-															$('##saveCatNumOtherIDsResultDiv').removeClass('text-warning');
-															$('##saveCatNumOtherIDsResultDiv').removeClass('text-success');
-															handleFail(jqXHR,textStatus,error,"saving changes to Cat Num Other IDs");
-														}
-													});
-												};
-											</script> 
-								</div>
-							</form>
-							<cfset i=1>
-							<cfloop query="getOIDs">
-								<cfif len(other_id_type) gt 0>
-									<form name="getOIDs#i#" id="editOtherIDsForm">
-									<input type="hidden" name="method" value="updateOtherID">
-									<input type="hidden" name="returnformat" value="json">
-									<input type="hidden" name="queryformat" value="column">
-									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-									<input type="hidden" name="coll_obj_other_id_num_id" value="#coll_obj_other_id_num_id#">
-									<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getOIDs.recordcount#">
-										
-										<div class="row mx-0">
-											<div class="form-group mb-1 mb-md-3 col-12 col-md-2 pl-0 pr-1">
-												<label class="data-entry-label">Other ID Type</label>
-												<cfset thisType = #getOIDs.other_id_type#>
-												<select name="other_id_type" class="data-entry-select" style="" size="1">
-													<cfloop query="ctType">
-														<option 
-														<cfif #ctType.other_id_type# is #thisType#> selected </cfif>
-														value="#ctType.other_id_type#">#ctType.other_id_type#</option>
-													</cfloop>
-												</select>
-											</div>
-											<div class="form-group mb-1 mb-md-3  col-12 col-md-2 px-1">
-												<label for="other_id_prefix" class="data-entry-label">Other ID Prefix</label>
-												<input class="data-entry-input" type="text" value="#encodeForHTML(getOIDs.other_id_prefix)#" size="12" name="other_id_prefix">
-											</div>
-											<div class="form-group mb-1 mb-md-3  col-12 col-md-3 px-1">
-												<label for="other_id_number" class="data-entry-label">Other ID Number</label>
-												<input type="text" class="data-entry-input" value="#encodeForHTML(getOIDs.other_id_number)#" size="12" name="other_id_number">
-											</div>
-											<div class="form-group mb-1 mb-md-3  col-12 col-md-2 px-1">
-												<label for="other_id_suffix" class="data-entry-label">Other ID Suffix</label>
-												<input type="text" class="data-entry-input" value="#encodeForHTML(getOIDs.other_id_suffix)#" size="12" name="other_id_suffix">
-											</div>
-											<div class="form-group col-12 col-md-3 px-1 mt-0 mt-md-3">
-												<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
-													onClick="if (checkFormValidity($('##editOtherIDsForm')[0])) { editOtherIDsSubmit();  } ">
-												
-												<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="getOIDs#i#.Action.value='deleOID';confirmDelete('getOIDs#i#');">
-												<output id="saveOtherIDsResultDiv" class="d-block text-danger">&nbsp;</output>
-											</div>
+			<cftry>
+				<!--- Changing catalog number is a big deal, display only here editing is in catalog dialog --->
+				<cfquery name="getCatalog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						cataloged_item.cat_num,
+						cataloged_item.collection_cde,
+						collection.institution_acronym
+					FROM
+						cataloged_item
+						join collection on cataloged_item.collection_id=collection.collection_id
+					WHERE
+						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT DISTINCT
+						coll_obj_other_id_num.COLL_OBJ_OTHER_ID_NUM_ID,
+						coll_obj_other_id_num.other_id_prefix,
+						coll_obj_other_id_num.other_id_number,
+						coll_obj_other_id_num.other_id_suffix,
+						coll_obj_other_id_num.other_id_type, 
+					FROM 
+						cataloged_item
+						join coll_obj_other_id_num cataloged_item.collection_object_id=coll_obj_other_id_num.collection_object_id 
+					WHERE
+						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT other_id_type from ctcoll_other_id_type
+				</cfquery>
+				<cfoutput>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12 float-left">
+								<div class="add-form float-left">
+									<div class="add-form-header pt-1 px-2 col-12 float-left">
+										<h2 class="h3 my-0 px-1 pb-1">Add other identifier for #getCatalog.institutionCde#:#getCatalog.collectionCde#:#getCatalog.cat_num#</h2>
+									</div>
+									<!--- Add form --->
 
-											<script>
-												function editOtherIDsSubmit(){
-													$('##saveOtherIDsResultDiv').html('Saving....');
-													$('##saveOtherIDsResultDiv').addClass('text-warning');
-													$('##saveOtherIDsResultDiv').removeClass('text-success');
-													$('##saveOtherIDsResultDiv').removeClass('text-danger');
-													$.ajax({
-														url : "/specimens/component/functions.cfc",
-														type : "post",
-														dataType : "json",
-														data: $("##editOtherIDsForm").serialize(),
-														success: function (result) {
-															if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-																$('##saveOtherIDsResultDiv').html('Saved');
-																$('##saveOtherIDsResultDiv').addClass('text-success');
-																$('##saveOtherIDsResultDiv').removeClass('text-warning');
-																$('##saveOtherIDsResultDiv').removeClass('text-danger');
-															} else {
-																// we shouldn't be able to reach this block, backing error should return an http 500 status
-																$('##saveOtherIDsResultDiv').html('Error');
-																$('##saveOtherIDsResultDiv').addClass('text-danger');
-																$('##saveOtherIDsResultDiv').removeClass('text-warning');
-																$('##saveOtherIDsResultDiv').removeClass('text-success');
-																messageDialog('Error updating Other IDs: '+result.DATA.MESSAGE[0], 'Error saving Other ID.');
-															}
-														},
-														error: function(jqXHR,textStatus,error){
-															$('##saveOtherIDsResultDiv').html('Error');
-															$('##saveOtherIDsResultDiv').addClass('text-danger');
-															$('##saveOtherIDsResultDiv').removeClass('text-warning');
-															$('##saveOtherIDsResultDiv').removeClass('text-success');
-															handleFail(jqXHR,textStatus,error,"saving changes to Other IDs");
-														}
-													});
-												};
-											</script> 
-										</div>
-									</form>
-									<cfset i=#i#+1>
-								</cfif>
-							</cfloop>
-						</div>
 						<div class="col-12 mt-4 px-0">
 							<div id="accordion2">
 								<div class="card">
@@ -1597,13 +1597,95 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
+
+								<!--- List/Edit existing --->
+
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12 mt-2 bg-light border rounded p-3">
+							<h1 class="h3">Edit Existing Identifiers</h1>
+							<cfset i=1>
+							<cfloop query="getOIDs">
+								<cfif len(other_id_type) gt 0>
+									<form name="getOIDs#i#" id="editOtherIDsForm">
+									<input type="hidden" name="method" value="updateOtherID">
+									<input type="hidden" name="returnformat" value="json">
+									<input type="hidden" name="queryformat" value="column">
+									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+									<input type="hidden" name="coll_obj_other_id_num_id" value="#coll_obj_other_id_num_id#">
+									<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getOIDs.recordcount#">
+										
+										<div class="row mx-0">
+											<div class="form-group mb-1 mb-md-3 col-12 col-md-2 pl-0 pr-1">
+												<label class="data-entry-label">Other ID Type</label>
+												<cfset thisType = #getOIDs.other_id_type#>
+												<select name="other_id_type" class="data-entry-select" style="" size="1">
+													<cfloop query="ctType">
+														<option 
+														<cfif #ctType.other_id_type# is #thisType#> selected </cfif>
+														value="#ctType.other_id_type#">#ctType.other_id_type#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="form-group mb-1 mb-md-3  col-12 col-md-2 px-1">
+												<label for="other_id_prefix" class="data-entry-label">Other ID Prefix</label>
+												<input class="data-entry-input" type="text" value="#encodeForHTML(getOIDs.other_id_prefix)#" size="12" name="other_id_prefix">
+											</div>
+											<div class="form-group mb-1 mb-md-3  col-12 col-md-3 px-1">
+												<label for="other_id_number" class="data-entry-label">Other ID Number</label>
+												<input type="text" class="data-entry-input" value="#encodeForHTML(getOIDs.other_id_number)#" size="12" name="other_id_number">
+											</div>
+											<div class="form-group mb-1 mb-md-3  col-12 col-md-2 px-1">
+												<label for="other_id_suffix" class="data-entry-label">Other ID Suffix</label>
+												<input type="text" class="data-entry-input" value="#encodeForHTML(getOIDs.other_id_suffix)#" size="12" name="other_id_suffix">
+											</div>
+											<div class="form-group col-12 col-md-3 px-1 mt-0 mt-md-3">
+												<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
+													onClick="if (checkFormValidity($('##editOtherIDsForm')[0])) { editOtherIDsSubmit();  } ">
+												
+												<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="getOIDs#i#.Action.value='deleOID';confirmDelete('getOIDs#i#');">
+												<output id="saveOtherIDsResultDiv" class="d-block text-danger">&nbsp;</output>
+											</div>
+
+											<script>
+												function editOtherIDsSubmit(){
+													setFeedbackControlState("saveOtherIDsResultDiv","saving")
+													$.ajax({
+														url : "/specimens/component/functions.cfc",
+														type : "post",
+														dataType : "json",
+														data: $("##editOtherIDsForm").serialize(),
+														success: function (result) {
+															if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+																setFeedbackControlState("saveOtherIDsResultDiv","saved")
+																$('##saveOtherIDsResultDiv').html('Saved');
+																$('##saveOtherIDsResultDiv').addClass('text-success');
+																$('##saveOtherIDsResultDiv').removeClass('text-warning');
+																$('##saveOtherIDsResultDiv').removeClass('text-danger');
+															} else {
+																// we shouldn't be able to reach this block, backing error should return an http 500 status
+																setFeedbackControlState("saveOtherIDsResultDiv","error")
+																messageDialog('Error updating Other IDs: '+result.DATA.MESSAGE[0], 'Error saving Other ID.');
+															}
+														},
+														error: function(jqXHR,textStatus,error){
+															setFeedbackControlState("saveOtherIDsResultDiv","error")
+															handleFail(jqXHR,textStatus,error,"saving changes to Other IDs");
+														}
+													});
+												};
+											</script> 
+										</div>
+									</form>
+									<cfset i=#i#+1>
+								</cfif>
+							</cfloop>
+						</div>
 					</div>
 				</div>
 			</cfoutput> 
-			<!-------------------------------------------------------->
 			
-			<cfcatch>
-				<cfoutput>
+				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
 						<cfelse>
@@ -1621,14 +1703,15 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				</cfoutput>
-			</cfcatch>
-		</cftry>
-	</cfoutput>
+				</cfcatch>
+			</cftry>
+		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getEditOtherIDsThread" />
 	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
+
+
 <!---updateOtherID function
  @param collection_object_id
  @commit change
@@ -4915,7 +4998,7 @@ function showLLFormat(orig_units) {
 					<div class="container">
 						<div class="row">
 							<div class="col-12">
-								<h1 class="h3 my-1">Add this cataloged item (listed below) to accession:</h1>
+								<h1 class="h3 my-1">Change Accession for this cataloged item:</h1>
 								<div class="form-row">
 									<div class="col-12 col-sm-3 mb-0">
 										<label for="accn_number" class="data-entry-label">Accession</label>
