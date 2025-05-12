@@ -490,7 +490,7 @@ limitations under the License.
 					</cfif>
 					<!--- Task Bar of edit dialog controls --->
 					<li class="list-group-item px-0 mx-1">
-						<div id="CatalogDialog"></div>
+						<div id="catalogDialog"></div>
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage)">Catalog</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
