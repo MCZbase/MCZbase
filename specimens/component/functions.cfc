@@ -1365,6 +1365,7 @@ limitations under the License.
 						cataloged_item.cat_num,
 						cataloged_item.collection_cde,
 						collection.institution_acronym,
+						accn.transaction_id,
 						accn.accn_number,
 						accn.received_date,
 						accn.accn_status,
@@ -1392,9 +1393,13 @@ limitations under the License.
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12 float-left mb-4 px=0 border">
-								<h2 class="h3 my-0 px-1 pb-1">Cataloged Item #getCatalog.institutionCde#:#getCatalog.collectionCde#:#getCatalog.cat_num#</h2>
+								<h2 class="h3 my-0 px-1 pb-1">Cataloged Item #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								<ul>
-									<li>Accession #getCatalog.accn_number#</li>
+									<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+										<li>Accession: <a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#">#getCatalog.accn_number#</a></li>
+									<cfelse>
+										<li>Accession: <a href="">#getCatalog.accn_number#</a></li>
+									</cfif>
 									<li>Received Date: #dateformat(getCatalog.received_date,'mm/dd/yyyy')#</li>
 									<li>Accession Status: #getCatalog.accn_status#</li>
 									<cfloop query="getAccnAgents">
@@ -1540,7 +1545,7 @@ limitations under the License.
 						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
 				<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT other_id_type from ctcoll_other_id_type
+					SELECT other_id_type FROM ctcoll_other_id_type
 				</cfquery>
 				<cfoutput>
 					<div class="container-fluid">
@@ -1548,7 +1553,7 @@ limitations under the License.
 							<div class="col-12 float-left">
 								<div class="add-form float-left">
 									<div class="add-form-header pt-1 px-2 col-12 float-left">
-										<h2 class="h3 my-0 px-1 pb-1">Add other identifier for #getCatalog.institutionCde#:#getCatalog.collectionCde#:#getCatalog.cat_num#</h2>
+										<h2 class="h3 my-0 px-1 pb-1">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 									</div>
 									<!--- Add form --->
 
