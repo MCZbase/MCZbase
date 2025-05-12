@@ -1360,6 +1360,9 @@ limitations under the License.
 	<cfthread name="getEditCatalogThread">
 		<cfoutput>
 			<cftry>
+				<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select collection,collection_id from collection order by collection
+				</cfquery>
 				<cfquery name="getCatalog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						coll_object_type,
@@ -1441,9 +1444,9 @@ limitations under the License.
 											<label for="collection_id" class="data-entry-label">Collection:</label>
 											<cfset thisCollId=#getCatalog.collection_id#>
 											<select name="collection_id" size="1" class="mb-3 mb-md-0 data-entry-select reqdClr">
-												<cfloop query="ctcoll_cde">
-													<cfif #thisCollId# is #ctcoll_cde.collection_id#><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-													<option value="#ctcoll_cde.collection_id#" #selected#>#ctcoll_cde.institution_acronym# #ctcoll_cde.collection_cde#</option>
+												<cfloop query="ctcoll">
+													<cfif #thisCollId# is #ctcoll.collection_id#><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="#ctcoll.collection_id#" #selected#>#ctcoll.institution_acronym# #ctcoll.collection_cde#</option>
 												</cfloop>
 											</select>
 										</div>
