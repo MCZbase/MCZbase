@@ -1365,6 +1365,7 @@ limitations under the License.
 						cataloged_item.cat_num,
 						cataloged_item.collection_cde,
 						collection.institution_acronym,
+						collection.collection_id,
 						accn.transaction_id,
 						accn.accn_number,
 						accn.received_date,
