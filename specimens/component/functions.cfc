@@ -1532,7 +1532,7 @@ limitations under the License.
 						coll_obj_other_id_num.other_id_prefix,
 						coll_obj_other_id_num.other_id_number,
 						coll_obj_other_id_num.other_id_suffix,
-						coll_obj_other_id_num.other_id_type, 
+						coll_obj_other_id_num.other_id_type
 					FROM 
 						cataloged_item
 						join coll_obj_other_id_num cataloged_item.collection_object_id=coll_obj_other_id_num.collection_object_id 
