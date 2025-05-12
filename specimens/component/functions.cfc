@@ -457,6 +457,7 @@ limitations under the License.
 						cat_num,
 						cataloged_item.collection_id,
 						cataloged_item.collection_cde,
+						collection.collection_id,
 						made_date,
 						nature_of_id,
 						accepted_id_fg,
@@ -1438,7 +1439,7 @@ limitations under the License.
 									<div class="form-row">
 										<div class="col-12 col-sm-4 mb-0">
 											<label for="collection_id" class="data-entry-label">Collection:</label>
-											<cfset thisCollId=#getIDs.collection_id#>
+											<cfset thisCollId=#getCatalog.collection_id#>
 											<select name="collection_id" size="1" class="mb-3 mb-md-0 data-entry-select reqdClr">
 												<cfloop query="ctcoll_cde">
 													<cfif #thisCollId# is #ctcoll_cde.collection_id#><cfset selected="selected"><cfelse><cfset selected=""></cfif>
