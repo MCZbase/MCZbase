@@ -1550,12 +1550,13 @@ limitations under the License.
 						coll_obj_other_id_num.other_id_type
 					FROM 
 						cataloged_item
-						join coll_obj_other_id_num cataloged_item.collection_object_id=coll_obj_other_id_num.collection_object_id 
+						join coll_obj_other_id_num on cataloged_item.collection_object_id=coll_obj_other_id_num.collection_object_id 
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
 				<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT other_id_type FROM ctcoll_other_id_type
+					SELECT other_id_type 
+					FROM ctcoll_other_id_type
 				</cfquery>
 				<cfoutput>
 					<div class="container-fluid">
