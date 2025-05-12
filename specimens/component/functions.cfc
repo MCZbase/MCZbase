@@ -1361,7 +1361,9 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select collection,collection_id from collection order by collection
+					SELECT collection, collection_id, institution_acronym
+					FROM collection 
+					ORDER BY collection
 				</cfquery>
 				<cfquery name="getCatalog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
