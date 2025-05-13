@@ -1567,52 +1567,43 @@ limitations under the License.
 										<h2 class="h3 my-0 px-1 pb-1">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 									</div>
 									<!--- Add form --->
-
-						<div class="col-12 mt-4 px-0">
-							<div id="accordion2">
-								<div class="card">
-									<div class="card-header pt-1" id="headingTwo">
-										<h1 class="my-0 px-1 pb-1">
-											<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo"> <span class="h4">Add New Identifier</span> </button>
-										</h1>
-									</div>
-									<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordion2">
-										<div class="card-body mt-2">
-											<form name="newOID" method="post" action="Specimens.cfm">
-												<div class="row mx-0">
-													<div class="form-group col-3 pl-0 pr-2">
-														<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-														<input type="hidden" name="Action" value="newOID">
-														<label class="data-entry-label" id="other_id_type">Other ID Type</label>
-														<select name="other_id_type" size="1" class="reqdClr data-entry-select">
-															<cfloop query="ctType">
-																<option 
-															value="#ctType.other_id_type#">#ctType.other_id_type#</option>
-															</cfloop>
-														</select>
-													</div>
-													<div class="form-group col-2 px-1">
-														<label class="data-entry-label" id="other_id_prefix">Other ID Prefix</label>
-														<input type="text" class="reqdClr data-entry-input" name="other_id_prefix" size="6">
-													</div>
-													<div class="form-group col-3 px-1">
-														<label class="data-entry-label" id="other_id_number">Other ID Number</label>
-														<input type="text" class="reqdClr data-entry-input" name="other_id_number" size="6">
-													</div>
-													<div class="form-group col-2 px-1">
-														<label class="data-entry-label" id="other_id_suffix">Other ID Suffix</label>
-														<input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">
-													</div>
-													<div class="form-group col-2 px-1 mt-3">
-														<input type="submit" value="Create Identifier" class="btn btn-xs btn-primary">
-													</div>
+									<div class="card-body mt-2">
+										<form name="newOID" id="addOtherIDsForm">
+											<div class="row mx-0">
+												<div class="form-group col-3 pl-0 pr-2">
+													<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+													<input type="hidden" name="Action" value="newOID">
+													<label class="data-entry-label" id="other_id_type">Other ID Type</label>
+													<select name="other_id_type" size="1" class="reqdClr data-entry-select">
+														<cfloop query="ctType">
+															<option 
+														value="#ctType.other_id_type#">#ctType.other_id_type#</option>
+														</cfloop>
+													</select>
 												</div>
-											</form>
-										</div>
+												<div class="form-group col-2 px-1">
+													<label class="data-entry-label" id="other_id_prefix">Other ID Prefix</label>
+													<input type="text" class="reqdClr data-entry-input" name="other_id_prefix" size="6">
+												</div>
+												<div class="form-group col-3 px-1">
+													<label class="data-entry-label" id="other_id_number">Other ID Number</label>
+													<input type="text" class="reqdClr data-entry-input" name="other_id_number" size="6">
+												</div>
+												<div class="form-group col-2 px-1">
+													<label class="data-entry-label" id="other_id_suffix">Other ID Suffix</label>
+													<input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">
+												</div>
+												<div class="form-group col-2 px-1 mt-3">
+													<input type="button" value="Create Identifier" class="btn btn-xs btn-primary" onClick="if (checkFormValidity($('##addOtherIDsForm')[0])) { addOtherIDSubmit();  } ">
+												</div>
+											</div>
+										</form>
+										<script>
+											function addOtherIDSubmit() { 
+											};
+										</script>
 									</div>
 								</div>
-							</div>
-						</div>
 
 								<!--- List/Edit existing --->
 
