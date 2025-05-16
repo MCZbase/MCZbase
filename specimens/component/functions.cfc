@@ -1707,7 +1707,7 @@ limitations under the License.
 													url : "/specimens/component/functions.cfc",
 													type : "post",
 													dataType : "json",
-													data: $("##getIDs"+num).serialize(),
+													data: $("##editOtherIDForm" + num).serialize(),
 													success: function(result) { 
 														if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
 															setFeedbackControlState("saveOtherIDResultDiv" + num,"deleted")
