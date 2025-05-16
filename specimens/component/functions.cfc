@@ -1194,12 +1194,12 @@ limitations under the License.
 							<!--- don't try to add/update a blank row --->
 							<cfif identification_agent_id_ is "new" and del_agnt_ is 0>
 								<cfquery name="newIdentificationAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									insert into identification_agent (
+									INSERT INTO identification_agent (
 										identification_id,
 										agent_id,
 										identification_order,
 										identification_agent_id
-									) values (
+									) VALUES (
 										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
 										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_order_#">
@@ -1526,6 +1526,8 @@ limitations under the License.
 --->
 <cffunction name="getEditOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
 	<cfthread name="getEditOtherIDsThread">
 		<cfoutput>
 			<cftry>
@@ -1534,12 +1536,13 @@ limitations under the License.
 					SELECT 
 						cataloged_item.cat_num,
 						cataloged_item.collection_cde,
-						collection.institution_acronym
+						collection.institution_acronym,
+						cataloged_item.collection_object_id
 					FROM
 						cataloged_item
 						join collection on cataloged_item.collection_id=collection.collection_id
 					WHERE
-						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 				</cfquery>
 				<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT DISTINCT
@@ -1573,11 +1576,11 @@ limitations under the License.
 									<h2 class="h3 my-0 px-1 pb-1">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								</div>
 								<div class="card-body mt-2">
-									<form name="newOID" id="addOtherIDsForm">
+									<form name="newOID" id="addOtherIDForm">
 										<div class="row mx-0">
 											<div class="form-group col-3 pl-0 pr-2">
-												<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-												<input type="hidden" name="Action" value="newOID">
+												<input type="hidden" name="collection_object_id" value="#getCatalog.collection_object_id#">
+												<input type="hidden" name="method" value="addNewOtherID">
 												<label class="data-entry-label" id="other_id_type">Other ID Type</label>
 												<select name="other_id_type" size="1" class="reqdClr data-entry-select">
 													<cfloop query="ctType">
@@ -1599,11 +1602,33 @@ limitations under the License.
 											</div>
 											<div class="form-group col-2 px-1 mt-3">
 												<input type="button" value="Create Identifier" class="btn btn-xs btn-primary" onClick="if (checkFormValidity($('##addOtherIDsForm')[0])) { addOtherIDSubmit();  } ">
+												<output id="addOtherIDResultDiv" class="d-block text-danger">&nbsp;</output>
 											</div>
 										</div>
 									</form>
 									<script>
 										function addOtherIDSubmit() { 
+											setFeedbackControlState("addOtherIDResultDiv","saving")
+											$.ajax({
+												url : "/specimens/component/functions.cfc",
+												type : "post",
+												dataType : "json",
+												data: $("##addOtherIDForm").serialize(),
+												success: function (result) {
+													if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+														setFeedbackControlState("addOtherIDResultDiv","saved")
+														reloadOtherIDDialog("#getCatalog.collection_object_id#");
+													} else {
+														// we shouldn't be able to reach this block, backing error should return an http 500 status
+														setFeedbackControlState("addOtherIDResultDiv","error")
+														messageDialog('Error adding Other IDs: '+result.DATA.MESSAGE[0], 'Error saving Other ID.');
+													}
+												},
+												error: function(jqXHR,textStatus,error){
+													setFeedbackControlState("addOtherIDResultDiv","error")
+													handleFail(jqXHR,textStatus,error,"adding new Other ID");
+												}
+											});
 										};
 									</script>
 								</div>
@@ -1624,16 +1649,18 @@ limitations under the License.
 												<input type="hidden" name="coll_obj_other_id_num_id" value="#coll_obj_other_id_num_id#">
 												<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIDs.recordcount#">
 									
-												<div class="row mx-0 border">
-													<div class="form-group mb-1 mb-md-3 col-12 col-md-6 pl-0 pr-1">
-														#getIDs.other_id_type# 
-														<cfif getIds.base_url NEQ "">
-															<a href="#getIDs.base_url##getIDs.display_value#" target="_blank">#getIDs.display_value#</a>
-														<cfelse>
-															#getIDs.display_value#
-														</cfif>
+												<div class="row p-1 border">
+													<div class="col-12 col-md-6 pl-1 pr-1 mb-1">
+														#getIDs.other_id_type#:
+														<strong> 
+															<cfif getIds.base_url NEQ "">
+																<a href="#getIDs.base_url##getIDs.display_value#" target="_blank">#getIDs.display_value#</a>
+															<cfelse>
+																#getIDs.display_value#
+															</cfif>
+														</strong>
 													</div>
-													<div class="form-group mb-1 mb-md-3 col-12 col-md-6 pl-0 pr-1">
+													<div class="col-12 col-md-6 pl-1 pr-1 mb-1">
 														#getIDs.description#
 													</div>
 													<div class="form-group mb-1 mb-md-3 col-12 col-md-3 pl-0 pr-1">
@@ -1727,6 +1754,46 @@ limitations under the License.
 	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
 
+<cffunction name="addNewOtherID" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="other_id_type" type="string" required="yes">
+	<cfargument name="other_id_prefix" type="string" required="no">
+	<cfargument name="other_id_number" type="string" required="no">
+	<cfargument name="other_id_suffix" type="string" required="no">
+
+	<cftry>
+		<cfset data=queryNew("status, message, id")>
+		<cfquery name="addNewOtherID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			INSERT INTO coll_obj_other_id_num (
+				collection_object_id, 
+				other_id_type, 
+				other_id_prefix, 
+				other_id_number, 
+				other_id_suffix
+			) VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_type#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_prefix#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_number#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_suffix#">
+			)
+		</cfquery>
+		<cftransaction action="commit">
+		<cfset t = queryaddrow(data,1)>
+		<cfset t = QuerySetCell(data, "status", "1", 1)>
+		<cfset t = QuerySetCell(data, "message", "Record added.", 1)>
+		<cfset t = QuerySetCell(data, "id", "#collection_object_id#", 1)>
+	<cfcatch>
+		<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+	</cftry>
+	<cfreturn data>
+</cffunction>
+	
 
 <!---updateOtherID function update an other id for a cataloged item.
  @param collection_object_id the collection_object_id for the cataloged item for which to update an other id.
@@ -3475,7 +3542,7 @@ limitations under the License.
 							</div>
 							<div id="collapseAttribute" class="collapse" aria-labelledby="headingAttribute" data-parent="##accordionAttribute">
 								<div class="card-body mt-2">
-									<form name="newOID">
+									<form name="newAttribute">
 										<div class="row mx-0 pb-2">
 										<ul class="col-12 px-0 mt-2 mb-1">
 											<li class="list-group-item float-left col-12 col-md-3 px-1">

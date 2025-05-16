@@ -547,3 +547,26 @@ function openEditCatalogDialog(collection_object_id,dialogId,guid,callback) {
 	});
 };
 
+/*** reloadOtherIDDialog reload the other ID dialog with a given collection_object_id.
+ * @param collection_object_id the id of the collection_object for which to reload the other IDs.
+ */
+function reloadOtherIDDialog(collection_object_id) { 
+	$.ajax({
+		url : "/specimens/component/functions.cfc",
+		type : "post",
+		dataType : "json",
+		data: {
+			method: "getEditOtherIDsHTML",
+			collection_object_id: collection_object_id
+		},
+		success: function (result) {
+				$("#otherIDDialog_div").html(result);
+			} else {
+				messageDialog('Error reloading Other IDs: '+result.DATA.MESSAGE[0], 'Error reloading Other IDs.');
+			}
+		},
+		error: function(jqXHR,textStatus,error){
+			handleFail(jqXHR,textStatus,error,"reloading Other IDs");
+		}
+	});
+};
