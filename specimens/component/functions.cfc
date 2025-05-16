@@ -1712,8 +1712,8 @@ limitations under the License.
 													success: function(result) { 
 														if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
 															setFeedbackControlState("saveOtherIDResultDiv" + num,"deleted")
-															$("#otherIDEditControls"+num).find('input, textarea, button, select').attr("disabled", true);
-															$("#otherIDEditControls"+num + " :input").val("");
+															$("##otherIDEditControls"+num).find('input, textarea, button, select').attr("disabled", true);
+															$("##otherIDEditControls"+num + " :input").val("");
 															reloadOtherIDs();
 														} else {
 															// we shouldn't be able to reach this block, backing error should return an http 500 status
