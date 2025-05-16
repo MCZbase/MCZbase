@@ -1581,6 +1581,8 @@ limitations under the License.
 											<div class="form-group col-3 pl-0 pr-2">
 												<input type="hidden" name="collection_object_id" value="#getCatalog.collection_object_id#">
 												<input type="hidden" name="method" value="addNewOtherID">
+												<input type="hidden" name="returnformat" value="json">
+												<input type="hidden" name="queryformat" value="column">
 												<label class="data-entry-label" id="other_id_type">Other ID Type</label>
 												<select name="other_id_type" size="1" class="reqdClr data-entry-select">
 													<cfloop query="ctType">
@@ -1689,7 +1691,7 @@ limitations under the License.
 														<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
 															onClick="if (checkFormValidity($('##editOtherIDForm#i#')[0])) { editOtherIDsSubmit(#i#);  } ">
 											
-														<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="getIDs#i#.Action.value='deleOID';confirmDelete('getIDs#i#');">
+														<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="doDelete();">
 														<output id="saveOtherIDResultDiv#i#"></output>
 													</div>
 												</div>
@@ -1698,7 +1700,31 @@ limitations under the License.
 										</cfloop>
 
 										<script>
+											function doDelete(num) {
+												getIDs#num#.method.value='deleteOtherID';
+												setFeedbackControlState("saveOtherIDResultDiv"+num,"deleting")
+												$.ajax({
+													url : "/specimens/component/functions.cfc",
+													type : "post",
+													dataType : "json",
+													data: $("##getIDs"+num+"#").serialize(),
+													success: function(result) { 
+														if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+															setFeedbackControlState("saveOtherIDResultDiv" + num,"deleted")
+														} else {
+															// we shouldn't be able to reach this block, backing error should return an http 500 status
+															setFeedbackControlState("saveOtherIDResultDiv" + num,"error")
+															messageDialog('Error updating Other IDs: '+result.DATA.MESSAGE[0], 'Error deleting Other ID.');
+														}
+													},
+													error: function(jqXHR,textStatus,error){
+														setFeedbackControlState("saveOtherIDResultDiv"+num,"error")
+														handleFail(jqXHR,textStatus,error,"deleting Other ID");
+													}
+												});
+											};
 											function editOtherIDsSubmit(num){
+												getIDs#num#.method.value='updateOtherID';
 												setFeedbackControlState("saveOtherIDResultDiv" + num,"saving")
 												$.ajax({
 													url : "/specimens/component/functions.cfc",
@@ -1754,7 +1780,7 @@ limitations under the License.
 	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
 
-<cffunction name="addNewOtherID" returntype="string" access="remote" returnformat="plain">
+<cffunction name="addNewOtherID" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="other_id_type" type="string" required="yes">
 	<cfargument name="other_id_prefix" type="string" required="no">
@@ -1800,7 +1826,7 @@ limitations under the License.
  @param coll_obj_other_id_num_id the primary key for the other id to update.
  @commit change
 --->
-<cffunction name="updateOtherID" returntype="string" access="remote" returnformat="plain">
+<cffunction name="updateOtherID" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfargument name="other_id_type" type="string" required="yes">
@@ -1828,12 +1854,41 @@ limitations under the License.
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-			<cfabort>
 		</cfcatch>
 	</cftry>
 	<cfreturn data>
 </cffunction>
 
+<!---deleteOtherID function delete an other id for a cataloged item.
+ @param collection_object_id the collection_object_id for the cataloged item for which to delete an other id.
+ @param coll_obj_other_id_num_id the primary key for the other id to delete.
+ @return status of the delete operation in a json structure with status, message, and id fields.
+--->
+<cffunction name="deleteOtherID" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
+
+	<cftry>
+		<cfset data=queryNew("status, message, id")>
+		<cfquery name="deleteOtherID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			DELETE FROM coll_obj_other_id_num 
+			WHERE coll_obj_other_id_num_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.coll_obj_other_id_num_id#">
+			AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+		</cfquery>
+		<cftransaction action="commit">
+		<cfset t = queryaddrow(data,1)>
+		<cfset t = QuerySetCell(data, "status", "1", 1)>
+		<cfset t = QuerySetCell(data, "message", "Record deleted.", 1)>
+		<cfset t = QuerySetCell(data, "id", "#coll_obj_other_id_num_id#", 1)>
+	<cfcatch>
+		<cftransaction action="rollback"
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+	</cfcatch>
+	</cftry>
+	<cfreturn data>	
+</cffunction>
 
 <!---getCatNumOtherIDHTML function
  @param collection_object_id
