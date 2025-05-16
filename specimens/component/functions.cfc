@@ -1702,6 +1702,7 @@ limitations under the License.
 										<script>
 											function doDelete(num) {
 												$("##getIDsMethod"+num).val('deleteOtherID');
+												console.log($("##getIDsMethod"+num).val());
 												setFeedbackControlState("saveOtherIDResultDiv"+num,"deleting")
 												$.ajax({
 													url : "/specimens/component/functions.cfc",
