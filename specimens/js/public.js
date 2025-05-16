@@ -710,8 +710,6 @@ function loadPreparators(collection_object_id,targetDivId) {
 	});
 }
 
-
-
 function openItemConditionHistoryDialog(collection_object_id, dialogId) { 
 	var title = "Part/Preparation Condition History.";
 	var content = '<div id="'+dialogId+'_div">Loading....</div>';

@@ -53,9 +53,6 @@ function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775) {
 		minHeight: 450,
 		draggable:true,
 		buttons: {
-			//"Save": function() {
-			//	$("#"+dialogId).dialog('submit');
-			//},
 			"Close Dialog": function() {
 				console.log("Button calling close on dialog in div with id: " + dialogId);
 				$("#"+dialogId).dialog('close');

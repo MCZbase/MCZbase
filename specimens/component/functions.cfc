@@ -1643,7 +1643,7 @@ limitations under the License.
 										<h1 class="h3">Edit Existing Identifiers</h1>
 										<cfset i=1>
 										<cfloop query="getIDs">
-											<form name="getIDs#i#" id="editOtherIDForm#i#">
+											<form name="getIDs#i#" id="editOtherIDForm#i#" class="mb-0">
 												<input type="hidden" name="method" value="updateOtherID" id="getIDsMethod#i#">
 												<input type="hidden" name="returnformat" value="json">
 												<input type="hidden" name="queryformat" value="column">
