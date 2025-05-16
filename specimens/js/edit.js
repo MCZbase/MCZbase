@@ -557,7 +557,8 @@ function reloadOtherIDDialog(collection_object_id) {
 			collection_object_id: collection_object_id
 		},
 		success: function (result) {
-			$("#otherIDDialog_div").html(result);
+			console.log("Reloading other IDs dialog content");
+			$("#otherIDsDialog_div").html(result);
 		},
 		error: function(jqXHR,textStatus,error){
 			handleFail(jqXHR,textStatus,error,"reloading Other IDs");
