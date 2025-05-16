@@ -1644,7 +1644,7 @@ limitations under the License.
 										<cfset i=1>
 										<cfloop query="getIDs">
 											<form name="getIDs#i#" id="editOtherIDForm#i#">
-												<input type="hidden" name="method" value="updateOtherID">
+												<input type="hidden" name="method" value="updateOtherID" id="getIDsMethod#i#">
 												<input type="hidden" name="returnformat" value="json">
 												<input type="hidden" name="queryformat" value="column">
 												<input type="hidden" name="collection_object_id" value="#collection_object_id#">
@@ -1701,7 +1701,7 @@ limitations under the License.
 
 										<script>
 											function doDelete(num) {
-												getIDs#num#.method.value='deleteOtherID';
+												$("##getIDsMethod"+num).val('deleteOtherID');
 												setFeedbackControlState("saveOtherIDResultDiv"+num,"deleting")
 												$.ajax({
 													url : "/specimens/component/functions.cfc",
@@ -1724,7 +1724,7 @@ limitations under the License.
 												});
 											};
 											function editOtherIDsSubmit(num){
-												getIDs#num#.method.value='updateOtherID';
+												$("##getIDsMethod"+num).val('updateOtherID');
 												setFeedbackControlState("saveOtherIDResultDiv" + num,"saving")
 												$.ajax({
 													url : "/specimens/component/functions.cfc",
