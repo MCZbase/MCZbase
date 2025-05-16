@@ -1663,7 +1663,7 @@ limitations under the License.
 													<div class="col-12 col-md-6 pl-1 pr-1 mb-1">
 														#getIDs.description#
 													</div>
-													<div class="form-group mb-1 mb-md-3 col-12 col-md-3 pl-0 pr-1">
+													<div class="form-group mb-1 col-12 col-md-3 pl-0 pr-1">
 														<cfset thisType = #getIDs.other_id_type#>
 														<label class="data-entry-label" for="other_id_type#i#" >Type</label>
 														<select name="other_id_type" class="data-entry-select" style="" size="1" id="other_id_type#i#">
@@ -1673,15 +1673,15 @@ limitations under the License.
 															</cfloop>
 														</select>
 													</div>
-													<div class="form-group mb-1 mb-md-3  col-12 col-md-2 px-1">
+													<div class="form-group mb-1 col-12 col-md-2 px-1">
 														<label for="other_id_prefix" class="data-entry-label" for="other_id_prefix#i#" >Prefix</label>
 														<input class="data-entry-input" type="text" value="#encodeForHTML(getIDs.other_id_prefix)#" size="12" name="other_id_prefix" id="other_id_prefix#i#">
 													</div>
-													<div class="form-group mb-1 mb-md-3  col-12 col-md-2 px-1">
+													<div class="form-group mb-1 col-12 col-md-2 px-1">
 														<label for="other_id_number" class="data-entry-label" for="other_id_number#i#" >Number</label>
 														<input type="text" class="data-entry-input" value="#encodeForHTML(getIDs.other_id_number)#" size="12" name="other_id_number" id="other_id_number#i#">
 													</div>
-													<div class="form-group mb-1 mb-md-3  col-12 col-md-2 px-1">
+													<div class="form-group mb-1 col-12 col-md-2 px-1">
 														<label for="other_id_suffix" class="data-entry-label">Suffix</label>
 														<input type="text" class="data-entry-input" value="#encodeForHTML(getIDs.other_id_suffix)#" size="12" name="other_id_suffix" id="other_id_suffix#i#">
 													</div>
@@ -1690,7 +1690,7 @@ limitations under the License.
 															onClick="if (checkFormValidity($('##editOtherIDForm#i#')[0])) { editOtherIDsSubmit(#i#);  } ">
 											
 														<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="getIDs#i#.Action.value='deleOID';confirmDelete('getIDs#i#');">
-														<output id="saveOtherIDResultDiv#i#" class="d-block"></output>
+														<output id="saveOtherIDResultDiv#i#"></output>
 													</div>
 												</div>
 											</form>
@@ -1810,10 +1810,11 @@ limitations under the License.
 	<cftry>
 		<cfset data=queryNew("status, message, id")>
 		<cfquery name="updateOtherID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			UPDATE coll_obj_other_id_num SET
+			UPDATE coll_obj_other_id_num 
+			SET
 				other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_type#">,
 				other_id_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_prefix#">,
-				other_id_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_number#">
+				other_id_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_number#">,
 				other_id_suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_suffix#">
 			WHERE coll_obj_other_id_num_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.coll_obj_other_id_num_id#">
 		</cfquery>
