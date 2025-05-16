@@ -1651,7 +1651,7 @@ limitations under the License.
 												<input type="hidden" name="coll_obj_other_id_num_id" value="#coll_obj_other_id_num_id#">
 												<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIDs.recordcount#">
 									
-												<div class="row p-1 border">
+												<div class="row p-1 border" id="otherIDEditControls#i#">
 													<div class="col-12 col-md-6 pl-1 pr-1 mb-1">
 														#getIDs.other_id_type#:
 														<strong> 
@@ -1712,6 +1712,9 @@ limitations under the License.
 													success: function(result) { 
 														if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
 															setFeedbackControlState("saveOtherIDResultDiv" + num,"deleted")
+															$("#otherIDEditControls"+num).find('input, textarea, button, select').attr("disabled", true);
+															$("#otherIDEditControls"+num + " :input").val("");
+															reloadOtherIDs();
 														} else {
 															// we shouldn't be able to reach this block, backing error should return an http 500 status
 															setFeedbackControlState("saveOtherIDResultDiv" + num,"error")

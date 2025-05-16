@@ -18,6 +18,16 @@ function setFeedbackControlState(control,state){
 		$('#' + control).removeClass('text-warning');
 		$('#' + control).addClass('text-success');
 		$('#' + control).removeClass('text-danger');
+   } else if (state == 'deleting'){
+		message = "Deleting..."
+		$('#' + control).addClass('text-warning');
+		$('#' + control).removeClass('text-success');
+		$('#' + control).removeClass('text-danger');
+   } else if (state == 'deleted'){
+		message = "Deleted."
+		$('#' + control).removeClass('text-warning');
+		$('#' + control).removeClass('text-success');
+		$('#' + control).addClass('text-danger');
 	} else if (state == 'error'){
 		message = "Error"
 		$('#' + control).removeClass('text-warning');
