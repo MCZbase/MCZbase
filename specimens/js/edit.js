@@ -551,7 +551,7 @@ function reloadOtherIDDialog(collection_object_id) {
 	jQuery.ajax({
 		url : "/specimens/component/functions.cfc",
 		type : "post",
-		dataType : "json",
+		dataType : "html",
 		data: {
 			method: "getEditOtherIDsHTML",
 			collection_object_id: collection_object_id
