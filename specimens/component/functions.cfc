@@ -1576,7 +1576,7 @@ limitations under the License.
 									<h2 class="h3 my-0 px-1 pb-1">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								</div>
 								<div class="card-body mt-2">
-									<form name="newOID" id="addOtherIDForm">
+									<form name="addOtherIDForm" id="addOtherIDForm">
 										<div class="row mx-0">
 											<div class="form-group col-3 pl-0 pr-2">
 												<input type="hidden" name="collection_object_id" value="#getCatalog.collection_object_id#">
@@ -1601,7 +1601,7 @@ limitations under the License.
 												<input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">
 											</div>
 											<div class="form-group col-2 px-1 mt-3">
-												<input type="button" value="Create Identifier" class="btn btn-xs btn-primary" onClick="if (checkFormValidity($('##addOtherIDsForm')[0])) { addOtherIDSubmit();  } ">
+												<input type="button" value="Create Identifier" class="btn btn-xs btn-primary" onClick="if (checkFormValidity($('##addOtherIDForm')[0])) { addOtherIDSubmit();  } ">
 												<output id="addOtherIDResultDiv" class="d-block text-danger">&nbsp;</output>
 											</div>
 										</div>
