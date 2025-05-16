@@ -1691,7 +1691,7 @@ limitations under the License.
 														<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
 															onClick="if (checkFormValidity($('##editOtherIDForm#i#')[0])) { editOtherIDsSubmit(#i#);  } ">
 											
-														<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="doDelete();">
+														<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="doDelete(#i#);">
 														<output id="saveOtherIDResultDiv#i#"></output>
 													</div>
 												</div>
