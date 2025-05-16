@@ -1881,7 +1881,7 @@ limitations under the License.
 		<cfset t = QuerySetCell(data, "message", "Record deleted.", 1)>
 		<cfset t = QuerySetCell(data, "id", "#coll_obj_other_id_num_id#", 1)>
 	<cfcatch>
-		<cftransaction action="rollback"
+		<cftransaction action="rollback">
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 		<cfset function_called = "#GetFunctionCalledName()#">
 		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
