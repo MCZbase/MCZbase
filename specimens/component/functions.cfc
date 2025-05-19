@@ -34,7 +34,7 @@ limitations under the License.
 				<cfquery name="updateCatNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateCatNum_result">
 					UPDATE cataloged_item 
 					SET
-						cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.cat_num#">
+						cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.cat_num#">,
 						collection_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.collection_id#">
 					WHERE
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
