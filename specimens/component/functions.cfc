@@ -1448,7 +1448,7 @@ limitations under the License.
 									</div>
 								</form>
 								<script>
-									$.document.ready(function() {
+									$(document).ready(function() {
 										$("##editAccnForm").on("submit", function(e) {
 											e.preventDefault();
 										});
