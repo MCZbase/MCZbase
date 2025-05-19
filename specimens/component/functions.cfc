@@ -288,6 +288,7 @@ limitations under the License.
 							var associated_species = $("##associated_species").val();
 							saveRemarks(collection_object_id,coll_object_remarks,disposition_remarks,habitat,associated_species,reloadRemarks,"saveRemarksStatus");
 						};
+					</script>
 				</div>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
