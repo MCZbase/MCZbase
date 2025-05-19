@@ -53,7 +53,7 @@ limitations under the License.
 					<cfset row = StructNew()>
 					<cfset row["status"] = "updated">
 					<cfset row["id"] = "#reReplace('[^0-9]',variables.collection_object_id,'')#">
-					<cfset guid = getGuid.guid>
+					<cfset row["guid"] = getGuid.guid>
 					<cfset data[1] = row>
 				<cfelse>
 					<cfthrow message="Error other than one row affected.">
@@ -1623,6 +1623,7 @@ limitations under the License.
 															setFeedbackControlState("saveCatNumResultDiv","saved")
 															// reload the page with the new guid
 															targetPage = "/guid/" + result[0].guid;
+															console.log("targetPage: " + targetPage);
 															$("##specimenDetailsPageContent").html("<h2 class=h3>Loading  " + result[0].guid + " ...</h2>");
 															window.location.href = targetPage;
 														} else {
