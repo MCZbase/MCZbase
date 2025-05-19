@@ -1421,6 +1421,7 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="getCatalog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
+						cataloged_item.collection_object_id,
 						coll_object_type,
 						cataloged_item.cat_num,
 						cataloged_item.collection_cde,
@@ -1485,7 +1486,7 @@ limitations under the License.
 									FROM 
 										specimen_part 
 										join coll_object on coll_object.collection_object_id=specimen_part.collection_object_id
-									WHERE derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatalog.collection-object_id#">
+									WHERE derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatalog.collection_object_id#">
 									GROUP BY coll_object_type, part_name
 								</cfquery>
 								<ul>
