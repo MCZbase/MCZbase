@@ -43,7 +43,7 @@ limitations under the License.
 					<cftransaction action="commit">
 					<cfquery name="getGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
-						 	collection.insitution_acronym || ':' || cataloged_item.collection_cde || ':' || cataloged_item.cat_num  as guid
+						 	collection.institution_acronym || ':' || cataloged_item.collection_cde || ':' || cataloged_item.cat_num  as guid
 						FROM
 							cataloged_item
 							join collection on cataloged_item.collection_id = collection.collection_id
