@@ -39,7 +39,7 @@ limitations under the License.
 				<cftransaction action="commit">
 				<cfset row = StructNew()>
 				<cfset row["status"] = "1">
-				<cfset row["id"] = "#accn_id#">
+				<cfset row["id"] = "#accession_transaction_id#">
 				<cfset data[1] = row>
 			<cfelse>
 				<cfthrow message="You do not have permission to change the accession.">
