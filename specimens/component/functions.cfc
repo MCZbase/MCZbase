@@ -1505,9 +1505,10 @@ limitations under the License.
 								<cfelse>
 									<cfset variables.coll_object_type="#getCatalog.coll_object_type#">
 								</cfif>
-								#variables.coll_object_type# #getCatalog.cataloged_item_type_description#
+								#variables.coll_object_type# #getCatalog.cataloged_item_type_description# 
+								( occurrenceID: https://mczbase.mcz.harvard.edu/guid/#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num# )
 								<cfquery name="getComponents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT count(*), coll_object_type, part_name
+									SELECT count(*) ct, coll_object_type, part_name
 									FROM 
 										specimen_part 
 										join coll_object on coll_object.collection_object_id=specimen_part.collection_object_id
@@ -1516,16 +1517,19 @@ limitations under the License.
 								</cfquery>
 								<ul>
 								<cfloop query="getComponents">
+									<cfset variables.occurrences="">
 									<cfif getComponents.coll_object_type is "SP">
 										<cfset variables.coll_object_type="Specimen Part">
 									<cfelseif getComponents.coll_object_type is "SS">
 										<cfset variables.coll_object_type="Subsample">
-									<cfelseif getComponents.coll_object_type is "IO">
+									<cfelseif getComponents.coll_object_type is "IO"><!--- identifiable object thus a new occurrence --->
 										<cfset variables.coll_object_type="Different Organism">
+										<!--- TODO: show occurrence ID value(s) for the identifiable object(s) --->
+										<cfset variables.occurrences="(occurrenceID: **TODO** )">
 									<cfelse>
 										<cfset variables.coll_object_type="#getComponents.coll_object_type#">
 									</cfif>
-									<li>#variables.coll_object_type# #getComponents.part_name#</li>
+									<li>#getComponents.ct# #variables.coll_object_type# #getComponents.part_name# #variables.occurrences#</li>
 								</cfloop>
 								</ul>
 							</div>
