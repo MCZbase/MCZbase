@@ -1533,134 +1533,138 @@ limitations under the License.
 								</cfloop>
 								</ul>
 							</div>
-							<div class="col-12 float-left mb-4 px=0 border">
-								<h1 class="h3 my-1">Change Accession for this cataloged item:</h1>
-								<form name="editAccn" id="editAccnForm">
-									<input type="hidden" name="method" value="updateAccn">
-									<input type="hidden" name="returnformat" value="json">
-									<input type="hidden" name="queryformat" value="column">
-									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-									<div class="form-row mb-2">
-										<div class="col-12 col-md-6">
-											<input type="hidden" name="accession_transaction_id" value="" id="accession_transaction_id">
-											<label for="accn_number" class="data-entry-label">Accession</label>
-											<input type="text" name="accn_number"  class="data-entry-input" id="accn_number">
-										</div>
-										<div class="col-12 col-md-3">
-											<label for="collection_id_limit" class="data-entry-label">Search In:</label>
-											<cfset thisCollId=#getCatalog.collection_id#>
-											<select name="collection_id_limit" id="collection_id_limit" size="1" class="mb-3 mb-md-0 data-entry-select reqdClr">
-												<cfloop query="ctcoll">
-													<cfif #thisCollId# is #ctcoll.collection_id#><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-													<option value="#ctcoll.collection_id#" #selected#>#ctcoll.institution_acronym# #ctcoll.collection_cde#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-3">
-											<label for="change_accn_btn" class="data-entry-label">&nbsp;</label>
-											<input type="button" id="change_accn_btn" value="Change Accession" class="btn btn-xs btn-primary" onClick="if (checkFormValidity($('##editAccnForm')[0])) { changeAccnSubmit();  } ">
-											<div id="saveAccnResultDiv"></div>
-										</div>
-									</div>
-								</form>
-								<script>
-									$(document).ready(function() {
-										$("##editAccnForm").on("submit", function(e) {
-											e.preventDefault();
-										});
-										makeAccessionAutocompleteLimitedMeta("accn_number","accession_transaction_id","collection_id_limit");
-									});
-									function changeAccnSubmit(){
-										setFeedbackControlState("saveAccnResultDiv","saving")
-										$.ajax({
-											url : "/specimens/component/functions.cfc",
-											type : "post",
-											dataType : "json",
-											data: $("##editAccnForm").serialize(),
-											success: function (result) {
-												if (result[0].status=="updated") {
-													setFeedbackControlState("saveAccnResultDiv","saved")
-												} else {
-													setFeedbackControlState("saveAccnResultDiv","error")
-													// we shouldn't be able to reach this block, backing error should return an http 500 status
-													messageDialog('Error updating Accesion: '+result.DATA.MESSAGE[0], 'Error saving accession change.');
-												}
-											},
-											error: function(jqXHR,textStatus,error){
-												setFeedbackControlState("saveAccnResultDiv","error")
-												handleFail(jqXHR,textStatus,error,"saving changes to Accession");
-											}
-										});
-									};
-								</script>
-							</div>
-							<div class="col-12 float-left mb-4 px=0 border">
-								<!--- Edit catalog number --->
-								<h1 class="h3 my-1">Change Catalog Number for this cataloged item:</h1>
-								<form name="editCatNumForm" id="editCatNumForm">
-									<input type="hidden" name="method" value="updateCatNumber">
-									<input type="hidden" name="returnformat" value="json">
-									<input type="hidden" name="queryformat" value="column">
-									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-									<div class="form-row">
-										<div class="col-12 col-sm-4 mb-0">
-											<label for="collection_id" class="data-entry-label">Collection:</label>
-											<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
-												<!--- require manage_collection role to change collection --->
+							<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+								<div class="col-12 float-left mb-4 px=0 border">
+									<h1 class="h3 my-1">Change Accession for this cataloged item:</h1>
+									<form name="editAccn" id="editAccnForm">
+										<input type="hidden" name="method" value="updateAccn">
+										<input type="hidden" name="returnformat" value="json">
+										<input type="hidden" name="queryformat" value="column">
+										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+										<div class="form-row mb-2">
+											<div class="col-12 col-md-6">
+												<input type="hidden" name="accession_transaction_id" value="" id="accession_transaction_id">
+												<label for="accn_number" class="data-entry-label">Accession</label>
+												<input type="text" name="accn_number"  class="data-entry-input" id="accn_number">
+											</div>
+											<div class="col-12 col-md-3">
+												<label for="collection_id_limit" class="data-entry-label">Search In:</label>
 												<cfset thisCollId=#getCatalog.collection_id#>
-												<select name="collection_id" size="1" class="mb-3 mb-md-0 data-entry-select reqdClr" id="collection_id">
+												<select name="collection_id_limit" id="collection_id_limit" size="1" class="mb-3 mb-md-0 data-entry-select reqdClr">
 													<cfloop query="ctcoll">
 														<cfif #thisCollId# is #ctcoll.collection_id#><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 														<option value="#ctcoll.collection_id#" #selected#>#ctcoll.institution_acronym# #ctcoll.collection_cde#</option>
 													</cfloop>
 												</select>
-											<cfelse>
-												#getCatalog.institution_acronym#:#getCatalog.collection_cde#
-												<input type="hidden" name="collection_id" value="#getCatalog.collection_id#">
-											</cfif>
+											</div>
+											<div class="col-12 col-md-3">
+												<label for="change_accn_btn" class="data-entry-label">&nbsp;</label>
+												<input type="button" id="change_accn_btn" value="Change Accession" class="btn btn-xs btn-primary" onClick="if (checkFormValidity($('##editAccnForm')[0])) { changeAccnSubmit();  } ">
+												<div id="saveAccnResultDiv"></div>
+											</div>
 										</div>
-										<div class="col-12 col-sm-4 mb-0">
-											<label for="cat_num" class="data-entry-label">Catalog Number:</label>
-											<input type="text" name="cat_num" id="cat_num" class="data-entry-input reqdClr" value="#getCatalog.cat_num#" required>
-										</div>
-										<div class="col-12 col-sm-4 mb-0">
-											<label for="saveCatNumButton" class="data-entry-label">&nbsp;</label>
-											<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary" id="saveCatNumButton"
-												onClick="if (checkFormValidity($('##editCatNumForm')[0])) { editCatNumSubmit();  } ">
-											<output id="saveCatNumResultDiv" class="d-block text-danger">&nbsp;</output>
-										</div>
-										<script>
-											function editCatNumSubmit(){
-												setFeedbackControlState("saveCatNumResultDiv","saving")
-												$.ajax({
-													url : "/specimens/component/functions.cfc",
-													type : "post",
-													dataType : "json",
-													data: $("##editCatNumForm").serialize(),
-													success: function (result) {
-														if (result[0].status=="updated") {
-															setFeedbackControlState("saveCatNumResultDiv","saved")
-															// reload the page with the new guid
-															targetPage = "/guid/" + result[0].guid;
-															console.log("targetPage: " + targetPage);
-															$("##specimenDetailsPageContent").html("<h2 class=h3>Loading  " + result[0].guid + " ...</h2>");
-															window.location.href = targetPage;
-														} else {
-															setFeedbackControlState("saveCatNumResultDiv","error")
-															// we shouldn't be able to reach this block, backing error should return an http 500 status
-															messageDialog('Error updating catalog number: '+result.DATA.MESSAGE[0], 'Error saving Catalog Number.');
-														}
-													},
-													error: function(jqXHR,textStatus,error){
-														setFeedbackControlState("saveCatNumResultDiv","error")
-														handleFail(jqXHR,textStatus,error,"saving changes to Cat Num Other IDs");
+									</form>
+									<script>
+										$(document).ready(function() {
+											$("##editAccnForm").on("submit", function(e) {
+												e.preventDefault();
+											});
+											makeAccessionAutocompleteLimitedMeta("accn_number","accession_transaction_id","collection_id_limit");
+										});
+										function changeAccnSubmit(){
+											setFeedbackControlState("saveAccnResultDiv","saving")
+											$.ajax({
+												url : "/specimens/component/functions.cfc",
+												type : "post",
+												dataType : "json",
+												data: $("##editAccnForm").serialize(),
+												success: function (result) {
+													if (result[0].status=="updated") {
+														setFeedbackControlState("saveAccnResultDiv","saved")
+													} else {
+														setFeedbackControlState("saveAccnResultDiv","error")
+														// we shouldn't be able to reach this block, backing error should return an http 500 status
+														messageDialog('Error updating Accesion: '+result.DATA.MESSAGE[0], 'Error saving accession change.');
 													}
-												});
-											};
-										</script> 
-									</div>
-								</form>
-							</div>
+												},
+												error: function(jqXHR,textStatus,error){
+													setFeedbackControlState("saveAccnResultDiv","error")
+													handleFail(jqXHR,textStatus,error,"saving changes to Accession");
+												}
+											});
+										};
+									</script>
+								</div>
+							</cfif>
+							<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
+								<div class="col-12 float-left mb-4 px=0 border">
+									<!--- Edit catalog number --->
+									<h1 class="h3 my-1">Change Catalog Number for this cataloged item:</h1>
+									<form name="editCatNumForm" id="editCatNumForm">
+										<input type="hidden" name="method" value="updateCatNumber">
+										<input type="hidden" name="returnformat" value="json">
+										<input type="hidden" name="queryformat" value="column">
+										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+										<div class="form-row">
+											<div class="col-12 col-sm-4 mb-0">
+												<label for="collection_id" class="data-entry-label">Collection:</label>
+												<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
+													<!--- require manage_collection role to change collection --->
+													<cfset thisCollId=#getCatalog.collection_id#>
+													<select name="collection_id" size="1" class="mb-3 mb-md-0 data-entry-select reqdClr" id="collection_id">
+														<cfloop query="ctcoll">
+															<cfif #thisCollId# is #ctcoll.collection_id#><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option value="#ctcoll.collection_id#" #selected#>#ctcoll.institution_acronym# #ctcoll.collection_cde#</option>
+														</cfloop>
+													</select>
+												<cfelse>
+													#getCatalog.institution_acronym#:#getCatalog.collection_cde#
+													<input type="hidden" name="collection_id" value="#getCatalog.collection_id#">
+												</cfif>
+											</div>
+											<div class="col-12 col-sm-4 mb-0">
+												<label for="cat_num" class="data-entry-label">Catalog Number:</label>
+												<input type="text" name="cat_num" id="cat_num" class="data-entry-input reqdClr" value="#getCatalog.cat_num#" required>
+											</div>
+											<div class="col-12 col-sm-4 mb-0">
+												<label for="saveCatNumButton" class="data-entry-label">&nbsp;</label>
+												<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary" id="saveCatNumButton"
+													onClick="if (checkFormValidity($('##editCatNumForm')[0])) { editCatNumSubmit();  } ">
+												<output id="saveCatNumResultDiv" class="d-block text-danger">&nbsp;</output>
+											</div>
+											<script>
+												function editCatNumSubmit(){
+													setFeedbackControlState("saveCatNumResultDiv","saving")
+													$.ajax({
+														url : "/specimens/component/functions.cfc",
+														type : "post",
+														dataType : "json",
+														data: $("##editCatNumForm").serialize(),
+														success: function (result) {
+															if (result[0].status=="updated") {
+																setFeedbackControlState("saveCatNumResultDiv","saved")
+																// reload the page with the new guid
+																targetPage = "/guid/" + result[0].guid;
+																console.log("targetPage: " + targetPage);
+																$("##specimenDetailsPageContent").html("<h2 class=h3>Loading  " + result[0].guid + " ...</h2>");
+																window.location.href = targetPage;
+															} else {
+																setFeedbackControlState("saveCatNumResultDiv","error")
+																// we shouldn't be able to reach this block, backing error should return an http 500 status
+																messageDialog('Error updating catalog number: '+result.DATA.MESSAGE[0], 'Error saving Catalog Number.');
+															}
+														},
+														error: function(jqXHR,textStatus,error){
+															setFeedbackControlState("saveCatNumResultDiv","error")
+															handleFail(jqXHR,textStatus,error,"saving changes to Cat Num Other IDs");
+														}
+													});
+												};
+											</script> 
+										</div>
+									</form>
+								</div>
+							</cfif>
 						</div>
 					</div>
 				</cfloop>
