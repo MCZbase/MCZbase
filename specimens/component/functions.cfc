@@ -1452,7 +1452,7 @@ limitations under the License.
 										$("##editAccnForm").on("submit", function(e) {
 											e.preventDefault();
 										});
-										makeAccessionAutocompleteLimitedMeta("accn_number","accn_transaction_id", collectionidControl);
+										makeAccessionAutocompleteLimitedMeta("accn_number","accn_transaction_id","collection_id_limit");
 									});
 									function changeAccnSubmit(){
 										setFeedbackControlState("saveAccnResultDiv","saving")
