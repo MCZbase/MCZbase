@@ -1419,18 +1419,64 @@ limitations under the License.
 							</div>
 							<div class="col-12 float-left mb-4 px=0 border">
 								<h1 class="h3 my-1">Change Accession for this cataloged item:</h1>
-								<div class="form-row">
-									<div class="col-12 col-sm-3 mb-0">
-										<label for="accn_number" class="data-entry-label">Accession</label>
-										<input type="text" name="accn_number"  class="data-entry-input" id="accn_number">
+								<form name="editAccn" id="editAccnForm">
+									<input type="hidden" name="method" value="updateAccn">
+									<input type="hidden" name="returnformat" value="json">
+									<input type="hidden" name="queryformat" value="column">
+									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-6">
+											<input type="hidden" name="accession_transaction_id" value="">
+											<label for="accn_number" class="data-entry-label">Accession</label>
+											<input type="text" name="accn_number"  class="data-entry-input" id="accn_number">
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="collection_id_limit" class="data-entry-label">Search In:</label>
+											<cfset thisCollId=#getCatalog.collection_id#>
+											<select name="collection_id_limit" id="collection_id_limit" size="1" class="mb-3 mb-md-0 data-entry-select reqdClr">
+												<cfloop query="ctcoll">
+													<cfif #thisCollId# is #ctcoll.collection_id#><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="#ctcoll.collection_id#" #selected#>#ctcoll.institution_acronym# #ctcoll.collection_cde#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="change_accn_btn" class="data-entry-label">&nbsp;</label>
+											<input type="button" id="change_accn_btn" value="Change Accession" class="btn btn-xs btn-primary" onClick="if (checkFormValidity($('##editAccnForm')[0])) { changeAccnSubmit();  } ">
+											<div id="saveAccnResultDiv"</div>
+										</div>
 									</div>
-									<div class="col-12 col-sm-3 mt-3"> <a class="btn btn-xs btn-secondary text-dark" href="/Transactions.cfm?action=findAccessions" target="_blank">Lookup</a></div>
-								</div>
-								<div class="col-12 px-0 mb-3">
-									<div id="g_num">
-										<input type="submit" id="s_btn" value="Add Items" class="btn btn-xs btn-primary">
-									</div>
-								</div>
+								</form>
+								<script>
+									$.document.ready(function() {
+										$("##editAccnForm").on("submit", function(e) {
+											e.preventDefault();
+										});
+										makeAccessionAutocompleteLimitedMeta("accn_number","accn_transaction_id", collectionidControl);
+									});
+									function changeAccnSubmit(){
+										setFeedbackControlState("saveAccnResultDiv","saving")
+										$.ajax({
+											url : "/specimens/component/functions.cfc",
+											type : "post",
+											dataType : "json",
+											data: $("##editAccnForm").serialize(),
+											success: function (result) {
+												if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+													setFeedbackControlState("saveAccnResultDiv","saved")
+												} else {
+													setFeedbackControlState("saveAccnResultDiv","error")
+													// we shouldn't be able to reach this block, backing error should return an http 500 status
+													messageDialog('Error updating Accesion: '+result.DATA.MESSAGE[0], 'Error saving accession change.');
+												}
+											},
+											error: function(jqXHR,textStatus,error){
+												setFeedbackControlState("saveAccnResultDiv","error")
+												handleFail(jqXHR,textStatus,error,"saving changes to Accession");
+											}
+										});
+									};
+								</script>
 							</div>
 							<div class="col-12 float-left mb-4 px=0 border">
 								<!--- TODO: Type of object --->
@@ -5126,33 +5172,6 @@ function showLLFormat(orig_units) {
 						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 				<div>
-				<form name="addItems" method="post" action="Specimen.cfm">
-					<input type="hidden" name="Action" value="addItems">
-					<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
-						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-					</cfif>
-					<div class="container">
-						<div class="row">
-							<div class="col-12">
-								<h1 class="h3 my-1">Change Accession for this cataloged item:</h1>
-								<div class="form-row">
-									<div class="col-12 col-sm-3 mb-0">
-										<label for="accn_number" class="data-entry-label">Accession</label>
-										<input type="text" name="accn_number"  class="data-entry-input" id="accn_number" onchange="findAccession();">
-										<span class="small d-block mb-1">TAB to see if accession is valid</span>
-										<p>Validation message placeholder</p>
-									</div>
-									<div class="col-12 col-sm-3 mt-3"> <a class="btn btn-xs btn-secondary text-dark" href="/Transactions.cfm?action=findAccessions" target="_blank">Lookup</a></div>
-								</div>
-								<div class="col-12 px-0 mb-3">
-									<div id="g_num">
-										<input type="submit" id="s_btn" value="Add Items" class="btn btn-xs btn-primary">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</form>
 				<div class="container test">
 					<div class="row mx-0">
 						<div class="col-12 px-0">
