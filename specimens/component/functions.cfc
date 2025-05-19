@@ -161,6 +161,97 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
+<cffunction name="getEditRemarksHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id >
+
+	<!---
+  CREATE TABLE "COLL_OBJECT_REMARK" 
+   (	"COLLECTION_OBJECT_ID" NUMBER NOT NULL ENABLE, 
+	"DISPOSITION_REMARKS" VARCHAR2(4000 CHAR), 
+	"COLL_OBJECT_REMARKS" VARCHAR2(4000 CHAR), 
+	"HABITAT" VARCHAR2(4000 CHAR), 
+	"ASSOCIATED_SPECIES" VARCHAR2(4000 CHAR), 
+	--->
+	<cfthread name="getEditRemarksThread"> 
+		<cfoutput>
+			<cftry>
+				<cfquery name="getRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						coll_object_remarks,
+						disposition_remarks,
+						habitat,
+						associated_species
+					FROM
+						coll_object_remark
+					WHERE
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					ORDER BY created_date DESC
+				</cfquery>
+				<!--- should be just one record per collection_object_id --->
+				<div class="container-fluid">
+					<h1 class="h3 px-1">Remarks</h1>
+					<form name="formEditRemarks" id="formEditRemarks">
+						<div class="form-row row">
+							<input type="hidden" name="collection_object_id" id="collection_object_id" value="#variables.collection_object_id#">
+							<cfif getRemarks.recordcount EQ 0>
+								<cfset remarksText = "">
+								<cfset dispositionText = "">
+								<cfset habitatText = "">
+								<cfset associatedText = "">
+							<cfelse>
+								<cfset remarksText = getRemarks.coll_object_remarks>
+							</cfif>
+							<div class="col-12">
+								<label for="coll_object_remarks">Remarks:</label>
+								<input type="text" name="coll_object_remarks" id="coll_object_remarks" value="#remarksText#" class="data-entry-text">
+							</div>
+							<div class="coll-12">
+								<label for="disposition_remarks">Disposition Remarks:</label>
+								<input type="text" name="disposition_remarks" id="disposition_remarks" value="#dispositionText#" class="data-entry-text">
+							</div>
+							<div class="coll-12">
+								<label for="habitat">Microhabitat:</label>
+								<input type="text" name="habitat" id="habitat" value="#habitatText#" class="data-entry-text">
+							</div>
+							<div class="coll-12">
+								<label for="associated_species">Associated Species:</label>
+								<input type="text" name="associated_species" id="associated_species" value="#associatedText#" class="data-entry-text">
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="addRemarksButton" class="data-entry-label">&nbsp;</label>
+								<input type="button" value="Save" class="btn btn-xs btn-primary" id="saveRemarksButton"
+									onClick="handleSaveRemarks();">
+							</div>
+							<div class="col-12 col-md-9">
+								<output id="saveRemarksStatus"></output>
+							</div>
+						</div>
+					</form>
+					<script>
+						function handleSaveRemarks() {
+							var collection_object_id = $("##collection_object_id").val();
+							var coll_object_remarks = $("##coll_object_remarks").val();
+							var disposition_remarks = $("##disposition_remarks").val();
+							var habitat = $("##habitat").val();
+							var associated_species = $("##associated_species").val();
+							saveRemarks(collection_object_id,coll_object_remarks,disposition_remarks,habitat,associated_species,reloadRemarks,"saveRemarksStatus");
+						};
+				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getEditRemarksThread" />
+	<cfreturn getEditRemarksThread.output>
+</cffunction>
+
 <!---getEditMediaHTML obtain a block of html to populate an media editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.

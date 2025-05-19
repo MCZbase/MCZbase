@@ -872,7 +872,7 @@ limitations under the License.
 							<div class="card-header" id="headingRemarks">
 								<h3 class="h5 my-0">
 									<button type="button" class="headerLnk text-left w-100 h-100" aria-label="Remarks Pane" aria-expanded="true" aria-controls="RemarksPane" data-toggle="collapse" data-target="##RemarksPane">
-										Collection Object Remarks
+										Cataloged Item Remarks
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'RemarksDialog','#guid#',reloadRemarks)">
