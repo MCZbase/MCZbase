@@ -1433,7 +1433,7 @@ limitations under the License.
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
-											<input type="hidden" name="accession_transaction_id" value="">
+											<input type="hidden" name="accession_transaction_id" value="" id="accession_transaction_id">
 											<label for="accn_number" class="data-entry-label">Accession</label>
 											<input type="text" name="accn_number"  class="data-entry-input" id="accn_number">
 										</div>
@@ -1459,7 +1459,7 @@ limitations under the License.
 										$("##editAccnForm").on("submit", function(e) {
 											e.preventDefault();
 										});
-										makeAccessionAutocompleteLimitedMeta("accn_number","accn_transaction_id","collection_id_limit");
+										makeAccessionAutocompleteLimitedMeta("accn_number","accession_transaction_id","collection_id_limit");
 									});
 									function changeAccnSubmit(){
 										setFeedbackControlState("saveAccnResultDiv","saving")
