@@ -52,6 +52,30 @@ function updateMediaCounts(collection_object_id,showsDivId) {
 	});
 }
 
+/** loadRemarks populate an html block with the remarks 
+  for a cataloged item.
+ * @param collection_object_id for the cataloged item for which
+ *   to look up remarks
+ * @param targetDivId the id for the div in the dom, without a leading #
+ *  selector, for which to replace the html content with the response
+ **/
+function loadRemarks(collection_object_id,targetDivId) {
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getRemarksHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading remarks");
+		},
+		dataType: "html"
+	});
+}
+
 /** loadMedia populate an html block with the media 
  * that shows a cataloged item
  * @param collection_object_id for the cataloged item for which
