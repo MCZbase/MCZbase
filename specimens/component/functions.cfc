@@ -20,6 +20,49 @@ limitations under the License.
 <cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? remove ? --->
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml --->
 
+<cffunction name="updateCatNumber" access="remote" returntype="any" returnformat="json">
+	<cfargument name="collection_object_id" type="numeric" required="yes">
+	<cfargument name="cat_num" type="string" required="yes">
+	<cfargument name="collection_id" type="string" required="yes">
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.cat_num = arguments.cat_num>
+	<cfset variables.collection_id = arguments.collection_id>
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_transactions")>
+				<cfquery name="updateCatNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateCatNum_result">
+					UPDATE cataloged_item 
+					SET
+						cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.cat_num#">
+						collection_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.collection_id#">
+					WHERE
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+				</cfquery>
+				<cfif updateCatNum_result.recordcount EQ 1>
+					<cftransaction action="commit">
+					<cfset row = StructNew()>
+					<cfset row["status"] = "updated">
+					<cfset row["id"] = "#cat_num#">
+					<cfset data[1] = row>
+				<cfelse>
+					<cfthrow message="Error other than one row affected.">
+			<cfelse>
+				<cfthrow message="You do not have permission to change the catalog number.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
 <cffunction name="updateAccn" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="numeric" required="yes">
 	<cfargument name="accession_transaction_id" type="numeric" required="yes">
@@ -1386,12 +1429,15 @@ limitations under the License.
 						accn.accn_number,
 						accn.received_date,
 						accn.accn_status,
-						cataloged_item.accn_id
+						cataloged_item.accn_id,
+						cataloged_item.cataloged_item_type,
+						ctcataloged_item_type.description as cataloged_item_type_description
 					FROM
 						cataloged_item
 						join collection on cataloged_item.collection_id=collection.collection_id
 						join coll_object on cataloged_item.collection_object_id=coll_object.collection_object_id
 						join accn on cataloged_item.accn_id=accn.transaction_id
+						join ctcataloged_item_type on cataloged_item.cataloged_item_type=ctcataloged_item_type.cataloged_item_type
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
@@ -1410,6 +1456,7 @@ limitations under the License.
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12 float-left mb-4 px=0 border">
+								<!--- cataloging data --->
 								<h2 class="h3 my-0 px-1 pb-1">Cataloged Item #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								<ul>
 									<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
@@ -1422,6 +1469,37 @@ limitations under the License.
 									<cfloop query="getAccnAgents">
 										<li>#getAccnAgents.agent_role#: #getAccnAgents.agent_name#</li>
 									</cfloop>
+								</ul>
+							</div>
+							<div class="col-12 float-left mb-4 px=0 border">
+								<!--- Type of object --->
+								<cfif getCatalog.coll_object_type is "CI">
+									<cfset variables.coll_object_type="Cataloged Item">
+								<cfelse>
+									<cfset variables.coll_object_type="#getCatalog.coll_object_type#">
+								</cfif>
+								#variables.coll_object_type# #getCatalog.cataloged_item_type_description#
+								<cfquery name="getComponents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT count(*), coll_object_type, part_name
+									FROM 
+										specimen_part 
+										join coll_object on coll_object.collection_object_id=specimen_part.collection_object_id
+									WHERE derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatalog.collection-object_id#">
+									GROUP BY coll_object_type, part_name
+								</cfquery>
+								<ul>
+								<cfloop query="getComponents">
+									<cfif getComponents.coll_object_type is "SP">
+										<cfset variables.coll_object_type="Specimen Part">
+									<cfelseif getComponents.coll_object_type is "SS">
+										<cfset variables.coll_object_type="Subsample">
+									<cfelseif getComponents.coll_object_type is "IO">
+										<cfset variables.coll_object_type="Different Organism">
+									<cfelse>
+										<cfset variables.coll_object_type="#getComponents.coll_object_type#">
+									</cfif>
+									<li>#variables.coll_object_type# #getComponents.part_name#</li>
+								</cfloop>
 								</ul>
 							</div>
 							<div class="col-12 float-left mb-4 px=0 border">
@@ -1486,56 +1564,59 @@ limitations under the License.
 								</script>
 							</div>
 							<div class="col-12 float-left mb-4 px=0 border">
-								<!--- TODO: Type of object --->
-								#getCatalog.coll_object_type#
-							</div>
-							<div class="col-12 float-left mb-4 px=0 border">
 								<!--- Edit catalog number --->
 								<h1 class="h3 my-1">Change Catalog Number for this cataloged item:</h1>
-								<form name="editCatNumOtherIDs" id="editCatNumOtherIDsForm">
-									<input type="hidden" name="method" value="updateCatNumOtherID">
+								<form name="editCatNumForm" id="editCatNumForm">
+									<input type="hidden" name="method" value="updateCatNumber">
 									<input type="hidden" name="returnformat" value="json">
 									<input type="hidden" name="queryformat" value="column">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 									<div class="form-row">
 										<div class="col-12 col-sm-4 mb-0">
 											<label for="collection_id" class="data-entry-label">Collection:</label>
-											<cfset thisCollId=#getCatalog.collection_id#>
-											<select name="collection_id" size="1" class="mb-3 mb-md-0 data-entry-select reqdClr">
-												<cfloop query="ctcoll">
-													<cfif #thisCollId# is #ctcoll.collection_id#><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-													<option value="#ctcoll.collection_id#" #selected#>#ctcoll.institution_acronym# #ctcoll.collection_cde#</option>
-												</cfloop>
-											</select>
+											<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
+												<!--- require manage_collection role to change collection --->
+												<cfset thisCollId=#getCatalog.collection_id#>
+												<select name="collection_id" size="1" class="mb-3 mb-md-0 data-entry-select reqdClr" id="collection_id">
+													<cfloop query="ctcoll">
+														<cfif #thisCollId# is #ctcoll.collection_id#><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+														<option value="#ctcoll.collection_id#" #selected#>#ctcoll.institution_acronym# #ctcoll.collection_cde#</option>
+													</cfloop>
+												</select>
+											<cfelse>
+												#getCatalog.institution_acronym#:#getCatalog.collection_cde#
+												<input type="hidden" name="collection_id" value="#getCatalog.collection_id#">
+											</cfif>
 										</div>
 										<div class="col-12 col-sm-4 mb-0">
 											<label for="cat_num" class="data-entry-label">Catalog Number:</label>
 											<input type="text" name="cat_num" id="cat_num" class="data-entry-input" value="#getCatalog.cat_num#">
 										</div>
 										<div class="col-12 col-sm-4 mb-0">
-											<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
+											<label for="saveCatNumButton" class="data-entry-label">&nbsp;</label>
+											<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary" id="saveCatNumButton"
 												onClick="if (checkFormValidity($('##editCatNumOtherIdsForm')[0])) { editCatNumSubmit();  } ">
-											<output id="saveCatNumOtherIDsResultDiv" class="d-block text-danger">&nbsp;</output>
+											<output id="saveCatNumResultDiv" class="d-block text-danger">&nbsp;</output>
 										</div>
 										<script>
 											function editCatNumSubmit(){
-												setFeedbackControlState("saveCatNumOtherIDsResultDiv","saving")
+												setFeedbackControlState("saveCatNumResultDiv","saving")
 												$.ajax({
 													url : "/specimens/component/functions.cfc",
 													type : "post",
 													dataType : "json",
-													data: $("##editCatNumOtherIDsForm").serialize(),
+													data: $("##editCatNumForm").serialize(),
 													success: function (result) {
-														if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-															setFeedbackControlState("saveCatNumOtherIDsResultDiv","saved")
+														if (result[0].status=="updated") {
+															setFeedbackControlState("saveCatNumResultDiv","saved")
 														} else {
-															setFeedbackControlState("saveCatNumOtherIDsResultDiv","error")
+															setFeedbackControlState("saveCatNumResultDiv","error")
 															// we shouldn't be able to reach this block, backing error should return an http 500 status
-															messageDialog('Error updating Other IDs: '+result.DATA.MESSAGE[0], 'Error saving Cat Num Change ID.');
+															messageDialog('Error updating catalog number: '+result.DATA.MESSAGE[0], 'Error saving Catalog Number.');
 														}
 													},
 													error: function(jqXHR,textStatus,error){
-														setFeedbackControlState("saveCatNumOtherIDsResultDiv","error")
+														setFeedbackControlState("saveCatNumResultDiv","error")
 														handleFail(jqXHR,textStatus,error,"saving changes to Cat Num Other IDs");
 													}
 												});
