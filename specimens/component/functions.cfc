@@ -209,15 +209,15 @@ limitations under the License.
 								<label for="coll_object_remarks">Remarks:</label>
 								<input type="text" name="coll_object_remarks" id="coll_object_remarks" value="#remarksText#" class="data-entry-input">
 							</div>
-							<div class="coll-12">
+							<div class="col-12">
 								<label for="disposition_remarks">Disposition Remarks:</label>
 								<input type="text" name="disposition_remarks" id="disposition_remarks" value="#dispositionText#" class="data-entry-input">
 							</div>
-							<div class="coll-12">
+							<div class="col-12">
 								<label for="habitat">Microhabitat:</label>
 								<input type="text" name="habitat" id="habitat" value="#habitatText#" class="data-entry-input">
 							</div>
-							<div class="coll-12">
+							<div class="col-12">
 								<label for="associated_species">Associated Species:</label>
 								<input type="text" name="associated_species" id="associated_species" value="#associatedText#" class="data-entry-input">
 							</div>
