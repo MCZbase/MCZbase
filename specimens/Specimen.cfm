@@ -168,6 +168,7 @@ limitations under the License.
 <cfinclude template="/vocabularies/component/search.cfc" runOnce="true">
 <cfset summaryHeadingBlock = getSummaryHeaderHTML(collection_object_id = "#collection_object_id#")>
 <cfoutput>
+<div id="specimenDetailsPageContent">
 <div id="specimenSummaryHeaderDiv">
 #summaryHeadingBlock#
 </div>
@@ -231,6 +232,7 @@ limitations under the License.
 		<!--- scripts for reloading sections of pages after edits, use as callabcks on edit dialogs --->
 		<script>
 			function reloadPage() { 
+				$("##specimenDetailsPageContent").html("<h2 class=h3>Reloading page...</h2>");
 				window.location.reload();
 			}
 			function reloadHeadingBar() { 
@@ -1098,6 +1100,7 @@ limitations under the License.
 		</div>
 	</cfif>
 </cfoutput>
+</div><!--- end of specimenDetailsPageContent --->
 
 <!--- (7) Finish up with the page footer --->
 <cfinclude template="/shared/_footer.cfm">
