@@ -41,9 +41,19 @@ limitations under the License.
 				</cfquery>
 				<cfif updateCatNum_result.recordcount EQ 1>
 					<cftransaction action="commit">
+					<cfquery name="getGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT 
+						 	collection.insitution_acronym || ':' || cataloged_item.collection_cde || ':' || cataloged_item.cat_num  as guid
+						FROM
+							cataloged_item
+							join collection on cataloged_item.collection_id = collection.collection_id
+						WHERE
+							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					</cfquery>
 					<cfset row = StructNew()>
 					<cfset row["status"] = "updated">
 					<cfset row["id"] = "#reReplace('[^0-9]',variables.collection_object_id,'')#">
+					<cfset guid = getGuid.guid>
 					<cfset data[1] = row>
 				<cfelse>
 					<cfthrow message="Error other than one row affected.">
@@ -1592,12 +1602,12 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-sm-4 mb-0">
 											<label for="cat_num" class="data-entry-label">Catalog Number:</label>
-											<input type="text" name="cat_num" id="cat_num" class="data-entry-input" value="#getCatalog.cat_num#">
+											<input type="text" name="cat_num" id="cat_num" class="data-entry-input reqdClr" value="#getCatalog.cat_num#" required>
 										</div>
 										<div class="col-12 col-sm-4 mb-0">
 											<label for="saveCatNumButton" class="data-entry-label">&nbsp;</label>
 											<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary" id="saveCatNumButton"
-												onClick="if (checkFormValidity($('##editCatNumOtherIdsForm')[0])) { editCatNumSubmit();  } ">
+												onClick="if (checkFormValidity($('##editCatNumForm')[0])) { editCatNumSubmit();  } ">
 											<output id="saveCatNumResultDiv" class="d-block text-danger">&nbsp;</output>
 										</div>
 										<script>
@@ -1611,6 +1621,10 @@ limitations under the License.
 													success: function (result) {
 														if (result[0].status=="updated") {
 															setFeedbackControlState("saveCatNumResultDiv","saved")
+															// reload the page with the new guid
+															targetPage = "/guid/" + result[0].guid;
+															$("##specimenDetailsPageContent").html("<h2 class=h3>Loading  " + result[0].guid + " ...</h2>");
+															window.location.href = targetPage;
 														} else {
 															setFeedbackControlState("saveCatNumResultDiv","error")
 															// we shouldn't be able to reach this block, backing error should return an http 500 status
