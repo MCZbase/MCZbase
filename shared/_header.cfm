@@ -188,9 +188,6 @@ limitations under the License.
 <cfif CGI.script_name IS "/Specimens.cfm" AND isdefined("session.roles") AND listfindnocase(session.roles,"manage_transactions")>
 	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 </cfif>
-<cfif CGI.script_name IS "/specimens/Specimen.cfm" AND isdefined("session.roles") AND listfindnocase(session.roles,"manage_transactions")>
-	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
-</cfif>
 <cfif CGI.script_name IS "/specimens/adminSpecimenSearch.cfm" OR CGI.script_name IS "/specimens/viewSpecimenSearchMetadata.cfm">
 	<script type="text/javascript" src="/specimens/js/metadata.js"></script> 
 </cfif>
@@ -214,7 +211,7 @@ limitations under the License.
 <cfif CGI.script_name IS "/localities/HigherGeography.cfm">
 	<script type="text/javascript" src="/localities/js/highergeography.js"></script> 
 </cfif>
-<cfif CGI.script_name IS "/localities/CollectingEvent.cfm" OR CGI.script_name IS "/specimens/Specimen.cfm">
+<cfif CGI.script_name IS "/localities/CollectingEvent.cfm">
 	<script type="text/javascript" src="/localities/js/collectingevents.js"></script>
 	<script type="text/javascript" src="/media/js/media.js"></script>
 </cfif>

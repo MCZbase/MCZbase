@@ -33,9 +33,15 @@ limitations under the License.
 <!--- (1) Check the provided guid or collection object id --->
 <!--- Set page title to reflect failure condition, if queries succeed it will be changed to reflect specimen record found --->
 <cfset pageTitle = "MCZbase Specimen not found.">
+
+<!--- load javascript libraries for the page --->
 <script type='text/javascript' src='/media/js/media.js'></script>
+<script type="text/javascript" src="/localities/js/collectingevents.js"></script>
 <cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 	<script type="text/javascript" src="/specimens/js/specimens.js"></script>
+</cfif>
+<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_transactions")>
+	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 </cfif>
 
 <cfif isdefined("collection_object_id")>
