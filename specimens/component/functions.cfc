@@ -43,10 +43,11 @@ limitations under the License.
 					<cftransaction action="commit">
 					<cfset row = StructNew()>
 					<cfset row["status"] = "updated">
-					<cfset row["id"] = "#cat_num#">
+					<cfset row["id"] = "#reReplace('[^0-9]',variables.collection_object_id,'')#">
 					<cfset data[1] = row>
 				<cfelse>
 					<cfthrow message="Error other than one row affected.">
+				</cfif>
 			<cfelse>
 				<cfthrow message="You do not have permission to change the catalog number.">
 			</cfif>
