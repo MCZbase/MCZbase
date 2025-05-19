@@ -1443,7 +1443,7 @@ limitations under the License.
 										<div class="col-12 col-md-3">
 											<label for="change_accn_btn" class="data-entry-label">&nbsp;</label>
 											<input type="button" id="change_accn_btn" value="Change Accession" class="btn btn-xs btn-primary" onClick="if (checkFormValidity($('##editAccnForm')[0])) { changeAccnSubmit();  } ">
-											<div id="saveAccnResultDiv"</div>
+											<div id="saveAccnResultDiv"></div>
 										</div>
 									</div>
 								</form>
