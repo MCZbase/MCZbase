@@ -161,6 +161,54 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
+<cffunction name="saveRemarks" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="coll_object_remarks" type="string" required="yes">
+	<cfargument name="disposition_remarks" type="string" required="yes">
+	<cfargument name="habitat" type="string" required="yes">
+	<cfargument name="associated_species" type="string" required="yes">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.coll_object_remarks = arguments.coll_object_remarks>
+	<cfset variables.disposition_remarks = arguments.disposition_remarks>
+	<cfset variables.habitat = arguments.habitat>
+	<cfset variables.associated_species = arguments.associated_species>
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>	
+			<cfquery name="saveRemarksQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				update coll_object_remark
+				set
+					coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.coll_object_remarks#">,
+					disposition_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.disposition_remarks#">,
+					habitat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.habitat#">,
+					associated_species = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.associated_species#">
+				where
+					COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+			</cfquery>
+			<cfif saveRemarksQuery.recordcount EQ 1>
+				<cftransaction action="commit"/>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "updated">
+				<cfset row["id"] = "#variables.collection_object_id#">
+				<cfset data[1] = row>
+			<cfelse>
+				<cfthrow message="Error other than one row affected.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
 <cffunction name="getEditRemarksHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
