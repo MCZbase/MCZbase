@@ -43,7 +43,11 @@ limitations under the License.
 					<cftransaction action="commit">
 					<cfquery name="getGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
-						 	collection.institution_acronym || ':' || cataloged_item.collection_cde || ':' || cataloged_item.cat_num  as guid
+						 	collection.institution_acronym || ':' || cataloged_item.collection_cde || ':' || cataloged_item.cat_num  as guid,
+							cataloged_item.cat_num,
+							cataloged_item.collection_id,
+							cataloged_item.collection_cde,
+							collection.collection
 						FROM
 							cataloged_item
 							join collection on cataloged_item.collection_id = collection.collection_id
@@ -54,7 +58,10 @@ limitations under the License.
 					<cfquery name="setGuidInFlat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE flat
 						SET
-							guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getGuid.guid#">
+							guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getGuid.guid#">,
+							collection_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getGuid.collection_id#">,
+							collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getGuid.collection_cde#">,
+							collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getGuid.collection#">
 						WHERE
 							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 					</cfquery>
