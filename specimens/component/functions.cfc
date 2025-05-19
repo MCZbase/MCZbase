@@ -50,6 +50,14 @@ limitations under the License.
 						WHERE
 							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 					</cfquery>
+					<!--- update the guid in the flat table so that a redirect will work before updateFlat runs --->
+					<cfquery name="setGuidInFlat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE flat
+						SET
+							guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getGuid.guid#">
+						WHERE
+							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					</cfquery>
 					<cfset row = StructNew()>
 					<cfset row["status"] = "updated">
 					<cfset row["id"] = "#reReplace('[^0-9]',variables.collection_object_id,'')#">
