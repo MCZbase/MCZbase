@@ -201,22 +201,25 @@ limitations under the License.
 								<cfset associatedText = "">
 							<cfelse>
 								<cfset remarksText = getRemarks.coll_object_remarks>
+								<cfset dispositionText = getRemarks.disposition_remarks>
+								<cfset habitatText = getRemarks.habitat>
+								<cfset associatedText = getRemarks.associated_species>
 							</cfif>
 							<div class="col-12">
 								<label for="coll_object_remarks">Remarks:</label>
-								<input type="text" name="coll_object_remarks" id="coll_object_remarks" value="#remarksText#" class="data-entry-text">
+								<input type="text" name="coll_object_remarks" id="coll_object_remarks" value="#remarksText#" class="data-entry-input">
 							</div>
 							<div class="coll-12">
 								<label for="disposition_remarks">Disposition Remarks:</label>
-								<input type="text" name="disposition_remarks" id="disposition_remarks" value="#dispositionText#" class="data-entry-text">
+								<input type="text" name="disposition_remarks" id="disposition_remarks" value="#dispositionText#" class="data-entry-input">
 							</div>
 							<div class="coll-12">
 								<label for="habitat">Microhabitat:</label>
-								<input type="text" name="habitat" id="habitat" value="#habitatText#" class="data-entry-text">
+								<input type="text" name="habitat" id="habitat" value="#habitatText#" class="data-entry-input">
 							</div>
 							<div class="coll-12">
 								<label for="associated_species">Associated Species:</label>
-								<input type="text" name="associated_species" id="associated_species" value="#associatedText#" class="data-entry-text">
+								<input type="text" name="associated_species" id="associated_species" value="#associatedText#" class="data-entry-input">
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="addRemarksButton" class="data-entry-label">&nbsp;</label>
