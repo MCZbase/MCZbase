@@ -38,7 +38,7 @@ limitations under the License.
 				</cfquery>
 				<cftransaction action="commit">
 				<cfset row = StructNew()>
-				<cfset row["status"] = "1">
+				<cfset row["status"] = "updated">
 				<cfset row["id"] = "#accession_transaction_id#">
 				<cfset data[1] = row>
 			<cfelse>
@@ -1469,7 +1469,7 @@ limitations under the License.
 											dataType : "json",
 											data: $("##editAccnForm").serialize(),
 											success: function (result) {
-												if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+												if (result[0].status=="updated") {
 													setFeedbackControlState("saveAccnResultDiv","saved")
 												} else {
 													setFeedbackControlState("saveAccnResultDiv","error")
