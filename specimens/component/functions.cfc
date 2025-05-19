@@ -20,7 +20,7 @@ limitations under the License.
 <cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? remove ? --->
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml --->
 
-<cffunction name="updateAccn" access="remote" returntype="query">
+<cffunction name="updateAccn" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="numeric" required="yes">
 	<cfargument name="accession_transaction_id" type="numeric" required="yes">
 	<cfset variables.collection_object_id = arguments.collection_object_id>
