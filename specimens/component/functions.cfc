@@ -187,7 +187,6 @@ limitations under the License.
 						coll_object_remark
 					WHERE
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
-					ORDER BY created_date DESC
 				</cfquery>
 				<!--- should be just one record per collection_object_id --->
 				<div class="container-fluid">
