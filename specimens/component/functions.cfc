@@ -161,6 +161,14 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
+<!--- saveRemarks function to update the remarks for a cataloged item.
+ @param collection_object_id the collection_object_id for the cataloged item for which to update the remarks
+ @param coll_object_remarks the remarks to update
+ @param disposition_remarks the disposition remarks to update
+ @param habitat the habitat to update
+ @param associated_species the associated species to update
+ @return a json structure with status=updated, or an http 500 response.
+--->
 <cffunction name="saveRemarks" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="coll_object_remarks" type="string" required="yes">
@@ -177,7 +185,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>	
-			<cfquery name="saveRemarksQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="saveRemarksQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="saveRemarksQuery_result">
 				update coll_object_remark
 				set
 					coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.coll_object_remarks#">,
@@ -187,7 +195,7 @@ limitations under the License.
 				where
 					COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 			</cfquery>
-			<cfif saveRemarksQuery.recordcount EQ 1>
+			<cfif saveRemarksQuery_result.recordcount EQ 1>
 				<cftransaction action="commit"/>
 				<cfset row = StructNew()>
 				<cfset row["status"] = "updated">
@@ -209,6 +217,11 @@ limitations under the License.
 	<cfreturn serializeJSON(data)>
 </cffunction>
 
+<!--- getEditRemarksHTML obtain a block of html to populate an remarks editor dialog for a specimen.
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the remarks
+	editor dialog.
+ @return html for editing remarks for the specified cataloged item.
+--->
 <cffunction name="getEditRemarksHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
