@@ -184,17 +184,46 @@ limitations under the License.
 
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
-		<cftry>	
-			<cfquery name="saveRemarksQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="saveRemarksQuery_result">
-				update coll_object_remark
-				set
-					coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.coll_object_remarks#">,
-					disposition_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.disposition_remarks#">,
-					habitat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.habitat#">,
-					associated_species = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.associated_species#">
-				where
-					COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+		<cftry>
+			<!--- check if a remarks record exists, if not create one --->
+			<cfquery name="checkRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					count(collection_object_id) as ct
+				FROM
+					coll_object_remark
+				WHERE
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 			</cfquery>
+			<cfif checkRemarks.ct EQ 0>
+				<!--- create a new remarks record --->
+				<cfquery name="saveRemarksQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="saveRemarksQuery_result">
+					INSERT INTO coll_object_remark (
+						collection_object_id,
+						coll_object_remarks,
+						disposition_remarks,
+						habitat,
+						associated_species
+					) VALUES (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.coll_object_remarks#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.disposition_remarks#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.habitat#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.associated_species#">
+					)
+				</cfquery>
+			<cfelse>
+				<!--- update the (sole) existing remarks record --->
+				<cfquery name="saveRemarksQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="saveRemarksQuery_result">
+					UPDATE coll_object_remark
+					SET
+						coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.coll_object_remarks#">,
+						disposition_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.disposition_remarks#">,
+						habitat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.habitat#">,
+						associated_species = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.associated_species#">
+					WHERE
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+				</cfquery>
+			</cfif>
 			<cfif saveRemarksQuery_result.recordcount EQ 1>
 				<cftransaction action="commit"/>
 				<cfset row = StructNew()>
