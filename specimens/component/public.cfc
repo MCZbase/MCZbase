@@ -2126,7 +2126,15 @@ limitations under the License.
 					WHERE
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
-				<!--- field coll_object_remark.habitat is labeled microhabitat --->
+				<!--- field coll_object_remark.habitat is labeled microhabitat, also lookup guid to display in dialog --->
+				<cfquery name="lookupGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT flat.guid
+					FROM
+						<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+					WHERE
+						flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<cfset guid = lookupGuid.guid>
 				<cfquery name="microhabitatlookup"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						habitat
