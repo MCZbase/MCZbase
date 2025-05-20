@@ -1479,7 +1479,7 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif  isdefined("accn_type") and len(#accn_type#) gt 0>
-					<cfif left(accn.accn_type,1) is "!">
+					<cfif left(#accn_type#,1) is "!">
 						AND upper(accn.accn_type) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(accn_type,len(accn_type)-1))#"> 
 					<cfelse>
 						AND accn.accn_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_type#">
