@@ -297,6 +297,8 @@ limitations under the License.
 			}
 			function reloadRemarks() { 
 				loadRemarks(#collection_object_id#,'remarksCardBody');
+				// also reload microhabitat 
+				loadLocality(#collection_object_id#,'localityCardBody');
 			}
 			function reloadMeta() { 
 				loadMeta(#collection_object_id#,'metaCardBody');
@@ -525,7 +527,7 @@ limitations under the License.
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Relationships</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditRemarksDialog(#collection_object_id#,'RemarksDialog','#guid#',reloadRemarks)">Remarks</button>
+						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)">Remarks</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Locality</button>
@@ -870,7 +872,7 @@ limitations under the License.
 					<!------------------------------------ coll object remarks -------------------------------->
 					<div class="accordion" id="accordionRemarks">
 						<div class="card mb-2 bg-light">
-							<div id="RemarksDialog"></div>
+							<div id="remarksDialog"></div>
 							<cfset blockRemarks = getRemarksHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingRemarks">
 								<h3 class="h5 my-0">
@@ -878,7 +880,7 @@ limitations under the License.
 										Cataloged Item Remarks
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'RemarksDialog','#guid#',reloadRemarks)">
+										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)">
 											Edit
 										</a>
 									</cfif>
