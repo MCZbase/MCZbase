@@ -302,16 +302,22 @@ limitations under the License.
 									class="form-control form-control-sm w-100 autogrow mb-1">#remarksText#</textarea>
 							</div>
 							<div class="col-12">
-								<label for="disposition_remarks">Disposition Remarks:</label>
-								<input type="text" name="disposition_remarks" id="disposition_remarks" value="#dispositionText#" class="data-entry-input">
+								<label for="disposition_remarks">Disposition Remarks (<span id='length_disposition_remarks'></span>):</label>
+								<textarea name="disposition_remarks" id="disposition_remarks" rows="2" 
+									onkeyup="countCharsLeft('disposition_remarks', 4000, 'length_disposition_remarks');"
+									class="form-control form-control-sm w-100 autogrow mb-1">#dispositionText#</textarea>
 							</div>
 							<div class="col-12">
-								<label for="habitat">Microhabitat:</label>
-								<input type="text" name="habitat" id="habitat" value="#habitatText#" class="data-entry-input">
+								<label for="habitat">Microhabitat (<span id='length_habitat'></span>):</label>
+								<textarea name="habitat" id="habitat" rows="2" 
+									onkeyup="countCharsLeft('habitat', 4000, 'length_habitat');"
+									class="form-control form-control-sm w-100 autogrow mb-1">#habitatText#</textarea>
 							</div>
 							<div class="col-12">
-								<label for="associated_species">Associated Species:</label>
-								<input type="text" name="associated_species" id="associated_species" value="#associatedText#" class="data-entry-input">
+								<label for="associated_species">Associated Species (<span id='length_associated_species'></span>):</label>
+								<textarea name="associated_species" id="associated_species" rows="2" 
+									onkeyup="countCharsLeft('associated_species', 4000, 'length_associated_species');"
+									class="form-control form-control-sm w-100 autogrow mb-1">#associatedText#</textarea>
 							</div>
 							<div class="col-12 col-md-3 mt-1">
 								<input type="button" value="Save" class="btn btn-xs btn-primary" id="saveRemarksButton" onClick="handleSaveRemarks();">

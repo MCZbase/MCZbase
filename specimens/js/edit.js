@@ -586,7 +586,7 @@ function reloadOtherIDDialog(collection_object_id) {
  */
 function openEditRemarksDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Remarks for " + guid;
-	createSpecimenEditDialog(dialogId,title,callback);
+	createSpecimenEditDialog(dialogId,title,callback,500);
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
