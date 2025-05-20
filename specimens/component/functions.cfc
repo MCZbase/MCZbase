@@ -2432,6 +2432,7 @@ limitations under the License.
 	<cfthread action="join" name="getOtherID2Thread" />
 	<cfreturn getOtherID2Thread.output>
 </cffunction>
+
 <cffunction name="getOtherIDTable" returntype="query" access="remote">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfset r=1>
