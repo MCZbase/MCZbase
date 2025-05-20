@@ -1689,6 +1689,17 @@ limitations under the License.
 								<cfelse>
 									<cfset variables.coll_object_type="#getCatalog.coll_object_type#">
 								</cfif>
+								<!--- check for mixed collection --->
+								<cfquery name="checkMixed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT count(identification_id) ct
+									FROM coll_object
+										join specimen_part on specimen_part.derived_from_cat_item = coll_object.collection_object_id
+										join identification on specimen_part.collection_object_id = identification.collection_object_id
+									WHERE coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatalog.collection_object_id#">
+								</cfquery>
+								<cfif checkMixed.ct gt 0>
+									<cfset variables.coll_object_type="#variabls.coll_object_type#: Mixed Collection">
+								</cfif>
 								#variables.coll_object_type# #getCatalog.cataloged_item_type_description# 
 								( occurrenceID: https://mczbase.mcz.harvard.edu/guid/#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num# )
 								<cfquery name="getComponents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
