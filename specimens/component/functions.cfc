@@ -317,7 +317,7 @@ limitations under the License.
 									onClick="handleSaveRemarks();">
 							</div>
 							<div class="col-12 col-md-9">
-								<output id="saveRemarksStatus"></output>
+								<output id="saveRemarksStatus" class="pt-1"></output>
 							</div>
 						</div>
 					</form>
