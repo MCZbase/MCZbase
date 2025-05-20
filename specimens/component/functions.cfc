@@ -296,8 +296,10 @@ limitations under the License.
 								<cfset associatedText = getRemarks.associated_species>
 							</cfif>
 							<div class="col-12">
-								<label for="coll_object_remarks">Remarks:</label>
-								<input type="text" name="coll_object_remarks" id="coll_object_remarks" value="#remarksText#" class="data-entry-input">
+								<label for="coll_object_remarks">Remarks (span id="length_coll_object_remarks"):</label>
+								<textarea name="coll_object_remarks" id="coll_object_remarks" rows="2" 
+									onkeyup="countCharsLeft('coll_object_remarks', 4000, 'length_coll_object_remarks');"
+									class="form-control form-control-sm w-100 autogrow mb-1">#remarksText#</textarea>
 							</div>
 							<div class="col-12">
 								<label for="disposition_remarks">Disposition Remarks:</label>
