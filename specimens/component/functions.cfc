@@ -1714,24 +1714,19 @@ limitations under the License.
 								#variables.coll_object_type# #getCatalog.cataloged_item_type_description# 
 								( occurrenceID: https://mczbase.mcz.harvard.edu/guid/#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num# )
 								<cfquery name="getComponents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT count(*) ct, coll_object_type, part_name,
-										specimen_part.collection_object_id part_collection_object_id
+									SELECT count(specimen_part.collection_object_id) ct, coll_object_type, part_name, count(identification.collection_object_id) identifications
 									FROM 
 										specimen_part 
 										join coll_object on coll_object.collection_object_id=specimen_part.collection_object_id
+										left join identification on coll_object.collection_object_id=identification.collection_object_id
 									WHERE derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatalog.collection_object_id#">
 									GROUP BY coll_object_type, part_name
 								</cfquery>
 								<ul>
 								<cfloop query="getComponents">
-									<cfquery name="checkIdentifiable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT count(*) ct
-										FROM identifications
-										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getComponents.part_collection_object_id#">
-									</cfquery>
 									<cfset variables.occurrences="">
 									<cfset variables.subtype="">
-									<cfif checkIdentifiable.ct gt 0>
+									<cfif getComponents.identifications gt 0>
 										<cfset variables.subtype=": Different Organism">
 										<!--- TODO: show occurrence ID value(s) for the identifiable object(s) --->
 										<cfset variables.occurrences="(occurrenceID: **TODO** )">
