@@ -1692,7 +1692,8 @@ limitations under the License.
 								#variables.coll_object_type# #getCatalog.cataloged_item_type_description# 
 								( occurrenceID: https://mczbase.mcz.harvard.edu/guid/#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num# )
 								<cfquery name="getComponents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT count(*) ct, coll_object_type, part_name
+									SELECT count(*) ct, coll_object_type, part_name,
+										specimen_part.collection_object_id part_collection_object_id
 									FROM 
 										specimen_part 
 										join coll_object on coll_object.collection_object_id=specimen_part.collection_object_id
@@ -1701,11 +1702,22 @@ limitations under the License.
 								</cfquery>
 								<ul>
 								<cfloop query="getComponents">
+									<cfquery name="checkIdentifiable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT count(*) ct
+										FROM identifications
+										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getComponents.part_collection_object_id#">
+									</cfquery>
 									<cfset variables.occurrences="">
+									<cfset variables.subtype="">
+									<cfif checkIdentifiable.ct gt 0>
+										<cfset variables.subtype=": Different Organism">
+										<!--- TODO: show occurrence ID value(s) for the identifiable object(s) --->
+										<cfset variables.occurrences="(occurrenceID: **TODO** )">
+									</cfif>
 									<cfif getComponents.coll_object_type is "SP">
-										<cfset variables.coll_object_type="Specimen Part">
+										<cfset variables.coll_object_type="Specimen Part#variables.subtype#">
 									<cfelseif getComponents.coll_object_type is "SS">
-										<cfset variables.coll_object_type="Subsample">
+										<cfset variables.coll_object_type="Subsample#variables.subtype#">
 									<cfelseif getComponents.coll_object_type is "IO"><!--- identifiable object thus a new occurrence --->
 										<cfset variables.coll_object_type="Different Organism">
 										<!--- TODO: show occurrence ID value(s) for the identifiable object(s) --->
