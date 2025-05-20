@@ -311,12 +311,10 @@ limitations under the License.
 								<label for="associated_species">Associated Species:</label>
 								<input type="text" name="associated_species" id="associated_species" value="#associatedText#" class="data-entry-input">
 							</div>
-							<div class="col-12 col-md-3">
-								<label for="addRemarksButton" class="data-entry-label">&nbsp;</label>
-								<input type="button" value="Save" class="btn btn-xs btn-primary" id="saveRemarksButton"
-									onClick="handleSaveRemarks();">
+							<div class="col-12 col-md-3 mt-1">
+								<input type="button" value="Save" class="btn btn-xs btn-primary" id="saveRemarksButton" onClick="handleSaveRemarks();">
 							</div>
-							<div class="col-12 col-md-9">
+							<div class="col-12 col-md-9 mt-md-1">
 								<output id="saveRemarksStatus" class="pt-1"></output>
 							</div>
 						</div>
