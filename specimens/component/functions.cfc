@@ -322,6 +322,11 @@ limitations under the License.
 						</div>
 					</form>
 					<script>
+						// Make all textareas with autogrow class be bound to the autogrow function on key up
+						$(document).ready(function() { 
+							$("textarea.autogrow").keyup(autogrow);  
+							$('textarea.autogrow').keyup();
+						});
 						function handleSaveRemarks() {
 							var collection_object_id = $("##collection_object_id").val();
 							var coll_object_remarks = $("##coll_object_remarks").val();
