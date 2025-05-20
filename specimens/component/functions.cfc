@@ -1675,6 +1675,15 @@ limitations under the License.
 						ORDER BY
 							trans_agent_role asc
 					</cfquery>
+					<cfquery name="getDispositionRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT 
+							disposition_remarks
+						FROM
+							coll_object_remark
+						WHERE	
+							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						AND disposition_remarks is not null
+					</cfquery>
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12 float-left mb-4 px=0 border">
@@ -1691,6 +1700,11 @@ limitations under the License.
 									<cfloop query="getAccnAgents">
 										<li>#getAccnAgents.agent_role#: #getAccnAgents.agent_name#</li>
 									</cfloop>
+									<cfif getDispositionRemarks.recordcount gt 0>
+										<cfloop query="getDispositionRemarks">
+											<li>Disposition Remarks: #getDispositionRemarks.disposition_remarks#</li>
+										</cfloop>
+									</cfif>
 								</ul>
 							</div>
 							<div class="col-12 float-left mb-4 px=0 border">
