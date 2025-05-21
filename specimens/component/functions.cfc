@@ -3757,229 +3757,8 @@ limitations under the License.
 <cffunction name="getEditAttributesHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditAttributesThread"> <cfoutput>
-			<cftry>
-				<cfquery name="attribute1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT
-					attributes.attribute_type,
-					attributes.attribute_value,
-					attributes.attribute_units,
-					attributes.attribute_remark,
-					attributes.determination_method,
-					attributes.determined_date,
-					attribute_determiner.agent_name attributeDeterminer
-				FROM
-					attributes,
-					preferred_agent_name attribute_determiner
-				WHERE
-					attributes.determined_by_agent_id = attribute_determiner.agent_id and
-					attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-			</cfquery>
-				<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT 
-					distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
-				SELECT
-					rel.biol_indiv_relationship as biol_indiv_relationship,
-					collection as related_collection,
-					rel.related_coll_object_id as related_coll_object_id,
-					rcat.cat_num as related_cat_num,
-					rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
-				FROM
-					biol_indiv_relations rel
-					left join cataloged_item rcat
-						 on rel.related_coll_object_id = rcat.collection_object_id
-					left join collection
-						 on collection.collection_id = rcat.collection_id
-					left join ctbiol_relations ctrel
-						on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-				WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
-					and ctrel.rel_type <> 'functional'
-				UNION
-				SELECT
-					 ctrel.inverse_relation as biol_indiv_relationship,
-					 collection as related_collection,
-					 irel.collection_object_id as related_coll_object_id,
-					 rcat.cat_num as related_cat_num,
-					irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
-				FROM
-					 biol_indiv_relations irel
-					 left join ctbiol_relations ctrel
-						on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-					 left join cataloged_item rcat
-						on irel.collection_object_id = rcat.collection_object_id
-					 left join collection
-					 on collection.collection_id = rcat.collection_id
-				WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					 and ctrel.rel_type <> 'functional'
-				)
-			</cfquery>
-				<cfquery name="sex" dbtype="query">
-				select * from attribute1 where attribute_type = 'sex'
-			</cfquery>
-				<cfif len(attribute1.attribute_value) gt 0>
-					<form class="row mx-0">
-						<div class="bg-light border rounded p-2">
-							<h1 class="h3">Edit Existing Attributes</h1>
-							<ul class="col-12 px-0 pb-3">
-								<cfloop query="sex">
-									<li class="list-group-item float-left col-12 col-md-2 px-1">
-										<label class="data-entry-label">Sex:</label>
-										<input class="data-entry-input" value="#attribute_value#">
-									</li>
-									<cfif len(attributeDeterminer) gt 0>
-										<li class="list-group-item float-left col-12 col-md-3 px-1">
-											<label class="data-entry-label">Determiner:</label>
-											<input class="data-entry-input" value="#attributeDeterminer#">
-										</li>
-										<cfif len(determined_date) gt 0>
-											<li class="list-group-item float-left col-12 col-md-2 px-1">
-												<label class="data-entry-label">Date:</label>
-												<input class="data-entry-input" value="#dateformat(determined_date,'yyyy-mm-dd')#">
-											</li>
-										</cfif>
-										<cfif len(determination_method) gt 0>
-											<li class="list-group-item float-left col-12 col-md-2 px-1">
-												<label class="data-entry-label">Method:</label>
-												<input class="data-entry-input" value="#determination_method#">
-											</li>
-										</cfif>
-									</cfif>
-									<cfif len(attribute_remark) gt 0>
-										<li class="list-group-item float-left col-12 col-md-3 px-1">
-											<label class="data-entry-label">Remark:</label>
-											<input class="data-entry-input" value="#attribute_remark#">
-										</li>
-									</cfif>
-								</cfloop>
-							</ul>
-							<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
-						</cfquery>
-							<cfif #code.collection_cde# is "Mamm">
-								<cfquery name="total_length" dbtype="query">
-							select * from attribute1 where attribute_type = 'total length'
-						</cfquery>
-								<cfquery name="tail_length" dbtype="query">
-							select * from attribute1 where attribute_type = 'tail length'
-						</cfquery>
-								<cfquery name="hf" dbtype="query">
-							select * from attribute1 where attribute_type = 'hind foot with claw'
-						</cfquery>
-								<cfquery name="efn" dbtype="query">
-							select * from attribute1 where attribute_type = 'ear from notch'
-						</cfquery>
-								<cfquery name="weight" dbtype="query">
-							select * from attribute1 where attribute_type = 'weight'
-						</cfquery>
-								<cfif
-							len(total_length.attribute_units) gt 0 OR
-							len(tail_length.attribute_units) gt 0 OR
-							len(hf.attribute_units) gt 0 OR
-							len(efn.attribute_units) gt 0 OR
-							len(weight.attribute_units) gt 0>
-									<!---semi-standard measurements ---> 
-									<span class="h5 pt-1 px-2 mb-0">Standard Measurements</span>
-									<table class="table table-responsive bg-white mt-2 mb-1 mx-0" aria-label="Standard Measurements">
-										<thead>
-											<tr>
-												<th>total length</th>
-												<th>tail length</th>
-												<th>hind foot</th>
-												<th>efn</th>
-												<th>weight</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr class="col-12 px-0 pt-2">
-												<td><input type="text" class="col-8 float-left px-1" value="#total_length.attribute_value#">
-													<input type="text" class="col-4 px-1 float-left" value="#total_length.attribute_units#"></td>
-												<td><input type="text" class="col-8 float-left px-1" value="#tail_length.attribute_value#">
-													<input type="text" class="col-4 px-1 float-left" value="#tail_length.attribute_units#"></td>
-												<td><input type="text" class="col-8 px-1 float-left" value="#hf.attribute_value#">
-													<input type="text" class="col-4 px-1 float-left" value="#hf.attribute_units#"></td>
-												<td><input type="text" class="col-8 px-1 float-left" value="#efn.attribute_value#">
-													<input type="text" class="col-4 px-1 float-left" value="#efn.attribute_units#"></td>
-												<td><input type="text" class="col-8 px-1 float-left" value="#weight.attribute_value#">
-													<input type="text" class="col-4 px-1 float-left" value="#weight.attribute_units#"></td>
-											</tr>
-										</tbody>
-									</table>
-									<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
-										<cfset determination = "#attributeDeterminer#">
-										<cfif len(determined_date) gt 0>
-											<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
-										</cfif>
-										<cfif len(determination_method) gt 0>
-											<cfset determination = '#determination#, #determination_method#'>
-										</cfif>
-#determination#
-									</cfif>
-								</cfif>
-								<cfquery name="theRest" dbtype="query">
-						select * from attribute1 
-						where attribute_type NOT IN (
-						'weight','sex','total length','tail length','hind foot with claw','ear from notch'
-						)
-					</cfquery>
-								<cfelse>
-								<!--- not Mamm --->
-								
-								<cfquery name="theRest" dbtype="query">
-						select * from attribute1 where attribute_type NOT IN ('sex')
-					</cfquery>
-							</cfif>
-							<cfloop query="theRest">
-								<div class="row mx-0">
-									<ul class="col-12 mb-0 px-0 mt-2 pt-1 border-top">
-										<li class="list-group-item float-left col-12 col-md-2 px-1 mb-1">
-											<label for="att_name" class="data-entry-label">Attribute Name</label>
-											<input type="text" class="data-entry-input" id="att_name" value="#attribute_type#">
-										</li>
-										<li class="list-group-item float-left col-12 col-md-2 px-1 mb-1">
-											<label for="att_value" class="data-entry-label">Attribute Value</label>
-											<input type="text" class="data-entry-input" id="att_value" value="#attribute_value#">
-										</li>
-										<cfif len(attribute_units) gt 0>
-											<li class="list-group-item float-left col-12 col-md-1 px-1 mb-1">
-												<label for="att_units" class="data-entry-label">Units</label>
-												<input type="text" class="data-entry-input" id="att_units" value="#attribute_units#">
-											</li>
-										</cfif>
-										<cfif len(attributeDeterminer) gt 0>
-											<li class="list-group-item float-left col-12 col-md-2 px-1 mb-1">
-												<label class="data-entry-label">Determiner</label>
-												<input type="text" class="data-entry-input" id="att_det" value="#attributeDeterminer#">
-											</li>
-											<cfif len(determined_date) gt 0>
-												<li class="list-group-item float-left col-12 col-md-2 px-1 mb-1">
-													<label class="data-entry-label">Determined Date</label>
-													<input type="text" class="data-entry-input" id="att_det" value="#dateformat(determined_date,"yyyy-mm-dd")#">
-												</li>
-											</cfif>
-											<cfif len(determination_method) gt 0>
-												<li class="list-group-item float-left col-12 col-md-2 px-1 mb-1">
-													<label class="data-entry-label">Determined Method</label>
-													<input type="text" class="data-entry-input" id="att_meth" value="#determination_method#">
-												</li>
-											</cfif>
-										</cfif>
-									</ul>
-								</div>
-								<cfif len(attribute_remark) gt 0>
-									<div class="mx-0 row">
-										<ul class="col-12 mb-0 px-0 mt-2 mb-1">
-											<li class="list-group-item float-left col-12 col-md-12 px-1 mb-1">
-												<label for="att_rem" class="data-entry-label">Remarks</label>
-												<input type="text" class="data-entry-input" id="att_rem" value="#attribute_remark#">
-											</li>
-										</ul>
-									</div>
-								</cfif>
-							</cfloop>
-						</div>
-						<input type="button" value="Save" aria-label="Save Changes" class="mt-2 btn mx-1 btn-xs btn-primary">
-					</form>
-					<cfelse>
-				</cfif>
+		<cftry>
+				<!--- add new attribute --->
 				<div class="col-12 mt-4 px-1">
 					<div id="accordionAttribute">
 						<div class="card">
@@ -4027,27 +3806,104 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-				<cfcatch>
-					<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
-						<cfelse>
-						<cfset queryError = ''>
-					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-					<cfcontent reset="yes">
-					<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
+
+			<!--- edit existing attributes --->
+			<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT
+					attributes.attribute_type,
+					attributes.attribute_value,
+					attributes.attribute_units,
+					attributes.attribute_remark,
+					attributes.determination_method,
+					attributes.determined_date,
+					attribute_determiner.agent_name attributeDeterminer
+				FROM
+					attributes,
+					preferred_agent_name attribute_determiner
+				WHERE
+					attributes.determined_by_agent_id = attribute_determiner.agent_id and
+					attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+			</cfquery>
+					<div class="row mx-0">
+						<div class="bg-light border rounded p-2">
+							<h1 class="h3">Edit Existing Attributes</h1>
+							<ul class="col-12 px-0 pb-3">
+							<cfset i = 0>
+							<cfloop query="getAttributes">
+								<cfset i = i + 1>
+								<form name="editAttribute#i#">
+									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+									<input type="hidden" name="method" value="updateAttribute">
+									<div class="row mx-0 border">
+										<div class="col-12 col-md-2">
+											<label for="att_name#i#" class="data-entry-label">Attribute Name</label>
+											<input type="text" class="data-entry-input" id="att_name#i#" name="att_name" value="#attribute_type#">
+										</div>
+										<div class="col-12 col-md-2">
+											<label for="att_value" class="data-entry-label">Attribute Value</label>
+											<input type="text" class="data-entry-input" id="att_value" value="#attribute_value#">
+										</div>
+										<div class="col-12 col-md-2">
+											<label for="att_units" class="data-entry-label">Units</label>
+											<input type="text" class="data-entry-input" id="att_units" value="#attribute_units#">
+										</div>
+										<div class="col-12 col-md-2">
+											<label class="data-entry-label">Determiner</label>
+											<input type="text" class="data-entry-input" id="att_det" value="#attributeDeterminer#">
+										</div>
+										<div class="col-12 col-md-2">
+											<label class="data-entry-label">Determined Date</label>
+											<input type="text" class="data-entry-input" id="att_det" value="#dateformat(determined_date,"yyyy-mm-dd")#">
+										</div>
+										<div class="col-12 col-md-2">
+											<label class="data-entry-label">Determined Method</label>
+											<input type="text" class="data-entry-input" id="att_meth" value="#determination_method#">
+										</div>
+										<div class="col-12 col-md-9">
+											<label for="att_rem" class="data-entry-label">Remarks</label>
+											<input type="text" class="data-entry-input" id="att_rem" value="#attribute_remark#">
+										</div>
+										<div class="col-12 col-md-3">
+											<button id="att_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Attribute">Save</button>
+											<button id="att_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Attribute">Delete</button>
+											<output id="att_output#i#"></output>
+										</div>
+									</div>
+								</form>
+							</cfloop>
+							<script>
+								// Add event listeners to the buttons
+								document.querySelectorAll('button[id^="att_submit"]').forEach(function(button) {
+									button.addEventListener('click', function(event) {
+										event.preventDefault();
+										var form = button.closest('form');
+										var formData = new FormData(form);
+										$.ajax({
+											url: '/specimens/component/functions.cfc',
+											type: 'POST',
+											data: formData,
+											success: function(response) {
+												document.getElementById('att_output' + button.id.slice(-1)).innerText = response.message;
+											},
+											error: function(xhr, status, error) {
+												document.getElementById('att_output' + button.id.slice(-1)).innerText = 'Error: ' + error;
+											}
+										});
+									});
+								});
+							</script>
 						</div>
-					</div>
-				</cfcatch>
+						<input type="button" value="Save" aria-label="Save Changes" class="mt-2 btn mx-1 btn-xs btn-primary">
+					<cfelse>
+				</cfif>
+			<cfcatch>
+				<cfoutput>
+					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
+				</cfoutput>
+			</cfcatch>
 			</cftry>
-		</cfoutput> </cfthread>
+		</cfoutput> 
+	</cfthread>
 	<cfthread action="join" name="getEditAttributesThread" />
 	<cfreturn getEditAttributesThread.output>
 </cffunction>
@@ -5158,8 +5014,8 @@ function showLLFormat(orig_units) {
 <cffunction name="getEditRelationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditRelationsThread"> <cfoutput>
-			<cftry>
-				<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		<cftry>
+			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT 
 				distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
 			SELECT
