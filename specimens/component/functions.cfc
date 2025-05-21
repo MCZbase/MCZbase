@@ -1883,7 +1883,7 @@ limitations under the License.
 														},
 														error: function(jqXHR,textStatus,error){
 															setFeedbackControlState("saveCatNumResultDiv","error")
-															handleFail(jqXHR,textStatus,error,"saving changes to Cat Num Other IDs");
+															handleFail(jqXHR,textStatus,error,"saving changes to Cat Num");
 														}
 													});
 												};
@@ -1969,10 +1969,10 @@ limitations under the License.
 				</cfquery>
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-12 float-left">
+						<div class="col-12">
 
 							<!--- Add form --->
-							<div class="add-form float-left">
+							<div class="add-form">
 								<div class="add-form-header pt-1 px-2 col-12 float-left">
 									<h2 class="h3 my-0 px-1 pb-1">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								</div>
