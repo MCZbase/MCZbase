@@ -3790,7 +3790,7 @@ limitations under the License.
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12">
-								<div class="add=form">
+								<div class="add-form">
 									<div class="add-form-header pt-1 px-2" id="headingAttribute">
 										<h2 class="h3 my-0 px-1 bp-1">Add New Attribute to #guid#</h2>
 									</div>
@@ -3901,7 +3901,7 @@ limitations under the License.
 										attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
 								<div class="row mx-0">
-									<div class="bg-light border rounded p-2 col-12 row">
+									<div class="bg-light p-2 col-12 row">
 										<h1 class="h3">Edit Existing Attributes</h1>
 										<div class="col-12 px-0 pb-3">
 											<cfif getAttributes.recordCount EQ 0>
