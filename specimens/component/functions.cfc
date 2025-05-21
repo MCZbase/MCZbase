@@ -3756,9 +3756,35 @@ limitations under the License.
 
 <cffunction name="getEditAttributesHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfset variables.collection_object_id = arguments.collection_object_id>
 	<cfthread name="getEditAttributesThread"> 
 		<cfoutput>
 			<cftry>
+				<cfquery name="getCatItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						cataloged_item.collection_object_id,
+						cataloged_item.cat_num,
+						cataloged_item.collection_cde,
+						collection.institution_acronym
+					FROM
+						cataloged_item 
+						join collection on cataloged_item.collection_id = collection.collection_id
+					WHERE
+						cataloged_item.collection_object_id = <cfqueryparam value="#variables.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
+				<cfset guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num#">
+				<!--- obtain a list of attribute types for the collection this specimen is in --->
+				<cfquery name="getAttributeTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						attribute_type, description
+					FROM
+						cfattribute_type
+					WHERE 
+						collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
+					ORDER BY
+						attribute_type
+				</cfquery>
+
 				<!--- add new attribute --->
 				<div class="col-12 mt-4 px-1">
 					<div class="container-fluid">
@@ -3766,7 +3792,7 @@ limitations under the License.
 							<div class="col-12">
 								<div class="add=form">
 									<div class="add-form-header pt-1 px-2" id="headingAttribute">
-										<h2 class="h3 my-0 px-1 bp-1">Add New Attribute</h2>
+										<h2 class="h3 my-0 px-1 bp-1">Add New Attribute to #guid#</h2>
 									</div>
 									<div class="card-body">
 										<form name="newAttribute">
@@ -3774,41 +3800,90 @@ limitations under the License.
 												<ul class="col-12 px-0 mt-2 mb-1">
 													<li class="list-group-item float-left col-12 col-md-4 px-1">
 														<label for="new_att_name" class="data-entry-label">Name</label>
-														<input type="text" class="data-entry-input" id="new_att_name" value="">
+														<select name="new_att_name" id="new_att_name" class="data-entry-select">
+															<cfloop query="getAttributeTypes">
+																<option value="#attribute_type#">#attribute_type#</option>
+															</cfloop>
+														</select>
 													</li>
 													<li class="list-group-item float-left col-12 col-md-4 px-1">
 														<label for="new_att_value" class="data-entry-label">Value</label>
-														<input type="text" class="data-entry-input" id="new_att_value" value="">
+														<input type="text" class="data-entry-input" id="new_att_value" name="new_att_value" value="">
 													</li>
 													<li class="list-group-item float-left col-12 col-md-4 px-1">
-														<label for="new_att_value" class="data-entry-label">Units</label>
-														<input type="text" class="data-entry-input" id="new_att_value" value="">
+														<label for="new_att_units" class="data-entry-label">Units</label>
+														<input type="text" class="data-entry-input" id="new_att_units" name="new_att_units" value="">
 													</li>
 													<li class="list-group-item float-left col-12 col-md-4 px-1">
 														<label for="new_att_determiner" class="data-entry-label">Determiner</label>
-														<input type="text" class="data-entry-input" id="new_att_determiner" value="">
+														<input type="text" class="data-entry-input" id="new_att_determiner" name="new_att_determiner" value="">
 													</li>
 													<li class="list-group-item float-left col-12 col-md-4 px-1">
 														<label for="new_att_det_date" class="data-entry-label">Determined Date</label>
-														<input type="text" class="data-entry-input" id="new_att_det_date" value="">
+														<input type="text" class="data-entry-input" id="new_att_det_date" name="new_att_det_date" value="">
 													</li>
 													<li class="list-group-item float-left col-12 col-md-4 px-1">
 														<label for="new_att_det_method" class="data-entry-label">Determined Method</label>
-														<input type="text" class="data-entry-input" id="new_att_det_method" value="">
+														<input type="text" class="data-entry-input" id="new_att_det_method" name="new_att_det_method" value="">
 													</li>
 													<li class="list-group-item float-left col-12 col-md-12 px-1">
 														<label for="new_att_det_remarks" class="data-entry-label">Remarks</label>
-														<input type="text" class="data-entry-input" id="new_att_det_remarks" value="">
+														<input type="text" class="data-entry-input" id="new_att_det_remarks" name="new_att_det_remarks" value="">
 													</li>
 												</ul>
 												<div class="col-12 col-md-12 px-1 mt-2">
-													<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Attribute</button>
+													<button id="newAttribute_submit" value="Create" class="btn btn-xs btn-primary" title="Create Attribute">Create Attribute</button>
+													<output id="newAttribute_output"></output>
 												</div>
 											</div>
 										</form>
 									</div>
 								</div>
-
+								<script>
+									function handleTypeChange() {
+										var selectedType = document.getElementById('new_att_name').value;
+										// lookup value code table and units code table from ctattribute_code_tables
+										// set select lists for value and units accordingly, or set as text input
+										$.ajax({
+											url: '/specimens/component/functions.cfc',
+											type: 'POST',
+											data: {
+												collection_object_id: '#collection_object_id#',
+												method: 'getAttributeTypeDetails',
+												attribute_type: selectedType
+											},
+											success: function(response) {
+												// Populate the value and units fields based on the response
+												document.getElementById('new_att_value').value = response.value;
+												document.getElementById('new_att_units').value = response.units;
+											},
+											error: function(xhr, status, error) {
+												handleFail(xhr,status,error,"handling change of attribute type.");
+											}
+										});
+									}
+									// Add event listener to the button
+									document.getElementById('newID_submit').addEventListener('click', function(event) {
+										event.preventDefault();
+										setFeedbackControlState("newAttribute_output","saving")
+										var form = document.querySelector('form[name="newAttribute"]');
+										var formData = new FormData(form);
+										formData.append('collection_object_id', '#collection_object_id#');
+										formData.append('method', 'addAttribute');
+										$.ajax({
+											url: '/specimens/component/functions.cfc',
+											type: 'POST',
+											data: formData,
+											success: function(response) {
+												setFeedbackControlState("newAttribute_output","saved")
+											},
+											error: function(xhr, status, error) {
+												setFeedbackControlState("newAttribute_output","error")
+												handleFail(xhr,status,error,"saving attribute.");
+											}
+										});
+									});
+								</script>
 								<!--- edit existing attributes --->
 								<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT
@@ -3841,7 +3916,15 @@ limitations under the License.
 													<div class="row mx-0 border">
 														<div class="col-12 col-md-2">
 															<label for="att_name#i#" class="data-entry-label">Name</label>
-															<input type="text" class="data-entry-input" id="att_name#i#" name="att_name" value="#attribute_type#">
+															<select class="data-entry-select" id="att_name#i#" name="att_name">
+															<cfloop query="getAttributeTypes">
+																<cfif getAttributeTypes.attribute_type EQ getAttributes.attribute_type>
+																	<cfset selected = "selected">
+																<cfelse>
+																	<cfset selected = "">
+																</cfif>
+																<option value="#getAttributeTypes.attribute_type#" #selected#>#getAttributeTypes.attribute_type#</option>
+															</cfloop>
 														</div>
 														<div class="col-12 col-md-2">
 															<label for="att_value" class="data-entry-label">Value</label>
@@ -3890,7 +3973,7 @@ limitations under the License.
 																document.getElementById('att_output' + button.id.slice(-1)).innerText = response.message;
 															},
 															error: function(xhr, status, error) {
-																document.getElementById('att_output' + button.id.slice(-1)).innerText = 'Error: ' + error;
+																handleFail(xhr,status,error,"saving change to attribute.");
 															}
 														});
 													});
