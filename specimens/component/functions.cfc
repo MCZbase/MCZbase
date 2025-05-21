@@ -3756,142 +3756,152 @@ limitations under the License.
 
 <cffunction name="getEditAttributesHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getEditAttributesThread"> <cfoutput>
-		<cftry>
-			<!--- add new attribute --->
-			<div class="col-12 mt-4 px-1">
-				<div id="accordionAttribute">
-					<div class="card">
-						<div class="card-header pt-1" id="headingAttribute">
-							<h1 class="my-0 px-1 pb-1">
-								<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseAttribute" aria-expanded="true" aria-controls="collapseAttribute"> <span class="h4">Add New Attribute</span> </button>
-							</h1>
-						</div>
-						<div id="collapseAttribute" class="collapse" aria-labelledby="headingAttribute" data-parent="##accordionAttribute">
-							<div class="card-body mt-2">
-								<form name="newAttribute">
-									<div class="row mx-0 pb-2">
-									<ul class="col-12 px-0 mt-2 mb-1">
-										<li class="list-group-item float-left col-12 col-md-3 px-1">
-											<label for="new_att_name" class="data-entry-label">Attribute Name</label>
-											<input type="text" class="data-entry-input" id="new_att_name" value="">
-										</li>
-										<li class="list-group-item float-left col-12 col-md-3 px-1">
-											<label for="new_att_value" class="data-entry-label">Attribute Value</label>
-											<input type="text" class="data-entry-input" id="new_att_value" value="">
-										</li>
-										<li class="list-group-item float-left col-12 col-md-2 px-1">
-											<label for="new_att_determiner" class="data-entry-label">Determiner</label>
-											<input type="text" class="data-entry-input" id="new_att_determiner" value="">
-										</li>
-										<li class="list-group-item float-left col-12 col-md-2 px-1">
-											<label for="new_att_det_date" class="data-entry-label">Determined Date</label>
-											<input type="text" class="data-entry-input" id="new_att_det_date" value="">
-										</li>
-										<li class="list-group-item float-left col-12 col-md-2 px-1">
-											<label for="new_att_det_method" class="data-entry-label">Determined Method</label>
-											<input type="text" class="data-entry-input" id="new_att_det_method" value="">
-										</li>
-										<li class="list-group-item float-left col-12 col-md-12 px-1">
-											<label for="new_att_det_remarks" class="data-entry-label">Remarks</label>
-											<input type="text" class="data-entry-input" id="new_att_det_remarks" value="">
-										</li>
-									</ul>
-									<div class="col-12 col-md-12 px-1 mt-2">
-										<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Attribute</button>
+	<cfthread name="getEditAttributesThread"> 
+		<cfoutput>
+			<cftry>
+				<!--- add new attribute --->
+				<div class="col-12 mt-4 px-1">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12">
+								<div class="add=form">
+									<div class="add-form-header pt-1 px-2" id="headingAttribute">
+										<h2 class="h3 my-0 px-1 bp-1">Add New Attribute</h2>
 									</div>
-							</form>
+									<div class="card-body">
+										<form name="newAttribute">
+											<div class="row mx-0 pb-2">
+												<ul class="col-12 px-0 mt-2 mb-1">
+													<li class="list-group-item float-left col-12 col-md-4 px-1">
+														<label for="new_att_name" class="data-entry-label">Name</label>
+														<input type="text" class="data-entry-input" id="new_att_name" value="">
+													</li>
+													<li class="list-group-item float-left col-12 col-md-4 px-1">
+														<label for="new_att_value" class="data-entry-label">Value</label>
+														<input type="text" class="data-entry-input" id="new_att_value" value="">
+													</li>
+													<li class="list-group-item float-left col-12 col-md-4 px-1">
+														<label for="new_att_value" class="data-entry-label">Units</label>
+														<input type="text" class="data-entry-input" id="new_att_value" value="">
+													</li>
+													<li class="list-group-item float-left col-12 col-md-4 px-1">
+														<label for="new_att_determiner" class="data-entry-label">Determiner</label>
+														<input type="text" class="data-entry-input" id="new_att_determiner" value="">
+													</li>
+													<li class="list-group-item float-left col-12 col-md-4 px-1">
+														<label for="new_att_det_date" class="data-entry-label">Determined Date</label>
+														<input type="text" class="data-entry-input" id="new_att_det_date" value="">
+													</li>
+													<li class="list-group-item float-left col-12 col-md-4 px-1">
+														<label for="new_att_det_method" class="data-entry-label">Determined Method</label>
+														<input type="text" class="data-entry-input" id="new_att_det_method" value="">
+													</li>
+													<li class="list-group-item float-left col-12 col-md-12 px-1">
+														<label for="new_att_det_remarks" class="data-entry-label">Remarks</label>
+														<input type="text" class="data-entry-input" id="new_att_det_remarks" value="">
+													</li>
+												</ul>
+												<div class="col-12 col-md-12 px-1 mt-2">
+													<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Attribute</button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+
+								<!--- edit existing attributes --->
+								<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT
+										attributes.attribute_type,
+										attributes.attribute_value,
+										attributes.attribute_units,
+										attributes.attribute_remark,
+										attributes.determination_method,
+										attributes.determined_date,
+										attribute_determiner.agent_name attributeDeterminer
+									FROM
+										attributes
+										LEFT JOIN preferred_agent_name attribute_determiner on attributes.determined_by_agent_id = attribute_determiner.agent_id 
+									WHERE
+										attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								</cfquery>
+								<div class="row mx-0">
+									<div class="bg-light border rounded p-2 col-12 row">
+										<h1 class="h3">Edit Existing Attributes</h1>
+										<div class="col-12 px-0 pb-3">
+											<cfif getAttributes.recordCount EQ 0>
+												<li>No attributes found for this specimen.</li>
+											</cfif>
+											<cfset i = 0>
+											<cfloop query="getAttributes">
+												<cfset i = i + 1>
+												<form name="editAttribute#i#">
+													<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+													<input type="hidden" name="method" value="updateAttribute">
+													<div class="row mx-0 border">
+														<div class="col-12 col-md-2">
+															<label for="att_name#i#" class="data-entry-label">Name</label>
+															<input type="text" class="data-entry-input" id="att_name#i#" name="att_name" value="#attribute_type#">
+														</div>
+														<div class="col-12 col-md-2">
+															<label for="att_value" class="data-entry-label">Value</label>
+															<input type="text" class="data-entry-input" id="att_value#i#" name="att_value" value="#attribute_value#">
+														</div>
+														<div class="col-12 col-md-2">
+															<label for="att_units" class="data-entry-label">Units</label>
+															<input type="text" class="data-entry-input" id="att_units#i#" name="att_units" value="#attribute_units#">
+														</div>
+														<div class="col-12 col-md-2">
+															<label class="data-entry-label">Determiner</label>
+															<input type="text" class="data-entry-input" id="att_det#i#" name="att_det" value="#attributeDeterminer#">
+														</div>
+														<div class="col-12 col-md-2">
+															<label class="data-entry-label">Determined Date</label>
+															<input type="text" class="data-entry-input" id="att_date#i#" name="att_date" value="#dateformat(determined_date,"yyyy-mm-dd")#">
+														</div>
+														<div class="col-12 col-md-2">
+															<label class="data-entry-label" for="att_method#i#">Determined Method</label>
+															<input type="text" class="data-entry-input" id="att_method#i#" name="att_method" value="#determination_method#">
+														</div>
+														<div class="col-12 col-md-9">
+															<label for="att_rem" class="data-entry-label">Remarks</label>
+															<input type="text" class="data-entry-input" id="att_rem#i#" name="att_rem" value="#attribute_remark#">
+														</div>
+														<div class="col-12 col-md-3">
+															<button id="att_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Attribute">Save</button>
+															<button id="att_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Attribute">Delete</button>
+															<output id="att_output#i#"></output>
+														</div>
+													</div>
+												</form>
+											</cfloop>
+											<script>
+												// Add event listeners to the buttons
+												document.querySelectorAll('button[id^="att_submit"]').forEach(function(button) {
+													button.addEventListener('click', function(event) {
+														event.preventDefault();
+														var form = button.closest('form');
+														var formData = new FormData(form);
+														$.ajax({
+															url: '/specimens/component/functions.cfc',
+															type: 'POST',
+															data: formData,
+															success: function(response) {
+																document.getElementById('att_output' + button.id.slice(-1)).innerText = response.message;
+															},
+															error: function(xhr, status, error) {
+																document.getElementById('att_output' + button.id.slice(-1)).innerText = 'Error: ' + error;
+															}
+														});
+													});
+												});
+											</script>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-
-			<!--- edit existing attributes --->
-			<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT
-					attributes.attribute_type,
-					attributes.attribute_value,
-					attributes.attribute_units,
-					attributes.attribute_remark,
-					attributes.determination_method,
-					attributes.determined_date,
-					attribute_determiner.agent_name attributeDeterminer
-				FROM
-					attributes,
-					preferred_agent_name attribute_determiner
-				WHERE
-					attributes.determined_by_agent_id = attribute_determiner.agent_id and
-					attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-			</cfquery>
-			<div class="row mx-0">
-				<div class="bg-light border rounded p-2">
-					<h1 class="h3">Edit Existing Attributes</h1>
-					<ul class="col-12 px-0 pb-3">
-					<cfset i = 0>
-					<cfloop query="getAttributes">
-						<cfset i = i + 1>
-						<form name="editAttribute#i#">
-							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-							<input type="hidden" name="method" value="updateAttribute">
-							<div class="row mx-0 border">
-								<div class="col-12 col-md-2">
-									<label for="att_name#i#" class="data-entry-label">Attribute Name</label>
-									<input type="text" class="data-entry-input" id="att_name#i#" name="att_name" value="#attribute_type#">
-								</div>
-								<div class="col-12 col-md-2">
-									<label for="att_value" class="data-entry-label">Attribute Value</label>
-									<input type="text" class="data-entry-input" id="att_value" value="#attribute_value#">
-								</div>
-								<div class="col-12 col-md-2">
-									<label for="att_units" class="data-entry-label">Units</label>
-									<input type="text" class="data-entry-input" id="att_units" value="#attribute_units#">
-								</div>
-								<div class="col-12 col-md-2">
-									<label class="data-entry-label">Determiner</label>
-									<input type="text" class="data-entry-input" id="att_det" value="#attributeDeterminer#">
-								</div>
-								<div class="col-12 col-md-2">
-									<label class="data-entry-label">Determined Date</label>
-									<input type="text" class="data-entry-input" id="att_det" value="#dateformat(determined_date,"yyyy-mm-dd")#">
-								</div>
-								<div class="col-12 col-md-2">
-									<label class="data-entry-label">Determined Method</label>
-									<input type="text" class="data-entry-input" id="att_meth" value="#determination_method#">
-								</div>
-								<div class="col-12 col-md-9">
-									<label for="att_rem" class="data-entry-label">Remarks</label>
-									<input type="text" class="data-entry-input" id="att_rem" value="#attribute_remark#">
-								</div>
-								<div class="col-12 col-md-3">
-									<button id="att_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Attribute">Save</button>
-									<button id="att_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Attribute">Delete</button>
-									<output id="att_output#i#"></output>
-								</div>
-							</div>
-						</form>
-					</cfloop>
-					<script>
-						// Add event listeners to the buttons
-						document.querySelectorAll('button[id^="att_submit"]').forEach(function(button) {
-							button.addEventListener('click', function(event) {
-								event.preventDefault();
-								var form = button.closest('form');
-								var formData = new FormData(form);
-								$.ajax({
-									url: '/specimens/component/functions.cfc',
-									type: 'POST',
-									data: formData,
-									success: function(response) {
-										document.getElementById('att_output' + button.id.slice(-1)).innerText = response.message;
-									},
-									error: function(xhr, status, error) {
-										document.getElementById('att_output' + button.id.slice(-1)).innerText = 'Error: ' + error;
-									}
-								});
-							});
-						});
-					</script>
 				</div>
 			<cfcatch>
 				<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
