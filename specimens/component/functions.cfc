@@ -3778,7 +3778,7 @@ limitations under the License.
 					SELECT
 						attribute_type, description
 					FROM
-						cfattribute_type
+						ctattribute_type
 					WHERE 
 						collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
 					ORDER BY
