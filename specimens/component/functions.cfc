@@ -1977,9 +1977,9 @@ limitations under the License.
 									<h2 class="h3 my-0 px-1 pb-1">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								</div>
 								<div class="card-body mt-2">
-									<form name="addOtherIDForm" id="addOtherIDForm">
-										<div class="row mx-0">
-											<div class="form-group col-3 pl-0 pr-2">
+									<form name="addOtherIDForm" id="addOtherIDForm" class="row mb-0 pt-1">
+										<div class="form-row ml-3" style="display: flex;">
+											<div class="col-3 pl-0 pr-2">
 												<input type="hidden" name="collection_object_id" value="#getCatalog.collection_object_id#">
 												<input type="hidden" name="method" value="addNewOtherID">
 												<input type="hidden" name="returnformat" value="json">
@@ -1991,19 +1991,19 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="form-group col-2 px-1">
+											<div class="col-2 px-1">
 												<label class="data-entry-label" id="other_id_prefix">Other ID Prefix</label>
 												<input type="text" class="reqdClr data-entry-input" name="other_id_prefix" size="6">
 											</div>
-											<div class="form-group col-3 px-1">
+											<div class="col-3 px-1">
 												<label class="data-entry-label" id="other_id_number">Other ID Number</label>
 												<input type="text" class="reqdClr data-entry-input" name="other_id_number" size="6">
 											</div>
-											<div class="form-group col-2 px-1">
+											<div class="col-2 px-1">
 												<label class="data-entry-label" id="other_id_suffix">Other ID Suffix</label>
 												<input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">
 											</div>
-											<div class="form-group col-2 px-1 mt-3">
+											<div class="col-2 px-1 mt-3">
 												<input type="button" value="Create Identifier" class="btn btn-xs btn-primary" onClick="if (checkFormValidity($('##addOtherIDForm')[0])) { addOtherIDSubmit();  } ">
 												<output id="addOtherIDResultDiv" class="d-block text-danger">&nbsp;</output>
 											</div>
