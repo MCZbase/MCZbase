@@ -3830,7 +3830,13 @@ limitations under the License.
 			</cfif>
 			<cfif len(getAttributeCodeTables.units_code_table) GT 0>
 				<cfset table=getAttributeCodeTables.units_code_table>
-				<cfset field=replace(getAttributeCodeTables.attribute_type,"CT","","one")>
+				<cfif table EQ "CTASSOCIATED_GRANTS">
+					<cfset field="ASSOCIATED_GRANT">
+				<cfelseif table EQ "CTCOLLECTION_FULL_NAMES">
+					<cfset field="COLLECTION">
+				<cfelse>
+					<cfset field=replace(getAttributeCodeTables.attribute_type,"CT","","one")>
+				</cfif>
 				<cfquery name="getUnitsCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						#field# as value
@@ -3907,7 +3913,8 @@ limitations under the License.
 												<ul class="col-12 px-0 mt-2 mb-1">
 													<li class="list-group-item float-left col-12 col-md-4 px-1">
 														<label for="new_att_name" class="data-entry-label">Name</label>
-														<select name="new_att_name" id="new_att_name" class="data-entry-select">
+														<select name="new_att_name" id="new_att_name" class="data-entry-select reqdClr" required>
+															<option value=""></option>
 															<cfloop query="getAttributeTypes">
 																<option value="#attribute_type#">#attribute_type#</option>
 															</cfloop>
