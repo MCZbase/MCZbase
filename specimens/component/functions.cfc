@@ -4194,11 +4194,27 @@ limitations under the License.
 	<cfset variables.collection_object_id = arguments.collection_object_id>
 	<cfset variables.attribute_type = arguments.attribute_type>
 	<cfset variables.attribute_value = arguments.attribute_value>
-	<cfset variables.attribute_units = arguments.attribute_units>
-	<cfset variables.attribute_remark = arguments.attribute_remark>
+	<cfif isdefined("arguments.attribute_units")>
+		<cfset variables.attribute_units = arguments.attribute_units>
+	<cfelse>
+		<cfset variables.attribute_units = "">
+	</cfif>
+	<cfif isdefined("arguments.attribute_remark")>
+		<cfset variables.attribute_remark = arguments.attribute_remark>
+	<cfelse>
+		<cfset variables.attribute_remark = "">
+	</cfif>
 	<cfset variables.determined_by_agent_id = arguments.determined_by_agent_id>
-	<cfset variables.determined_date = arguments.determined_date>
-	<cfset variables.determination_method = arguments.determination_method>
+	<cfif isdefined("arguments.determined_date")>
+		<cfset variables.determined_date = arguments.determined_date>
+	<cfelse>
+		<cfset variables.determined_date = "">
+	</cfif>
+	<cfif isdefined("arguments.determination_method")>
+		<cfset variables.determination_method = arguments.determination_method>
+	<cfelse>
+		<cfset variables.determination_method = "">
+	</cfif>
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
