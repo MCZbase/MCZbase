@@ -3947,7 +3947,7 @@ limitations under the License.
 									</div>
 								</div>
 								<script>
-									$.document.ready(function() {
+									$(document).ready(function() {
 										// disable units and value fields until type is selected
 										$('##new_att_value').prop('disabled', true);
 										$('##new_att_units').prop('disabled', true);
