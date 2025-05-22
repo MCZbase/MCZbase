@@ -3921,7 +3921,7 @@ limitations under the License.
 										<h2 class="h3 my-0 px-1 bp-1">Add New Attribute to #guid#</h2>
 									</div>
 									<div class="card-body">
-										<form name="newAttribute">
+										<form name="newAttribute" id="newAttribute">
 											<div class="row mx-0 pb-2">
 												<ul class="col-12 px-0 mt-2 mb-1">
 													<li class="list-group-item float-left col-12 col-md-4 px-1">
@@ -4039,7 +4039,7 @@ limitations under the License.
 									$('##newAttribute_submit').on('click', function(event) {
 										event.preventDefault();
 										setFeedbackControlState("newAttribute_output","saving")
-										var form = document.querySelector('form[name="newAttribute"]');
+										var form = $('##newAttribute')[0];
 										var formData = new FormData(form);
 										formData.append('collection_object_id', '#collection_object_id#');
 										formData.append('method', 'addAttribute');
