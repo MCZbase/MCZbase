@@ -3754,6 +3754,85 @@ limitations under the License.
 	</cfoutput>
 </cffunction>
 
+<!---
+Given:
+collection_object_id: '#collection_object_id#',
+method: 'getAttributeCodeTables',
+attribute_type: selectedType
+lookup units code table and value code table, if any for the attribute type
+--->
+<cffunction name="getAttributeCodeTables" returntype="any" access="remote" returnformat='json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="attribute_type" type="string" required="yes">
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.attribute_type = arguments.attribute_type>
+	<cfset result = ArrayNew(1)>
+	<cftry>
+		<cfquery name="getAttributeCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
+				attribute_type,
+				value_code_table,
+				units_code_table
+			FROM
+				ctattribute_code_tables
+			WHERE 
+				attribute_type = <cfqueryparam value="#variables.attribute_type#" cfsqltype="CF_SQL_VARCHAR">
+		</cfquery>
+		<cfif getAttributeCodeTables.recordCount EQ 1>
+			<cfset row = StructNew()>
+			<cfset row["value_code_table"] = "#getAttributeCodeTables.value_code_table#">
+			<cfset row["units_code_table"] = "#getAttributeCodeTables.units_code_table#">
+			<cfset row["attribute_type"] = "#getAttributeCodeTables.attribute_type#">
+			<cfif len(getAttributeCodeTables.value_code_table) GT 0>
+				<cfset table=getAttributeCodeTables.value_code_table>
+				<cfset field=replace(getAttributeCodeTables.attribute_type,"CT","","one")>
+				<cfquery = "getValueCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						#field# as value
+						value_description
+					FROM
+						#table#
+					ORDER BY
+						#field#
+				</cfquery>
+				<cfset values="">
+				<cfloop query="getValueCodeTable">
+					<cfset values = listAppend(values, getValueCodeTable.value, "|")>
+				</cfloop>
+				<cfset row["value_values"] = "#values#">
+			</cfif>
+			<cfif len(getAttributeCodeTables.units_code_table) GT 0>
+				<cfset table=getAttributeCodeTables.units_code_table>
+				<cfset field=replace(getAttributeCodeTables.attribute_type,"CT","","one")>
+				<cfquery name="getUnitsCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						#field# as value
+						value_description
+					FROM
+						#table#
+					ORDER BY
+						#field#
+				</cfquery>
+				<cfset units="">
+				<cfloop query="getUnitsCodeTable">
+					<cfset units = listAppend(units, getUnitsCodeTable.value, "|")>
+				</cfloop>
+				<cfset row["units_values"] = "#units#">
+			</cfif>
+			<cfset arrayAppend(result, row)>
+		<cfelse>
+			<cfthrow message="Attribute type not found in ctattribute_code_tables.">
+		</cfif>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(result);
+</cffunction>
+
 <cffunction name="getEditAttributesHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfset variables.collection_object_id = arguments.collection_object_id>
@@ -3840,8 +3919,13 @@ limitations under the License.
 									</div>
 								</div>
 								<script>
+									$.document.ready(function() {
+										// disable units and value fields until type is selected
+										$('##new_att_value').prop('disabled', true);
+										$('##new_att_units').prop('disabled', true);
+									});
 									function handleTypeChange() {
-										var selectedType = document.getElementById('new_att_name').value;
+										var selectedType = $('##new_att_name').val();
 										// lookup value code table and units code table from ctattribute_code_tables
 										// set select lists for value and units accordingly, or set as text input
 										$.ajax({
@@ -3849,21 +3933,50 @@ limitations under the License.
 											type: 'POST',
 											data: {
 												collection_object_id: '#collection_object_id#',
-												method: 'getAttributeTypeDetails',
+												method: 'getAttributeCodeTables',
 												attribute_type: selectedType
 											},
 											success: function(response) {
-												// Populate the value and units fields based on the response
-												document.getElementById('new_att_value').value = response.value;
-												document.getElementById('new_att_units').value = response.units;
+												// determine if the value field should be a select based on the response
+												if (response.value_code_table) {
+													$('##new_att_value').prop('disabled', false);
+													// convert the value field to a select
+													$('##new_att_value').replaceWith('<select id="new_att_value" name="new_att_value" class="data-entry-select"></select>');
+													// Populate the value select with options from the response
+													// value_values is a pipe delimited list of values
+													var values = response.value_values.split('|');
+													$.each(values, function(index, value) {
+														$('##new_att_value').append('<option value="' + value + '">' + value + '</option>');
+													});
+												} else {
+													// enable as a text input
+													$('##new_att_value').prop('disabled', false);
+												}
+												// Determine if the units field should be enabled based on the response
+												if (response.units_code_table) {
+													$('##new_att_units').prop('disabled', false);
+													// convert the units field to a select
+													$('##new_att_units').replaceWith('<select id="new_att_units" name="new_att_units" class="data-entry-select"></select>');
+													// Populate the units select with options from the response
+													// units_values is a pipe delimited list of values
+													$.each(response.units_values.split('|'), function(index, value) {
+														$('##new_att_units').append('<option value="' + value + '">' + value + '</option>');
+													});
+												} else {
+													$('##new_att_units').prop('disabled', true);
+												}
 											},
 											error: function(xhr, status, error) {
 												handleFail(xhr,status,error,"handling change of attribute type.");
 											}
 										});
 									}
-									// Add event listener to the button
-									document.getElementById('newID_submit').addEventListener('click', function(event) {
+									// Add change listener to the attribute type select
+									$('##new_att_name').on('change', function() {
+										handleTypeChange();
+									});
+									// Add event listener to the save button
+									$('##newAttribute_submit').on('click', function(event) {
 										event.preventDefault();
 										setFeedbackControlState("newAttribute_output","saving")
 										var form = document.querySelector('form[name="newAttribute"]');
