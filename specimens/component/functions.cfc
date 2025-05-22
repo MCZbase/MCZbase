@@ -3768,6 +3768,18 @@ limitations under the License.
 	<cfset variables.attribute_type = arguments.attribute_type>
 	<cfset result = ArrayNew(1)>
 	<cftry>
+		<cfquery name="getCatItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
+				cataloged_item.collection_object_id,
+				cataloged_item.cat_num,
+				cataloged_item.collection_cde,
+				collection.institution_acronym
+			FROM
+				cataloged_item 
+				join collection on cataloged_item.collection_id = collection.collection_id
+			WHERE
+				cataloged_item.collection_object_id = <cfqueryparam value="#variables.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+		</cfquery>
 		<cfquery name="getAttributeCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				attribute_type,
@@ -3786,12 +3798,28 @@ limitations under the License.
 			<cfif len(getAttributeCodeTables.value_code_table) GT 0>
 				<cfset table=getAttributeCodeTables.value_code_table>
 				<cfset field=replace(getAttributeCodeTables.attribute_type,"CT","","one")>
-				<cfquery = "getValueCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<!--- check if the table has a collection_cde field --->
+				<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
-						#field# as value
+						COUNT(*) as ct
+					FROM
+						information_schema.columns
+					WHERE
+						table_name = <cfqueryparam value="#table#" cfsqltype="CF_SQL_VARCHAR">
+						AND table_schema = 'MCZBASE'
+						AND column_name = 'collection_cde'
+				</cfquery>
+				<!--- obtain values, limit by collection if there is one --->
+				<cfquery name="getValueCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						#field# as value,
 						value_description
 					FROM
 						#table#
+					<cfif getFieldMetadata.ct GT 0>
+					WHERE
+						collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
+					</cfif>
 					ORDER BY
 						#field#
 				</cfquery>
