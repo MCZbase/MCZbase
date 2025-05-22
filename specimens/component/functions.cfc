@@ -3835,12 +3835,12 @@ limitations under the License.
 				<cfelseif table EQ "CTCOLLECTION_FULL_NAMES">
 					<cfset field="COLLECTION">
 				<cfelse>
+					<!--- default is attribute field is the attribute code table name with CT prefix removed --->
 					<cfset field=replace(getAttributeCodeTables.attribute_type,"CT","","one")>
 				</cfif>
 				<cfquery name="getUnitsCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						#field# as value
-						value_description
 					FROM
 						#table#
 					ORDER BY
