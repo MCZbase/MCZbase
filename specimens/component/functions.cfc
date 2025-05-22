@@ -3830,7 +3830,7 @@ lookup units code table and value code table, if any for the attribute type
 		<cfabort>
 	</cfcatch>
 	</cftry>
-	<cfreturn serializeJSON(result);
+	<cfreturn serializeJSON(result)>
 </cffunction>
 
 <cffunction name="getEditAttributesHTML" returntype="string" access="remote" returnformat="plain">
