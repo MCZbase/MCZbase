@@ -3819,7 +3819,7 @@ limitations under the License.
 				</cfquery>
 				<!--- obtain values, limit by collection if there is one --->
 				<cfquery name="getValueCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT
+					SELECT distinct
 						#variables.field# as value
 					FROM
 						#variables.table#
@@ -3967,6 +3967,7 @@ limitations under the License.
 										$.ajax({
 											url: '/specimens/component/functions.cfc',
 											type: 'POST',
+											dataType: 'json',
 											data: {
 												collection_object_id: '#collection_object_id#',
 												method: 'getAttributeCodeTables',
@@ -3974,7 +3975,6 @@ limitations under the License.
 											},
 											success: function(response) {
 												console.log(response);
-												// [{"units_code_table":"","attribute_type":"associated grant","value_code_table":"CTASSOCIATED_GRANTS","value_values":"Documenting Marine Biodiversity through Digitization of Invertebrate Collections (DigIn)|Mobilizing Millions of Marine Mollusks of the Eastern Seaboard (ESB)|Pacific Island Land Snail Biodiversity Repository (PILSBRy)|Preserving the genomes of the type specimens in the MCZ (CSBR)|oVert: Open Exploration of Vertebrate Diversity in 3D"}]
 												// determine if the value field should be a select based on the response
 												if (response[0].value_code_table) {
 													$('##new_att_value').prop('disabled', false);
