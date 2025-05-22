@@ -3797,7 +3797,15 @@ limitations under the License.
 			<cfset row["attribute_type"] = "#getAttributeCodeTables.attribute_type#">
 			<cfif len(getAttributeCodeTables.value_code_table) GT 0>
 				<cfset variables.table=getAttributeCodeTables.value_code_table>
-				<cfset variables.field=replace(getAttributeCodeTables.value_code_table,"CT","","one")>
+				<!--- check if the table is a special case --->
+				<cfif ucase(variables.table) EQ "CTASSOCIATED_GRANTS">
+					<cfset variables.field="ASSOCIATED_GRANT">
+				<cfelseif ucase(variables.table) EQ "CTCOLLECTION_FULL_NAMES">
+					<cfset variables.field="COLLECTION">
+				<cfelse>
+					<!--- default is attribute field is the attribute code table name with CT prefix removed --->
+					<cfset variables.field=replace(getAttributeCodeTables.value_code_table,"CT","","one")>
+				</cfif>
 				<!--- check if the table has a collection_cde field --->
 				<cfquery name="getFieldMetadata" datasource="uam_god">
 					SELECT
@@ -3820,7 +3828,7 @@ limitations under the License.
 						collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
 					</cfif>
 					ORDER BY
-						#field#
+						#variables.field#
 				</cfquery>
 				<cfset values="">
 				<cfloop query="getValueCodeTable">
@@ -3830,14 +3838,7 @@ limitations under the License.
 			</cfif>
 			<cfif len(getAttributeCodeTables.units_code_table) GT 0>
 				<cfset table=getAttributeCodeTables.units_code_table>
-				<cfif table EQ "CTASSOCIATED_GRANTS">
-					<cfset field="ASSOCIATED_GRANT">
-				<cfelseif table EQ "CTCOLLECTION_FULL_NAMES">
-					<cfset field="COLLECTION">
-				<cfelse>
-					<!--- default is attribute field is the attribute code table name with CT prefix removed --->
-					<cfset field=replace(getAttributeCodeTables.attribute_type,"CT","","one")>
-				</cfif>
+				<cfset field=replace(getAttributeCodeTables.units_code_table,"CT","","one")>
 				<cfquery name="getUnitsCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						#field# as value
