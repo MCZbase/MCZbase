@@ -3973,32 +3973,38 @@ limitations under the License.
 												attribute_type: selectedType
 											},
 											success: function(response) {
+												console.log(response);
+												// [{"units_code_table":"","attribute_type":"associated grant","value_code_table":"CTASSOCIATED_GRANTS","value_values":"Documenting Marine Biodiversity through Digitization of Invertebrate Collections (DigIn)|Mobilizing Millions of Marine Mollusks of the Eastern Seaboard (ESB)|Pacific Island Land Snail Biodiversity Repository (PILSBRy)|Preserving the genomes of the type specimens in the MCZ (CSBR)|oVert: Open Exploration of Vertebrate Diversity in 3D"}]
 												// determine if the value field should be a select based on the response
 												if (response.value_code_table) {
 													$('##new_att_value').prop('disabled', false);
 													// convert the value field to a select
-													$('##new_att_value').replaceWith('<select id="new_att_value" name="new_att_value" class="data-entry-select"></select>');
+													$('##new_att_value').replaceWith('<select id="new_att_value" name="new_att_value" class="data-entry-select reqdClr" required></select>');
 													// Populate the value select with options from the response
 													// value_values is a pipe delimited list of values
 													var values = response.value_values.split('|');
+													$('##new_att_value').append('<option value=""></option>');
 													$.each(values, function(index, value) {
 														$('##new_att_value').append('<option value="' + value + '">' + value + '</option>');
 													});
 												} else {
-													// enable as a text input
+													// enable as a text input, replace any existing select
+													$('##new_att_value').replaceWith('<input type="text" class="data-entry-input reqdClr" id="new_att_value" name="new_att_value" value="" required>');
 													$('##new_att_value').prop('disabled', false);
 												}
 												// Determine if the units field should be enabled based on the response
 												if (response.units_code_table) {
 													$('##new_att_units').prop('disabled', false);
 													// convert the units field to a select
-													$('##new_att_units').replaceWith('<select id="new_att_units" name="new_att_units" class="data-entry-select"></select>');
+													$('##new_att_units').replaceWith('<select id="new_att_units" name="new_att_units" class="data-entry-select reqdClr" required></select>');
 													// Populate the units select with options from the response
 													// units_values is a pipe delimited list of values
+													$('##new_att_units').append('<option value=""></option>');
 													$.each(response.units_values.split('|'), function(index, value) {
 														$('##new_att_units').append('<option value="' + value + '">' + value + '</option>');
 													});
 												} else {
+													// units are either picklists or not used.
 													$('##new_att_units').prop('disabled', true);
 												}
 											},
