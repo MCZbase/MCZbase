@@ -3797,7 +3797,7 @@ limitations under the License.
 			<cfset row["attribute_type"] = "#getAttributeCodeTables.attribute_type#">
 			<cfif len(getAttributeCodeTables.value_code_table) GT 0>
 				<cfset variables.table=getAttributeCodeTables.value_code_table>
-				<cfset variables.field=replace(getAttributeCodeTables.attribute_type,"CT","","one")>
+				<cfset variables.field=replace(getAttributeCodeTables.value_code_table,"CT","","one")>
 				<!--- check if the table has a collection_cde field --->
 				<cfquery name="getFieldMetadata" datasource="uam_god">
 					SELECT
@@ -3812,8 +3812,7 @@ limitations under the License.
 				<!--- obtain values, limit by collection if there is one --->
 				<cfquery name="getValueCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
-						#variables.field# as value,
-						value_description
+						#variables.field# as value
 					FROM
 						#variables.table#
 					<cfif getFieldMetadata.ct GT 0>
