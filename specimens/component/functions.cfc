@@ -3898,6 +3898,18 @@ limitations under the License.
 					ORDER BY
 						attribute_type
 				</cfquery>
+				<cfquery name="getCurrentUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT agent_id, 
+							agent_name
+					FROM preferred_agent_name
+					WHERE
+						agent_id in (
+							SELECT agent_id 
+							FROM agent_name 
+							WHERE upper(agent_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
+								and agent_name_type = 'login'
+						)
+				</cfquery>
 
 				<!--- add new attribute --->
 				<div class="col-12 mt-4 px-1">
@@ -3931,11 +3943,13 @@ limitations under the License.
 													</li>
 													<li class="list-group-item float-left col-12 col-md-4 px-1">
 														<label for="new_att_determiner" class="data-entry-label">Determiner</label>
-														<input type="text" class="data-entry-input" id="new_att_determiner" name="new_att_determiner" value="">
+														<input type="text" class="data-entry-input" id="new_att_determiner" name="new_att_determiner" value="#getCurrentUser.agent_name#">
+														<input type="hidden" name="new_att_determined_by_agent_id" id="new_att_determined_by_agent_id" value="#getCurrentUser.agent_id#">
 													</li>
 													<li class="list-group-item float-left col-12 col-md-4 px-1">
 														<label for="new_att_det_date" class="data-entry-label">Determined Date</label>
-														<input type="text" class="data-entry-input" id="new_att_det_date" name="new_att_det_date" value="">
+														<input type="text" class="data-entry-input" id="new_att_det_date" name="new_att_det_date" 
+															placeholder="yyyy-mm-dd" value="#dateformat(now(),"yyyy-mm-dd")#">
 													</li>
 													<li class="list-group-item float-left col-12 col-md-4 px-1">
 														<label for="new_att_det_method" class="data-entry-label">Determined Method</label>
@@ -3943,7 +3957,7 @@ limitations under the License.
 													</li>
 													<li class="list-group-item float-left col-12 col-md-12 px-1">
 														<label for="new_att_det_remarks" class="data-entry-label">Remarks</label>
-														<input type="text" class="data-entry-input" id="new_att_det_remarks" name="new_att_det_remarks" value="">
+														<input type="text" class="data-entry-input" id="new_att_det_remarks" name="new_att_det_remarks" value="" maxlength="255">
 													</li>
 												</ul>
 												<div class="col-12 col-md-12 px-1 mt-2">
@@ -3959,6 +3973,10 @@ limitations under the License.
 										// disable units and value fields until type is selected
 										$('##new_att_value').prop('disabled', true);
 										$('##new_att_units').prop('disabled', true);
+										// make the determined date a date picker
+										$("##new_att_det_date").datepicker({ dateFormat: 'yy-mm-dd'});
+										// make the determined by agent into an agent autocomplete
+										makeAgentAutocompleteMeta('new_att_determiner','new_att_determined_by_agent_id');
 									});
 									function handleTypeChange() {
 										var selectedType = $('##new_att_name').val();
