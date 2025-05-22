@@ -3796,8 +3796,8 @@ limitations under the License.
 			<cfset row["units_code_table"] = "#getAttributeCodeTables.units_code_table#">
 			<cfset row["attribute_type"] = "#getAttributeCodeTables.attribute_type#">
 			<cfif len(getAttributeCodeTables.value_code_table) GT 0>
-				<cfset table=getAttributeCodeTables.value_code_table>
-				<cfset field=replace(getAttributeCodeTables.attribute_type,"CT","","one")>
+				<cfset variables.table=getAttributeCodeTables.value_code_table>
+				<cfset variables.field=replace(getAttributeCodeTables.attribute_type,"CT","","one")>
 				<!--- check if the table has a collection_cde field --->
 				<cfquery name="getFieldMetadata" datasource="uam_god">
 					SELECT
@@ -3805,17 +3805,17 @@ limitations under the License.
 					FROM
 						sys.all_tab_columns
 					WHERE
-						table_name = <cfqueryparam value="#table#" cfsqltype="CF_SQL_VARCHAR">
+						table_name = <cfqueryparam value="#variables.table#" cfsqltype="CF_SQL_VARCHAR">
 						AND owner = 'MCZBASE'
 						AND column_name = 'collection_cde'
 				</cfquery>
 				<!--- obtain values, limit by collection if there is one --->
 				<cfquery name="getValueCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
-						#field# as value,
+						#variables.field# as value,
 						value_description
 					FROM
-						#table#
+						#variables.table#
 					<cfif getFieldMetadata.ct GT 0>
 					WHERE
 						collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
@@ -3852,6 +3852,7 @@ limitations under the License.
 			<cfthrow message="Attribute type not found in ctattribute_code_tables.">
 		</cfif>
 	<cfcatch>
+		<cfdump var="#cfcatch#">
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 		<cfset function_called = "#GetFunctionCalledName()#">
 		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
