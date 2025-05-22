@@ -3799,14 +3799,14 @@ limitations under the License.
 				<cfset table=getAttributeCodeTables.value_code_table>
 				<cfset field=replace(getAttributeCodeTables.attribute_type,"CT","","one")>
 				<!--- check if the table has a collection_cde field --->
-				<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="getFieldMetadata" datasource="uam_god">
 					SELECT
 						COUNT(*) as ct
 					FROM
-						information_schema.columns
+						sys.all_tab_columns
 					WHERE
 						table_name = <cfqueryparam value="#table#" cfsqltype="CF_SQL_VARCHAR">
-						AND table_schema = 'MCZBASE'
+						AND owner = 'MCZBASE'
 						AND column_name = 'collection_cde'
 				</cfquery>
 				<!--- obtain values, limit by collection if there is one --->
