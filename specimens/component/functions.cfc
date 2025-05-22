@@ -3754,14 +3754,14 @@ limitations under the License.
 	</cfoutput>
 </cffunction>
 
-<!---
-Given:
-collection_object_id: '#collection_object_id#',
-method: 'getAttributeCodeTables',
-attribute_type: selectedType
-lookup units code table and value code table, if any for the attribute type
+<!--- 
+ getAttributeCodeTables lookup value and unit code tables for a given attribute type.
+ @param collection_object_id the collection object id to obtain the collection by which to limit the code table values
+ @param attribute_type the attribute type to obtain the code tables for
+ @return a JSON object containing the attribute type, value code table, units code table, and the values for each
+  with the values for each code table returned as a pipe delimited string
 --->
-<cffunction name="getAttributeCodeTables" returntype="any" access="remote" returnformat='json">
+<cffunction name="getAttributeCodeTables" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="attribute_type" type="string" required="yes">
 	<cfset variables.collection_object_id = arguments.collection_object_id>
