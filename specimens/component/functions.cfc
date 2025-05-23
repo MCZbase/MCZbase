@@ -4068,7 +4068,7 @@ limitations under the License.
 												collection_object_id: '#collection_object_id#'
 											},
 											success: function(response) {
-												$('##editExistingAttributes').html(response);
+												$('##editExistingAttributesDiv').html(response);
 											},
 											error: function(xhr, status, error) {
 												handleFail(xhr,status,error,"reloading edit existing attributes.");
@@ -4106,6 +4106,42 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfset variables.collection_object_id = arguments.collection_object_id>
 	<cfoutput>
+		<cfquery name="getCatItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
+				cataloged_item.collection_object_id,
+				cataloged_item.cat_num,
+				cataloged_item.collection_cde,
+				collection.institution_acronym
+			FROM
+				cataloged_item 
+				join collection on cataloged_item.collection_id = collection.collection_id
+			WHERE
+				cataloged_item.collection_object_id = <cfqueryparam value="#variables.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+		</cfquery>
+		<cfset guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num#">
+		<!--- obtain a list of attribute types for the collection this specimen is in --->
+		<cfquery name="getAttributeTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
+				attribute_type, description
+			FROM
+				ctattribute_type
+			WHERE 
+				collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
+			ORDER BY
+				attribute_type
+		</cfquery>
+		<cfquery name="getCurrentUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT agent_id, 
+					agent_name
+			FROM preferred_agent_name
+			WHERE
+				agent_id in (
+					SELECT agent_id 
+					FROM agent_name 
+					WHERE upper(agent_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
+						and agent_name_type = 'login'
+				)
+		</cfquery>
 		<!--- edit existing attributes --->
 		<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
