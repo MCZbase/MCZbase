@@ -3856,7 +3856,7 @@ limitations under the License.
 			</cfif>
 			<cfset arrayAppend(result, row)>
 		<cfelse>
-			// not found, therefore no code tables specified for that attribute.
+			<!--- not found, therefore no code tables specified for that attribute.  --->
 			<cfset row = StructNew()>
 			<cfset row["value_code_table"] = "">
 			<cfset row["units_code_table"] = "">
