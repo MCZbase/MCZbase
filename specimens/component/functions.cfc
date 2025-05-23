@@ -3859,6 +3859,7 @@ limitations under the License.
 			<!--- not found, therefore no code tables specified for that attribute.  --->
 			<cfset row = StructNew()>
 			<cfset row["attribute_type"] = "#variables.attribute_type#">
+			<cfset arrayAppend(result, row)>
 		</cfif>
 	<cfcatch>
 		<cfdump var="#cfcatch#">
