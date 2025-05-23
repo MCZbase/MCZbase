@@ -4144,12 +4144,10 @@ limitations under the License.
 														var id = button.id.slice(-1);
 														var feedbackOutput = 'att_output' + id;
 														setFeedbackControlState(feedbackOutput,"saving")
-														var form = button.closest('form');
-														var formData = new FormData(form);
 														$.ajax({
 															url: '/specimens/component/functions.cfc',
 															type: 'POST',
-															data: formData,
+															data: $("##editAttribute" + id + "]").serialize(),
 															success: function(response) {
 																setFeedbackControlState(feedbackOutput,"saved");
 																reloadAttibutes();
