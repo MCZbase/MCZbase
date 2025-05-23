@@ -4030,6 +4030,9 @@ limitations under the License.
 												} else {
 													// units are either picklists or not used.
 													$('##attribute_units').prop('disabled', true);
+													$('##attribute_units').val('');
+													// remove any reqdClr class
+													$('##attribute_units').removeClass('reqdClr');
 												}
 											},
 											error: function(xhr, status, error) {
@@ -4327,6 +4330,8 @@ limitations under the License.
 										// empty and disable the units field if units are not used
 										$('##att_units'+id).val("");  
 										$('##att_units'+id).prop('disabled', true);
+										// remove any reqdClr class
+										$('##att_units'+id).removeClass('reqdClr');
 									}
 								},
 								error: function(xhr, status, error) {
