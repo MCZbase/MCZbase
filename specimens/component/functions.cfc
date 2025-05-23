@@ -4176,6 +4176,8 @@ limitations under the License.
 															success: function(response) {
 																setFeedbackControlState(feedbackOutput,"deleted");
 																reloadAttributes();
+																// remove the form from the DOM
+																$("##editAttribute" + id).remove();
 															},
 															error: function(xhr, status, error) {
 																setFeedbackControlState(feedbackOutput,"error")
