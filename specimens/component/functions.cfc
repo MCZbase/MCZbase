@@ -4147,7 +4147,7 @@ limitations under the License.
 														$.ajax({
 															url: '/specimens/component/functions.cfc',
 															type: 'POST',
-															data: $("##editAttribute" + id + "]").serialize(),
+															data: $("##editAttribute" + id).serialize(),
 															success: function(response) {
 																setFeedbackControlState(feedbackOutput,"saved");
 																reloadAttibutes();
