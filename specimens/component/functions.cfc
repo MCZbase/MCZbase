@@ -3784,8 +3784,8 @@ limitations under the License.
 		<cfquery name="getAttributeCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				attribute_type,
-				value_code_table,
-				units_code_table
+				upper(value_code_table),
+				upper(units_code_table)
 			FROM
 				ctattribute_code_tables
 			WHERE 
@@ -3793,8 +3793,8 @@ limitations under the License.
 		</cfquery>
 		<cfif getAttributeCodeTables.recordCount EQ 1>
 			<cfset row = StructNew()>
-			<cfset row["value_code_table"] = "#ucase(getAttributeCodeTables.value_code_table)#">
-			<cfset row["units_code_table"] = "#ucase(getAttributeCodeTables.units_code_table)#">
+			<cfset row["value_code_table"] = "#getAttributeCodeTables.value_code_table#">
+			<cfset row["units_code_table"] = "#getAttributeCodeTables.units_code_table#">
 			<cfset row["attribute_type"] = "#getAttributeCodeTables.attribute_type#">
 			<cfif len(getAttributeCodeTables.value_code_table) GT 0>
 				<cfset variables.table=getAttributeCodeTables.value_code_table>
