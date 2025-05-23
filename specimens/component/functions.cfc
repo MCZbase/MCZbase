@@ -4159,6 +4159,31 @@ limitations under the License.
 														});
 													});
 												});
+												document.querySelectorAll('button[id^="att_delete"]').forEach(function(button) {
+													button.addEventListener('click', function(event) {
+														event.preventDefault();
+														var id = button.id.slice(-1);
+														var feedbackOutput = 'att_output' + id;
+														setFeedbackControlState(feedbackOutput,"deleting")
+														$.ajax({
+															url: '/specimens/component/functions.cfc',
+															type: 'POST',
+															data: {
+																method: 'deleteAttribute',
+																attribute_id: $("##editAttribute" + id + " input[name='attribute_id']").val(),
+																collection_object_id: $("##editAttribute" + id + " input[name='collection_object_id']").val()
+															},
+															success: function(response) {
+																setFeedbackControlState(feedbackOutput,"deleted");
+																reloadAttributes();
+															},
+															error: function(xhr, status, error) {
+																setFeedbackControlState(feedbackOutput,"error")
+																handleFail(xhr,status,error,"deleting attribute.");
+															}
+														});
+													});
+												});
 											</script>
 										</div>
 									</div>
@@ -4175,6 +4200,47 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getEditAttributesThread" />
 	<cfreturn getEditAttributesThread.output>
+</cffunction>
+
+<!--- 
+ deleteAttribute deletes an attribute for a collection object.
+ @param attribute_id the attribute id to delete
+ @param collection_object_id the collection object id to delete the attribute for
+ @return a JSON object containing status = deleted or an http 500 error
+--->
+<cffunction name="deleteAttribute" returntype="any" access="remote" returnformat="json">
+	<cfargument name="attribute_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfset variables.attribute_id = arguments.attribute_id>
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="deleteAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteAttribute_result">
+				DELETE FROM attributes
+				WHERE
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					AND attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.attribute_id#">
+			</cfquery>
+			<cfif deleteAttribute_result.recordCount NEQ 1>
+				<cfthrow message="Other than one row deleted.">
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "deleted">
+			<cfset row["id"] = variables.attribute_id>
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJson(data)>
 </cffunction>
 
 <!--- 
