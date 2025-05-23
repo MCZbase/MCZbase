@@ -3856,7 +3856,11 @@ limitations under the License.
 			</cfif>
 			<cfset arrayAppend(result, row)>
 		<cfelse>
-			<cfthrow message="Attribute type not found in ctattribute_code_tables.">
+			// not found, therefore no code tables specified for that attribute.
+			<cfset row = StructNew()>
+			<cfset row["value_code_table"] = "">
+			<cfset row["units_code_table"] = "">
+			<cfset row["attribute_type"] = "#variables.attribute_type#">
 		</cfif>
 	<cfcatch>
 		<cfdump var="#cfcatch#">
