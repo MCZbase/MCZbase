@@ -4206,6 +4206,12 @@ limitations under the License.
 									<label class="data-entry-label">Determiner</label>
 									<input type="text" class="data-entry-input" id="att_det#i#" name="determined_by_agent" value="#attributeDeterminer#">
 									<input type="hidden" name="determined_by_agent_id" id="att_det_id#i#" value="#determined_by_agent_id#">
+									<!--- make the determined by agent into an agent autocomplete --->
+									<script>
+										$(document).ready(function() {
+											makeAgentAutocompleteMeta('att_det#i#','att_det_id#i#');
+										});
+									</script>
 								</div>
 								<div class="col-12 col-md-2">
 									<label class="data-entry-label">Determined Date</label>
