@@ -4085,7 +4085,7 @@ limitations under the License.
 											<cfset i = 0>
 											<cfloop query="getAttributes">
 												<cfset i = i + 1>
-												<form name="editAttribute#i#">
+												<form name="editAttribute#i#" id="editAttribute#i#">
 													<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 													<input type="hidden" name="attribute_id" value="#attribute_id#">
 													<input type="hidden" name="method" value="updateAttribute">
