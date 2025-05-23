@@ -4134,6 +4134,11 @@ limitations under the License.
 															<output id="att_output#i#"></output>
 														</div>
 													</div>
+													<script>
+														$('##att_name#i#').on('change', function() {
+															handleTypeChangeExisting('#i#');
+														});
+													</script>
 												</form>
 											</cfloop>
 											<script>
@@ -4186,6 +4191,59 @@ limitations under the License.
 														});
 													});
 												});
+												function handleTypeChangeExisting(id) {
+													var selectedType = $('##att_name' + id).val();
+													// lookup value code table and units code table from ctattribute_code_tables
+													// set select lists for value and units accordingly, or set as text input
+													$.ajax({
+														url: '/specimens/component/functions.cfc',
+														type: 'POST',
+														dataType: 'json',
+														data: {
+															collection_object_id: '#collection_object_id#',
+															method: 'getAttributeCodeTables',
+															attribute_type: selectedType
+														},
+														success: function(response) {
+															console.log(response);
+															// determine if the value field should be a select based on the response
+															if (response[0].value_code_table) {
+																$('##att_value'+id).prop('disabled', false);
+																// convert the value field to a select
+																$('##att_value'+id).replaceWith('<select id="attribute_value" name="attribute_value" class="data-entry-select reqdClr" required></select>');
+																// Populate the value select with options from the response
+																// value_values is a pipe delimited list of values
+																var values = response[0].value_values.split('|');
+																$('##att_value'+id).append('<option value=""></option>');
+																$.each(values, function(index, value) {
+																	$('##att_value'+id).append('<option value="' + value + '">' + value + '</option>');
+																});
+															} else {
+																// enable as a text input, replace any existing select
+																$('##att_value'+id).replaceWith('<input type="text" class="data-entry-input reqdClr" id="attribute_value" name="attribute_value" value="" required>');
+																$('##att_value'+id).prop('disabled', false);
+															}
+															// Determine if the units field should be enabled based on the response
+															if (response[0].units_code_table) {
+																$('##att_units'+id).prop('disabled', false);
+																// convert the units field to a select
+																$('##att_units'+id).replaceWith('<select id="attribute_units" name="attribute_units" class="data-entry-select reqdClr" required></select>');
+																// Populate the units select with options from the response
+																// units_values is a pipe delimited list of values
+																$('##att_units'+id).append('<option value=""></option>');
+																$.each(response[0].units_values.split('|'), function(index, value) {
+																	$('##att_units'+id).append('<option value="' + value + '">' + value + '</option>');
+																});
+															} else {
+																// units are either picklists or not used.
+																$('##att_units'+id).prop('disabled', true);
+															}
+														},
+														error: function(xhr, status, error) {
+															handleFail(xhr,status,error,"handling change of attribute type.");
+														}
+													});
+												}
 											</script>
 										</div>
 									</div>
