@@ -4220,7 +4220,7 @@ limitations under the License.
 																});
 															} else {
 																// enable as a text input, replace any existing select
-																$('##att_value'+id).replaceWith('<input type="text" class="data-entry-input reqdClr" id="att_value'+id'" name="attribute_value" value="" required>');
+																$('##att_value'+id).replaceWith('<input type="text" class="data-entry-input reqdClr" id="att_value'+id+'" name="attribute_value" value="" required>');
 																$('##att_value'+id).prop('disabled', false);
 															}
 															// Determine if the units field should be enabled based on the response
