@@ -4142,7 +4142,7 @@ limitations under the License.
 													button.addEventListener('click', function(event) {
 														event.preventDefault();
 														var id = button.id.slice(-1);
-														var feedbackOutput = document.getElementById('att_output' + id);
+														var feedbackOutput = 'att_output' + id;
 														setFeedbackControlState(feedbackOutput,"saving")
 														var form = button.closest('form');
 														var formData = new FormData(form);
