@@ -3784,8 +3784,8 @@ limitations under the License.
 		<cfquery name="getAttributeCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
 				attribute_type,
-				upper(value_code_table),
-				upper(units_code_table)
+				upper(value_code_table) value_code_table,
+				upper(units_code_table) units_code_table
 			FROM
 				ctattribute_code_tables
 			WHERE 
