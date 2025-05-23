@@ -4210,7 +4210,7 @@ limitations under the License.
 															if (response[0].value_code_table) {
 																$('##att_value'+id).prop('disabled', false);
 																// convert the value field to a select
-																$('##att_value'+id).replaceWith('<select id="attribute_value" name="att_value'+id+'" class="data-entry-select reqdClr" required></select>');
+																$('##att_value'+id).replaceWith('<select name="attribute_value" id="att_value'+id+'" class="data-entry-select reqdClr" required></select>');
 																// Populate the value select with options from the response
 																// value_values is a pipe delimited list of values
 																var values = response[0].value_values.split('|');
@@ -4227,7 +4227,7 @@ limitations under the License.
 															if (response[0].units_code_table) {
 																$('##att_units'+id).prop('disabled', false);
 																// convert the units field to a select
-																$('##att_units'+id).replaceWith('<select id="attribute_units" name="att_units'+id+'" class="data-entry-select reqdClr" required></select>');
+																$('##att_units'+id).replaceWith('<select name="attribute_units" id="att_units'+id+'" class="data-entry-select reqdClr" required></select>');
 																// Populate the units select with options from the response
 																// units_values is a pipe delimited list of values
 																$('##att_units'+id).append('<option value=""></option>');
