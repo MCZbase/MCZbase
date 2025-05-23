@@ -3816,7 +3816,7 @@ limitations under the License.
 					WHERE
 						table_name = <cfqueryparam value="#variables.table#" cfsqltype="CF_SQL_VARCHAR">
 						AND owner = 'MCZBASE'
-						AND column_name = 'collection_cde'
+						AND column_name = 'COLLECTION_CDE'
 				</cfquery>
 				<!--- obtain values, limit by collection if there is one --->
 				<cfquery name="getValueCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
