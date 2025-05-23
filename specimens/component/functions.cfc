@@ -4150,7 +4150,7 @@ limitations under the License.
 															data: $("##editAttribute" + id).serialize(),
 															success: function(response) {
 																setFeedbackControlState(feedbackOutput,"saved");
-																reloadAttibutes();
+																reloadAttributes();
 															},
 															error: function(xhr, status, error) {
 																setFeedbackControlState(feedbackOutput,"error")
