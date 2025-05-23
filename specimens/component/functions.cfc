@@ -4041,214 +4041,45 @@ limitations under the License.
 									// Add event listener to the save button
 									$('##newAttribute_submit').on('click', function(event) {
 										event.preventDefault();
-										setFeedbackControlState("newAttribute_output","saving")
+										setFeedbackControlState("newAttribute_output","saving");
 										$.ajax({
 											url: '/specimens/component/functions.cfc',
 											type: 'POST',
 											responseType: 'json',
 											data: $('##newAttribute').serialize(),
 											success: function(response) {
-												setFeedbackControlState("newAttribute_output","saved")
+												setFeedbackControlState("newAttribute_output","saved");
+												reloadEditExistingAttributes();
 											},
 											error: function(xhr, status, error) {
-												setFeedbackControlState("newAttribute_output","error")
+												setFeedbackControlState("newAttribute_output","error");
 												handleFail(xhr,status,error,"saving attribute.");
 											}
 										});
 									});
+									function reloadEditExistingAttributes() {
+										// reload the edit existing attributes section
+										$.ajax({
+											url: '/specimens/component/functions.cfc',
+											type: 'POST',
+											dataType: 'html',
+											data: {
+												method: 'getEditExistingAttributesUnthreaded',
+												collection_object_id: '#collection_object_id#'
+											},
+											success: function(response) {
+												$('##editExistingAttributes').html(response);
+											},
+											error: function(xhr, status, error) {
+												handleFail(xhr,status,error,"reloading edit existing attributes.");
+											}
+										});
+									}
 								</script>
 								<!--- edit existing attributes --->
-								<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT
-										attributes.attribute_id,
-										attributes.attribute_type,
-										attributes.attribute_value,
-										attributes.attribute_units,
-										attributes.attribute_remark,
-										attributes.determination_method,
-										attributes.determined_date,
-										attribute_determiner.agent_name attributeDeterminer,
-										attributes.determined_by_agent_id
-									FROM
-										attributes
-										LEFT JOIN preferred_agent_name attribute_determiner on attributes.determined_by_agent_id = attribute_determiner.agent_id 
-									WHERE
-										attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-								</cfquery>
-								<div class="row mx-0">
-									<div class="bg-light p-2 col-12 row">
-										<h1 class="h3">Edit Existing Attributes</h1>
-										<div class="col-12 px-0 pb-3">
-											<cfif getAttributes.recordCount EQ 0>
-												<li>No attributes found for this specimen.</li>
-											</cfif>
-											<cfset i = 0>
-											<cfloop query="getAttributes">
-												<cfset i = i + 1>
-												<form name="editAttribute#i#" id="editAttribute#i#">
-													<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-													<input type="hidden" name="attribute_id" value="#attribute_id#">
-													<input type="hidden" name="method" value="updateAttribute">
-													<div class="row mx-0 border">
-														<div class="col-12 col-md-2">
-															<label for="att_name#i#" class="data-entry-label">Name</label>
-															<select class="data-entry-select reqdClr" id="att_name#i#" name="attribute_type" required>
-																<cfloop query="getAttributeTypes">
-																	<cfif getAttributeTypes.attribute_type EQ getAttributes.attribute_type>
-																		<cfset selected = "selected">
-																	<cfelse>
-																		<cfset selected = "">
-																	</cfif>
-																	<option value="#getAttributeTypes.attribute_type#" #selected#>#getAttributeTypes.attribute_type#</option>
-																</cfloop>
-															</select>
-														</div>
-														<div class="col-12 col-md-2">
-															<label for="att_value" class="data-entry-label reqdClr" required>Value</label>
-															<input type="text" class="data-entry-input" id="att_value#i#" name="attribute_value" value="#attribute_value#">
-														</div>
-														<div class="col-12 col-md-2">
-															<label for="att_units" class="data-entry-label">Units</label>
-															<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="#attribute_units#">
-														</div>
-														<div class="col-12 col-md-2">
-															<label class="data-entry-label">Determiner</label>
-															<input type="text" class="data-entry-input" id="att_det#i#" name="determined_by_agent" value="#attributeDeterminer#">
-															<input type="hidden" name="determined_by_agent_id" id="att_det_id#i#" value="#determined_by_agent_id#">
-														</div>
-														<div class="col-12 col-md-2">
-															<label class="data-entry-label">Determined Date</label>
-															<input type="text" class="data-entry-input" id="att_date#i#" name="determined_date" value="#dateformat(determined_date,"yyyy-mm-dd")#">
-														</div>
-														<div class="col-12 col-md-2">
-															<label class="data-entry-label" for="att_method#i#">Determined Method</label>
-															<input type="text" class="data-entry-input" id="att_method#i#" name="determination_method" value="#determination_method#">
-														</div>
-														<div class="col-12 col-md-9">
-															<label for="att_rem" class="data-entry-label">Remarks</label>
-															<input type="text" class="data-entry-input" id="att_rem#i#" name="attribute_remark" value="#attribute_remark#">
-														</div>
-														<div class="col-12 col-md-3">
-															<button id="att_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Attribute">Save</button>
-															<button id="att_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Attribute">Delete</button>
-															<output id="att_output#i#"></output>
-														</div>
-													</div>
-													<script>
-														$('##att_name#i#').on('change', function() {
-															handleTypeChangeExisting('#i#');
-														});
-													</script>
-												</form>
-											</cfloop>
-											<script>
-												// Add event listeners to the buttons
-												document.querySelectorAll('button[id^="att_submit"]').forEach(function(button) {
-													button.addEventListener('click', function(event) {
-														event.preventDefault();
-														var id = button.id.slice(-1);
-														var feedbackOutput = 'att_output' + id;
-														setFeedbackControlState(feedbackOutput,"saving")
-														$.ajax({
-															url: '/specimens/component/functions.cfc',
-															type: 'POST',
-															data: $("##editAttribute" + id).serialize(),
-															success: function(response) {
-																setFeedbackControlState(feedbackOutput,"saved");
-																reloadAttributes();
-															},
-															error: function(xhr, status, error) {
-																setFeedbackControlState(feedbackOutput,"error")
-																handleFail(xhr,status,error,"saving change to attribute.");
-															}
-														});
-													});
-												});
-												document.querySelectorAll('button[id^="att_delete"]').forEach(function(button) {
-													button.addEventListener('click', function(event) {
-														event.preventDefault();
-														var id = button.id.slice(-1);
-														var feedbackOutput = 'att_output' + id;
-														setFeedbackControlState(feedbackOutput,"deleting")
-														$.ajax({
-															url: '/specimens/component/functions.cfc',
-															type: 'POST',
-															data: {
-																method: 'deleteAttribute',
-																attribute_id: $("##editAttribute" + id + " input[name='attribute_id']").val(),
-																collection_object_id: $("##editAttribute" + id + " input[name='collection_object_id']").val()
-															},
-															success: function(response) {
-																setFeedbackControlState(feedbackOutput,"deleted");
-																reloadAttributes();
-																// remove the form from the DOM
-																$("##editAttribute" + id).remove();
-															},
-															error: function(xhr, status, error) {
-																setFeedbackControlState(feedbackOutput,"error")
-																handleFail(xhr,status,error,"deleting attribute.");
-															}
-														});
-													});
-												});
-												function handleTypeChangeExisting(id) {
-													var selectedType = $('##att_name' + id).val();
-													// lookup value code table and units code table from ctattribute_code_tables
-													// set select lists for value and units accordingly, or set as text input
-													$.ajax({
-														url: '/specimens/component/functions.cfc',
-														type: 'POST',
-														dataType: 'json',
-														data: {
-															collection_object_id: '#collection_object_id#',
-															method: 'getAttributeCodeTables',
-															attribute_type: selectedType
-														},
-														success: function(response) {
-															console.log(response);
-															// determine if the value field should be a select based on the response
-															if (response[0].value_code_table) {
-																$('##att_value'+id).prop('disabled', false);
-																// convert the value field to a select
-																$('##att_value'+id).replaceWith('<select name="attribute_value" id="att_value'+id+'" class="data-entry-select reqdClr" required></select>');
-																// Populate the value select with options from the response
-																// value_values is a pipe delimited list of values
-																var values = response[0].value_values.split('|');
-																$('##att_value'+id).append('<option value=""></option>');
-																$.each(values, function(index, value) {
-																	$('##att_value'+id).append('<option value="' + value + '">' + value + '</option>');
-																});
-															} else {
-																// enable as a text input, replace any existing select
-																$('##att_value'+id).replaceWith('<input type="text" class="data-entry-input reqdClr" id="att_value'+id+'" name="attribute_value" value="" required>');
-																$('##att_value'+id).prop('disabled', false);
-															}
-															// Determine if the units field should be enabled based on the response
-															if (response[0].units_code_table) {
-																$('##att_units'+id).prop('disabled', false);
-																// convert the units field to a select
-																$('##att_units'+id).replaceWith('<select name="attribute_units" id="att_units'+id+'" class="data-entry-select reqdClr" required></select>');
-																// Populate the units select with options from the response
-																// units_values is a pipe delimited list of values
-																$('##att_units'+id).append('<option value=""></option>');
-																$.each(response[0].units_values.split('|'), function(index, value) {
-																	$('##att_units'+id).append('<option value="' + value + '">' + value + '</option>');
-																});
-															} else {
-																// units are either picklists or not used.
-																// empty and disable the units field if units are not used
-																$('##att_units'+id).val("");  
-																$('##att_units'+id).prop('disabled', true);
-															}
-														},
-														error: function(xhr, status, error) {
-															handleFail(xhr,status,error,"handling change of attribute type.");
-														}
-													});
-												}
-											</script>
-										</div>
-									</div>
+								<div id="editExistingAttributesDiv">
+									<!--- this div is replaced with the edit existing attributes HTML attributes are added --->
+									<cfset getEditExistingAttributesHTML = getEditExistingAttributesUnthreaded(collection_object_id=variables.collection_object_id)>
 								</div>
 							</div>
 						</div>
@@ -4262,6 +4093,213 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getEditAttributesThread" />
 	<cfreturn getEditAttributesThread.output>
+</cffunction>
+
+<!--- 
+ getEditExistingAttributesUnthreaded returns the HTML for the edit existing attributes section, intended to be used
+ from within threaded getEditAttributesHTML or invoked independently to reload just the edit existing attributes section 
+ of the dialog.
+ @param collection_object_id the collection object id to obtain the collection by which to limit the code table values
+ @return a string containing the HTML for the edit existing attributes section
+--->
+<cffunction name="getEditExistingAttributesUnthreaded" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfoutput>
+		<!--- edit existing attributes --->
+		<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
+				attributes.attribute_id,
+				attributes.attribute_type,
+				attributes.attribute_value,
+				attributes.attribute_units,
+				attributes.attribute_remark,
+				attributes.determination_method,
+				attributes.determined_date,
+				attribute_determiner.agent_name attributeDeterminer,
+				attributes.determined_by_agent_id
+			FROM
+				attributes
+				LEFT JOIN preferred_agent_name attribute_determiner on attributes.determined_by_agent_id = attribute_determiner.agent_id 
+			WHERE
+				attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+		</cfquery>
+		<div class="row mx-0">
+			<div class="bg-light p-2 col-12 row">
+				<h1 class="h3">Edit Existing Attributes</h1>
+				<div class="col-12 px-0 pb-3">
+					<cfif getAttributes.recordCount EQ 0>
+						<li>No attributes found for this specimen.</li>
+					</cfif>
+					<cfset i = 0>
+					<cfloop query="getAttributes">
+						<cfset i = i + 1>
+						<form name="editAttribute#i#" id="editAttribute#i#">
+							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+							<input type="hidden" name="attribute_id" value="#attribute_id#">
+							<input type="hidden" name="method" value="updateAttribute">
+							<div class="row mx-0 border pb-1">
+								<div class="col-12 col-md-2">
+									<label for="att_name#i#" class="data-entry-label">Name</label>
+									<select class="data-entry-select reqdClr" id="att_name#i#" name="attribute_type" required>
+										<cfloop query="getAttributeTypes">
+											<cfif getAttributeTypes.attribute_type EQ getAttributes.attribute_type>
+												<cfset selected = "selected">
+											<cfelse>
+												<cfset selected = "">
+											</cfif>
+											<option value="#getAttributeTypes.attribute_type#" #selected#>#getAttributeTypes.attribute_type#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-2">
+									<label for="att_value" class="data-entry-label reqdClr" required>Value</label>
+									<input type="text" class="data-entry-input" id="att_value#i#" name="attribute_value" value="#attribute_value#">
+								</div>
+								<div class="col-12 col-md-2">
+									<label for="att_units" class="data-entry-label">Units</label>
+									<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="#attribute_units#">
+								</div>
+								<div class="col-12 col-md-2">
+									<label class="data-entry-label">Determiner</label>
+									<input type="text" class="data-entry-input" id="att_det#i#" name="determined_by_agent" value="#attributeDeterminer#">
+									<input type="hidden" name="determined_by_agent_id" id="att_det_id#i#" value="#determined_by_agent_id#">
+								</div>
+								<div class="col-12 col-md-2">
+									<label class="data-entry-label">Determined Date</label>
+									<input type="text" class="data-entry-input" id="att_date#i#" name="determined_date" value="#dateformat(determined_date,"yyyy-mm-dd")#">
+								</div>
+								<div class="col-12 col-md-2">
+									<label class="data-entry-label" for="att_method#i#">Method</label>
+									<input type="text" class="data-entry-input" id="att_method#i#" name="determination_method" value="#determination_method#">
+								</div>
+								<div class="col-12 col-md-9">
+									<label for="att_rem" class="data-entry-label">Remarks</label>
+									<input type="text" class="data-entry-input" id="att_rem#i#" name="attribute_remark" value="#attribute_remark#">
+								</div>
+								<div class="col-12 col-md-3 pt-2">
+									<button id="att_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Attribute">Save</button>
+									<button id="att_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Attribute">Delete</button>
+									<output id="att_output#i#"></output>
+								</div>
+							</div>
+							<script>
+								$('##att_name#i#').on('change', function() {
+									handleTypeChangeExisting('#i#');
+								});
+							</script>
+						</form>
+					</cfloop>
+					<script>
+						// Add event listeners to the buttons
+						document.querySelectorAll('button[id^="att_submit"]').forEach(function(button) {
+							button.addEventListener('click', function(event) {
+								event.preventDefault();
+								var id = button.id.slice(-1);
+								var feedbackOutput = 'att_output' + id;
+								setFeedbackControlState(feedbackOutput,"saving")
+								$.ajax({
+									url: '/specimens/component/functions.cfc',
+									type: 'POST',
+									data: $("##editAttribute" + id).serialize(),
+									success: function(response) {
+										setFeedbackControlState(feedbackOutput,"saved");
+										reloadAttributes();
+									},
+									error: function(xhr, status, error) {
+										setFeedbackControlState(feedbackOutput,"error")
+										handleFail(xhr,status,error,"saving change to attribute.");
+									}
+								});
+							});
+						});
+						document.querySelectorAll('button[id^="att_delete"]').forEach(function(button) {
+							button.addEventListener('click', function(event) {
+								event.preventDefault();
+								var id = button.id.slice(-1);
+								var feedbackOutput = 'att_output' + id;
+								setFeedbackControlState(feedbackOutput,"deleting")
+								$.ajax({
+									url: '/specimens/component/functions.cfc',
+									type: 'POST',
+									data: {
+										method: 'deleteAttribute',
+										attribute_id: $("##editAttribute" + id + " input[name='attribute_id']").val(),
+										collection_object_id: $("##editAttribute" + id + " input[name='collection_object_id']").val()
+									},
+									success: function(response) {
+										setFeedbackControlState(feedbackOutput,"deleted");
+										reloadAttributes();
+										// remove the form from the DOM
+										$("##editAttribute" + id).remove();
+									},
+									error: function(xhr, status, error) {
+										setFeedbackControlState(feedbackOutput,"error")
+										handleFail(xhr,status,error,"deleting attribute.");
+									}
+								});
+							});
+						});
+						function handleTypeChangeExisting(id) {
+							var selectedType = $('##att_name' + id).val();
+							// lookup value code table and units code table from ctattribute_code_tables
+							// set select lists for value and units accordingly, or set as text input
+							$.ajax({
+								url: '/specimens/component/functions.cfc',
+								type: 'POST',
+								dataType: 'json',
+								data: {
+									collection_object_id: '#collection_object_id#',
+									method: 'getAttributeCodeTables',
+									attribute_type: selectedType
+								},
+								success: function(response) {
+									console.log(response);
+									// determine if the value field should be a select based on the response
+									if (response[0].value_code_table) {
+										$('##att_value'+id).prop('disabled', false);
+										// convert the value field to a select
+										$('##att_value'+id).replaceWith('<select name="attribute_value" id="att_value'+id+'" class="data-entry-select reqdClr" required></select>');
+										// Populate the value select with options from the response
+										// value_values is a pipe delimited list of values
+										var values = response[0].value_values.split('|');
+										$('##att_value'+id).append('<option value=""></option>');
+										$.each(values, function(index, value) {
+											$('##att_value'+id).append('<option value="' + value + '">' + value + '</option>');
+										});
+									} else {
+										// enable as a text input, replace any existing select
+										$('##att_value'+id).replaceWith('<input type="text" class="data-entry-input reqdClr" id="att_value'+id+'" name="attribute_value" value="" required>');
+										$('##att_value'+id).prop('disabled', false);
+									}
+									// Determine if the units field should be enabled based on the response
+									if (response[0].units_code_table) {
+										$('##att_units'+id).prop('disabled', false);
+										// convert the units field to a select
+										$('##att_units'+id).replaceWith('<select name="attribute_units" id="att_units'+id+'" class="data-entry-select reqdClr" required></select>');
+										// Populate the units select with options from the response
+										// units_values is a pipe delimited list of values
+										$('##att_units'+id).append('<option value=""></option>');
+										$.each(response[0].units_values.split('|'), function(index, value) {
+											$('##att_units'+id).append('<option value="' + value + '">' + value + '</option>');
+										});
+									} else {
+										// units are either picklists or not used.
+										// empty and disable the units field if units are not used
+										$('##att_units'+id).val("");  
+										$('##att_units'+id).prop('disabled', true);
+									}
+								},
+								error: function(xhr, status, error) {
+									handleFail(xhr,status,error,"handling change of attribute type.");
+								}
+							});
+						}
+					</script>
+				</div>
+			</div>
+		</div>
+	</cfoutput>
 </cffunction>
 
 <!--- 
