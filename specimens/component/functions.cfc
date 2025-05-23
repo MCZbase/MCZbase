@@ -3793,8 +3793,8 @@ limitations under the License.
 		</cfquery>
 		<cfif getAttributeCodeTables.recordCount EQ 1>
 			<cfset row = StructNew()>
-			<cfset row["value_code_table"] = "#getAttributeCodeTables.value_code_table#">
-			<cfset row["units_code_table"] = "#getAttributeCodeTables.units_code_table#">
+			<cfset row["value_code_table"] = "#ucase(getAttributeCodeTables.value_code_table)#">
+			<cfset row["units_code_table"] = "#ucase(getAttributeCodeTables.units_code_table)#">
 			<cfset row["attribute_type"] = "#getAttributeCodeTables.attribute_type#">
 			<cfif len(getAttributeCodeTables.value_code_table) GT 0>
 				<cfset variables.table=getAttributeCodeTables.value_code_table>
@@ -3858,8 +3858,6 @@ limitations under the License.
 		<cfelse>
 			<!--- not found, therefore no code tables specified for that attribute.  --->
 			<cfset row = StructNew()>
-			<cfset row["value_code_table"] = "">
-			<cfset row["units_code_table"] = "">
 			<cfset row["attribute_type"] = "#variables.attribute_type#">
 		</cfif>
 	<cfcatch>
