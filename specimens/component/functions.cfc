@@ -1154,6 +1154,7 @@ limitations under the License.
 	<cfthread action="join" name="getEditIdentsThread" />
 	<cfreturn getEditIdentsThread.output>
 </cffunction>
+
 <!--- function updateIdentifications update the identifications for an arbitrary number of identifications in the identification history of a collection object 
 	@param collection_object_id the collecton object to which the identification history pertains
 	@param number_of_ids the number of determinations in the identification history
@@ -3754,6 +3755,123 @@ limitations under the License.
 	</cfoutput>
 </cffunction>
 
+<!--- 
+ getAttributeCodeTables lookup value and unit code tables for a given attribute type.
+ @param collection_object_id the collection object id to obtain the collection by which to limit the code table values
+ @param attribute_type the attribute type to obtain the code tables for
+ @return a JSON object containing the attribute type, value code table, units code table, and the values for each
+  with the values for each code table returned as a pipe delimited string
+--->
+<cffunction name="getAttributeCodeTables" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="attribute_type" type="string" required="yes">
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.attribute_type = arguments.attribute_type>
+	<cfset result = ArrayNew(1)>
+	<cftry>
+		<cfquery name="getCatItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
+				cataloged_item.collection_object_id,
+				cataloged_item.cat_num,
+				cataloged_item.collection_cde,
+				collection.institution_acronym
+			FROM
+				cataloged_item 
+				join collection on cataloged_item.collection_id = collection.collection_id
+			WHERE
+				cataloged_item.collection_object_id = <cfqueryparam value="#variables.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+		</cfquery>
+		<cfquery name="getAttributeCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
+				attribute_type,
+				upper(value_code_table) value_code_table,
+				upper(units_code_table) units_code_table
+			FROM
+				ctattribute_code_tables
+			WHERE 
+				attribute_type = <cfqueryparam value="#variables.attribute_type#" cfsqltype="CF_SQL_VARCHAR">
+		</cfquery>
+		<cfif getAttributeCodeTables.recordCount EQ 1>
+			<cfset row = StructNew()>
+			<cfset row["value_code_table"] = "#getAttributeCodeTables.value_code_table#">
+			<cfset row["units_code_table"] = "#getAttributeCodeTables.units_code_table#">
+			<cfset row["attribute_type"] = "#getAttributeCodeTables.attribute_type#">
+			<cfif len(getAttributeCodeTables.value_code_table) GT 0>
+				<cfset variables.table=getAttributeCodeTables.value_code_table>
+				<!--- check if the table is a special case --->
+				<cfif ucase(variables.table) EQ "CTASSOCIATED_GRANTS">
+					<cfset variables.field="ASSOCIATED_GRANT">
+				<cfelseif ucase(variables.table) EQ "CTCOLLECTION_FULL_NAMES">
+					<cfset variables.field="COLLECTION">
+				<cfelse>
+					<!--- default is attribute field is the attribute code table name with CT prefix removed --->
+					<cfset variables.field=replace(getAttributeCodeTables.value_code_table,"CT","","one")>
+				</cfif>
+				<!--- check if the table has a collection_cde field --->
+				<cfquery name="getFieldMetadata" datasource="uam_god">
+					SELECT
+						COUNT(*) as ct
+					FROM
+						sys.all_tab_columns
+					WHERE
+						table_name = <cfqueryparam value="#variables.table#" cfsqltype="CF_SQL_VARCHAR">
+						AND owner = 'MCZBASE'
+						AND column_name = 'COLLECTION_CDE'
+				</cfquery>
+				<!--- obtain values, limit by collection if there is one --->
+				<cfquery name="getValueCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT distinct
+						#variables.field# as value
+					FROM
+						#variables.table#
+					<cfif getFieldMetadata.ct GT 0>
+					WHERE
+						collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
+					</cfif>
+					ORDER BY
+						#variables.field#
+				</cfquery>
+				<cfset values="">
+				<cfloop query="getValueCodeTable">
+					<cfset values = listAppend(values, getValueCodeTable.value, "|")>
+				</cfloop>
+				<cfset row["value_values"] = "#values#">
+			</cfif>
+			<cfif len(getAttributeCodeTables.units_code_table) GT 0>
+				<cfset table=getAttributeCodeTables.units_code_table>
+				<cfset field=replace(getAttributeCodeTables.units_code_table,"CT","","one")>
+				<cfquery name="getUnitsCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						#field# as value
+					FROM
+						#table#
+					ORDER BY
+						#field#
+				</cfquery>
+				<cfset units="">
+				<cfloop query="getUnitsCodeTable">
+					<cfset units = listAppend(units, getUnitsCodeTable.value, "|")>
+				</cfloop>
+				<cfset row["units_values"] = "#units#">
+			</cfif>
+			<cfset arrayAppend(result, row)>
+		<cfelse>
+			<!--- not found, therefore no code tables specified for that attribute.  --->
+			<cfset row = StructNew()>
+			<cfset row["attribute_type"] = "#variables.attribute_type#">
+			<cfset arrayAppend(result, row)>
+		</cfif>
+	<cfcatch>
+		<cfdump var="#cfcatch#">
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(result)>
+</cffunction>
+
 <cffunction name="getEditAttributesHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfset variables.collection_object_id = arguments.collection_object_id>
@@ -3784,6 +3902,18 @@ limitations under the License.
 					ORDER BY
 						attribute_type
 				</cfquery>
+				<cfquery name="getCurrentUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT agent_id, 
+							agent_name
+					FROM preferred_agent_name
+					WHERE
+						agent_id in (
+							SELECT agent_id 
+							FROM agent_name 
+							WHERE upper(agent_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
+								and agent_name_type = 'login'
+						)
+				</cfquery>
 
 				<!--- add new attribute --->
 				<div class="col-12 mt-4 px-1">
@@ -3795,40 +3925,45 @@ limitations under the License.
 										<h2 class="h3 my-0 px-1 bp-1">Add New Attribute to #guid#</h2>
 									</div>
 									<div class="card-body">
-										<form name="newAttribute">
+										<form name="newAttribute" id="newAttribute">
+											<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+											<input type="hidden" name="method" value="addAttribute">
 											<div class="row mx-0 pb-2">
 												<ul class="col-12 px-0 mt-2 mb-1">
 													<li class="list-group-item float-left col-12 col-md-4 px-1">
-														<label for="new_att_name" class="data-entry-label">Name</label>
-														<select name="new_att_name" id="new_att_name" class="data-entry-select">
+														<label for="attribute_type" class="data-entry-label">Name</label>
+														<select name="attribute_type" id="attribute_type" class="data-entry-select reqdClr" required>
+															<option value=""></option>
 															<cfloop query="getAttributeTypes">
 																<option value="#attribute_type#">#attribute_type#</option>
 															</cfloop>
 														</select>
 													</li>
 													<li class="list-group-item float-left col-12 col-md-4 px-1">
-														<label for="new_att_value" class="data-entry-label">Value</label>
-														<input type="text" class="data-entry-input" id="new_att_value" name="new_att_value" value="">
+														<label for="attribute_value" class="data-entry-label">Value</label>
+														<input type="text" class="data-entry-input" id="attribute_value" name="attribute_value" value="">
 													</li>
 													<li class="list-group-item float-left col-12 col-md-4 px-1">
-														<label for="new_att_units" class="data-entry-label">Units</label>
-														<input type="text" class="data-entry-input" id="new_att_units" name="new_att_units" value="">
+														<label for="attribute_units" class="data-entry-label">Units</label>
+														<input type="text" class="data-entry-input" id="attribute_units" name="attribute_units" value="">
 													</li>
 													<li class="list-group-item float-left col-12 col-md-4 px-1">
-														<label for="new_att_determiner" class="data-entry-label">Determiner</label>
-														<input type="text" class="data-entry-input" id="new_att_determiner" name="new_att_determiner" value="">
+														<label for="determined_by_agent" class="data-entry-label">Determiner</label>
+														<input type="text" class="data-entry-input" id="determined_by_agent" name="determined_by_agent" value="#getCurrentUser.agent_name#">
+														<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id" value="#getCurrentUser.agent_id#">
 													</li>
 													<li class="list-group-item float-left col-12 col-md-4 px-1">
-														<label for="new_att_det_date" class="data-entry-label">Determined Date</label>
-														<input type="text" class="data-entry-input" id="new_att_det_date" name="new_att_det_date" value="">
+														<label for="determined_date" class="data-entry-label">Determined Date</label>
+														<input type="text" class="data-entry-input" id="determined_date" name="determined_date" 
+															placeholder="yyyy-mm-dd" value="#dateformat(now(),"yyyy-mm-dd")#">
 													</li>
 													<li class="list-group-item float-left col-12 col-md-4 px-1">
-														<label for="new_att_det_method" class="data-entry-label">Determined Method</label>
-														<input type="text" class="data-entry-input" id="new_att_det_method" name="new_att_det_method" value="">
+														<label for="determination_method" class="data-entry-label">Determined Method</label>
+														<input type="text" class="data-entry-input" id="determination_method" name="determination_method" value="">
 													</li>
 													<li class="list-group-item float-left col-12 col-md-12 px-1">
-														<label for="new_att_det_remarks" class="data-entry-label">Remarks</label>
-														<input type="text" class="data-entry-input" id="new_att_det_remarks" name="new_att_det_remarks" value="">
+														<label for="attribute_remark" class="data-entry-label">Remarks</label>
+														<input type="text" class="data-entry-input" id="attribute_remark" name="attribute_remark" value="" maxlength="255">
 													</li>
 												</ul>
 												<div class="col-12 col-md-12 px-1 mt-2">
@@ -3840,147 +3975,117 @@ limitations under the License.
 									</div>
 								</div>
 								<script>
+									$(document).ready(function() {
+										// disable units and value fields until type is selected
+										$('##attribute_value').prop('disabled', true);
+										$('##attribute_units').prop('disabled', true);
+										// make the determined date a date picker
+										$("##determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
+										// make the determined by agent into an agent autocomplete
+										makeAgentAutocompleteMeta('determined_by_agent','determined_by_agent_id');
+									});
 									function handleTypeChange() {
-										var selectedType = document.getElementById('new_att_name').value;
+										var selectedType = $('##attribute_type').val();
 										// lookup value code table and units code table from ctattribute_code_tables
 										// set select lists for value and units accordingly, or set as text input
 										$.ajax({
 											url: '/specimens/component/functions.cfc',
 											type: 'POST',
+											dataType: 'json',
 											data: {
 												collection_object_id: '#collection_object_id#',
-												method: 'getAttributeTypeDetails',
+												method: 'getAttributeCodeTables',
 												attribute_type: selectedType
 											},
 											success: function(response) {
-												// Populate the value and units fields based on the response
-												document.getElementById('new_att_value').value = response.value;
-												document.getElementById('new_att_units').value = response.units;
+												console.log(response);
+												// determine if the value field should be a select based on the response
+												if (response[0].value_code_table) {
+													$('##attribute_value').prop('disabled', false);
+													// convert the value field to a select
+													$('##attribute_value').replaceWith('<select id="attribute_value" name="attribute_value" class="data-entry-select reqdClr" required></select>');
+													// Populate the value select with options from the response
+													// value_values is a pipe delimited list of values
+													var values = response[0].value_values.split('|');
+													$('##attribute_value').append('<option value=""></option>');
+													$.each(values, function(index, value) {
+														$('##attribute_value').append('<option value="' + value + '">' + value + '</option>');
+													});
+												} else {
+													// enable as a text input, replace any existing select
+													$('##attribute_value').replaceWith('<input type="text" class="data-entry-input reqdClr" id="attribute_value" name="attribute_value" value="" required>');
+													$('##attribute_value').prop('disabled', false);
+												}
+												// Determine if the units field should be enabled based on the response
+												if (response[0].units_code_table) {
+													$('##attribute_units').prop('disabled', false);
+													// convert the units field to a select
+													$('##attribute_units').replaceWith('<select id="attribute_units" name="attribute_units" class="data-entry-select reqdClr" required></select>');
+													// Populate the units select with options from the response
+													// units_values is a pipe delimited list of values
+													$('##attribute_units').append('<option value=""></option>');
+													$.each(response[0].units_values.split('|'), function(index, value) {
+														$('##attribute_units').append('<option value="' + value + '">' + value + '</option>');
+													});
+												} else {
+													// units are either picklists or not used.
+													$('##attribute_units').prop('disabled', true);
+													$('##attribute_units').val('');
+													// remove any reqdClr class
+													$('##attribute_units').removeClass('reqdClr');
+												}
 											},
 											error: function(xhr, status, error) {
 												handleFail(xhr,status,error,"handling change of attribute type.");
 											}
 										});
 									}
-									// Add event listener to the button
-									document.getElementById('newID_submit').addEventListener('click', function(event) {
+									// Add change listener to the attribute type select
+									$('##attribute_type').on('change', function() {
+										handleTypeChange();
+									});
+									// Add event listener to the save button
+									$('##newAttribute_submit').on('click', function(event) {
 										event.preventDefault();
-										setFeedbackControlState("newAttribute_output","saving")
-										var form = document.querySelector('form[name="newAttribute"]');
-										var formData = new FormData(form);
-										formData.append('collection_object_id', '#collection_object_id#');
-										formData.append('method', 'addAttribute');
+										setFeedbackControlState("newAttribute_output","saving");
 										$.ajax({
 											url: '/specimens/component/functions.cfc',
 											type: 'POST',
-											data: formData,
+											responseType: 'json',
+											data: $('##newAttribute').serialize(),
 											success: function(response) {
-												setFeedbackControlState("newAttribute_output","saved")
+												setFeedbackControlState("newAttribute_output","saved");
+												reloadEditExistingAttributes();
 											},
 											error: function(xhr, status, error) {
-												setFeedbackControlState("newAttribute_output","error")
+												setFeedbackControlState("newAttribute_output","error");
 												handleFail(xhr,status,error,"saving attribute.");
 											}
 										});
 									});
+									function reloadEditExistingAttributes() {
+										// reload the edit existing attributes section
+										$.ajax({
+											url: '/specimens/component/functions.cfc',
+											type: 'POST',
+											dataType: 'html',
+											data: {
+												method: 'getEditExistingAttributesUnthreaded',
+												collection_object_id: '#collection_object_id#'
+											},
+											success: function(response) {
+												$('##editExistingAttributesDiv').html(response);
+											},
+											error: function(xhr, status, error) {
+												handleFail(xhr,status,error,"reloading edit existing attributes.");
+											}
+										});
+									}
 								</script>
 								<!--- edit existing attributes --->
-								<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT
-										attributes.attribute_type,
-										attributes.attribute_value,
-										attributes.attribute_units,
-										attributes.attribute_remark,
-										attributes.determination_method,
-										attributes.determined_date,
-										attribute_determiner.agent_name attributeDeterminer
-									FROM
-										attributes
-										LEFT JOIN preferred_agent_name attribute_determiner on attributes.determined_by_agent_id = attribute_determiner.agent_id 
-									WHERE
-										attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-								</cfquery>
-								<div class="row mx-0">
-									<div class="bg-light p-2 col-12 row">
-										<h1 class="h3">Edit Existing Attributes</h1>
-										<div class="col-12 px-0 pb-3">
-											<cfif getAttributes.recordCount EQ 0>
-												<li>No attributes found for this specimen.</li>
-											</cfif>
-											<cfset i = 0>
-											<cfloop query="getAttributes">
-												<cfset i = i + 1>
-												<form name="editAttribute#i#">
-													<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-													<input type="hidden" name="method" value="updateAttribute">
-													<div class="row mx-0 border">
-														<div class="col-12 col-md-2">
-															<label for="att_name#i#" class="data-entry-label">Name</label>
-															<select class="data-entry-select" id="att_name#i#" name="att_name">
-															<cfloop query="getAttributeTypes">
-																<cfif getAttributeTypes.attribute_type EQ getAttributes.attribute_type>
-																	<cfset selected = "selected">
-																<cfelse>
-																	<cfset selected = "">
-																</cfif>
-																<option value="#getAttributeTypes.attribute_type#" #selected#>#getAttributeTypes.attribute_type#</option>
-															</cfloop>
-														</div>
-														<div class="col-12 col-md-2">
-															<label for="att_value" class="data-entry-label">Value</label>
-															<input type="text" class="data-entry-input" id="att_value#i#" name="att_value" value="#attribute_value#">
-														</div>
-														<div class="col-12 col-md-2">
-															<label for="att_units" class="data-entry-label">Units</label>
-															<input type="text" class="data-entry-input" id="att_units#i#" name="att_units" value="#attribute_units#">
-														</div>
-														<div class="col-12 col-md-2">
-															<label class="data-entry-label">Determiner</label>
-															<input type="text" class="data-entry-input" id="att_det#i#" name="att_det" value="#attributeDeterminer#">
-														</div>
-														<div class="col-12 col-md-2">
-															<label class="data-entry-label">Determined Date</label>
-															<input type="text" class="data-entry-input" id="att_date#i#" name="att_date" value="#dateformat(determined_date,"yyyy-mm-dd")#">
-														</div>
-														<div class="col-12 col-md-2">
-															<label class="data-entry-label" for="att_method#i#">Determined Method</label>
-															<input type="text" class="data-entry-input" id="att_method#i#" name="att_method" value="#determination_method#">
-														</div>
-														<div class="col-12 col-md-9">
-															<label for="att_rem" class="data-entry-label">Remarks</label>
-															<input type="text" class="data-entry-input" id="att_rem#i#" name="att_rem" value="#attribute_remark#">
-														</div>
-														<div class="col-12 col-md-3">
-															<button id="att_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Attribute">Save</button>
-															<button id="att_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Attribute">Delete</button>
-															<output id="att_output#i#"></output>
-														</div>
-													</div>
-												</form>
-											</cfloop>
-											<script>
-												// Add event listeners to the buttons
-												document.querySelectorAll('button[id^="att_submit"]').forEach(function(button) {
-													button.addEventListener('click', function(event) {
-														event.preventDefault();
-														var form = button.closest('form');
-														var formData = new FormData(form);
-														$.ajax({
-															url: '/specimens/component/functions.cfc',
-															type: 'POST',
-															data: formData,
-															success: function(response) {
-																document.getElementById('att_output' + button.id.slice(-1)).innerText = response.message;
-															},
-															error: function(xhr, status, error) {
-																handleFail(xhr,status,error,"saving change to attribute.");
-															}
-														});
-													});
-												});
-											</script>
-										</div>
-									</div>
+								<div id="editExistingAttributesDiv">
+									<!--- this div is replaced with the edit existing attributes HTML attributes are added --->
+									<cfset getEditExistingAttributesHTML = getEditExistingAttributesUnthreaded(collection_object_id=variables.collection_object_id)>
 								</div>
 							</div>
 						</div>
@@ -3996,6 +4101,479 @@ limitations under the License.
 	<cfreturn getEditAttributesThread.output>
 </cffunction>
 
+<!--- 
+ getEditExistingAttributesUnthreaded returns the HTML for the edit existing attributes section, intended to be used
+ from within threaded getEditAttributesHTML or invoked independently to reload just the edit existing attributes section 
+ of the dialog.
+ @param collection_object_id the collection object id to obtain the collection by which to limit the code table values
+ @return a string containing the HTML for the edit existing attributes section
+--->
+<cffunction name="getEditExistingAttributesUnthreaded" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfoutput>
+		<cfquery name="getCatItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
+				cataloged_item.collection_object_id,
+				cataloged_item.cat_num,
+				cataloged_item.collection_cde,
+				collection.institution_acronym
+			FROM
+				cataloged_item 
+				join collection on cataloged_item.collection_id = collection.collection_id
+			WHERE
+				cataloged_item.collection_object_id = <cfqueryparam value="#variables.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+		</cfquery>
+		<cfset guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num#">
+		<!--- obtain a list of attribute types for the collection this specimen is in --->
+		<cfquery name="getAttributeTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
+				attribute_type, description
+			FROM
+				ctattribute_type
+			WHERE 
+				collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
+			ORDER BY
+				attribute_type
+		</cfquery>
+		<cfquery name="getCurrentUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT agent_id, 
+					agent_name
+			FROM preferred_agent_name
+			WHERE
+				agent_id in (
+					SELECT agent_id 
+					FROM agent_name 
+					WHERE upper(agent_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
+						and agent_name_type = 'login'
+				)
+		</cfquery>
+		<!--- edit existing attributes --->
+		<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
+				attributes.attribute_id,
+				attributes.attribute_type,
+				attributes.attribute_value,
+				attributes.attribute_units,
+				attributes.attribute_remark,
+				attributes.determination_method,
+				attributes.determined_date,
+				attribute_determiner.agent_name attributeDeterminer,
+				attributes.determined_by_agent_id
+			FROM
+				attributes
+				LEFT JOIN preferred_agent_name attribute_determiner on attributes.determined_by_agent_id = attribute_determiner.agent_id 
+			WHERE
+				attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+		</cfquery>
+		<div class="row mx-0">
+			<div class="bg-light p-2 col-12 row">
+				<h1 class="h3">Edit Existing Attributes</h1>
+				<div class="col-12 px-0 pb-3">
+					<cfif getAttributes.recordCount EQ 0>
+						<li>No attributes found for this specimen.</li>
+					</cfif>
+					<cfset i = 0>
+					<cfloop query="getAttributes">
+						<cfset i = i + 1>
+						<form name="editAttribute#i#" id="editAttribute#i#">
+							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+							<input type="hidden" name="attribute_id" value="#attribute_id#">
+							<input type="hidden" name="method" value="updateAttribute">
+							<div class="row mx-0 border pb-1">
+								<div class="col-12 col-md-2">
+									<label for="att_name#i#" class="data-entry-label">Name</label>
+									<select class="data-entry-select reqdClr" id="att_name#i#" name="attribute_type" required>
+										<cfloop query="getAttributeTypes">
+											<cfif getAttributeTypes.attribute_type EQ getAttributes.attribute_type>
+												<cfset selected = "selected">
+											<cfelse>
+												<cfset selected = "">
+											</cfif>
+											<option value="#getAttributeTypes.attribute_type#" #selected#>#getAttributeTypes.attribute_type#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-2">
+									<label for="att_value" class="data-entry-label reqdClr" required>Value</label>
+									<input type="text" class="data-entry-input" id="att_value#i#" name="attribute_value" value="#attribute_value#">
+								</div>
+								<div class="col-12 col-md-2">
+									<label for="att_units" class="data-entry-label">Units</label>
+									<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="#attribute_units#">
+								</div>
+								<div class="col-12 col-md-2">
+									<label class="data-entry-label">Determiner</label>
+									<input type="text" class="data-entry-input" id="att_det#i#" name="determined_by_agent" value="#attributeDeterminer#">
+									<input type="hidden" name="determined_by_agent_id" id="att_det_id#i#" value="#determined_by_agent_id#">
+									<!--- make the determined by agent into an agent autocomplete --->
+									<script>
+										$(document).ready(function() {
+											makeAgentAutocompleteMeta('att_det#i#','att_det_id#i#');
+										});
+									</script>
+								</div>
+								<div class="col-12 col-md-2">
+									<label class="data-entry-label">Determined Date</label>
+									<input type="text" class="data-entry-input" id="att_date#i#" name="determined_date" value="#dateformat(determined_date,"yyyy-mm-dd")#">
+								</div>
+								<div class="col-12 col-md-2">
+									<label class="data-entry-label" for="att_method#i#">Method</label>
+									<input type="text" class="data-entry-input" id="att_method#i#" name="determination_method" value="#determination_method#">
+								</div>
+								<div class="col-12 col-md-9">
+									<label for="att_rem" class="data-entry-label">Remarks</label>
+									<input type="text" class="data-entry-input" id="att_rem#i#" name="attribute_remark" value="#attribute_remark#">
+								</div>
+								<div class="col-12 col-md-3 pt-2">
+									<button id="att_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Attribute">Save</button>
+									<button id="att_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Attribute">Delete</button>
+									<output id="att_output#i#"></output>
+								</div>
+							</div>
+							<script>
+								$('##att_name#i#').on('change', function() {
+									handleTypeChangeExisting('#i#');
+								});
+							</script>
+						</form>
+					</cfloop>
+					<script>
+						// Add event listeners to the buttons
+						document.querySelectorAll('button[id^="att_submit"]').forEach(function(button) {
+							button.addEventListener('click', function(event) {
+								event.preventDefault();
+								var id = button.id.slice(-1);
+								var feedbackOutput = 'att_output' + id;
+								setFeedbackControlState(feedbackOutput,"saving")
+								$.ajax({
+									url: '/specimens/component/functions.cfc',
+									type: 'POST',
+									data: $("##editAttribute" + id).serialize(),
+									success: function(response) {
+										setFeedbackControlState(feedbackOutput,"saved");
+										reloadAttributes();
+									},
+									error: function(xhr, status, error) {
+										setFeedbackControlState(feedbackOutput,"error")
+										handleFail(xhr,status,error,"saving change to attribute.");
+									}
+								});
+							});
+						});
+						document.querySelectorAll('button[id^="att_delete"]').forEach(function(button) {
+							button.addEventListener('click', function(event) {
+								event.preventDefault();
+								var id = button.id.slice(-1);
+								var feedbackOutput = 'att_output' + id;
+								setFeedbackControlState(feedbackOutput,"deleting")
+								$.ajax({
+									url: '/specimens/component/functions.cfc',
+									type: 'POST',
+									data: {
+										method: 'deleteAttribute',
+										attribute_id: $("##editAttribute" + id + " input[name='attribute_id']").val(),
+										collection_object_id: $("##editAttribute" + id + " input[name='collection_object_id']").val()
+									},
+									success: function(response) {
+										setFeedbackControlState(feedbackOutput,"deleted");
+										reloadAttributes();
+										// remove the form from the DOM
+										$("##editAttribute" + id).remove();
+									},
+									error: function(xhr, status, error) {
+										setFeedbackControlState(feedbackOutput,"error")
+										handleFail(xhr,status,error,"deleting attribute.");
+									}
+								});
+							});
+						});
+						function handleTypeChangeExisting(id) {
+							var selectedType = $('##att_name' + id).val();
+							// lookup value code table and units code table from ctattribute_code_tables
+							// set select lists for value and units accordingly, or set as text input
+							$.ajax({
+								url: '/specimens/component/functions.cfc',
+								type: 'POST',
+								dataType: 'json',
+								data: {
+									collection_object_id: '#collection_object_id#',
+									method: 'getAttributeCodeTables',
+									attribute_type: selectedType
+								},
+								success: function(response) {
+									console.log(response);
+									// determine if the value field should be a select based on the response
+									if (response[0].value_code_table) {
+										$('##att_value'+id).prop('disabled', false);
+										// convert the value field to a select
+										$('##att_value'+id).replaceWith('<select name="attribute_value" id="att_value'+id+'" class="data-entry-select reqdClr" required></select>');
+										// Populate the value select with options from the response
+										// value_values is a pipe delimited list of values
+										var values = response[0].value_values.split('|');
+										$('##att_value'+id).append('<option value=""></option>');
+										$.each(values, function(index, value) {
+											$('##att_value'+id).append('<option value="' + value + '">' + value + '</option>');
+										});
+									} else {
+										// enable as a text input, replace any existing select
+										$('##att_value'+id).replaceWith('<input type="text" class="data-entry-input reqdClr" id="att_value'+id+'" name="attribute_value" value="" required>');
+										$('##att_value'+id).prop('disabled', false);
+									}
+									// Determine if the units field should be enabled based on the response
+									if (response[0].units_code_table) {
+										$('##att_units'+id).prop('disabled', false);
+										// convert the units field to a select
+										$('##att_units'+id).replaceWith('<select name="attribute_units" id="att_units'+id+'" class="data-entry-select reqdClr" required></select>');
+										// Populate the units select with options from the response
+										// units_values is a pipe delimited list of values
+										$('##att_units'+id).append('<option value=""></option>');
+										$.each(response[0].units_values.split('|'), function(index, value) {
+											$('##att_units'+id).append('<option value="' + value + '">' + value + '</option>');
+										});
+									} else {
+										// units are either picklists or not used.
+										// empty and disable the units field if units are not used
+										$('##att_units'+id).val("");  
+										$('##att_units'+id).prop('disabled', true);
+										// remove any reqdClr class
+										$('##att_units'+id).removeClass('reqdClr');
+									}
+								},
+								error: function(xhr, status, error) {
+									handleFail(xhr,status,error,"handling change of attribute type.");
+								}
+							});
+						}
+					</script>
+				</div>
+			</div>
+		</div>
+	</cfoutput>
+</cffunction>
+
+<!--- 
+ deleteAttribute deletes an attribute for a collection object.
+ @param attribute_id the attribute id to delete
+ @param collection_object_id the collection object id to delete the attribute for
+ @return a JSON object containing status = deleted or an http 500 error
+--->
+<cffunction name="deleteAttribute" returntype="any" access="remote" returnformat="json">
+	<cfargument name="attribute_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfset variables.attribute_id = arguments.attribute_id>
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="deleteAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteAttribute_result">
+				DELETE FROM attributes
+				WHERE
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					AND attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.attribute_id#">
+			</cfquery>
+			<cfif deleteAttribute_result.recordCount NEQ 1>
+				<cfthrow message="Other than one row deleted.">
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "deleted">
+			<cfset row["id"] = variables.attribute_id>
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJson(data)>
+</cffunction>
+
+<!--- 
+ updateAttribute updates an attribute for a collection object.
+ @param attribute_id the attribute id to update
+ @param collection_object_id the collection object id to update the attribute for
+ @param attribute_type the type of attribute to update
+ @param attribute_value the value of the attribute
+ @param attribute_units the units of the attribute
+ @param attribute_remark any remarks about the attribute
+ @param determined_by_agent_id the agent id of the person who determined the attribute
+ @param determined_date the date the attribute was determined
+ @param determination_method how the attribute was determined
+ @return a JSON object containing status = updated or an http 500 error
+--->
+<cffunction name="updateAttribute" returntype="any" access="remote" returnformat="json">
+	<cfargument name="attribute_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="attribute_type" type="string" required="yes">
+	<cfargument name="attribute_value" type="string" required="yes">
+	<cfargument name="attribute_units" type="string" required="no">
+	<cfargument name="attribute_remark" type="string" required="no">
+	<cfargument name="determined_by_agent_id" type="string" required="yes">
+	<cfargument name="determined_by_agent" type="string" required="no">
+	<cfargument name="determined_date" type="string" required="no">
+	<cfargument name="determination_method" type="string" required="no">
+	<cfset variables.attribute_id = arguments.attribute_id>
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.attribute_type = arguments.attribute_type>
+	<cfset variables.attribute_value = arguments.attribute_value>
+	<cfif isdefined("arguments.attribute_units")>
+		<cfset variables.attribute_units = arguments.attribute_units>
+	<cfelse>
+		<cfset variables.attribute_units = "">
+	</cfif>
+	<cfif isdefined("arguments.attribute_remark")>
+		<cfset variables.attribute_remark = arguments.attribute_remark>
+	<cfelse>
+		<cfset variables.attribute_remark = "">
+	</cfif>
+	<cfset variables.determined_by_agent_id = arguments.determined_by_agent_id>
+	<cfif isdefined("arguments.determined_date")>
+		<cfset variables.determined_date = arguments.determined_date>
+	<cfelse>
+		<cfset variables.determined_date = "">
+	</cfif>
+	<cfif isdefined("arguments.determination_method")>
+		<cfset variables.determination_method = arguments.determination_method>
+	<cfelse>
+		<cfset variables.determination_method = "">
+	</cfif>
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="updateAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAttribute_result">
+				UPDATE attributes
+				SET
+					attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.attribute_type#">,
+					attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.attribute_value#">,
+					attribute_units = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.attribute_units#">,
+					attribute_remark = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.attribute_remark#">,
+					determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.determined_by_agent_id#">,
+					determined_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#variables.determined_date#">,
+					determination_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.determination_method#">
+				WHERE
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					AND attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.attribute_id#">
+			</cfquery>
+			<cfif updateAttribute_result.recordCount NEQ 1>
+				<cfthrow message="Other than one row updated.">
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "updated">
+			<cfset row["id"] = variables.attribute_id>
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
+<!--- 
+ addAttribute adds a new attribute to a collection object.
+ @param collection_object_id the collection object id to add the attribute to
+ @param attribute_type the type of attribute to add
+ @param attribute_value the value of the attribute
+ @param attribute_units the units of the attribute
+ @param attribute_remark any remarks about the attribute
+ @param determined_by_agent_id the agent id of the person who determined the attribute
+ @param determined_by_agent the agent who determined the attribute
+ @param determined_date the date the attribute was determined
+ @param determination_method how the attribute was determined
+ @return a JSON object containing status = added or an http 500 error
+--->
+<cffunction name="addAttribute" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="attribute_type" type="string" required="yes">
+	<cfargument name="attribute_value" type="string" required="yes">
+	<cfargument name="attribute_units" type="string" required="no">
+	<cfargument name="attribute_remark" type="string" required="no">
+	<cfargument name="determined_by_agent_id" type="string" required="yes">
+	<cfargument name="determined_by_agent" type="string" required="yes">
+	<cfargument name="determined_date" type="string" required="no">
+	<cfargument name="determination_method" type="string" required="no">
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.attribute_type = arguments.attribute_type>
+	<cfset variables.attribute_value = arguments.attribute_value>
+	<cfif isdefined("arguments.attribute_units")>
+		<cfset variables.attribute_units = arguments.attribute_units>
+	<cfelse>
+		<cfset variables.attribute_units = "">
+	</cfif>
+	<cfif isdefined("arguments.attribute_remark")>
+		<cfset variables.attribute_remark = arguments.attribute_remark>
+	<cfelse>
+		<cfset variables.attribute_remark = "">
+	</cfif>
+	<cfset variables.determined_by_agent_id = arguments.determined_by_agent_id>
+	<cfif isdefined("arguments.determined_date")>
+		<cfset variables.determined_date = arguments.determined_date>
+	<cfelse>
+		<cfset variables.determined_date = "">
+	</cfif>
+	<cfif isdefined("arguments.determination_method")>
+		<cfset variables.determination_method = arguments.determination_method>
+	<cfelse>
+		<cfset variables.determination_method = "">
+	</cfif>
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="addAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				INSERT INTO attributes (
+					collection_object_id, 
+					attribute_type, 
+					attribute_value, 
+					attribute_units, 
+					attribute_remark, 
+					determined_by_agent_id, 
+					determined_date, 
+					determination_method
+				) values (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.attribute_type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.attribute_value#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.attribute_units#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.attribute_remark#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.determined_by_agent_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DATE" value="#variables.determined_date#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.determination_method#">
+				)
+			</cfquery>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "added">
+			<cfset row["id"] = "#variables.collection_object_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
+<!---
+ getEditLocalityHTML returns the HTML for the locality edit form.
+ @param collection_object_id the collection object id to obtain the locality for
+ @return a JSON object containing the HTML for the locality edit form
+--->
 <cffunction name="getEditLocalityHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditLocalityThread"> <cfoutput>
