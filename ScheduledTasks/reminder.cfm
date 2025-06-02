@@ -61,6 +61,7 @@
 				loan.transaction_id=shipment.transaction_id(+) and
 				shipment.shipped_to_addr_id = addr.addr_id(+) and
 				(shipment.print_flag is null or shipment.print_flag = 1)
+				and loan.loan_number not like '%Mala%'
 		</cfquery>
 		<!--- local query to organize and flatten loan data --->
 		<cfquery name="loan" dbtype="query">
