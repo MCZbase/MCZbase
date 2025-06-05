@@ -141,7 +141,7 @@ limitations under the License.
 </cffunction>
 
 			 
-  <cffunction name="getWikiArticle" access="remote" returntype="string" output="false">
+  <cffunction name="getWikiArticle" access="remote" returntype="void" output="false">
     <cfargument name="page" type="string" required="true">
 
     <cfset var pageTitle = arguments.page>
@@ -155,7 +155,7 @@ limitations under the License.
             result="wikiContent">
     </cfhttp>
     <cfcontent type="text/html; charset=UTF-8" reset="true">
-    #wikiContent.fileContent#
+    <cfreturn wikiContent.fileContent>
 		<cfabort>
   </cffunction>
 <!------------------------------------->
