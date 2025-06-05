@@ -160,7 +160,7 @@ limitations under the License.
 				// Path to your CFC function!
 				var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&page=" + encodeURIComponent(pageName);
 
-				$('#wiki-content').html('Loading...');
+				$('##wiki-content').html('Loading...');
 
 				fetch(proxyUrl)
 					.then(function(resp) { return resp.text(); })
