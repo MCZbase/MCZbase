@@ -144,7 +144,11 @@ limitations under the License.
 		<cfoutput>
 
 			<a href="##" id="show-wiki" class="btn btn-info">Show Wiki Content</a>
-
+<!--- proxyWiki.cfm --->
+<cfset pageName = url.page ?: "Higher_Geography">
+<cfhttp url="https://code.mcz.harvard.edu/wiki/index.php?title=#URLEncodedFormat(pageName)#&action=render" method="get" result="wikiContent" />
+<cfcontent type="text/html" reset="true">
+#wikiContent.fileContent#
 <div class="modal fade" id="wikiModal" tabindex="-1" aria-labelledby="wikiModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
