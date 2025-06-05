@@ -60,18 +60,49 @@ limitations under the License.
 			container,
 			container p
 		where
-			container.parent_container_id=p.container_id (+) and
 			container.container_type='collection object'
 		start with
 			container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.container_id#">
 		connect by
 			container.parent_container_id = prior container.container_id
 	</cfquery>
+	<cfquery name="allLeafData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT 
+			p.barcode parent_barcode,
+			p.container_type parent_container_type,
+			container.container_id,
+			container.container_type,
+			container.label,
+			container.description,
+			container.container_remarks
+			cataloged_item.collection_object_id,
+			scientific_name,
+			part_name,
+			cat_num,
+			cataloged_item.collection_cde,
+			institution_acronym,
+			get_storedas_by_contid(container.container_id) storedAs
+		FROM
+			container
+			left join container p on container.parent_container_id=p.container_id
+			join coll_obj_cont_hist on container.container_id = coll_obj_cont_hist.container_id
+			join specimen_part on coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id
+			join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+			join identification on cataloged_item.collection_object_id = identification.collection_object_id 
+			join collection on cataloged_item.collection_id=collection.collection_id
+		WHERE
+			container.container_type='collection object' AND
+			coll_obj_cont_hist.accepted_id_fg = 1 
+		START WITH
+			container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.container_id#">
+		CONNECT BY
+			container.parent_container_id = prior container.container_id
+	</cfquery>
 
 	<!--- special case handling to dump as csv --->
 	<cfif isDefined("variables.action") AND variables.action is "csvDump">
 		<cfinclude template="/shared/component/functions.cfc">
-		<cfset csv = queryToCSV(leaf)>
+		<cfset csv = queryToCSV(allLeafData)>
 		<cfheader name="Content-Type" value="text/csv">
 		<cfoutput>#csv#</cfoutput>
 		<cfabort>
@@ -109,52 +140,48 @@ limitations under the License.
 							<th><strong>Scientific Name</strong></th>
 							<th><strong>Stored As</strong></th>
 						</tr>
-
-		<cfloop query="leaf">
-			<cfquery name="specData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT 
-					cataloged_item.collection_object_id,
-					scientific_name,
-					part_name,
-					cat_num,
-					cataloged_item.collection_cde,
-					institution_acronym,
-					get_storedas_by_contid(#variables.container_id#) storedAs
-				FROM
-					coll_obj_cont_hist,
-					specimen_part,
-					cataloged_item,
-					identification,
-					collection
-				WHERE
-					coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id AND
-					specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
-					cataloged_item.collection_object_id = identification.collection_object_id AND
-					cataloged_item.collection_id=collection.collection_id AND
-					accepted_id_fg=1 AND
-					container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#leaf.container_id#">
-			</cfquery>
-			<cfloop query="specData">
-			<tr>
-					<td>
-						<a href="ContainerDetails.cfm?container_id=#leaf.container_id#" target="_detail">#leaf.label#</a>
-					&nbsp;</td>
-					<td>#leaf.description#&nbsp;</td>
-					<td>#leaf.barcode#&nbsp;</td>
-					<td>#leaf.container_remarks#&nbsp;</td>
-					<td>#specData.part_name#</td>
-					<td>
-						<a href="/SpecimenDetail.cfm?collection_object_id=#specData.collection_object_id#">
-							#specData.institution_acronym# #specData.collection_cde# #specData.cat_num#
-						</a>
-					</td>
-					<td>#specData.scientific_name#</td>
-					<td>#specData.storedAs#</td>
-				</tr>
-			</cfloop>
-		</cfloop>
-	</table>
-
+						<cfloop query="leaf">
+							<cfquery name="specData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT 
+									cataloged_item.collection_object_id,
+									scientific_name,
+									part_name,
+									cat_num,
+									cataloged_item.collection_cde,
+									institution_acronym,
+									get_storedas_by_contid(#variables.container_id#) storedAs
+								FROM
+									coll_obj_cont_hist,
+									specimen_part,
+									cataloged_item,
+									identification,
+									collection
+								WHERE
+									coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id AND
+									specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
+									cataloged_item.collection_object_id = identification.collection_object_id AND
+									cataloged_item.collection_id=collection.collection_id AND
+									accepted_id_fg=1 AND
+									container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#leaf.container_id#">
+							</cfquery>
+							<cfloop query="specData">
+								<tr>
+									<td> <a href="/ContainerDetails.cfm?container_id=#leaf.container_id#" target="_detail">#leaf.label#</a> &nbsp;</td>
+									<td>#leaf.description#&nbsp;</td>
+									<td>#leaf.barcode#&nbsp;</td>
+									<td>#leaf.container_remarks#&nbsp;</td>
+									<td>#specData.part_name#</td>
+									<td>
+										<a href="/SpecimenDetail.cfm?collection_object_id=#specData.collection_object_id#">
+											#specData.institution_acronym# #specData.collection_cde# #specData.cat_num#
+										</a>
+									</td>
+									<td>#specData.scientific_name#</td>
+									<td>#specData.storedAs#</td>
+								</tr>
+							</cfloop>
+						</cfloop>
+					</table>
 				</div>
 			</div>
 		</cfif>
