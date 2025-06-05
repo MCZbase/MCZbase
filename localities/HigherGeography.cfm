@@ -143,7 +143,7 @@ limitations under the License.
 		<cfinclude template="/localities/component/highergeog.cfc" runOnce="true">
 		<cfoutput>
 			
-			<a href="#" id="show-wiki" class="btn btn-info">Show Wiki Content</a>
+			<a href="##" id="show-wiki" class="btn btn-info">Show Wiki Content</a>
 
 <div class="modal fade" id="wikiModal" tabindex="-1" aria-labelledby="wikiModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
