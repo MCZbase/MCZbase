@@ -190,6 +190,7 @@ limitations under the License.
 						</div>
 					</div>
 				</section>
+				<div class="modal" id="wikiModal"> ... <div id="wiki-content"></div> ... </div>
 			</main>
 			<button class="btn" data-bs-toggle="modal" data-bs-target="##infoModal">Show Info</button>
 
