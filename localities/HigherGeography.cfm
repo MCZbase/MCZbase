@@ -143,38 +143,37 @@ limitations under the License.
 		<cfinclude template="/localities/component/highergeog.cfc" runOnce="true">
 		<cfoutput>
 
-			<button id="show-wiki" class="btn btn-info">
-				<i class="bi bi-info-circle"></i> Show Wiki Article
-			</button>
+
+			
+			<cfset extra = "">
+			<cfset blockform = getHigherGeographyFormHtml(mode="new")>
+			<main class="container-fluid container-xl mt-3" id="content">
+				<button id="show-wiki" class="btn btn-info">
+					<i class="bi bi-info-circle"></i> Show Related Wiki Article
+				</button>
 			<script>
 			document.getElementById('show-wiki').addEventListener('click', function(e) {
 				e.preventDefault();
 
 				// Set this to the title of the wiki page you want
-				const pageName = "Higher_Geography"; // or set dynamically
+				var pageName = "Higher_Geography"; // or set dynamically
 				// Path to your CFC function!
-				const proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&page=" + encodeURIComponent(pageName);
+				var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&page=" + encodeURIComponent(pageName);
 
-				const contentDiv = document.getElementById('wiki-content');
-				contentDiv.innerHTML = 'Loading...';
+				$('##wiki-content').html('Loading...');
 
 				fetch(proxyUrl)
-					.then(resp => resp.text())
-					.then(html => {
-						contentDiv.innerHTML = html;
+					.then(function(resp) { return resp.text(); })
+					.then(function(html) {
+						$('##wiki-content).html(html);
 					})
-					.catch(error => {
-						contentDiv.innerHTML = '<div class="alert alert-danger">Error fetching wiki content.</div>';
+					.catch(function(error) {
+						$('##wiki-content').html('<div class="alert alert-danger">Error fetching wiki content.</div>');
 					});
 
-				var modal = new bootstrap.Modal(document.getElementById('wikiModal'));
-				modal.show();
+				$('##wikiModal').modal('show');
 			});
 			</script>
-			
-			<cfset extra = "">
-			<cfset blockform = getHigherGeographyFormHtml(mode="new")>
-			<main class="container-fluid container-xl mt-3" id="content">
 				<section class="row">
 					<div class="col-12">
 						<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Higher Geography#extra#</h1>
