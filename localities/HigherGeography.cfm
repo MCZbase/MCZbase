@@ -142,11 +142,7 @@ limitations under the License.
 	<cfcase value="new">
 		<cfinclude template="/localities/component/highergeog.cfc" runOnce="true">
 		<cfoutput>
-			<!--- proxyWiki.cfm --->
-<cfset pageName = url.page ?: "Higher_Geography">
-<cfhttp url="https://en.wikipedia.org/w/index.php?title=#URLEncodedFormat(Higher_Geography)#&action=render" method="get" result="wikiContent" />
-<cfcontent type="text/html" reset="true">
-#wikiContent.fileContent#
+
 			<a href="##" id="show-wiki" class="btn btn-info">Show Wiki Content</a>
 
 <div class="modal fade" id="wikiModal" tabindex="-1" aria-labelledby="wikiModalLabel" aria-hidden="true">
