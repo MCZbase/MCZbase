@@ -152,7 +152,7 @@ limitations under the License.
 					<i class="bi bi-info-circle"></i> Show Related Wiki Article
 				</button>
 			<script>
-$('#show-wiki').on('click', function(e) {
+$('##show-wiki').on('click', function(e) {
   e.preventDefault();
   var pageName = "Higher_Geography";
   var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&page=" + encodeURIComponent(pageName);
