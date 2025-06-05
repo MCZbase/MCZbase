@@ -153,7 +153,7 @@ limitations under the License.
             password="agassiz"
             result="wikiContent">
     </cfhttp>
-    
+    <cfcontent type="text/html; charset=UTF-8" reset="true">
     <cfreturn wikiContent.fileContent>
   </cffunction>
 <!------------------------------------->
