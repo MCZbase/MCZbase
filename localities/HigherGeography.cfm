@@ -142,7 +142,11 @@ limitations under the License.
 	<cfcase value="new">
 		<cfinclude template="/localities/component/highergeog.cfc" runOnce="true">
 		<cfoutput>
-			
+			<!--- proxyWiki.cfm --->
+<cfset pageName = url.page ?: "Higher_Geography">
+<cfhttp url="https://en.wikipedia.org/w/index.php?title=#URLEncodedFormat(Higher_Geography)#&action=render" method="get" result="wikiContent" />
+<cfcontent type="text/html" reset="true">
+#wikiContent.fileContent#
 			<a href="##" id="show-wiki" class="btn btn-info">Show Wiki Content</a>
 
 <div class="modal fade" id="wikiModal" tabindex="-1" aria-labelledby="wikiModalLabel" aria-hidden="true">
@@ -162,24 +166,25 @@ limitations under the License.
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 document.getElementById('show-wiki').addEventListener('click', function(e) {
-  e.preventDefault();
+	e.preventDefault();
+	// Update with your wiki page link:
+	const pageName = "Higher_Geography"; // or set dynamically
+	const proxyUrl = `https://code.mcz.harvard.edu/wiki/index.php?page=${encodeURIComponent(pageName)}`;
 
-  // Update with your wiki page link:
-  const wikiUrl = 'https://en.wikipedia.org/w/index.php?title=Earth&action=render';
-  const contentDiv = document.getElementById('wiki-content');
-  contentDiv.innerHTML = 'Loading...';
+	const contentDiv = document.getElementById('wiki-content');
+	contentDiv.innerHTML = 'Loading...';
+	
+	fetch(proxyUrl)
+		.then(resp => resp.text())
+		.then(html => {
+			contentDiv.innerHTML = html;
+		})
+		.catch(error => {
+			contentDiv.innerHTML = '<div class="alert alert-danger">Error fetching wiki content.</div>';
+		});
 
-  fetch(wikiUrl)
-    .then(resp => resp.text())
-    .then(html => {
-      contentDiv.innerHTML = html;
-    })
-    .catch(() => {
-      contentDiv.innerHTML = '<div class="alert alert-danger">Error fetching wiki content.</div>';
-    });
-
-  var modal = new bootstrap.Modal(document.getElementById('wikiModal'));
-  modal.show();
+	var modal = new bootstrap.Modal(document.getElementById('wikiModal'));
+	modal.show();
 });
 </script>
 			
