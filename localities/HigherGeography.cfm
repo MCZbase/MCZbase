@@ -157,19 +157,19 @@ $('##show-wiki').on('click', function(e) {
   var pageName = "Higher_Geography";
   var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&page=" + encodeURIComponent(pageName);
 
-  $('#wiki-content').html('Loading...');
+  $('##wiki-content').html('Loading...');
   $.ajax({
     url: proxyUrl,
     type: 'GET',
     dataType: 'html',
     success: function(html) {
-      $('#wiki-content').html(html);
+      $('##wiki-content').html(html);
     },
     error: function() {
-      $('#wiki-content').html('<div class="alert alert-danger">Error fetching wiki content.</div>');
+      $('##wiki-content').html('<div class="alert alert-danger">Error fetching wiki content.</div>');
     }
   });
-  $('#wikiModal').modal('show');
+  $('##wikiModal').modal('show');
 });
 			</script>
 				<section class="row">
