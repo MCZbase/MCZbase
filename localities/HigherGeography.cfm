@@ -143,90 +143,34 @@ limitations under the License.
 		<cfinclude template="/localities/component/highergeog.cfc" runOnce="true">
 		<cfoutput>
 
-			<a href="##" id="show-wiki" class="btn btn-info">Show Wiki Content</a>
-<!--- proxyWiki.cfm --->
-<cfset baseWikiUrl="https://code.mcz.harvard.edu/wiki/index.php">
-<cfset articleTitle = url.page ?: "Higher_Geography">
-<cfset articleUrl = "#baseWikiUrl#?title=#URLEncodedFormat(articleTitle)#&action=render">
+			<button id="show-wiki" class="btn btn-info">
+				<i class="bi bi-info-circle"></i> Show Wiki Article
+			</button>
+			<script>
+			document.getElementById('show-wiki').addEventListener('click', function(e) {
+				e.preventDefault();
 
-<!--- User/pass for HTTP Basic Auth --->
-<cfhttp url="#articleUrl#" 
-        method="get" 
-        username="shareduser"
-        password="sharedpassword"
-        result="wikiContent">
-</cfhttp>
+				// Set this to the title of the wiki page you want
+				const pageName = "Higher_Geography"; // or set dynamically
+				// Path to your CFC function!
+				const proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&page=" + encodeURIComponent(pageName);
 
-<!--- Output the HTML as the response --->
-<cfcontent type="text/html" reset="true">
-#wikiContent.fileContent#
-			
-<script>
-	
-// For Adobe ColdFusion (traditional query string style)
-const pageName = "Higher_Geography";
-const proxyUrl = `/shared/component/functions.cfc?method=getWikiArticle&page=${encodeURIComponent(pageName)}`;
+				const contentDiv = document.getElementById('wiki-content');
+				contentDiv.innerHTML = 'Loading...';
 
-// For Lucee/Railo with REST mapping, the URL might differ
-// Example: /api/wikiProxy/getWikiArticle?page=Earth
+				fetch(proxyUrl)
+					.then(resp => resp.text())
+					.then(html => {
+						contentDiv.innerHTML = html;
+					})
+					.catch(error => {
+						contentDiv.innerHTML = '<div class="alert alert-danger">Error fetching wiki content.</div>';
+					});
 
-fetch(proxyUrl)
-  .then(resp => resp.text())
-  .then(html => {
-    document.getElementById('wiki-content').innerHTML = html;
-  })
-  .catch(error => {
-    document.getElementById('wiki-content').innerHTML = '<div class="alert alert-danger">Error fetching wiki content.</div>';
-  });
-
-var modal = new bootstrap.Modal(document.getElementById('wikiModal'));
-modal.show();
-			
-</script>			
-			
-<cfset pageName = url.page ?: "Higher_Geography">
-<cfhttp url="https://code.mcz.harvard.edu/wiki/index.php?title=#URLEncodedFormat(pageName)#&action=render" method="get" result="wikiContent" />
-<cfcontent type="text/html" reset="true">
-#wikiContent.fileContent#
-<div class="modal fade" id="wikiModal" tabindex="-1" aria-labelledby="wikiModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="wikiModalLabel">Wiki Article</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" id="wiki-content">
-        Loading...
-      </div>
-    </div>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-document.getElementById('show-wiki').addEventListener('click', function(e) {
-	e.preventDefault();
-	// Update with your wiki page link:
-	const pageName = "Higher_Geography"; // or set dynamically
-	
-	const proxyUrl = `https://code.mcz.harvard.edu/wiki/index.php?page=${encodeURIComponent(pageName)}`;
-
-	const contentDiv = document.getElementById('wiki-content');
-	contentDiv.innerHTML = 'Loading...';
-	
-	fetch(proxyUrl)
-		.then(resp => resp.text())
-		.then(html => {
-			contentDiv.innerHTML = html;
-		})
-		.catch(error => {
-			contentDiv.innerHTML = '<div class="alert alert-danger">Error fetching wiki content.</div>';
-		});
-
-	var modal = new bootstrap.Modal(document.getElementById('wikiModal'));
-	modal.show();
-});
-</script>
+				var modal = new bootstrap.Modal(document.getElementById('wikiModal'));
+				modal.show();
+			});
+			</script>
 			
 			<cfset extra = "">
 			<cfset blockform = getHigherGeographyFormHtml(mode="new")>
@@ -443,5 +387,17 @@ document.getElementById('show-wiki').addEventListener('click', function(e) {
 		<cftransaction>
 	</cfcase>
 </cfswitch>
-
+<div class="modal fade" id="wikiModal" tabindex="-1" aria-labelledby="wikiModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="wikiModalLabel">Wiki Article</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="wiki-content">
+        Loading...
+      </div>
+    </div>
+  </div>
+</div>
 <cfinclude template = "/shared/_footer.cfm">
