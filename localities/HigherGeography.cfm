@@ -155,7 +155,7 @@ limitations under the License.
 			$('##show-wiki').on('click', function(e) {
 				e.preventDefault();
 				var pageName = "Higher_Geography";
-				var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&title=" + encodeURIComponent(pageName);
+				var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&page=" + encodeURIComponent(pageName);
 
 				$('##wiki-content').html('Loading...');
 				$.ajax({
