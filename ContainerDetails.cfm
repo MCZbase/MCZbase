@@ -116,7 +116,7 @@
 		</cfif>
 		<tr>
 			<td colspan="2" class="lblval lblextra">
-				<a href="allContainerLeafNodes.cfm?container_id=#container_id#" target="_blank">
+				<a href="/containers/allContainerLeafNodes.cfm?container_id=#container_id#" target="_blank">
 						See all collection objects in this container</a>
 			</td>
 		</tr>
