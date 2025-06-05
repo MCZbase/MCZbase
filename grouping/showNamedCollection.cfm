@@ -1094,9 +1094,9 @@ limitations under the License.
 														</div>
 														<div class="card-body bg-white py-0">
 															<div id="collapseCollectors" aria-labelledby="headingCollectors" data-parent="##accordionForCollectors" class="collapse show">
-																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+																<ul class="list-unstyled py-2 rounded-0" style="column-count: 3">
 																<cfloop query="collectors">
-																	<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+																	<li class=""> 
 																		<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">#collectors.agent_name# </a> 
 																	</li>
 																</cfloop>
@@ -1106,9 +1106,9 @@ limitations under the License.
 													</div>
 												</div>
 											<cfelse>
-												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+												<ul class="list-unstyled py-2 rounded-0">
 													<cfloop query="collectors">
-														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+														<li class=""> 
 															<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">#collectors.agent_name#</a> 
 														</li>
 													</cfloop>
