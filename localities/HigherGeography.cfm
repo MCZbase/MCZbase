@@ -145,6 +145,45 @@ limitations under the License.
 
 			<a href="##" id="show-wiki" class="btn btn-info">Show Wiki Content</a>
 <!--- proxyWiki.cfm --->
+<cfset baseWikiUrl="https://code.mcz.harvard.edu/wiki/index.php">
+<cfset articleTitle = url.page ?: "Higher_Geography">
+<cfset articleUrl = "#baseWikiUrl#?title=#URLEncodedFormat(articleTitle)#&action=render">
+
+<!--- User/pass for HTTP Basic Auth --->
+<cfhttp url="#articleUrl#" 
+        method="get" 
+        username="shareduser"
+        password="sharedpassword"
+        result="wikiContent">
+</cfhttp>
+
+<!--- Output the HTML as the response --->
+<cfcontent type="text/html" reset="true">
+#wikiContent.fileContent#
+			
+<script>
+	
+// For Adobe ColdFusion (traditional query string style)
+const pageName = "Higher_Geography";
+const proxyUrl = `/shared/functions.cfc?method=getWikiArticle&page=${encodeURIComponent(pageName)}`;
+
+// For Lucee/Railo with REST mapping, the URL might differ
+// Example: /api/wikiProxy/getWikiArticle?page=Earth
+
+fetch(proxyUrl)
+  .then(resp => resp.text())
+  .then(html => {
+    document.getElementById('wiki-content').innerHTML = html;
+  })
+  .catch(error => {
+    document.getElementById('wiki-content').innerHTML = '<div class="alert alert-danger">Error fetching wiki content.</div>';
+  });
+
+var modal = new bootstrap.Modal(document.getElementById('wikiModal'));
+modal.show();
+			
+</script>			
+			
 <cfset pageName = url.page ?: "Higher_Geography">
 <cfhttp url="https://code.mcz.harvard.edu/wiki/index.php?title=#URLEncodedFormat(pageName)#&action=render" method="get" result="wikiContent" />
 <cfcontent type="text/html" reset="true">
@@ -169,6 +208,7 @@ document.getElementById('show-wiki').addEventListener('click', function(e) {
 	e.preventDefault();
 	// Update with your wiki page link:
 	const pageName = "Higher_Geography"; // or set dynamically
+	
 	const proxyUrl = `https://code.mcz.harvard.edu/wiki/index.php?page=${encodeURIComponent(pageName)}`;
 
 	const contentDiv = document.getElementById('wiki-content');

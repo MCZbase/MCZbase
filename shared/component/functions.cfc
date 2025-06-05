@@ -140,6 +140,22 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
+			 
+  <cffunction name="getWikiArticle" access="remote" returntype="string" output="false">
+    <cfargument name="page" type="string" required="true">
+
+    <cfset var baseWikiUrl = "https://code.mcz.harvard.edu/wiki/index.php">
+    <cfset var articleUrl = baseWikiUrl & "?title=" & URLEncodedFormat(arguments.page) & "&action=render">
+    
+    <cfhttp url="#articleUrl#"
+            method="get"
+            username="mcz"
+            password="agassiz"
+            result="wikiContent">
+    </cfhttp>
+    
+    <cfreturn wikiContent.fileContent>
+  </cffunction>
 <!------------------------------------->
 <!--- Given some basic query parameters for media records, find matching media records and return
 		a list with controls to link those media records in a provided relation to a provided target 
