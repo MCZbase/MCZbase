@@ -165,7 +165,7 @@ limitations under the License.
 	
 // For Adobe ColdFusion (traditional query string style)
 const pageName = "Higher_Geography";
-const proxyUrl = `/shared/functions.cfc?method=getWikiArticle&page=${encodeURIComponent(pageName)}`;
+const proxyUrl = `/shared/component/functions.cfc?method=getWikiArticle&page=${encodeURIComponent(pageName)}`;
 
 // For Lucee/Railo with REST mapping, the URL might differ
 // Example: /api/wikiProxy/getWikiArticle?page=Earth
