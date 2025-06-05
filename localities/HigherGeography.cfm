@@ -140,6 +140,39 @@ limitations under the License.
 		</cfoutput>
 	</cfcase>
 	<cfcase value="new">
+		<style>
+			#wiki-content h2, #wiki-content h3 { margin-top: 1em; }
+			#wiki-content p { margin-bottom: 1em; }
+			#wiki-content table { width: 100%; }
+		</style>
+		<script>
+			document.getElementById('show-wiki').addEventListener('click', function(e) {
+			  e.preventDefault(); // Prevent default link behavior
+
+			  // Configure this for your own wiki and page
+			  const wikiApiUrl = 'https://code.mcz.harvard.edu/wiki/index.php?action=parse&page=Higher_Geography&format=json&origin=*';
+
+			  const contentDiv = document.getElementById('wiki-content');
+			  contentDiv.innerHTML = 'Loading...';
+
+			  fetch(wikiApiUrl)
+				.then(response => response.json())
+				.then(data => {
+				  if (data.parse && data.parse.text) {
+					contentDiv.innerHTML = data.parse.text['*'];
+				  } else {
+					contentDiv.innerHTML = 'Content could not be loaded.';
+				  }
+				})
+				.catch(error => {
+				  contentDiv.innerHTML = 'Error fetching wiki content.';
+				});
+
+			  // Show modal (Bootstrap 5)
+			  var modal = new bootstrap.Modal(document.getElementById('wikiModal'));
+			  modal.show();
+			});
+		</script>
 		<cfinclude template="/localities/component/highergeog.cfc" runOnce="true">
 		<cfoutput>
 			<cfset extra = "">
@@ -147,7 +180,8 @@ limitations under the License.
 			<main class="container-fluid container-xl mt-3" id="content">
 				<section class="row">
 					<div class="col-12">
-						<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Higher Geography#extra#</h1>
+						<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Higher Geography#extra# </h1>
+
 						<div class="border rounded px-2 py-2" arial-labeledby="formheading">
 							<form name="createHigherGeography" method="post" action="/localities/HigherGeography.cfm">
 								<input type="hidden" name="Action" value="makenewHigherGeography">
@@ -157,6 +191,22 @@ limitations under the License.
 					</div>
 				</section>
 			</main>
+			<button class="btn" data-bs-toggle="modal" data-bs-target="##infoModal">Show Info</button>
+
+			<!-- BOOTSTRAP MODAL -->
+			<div class="modal fade" id="infoModal">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">#infoTitle#</h5>
+							<button class="btn-close" data-bs-dismiss="modal"></button>
+						</div>
+						<div class="modal-body">
+							#htmlContent#
+						</div>
+					</div>
+				</div>
+			</div>
 		</cfoutput>
 	</cfcase>
 	<cfcase value="clone">
