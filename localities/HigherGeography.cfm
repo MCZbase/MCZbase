@@ -150,7 +150,7 @@ limitations under the License.
 			  e.preventDefault(); // Prevent default link behavior
 
 			  // Configure this for your own wiki and page
-			  const wikiApiUrl = 'https://code.mcz.harvard.edu/wiki/index.php?title=Using_MCZbase&page=Higher_Geography&format=json&origin=*';
+			  const wikiApiUrl = 'https://code.mcz.harvard.edu/wiki/index.php?action=render&title=Using_MCZbase&page=Higher_Geography&format=json&origin=*';
 
 			  const contentDiv = document.getElementById('wiki-content');
 			  contentDiv.innerHTML = 'Loading...';
