@@ -163,7 +163,7 @@ limitations under the License.
 				type: 'GET',
 				dataType: 'html',
 				success: function(html) {
-				  $('##wiki-content').html(html);
+				  document.getElementById('wiki-content').innerHTML = html;
 				},
 				error: function() {
 				  $('##wiki-content').html('<div class="alert alert-danger">Error fetching wiki content.</div>');
