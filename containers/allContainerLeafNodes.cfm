@@ -109,7 +109,6 @@ limitations under the License.
 	</cfif>
 </cfif>
 
-
 <cfinclude template="/shared/_header.cfm">
 <script src="/lib/misc/sorttable.js"></script>
 <cfset title = "Container Locations">
@@ -187,125 +186,103 @@ limitations under the License.
 		</cfif>
 	</cfoutput>
 
-<!---------------- start search by container ---------------->
-<cfif #action# is "nothing">
-<cfif not isdefined ("srch")>
-	<cfabort>
-</cfif>
-<cfset sel = "
-SELECT
-	 container.container_id,
-	 container.parent_container_id,
-	 container_type,
-	 label">
-<cfset frm = "
-	 FROM
-	 container">
-<cfset whr = "
-	WHERE
-		">
-
-
-
-	 <cfif #srch# is "Part">
-	 <cfset frm = "#frm#,coll_obj_cont_hist,specimen_part,cataloged_item">
-	 <cfset whr = "#whr# container.container_id = coll_obj_cont_hist.container_id
-	 				AND coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id
-					AND specimen_part.derived_from_cat_item = cataloged_item.collection_object_id">
-	 </cfif>
-	 <cfif #srch# is "Container">
-		 <cfset frm = "#frm#,fluid_container_history">
-		<cfset whr = "#whr# container.container_id = fluid_container_history.container_id (+)">
-	 	<!--- don't need to add anything --->
-	 </cfif>
-
-
-
-<cfif isdefined("af_num")>
-	<cfset aflist = "">
-	<cfloop list="#af_num#" index="i">
-					<cfif len(#aflist#) is 0>
-						<cfset aflist = "'#i#'">
-					<cfelse>
-						<cfset aflist = "#aflist#,'#i#'">
-					</cfif>
-				</cfloop>
-	<cfset frm = "#frm#,af_num">
-	<cfset whr = "#whr# AND cataloged_item.collection_object_id = af_num.collection_object_id
-		and af_num.af_num IN (#aflist#)">
-</cfif>
- <cfif isdefined("cat_num")>
- 	<cfset whr = "#whr# AND cataloged_item.cat_num IN (#cat_num#)">
- </cfif>
- <cfif isdefined("collection_cde")>
- 	<cfset whr = "#whr# AND cataloged_item.collection_cde='#collection_cde#'">
- </cfif>
-
-
- <cfif isdefined("Tissue_Type")>
- 	<cfset whr = "#whr# AND Tissue_Type='#Tissue_Type#'">
- </cfif>
- <cfif isdefined("Part_Name")>
- 	<cfset whr = "#whr# AND part_Name='#part_Name#'">
- </cfif>
- <cfif isdefined("Scientific_Name")>
- 	<cfset frm = "#frm#,identification,taxonomy">
- 	<cfset whr = "#whr# AND cataloged_item.collection_object_id = identification.collection_object_id
+	<!--- TODO: The following code appears to be unused --->
+	<!---------------- start search by container ---------------->
+	<cfif #action# is "nothing">
+		<cfif not isdefined ("srch")>
+			<cfabort>
+		</cfif>
+		<cfquery name="allRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
+				container.container_id,
+				container.parent_container_id,
+				container_type,
+				label
+			FROM
+				container
+				<cfif srch is "Part">
+					, coll_obj_cont_hist, specimen_part, cataloged_item
+				</cfif>
+				<cfif srch is "Container">
+					, fluid_container_history
+				</cfif>
+				<cfif isdefined("af_num")>
+					, af_num
+				</cfif>
+				<cfif isdefined("Scientific_Name")>
+					, identification, taxonomy
+				</cfif>
+			WHERE
+				1=1
+				<cfif srch is "Part">
+					AND container.container_id = coll_obj_cont_hist.container_id
+					AND coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id
+					AND specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+				</cfif>
+				<cfif srch is "Container">
+					AND container.container_id = fluid_container_history.container_id (+)
+				</cfif>
+				<cfif isdefined("af_num")>
+					AND cataloged_item.collection_object_id = af_num.collection_object_id
+					AND af_num.af_num IN (
+						<cfqueryparam value="#listToArray(af_num)#" cfsqltype="CF_SQL_VARCHAR" list="true">
+					)
+				</cfif>
+				<cfif isdefined("cat_num")>
+					AND cataloged_item.cat_num IN (
+						<cfqueryparam value="#listToArray(cat_num)#" cfsqltype="CF_SQL_VARCHAR" list="true">
+					)
+				</cfif>
+				<cfif isdefined("collection_cde")>
+					AND cataloged_item.collection_cde = <cfqueryparam value="#collection_cde#" cfsqltype="CF_SQL_VARCHAR">
+				</cfif>
+				<cfif isdefined("Tissue_Type")>
+					AND Tissue_Type = <cfqueryparam value="#Tissue_Type#" cfsqltype="CF_SQL_VARCHAR">
+				</cfif>
+				<cfif isdefined("Part_Name")>
+					AND part_Name = <cfqueryparam value="#Part_Name#" cfsqltype="CF_SQL_VARCHAR">
+				</cfif>
+				<cfif isdefined("Scientific_Name")>
+					AND cataloged_item.collection_object_id = identification.collection_object_id
 					AND identification.accepted_id_fg = 1
 					AND identification.taxon_name_id = taxonomy.taxon_name_id
-					AND upper(Scientific_Name) like '%#ucase(Scientific_Name)#%'">
- </cfif>
- <cfif isdefined("container_label")>
- 	<cfif isdefined("wildLbl") and #wildLbl# is 1>
-			<cfset whr = "#whr# AND upper(label) LIKE '%#ucase(container_label)#%'">
-		<cfelse>
-			<cfset whr = "#whr# AND label = '#container_label#'">
-	</cfif>
-
- </cfif>
- <cfif isdefined("description")>
- 	<cfif isdefined("wildLbl") and #wildLbl# is 1>
-			<cfset whr = "#whr# AND upper(description) LIKE '%#ucase(description)#%'">
-		<cfelse>
-			<cfset whr = "#whr# AND description='#description#'">
-	</cfif>
-
-
- </cfif>
- <cfif isdefined("collection_object_id")>
- 	<cfset whr = "#whr# AND cataloged_item.collection_object_id=#collection_object_id#">
- </cfif>
- <cfif isdefined("barcode")>
- <cfset bclist = "">
-	<cfloop list="#barcode#" index="i">
-					<cfif len(#bclist#) is 0>
-						<cfset bclist = "'#i#'">
+					AND upper(Scientific_Name) LIKE <cfqueryparam value="%#ucase(Scientific_Name)#%" cfsqltype="CF_SQL_VARCHAR">
+				</cfif>
+				<cfif isdefined("container_label")>
+					<cfif isdefined("wildLbl") and wildLbl is 1>
+						AND upper(label) LIKE <cfqueryparam value="%#ucase(container_label)#%" cfsqltype="CF_SQL_VARCHAR">
 					<cfelse>
-						<cfset bclist = "#bclist#,'#i#'">
+						AND label = <cfqueryparam value="#container_label#" cfsqltype="CF_SQL_VARCHAR">
 					</cfif>
-				</cfloop>
- 	<cfset whr = "#whr# AND barcode IN (#bclist#)">
- </cfif>
- <cfif isdefined("container_type")>
- 	<cfset whr = "#whr# AND container_type='#container_type#'">
- </cfif>
- <cfif isdefined("container_remarks")>
- <cfset whr = "#whr# AND container_remarks like '%#ucase(container_remarks)#%'">
- </cfif>
-  <cfif isdefined("container_id")>
- 	<cfset whr = "#whr# AND container.container_id=#container_id#">
- </cfif>
- <cfset sql = "#sel# #frm# #whr# ORDER BY container.container_id">
-
-<cfoutput>
-	#preservesinglequotes(sql)#
-</cfoutput>
-
-
- <cfquery name="allRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
- 	#preservesinglequotes(sql)#
- </cfquery>
-</cfif>
+				</cfif>
+				<cfif isdefined("description")>
+					<cfif isdefined("wildLbl") and wildLbl is 1>
+						AND upper(description) LIKE <cfqueryparam value="%#ucase(description)#%" cfsqltype="CF_SQL_VARCHAR">
+					<cfelse>
+						AND description = <cfqueryparam value="#description#" cfsqltype="CF_SQL_VARCHAR">
+					</cfif>
+				</cfif>
+				<cfif isdefined("collection_object_id")>
+					AND cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfif>
+				<cfif isdefined("barcode")>
+					AND barcode IN (
+						<cfqueryparam value="#listToArray(barcode)#" cfsqltype="CF_SQL_VARCHAR" list="true">
+					)
+				</cfif>
+				<cfif isdefined("container_type")>
+					AND container_type = <cfqueryparam value="#container_type#" cfsqltype="CF_SQL_VARCHAR">
+				</cfif>
+				<cfif isdefined("container_remarks")>
+					AND upper(container_remarks) LIKE <cfqueryparam value="%#ucase(container_remarks)#%" cfsqltype="CF_SQL_VARCHAR">
+				</cfif>
+				<cfif isdefined("container_id")>
+					AND container.container_id = <cfqueryparam value="#container_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfif>
+			ORDER BY
+				container.container_id
+		</cfquery>
+	</cfif>
 <!---------------- end search by container ---------------->
 <!---------------- search by container_id (ie, for all the containers in a container
 	from a previous search ---------------------------------->
