@@ -1,7 +1,27 @@
-<cfinclude template="includes/_header.cfm">
-<script src="/lib/misc/sorttable.js"></script>
-<cfset title = "Container Locations">
-<cfoutput>
+<!--- /containers/allContainerLeafNodes.cfm list collection object leaf nodes in container heirarchy for a given parent node.
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2025 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--->
+
+<cfif isDefined("url.action")>
+	<cfset variables.action = url.action>
+<cfelse>
+	<cfset variables.action = "nothing">
+</cfif>
 <cfif isdefined("url.container_id") and len(url.container_id) GT 0>
 	<cfset variables.container_id = url.container_id>
 <cfelse>
@@ -47,24 +67,49 @@
 		connect by
 			container.parent_container_id = prior container.container_id
 	</cfquery>
-	<strong>
-		<a href="ContainerDetails.cfm?container_id=#encodeForUrl(variables.container_id)#" target="_detail">
-			Container #encodeForHtml(variables.container_id)#
-		</a> 
-   	[#getContainerInfo.container_type#: #getContainerInfo.barcode#]
-		 has #leaf.recordcount# leaf containers:
-	</strong>
-	<table border id="t" class="sortable">
-		<tr>
-			<td><strong>Container Name</strong></td>
-			<td><strong>Container Description</strong></td>
-			<td><strong>In Unique ID</strong></td>
-			<td><strong>Container Remarks</strong></td>
-			<td><strong>Part Name</strong></td>
-			<td><strong>Cat Num</strong></td>
-			<td><strong>Scientific Name</strong></td>
-			<td><strong>Stored As</strong></td>
-		</tr>
+
+	<!--- special case handling to dump as csv --->
+	<cfif isDefined("variables.action") AND variables.action is "csvDump">
+		<cfinclude template="/shared/component/functions.cfc">
+		<cfset csv = queryToCSV(leaf)>
+		<cfheader name="Content-Type" value="text/csv">
+		<cfoutput>#csv#</cfoutput>
+		<cfabort>
+	</cfif>
+</cfif>
+
+
+<cfinclude template="/shared/_header.cfm">
+<script src="/lib/misc/sorttable.js"></script>
+<cfset title = "Container Locations">
+<main class="container-fluid">
+	<cfoutput>
+		<cfif isdefined("variables.container_id") AND len(variables.container_id) GT 0>
+			<div class="row">
+				<div class="col-12">
+					<h1>Container Leaf Nodes</h1>
+					<p>
+						This page lists the #leaf.recorcount# collection object leaf nodes in the container hierarchy for the container
+						<a href="/ContainerDetails.cfm?container_id=#encodeForUrl(variables.container_id)#" target="_detail">
+			   		[#getContainerInfo.container_type#: #getContainerInfo.barcode#]
+						</a>.
+						<cfif leaf.recordcount GT 0>  
+							<a href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForUrl(variables.container_id)#&action=csvDump" target="_blank">Download as CSV</a>.
+						</cfif>
+					</p>
+
+					<table border id="t" class="sortable">
+						<tr>
+							<th><strong>Container Name</strong></th>
+							<th><strong>Container Description</strong></th>
+							<th><strong>In Unique ID</strong></th>
+							<th><strong>Container Remarks</strong></th>
+							<th><strong>Part Name</strong></th>
+							<th><strong>Cat Num</strong></th>
+							<th><strong>Scientific Name</strong></th>
+							<th><strong>Stored As</strong></th>
+						</tr>
+
 		<cfloop query="leaf">
 			<cfquery name="specData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
@@ -109,8 +154,11 @@
 			</cfloop>
 		</cfloop>
 	</table>
-</cfif>
-</cfoutput>
+
+				</div>
+			</div>
+		</cfif>
+	</cfoutput>
 
 <!---------------- start search by container ---------------->
 <cfif #action# is "nothing">
@@ -327,4 +375,6 @@ SELECT
 		</cfoutput>
 	 </form>
  </cfif>
- <cfinclude template="includes/_footer.cfm">
+
+	</div>
+ <cfinclude template="/shared/_footer.cfm">
