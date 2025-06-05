@@ -145,7 +145,7 @@ limitations under the License.
     <cfargument name="page" type="string" required="true">
 
     <cfset var baseWikiUrl = "https://code.mcz.harvard.edu/wiki/index.php">
-    <cfset var articleUrl = baseWikiUrl & "?title=" & URLEncodedFormat(arguments.page) & "&action=render">
+    <cfset var articleUrl = baseWikiUrl & "?title=" & "URLEncodedFormat(arguments.page)" & "&action=render">
     
     <cfhttp url="#articleUrl#"
             method="get"
