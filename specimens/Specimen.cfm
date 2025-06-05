@@ -33,9 +33,15 @@ limitations under the License.
 <!--- (1) Check the provided guid or collection object id --->
 <!--- Set page title to reflect failure condition, if queries succeed it will be changed to reflect specimen record found --->
 <cfset pageTitle = "MCZbase Specimen not found.">
+
+<!--- load javascript libraries for the page --->
 <script type='text/javascript' src='/media/js/media.js'></script>
+<script type="text/javascript" src="/localities/js/collectingevents.js"></script>
 <cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 	<script type="text/javascript" src="/specimens/js/specimens.js"></script>
+</cfif>
+<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_transactions")>
+	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 </cfif>
 
 <cfif isdefined("collection_object_id")>
@@ -168,6 +174,7 @@ limitations under the License.
 <cfinclude template="/vocabularies/component/search.cfc" runOnce="true">
 <cfset summaryHeadingBlock = getSummaryHeaderHTML(collection_object_id = "#collection_object_id#")>
 <cfoutput>
+<div id="specimenDetailsPageContent">
 <div id="specimenSummaryHeaderDiv">
 #summaryHeadingBlock#
 </div>
@@ -230,15 +237,30 @@ limitations under the License.
 		<!--- user can edit the specimen record --->
 		<!--- scripts for reloading sections of pages after edits, use as callabcks on edit dialogs --->
 		<script>
+			function reloadPage() { 
+				$("##specimenDetailsPageContent").html("<h2 class=h3>Reloading page...</h2>");
+				window.location.reload();
+			}
 			function reloadHeadingBar() { 
 				// invoke specimen/component/public function to reload summary header section.
 				// called from several other sections where data shown in summary may be changed.
 				loadSummaryHeaderHTML(#collection_object_id#,"specimenSummaryHeaderDiv");
 			} 
-			function reloadMedia() { 
-				// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type shows  and repopulate the specimen media block.
-				// TODO: Update media count
-				loadMedia(#collection_object_id#,'specimenMediaCardBody');
+			function reloadCatalog() { 
+				reloadHeadingBar();
+				reloadTransactions();
+			}
+			function reloadSpecimenMedia() { 
+				// if accordionMedia exists, reload its content, if it does not, reload the page.
+				if ($("##accordionMedia").length) {
+					// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type shows  and repopulate the specimen media block.
+					loadMedia(#collection_object_id#,'specimenMediaCardBody');
+					// Update media count
+					updateMediaCounts(#collection_object_id#,'specimenMediaCount');
+				} else {
+					$("##editControlsBlock").html("<h2 class=h3>Reloading page...</h2>");
+					reloadPage();
+				}
 			}
 			function reloadIdentifiers() { 
 				// invoke specimen/component/public.cfc function getIdentifiersHTML via ajax and repopulate the identifiers block.
@@ -275,6 +297,8 @@ limitations under the License.
 			}
 			function reloadRemarks() { 
 				loadRemarks(#collection_object_id#,'remarksCardBody');
+				// also reload microhabitat 
+				loadLocality(#collection_object_id#,'localityCardBody');
 			}
 			function reloadMeta() { 
 				loadMeta(#collection_object_id#,'metaCardBody');
@@ -428,7 +452,7 @@ limitations under the License.
 		</cfif>
 		<!--- controls for editing record --->
 		<div class="container-lg d-none d-lg-block">
-			<div class="row mt-2">
+			<div class="row mt-2" id="editControlsBlock">
 				<ul class="list-group list-inline list-group-horizontal-md py-0 mx-auto">
 					<cfset resultBit = "">
 					<!--- Navigation through records in a result set --->
@@ -476,14 +500,14 @@ limitations under the License.
 					</cfif>
 					<!--- Task Bar of edit dialog controls --->
 					<li class="list-group-item px-0 mx-1">
-						<div id="mediaDialog"></div>
+						<div id="catalogDialog"></div>
+						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage)">Catalog</button>
+					</li>
+					<li class="list-group-item px-0 mx-1">
 						<cfif listcontainsnocase(session.roles,"manage_media")>
-							<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
+							<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadSpecimenMedia)">Media</button>
 						</cfif>
 					</li>
-	<!---				<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" >Identifiers</button>
-					</li>--->
 					<li class="list-group-item px-0 mx-1">
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
 					</li>
@@ -491,7 +515,6 @@ limitations under the License.
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Citations</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
-						<div id="otherIDsDialog"></div>
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Other&nbsp;IDs</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
@@ -502,6 +525,9 @@ limitations under the License.
 					</li>
 					<li class="list-group-item px-0 mx-1">
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Relationships</button>
+					</li>
+					<li class="list-group-item px-0 mx-1">
+						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)">Remarks</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Locality</button>
@@ -580,10 +606,10 @@ limitations under the License.
 								<h3 class="h5 my-0 text-dark">
 									<button type="button" class="headerLnk text-left h-100 w-100" aria-label="mediaPane" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane" title="media">
 										Media
-										<span class="text-dark">(#specimenMediaCount#)</span>
+										<span class="text-dark">(<span id="specimenMediaCount">#specimenMediaCount#</span>)</span>
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
+										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadSpecimenMedia)">Add/Remove</a>
 									</cfif>
 								</h3>
 							</div> 
@@ -601,6 +627,7 @@ limitations under the License.
 				<cfset twoThreeColumnClasses="col-sm-9 col-md-9 col-lg-9 col-xl-9 float-left">
 			<cfelse>
 				<!--- two column layout --->
+				<div id="mediaDialog"></div>
 				<cfset twoThreeColumnClasses="col-sm-12 col-md-12 col-lg-12 col-xl-12 float-left">
 			</cfif>
 
@@ -845,15 +872,15 @@ limitations under the License.
 					<!------------------------------------ coll object remarks -------------------------------->
 					<div class="accordion" id="accordionRemarks">
 						<div class="card mb-2 bg-light">
-							<div id="RemarksDialog"></div>
+							<div id="remarksDialog"></div>
 							<cfset blockRemarks = getRemarksHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingRemarks">
 								<h3 class="h5 my-0">
 									<button type="button" class="headerLnk text-left w-100 h-100" aria-label="Remarks Pane" aria-expanded="true" aria-controls="RemarksPane" data-toggle="collapse" data-target="##RemarksPane">
-										Collection Object Remarks
+										Cataloged Item Remarks
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'RemarksDialog','#guid#',reloadRemarks)">
+										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)">
 											Edit
 										</a>
 									</cfif>
@@ -1084,6 +1111,7 @@ limitations under the License.
 		</div>
 	</cfif>
 </cfoutput>
+</div><!--- end of specimenDetailsPageContent --->
 
 <!--- (7) Finish up with the page footer --->
 <cfinclude template="/shared/_footer.cfm">

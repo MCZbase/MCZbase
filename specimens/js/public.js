@@ -35,6 +35,47 @@ function loadSummaryHeaderHTML(collection_object_id,targetDivId) {
 	});
 };
 
+function updateMediaCounts(collection_object_id,showsDivId) {
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getMediaCounts",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$('#' + showsDivId).html(result[0].shows);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading media counts");
+		},
+		dataType: "json"
+	});
+}
+
+/** loadRemarks populate an html block with the remarks 
+  for a cataloged item.
+ * @param collection_object_id for the cataloged item for which
+ *   to look up remarks
+ * @param targetDivId the id for the div in the dom, without a leading #
+ *  selector, for which to replace the html content with the response
+ **/
+function loadRemarks(collection_object_id,targetDivId) {
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getRemarksHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading remarks");
+		},
+		dataType: "html"
+	});
+}
+
 /** loadMedia populate an html block with the media 
  * that shows a cataloged item
  * @param collection_object_id for the cataloged item for which
@@ -258,25 +299,6 @@ function updateOtherID(coll_obj_other_id_num_id,targetDiv) {
 		}
 	},
 	)
-};
-
-function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Other IDs for " + guid;
-	createSpecimenEditDialog(dialogId,title,callback);
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getEditOtherIDsHTML",
-			collection_object_id: collection_object_id,
-		},
-		success: function (result) {
-			$("#" + dialogId + "_div").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit Other IDs dialog");
-		},
-		dataType: "html"
-	});
 };
 
 
@@ -611,7 +633,7 @@ function openEditAttributesDialog(collection_object_id,dialogId,guid,callback) {
 		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getEditAttributesHTML",
-			collection_object_id: collection_object_id,
+			collection_object_id: collection_object_id
 		},
 		success: function (result) {
 			$("#" + dialogId + "_div").html(result);
@@ -711,8 +733,6 @@ function loadPreparators(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 }
-
-
 
 function openItemConditionHistoryDialog(collection_object_id, dialogId) { 
 	var title = "Part/Preparation Condition History.";

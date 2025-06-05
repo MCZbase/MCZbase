@@ -38,7 +38,8 @@ function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775) {
 	} else if (w>1333) { 
 		// cap width at 1200 pixel
 		w = 999;
-	} 
+	}
+	console.log("Creating dialog in div with id: " + dialogId);
 	var thedialog = $("#"+dialogId).html(content)
 	.dialog({
 		title: title,
@@ -52,10 +53,8 @@ function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775) {
 		minHeight: 450,
 		draggable:true,
 		buttons: {
-			//"Save": function() {
-			//	$("#"+dialogId).dialog('submit');
-			//},
 			"Close Dialog": function() {
+				console.log("Button calling close on dialog in div with id: " + dialogId);
 				$("#"+dialogId).dialog('close');
 			}
 		},
@@ -67,11 +66,16 @@ function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775) {
 			
 		},
 		close: function(event,ui) {
+			console.log("Close called on dialog in div with id: " + dialogId);
 			if (jQuery.type(closecallback)==='function')	{
 				closecallback();
 			}
 			$("#"+dialogId+"_div").html("");
-			$("#"+dialogId).dialog('destroy');
+			try {
+				$("#"+dialogId).dialog('destroy');
+			} catch (e) {
+				console.error("Error destroying dialog: " + e);
+			}
 		}
 	});
 	thedialog.dialog('open');
@@ -312,6 +316,15 @@ function loadNamedGroupsList(collection_object_id,targetDivId) {
 	})
 };
 
+/** openEditCollectorsDialog (plural) open a dialog for editing
+ * collectors for a cataloged item.
+ *
+ * @param collection_object_id for the cataloged_item for which to edit collectors.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
 function openEditCollectorsDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Collectors for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
@@ -380,57 +393,256 @@ function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 	)
 };
 
+/** linkMedia function to add a link between a collection_object and a media object.
+ * @param collection_object_id the id of the collection_object to which to link the media
+ * @param media_id the id of the media object to link to the collection_object
+ * @param relationship_type the relationship type to use for the link
+ * @param callback a callback function to invoke on success.
+*/
 function linkMedia(collection_object_id, media_id, relationship_type, callback) { 
    jQuery.ajax({
 		dataType: "json",
 		url: "/specimens/component/functions.cfc",
-	});
-}
-
-/** updateMedia function 
- * @method getMedia in functions.cfc
- * @param media_id
- * @param targetDiv the id
- **/
-function updateMedia(media_id,targetDiv) {
-	jQuery.ajax(
-	{
-		dataType: "json",
-		url: "/specimens/component/search.cfc",
 		data: { 
-			method : "getMediaHtml",
+			method : "addMediaToCatItem",
+			collection_object_id : collection_object_id,
 			media_id : media_id,
+			relationship_type : relationship_type,
 			returnformat : "json",
 			queryformat : 'column'
 		},
-		error: function (jqXHR, status, message) {
-			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
-		},
 		success: function (result) {
-			if (result.DATA.STATUS[0]==1) {
-				var message  = "There are Media";
-	
-				$('#' + targetDiv).html(message);
+			if (result[0].status=="added") {
+				var message  = "Added media to cataloged item";
+				console.log(message);
+				if (callback instanceof Function) {
+					callback();
+				}
 			}
+			else {
+				messageDialog("Error adding media to cataloged item: " + result[0].MESSAGE,'Error');
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"adding Media to cataloged item");
 		}
-	},
-	)
-};
+	});
+}
 
-/** TODO: Document this function **/ 
-function removeMedia(media_id,form) {
+/** changeMediaRelationshipType function to change the relationship type for a link between a collection_object and a media object.
+ * @param relationship_type the new relationship type to use for the link
+ * @param media_id the id of the media object to link to the collection_object
+ * @param collection_object_id the id of the collection_object to which to link the media
+ * @param media_relations_id the id of the media relationship to update
+ * @param callback a callback function to invoke on success.
+*/
+function handleChangeCIMediaRelationshipType(relationship_type,media_id,collection_object_id,media_relations_id,callback) {	
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
-			method : "removeMedia",
+			method : "changeMediaRelationshipType",
 			media_id: media_id,
+			collection_object_id: collection_object_id,
+			relationship_type: relationship_type,
+			media_relations_id: media_relations_id
 		},
 		success: function (result) {
-			$("#mediaHTML").html(result);
+			if (result[0].status=="changed") {
+				var message  = "Updated media relationship type";
+				console.log(message);
+				if (callback instanceof Function) {
+					callback();
+				}
+			}
+			else {
+				messageDialog("Error updating media relationship type: " + result[0].message,'Error');
+			}
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing media");
+			handleFail(jqXHR,textStatus,error,"updating media relationship type");
+		},
+		dataType: "json"
+	});
+}
+
+/** removeMediaRelationship function to remove a link between a collection_object and a media object.
+ * @param media_relations_id the id of the media relationship to remove
+ * @param callback a callback function to invoke on success.
+*/
+function removeMediaRelationship(media_relations_id,callback) {
+	jQuery.ajax({
+		url: "/media/component/functions.cfc",
+		data : {
+			method : "removeMediaRelation",
+			media_relations_id: media_relations_id,
+			returnformat : "json",
+			queryformat : 'column'
+	 	},
+		success: function (result) {
+			if (result.DATA.STATUS == "1") { 
+				var message  = "Removed media relationship";
+				console.log(message);
+				if (callback instanceof Function) {
+					callback();
+				}
+			}
+			else {
+				messageDialog("Error removing media relationship: " + result.DATA.message,'Error');
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing media relationship");
+		},
+		dataType: "json"
+	});
+}
+
+/** openEditOtherIDsDialog (plural) open a dialog for editing 
+ * other IDs for a cataloged item.
+ *
+ * @param collection_object_id for the cataloged_item for which to edit other IDs.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Other IDs for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditOtherIDsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Other IDs dialog");
 		},
 		dataType: "html"
 	});
 };
+
+/** openEditCatalogDialog open a dialog for editing catalog number and accession
+ *  for a cataloged item.
+ *
+ * @param collection_object_id for the cataloged_item to edit..
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openEditCatalogDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Catalog Information for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditCatalogHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit catalog dialog");
+		},
+		dataType: "html"
+	});
+};
+
+/*** reloadOtherIDDialog reload the other ID dialog with a given collection_object_id.
+ * @param collection_object_id the id of the collection_object for which to reload the other IDs.
+ */
+function reloadOtherIDDialog(collection_object_id) { 
+	jQuery.ajax({
+		url : "/specimens/component/functions.cfc",
+		type : "post",
+		dataType : "html",
+		data: {
+			method: "getEditOtherIDsHTML",
+			collection_object_id: collection_object_id
+		},
+		success: function (result) {
+			console.log("Reloading other IDs dialog content");
+			$("#otherIDsDialog_div").html(result);
+		},
+		error: function(jqXHR,textStatus,error){
+			handleFail(jqXHR,textStatus,error,"reloading Other IDs");
+		}
+	});
+};
+
+/** openEditRemarksDialog open a dialog for editing 
+ * remarks for a collection object.
+ *
+ * @param collection_object_id for the collection object for which to edit remarks.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openEditRemarksDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Remarks for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback,500);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditRemarksHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit remarks dialog");
+		},
+		dataType: "html"
+	},
+	)
+};
+
+/** saveRemarks function to save remarks for a collection object.
+ * @param collection_object_id the id of the collection object for which to save remarks
+ * @param coll_object_remarks the remarks to save for the collection object
+ * @param disposition_remarks the disposition remarks to save for the collection object
+ * @param habitat the habitat remarks to save for the collection object
+ * @param associated_species the associated species remarks to save for the collection object
+ * @param callback a callback function to invoke on success.
+ * @param feedbackDiv the id of the div in which to display feedback messages
+ */
+function saveRemarks(collection_object_id,coll_object_remarks,disposition_remarks,habitat,associated_species,callback,feedbackDiv) { 
+	setFeedbackControlState(feedbackDiv,"saving")
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "saveRemarks",
+			collection_object_id: collection_object_id,
+			coll_object_remarks: coll_object_remarks,
+			disposition_remarks: disposition_remarks,
+			habitat: habitat,
+			associated_species: associated_species
+		},
+		success: function (result) {
+			setFeedbackControlState(feedbackDiv,"saved")
+			if (result[0].status=="updated") {
+				var message  = "Updated remarks";
+				console.log(message);
+				if (callback instanceof Function) {
+					callback();
+				}
+			}
+			else {
+				setFeedbackControlState(feedbackDiv,"error")
+				messageDialog("Error updating remarks: " + result[0].message,'Error');
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			setFeedbackControlState(feedbackDiv,"error")
+			handleFail(jqXHR,textStatus,error,"updating remarks");
+		},
+		dataType: "json"
+	});
+} 
