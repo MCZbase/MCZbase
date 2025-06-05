@@ -160,18 +160,18 @@ limitations under the License.
 				// Path to your CFC function!
 				var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&page=" + encodeURIComponent(pageName);
 
-				$('##wiki-content').html('Loading...');
+				$('#wiki-content').html('Loading...');
 
 				fetch(proxyUrl)
 					.then(function(resp) { return resp.text(); })
 					.then(function(html) {
-						$('##wiki-content).html(html);
+						$('#wiki-content).html(html);
 					})
 					.catch(function(error) {
-						$('##wiki-content').html('<div class="alert alert-danger">Error fetching wiki content.</div>');
+						$('#wiki-content').html('<div class="alert alert-danger">Error fetching wiki content.</div>');
 					});
 
-				$('##wikiModal').modal('show');
+				$('#wikiModal').modal('show');
 			});
 			</script>
 				<section class="row">
