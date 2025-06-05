@@ -151,27 +151,27 @@ limitations under the License.
 				<button id="show-wiki" class="btn btn-info">
 					<i class="bi bi-info-circle"></i> Show Related Wiki Article
 				</button>
-		<script>
-			$('##show-wiki').on('click', function(e) {
-				e.preventDefault();
-				var pageName = "Higher_Geography";
-				var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&returnFormat=plain&page=" + encodeURIComponent(pageName);
+				<script>
+					$('##show-wiki').on('click', function(e) {
+						e.preventDefault();
+						var pageName = "Higher_Geography";
+						var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&returnFormat=plain&page=" + encodeURIComponent(pageName);
 
-				$('##wiki-content').html('Loading...');
-				$.ajax({
-				url: proxyUrl,
-				type: 'GET',
-				dataType: 'html',
-				success: function(html) {
-				  document.getElementById('wiki-content').innerHTML = html;
-				},
-				error: function() {
-				  $('##wiki-content').html('<div class="alert alert-danger">Error fetching wiki content.</div>');
-				}
-				});
-				$('##wikiModal').modal('show');
-			});
-		</script>
+						$('##wiki-content').html('Loading...');
+						$.ajax({
+							url: proxyUrl,
+							type: 'GET',
+							dataType: 'html',
+							success: function(html) {
+							$('##wiki-content').html(html);
+						},
+						error: function() {
+							$('##wiki-content').html('<div class="alert alert-danger">Error fetching wiki content.</div>');
+						}
+						});
+						$('##wikiModal').modal('show');
+					});
+				</script>
 				<section class="row">
 					<div class="col-12">
 						<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Higher Geography#extra#</h1>
