@@ -57,8 +57,8 @@ limitations under the License.
 			p.barcode,
 			container.container_remarks
 		from
-			container,
-			container p
+			container
+			left join container p on container.parent_container_id=p.container_id
 		where
 			container.container_type='collection object'
 		start with
