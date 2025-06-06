@@ -360,5 +360,6 @@ limitations under the License.
 				</cfoutput>
 	 		</form>
 		</cfif>
-	</div>
+	</cfif>
+</main>
 <cfinclude template="/shared/_footer.cfm">
