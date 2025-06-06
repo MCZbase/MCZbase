@@ -66,41 +66,41 @@ limitations under the License.
 		connect by
 			container.parent_container_id = prior container.container_id
 	</cfquery>
-	<cfquery name="allLeafData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT 
-			p.barcode parent_barcode,
-			p.container_type parent_container_type,
-			container.container_id,
-			container.container_type,
-			container.label,
-			container.description,
-			container.container_remarks,
-			cataloged_item.collection_object_id,
-			scientific_name,
-			part_name,
-			cat_num,
-			cataloged_item.collection_cde,
-			collection.institution_acronym,
-			get_storedas_by_contid(container.container_id) storedAs
-		FROM
-			container
-			left join container p on container.parent_container_id=p.container_id
-			join coll_obj_cont_hist on container.container_id = coll_obj_cont_hist.container_id
-			join specimen_part on coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id
-			join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
-			join identification on cataloged_item.collection_object_id = identification.collection_object_id 
-			join collection on cataloged_item.collection_id=collection.collection_id
-		WHERE
-			container.container_type='collection object' AND
-			identification.accepted_id_fg = 1 
-		START WITH
-			container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.container_id#">
-		CONNECT BY
-			container.parent_container_id = prior container.container_id
-	</cfquery>
-
 	<!--- special case handling to dump as csv --->
 	<cfif isDefined("variables.action") AND variables.action is "csvDump">
+		<cfquery name="allLeafData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT 
+				p.barcode parent_barcode,
+				p.container_type parent_container_type,
+				container.container_id,
+				container.container_type,
+				container.label,
+				container.description,
+				container.container_remarks,
+				cataloged_item.collection_object_id,
+				scientific_name,
+				part_name,
+				cat_num,
+				cataloged_item.collection_cde,
+				collection.institution_acronym,
+				get_storedas_by_contid(container.container_id) storedAs
+			FROM
+				container
+				left join container p on container.parent_container_id=p.container_id
+				left join coll_obj_cont_hist on container.container_id = coll_obj_cont_hist.container_id
+				left join specimen_part on coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id
+				left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+				left join identification on cataloged_item.collection_object_id = identification.collection_object_id 
+				left join collection on cataloged_item.collection_id=collection.collection_id
+			WHERE
+				container.container_type='collection object' AND
+				identification.accepted_id_fg = 1 
+			START WITH
+				container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.container_id#">
+			CONNECT BY
+				container.parent_container_id = PRIOR container.container_id
+		</cfquery>
+
 		<cfinclude template="/shared/component/functions.cfc">
 		<cfset csv = queryToCSV(allLeafData)>
 		<cfheader name="Content-Type" value="text/csv">
