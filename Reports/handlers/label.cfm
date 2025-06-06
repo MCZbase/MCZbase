@@ -1,7 +1,7 @@
 <!--- 
-  Reports/lable.cfm proof of concept specimen label paperwork generation.
+  Reports/handers/label.cfm proof of concept specimen label paperwork generation.
 
-Copyright 2023 President and Fellows of Harvard College
+Copyright 2023-2025 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,11 +17,13 @@ limitations under the License.
 
 --->
 
-<cfif not isDefined("result_id") OR len(result_id) EQ 0>
+<cfif not isDefined("url.result_id") OR len(url.result_id) EQ 0>
 	<cfthrow message = "No result_id provided for query selecting labels to print.">
+<cfelse>
+	<cfset variables.result_id = url.result_id>
 </cfif>
 
-<cfif isDefined(url.target) AND len(url.target)>
+<cfif isDefined("url.target") AND len(url.target)>
 	<cfset variables.target = url.target>
 <cfelse>
 	<cfset variables.target = "Dry_Large_Type__All">
