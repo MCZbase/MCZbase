@@ -74,12 +74,13 @@ limitations under the License.
 				p.container_type parent_container_type,
 				container.container_id,
 				container.container_type,
-				container.label,
-				container.description,
+				container.label container_label,
+				container.description container_description,
 				container.container_remarks,
 				cataloged_item.collection_object_id,
 				scientific_name,
 				part_name,
+				specimen_part.preserve_method,
 				cat_num,
 				cataloged_item.collection_cde,
 				collection.institution_acronym,
@@ -136,6 +137,7 @@ limitations under the License.
 							<th><strong>In Unique ID</strong></th>
 							<th><strong>Container Remarks</strong></th>
 							<th><strong>Part Name</strong></th>
+							<th><strong>Preserve Method</strong></th>
 							<th><strong>Cat Num</strong></th>
 							<th><strong>Scientific Name</strong></th>
 							<th><strong>Stored As</strong></th>
@@ -146,6 +148,8 @@ limitations under the License.
 									cataloged_item.collection_object_id,
 									scientific_name,
 									part_name,
+									preserve_method,
+									specimen_part.preserve_method,
 									cat_num,
 									cataloged_item.collection_cde,
 									institution_acronym,
@@ -171,6 +175,7 @@ limitations under the License.
 									<td>#leaf.barcode#&nbsp;</td>
 									<td>#leaf.container_remarks#&nbsp;</td>
 									<td>#specData.part_name#</td>
+									<td>#specData.preserve_method#</td>
 									<td>
 										<a href="/SpecimenDetail.cfm?collection_object_id=#specData.collection_object_id#" target="_blank">
 											#specData.institution_acronym# #specData.collection_cde# #specData.cat_num#
