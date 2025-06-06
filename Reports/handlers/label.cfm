@@ -21,9 +21,13 @@ limitations under the License.
 	<cfthrow message = "No result_id provided for query selecting labels to print.">
 </cfif>
 
-<cfset target = "Dry_Large_Type__All">
+<cfif isDefined(url.target) AND len(url.target)>
+	<cfset variables.target = url.target>
+<cfelse>
+	<cfset variables.target = "Dry_Large_Type__All">
+</cfif>
 
-<cfswitch expression = "#target#">
+<cfswitch expression = "#variables.target#">
 	<cfcase value="Dry_Large_Type__All">
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT DISTINCT
@@ -89,7 +93,7 @@ limitations under the License.
 	<cfoutput>
 		<cfdocumentitem type="header">
 			<div style="text-align: center; font-size: x-small;">
-				Museum of Comparative Zoology #target#
+				Museum of Comparative Zoology #variables.target#
 			</div>
 		</cfdocumentitem>
 		
@@ -106,7 +110,7 @@ limitations under the License.
 					<cfloop query="getItems">
 						<td style="#labelHeight# #labelWidth#">
 							<div style="#labelStyle# position: relative;">
-								<cfswitch expression = "#target#">
+								<cfswitch expression = "#variables.target#">
 									<cfcase value="Dry_Large_Type__All">
 										<div><strong style="font: 1.1em 'Times-Roman';">MCZ:#collection_cde#:#catalog_number#</strong></div>
 										<div><strong style="font: 1em Helvetica;">#sci_name_with_auth#</strong></div>
