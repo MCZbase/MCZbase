@@ -67,6 +67,7 @@ limitations under the License.
 				cataloged_item.cat_num as catalog_number,
 				cataloged_item.collection_cde,
 				container.barcode as barcode_number,
+				container.label as container_label,
 				MCZBASE.GET_PARENTCONTLABELFORCONT(container.parent_container_id) as parent_label,
 				flat.verbatimlocality as verbatim_locality
 			FROM
@@ -120,7 +121,8 @@ limitations under the License.
 										<div style="font: 0.9em 'Times-Roman'; position: absolute; bottom: 1px; left: 6em;">Museum of Comparative Zoology</div>
 									</cfcase>
 									<cfcase value="Slide_1x3__Mala">
-										<div><strong style="font: 1.1em 'Times-Roman';">MCZ:#collection_cde#:#catalog_number#</strong>  Container:#barcode_number# in #parent_label#</div>
+										<div><strong style="font: 1.1em 'Times-Roman';">MCZ:#collection_cde#:#catalog_number#</strong></div>
+										<div style="font: 1.1em helvetica">Container:#container_label# in #parent_label#</div>
 										<div><strong style="font: 1em Helvetica;">#sci_name#</strong></div>
 										<div style="height: 1.38in; font: 1em Helvetica; overflow: hidden;">#type_status#  #verbatim_locality#</div>
 										<div style="font: 0.9em 'Times-Roman'; position: absolute; bottom: 1px; left: 6em;">Museum of Comparative Zoology</div>
