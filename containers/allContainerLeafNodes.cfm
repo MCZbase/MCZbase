@@ -80,7 +80,7 @@ limitations under the License.
 			part_name,
 			cat_num,
 			cataloged_item.collection_cde,
-			institution_acronym,
+			collection.institution_acronym,
 			get_storedas_by_contid(container.container_id) storedAs
 		FROM
 			container
@@ -92,7 +92,7 @@ limitations under the License.
 			join collection on cataloged_item.collection_id=collection.collection_id
 		WHERE
 			container.container_type='collection object' AND
-			coll_obj_cont_hist.accepted_id_fg = 1 
+			identification.accepted_id_fg = 1 
 		START WITH
 			container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.container_id#">
 		CONNECT BY
