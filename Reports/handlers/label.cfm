@@ -120,7 +120,7 @@ limitations under the License.
 										<div style="font: 0.9em 'Times-Roman'; position: absolute; bottom: 1px; left: 6em;">Museum of Comparative Zoology</div>
 									</cfcase>
 									<cfcase value="Slide_1x3__Mala">
-										<div><strong style="font: 1.1em 'Times-Roman';">MCZ:#collection_cde#:#catalog_number#</strong>  Container:#barcode_number# in #parent_container#</div>
+										<div><strong style="font: 1.1em 'Times-Roman';">MCZ:#collection_cde#:#catalog_number#</strong>  Container:#barcode_number# in #parent_label#</div>
 										<div><strong style="font: 1em Helvetica;">#sci_name#</strong></div>
 										<div style="height: 1.38in; font: 1em Helvetica; overflow: hidden;">#type_status#  #verbatim_locality#</div>
 										<div style="font: 0.9em 'Times-Roman'; position: absolute; bottom: 1px; left: 6em;">Museum of Comparative Zoology</div>
