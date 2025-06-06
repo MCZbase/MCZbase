@@ -121,7 +121,7 @@ limitations under the License.
 					<h1>Container Leaf Nodes</h1>
 					<p>
 						This page lists the #leaf.recordcount# collection object leaf nodes in the container hierarchy for the container
-						<a href="/ContainerDetails.cfm?container_id=#encodeForUrl(variables.container_id)#" target="_detail">
+						<a href="/findContainer.cfm?container_id=#encodeForUrl(variables.container_id)#" target="_detail">
 			   		[#getContainerInfo.container_type#: #getContainerInfo.barcode#]
 						</a>.
 						<cfif leaf.recordcount GT 0>  
@@ -166,13 +166,13 @@ limitations under the License.
 							</cfquery>
 							<cfloop query="specData">
 								<tr>
-									<td> <a href="/ContainerDetails.cfm?container_id=#leaf.container_id#" target="_detail">#leaf.label#</a> &nbsp;</td>
+									<td> <a href="/findContainer.cfm?container_id=#leaf.container_id#" target="_blank">#leaf.label#</a> &nbsp;</td>
 									<td>#leaf.description#&nbsp;</td>
 									<td>#leaf.barcode#&nbsp;</td>
 									<td>#leaf.container_remarks#&nbsp;</td>
 									<td>#specData.part_name#</td>
 									<td>
-										<a href="/SpecimenDetail.cfm?collection_object_id=#specData.collection_object_id#">
+										<a href="/SpecimenDetail.cfm?collection_object_id=#specData.collection_object_id#" target="_blank">
 											#specData.institution_acronym# #specData.collection_cde# #specData.cat_num#
 										</a>
 									</td>
