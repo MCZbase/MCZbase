@@ -109,6 +109,7 @@ limitations under the License.
 	</cfif>
 </cfif>
 
+<cfset pageTitle = "Containers | List cataloged items">
 <cfinclude template="/shared/_header.cfm">
 <script src="/lib/misc/sorttable.js"></script>
 <cfset title = "Container Locations">
