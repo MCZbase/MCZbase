@@ -120,7 +120,7 @@ limitations under the License.
 				<div class="col-12">
 					<h1>Container Leaf Nodes</h1>
 					<p>
-						This page lists the #leaf.recorcount# collection object leaf nodes in the container hierarchy for the container
+						This page lists the #leaf.recordcount# collection object leaf nodes in the container hierarchy for the container
 						<a href="/ContainerDetails.cfm?container_id=#encodeForUrl(variables.container_id)#" target="_detail">
 			   		[#getContainerInfo.container_type#: #getContainerInfo.barcode#]
 						</a>.
