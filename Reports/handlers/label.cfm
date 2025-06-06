@@ -79,7 +79,7 @@ limitations under the License.
 			WHERE
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			ORDER BY
-				lpad(cat_num,10)
+				lpad(cataloged_item.cat_num,10)
 		</cfquery>
 		<cfset orientation = "portrait">
 		<cfset columns = 2>
