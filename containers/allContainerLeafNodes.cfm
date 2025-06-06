@@ -74,7 +74,7 @@ limitations under the License.
 			container.container_type,
 			container.label,
 			container.description,
-			container.container_remarks
+			container.container_remarks,
 			cataloged_item.collection_object_id,
 			scientific_name,
 			part_name,
