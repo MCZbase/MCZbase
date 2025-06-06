@@ -48,6 +48,40 @@ limitations under the License.
 		<cfset labelBorder = 'border: 1px solid black;'>
 		<cfset labelHeight = 'height: 2.0in;'>
 	</cfcase>
+	<cfcase value="Slide_1x3__Mala">
+		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT DISTINCT
+				nvl2(mczbase.concattypestatus_label(cataloged_item.collection_object_id), 
+					mczbase.concattypestatus_label(cataloged_item.collection_object_id), 
+					get_scientific_name_auths(cataloged_item.collection_object_id)
+					) as sci_name,
+				concatAcceptedIdentifyingAgent(cataloged_item.collection_object_id) identified_by,
+				MCZBASE.CONCATTYPESTATUS_LABEL(cataloged_item.collection_object_id) as tsname,
+				MCZBASE.CONCATTYPESTATUS_WORDS(cataloged_item.collection_object_id) as type_status,
+				cataloged_item.cat_num as catalog_number,
+				cataloged_item.collection_cde,
+				container.barcode as barcode_number,
+				MCZBASE.GET_PARENTCONTLABELFORCONT(container.parent_container_id) as parent_label,
+				flat.verbatimlocality as verbatim_locality
+			FROM
+				user_search_table
+				JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
+				join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+				join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
+				join container on coll_obj_cont_hist.container_id = container.container_id
+				join flat on cataloged_item.collection_object_id = flat.collection_object_id
+			WHERE
+				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+			ORDER BY
+				lpad(cat_num,10)
+		</cfquery>
+		<cfset orientation = "portrait">
+		<cfset columns = 2>
+		<cfset tableWidth = 'width: 6in;'>
+		<cfset labelWidth = 'width: 3.0in;'>
+		<cfset labelBorder = 'border: 1px solid black;'>
+		<cfset labelHeight = 'height: 1.0in;'>
+	</cfcase>
 </cfswitch>
 
 <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# padding: 5px;'>
@@ -77,6 +111,12 @@ limitations under the License.
 										<div><strong style="font: 1.1em 'Times-Roman';">MCZ:#collection_cde#:#catalog_number#</strong></div>
 										<div><strong style="font: 1em Helvetica;">#sci_name_with_auth#</strong></div>
 										<div style="height: 1.38in; font: 1em Helvetica; overflow: hidden;">#tsname#</div>
+										<div style="font: 0.9em 'Times-Roman'; position: absolute; bottom: 1px; left: 6em;">Museum of Comparative Zoology</div>
+									</cfcase>
+									<cfcase value="Slide_1x3__Mala">
+										<div><strong style="font: 1.1em 'Times-Roman';">MCZ:#collection_cde#:#catalog_number#</strong>  Container:#barcode_number# in #parent_container#</div>
+										<div><strong style="font: 1em Helvetica;">#sci_name#</strong></div>
+										<div style="height: 1.38in; font: 1em Helvetica; overflow: hidden;">#type_status#  #verbatim_locality#</div>
 										<div style="font: 0.9em 'Times-Roman'; position: absolute; bottom: 1px; left: 6em;">Museum of Comparative Zoology</div>
 									</cfcase>
 								</cfswitch>
