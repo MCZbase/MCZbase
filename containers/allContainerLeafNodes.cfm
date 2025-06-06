@@ -283,102 +283,82 @@ limitations under the License.
 				container.container_id
 		</cfquery>
 	</cfif>
-<!---------------- end search by container ---------------->
-<!---------------- search by container_id (ie, for all the containers in a container
+	<!---------------- end search by container ---------------->
+
+	<!---------------- search by container_id (ie, for all the containers in a container
 	from a previous search ---------------------------------->
-<cfif #action# is "contentsSearch">
-<cfset sql = "SELECT container_id
-	FROM
-	container
-	WHERE
-	parent_container_id=#container_id#">
-<cfquery name="allRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
- 	#preservesinglequotes(sql)#
- </cfquery>
-</cfif>
-<!-------------------------- end contents search ----------------------->
+	<cfif #action# is "contentsSearch">
+		<cfquery name="allRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT 
+				container_id
+			FROM
+				container
+			WHERE
+				parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
+		</cfquery>
+	</cfif>
+	<!-------------------------- end contents search ----------------------->
 
-<cfif #allRecords.recordcount# is 0>
-	Your search returned no records. Use your browser's back button to try again.
-	<cfabort>
-</cfif>
-
- <cfform name="TissTree" enablecab="yes">
-	<cftree name="tt" height="600" width="400"  format="html">
-	<cftreeitem value="0" expand="yes" display="Location">
-	<!--- set up a list to keep track of the container_ids that we've put in the tree --->
-	<cfset placedContainers = "">
-
-
-
- <cfloop query="allRecords">
-
-	<cfquery name="thisRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select
-	CONTAINER_ID,
-	PARENT_CONTAINER_ID,
-	CONTAINER_TYPE,
-	DESCRIPTION,
-	PARENT_INSTALL_DATE,
-	CONTAINER_REMARKS,
-	label
-	 from container
-	start with container_id=<cfoutput>#allRecords.container_id#</cfoutput>
-	connect by prior parent_container_id = container_id
-	</cfquery>
-		<cfoutput>
-			<cfloop query="thisRecord">
-				<cfif not listfind(placedContainers,#thisRecord.container_id#)>
-					<cfif #thisRecord.container_type# is "collection object">
-					<!--- get the collection_object-id --->
-					<!---<cfquery name="collobjid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select
-							a.derived_from_biol_indiv,
-							c.derived_from_biol_indv
-						from
-							tissue_sample a,
-							coll_obj_cont_hist b,
-							specimen_part c
-						where
-							a.collection_object_id = b.collection_object_id (+) AND
-							a.collection_object_id = c.collection_object_id (+) AND
-							container_id=#thisRecord.container_id#
-					</cfquery>--->
-					<!---
-						just plaster the derived_from_biol_indiv and derived_from_biol_indv
-						numbers together in the URL because we'll only ever return one of them
-					--->
-
-
-						<cftreeitem
-							value="#thisRecord.container_id#--ContainerDetails.cfm?container_id=#thisRecord.container_id#&objType=CollObj"
-							display="#thisRecord.label#"
-							parent="#thisRecord.parent_container_id#"
-							expand="yes"
-							href="ContainerDetails.cfm?container_id=#thisRecord.container_id#"
-							target="_detail">
-
-					<cfelse>
-					<cftreeitem value="#thisRecord.container_id#" display="#thisRecord.label#" parent="#thisRecord.parent_container_id#" href="ContainerDetails.cfm?container_id=#thisRecord.container_id#" target="_detail" expand="yes">
-					</cfif>
-
-				<cfset placedContainers = listappend(placedContainers,#thisRecord.container_id#)>
-				</cfif>
-
-			</cfloop>
-		</cfoutput>
- </cfloop>
-
- </cftree>
- </cfform>
- <cfif isdefined("sql") and len(#sql#) gt 0>
-	 <form method="post" action="locDownload.cfm" target="_blank">
-		<cfoutput>
-			<input type="hidden" name="sql" value="#preservesinglequotes(sql)#">
-			<input type="submit" value="download summary">
-		</cfoutput>
-	 </form>
- </cfif>
-
+	<cfif isDefined("allRecords")>
+		<cfif #allRecords.recordcount# is 0>
+			Your search returned no records. Use your browser&##39;s back button to try again.
+		<cfelse>
+			<cfform name="TissTree" enablecab="yes">
+				<cftree name="tt" height="600" width="400"  format="html">
+					<cftreeitem value="0" expand="yes" display="Location">
+					<!--- set up a list to keep track of the container_ids that we've put in the tree --->
+					<cfset placedContainers = "">
+	
+					<cfloop query="allRecords">
+						<cfquery name="thisRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT
+								container_id,
+								parent_container_id,
+								container_type,
+								description,
+								parent_install_date,
+								container_remarks,
+								label
+							FROM 
+								container
+							START WITH container_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#allRecords.container_id#">
+							CONNECT BY PRIOR parent_container_id = container_id
+						</cfquery>
+						<cfoutput>
+							<cfloop query="thisRecord">
+								<cfif not listfind(placedContainers,#thisRecord.container_id#)>
+									<cfif #thisRecord.container_type# is "collection object">
+										<cftreeitem
+											value="#thisRecord.container_id#--ContainerDetails.cfm?container_id=#thisRecord.container_id#&objType=CollObj"
+											display="#thisRecord.label#"
+											parent="#thisRecord.parent_container_id#"
+											expand="yes"
+											href="ContainerDetails.cfm?container_id=#thisRecord.container_id#"
+											target="_detail">
+									<cfelse>
+										<cftreeitem 
+											value="#thisRecord.container_id#" 
+											display="#thisRecord.label#" 
+											parent="#thisRecord.parent_container_id#" 
+											href="ContainerDetails.cfm?container_id=#thisRecord.container_id#" 
+											target="_detail" 
+											expand="yes">
+									</cfif>
+									<cfset placedContainers = listappend(placedContainers,#thisRecord.container_id#)>
+								</cfif>
+							</cfloop>
+						</cfoutput>
+ 					</cfloop>
+ 				</cftree>
+			</cfform>
+		</cfif>
+		<cfif isdefined("sql") and len(#sql#) gt 0>
+			<form method="post" action="/locDownload.cfm" target="_blank">
+				<cfoutput>
+					<input type="hidden" name="sql" value="#preservesinglequotes(sql)#">
+					<input type="submit" value="download summary">
+				</cfoutput>
+	 		</form>
+		</cfif>
 	</div>
- <cfinclude template="/shared/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">
