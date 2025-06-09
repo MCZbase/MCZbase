@@ -246,11 +246,13 @@ limitations under the License.
 								flat.scientific_name,
 								MCZBASE.CONCATTYPESTATUS_LABEL(cataloged_item.collection_object_id) as type_status,
 								flat.family as family,
-								flat.country,
-								flat.state_prov,
 								flat.spec_locality,
 								CASE WHEN flat.phylorder IS NOT NULL THEN flat.phylorder ELSE '' END ||
-								CASE WHEN flat.family IS NOT NULL THEN ':' || flat.family ELSE '' END AS highertaxa
+								CASE WHEN flat.family IS NOT NULL THEN ':' || flat.family ELSE '' END AS highertaxa,
+								flat.country,
+								flat.state_prov,
+								CASE WHEN flat.country IS NOT NULL THEN flat.country ELSE '' END ||
+								CASE WHEN flat.state_prov IS NOT NULL THEN ':' || flat.state_prov ELSE '' END AS country_state
 							FROM
 								cataloged_item
 								JOIN specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
@@ -290,8 +292,12 @@ limitations under the License.
 												<span style="#contentFont#">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#
 											</td>
 											<td style="#tdAlign#">
-												<div style="#contentFont#">#getSpecificItems.country#: #getSpecificItems.state_prov#</div>
-												<div style="#contentFont#">#getSpecificItems.spec_locality#</div>
+												<cfif len(getSpecificItems.country_state) GT 0>
+													<span style="#contentFont#">#getSpecificItems.country_state#</span>
+												</cfif>
+												<cfif len(getSpecificItems.spec_locality) GT 0>
+													<span style="#contentFont#">#getSpecificItems.spec_locality#</span>
+												</cfif>
 											</td>
 										</tr>
 									</cfloop>
