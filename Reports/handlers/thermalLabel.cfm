@@ -254,7 +254,7 @@ limitations under the License.
 							<cfset separator = "">
 							<cfloop query="getFamily">
 								<!--- Expect only one order:family per tank, but allow for multiples --->
-								<cfset highertaxa = "#highertaxa##separator##phylorder#:#family#"
+								<cfset highertaxa = "#highertaxa##separator##phylorder#:#family#">
 								<cfset separator = "; ">
 							</cfloop>
 							<strong style="float: right; font: 0.9em Helvetica;">#highertaxa#</strong>
