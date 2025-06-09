@@ -121,14 +121,16 @@ limitations under the License.
 								<cfif show_all IS "true">
 									<cfset selectSize = e.recordcount>
 								<cfelse>
-									<cfquery name="countEntries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT count(*) ct  
-										FROM cf_report_sql 
-										WHERE report_name not like 'mcz_%' 
-											AND show = 1
-										ORDER BY report_name
-									</cfquery>
-									<cfset selectSize = countEntries.ct>
+									<cfset selectSize = 0>
+									<cfloop query="e">
+										<cfloop index="element" array="#repList#">
+											<cfloop index="cel" array="#collList#">
+										 		<cfif cel EQ element >
+													<cfset selectSize = selectSize + 1>
+												</cfif>
+											</cfloop>
+										</cfloop>
+									</cfloop>
 								</cfif>
 								<select name="report_id" id="report_id" size="#selectSize#" style="width: 22em;">
 									<cfloop query="e">
@@ -143,16 +145,16 @@ limitations under the License.
 						
 										<!--- If the report name includes a collection code in the user's list, then show it. --->
 										<cfloop index="element" array="#repList#">
-										  <cfloop index="cel" array="#collList#">
-											 <cfif cel EQ element >
-												<cfset show = 1 >
-											 </cfif>
-										  </cfloop>
+											<cfloop index="cel" array="#collList#">
+												<cfif cel EQ element >
+													<cfset show = 1 >
+												</cfif>
+											</cfloop>
 										</cfloop>
 										</cfif>
 										<!--- Show only reports for users collections, unless showAll is set --->
 										<cfif (#show# EQ 1) || (#show_all# is "true") >
-										  <option value="#report_id#">#report_name#</option>
+											<option value="#report_id#">#report_name#</option>
 										</cfif>
 									</cfloop>
 								</select>
@@ -166,7 +168,7 @@ limitations under the License.
 								</cfloop>
 								<cfif len(#reportsWithPreserveRewrite#) GT 0>
 									<cfset reportsWithPreserveRewrite = "(#reportsWithPreserveRewrite#)">
-								  </cfif>
+								</cfif>
 								<!--- Compile a list of reports that cotain the limit_preserve_method marker, 
 									  for only those reports show the picklist of preservation types --->
 								<cfset reportsWithPartNameRewrite = "">
@@ -177,7 +179,7 @@ limitations under the License.
 								</cfloop>
 								<cfif len(#reportsWithPartNameRewrite#) GT 0>
 									<cfset reportsWithPartNameRewrite = "(#reportsWithPartNameRewrite#)">
-								  </cfif>
+								</cfif>
 								<script>
 										$("##report_id").change( function () {
 											$("##printReportButton").prop('disabled', false); 
