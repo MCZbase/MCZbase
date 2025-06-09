@@ -262,8 +262,8 @@ limitations under the License.
 						<!--- subsequent lines of label, list contents, grouped by taxa --->
 						<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT
-								collection_cde,
-								cat_num as catalog_number,
+								cataloged_item.collection_cde,
+								cataloged_item.cat_num as catalog_number,
 								get_scientific_name_auths(cataloged_item.collection_object_id) as sci_name_with_auth,
 								flat.scientific_name,
 								MCZBASE.CONCATTYPESTATUS_LABEL(cataloged_item.collection_object_id) as type_status,
