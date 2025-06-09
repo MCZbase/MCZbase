@@ -117,7 +117,8 @@ limitations under the License.
 						<tr>
 							<td>
 								<label for="report_id">Print....</label>
-								<select name="report_id" id="report_id" size="36" style="width: 22em;">
+								<cfset selectSize = e.recordcount + 1>
+								<select name="report_id" id="report_id" size="#selectSize#" style="width: 22em;">
 									<cfloop query="e">
 										<cfset show = 0 >
 										<!---
