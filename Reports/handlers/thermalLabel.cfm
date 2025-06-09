@@ -229,17 +229,17 @@ limitations under the License.
 		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="#pageWidth#" pageheight="#pageHeight#" margintop=".015" marginright=".015" marginbottom=".015" marginleft=".015" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
 			<cfoutput>
 				<cfloop query="getTanks">
-					<!--- provide consistent header for repeated pages --->
-					<cfdocumentitem type="header" evalAtPrint="true">
-						<div style="#mczTitle#">
-							Museum of Comparative Zoology, #getTanks.collection#
-						</div>
-						<!--- first line of label: what tank --->
-						<div style="text-align: center; border-bottom: 1px solid;">
-							<strong style="#jarTitle#">Tank: #getTanks.parent_container_label#</strong>
-						</div>
-					</cfdocumentitem>
 					<cfdocumentsection name="aLabel">
+						<!--- provide consistent header for repeated pages --->
+						<cfdocumentitem type="header" evalAtPrint="true">
+							<div style="#mczTitle#">
+								Museum of Comparative Zoology, #getTanks.collection#
+							</div>
+							<!--- first line of label: what tank --->
+							<div style="text-align: center; border-bottom: 1px solid;">
+								<strong style="#jarTitle#">Tank: #getTanks.parent_container_label#</strong>
+							</div>
+						</cfdocumentitem>
 						<!--- subsequent lines of label, list contents, grouped by taxa --->
 						<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT
