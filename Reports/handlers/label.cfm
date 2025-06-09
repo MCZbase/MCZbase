@@ -80,6 +80,7 @@ limitations under the License.
 				join flat on cataloged_item.collection_object_id = flat.collection_object_id
 			WHERE
 				coll_obj_cont_hist.current_container_fg = 1 AND
+				specimen_part.preserve_method LIKE '%slide%' AND
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			ORDER BY
 				lpad(cataloged_item.cat_num,10)
