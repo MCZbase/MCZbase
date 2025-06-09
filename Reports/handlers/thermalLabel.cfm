@@ -231,7 +231,7 @@ limitations under the License.
 				<cfloop query="getTanks">
 					<cfdocumentsection name="aLabel">
 						<!--- provide consistent header for repeated pages --->
-						<cfdocumentitem type="header" evalAtPrint="true">
+						<cfdocumentitem type="header">
 							<div style="#mczTitle#">
 								Museum of Comparative Zoology, #getTanks.collection#
 							</div>
@@ -240,6 +240,9 @@ limitations under the License.
 								<strong style="#jarTitle#">Tank: #getTanks.parent_container_label#</strong>
 							</div>
 						</cfdocumentitem>
+						<cfdocumentitem type="footer"> 
+							<div style="#contentFont# text-align: center;">Page #cfdocument.currentpagenumber#</div> 
+						</cfdocumentitem> 
 						<!--- subsequent lines of label, list contents, grouped by taxa --->
 						<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT
