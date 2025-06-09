@@ -269,7 +269,7 @@ limitations under the License.
 								MCZBASE.CONCATTYPESTATUS_LABEL(cataloged_item.collection_object_id) as type_status,
 								flat.family as family,
 								flat.country,
-								flat.state_province,
+								flat.state_prov,
 								flat.spec_locality,
 								CASE WHEN flat.phylorder IS NOT NULL THEN ':' || flat.phylorder ELSE '' END ||
 								CASE WHEN flat.family IS NOT NULL THEN ':' || flat.family ELSE '' END AS highertaxa
@@ -311,7 +311,7 @@ limitations under the License.
 												<span style="#contentFont#">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#
 											</td>
 											<td style="#tdAlign#">
-												<div style="#contentFont#">#getSpecificItems.country#: #getSpecificItems.state_provicne#</div>
+												<div style="#contentFont#">#getSpecificItems.country#: #getSpecificItems.state_prov#</div>
 												<div style="#contentFont#">#getSpecificItems.spec_locality#</div>
 											</td>
 										</tr>
