@@ -128,7 +128,7 @@ limitations under the License.
 										<cfif NOT ArrayIsEmpty(repBit)>
 										<cfset repList = listToArray(#repBit[1]#,"_",true)>
 						
-										<!--  If the report name includes a collection code in the user's list, then show it. -->
+										<!--- If the report name includes a collection code in the user's list, then show it. --->
 										<cfloop index="element" array="#repList#">
 										  <cfloop index="cel" array="#collList#">
 											 <cfif cel EQ element >
@@ -137,7 +137,7 @@ limitations under the License.
 										  </cfloop>
 										</cfloop>
 										</cfif>
-										<!-- Show only reports for users collections, unless showAll is set -->
+										<!--- Show only reports for users collections, unless showAll is set --->
 										<cfif (#show# EQ 1) || (#show_all# is "true") >
 										  <option value="#report_id#">#report_name#</option>
 										</cfif>
