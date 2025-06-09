@@ -182,6 +182,148 @@ limitations under the License.
 			</cfoutput>
 		</cfdocument>
 	</cfcase>
+	<cfcase value="Tank_Consolidated__Herp_Ich">
+		<!--- get the list of tanks to iterate through, one label per tank --->
+		<cfquery name="getTanks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT DISTINCT
+				parent.container_id as parent_container_id,
+				parent.barcode as parent_barcode_number,
+				parent.label as parent_container_label,
+				collection.collection
+			FROM
+				user_search_table
+				JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
+				JOIN specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+				JOIN coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
+				JOIN container on coll_obj_cont_hist.container_id = container.container_id
+				JOIN container parent on container.parent_container_id = parent.container_id
+				JOIN collection on cataloged_item.collection_id = collection.collection_id
+			WHERE
+				coll_obj_cont_hist.current_container_fg = 1 AND
+				parent.container_type = 'tank' AND
+				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">	
+		</cfquery>
+		<cfset orientation = "portrait">
+		<cfset columns = 1>
+		<!--- 
+			NOTE: The variable names here, tableWidth/labelWidth are used for consistency with the general case (see label.cfm) 
+			where the table has multiple columns with a table cell holding each label.  
+		--->
+		<!--- this is the largest width (class of <table>) inside the page width of "4in" (on <cfdocument>)--->
+		<!--- This equals the cfdocument pageWidth minus the marginleft and marginright --->
+		<cfset tableWidth = 'width: 3.97in;'>
+		<!---this is a class on the table row. It should fill the space inside he tableWidth. --->
+		<cfset labelWidth = 'width: auto;'>
+		<!---Unused in this particular proof of concept label, likely will be needed in others, retain for reuse in other blocks if needed --->
+		<cfset labelBorder = 'border: 1px solid black;'><!--- Used under label type  --->
+		<cfset labelHeight = 'height: 5in;'> <!--- Jar label --Assuming 1 page per jar (not used yet) --->
+		<cfset mczTitle = 'text-align: center;padding-top: .11in;font: 11pt Arial;'>
+		<cfset jarTitle = 'text-align: center; padding-bottom: .07in; border-bottom: 1px solid;font: 11pt Arial;padding-top: .05in;margin-bottom: 0.05in;'>
+		<cfset higherTaxa = 'text-align: left; font: 10.5pt Arial;padding: .02in;'>
+		<cfset sciName = "text-align: left;font: 10.5pt Helvetica, Arial, 'sans-serif'; padding: .05in .02in .02in .02in;font-weight:bold;">
+		<cfset contentFont = 'font: 9pt Arial;'>
+		<cfset tdAlign = 'vertical-align: top;'>
+		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'><!---  (not used yet) --->
+		<cfset pageHeight = "6"><!--- Thermal Paper height; --->
+		<cfset pageWidth = "4"><!---Thermal Paper width--->
+		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="#pageWidth#" pageheight="#pageHeight#" margintop=".015" marginright=".015" marginbottom=".015" marginleft=".015" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
+			<cfoutput>
+				<cfloop query="getTanks">
+					<cfdocumentsection name="aLabel">
+						<div style="#mczTitle#">
+							Museum of Comparative Zoology, #getTanks.collection#
+						</div>
+						<div style="higherTaxa">
+							<strong style="font: 0.9em 'Times-Roman';">#getTanks.parent_container_label#</strong>
+							<!---- first line of label: what tank and what higher taxa are in it --->
+							<cfquery name="getFamily" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT DISTINCT
+									flat.family,
+									flat.phylorder
+								FROM
+									user_search_table
+									JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
+									JOIN specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+									JOIN coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
+									JOIN flat on cataloged_item.collection_object_id = flat.collection_object_id
+								WHERE
+									coll_obj_cont_hist.current_container_fg = 1 AND
+									coll_obj_cont_hist.container_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#parent_container_id#">
+							</cfquery>
+							<cfset highertaxa = "">
+							<cfset separator = "">
+							<cfloop query="getFamily">
+								<!--- Expect only one order:family per tank, but allow for multiples --->
+								<cfset highertaxa = "#highertaxa##separator##phylorder#:#family#"
+								<cfset separator = "; ">
+							</cfloop>
+							<strong style="float: right; font: 0.9em Helvetica;">#highertaxa#</strong>
+						</div>
+						<!--- subsequent lines of label, list contents, grouped by taxa --->
+						<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT
+								collection_cde,
+								cat_num as catalog_number,
+								get_scientific_name_auths(cataloged_item.collection_object_id) as sci_name_with_auth,
+								flat.scientific_name,
+								MCZBASE.CONCATTYPESTATUS_LABEL(cataloged_item.collection_object_id) as type_status,
+								flat.family as family,
+								flat.country,
+								flat.state_province,
+								flat.spec_locality,
+								CASE WHEN flat.phylorder IS NOT NULL THEN ':' || flat.phylorder ELSE '' END ||
+								CASE WHEN flat.family IS NOT NULL THEN ':' || flat.family ELSE '' END AS highertaxa
+							FROM
+								cataloged_item
+								JOIN specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+								JOIN coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
+								JOIN flat on cataloged_item.collection_object_id = flat.collection_object_id
+							WHERE
+								coll_obj_cont_hist.current_container_fg = 1 AND
+								coll_obj_cont_hist.container_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#parent_container_id#">
+							ORDER BY
+								flat.phylorder, 
+								flat.family,
+								flat.scientific_name
+						</cfquery>
+						<cfquery name="getTaxa" dbtype="query">
+							SELECT DISTINCT sci_name_with_auth, highertaxa
+							FROM getItems
+						</cfquery>
+						<cfloop query="getTaxa">
+							<cfset previousTaxon = "">
+								<cfif previousTaxon NEQ highertaxa>
+									<div style="#higherTaxa#">#getTaxa.highertaxa#</div>
+								</cfif>
+								<div style="#sciName#">#getTaxa.sci_name_with_auth#</div>
+								
+								<table style="#tableWidth#">
+									<cfquery name="getSpecificItems" type="query">
+										SELECT DISTINCT * 
+										FROM getItems
+										WHERE 
+											sci_name_with_auth = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTaxa.sci_name_with_auth#">
+											AND highertaxa = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTaxa.highertaxa#">
+									</cfquery>
+									<cfloop query="getSpecificItems">
+										<tr style="#labelWidth#">
+											<td style="#tdAlign#">
+												<span style="#contentFont#">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#
+											</td>
+											<td style="#tdAlign#">
+												<div style="#contentFont#">#getSpecificItems.country#: #getSpecificItems.state_provicne#</div>
+												<div style="#contentFont#">#getSpecificItems.spec_locality#</div>
+											</td>
+										</tr>
+									</cfloop>
+								</table>
+						</cfloop>
+					</cfdocumentsection>
+					<cfdocumentitem type="pagebreak" />
+				</cfloop>
+			</cfoutput>
+		</cfdocument>
+	</cfcase>
 	<cfcase value="Fluid_Consolidated_SchJ__Mala">
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT DISTINCT
