@@ -66,8 +66,8 @@ limitations under the License.
 				MCZBASE.CONCATTYPESTATUS_WORDS(cataloged_item.collection_object_id) as type_status,
 				cataloged_item.cat_num as catalog_number,
 				cataloged_item.collection_cde,
-				container.barcode as barcode_number,
-				container.label as container_label,
+				parent.barcode as barcode_number,
+				parent.label as container_label,
 				MCZBASE.GET_PARENTCONTLABELFORCONT(container.parent_container_id) as parent_label,
 				flat.verbatimlocality as verbatim_locality
 			FROM
@@ -76,6 +76,7 @@ limitations under the License.
 				join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
 				join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
 				join container on coll_obj_cont_hist.container_id = container.container_id
+				join parent on container.parent_container_id = parent.container_id
 				join flat on cataloged_item.collection_object_id = flat.collection_object_id
 			WHERE
 				coll_obj_cont_hist.current_container_fg = 1 AND
