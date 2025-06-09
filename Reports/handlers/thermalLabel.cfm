@@ -298,7 +298,7 @@ limitations under the License.
 								<div style="#sciName#">#getTaxa.sci_name_with_auth#</div>
 								
 								<table style="#tableWidth#">
-									<cfquery name="getSpecificItems" type="query">
+									<cfquery name="getSpecificItems" dbtype="query">
 										SELECT DISTINCT * 
 										FROM getItems
 										WHERE 
