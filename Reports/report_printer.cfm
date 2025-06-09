@@ -164,7 +164,7 @@ limitations under the License.
 										</cfif>
 										<!--- Show only reports for users collections, unless showAll is set --->
 										<cfif (#show# EQ 1) || (#show_all# is "true") >
-											<option value="#report_id#">#report_name#</option>
+											<option value="#report_id#" style="padding: 3.75;">#report_name#</option>
 										</cfif>
 									</cfloop>
 								</select>
