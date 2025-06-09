@@ -78,6 +78,7 @@ limitations under the License.
 				join container on coll_obj_cont_hist.container_id = container.container_id
 				join flat on cataloged_item.collection_object_id = flat.collection_object_id
 			WHERE
+				current_container_fg.current_container_fg = 1 AND
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			ORDER BY
 				lpad(cataloged_item.cat_num,10)
@@ -121,11 +122,10 @@ limitations under the License.
 										<div style="font: 0.9em 'Times-Roman'; position: absolute; bottom: 1px; left: 6em;">Museum of Comparative Zoology</div>
 									</cfcase>
 									<cfcase value="Slide_1x3__Mala">
-										<div><strong style="font: 1.1em 'Times-Roman';">MCZ:#collection_cde#:#catalog_number#</strong></div>
-										<div style="font: 1.1em helvetica">Container:#container_label# in #parent_label#</div>
-										<div><strong style="font: 1em Helvetica;">#sci_name#</strong></div>
-										<div style="height: 1.38in; font: 1em Helvetica; overflow: hidden;">#type_status#  #verbatim_locality#</div>
-										<div style="font: 0.9em 'Times-Roman'; position: absolute; bottom: 1px; left: 6em;">Museum of Comparative Zoology</div>
+										<div><strong style="font: 0.9em 'Times-Roman';">MCZ:#collection_cde#:#catalog_number#</strong></div>
+										<div style="font: 0.9em helvetica">Container:#container_label# in #parent_label#</div>
+										<div><strong style="font: 0.9em Helvetica;">#sci_name#</strong></div>
+										<div style="height: 0.9in; font: 0.9em Helvetica; overflow: hidden;">#type_status#  #verbatim_locality#</div>
 									</cfcase>
 								</cfswitch>
 							</div>
