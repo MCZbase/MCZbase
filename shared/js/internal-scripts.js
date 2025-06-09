@@ -2,6 +2,58 @@
  * Place scripts that should be available only to authenticated users here.
 */
 
+/** setFeedbackControlState is used to set the css classes and message of the feedback control
+ * @param control the id of the control to set without a leading # selector
+ * @param state the state to set, one of 'saving', 'saved', 'error', 'info', 'success', 'removed'
+*/
+function setFeedbackControlState(control,state){
+	state = state.toLowerCase();
+	if (state == 'saving') {
+		message = "Saving..."
+		$('#' + control).addClass('text-warning');
+		$('#' + control).removeClass('text-success');
+		$('#' + control).removeClass('text-danger');
+   } else if (state == 'saved'){
+		message = "Saved"
+		$('#' + control).removeClass('text-warning');
+		$('#' + control).addClass('text-success');
+		$('#' + control).removeClass('text-danger');
+   } else if (state == 'deleting'){
+		message = "Deleting..."
+		$('#' + control).addClass('text-warning');
+		$('#' + control).removeClass('text-success');
+		$('#' + control).removeClass('text-danger');
+   } else if (state == 'deleted'){
+		message = "Deleted."
+		$('#' + control).removeClass('text-warning');
+		$('#' + control).removeClass('text-success');
+		$('#' + control).addClass('text-danger');
+	} else if (state == 'error'){
+		message = "Error"
+		$('#' + control).removeClass('text-warning');
+		$('#' + control).removeClass('text-success');
+		$('#' + control).addClass('text-danger');
+	} else if (state == 'info'){
+		message = "Info"
+		$('#' + control).addClass('text-warning');
+		$('#' + control).removeClass('text-success');
+		$('#' + control).removeClass('text-danger');
+	} else if (state == 'success'){
+		message = "Success"
+		$('#' + control).removeClass('text-warning');
+		$('#' + control).addClass('text-success');
+		$('#' + control).removeClass('text-danger');
+	} else if (state == 'removed'){
+		message = "Removed"
+		$('#' + control).removeClass('text-warning');
+		$('#' + control).addClass('text-success');
+		$('#' + control).removeClass('text-danger');
+	} else {
+		message = ""
+	}
+	$('#' + control).html(message);
+};
+
 /**
  * Given an url and a window name, either load the url in an existing window of that name, 
  * or open a new window of that name and load the url in that window.

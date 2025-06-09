@@ -53,9 +53,6 @@ function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775) {
 		minHeight: 450,
 		draggable:true,
 		buttons: {
-			//"Save": function() {
-			//	$("#"+dialogId).dialog('submit');
-			//},
 			"Close Dialog": function() {
 				console.log("Button calling close on dialog in div with id: " + dialogId);
 				$("#"+dialogId).dialog('close');
@@ -319,6 +316,15 @@ function loadNamedGroupsList(collection_object_id,targetDivId) {
 	})
 };
 
+/** openEditCollectorsDialog (plural) open a dialog for editing
+ * collectors for a cataloged item.
+ *
+ * @param collection_object_id for the cataloged_item for which to edit collectors.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
 function openEditCollectorsDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Collectors for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
@@ -491,3 +497,152 @@ function removeMediaRelationship(media_relations_id,callback) {
 	});
 }
 
+/** openEditOtherIDsDialog (plural) open a dialog for editing 
+ * other IDs for a cataloged item.
+ *
+ * @param collection_object_id for the cataloged_item for which to edit other IDs.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Other IDs for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditOtherIDsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Other IDs dialog");
+		},
+		dataType: "html"
+	});
+};
+
+/** openEditCatalogDialog open a dialog for editing catalog number and accession
+ *  for a cataloged item.
+ *
+ * @param collection_object_id for the cataloged_item to edit..
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openEditCatalogDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Catalog Information for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditCatalogHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit catalog dialog");
+		},
+		dataType: "html"
+	});
+};
+
+/*** reloadOtherIDDialog reload the other ID dialog with a given collection_object_id.
+ * @param collection_object_id the id of the collection_object for which to reload the other IDs.
+ */
+function reloadOtherIDDialog(collection_object_id) { 
+	jQuery.ajax({
+		url : "/specimens/component/functions.cfc",
+		type : "post",
+		dataType : "html",
+		data: {
+			method: "getEditOtherIDsHTML",
+			collection_object_id: collection_object_id
+		},
+		success: function (result) {
+			console.log("Reloading other IDs dialog content");
+			$("#otherIDsDialog_div").html(result);
+		},
+		error: function(jqXHR,textStatus,error){
+			handleFail(jqXHR,textStatus,error,"reloading Other IDs");
+		}
+	});
+};
+
+/** openEditRemarksDialog open a dialog for editing 
+ * remarks for a collection object.
+ *
+ * @param collection_object_id for the collection object for which to edit remarks.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openEditRemarksDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Remarks for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback,500);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditRemarksHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit remarks dialog");
+		},
+		dataType: "html"
+	},
+	)
+};
+
+/** saveRemarks function to save remarks for a collection object.
+ * @param collection_object_id the id of the collection object for which to save remarks
+ * @param coll_object_remarks the remarks to save for the collection object
+ * @param disposition_remarks the disposition remarks to save for the collection object
+ * @param habitat the habitat remarks to save for the collection object
+ * @param associated_species the associated species remarks to save for the collection object
+ * @param callback a callback function to invoke on success.
+ * @param feedbackDiv the id of the div in which to display feedback messages
+ */
+function saveRemarks(collection_object_id,coll_object_remarks,disposition_remarks,habitat,associated_species,callback,feedbackDiv) { 
+	setFeedbackControlState(feedbackDiv,"saving")
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "saveRemarks",
+			collection_object_id: collection_object_id,
+			coll_object_remarks: coll_object_remarks,
+			disposition_remarks: disposition_remarks,
+			habitat: habitat,
+			associated_species: associated_species
+		},
+		success: function (result) {
+			setFeedbackControlState(feedbackDiv,"saved")
+			if (result[0].status=="updated") {
+				var message  = "Updated remarks";
+				console.log(message);
+				if (callback instanceof Function) {
+					callback();
+				}
+			}
+			else {
+				setFeedbackControlState(feedbackDiv,"error")
+				messageDialog("Error updating remarks: " + result[0].message,'Error');
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			setFeedbackControlState(feedbackDiv,"error")
+			handleFail(jqXHR,textStatus,error,"updating remarks");
+		},
+		dataType: "json"
+	});
+} 
