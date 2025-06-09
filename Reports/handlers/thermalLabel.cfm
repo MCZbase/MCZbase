@@ -221,7 +221,7 @@ limitations under the License.
 		<cfset jarTitle = 'text-align: center; padding-bottom: .07in;font: 11pt Arial;padding-top: .05in;margin-bottom: 0.05in;'>
 		<cfset higherTaxaStyle = 'text-align: left; font: 10.5pt Arial;padding: .02in;'>
 		<cfset sciName = "text-align: left;font: 10.5pt Helvetica, Arial, 'sans-serif'; padding: .05in .02in .02in .02in;font-weight:bold;">
-		<cfset contentFont = 'font: 9pt Arial;'>
+		<cfset contentFont = 'font: 8pt Arial;'>
 		<cfset tdAlign = 'vertical-align: top;'>
 		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'><!---  (not used yet) --->
 		<cfset pageHeight = "6"><!--- Thermal Paper height; --->
@@ -269,14 +269,13 @@ limitations under the License.
 							SELECT DISTINCT sci_name_with_auth, highertaxa
 							FROM getItems
 						</cfquery>
+						<cfset previousTaxon = "">
 						<cfloop query="getTaxa">
-							<cfset previousTaxon = "">
-								<cfif previousTaxon NEQ highertaxa>
-									<div style="#higherTaxaStyle#">#getTaxa.highertaxa#</div>
-								</cfif>
-								<cfset previousTaxon = getTaxa.highertaxa>
-								<div style="#sciName#">#getTaxa.sci_name_with_auth#</div>
-								
+							<cfif previousTaxon NEQ getTaxa.highertaxa>
+								<div style="#higherTaxaStyle#">#getTaxa.highertaxa#</div>
+							</cfif>
+							<cfset previousTaxon = getTaxa.highertaxa>
+							<div style="#sciName#">#getTaxa.sci_name_with_auth#</div>
 								<table style="#tableWidth#">
 									<cfquery name="getSpecificItems" dbtype="query">
 										SELECT DISTINCT * 
@@ -297,6 +296,7 @@ limitations under the License.
 										</tr>
 									</cfloop>
 								</table>
+							</div>
 						</cfloop>
 					</cfdocumentsection>
 					<cfdocumentitem type="pagebreak" />
