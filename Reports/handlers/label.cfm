@@ -124,7 +124,12 @@ limitations under the License.
 									</cfcase>
 									<cfcase value="Slide_1x3__Mala">
 										<div><strong style="font: 0.9em 'Times-Roman';">MCZ:#collection_cde#:#catalog_number#</strong></div>
-										<div style="font: 0.9em helvetica">Container:#container_label# in #parent_label#</div>
+										<cfif len(parent_label) EQ 0 or parent_label EQ 'unplaced'>
+											<cfset parent = "">
+										<cfelse>
+											<cfset parent = " in #parent_label#">
+										</cfif>
+										<div style="font: 0.9em helvetica">Container:#container_label##parent#</div>
 										<div><strong style="font: 0.9em Helvetica;">#sci_name#</strong></div>
 										<div style="height: 0.9in; font: 0.9em Helvetica; overflow: hidden;">#type_status#  #verbatim_locality#</div>
 									</cfcase>
