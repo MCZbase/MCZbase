@@ -117,7 +117,19 @@ limitations under the License.
 						<tr>
 							<td>
 								<label for="report_id">Print....</label>
-								<cfset selectSize = e.recordcount + 1>
+								<!--- find how many reports there are to show in the picklist --->
+								<cfif show_all IS "true"
+									<cfset selectSize = e.recordcount>
+								<cfelse>
+									<cfquery name="countEntries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT count(*) ct  
+										FROM cf_report_sql 
+										WHERE report_name not like 'mcz_%' 
+											AND show = 1
+										ORDER BY report_name
+									</cfquery>
+									<cfset selectSize = countEntries.ct>
+								</cfif>
 								<select name="report_id" id="report_id" size="#selectSize#" style="width: 22em;">
 									<cfloop query="e">
 										<cfset show = 0 >
