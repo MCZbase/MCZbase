@@ -52,7 +52,7 @@ Disallow: /a_deaccItemReview.cfm
 Disallow: /a_loanItemReview.cfm
 Disallow: /AdminUsers.cfm
 Disallow: /agents/editAgent.cfm
-Disallow: /allContainerLeafNodes.cfm
+Disallow: /containers/allContainerLeafNodes.cfm
 Disallow: /Application.cfc
 Disallow: /Application_down.cfc
 Disallow: /batchScan.cfm

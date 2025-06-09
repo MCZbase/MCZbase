@@ -117,7 +117,33 @@ limitations under the License.
 						<tr>
 							<td>
 								<label for="report_id">Print....</label>
-								<select name="report_id" id="report_id" size="36" style="width: 22em;">
+								<!--- find how many reports there are to show in the picklist --->
+								<cfif show_all IS "true">
+									<!--- If show_all is set, then show all reports, so the size of the select box is the number of reports --->
+									<cfset selectSize = e.recordcount>
+								<cfelse>
+									<cfset selectSize = 0>
+									<!--- If show_all is not set then count report to show using same logic as shows them below --->
+									<cfloop query="e">
+										<!---
+										  Take the part of the report name after the double underscore,
+										  then explode the collection codes in it on underscores
+										--->
+										<cfset repBit = REMatch('__[a-zA-Z_]+$',#report_name#)>
+										<cfif NOT ArrayIsEmpty(repBit)>
+											<cfset repList = listToArray(#repBit[1]#,"_",true)>
+											<!--- If the report name includes a collection code in the user's list, then count it. --->
+											<cfloop index="element" array="#repList#">
+												<cfloop index="cel" array="#collList#">
+											 		<cfif cel EQ element >
+														<cfset selectSize = selectSize + 1>
+													</cfif>
+												</cfloop>
+											</cfloop>
+										</cfif>
+									</cfloop>
+								</cfif>
+								<select name="report_id" id="report_id" size="#selectSize#" style="width: 22em;">
 									<cfloop query="e">
 										<cfset show = 0 >
 										<!---
@@ -126,20 +152,19 @@ limitations under the License.
 										--->
 										<cfset repBit = REMatch('__[a-zA-Z_]+$',#report_name#)>
 										<cfif NOT ArrayIsEmpty(repBit)>
-										<cfset repList = listToArray(#repBit[1]#,"_",true)>
-						
-										<!--  If the report name includes a collection code in the user's list, then show it. -->
-										<cfloop index="element" array="#repList#">
-										  <cfloop index="cel" array="#collList#">
-											 <cfif cel EQ element >
-												<cfset show = 1 >
-											 </cfif>
-										  </cfloop>
-										</cfloop>
+											<cfset repList = listToArray(#repBit[1]#,"_",true)>
+											<!--- If the report name includes a collection code in the user's list, then show it. --->
+											<cfloop index="element" array="#repList#">
+												<cfloop index="cel" array="#collList#">
+													<cfif cel EQ element >
+														<cfset show = 1 >
+													</cfif>
+												</cfloop>
+											</cfloop>
 										</cfif>
-										<!-- Show only reports for users collections, unless showAll is set -->
+										<!--- Show only reports for users collections, unless showAll is set --->
 										<cfif (#show# EQ 1) || (#show_all# is "true") >
-										  <option value="#report_id#">#report_name#</option>
+											<option value="#report_id#" style="padding: 3.75;">#report_name#</option>
 										</cfif>
 									</cfloop>
 								</select>
@@ -153,7 +178,7 @@ limitations under the License.
 								</cfloop>
 								<cfif len(#reportsWithPreserveRewrite#) GT 0>
 									<cfset reportsWithPreserveRewrite = "(#reportsWithPreserveRewrite#)">
-								  </cfif>
+								</cfif>
 								<!--- Compile a list of reports that cotain the limit_preserve_method marker, 
 									  for only those reports show the picklist of preservation types --->
 								<cfset reportsWithPartNameRewrite = "">
@@ -164,7 +189,7 @@ limitations under the License.
 								</cfloop>
 								<cfif len(#reportsWithPartNameRewrite#) GT 0>
 									<cfset reportsWithPartNameRewrite = "(#reportsWithPartNameRewrite#)">
-								  </cfif>
+								</cfif>
 								<script>
 										$("##report_id").change( function () {
 											$("##printReportButton").prop('disabled', false); 

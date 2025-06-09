@@ -472,6 +472,7 @@ function n_toncheck(id,state){
 			};
 
 function getContDetails(id,state,treeID){
+   // TODO: this appears to be unused old code.
 	jQuery.getJSON("/component/container.cfc",
 		{
 			method : "getContDetails",
@@ -484,6 +485,7 @@ function getContDetails(id,state,treeID){
 	);
 }
 function getContDetails_success (result) {
+   // TODO: this appears to be unused old code.
 	//alert (result);
 	var resArray = result.split("||");
 	var treeID = resArray[0];
@@ -510,7 +512,7 @@ function getContDetails_success (result) {
 	admH.innerHTML = '<a href="/editContainer.cfm?container_id=' + container_id + '" target="_detail" onclick="closeDetails()">Edit</a>';
 	admH.innerHTML += '<br><a href="/info/ContHistory.cfm?container_id=' + container_id + '" target="_detail" onclick="closeDetails()">History</a>';
 	admH.innerHTML += '<br><a href="/containerPositions.cfm?container_id=' + container_id + '" target="_blank" onclick="closeDetails()">Positions</a>';
-	admH.innerHTML += '<br><a href="/allContainerLeafNodes.cfm?container_id=' + container_id + '" target="_detail" onclick="closeDetails()">Leaf Nodes</a>';
+	admH.innerHTML += '<br><a href="/containers/allContainerLeafNodes.cfm?container_id=' + container_id + '" target="_detail" onclick="closeDetails()">Leaf Nodes</a>';
 	admH.innerHTML += '<a href="/editContainer.cfm?action=newContainer&parent_container_id=' + container_id + '" target="_detail" onclick="closeDetails()">Create Child Container</a>';
 
 
