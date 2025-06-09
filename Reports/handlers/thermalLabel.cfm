@@ -219,7 +219,7 @@ limitations under the License.
 		<cfset labelHeight = 'height: 5in;'> <!--- Jar label --Assuming 1 page per jar (not used yet) --->
 		<cfset mczTitle = 'text-align: center;padding-top: .11in;font: 11pt Arial;'>
 		<cfset jarTitle = 'text-align: center; padding-bottom: .07in; border-bottom: 1px solid;font: 11pt Arial;padding-top: .05in;margin-bottom: 0.05in;'>
-		<cfset higherTaxa = 'text-align: left; font: 10.5pt Arial;padding: .02in;'>
+		<cfset higherTaxaStyle = 'text-align: left; font: 10.5pt Arial;padding: .02in;'>
 		<cfset sciName = "text-align: left;font: 10.5pt Helvetica, Arial, 'sans-serif'; padding: .05in .02in .02in .02in;font-weight:bold;">
 		<cfset contentFont = 'font: 9pt Arial;'>
 		<cfset tdAlign = 'vertical-align: top;'>
@@ -233,31 +233,9 @@ limitations under the License.
 						<div style="#mczTitle#">
 							Museum of Comparative Zoology, #getTanks.collection#
 						</div>
-						<div style="higherTaxa">
-							<strong style="font: 0.9em 'Times-Roman';">#getTanks.parent_container_label#</strong>
-							<!---- first line of label: what tank and what higher taxa are in it --->
-							<cfquery name="getFamily" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								SELECT DISTINCT
-									flat.family,
-									flat.phylorder
-								FROM
-									user_search_table
-									JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
-									JOIN specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
-									JOIN coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
-									JOIN flat on cataloged_item.collection_object_id = flat.collection_object_id
-								WHERE
-									coll_obj_cont_hist.current_container_fg = 1 AND
-									coll_obj_cont_hist.container_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#parent_container_id#">
-							</cfquery>
-							<cfset highertaxa = "">
-							<cfset separator = "">
-							<cfloop query="getFamily">
-								<!--- Expect only one order:family per tank, but allow for multiples --->
-								<cfset highertaxa = "#highertaxa##separator##phylorder#:#family#">
-								<cfset separator = "; ">
-							</cfloop>
-							<strong style="float: right; font: 0.9em Helvetica;">#highertaxa#</strong>
+						<div style="#higherTaxaStyle#">
+							<!---- first line of label: what tank --->
+							<strong style="#jarTitle#">Tank: #getTanks.parent_container_label#</strong>
 						</div>
 						<!--- subsequent lines of label, list contents, grouped by taxa --->
 						<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -271,7 +249,7 @@ limitations under the License.
 								flat.country,
 								flat.state_prov,
 								flat.spec_locality,
-								CASE WHEN flat.phylorder IS NOT NULL THEN ':' || flat.phylorder ELSE '' END ||
+								CASE WHEN flat.phylorder IS NOT NULL THEN flat.phylorder ELSE '' END ||
 								CASE WHEN flat.family IS NOT NULL THEN ':' || flat.family ELSE '' END AS highertaxa
 							FROM
 								cataloged_item
@@ -294,7 +272,7 @@ limitations under the License.
 						<cfloop query="getTaxa">
 							<cfset previousTaxon = "">
 								<cfif previousTaxon NEQ highertaxa>
-									<div style="#higherTaxa#">#getTaxa.highertaxa#</div>
+									<div style="#higherTaxaStyle#">#getTaxa.highertaxa#</div>
 								</cfif>
 								<div style="#sciName#">#getTaxa.sci_name_with_auth#</div>
 								
