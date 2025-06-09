@@ -118,7 +118,7 @@ limitations under the License.
 							<td>
 								<label for="report_id">Print....</label>
 								<!--- find how many reports there are to show in the picklist --->
-								<cfif show_all IS "true"
+								<cfif show_all IS "true">
 									<cfset selectSize = e.recordcount>
 								<cfelse>
 									<cfquery name="countEntries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
