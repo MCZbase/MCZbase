@@ -119,10 +119,21 @@ limitations under the License.
 								<label for="report_id">Print....</label>
 								<!--- find how many reports there are to show in the picklist --->
 								<cfif show_all IS "true">
+									<!--- If show_all is set, then show all reports, so the size of the select box is the number of reports --->
 									<cfset selectSize = e.recordcount>
 								<cfelse>
 									<cfset selectSize = 0>
+									<!--- If show_all is not set then count report to show using same logic as shows them below --->
 									<cfloop query="e">
+										<!---
+										  Take the part of the report name after the double underscore,
+										  then explode the collection codes in it on underscores
+										--->
+										<cfset repBit = REMatch('__[a-zA-Z_]+$',#report_name#)>
+										<cfif NOT ArrayIsEmpty(repBit)>
+										<cfset repList = listToArray(#repBit[1]#,"_",true)>
+						
+										<!--- If the report name includes a collection code in the user's list, then count it. --->
 										<cfloop index="element" array="#repList#">
 											<cfloop index="cel" array="#collList#">
 										 		<cfif cel EQ element >
