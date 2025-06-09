@@ -131,16 +131,16 @@ limitations under the License.
 										--->
 										<cfset repBit = REMatch('__[a-zA-Z_]+$',#report_name#)>
 										<cfif NOT ArrayIsEmpty(repBit)>
-										<cfset repList = listToArray(#repBit[1]#,"_",true)>
-						
-										<!--- If the report name includes a collection code in the user's list, then count it. --->
-										<cfloop index="element" array="#repList#">
-											<cfloop index="cel" array="#collList#">
-										 		<cfif cel EQ element >
-													<cfset selectSize = selectSize + 1>
-												</cfif>
+											<cfset repList = listToArray(#repBit[1]#,"_",true)>
+											<!--- If the report name includes a collection code in the user's list, then count it. --->
+											<cfloop index="element" array="#repList#">
+												<cfloop index="cel" array="#collList#">
+											 		<cfif cel EQ element >
+														<cfset selectSize = selectSize + 1>
+													</cfif>
+												</cfloop>
 											</cfloop>
-										</cfloop>
+										</cfif>
 									</cfloop>
 								</cfif>
 								<select name="report_id" id="report_id" size="#selectSize#" style="width: 22em;">
@@ -152,16 +152,15 @@ limitations under the License.
 										--->
 										<cfset repBit = REMatch('__[a-zA-Z_]+$',#report_name#)>
 										<cfif NOT ArrayIsEmpty(repBit)>
-										<cfset repList = listToArray(#repBit[1]#,"_",true)>
-						
-										<!--- If the report name includes a collection code in the user's list, then show it. --->
-										<cfloop index="element" array="#repList#">
-											<cfloop index="cel" array="#collList#">
-												<cfif cel EQ element >
-													<cfset show = 1 >
-												</cfif>
+											<cfset repList = listToArray(#repBit[1]#,"_",true)>
+											<!--- If the report name includes a collection code in the user's list, then show it. --->
+											<cfloop index="element" array="#repList#">
+												<cfloop index="cel" array="#collList#">
+													<cfif cel EQ element >
+														<cfset show = 1 >
+													</cfif>
+												</cfloop>
 											</cfloop>
-										</cfloop>
 										</cfif>
 										<!--- Show only reports for users collections, unless showAll is set --->
 										<cfif (#show# EQ 1) || (#show_all# is "true") >
