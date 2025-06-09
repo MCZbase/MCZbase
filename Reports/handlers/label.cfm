@@ -78,7 +78,7 @@ limitations under the License.
 				join container on coll_obj_cont_hist.container_id = container.container_id
 				join flat on cataloged_item.collection_object_id = flat.collection_object_id
 			WHERE
-				current_container_fg.current_container_fg = 1 AND
+				coll_obj_cont_hist.current_container_fg = 1 AND
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			ORDER BY
 				lpad(cataloged_item.cat_num,10)
