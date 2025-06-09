@@ -274,6 +274,7 @@ limitations under the License.
 								<cfif previousTaxon NEQ highertaxa>
 									<div style="#higherTaxaStyle#">#getTaxa.highertaxa#</div>
 								</cfif>
+								<cfset previousTaxon = getTaxa.highertaxa>
 								<div style="#sciName#">#getTaxa.sci_name_with_auth#</div>
 								
 								<table style="#tableWidth#">
