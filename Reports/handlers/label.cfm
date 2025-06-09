@@ -123,7 +123,10 @@ limitations under the License.
 										<div style="font: 0.9em 'Times-Roman'; position: absolute; bottom: 1px; left: 6em;">Museum of Comparative Zoology</div>
 									</cfcase>
 									<cfcase value="Slide_1x3__Mala">
-										<div><strong style="font: 0.9em 'Times-Roman';">MCZ:#collection_cde#:#catalog_number#</strong></div>
+										<div>
+											<strong style="font: 0.9em 'Times-Roman';">MCZ:#collection_cde#:#catalog_number#</strong>
+											<strong style="float: right; font: 0.9em Helvetica;">#type_status#</strong>
+										</div>
 										<cfif len(parent_label) EQ 0 or parent_label EQ 'unplaced'>
 											<cfset parent = "">
 										<cfelse>
@@ -131,7 +134,7 @@ limitations under the License.
 										</cfif>
 										<div style="font: 0.9em helvetica">Container:#container_label##parent#</div>
 										<div style="font: 0.9em Helvetica;">#sci_name#</div>
-										<div style="height: 0.9in; font: 0.9em Helvetica; overflow: hidden;"><strong style="font: 0.9em Helvetica;">#type_status#</strong>  #verbatim_locality#</div>
+										<div style="height: 0.9in; font: 0.9em Helvetica; overflow: hidden;">#verbatim_locality#</div>
 									</cfcase>
 								</cfswitch>
 							</div>
