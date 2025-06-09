@@ -277,10 +277,11 @@ limitations under the License.
 								cataloged_item
 								JOIN specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
 								JOIN coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
+								JOIN container on coll_obj_cont_hist.container_id = container.container_id
 								JOIN flat on cataloged_item.collection_object_id = flat.collection_object_id
 							WHERE
 								coll_obj_cont_hist.current_container_fg = 1 AND
-								coll_obj_cont_hist.container_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#parent_container_id#">
+								container.parent_container_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#parent_container_id#">
 							ORDER BY
 								flat.phylorder, 
 								flat.family,
