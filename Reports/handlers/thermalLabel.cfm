@@ -216,7 +216,7 @@ limitations under the License.
 		<cfset labelWidth = 'width: auto;'>
 		<!---Unused in this particular proof of concept label, likely will be needed in others, retain for reuse in other blocks if needed --->
 		<cfset labelBorder = 'border: 1px solid black;'><!--- Used under label type  --->
-		<cfset labelHeight = 'height: 6in;'> <!--- Jar label --Assuming 1 page per jar (not used yet) --->
+		<cfset labelHeight = 'height: 5in;'> <!--- Jar label --Assuming 1 page per jar (not used yet) --->
 		<cfset mczTitle = 'text-align: center;padding-top: .11in;font: 11pt Arial;'>
 		<cfset jarTitle = 'text-align: center; padding-bottom: .07in;font: 11pt Arial;padding-top: .05in;margin-bottom: 0.05in;'>
 		<cfset higherTaxaStyle = 'text-align: left; font: 10.5pt Arial;padding: .02in;'>
@@ -229,17 +229,14 @@ limitations under the License.
 		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="#pageWidth#" pageheight="#pageHeight#" margintop=".015" marginright=".015" marginbottom=".015" marginleft=".015" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
 			<cfoutput>
 				<cfloop query="getTanks">
-					<!--- provide consistent header for repeated pages --->
-					<cfdocumentitem type="header" evalAtPrint="true">
+					<cfdocumentsection name="aLabel">
 						<div style="#mczTitle#">
 							Museum of Comparative Zoology, #getTanks.collection#
 						</div>
-						<!--- first line of label: what tank --->
-						<div style="text-align: center; border-bottom: 1px solid;">
+						<div style="#higherTaxaStyle# border-bottom: 1px solid;">
+							<!---- first line of label: what tank --->
 							<strong style="#jarTitle#">Tank: #getTanks.parent_container_label#</strong>
 						</div>
-					</cfdocumentheader>
-					<cfdocumentsection name="aLabel">
 						<!--- subsequent lines of label, list contents, grouped by taxa --->
 						<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT
