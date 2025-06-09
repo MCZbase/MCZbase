@@ -218,7 +218,7 @@ limitations under the License.
 		<cfset labelBorder = 'border: 1px solid black;'><!--- Used under label type  --->
 		<cfset labelHeight = 'height: 5in;'> <!--- Jar label --Assuming 1 page per jar (not used yet) --->
 		<cfset mczTitle = 'text-align: center;padding-top: .11in;font: 11pt Arial;'>
-		<cfset jarTitle = 'text-align: center; padding-bottom: .07in; border-bottom: 1px solid;font: 11pt Arial;padding-top: .05in;margin-bottom: 0.05in;'>
+		<cfset jarTitle = 'text-align: center; padding-bottom: .07in; border-bottom: 10px solid;font: 11pt Arial;padding-top: .05in;margin-bottom: 0.05in;'>
 		<cfset higherTaxaStyle = 'text-align: left; font: 10.5pt Arial;padding: .02in;'>
 		<cfset sciName = "text-align: left;font: 10.5pt Helvetica, Arial, 'sans-serif'; padding: .05in .02in .02in .02in;font-weight:bold;">
 		<cfset contentFont = 'font: 9pt Arial;'>
