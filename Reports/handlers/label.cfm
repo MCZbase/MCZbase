@@ -76,7 +76,7 @@ limitations under the License.
 				join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
 				join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
 				join container on coll_obj_cont_hist.container_id = container.container_id
-				join parent on container.parent_container_id = parent.container_id
+				join container parent on container.parent_container_id = parent.container_id
 				join flat on cataloged_item.collection_object_id = flat.collection_object_id
 			WHERE
 				coll_obj_cont_hist.current_container_fg = 1 AND
