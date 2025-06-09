@@ -238,7 +238,7 @@ limitations under the License.
 						<div style="text-align: center; border-bottom: 1px solid;">
 							<strong style="#jarTitle#">Tank: #getTanks.parent_container_label#</strong>
 						</div>
-					</cfdocumentitem>
+					</cfdocumentheader>
 					<cfdocumentsection name="aLabel">
 						<!--- subsequent lines of label, list contents, grouped by taxa --->
 						<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
