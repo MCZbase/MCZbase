@@ -86,6 +86,9 @@ limitations under the License.
 	<cfset reencodedToken = binaryencode(binarydecode(replace(cookie.cftoken,"-","","All"),"Hex"),"Base64Url")>
 	<!--- Base64Url is ^[A-Za-z0-9_-]+$, oracle table names are ^[A-Za-z0-9_#\$]+$, so replace - with # --->
 	<cfset reencodedToken = replace(reencodedToken,"-","##","All")>
+	<!--- but this gets used as a coldfusion variable name so it needs to be letters, numbers, and underscores only --->
+	<cfset reencodedToken = replace(reencodedToken,"##","_","All")>
+	<!--- truncate to max available characters --->
 	<cfset temp=cookie.cfid & '_' & left(replace(reencodedToken,"-",""),maxavailable) & '_' & rand>
 	<cfset session.reencodedToken = reencodedToken>
 	<cfset session.SpecSrchTab="SpecSrch" & temp>
