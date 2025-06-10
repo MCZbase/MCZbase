@@ -221,6 +221,9 @@ limitations under the License.
 				parent.container_type = 'tank' AND
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
+		<cfif getTanks.recordCount EQ 0>
+			<cfthrow message="No parts in containers of type tank in this this search.">
+		</cfif>
 		
 		<1--- array of PDF files, one for each tank, to assemble later --->
 		<cfset tankPDFs = []>
@@ -244,16 +247,20 @@ limitations under the License.
 			>
 				<cfset taxaHeaderHTML = "">
 				<cfdocumentitem type="header" evalAtPrint="true">
-					<div style='#mczTitle#'>
-						Museum of Comparative Zoology, #getTanks.collection#
-					</div>
-					<div style=""#jarTitle# border-bottom: 1px solid;"">
-						<strong style='#jarTitle#'>Tank: #getTanks.parent_container_label#</strong>
-					</div>
+					<cfoutput>
+						<div style='#mczTitle#'>
+							Museum of Comparative Zoology, #getTanks.collection#
+						</div>
+						<div style=""#jarTitle# border-bottom: 1px solid;"">
+							<strong style='#jarTitle#'>Tank: #getTanks.parent_container_label#</strong>
+						</div>
 					#taxaHeaderHTML#
+					</cfoutput>
 				</cfdocumentitem>
 				<cfdocumentitem type="footer">
-					<div style="#contentFont# text-align: center;">Page #cfdocument.currentpagenumber#</div>
+					<cfoutput>
+						<div style="#contentFont# text-align: center;">Page #cfdocument.currentpagenumber#</div>
+					</cfoutput>
 				</cfdocumentitem>
 				<cfdocumentsection>
 					<cfoutput>
