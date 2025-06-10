@@ -237,9 +237,9 @@ limitations under the License.
 				unit="in"
 				pagewidth="#pageWidth#"
 				pageheight="#pageHeight#"
-				margintop=".015"
+				margintop=".5"
 				marginright=".015"
-				marginbottom=".015"
+				marginbottom=".25"
 				marginleft=".015"
 				orientation="#orientation#"
 				fontembed="true"
@@ -248,10 +248,10 @@ limitations under the License.
 			>
 				<cfdocumentitem type="header" evalAtPrint="true">
 					<cfoutput>
-						<div style='#mczTitle#'>
+						<div style="#mczTitle#">
 							Museum of Comparative Zoology, #getTanks.collection#
 						</div>
-						<div style=""#jarTitle# border-bottom: 1px solid;"">
+						<div style="#jarTitle# border-bottom: 1px solid;">
 							<strong style='#jarTitle#'>Tank: #getTanks.parent_container_label#</strong>
 						</div>
 					#taxaHeaderHTML#
