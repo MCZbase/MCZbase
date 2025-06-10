@@ -134,7 +134,7 @@ limitations under the License.
 											<cfset parent = " in #parent_label#">
 										</cfif>
 										<div style="font: 0.9em helvetica">Container:#container_label##parent#</div>
-										<div style="font: 0.9em Helvetica;">#sci_name#</div>
+										<div><strong style="font: 0.9em Helvetica;">#sci_name#</strong></div>
 										<div style="height: 0.9in; font: 0.9em Helvetica; overflow: hidden;">#verbatim_locality#</div>
 									</cfcase>
 								</cfswitch>
