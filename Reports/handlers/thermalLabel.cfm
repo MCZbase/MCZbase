@@ -392,6 +392,9 @@ limitations under the License.
 		<cfset pageWidth = "4"><!---Thermal Paper width--->
 		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="#pageWidth#" pageheight="#pageHeight#" margintop=".015" marginright=".015" marginbottom=".015" marginleft=".015" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
 			<cfoutput>
+				<cfif getTanks.recordCount EQ 0>
+					<div style="#mczTitle#">No parts in containers of type tank in this this search.</div>
+				</cfif>
 				<cfloop query="getTanks">
 					<cfdocumentsection name="aLabel">
 						<div style="#mczTitle#">
