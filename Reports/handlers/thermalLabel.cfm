@@ -350,7 +350,7 @@ limitations under the License.
 		<cfheader name="Content-Disposition" value="inline; filename=MCZ_labels_#result_id#_final.pdf">
 		<cfcontent type="application/pdf" file="#finalPDFPath#">
 	</cfcase>
-	<cfcase value="Tank_Consolidated_v0__Herp"
+	<cfcase value="Tank_Consolidated_v0__Herp">
 		<!--- get the list of tanks to iterate through, one label per tank --->
 		<cfquery name="getTanks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT DISTINCT
