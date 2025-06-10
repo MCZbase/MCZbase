@@ -228,6 +228,7 @@ limitations under the License.
 		<1--- array of PDF files, one for each tank, to assemble later --->
 		<cfset tankPDFs = []>
 		<cfloop query="getTanks">
+			<cfset taxaHeaderHTML = "">
 			<!--- Write all pages for each tank as a single PDF to /temp --->
 			<cfset tankPDFPath = "#tempDir#/tank_#getTanks.parent_container_id#.pdf">
 			<cfdocument
@@ -245,7 +246,6 @@ limitations under the License.
 				filename="#tankPDFPath#"
 				overwrite="yes"
 			>
-				<cfset taxaHeaderHTML = "">
 				<cfdocumentitem type="header" evalAtPrint="true">
 					<cfoutput>
 						<div style='#mczTitle#'>
@@ -259,7 +259,7 @@ limitations under the License.
 				</cfdocumentitem>
 				<cfdocumentitem type="footer">
 					<cfoutput>
-						<div style="#contentFont# text-align: center;">Page #cfdocument.currentpagenumber#</div>
+						<div style="#contentFont# text-align: center;">Page #cfdocument.currentpagenumber# of #cfdocument.totalpagecount#</div>
 					</cfoutput>
 				</cfdocumentitem>
 				<cfdocumentsection>
