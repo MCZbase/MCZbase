@@ -142,13 +142,13 @@ limitations under the License.
 					<p>
 						This page lists the #leaf.recordcount# collection object leaf nodes in the container hierarchy for the container
 						<a href="/findContainer.cfm?container_id=#encodeForUrl(variables.container_id)#" target="_detail">
-			   		[#getContainerInfo.container_type#: #getContainerInfo.barcode#]
+			   			#getContainerInfo.container_type#: #getContainerInfo.barcode#
 						</a>.
 						<cfif leaf.recordcount GT 0>  
-							<a href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForUrl(variables.container_id)#&action=csvDump" target="_blank">Download as CSV</a>.
+							<a class="btn-secondary btn-xs" role="button"  href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForUrl(variables.container_id)#&action=csvDump" target="_blank">Download as CSV</a>.
 						</cfif>
 						<cfif listCatItems.recordcount GT 0 AND listCatItems.recordcount LT 101>
-							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#collectionObjectIds#&closeParens1=0" target="_blank">View in Specimen Search</a>.
+							<a class="btn-secondary btn-xs" role="button"  href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#collectionObjectIds#&closeParens1=0" target="_blank">View in Specimen Search</a>.
 						</cfif>
 					</p>
 
