@@ -182,7 +182,7 @@ limitations under the License.
 			</cfoutput>
 		</cfdocument>
 	</cfcase>
-	<cfcase value="Tank_Consolidated__Herp_Ich">
+	<cfcase value="Tank_Consolidated__Herp">
 		<!--- get the list of tanks to iterate through, one label per tank --->
 		<cfquery name="getTanks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT DISTINCT
