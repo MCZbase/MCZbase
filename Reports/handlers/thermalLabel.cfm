@@ -237,7 +237,7 @@ limitations under the License.
 				unit="in"
 				pagewidth="#pageWidth#"
 				pageheight="#pageHeight#"
-				margintop=".5"
+				margintop=".6"
 				marginright=".015"
 				marginbottom=".25"
 				marginleft=".015"
