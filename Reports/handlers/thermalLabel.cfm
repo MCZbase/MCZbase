@@ -233,7 +233,7 @@ limitations under the License.
 						<div style="#mczTitle#">
 							Museum of Comparative Zoology, #getTanks.collection#
 						</div>
-						<div style="#higherTaxaStyle# border-bottom: 1px solid;">
+						<div style="#jarTitle# border-bottom: 1px solid;">
 							<!---- first line of label: what tank --->
 							<strong style="#jarTitle#">Tank: #getTanks.parent_container_label#</strong>
 						</div>
