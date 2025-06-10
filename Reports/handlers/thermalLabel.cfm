@@ -219,7 +219,7 @@ limitations under the License.
 				JOIN collection on cataloged_item.collection_id = collection.collection_id
 			WHERE
 				coll_obj_cont_hist.current_container_fg = 1 AND
-				parent.container_type = "tank" AND
+				parent.container_type = 'tank' AND
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
 		
