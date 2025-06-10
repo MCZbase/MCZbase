@@ -254,7 +254,6 @@ limitations under the License.
 						<div style="#jarTitle# border-bottom: 1px solid;">
 							<strong style='#jarTitle#'>Tank: #getTanks.parent_container_label#</strong>
 						</div>
-					#taxaHeaderHTML#
 					</cfoutput>
 				</cfdocumentitem>
 				<cfdocumentitem type="footer">
