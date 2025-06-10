@@ -363,8 +363,8 @@ limitations under the License.
 		<!--- Merge all tank PDFs into one final PDF --->
 		<cfset finalPDFPath = "#tempDir#/MCZ_labels_#result_id#_final.pdf">
 		<cfpdf action="merge"
-			outputfile="#finalPDFPath#"
-			sourcefiles="#tankPDFs#"
+			destination="#finalPDFPath#"
+			source="#tankPDFs#"
 			overwrite="yes"
 		>
 		
