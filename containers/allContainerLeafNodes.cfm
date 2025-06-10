@@ -110,7 +110,7 @@ limitations under the License.
 	</cfif>
 	<cfquery name="listCatItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT DISTINCT
-			cataloged_item.collection_object_id,
+			cataloged_item.collection_object_id
 		FROM
 			container
 			left join coll_obj_cont_hist on container.container_id = coll_obj_cont_hist.container_id
