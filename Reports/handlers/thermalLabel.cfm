@@ -304,6 +304,10 @@ limitations under the License.
 								</table>
 							</div>
 						</cfloop>
+						<div style="#contentFont# text-align: center;">
+							<!---- first line of label: what tank --->
+							<strong style="#contentFont# text-align: center;">Tank: #getTanks.parent_container_label#</strong>
+						</div>
 					</cfdocumentsection>
 					<cfdocumentitem type="pagebreak" />
 				</cfloop>
