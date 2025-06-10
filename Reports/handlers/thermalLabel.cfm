@@ -328,7 +328,7 @@ limitations under the License.
 								</cfloop>
 							</table>
 						</cfloop>
-					<cfoutput>
+					</cfoutput>
 				</cfdocumentsection>
 			</cfdocument>
 			<cfset arrayAppend(tankPDFs, tankPDFPath)>
