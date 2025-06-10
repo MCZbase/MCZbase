@@ -125,7 +125,7 @@ limitations under the License.
 	</cfquery>
 	<cfset collectionObjectIds = "">
 	<cfloop query="listCatItems">
-		<cfset collectionObjectIds = listAppend(collectionObjectIds, listToArray(listCatItems.collection_object_id))>
+		<cfset collectionObjectIds = listAppend(collectionObjectIds, listCatItems.collection_object_id)>
 	</cfloop>
 </cfif>
 
