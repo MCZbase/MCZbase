@@ -108,6 +108,25 @@ limitations under the License.
 		<cfoutput>#csv#</cfoutput>
 		<cfabort>
 	</cfif>
+	<cfquery name="listCatItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT DISTINCT
+			cataloged_item.collection_object_id,
+		FROM
+			container
+			left join coll_obj_cont_hist on container.container_id = coll_obj_cont_hist.container_id
+			left join specimen_part on coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id
+			left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+		WHERE
+			container.container_type='collection object'
+		START WITH
+			container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.container_id#">
+		CONNECT BY
+			container.parent_container_id = PRIOR container.container_id
+	</cfquery>
+	<cfset collectionObjectIds = "">
+	<cfloop query="listCatItems">
+		<cfset collectionObjectIds = listAppend(collectionObjectIds, listToArray(listCatItems.collection_object_id))>
+	</cfloop>
 </cfif>
 
 <cfset pageTitle = "Containers | List cataloged items">
@@ -127,6 +146,9 @@ limitations under the License.
 						</a>.
 						<cfif leaf.recordcount GT 0>  
 							<a href="/containers/allContainerLeafNodes.cfm?container_id=#encodeForUrl(variables.container_id)#&action=csvDump" target="_blank">Download as CSV</a>.
+						</cfif>
+						<cfif listCatItems.recordcount GT 0 AND listCatItems.recordcount LT 101>
+							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&openParens1=0&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#collectionObjectIds#&closeParens1=0" target="_blank">View in Specimen Search</a>.
 						</cfif>
 					</p>
 
