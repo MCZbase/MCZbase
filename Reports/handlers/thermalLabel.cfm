@@ -297,8 +297,14 @@ limitations under the License.
 						<tr style=""#labelWidth#"">
 							<td style=""#tdAlign#""><span style=""#contentFont#"">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span></td>
 							<td style=""#tdAlign#"">
-								#(len(getSpecificItems.country_state) GT 0 ? ""<span style=""#contentFont#"">#getSpecificItems.country_state#</span>"" : "")#
-								#(len(getSpecificItems.spec_locality) GT 0 ? ""<span style=""#contentFont#"">#getSpecificItems.spec_locality#</span>"" : "")#
+					"><!--- " --->
+							<cfif len(getSpecificItems.country_state) GT 0>
+								<cfset tableRowsHTML &= "<span style='#contentFont#'>#getSpecificItems.country_state#</span>"><!--- " --->
+							</cfif>
+							<cfif len(getSpecificItems.spec_locality) GT 0>
+								<cfset tableRowsHTML &= "<span style='#contentFont#'>#getSpecificItems.spec_locality#</span>"><!--- " --->
+							</cfif>
+					<cfset tableRowsHTML &= "
 							</td>
 						</tr>
 					"><!--- " --->
