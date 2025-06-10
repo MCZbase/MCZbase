@@ -199,7 +199,6 @@ limitations under the License.
 		<cfset orientation = "portrait">
 		<cfset columns = 1>
 		<cfset itemsPerPage = 20>
-		<cfset tankPDFs = []>
 		<cfset tempDir = "#Application.webDirectory#/temp">
 		
 		<!--- Get the list of tanks --->
@@ -223,117 +222,10 @@ limitations under the License.
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
 		
+		<1--- array of PDF files, one for each tank, to assemble later --->
+		<cfset tankPDFs = []>
 		<cfloop query="getTanks">
-			<!--- Query items for this tank --->
-			<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT
-					cataloged_item.collection_cde,
-					cataloged_item.cat_num as catalog_number,
-					get_scientific_name_auths(cataloged_item.collection_object_id) as sci_name_with_auth,
-					flat.scientific_name,
-					MCZBASE.CONCATTYPESTATUS_LABEL(cataloged_item.collection_object_id) as type_status,
-					flat.family as family,
-					flat.spec_locality,
-					CASE WHEN flat.phylorder IS NOT NULL THEN flat.phylorder ELSE '' END ||
-					CASE WHEN flat.family IS NOT NULL THEN ':' || flat.family ELSE '' END AS highertaxa,
-					flat.country,
-					flat.state_prov,
-					CASE WHEN flat.country IS NOT NULL THEN flat.country ELSE '' END ||
-					CASE WHEN flat.state_prov IS NOT NULL THEN ':' || flat.state_prov ELSE '' END AS country_state
-				FROM
-					cataloged_item
-					JOIN specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
-					JOIN coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
-					JOIN container on coll_obj_cont_hist.container_id = container.container_id
-					JOIN flat on cataloged_item.collection_object_id = flat.collection_object_id
-				WHERE
-					coll_obj_cont_hist.current_container_fg = 1 AND
-					container.parent_container_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#parent_container_id#">
-				ORDER BY
-					flat.phylorder,
-					flat.family,
-					flat.scientific_name
-			</cfquery>
-			<cfquery name="getTaxa" dbtype="query">
-				SELECT DISTINCT sci_name_with_auth, highertaxa
-				FROM getItems
-			</cfquery>
-		
-			<cfset pageNum = 1>
-			<cfset pages = []>
-			<cfset currentPage = "">
-			<cfset currentLineCount = 0>
-			<cfset currentHigherTaxa = "">
-			<cfset currentSciName = "">
-			<cfset headerHTML = "
-				<div style='#mczTitle#'>
-					Museum of Comparative Zoology, #getTanks.collection#
-				</div>
-				<div style=""#jarTitle# border-bottom: 1px solid;"">
-					<strong style='#jarTitle#'>Tank: #getTanks.parent_container_label#</strong>
-				</div>
-			"><!-- " --->
-			<cfloop query="getTaxa">
-				<cfset taxaHeaderHTML = "">
-				<cfif currentHigherTaxa NEQ getTaxa.highertaxa>
-					<cfset taxaHeaderHTML &= "<div style=""#higherTaxaStyle#"">#getTaxa.highertaxa#</div>"><!--- " --->
-					<cfset currentHigherTaxa = getTaxa.highertaxa>
-					<cfset currentLineCount++>
-				</cfif>
-				<cfset taxaHeaderHTML &= "<div style=""#sciName#"">#getTaxa.sci_name_with_auth#</div>"><!--- " --->
-				<cfset currentSciName = getTaxa.sci_name_with_auth>
-				<cfset currentLineCount++>
-				<!--- Get all items for this taxon --->
-				<cfquery name="getSpecificItems" dbtype="query">
-					SELECT DISTINCT *
-					FROM getItems
-					WHERE
-						sci_name_with_auth = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTaxa.sci_name_with_auth#">
-						AND highertaxa = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTaxa.highertaxa#">
-				</cfquery>
-				<cfset tableRowsHTML = "">
-				<cfloop query="getSpecificItems">
-					<cfset tableRowsHTML &= "
-						<tr style=""#labelWidth#"">
-							<td style=""#tdAlign#""><span style=""#contentFont#"">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span></td>
-							<td style=""#tdAlign#"">
-					"><!--- " --->
-							<cfif len(getSpecificItems.country_state) GT 0>
-								<cfset tableRowsHTML &= "<span style='#contentFont#'>#getSpecificItems.country_state#</span>"><!--- " --->
-							</cfif>
-							<cfif len(getSpecificItems.spec_locality) GT 0>
-								<cfset tableRowsHTML &= "<span style='#contentFont#'>#getSpecificItems.spec_locality#</span>"><!--- " --->
-							</cfif>
-					<cfset tableRowsHTML &= "
-							</td>
-						</tr>
-					"><!--- " --->
-					<cfset currentLineCount++>
-					<!--- If page full, output page and reset --->
-					<cfif currentLineCount GTE itemsPerPage>
-						<cfset currentPage &= headerHTML>
-						<cfset currentPage &= taxaHeaderHTML>
-						<cfset currentPage &= "<table style=""#tableWidth#"">#tableRowsHTML#</table>"><!--- " --->
-						<cfset currentPage &= "<div style=""#contentFont# text-align: center;"">Page #pageNum#</div>"><!--- " --->
-						<cfset arrayAppend(pages, currentPage)>
-						<cfset pageNum++>
-						<cfset currentPage = "">
-						<cfset tableRowsHTML = "">
-						<cfset currentLineCount = 0>
-					</cfif>
-				</cfloop>
-				<!--- If leftover table rows (less than a page), finish page at end of taxon --->
-				<cfif len(tableRowsHTML)>
-					<cfset currentPage &= headerHTML>
-					<cfset currentPage &= taxaHeaderHTML>
-					<cfset currentPage &= "<table style=""#tableWidth#"">#tableRowsHTML#</table>"><!--- " --->
-				</cfif>
-			</cfloop>
-			<cfif len(currentPage)>
-				<cfset currentPage &= "<div style=""#contentFont# text-align: center;"">Page #pageNum#</div>"><!--- " --->
-				<cfset arrayAppend(pages, currentPage)>
-			</cfif>
-			<!--- Write the tank's pages as a single PDF to /temp --->
+			<!--- Write all pages for each tank as a single PDF to /temp --->
 			<cfset tankPDFPath = "#tempDir#/tank_#getTanks.parent_container_id#.pdf">
 			<cfdocument
 				format="pdf"
@@ -350,11 +242,90 @@ limitations under the License.
 				filename="#tankPDFPath#"
 				overwrite="yes"
 			>
-				<cfloop from="1" to="#arrayLen(pages)#" index="i">
-					<cfoutput>#pages[i]#</cfoutput>
-					<cfif i LT arrayLen(pages)>
-						<cfdocumentitem type="pagebreak" />
+				<cfset taxaHeaderHTML = "">
+				<cfdocumentitem type="header" evalAtPrint="true">
+					<div style='#mczTitle#'>
+						Museum of Comparative Zoology, #getTanks.collection#
+					</div>
+					<div style=""#jarTitle# border-bottom: 1px solid;"">
+						<strong style='#jarTitle#'>Tank: #getTanks.parent_container_label#</strong>
+					</div>
+					#taxaHeaderHTML#
+				</cfdocumentitem>
+				<cfdocumentitem type="footer">
+					<div style="#contentFont# text-align: center;">Page #cfdocument.currentpagenumber#</div>
+				</cfdocumentitem>
+				
+				<!--- Query items for this tank --->
+				<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						cataloged_item.collection_cde,
+						cataloged_item.cat_num as catalog_number,
+						get_scientific_name_auths(cataloged_item.collection_object_id) as sci_name_with_auth,
+						flat.scientific_name,
+						MCZBASE.CONCATTYPESTATUS_LABEL(cataloged_item.collection_object_id) as type_status,
+						flat.family as family,
+						flat.spec_locality,
+						CASE WHEN flat.phylorder IS NOT NULL THEN flat.phylorder ELSE '' END ||
+						CASE WHEN flat.family IS NOT NULL THEN ':' || flat.family ELSE '' END AS highertaxa,
+						flat.country,
+						flat.state_prov,
+						CASE WHEN flat.country IS NOT NULL THEN flat.country ELSE '' END ||
+						CASE WHEN flat.state_prov IS NOT NULL THEN ':' || flat.state_prov ELSE '' END AS country_state
+					FROM
+						cataloged_item
+						JOIN specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+						JOIN coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
+						JOIN container on coll_obj_cont_hist.container_id = container.container_id
+						JOIN flat on cataloged_item.collection_object_id = flat.collection_object_id
+					WHERE
+						coll_obj_cont_hist.current_container_fg = 1 AND
+						container.parent_container_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#parent_container_id#">
+					ORDER BY
+						flat.phylorder,
+						flat.family,
+						flat.scientific_name
+				</cfquery>
+				<cfquery name="getTaxa" dbtype="query">
+					SELECT DISTINCT sci_name_with_auth, highertaxa
+					FROM getItems
+				</cfquery>
+		
+				<cfset currentHigherTaxa = "">
+				<cfset currentSciName = "">
+				<cfloop query="getTaxa">
+					<cfset taxaHeaderHTML = "">
+					<cfif currentHigherTaxa NEQ getTaxa.highertaxa>
+						<cfset taxaHeaderHTML = "<div style=""#higherTaxaStyle#"">#getTaxa.highertaxa#</div>"><!--- " --->
+						<div style="#higherTaxaStyle#">#getTaxa.highertaxa#</div>
+						<cfset currentHigherTaxa = getTaxa.highertaxa>
 					</cfif>
+					<cfset taxaHeaderHTML = "#taxaHeaderHtml#<div style=""#sciName#"">#getTaxa.sci_name_with_auth#</div>"><!--- " --->
+					<div style="#sciName#">#getTaxa.sci_name_with_auth#</div>
+					<cfset currentSciName = getTaxa.sci_name_with_auth>
+					<!--- Get all items for this taxon --->
+					<cfquery name="getSpecificItems" dbtype="query">
+						SELECT DISTINCT *
+						FROM getItems
+						WHERE
+							sci_name_with_auth = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTaxa.sci_name_with_auth#">
+							AND highertaxa = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTaxa.highertaxa#">
+					</cfquery>
+					<table style="#tableWidth#">
+						<cfloop query="getSpecificItems">
+							<tr style="#labelWidth#">
+								<td style="#tdAlign#"><span style="#contentFont#">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span></td>
+								<td style="#tdAlign#">
+								<cfif len(getSpecificItems.country_state) GT 0>
+									<span style='#contentFont#'>#getSpecificItems.country_state#</span>
+								</cfif>
+								<cfif len(getSpecificItems.spec_locality) GT 0>
+									<span style='#contentFont#'>#getSpecificItems.spec_locality#</span>
+								</cfif>
+								</td>
+							</tr>
+						</cfloop>
+					</table>
 				</cfloop>
 			</cfdocument>
 			<cfset arrayAppend(tankPDFs, tankPDFPath)>
