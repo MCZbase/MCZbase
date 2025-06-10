@@ -364,7 +364,7 @@ limitations under the License.
 		<cfset finalPDFPath = "#tempDir#/MCZ_labels_#result_id#_final.pdf">
 		<cfpdf action="merge"
 			destination="#finalPDFPath#"
-			source="#tankPDFs#"
+			source="#arrayToList(tankPDFs,',')#"
 			overwrite="yes"
 		>
 		
