@@ -327,6 +327,9 @@
 		select * from SpecRes#cfidAndToken#
 	</cfquery>
 </cfif>
+<cfif NOT isDefined("cfidAndToken")>
+	<cfset cfidAndToken= "#cookie.cfid##session.reencodedToken#">
+</cfif>
 <cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,120,0)#">
 	select * from SpecRes#cfidAndToken#
 </cfquery>
