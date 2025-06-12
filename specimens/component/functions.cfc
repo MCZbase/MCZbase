@@ -5686,11 +5686,11 @@ function showLLFormat(orig_units) {
 					FROM ctbiol_relations
 				</cfquery>
 				<cfquery name="thisCollId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT collection, cat_num, institution_code, collection_cde, collection_object_id
+					SELECT collection.collection, cat_num, institution_acronym, cataloged_item.collection_cde, cataloged_item.collection_object_id
 					FROM cataloged_item
 						join collection on cataloged_item.collection_id=collection.collection_id
 					WHERE 
-						collection_object_id = <cfqueryparam cfsqltype="cf_sql_varchar" value="#variables.collection_object_id#">
+						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="cf_sql_varchar" value="#variables.collection_object_id#">
 				</cfquery>
 				<cfquery name="ctOtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT DISTINCT
@@ -5704,7 +5704,7 @@ function showLLFormat(orig_units) {
 							<div class="col-12 float-left">
 								<div class="add-form float-left">
 									<div class="add-form-header pt-1 px-2 col-12 float-left">
-										<h2 class="h3 my-0 px-1 pb-1">Add New Relationship to #thisCollId.institution_code#:#thisCollId.collection_cde#:#thisCollId.cat_num#</h2>
+										<h2 class="h3 my-0 px-1 pb-1">Add New Relationship to #thisCollId.institution_acronym#:#thisCollId.collection_cde#:#thisCollId.cat_num#</h2>
 									</div>
 									<div class="card-body">
 										<form name="newRelationship" id="newRelationship" method="post" onsubmit="createRelationship(); return false;">
