@@ -80,7 +80,6 @@ limitations under the License.
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
-			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
 		</cfcatch>
@@ -235,7 +234,6 @@ limitations under the License.
 			</cfif>
 		<cfcatch>
 			<cftransaction action="rollback"/>
-			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
@@ -5679,179 +5677,232 @@ function showLLFormat(orig_units) {
 
 <cffunction name="getEditRelationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getEditRelationsThread"> <cfoutput>
-		<cftry>
-			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT 
-				distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
-			SELECT
-				rel.biol_indiv_relationship as biol_indiv_relationship,
-				collection as related_collection,
-				rel.related_coll_object_id as related_coll_object_id,
-				rcat.cat_num as related_cat_num,
-				rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
-			FROM
-				biol_indiv_relations rel
-				left join cataloged_item rcat
-				on rel.related_coll_object_id = rcat.collection_object_id
-				left join collection
-					on collection.collection_id = rcat.collection_id
-				left join ctbiol_relations ctrel
-					on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-			WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
-					and ctrel.rel_type <> 'functional'
-			UNION
-			SELECT
-				ctrel.inverse_relation as biol_indiv_relationship,
-				collection as related_collection,
-				irel.collection_object_id as related_coll_object_id,
-				rcat.cat_num as related_cat_num,
-				irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
-			FROM
-				biol_indiv_relations irel
-				left join ctbiol_relations ctrel
-					on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-				left join cataloged_item rcat
-					on irel.collection_object_id = rcat.collection_object_id
-				left join collection
-				on collection.collection_id = rcat.collection_id
-			WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-				and ctrel.rel_type <> 'functional'
-			)
-		</cfquery>
-				<cfif len(relns.biol_indiv_relationship) gt 0 >
-					<div class="row mx-0 mt-3">
-						<div class="col-12 px-0">
-							<ul class="list-group list-group-flush float-left">
-								<cfloop query="relns">
-									<li class="list-group-item py-0">
-										<input class="" type="text" value="#biol_indiv_relationship#">
-										<a href="/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_top">
-										<input class="" type="" value="#related_collection#">
-										<input class="" value="#related_cat_num#" type="text">
-										</a>
-										<cfif len(relns.biol_indiv_relation_remarks) gt 0>
-											<input class="" size="39" type="text" value="#biol_indiv_relation_remarks#">
-										</cfif>
-									</li>
-								</cfloop>
-								<cfif len(relns.biol_indiv_relationship) gt 0>
-									<li class="pb-1 list-group-item"> <a href="/Specimen.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a> </li>
-								</cfif>
-							</ul>
-						</div>
-					</div>
-					<div class="row mx-0 pb-2">
-						<div class="col-12 col-md-12 p-2">
-							<input type="submit" id="theSubmit" value="Save" class="btn btn-xs btn-primary">
-						</div>
-					</div>
-				</cfif>
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfthread name="getEditRelationsThread">
+		<cfoutput>
+			<cftry>
 				<cfquery name="ctReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select biol_indiv_relationship from ctbiol_relations
+					SELECT biol_indiv_relationship
+					FROM ctbiol_relations
 				</cfquery>
 				<cfquery name="thisCollId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select collection from cataloged_item,collection where cataloged_item.collection_id=collection.collection_id and
-					collection_object_id=#collection_object_id#
+					SELECT collection, cat_num, institution_code, collection_cde, collection_object_id
+					FROM cataloged_item
+						join collection on cataloged_item.collection_id=collection.collection_id
+					WHERE 
+						collection_object_id = <cfqueryparam cfsqltype="cf_sql_varchar" value="#variables.collection_object_id#">
 				</cfquery>
-				<div class="col-12 mt-4 px-1">
-					<div id="accordionAttribute">
-						<div class="card">
-							<div class="card-header pt-1" id="headingAttribute">
-								<h1 class="my-0 px-1 pb-1">
-									<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseAttribute" aria-expanded="true" aria-controls="collapseAttribute"> <span class="h4">Add New Relationship</span> </button>
-								</h1>
-							</div>
-							<div id="collapseAttribute" class="collapse" aria-labelledby="headingAttribute" data-parent="##accordionAttribute">
-								<div class="card-body mt-0">
-									<form name="newRelationship" >
-										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-										<div class="row mx-0 pb-0">
-											<ul class="col-12 px-0 mb-2">
-												<li class="list-group-item float-left col-12 col-md-3 px-1 py-2">
-													<label class="data-entry-label">Relationship:</label>
-													<select name="biol_indiv_relationship" size="1" class="reqdClr data-entry-select">
-														<cfloop query="ctReln">
-															<option value="#ctReln.biol_indiv_relationship#">#ctReln.biol_indiv_relationship#</option>
-														</cfloop>
-													</select>
-													<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-														select collection from collection 
-														group by collection order by collection
-													</cfquery>
-												</li>
-												<li class="list-group-item float-left col-12 col-md-3 px-1 py-2">
-													<label class="data-entry-label">Relationship:</label>
-													<select name="collection" size="1" class="data-entry-select">
-														<cfloop query="ctColl">
-															<option 
-																<cfif #thisCollId.collection# is "#ctColl.collection#"> selected </cfif>
-																value="#ctColl.collection#">#ctColl.collection#</option>
-														</cfloop>
-													</select>
-												</li>
-												<cfquery name="ctOtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select distinct(other_id_type) FROM ctColl_Other_Id_Type ORDER BY other_Id_Type
-												</cfquery>
-												<li class="list-group-item float-left col-12 col-md-3 px-1 py-2">
-													<label class="data-entry-label">Other ID Type:</label>
-													<select name="other_id_type" size="1" class="data-entry-select">
-														<option value="catalog_number">Catalog Number</option>
-														<cfloop query="ctOtherIdType">
-															<option value="#ctOtherIdType.other_id_type#">#ctOtherIdType.other_id_type#</option>
-														</cfloop>
-													</select>
-												</li>
-												<li class="list-group-item float-left col-12 col-md-3 px-1 pt-2">
-													<label class="data-entry-label">Other ID Number:</label>
-													<input type="text" name="oidNumber" class="reqdClr data-entry-input" size="8">
-												</li>
-												<li class="list-group-item float-left col-12 col-md-12 px-1 py-2 my-0">
-													<label class="data-entry-label">Remarks:</label>
-													<input type="text" id="" name="biol_indiv_relation_remarks" size="50" class="data-entry-input">
-												</li>
-											</ul>
-										</div>
-										<div class="row mx-0 pb-2">
-											<div class="col-12 col-md-12 px-1 mt-3">
-												<label class="data-entry-label">Picked Cataloged Item:</label>
-												<input type="text" id="catColl" name="catColl" class="data-entry-input read-only" readonly="yes" size="46">
+				<cfquery name="ctOtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT DISTINCT
+						other_id_type
+					FROM ctcoll_other_id_type 
+					ORDER BY other_Id_Type
+				</cfquery>
+				<div id="relationshipEditorDiv">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12 float-left">
+								<div class="add-form float-left">
+									<div class="add-form-header pt-1 px-2 col-12 float-left">
+										<h2 class="h3 my-0 px-1 pb-1">Add New Relationship to #thisCollId.institution_code#:#thisCollId.collection_cde#:#thisCollId.cat_num#</h2>
+									</div>
+									<div class="card-body">
+										<form name="newRelationship" id="newRelationship" method="post" onsubmit="createRelationship(); return false;">
+											<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+											<div class="row mx-0 pb-0">
+												<ul class="col-12 px-0 mb-2">
+													<li class="list-group-item float-left col-12 col-md-3 px-1 py-2">
+														<label class="data-entry-label">Relationship:</label>
+														<select name="biol_indiv_relationship" size="1" class="reqdClr data-entry-select">
+															<cfloop query="ctReln">
+																<option value="#ctReln.biol_indiv_relationship#">#ctReln.biol_indiv_relationship#</option>
+															</cfloop>
+														</select>
+														<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+															select collection from collection 
+															group by collection order by collection
+														</cfquery>
+													</li>
+													<li class="list-group-item float-left col-12 col-md-3 px-1 py-2">
+														<label class="data-entry-label">Relationship:</label>
+														<select name="collection" size="1" class="data-entry-select">
+															<cfloop query="ctColl">
+																<option 
+																	<cfif #thisCollId.collection# is "#ctColl.collection#"> selected </cfif>
+																	value="#ctColl.collection#">#ctColl.collection#</option>
+															</cfloop>
+														</select>
+													</li>
+													<li class="list-group-item float-left col-12 col-md-3 px-1 py-2">
+														<label class="data-entry-label">Other ID Type:</label>
+														<select name="other_id_type" size="1" class="data-entry-select">
+															<option value="catalog_number">Catalog Number</option>
+															<cfloop query="ctOtherIdType">
+																<option value="#ctOtherIdType.other_id_type#">#ctOtherIdType.other_id_type#</option>
+															</cfloop>
+														</select>
+													</li>
+													<li class="list-group-item float-left col-12 col-md-3 px-1 pt-2">
+														<label class="data-entry-label">Other ID Number:</label>
+														<input type="text" name="oidNumber" class="reqdClr data-entry-input" size="8">
+													</li>
+													<li class="list-group-item float-left col-12 col-md-12 px-1 py-2 my-0">
+														<label class="data-entry-label">Remarks:</label>
+														<input type="text" id="" name="biol_indiv_relation_remarks" size="50" class="data-entry-input">
+													</li>
+												</ul>
 											</div>
-										</div>
-										<div class="row mx-0 pb-2">
-											<div class="col-12 col-md-12 px-1">
-												<input type="submit" id="createRel" value="Create Relationship" class="btn btn-xs btn-primary">
+											<div class="row mx-0 pb-2">
+												<div class="col-12 col-md-12 px-1 mt-3">
+													<output id="relationshipFormOutput"></output>
+												</div>
+												<div class="col-12 col-md-12 px-1 mt-3">
+													<label class="data-entry-label">Picked Cataloged Item:</label>
+													<input type="text" id="catColl" name="catColl" class="data-entry-input read-only" readonly="yes" size="46">
+												</div>
 											</div>
-										</div>
-									</form>
+											<div class="row mx-0 pb-2">
+												<div class="col-12 col-md-12 px-1">
+													<input type="submit" id="createRel" value="Create Relationship" class="btn btn-xs btn-primary">
+												</div>
+											</div>
+										</form>
+										<script>
+											function createRelationship(event) {
+												event.preventDefault();
+												// ajax post of the form data to create a new relationship
+												$.ajax({
+													type: "POST",
+													url: "/ajax/createRelationship.cfm",
+													data: $("form[name='newRelationship']").serialize(),
+													success: function(response) {
+														$("##realationshipFormOutput").html("Relationship added.");
+														reloadRelationships();
+													},
+													error: function(xhr, status, error) {
+														$("##realationshipFormOutput").html("Error" + response.message);
+													}
+												});
+											}
+											function reloadRelationships() { 
+												// reload the relationship list
+												$.ajax({
+													type: "GET",
+													url: "/ajax/getRelationshipDetailHTML.cfm?collection_object_id=#urlEncode(variables.collection_object_id)#",
+													success: function(data) {
+														$("#relationshipDialogList").html(data);
+													},
+													error: function(xhr, status, error) {
+														handleFail(xhr,status,error,"loading specimen media list for editing");
+													}
+												});
+											} 
+										</script>
+									</div>
+								</div>
+								<div id="relationshipDialogList" class="col-12 float-left mt-4 mb-4 px-0">
+									<!--- include output from getRelationshipDetailHTML to show list of relationships for the cataloged item --->
+									<cfset namedGroupList = getRelationshipDetailHTML(collection_object_id = variables.collection_object_id)>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<cfcatch>
-					<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
-						<cfelse>
-						<cfset queryError = ''>
-					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-					<cfcontent reset="yes">
-					<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
-						</div>
-					</div>
-				</cfcatch>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
 			</cftry>
-		</cfoutput> </cfthread>
+		</cfoutput>
+	</cfthread>
 	<cfthread action="join" name="getEditRelationsThread" />
 	<cfreturn getEditRelationsThread.output>
+</cffunction>
+
+<cffunction name="getRelationshipDetailHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfoutput>
+		<cftry>
+			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
+					SELECT
+					rel.biol_indiv_relationship as biol_indiv_relationship,
+						collection as related_collection,
+						rel.related_coll_object_id as related_coll_object_id,
+						rcat.cat_num as related_cat_num,
+						rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+					FROM
+						biol_indiv_relations rel
+						left join cataloged_item rcat
+						on rel.related_coll_object_id = rcat.collection_object_id
+						left join collection
+							on collection.collection_id = rcat.collection_id
+						left join ctbiol_relations ctrel
+							on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+					WHERE rel.collection_object_id = <cfqueryparam value="#variables.collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
+							and ctrel.rel_type <> 'functional'
+					UNION
+					SELECT
+						ctrel.inverse_relation as biol_indiv_relationship,
+						collection as related_collection,
+						irel.collection_object_id as related_coll_object_id,
+						rcat.cat_num as related_cat_num,
+						irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+					FROM
+						biol_indiv_relations irel
+						left join ctbiol_relations ctrel
+							on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+						left join cataloged_item rcat
+							on irel.collection_object_id = rcat.collection_object_id
+						left join collection
+						on collection.collection_id = rcat.collection_id
+					WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						and ctrel.rel_type <> 'functional'
+				)
+			</cfquery>
+			<cfif len(relns.biol_indiv_relationship) gt 0 >
+				<div class="row mx-0 mt-3">
+					<div class="col-12 px-0">
+						<ul class="list-group list-group-flush float-left">
+							<cfloop query="relns">
+								<li class="list-group-item py-0">
+									<input class="" type="text" value="#biol_indiv_relationship#">
+									<a href="/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_top">
+									<input class="" type="" value="#related_collection#">
+									<input class="" value="#related_cat_num#" type="text">
+									</a>
+									<cfif len(relns.biol_indiv_relation_remarks) gt 0>
+										<input class="" size="39" type="text" value="#biol_indiv_relation_remarks#">
+									</cfif>
+								</li>
+							</cfloop>
+							<cfif len(relns.biol_indiv_relationship) gt 0>
+								<li class="pb-1 list-group-item"> <a href="/Specimen.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a> </li>
+							</cfif>
+						</ul>
+					</div>
+				</div>
+				<div class="row mx-0 pb-2">
+					<div class="col-12 col-md-12 p-2">
+						<input type="submit" id="theSubmit" value="Save" class="btn btn-xs btn-primary">
+					</div>
+				</div>
+			<cfelse>
+				<div class="row mx-0 mt-3">
+					<strong>No Relationships to this cataloged item</strong>
+				</div>
+			</cfif>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+	</cfoutput>
 </cffunction>
 
 <cffunction name="getEditTransactionsHTML" returntype="string" access="remote" returnformat="plain">
