@@ -5701,8 +5701,9 @@ function showLLFormat(orig_units) {
 										<h2 class="h3 my-0 px-1 pb-1">Add New Relationship to #thisCollId.institution_acronym#:#thisCollId.collection_cde#:#thisCollId.cat_num#</h2>
 									</div>
 									<div class="card-body">
-										<form name="newRelationshipForm" id="newRelationshipForm" method="post" onsubmit="createRelationship(); return false;">
+										<form name="newRelationshipForm" id="newRelationshipForm">
 											<input type="hidden" name="collection_object_id" value="#thisCollId.collection_object_id#">
+											<input type="hidden" name="method" value="createBiolIndivRelation">
 											<div class="row mx-0 pb-0">
 												<div class="col-12 col-md-6 px-1 mt-3">
 													<label class="data-entry-label">Relationship:</label>
@@ -5732,6 +5733,7 @@ function showLLFormat(orig_units) {
 										<script>
 											$(document).ready(function() {
 												makeCatalogedItemAutocompleteMeta("target_guid", "target_collection_object_id");
+												$("#newRelationshipForm").on("submit", createRelationship);
 											});
 										</script>
 										<script>
@@ -5740,7 +5742,7 @@ function showLLFormat(orig_units) {
 												// ajax post of the form data to create a new relationship
 												$.ajax({
 													type: "POST",
-													url: "/ajax/createRelationship.cfm",
+													url: "/specimens/component/functions.cfc",
 													data: $("##newRelationshipForm").serialize(),
 													success: function(response) {
 														$("##realationshipFormOutput").html("Relationship added.");
@@ -5754,8 +5756,12 @@ function showLLFormat(orig_units) {
 											function reloadRelationships() { 
 												// reload the relationship list
 												$.ajax({
-													type: "GET",
-													url: "/ajax/getRelationshipDetailHTML.cfm?collection_object_id=#encodeForURL(variables.collection_object_id)#",
+													type: "POST",
+													url: "/specimens/component/functions.cfc",
+													data: {
+														method: "getRelationshipDetailHTML",
+														collection_object_id: "#thisCollId.collection_object_id#"
+													},
 													success: function(data) {
 														$("##relationshipDialogList").html(data);
 													},
@@ -5871,6 +5877,56 @@ function showLLFormat(orig_units) {
 		</cfcatch>
 		</cftry>
 	</cfoutput>
+</cffunction>
+
+<cffunction name="createBiolIndivRelation" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="biol_indiv_relationship" type="string" required="yes">
+	<cfargument name="target_collection_object_id" type="string" required="yes">
+	<cfargument name="biol_indiv_relation_remarks" type="string" required="no" default="">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.biol_indiv_relationship = arguments.biol_indiv_relationship>
+	<cfset variables.target_collection_object_id = arguments.target_collection_object_id>
+	<cfset variables.biol_indiv_relation_remarks = arguments.biol_indiv_relation_remarks>
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="addRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addRelation_result">
+				INSERT INTO biol_indiv_relations
+				(
+					collection_object_id,
+					biol_indiv_relationship,
+					related_coll_object_id,
+					biol_indiv_relation_remarks,
+					created_by
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.biol_indiv_relationship#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.target_collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.biol_indiv_relation_remarks#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				)
+			</cfquery>
+			<cfif addRelation_result.recordcount NEQ 1>
+				<cfthrow message="Error: Other than one record created">
+			</cfif>
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#reReplace('[^0-9]',variables.collection_object_id,'')#">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cfthrow>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
 </cffunction>
 
 <cffunction name="getEditTransactionsHTML" returntype="string" access="remote" returnformat="plain">
