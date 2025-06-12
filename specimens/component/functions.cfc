@@ -5701,7 +5701,7 @@ function showLLFormat(orig_units) {
 										<h2 class="h3 my-0 px-1 pb-1">Add New Relationship to #thisCollId.institution_acronym#:#thisCollId.collection_cde#:#thisCollId.cat_num#</h2>
 									</div>
 									<div class="card-body">
-										<form name="newRelationship" id="newRelationship" method="post" onsubmit="createRelationship(); return false;">
+										<form name="newRelationshipForm" id="newRelationshipForm" method="post" onsubmit="createRelationship(); return false;">
 											<input type="hidden" name="collection_object_id" value="#thisCollId.collection_object_id#">
 											<div class="row mx-0 pb-0">
 												<div class="col-12 col-md-6 px-1 mt-3">
@@ -5730,17 +5730,18 @@ function showLLFormat(orig_units) {
 											</div>
 										</form>
 										<script>
-											// bind autocomplete to the cataloged item input
 											$(document).ready(function() {
 												makeCatalogedItemAutocompleteMeta("target_guid", "target_collection_object_id");
 											});
+										</script>
+										<script>
 											function createRelationship(event) {
 												event.preventDefault();
 												// ajax post of the form data to create a new relationship
 												$.ajax({
 													type: "POST",
 													url: "/ajax/createRelationship.cfm",
-													data: $("form[name='newRelationship']").serialize(),
+													data: $("##newRelationshipForm").serialize(),
 													success: function(response) {
 														$("##realationshipFormOutput").html("Relationship added.");
 														reloadRelationships();
