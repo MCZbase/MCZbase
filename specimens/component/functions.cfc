@@ -5755,7 +5755,7 @@ function showLLFormat(orig_units) {
 												// reload the relationship list
 												$.ajax({
 													type: "GET",
-													url: "/ajax/getRelationshipDetailHTML.cfm?collection_object_id=#urlEncode(variables.collection_object_id)#",
+													url: "/ajax/getRelationshipDetailHTML.cfm?collection_object_id=#encodeForURL(variables.collection_object_id)#",
 													success: function(data) {
 														$("##relationshipDialogList").html(data);
 													},
