@@ -5708,66 +5708,38 @@ function showLLFormat(orig_units) {
 									</div>
 									<div class="card-body">
 										<form name="newRelationship" id="newRelationship" method="post" onsubmit="createRelationship(); return false;">
-											<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+											<input type="hidden" name="collection_object_id" value="#thisCollId.collection_object_id#">
 											<div class="row mx-0 pb-0">
-												<ul class="col-12 px-0 mb-2">
-													<li class="list-group-item float-left col-12 col-md-3 px-1 py-2">
-														<label class="data-entry-label">Relationship:</label>
-														<select name="biol_indiv_relationship" size="1" class="reqdClr data-entry-select">
-															<cfloop query="ctReln">
-																<option value="#ctReln.biol_indiv_relationship#">#ctReln.biol_indiv_relationship#</option>
-															</cfloop>
-														</select>
-														<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-															select collection from collection 
-															group by collection order by collection
-														</cfquery>
-													</li>
-													<li class="list-group-item float-left col-12 col-md-3 px-1 py-2">
-														<label class="data-entry-label">Relationship:</label>
-														<select name="collection" size="1" class="data-entry-select">
-															<cfloop query="ctColl">
-																<option 
-																	<cfif #thisCollId.collection# is "#ctColl.collection#"> selected </cfif>
-																	value="#ctColl.collection#">#ctColl.collection#</option>
-															</cfloop>
-														</select>
-													</li>
-													<li class="list-group-item float-left col-12 col-md-3 px-1 py-2">
-														<label class="data-entry-label">Other ID Type:</label>
-														<select name="other_id_type" size="1" class="data-entry-select">
-															<option value="catalog_number">Catalog Number</option>
-															<cfloop query="ctOtherIdType">
-																<option value="#ctOtherIdType.other_id_type#">#ctOtherIdType.other_id_type#</option>
-															</cfloop>
-														</select>
-													</li>
-													<li class="list-group-item float-left col-12 col-md-3 px-1 pt-2">
-														<label class="data-entry-label">Other ID Number:</label>
-														<input type="text" name="oidNumber" class="reqdClr data-entry-input" size="8">
-													</li>
-													<li class="list-group-item float-left col-12 col-md-12 px-1 py-2 my-0">
-														<label class="data-entry-label">Remarks:</label>
-														<input type="text" id="" name="biol_indiv_relation_remarks" size="50" class="data-entry-input">
-													</li>
-												</ul>
-											</div>
-											<div class="row mx-0 pb-2">
+												<div class="col-12 col-md-6 px-1 mt-3">
+													<label class="data-entry-label">Relationship:</label>
+													<select name="biol_indiv_relationship" size="1" class="reqdClr data-entry-select" required>
+														<cfloop query="ctReln">
+															<option value="#ctReln.biol_indiv_relationship#">#ctReln.biol_indiv_relationship#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12 col-md-6 px-1 mt-3">
+													<input type="hidden" id="target_collection_object_id" name="target_collection_object_id" value="">
+													<label class="data-entry-label" for="target_guid">Related Cataloged Item:</label>
+													<input type="text" id="target_guid" name="target_guid" size="50" class="data-entry-input reqdClr" required>
+												</div>
 												<div class="col-12 col-md-12 px-1 mt-3">
+													<label class="data-entry-label">Remarks:</label>
+													<input type="text" id="" name="biol_indiv_relation_remarks" size="50" class="data-entry-input">
+												</div>
+												<div class="col-12 col-md-3 px-1">
+													<input type="submit" id="createRelButton" value="Add Relationship" class="btn btn-xs btn-primary">
+												</div>
+												<div class="col-12 col-md-9 px-1 mt-3">
 													<output id="relationshipFormOutput"></output>
-												</div>
-												<div class="col-12 col-md-12 px-1 mt-3">
-													<label class="data-entry-label">Picked Cataloged Item:</label>
-													<input type="text" id="catColl" name="catColl" class="data-entry-input read-only" readonly="yes" size="46">
-												</div>
-											</div>
-											<div class="row mx-0 pb-2">
-												<div class="col-12 col-md-12 px-1">
-													<input type="submit" id="createRel" value="Create Relationship" class="btn btn-xs btn-primary">
 												</div>
 											</div>
 										</form>
 										<script>
+											// bind autocomplete to the cataloged item input
+											$(document).ready(function() {
+												makeCatalogedItemAutocompleteMeta("target_guid", "target_collection_object_id");
+											}
 											function createRelationship(event) {
 												event.preventDefault();
 												// ajax post of the form data to create a new relationship
