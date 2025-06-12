@@ -5692,12 +5692,6 @@ function showLLFormat(orig_units) {
 					WHERE 
 						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="cf_sql_varchar" value="#variables.collection_object_id#">
 				</cfquery>
-				<cfquery name="ctOtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT DISTINCT
-						other_id_type
-					FROM ctcoll_other_id_type 
-					ORDER BY other_Id_Type
-				</cfquery>
 				<div id="relationshipEditorDiv">
 					<div class="container-fluid">
 						<div class="row">
@@ -5739,7 +5733,7 @@ function showLLFormat(orig_units) {
 											// bind autocomplete to the cataloged item input
 											$(document).ready(function() {
 												makeCatalogedItemAutocompleteMeta("target_guid", "target_collection_object_id");
-											}
+											});
 											function createRelationship(event) {
 												event.preventDefault();
 												// ajax post of the form data to create a new relationship
