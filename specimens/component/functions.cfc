@@ -5924,7 +5924,7 @@ function showLLFormat(orig_units) {
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
 		</cfcatch>
-		</cfthrow>
+		</cftry>
 	</cftransaction>
 	<cfreturn serializeJSON(data)>
 </cffunction>
