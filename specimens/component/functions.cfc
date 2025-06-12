@@ -5733,7 +5733,7 @@ function showLLFormat(orig_units) {
 										<script>
 											$(document).ready(function() {
 												makeCatalogedItemAutocompleteMeta("target_guid", "target_collection_object_id");
-												$("#newRelationshipForm").on("submit", createRelationship);
+												$("##newRelationshipForm").on("submit", createRelationship);
 											});
 										</script>
 										<script>
