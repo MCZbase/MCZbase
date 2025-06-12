@@ -5790,7 +5790,7 @@ function showLLFormat(orig_units) {
 													type: "GET",
 													url: "/ajax/getRelationshipDetailHTML.cfm?collection_object_id=#urlEncode(variables.collection_object_id)#",
 													success: function(data) {
-														$("#relationshipDialogList").html(data);
+														$("##relationshipDialogList").html(data);
 													},
 													error: function(xhr, status, error) {
 														handleFail(xhr,status,error,"loading specimen media list for editing");
