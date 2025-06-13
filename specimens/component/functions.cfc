@@ -6085,11 +6085,11 @@ function showLLFormat(orig_units) {
 	<cfreturn serializeJSON(data)>
 </cffunction>
 
-/** function deleteBiolIndivRelation  
+<!--- ** function deleteBiolIndivRelation  
  * Deletes a relationship between two collection objects.
  * @param biol_indiv_relations_id - the id of the relationship to update
  * @return JSON object with status and id of the deleted relationship
- */
+--->
 <cffunction name="deleteBiolIndivRelation" returntype="any" access="remote" returnformat="json">
 	<cfargument name="biol_indiv_relations_id" type="string" required="yes">
 	<cfset variables.biol_indiv_relations_id = arguments.biol_indiv_relations_id>
