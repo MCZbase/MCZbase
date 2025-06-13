@@ -2441,6 +2441,8 @@ Function getCatalogedItemAutocompleteMeta.  Search for specimens with a substrin
 				<cfelse>
 					AND rownum < 100
 				</cfif>
+			ORDER BY 
+				f.guid
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>

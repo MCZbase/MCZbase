@@ -5867,7 +5867,7 @@ function showLLFormat(orig_units) {
 								<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
 								<div class="col-12 col-md-3 px-0">
 									<label class="data-entry-label" for="biol_indiv_relationship_#i#">Relationship:</label>
-									<select name="biol_indiv_relationship" size="1" class="reqdClr data-entry-select" required id="biol_indiv_relationship_#i#">
+									<select name="biol_indiv_relationship" size="1" class="data-entry-select" required id="biol_indiv_relationship_#i#">
 										<cfloop query="ctReln">
 											<cfset selected = "">
 											<cfif relns.biol_indiv_relationship EQ ctReln.biol_indiv_relationship>
@@ -5887,6 +5887,11 @@ function showLLFormat(orig_units) {
 									</label>
 									<input type="hidden" id="target_collection_object_id_#i#" name="target_collection_object_id" value="#related_coll_object_id#">
 									<input type="text" id="target_guid_#i#" name="target_guid" size="50" class="data-entry-input">
+									<script>
+										$(document).ready(function() {
+											makeCatalogedItemAutocompleteMeta("target_guid_#i#", "target_collection_object_id_#i#");
+										});
+									</script>
 								</div>
 								<div class="col-12 col-md-6 px-0">
 									<label class="data-entry-label" for="remarks_#i#" >Remarks:</label>
