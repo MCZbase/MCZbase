@@ -5864,6 +5864,7 @@ function showLLFormat(orig_units) {
 							<div class="row mx-0 mt-3">
 								<input type="hidden" name="method" id="method_#i#" value="updateBiolIndivRelation">
 								<input type="hidden" name="biol_indiv_relations_id" value="#biol_indiv_relations_id#">
+								<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
 								<div class="col-12 col-md-4 px-0">
 									<label class="data-entry-label" for="biol_indiv_relationship_#i#">Relationship:</label>
 									<select name="biol_indiv_relationship" size="1" class="reqdClr data-entry-select" required id="biol_indiv_relationship_#i#">
@@ -5884,8 +5885,8 @@ function showLLFormat(orig_units) {
 								</div>
 								<div class="col-12 col-md-4 px-0">
 									<label class="data-entry-label" for="target_guid_#i#" >Change To:</label>
-									<input type="hidden" id="target_collection_object_id_#i#" name="target_collection_object_id" value="">
-									<input type="text" id="target_guid_#i#" name="target_guid" size="50" class="data-entry-input reqdClr" required>
+									<input type="hidden" id="target_collection_object_id_#i#" name="related_collection_object_id" value="">
+									<input type="text" id="target_guid_#i#" name="related_guid" size="50" class="data-entry-input reqdClr" required>
 								</div>
 								<div class="col-12 col-md-4 px-0">
 									<label class="data-entry-label" for="remarks_#i#" >Remarks:</label>
