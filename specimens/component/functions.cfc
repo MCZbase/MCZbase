@@ -5913,7 +5913,7 @@ function showLLFormat(orig_units) {
 				<script>
 					function doSave(formId) {
 						setFeedbackControlState("editRelationFormOutput_"+formId,"saving")
-						var form = editRelationForm_ + formId;
+						var form = "editRelationForm_" + formId;
 						$("##method_" + formId).val("updateBiolIndivRelation");
 						var formData = $("##" + form).serialize();
 						$.ajax({
@@ -5932,7 +5932,7 @@ function showLLFormat(orig_units) {
 					}
 					function doDelete(formId) {
 						setFeedbackControlState("editRelationFormOutput_"+formId,"deleting")
-						var form = editRelationForm_ + formId;
+						var form = "editRelationForm_" + formId;
 						if (confirm("Are you sure you want to delete this relationship?")) {
 							$("##method_" + formId).val("deleteBiolIndivRelation");
 							var formData = $("##" + form).serialize();
