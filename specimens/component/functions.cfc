@@ -5807,15 +5807,19 @@ function showLLFormat(orig_units) {
 			</cfquery>
 			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_collection_cde, related_institution_acronym, related_cat_num, biol_indiv_relation_remarks, direction FROM (
+					distinct biol_indiv_relationship, biol_indiv_relations_id,
+					related_collection, related_coll_object_id, related_collection_cde, related_institution_acronym, related_cat_num, 
+					biol_indiv_relation_remarks, direction 
+				FROM (
 					SELECT
-					rel.biol_indiv_relationship as biol_indiv_relationship,
+						rel.biol_indiv_relationship as biol_indiv_relationship,
 						collection as related_collection,
 						collection.collection_cde as related_collection_cde,
 						collection.institution_acronym as related_institution_acronym,
 						rel.related_coll_object_id as related_coll_object_id,
 						rcat.cat_num as related_cat_num,
 						rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks,
+						rel.biol_indiv_relations_id,
 						'forward' as direction
 					FROM
 						biol_indiv_relations rel
@@ -5836,6 +5840,7 @@ function showLLFormat(orig_units) {
 						irel.collection_object_id as related_coll_object_id,
 						rcat.cat_num as related_cat_num,
 						irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks,
+						irel.biol_indiv_relations_id,
 						'inverse' as direction
 					FROM
 						biol_indiv_relations irel
@@ -5858,6 +5863,7 @@ function showLLFormat(orig_units) {
 						<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;">
 							<div class="row mx-0 mt-3">
 								<input type="hidden" name="method" id="method_#i#" value="updateBiolIndivRelation">
+								<input type="hidden" name="biol_indiv_relations_id" value="#biol_indiv_relations_id#">
 								<div class="col-12 col-md-4 px-0">
 									<label class="data-entry-label" for="biol_indiv_relationship_#i#">Relationship:</label>
 									<select name="biol_indiv_relationship" size="1" class="reqdClr data-entry-select" required id="biol_indiv_relationship_#i#">
