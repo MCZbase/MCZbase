@@ -2436,13 +2436,13 @@ Function getCatalogedItemAutocompleteMeta.  Search for specimens with a substrin
 				OR
 				f.spec_locality like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#arguments.term#%">
 				)
-				<cfif REFind("^MCZ:[A-Za-z:]+$", arguments.term)>
-					AND rownum < 10
-				<cfelse>
-					AND rownum < 100
-				</cfif>
 			ORDER BY 
 				f.guid
+			<cfif REFind("^MCZ:[A-Za-z:]+$", arguments.term)>
+				FETCH FIRST 10 ROWS ONLY
+			<cfelse>
+				FETCH FIRST 100 ROWS ONLY
+			</cfif>
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
