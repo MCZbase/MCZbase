@@ -5880,13 +5880,13 @@ function showLLFormat(orig_units) {
 								<cfset guid = "#relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#">
 								<div class="col-12 col-md-3">
 									<label class="data-entry-label" for="target_collection_object_id_#i#">
-										Related To:
+										To:
 										<a href="/specimens/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_blank">
 											#guid#
 										</a>
 									</label>
 									<input type="hidden" id="target_collection_object_id_#i#" name="target_collection_object_id" value="#related_coll_object_id#">
-									<input type="text" id="target_guid_#i#" name="target_guid" size="50" class="data-entry-input">
+									<input type="text" id="target_guid_#i#" name="target_guid" size="50" class="data-entry-input" value="#guid#">
 									<script>
 										$(document).ready(function() {
 											makeCatalogedItemAutocompleteMeta("target_guid_#i#", "target_collection_object_id_#i#");
