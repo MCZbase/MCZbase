@@ -5739,17 +5739,19 @@ function showLLFormat(orig_units) {
 										<script>
 											function createRelationship(event) {
 												event.preventDefault();
+												setFeedbackControlState("relationshipFormOutput","saving")
 												// ajax post of the form data to create a new relationship
 												$.ajax({
 													type: "POST",
 													url: "/specimens/component/functions.cfc",
 													data: $("##newRelationshipForm").serialize(),
 													success: function(response) {
-														$("##realationshipFormOutput").html("Relationship added.");
+														setFeedbackControlState("relationshipFormOutput","saved")
 														reloadRelationships();
 													},
 													error: function(xhr, status, error) {
-														$("##realationshipFormOutput").html("Error" + response.message);
+														setFeedbackControlState("relationshipFormOutput","error")
+														handleFail(xhr,status,error,"saving changes to relationship");
 													}
 												});
 											}
@@ -5799,15 +5801,22 @@ function showLLFormat(orig_units) {
 	<cfset variables.collection_object_id = arguments.collection_object_id>
 	<cfoutput>
 		<cftry>
+			<cfquery name="ctReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT biol_indiv_relationship
+				FROM ctbiol_relations
+			</cfquery>
 			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
+					distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_collection_cde, related_institution_acronym, related_cat_num, biol_indiv_relation_remarks, direction FROM (
 					SELECT
 					rel.biol_indiv_relationship as biol_indiv_relationship,
 						collection as related_collection,
+						collection.collection_cde as related_collection_cde,
+						collection.institution_acronym as related_institution_acronym,
 						rel.related_coll_object_id as related_coll_object_id,
 						rcat.cat_num as related_cat_num,
-						rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+						rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks,
+						'forward' as direction
 					FROM
 						biol_indiv_relations rel
 						left join cataloged_item rcat
@@ -5822,9 +5831,12 @@ function showLLFormat(orig_units) {
 					SELECT
 						ctrel.inverse_relation as biol_indiv_relationship,
 						collection as related_collection,
+						collection.collection_cde as related_collection_cde,
+						collection.institution_acronym as related_institution_acronym,
 						irel.collection_object_id as related_coll_object_id,
 						rcat.cat_num as related_cat_num,
-						irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+						irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks,
+						'inverse' as direction
 					FROM
 						biol_indiv_relations irel
 						left join ctbiol_relations ctrel
@@ -5837,33 +5849,109 @@ function showLLFormat(orig_units) {
 						and ctrel.rel_type <> 'functional'
 				)
 			</cfquery>
-			<cfif len(relns.biol_indiv_relationship) gt 0 >
-				<div class="row mx-0 mt-3">
-					<div class="col-12 px-0">
-						<ul class="list-group list-group-flush float-left">
-							<cfloop query="relns">
-								<li class="list-group-item py-0">
-									<input class="" type="text" value="#biol_indiv_relationship#">
-									<a href="/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_top">
-									<input class="" type="" value="#related_collection#">
-									<input class="" value="#related_cat_num#" type="text">
+			<cfif relns.recordcount GT 0>
+				<cfset inverseRelations = "">
+				<cfset i = 0>
+				<cfloop query="relns">
+					<cfif direction EQ "forward">
+						<cfset i = i + 1>
+						<div class="row mx-0 mt-3">
+							<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;">
+								<input type="hidden" name="method" id="method_#i#" value="updateBiolIndivRelation">
+								<div class="col-12 col-md-4 px-0">
+									<label class="data-entry-label" for="biol_indiv_relationship_#i#">Relationship:</label>
+									<select name="biol_indiv_relationship" size="1" class="reqdClr data-entry-select" required id="biol_indiv_relationship_#i#">
+										<cfloop query="ctReln">
+											<cfset selected = "">
+											<cfif relns.biol_indiv_relationship EQ ctReln.biol_indiv_relationship>
+												<cfset selected = "selected">
+											</cfif>
+											<option value="#ctReln.biol_indiv_relationship#" #selected#>#ctReln.biol_indiv_relationship#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-4 px-0">
+									<label class="data-entry-label" >Related Cataloged Item:</label>
+									<a href="/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_blank">
+										#relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#
 									</a>
-									<cfif len(relns.biol_indiv_relation_remarks) gt 0>
-										<input class="" size="39" type="text" value="#biol_indiv_relation_remarks#">
-									</cfif>
-								</li>
-							</cfloop>
-							<cfif len(relns.biol_indiv_relationship) gt 0>
-								<li class="pb-1 list-group-item"> <a href="/Specimen.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a> </li>
-							</cfif>
-						</ul>
+								</div>
+								<div class="col-12 col-md-4 px-0">
+									<label class="data-entry-label" for="target_guid_#i#" >Change To:</label>
+									<input type="hidden" id="target_collection_object_id_#i#" name="target_collection_object_id" value="">
+									<input type="text" id="target_guid_#i#" name="target_guid" size="50" class="data-entry-input reqdClr" required>
+								</div>
+								<div class="col-12 col-md-4 px-0">
+									<label class="data-entry-label" for="remarks_#i#" >Remarks:</label>
+									<input class="data-entry-input" type="text" id="remarks_#i#" name="biol_indiv_relation_remarks" value="#biol_indiv_relation_remarks#">
+								</div>
+								<div class="col-12 col-md-2 p-2">
+									<input type="button" id="updateButton_#i#" value="Update" class="btn btn-xs btn-secondary" onclick="doSave('#i#')">
+								</div>
+								<div class="col-12 col-md-2 p-2"
+									<input type="button" id="deleteButton_#i#" value="Delete" class="btn btn-xs btn-warning" onclick="doDelete('#i#')">
+								</div>
+								<div class="col-12 col-md-8 p-2">
+									<output id="editRelationFormOutput_#i#"></output>
+								</div>
+							</form>
+						</div>
+					<cfelse>
+						<cfset inverseRelations =  "#inverseRelations#<li>#relns.biol_indiv_relationship# <a href='/Specimen.cfm?collection_object_id=#related_coll_object_id#' target='_blank'> #relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#</a> #relns.biol_indiv_relation_remarks# </li>"><!--- " --->
+					</cfif>
+				</cfloop>
+				<cfif len(inverseRelations) GT 0>
+					<div class="row mx-0 mt-3">
+						<div class="col-12">
+							<strong>Inverse Relationships:</strong>
+							<ul>
+								#inverseRelations#
+							</ul>
+						</div>
 					</div>
-				</div>
-				<div class="row mx-0 pb-2">
-					<div class="col-12 col-md-12 p-2">
-						<input type="submit" id="theSubmit" value="Save" class="btn btn-xs btn-primary">
-					</div>
-				</div>
+				</cfif>
+				<script>
+					function doSave(formId) {
+						setFeedbackControlState("editRelationFormOutput_"+formId,"saving")
+						var form = editRelationForm_ + formId;
+						$("##method_" + formId).val("updateBiolIndivRelation");
+						var formData = $("##" + form).serialize();
+						$.ajax({
+							type: "POST",
+							url: "/specimens/component/functions.cfc",
+							data: formData,
+							success: function(response) {
+								setFeedbackControlState("editRelationFormOutput_"+formId,"saved")
+								reloadRelationships();
+							},
+							error: function(xhr, status, error) {
+								setFeedbackControlState("editRelationFormOutput_"+formId,"error")
+								handleFail(xhr,status,error,"updating relationship");
+							}
+						});
+					}
+					function doDelete(formId) {
+						setFeedbackControlState("editRelationFormOutput_"+formId,"deleting")
+						var form = editRelationForm_ + formId;
+						if (confirm("Are you sure you want to delete this relationship?")) {
+							$("##method_" + formId).val("deleteBiolIndivRelation");
+							var formData = $("##" + form).serialize();
+							$.ajax({
+								type: "POST",
+								url: "/specimens/component/functions.cfc",
+								data: formData + "&method=deleteBiolIndivRelation",
+								success: function(response) {
+									setFeedbackControlState("editRelationFormOutput_"+formId,"deleted")
+									reloadRelationships();
+								},
+								error: function(xhr, status, error) {
+									setFeedbackControlState("editRelationFormOutput_"+formId,"error")
+									handleFail(xhr,status,error,"deleting relationship");
+								}
+							});
+						}
+					}
+				</script>
 			<cfelse>
 				<div class="row mx-0 mt-3">
 					<strong>No Relationships to this cataloged item</strong>
@@ -5879,6 +5967,14 @@ function showLLFormat(orig_units) {
 	</cfoutput>
 </cffunction>
 
+/** function createBiolIndivRelation  
+ * Creates a new relationship between two collection objects.
+ * @param collection_object_id - the collection object id of the first object
+ * @param biol_indiv_relationship - the type of relationship
+ * @param target_collection_object_id - the collection object id of the second object
+ * @param biol_indiv_relation_remarks - optional remarks about the relationship
+ * @return JSON object with status and id of the created relationship
+ */
 <cffunction name="createBiolIndivRelation" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="biol_indiv_relationship" type="string" required="yes">
@@ -5912,10 +6008,15 @@ function showLLFormat(orig_units) {
 			<cfif addRelation_result.recordcount NEQ 1>
 				<cfthrow message="Error: Other than one record created">
 			</cfif>
+			<cfquery name="getPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
+					SELECT biol_indiv_relations_id id
+					FROM biol_indiv_relations
+					WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#addRelation_result.GENERATEDKEY#">
+			</cfquery>
 			<cftransaction action="commit">
 			<cfset row = StructNew()>
 			<cfset row["status"] = "saved">
-			<cfset row["id"] = "#reReplace('[^0-9]',variables.collection_object_id,'')#">
+			<cfset row["id"] = "#getPk.id#">
 			<cfset data[1] = row>
 		<cfcatch>
 			<cftransaction action="rollback">
@@ -5929,6 +6030,101 @@ function showLLFormat(orig_units) {
 	<cfreturn serializeJSON(data)>
 </cffunction>
 
+
+/** function updateBiolIndivRelation  
+ * Updates a relationship between two collection objects.
+ * @param biol_indiv_relations_id - the id of the relationship to update
+ * @param collection_object_id - the collection object id of the first object
+ * @param biol_indiv_relationship - the type of relationship
+ * @param target_collection_object_id - the collection object id of the second object
+ * @param biol_indiv_relation_remarks - optional remarks about the relationship
+ * @return JSON object with status and id of the relationship
+ */
+<cffunction name="updateBiolIndivRelation" returntype="any" access="remote" returnformat="json">
+	<cfargument name="biol_indiv_relations_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="biol_indiv_relationship" type="string" required="yes">
+	<cfargument name="target_collection_object_id" type="string" required="yes">
+	<cfargument name="biol_indiv_relation_remarks" type="string" required="yes">
+
+	<cfset variables.biol_indiv_relations_id = arguments.biol_indiv_relations_id>
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.biol_indiv_relationship = arguments.biol_indiv_relationship>
+	<cfset variables.target_collection_object_id = arguments.target_collection_object_id>
+	<cfset variables.biol_indiv_relation_remarks = arguments.biol_indiv_relation_remarks>
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="updateRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelation_result">
+				UPDATE biol_indiv_relations
+				SET
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">,
+					biol_indiv_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.biol_indiv_relationship#">,
+					related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.target_collection_object_id#">,
+					biol_indiv_relation_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.biol_indiv_relation_remarks#">
+				WHERE biol_indiv_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.biol_indiv_relations_id#">
+			</cfquery>
+			<cfif updateRelation_result.recordcount NEQ 1>
+				<cfthrow message="Error: Other than one record updated.">
+			</cfif>
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#variables.biol_indiv_relations_id#">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
+/** function deleteBiolIndivRelation  
+ * Deletes a relationship between two collection objects.
+ * @param biol_indiv_relations_id - the id of the relationship to update
+ * @return JSON object with status and id of the deleted relationship
+ */
+<cffunction name="deleteBiolIndivRelation" returntype="any" access="remote" returnformat="json">
+	<cfargument name="biol_indiv_relations_id" type="string" required="yes">
+	<cfset variables.biol_indiv_relations_id = arguments.biol_indiv_relations_id>
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="deleteRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addRelation_result">
+				DELETE FROM biol_indiv_relations
+				WHERE biol_indiv_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.biol_indiv_relations_id#">
+			</cfquery>
+			<cfif deleteRelation_result.recordcount NEQ 1>
+				<cfthrow message="Error: Other than one record deleted">
+			</cfif>
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#variables.biol_indiv_relations_id#">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
+<!--- Function to get the HTML for editing transactions related to a collection object 
+ * @param collection_object_id - the collection object id of the cataloged item for which to show transactions
+ * @return HTML string for the edit transactions form
+--->
 <cffunction name="getEditTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditTransactionsThread"> <cfoutput>
