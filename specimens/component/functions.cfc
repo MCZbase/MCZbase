@@ -5950,7 +5950,7 @@ function showLLFormat(orig_units) {
 							$.ajax({
 								type: "POST",
 								url: "/specimens/component/functions.cfc",
-								data: formData + "&method=deleteBiolIndivRelation",
+								data: formData,
 								success: function(response) {
 									setFeedbackControlState("editRelationFormOutput_"+formId,"deleted")
 									reloadRelationships();
