@@ -5877,25 +5877,29 @@ function showLLFormat(orig_units) {
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-4 px-0">
+								<div class="col-12 col-md-3">
 									<label class="data-entry-label" >Related Cataloged Item:</label>
-									<a href="/specimens/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_blank">
-										#relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#
-									</a>
+									<div class="px-1">
+										<a href="/specimens/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_blank">
+											#relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#
+										</a>
+									</div>
 								</div>
-								<div class="col-12 col-md-4 px-0">
+								<div class="col-12 col-md-5 px-0">
 									<label class="data-entry-label" for="target_guid_#i#" >Change To:</label>
 									<input type="hidden" id="target_collection_object_id_#i#" name="target_collection_object_id" value="#related_coll_object_id#">
 									<input type="text" id="target_guid_#i#" name="target_guid" size="50" class="data-entry-input">
 								</div>
-								<div class="col-12 col-md-4 px-0">
+								<div class="col-12 px-0">
 									<label class="data-entry-label" for="remarks_#i#" >Remarks:</label>
 									<input class="data-entry-input" type="text" id="remarks_#i#" name="biol_indiv_relation_remarks" value="#biol_indiv_relation_remarks#">
 								</div>
 								<div class="col-12 col-md-2 p-2">
+									<label class="data-entry-label" for="updateButton_#i#" >&nbsp;</label>
 									<input type="button" id="updateButton_#i#" value="Update" class="btn btn-xs btn-secondary" onclick="doSave('#i#')">
 								</div>
-								<div class="col-12 col-md-2 p-2"
+								<div class="col-12 col-md-2 p-2">
+									<label class="data-entry-label" for="deleteButton_#i#" >&nbsp;</label>
 									<input type="button" id="deleteButton_#i#" value="Delete" class="btn btn-xs btn-warning" onclick="doDelete('#i#')">
 								</div>
 								<div class="col-12 col-md-8 p-2">
