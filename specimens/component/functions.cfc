@@ -5860,8 +5860,8 @@ function showLLFormat(orig_units) {
 				<cfloop query="relns">
 					<cfif direction EQ "forward">
 						<cfset i = i + 1>
-						<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;">
-							<div class="row m-0 pt-1 px-1 border">
+						<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;" class="mb-0">
+							<div class="row m-0 py-1 px-1 border">
 								<input type="hidden" name="method" id="method_#i#" value="updateBiolIndivRelation">
 								<input type="hidden" name="biol_indiv_relations_id" value="#biol_indiv_relations_id#">
 								<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
@@ -5880,7 +5880,7 @@ function showLLFormat(orig_units) {
 								<cfset guid = "#relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#">
 								<div class="col-12 col-md-3">
 									<label class="data-entry-label" for="target_collection_object_id_#i#">
-										Related Cataloged Item:
+										Related To:
 										<a href="/specimens/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_blank">
 											#guid#
 										</a>
