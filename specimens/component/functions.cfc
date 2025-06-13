@@ -5877,11 +5877,12 @@ function showLLFormat(orig_units) {
 										</cfloop>
 									</select>
 								</div>
+								<cfset guid = "#relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#">
 								<div class="col-12 col-md-3">
 									<label class="data-entry-label" for="target_collection_object_id_#i#">
 										Related Cataloged Item:
 										<a href="/specimens/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_blank">
-											#relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#
+											#guid#
 										</a>
 									</label>
 									<input type="hidden" id="target_collection_object_id_#i#" name="target_collection_object_id" value="#related_coll_object_id#">
@@ -5892,12 +5893,12 @@ function showLLFormat(orig_units) {
 									<input class="data-entry-input" type="text" id="remarks_#i#" name="biol_indiv_relation_remarks" value="#biol_indiv_relation_remarks#">
 								</div>
 								<div class="col-12 col-md-2">
-									<label class="data-entry-label" for="updateButton_#i#" >&nbsp;</label>
 									<input type="button" id="updateButton_#i#" value="Update" class="btn btn-xs btn-secondary" onclick="doSave('#i#')">
 								</div>
 								<div class="col-12 col-md-2">
-									<label class="data-entry-label" for="deleteButton_#i#" >&nbsp;</label>
-									<input type="button" id="deleteButton_#i#" value="Delete" class="btn btn-xs btn-warning" onclick="doDelete('#i#')">
+									<input type="button" id="deleteButton_#i#"
+										value="Delete" class="btn btn-xs btn-warning" 
+										onclick=" confirmDialog('Delete this relationship (#relns.biol_indiv_relationship# #guid#)?', 'Confirm Delete Relationship', function() { doDelete('#i#'); }  );">
 								</div>
 								<div class="col-12 col-md-8">
 									<output id="editRelationFormOutput_#i#"></output>
@@ -5941,23 +5942,21 @@ function showLLFormat(orig_units) {
 					function doDelete(formId) {
 						setFeedbackControlState("editRelationFormOutput_"+formId,"deleting")
 						var form = "editRelationForm_" + formId;
-						if (confirm("Are you sure you want to delete this relationship?")) {
-							$("##method_" + formId).val("deleteBiolIndivRelation");
-							var formData = $("##" + form).serialize();
-							$.ajax({
-								type: "POST",
-								url: "/specimens/component/functions.cfc",
-								data: formData,
-								success: function(response) {
-									setFeedbackControlState("editRelationFormOutput_"+formId,"deleted")
-									reloadRelationships();
-								},
-								error: function(xhr, status, error) {
-									setFeedbackControlState("editRelationFormOutput_"+formId,"error")
-									handleFail(xhr,status,error,"deleting relationship");
-								}
-							});
-						}
+						$("##method_" + formId).val("deleteBiolIndivRelation");
+						var formData = $("##" + form).serialize();
+						$.ajax({
+							type: "POST",
+							url: "/specimens/component/functions.cfc",
+							data: formData,
+							success: function(response) {
+								setFeedbackControlState("editRelationFormOutput_"+formId,"deleted")
+								reloadRelationships();
+							},
+							error: function(xhr, status, error) {
+								setFeedbackControlState("editRelationFormOutput_"+formId,"error")
+								handleFail(xhr,status,error,"deleting relationship");
+							}
+						});
 					}
 				</script>
 			<cfelse>
