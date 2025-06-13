@@ -5855,8 +5855,8 @@ function showLLFormat(orig_units) {
 				<cfloop query="relns">
 					<cfif direction EQ "forward">
 						<cfset i = i + 1>
-						<div class="row mx-0 mt-3">
-							<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;">
+						<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;">
+							<div class="row mx-0 mt-3">
 								<input type="hidden" name="method" id="method_#i#" value="updateBiolIndivRelation">
 								<div class="col-12 col-md-4 px-0">
 									<label class="data-entry-label" for="biol_indiv_relationship_#i#">Relationship:</label>
@@ -5872,7 +5872,7 @@ function showLLFormat(orig_units) {
 								</div>
 								<div class="col-12 col-md-4 px-0">
 									<label class="data-entry-label" >Related Cataloged Item:</label>
-									<a href="/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_blank">
+									<a href="/specimens/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_blank">
 										#relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#
 									</a>
 								</div>
@@ -5894,8 +5894,8 @@ function showLLFormat(orig_units) {
 								<div class="col-12 col-md-8 p-2">
 									<output id="editRelationFormOutput_#i#"></output>
 								</div>
-							</form>
-						</div>
+							</div>
+						</form>
 					<cfelse>
 						<cfset inverseRelations =  "#inverseRelations#<li>#relns.biol_indiv_relationship# <a href='/Specimen.cfm?collection_object_id=#related_coll_object_id#' target='_blank'> #relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#</a> #relns.biol_indiv_relation_remarks# </li>"><!--- " --->
 					</cfif>
@@ -5967,14 +5967,14 @@ function showLLFormat(orig_units) {
 	</cfoutput>
 </cffunction>
 
-/** function createBiolIndivRelation  
+<!--- ** function createBiolIndivRelation  
  * Creates a new relationship between two collection objects.
  * @param collection_object_id - the collection object id of the first object
  * @param biol_indiv_relationship - the type of relationship
  * @param target_collection_object_id - the collection object id of the second object
  * @param biol_indiv_relation_remarks - optional remarks about the relationship
  * @return JSON object with status and id of the created relationship
- */
+--->
 <cffunction name="createBiolIndivRelation" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="biol_indiv_relationship" type="string" required="yes">
@@ -6031,7 +6031,7 @@ function showLLFormat(orig_units) {
 </cffunction>
 
 
-/** function updateBiolIndivRelation  
+<!--- ** function updateBiolIndivRelation  
  * Updates a relationship between two collection objects.
  * @param biol_indiv_relations_id - the id of the relationship to update
  * @param collection_object_id - the collection object id of the first object
@@ -6039,7 +6039,7 @@ function showLLFormat(orig_units) {
  * @param target_collection_object_id - the collection object id of the second object
  * @param biol_indiv_relation_remarks - optional remarks about the relationship
  * @return JSON object with status and id of the relationship
- */
+--->
 <cffunction name="updateBiolIndivRelation" returntype="any" access="remote" returnformat="json">
 	<cfargument name="biol_indiv_relations_id" type="string" required="yes">
 	<cfargument name="collection_object_id" type="string" required="yes">
