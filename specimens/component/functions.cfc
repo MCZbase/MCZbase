@@ -2508,10 +2508,17 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 						
-						
+<!--- 
+ ** getEditCollectorsHTML function returns the HTML for editing collectors or preparators for a given collection object.
+ * @param collection_object_id: the ID of the collection object to edit collectors records for.
+ * @param target: specifies whether to edit collectors or preparators or both
+--->
 <cffunction name="getEditCollectorsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="target" type="string" required="yes">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.target = arguments.target>
 
 	<!--- TODO: Refactor to allow target to specify whether this dialog is used for collectors, preparators, or both --->
 	<cfthread name="getEditCollectorsThread">
@@ -2525,20 +2532,30 @@ limitations under the License.
 					collector.agent_id,
 					institution_acronym
 				FROM
-					collector, 
-					preferred_agent_name,
-					cataloged_item,
-					collection
+					cataloged_item
+					join collector on collector.collection_object_id = cataloged_item.collection_object_id 
+					join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id 
+					join collection on cataloged_item.collection_id=collection.collection_id 
 				WHERE
-					collector.collection_object_id = cataloged_item.collection_object_id and
-					cataloged_item.collection_id=collection.collection_id AND
-					collector.agent_id = preferred_agent_name.agent_id AND
-					collector.collection_object_id = #collection_object_id#
+					collector.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+				   <cfif variables.target is 'collector'>
+						AND collector_role = 'c'
+				   <cfelseif variables.target is 'preparator'>
+						AND collector_role = 'p'
+					</cfif>
 				ORDER BY 
 					collector_role, coll_order
 			</cfquery>
 				<cfset i=1>
-				<h3> Agent as Collector or Preparator</h3>
+				<h3> Agent as 
+				   <cfif variables.target is 'collector'>
+						Collector
+					<cfelseif variables.target is 'preparator'>
+						Preparator
+					<cfelse>
+						Collector or Preparator
+					</cfif>
+				</h3>
 				<table>
 					<cfloop query="getColls">
 						<form name="colls#i#" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
@@ -2546,8 +2563,8 @@ limitations under the License.
 							<tr>
 								<td><label class="px-2">Name: </label>
 									<input type="text" name="Name" value="#getColls.agent_name#" class="reqdClr" 
-						onchange="getAgent('newagent_id','Name','colls#i#',this.value); return false;"
-						 onKeyPress="return noenter(event);">
+										onchange="getAgent('newagent_id','Name','colls#i#',this.value); return false;"
+										onKeyPress="return noenter(event);">
 									<input type="hidden" name="newagent_id">
 									<input type="hidden" name="oldagent_id" value="#agent_id#">
 									<label for="collector_role" class="px-2">Role: </label>
