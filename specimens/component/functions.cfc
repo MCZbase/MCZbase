@@ -5885,8 +5885,8 @@ function showLLFormat(orig_units) {
 								</div>
 								<div class="col-12 col-md-4 px-0">
 									<label class="data-entry-label" for="target_guid_#i#" >Change To:</label>
-									<input type="hidden" id="target_collection_object_id_#i#" name="target_collection_object_id" value="">
-									<input type="text" id="target_guid_#i#" name="target_guid" size="50" class="data-entry-input reqdClr" required>
+									<input type="hidden" id="target_collection_object_id_#i#" name="target_collection_object_id" value="#related_coll_object_id#">
+									<input type="text" id="target_guid_#i#" name="target_guid" size="50" class="data-entry-input">
 								</div>
 								<div class="col-12 col-md-4 px-0">
 									<label class="data-entry-label" for="remarks_#i#" >Remarks:</label>
