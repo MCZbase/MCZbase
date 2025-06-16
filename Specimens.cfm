@@ -3445,7 +3445,10 @@ Target JSON:
 				</cfif>
 
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-
+					$("#jqxgrid").on('bindingcomplete',function() {
+						$("#jqxgrid").jqxGrid('selectrow',0);
+						$("#jqxgrid").focus();
+					})
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
 							$(document).scrollTop(200);
