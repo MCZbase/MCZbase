@@ -3271,15 +3271,15 @@ Target JSON:
 							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
 							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
 							console.log(collobjtoremove);
-		        			$.ajax({
-            				url: "/specimens/component/search.cfc",
-            				data: { 
+							$.ajax({
+								url: "/specimens/component/search.cfc",
+								data: { 
 									method: 'removeItemFromResult', 
 									result_id: $('##result_id_fixedSearch').val(),
 									collection_object_id: collobjtoremove
 								},
 								dataType: 'json',
-           					success : function (data) { 
+								success : function (data) { 
 								console.log(data);
 								commit(true);
 								$('##fixedsearchResultsGrid').jqxGrid('selectrow',0);
@@ -3287,11 +3287,11 @@ Target JSON:
 								$('##fixedsearchResultsGrid').focus();
 								$('##fixedsearchResultsGrid').jqxGrid({keyboardnavigation:true});
 							},
-            				error : function (jqXHR, textStatus, error) {
-          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
+								error : function (jqXHR, textStatus, error) {
+									handleFail(jqXHR,textStatus,error,"removing row from result set");
 									commit(false);
-            				}
-         				});
+								}
+							});
 						} 
 					};
 				} else { 
