@@ -2621,6 +2621,25 @@ limitations under the License.
 												</cfif>
 												loadCollectorsList("#variables.collection_object_id#", "collectorsDialogList", "#variables.target#");
 											}
+											function loadCollectorsList(collection_object_id, targetDiv, target) {
+												$.ajax({
+													url : "/specimens/component/functions.cfc",
+													type : "post",
+													dataType : "html",
+													data: {
+														method: "getCollectorsDetailHTML",
+														collection_object_id: collection_object_id,
+														target: target,
+														returnformat: "plain"
+													},
+													success: function(result) {
+														$("#" + targetDiv).html(result);
+													},
+													error: function(jqXHR,textStatus,error){
+														handleFail(jqXHR,textStatus,error,"loading collectors list");
+													}
+												});
+											}
 											function handleAddCollector(){
 												if (checkFormValidity($('form[name="addToCollectors"]')[0])) {
 													setFeedbackControlState("addButtonResultDiv","saving")
@@ -2773,6 +2792,7 @@ limitations under the License.
 								<cfelseif variables.target is 'preparator' or variables.target EQ 'both'>
 									reloadPreparators();
 								</cfif>
+								loadCollectorsList("#variables.collection_object_id#", "collectorsDialogList", "#variables.target#");
 							} else {
 								setFeedbackControlState("coll_output_" + formId,"error")
 							}
