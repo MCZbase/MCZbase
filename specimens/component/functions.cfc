@@ -2557,11 +2557,11 @@ limitations under the License.
 									<div class="card-body">
 										<!--- Form to add a new collector/preparator --->
 										<form name="addToCollectors" onSubmit="return false;">
+											<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
+											<input type="hidden" name="method" value="addCollector">
+											<input type="hidden" name="returnformat" value="json">
+											<input type="hidden" name="queryformat" value="column">
 											<div class="form-row">
-												<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
-												<input type="hidden" name="method" value="addCollector">
-												<input type="hidden" name="returnformat" value="json">
-												<input type="hidden" name="queryformat" value="column">
 												<div class="col-12 col-md-11 pt-3 px-2">
 													<label for="add_agent_name">
 														Add #targetLabel#:
@@ -2765,42 +2765,54 @@ limitations under the License.
 					Collectors and Preparators
 				</cfif>
 			</h2>
-			<ul>
-				<cfif getColls.recordcount EQ 0>
+			<cfif getColls.recordcount EQ 0>
+				<ul>
 					<li>None</li>
-				</cfif>
-				<cfset i=1>
-				<cfloop query="getColls">
-					<li>
-						<form name="colls#i#" id="colls#i#" class="d-inline-block" onSubmit="return false;">
-							<input type="text" name="agent_name" id="agent_name_#i#" class="data-entry-input reqdClr" value="#getColls.agent_name#">
-							<cfif getColls.collector_role EQ "c">
-								<cfset role="Collector">
-							<cfelse>
-								<cfset role="Preparator">
-							</cfif>; 
-							[Role: #role#; Order: #getColls.coll_order#]
-							<input type="hidden" name="method" id="coll_method_#i#" value="">
-							<input type="hidden" name="returnformat" value="json">
-							<input type="hidden" name="queryformat" value="column">
-							<input type="hidden" name="collector_id" id="collector_id_#i#" value="#getColls.collector_id#">
-							<input type="hidden" name="collection_object_id" id="collection_object_id_#i#" value="#variables.collection_object_id#">
-							<input type="hidden" name="agent_id" id="agent_id_#i#" value="#getColls.agent_id#">
-							<input type="hidden" name="collector_role" id="collector_role_#i#" value="#getColls.collector_role#">
-							<input type="hidden" name="coll_order" id="coll_order_#i#" value="#getColls.coll_order#">
-							<input type="button" value="Edit" class="btn btn-xs btn-primary" onclick=" updateCollector('#i#');">
-							<input type="button" value="Remove" class="btn btn-xs btn-danger" onClick=" confirmDialog('Remove this #role#?', 'Confirm Delete #role#', function() { removeCollector('#i#'); }  );">
-							<output id="coll_output_#i#"></output>
-						</form>
-					</li>
+				</ul>
+			</cfif>
+			<cfset i=1>
+			<cfloop query="getColls">
+				<div class="border border-secondary my-0"></div>
+					<form name="colls#i#" id="colls#i#" class="d-inline-block" onSubmit="return false;">
+						<input type="hidden" name="method" id="coll_method_#i#" value="">
+						<input type="hidden" name="returnformat" value="json">
+						<input type="hidden" name="queryformat" value="column">
+						<input type="hidden" name="collector_id" id="collector_id_#i#" value="#getColls.collector_id#">
+						<input type="hidden" name="collection_object_id" id="collection_object_id_#i#" value="#variables.collection_object_id#">
+						<input type="hidden" name="collector_role" id="collector_role_#i#" value="#getColls.collector_role#">
+						<div class="form-row">
+							<div class="col-12 col-md-4 px-2">
+								<cfif getColls.collector_role EQ "c">
+									<cfset role="Collector">
+								<cfelse>
+									<cfset role="Preparator">
+								</cfif>; 
+								<label for="agent_name_#i#" class="data-entry-label">#role#</label>
+								<input type="text" name="agent_name" id="agent_name_#i#" class="data-entry-input reqdClr" value="#getColls.agent_name#">
+								<input type="hidden" name="agent_id" id="agent_id_#i#" value="#getColls.agent_id#">
+							</div>
+							<div class="col-12 col-md-4 px-2">
+								<label class="data-entry-label">Order:</label>
+								<select class="data-entry-select"> 
+									<option value="#getColls.coll_order#">#getColls.coll_order#</option>
+								</select>
+								<input type="hidden" name="coll_order" id="coll_order_#i#" value="#getColls.coll_order#">
+							</div>
+							<div class="col-12 col-md-4 pt-2 px-2">
+								<input type="button" value="Edit" class="btn btn-xs btn-primary" onclick=" updateCollector('#i#');">
+								<input type="button" value="Remove" class="btn btn-xs btn-danger" onClick=" confirmDialog('Remove this #role#?', 'Confirm Delete #role#', function() { removeCollector('#i#'); }  );">
+								<output id="coll_output_#i#"></output>
+							</div>
+						</div>
+					</form>
 					<script>
 						jQuery(document).ready(function() {
 							makeAgentPicker("agent_name_#i#", "agent_id_#i#", true);
 						});
 					</script>
-					<cfset i = i + 1>
-				</cfloop>
-			</ul>
+				</div>
+				<cfset i = i + 1>
+			</cfloop>
 			<script>
 				function removeCollector(formId) {
 					$("##coll_method_" + formId).val("removeCollector");
