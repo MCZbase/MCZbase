@@ -2625,7 +2625,7 @@ limitations under the License.
 														data: $("form[name='addToCollectors']").serialize(),
 														success: function(result) { 
 															if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-																setFeedbackControlState("addButtonResultDiv","added")
+																setFeedbackControlState("addButtonResultDiv","saved")
 																reloadCollectorsDialogAndPage();
 															} else {
 																setFeedbackControlState("addButtonResultDiv","error")
@@ -2752,14 +2752,14 @@ limitations under the License.
 				});
 				function removeCollector(formId) {
 					$("##coll_method_" + formId).val("removeCollector");
-					setFeedbackControlState("coll_output_" + formId,"saving")
+					setFeedbackControlState("coll_output_" + formId,"deleting")
 					$.ajax({
 						url: "/specimens/component/functions.cfc",
 						type: "POST",
 						data: $("##" + formId).serialize(),
 						success: function(response) {
 							if (response.status === "success") {
-								setFeedbackControlState("coll_output_" + formId,"saved")
+								setFeedbackControlState("coll_output_" + formId,"removed")
 								reloadCollectors();
 							} else {
 								setFeedbackControlState("coll_output_" + formId,"error")
