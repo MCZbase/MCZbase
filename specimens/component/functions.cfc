@@ -2633,7 +2633,7 @@ limitations under the License.
 					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 					<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-						<cfdump variable="#cfcatch#">
+						<cfdump var="#cfcatch#">
 					</cfif>
 				</cfoutput>
 			</cfcatch>
@@ -2723,7 +2723,7 @@ limitations under the License.
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-					<cfdump variable="#cfcatch#">
+					<cfdump var="#cfcatch#">
 				</cfif>
 			</cfoutput>
 		</cfcatch>
