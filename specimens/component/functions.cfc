@@ -2670,10 +2670,12 @@ limitations under the License.
 																	max = val;
 																}
 															});
-															<!--- Add a new option with value one more than the max --->
+															<!--- deselect options --->
+															$("##add_coll_order").find('option:selected').prop('selected', false);
+															<!--- Add a new option with value one more than the max in a selected state --->
 															var newVal = max + 1;
 															$("##add_coll_order").append(
-																$('<option>', { value: newVal, text: newVal })
+																$('<option>', { value: newVal, text: newVal, selected: true })
 															);
 														},
 														error: function(jqXHR,textStatus,error){
