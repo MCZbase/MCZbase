@@ -2630,7 +2630,11 @@ limitations under the License.
 			</cfoutput>
 			<cfcatch>
 				<cfoutput>
-					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
+					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+					<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+						<cfdump variable="#cfcatch#">
+					</cfif>
 				</cfoutput>
 			</cfcatch>
 		</cftry>
@@ -2716,7 +2720,11 @@ limitations under the License.
 		</cfoutput>
 		<cfcatch>
 			<cfoutput>
-				<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+					<cfdump variable="#cfcatch#">
+				</cfif>
 			</cfoutput>
 		</cfcatch>
 	</cftry>
@@ -2757,13 +2765,13 @@ limitations under the License.
 			<cfset row["id"] = "#getCollectorId.collector_id#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
-			<cfcatch>
-				<cftransaction action="rollback">
-				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-				<cfset function_called = "#GetFunctionCalledName()#">
-				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-				<cfabort>
-			</cfcatch>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
 		</cftry>
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
