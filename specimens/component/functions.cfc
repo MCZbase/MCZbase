@@ -2880,7 +2880,7 @@ limitations under the License.
 						},
 						error: function(xhr, status, error) {
 							setFeedbackControlState("coll_output_" + formId,"error")
-							handleFail(xhr,status,error,"removing collector/preparator");
+							handleFail(xhr,status,error,"updating collector/preparator");
 						}
 					});
 					
@@ -3148,8 +3148,7 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cftransaction>
-				
-
+	<cfreturn #serializeJSON(data)#>			
 </cffunction>
 
 <!--- TODO: Incomplete add determiner function --->
