@@ -2633,7 +2633,7 @@ limitations under the License.
 														returnformat: "plain"
 													},
 													success: function(result) {
-														$("#" + targetDiv).html(result);
+														$("##" + targetDiv).html(result);
 													},
 													error: function(jqXHR,textStatus,error){
 														handleFail(jqXHR,textStatus,error,"loading collectors list");
