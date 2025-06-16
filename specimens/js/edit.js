@@ -332,7 +332,7 @@ function openEditCollectorsDialog(collection_object_id,dialogId,guid,callback) {
 		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getEditCollectorsHTML",
-			target : "collectors",
+			target : "collector",
 			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
@@ -352,7 +352,7 @@ function openEditPreparatorsDialog(collection_object_id,dialogId,guid,callback) 
 		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getEditCollectorsHTML",
-			target : "preparators",
+			target : "preparator",
 			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
