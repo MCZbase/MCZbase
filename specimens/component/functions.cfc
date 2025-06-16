@@ -2754,14 +2754,14 @@ limitations under the License.
 				<cfset i=1>
 				<cfloop query="getColls">
 					<li>
-						#getColls.agent_name#
-						<cfif getColls.collector_role EQ "c">
-							<cfset role="Collector">
-						<cfelse>
-							<cfset role="Preparator">
-						</cfif>; 
-						[Role: #role#; Order: #getColls.coll_order#]
 						<form name="colls#i#" id="colls#i#" class="d-inline-block" onSubmit="return false;">
+							<input type="text" name="agent_name" id="agent_name_#i#" class="data-entry-input reqdClr" value="#getColls.agent_name#">
+							<cfif getColls.collector_role EQ "c">
+								<cfset role="Collector">
+							<cfelse>
+								<cfset role="Preparator">
+							</cfif>; 
+							[Role: #role#; Order: #getColls.coll_order#]
 							<input type="hidden" name="method" id="coll_method_#i#" value="">
 							<input type="hidden" name="returnformat" value="json">
 							<input type="hidden" name="queryformat" value="column">
@@ -2770,18 +2770,20 @@ limitations under the License.
 							<input type="hidden" name="agent_id" id="agent_id_#i#" value="#getColls.agent_id#">
 							<input type="hidden" name="collector_role" id="collector_role_#i#" value="#getColls.collector_role#">
 							<input type="hidden" name="coll_order" id="coll_order_#i#" value="#getColls.coll_order#">
-							<input type="button" value="Edit" class="btn btn-xs btn-primary" onclick="colls#i#.Action.value='saveEdits';submit();">
+							<input type="button" value="Edit" class="btn btn-xs btn-primary" onclick=" updateCollector('#i#');">
 							<input type="button" value="Remove" class="btn btn-xs btn-danger" onClick=" confirmDialog('Remove this #role#?', 'Confirm Delete #role#', function() { removeCollector('#i#'); }  );">
 							<output id="coll_output_#i#"></output>
 						</form>
 					</li>
+						jQuery(document).ready(function() {
+							makeAgentPicker("agent_name_#i#", "agent_id_#i#", true);
+						});
+					<script>
+					</script>
 					<cfset i = i + 1>
 				</cfloop>
 			</ul>
 			<script>
-				jQuery(document).ready(function() {
-					// Initialize any necessary JavaScript for the collectors list
-				});
 				function removeCollector(formId) {
 					$("##coll_method_" + formId).val("removeCollector");
 					setFeedbackControlState("coll_output_" + formId,"deleting")
@@ -2809,6 +2811,34 @@ limitations under the License.
 						}
 					});
 				}
+				function updateCollector(formId) { 
+					$("##coll_method_" + formId).val("updateCollector");
+					setFeedbackControlState("coll_output_" + formId,"deleting")
+					$.ajax({
+						url: "/specimens/component/functions.cfc",
+						type: "POST",
+						dataType: "json",
+						data: $("##colls" + formId).serialize(),
+						success: function(response) {
+							if (response[0].status=="saved") {
+								setFeedbackControlState("coll_output_" + formId,"removed")
+								<cfif variables.target is 'collector' or variables.target EQ 'both'>
+									reloadLocality();
+								<cfelseif variables.target is 'preparator' or variables.target EQ 'both'>
+									reloadPreparators();
+								</cfif>
+								loadCollectorsList("#variables.collection_object_id#", "collectorsDialogList", "#variables.target#");
+							} else {
+								setFeedbackControlState("coll_output_" + formId,"error")
+							}
+						},
+						error: function(xhr, status, error) {
+							setFeedbackControlState("coll_output_" + formId,"error")
+							handleFail(xhr,status,error,"removing collector/preparator");
+						}
+					});
+					
+				}
 			</script>
 		</cfoutput>
 		<cfcatch>
@@ -2823,6 +2853,14 @@ limitations under the License.
 	</cftry>
 </cffunction>
 
+<!--- addCollector function adds a new collector or preparator to a cataloged item, handling order conflicts, 
+   and ensuring sequential order of collectors/preparators.
+ @param collection_object_id the collection_object_id for the cataloged item to which to add the collector/preparator.
+ @param agent_id the agent_id of the collector/preparator to add.
+ @param collector_role specifies whether the collector is a collector or preparator.
+ @param coll_order specifies the order of the collector/preparator in relation to other collectors/preparators for this cataloged item.
+ @return status of the add operation in a json structure with status=saved and id field or an http 500 error.
+--->
 <cffunction name="addCollector" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="agent_id" type="string" required="yes">
@@ -2837,6 +2875,25 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
+			<!--- Step 1: Check if a collision in coll_order occurs for this collection_object and role --->
+			<cfquery name="checkCollision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT COUNT(*) AS collisionCount
+				FROM collector
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+					AND collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collector_role#">
+					AND coll_order = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#arguments.coll_order#">
+			</cfquery>
+			<!--- Step 2: Shift coll_order values if a collision with the to be inserted record would occur --->
+			<cfif checkCollision.collisionCount GT 0>
+				<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE collector
+						SET coll_order = coll_order + 1
+						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+							AND collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collector_role#">
+							AND coll_order >= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#arguments.coll_order#">
+				</cfquery>
+			</cfif>
+			<!--- Step 3: insert the new record --->
 			<cfquery name="addCollectorQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addCollectorQuery_result">
 				INSERT INTO collector (collection_object_id, agent_id, collector_role, coll_order)
 				VALUES (
@@ -2852,6 +2909,22 @@ limitations under the License.
 				SELECT collector_id
 				FROM collector
 				WHERE  ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
+			</cfquery>
+			<!--- Step 4: ensure that coll_order is a sequential integer, starting at 1 for a given collection_object_id and collector_role --->
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				MERGE INTO collector tgt
+				USING (
+					SELECT collector_id,
+						   ROW_NUMBER() OVER (
+							 ORDER BY coll_order, collector_id
+						   ) AS new_order
+					FROM collector
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+					  AND collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collector_role#">
+				) src
+				ON (tgt.collector_id = src.collector_id)
+				WHEN MATCHED THEN
+				  UPDATE SET tgt.coll_order = src.new_order
 			</cfquery>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "added">
@@ -2870,6 +2943,13 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- removeCollector function removes a collector or preparator from a cataloged item, ensuring that the order of 
+   remaining collectors/preparators is sequential starting at one.
+ @param collector_id the collector_id of the collector/preparator to remove.
+ @param collection_object_id the collection_object_id for the cataloged item from which to remove the collector/preparator.
+ @param agent_id the agent_id of the collector/preparator to remove.
+ @return status of the remove operation in a json structure with status=removed and id field or an http 500 error.
+--->
 <cffunction name="removeCollector" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collector_id" type="string" required="yes">
 	<cfargument name="collection_object_id" type="string" required="yes">
@@ -2892,6 +2972,22 @@ limitations under the License.
 			<cfif removeCollectorQuery_result.recordcount NEQ 1>
 				<cfthrow message = "Unable to remove collector. Provided collector_id [#variables.collector_id#], collection_object_id [#variables.collection_objecT_id#], agent_id [#variables.agent_id#]  does not match a record in the collector table.">
 			</cfif>
+			<!--- Step 2: ensure that coll_order is a sequential integer, starting at 1 for a given collection_object_id and collector_role --->
+			<cfquery name="resetOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				MERGE INTO collector tgt
+				USING (
+					SELECT collector_id,
+						   ROW_NUMBER() OVER (
+							 ORDER BY coll_order, collector_id
+						   ) AS new_order
+					FROM collector
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					  AND collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.collector_role#">
+				) src
+				ON (tgt.collector_id = src.collector_id)
+				WHEN MATCHED THEN
+				  UPDATE SET tgt.coll_order = src.new_order
+			</cfquery>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "removed">
 			<cfset row["id"] = "#reReplace(variables.collector_id,'[^0-9]','')#">
@@ -2907,6 +3003,99 @@ limitations under the License.
 		</cftry>
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- updateCollector given changed information about a collector record, update (agent and order) 
+    for that record. 
+  @param collector_id the primary key value of the collector record to update.
+  @param collection_object_id the collection_object_id for the cataloged item that was collected/prepared, 
+    used to verify the target collector record, is not updated by this method.
+  @param agent_id the new agent_id for the collector record.
+  @param collector_role the role of the agent (c for collector, p for preparator)
+  @param coll_order the new order of the collector record for the cataloged item and collector_role.
+  @return a json structure with status=saved and id fields indicating the result of the update operation or an http 500 error.
+--->
+<cffunction name="updateCollector" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collector_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="collector_role" type="string" required="yes">
+	<cfargument name="coll_order" type="numeric" required="yes">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.agent_id = arguments.agent_id>
+	<cfset variables.collector_role = arguments.collector_role>
+	<cfset variables.coll_order = arguments.coll_order>
+	
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<!--- Step 1: Check if a collision in coll_order occurs for this collection_object and role --->
+			<cfquery name="checkCollision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT COUNT(*) AS collisionCount
+				FROM collector
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+					AND collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collector_role#">
+					AND coll_order = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#arguments.coll_order#">
+					AND collector_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collector_id#">
+			</cfquery>
+			<!--- Step 2: Shift coll_order values if a collision with the to be inserted record would occur --->
+			<cfif checkCollision.collisionCount GT 0>
+				<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)# ">
+					UPDATE collector
+					SET coll_order = coll_order + 1
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+						AND collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collector_role#">
+						AND coll_order >= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#arguments.coll_order#">
+						AND collector_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collector_id#">
+				</cfquery>
+			</cfif>
+			<!--- Step 3: Update the collector record --->
+			<cfquery name="updateCollectorQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE collector
+				SET 
+					agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.agent_id#">,
+					collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collector_role#">,
+					coll_order = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#arguments.coll_order#">
+				WHERE 
+					collector_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collector_id#">
+					AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			</cfquery>
+			<cfif updateCollectorQuery.recordcount NEQ 1>
+				<cfthrow message = "Unable to update collector. Provided collector_id [#variables.collector_id#], collection_object_id [#variables.collection_object_id#] does not match a record in the collector table.">
+			</cfif>
+			<!--- Step 4: ensure that coll_order is a sequential integer, starting at 1 for a given collection_object_id and collector_role --->
+			<cfquery name="resetOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				MERGE INTO collector tgt
+				USING (
+					SELECT collector_id,
+						   ROW_NUMBER() OVER (
+							 ORDER BY coll_order, collector_id
+						   ) AS new_order
+					FROM collector
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					  AND collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.collector_role#">
+				) src
+				ON (tgt.collector_id = src.collector_id)
+				WHEN MATCHED THEN
+				  UPDATE SET tgt.coll_order = src.new_order
+			</cfquery>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#reReplace(variables.collector_id,'[^0-9]','')#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+				
+
 </cffunction>
 
 <!--- TODO: Incomplete add determiner function --->
