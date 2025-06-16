@@ -2739,7 +2739,7 @@ limitations under the License.
 							<input type="hidden" name="oldRole" value="#getColls.collector_role#">
 							<input type="hidden" name="oldOrder" value="#getColls.coll_order#">
 							<input type="button" value="Edit" class="btn btn-xs btn-primary" onclick="colls#i#.Action.value='saveEdits';submit();">
-							<input type="button" value="Remove" class="btn btn-xs btn-danger" onClick="onclick=" confirmDialog('Remove this #role#)?', 'Confirm Delete #role#', function() { removeCollector('#i#'); }  );">
+							<input type="button" value="Remove" class="btn btn-xs btn-danger" onClick=" confirmDialog('Remove this #role#)?', 'Confirm Delete #role#', function() { removeCollector('#i#'); }  );">
 							<output id="coll_output_#i#"></output>
 						</form>
 					</li>
