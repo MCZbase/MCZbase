@@ -3368,6 +3368,7 @@ Target JSON:
 	
 				$("##fixedsearchResultsGrid").jqxGrid({
 					width: '100%',
+					keyboardnavigation: true,
 					autoheight: 'true',
 					source: dataAdapter,
 					filterable: false,
