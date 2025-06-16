@@ -2661,6 +2661,22 @@ limitations under the License.
 																setFeedbackControlState("addButtonResultDiv","error")
 																messageDialog('Error adding collector/preparator: '+result.DATA.MESSAGE[0], 'Error adding collector/preparator.');
 															}
+															<!--- add an entry to the list of orders one larger than the current highest --->
+															$("##add_coll_order").
+															// Add an entry to the list of orders one larger than the current highest
+															// Find max value among the current options
+															var max = 0;
+															$("##add_coll_order").find('option').each(function() {
+																var val = parseInt($(this).val(), 10);
+																if (!isNaN(val) && val > max) {
+																	max = val;
+																}
+															});
+															// Add a new option with value one more than the max
+															var newVal = max + 1;
+															$("##add_coll_order").append(
+																$('<option>', { value: newVal, text: newVal })
+															);
 														},
 														error: function(jqXHR,textStatus,error){
 															setFeedbackControlState("addButton","error")
