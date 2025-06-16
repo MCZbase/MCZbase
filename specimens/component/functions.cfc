@@ -2806,10 +2806,10 @@ limitations under the License.
 								<select class="data-entry-select"> 
 									<cfloop from="1" to="#maxCollOrder#" index="ci">
 										<cfset selected = "">
-										<cfif ci EQ getColls.coll_order>
+										<cfif variables.ci EQ getColls.coll_order>
 											<cfset selected = "selected">
 										</cfif>
-										<option value="#ci#" #selected#>#ci#</option>
+										<option value="#variables.ci#" #selected#>#variables.ci#</option>
 									</cfloop>
 								</select>
 								<input type="hidden" name="coll_order" id="coll_order_#i#" value="#getColls.coll_order#">
