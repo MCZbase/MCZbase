@@ -3282,10 +3282,6 @@ Target JSON:
 								success : function (data) { 
 								console.log(data);
 								commit(true);
-								$('##fixedsearchResultsGrid').jqxGrid('selectrow',0);
-								$('##fixedsearchResultsGrid').jqxGrid('ensurerowvisible',0);
-								$('##fixedsearchResultsGrid').focus();
-								$('##fixedsearchResultsGrid').jqxGrid({keyboardnavigation:true});
 							},
 								error : function (jqXHR, textStatus, error) {
 									handleFail(jqXHR,textStatus,error,"removing row from result set");
@@ -3372,6 +3368,9 @@ Target JSON:
 				$("##fixedsearchResultsGrid").jqxGrid({
 					width: '100%',
 					keyboardnavigation: true,
+					$('##fixedsearchResultsGrid').jqxGrid('selectrow',0);
+					ensurerowvisible,0,
+					focus(),
 					autoheight: 'true',
 					source: dataAdapter,
 					filterable: false,
