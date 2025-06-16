@@ -2556,18 +2556,16 @@ limitations under the License.
 									</div>
 									<div class="card-body">
 										<!--- Form to add a new collector/preparator --->
-										<form name="addToCollectors" method="post" action="editColls.cfm" onSubmit="return gotAgentId(this.newagent_id.value)">
+										<form name="addToCollectors" onSubmit="return false;">
 											<div class="form-row">
 												<div class="col-12 col-md-11 pt-3 px-2">
 													<label for="add_agent_name">
 														Add #targetLabel#:
 													</label>
 													<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
-													<input type="hidden" name="Action" value="newColl">
-													<input type="hidden" name="newagent_id" id="add_newagent_id">
-													<input type="text" name="name" id="add_agent_name" class="data-entry-input reqdClr"
-																 onchange="getAgent('add_newagent_id','add_agent_name','addToCollectors',this.value); return false;"
-																 onKeyPress="return noenter(event);">
+													<input type="hidden" name="method" value="addCollector">
+													<input type="hidden" name="agent_id" id="add_new_agent_id">
+													<input type="text" name="name" id="add_agent_name" class="data-entry-input reqdClr">
 												</div>
 												<cfif target EQ "both">
 													<div class="col-12 col-md-5 pt-3 px-2">
@@ -2604,17 +2602,42 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-2 pt-3">
 													<label for="addButton" class="data-entry-label">&nbsp;</label>
-													<input type="submit" value="Add" class="btn btn-xs btn-primary" id="addButton">
+													<input type="button" value="Add" class="btn btn-xs btn-primary" id="addButton" onClick=" handleAddCollector(); ">
+													<output id="addButtonResultDiv"></output>
 												</div>
 											</div>
 										</form>
 										<script>
 											jQuery(document).ready(function() {
-												makeAgentPicker("add_agent_name", "add_newagent_id", true);
+												makeAgentPicker("add_agent_name", "add_new_agent_id", true);
 											});
 											function reloadCollectorsDialogAndPage() { 
 												reloadCollectors();
 												loadCollectorsList("#variables.collection_object_id#", "collectorsDialogList", "#variables.target#");
+											}
+											function handleAddCollector(){
+												if (checkFormValidity($('form[name="addToCollectors"]')[0])) {
+													setFeedbackControlState("addButtonResultDiv","saving")
+													$.ajax({
+														url : "/specimens/component/functions.cfc",
+														type : "post",
+														dataType : "json",
+														data: $("form[name='addToCollectors']").serialize(),
+														success: function(result) { 
+															if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+																setFeedbackControlState("addButtonResultDiv","added")
+																reloadCollectorsDialogAndPage();
+															} else {
+																setFeedbackControlState("addButtonResultDiv","error")
+																messageDialog('Error adding collector/preparator: '+result.DATA.MESSAGE[0], 'Error adding collector/preparator.');
+															}
+														},
+														error: function(jqXHR,textStatus,error){
+															setFeedbackControlState("addButton","error")
+															handleFail(jqXHR,textStatus,error,"adding collector/preparator");
+														}
+													});
+												}
 											}
 										</script>
 									</div><!--- end card-body for add form --->
@@ -2664,17 +2687,16 @@ limitations under the License.
 
 	<cftry>
 		<cfquery name="getColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT 
+			SELECT
+				collector.collector_id,
 				agent_name, 
 				collector_role,
 				coll_order,
 				collector.agent_id,
-				institution_acronym
 			FROM
 				cataloged_item
 				join collector on collector.collection_object_id = cataloged_item.collection_object_id 
 				join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id 
-				join collection on cataloged_item.collection_id=collection.collection_id 
 			WHERE
 				collector.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 				<cfif variables.target is 'collector'>
@@ -2702,21 +2724,54 @@ limitations under the License.
 				<cfset i=1>
 				<cfloop query="getColls">
 					<li>
-						#getColls.agent_name# (#getColls.institution_acronym#) 
-						[Role: <cfif getColls.collector_role EQ "c">Collector<cfelse>Preparator</cfif>; Order: #getColls.coll_order#]
-						<form name="colls#i#" method="post" action="editColls.cfm" class="d-inline-block" onSubmit="return gotAgentId(this.newagent_id.value)">
+						#getColls.agent_name#
+						<cfif getColls.collector_role EQ "c">
+							<cfset role="Collector">
+						<cfelse>
+							<cfset role="Preparator"
+						</cfif>; 
+						[Role: #role#; Order: #getColls.coll_order#]
+						<form name="colls#i#" class="d-inline-block" onSubmit="return false;">
+							<input type="hidden" name="method" id="coll_method_#i# value="">
+							<input type="hidden" name="collector_id" value="#getColls.collector_id#">
 							<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
 							<input type="hidden" name="oldagent_id" value="#getColls.agent_id#">
 							<input type="hidden" name="oldRole" value="#getColls.collector_role#">
 							<input type="hidden" name="oldOrder" value="#getColls.coll_order#">
-							<input type="hidden" name="Action" value="">
 							<input type="button" value="Edit" class="btn btn-xs btn-primary" onclick="colls#i#.Action.value='saveEdits';submit();">
-							<input type="button" value="Remove" class="btn btn-xs btn-danger" onClick="colls#i#.Action.value='deleteColl';confirmDelete('colls#i#');">
+							<input type="button" value="Remove" class="btn btn-xs btn-danger" onClick="onclick=" confirmDialog('Remove this #role#)?', 'Confirm Delete #role#', function() { removeCollector('#i#'); }  );">
+							<output id="coll_output_#i#"></output>
 						</form>
 					</li>
 					<cfset i = i + 1>
 				</cfloop>
 			</ul>
+			<script>
+				jQuery(document).ready(function() {
+					// Initialize any necessary JavaScript for the collectors list
+				});
+				function removeCollector(formId) {
+					$("##coll_method_" + formId).val("removeCollector");
+					setFeedbackControlState("coll_output_" + formId,"saving")
+					$.ajax({
+						url: "/specimens/component/functions.cfc",
+						type: "POST",
+						data: $("#" + formId).serialize(),
+						success: function(response) {
+							if (response.status === "success") {
+								setFeedbackControlState("coll_output_" + formId,"saved")
+								reloadCollectors();
+							} else {
+								setFeedbackControlState("coll_output_" + formId,"error")
+							}
+						},
+						error: function(xhr, status, error) {
+							setFeedbackControlState("coll_output_" + formId,"error")
+							handleFail(xhr,status,error,"removing collector/preparator");
+						}
+					});
+				}
+			</script>
 		</cfoutput>
 		<cfcatch>
 			<cfoutput>
