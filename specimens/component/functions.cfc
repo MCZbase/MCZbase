@@ -2614,7 +2614,11 @@ limitations under the License.
 												makeAgentPicker("add_agent_name", "add_new_agent_id", true);
 											});
 											function reloadCollectorsDialogAndPage() { 
-												reloadCollectors();
+												<cfif variables.target is 'collector' or variables.target EQ 'both'>
+													reloadLocality();
+												<cfelseif variables.target is 'preparator' or variables.target EQ 'both'>
+													reloadPreparators();
+												</cfif>
 												loadCollectorsList("#variables.collection_object_id#", "collectorsDialogList", "#variables.target#");
 											}
 											function handleAddCollector(){
@@ -2764,7 +2768,11 @@ limitations under the License.
 						success: function(response) {
 							if (response[0].status=="removed") {
 								setFeedbackControlState("coll_output_" + formId,"removed")
-								reloadCollectors();
+								<cfif variables.target is 'collector' or variables.target EQ 'both'>
+									reloadLocality();
+								<cfelseif variables.target is 'preparator' or variables.target EQ 'both'>
+									reloadPreparators();
+								</cfif>
 							} else {
 								setFeedbackControlState("coll_output_" + formId,"error")
 							}
