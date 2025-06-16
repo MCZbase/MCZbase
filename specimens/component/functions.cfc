@@ -2731,7 +2731,7 @@ limitations under the License.
 							<cfset role="Preparator">
 						</cfif>; 
 						[Role: #role#; Order: #getColls.coll_order#]
-						<form name="colls#i#" class="d-inline-block" onSubmit="return false;">
+						<form name="colls#i#" id="colls#i#" class="d-inline-block" onSubmit="return false;">
 							<input type="hidden" name="method" id="coll_method_#i# value="">
 							<input type="hidden" name="collector_id" value="#getColls.collector_id#">
 							<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
@@ -2739,7 +2739,7 @@ limitations under the License.
 							<input type="hidden" name="oldRole" value="#getColls.collector_role#">
 							<input type="hidden" name="oldOrder" value="#getColls.coll_order#">
 							<input type="button" value="Edit" class="btn btn-xs btn-primary" onclick="colls#i#.Action.value='saveEdits';submit();">
-							<input type="button" value="Remove" class="btn btn-xs btn-danger" onClick=" confirmDialog('Remove this #role#)?', 'Confirm Delete #role#', function() { removeCollector('#i#'); }  );">
+							<input type="button" value="Remove" class="btn btn-xs btn-danger" onClick=" confirmDialog('Remove this #role#?', 'Confirm Delete #role#', function() { removeCollector('#i#'); }  );">
 							<output id="coll_output_#i#"></output>
 						</form>
 					</li>
@@ -2756,7 +2756,7 @@ limitations under the License.
 					$.ajax({
 						url: "/specimens/component/functions.cfc",
 						type: "POST",
-						data: $("##" + formId).serialize(),
+						data: $("##colls" + formId).serialize(),
 						success: function(response) {
 							if (response.status === "success") {
 								setFeedbackControlState("coll_output_" + formId,"removed")
