@@ -2815,7 +2815,7 @@ limitations under the License.
 								<input type="hidden" name="coll_order" id="coll_order_#i#" value="#getColls.coll_order#">
 							</div>
 							<div class="col-12 col-md-4 pt-3 px-2">
-								<input type="button" value="Edit" class="btn btn-xs btn-primary" onclick=" updateCollector('#i#');">
+								<input type="button" value="Save" class="btn btn-xs btn-primary" onclick=" updateCollector('#i#');">
 								<input type="button" value="Remove" class="btn btn-xs btn-danger" onClick=" confirmDialog('Remove this #role#?', 'Confirm Delete #role#', function() { removeCollector('#i#'); }  );">
 								<output id="coll_output_#i#"></output>
 							</div>
@@ -2867,7 +2867,7 @@ limitations under the License.
 						data: $("##colls" + formId).serialize(),
 						success: function(response) {
 							if (response[0].status=="saved") {
-								setFeedbackControlState("coll_output_" + formId,"removed")
+								setFeedbackControlState("coll_output_" + formId,"saved")
 								<cfif variables.target is 'collector' or variables.target EQ 'both'>
 									reloadLocality();
 								<cfelseif variables.target is 'preparator' or variables.target EQ 'both'>
