@@ -2558,16 +2558,16 @@ limitations under the License.
 										<!--- Form to add a new collector/preparator --->
 										<form name="addToCollectors" onSubmit="return false;">
 											<div class="form-row">
+												<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
+												<input type="hidden" name="method" value="addCollector">
+												<input type="hidden" name="returnformat" value="json">
+												<input type="hidden" name="queryformat" value="column">
 												<div class="col-12 col-md-11 pt-3 px-2">
 													<label for="add_agent_name">
 														Add #targetLabel#:
 													</label>
-													<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
-													<input type="hidden" name="method" value="addCollector">
-													<input type="hidden" name="returnformat" value="json">
-													<input type="hidden" name="queryformat" value="column">
-													<input type="hidden" name="agent_id" id="add_new_agent_id">
 													<input type="text" name="name" id="add_agent_name" class="data-entry-input reqdClr">
+													<input type="hidden" name="agent_id" id="add_new_agent_id">
 												</div>
 												<cfif target EQ "both">
 													<div class="col-12 col-md-5 pt-3 px-2">
@@ -2677,6 +2677,8 @@ limitations under the License.
 															$("##add_coll_order").append(
 																$('<option>', { value: newVal, text: newVal, selected: true })
 															);
+															$("##add_agent_name").val("");
+															$("##add_new_agent_id").val("");
 														},
 														error: function(jqXHR,textStatus,error){
 															setFeedbackControlState("addButton","error")
