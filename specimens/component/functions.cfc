@@ -2804,12 +2804,12 @@ limitations under the License.
 							<div class="col-12 col-md-2 px-2">
 								<label class="data-entry-label">Order:</label>
 								<select class="data-entry-select"> 
-									<cfloop from="1" to="#maxCollOrder#" index="coll_order">
+									<cfloop from="1" to="#maxCollOrder#" index="ci">
 										<cfset selected = "">
-										<cfif coll_order EQ getColls.coll_order>
+										<cfif ci EQ getColls.coll_order>
 											<cfset selected = "selected">
 										</cfif>
-										<option value="#coll_order#" #selected#>#coll_order#</option>
+										<option value="#ci#" #selected#>#ci#</option>
 									</cfloop>
 								</select>
 								<input type="hidden" name="coll_order" id="coll_order_#i#" value="#getColls.coll_order#">
@@ -3104,7 +3104,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<!--- Step 3: Update the collector record --->
-			<cfquery name="updateCollectorQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="updateCollectorQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateCollectorQuery_result">
 				UPDATE collector
 				SET 
 					agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.agent_id#">,
@@ -3114,7 +3114,7 @@ limitations under the License.
 					collector_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collector_id#">
 					AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 			</cfquery>
-			<cfif updateCollectorQuery.recordcount NEQ 1>
+			<cfif updateCollectorQuery_result.recordcount NEQ 1>
 				<cfthrow message = "Unable to update collector. Provided collector_id [#variables.collector_id#], collection_object_id [#variables.collection_object_id#] does not match a record in the collector table.">
 			</cfif>
 			<!--- Step 4: ensure that coll_order is a sequential integer, starting at 1 for a given collection_object_id and collector_role --->
