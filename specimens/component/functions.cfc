@@ -2564,6 +2564,8 @@ limitations under the License.
 													</label>
 													<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
 													<input type="hidden" name="method" value="addCollector">
+													<input type="hidden" name="returnformat" value="json">
+													<input type="hidden" name="queryformat" value="column">
 													<input type="hidden" name="agent_id" id="add_new_agent_id">
 													<input type="text" name="name" id="add_agent_name" class="data-entry-input reqdClr">
 												</div>
@@ -2733,6 +2735,8 @@ limitations under the License.
 						[Role: #role#; Order: #getColls.coll_order#]
 						<form name="colls#i#" id="colls#i#" class="d-inline-block" onSubmit="return false;">
 							<input type="hidden" name="method" id="coll_method_#i#" value="">
+							<input type="hidden" name="returnformat" value="json">
+							<input type="hidden" name="queryformat" value="column">
 							<input type="hidden" name="collector_id" id="collector_id_#i#" value="#getColls.collector_id#">
 							<input type="hidden" name="collection_object_id" id="collection_object_id_#i#" value="#variables.collection_object_id#">
 							<input type="hidden" name="agent_id" id="agent_id_#i#" value="#getColls.agent_id#">
