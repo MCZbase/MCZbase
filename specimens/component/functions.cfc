@@ -2626,7 +2626,7 @@ limitations under the License.
 														dataType : "json",
 														data: $("form[name='addToCollectors']").serialize(),
 														success: function(result) { 
-															if (response[0].status=="added") {
+															if (result[0].status=="added") {
 																setFeedbackControlState("addButtonResultDiv","saved")
 																reloadCollectorsDialogAndPage();
 															} else {
