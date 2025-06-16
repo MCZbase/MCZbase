@@ -3280,10 +3280,13 @@ Target JSON:
 								},
 								dataType: 'json',
            					success : function (data) { 
-									console.log(data);
-									commit(true);
-									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
-								},
+								console.log(data);
+								commit(true);
+								$('##fixedsearchResultsGrid').jqxGrid('selectrow',0);
+								$('##fixedsearchResultsGrid').jqxGrid('ensurerowvisible',0);
+								$('##fixedsearchResultsGrid').focus();
+								$('##fixedsearchResultsGrid').jqxGrid({keyboardnavigation:true});
+							},
             				error : function (jqXHR, textStatus, error) {
           				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
 									commit(false);
@@ -3369,7 +3372,6 @@ Target JSON:
 				$("##fixedsearchResultsGrid").jqxGrid({
 					width: '100%',
 					keyboardnavigation: true,
-					accessible: true,
 					autoheight: 'true',
 					source: dataAdapter,
 					filterable: false,
@@ -3445,14 +3447,7 @@ Target JSON:
 				</cfif>
 
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-					$("#jqxgrid").on('bindingcomplete',function() {
-						$(".jqxGrid").jqxGrid('selectrow',0);
-						$(".jqxGrid").focus();
-						$(".jqxGrid").attr('tabindex',0);
-						$(".jqx-grid-pager").attr("tabindex", -1);
-						$(".jqx-grid-pager .jqx-grid-pager-button").attr("tabindex", -1);
-						
-					})
+
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
 							$(document).scrollTop(200);
