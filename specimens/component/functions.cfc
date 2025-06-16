@@ -3075,6 +3075,7 @@ limitations under the License.
 	<cfargument name="collector_role" type="string" required="yes">
 	<cfargument name="coll_order" type="numeric" required="yes">
 
+	<cfset variables.collector_id = arguments.collector_id>
 	<cfset variables.collection_object_id = arguments.collection_object_id>
 	<cfset variables.agent_id = arguments.agent_id>
 	<cfset variables.collector_role = arguments.collector_role>
@@ -3087,32 +3088,32 @@ limitations under the License.
 			<cfquery name="checkCollision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT COUNT(*) AS collisionCount
 				FROM collector
-				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
-					AND collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collector_role#">
-					AND coll_order = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#arguments.coll_order#">
-					AND collector_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collector_id#">
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					AND collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.collector_role#">
+					AND coll_order = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#variables.coll_order#">
+					AND collector_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collector_id#">
 			</cfquery>
 			<!--- Step 2: Shift coll_order values if a collision with the to be inserted record would occur --->
 			<cfif checkCollision.collisionCount GT 0>
 				<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)# ">
 					UPDATE collector
 					SET coll_order = coll_order + 1
-					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
-						AND collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collector_role#">
-						AND coll_order >= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#arguments.coll_order#">
-						AND collector_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collector_id#">
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+						AND collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.collector_role#">
+						AND coll_order >= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#variables.coll_order#">
+						AND collector_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collector_id#">
 				</cfquery>
 			</cfif>
 			<!--- Step 3: Update the collector record --->
 			<cfquery name="updateCollectorQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateCollectorQuery_result">
 				UPDATE collector
 				SET 
-					agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.agent_id#">,
-					collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collector_role#">,
-					coll_order = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#arguments.coll_order#">
+					agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.agent_id#">,
+					collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.collector_role#">,
+					coll_order = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#variables.coll_order#">
 				WHERE 
-					collector_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collector_id#">
-					AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+					collector_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collector_id#">
+					AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 			</cfquery>
 			<cfif updateCollectorQuery_result.recordcount NEQ 1>
 				<cfthrow message = "Unable to update collector. Provided collector_id [#variables.collector_id#], collection_object_id [#variables.collection_object_id#] does not match a record in the collector table.">
