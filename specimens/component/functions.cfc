@@ -2783,6 +2783,7 @@ limitations under the License.
 					$.ajax({
 						url: "/specimens/component/functions.cfc",
 						type: "POST",
+						dataType : "json",
 						data: $("##colls" + formId).serialize(),
 						success: function(response) {
 							if (response[0].status=="removed") {
