@@ -2626,7 +2626,7 @@ limitations under the License.
 														dataType : "json",
 														data: $("form[name='addToCollectors']").serialize(),
 														success: function(result) { 
-															if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+															if (response[0].status=="added") {
 																setFeedbackControlState("addButtonResultDiv","saved")
 																reloadCollectorsDialogAndPage();
 															} else {
@@ -2762,7 +2762,7 @@ limitations under the License.
 						type: "POST",
 						data: $("##colls" + formId).serialize(),
 						success: function(response) {
-							if (response.status === "success") {
+							if (response[0].status=="removed") {
 								setFeedbackControlState("coll_output_" + formId,"removed")
 								reloadCollectors();
 							} else {
