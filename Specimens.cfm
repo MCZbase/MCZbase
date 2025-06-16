@@ -3448,16 +3448,7 @@ Target JSON:
 						columnOrderChanged('fixedsearchResultsGrid'); 
 					}); 
 				</cfif>
-				$("##fixedsearchResultsGrid").on('bindingcomplete', function () {
-					setTimeout(function() {
-						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-						var firstCol = columns.length ? columns[0].datafield : null;
-						if (firstCol) {
-							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, firstCol);
-						}
-						$("##fixedsearchResultsGrid").focus();
-					}, 10);
-				});
+	
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
@@ -3467,7 +3458,14 @@ Target JSON:
 							$(document).scrollTop(480);
 						}
 					</cfif>
-			
+					setTimeout(function() {
+						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+						var firstCol = columns.length ? columns[0].datafield : null;
+						if (firstCol) {
+							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, firstCol);
+						}
+						$("##fixedsearchResultsGrid").focus();
+					}, 10);
 					// add a link out to this search, serializing the form as http get parameters
 					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 					$('##fixedshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'fixed\'); "><i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
