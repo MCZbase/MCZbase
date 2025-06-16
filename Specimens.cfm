@@ -2625,12 +2625,7 @@ Target JSON:
 		ORDER by disp_order
 	</cfquery>
 	<!--- " --->
-<style>
-.jqx-grid-cell-selected, .jqx-grid-cell-selected:focus, .jqx-fill-state-focus {
-    outline: 2px solid ##007ad9 !important;
-    background: ##eaf6ff !important;
-}
-</style>
+
 	<script>
 		// setup for persistence of column selections
 		window.columnHiddenSettings = new Object();
@@ -3391,14 +3386,12 @@ Target JSON:
 					columnsreorder: true,
 					groupable: true,
 					selectionmode: '#defaultSelectionMode#',
-					accessible:true,
 					enablebrowserselection: #defaultenablebrowserselection#,
 					altrows: true,
 					showtoolbar: false,
 					ready: function () {
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
 						$("##fixedsearchResultsGrid").jqxGrid('focus');
-						$("##fixedsearchResultsGrid").attr('tabindex',0);
 					},
 					rendergridrows: function () {
 						return dataAdapter.records;
@@ -3448,7 +3441,7 @@ Target JSON:
 						columnOrderChanged('fixedsearchResultsGrid'); 
 					}); 
 				</cfif>
-	
+
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
@@ -3458,14 +3451,7 @@ Target JSON:
 							$(document).scrollTop(480);
 						}
 					</cfif>
-					setTimeout(function() {
-						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-						var firstCol = columns.length ? columns[0].datafield : null;
-						if (firstCol) {
-							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, firstCol);
-						}
-						$("##fixedsearchResultsGrid").focus();
-					}, 10);
+			
 					// add a link out to this search, serializing the form as http get parameters
 					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 					$('##fixedshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'fixed\'); "><i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
