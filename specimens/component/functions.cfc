@@ -2728,7 +2728,7 @@ limitations under the License.
 						<cfif getColls.collector_role EQ "c">
 							<cfset role="Collector">
 						<cfelse>
-							<cfset role="Preparator"
+							<cfset role="Preparator">
 						</cfif>; 
 						[Role: #role#; Order: #getColls.coll_order#]
 						<form name="colls#i#" class="d-inline-block" onSubmit="return false;">
