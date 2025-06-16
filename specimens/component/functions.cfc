@@ -2562,7 +2562,12 @@ limitations under the License.
 											<input type="hidden" name="returnformat" value="json">
 											<input type="hidden" name="queryformat" value="column">
 											<div class="form-row">
-												<div class="col-12 col-md-11 pt-3 px-2">
+												<cfif target EQ "both">
+													<cfset colw ="4">
+												<cfelse>
+													<cfset colw ="6">
+												</cfif>
+												<div class="col-12 col-md-#colw# pt-3 px-2">
 													<label for="add_agent_name">
 														Add #targetLabel#:
 													</label>
@@ -2570,7 +2575,7 @@ limitations under the License.
 													<input type="hidden" name="agent_id" id="add_new_agent_id">
 												</div>
 												<cfif target EQ "both">
-													<div class="col-12 col-md-5 pt-3 px-2">
+													<div class="col-12 col-md-2 pt-3 px-2">
 														<label for="add_collector_role">Role:</label>
 														<select name="collector_role" id="add_collector_role" class="data-entry-input reqdClr">
 															<cfset selected = "">
@@ -2588,7 +2593,7 @@ limitations under the License.
 												<cfelse>
 													<input type="hidden" name="collector_role" value="#targetValue#">
 												</cfif>
-												<div class="col-12 col-md-4 pt-3 px-2">
+												<div class="col-12 col-md-2 pt-3 px-2">
 													<label for="add_coll_order">Order:</label>
 													<cfquery name="collCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 														SELECT count(*) as cnt
@@ -2607,7 +2612,7 @@ limitations under the License.
 														</cfloop>
 													</select>
 												</div>
-												<div class="col-12 col-md-2 pt-3">
+												<div class="col-12 col-md-4 pt-3">
 													<label for="addButton" class="data-entry-label">&nbsp;</label>
 													<input type="button" value="Add" class="btn btn-xs btn-primary" id="addButton" onClick=" handleAddCollector(); ">
 													<output id="addButtonResultDiv"></output>
@@ -2755,6 +2760,11 @@ limitations under the License.
 			ORDER BY 
 				collector_role, coll_order
 		</cfquery>
+		<!--- find max value for coll_order --->
+		<cfquery name="collOrderMax" dbtype="query">
+			SELECT MAX(coll_order) AS max_order FROM getColls
+		</cfquery>
+		<cfset maxCollOrder = collOrderMax.max_order + 1>
 		<cfoutput>
 			<h2 class="h3">Current
 				<cfif variables.target is "collector">
@@ -2781,7 +2791,7 @@ limitations under the License.
 						<input type="hidden" name="collection_object_id" id="collection_object_id_#i#" value="#variables.collection_object_id#">
 						<input type="hidden" name="collector_role" id="collector_role_#i#" value="#getColls.collector_role#">
 						<div class="form-row">
-							<div class="col-12 col-md-4 px-2">
+							<div class="col-12 col-md-6 px-2">
 								<cfif getColls.collector_role EQ "c">
 									<cfset role="Collector">
 								<cfelse>
@@ -2794,11 +2804,17 @@ limitations under the License.
 							<div class="col-12 col-md-2 px-2">
 								<label class="data-entry-label">Order:</label>
 								<select class="data-entry-select"> 
-									<option value="#getColls.coll_order#">#getColls.coll_order#</option>
+									<cfloop from="1" to="#maxCollOrder#" index="coll_order">
+										<cfset selected = "">
+										<cfif coll_order EQ getColls.coll_order>
+											<cfset selected = "selected">
+										</cfif>
+										<option value="#coll_order#" #selected#>#coll_order#</option>
+									</cfloop>
 								</select>
 								<input type="hidden" name="coll_order" id="coll_order_#i#" value="#getColls.coll_order#">
 							</div>
-							<div class="col-12 col-md-6 pt-3 px-2">
+							<div class="col-12 col-md-4 pt-3 px-2">
 								<input type="button" value="Edit" class="btn btn-xs btn-primary" onclick=" updateCollector('#i#');">
 								<input type="button" value="Remove" class="btn btn-xs btn-danger" onClick=" confirmDialog('Remove this #role#?', 'Confirm Delete #role#', function() { removeCollector('#i#'); }  );">
 								<output id="coll_output_#i#"></output>
