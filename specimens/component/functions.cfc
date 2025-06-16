@@ -2773,7 +2773,7 @@ limitations under the License.
 			<cfset i=1>
 			<cfloop query="getColls">
 				<div class="border border-secondary my-0"></div>
-					<form name="colls#i#" id="colls#i#" class="d-inline-block" onSubmit="return false;">
+					<form name="colls#i#" id="colls#i#" class="w-100" onSubmit="return false;">
 						<input type="hidden" name="method" id="coll_method_#i#" value="">
 						<input type="hidden" name="returnformat" value="json">
 						<input type="hidden" name="queryformat" value="column">
@@ -2786,19 +2786,19 @@ limitations under the License.
 									<cfset role="Collector">
 								<cfelse>
 									<cfset role="Preparator">
-								</cfif>; 
+								</cfif>
 								<label for="agent_name_#i#" class="data-entry-label">#role#</label>
 								<input type="text" name="agent_name" id="agent_name_#i#" class="data-entry-input reqdClr" value="#getColls.agent_name#">
 								<input type="hidden" name="agent_id" id="agent_id_#i#" value="#getColls.agent_id#">
 							</div>
-							<div class="col-12 col-md-4 px-2">
+							<div class="col-12 col-md-2 px-2">
 								<label class="data-entry-label">Order:</label>
 								<select class="data-entry-select"> 
 									<option value="#getColls.coll_order#">#getColls.coll_order#</option>
 								</select>
 								<input type="hidden" name="coll_order" id="coll_order_#i#" value="#getColls.coll_order#">
 							</div>
-							<div class="col-12 col-md-4 pt-2 px-2">
+							<div class="col-12 col-md-6 pt-3 px-2">
 								<input type="button" value="Edit" class="btn btn-xs btn-primary" onclick=" updateCollector('#i#');">
 								<input type="button" value="Remove" class="btn btn-xs btn-danger" onClick=" confirmDialog('Remove this #role#?', 'Confirm Delete #role#', function() { removeCollector('#i#'); }  );">
 								<output id="coll_output_#i#"></output>
