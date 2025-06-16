@@ -2692,7 +2692,7 @@ limitations under the License.
 				agent_name, 
 				collector_role,
 				coll_order,
-				collector.agent_id,
+				collector.agent_id
 			FROM
 				cataloged_item
 				join collector on collector.collection_object_id = cataloged_item.collection_object_id 
