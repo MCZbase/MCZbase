@@ -2756,7 +2756,7 @@ limitations under the License.
 					$.ajax({
 						url: "/specimens/component/functions.cfc",
 						type: "POST",
-						data: $("#" + formId).serialize(),
+						data: $("##" + formId).serialize(),
 						success: function(response) {
 							if (response.status === "success") {
 								setFeedbackControlState("coll_output_" + formId,"saved")
