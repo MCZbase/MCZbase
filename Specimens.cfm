@@ -3446,9 +3446,9 @@ Target JSON:
 
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					$("#jqxgrid").on('bindingcomplete',function() {
-						$("#jqxgrid").jqxGrid('selectrow',0);
-						$("#jqxgrid").focus();
-						$("#jqxgrid").attr('tabindex',0);
+						$(".jqxGrid").jqxGrid('selectrow',0);
+						$(".jqxGrid").focus();
+						$(".jqxGrid").attr('tabindex',0);
 						$(".jqx-grid-pager").attr("tabindex", -1);
 						$(".jqx-grid-pager .jqx-grid-pager-button").attr("tabindex", -1);
 						
