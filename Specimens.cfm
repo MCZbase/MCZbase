@@ -93,8 +93,8 @@ limitations under the License.
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
 
-<cfset defaultSelectionMode = "singlerow">
-<cfif defaultSelectionMode EQ "singlerow">
+<cfset defaultSelectionMode = "none">
+<cfif defaultSelectionMode EQ "none">
 	<cfset defaultenablebrowserselection = "true">
 <cfelse>
 	<cfset defaultenablebrowserselection = "false">
@@ -1493,7 +1493,7 @@ limitations under the License.
 															function fixedchangeSelectMode(){
 																var selmode = $("##fixedselectMode").val();
 																$("##fixedsearchResultsGrid").jqxGrid({selectionmode: selmode});
-																if (selmode=="singlerow") { 
+																if (selmode=="none") { 
 																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
 																} else {
 																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
@@ -1503,13 +1503,12 @@ limitations under the License.
 
 														<label class="data-entry-label d-inline w-auto mt-1" for="fixedselectMode">Grid Select:</label>
 														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="fixedchangeSelectMode();">
-															<cfif defaultSelectionMode EQ "singlerow"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-															<option #selected# value="singlerow">Single Row</option>
-															<cfif defaultSelectionMode EQ "singlecell"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="none">Text</option>
+															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="singlecell">Single Cell</option>
 															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="singlerow">Single Row</option>
-															
 															<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
 															<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -1825,7 +1824,7 @@ limitations under the License.
 															function keywordchangeSelectMode(){
 																var selmode = $("##keywordselectMode").val();
 																$("##keywordsearchResultsGrid").jqxGrid({selectionmode: selmode});
-																if (selmode=="singlerow") { 
+																if (selmode=="none") { 
 																	$("##keywordsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
 																} else {
 																	$("##keywordsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
@@ -1834,8 +1833,8 @@ limitations under the License.
 														</script>
 														<label class="data-entry-label d-inline w-auto mt-1" for="keywordselectMode">Grid Select:</label>
 														<select class="data-entry-select d-inline w-auto mt-1" id="keywordselectMode" onChange="keywordchangeSelectMode();">
-															<cfif defaultSelectionMode EQ "singlerow"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-															<option #selected# value="singlerow">Single Row</option>
+															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="none">Text</option>
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="singlecell">Single Cell</option>
 															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2464,8 +2463,8 @@ Target JSON:
 														</script>
 														<label class="data-entry-label d-inline w-auto mt-1" for="builderselectMode">Grid Select:</label>
 														<select class="data-entry-select d-inline w-auto mt-1" id="builderselectMode" onChange="builderchangeSelectMode();">
-															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-															<option #selected# value="singlerow">Single Row</option>
+															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="none">Text</option>
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="singlecell">Single Cell</option>
 															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -3374,7 +3373,6 @@ Target JSON:
 					filterable: false,
 					sortable: true,
 					pageable: true,
-					keyboardnavigation:true,
 					editable: false,
 					virtualmode: true,
 					enablemousewheel: #session.gridenablemousewheel#,
@@ -3387,14 +3385,13 @@ Target JSON:
 					autoshowloadelement: false,  // overlay acts as load element for form+results
 					columnsreorder: true,
 					groupable: true,
-					selectionmode: 'singlerow',
+					selectionmode: '#defaultSelectionMode#',
 					enablebrowserselection: #defaultenablebrowserselection#,
 					altrows: true,
 					showtoolbar: false,
 					ready: function () {
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
 						$("##fixedsearchResultsGrid").jqxGrid('focus');
-						$("##fixedsearchResultsGrid").attr('tabindex',0);
 					},
 					rendergridrows: function () {
 						return dataAdapter.records;
