@@ -93,8 +93,8 @@ limitations under the License.
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
 
-<cfset defaultSelectionMode = "none">
-<cfif defaultSelectionMode EQ "none">
+<cfset defaultSelectionMode = "singlerow">
+<cfif defaultSelectionMode EQ "singlerow">
 	<cfset defaultenablebrowserselection = "true">
 <cfelse>
 	<cfset defaultenablebrowserselection = "false">
