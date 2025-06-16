@@ -2764,7 +2764,7 @@ limitations under the License.
 		<cfquery name="collOrderMax" dbtype="query">
 			SELECT MAX(coll_order) AS max_order FROM getColls
 		</cfquery>
-		<cfset maxCollOrder = collOrderMax.max_order + 1>
+		<cfset maxCollOrder = Val(collOrderMax.max_order) + 1>
 		<cfoutput>
 			<h2 class="h3">Current
 				<cfif variables.target is "collector">
