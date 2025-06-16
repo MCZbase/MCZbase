@@ -2803,7 +2803,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-2 px-2">
 								<label class="data-entry-label">Order:</label>
-								<select class="data-entry-select"> 
+								<select class="data-entry-select" name="coll_order" id="coll_order_#i#">
 									<cfloop from="1" to="#maxCollOrder#" index="ci">
 										<cfset selected = "">
 										<cfif ci EQ getColls.coll_order>
@@ -2812,7 +2812,6 @@ limitations under the License.
 										<option value="#ci#" #selected#>#ci#</option>
 									</cfloop>
 								</select>
-								<input type="hidden" name="coll_order" id="coll_order_#i#" value="#getColls.coll_order#">
 							</div>
 							<div class="col-12 col-md-4 pt-3 px-2">
 								<input type="button" value="Save" class="btn btn-xs btn-primary" onclick=" updateCollector('#i#');">
