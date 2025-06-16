@@ -3373,7 +3373,6 @@ Target JSON:
 					filterable: false,
 					sortable: true,
 					pageable: true,
-					keyboardnavigation: true,
 					editable: false,
 					virtualmode: true,
 					enablemousewheel: #session.gridenablemousewheel#,
@@ -3436,7 +3435,7 @@ Target JSON:
 					},
 					initrowdetails: initRowDetails
 				});
-				$("##fixedsearchResultsGrid").attr('tabindex', 0);
+	
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
 						columnOrderChanged('fixedsearchResultsGrid'); 
@@ -3444,12 +3443,7 @@ Target JSON:
 				</cfif>
 
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-					setTimeout(function () {
-						let columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-						let firstColumn = columns[0].datafield;
-						$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, firstColumn);
-						$("##fixedsearchResultsGrid").focus();
-					}, 10);
+
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
 							$(document).scrollTop(200);
