@@ -2775,10 +2775,10 @@ limitations under the License.
 							<output id="coll_output_#i#"></output>
 						</form>
 					</li>
+					<script>
 						jQuery(document).ready(function() {
 							makeAgentPicker("agent_name_#i#", "agent_id_#i#", true);
 						});
-					<script>
 					</script>
 					<cfset i = i + 1>
 				</cfloop>
