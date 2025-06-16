@@ -2621,7 +2621,7 @@ limitations under the License.
 										</form>
 										<script>
 											jQuery(document).ready(function() {
-												makeAgentPicker("add_agent_name", "add_new_agent_id", true);
+												makeAgentAutocompleteMeta("add_agent_name", "add_new_agent_id", true);
 											});
 											function reloadCollectorsDialogAndPage() { 
 												<cfif variables.target is 'collector' or variables.target EQ 'both'>
@@ -2822,7 +2822,7 @@ limitations under the License.
 					</form>
 					<script>
 						jQuery(document).ready(function() {
-							makeAgentPicker("agent_name_#i#", "agent_id_#i#", true);
+							makeAgentAutocompleteMeta("agent_name_#i#", "agent_id_#i#", true);
 						});
 					</script>
 				</div>
