@@ -2852,7 +2852,7 @@ limitations under the License.
 					AND agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.agent_id#">
 			</cfquery>
 			<cfif removeCollectorQuery_result.recordcount NEQ 1>
-				<cfthrow message = "Unable to remove collector. Provided collector_id does not match a record in the collector table.">
+				<cfthrow message = "Unable to remove collector. Provided collector_id [#variables.collector_id#], collection_object_id [#variables.collection_objecT_id#], agent_id [#variables.agent_id#]  does not match a record in the collector table.">
 			</cfif>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "removed">
