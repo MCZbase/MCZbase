@@ -2594,6 +2594,11 @@ limitations under the License.
 														SELECT count(*) as cnt
 														FROM collector
 														WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+															<cfif variables.target is "collector">
+																AND collector_role = 'c'
+															<cfelseif variables.target is "preparator">
+																AND collector_role = 'p'
+															</cfif>
 													</cfquery>
 													<select name="coll_order" id="add_coll_order" class="data-entry-input reqdClr">
 														<cfset countPlusOne = collCount.cnt + 1>
