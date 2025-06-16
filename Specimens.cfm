@@ -1504,11 +1504,12 @@ limitations under the License.
 														<label class="data-entry-label d-inline w-auto mt-1" for="fixedselectMode">Grid Select:</label>
 														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="fixedchangeSelectMode();">
 															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-															<option #selected# value="none">Text</option>
+															<option #selected# value="singlerow">single row</option>
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="singlecell">Single Cell</option>
 															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="singlerow">Single Row</option>
+															
 															<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
 															<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -3373,6 +3374,7 @@ Target JSON:
 					filterable: false,
 					sortable: true,
 					pageable: true,
+					keyboardnavigation:true,
 					editable: false,
 					virtualmode: true,
 					enablemousewheel: #session.gridenablemousewheel#,
@@ -3392,6 +3394,7 @@ Target JSON:
 					ready: function () {
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
 						$("##fixedsearchResultsGrid").jqxGrid('focus');
+						$("##fixedsearchResultsGrid").attr('tabindex',0);
 					},
 					rendergridrows: function () {
 						return dataAdapter.records;
