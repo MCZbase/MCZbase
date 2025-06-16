@@ -2508,10 +2508,13 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 						
-<!--- 
- ** getEditCollectorsHTML function returns the HTML for editing collectors or preparators for a given collection object.
- * @param collection_object_id: the ID of the collection object to edit collectors records for.
- * @param target: specifies whether to edit collectors or preparators or both
+<!---
+  getEditCollectorsHTML
+  Returns an HTML block to populate an edit dialog for collectors or preparators for a cataloged item.
+  @param collection_object_id the cataloged item for which to edit collectors/preparators.
+  @param target specifies whether to edit collectors, preparators, or both.
+  @return html for editing the collectors/preparators of a cataloged item.
+  @see getCollectorsDetailHTML for the HTML block listing current collectors/preparators.
 --->
 <cffunction name="getEditCollectorsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
@@ -2520,151 +2523,311 @@ limitations under the License.
 	<cfset variables.collection_object_id = arguments.collection_object_id>
 	<cfset variables.target = arguments.target>
 
-	<!--- TODO: Refactor to allow target to specify whether this dialog is used for collectors, preparators, or both --->
-	<cfthread name="getEditCollectorsThread">
+	<cfif variables.target NEQ "collector" AND variables.target NEQ "preparator">
+		<cfset variables.target = "both">
+	</cfif>
+
+	<cfthread name="getCollectorsThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="getColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT 
-					agent_name, 
-					collector_role,
-					coll_order,
-					collector.agent_id,
-					institution_acronym
-				FROM
-					cataloged_item
-					join collector on collector.collection_object_id = cataloged_item.collection_object_id 
-					join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id 
-					join collection on cataloged_item.collection_id=collection.collection_id 
-				WHERE
-					collector.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
-				   <cfif variables.target is 'collector'>
-						AND collector_role = 'c'
-				   <cfelseif variables.target is 'preparator'>
-						AND collector_role = 'p'
-					</cfif>
-				ORDER BY 
-					collector_role, coll_order
-			</cfquery>
-				<cfset i=1>
-				<h3> Agent as 
-				   <cfif variables.target is 'collector'>
-						Collector
-					<cfelseif variables.target is 'preparator'>
-						Preparator
-					<cfelse>
-						Collector or Preparator
-					</cfif>
-				</h3>
-				<table>
-					<cfloop query="getColls">
-						<form name="colls#i#" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
-							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-							<tr>
-								<td><label class="px-2">Name: </label>
-									<input type="text" name="Name" value="#getColls.agent_name#" class="reqdClr" 
-										onchange="getAgent('newagent_id','Name','colls#i#',this.value); return false;"
-										onKeyPress="return noenter(event);">
-									<input type="hidden" name="newagent_id">
-									<input type="hidden" name="oldagent_id" value="#agent_id#">
-									<label for="collector_role" class="px-2">Role: </label>
-									<input type="hidden" name="oldRole" value="#getColls.collector_role#">
-									<select name="collector_role" size="1"  class="reqdClr">
-										<option <cfif #getColls.collector_role# is 'c'> selected </cfif>value="c">collector</option>
-										<option <cfif #getColls.collector_role# is 'p'> selected </cfif>value="p">preparator</option>
-									</select>
-									<label class="px-2" for="coll_order">Order: </label>
-									<input type="hidden" name="oldOrder" value="#getColls.coll_order#">
-									<select name="coll_order" size="1" class="reqdClr">
-										<cfset thisLoop =#getColls.recordcount# +1>
-										<cfloop from="1" index="c" to="#thisLoop#">
-											<option <cfif #c# is #getColls.coll_order#> selected </cfif>value="#c#">#c#</option>
-										</cfloop>
-									</select>
-									<input type="button" value="Save" class="btn btn-xs btn-primary" onclick="colls#i#.Action.value='saveEdits';submit();">
-									<input type="button" value="Delete" class="btn btn-xs btn-danger" onClick="colls#i#.Action.value='deleteColl';confirmDelete('colls#i#');"></td>
-							</tr>
-						</form>
-						<cfset i = #i#+1>
-					</cfloop>
-				</table>
-				<br>
-				<table class="newRec mt-4">
-					<thead>
-						<tr>
-							<th class="p-2">Add an Agent to this record:</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><form name="newColl" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
-									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-									<input type="hidden" name="Action" value="newColl">
-									<label class="px-2">Name: </label>
-									<input type="text" name="name" class="reqdClr" onchange="getAgent('newagent_id','name','newColl',this.value); return false;"
-						onKeyPress="return noenter(event);">
-									<input type="hidden" name="newagent_id">
-									<label class="px-2">Role: </label>
-									<select name="collector_role" size="1" class="reqdClr">
-										<option value="c">collector</option>
-										<option value="p">preparator</option>
-									</select>
-									<label class="px-2">Order: </label>
-									<select name="coll_order" size="1" class="reqdClr">
-										<cfset thisLoop = #getColls.recordcount# +1>
-										<cfloop from="1" index="c" to="#thisLoop#">
-											<option <cfif #c# is #thisLoop#> selected </cfif>
-										value="#c#">#c#</option>
-										</cfloop>
-									</select>
-									<input type="submit" value="Create" class="btn btn-xs btn-primary">
-								</form></td>
-						</tr>
-					</tbody>
-				</table>
+				<div id="collectorsHTML">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12 float-left">
+								<div class="add-form float-left">
+									<cfset targetLabel = "">
+									<cfset targetValue = "">
+									<div class="add-form-header pt-1 px-2 col-12 float-left">
+										<h2 class="h3 my-0 px-1 pb-1">
+											<cfif variables.target is "collector">
+												Add Collector
+												<cfset targetLabel = "Collector">
+												<cfset targetValue = "c">
+											<cfelseif variables.target is "preparator">
+												Add Preparator
+												<cfset targetLabel = "Preparator">
+												<cfset targetValue = "p">
+											<cfelse>
+												Add Collector or Preparator
+												<cfset targetLabel = "Agent">
+												<cfset targetValue = "c"><!--- default selection to collector --->
+											</cfif>
+										</h2>
+									</div>
+									<div class="card-body">
+										<!--- Form to add a new collector/preparator --->
+										<form name="addToCollectors" method="post" action="editColls.cfm" onSubmit="return gotAgentId(this.newagent_id.value)">
+											<div class="form-row">
+												<div class="col-12 col-md-11 pt-3 px-2">
+													<label for="add_agent_name">
+														Add #targetLabel#:
+													</label>
+													<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
+													<input type="hidden" name="Action" value="newColl">
+													<input type="hidden" name="newagent_id" id="add_newagent_id">
+													<input type="text" name="name" id="add_agent_name" class="data-entry-input reqdClr"
+																 onchange="getAgent('add_newagent_id','add_agent_name','addToCollectors',this.value); return false;"
+																 onKeyPress="return noenter(event);">
+												</div>
+												<cfif target EQ "both">
+													<div class="col-12 col-md-5 pt-3 px-2">
+														<label for="add_collector_role">Role:</label>
+														<select name="collector_role" id="add_collector_role" class="data-entry-input reqdClr">
+															<cfset selected = "">
+															<cfif targetValue EQ "c">
+																<cfset selected = "selected">
+															</cfif>
+															<option value="c" #selected#>collector</option>
+															<cfset selected = "">
+															<cfif targetValue EQ "p">
+																<cfset selected = "selected">
+															</cfif>
+															<option value="p" #selected#>preparator</option>
+														</select>
+													</div>
+												<cfelse>
+													<input type="hidden" name="collector_role" value="#targetValue#">
+												</cfif>
+												<div class="col-12 col-md-4 pt-3 px-2">
+													<label for="add_coll_order">Order:</label>
+													<cfquery name="collCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+														SELECT count(*) as cnt
+														FROM collector
+														WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+													</cfquery>
+													<select name="coll_order" id="add_coll_order" class="data-entry-input reqdClr">
+														<cfset countPlusOne = collCount.cnt + 1>
+														<cfloop from="1" to="#countPlusOne#" index="c">
+															<option value="#c#" <cfif c EQ countPlusOne>selected</cfif>>#c#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12 col-md-2 pt-3">
+													<label for="addButton" class="data-entry-label">&nbsp;</label>
+													<input type="submit" value="Add" class="btn btn-xs btn-primary" id="addButton">
+												</div>
+											</div>
+										</form>
+										<script>
+											jQuery(document).ready(function() {
+												makeAgentPicker("add_agent_name", "add_newagent_id", true);
+											});
+											function reloadCollectorsDialogAndPage() { 
+												reloadCollectors();
+												loadCollectorsList("#variables.collection_object_id#", "collectorsDialogList", "#variables.target#");
+											}
+										</script>
+									</div><!--- end card-body for add form --->
+								</div><!--- end add-form --->
+								<div id="collectorsDialogList" class="col-12 float-left mt-4 mb-4 px-0">
+									<!--- include output from getCollectorsDetailHTML to list collectors/preparators for the cataloged item --->
+									<cfset collectorsList = getCollectorsDetailHTML(collection_object_id=variables.collection_object_id, target=variables.target)>
+								</div>
+							</div><!--- end col-12 --->
+						</div><!--- end row --->
+					</div><!--- end container-fluid --->
+				</div><!--- end collectorsHTML --->
 			</cfoutput>
 			<cfcatch>
 				<cfoutput>
-					<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
-						<cfelse>
-						<cfset queryError = ''>
-					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-					<cfcontent reset="yes">
-					<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
-						</div>
-					</div>
+					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
 				</cfoutput>
 			</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getEditCollectorsThread" />
-	<cfreturn getEditCollectorsThread.output>
+	<cfthread action="join" name="getCollectorsThread" />
+	<cfreturn getCollectorsThread.output>
 </cffunction>
 
-<!--- TODO: Incomplete add determiner function? --->
+<!---
+	getCollectorsDetailHTML
+	Returns an HTML block listing collectors or preparators for a cataloged item, with edit and remove buttons.
+	@param collection_object_id the cataloged item for which to show collectors/preparators.
+	@param target specifies whether to list collectors, preparators, or both.
+	@return html showing the collectors/preparators of a cataloged item.
+	@see getEditCollectorsHTML which calls this function.
+--->
+<cffunction name="getCollectorsDetailHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="target" type="string" required="yes">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.target = arguments.target>
+
+	<cfif variables.target NEQ "collector" AND variables.target NEQ "preparator">
+		<cfset variables.target = "both">
+	</cfif>
+
+	<cftry>
+		<cfquery name="getColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT 
+				agent_name, 
+				collector_role,
+				coll_order,
+				collector.agent_id,
+				institution_acronym
+			FROM
+				cataloged_item
+				join collector on collector.collection_object_id = cataloged_item.collection_object_id 
+				join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id 
+				join collection on cataloged_item.collection_id=collection.collection_id 
+			WHERE
+				collector.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+				<cfif variables.target is 'collector'>
+					AND collector_role = 'c'
+				<cfelseif variables.target is 'preparator'>
+					AND collector_role = 'p'
+				</cfif>
+			ORDER BY 
+				collector_role, coll_order
+		</cfquery>
+		<cfoutput>
+			<h2 class="h3">Current
+				<cfif variables.target is "collector">
+					Collectors
+				<cfelseif variables.target is "preparator">
+					Preparators
+				<cfelse>
+					Collectors and Preparators
+				</cfif>
+			</h2>
+			<ul>
+				<cfif getColls.recordcount EQ 0>
+					<li>None</li>
+				</cfif>
+				<cfset i=1>
+				<cfloop query="getColls">
+					<li>
+						#getColls.agent_name# (#getColls.institution_acronym#) 
+						[Role: <cfif getColls.collector_role EQ "c">Collector<cfelse>Preparator</cfif>; Order: #getColls.coll_order#]
+						<form name="colls#i#" method="post" action="editColls.cfm" class="d-inline-block" onSubmit="return gotAgentId(this.newagent_id.value)">
+							<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
+							<input type="hidden" name="oldagent_id" value="#getColls.agent_id#">
+							<input type="hidden" name="oldRole" value="#getColls.collector_role#">
+							<input type="hidden" name="oldOrder" value="#getColls.coll_order#">
+							<input type="hidden" name="Action" value="">
+							<input type="button" value="Edit" class="btn btn-xs btn-primary" onclick="colls#i#.Action.value='saveEdits';submit();">
+							<input type="button" value="Remove" class="btn btn-xs btn-danger" onClick="colls#i#.Action.value='deleteColl';confirmDelete('colls#i#');">
+						</form>
+					</li>
+					<cfset i = i + 1>
+				</cfloop>
+			</ul>
+		</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
+			</cfoutput>
+		</cfcatch>
+	</cftry>
+</cffunction>
+
+<cffunction name="addCollector" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="collector_role" type="string" required="yes">
+	<cfargument name="coll_order" type="numeric" required="yes">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.agent_id = arguments.agent_id>
+	<cfset variables.collector_role = arguments.collector_role>
+	<cfset variables.coll_order = arguments.coll_order>
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="addCollectorQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addCollectorQuery_result">
+				INSERT INTO collector (collection_object_id, agent_id, collector_role, coll_order)
+				VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.agent_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collector_role#">,
+					<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#arguments.coll_order#">
+				)
+			</cfquery>
+			<!--- get the inserted collector_id --->
+			<cfset rowid = addCollectorQuery_result.generatedkey>
+			<cfquery name="getCollectorId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT collector_id
+				FROM collector
+				WHERE  ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
+			</cfquery>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "added">
+			<cfset row["id"] = "#getCollectorId.collector_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+				<cfabort>
+			</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<cffunction name="removeCollector" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collector_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="agent_id" type="string" required="yes">
+
+	<cfset variables.collector_id = arguments.collector_id>
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.agent_id = arguments.agent_id>
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="removeCollectorQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="removeCollectorQuery_result">
+				DELETE FROM collector
+				WHERE 
+					collector_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collector_id#">
+					AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					AND agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.agent_id#">
+			</cfquery>
+			<cfif removeCollectorQuery_result.recordcount NEQ 1>
+				<cfthrow message = "Unable to remove collector. Provided collector_id does not match a record in the collector table.">
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "removed">
+			<cfset row["id"] = "#reReplace(variables.collector_id,'[^0-9]','')#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- TODO: Incomplete add determiner function --->
 <cffunction name="getAgentIdentifiers" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getAgentIdentsThread"> <cfoutput>
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+
+	<cfthread name="getAgentIdentsThread">
+		<cfoutput>
 			<cftry>
-				<p>Hello</p>
-				<cfcatch>
-					<cftransaction action="rollback">
-					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-					<cfset function_called = "#GetFunctionCalledName()#">
-					<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-					<cfabort>
-				</cfcatch>
+				<cfthrow message = "TODO: getAgentIdentifiers needs implementation">
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+				<cfabort>
+			</cfcatch>
 			</cftry>
-		</cfoutput> </cfthread>
+		</cfoutput> 
+	</cfthread>
 	<cfthread action="join" name="getAgentIdentsThread" />
 	<cfreturn getAgentIdentsThread.output>
 </cffunction>
