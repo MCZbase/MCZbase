@@ -3448,6 +3448,7 @@ Target JSON:
 					$("#jqxgrid").on('bindingcomplete',function() {
 						$("#jqxgrid").jqxGrid('selectrow',0);
 						$("#jqxgrid").focus();
+						$("#jqxgrid").attr('tabindex',0);
 					})
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
