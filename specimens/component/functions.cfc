@@ -2962,6 +2962,13 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
+			<!--- obtain the role for the collector/preparator to be removed (to renumber the others) --->
+			<cfquery name="getRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getRole_result">
+				SELECT collector_role
+				FROM collector
+				WHERE 
+					collector_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collector_id#">
+			</cfquery>
 			<cfquery name="removeCollectorQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="removeCollectorQuery_result">
 				DELETE FROM collector
 				WHERE 
@@ -2982,7 +2989,7 @@ limitations under the License.
 						   ) AS new_order
 					FROM collector
 					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
-					  AND collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.collector_role#">
+					  AND collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getRole.collector_role#">
 				) src
 				ON (tgt.collector_id = src.collector_id)
 				WHEN MATCHED THEN
