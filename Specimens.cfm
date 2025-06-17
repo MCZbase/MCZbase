@@ -3444,7 +3444,7 @@ Target JSON:
 				</cfif>
 				
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-		$('#fixedsearchResultsGrid').attr('tabindex', 0);
+		$('##fixedsearchResultsGrid').attr('tabindex', 0);
 
 var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
 if (columns && columns.length > 0) {
