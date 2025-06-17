@@ -3176,6 +3176,13 @@ limitations under the License.
 
 <cffunction name="getEditPartsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<!--- TODO: Cases to handle: 
+	  One Cataloged Item, one occurrence, one or more parts, each a material sample, each part in one container.
+	  One Cataloged Item, a set of parts may be a separate occurrence with a separate identification history, each part a material sample, each part in one container, need occurrence ids for additional parts after the first, need rows in at least digir_filtered_flat for additional occurrences.
+	  More than one cataloged item, each a separate occurrence, with a set of parts, each part a material sample, parts may be in the same collection object container (thus loanable only as a unit).
+   --->
 	<cfthread name="getEditPartsThread">
 		<cftry>
 			<cfquery name="collcode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -6884,23 +6891,10 @@ function showLLFormat(orig_units) {
 					</div>
 				</div>
 				<cfcatch>
-					<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
-						<cfelse>
-						<cfset queryError = ''>
-					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-					<cfcontent reset="yes">
-					<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
-						</div>
-					</div>
+					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+					<cfset function_called = "#GetFunctionCalledName()#">
+					<h2 class="h3">Error in #function_called#:</h2>
+					<div>#error_message#</div>
 				</cfcatch>
 			</cftry>
 		</cfoutput> </cfthread>
@@ -6983,7 +6977,8 @@ function showLLFormat(orig_units) {
 				<cfcatch>
 					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 					<cfset function_called = "#GetFunctionCalledName()#">
-					<p class="mt-2 text-danger">Error in #function_called#: #error_message#</p>
+					<h2 class="h3">Error in #function_called#:</h2>
+					<div>#error_message#</div>
 				</cfcatch>
 			</cftry>
 		</cfoutput> 
@@ -7095,7 +7090,8 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				<cfcatch>
 					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 					<cfset function_called = "#GetFunctionCalledName()#">
-					<p class="mt-2 text-danger">Error in #function_called#: #error_message#</p>
+					<h2 class="h3">Error in #function_called#:</h2>
+					<div>#error_message#</div>
 				</cfcatch>
 			</cftry>
 		</cfoutput> 
@@ -7351,7 +7347,10 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 		</cfoutput>
 		<cfcatch>
 			<cfoutput>
-				<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
 	</cftry>
