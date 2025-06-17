@@ -3376,6 +3376,7 @@ Target JSON:
 					editable: false,
 					virtualmode: true,
 					enablemousewheel: #session.gridenablemousewheel#,
+					keyboardnavigation: true,
 					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','500'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
@@ -3435,7 +3436,7 @@ Target JSON:
 					},
 					initrowdetails: initRowDetails
 				});
-		$("##fixedsearchResultsGrid").attr('tabindex',0);
+		$("##fixedsearchResultsGrid").attr('tabindex',5);
 	
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
