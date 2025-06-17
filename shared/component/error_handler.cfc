@@ -40,6 +40,11 @@ limitations under the License.
 	</cfoutput>
 </cffunction>
 
+<!--- **
+ * Convert a cfcatch object to a string error message, including file and line number if available.
+ * @param cfcatchcopy The cfcatch object to convert.
+ * @return A string containing the error message.
+--->
 <cffunction name="cfcatchToErrorMessage" access="public" returntype="any" returnformat="plain">
 	<cfargument name="cfcatchcopy" type="any" required="yes">
 

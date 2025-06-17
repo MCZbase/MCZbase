@@ -332,7 +332,7 @@ function openEditCollectorsDialog(collection_object_id,dialogId,guid,callback) {
 		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getEditCollectorsHTML",
-			target : "collectors",
+			target : "collector",
 			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
@@ -352,7 +352,7 @@ function openEditPreparatorsDialog(collection_object_id,dialogId,guid,callback) 
 		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getEditCollectorsHTML",
-			target : "preparators",
+			target : "preparator",
 			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
@@ -646,3 +646,80 @@ function saveRemarks(collection_object_id,coll_object_remarks,disposition_remark
 		dataType: "json"
 	});
 } 
+
+function openViewTransactionsDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Transactions for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getViewTransactionsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Transactions dialog");
+		},
+		dataType: "html"
+	});
+};
+
+function openEditRelationsDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Relationships for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditRelationsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Relationships dialog");
+		},
+		dataType: "html"
+	});
+};
+
+function openEditAttributesDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Attributes for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditAttributesHTML",
+			collection_object_id: collection_object_id
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Attributes dialog");
+		},
+		dataType: "html"
+	});
+};
+
+function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Locality and Collecting Event for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditLocalityHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Locality dialog");
+		},
+		dataType: "html"
+	});
+};
+
