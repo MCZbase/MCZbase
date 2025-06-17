@@ -6767,7 +6767,6 @@ function showLLFormat(orig_units) {
 									</cfif>
 								</li>
 								<!--------------------  Project / Usage ------------------------------------>
-								<!--- TODO: Only lists projects for accessions, not other transactions --->
 								<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT 
 										project_name, project.project_id project_id 
@@ -6777,7 +6776,7 @@ function showLLFormat(orig_units) {
 										project_trans.transaction_id = <cfqueryparam value="#getItems.accn_id#" cfsqltype="CF_SQL_DECIMAL">
 									GROUP BY project_name, project.project_id
 								</cfquery>
-								<cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								<cfquery name="isLoanProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT 
 										project_name, project.project_id 
 									FROM 
@@ -6793,6 +6792,7 @@ function showLLFormat(orig_units) {
 									GROUP BY 
 										project_name, project.project_id
 								</cfquery>
+								<!--- Participation in Transactions --->
 								<cfquery name="isLoanedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT 
 										loan_item.collection_object_id 
@@ -6830,46 +6830,51 @@ function showLLFormat(orig_units) {
 										deacc_number is not null AND
 										specimen_part.derived_from_cat_item = <cfqueryparam value="#getItems.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
-								<!--- TODO: Cleanup, logic entangles different concepts --->
-								<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or (oneOfUs is 1 and isLoanedItem.collection_object_id gt 0) or (oneOfUs is 1 and isDeaccessionedItem.collection_object_id gt 0)>
-									<cfloop query="isProj">
-										<li class="list-group-item">
-											<h5 class="mb-0 d-inline-block">Contributed By Project:</h5>
-											<a href="/ProjectDetail.cfm?src=proj&project_id=#isProj.project_id#">#isProj.project_name#</a> </li>
-									</cfloop>
-									<cfloop query="isLoan">
-										<li class="list-group-item">
-											<h5 class="mb-0 d-inline-block">Used By Project:</h5>
-											<a href="/ProjectDetail.cfm?src=proj&project_id=#isLoan.project_id#" target="_mainFrame">#isLoan.project_name#</a> </li>
-									</cfloop>
-									<cfif isLoanedItem.collection_object_id gt 0 and oneOfUs is 1>
-										<li class="list-group-item">
-											<h5 class="mb-0 d-inline-block">Loan History:</h5>
-											<a class="d-inline-block" href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#"
-							target="_mainFrame">Loans that include this cataloged item (#loanList.recordcount#).</a>
-											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<cfloop query="loanList">
-													<ul class="d-block">
-														<li class="d-block">#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#)</li>
-													</ul>
-												</cfloop>
-											</cfif>
-										</li>
-									</cfif>
-									<cfif isDeaccessionedItem.collection_object_id gt 0 and oneOfUs is 1>
-										<li class="list-group-item">
-											<h5 class="mb-1 d-inline-block">Deaccessions: </h5>
-											<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#"
-							target="_mainFrame">Deaccessions that include this cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
-											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<cfloop query="deaccessionList">
-													<ul class="d-block">
-														<li class="d-block"> <a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a></li>
-													</ul>
-												</cfloop>
-											</cfif>
-										</li>
-									</cfif>
+								<cfloop query="isProj">
+									<li class="list-group-item">
+										<h5 class="mb-0 d-inline-block">Contributed By Project:</h5>
+										<a href="/ProjectDetail.cfm?src=proj&project_id=#isProj.project_id#" target="_blank">#isProj.project_name#</a>
+									</li>
+								</cfloop>
+								<cfloop query="isLoanProject">
+									<li class="list-group-item">
+										<h5 class="mb-0 d-inline-block">Used By Project:</h5>
+										<a href="/ProjectDetail.cfm?src=proj&project_id=#isLoanProject.project_id#" target="_blank">#isLoanProject.project_name#</a>
+									</li>
+								</cfloop>
+								<cfif oneOfUs is 1>
+									<li class="list-group-item">
+										<h5 class="mb-0 d-inline-block">Loan History:</h5>
+										<cfif isLoanedItem.collection_object_id gt 0>
+											<a class="d-inline-block" href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#" target="_blank">
+												Loans that include parts of this cataloged item (#loanList.recordcount#).
+											</a>
+										<cfelse>
+											No Loans that include parts of this cataloged item.
+										</cfif>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+											<cfloop query="loanList">
+												<ul class="d-block">
+													<li class="d-block">#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#)</li>
+												</ul>
+											</cfloop>
+										</cfif>
+									</li>
+								</cfif>
+								<cfif isDeaccessionedItem.collection_object_id gt 0 and oneOfUs is 1>
+									<li class="list-group-item">
+										<h5 class="mb-1 d-inline-block">Deaccessions: </h5>
+										<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#" target="_blank">
+											Deaccessions that include this cataloged item (#deaccessionList.recordcount#).
+										</a> &nbsp;
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+											<cfloop query="deaccessionList">
+												<ul class="d-block">
+													<li class="d-block"> <a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a></li>
+												</ul>
+											</cfloop>
+										</cfif>
+									</li>
 								</cfif>
 							</ul>
 						</div>
