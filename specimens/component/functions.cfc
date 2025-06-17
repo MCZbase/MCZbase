@@ -80,7 +80,6 @@ limitations under the License.
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
-			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
 		</cfcatch>
@@ -235,7 +234,6 @@ limitations under the License.
 			</cfif>
 		<cfcatch>
 			<cftransaction action="rollback"/>
-			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
@@ -2510,146 +2508,668 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 						
-						
+<!---
+  getEditCollectorsHTML
+  Returns an HTML block to populate an edit dialog for collectors or preparators for a cataloged item.
+  @param collection_object_id the cataloged item for which to edit collectors/preparators.
+  @param target specifies whether to edit collectors, preparators, or both.
+  @return html for editing the collectors/preparators of a cataloged item.
+  @see getCollectorsDetailHTML for the HTML block listing current collectors/preparators.
+--->
 <cffunction name="getEditCollectorsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="target" type="string" required="yes">
 
-	<!--- TODO: Refactor to allow target to specify whether this dialog is used for collectors, preparators, or both --->
-	<cfthread name="getEditCollectorsThread">
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.target = arguments.target>
+
+	<cfif variables.target NEQ "collector" AND variables.target NEQ "preparator">
+		<cfset variables.target = "both">
+	</cfif>
+
+	<cfthread name="getCollectorsThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="getColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT 
-					agent_name, 
-					collector_role,
-					coll_order,
-					collector.agent_id,
-					institution_acronym
-				FROM
-					collector, 
-					preferred_agent_name,
-					cataloged_item,
-					collection
-				WHERE
-					collector.collection_object_id = cataloged_item.collection_object_id and
-					cataloged_item.collection_id=collection.collection_id AND
-					collector.agent_id = preferred_agent_name.agent_id AND
-					collector.collection_object_id = #collection_object_id#
-				ORDER BY 
-					collector_role, coll_order
-			</cfquery>
-				<cfset i=1>
-				<h3> Agent as Collector or Preparator</h3>
-				<table>
-					<cfloop query="getColls">
-						<form name="colls#i#" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
-							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-							<tr>
-								<td><label class="px-2">Name: </label>
-									<input type="text" name="Name" value="#getColls.agent_name#" class="reqdClr" 
-						onchange="getAgent('newagent_id','Name','colls#i#',this.value); return false;"
-						 onKeyPress="return noenter(event);">
-									<input type="hidden" name="newagent_id">
-									<input type="hidden" name="oldagent_id" value="#agent_id#">
-									<label for="collector_role" class="px-2">Role: </label>
-									<input type="hidden" name="oldRole" value="#getColls.collector_role#">
-									<select name="collector_role" size="1"  class="reqdClr">
-										<option <cfif #getColls.collector_role# is 'c'> selected </cfif>value="c">collector</option>
-										<option <cfif #getColls.collector_role# is 'p'> selected </cfif>value="p">preparator</option>
-									</select>
-									<label class="px-2" for="coll_order">Order: </label>
-									<input type="hidden" name="oldOrder" value="#getColls.coll_order#">
-									<select name="coll_order" size="1" class="reqdClr">
-										<cfset thisLoop =#getColls.recordcount# +1>
-										<cfloop from="1" index="c" to="#thisLoop#">
-											<option <cfif #c# is #getColls.coll_order#> selected </cfif>value="#c#">#c#</option>
-										</cfloop>
-									</select>
-									<input type="button" value="Save" class="btn btn-xs btn-primary" onclick="colls#i#.Action.value='saveEdits';submit();">
-									<input type="button" value="Delete" class="btn btn-xs btn-danger" onClick="colls#i#.Action.value='deleteColl';confirmDelete('colls#i#');"></td>
-							</tr>
-						</form>
-						<cfset i = #i#+1>
-					</cfloop>
-				</table>
-				<br>
-				<table class="newRec mt-4">
-					<thead>
-						<tr>
-							<th class="p-2">Add an Agent to this record:</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><form name="newColl" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
-									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-									<input type="hidden" name="Action" value="newColl">
-									<label class="px-2">Name: </label>
-									<input type="text" name="name" class="reqdClr" onchange="getAgent('newagent_id','name','newColl',this.value); return false;"
-						onKeyPress="return noenter(event);">
-									<input type="hidden" name="newagent_id">
-									<label class="px-2">Role: </label>
-									<select name="collector_role" size="1" class="reqdClr">
-										<option value="c">collector</option>
-										<option value="p">preparator</option>
-									</select>
-									<label class="px-2">Order: </label>
-									<select name="coll_order" size="1" class="reqdClr">
-										<cfset thisLoop = #getColls.recordcount# +1>
-										<cfloop from="1" index="c" to="#thisLoop#">
-											<option <cfif #c# is #thisLoop#> selected </cfif>
-										value="#c#">#c#</option>
-										</cfloop>
-									</select>
-									<input type="submit" value="Create" class="btn btn-xs btn-primary">
-								</form></td>
-						</tr>
-					</tbody>
-				</table>
+				<div id="collectorsHTML">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12 float-left">
+								<div class="add-form float-left">
+									<cfset targetLabel = "">
+									<cfset targetValue = "">
+									<div class="add-form-header pt-1 px-2 col-12 float-left">
+										<h2 class="h3 my-0 px-1 pb-1">
+											<cfif variables.target is "collector">
+												Add Collector
+												<cfset targetLabel = "Collector">
+												<cfset targetValue = "c">
+											<cfelseif variables.target is "preparator">
+												Add Preparator
+												<cfset targetLabel = "Preparator">
+												<cfset targetValue = "p">
+											<cfelse>
+												Add Collector or Preparator
+												<cfset targetLabel = "Agent">
+												<cfset targetValue = "c"><!--- default selection to collector --->
+											</cfif>
+										</h2>
+									</div>
+									<div class="card-body">
+										<!--- Form to add a new collector/preparator --->
+										<form name="addToCollectors" onSubmit="return false;">
+											<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
+											<input type="hidden" name="method" value="addCollector">
+											<input type="hidden" name="returnformat" value="json">
+											<input type="hidden" name="queryformat" value="column">
+											<div class="form-row">
+												<cfif target EQ "both">
+													<cfset colw ="4">
+												<cfelse>
+													<cfset colw ="6">
+												</cfif>
+												<div class="col-12 col-md-#colw# pt-3 px-2">
+													<label for="add_agent_name">
+														Add #targetLabel#:
+													</label>
+													<input type="text" name="name" id="add_agent_name" class="data-entry-input reqdClr">
+													<input type="hidden" name="agent_id" id="add_new_agent_id">
+												</div>
+												<cfif target EQ "both">
+													<div class="col-12 col-md-2 pt-3 px-2">
+														<label for="add_collector_role">Role:</label>
+														<select name="collector_role" id="add_collector_role" class="data-entry-input reqdClr">
+															<cfset selected = "">
+															<cfif targetValue EQ "c">
+																<cfset selected = "selected">
+															</cfif>
+															<option value="c" #selected#>collector</option>
+															<cfset selected = "">
+															<cfif targetValue EQ "p">
+																<cfset selected = "selected">
+															</cfif>
+															<option value="p" #selected#>preparator</option>
+														</select>
+													</div>
+												<cfelse>
+													<input type="hidden" name="collector_role" value="#targetValue#">
+												</cfif>
+												<div class="col-12 col-md-2 pt-3 px-2">
+													<label for="add_coll_order">Order:</label>
+													<cfquery name="collCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+														SELECT count(*) as cnt
+														FROM collector
+														WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+															<cfif variables.target is "collector">
+																AND collector_role = 'c'
+															<cfelseif variables.target is "preparator">
+																AND collector_role = 'p'
+															</cfif>
+													</cfquery>
+													<select name="coll_order" id="add_coll_order" class="data-entry-input reqdClr">
+														<cfset countPlusOne = collCount.cnt + 1>
+														<cfloop from="1" to="#countPlusOne#" index="c">
+															<option value="#c#" <cfif c EQ countPlusOne>selected</cfif>>#c#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12 col-md-4 pt-3">
+													<label for="addButton" class="data-entry-label">&nbsp;</label>
+													<input type="button" value="Add" class="btn btn-xs btn-primary" id="addButton" onClick=" handleAddCollector(); ">
+													<output id="addButtonResultDiv"></output>
+												</div>
+											</div>
+										</form>
+										<script>
+											jQuery(document).ready(function() {
+												makeAgentAutocompleteMeta("add_agent_name", "add_new_agent_id", true);
+											});
+											function reloadCollectorsDialogAndPage() { 
+												<cfif variables.target is 'collector' or variables.target EQ 'both'>
+													reloadLocality();
+												<cfelseif variables.target is 'preparator' or variables.target EQ 'both'>
+													reloadPreparators();
+												</cfif>
+												loadCollectorsList("#variables.collection_object_id#", "collectorsDialogList", "#variables.target#");
+											}
+											function loadCollectorsList(collection_object_id, targetDiv, target) {
+												$.ajax({
+													url : "/specimens/component/functions.cfc",
+													type : "post",
+													dataType : "html",
+													data: {
+														method: "getCollectorsDetailHTML",
+														collection_object_id: collection_object_id,
+														target: target,
+														returnformat: "plain"
+													},
+													success: function(result) {
+														$("##" + targetDiv).html(result);
+													},
+													error: function(jqXHR,textStatus,error){
+														handleFail(jqXHR,textStatus,error,"loading collectors list");
+													}
+												});
+											}
+											function handleAddCollector(){
+												if (checkFormValidity($('form[name="addToCollectors"]')[0])) {
+													setFeedbackControlState("addButtonResultDiv","saving")
+													$.ajax({
+														url : "/specimens/component/functions.cfc",
+														type : "post",
+														dataType : "json",
+														data: $("form[name='addToCollectors']").serialize(),
+														success: function(result) { 
+															if (result[0].status=="added") {
+																setFeedbackControlState("addButtonResultDiv","saved")
+																reloadCollectorsDialogAndPage();
+															} else {
+																setFeedbackControlState("addButtonResultDiv","error")
+																messageDialog('Error adding collector/preparator: '+result.DATA.MESSAGE[0], 'Error adding collector/preparator.');
+															}
+															<!--- add an entry to the list of orders one larger than the current highest --->
+															<!--- Find max value among the current options --->
+															var max = 0;
+															$("##add_coll_order").find('option').each(function() {
+																var val = parseInt($(this).val(), 10);
+																if (!isNaN(val) && val > max) {
+																	max = val;
+																}
+															});
+															<!--- deselect options --->
+															$("##add_coll_order").find('option:selected').prop('selected', false);
+															<!--- Add a new option with value one more than the max in a selected state --->
+															var newVal = max + 1;
+															$("##add_coll_order").append(
+																$('<option>', { value: newVal, text: newVal, selected: true })
+															);
+															$("##add_agent_name").val("");
+															$("##add_new_agent_id").val("");
+														},
+														error: function(jqXHR,textStatus,error){
+															setFeedbackControlState("addButton","error")
+															handleFail(jqXHR,textStatus,error,"adding collector/preparator");
+														}
+													});
+												}
+											}
+										</script>
+									</div><!--- end card-body for add form --->
+								</div><!--- end add-form --->
+								<div id="collectorsDialogList" class="col-12 float-left mt-4 mb-4 px-0">
+									<!--- include output from getCollectorsDetailHTML to list collectors/preparators for the cataloged item --->
+									<cfset collectorsList = getCollectorsDetailHTML(collection_object_id=variables.collection_object_id, target=variables.target)>
+								</div>
+							</div><!--- end col-12 --->
+						</div><!--- end row --->
+					</div><!--- end container-fluid --->
+				</div><!--- end collectorsHTML --->
 			</cfoutput>
 			<cfcatch>
 				<cfoutput>
-					<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
-						<cfelse>
-						<cfset queryError = ''>
+					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+					<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+						<cfdump var="#cfcatch#">
 					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-					<cfcontent reset="yes">
-					<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
-						</div>
-					</div>
 				</cfoutput>
 			</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getEditCollectorsThread" />
-	<cfreturn getEditCollectorsThread.output>
+	<cfthread action="join" name="getCollectorsThread" />
+	<cfreturn getCollectorsThread.output>
 </cffunction>
 
-<!--- TODO: Incomplete add determiner function? --->
+<!---
+	getCollectorsDetailHTML
+	Returns an HTML block listing collectors or preparators for a cataloged item, with edit and remove buttons.
+	@param collection_object_id the cataloged item for which to show collectors/preparators.
+	@param target specifies whether to list collectors, preparators, or both.
+	@return html showing the collectors/preparators of a cataloged item.
+	@see getEditCollectorsHTML which calls this function.
+--->
+<cffunction name="getCollectorsDetailHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="target" type="string" required="yes">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.target = arguments.target>
+
+	<cfif variables.target NEQ "collector" AND variables.target NEQ "preparator">
+		<cfset variables.target = "both">
+	</cfif>
+
+	<cftry>
+		<cfquery name="getColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
+				collector.collector_id,
+				agent_name, 
+				collector_role,
+				coll_order,
+				collector.agent_id
+			FROM
+				cataloged_item
+				join collector on collector.collection_object_id = cataloged_item.collection_object_id 
+				join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id 
+			WHERE
+				collector.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+				<cfif variables.target is 'collector'>
+					AND collector_role = 'c'
+				<cfelseif variables.target is 'preparator'>
+					AND collector_role = 'p'
+				</cfif>
+			ORDER BY 
+				collector_role, coll_order
+		</cfquery>
+		<!--- find max value for coll_order --->
+		<cfquery name="collOrderMax" dbtype="query">
+			SELECT MAX(coll_order) AS max_order FROM getColls
+		</cfquery>
+		<cfset maxCollOrder = Val(collOrderMax.max_order) + 1>
+		<cfoutput>
+			<h2 class="h3">Current
+				<cfif variables.target is "collector">
+					Collectors
+				<cfelseif variables.target is "preparator">
+					Preparators
+				<cfelse>
+					Collectors and Preparators
+				</cfif>
+			</h2>
+			<cfif getColls.recordcount EQ 0>
+				<ul>
+					<li>None</li>
+				</ul>
+			</cfif>
+			<cfset i=1>
+			<cfloop query="getColls">
+				<div class="border border-secondary my-0">
+					<form name="colls#i#" id="colls#i#" class="w-100" onSubmit="return false;">
+						<input type="hidden" name="method" id="coll_method_#i#" value="">
+						<input type="hidden" name="returnformat" value="json">
+						<input type="hidden" name="queryformat" value="column">
+						<input type="hidden" name="collector_id" id="collector_id_#i#" value="#getColls.collector_id#">
+						<input type="hidden" name="collection_object_id" id="collection_object_id_#i#" value="#variables.collection_object_id#">
+						<input type="hidden" name="collector_role" id="collector_role_#i#" value="#getColls.collector_role#">
+						<div class="form-row">
+							<div class="col-12 col-md-6 px-2">
+								<cfif getColls.collector_role EQ "c">
+									<cfset role="Collector">
+								<cfelse>
+									<cfset role="Preparator">
+								</cfif>
+								<label for="agent_name_#i#" class="data-entry-label">#role#</label>
+								<input type="text" name="agent_name" id="agent_name_#i#" class="data-entry-input reqdClr" value="#getColls.agent_name#">
+								<input type="hidden" name="agent_id" id="agent_id_#i#" value="#getColls.agent_id#">
+							</div>
+							<div class="col-12 col-md-2 px-2">
+								<label class="data-entry-label">Order:</label>
+								<select class="data-entry-select" name="coll_order" id="coll_order_#i#">
+									<cfloop from="1" to="#maxCollOrder#" index="ci">
+										<cfset selected = "">
+										<cfif ci EQ getColls.coll_order>
+											<cfset selected = "selected">
+										</cfif>
+										<option value="#ci#" #selected#>#ci#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-md-4 pt-3 px-2">
+								<input type="button" value="Save" class="btn btn-xs btn-primary" onclick=" updateCollector('#i#');">
+								<input type="button" value="Remove" class="btn btn-xs btn-danger" onClick=" confirmDialog('Remove this #role#?', 'Confirm Delete #role#', function() { removeCollector('#i#'); }  );">
+								<output id="coll_output_#i#"></output>
+							</div>
+						</div>
+					</form>
+					<script>
+						jQuery(document).ready(function() {
+							makeAgentAutocompleteMeta("agent_name_#i#", "agent_id_#i#", true);
+						});
+					</script>
+				</div>
+				<cfset i = i + 1>
+			</cfloop>
+			<script>
+				function removeCollector(formId) {
+					$("##coll_method_" + formId).val("removeCollector");
+					setFeedbackControlState("coll_output_" + formId,"deleting")
+					$.ajax({
+						url: "/specimens/component/functions.cfc",
+						type: "POST",
+						dataType : "json",
+						data: $("##colls" + formId).serialize(),
+						success: function(response) {
+							if (response[0].status=="removed") {
+								setFeedbackControlState("coll_output_" + formId,"removed")
+								<cfif variables.target is 'collector' or variables.target EQ 'both'>
+									reloadLocality();
+								<cfelseif variables.target is 'preparator' or variables.target EQ 'both'>
+									reloadPreparators();
+								</cfif>
+								loadCollectorsList("#variables.collection_object_id#", "collectorsDialogList", "#variables.target#");
+							} else {
+								setFeedbackControlState("coll_output_" + formId,"error")
+							}
+						},
+						error: function(xhr, status, error) {
+							setFeedbackControlState("coll_output_" + formId,"error")
+							handleFail(xhr,status,error,"removing collector/preparator");
+						}
+					});
+				}
+				function updateCollector(formId) { 
+					$("##coll_method_" + formId).val("updateCollector");
+					setFeedbackControlState("coll_output_" + formId,"deleting")
+					$.ajax({
+						url: "/specimens/component/functions.cfc",
+						type: "POST",
+						dataType: "json",
+						data: $("##colls" + formId).serialize(),
+						success: function(response) {
+							if (response[0].status=="saved") {
+								setFeedbackControlState("coll_output_" + formId,"saved")
+								<cfif variables.target is 'collector' or variables.target EQ 'both'>
+									reloadLocality();
+								<cfelseif variables.target is 'preparator' or variables.target EQ 'both'>
+									reloadPreparators();
+								</cfif>
+								loadCollectorsList("#variables.collection_object_id#", "collectorsDialogList", "#variables.target#");
+							} else {
+								setFeedbackControlState("coll_output_" + formId,"error")
+							}
+						},
+						error: function(xhr, status, error) {
+							setFeedbackControlState("coll_output_" + formId,"error")
+							handleFail(xhr,status,error,"updating collector/preparator");
+						}
+					});
+					
+				}
+			</script>
+		</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+					<cfdump var="#cfcatch#">
+				</cfif>
+			</cfoutput>
+		</cfcatch>
+	</cftry>
+</cffunction>
+
+<!--- addCollector function adds a new collector or preparator to a cataloged item, handling order conflicts, 
+   and ensuring sequential order of collectors/preparators.
+ @param collection_object_id the collection_object_id for the cataloged item to which to add the collector/preparator.
+ @param agent_id the agent_id of the collector/preparator to add.
+ @param collector_role specifies whether the collector is a collector or preparator.
+ @param coll_order specifies the order of the collector/preparator in relation to other collectors/preparators for this cataloged item.
+ @return status of the add operation in a json structure with status=saved and id field or an http 500 error.
+--->
+<cffunction name="addCollector" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="collector_role" type="string" required="yes">
+	<cfargument name="coll_order" type="numeric" required="yes">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.agent_id = arguments.agent_id>
+	<cfset variables.collector_role = arguments.collector_role>
+	<cfset variables.coll_order = arguments.coll_order>
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<!--- Step 1: Check if a collision in coll_order occurs for this collection_object and role --->
+			<cfquery name="checkCollision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT COUNT(*) AS collisionCount
+				FROM collector
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+					AND collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collector_role#">
+					AND coll_order = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#arguments.coll_order#">
+			</cfquery>
+			<!--- Step 2: Shift coll_order values if a collision with the to be inserted record would occur --->
+			<cfif checkCollision.collisionCount GT 0>
+				<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE collector
+						SET coll_order = coll_order + 1
+						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+							AND collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collector_role#">
+							AND coll_order >= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#arguments.coll_order#">
+				</cfquery>
+			</cfif>
+			<!--- Step 3: insert the new record --->
+			<cfquery name="addCollectorQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addCollectorQuery_result">
+				INSERT INTO collector (collection_object_id, agent_id, collector_role, coll_order)
+				VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.agent_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collector_role#">,
+					<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#arguments.coll_order#">
+				)
+			</cfquery>
+			<!--- get the inserted collector_id --->
+			<cfset rowid = addCollectorQuery_result.generatedkey>
+			<cfquery name="getCollectorId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT collector_id
+				FROM collector
+				WHERE  ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
+			</cfquery>
+			<!--- Step 4: ensure that coll_order is a sequential integer, starting at 1 for a given collection_object_id and collector_role --->
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				MERGE INTO collector tgt
+				USING (
+					SELECT collector_id,
+						   ROW_NUMBER() OVER (
+							 ORDER BY coll_order, collector_id
+						   ) AS new_order
+					FROM collector
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+					  AND collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collector_role#">
+				) src
+				ON (tgt.collector_id = src.collector_id)
+				WHEN MATCHED THEN
+				  UPDATE SET tgt.coll_order = src.new_order
+			</cfquery>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "added">
+			<cfset row["id"] = "#getCollectorId.collector_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- removeCollector function removes a collector or preparator from a cataloged item, ensuring that the order of 
+   remaining collectors/preparators is sequential starting at one.
+ @param collector_id the collector_id of the collector/preparator to remove.
+ @param collection_object_id the collection_object_id for the cataloged item from which to remove the collector/preparator.
+ @param agent_id the agent_id of the collector/preparator to remove.
+ @return status of the remove operation in a json structure with status=removed and id field or an http 500 error.
+--->
+<cffunction name="removeCollector" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collector_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="agent_id" type="string" required="yes">
+
+	<cfset variables.collector_id = arguments.collector_id>
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.agent_id = arguments.agent_id>
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<!--- obtain the role for the collector/preparator to be removed (to renumber the others) --->
+			<cfquery name="getRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getRole_result">
+				SELECT collector_role
+				FROM collector
+				WHERE 
+					collector_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collector_id#">
+			</cfquery>
+			<cfquery name="removeCollectorQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="removeCollectorQuery_result">
+				DELETE FROM collector
+				WHERE 
+					collector_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collector_id#">
+					AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					AND agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.agent_id#">
+			</cfquery>
+			<cfif removeCollectorQuery_result.recordcount NEQ 1>
+				<cfthrow message = "Unable to remove collector. Provided collector_id [#variables.collector_id#], collection_object_id [#variables.collection_objecT_id#], agent_id [#variables.agent_id#]  does not match a record in the collector table.">
+			</cfif>
+			<!--- Step 2: ensure that coll_order is a sequential integer, starting at 1 for a given collection_object_id and collector_role --->
+			<cfquery name="resetOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				MERGE INTO collector tgt
+				USING (
+					SELECT collector_id,
+						   ROW_NUMBER() OVER (
+							 ORDER BY coll_order, collector_id
+						   ) AS new_order
+					FROM collector
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					  AND collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getRole.collector_role#">
+				) src
+				ON (tgt.collector_id = src.collector_id)
+				WHEN MATCHED THEN
+				  UPDATE SET tgt.coll_order = src.new_order
+			</cfquery>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "removed">
+			<cfset row["id"] = "#reReplace(variables.collector_id,'[^0-9]','')#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- updateCollector given changed information about a collector record, update (agent and order) 
+    for that record. 
+  @param collector_id the primary key value of the collector record to update.
+  @param collection_object_id the collection_object_id for the cataloged item that was collected/prepared, 
+    used to verify the target collector record, is not updated by this method.
+  @param agent_id the new agent_id for the collector record.
+  @param collector_role the role of the agent (c for collector, p for preparator)
+  @param coll_order the new order of the collector record for the cataloged item and collector_role.
+  @return a json structure with status=saved and id fields indicating the result of the update operation or an http 500 error.
+--->
+<cffunction name="updateCollector" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collector_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="collector_role" type="string" required="yes">
+	<cfargument name="coll_order" type="numeric" required="yes">
+
+	<cfset variables.collector_id = arguments.collector_id>
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.agent_id = arguments.agent_id>
+	<cfset variables.collector_role = arguments.collector_role>
+	<cfset variables.coll_order = arguments.coll_order>
+	
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<!--- Step 1: Check if a collision in coll_order occurs for this collection_object and role --->
+			<cfquery name="checkCollision" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT COUNT(*) AS collisionCount
+				FROM collector
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					AND collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.collector_role#">
+					AND coll_order = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#variables.coll_order#">
+					AND collector_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collector_id#">
+			</cfquery>
+			<!--- Step 2: Shift coll_order values if a collision with the to be inserted record would occur --->
+			<cfif checkCollision.collisionCount GT 0>
+				<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)# ">
+					UPDATE collector
+					SET coll_order = coll_order + 1
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+						AND collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.collector_role#">
+						AND coll_order >= <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#variables.coll_order#">
+						AND collector_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collector_id#">
+				</cfquery>
+			</cfif>
+			<!--- Step 3: Update the collector record --->
+			<cfquery name="updateCollectorQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateCollectorQuery_result">
+				UPDATE collector
+				SET 
+					agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.agent_id#">,
+					collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.collector_role#">,
+					coll_order = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#variables.coll_order#">
+				WHERE 
+					collector_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collector_id#">
+					AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+			</cfquery>
+			<cfif updateCollectorQuery_result.recordcount NEQ 1>
+				<cfthrow message = "Unable to update collector. Provided collector_id [#variables.collector_id#], collection_object_id [#variables.collection_object_id#] does not match a record in the collector table.">
+			</cfif>
+			<!--- Step 4: ensure that coll_order is a sequential integer, starting at 1 for a given collection_object_id and collector_role --->
+			<cfquery name="resetOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				MERGE INTO collector tgt
+				USING (
+					SELECT collector_id,
+						   ROW_NUMBER() OVER (
+							 ORDER BY coll_order, collector_id
+						   ) AS new_order
+					FROM collector
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					  AND collector_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.collector_role#">
+				) src
+				ON (tgt.collector_id = src.collector_id)
+				WHEN MATCHED THEN
+				  UPDATE SET tgt.coll_order = src.new_order
+			</cfquery>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#reReplace(variables.collector_id,'[^0-9]','')#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>			
+</cffunction>
+
+<!--- TODO: Incomplete add determiner function --->
 <cffunction name="getAgentIdentifiers" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getAgentIdentsThread"> <cfoutput>
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+
+	<cfthread name="getAgentIdentsThread">
+		<cfoutput>
 			<cftry>
-				<p>Hello</p>
-				<cfcatch>
-					<cftransaction action="rollback">
-					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-					<cfset function_called = "#GetFunctionCalledName()#">
-					<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-					<cfabort>
-				</cfcatch>
+				<cfthrow message = "TODO: getAgentIdentifiers needs implementation">
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+				<cfabort>
+			</cfcatch>
 			</cftry>
-		</cfoutput> </cfthread>
+		</cfoutput> 
+	</cfthread>
 	<cfthread action="join" name="getAgentIdentsThread" />
 	<cfreturn getAgentIdentsThread.output>
 </cffunction>
@@ -4384,7 +4904,6 @@ limitations under the License.
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
-			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
 		</cfcatch>
@@ -4470,7 +4989,6 @@ limitations under the License.
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
@@ -4559,7 +5077,6 @@ limitations under the License.
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
@@ -5679,344 +6196,509 @@ function showLLFormat(orig_units) {
 
 <cffunction name="getEditRelationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getEditRelationsThread"> <cfoutput>
-		<cftry>
-			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT 
-				distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
-			SELECT
-				rel.biol_indiv_relationship as biol_indiv_relationship,
-				collection as related_collection,
-				rel.related_coll_object_id as related_coll_object_id,
-				rcat.cat_num as related_cat_num,
-				rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
-			FROM
-				biol_indiv_relations rel
-				left join cataloged_item rcat
-				on rel.related_coll_object_id = rcat.collection_object_id
-				left join collection
-					on collection.collection_id = rcat.collection_id
-				left join ctbiol_relations ctrel
-					on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-			WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
-					and ctrel.rel_type <> 'functional'
-			UNION
-			SELECT
-				ctrel.inverse_relation as biol_indiv_relationship,
-				collection as related_collection,
-				irel.collection_object_id as related_coll_object_id,
-				rcat.cat_num as related_cat_num,
-				irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
-			FROM
-				biol_indiv_relations irel
-				left join ctbiol_relations ctrel
-					on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-				left join cataloged_item rcat
-					on irel.collection_object_id = rcat.collection_object_id
-				left join collection
-				on collection.collection_id = rcat.collection_id
-			WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-				and ctrel.rel_type <> 'functional'
-			)
-		</cfquery>
-				<cfif len(relns.biol_indiv_relationship) gt 0 >
-					<div class="row mx-0 mt-3">
-						<div class="col-12 px-0">
-							<ul class="list-group list-group-flush float-left">
-								<cfloop query="relns">
-									<li class="list-group-item py-0">
-										<input class="" type="text" value="#biol_indiv_relationship#">
-										<a href="/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_top">
-										<input class="" type="" value="#related_collection#">
-										<input class="" value="#related_cat_num#" type="text">
-										</a>
-										<cfif len(relns.biol_indiv_relation_remarks) gt 0>
-											<input class="" size="39" type="text" value="#biol_indiv_relation_remarks#">
-										</cfif>
-									</li>
-								</cfloop>
-								<cfif len(relns.biol_indiv_relationship) gt 0>
-									<li class="pb-1 list-group-item"> <a href="/Specimen.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a> </li>
-								</cfif>
-							</ul>
-						</div>
-					</div>
-					<div class="row mx-0 pb-2">
-						<div class="col-12 col-md-12 p-2">
-							<input type="submit" id="theSubmit" value="Save" class="btn btn-xs btn-primary">
-						</div>
-					</div>
-				</cfif>
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfthread name="getEditRelationsThread">
+		<cfoutput>
+			<cftry>
 				<cfquery name="ctReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select biol_indiv_relationship from ctbiol_relations
+					SELECT biol_indiv_relationship
+					FROM ctbiol_relations
 				</cfquery>
 				<cfquery name="thisCollId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select collection from cataloged_item,collection where cataloged_item.collection_id=collection.collection_id and
-					collection_object_id=#collection_object_id#
+					SELECT collection.collection, cat_num, institution_acronym, cataloged_item.collection_cde, cataloged_item.collection_object_id
+					FROM cataloged_item
+						join collection on cataloged_item.collection_id=collection.collection_id
+					WHERE 
+						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="cf_sql_varchar" value="#variables.collection_object_id#">
 				</cfquery>
-				<div class="col-12 mt-4 px-1">
-					<div id="accordionAttribute">
-						<div class="card">
-							<div class="card-header pt-1" id="headingAttribute">
-								<h1 class="my-0 px-1 pb-1">
-									<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseAttribute" aria-expanded="true" aria-controls="collapseAttribute"> <span class="h4">Add New Relationship</span> </button>
-								</h1>
-							</div>
-							<div id="collapseAttribute" class="collapse" aria-labelledby="headingAttribute" data-parent="##accordionAttribute">
-								<div class="card-body mt-0">
-									<form name="newRelationship" >
-										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-										<div class="row mx-0 pb-0">
-											<ul class="col-12 px-0 mb-2">
-												<li class="list-group-item float-left col-12 col-md-3 px-1 py-2">
+				<div id="relationshipEditorDiv">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12 float-left">
+								<div class="add-form float-left">
+									<div class="add-form-header pt-1 px-2 col-12 float-left">
+										<h2 class="h3 my-0 px-1 pb-1">Add New Relationship to #thisCollId.institution_acronym#:#thisCollId.collection_cde#:#thisCollId.cat_num#</h2>
+									</div>
+									<div class="card-body">
+										<form name="newRelationshipForm" id="newRelationshipForm">
+											<input type="hidden" name="collection_object_id" value="#thisCollId.collection_object_id#">
+											<input type="hidden" name="method" value="createBiolIndivRelation">
+											<div class="row mx-0 pb-0">
+												<div class="col-12 col-md-6 px-1 mt-3">
 													<label class="data-entry-label">Relationship:</label>
-													<select name="biol_indiv_relationship" size="1" class="reqdClr data-entry-select">
+													<select name="biol_indiv_relationship" size="1" class="reqdClr data-entry-select" required>
 														<cfloop query="ctReln">
 															<option value="#ctReln.biol_indiv_relationship#">#ctReln.biol_indiv_relationship#</option>
 														</cfloop>
 													</select>
-													<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-														select collection from collection 
-														group by collection order by collection
-													</cfquery>
-												</li>
-												<li class="list-group-item float-left col-12 col-md-3 px-1 py-2">
-													<label class="data-entry-label">Relationship:</label>
-													<select name="collection" size="1" class="data-entry-select">
-														<cfloop query="ctColl">
-															<option 
-																<cfif #thisCollId.collection# is "#ctColl.collection#"> selected </cfif>
-																value="#ctColl.collection#">#ctColl.collection#</option>
-														</cfloop>
-													</select>
-												</li>
-												<cfquery name="ctOtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select distinct(other_id_type) FROM ctColl_Other_Id_Type ORDER BY other_Id_Type
-												</cfquery>
-												<li class="list-group-item float-left col-12 col-md-3 px-1 py-2">
-													<label class="data-entry-label">Other ID Type:</label>
-													<select name="other_id_type" size="1" class="data-entry-select">
-														<option value="catalog_number">Catalog Number</option>
-														<cfloop query="ctOtherIdType">
-															<option value="#ctOtherIdType.other_id_type#">#ctOtherIdType.other_id_type#</option>
-														</cfloop>
-													</select>
-												</li>
-												<li class="list-group-item float-left col-12 col-md-3 px-1 pt-2">
-													<label class="data-entry-label">Other ID Number:</label>
-													<input type="text" name="oidNumber" class="reqdClr data-entry-input" size="8">
-												</li>
-												<li class="list-group-item float-left col-12 col-md-12 px-1 py-2 my-0">
+												</div>
+												<div class="col-12 col-md-6 px-1 mt-3">
+													<input type="hidden" id="target_collection_object_id" name="target_collection_object_id" value="">
+													<label class="data-entry-label" for="target_guid">Related Cataloged Item:</label>
+													<input type="text" id="target_guid" name="target_guid" size="50" class="data-entry-input reqdClr" required>
+												</div>
+												<div class="col-12 col-md-12 px-1 mt-3">
 													<label class="data-entry-label">Remarks:</label>
 													<input type="text" id="" name="biol_indiv_relation_remarks" size="50" class="data-entry-input">
-												</li>
-											</ul>
-										</div>
-										<div class="row mx-0 pb-2">
-											<div class="col-12 col-md-12 px-1">
-												<input type="submit" id="createRel" value="Create Relationship" class="btn btn-xs btn-primary">
+												</div>
+												<div class="col-12 col-md-3 px-1">
+													<input type="submit" id="createRelButton" value="Add Relationship" class="btn btn-xs btn-primary">
+												</div>
+												<div class="col-12 col-md-9 px-1 mt-3">
+													<output id="relationshipFormOutput"></output>
+												</div>
 											</div>
-										</div>
-										<div class="row mx-0 pb-2">
-											<div class="col-12 col-md-12 px-1 mt-3">
-												<label class="data-entry-label">Picked Cataloged Item:</label>
-												<input type="text" id="catColl" name="catColl" class="data-entry-input read-only" readonly="yes" size="46">
-											</div>
-										</div>
-									</form>
+										</form>
+										<script>
+											$(document).ready(function() {
+												makeCatalogedItemAutocompleteMeta("target_guid", "target_collection_object_id");
+												$("##newRelationshipForm").on("submit", createRelationship);
+											});
+										</script>
+										<script>
+											function createRelationship(event) {
+												event.preventDefault();
+												setFeedbackControlState("relationshipFormOutput","saving")
+												// ajax post of the form data to create a new relationship
+												$.ajax({
+													type: "POST",
+													url: "/specimens/component/functions.cfc",
+													data: $("##newRelationshipForm").serialize(),
+													success: function(response) {
+														setFeedbackControlState("relationshipFormOutput","saved")
+														reloadRelationships();
+													},
+													error: function(xhr, status, error) {
+														setFeedbackControlState("relationshipFormOutput","error")
+														handleFail(xhr,status,error,"saving changes to relationship");
+													}
+												});
+											}
+											function reloadRelationships() { 
+												// reload the relationship list
+												$.ajax({
+													type: "POST",
+													url: "/specimens/component/functions.cfc",
+													data: {
+														method: "getRelationshipDetailHTML",
+														collection_object_id: "#thisCollId.collection_object_id#"
+													},
+													success: function(data) {
+														$("##relationshipDialogList").html(data);
+													},
+													error: function(xhr, status, error) {
+														handleFail(xhr,status,error,"loading specimen media list for editing");
+													}
+												});
+											} 
+										</script>
+									</div>
+								</div>
+								<div id="relationshipDialogList" class="col-12 float-left mt-4 mb-4 px-0">
+									<!--- include output from getRelationshipDetailHTML to show list of relationships for the cataloged item --->
+									<cfset namedGroupList = getRelationshipDetailHTML(collection_object_id = variables.collection_object_id)>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<cfcatch>
-					<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
-						<cfelse>
-						<cfset queryError = ''>
-					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-					<cfcontent reset="yes">
-					<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
-						</div>
-					</div>
-				</cfcatch>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
 			</cftry>
-		</cfoutput> </cfthread>
+		</cfoutput>
+	</cfthread>
 	<cfthread action="join" name="getEditRelationsThread" />
 	<cfreturn getEditRelationsThread.output>
 </cffunction>
 
-<cffunction name="getEditTransactionsHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getRelationshipDetailHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getEditTransactionsThread"> <cfoutput>
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfoutput>
+		<cftry>
+			<cfquery name="ctReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT biol_indiv_relationship
+				FROM ctbiol_relations
+			</cfquery>
+			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					distinct biol_indiv_relationship, biol_indiv_relations_id,
+					related_collection, related_coll_object_id, related_collection_cde, related_institution_acronym, related_cat_num, 
+					biol_indiv_relation_remarks, direction 
+				FROM (
+					SELECT
+						rel.biol_indiv_relationship as biol_indiv_relationship,
+						collection as related_collection,
+						collection.collection_cde as related_collection_cde,
+						collection.institution_acronym as related_institution_acronym,
+						rel.related_coll_object_id as related_coll_object_id,
+						rcat.cat_num as related_cat_num,
+						rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks,
+						rel.biol_indiv_relations_id,
+						'forward' as direction
+					FROM
+						biol_indiv_relations rel
+						left join cataloged_item rcat
+						on rel.related_coll_object_id = rcat.collection_object_id
+						left join collection
+							on collection.collection_id = rcat.collection_id
+						left join ctbiol_relations ctrel
+							on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+					WHERE rel.collection_object_id = <cfqueryparam value="#variables.collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
+							and ctrel.rel_type <> 'functional'
+					UNION
+					SELECT
+						ctrel.inverse_relation as biol_indiv_relationship,
+						collection as related_collection,
+						collection.collection_cde as related_collection_cde,
+						collection.institution_acronym as related_institution_acronym,
+						irel.collection_object_id as related_coll_object_id,
+						rcat.cat_num as related_cat_num,
+						irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks,
+						irel.biol_indiv_relations_id,
+						'inverse' as direction
+					FROM
+						biol_indiv_relations irel
+						left join ctbiol_relations ctrel
+							on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+						left join cataloged_item rcat
+							on irel.collection_object_id = rcat.collection_object_id
+						left join collection
+						on collection.collection_id = rcat.collection_id
+					WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						and ctrel.rel_type <> 'functional'
+				)
+			</cfquery>
+			<cfif relns.recordcount GT 0>
+				<cfset inverseRelations = "">
+				<cfset i = 0>
+				<cfloop query="relns">
+					<cfif direction EQ "forward">
+						<cfset i = i + 1>
+						<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;" class="mb-0">
+							<div class="row m-0 py-1 px-1 border">
+								<input type="hidden" name="method" id="method_#i#" value="updateBiolIndivRelation">
+								<input type="hidden" name="biol_indiv_relations_id" value="#biol_indiv_relations_id#">
+								<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
+								<div class="col-12 col-md-3 px-0">
+									<label class="data-entry-label" for="biol_indiv_relationship_#i#">Relationship:</label>
+									<select name="biol_indiv_relationship" size="1" class="data-entry-select" required id="biol_indiv_relationship_#i#">
+										<cfloop query="ctReln">
+											<cfset selected = "">
+											<cfif relns.biol_indiv_relationship EQ ctReln.biol_indiv_relationship>
+												<cfset selected = "selected">
+											</cfif>
+											<option value="#ctReln.biol_indiv_relationship#" #selected#>#ctReln.biol_indiv_relationship#</option>
+										</cfloop>
+									</select>
+								</div>
+								<cfset guid = "#relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#">
+								<div class="col-12 col-md-3">
+									<label class="data-entry-label" for="target_collection_object_id_#i#">
+										To:
+										<a href="/specimens/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_blank">
+											#guid#
+										</a>
+									</label>
+									<input type="hidden" id="target_collection_object_id_#i#" name="target_collection_object_id" value="#related_coll_object_id#">
+									<input type="text" id="target_guid_#i#" name="target_guid" size="50" class="data-entry-input" value="#guid#">
+									<script>
+										$(document).ready(function() {
+											makeCatalogedItemAutocompleteMeta("target_guid_#i#", "target_collection_object_id_#i#");
+										});
+									</script>
+								</div>
+								<div class="col-12 col-md-6 px-0">
+									<label class="data-entry-label" for="remarks_#i#" >Remarks:</label>
+									<input class="data-entry-input" type="text" id="remarks_#i#" name="biol_indiv_relation_remarks" value="#biol_indiv_relation_remarks#">
+								</div>
+								<div class="col-12 col-md-2">
+									<input type="button" id="updateButton_#i#" value="Update" class="btn btn-xs btn-secondary" onclick="doSave('#i#')">
+								</div>
+								<div class="col-12 col-md-2">
+									<input type="button" id="deleteButton_#i#"
+										value="Delete" class="btn btn-xs btn-warning" 
+										onclick=" confirmDialog('Delete this relationship (#relns.biol_indiv_relationship# #guid#)?', 'Confirm Delete Relationship', function() { doDelete('#i#'); }  );">
+								</div>
+								<div class="col-12 col-md-8">
+									<output id="editRelationFormOutput_#i#"></output>
+								</div>
+							</div>
+						</form>
+					<cfelse>
+						<cfset inverseRelations =  "#inverseRelations#<li>#relns.biol_indiv_relationship# <a href='/Specimen.cfm?collection_object_id=#related_coll_object_id#' target='_blank'> #relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#</a> #relns.biol_indiv_relation_remarks# </li>"><!--- " --->
+					</cfif>
+				</cfloop>
+				<cfif len(inverseRelations) GT 0>
+					<div class="row mx-0 mt-3">
+						<div class="col-12">
+							<strong>Inverse Relationships:</strong>
+							<ul>
+								#inverseRelations#
+							</ul>
+						</div>
+					</div>
+				</cfif>
+				<script>
+					function doSave(formId) {
+						setFeedbackControlState("editRelationFormOutput_"+formId,"saving")
+						var form = "editRelationForm_" + formId;
+						$("##method_" + formId).val("updateBiolIndivRelation");
+						var formData = $("##" + form).serialize();
+						$.ajax({
+							type: "POST",
+							url: "/specimens/component/functions.cfc",
+							data: formData,
+							success: function(response) {
+								setFeedbackControlState("editRelationFormOutput_"+formId,"saved")
+								reloadRelationships();
+							},
+							error: function(xhr, status, error) {
+								setFeedbackControlState("editRelationFormOutput_"+formId,"error")
+								handleFail(xhr,status,error,"updating relationship");
+							}
+						});
+					}
+					function doDelete(formId) {
+						setFeedbackControlState("editRelationFormOutput_"+formId,"deleting")
+						var form = "editRelationForm_" + formId;
+						$("##method_" + formId).val("deleteBiolIndivRelation");
+						var formData = $("##" + form).serialize();
+						$.ajax({
+							type: "POST",
+							url: "/specimens/component/functions.cfc",
+							data: formData,
+							success: function(response) {
+								setFeedbackControlState("editRelationFormOutput_"+formId,"deleted")
+								reloadRelationships();
+							},
+							error: function(xhr, status, error) {
+								setFeedbackControlState("editRelationFormOutput_"+formId,"error")
+								handleFail(xhr,status,error,"deleting relationship");
+							}
+						});
+					}
+				</script>
+			<cfelse>
+				<div class="row mx-0 mt-3">
+					<strong>No Relationships to this cataloged item</strong>
+				</div>
+			</cfif>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfoutput>
+</cffunction>
+
+<!--- ** function createBiolIndivRelation  
+ * Creates a new relationship between two collection objects.
+ * @param collection_object_id - the collection object id of the first object
+ * @param biol_indiv_relationship - the type of relationship
+ * @param target_collection_object_id - the collection object id of the second object
+ * @param biol_indiv_relation_remarks - optional remarks about the relationship
+ * @return JSON object with status and id of the created relationship
+--->
+<cffunction name="createBiolIndivRelation" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="biol_indiv_relationship" type="string" required="yes">
+	<cfargument name="target_collection_object_id" type="string" required="yes">
+	<cfargument name="biol_indiv_relation_remarks" type="string" required="no" default="">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.biol_indiv_relationship = arguments.biol_indiv_relationship>
+	<cfset variables.target_collection_object_id = arguments.target_collection_object_id>
+	<cfset variables.biol_indiv_relation_remarks = arguments.biol_indiv_relation_remarks>
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="addRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addRelation_result">
+				INSERT INTO biol_indiv_relations
+				(
+					collection_object_id,
+					biol_indiv_relationship,
+					related_coll_object_id,
+					biol_indiv_relation_remarks,
+					created_by
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.biol_indiv_relationship#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.target_collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.biol_indiv_relation_remarks#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				)
+			</cfquery>
+			<cfif addRelation_result.recordcount NEQ 1>
+				<cfthrow message="Error: Other than one record created">
+			</cfif>
+			<cfquery name="getPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="pkResult">
+					SELECT biol_indiv_relations_id id
+					FROM biol_indiv_relations
+					WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#addRelation_result.GENERATEDKEY#">
+			</cfquery>
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#getPk.id#">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
+
+<!--- ** function updateBiolIndivRelation  
+ * Updates a relationship between two collection objects.
+ * @param biol_indiv_relations_id - the id of the relationship to update
+ * @param collection_object_id - the collection object id of the first object
+ * @param biol_indiv_relationship - the type of relationship
+ * @param target_collection_object_id - the collection object id of the second object
+ * @param biol_indiv_relation_remarks - optional remarks about the relationship
+ * @return JSON object with status and id of the relationship
+--->
+<cffunction name="updateBiolIndivRelation" returntype="any" access="remote" returnformat="json">
+	<cfargument name="biol_indiv_relations_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="biol_indiv_relationship" type="string" required="yes">
+	<cfargument name="target_collection_object_id" type="string" required="yes">
+	<cfargument name="biol_indiv_relation_remarks" type="string" required="yes">
+
+	<cfset variables.biol_indiv_relations_id = arguments.biol_indiv_relations_id>
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.biol_indiv_relationship = arguments.biol_indiv_relationship>
+	<cfset variables.target_collection_object_id = arguments.target_collection_object_id>
+	<cfset variables.biol_indiv_relation_remarks = arguments.biol_indiv_relation_remarks>
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="updateRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateRelation_result">
+				UPDATE biol_indiv_relations
+				SET
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">,
+					biol_indiv_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.biol_indiv_relationship#">,
+					related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.target_collection_object_id#">,
+					biol_indiv_relation_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.biol_indiv_relation_remarks#">
+				WHERE biol_indiv_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.biol_indiv_relations_id#">
+			</cfquery>
+			<cfif updateRelation_result.recordcount NEQ 1>
+				<cfthrow message="Error: Other than one record updated.">
+			</cfif>
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#variables.biol_indiv_relations_id#">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
+<!--- ** function deleteBiolIndivRelation  
+ * Deletes a relationship between two collection objects.
+ * @param biol_indiv_relations_id - the id of the relationship to update
+ * @return JSON object with status and id of the deleted relationship
+--->
+<cffunction name="deleteBiolIndivRelation" returntype="any" access="remote" returnformat="json">
+	<cfargument name="biol_indiv_relations_id" type="string" required="yes">
+	<cfset variables.biol_indiv_relations_id = arguments.biol_indiv_relations_id>
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="deleteRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteRelation_result">
+				DELETE FROM biol_indiv_relations
+				WHERE biol_indiv_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.biol_indiv_relations_id#">
+			</cfquery>
+			<cfif deleteRelation_result.recordcount NEQ 1>
+				<cfthrow message="Error: Other than one record deleted">
+			</cfif>
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#variables.biol_indiv_relations_id#">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
+<!--- Function to get the HTML for viewing transactions related to a collection object, transactions aren't editable from here.
+ * @param collection_object_id - the collection object id of the cataloged item for which to show transactions
+ * @return HTML string for the view transactions form
+--->
+<cffunction name="getViewTransactionsHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+
+	<cfthread name="getEditTransactionsThread">
+		<cfoutput>
 			<cftry>
 				<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	SELECT
-		cataloged_item.collection_object_id,
-		cataloged_item.cat_num,
-		accn.accn_number,
-		preferred_agent_name.agent_name,
-		collector.coll_order,
-		geog_auth_rec.higher_geog,
-		locality.spec_locality,
-		collecting_event.verbatim_date,
-		identification.scientific_name,
-		collection.institution_acronym,
-		trans.institution_acronym transInst,
-		trans.transaction_id,
-		collection.collection,
-		a_coll.collection accnColln
-	FROM
-		cataloged_item,
-		accn,
-		trans,
-		collecting_event,
-		locality,
-		geog_auth_rec,
-		collector,
-		preferred_agent_name,
-		identification,
-		collection,
-		collection a_coll
-	WHERE
-		cataloged_item.accn_id = accn.transaction_id AND
-		accn.transaction_id = trans.transaction_id AND
-		trans.collection_id=a_coll.collection_id and
-		cataloged_item.collection_object_id = collector.collection_object_id AND
-		collector.agent_id = preferred_agent_name.agent_id AND
-		collector_role='c' AND
-		cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-		cataloged_item.collection_id = collection.collection_id AND
-		collecting_event.locality_id = locality.locality_id AND
-		locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-		cataloged_item.collection_object_id = identification.collection_object_id AND
-		identification.accepted_id_fg = 1 AND
-		cataloged_item.collection_object_id = 
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-	ORDER BY cataloged_item.collection_object_id
-	</cfquery>
+					SELECT
+						cataloged_item.collection_object_id,
+						cataloged_item.cat_num,
+						cataloged_item.collection_cde
+						accn.accn_number,
+						accn.transaction_id accn_id,
+						geog_auth_rec.higher_geog,
+						locality.spec_locality,
+						collecting_event.verbatim_date,
+  						GET_SCIENTIFIC_NAME_AUTHS(cataloged_item.collection_object_id) scientific_name,
+						collection.institution_acronym,
+						trans.institution_acronym transInst,
+						trans.transaction_id,
+						collection.collection,
+						a_coll.collection accnColl,
+						GET_COLLECTORSTYPEDNAME(cataloged_item.collection_object_id) collectors
+					FROM
+						cataloged_item
+						join collection on cataloged_item.collection_id = collection.collection_id 
+						join accn on cataloged_item.accn_id = accn.transaction_id
+						join trans on accn.transaction_id = trans.transaction_id 
+						join collection a_coll on trans.collection_id=a_coll.collection_id 
+						join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+						join locality collecting_event.locality_id = locality.locality_id 
+						join geog_auth_rec locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+					WHERE
+						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+				</cfquery>
+				<cfset guid = "#getItems.institution_acronym#:#getItems.collection_cde#:#getItems.cat_num#">
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 					<cfset oneOfUs = 1>
 					<cfelse>
 					<cfset oneOfUs = 0>
 				</cfif>
-				<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	SELECT
-		cataloged_item.collection_object_id as collection_object_id,
-		cataloged_item.cat_num,
-		collection.collection_cde,
-		cataloged_item.accn_id,
-		collection.collection,
-		identification.scientific_name,
-		identification.identification_remarks,
-		identification.identification_id,
-		identification.made_date,
-		identification.nature_of_id,
-		collecting_event.collecting_event_id,
-        collecting_event.began_date,
-        collecting_event.ended_date,
-        collecting_event.verbatim_date,
-		collecting_event.startDayOfYear,
-		collecting_event.endDayOfYear,
-		collecting_event.habitat_desc,
-        collecting_event.coll_event_remarks,
-		locality.locality_id,
-		locality.minimum_elevation,
-		locality.maximum_elevation,
-		locality.orig_elev_units,
-        locality.spec_locality,
-        verbatimLatitude,
-        verbatimLongitude,
-		locality.sovereign_nation,
-		collecting_event.verbatimcoordinates,
-		collecting_event.verbatimlatitude verblat,
-		collecting_event.verbatimlongitude verblong,
-		collecting_event.verbatimcoordinatesystem,
-		collecting_event.verbatimSRS,
-		accepted_lat_long.dec_lat,
-		accepted_lat_long.dec_long,
-		accepted_lat_long.max_error_distance,
-		accepted_lat_long.max_error_units,
-		accepted_lat_long.determined_date latLongDeterminedDate,
-		accepted_lat_long.lat_long_ref_source,
-		accepted_lat_long.lat_long_remarks,
-		accepted_lat_long.datum,
-		latLongAgnt.agent_name latLongDeterminer,
-		geog_auth_rec.geog_auth_rec_id,
-		geog_auth_rec.continent_ocean,
-		geog_auth_rec.country,
-		geog_auth_rec.state_prov,
-		geog_auth_rec.quad,
-		geog_auth_rec.county,
-		geog_auth_rec.island,
-		geog_auth_rec.island_group,
-		geog_auth_rec.sea,
-		geog_auth_rec.feature,
-		coll_object.coll_object_entered_date,
-		coll_object.last_edit_date,
-		coll_object.flags,
-		coll_object_remark.coll_object_remarks,
-		coll_object_remark.disposition_remarks,
-		coll_object_remark.associated_species,
-		coll_object_remark.habitat,
-		enteredPerson.agent_name EnteredBy,
-		editedPerson.agent_name EditedBy,
-		accn.transaction_id Accession,
-		concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
-		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
-		locality.locality_remarks,
-        collecting_event.verbatim_locality,
-		collecting_time,
-		fish_field_number,
-		min_depth,
-		max_depth,
-		depth_units,
-		collecting_method,
-		collecting_source,
-		specimen_part.derived_from_cat_item,
-		decode(trans.transaction_id, null, 0, 1) vpdaccn
-	FROM
-		cataloged_item,
-		collection,
-		identification,
-		collecting_event,
-		locality,
-		accepted_lat_long,
-		preferred_agent_name latLongAgnt,
-		geog_auth_rec,
-		coll_object,
-		coll_object_remark,
-		preferred_agent_name enteredPerson,
-		preferred_agent_name editedPerson,
-		accn,
-		trans,
-		specimen_part
-	WHERE
-		cataloged_item.collection_id = collection.collection_id AND
-		cataloged_item.collection_object_id = identification.collection_object_id AND
-		identification.accepted_id_fg = 1 AND
-		cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-		collecting_event.locality_id = locality.locality_id  AND
-		locality.locality_id = accepted_lat_long.locality_id (+) AND
-		accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id (+) AND
-		locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-		cataloged_item.collection_object_id = coll_object.collection_object_id AND
-		coll_object.collection_object_id = coll_object_remark.collection_object_id (+) AND
-		coll_object.entered_person_id = enteredPerson.agent_id AND
-		coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
-		cataloged_item.accn_id =  accn.transaction_id  AND
-		accn.transaction_id = trans.transaction_id(+) AND
-		cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
-		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-</cfquery>
 				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 					SELECT 
 						media.media_id,
@@ -6053,24 +6735,12 @@ function showLLFormat(orig_units) {
 								</thead>
 								<tbody>
 									<tr>
-										<td>#getItems.collection# #one.cat_num#</td>
+										<td>#getItems.collection# #getItems.cat_num#</td>
 										<td>#getItems.scientific_name#</td>
 										<td><a href="Specimens.cfm?Accn_trans_id=#getItems.transaction_id#" target="_top">#getItems.accnColln# #getItems.Accn_number#</a></td>
-										<td><cfquery name="getAgent" dbtype="query">
-				select agent_name, coll_order 
-				from getItems 
-				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
-				order by coll_order
-			</cfquery>
-											<cfset colls = "">
-											<cfloop query="getAgent">
-												<cfif len(#colls#) is 0>
-													<cfset colls = #getAgent.agent_name#>
-													<cfelse>
-													<cfset colls = "#colls#, #getAgent.agent_name#">
-												</cfif>
-											</cfloop>
-#colls# 											</td>
+										<td>
+											#getItems.collectors# 											
+										</td>
 										<td>#getItems.higher_geog#</td>
 										<td>#getItems.spec_locality#</td>
 										<td>#getItems.verbatim_date#</td>
@@ -6083,9 +6753,10 @@ function showLLFormat(orig_units) {
 								<li class="list-group-item">
 									<h5 class="mb-0 d-inline-block">Accession:</h5>
 									<cfif oneOfUs is 1>
-										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#getItems.accn_number#</a>
-										<cfelse>
-#getItems.accn_number#
+										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#getItems.accn_id#" target="_blank">#gpetItems.accn_number#</a>
+										<button type="button" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage)">Edit</button>
+									<cfelse>
+										#getItems.accn_number#
 									</cfif>
 									<cfif accnMedia.recordcount gt 0>
 										<cfloop query="accnMedia">
@@ -6096,13 +6767,14 @@ function showLLFormat(orig_units) {
 									</cfif>
 								</li>
 								<!--------------------  Project / Usage ------------------------------------>
+								<!--- TODO: Only lists projects for accessions, not other transactions --->
 								<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT 
 										project_name, project.project_id project_id 
 									FROM
 										project left join project_trans on project.project_id = project_trans.project_id
 									WHERE
-										project_trans.transaction_id = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
+										project_trans.transaction_id = <cfqueryparam value="#getItems.accn_id#" cfsqltype="CF_SQL_DECIMAL">
 									GROUP BY project_name, project.project_id
 								</cfquery>
 								<cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -6114,7 +6786,7 @@ function showLLFormat(orig_units) {
 										project_trans,
 										specimen_part 
 									WHERE 
-										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> AND
+										specimen_part.derived_from_cat_item = <cfqueryparam value="#getItems.collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> AND
 										loan_item.transaction_id=project_trans.transaction_id AND
 										project_trans.project_id=project.project_id AND
 										specimen_part.collection_object_id = loan_item.collection_object_id 
@@ -6128,7 +6800,7 @@ function showLLFormat(orig_units) {
 										loan_item,specimen_part 
 									WHERE 
 										loan_item.collection_object_id=specimen_part.collection_object_id AND
-										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+										specimen_part.derived_from_cat_item = <cfqueryparam value="#getItems.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
 								<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT 
@@ -6138,7 +6810,7 @@ function showLLFormat(orig_units) {
 										left join loan on loan_item.transaction_id = loan.transaction_id
 									WHERE
 										loan_number is not null AND
-										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+										specimen_part.derived_from_cat_item = <cfqueryparam value="#getItems.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
 								<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT 
@@ -6146,7 +6818,7 @@ function showLLFormat(orig_units) {
 									FROM
 										specimen_part left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
 									WHERE
-										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+										specimen_part.derived_from_cat_item = <cfqueryparam value="#getItems.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
 								<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT 
@@ -6156,8 +6828,9 @@ function showLLFormat(orig_units) {
 										left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
 									where
 										deacc_number is not null AND
-										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+										specimen_part.derived_from_cat_item = <cfqueryparam value="#getItems.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
+								<!--- TODO: Cleanup, logic entangles different concepts --->
 								<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or (oneOfUs is 1 and isLoanedItem.collection_object_id gt 0) or (oneOfUs is 1 and isDeaccessionedItem.collection_object_id gt 0)>
 									<cfloop query="isProj">
 										<li class="list-group-item">

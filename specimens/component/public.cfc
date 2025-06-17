@@ -1654,24 +1654,25 @@ limitations under the License.
 				<cfif len(relns.biol_indiv_relationship) gt 0 >
 					<ul class="list-group">
 						<cfloop query="relns">
-							<li class="list-group-item pt-0 pb-1"><span class="text-capitalize">#biol_indiv_relationship#</span> 
-								<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_coll_cde#&cat_num=#relns.related_cat_num#">
-									#related_collection# #related_cat_num# 
-								</a>
-								<cfif len(relns.biol_indiv_relation_remarks) gt 0>
-									(Remark: #biol_indiv_relation_remarks#)
-								</cfif>
-							</li>
+							<cfquery name="lookupGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="named_groups">
+								SELECT flat.guid
+								FROM
+									<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+								WHERE
+									flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relns.related_coll_object_id#">
+							</cfquery>
+							<cfif lookupGuid.recordcount GT 0>
+								<li class="list-group-item pt-0 pb-1">
+									<span class="text-capitalize">#biol_indiv_relationship#</span> 
+									<a href="/guid/#lookupGuid.guid#">#lookupGuid.guid#</a>
+									<cfif len(relns.biol_indiv_relation_remarks) gt 0>
+										(#biol_indiv_relation_remarks#)
+									</cfif>
+								</li>
+							</cfif>
 						</cfloop>
-						<cfquery name="lookupGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="named_groups">
-							SELECT flat.guid
-							FROM
-								<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
-							WHERE
-								flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-						</cfquery>
-						<li class="pb-1 pt-0 list-group-item">
-							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=BIOL_INDIV_RELATIONS%3ARELATED_COLL_OBJECT_ID&searchText1=#lookupGuid.guid#&searchId1=#collection_object_id#">List of Related Specimens</a>
+						<li>
+							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=BIOL_INDIV_RELATIONS%3ARELATED_COLL_OBJECT_ID&searchText1=#lookupGuid.guid#&searchId1=#collection_object_id#" target="_blank">All Related Specimens</a>
 						</li>
 					</ul>
 				<cfelse>

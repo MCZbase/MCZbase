@@ -2429,11 +2429,20 @@ Function getCatalogedItemAutocompleteMeta.  Search for specimens with a substrin
 			FROM
 				#session.flatTableName# f
 			WHERE
+				(
 				f.guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#arguments.term#%">
 				OR
 				f.scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#arguments.term#%">
 				OR
 				f.spec_locality like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#arguments.term#%">
+				)
+			ORDER BY 
+				f.guid
+			<cfif REFind("^MCZ:[A-Za-z:]+$", arguments.term)>
+				FETCH FIRST 10 ROWS ONLY
+			<cfelse>
+				FETCH FIRST 100 ROWS ONLY
+			</cfif>
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
