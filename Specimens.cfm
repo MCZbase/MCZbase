@@ -3445,7 +3445,7 @@ Target JSON:
 				
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					
-					$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
+					
 						$("##fixedsearchResultsGrid").attr('tabindex', 0);
 
 						// Set all interactive descendants to non-tabbable
@@ -3458,7 +3458,7 @@ Target JSON:
 						$("##fixedsearchResultsGrid").focus();
 
 						// The rest of your existing logic...
-					});
+				
 					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
