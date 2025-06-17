@@ -542,7 +542,7 @@ limitations under the License.
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)">Collectors</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditTransactionsDialog(110406,'transactionsDialog','#guid#',reloadTransactions)">Transactions</button>
+						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openViewTransactionsDialog(110406,'transactionsDialog','#guid#',reloadTransactions)">Transactions</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditNamedGroupsDialog(#collection_object_id#,'NamedGroupsDialog','#guid#',reloadNamedGroups)">Named&nbsp;Groups</button>
@@ -1042,7 +1042,7 @@ limitations under the License.
 										Transactions
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditTransactionsDialog(#collection_object_id#,'transactionsDialog','#guid#',reloadTransactions)">
+										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openViewTransactionsDialog(#collection_object_id#,'transactionsDialog','#guid#',reloadTransactions)">
 											View
 										</a>
 									</cfif>

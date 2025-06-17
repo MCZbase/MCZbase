@@ -646,3 +646,22 @@ function saveRemarks(collection_object_id,coll_object_remarks,disposition_remark
 		dataType: "json"
 	});
 } 
+
+function openViewTransactionsDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Transactions for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getViewTransactionsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Transactions dialog");
+		},
+		dataType: "html"
+	});
+};

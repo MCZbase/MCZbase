@@ -6656,7 +6656,7 @@ function showLLFormat(orig_units) {
  * @param collection_object_id - the collection object id of the cataloged item for which to show transactions
  * @return HTML string for the view transactions form
 --->
-<cffunction name="getEditTransactionsHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getViewTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
 	<cfset variables.collection_object_id = arguments.collection_object_id>

@@ -698,24 +698,6 @@ function loadTransactions(collection_object_id,targetDivId) {
 	});
 }
 
-function openEditTransactionsDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Transactions for " + guid;
-	createSpecimenEditDialog(dialogId,title,callback);
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getEditTransactionsHTML",
-			collection_object_id: collection_object_id,
-		},
-		success: function (result) {
-			$("#" + dialogId + "_div").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit Transactions dialog");
-		},
-		dataType: "html"
-	});
-};
 
 function loadPreparators(collection_object_id,targetDivId) { 
 	jQuery.ajax({
