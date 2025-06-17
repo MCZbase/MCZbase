@@ -6804,10 +6804,13 @@ function showLLFormat(orig_units) {
 								</cfquery>
 								<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT 
-										distinct loan_number, loan_type, loan_status, loan.transaction_id 
+										distinct loan_number, loan_type, loan_status, loan.transaction_id, 
+										specimen_part.part_name, specimen_part.preserve_method,
+										coll_object.coll_obj_disposition
 									FROM
 										specimen_part left join loan_item on specimen_part.collection_object_id=loan_item.collection_object_id
-										left join loan on loan_item.transaction_id = loan.transaction_id
+										join loan on loan_item.transaction_id = loan.transaction_id
+										join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 									WHERE
 										loan_number is not null AND
 										specimen_part.derived_from_cat_item = <cfqueryparam value="#getItems.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
@@ -6855,7 +6858,7 @@ function showLLFormat(orig_units) {
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 											<cfloop query="loanList">
 												<ul class="d-block">
-													<li class="d-block">#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#)</li>
+													<li class="d-block">#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#) #loan_list.part_name# (#loan_list.preserve_method#) #loan-list.coll_obj_disposition#</li>
 												</ul>
 											</cfloop>
 										</cfif>
