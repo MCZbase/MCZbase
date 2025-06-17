@@ -3386,8 +3386,8 @@ Target JSON:
 					autoshowloadelement: false,  // overlay acts as load element for form+results
 					columnsreorder: true,
 					groupable: true,
-					selectionmode: '#defaultSelectionMode#',
-					enablebrowserselection: #defaultenablebrowserselection#,
+					selectionmode: 'singlecell',
+					//enablebrowserselection: #defaultenablebrowserselection#,
 					altrows: true,
 					showtoolbar: false,
 					ready: function () {
