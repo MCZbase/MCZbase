@@ -1503,7 +1503,7 @@ limitations under the License.
 
 														<label class="data-entry-label d-inline w-auto mt-1" for="fixedselectMode">Grid Select:</label>
 														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="fixedchangeSelectMode();">
-															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="none">Text</option>
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="singlecell">Single Cell</option>
@@ -3373,6 +3373,8 @@ Target JSON:
 					filterable: false,
 					sortable: true,
 					pageable: true,
+					keyboardnavigation: true,
+					selectionmode: 'singlerow',
 					editable: false,
 					virtualmode: true,
 					enablemousewheel: #session.gridenablemousewheel#,
@@ -3385,8 +3387,8 @@ Target JSON:
 					autoshowloadelement: false,  // overlay acts as load element for form+results
 					columnsreorder: true,
 					groupable: true,
-					selectionmode: '#defaultSelectionMode#',
-					enablebrowserselection: #defaultenablebrowserselection#,
+					//selectionmode: '#defaultSelectionMode#',
+					//enablebrowserselection: #defaultenablebrowserselection#,
 					altrows: true,
 					showtoolbar: false,
 					ready: function () {
@@ -3435,12 +3437,13 @@ Target JSON:
 					},
 					initrowdetails: initRowDetails
 				});
-	
+				
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
 						columnOrderChanged('fixedsearchResultsGrid'); 
 					}); 
 				</cfif>
+				$(##fixedsearchResultsGrid).attr("tabindex",0);
 
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 
@@ -3508,7 +3511,21 @@ Target JSON:
 					$("##fixedunselectrowindex").text(event.args.rowindex);
 				});
 			});
-			/* End Setup jqxgrid for keyword Search ****************************************************************************************/
+		
+				$('##fixedsearchResultsGrid').on('bindingcomplete', function() {
+					setTimeout(function() {
+						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+						var firstCol = columns.length ? columns[0].datafield : null;
+						if (firstCol) {
+							$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, firstCol);
+						}
+						$('##fixedsearchResultsGrid').focus();
+						// (Optional) Remove Pager from tab order:
+						$('.jqx-grid-pager').attr('tabindex', -1);
+						$('.jqx-grid-pager [tabindex]').attr('tabindex', -1);
+					}, 10);
+				});
+			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
 	 
 			
 			/* Setup jqxgrid for keyword Search */
