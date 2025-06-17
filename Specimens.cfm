@@ -1491,7 +1491,7 @@ limitations under the License.
 													<div id="fixedselectModeContainer" class="ml-3" style="display: none;" >
 														<script>
 															function fixedchangeSelectMode(){
-																var selmode = $("##fixedselectMode").val();
+																var selmode = $("singlecell").val();
 																$("##fixedsearchResultsGrid").jqxGrid({selectionmode: selmode});
 																if (selmode=="singlecell") { 
 																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
