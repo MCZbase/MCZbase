@@ -3436,7 +3436,7 @@ Target JSON:
 					},
 					initrowdetails: initRowDetails
 				});
-		$("##fixedsearchResultsGrid").attr('tabindex',5);
+		$("##fixedsearchResultsGrid").attr('tabindex',0);
 	
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
