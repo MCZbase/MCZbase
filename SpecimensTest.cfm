@@ -160,21 +160,177 @@
 								</div>
 <div id="testGrid"></div>
 <script>
-var data = [ { name: "A", age: 1 }, { name: "B", age: 2 } ];
-var source = { datatype: "array", localdata: data };
-var dataAdapter = new $.jqx.dataAdapter(source);
+//var data = [ { name: "A", age: 1 }, { name: "B", age: 2 } ];
+//var source = { datatype: "array", localdata: data };
+//var dataAdapter = new $.jqx.dataAdapter(source);
 
-$("#fixedsearchResultsGrid").jqxGrid({
-    width: 300,
-    autoheight: true,
-    source: dataAdapter,
-    selectionmode: "singlecell",
-    keyboardnavigation: true,
-    columns: [
-        { text: "Name", datafield: "name", width: 150 },
-        { text: "Age", datafield: "age", width: 150 }
-    ]
-});
+	$("##fixedsearchResultsGrid").jqxGrid({
+					width: '100%',
+					autoheight: 'true',
+					source: dataAdapter,
+					filterable: false,
+					sortable: true,
+					pageable: true,
+					editable: false,
+					virtualmode: true,
+					enablemousewheel: #session.gridenablemousewheel#,
+					keyboardnavigation: true,
+					pagesize: '#session.specimens_pagesize#',
+					pagesizeoptions: ['5','10','25','50','100','500'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
+					showaggregates: true,
+					columnsresize: true,
+					autoshowfiltericon: true,
+					autoshowcolumnsmenubutton: false,
+					autoshowloadelement: false,  // overlay acts as load element for form+results
+					columnsreorder: true,
+					groupable: true,
+					selectionmode: 'singlecell',
+					//enablebrowserselection: #defaultenablebrowserselection#,
+					altrows: true,
+					showtoolbar: false,
+//					ready: function () {
+//						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
+//						$("##fixedsearchResultsGrid").jqxGrid('focus');
+//					},
+					rendergridrows: function () {
+						return dataAdapter.records;
+					},
+					columns: [
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+							<cfif isdefined("session.killRow") AND session.killRow GT 0>
+								<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
+								#removerow#
+							</cfif>
+						</cfif>
+						<cfset lastrow ="">
+						<cfloop query="getFieldMetadata">
+							<cfset cellrenderer = "">
+							<cfif len(getFieldMetadata.cellsrenderer) GT 0>
+								<cfif left(getFieldMetadata.cellsrenderer,1) EQ "_"> 
+									<cfset cellrenderer = " cellsrenderer:fixed#getFieldMetadata.cellsrenderer#,">
+								<cfelse>
+									<cfset cellrenderer = " cellsrenderer:#getFieldMetadata.cellsrenderer#,">
+								</cfif>
+							</cfif> 
+							<cfif ucase(data_type) EQ 'DATE'>
+								<cfset filtertype = " filtertype: 'date',">
+							<cfelse>
+								<cfset filtertype = "">
+							</cfif>
+							<cfif ucase(column_name) EQ lastcolumn>
+								<!--- last column, no trailing comma --->
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: fixedcellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#), editable: false }">
+							<cfelse> 
+								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: fixedcellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
+							</cfif>
+						</cfloop>
+						#lastrow#
+					],
+					
+					rowdetails: true,
+					rowdetailstemplate: {
+						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+						rowdetailsheight:  1 // row details will be placed in popup dialog
+					},
+					initrowdetails: initRowDetails
+				});
+
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+						columnOrderChanged('fixedsearchResultsGrid'); 
+					}); 
+				</cfif>
+				
+				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
+					
+					
+						$("##fixedsearchResultsGrid").attr('tabindex', 0);
+
+						// Set all interactive descendants to non-tabbable
+						$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
+
+						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+						if (columns && columns.length > 0) {
+							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+						}
+						$("##fixedsearchResultsGrid").focus();
+
+						// The rest of your existing logic...
+						$("##fixedsearchResultsGrid").on('focusin', function(event) {
+							// Check if any cell is already selected
+							var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
+								var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+								if (columns && columns.length > 0) {
+									$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+								}
+							}
+						});
+					
+					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
+						if (document <= 900){
+							$(document).scrollTop(200);
+						} else {
+							$(document).scrollTop(480);
+						}
+					</cfif>
+			
+					// add a link out to this search, serializing the form as http get parameters
+					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
+					$('##fixedshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'fixed\'); "><i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
+					if (fixedSearchLoaded==0) { 
+						try { 
+							gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+						} catch (e) { 
+							console.log(e);
+							messageDialog("Error in gridLoaded handler:" + e.message,"Error in gridLoaded");
+						}
+						fixedSearchLoaded = 1;
+						loadColumnOrder('fixedsearchResultsGrid');
+					}
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
+					<cfelse>
+						$('##fixedmanageButton').html('');
+					</cfif>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+						<cfif isdefined("session.killRow") AND session.killRow EQ 2>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+								$('##fixedremoveButtonDiv').html('<button id="fixedremoveButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" disabled onclick="removeFixedSelectedRows(); " >Remove Checked</a>');
+							<cfelse>
+								$('##fixedremoveButtonDiv').html('');
+							</cfif>
+						</cfif>
+					</cfif>
+					pageLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
+						console.log(#session.specimens_pin_guid#);
+						setPinColumnState('fixedsearchResultsGrid','GUID',true);
+					</cfif>
+				});
+				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
+					//  Create a content div, add it to the detail row, and make it into a dialog.
+					var args = event.args;
+					var rowIndex = args.rowindex;
+					var datarecord = args.owner.source.records[rowIndex];
+					console.log(rowIndex);
+					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
+				});
+				$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
+					// remove the dialog holding the row details
+					var args = event.args;
+					var rowIndex = args.rowindex;
+					$("##fixedsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+				});
+				// display selected row index.
+				$("##fixedsearchResultsGrid").on('rowselect', function (event) {
+					$("##fixedselectrowindex").text(event.args.rowindex);
+				});
+				// display unselected row index.
+				$("##fixedsearchResultsGrid").on('rowunselect', function (event) {
+					$("##fixedunselectrowindex").text(event.args.rowindex);
+				});
+			});
 </script>
 
 							
