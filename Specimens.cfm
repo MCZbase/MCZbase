@@ -3444,15 +3444,17 @@ Target JSON:
 				</cfif>
 				
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-					$("##fixedsearchResultsGrid").attr('tabindex', 0);
-					// Find the first column
-					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-					if (columns && columns.length > 0) {
-						$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
-					}
+		$('#fixedsearchResultsGrid').attr('tabindex', 0);
 
-					// Focus the grid
-					$("##fixedsearchResultsGrid").focus();
+var columns = $('#fixedsearchResultsGrid').jqxGrid('columns').records;
+if (columns && columns.length > 0) {
+    $('#fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[0].datafield);
+}
+
+$('#fixedsearchResultsGrid').focus();
+
+// REMOVE tab stops from all inner links/buttons/inputs unless in edit mode:
+$('#fixedsearchResultsGrid').find('a, button, input').attr('tabindex', -1);
 					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
