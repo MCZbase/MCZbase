@@ -3454,7 +3454,16 @@ Target JSON:
 							$(document).scrollTop(480);
 						}
 					</cfif>
-			
+					function() {
+						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+						if (columns) {
+							$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns);
+						}
+						$('##fixedsearchResultsGrid').focus();
+						// (Optional) Remove Pager from tab order:
+						$('.jqx-grid-pager').attr('tabindex', -1);
+						$('.jqx-grid-pager [tabindex]').attr('tabindex', -1);
+					};
 					// add a link out to this search, serializing the form as http get parameters
 					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 					$('##fixedshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'fixed\'); "><i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
@@ -3511,19 +3520,7 @@ Target JSON:
 					$("##fixedunselectrowindex").text(event.args.rowindex);
 				});
 			});
-		
-				$('##fixedsearchResultsGrid').on('bindingcomplete', function() {
-					function() {
-						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
-						if (columns) {
-							$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns);
-						}
-						$('##fixedsearchResultsGrid').focus();
-						// (Optional) Remove Pager from tab order:
-						$('.jqx-grid-pager').attr('tabindex', -1);
-						$('.jqx-grid-pager [tabindex]').attr('tabindex', -1);
-					};
-				});
+
 			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
 	 
 			
