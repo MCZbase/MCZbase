@@ -78,6 +78,7 @@
 	<script type="text/javascript" src="/taxonomy/js/taxonomy.js"></script>
 </head>
 <body>
+	<cfset action = 'fixedSearch'>
 	<div id="overlaycontainer" style="position: relative;">
 		<main id="content" class="container-fluid">
 			<div class="row mr-0 mr-md-3 mr-xl-5">
