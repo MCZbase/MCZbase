@@ -3445,21 +3445,20 @@ Target JSON:
 				
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					
-					
-					
-					$('##fixedsearchResultsGrid').attr('tabindex', 0);
+					$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
+						$("##fixedsearchResultsGrid").attr('tabindex', 0);
 
-						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+						// Set all interactive descendants to non-tabbable
+						$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
+
+						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
 						if (columns && columns.length > 0) {
-							$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[0].datafield);
+							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
 						}
+						$("##fixedsearchResultsGrid").focus();
 
-						$('##fixedsearchResultsGrid').focus();
-						$(".jqx-grid-pager").attr("tabindex", -1);
-						$(".jqx-grid-pager [tabindex]").attr("tabindex", -1);
-
-						// REMOVE tab stops from all inner links/buttons/inputs unless in edit mode:
-					$('##fixedsearchResultsGrid').find('a, button, input').attr('tabindex', -1);
+						// The rest of your existing logic...
+					});
 					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
