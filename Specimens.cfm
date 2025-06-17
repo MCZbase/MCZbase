@@ -3444,6 +3444,10 @@ if(columns.length) {
     $("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
 }
 $("##fixedsearchResultsGrid").focus();
+		
+		
+$(".jqx-grid-pager").attr("tabindex", -1);
+$(".jqx-grid-pager [tabindex]").attr("tabindex", -1);
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
 						columnOrderChanged('fixedsearchResultsGrid'); 
