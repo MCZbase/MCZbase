@@ -590,25 +590,6 @@ function addIdentAgentToForm (id,name,formid) {
 	});
 }
 
-function openEditRelationsDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Relationships for " + guid;
-	createSpecimenEditDialog(dialogId,title,callback);
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getEditRelationsHTML",
-			collection_object_id: collection_object_id,
-		},
-		success: function (result) {
-			$("#" + dialogId + "_div").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit Relationships dialog");
-		},
-		dataType: "html"
-	});
-};
-
 function loadAttributes(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
@@ -626,25 +607,6 @@ function loadAttributes(collection_object_id,targetDivId) {
 	});
 }
 
-function openEditAttributesDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Attributes for " + guid;
-	createSpecimenEditDialog(dialogId,title,callback);
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getEditAttributesHTML",
-			collection_object_id: collection_object_id
-		},
-		success: function (result) {
-			$("#" + dialogId + "_div").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit Attributes dialog");
-		},
-		dataType: "html"
-	});
-};
-
 function loadLocality(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
@@ -661,25 +623,6 @@ function loadLocality(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 }
-
-function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Locality and Collecting Event for " + guid;
-	createSpecimenEditDialog(dialogId,title,callback);
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getEditLocalityHTML",
-			collection_object_id: collection_object_id,
-		},
-		success: function (result) {
-			$("#" + dialogId + "_div").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit Locality dialog");
-		},
-		dataType: "html"
-	});
-};
 
 function loadTransactions(collection_object_id,targetDivId) { 
 	jQuery.ajax({
