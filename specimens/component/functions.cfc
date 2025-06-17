@@ -6830,6 +6830,7 @@ function showLLFormat(orig_units) {
 										deacc_number is not null AND
 										specimen_part.derived_from_cat_item = <cfqueryparam value="#getItems.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
+								<!--- TODO: Cleanup, logic entangles different concepts --->
 								<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or (oneOfUs is 1 and isLoanedItem.collection_object_id gt 0) or (oneOfUs is 1 and isDeaccessionedItem.collection_object_id gt 0)>
 									<cfloop query="isProj">
 										<li class="list-group-item">
