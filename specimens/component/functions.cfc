@@ -6652,173 +6652,179 @@ function showLLFormat(orig_units) {
 	<cfreturn serializeJSON(data)>
 </cffunction>
 
-<!--- Function to get the HTML for editing transactions related to a collection object 
+<!--- Function to get the HTML for viewing transactions related to a collection object, transactions aren't editable from here.
  * @param collection_object_id - the collection object id of the cataloged item for which to show transactions
- * @return HTML string for the edit transactions form
+ * @return HTML string for the view transactions form
 --->
 <cffunction name="getEditTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getEditTransactionsThread"> <cfoutput>
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+
+	<cfthread name="getEditTransactionsThread">
+		<cfoutput>
 			<cftry>
 				<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	SELECT
-		cataloged_item.collection_object_id,
-		cataloged_item.cat_num,
-		accn.accn_number,
-		preferred_agent_name.agent_name,
-		collector.coll_order,
-		geog_auth_rec.higher_geog,
-		locality.spec_locality,
-		collecting_event.verbatim_date,
-		identification.scientific_name,
-		collection.institution_acronym,
-		trans.institution_acronym transInst,
-		trans.transaction_id,
-		collection.collection,
-		a_coll.collection accnColln
-	FROM
-		cataloged_item,
-		accn,
-		trans,
-		collecting_event,
-		locality,
-		geog_auth_rec,
-		collector,
-		preferred_agent_name,
-		identification,
-		collection,
-		collection a_coll
-	WHERE
-		cataloged_item.accn_id = accn.transaction_id AND
-		accn.transaction_id = trans.transaction_id AND
-		trans.collection_id=a_coll.collection_id and
-		cataloged_item.collection_object_id = collector.collection_object_id AND
-		collector.agent_id = preferred_agent_name.agent_id AND
-		collector_role='c' AND
-		cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-		cataloged_item.collection_id = collection.collection_id AND
-		collecting_event.locality_id = locality.locality_id AND
-		locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-		cataloged_item.collection_object_id = identification.collection_object_id AND
-		identification.accepted_id_fg = 1 AND
-		cataloged_item.collection_object_id = 
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-	ORDER BY cataloged_item.collection_object_id
-	</cfquery>
+					SELECT
+						cataloged_item.collection_object_id,
+						cataloged_item.cat_num,
+						cataloged_item.collection_cde
+						accn.accn_number,
+						preferred_agent_name.agent_name,
+						collector.coll_order,
+						geog_auth_rec.higher_geog,
+						locality.spec_locality,
+						collecting_event.verbatim_date,
+						identification.scientific_name,
+						collection.institution_acronym,
+						trans.institution_acronym transInst,
+						trans.transaction_id,
+						collection.collection,
+						a_coll.collection accnColln
+					FROM
+						cataloged_item,
+						accn,
+						trans,
+						collecting_event,
+						locality,
+						geog_auth_rec,
+						collector,
+						preferred_agent_name,
+						identification,
+						collection,
+						collection a_coll
+					WHERE
+						cataloged_item.accn_id = accn.transaction_id AND
+						accn.transaction_id = trans.transaction_id AND
+						trans.collection_id=a_coll.collection_id and
+						cataloged_item.collection_object_id = collector.collection_object_id AND
+						collector.agent_id = preferred_agent_name.agent_id AND
+						collector_role='c' AND
+						cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
+						cataloged_item.collection_id = collection.collection_id AND
+						collecting_event.locality_id = locality.locality_id AND
+						locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
+						cataloged_item.collection_object_id = identification.collection_object_id AND
+						identification.accepted_id_fg = 1 AND
+						cataloged_item.collection_object_id = 
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					ORDER BY cataloged_item.collection_object_id
+				</cfquery>
+				<cfset guid = "#getItems.institution_acronym#:#getItems.collection_cde#:#getItems.cat_num#">
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 					<cfset oneOfUs = 1>
 					<cfelse>
 					<cfset oneOfUs = 0>
 				</cfif>
 				<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	SELECT
-		cataloged_item.collection_object_id as collection_object_id,
-		cataloged_item.cat_num,
-		collection.collection_cde,
-		cataloged_item.accn_id,
-		collection.collection,
-		identification.scientific_name,
-		identification.identification_remarks,
-		identification.identification_id,
-		identification.made_date,
-		identification.nature_of_id,
-		collecting_event.collecting_event_id,
-        collecting_event.began_date,
-        collecting_event.ended_date,
-        collecting_event.verbatim_date,
-		collecting_event.startDayOfYear,
-		collecting_event.endDayOfYear,
-		collecting_event.habitat_desc,
-        collecting_event.coll_event_remarks,
-		locality.locality_id,
-		locality.minimum_elevation,
-		locality.maximum_elevation,
-		locality.orig_elev_units,
-        locality.spec_locality,
-        verbatimLatitude,
-        verbatimLongitude,
-		locality.sovereign_nation,
-		collecting_event.verbatimcoordinates,
-		collecting_event.verbatimlatitude verblat,
-		collecting_event.verbatimlongitude verblong,
-		collecting_event.verbatimcoordinatesystem,
-		collecting_event.verbatimSRS,
-		accepted_lat_long.dec_lat,
-		accepted_lat_long.dec_long,
-		accepted_lat_long.max_error_distance,
-		accepted_lat_long.max_error_units,
-		accepted_lat_long.determined_date latLongDeterminedDate,
-		accepted_lat_long.lat_long_ref_source,
-		accepted_lat_long.lat_long_remarks,
-		accepted_lat_long.datum,
-		latLongAgnt.agent_name latLongDeterminer,
-		geog_auth_rec.geog_auth_rec_id,
-		geog_auth_rec.continent_ocean,
-		geog_auth_rec.country,
-		geog_auth_rec.state_prov,
-		geog_auth_rec.quad,
-		geog_auth_rec.county,
-		geog_auth_rec.island,
-		geog_auth_rec.island_group,
-		geog_auth_rec.sea,
-		geog_auth_rec.feature,
-		coll_object.coll_object_entered_date,
-		coll_object.last_edit_date,
-		coll_object.flags,
-		coll_object_remark.coll_object_remarks,
-		coll_object_remark.disposition_remarks,
-		coll_object_remark.associated_species,
-		coll_object_remark.habitat,
-		enteredPerson.agent_name EnteredBy,
-		editedPerson.agent_name EditedBy,
-		accn.transaction_id Accession,
-		concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
-		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
-		locality.locality_remarks,
-        collecting_event.verbatim_locality,
-		collecting_time,
-		fish_field_number,
-		min_depth,
-		max_depth,
-		depth_units,
-		collecting_method,
-		collecting_source,
-		specimen_part.derived_from_cat_item,
-		decode(trans.transaction_id, null, 0, 1) vpdaccn
-	FROM
-		cataloged_item,
-		collection,
-		identification,
-		collecting_event,
-		locality,
-		accepted_lat_long,
-		preferred_agent_name latLongAgnt,
-		geog_auth_rec,
-		coll_object,
-		coll_object_remark,
-		preferred_agent_name enteredPerson,
-		preferred_agent_name editedPerson,
-		accn,
-		trans,
-		specimen_part
-	WHERE
-		cataloged_item.collection_id = collection.collection_id AND
-		cataloged_item.collection_object_id = identification.collection_object_id AND
-		identification.accepted_id_fg = 1 AND
-		cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-		collecting_event.locality_id = locality.locality_id  AND
-		locality.locality_id = accepted_lat_long.locality_id (+) AND
-		accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id (+) AND
-		locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-		cataloged_item.collection_object_id = coll_object.collection_object_id AND
-		coll_object.collection_object_id = coll_object_remark.collection_object_id (+) AND
-		coll_object.entered_person_id = enteredPerson.agent_id AND
-		coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
-		cataloged_item.accn_id =  accn.transaction_id  AND
-		accn.transaction_id = trans.transaction_id(+) AND
-		cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
-		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-</cfquery>
+					SELECT
+						cataloged_item.collection_object_id as collection_object_id,
+						cataloged_item.cat_num,
+						collection.collection_cde,
+						cataloged_item.accn_id,
+						collection.collection,
+						identification.scientific_name,
+						identification.identification_remarks,
+						identification.identification_id,
+						identification.made_date,
+						identification.nature_of_id,
+						collecting_event.collecting_event_id,
+				        collecting_event.began_date,
+				        collecting_event.ended_date,
+				        collecting_event.verbatim_date,
+						collecting_event.startDayOfYear,
+						collecting_event.endDayOfYear,
+						collecting_event.habitat_desc,
+				        collecting_event.coll_event_remarks,
+						locality.locality_id,
+						locality.minimum_elevation,
+						locality.maximum_elevation,
+						locality.orig_elev_units,
+				        locality.spec_locality,
+				        verbatimLatitude,
+				        verbatimLongitude,
+						locality.sovereign_nation,
+						collecting_event.verbatimcoordinates,
+						collecting_event.verbatimlatitude verblat,
+						collecting_event.verbatimlongitude verblong,
+						collecting_event.verbatimcoordinatesystem,
+						collecting_event.verbatimSRS,
+						accepted_lat_long.dec_lat,
+						accepted_lat_long.dec_long,
+						accepted_lat_long.max_error_distance,
+						accepted_lat_long.max_error_units,
+						accepted_lat_long.determined_date latLongDeterminedDate,
+						accepted_lat_long.lat_long_ref_source,
+						accepted_lat_long.lat_long_remarks,
+						accepted_lat_long.datum,
+						latLongAgnt.agent_name latLongDeterminer,
+						geog_auth_rec.geog_auth_rec_id,
+						geog_auth_rec.continent_ocean,
+						geog_auth_rec.country,
+						geog_auth_rec.state_prov,
+						geog_auth_rec.quad,
+						geog_auth_rec.county,
+						geog_auth_rec.island,
+						geog_auth_rec.island_group,
+						geog_auth_rec.sea,
+						geog_auth_rec.feature,
+						coll_object.coll_object_entered_date,
+						coll_object.last_edit_date,
+						coll_object.flags,
+						coll_object_remark.coll_object_remarks,
+						coll_object_remark.disposition_remarks,
+						coll_object_remark.associated_species,
+						coll_object_remark.habitat,
+						enteredPerson.agent_name EnteredBy,
+						editedPerson.agent_name EditedBy,
+						accn.transaction_id Accession,
+						concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
+						concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
+						locality.locality_remarks,
+				        collecting_event.verbatim_locality,
+						collecting_time,
+						fish_field_number,
+						min_depth,
+						max_depth,
+						depth_units,
+						collecting_method,
+						collecting_source,
+						specimen_part.derived_from_cat_item,
+						decode(trans.transaction_id, null, 0, 1) vpdaccn
+					FROM
+						cataloged_item,
+						collection,
+						identification,
+						collecting_event,
+						locality,
+						accepted_lat_long,
+						preferred_agent_name latLongAgnt,
+						geog_auth_rec,
+						coll_object,
+						coll_object_remark,
+						preferred_agent_name enteredPerson,
+						preferred_agent_name editedPerson,
+						accn,
+						trans,
+						specimen_part
+					WHERE
+						cataloged_item.collection_id = collection.collection_id AND
+						cataloged_item.collection_object_id = identification.collection_object_id AND
+						identification.accepted_id_fg = 1 AND
+						cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
+						collecting_event.locality_id = locality.locality_id  AND
+						locality.locality_id = accepted_lat_long.locality_id (+) AND
+						accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id (+) AND
+						locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
+						cataloged_item.collection_object_id = coll_object.collection_object_id AND
+						coll_object.collection_object_id = coll_object_remark.collection_object_id (+) AND
+						coll_object.entered_person_id = enteredPerson.agent_id AND
+						coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
+						cataloged_item.accn_id =  accn.transaction_id  AND
+						accn.transaction_id = trans.transaction_id(+) AND
+						cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
+						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
 				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 					SELECT 
 						media.media_id,
@@ -6858,12 +6864,13 @@ function showLLFormat(orig_units) {
 										<td>#getItems.collection# #one.cat_num#</td>
 										<td>#getItems.scientific_name#</td>
 										<td><a href="Specimens.cfm?Accn_trans_id=#getItems.transaction_id#" target="_top">#getItems.accnColln# #getItems.Accn_number#</a></td>
-										<td><cfquery name="getAgent" dbtype="query">
-				select agent_name, coll_order 
-				from getItems 
-				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
-				order by coll_order
-			</cfquery>
+										<td>
+											<cfquery name="getAgent" dbtype="query">
+												select agent_name, coll_order 
+												from getItems 
+												where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
+												order by coll_order
+											</cfquery>
 											<cfset colls = "">
 											<cfloop query="getAgent">
 												<cfif len(#colls#) is 0>
@@ -6872,7 +6879,8 @@ function showLLFormat(orig_units) {
 													<cfset colls = "#colls#, #getAgent.agent_name#">
 												</cfif>
 											</cfloop>
-#colls# 											</td>
+											#colls# 											
+										</td>
 										<td>#getItems.higher_geog#</td>
 										<td>#getItems.spec_locality#</td>
 										<td>#getItems.verbatim_date#</td>
@@ -6885,9 +6893,10 @@ function showLLFormat(orig_units) {
 								<li class="list-group-item">
 									<h5 class="mb-0 d-inline-block">Accession:</h5>
 									<cfif oneOfUs is 1>
-										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#getItems.accn_number#</a>
-										<cfelse>
-#getItems.accn_number#
+										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#gpetItems.accn_number#</a>
+										<button type="button" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage)">Edit</button>
+									<cfelse>
+										#getItems.accn_number#
 									</cfif>
 									<cfif accnMedia.recordcount gt 0>
 										<cfloop query="accnMedia">

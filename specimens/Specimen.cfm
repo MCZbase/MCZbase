@@ -1043,7 +1043,7 @@ limitations under the License.
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditTransactionsDialog(#collection_object_id#,'transactionsDialog','#guid#',reloadTransactions)">
-											Edit
+											View
 										</a>
 									</cfif>
 								</h3>
