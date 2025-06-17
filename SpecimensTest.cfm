@@ -32,7 +32,5 @@ $("#testGrid").jqxGrid({
 </script>
 
 							
-			
 
-</cfoutput>
 <cfinclude template="/shared/_footer.cfm">
