@@ -3390,7 +3390,8 @@ Target JSON:
 					
 					selectionmode: 'singlecell',
 					keyboardnavigation:true,
-					enablebrowserselection: #defaultenablebrowserselection#,
+					//enablebrowserselection: #defaultenablebrowserselection#,
+					enablebrowserselection: false,
 					altrows: true,
 					showtoolbar: false,
 					ready: function () {
