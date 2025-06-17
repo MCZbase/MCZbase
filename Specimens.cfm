@@ -1493,7 +1493,7 @@ limitations under the License.
 															function fixedchangeSelectMode(){
 																var selmode = $("##fixedselectMode").val();
 																$("##fixedsearchResultsGrid").jqxGrid({selectionmode: selmode});
-																if (selmode=="none") { 
+																if (selmode=="singlecell") { 
 																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
 																} else {
 																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
@@ -3435,6 +3435,7 @@ Target JSON:
 					},
 					initrowdetails: initRowDetails
 				});
+		$("##fixedsearchResultsGrid").attr('tabindex',0);
 	
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
