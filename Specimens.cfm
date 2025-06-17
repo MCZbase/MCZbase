@@ -1491,8 +1491,7 @@ limitations under the License.
 													<div id="fixedselectModeContainer" class="ml-3" style="display: none;" >
 														<script>
 															function fixedchangeSelectMode(){
-																//var selmode = $("##fixedselectMode").val();
-																var selmode = 'singlecell'
+																var selmode = $("##fixedselectMode").val();
 																$("##fixedsearchResultsGrid").jqxGrid({selectionmode: selmode});
 																if (selmode=="none") { 
 																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
@@ -3386,12 +3385,8 @@ Target JSON:
 					autoshowloadelement: false,  // overlay acts as load element for form+results
 					columnsreorder: true,
 					groupable: true,
-				//	selectionmode: '#defaultSelectionMode#',
-					
-					selectionmode: 'singlecell',
-					keyboardnavigation:true,
-					//enablebrowserselection: #defaultenablebrowserselection#,
-					enablebrowserselection: false,
+					selectionmode: '#defaultSelectionMode#',
+					enablebrowserselection: #defaultenablebrowserselection#,
 					altrows: true,
 					showtoolbar: false,
 					ready: function () {
