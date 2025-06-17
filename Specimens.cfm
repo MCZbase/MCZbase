@@ -1504,8 +1504,6 @@ limitations under the License.
 														<label class="data-entry-label d-inline w-auto mt-1" for="fixedselectMode">Grid Select:</label>
 														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="fixedchangeSelectMode();">
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-															<option #selected# value="none">singlecell</option>
-															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="singlecell">Single Cell</option>
 															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="singlerow">Single Row</option>
@@ -1833,8 +1831,6 @@ limitations under the License.
 														</script>
 														<label class="data-entry-label d-inline w-auto mt-1" for="keywordselectMode">Grid Select:</label>
 														<select class="data-entry-select d-inline w-auto mt-1" id="keywordselectMode" onChange="keywordchangeSelectMode();">
-															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-															<option #selected# value="none">Text</option>
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="singlecell">Single Cell</option>
 															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
