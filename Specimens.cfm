@@ -3458,7 +3458,16 @@ Target JSON:
 						$("##fixedsearchResultsGrid").focus();
 
 						// The rest of your existing logic...
-				
+						$("##fixedsearchResultsGrid").on('focusin', function(event) {
+							// Check if any cell is already selected
+							var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
+								var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+								if (columns && columns.length > 0) {
+									$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+								}
+							}
+						});
 					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
