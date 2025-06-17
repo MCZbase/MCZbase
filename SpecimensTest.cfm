@@ -138,16 +138,7 @@
 								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfdefaultcase>
 						</cfswitch>
-						<cfif enableMobileKeywordTabModal EQ true>
-							<!--- check for a narrow screen, and if so, make the keyword search tab modal --->
-							<script>
-								$(document).ready(function() {
-									if (window.innerWidth <= 600) { 
-										$("##keywordSearchTabButton").trigger("click");
-									}
-								});
-							</script>
-						</cfif>
+				
 						<div class="tab-headers px-0 tabList" role="tablist" aria-label="search panel tabs">
 							<button class="col-3 col-md-2 px-2 my-0 #fixedTabActive#" id="basicSearchTabButton" tabid="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Basic Search</button>
 							<button class="col-3 col-xl-2 px-1 my-0 #keywordTabActive#" id="keywordSearchTabButton" tabid="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
