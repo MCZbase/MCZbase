@@ -3390,10 +3390,10 @@ Target JSON:
 					//enablebrowserselection: #defaultenablebrowserselection#,
 					altrows: true,
 					showtoolbar: false,
-					ready: function () {
-						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
-						$("##fixedsearchResultsGrid").jqxGrid('focus');
-					},
+//					ready: function () {
+//						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
+//						$("##fixedsearchResultsGrid").jqxGrid('focus');
+//					},
 					rendergridrows: function () {
 						return dataAdapter.records;
 					},
@@ -3436,26 +3436,24 @@ Target JSON:
 					},
 					initrowdetails: initRowDetails
 				});
-		$("##fixedsearchResultsGrid").attr('tabindex',0);
-	$("##fixedsearchResultsGrid").jqxGrid('selectionmode', 'singlecell');
-$("##fixedsearchResultsGrid").attr('tabindex', 0);
-var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records || [];
-if(columns.length) {
-    $("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
-}
-$("##fixedsearchResultsGrid").focus();
-		
-		
-$(".jqx-grid-pager").attr("tabindex", -1);
-$(".jqx-grid-pager [tabindex]").attr("tabindex", -1);
+
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
 						columnOrderChanged('fixedsearchResultsGrid'); 
 					}); 
 				</cfif>
-
+				
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
+					$("##fixedsearchResultsGrid").attr('tabindex', 0);
+					// Find the first column
+					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+					if (columns && columns.length > 0) {
+						$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+					}
 
+					// Focus the grid
+					$("##fixedsearchResultsGrid").focus();
+					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
 							$(document).scrollTop(200);
@@ -3520,7 +3518,7 @@ $(".jqx-grid-pager [tabindex]").attr("tabindex", -1);
 					$("##fixedunselectrowindex").text(event.args.rowindex);
 				});
 			});
-			/* End Setup jqxgrid for keyword Search ****************************************************************************************/
+			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
 	 
 			
 			/* Setup jqxgrid for keyword Search */
