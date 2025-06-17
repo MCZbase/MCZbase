@@ -83,11 +83,9 @@
 		<main id="content" class="container-fluid">
 			<div class="row mr-0 mr-md-3 mr-xl-5">
 				<div class="col-12 mt-1 pb-3 mr-0 mr-md-3 mr-xl-5">
-					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT count(collection_object_id) as cnt FROM cataloged_item
-					</cfquery>
+				
 					
-					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span></h1>
+					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count  font-italic color-green mx-0"></h1>
 					<!--- populated with download dialog for external users --->
 					<div id="downloadAgreeDialogDiv"></div>
 					<!--- Tab header div --->
@@ -304,7 +302,7 @@
 		</div>	
 	</div><!--- end overlaycontainer --->	
 
-	<!---  TODO: Work the special case specimen search showLeftPush and showRightPush sections back into the standard grid divs used everywhere else above.
+
 			<section class="container-fluid">
 				<div class="row">
 					<div class="col-12">
@@ -396,7 +394,7 @@
 				</div>
 			</section>
 		</main>
-		--->
+	
 	
 	<div class="container-fluid" id="fixedSearchResultsSection">
 									<div class="row">
