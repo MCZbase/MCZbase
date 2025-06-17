@@ -3437,7 +3437,13 @@ Target JSON:
 					initrowdetails: initRowDetails
 				});
 		$("##fixedsearchResultsGrid").attr('tabindex',0);
-	
+	$("##fixedsearchResultsGrid").jqxGrid('selectionmode', 'singlecell');
+$("##fixedsearchResultsGrid").attr('tabindex', 0);
+var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records || [];
+if(columns.length) {
+    $("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+}
+$("##fixedsearchResultsGrid").focus();
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
 						columnOrderChanged('fixedsearchResultsGrid'); 
