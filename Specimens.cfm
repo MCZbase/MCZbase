@@ -3513,7 +3513,7 @@ Target JSON:
 			});
 		
 				$('##fixedsearchResultsGrid').on('bindingcomplete', function() {
-					setTimeout(function() {
+					function() {
 						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
 						if (columns) {
 							$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns);
@@ -3522,7 +3522,7 @@ Target JSON:
 						// (Optional) Remove Pager from tab order:
 						$('.jqx-grid-pager').attr('tabindex', -1);
 						$('.jqx-grid-pager [tabindex]').attr('tabindex', -1);
-					}, 10);
+					};
 				});
 			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
 	 
