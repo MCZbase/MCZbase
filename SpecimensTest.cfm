@@ -78,13 +78,93 @@
 	<script type="text/javascript" src="/taxonomy/js/taxonomy.js"></script>
 </head>
 <body>
+	
+	<div class="container-fluid" id="fixedSearchResultsSection">
+									<div class="row">
+										<div class="col-12">
+											<div class="mb-3">
+												<div class="row mx-0 mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
+													<h1 class="h4 ml-2 ml-md-1 pt3px">
+														<span tabindex="0">Results:</span> 
+														<span class="pr-2 font-weight-normal" id="fixedresultCount" tabindex="0"></span> 
+														<span id="fixedresultLink" class="font-weight-normal pr-2"></span>
+													</h1>
+													<div id="fixedshowhide"></div>
+													<div id="fixedsaveDialogButton" class=""></div>
+													<div id="fixedsaveDialog"></div>
+													<div id="fixedcolumnPickDialog">
+														<div class="container-fluid">
+															<div class="row pick-column-width" id="fixedcolumnPick_row">
+																<div class="col-12 col-md-3">
+																	<div id="fixedcolumnPick" class="px-1"></div>
+																</div>
+																<div class="col-12 col-md-3">
+																	<div id="fixedcolumnPick1" class="px-1"></div>
+																</div>
+																<div class="col-12 col-md-3">
+																	<div id="fixedcolumnPick2" class="px-1"></div>
+																</div>
+																<div class="col-12 col-md-3">
+																	<div id="fixedcolumnPick3" class="px-1"></div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div id="fixedcolumnPickDialogButton"></div>
+													<div id="fixedresultDownloadButtonContainer"></div>
+													<span id="fixedmanageButton" class=""></span>
+													<span id="fixedremoveButtonDiv" class=""></span>
+													<div id="fixedresultBMMapLinkContainer"></div>
+													<div id="fixedselectModeContainer" class="ml-3" style="display: none;" >
+														<script>
+															function fixedchangeSelectMode(){
+																var selmode = $("singlecell").val();
+																$("##fixedsearchResultsGrid").jqxGrid({selectionmode: selmode});
+																if (selmode=="singlecell") { 
+																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
+																} else {
+																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
+																}
+															};
+														</script>
+
+														<label class="data-entry-label d-inline w-auto mt-1" for="fixedselectMode">Grid Select:</label>
+														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="fixedchangeSelectMode();">
+															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option selected value="singlecell">Single Cell</option>
+															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="singlerow">Single Row</option>
+															<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
+															<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
+														</select>
+													</div>
+												
+													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
+												</div>
+												<!--- TODO: Figure out how to make this sticky row work on the column header row --->
+												<div class="row mx-0 mt-0"> 
+													
+													<!--- Grid Related code is below along with search handlers --->
+													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
+													</div>
+													<div id="fixedPostGridControls" class="p-1 d-none d-md-block" style="display: none;" >
+														<!--- a mouse wheel toggle could go here --->
+													</div>
+													
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 <div id="testGrid"></div>
 <script>
 var data = [ { name: "A", age: 1 }, { name: "B", age: 2 } ];
 var source = { datatype: "array", localdata: data };
 var dataAdapter = new $.jqx.dataAdapter(source);
 
-$("#testGrid").jqxGrid({
+$("#fixedsearchResultsGrid").jqxGrid({
     width: 300,
     autoheight: true,
     source: dataAdapter,
