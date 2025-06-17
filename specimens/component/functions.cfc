@@ -6674,7 +6674,7 @@ function showLLFormat(orig_units) {
 						geog_auth_rec.higher_geog,
 						locality.spec_locality,
 						collecting_event.verbatim_date,
-						identification.scientific_name,
+  						GET_SCIENTIFIC_NAME_AUTHS(cataloged_item.collection_object_id) scientific_name,
 						collection.institution_acronym,
 						trans.institution_acronym transInst,
 						trans.transaction_id,
@@ -6682,28 +6682,16 @@ function showLLFormat(orig_units) {
 						a_coll.collection accnColl,
 						GET_COLLECTORSTYPEDNAME(cataloged_item.collection_object_id) collectors
 					FROM
-						cataloged_item,
-						accn,
-						trans,
-						collecting_event,
-						locality,
-						geog_auth_rec,
-						identification,
-						collection,
-						collection a_coll
+						cataloged_item
+						join collection on cataloged_item.collection_id = collection.collection_id 
+						join accn on cataloged_item.accn_id = accn.transaction_id
+						join trans on accn.transaction_id = trans.transaction_id 
+						join collection a_coll on trans.collection_id=a_coll.collection_id 
+						join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+						join locality collecting_event.locality_id = locality.locality_id 
+						join geog_auth_rec locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 					WHERE
-						cataloged_item.accn_id = accn.transaction_id AND
-						accn.transaction_id = trans.transaction_id AND
-						trans.collection_id=a_coll.collection_id and
-						cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-						cataloged_item.collection_id = collection.collection_id AND
-						collecting_event.locality_id = locality.locality_id AND
-						locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-						cataloged_item.collection_object_id = identification.collection_object_id AND
-						identification.accepted_id_fg = 1 AND
-						cataloged_item.collection_object_id = 
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-					ORDER BY cataloged_item.collection_object_id
+						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 				</cfquery>
 				<cfset guid = "#getItems.institution_acronym#:#getItems.collection_cde#:#getItems.cat_num#">
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
