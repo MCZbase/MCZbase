@@ -3515,9 +3515,8 @@ Target JSON:
 				$('##fixedsearchResultsGrid').on('bindingcomplete', function() {
 					setTimeout(function() {
 						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
-						var firstCol = columns.length ? columns[0].datafield : null;
-						if (firstCol) {
-							$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, firstCol);
+						if (columns) {
+							$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns);
 						}
 						$('##fixedsearchResultsGrid').focus();
 						// (Optional) Remove Pager from tab order:
