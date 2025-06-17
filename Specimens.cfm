@@ -193,7 +193,7 @@ limitations under the License.
 		// uses the crypto library to obtain a random number and generates RFC4122 version 4 UUID.
 		function getVersion4UUID() {
 		  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-	   	 (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+		 (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
 		  );
 		}
 	</script>
@@ -1451,6 +1451,11 @@ limitations under the License.
 										<div class="menu_results"> </div>
 									</form>
 								</div>
+															
+															
+															
+															
+															
 								<!--- results for fixed search --->
 								<div class="container-fluid" id="fixedSearchResultsSection">
 									<div class="row">
