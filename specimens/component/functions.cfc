@@ -6812,11 +6812,13 @@ function showLLFormat(orig_units) {
 								<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT 
 										distinct loan_number, loan_type, loan_status, loan.transaction_id, 
+										trans.trans_date loan_date, loan.return_due_date, loan.closed_date, 
 										specimen_part.part_name, specimen_part.preserve_method,
 										coll_object.coll_obj_disposition
 									FROM
 										specimen_part left join loan_item on specimen_part.collection_object_id=loan_item.collection_object_id
 										join loan on loan_item.transaction_id = loan.transaction_id
+										join trans on loan.transsaction_id = trans.transaction_id	
 										join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 									WHERE
 										loan_number is not null AND
@@ -6871,7 +6873,19 @@ function showLLFormat(orig_units) {
 														<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loanList.transaction_id#" target="_blank">
 															#loanList.loan_number#
 														</a>
-														(#loanList.loan_type# #loanList.loan_status#) #loanList.part_name# (#loanList.preserve_method#) Part Disposition: #loanList.coll_obj_disposition#</li>
+														#loanList.loan_type# #loanList.loan_status# 
+														#loanList.loanDate# 
+														<cfif loanList.return_due_date NEQ "" and loanList.closed_date EQ "">
+															<cfif loanList.return_due_date GT now()>
+																<strong style="text-danger">Overdue: #loanList.return_due_date#</strong>
+															<cfelse>
+																Due: #loanList.return_due_date#
+															</cfif>
+														</cfif>
+														<cfif loanList.closed_date NEQ "">
+															Closed: #loanList.closed_date#
+														</cfif>
+														Part: #loanList.part_name# (#loanList.preserve_method#) Part Disposition: #loanList.coll_obj_disposition#</li>
 												</ul>
 											</cfloop>
 										</cfif>
