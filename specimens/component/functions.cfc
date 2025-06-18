@@ -6865,7 +6865,7 @@ function showLLFormat(orig_units) {
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 											<cfloop query="loanList">
 												<ul class="d-block">
-													<li class="d-block">#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#) #loan_list.part_name# (#loan_list.preserve_method#) #loan-list.coll_obj_disposition#</li>
+													<li class="d-block">#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#) #loanList.part_name# (#loanList.preserve_method#) #loanList.coll_obj_disposition#</li>
 												</ul>
 											</cfloop>
 										</cfif>
