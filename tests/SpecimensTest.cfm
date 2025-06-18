@@ -3779,35 +3779,35 @@ Target JSON:
 	$(document).ready(function() {
 
     // Your jqxGrid setup/initialization FIRST
-    $("#fixedsearchResultsGrid").jqxGrid({
+    $("##fixedsearchResultsGrid").jqxGrid({
         // ... all your grid options...
     });
 
     // The fixes for keyboard navigation (put after grid setup!):
 
-    $("#fixedsearchResultsGrid").attr('tabindex', 0);
+    $("##fixedsearchResultsGrid").attr('tabindex', 0);
 
     function selectFirstCell() {
-        var grid = $('#fixedsearchResultsGrid');
+        var grid = $('##fixedsearchResultsGrid');
         var cell = grid.jqxGrid('getselectedcell');
         if (!cell || cell.rowindex === undefined || cell.datafield === undefined) {
             var columns = grid.jqxGrid('columns').records;
             if (columns.length) grid.jqxGrid('selectcell', 0, columns[0].datafield);
         }
     }
-    $('#fixedsearchResultsGrid').on('focus', function() {
+    $('##fixedsearchResultsGrid').on('focus', function() {
         setTimeout(selectFirstCell, 10);
     });
 
     function removeTabbablesInsideGrid() {
-        $('#fixedsearchResultsGrid')
+        $('##fixedsearchResultsGrid')
             .find('a, button, input, [tabindex]')
             .attr('tabindex', -1);
     }
-    $('#fixedsearchResultsGrid').on('bindingcomplete', removeTabbablesInsideGrid);
-    $('#fixedsearchResultsGrid').on('pagechanged', removeTabbablesInsideGrid);
-    $('#fixedsearchResultsGrid').on('columnreordered', removeTabbablesInsideGrid);
-    $('#fixedsearchResultsGrid').on('sort', removeTabbablesInsideGrid);
+    $('##fixedsearchResultsGrid').on('bindingcomplete', removeTabbablesInsideGrid);
+    $('##fixedsearchResultsGrid').on('pagechanged', removeTabbablesInsideGrid);
+    $('##fixedsearchResultsGrid').on('columnreordered', removeTabbablesInsideGrid);
+    $('##fixedsearchResultsGrid').on('sort', removeTabbablesInsideGrid);
 
 });
 			/* Setup jqxgrid for builder Search */
