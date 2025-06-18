@@ -6693,10 +6693,10 @@ function showLLFormat(orig_units) {
 						join collection on cataloged_item.collection_id = collection.collection_id 
 						join accn on cataloged_item.accn_id = accn.transaction_id
 						join trans on accn.transaction_id = trans.transaction_id 
-						join collection as a_coll on trans.collection_id = a_coll.collection_id 
+						join collection a_coll on trans.collection_id = a_coll.collection_id 
 						join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-						join locality collecting_event.locality_id = locality.locality_id 
-						join geog_auth_rec locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+						join locality on collecting_event.locality_id = locality.locality_id 
+						join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 				</cfquery>
