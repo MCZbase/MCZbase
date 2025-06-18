@@ -6756,12 +6756,12 @@ function showLLFormat(orig_units) {
 						</div>
 						<div class="col-12 bg-light border rounded p-3 mt-4">
 							<ul class="list-group list-group-flush pl-0">
-								<h2 class="h3 my-1">List of Transactions <span class="small">&ndash; with links to edit page(s)</span></h2>
+								<h2 class="h3 my-1">List of Transactions</h2>
 								<li class="list-group-item">
 									<h5 class="mb-0 d-inline-block">Accession:</h5>
 									<cfif oneOfUs is 1>
 										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#getItems.accn_id#" target="_blank">#getItems.accn_number#</a>
-										<button type="button" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage)">Edit</button>
+										<button type="button" class="btn btn-xs btn-powder-blue py-0 small" onclick=" openEditCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage); $('##transactionsDialog').dialog('close'); ">Edit</button>
 									<cfelse>
 										#getItems.accn_number#
 									</cfif>
@@ -6860,7 +6860,7 @@ function showLLFormat(orig_units) {
 												Loans that include parts of this cataloged item (#loanList.recordcount#).
 											</a>
 										<cfelse>
-											No Loans that include parts of this cataloged item.
+											No Loans include parts of this cataloged item.
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 											<cfloop query="loanList">
