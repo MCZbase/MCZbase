@@ -92,7 +92,13 @@ limitations under the License.
 </cfswitch>
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
-
+<script>
+function loadGeoreferenceCount(result_uuid, elementId, labelStart, labelEnd) {
+  // Add the logic for what should happen here...
+  // For now, you could log or do nothing:
+  console.log('loadGeoreferenceCount called with', arguments);
+}
+</script>
 <cfset defaultSelectionMode = "none">
 <cfif defaultSelectionMode EQ "none">
 	<cfset defaultenablebrowserselection = "true">
