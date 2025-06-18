@@ -3446,10 +3446,10 @@ Target JSON:
 						columnOrderChanged('fixedsearchResultsGrid'); 
 					}); 
 				</cfif>
-				$('#fixedsearchResultsGrid').attr('tabindex', 0);
+				$('##fixedsearchResultsGrid').attr('tabindex', 0);
 
 					function selectFirstCell() {
-						var grid = $('#fixedsearchResultsGrid');
+						var grid = $('##fixedsearchResultsGrid');
 						var cell = grid.jqxGrid('getselectedcell');
 						if (
 						  !cell ||
@@ -3463,22 +3463,19 @@ Target JSON:
 						}
 					}
 					function removeTabbablesInsideGrid() {
-						$('#fixedsearchResultsGrid').find('a, button, input, [tabindex]').attr('tabindex', -1);
+						$('##fixedsearchResultsGrid').find('a, button, input, [tabindex]').attr('tabindex', -1);
 					}
 
-					$('#fixedsearchResultsGrid').on('bindingcomplete', function(event) {
+					$('##fixedsearchResultsGrid').on('bindingcomplete', function(event) {
 						selectFirstCell();
 						removeTabbablesInsideGrid();
 					});
-					$('#fixedsearchResultsGrid').on('pagechanged', removeTabbablesInsideGrid);
+					$('##fixedsearchResultsGrid').on('pagechanged', removeTabbablesInsideGrid);
 
-					$('#fixedsearchResultsGrid').on('focus', function(e) {
+					$('##fixedsearchResultsGrid').on('focus', function(e) {
 						setTimeout(selectFirstCell, 10);
 					});
-				//$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-//					setTimeout(function() {
-//						selectFirstCell();
-//					}, 100);
+
 					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
 						if (columns && columns.length > 0) {
 							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
