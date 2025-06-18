@@ -3295,7 +3295,7 @@ Target JSON:
 					columnsreorder: true,
 					groupable: true,
 					selectionmode: 'singlecell',
-					//enablebrowserselection: #defaultenablebrowserselection#,
+					enablebrowserselection: #defaultenablebrowserselection#,
 					altrows: true,
 					showtoolbar: false,
 //					ready: function () {
