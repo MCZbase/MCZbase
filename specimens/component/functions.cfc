@@ -6874,7 +6874,7 @@ function showLLFormat(orig_units) {
 															#loanList.loan_number#
 														</a>
 														#loanList.loan_type# #loanList.loan_status# 
-														#loanList.loanDate# 
+														#loanList.loan_date# 
 														<cfif loanList.return_due_date NEQ "" and loanList.closed_date EQ "">
 															<cfif loanList.return_due_date GT now()>
 																<strong style="text-danger">Overdue: #loanList.return_due_date#</strong>
