@@ -8459,5 +8459,5 @@
 	
 	})( window );
 </script>
-</cfoutput>
+
 <cfinclude template="/shared/_footer.cfm">
