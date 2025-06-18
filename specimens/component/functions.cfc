@@ -6708,24 +6708,73 @@ function showLLFormat(orig_units) {
 						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 				</cfquery>
 				<cfset guid = "#getItems.institution_acronym#:#getItems.collection_cde#:#getItems.cat_num#">
-				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
-					SELECT 
-						media.media_id,
-						media.media_uri,
-						media.mime_type,
-						media.media_type,
-						media.preview_uri,
-						label_value descr 
-					FROM 
-						media,
-						media_relations,
-						(select media_id,label_value from media_labels where media_label='description') media_labels 
-					WHERE 
-						media.media_id=media_relations.media_id and
-						media.media_id=media_labels.media_id (+) and
-						media_relations.media_relationship like '% accn' and
-						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-				</cfquery>
+				<cfif hasManageTransactions is 1>
+					<cfquery name="checkAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							decode(trans.transaction_id, null, 0, 1) accnVpdVisible
+						FROM
+							cataloged_item
+							left join accn on cataloged_item.accn_id = accn.transaction_id
+							left join trans on accn.transaction_id = trans.transaction_id
+						WHERE 
+							cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+					</cfquery>
+					<cfif checkAccn.accnVpdVisible EQ 1>
+						<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT
+								cataloged_item.accn_id,
+								cataloged_item.collection_cde catitem_coll_cde,
+								accn.accn_number,
+								accn_type,
+								accn_status,
+								to_char(received_date,'yyyy-mm-dd') received_date,
+								concattransagent(trans.transaction_id,'received from') received_from
+							FROM
+								cataloged_item
+								left join accn on cataloged_item.accn_id =  accn.transaction_id
+								left join trans on accn.transaction_id = trans.transaction_id
+							WHERE
+								cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						</cfquery>
+					<cfelse>
+						<!--- internal user may be constrained by a VPD, use a datasource that can look accross VPDs to get the accession number --->
+						<cfquery name="lookupAccn" datasource="cf_dbuser">
+							SELECT
+								'' as accn_id,
+								cataloged_item.collection_cde catitem_coll_cde,
+								accn.accn_number,
+								'' as accn_type,
+								'' as accn_status,
+								'' as received_date,
+								'' as received_from
+							FROM
+								cataloged_item
+								left join accn on cataloged_item.accn_id =  accn.transaction_id
+								left join trans on accn.transaction_id = trans.transaction_id
+							WHERE
+								cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						</cfquery>
+					</cfif>
+					<cfquery name="accnLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						select specific_type, restriction_summary 
+						from  permit_trans 
+							left join permit on permit_trans.permit_id = permit.permit_id
+						where 
+							permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccn.accn_id#">
+							and permit.restriction_summary IS NOT NULL
+					</cfquery>
+					<cfquery name="accnCollection" datasource="cf_dbuser">
+						SELECT collection_cde
+						from trans 
+							left join collection on trans.collection_id = collection.collection_id
+						WHERE
+							trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccn.accn_id#">
+				  	</cfquery>
+					<cfset accnDept = "">
+					<cfif NOT lookupAccn.catitem_coll_cde IS accnCollection.collection_cde>
+						<!--- accession is in a different department than the cataloged item --->
+						<cfset accnDept = "(#accnCollection.collection_cde#)">
+					</cfif>
 				<div>
 				<div class="container test">
 					<div class="row mx-0">
@@ -6762,19 +6811,17 @@ function showLLFormat(orig_units) {
 							<ul class="list-group list-group-flush pl-0">
 								<h2 class="h3 my-1">Transactions Involving #guid#</h2>
 								<li class="list-group-item">
-									<h5 class="mb-0 d-inline-block">Accession:</h5>
+									<span class="font-weight-lessbold mb-0 d-inline-block">Accession:</span>
 									<cfif hasManageTransactions is 1>
-										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#getItems.accn_id#" target="_blank">#getItems.accn_number#</a>
+										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#lookupAccn.accn_id#" target="_blank">#lookupAccn.accn_number#</a>
+										#accnDept#
+										#lookupAccn.accn_type# (#lookupAccn.accn_status#) Received: #lookupAccn.received_date# From: #lookupAccn.received_from#
 										<button type="button" class="btn btn-xs btn-powder-blue py-0 small" onclick=" openEditCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage); $('##transactionsDialog').dialog('close'); ">Edit</button>
 									<cfelse>
-										#getItems.accn_number#
+										#lookupAccn.accn_number#
 									</cfif>
-									<cfif accnMedia.recordcount gt 0>
-										<cfloop query="accnMedia">
-											<div class="m-2 d-inline">
-												<cfset mt = #media_type#>
-												<a href="/media/#media_id#" target="_blank"> <img src="#getMediaPreview('preview_uri','media_type')#" class="d-block border rounded" width="100" alt="#descr#">Media Details </a> <span class="small d-block">#media_type# (#mime_type#)</span> <span class="small d-block">#descr#</span> </div>
-										</cfloop>
+									<cfif accnLimitations.recordcount GT 0>
+										<strong>Restrictions on use exist:</strong>
 									</cfif>
 								</li>
 								<!--------------------  Project / Usage ------------------------------------>

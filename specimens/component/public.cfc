@@ -1805,6 +1805,9 @@ limitations under the License.
 							<cfelse>
 								#lookupAccn.accn_number#
 							</cfif>
+							<cfif accnLimitations.recordcount GT 0>
+								<strong>Restrictions on use exist:</strong>
+							</cfif>
 							<cfif accnMedia.recordcount gt 0>
 								<cfloop query="accnMedia">
 									<div class="col-12 px-1 col-lg-6 col-xl-4 mb-1 px-md-1 pt-1 float-left"> 
