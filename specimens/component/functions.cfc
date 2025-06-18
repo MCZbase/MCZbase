@@ -6818,7 +6818,7 @@ function showLLFormat(orig_units) {
 									FROM
 										specimen_part left join loan_item on specimen_part.collection_object_id=loan_item.collection_object_id
 										join loan on loan_item.transaction_id = loan.transaction_id
-										join trans on loan.transsaction_id = trans.transaction_id	
+										join trans on loan.transaction_id = trans.transaction_id	
 										join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 									WHERE
 										loan_number is not null AND
