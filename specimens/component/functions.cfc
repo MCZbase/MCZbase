@@ -6675,7 +6675,7 @@ function showLLFormat(orig_units) {
 					SELECT
 						cataloged_item.collection_object_id,
 						cataloged_item.cat_num,
-						cataloged_item.collection_cde
+						cataloged_item.collection_cde,
 						accn.accn_number,
 						accn.transaction_id accn_id,
 						geog_auth_rec.higher_geog,
