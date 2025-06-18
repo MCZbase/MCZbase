@@ -648,7 +648,7 @@ function saveRemarks(collection_object_id,coll_object_remarks,disposition_remark
 } 
 
 function openViewTransactionsDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Transactions for " + guid;
+	var title = "View Transactions for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
@@ -660,7 +660,7 @@ function openViewTransactionsDialog(collection_object_id,dialogId,guid,callback)
 			$("#" + dialogId + "_div").html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit Transactions dialog");
+			handleFail(jqXHR,textStatus,error,"opening view Transactions dialog");
 		},
 		dataType: "html"
 	});
