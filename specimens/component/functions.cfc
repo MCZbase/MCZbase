@@ -6816,7 +6816,9 @@ function showLLFormat(orig_units) {
 								<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT 
 										distinct loan_number, loan_type, loan_status, loan.transaction_id, 
-										trans.trans_date loan_date, loan.return_due_date, loan.closed_date, 
+										to_char(trans.trans_date,'yyyy-mm-dd')  loan_date, 
+										to_char(loan.return_due_date, 'yyyy-mm-dd') return_due_date,  
+										to_char(loan.closed_date, 'yyyy-mm-dd') closed_date, 
 										specimen_part.part_name, specimen_part.preserve_method,
 										coll_object.coll_obj_disposition
 									FROM
