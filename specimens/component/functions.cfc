@@ -6665,8 +6665,10 @@ function showLLFormat(orig_units) {
 --->
 <cffunction name="getViewTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="show_specimen_data" type="string" required="no" default="no">
 
 	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.show_specimen_data = arguments.show_specimen_data>
 
 	<cfthread name="getEditTransactionsThread">
 		<cfoutput>
@@ -6727,33 +6729,35 @@ function showLLFormat(orig_units) {
 				<div>
 				<div class="container test">
 					<div class="row mx-0">
-						<div class="col-12 px-0">
-							<table class="table table-responsive">
-								<thead>
-									<tr>
-										<th>Cat Num</th>
-										<th>Scientific Name</th>
-										<th>Accn</th>
-										<th>Collector(s)</th>
-										<th>Geog</th>
-										<th>Spec Loc</th>
-										<th>Date</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>#getItems.collection# #getItems.cat_num#</td>
-										<td>#getItems.scientific_name#</td>
-										<td><a href="Specimens.cfm?Accn_trans_id=#getItems.transaction_id#" target="_top">#getItems.accnColl# #getItems.Accn_number#</a></td>
-										<td>
-											#getItems.collectors# 											
-										</td>
-										<td>#getItems.higher_geog#</td>
-										<td>#getItems.spec_locality#</td>
-										<td>#getItems.verbatim_date#</td>
-									</tr>
-							</table>
-						</div>
+						<cfif show_specimen_data EQ "yes">
+							<div class="col-12 px-0">
+								<table class="table table-responsive">
+									<thead>
+										<tr>
+											<th>Cat Num</th>
+											<th>Scientific Name</th>
+											<th>Accn</th>
+											<th>Collector(s)</th>
+											<th>Geog</th>
+											<th>Spec Loc</th>
+											<th>Date</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>#getItems.collection# #getItems.cat_num#</td>
+											<td>#getItems.scientific_name#</td>
+											<td><a href="Specimens.cfm?Accn_trans_id=#getItems.transaction_id#" target="_top">#getItems.accnColl# #getItems.Accn_number#</a></td>
+											<td>
+												#getItems.collectors# 											
+											</td>
+											<td>#getItems.higher_geog#</td>
+											<td>#getItems.spec_locality#</td>
+											<td>#getItems.verbatim_date#</td>
+										</tr>
+								</table>
+							</div>
+						</cfif>
 						<div class="col-12 bg-light border rounded p-3 mt-4">
 							<ul class="list-group list-group-flush pl-0">
 								<h2 class="h3 my-1">List of Transactions</h2>
