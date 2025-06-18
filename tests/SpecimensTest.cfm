@@ -127,7 +127,7 @@ limitations under the License.
 	GROUP BY nature_of_id
  	ORDER BY nature_of_id
 </cfquery>
-<cfset fixedTabActive = "active">
+
 <cfquery name="column_headers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 1
 </cfquery>
@@ -227,7 +227,7 @@ limitations under the License.
 								<cfset builderTabShow = "hidden">
 								<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
 								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">--->
+								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfcase>
 							<cfcase value="keywordSearch">
 								<cfset fixedTabActive = "">
@@ -264,7 +264,7 @@ limitations under the License.
 							</cfdefaultcase>
 						</cfswitch>
 						<cfif enableMobileKeywordTabModal EQ true>
-							 check for a narrow screen, and if so, make the keyword search tab modal 
+							<!--- check for a narrow screen, and if so, make the keyword search tab modal --->
 							<script>
 								$(document).ready(function() {
 									if (window.innerWidth <= 600) { 
@@ -275,12 +275,12 @@ limitations under the License.
 						</cfif>
 						<div class="tab-headers px-0 tabList" role="tablist" aria-label="search panel tabs">
 							<button class="col-3 col-md-2 px-2 my-0 #fixedTabActive#" id="basicSearchTabButton" tabid="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Basic Search</button>
-							<!---<button class="col-3 col-xl-2 px-1 my-0 #keywordTabActive#" id="keywordSearchTabButton" tabid="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
-							<button class="col-3 col-xl-2 px-1 my-0 #builderTabActive#" id="builderSearchTabButton" tabid="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>--->
+							<button class="col-3 col-xl-2 px-1 my-0 #keywordTabActive#" id="keywordSearchTabButton" tabid="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
+							<button class="col-3 col-xl-2 px-1 my-0 #builderTabActive#" id="builderSearchTabButton" tabid="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
 						</div>
-					<!---	<div class="tab-content mt-0 px-0 pb-0">-->
+						<div class="tab-content mt-0 px-0 pb-0">
 							<!---Fixed Search tab panel--->
-							<!---<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus" #fixedTabShow#>
+							<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus" #fixedTabShow#>
 								<div class="col-9 float-right px-0"> 
 									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
 										Search Help
@@ -342,7 +342,7 @@ limitations under the License.
 											</dl>
 										</div>
 									</aside>
-								</div>--->
+								</div>
 								<div role="search" class="container-fluid px-0" id="fixedSearchFormDiv">
 									<form id="fixedSearchForm">
 										<cfif isdefined("session.BASICSRCHPREFS") and len(session.BASICSRCHPREFS) gt 0>
@@ -451,7 +451,7 @@ limitations under the License.
 														<label for="other_id_number" class="data-entry-label small">Other ID Numbers</label>
 														<input type="text" class="data-entry-input small inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
 													</div>
-													<!---<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+													<cfif findNoCase('test',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<div class="col-12 mb-1 col-md-2">
 															<label class="data-entry-label small" for="debug1">Debug JSON</label>
 															<select title="debug" name="debug" id="debug1" class="data-entry-select smaller inputHeight">
@@ -460,7 +460,7 @@ limitations under the License.
 																<option value="true" #selected#>Debug JSON</option>
 															</select>
 														</div>
-													</cfif>--->
+													</cfif>
 													<button type="button" id="IDDetailCtl1" class="d-block d-xl-none border m-1 d-xl-none py-1 btn-link w-100 text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 																
 													<div id="IDDetail" class="col-12 px-0" style="#IDDetailStyle#">
@@ -2494,7 +2494,7 @@ Target JSON:
 									</div>
 								</div>
 							</section><!--- end search builder tab --->
-						</div>--->
+						</div>
 					</div>
 				</div>
 			</div>
@@ -4470,7 +4470,4 @@ Target JSON:
 </script>
 
 </cfoutput>
-<cfinclude template="/shared/_footer.cfm">
-							
-
 <cfinclude template="/shared/_footer.cfm">
