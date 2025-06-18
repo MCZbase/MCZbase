@@ -2499,13 +2499,7 @@ Target JSON:
 				</div>
 			</div>
 		</main>
-		<!--- 
-		<div>
-			<div class="col-12 col-md-6 mx-auto mb-3 pb-3">
-				<p class="blockquote small text-center">Collection records at the Museum of Comparative Zoology may contain language that reflect historical place or taxon names in its original form that are no longer acceptable or appropriate in an inclusive environment. While the MCZ is  preserving data in their original form in order to retain authenticity and facilitate research, we do not condone this language and are committed to address the problem of racial and other derogatory language present in our database.</p>
-			</div>
-		</div>
-		--->
+
 		<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); border-color: transparent; opacity: 0.99; display: none; z-index: 2;">
 			<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; width: 10em; height: 2.4em;line-height: 2.4em; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -5em; opacity: 1;">
 				<div class="jqx-grid-load" style="float: left; overflow: hidden; height: 32px; width: 32px;"></div>
@@ -2514,99 +2508,6 @@ Target JSON:
 		</div>	
 	</div><!--- end overlaycontainer --->	
 
-	<!---  TODO: Work the special case specimen search showLeftPush and showRightPush sections back into the standard grid divs used everywhere else above.
-			<section class="container-fluid">
-				<div class="row">
-					<div class="col-12">
-						<div id="jqxWidget">
-							<div class="mb-5">
-								<div class="row mx-0">
-								<div id="searchResultsGrid" class="jqxGrid"></div>
-								<div class="mt-005" id="enableselection"></div>
-								<div style="margin-top: 30px;">
-									<div id="cellbegineditevent"></div>
-									<div style="margin-top: 10px;" id="cellendeditevent"></div>
-								</div>
-								<div id="popupWindow" style="display:none;">
-									<div style="padding:.25em;">Edit</div>
-									<div style="overflow: hidden;">
-										<div class="container-fluid">
-											<div class="row">
-												<fieldset>
-													<legend class="sr-only">Editable fields</legend>
-													<label for="imageurl">Image:</label>
-													<input id="imageurl" class="fs-13 mx-1 px-1 border-0">
-													<label for="collection">Collection:</label>
-													<input id="collection" class="mx-1 px-1 border-0">
-													<label for="cat_num">Catalog Number:</label>
-													<input id="cat_num" class="mx-1 px-1 border-0">
-													<label for="began_date">Began Date:</label>
-													<input id="began_date" class="mx-1">
-													<label for="ended_date">Ended Date:</label>
-													<input id="ended_date" class="mx-1">
-													<label for="scientific_name">Scientific Name:</label>
-													<input id="scientific_name" class="mx-1 px-1 border-0">
-													<label for="higher_geog">Higher Geography:</label>
-													<input id="higher_geog" class="mx-1 px-1 border-0">
-													<label for="spec_locality">Specific Locality:</label>
-													<input id="spec_locality" class="mx-1 px-1 border-0">
-													<label for="collectors">Collectors:</label>
-													<input id="collectors" class="mx-1 border-0" />
-													<label for="verbatim_date">Verbatim Date:</label>
-													<input id="verbatim_date" class="mx-1 border-0">
-													<label for="coll_obj_disposition">Disposition:</label>
-													<input id="coll_obj_disposition" class="mx-1 border-0">
-													<label for="othercatalognumbers">Other Cat Nums:</label>
-													<textarea id="othercatalognumbers" class="mx-1 border-0"></textarea>
-													<input aria-label="save button" class="mr-1" type="button" id="Save" value="Save" />
-													<input aria-label="cancel button" id="Cancel" type="button" value="Cancel" />
-												</fieldset>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							</div>
-							<nav aria-label="filter_menu" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right zindex-sticky" id="cbp-spmenu-s2">
-							<section> <a id="showRightPush" class="btn black-filter-btn hiddenclass" role="button" aria-label="refine results slider">Refine Results</a> </section>
-							<h3 class="filters">Refine Results</h3>
-							<div class="col-md-3 py-2 px-4 mb-3 pl-3 bg-transparent">
-								<div class="float-left">
-									<label for="columnchooser" class="mt-1"><em>By Columns in Dropdown</em></label>
-									<div id="columnchooser" class="mb-1"></div>
-									<div class="mt-2"><em>Then by checkboxes of values</em></div>
-									<div class="mt-1 ml-0 d-inline float-left w-257" id="filterbox">
-										<p>Search for something to filter</p>
-									</div>
-									<div>
-										<input type="button" id="applyfilter" class="d-inline float-left ml-0 mr-3 mt-2 py-1 px-2 fs-14" aria-label="apply filter" value="Apply Filter"/>
-										<input type="button" id="clearfilter" class="d-inline ml-0 mt-2 py-1 px-2 fs-14" value="Clear Filter"/>
-									</div>
-								</div>
-							</nav>
-							<nav aria-label="choose_columns" class="cbp-spmenu cbp-spmenu-vertical-left cbp-spmenu-left zindex-sticky" id="cbp-spmenu-s3">
-								<section> <a id="showLeftPush" class="btn black-columns-btn hiddenclass" aria-label="display column selections" role="button">Columns</a> </section>
-								<h3 class="columns">Display Columns</h3>
-								<div class="col-md-3 mb-3 pl-1 mt-2">
-									<ul class="checks">
-										<li>
-											<input type="radio" aria-label="check all">
-											Check all </li>
-										<li>
-											<input type="radio" aria-label="most often displayed">
-											Minimum</li>
-									</ul>
-									<div class="float-left zindex-sticky bg-white">
-										<div id="jqxlistbox2" class="ml-1 mt-3"></div>
-									</div>
-								</div>
-							</nav>
-						</div>
-					</div>
-				</div>
-			</section>
-		</main>
-		--->
 	
 	<!--- lastcolumn is the column to put at the end of the default column set with no width specified --->
 	<cfset lastcolumn = 'OTHERCATALOGNUMBERS'>
@@ -3216,7 +3117,7 @@ Target JSON:
 				fixedSearchLoaded = 0;
 
 				$("##overlay").show();
-				$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="fixedResults jqxGrid focus" style="z-index: 1;"></div>');
+				$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="fixedResults jqxGrid focus" tabindex="0" style="z-index: 1;"></div>');
 				$('##fixedresultCount').html('');
 				$('##fixedresultLink').html('');
 				$("##fixedshowhide").html("");
