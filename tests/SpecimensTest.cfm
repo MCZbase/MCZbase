@@ -3514,6 +3514,20 @@ Target JSON:
 						setPinColumnState('fixedsearchResultsGrid','GUID',true);
 					</cfif>
 				});
+				function selectFirstCell() {
+					var grid = $('##fixedsearchResultsGrid');
+					var cell = grid.jqxGrid('getselectedcell');
+					if (
+						!cell ||
+						typeof cell.rowindex === 'undefined' ||
+						cell.datafield === undefined
+					) {
+						var columns = grid.jqxGrid('columns').records;
+						if (columns.length) {
+							grid.jqxGrid('selectcell', 0, columns[0].datafield);
+						}
+					}
+				}
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
 					var args = event.args;
