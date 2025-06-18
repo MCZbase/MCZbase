@@ -2714,6 +2714,298 @@ Target JSON:
 				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 			}
 		};
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"DATA_ENTRY")>
+			var fixed_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['GUID'] +'</a></span>';
+			};
+			var keyword_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['GUID'] +'</a></span>';
+			};
+			var builder_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['GUID'] +'</a></span>';
+			};
+		</cfif>
+		var fixed_mediaCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
+			if (rowData) { 
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value='+ rowData['GUID'] +'&media_relationship_id=' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['MEDIA'] +'</a></span>';
+			}
+		};
+		var keyword_mediaCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value='+ rowData['GUID'] +'&media_relationship_id=' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['MEDIA'] +'</a></span>';
+		};
+		var builder_mediaCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value='+ rowData['GUID'] +'&media_relationship_id=' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['MEDIA'] +'</a></span>';
+		};
+		// scientific name (with authorship, etc) cell renderers, use _sciNameCellRenderer in cf_spec_res_cols_r.cellsrenderer 
+		var fixed_sciNameCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
+			if (rowData) { 
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/name/'+ rowData['SCIENTIFIC_NAME'] +'">'+ value +'</a></span>';
+			}
+		};
+		var keyword_sciNameCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/name/'+ rowData['SCIENTIFIC_NAME'] +'">'+ value +'</a></span>';
+		};
+		var builder_sciNameCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/name/'+ rowData['SCIENTIFIC_NAME'] +'">'+ value +'</a></span>';
+		};
+		// guid with marker for specimen images 
+		var fixed_GuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
+			var mediaMarker = "";
+			if (rowData) { 
+				var media = rowData['MEDIA'];
+				if (media.includes("shows cataloged_item")) { 
+					mediaMarker = " <a href='/media/findMedia.cfm?execute=true&method=getMedia&related_cataloged_item="+ rowData['GUID'] +"' target='_blank'><img src='/shared/images/Image-x-generic.png' height='20' width='20'></a>"
+				}
+			}
+			var result_id = $('##result_id_fixedSearch').val();
+			// The /guid/ uri is rewritten by apache to a request to a guid handler.cfm file instead.
+			var retval = '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">';
+			retval = retval + '<a id="aLink'+row+'" target="_blank" href="/guid/' + value + '"';
+			retval = retval + ' onClick=" event.preventDefault(); $(&##39;##aLinkForm'+row+'&##39;).submit();" ';
+			retval = retval + '>'+value+'</a>';
+			retval = retval + mediaMarker;
+			retval = retval + '<form action="/guid/'+value+'" method="post" target="_blank" id="aLinkForm'+row+'">';
+			retval = retval + '<input type="hidden" name="result_id" value="'+result_id+'" />';
+			retval = retval + '</form>';
+			retval = retval + '</span>';
+			return retval;
+			//return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '">'+value+'</a>'+mediaMarker+'</span>';
+		};
+		var keyword_GuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
+			var mediaMarker = "";
+			var media = rowData['MEDIA'];
+			if (media.includes("shows cataloged_item")) { 
+				mediaMarker = " <a href='/media/findMedia.cfm?execute=true&method=getMedia&related_cataloged_item="+ rowData['GUID'] +"' target='_blank'><img src='/shared/images/Image-x-generic.png' height='20' width='20'></a>"
+			}
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '">'+value+'</a>'+mediaMarker+'</span>';
+		};
+		var builder_GuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
+			var mediaMarker = "";
+			var media = rowData['MEDIA'];
+			if (media.includes("shows cataloged_item")) { 
+				mediaMarker = " <a href='/media/findMedia.cfm?execute=true&method=getMedia&related_cataloged_item="+ rowData['GUID'] +"' target='_blank'><img src='/shared/images/Image-x-generic.png' height='20' width='20'></a>"
+			}
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '">'+value+'</a>'+mediaMarker+'</span>';
+		};
+var linkGuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a class="celllink" target="_blank" href="/guid/' + value + '">'+value+'</a></span>';
+		};
+		// cell renderer to link out to taxon page by scientific name, when value is scientific name.
+		var linkTaxonCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			return '<a target="_blank" href="/name/' + value + '">'+value+'</a>';
+		};
+		// cell renderer to display yes or blank for a 1/0 flag field.
+		var yesBlankFlagRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var displayValue = "";
+			if (value==1) {
+				displayValue = "Yes";
+			}
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+displayValue+'</span>';
+		};
+		// cell renderer to display yes or no for a 1/0 flag field.
+		var yesNoFlagRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var displayValue = "No";
+			if (value==1) {
+				displayValue = "Yes";
+			}
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+displayValue+'</span>';
+		};
+
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+			<cfif isdefined("session.killRow") AND session.killRow is 2>
+				// Remove selected rows from result set with checkboxes and remove selected button.
+				var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					// get the collection object id for the row, set the state of the checkbox for that row from the set to remove
+					var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
+					var collobjtoremove = rowData['COLLECTION_OBJECT_ID'];
+					checked = "";
+					if (fixedlisttoremove.has(Number(collobjtoremove))) {
+						checked = "checked";
+					} 
+					// cell renderer showing a checkbox bound to a function that adds/removes the collection object id for this row 
+					// from the set to remove.
+					// state of the checkboxes are updated on page load events, allowing preservation of selection 
+					// while paging forwards and backwards through the result set.
+					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="checkbox" ' + checked + ' onClick=" fixedChangeItem('+collobjtoremove+'); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+				};
+				var removeKeywordCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
+					var collobjtoremove = rowData['COLLECTION_OBJECT_ID'];
+					checked = "";
+					if (keywordlisttoremove.has(Number(collobjtoremove))) {
+						checked = "checked";
+					} 
+					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="checkbox" ' + checked + ' onClick=" keywordChangeItem('+collobjtoremove+'); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+				};
+				var removeBuilderCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
+					var collobjtoremove = rowData['COLLECTION_OBJECT_ID'];
+					checked = "";
+					if (builderlisttoremove.has(Number(collobjtoremove))) {
+						checked = "checked";
+					} 
+					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="checkbox" ' + checked + ' onClick=" builderChangeItem('+collobjtoremove+'); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+				};
+				<!--- " --->
+			<cfelseif isdefined("session.killRow") AND session.killRow is 1>
+				// remove individual rows from a result set one by one with button.
+				var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
+					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); fixedResultModifiedHere(); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+				};
+				<!--- " --->
+				var removeKeywordCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
+					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##keywordsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); keywordResultModifiedHere(); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+				};
+				<!--- " --->
+				var removeBuilderCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
+					return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##buildersearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); builderResultModifiedHere() } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
+				};
+				<!--- " --->
+			</cfif>
+		</cfif>
+			var keywordcellclass = function (row, columnfield, value) {
+			if (row>-1) { 
+				var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
+				var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
+				if (toptypestatuskind=='Primary') { 
+					return "primaryTypeCell";
+				} else if (toptypestatuskind=='Secondary') { 
+					return "secondaryTypeCell";
+				}
+			}
+		};
+		var fixedcellclass = function (row, columnfield, value) {
+			if (row>-1) { 
+				var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
+				if (rowData) { 
+					var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
+					if (toptypestatuskind=='Primary') { 
+						return "primaryTypeCell";
+					} else if (toptypestatuskind=='Secondary') { 
+						return "secondaryTypeCell";
+					}
+				}
+			}
+		};
+		var buildercellclass = function (row, columnfield, value) {
+			if (row>-1) { 
+				var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
+				var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
+				if (toptypestatuskind=='Primary') { 
+					return "primaryTypeCell";
+				} else if (toptypestatuskind=='Secondary') { 
+					return "secondaryTypeCell";
+				}
+			}
+		};
+	
+		// bindingcomplete is fired on each page load of the grid, we need to distinguish the first page load from subsequent loads.
+		var fixedSearchLoaded = 0;
+		var keywordSearchLoaded = 0;
+		var builderSearchLoaded = 0;
+
+		// prevent on columnreordered event from causing save of grid column order when loading order from persistance store
+		var columnOrderLoading = 0
+	
+		function serializeFormAsJSON(formID) {
+		  const array = $('##'+formID).serializeArray();
+		  const json = {};
+		  $.each(array, function () {
+		    json[this.name] = this.value || "";
+		  });
+		  return json;
+		}
+
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+			<!--- Enable communication between search and manage pages when modifying search results --->
+
+			var fixedreloadlistenerbound = false;
+			var keywordreloadlistenerbound = false;
+			var builderreloadlistenerbound = false;
+
+			function fixedResultModifiedHere() { 
+				$('##fixedresultCount').html('Modified, record removed.');
+				var result_id = $("##result_id_fixedSearch").val();
+				bc.postMessage({"source":"search","result_id":result_id});
+				if (!fixedreloadlistenerbound) { 
+					$('##fixedsearchResultsGrid').on("bindingcomplete", function (event) {
+						resultModified("fixedsearchResultsGrid","fixed");
+					});
+					fixedreloadlistenerbound = true;
+				}
+			}
+			function keywordResultModifiedHere() { 
+				$('##keywordresultCount').html('Modified, record removed.');
+				var result_id = $("##result_id_keywordSearch").val();
+				bc.postMessage({"source":"search","result_id":result_id});
+				if (!keywordreloadlistenerbound) { 
+					$('##keywordsearchResultsGrid').on("bindingcomplete", function (event) {
+						resultModified("keywordsearchResultsGrid","keyword");
+					});
+					keywordreloadlistenerbound = true;
+				}
+			}
+			function builderResultModifiedHere() { 
+				$('##builderresultCount').html('Modified, record removed.');
+				var result_id = $("##result_id_builderSearch").val();
+				bc.postMessage({"source":"search","result_id":result_id});
+				if (!builderreloadlistenerbound) { 
+					$('##buildersearchResultsGrid').on("bindingcomplete", function (event) {
+						resultModified("buildersearchResultsGrid","builder");
+					});
+					builderreloadlistenerbound = true;
+				}
+			}
+	
+			bc.onmessage = function (message) { 
+				console.log(message);
+				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_fixedSearch").val()) { 
+					$('##fixedresultCount').html('Modified from manage page.');
+					if (!fixedreloadlistenerbound) { 
+						$('##fixedsearchResultsGrid').on("bindingcomplete", function (event) {
+							resultModified("fixedsearchResultsGrid","fixed");
+						});
+						fixedreloadlistenerbound = true;
+					}
+					$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+				} 
+				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_keywordSearch").val()) { 
+					$('##keywordresultCount').html('Modified from manage page.');
+					if (!keywordreloadlistenerbound) { 
+						$('##keywordsearchResultsGrid').on("bindingcomplete", function (event) {
+							resultModified("keywordsearchResultsGrid","keyword");
+						});
+						keywordreloadlistenerbound = true;
+					}
+					$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
+				} 
+				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_builderSearch").val()) { 
+					$('##builderresultCount').html('Modified from manage page.');
+					if (!builderreloadlistenerbound) { 
+						$('##buildersearchResultsGrid').on("bindingcomplete", function (event) {
+							resultModified("buildersearchResultsGrid","builder");
+						});
+						builderreloadlistenerbound = true;
+					}
+					$('##buildersearchResultsGrid').jqxGrid('updatebounddata');
+				} 
+			}
+		</cfif> 
 </cfoutput>
 		
 		
