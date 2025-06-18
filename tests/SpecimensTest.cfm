@@ -3652,6 +3652,7 @@ Target JSON:
 					pageable: true,
 					editable: false,
 					virtualmode: true,
+					keyboardnavigation: true,
 					enablemousewheel: #session.gridenablemousewheel#,
 					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','500'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
@@ -3662,7 +3663,7 @@ Target JSON:
 					autoshowloadelement: false,  // overlay acts as load element for form+results
 					columnsreorder: true,
 					groupable: true,
-					selectionmode: '#defaultSelectionMode#',
+					selectionmode: 'singlecell',
 					enablebrowserselection: #defaultenablebrowserselection#,
 					altrows: true,
 					showtoolbar: false,
