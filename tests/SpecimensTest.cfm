@@ -3777,12 +3777,7 @@ Target JSON:
 					$("##keywordunselectrowindex").text(event.args.rowindex);
 				});
 			});
-	$(document).ready(function() {
 
-    // Your jqxGrid setup/initialization FIRST
-    $("##fixedsearchResultsGrid").jqxGrid({
-        // ... all your grid options...
-    });
 
     // The fixes for keyboard navigation (put after grid setup!):
 
@@ -3810,7 +3805,7 @@ Target JSON:
     $('##fixedsearchResultsGrid').on('columnreordered', removeTabbablesInsideGrid);
     $('##fixedsearchResultsGrid').on('sort', removeTabbablesInsideGrid);
 
-});
+
 			/* Setup jqxgrid for builder Search */
 			$('##builderSearchForm').bind('submit', function(evt){
 				evt.preventDefault();
