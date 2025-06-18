@@ -2432,6 +2432,164 @@ Target JSON:
 					</div>
 				</div>
 			</div>
+			<script>
+				$(document).ready(function() {
+			/* Setup jqxgrid for fixed Search */
+			$('##fixedSearchForm').bind('submit', function(evt){
+				evt.preventDefault();
+			
+				var uuid = getVersion4UUID();
+				$("##result_id_fixedSearch").val(uuid);
+	
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					if (Object.keys(window.columnHiddenSettings).length == 0) {
+						lookupColumnVisibilities ('#cgi.script_name#','Default');
+					}
+				</cfif>
+
+				fixedSearchLoaded = 0;
+
+				$("##overlay").show();
+				$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="fixedResults jqxGrid focus" style="z-index: 1;"></div>');
+				$('##fixedresultCount').html('');
+				$('##fixedresultLink').html('');
+				$("##fixedshowhide").html("");
+				$('##fixedmanageButton').html('');
+				$('##fixedremoveButtonDiv').html('');
+				$('##fixedsaveDialogButton').html('');
+				$('##fixedactionFeedback').html('');
+				$('##fixedselectModeContainer').hide();
+				$('##fixedPostGridControls').hide();
+				debug = $('##fixedSearchForm').serialize();
+				console.log(debug);
+				/*var datafieldlist = [ ];//add synchronous call to cf component*/
+	
+				var search = null;
+
+				if ($('##fixedSearchForm').serialize().length > 7900) { 
+					// POST to accomodate long catalog number lists
+					search = 
+					{
+						datatype: "json",
+						
+						datafields:
+						[
+							<cfset separator = "">
+							<cfloop query="getFieldMetadata">
+								<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
+									#separator#{name: '#ucase(column_name)#', type: 'string' }
+								<cfelseif data_type EQ 'NUMBER' >
+									#separator#{name: '#ucase(column_name)#', type: 'number' }
+								<cfelse>
+									#separator#{name: '#ucase(column_name)#', type: 'string' }
+								</cfif>
+								<cfset separator = ",">
+							</cfloop>
+						],
+						beforeprocessing: function (data) {
+							if (data != null && data.length > 0) {
+								search.totalrecords = data[0].recordcount;
+							}
+						},
+						sort: function () {
+							$("##fixedsearchResultsGrid").jqxGrid('updatebounddata','sort');
+						},
+						root: 'specimenRecord',
+						id: 'collection_object_id',
+						url: '/specimens/component/search.cfc',
+						type: 'POST',
+						data: serializeFormAsJSON('fixedSearchForm'),
+						timeout: #Application.ajax_timeout*2#000,  // units not specified, miliseconds?  Fixed
+						loadError: function(jqXHR, textStatus, error) {
+							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
+						},
+						async: true,
+						deleterow: function (rowid, commit) {
+							console.log(rowid);
+							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
+							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
+							console.log(collobjtoremove);
+		        			$.ajax({
+            				url: "/specimens/component/search.cfc",
+            				data: { 
+									method: 'removeItemFromResult', 
+									result_id: $('##result_id_fixedSearch').val(),
+									collection_object_id: collobjtoremove
+								},
+								dataType: 'json',
+           					success : function (data) { 
+									console.log(data);
+									commit(true);
+									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+								},
+            				error : function (jqXHR, textStatus, error) {
+          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
+									commit(false);
+            				}
+         				});
+						} 
+					};
+				} else { 
+					search = 
+					{
+						datatype: "json",
+						datafields:
+						[
+							<cfset separator = "">
+							<cfloop query="getFieldMetadata">
+								<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
+									#separator#{name: '#ucase(column_name)#', type: 'string' }
+								<cfelseif data_type EQ 'NUMBER' >
+									#separator#{name: '#ucase(column_name)#', type: 'number' }
+								<cfelse>
+									#separator#{name: '#ucase(column_name)#', type: 'string' }
+								</cfif>
+								<cfset separator = ",">
+							</cfloop>
+						],
+						beforeprocessing: function (data) {
+							if (data != null && data.length > 0) {
+								search.totalrecords = data[0].recordcount;
+							}
+						},
+						sort: function () {
+							$("##fixedsearchResultsGrid").jqxGrid('updatebounddata','sort');
+						},
+						root: 'specimenRecord',
+						id: 'collection_object_id',
+						url: '/specimens/component/search.cfc?' + $('##fixedSearchForm').serialize(),
+						timeout: #Application.ajax_timeout*2#000,  // units not specified, miliseconds?  Fixed
+						loadError: function(jqXHR, textStatus, error) {
+							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
+						},
+						async: true,
+						deleterow: function (rowid, commit) {
+							console.log(rowid);
+							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
+							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
+							console.log(collobjtoremove);
+		        			$.ajax({
+            				url: "/specimens/component/search.cfc",
+            				data: { 
+									method: 'removeItemFromResult', 
+									result_id: $('##result_id_fixedSearch').val(),
+									collection_object_id: collobjtoremove
+								},
+								dataType: 'json',
+           					success : function (data) { 
+									console.log(data);
+									commit(true);
+									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+								},
+            				error : function (jqXHR, textStatus, error) {
+          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
+									commit(false);
+            				}
+         				});
+						} 
+					};
+				};
+				</script>
 		</main>
 																
 																
