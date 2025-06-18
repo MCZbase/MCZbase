@@ -3355,11 +3355,11 @@ Target JSON:
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					
 					setTimeout(function() {
-    var columns = $('#fixedsearchResultsGrid').jqxGrid('columns').records;
+    var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
     if (columns.length) {
-        $('#fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[0].datafield);
+        $('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[0].datafield);
     }
-    $('#fixedsearchResultsGrid').focus();
+    $('##fixedsearchResultsGrid').focus();
     removeTabbablesInsideGrid();
   }, 100);
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
@@ -3403,8 +3403,8 @@ Target JSON:
 						setPinColumnState('fixedsearchResultsGrid','GUID',true);
 					</cfif>
 				});
-		$('#fixedsearchResultsGrid').on('pagechanged', removeTabbablesInsideGrid);
-$('#fixedsearchResultsGrid').on('sort', removeTabbablesInsideGrid);
+		$('##fixedsearchResultsGrid').on('pagechanged', removeTabbablesInsideGrid);
+$('##fixedsearchResultsGrid').on('sort', removeTabbablesInsideGrid);
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
 					var args = event.args;
