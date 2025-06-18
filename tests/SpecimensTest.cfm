@@ -3271,7 +3271,7 @@ Target JSON:
 				}
 
 	function removeTabbablesInsideGrid() {
-    $('#fixedsearchResultsGrid').find('a, button, input, [tabindex]')
+    $('##fixedsearchResultsGrid').find('a, button, input, [tabindex]')
       .attr('tabindex', -1);
 }
 				$("##fixedsearchResultsGrid").jqxGrid({
@@ -3344,7 +3344,7 @@ Target JSON:
 					},
 					initrowdetails: initRowDetails
 				});
-				$('#fixedsearchResultsGrid').attr('tabindex', 0);
+				$('##fixedsearchResultsGrid').attr('tabindex', 0);
 
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
