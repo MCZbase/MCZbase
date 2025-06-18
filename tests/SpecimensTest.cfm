@@ -280,7 +280,7 @@ limitations under the License.
 						</div>
 						<div class="tab-content mt-0 px-0 pb-0">
 							<!---Fixed Search tab panel--->
-							<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus" #fixedTabShow#>
+							<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" class="mx-0 #fixedTabActive# unfocus" #fixedTabShow#>
 								<div class="col-9 float-right px-0"> 
 									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
 										Search Help
@@ -1465,8 +1465,8 @@ limitations under the License.
 											<div class="mb-3">
 												<div class="row mx-0 mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4 ml-2 ml-md-1 pt3px">
-														<span tabindex="0">Results:</span> 
-														<span class="pr-2 font-weight-normal" id="fixedresultCount" tabindex="0"></span> 
+														<span >Results:</span> 
+														<span class="pr-2 font-weight-normal" id="fixedresultCount"></span> 
 														<span id="fixedresultLink" class="font-weight-normal pr-2"></span>
 													</h1>
 													<div id="fixedshowhide"></div>
@@ -1795,8 +1795,8 @@ limitations under the License.
 											<div class="mb-3">
 												<div class="row mx-0 mt-0 mt-sm-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4 pt3px ml-2 ml-md-1">
-														<span tabindex="0">Results:</span> 
-														<span class="pr-2 font-weight-normal" id="keywordresultCount" tabindex="0"></span> 
+														<span>Results:</span> 
+														<span class="pr-2 font-weight-normal" id="keywordresultCount"></span> 
 														<span id="keywordresultLink" class="font-weight-normal pr-2"></span>
 													</h1>
 													<div id="keywordshowhide"></div>
@@ -1837,6 +1837,10 @@ limitations under the License.
 																}
 															};
 														</script>
+														
+														<!---Grid Select--->
+														<!---Grid Select--->
+														<!---Grid Select--->
 														<label class="data-entry-label d-inline w-auto mt-1" for="keywordselectMode">Grid Select:</label>
 														<select class="data-entry-select d-inline w-auto mt-1" id="keywordselectMode" onChange="keywordchangeSelectMode();">
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -1848,6 +1852,12 @@ limitations under the License.
 															<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
 														</select>
+																
+														<!---Grid Select--->
+														<!---Grid Select--->
+														<!---Grid Select--->
+																
+																
 													</div>
 
 													<output id="keywordactionFeedback" class="btn btn-xs btn-transparent px-2 my-2 mx-1 border-0"></output>
@@ -2423,8 +2433,8 @@ Target JSON:
 											<div class="mb-3">
 												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4 pt3px ml-2 ml-md-1">
-														<span tabindex="0">Results: </span> 
-														<span class="pr-2 font-weight-normal" id="builderresultCount" tabindex="0"></span> 
+														<span>Results: </span> 
+														<span class="pr-2 font-weight-normal" id="builderresultCount"></span> 
 														<span id="builderresultLink" class="pr-2 font-weight-normal"></span>
 													</h1>
 													<div id="buildershowhide"></div>
