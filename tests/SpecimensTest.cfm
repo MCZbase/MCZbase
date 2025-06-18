@@ -127,7 +127,7 @@ limitations under the License.
 	GROUP BY nature_of_id
  	ORDER BY nature_of_id
 </cfquery>
-
+<cfset fixedTabActive = "active">
 <cfquery name="column_headers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 1
 </cfquery>
