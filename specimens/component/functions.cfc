@@ -6775,7 +6775,7 @@ function showLLFormat(orig_units) {
 						<!--- accession is in a different department than the cataloged item --->
 						<cfset accnDept = "(#accnCollection.collection_cde#)">
 					</cfif>
-				<div>
+				</cfif>
 				<div class="container test">
 					<div class="row mx-0">
 						<cfif show_specimen_data EQ "yes">
@@ -6975,7 +6975,8 @@ function showLLFormat(orig_units) {
 					<div>#error_message#</div>
 				</cfcatch>
 			</cftry>
-		</cfoutput> </cfthread>
+		</cfoutput>
+	</cfthread>
 	<cfthread action="join" name="getEditTransactionsThread" />
 	<cfreturn getEditTransactionsThread.output>
 </cffunction>
