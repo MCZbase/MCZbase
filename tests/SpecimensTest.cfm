@@ -3641,8 +3641,6 @@ Target JSON:
 					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 				}
 		
-				
-				
 				$("##keywordsearchResultsGrid").jqxGrid({
 					width: '100%',
 					autoheight: 'true',
@@ -3652,7 +3650,6 @@ Target JSON:
 					pageable: true,
 					editable: false,
 					virtualmode: true,
-					keyboardnavigation: true,
 					enablemousewheel: #session.gridenablemousewheel#,
 					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','500'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
@@ -3663,7 +3660,7 @@ Target JSON:
 					autoshowloadelement: false,  // overlay acts as load element for form+results
 					columnsreorder: true,
 					groupable: true,
-					selectionmode: 'singlecell',
+					selectionmode: '#defaultSelectionMode#',
 					enablebrowserselection: #defaultenablebrowserselection#,
 					altrows: true,
 					showtoolbar: false,
@@ -3777,12 +3774,7 @@ Target JSON:
 					$("##keywordunselectrowindex").text(event.args.rowindex);
 				});
 			});
-
-
-    // The fixes for keyboard navigation (put after grid setup!):
-
-
-
+	
 			/* Setup jqxgrid for builder Search */
 			$('##builderSearchForm').bind('submit', function(evt){
 				evt.preventDefault();
@@ -4367,56 +4359,9 @@ Target JSON:
 			$('##'+whichGrid+'selectModeContainer').show();
 			$('##'+whichGrid+'PostGridControls').show();
 		}
-function loadGeoreferenceCount(result_uuid, elementId, labelStart, labelEnd) {
-  // Add the logic for what should happen here...
-  // For now, you could log or do nothing:
-  console.log('loadGeoreferenceCount called with', arguments);
-}
-		
-		
-		    $("##fixedsearchResultsGrid").attr('tabindex', 0);
-
-    function selectFirstCell() {
-        var grid = $('##fixedsearchResultsGrid');
-        var cell = grid.jqxGrid('getselectedcell');
-        if (!cell || cell.rowindex === undefined || cell.datafield === undefined) {
-            var columns = grid.jqxGrid('columns').records;
-            if (columns.length) grid.jqxGrid('selectcell', 0, columns[0].datafield);
-        }
-    }
-    $('##fixedsearchResultsGrid').on('focus', function() {
-        setTimeout(selectFirstCell, 10);
-    });
-
-    function removeTabbablesInsideGrid() {
-        $('##fixedsearchResultsGrid')
-            .find('a, button, input, [tabindex]')
-            .attr('tabindex', -1);
-    }
-    $('##fixedsearchResultsGrid').on('bindingcomplete', removeTabbablesInsideGrid);
-    $('##fixedsearchResultsGrid').on('pagechanged', removeTabbablesInsideGrid);
-    $('##fixedsearchResultsGrid').on('columnreordered', removeTabbablesInsideGrid);
-    $('##fixedsearchResultsGrid').on('sort', removeTabbablesInsideGrid);
 
 	</script>
-	<table id="fixedsearchResultsGrid">
-    <thead>
-        <tr>
-            <th>GUID</th>
-            <th>Collection</th>
-			<th>Catalog Number</th>
-        </tr>
-    </thead>
-    <tbody>
-        <cfloop query="fixedsearchResultsGrid">
-            <tr>
-                <td>#htmlEditFormat(fixedsearchResultsGrid.GUID)#</td>
-                <td>#htmlEditFormat(fixedsearchResultsGrid.Collection)#</td>
-				<td>#htmlEditFormat(fixedsearchResultsGrid.Cat_num)#</td>
-            </tr>
-        </cfloop>
-    </tbody>
-</table>
+	
 	<!---  script>
 	TODO: indentation is broken, and this references ids not present on the page, so it breaks this block.  Remove or add back in if left/right blocks for faceted search are added back in.
 	TODO: Fix the indentation and nesting, this looks like one function, but isn't.
