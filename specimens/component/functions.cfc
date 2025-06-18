@@ -6760,7 +6760,7 @@ function showLLFormat(orig_units) {
 								<li class="list-group-item">
 									<h5 class="mb-0 d-inline-block">Accession:</h5>
 									<cfif oneOfUs is 1>
-										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#getItems.accn_id#" target="_blank">#gpetItems.accn_number#</a>
+										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#getItems.accn_id#" target="_blank">#getItems.accn_number#</a>
 										<button type="button" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage)">Edit</button>
 									<cfelse>
 										#getItems.accn_number#
