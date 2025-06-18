@@ -2466,159 +2466,159 @@ Target JSON:
 		window.columnHiddenSettings = new Object();
 
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-			<cfif isdefined("session.killRow") AND session.killRow is 2>
-				// setup for removal by checkboxes
-
-				// define a set for each grid to hold collection object ids to remove.
-				const fixedlisttoremove = new Set([]);
-				const keywordlisttoremove = new Set([]);
-				const builderlisttoremove = new Set([]);
-
-				// on change event handlers for buttons for checkboxes in grid cell renderers, add/remove items to sets.
-				function fixedChangeItem(collection_object_id) { 
-					if (fixedlisttoremove.has(collection_object_id)) { 
-						fixedlisttoremove.delete(collection_object_id);
-					} else { 
-						fixedlisttoremove.add(collection_object_id);
-					} 
-					updateButtonRemoveState('fixed');
-				}
-				function keywordChangeItem(collection_object_id) { 
-					if (keywordlisttoremove.has(collection_object_id)) { 
-						keywordlisttoremove.delete(collection_object_id);
-					} else { 
-						keywordlisttoremove.add(collection_object_id);
-					} 
-					updateButtonRemoveState('keyword');
-				}
-				function builderChangeItem(collection_object_id) { 
-					if (builderlisttoremove.has(collection_object_id)) { 
-						builderlisttoremove.delete(collection_object_id);
-					} else { 
-						builderlisttoremove.add(collection_object_id);
-					} 
-					updateButtonRemoveState('builder');
-				}
-		
-				// for a specified grid, update the remove selected button state
-				function updateButtonRemoveState(whichGrid) { 
-					size = 0;
-					if (whichGrid=="fixed") { size = fixedlisttoremove.size; }
-					if (whichGrid=="keyword") { size = keywordlisttoremove.size; }
-					if (whichGrid=="builder") { size = builderlisttoremove.size; }
-					if (size > 0) { 
-						$('##'+whichGrid+'removeButton').attr('disabled',false);  
-						$('##'+whichGrid+'removeButton').removeClass('disabled'); 
-					} else { 
-						$('##'+whichGrid+'removeButton').attr('disabled',true);
-						$('##'+whichGrid+'removeButton').addClass('disabled'); 
-					}
-				} 
+//			<cfif isdefined("session.killRow") AND session.killRow is 2>
+//				// setup for removal by checkboxes
+//
+//				// define a set for each grid to hold collection object ids to remove.
+//				const fixedlisttoremove = new Set([]);
+//				const keywordlisttoremove = new Set([]);
+//				const builderlisttoremove = new Set([]);
+//
+//				// on change event handlers for buttons for checkboxes in grid cell renderers, add/remove items to sets.
+//				function fixedChangeItem(collection_object_id) { 
+//					if (fixedlisttoremove.has(collection_object_id)) { 
+//						fixedlisttoremove.delete(collection_object_id);
+//					} else { 
+//						fixedlisttoremove.add(collection_object_id);
+//					} 
+//					updateButtonRemoveState('fixed');
+//				}
+//				function keywordChangeItem(collection_object_id) { 
+//					if (keywordlisttoremove.has(collection_object_id)) { 
+//						keywordlisttoremove.delete(collection_object_id);
+//					} else { 
+//						keywordlisttoremove.add(collection_object_id);
+//					} 
+//					updateButtonRemoveState('keyword');
+//				}
+//				function builderChangeItem(collection_object_id) { 
+//					if (builderlisttoremove.has(collection_object_id)) { 
+//						builderlisttoremove.delete(collection_object_id);
+//					} else { 
+//						builderlisttoremove.add(collection_object_id);
+//					} 
+//					updateButtonRemoveState('builder');
+//				}
+//		
+//				// for a specified grid, update the remove selected button state
+//				function updateButtonRemoveState(whichGrid) { 
+//					size = 0;
+//					if (whichGrid=="fixed") { size = fixedlisttoremove.size; }
+//					if (whichGrid=="keyword") { size = keywordlisttoremove.size; }
+//					if (whichGrid=="builder") { size = builderlisttoremove.size; }
+//					if (size > 0) { 
+//						$('##'+whichGrid+'removeButton').attr('disabled',false);  
+//						$('##'+whichGrid+'removeButton').removeClass('disabled'); 
+//					} else { 
+//						$('##'+whichGrid+'removeButton').attr('disabled',true);
+//						$('##'+whichGrid+'removeButton').addClass('disabled'); 
+//					}
+//				} 
 		
 				// functions defined separately for each grid/set to remove, event handler for remove selected for that grid.
-				function removeFixedSelectedRows() { 
-					console.log(fixedlisttoremove);
-					confirmDialog(
-						"Remove " + fixedlisttoremove.size + " selected cataloged items from this search result?", 
-						"Remove items from search result", 
-						function() { 
-							$.ajax({
-								url: "/specimens/component/search.cfc",
-								data: { 
-									method: 'removeItemListFromResult', 
-									result_id: $('##result_id_fixedSearch').val(),
-									collection_object_id: Array.from(fixedlisttoremove).join(",")
-								},
-								dataType: 'json',
-								success : function (data) { 
-									console.log(data);
-									var pageinfo = $("##fixedsearchResultsGrid").jqxGrid('getpaginginformation');
-									var rowcount = $("##fixedsearchResultsGrid").jqxGrid('getrows').length;
-									if (rowcount <= fixedlisttoremove.size && pageinfo.pagenum+1 == pageinfo.pagescount) { 
-										// we are on the last page, and will remove more than the visible page worth of rows, move to the first page.
-										$('##fixedsearchResultsGrid').jqxGrid('gotopage',0);
-									}
-									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
-									fixedResultModifiedHere();
-									fixedlisttoremove.clear();
-									updateButtonRemoveState('fixed');
-								},
-								error : function (jqXHR, textStatus, error) {
-									handleFail(jqXHR,textStatus,error,"removing selected rows from result set");
-								}
-							}); 
-						}
-					);
-				}
-				function removeKeywordSelectedRows() { 
-					console.log(keywordlisttoremove);
-					confirmDialog(
-						"Remove " + keywordlisttoremove.size + " selected cataloged items from this search result?", 
-						"Remove items from search result", 
-						function() { 
-							$.ajax({
-								url: "/specimens/component/search.cfc",
-								data: { 
-									method: 'removeItemListFromResult', 
-									result_id: $('##result_id_keywordSearch').val(),
-									collection_object_id: Array.from(keywordlisttoremove).join(",")
-								},
-								dataType: 'json',
-								success : function (data) { 
-									console.log(data);
-									var pageinfo = $("##keywordsearchResultsGrid").jqxGrid('getpaginginformation');
-									var rowcount = $("##keywordsearchResultsGrid").jqxGrid('getrows').length;
-									if (rowcount <= keywordlisttoremove.size && pageinfo.pagenum+1 == pageinfo.pagescount) { 
-										// we are on the last page, and will remove more than the visible page worth of rows, move to the first page.
-										$('##keywordsearchResultsGrid').jqxGrid('gotopage',0);
-									}
-									$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
-									keywordResultModifiedHere();
-									keywordlisttoremove.clear();
-									updateButtonRemoveState('keyword');
-								},
-								error : function (jqXHR, textStatus, error) {
-									handleFail(jqXHR,textStatus,error,"removing selected rows from result set");
-								}
-							}); 
-						}
-					);
-				}
-				function removeBuilderSelectedRows() { 
-					console.log(builderlisttoremove);
-					confirmDialog(
-						"Remove " + builderlisttoremove.size + " selected cataloged items from this search result?", 
-						"Remove items from search result", 
-						function() { 
-							$.ajax({
-								url: "/specimens/component/search.cfc",
-								data: { 
-									method: 'removeItemListFromResult', 
-									result_id: $('##result_id_builderSearch').val(),
-									collection_object_id: Array.from(builderlisttoremove).join(",")
-								},
-								dataType: 'json',
-								success : function (data) { 
-									console.log(data);
-									var pageinfo = $("##buildersearchResultsGrid").jqxGrid('getpaginginformation');
-									var rowcount = $("##buildersearchResultsGrid").jqxGrid('getrows').length;
-									if (rowcount <= builderlisttoremove.size && pageinfo.pagenum+1 == pageinfo.pagescount) { 
-										// we are on the last page, and will remove more than the visible page worth of rows, move to the first page.
-										$('##buildersearchResultsGrid').jqxGrid('gotopage',0);
-									}
-									$('##buildersearchResultsGrid').jqxGrid('updatebounddata');
-									builderResultModifiedHere();
-									builderlisttoremove.clear();
-									updateButtonRemoveState('builder');
-								},
-								error : function (jqXHR, textStatus, error) {
-									handleFail(jqXHR,textStatus,error,"removing selected rows from result set");
-								}
-							}); 
-						}
-					);
-				}
-			</cfif>
+			//	function removeFixedSelectedRows() { 
+//					console.log(fixedlisttoremove);
+//					confirmDialog(
+//						"Remove " + fixedlisttoremove.size + " selected cataloged items from this search result?", 
+//						"Remove items from search result", 
+//						function() { 
+//							$.ajax({
+//								url: "/specimens/component/search.cfc",
+//								data: { 
+//									method: 'removeItemListFromResult', 
+//									result_id: $('##result_id_fixedSearch').val(),
+//									collection_object_id: Array.from(fixedlisttoremove).join(",")
+//								},
+//								dataType: 'json',
+//								success : function (data) { 
+//									console.log(data);
+//									var pageinfo = $("##fixedsearchResultsGrid").jqxGrid('getpaginginformation');
+//									var rowcount = $("##fixedsearchResultsGrid").jqxGrid('getrows').length;
+//									if (rowcount <= fixedlisttoremove.size && pageinfo.pagenum+1 == pageinfo.pagescount) { 
+//										// we are on the last page, and will remove more than the visible page worth of rows, move to the first page.
+//										$('##fixedsearchResultsGrid').jqxGrid('gotopage',0);
+//									}
+//									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+//									fixedResultModifiedHere();
+//									fixedlisttoremove.clear();
+//									updateButtonRemoveState('fixed');
+//								},
+//								error : function (jqXHR, textStatus, error) {
+//									handleFail(jqXHR,textStatus,error,"removing selected rows from result set");
+//								}
+//							}); 
+//						}
+//					);
+//				}
+			//	function removeKeywordSelectedRows() { 
+//					console.log(keywordlisttoremove);
+//					confirmDialog(
+//						"Remove " + keywordlisttoremove.size + " selected cataloged items from this search result?", 
+//						"Remove items from search result", 
+//						function() { 
+//							$.ajax({
+//								url: "/specimens/component/search.cfc",
+//								data: { 
+//									method: 'removeItemListFromResult', 
+//									result_id: $('##result_id_keywordSearch').val(),
+//									collection_object_id: Array.from(keywordlisttoremove).join(",")
+//								},
+//								dataType: 'json',
+//								success : function (data) { 
+//									console.log(data);
+//									var pageinfo = $("##keywordsearchResultsGrid").jqxGrid('getpaginginformation');
+//									var rowcount = $("##keywordsearchResultsGrid").jqxGrid('getrows').length;
+//									if (rowcount <= keywordlisttoremove.size && pageinfo.pagenum+1 == pageinfo.pagescount) { 
+//										// we are on the last page, and will remove more than the visible page worth of rows, move to the first page.
+//										$('##keywordsearchResultsGrid').jqxGrid('gotopage',0);
+//									}
+//									$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
+//									keywordResultModifiedHere();
+//									keywordlisttoremove.clear();
+//									updateButtonRemoveState('keyword');
+//								},
+//								error : function (jqXHR, textStatus, error) {
+//									handleFail(jqXHR,textStatus,error,"removing selected rows from result set");
+//								}
+//							}); 
+//						}
+//					);
+//				}
+			//	function removeBuilderSelectedRows() { 
+//					console.log(builderlisttoremove);
+//					confirmDialog(
+//						"Remove " + builderlisttoremove.size + " selected cataloged items from this search result?", 
+//						"Remove items from search result", 
+//						function() { 
+//							$.ajax({
+//								url: "/specimens/component/search.cfc",
+//								data: { 
+//									method: 'removeItemListFromResult', 
+//									result_id: $('##result_id_builderSearch').val(),
+//									collection_object_id: Array.from(builderlisttoremove).join(",")
+//								},
+//								dataType: 'json',
+//								success : function (data) { 
+//									console.log(data);
+//									var pageinfo = $("##buildersearchResultsGrid").jqxGrid('getpaginginformation');
+//									var rowcount = $("##buildersearchResultsGrid").jqxGrid('getrows').length;
+//									if (rowcount <= builderlisttoremove.size && pageinfo.pagenum+1 == pageinfo.pagescount) { 
+//										// we are on the last page, and will remove more than the visible page worth of rows, move to the first page.
+//										$('##buildersearchResultsGrid').jqxGrid('gotopage',0);
+//									}
+//									$('##buildersearchResultsGrid').jqxGrid('updatebounddata');
+//									builderResultModifiedHere();
+//									builderlisttoremove.clear();
+//									updateButtonRemoveState('builder');
+//								},
+//								error : function (jqXHR, textStatus, error) {
+//									handleFail(jqXHR,textStatus,error,"removing selected rows from result set");
+//								}
+//							}); 
+//						}
+//					);
+//				}
+	//		</cfif>
 		</cfif>
 		
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
