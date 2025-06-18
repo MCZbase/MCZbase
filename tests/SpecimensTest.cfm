@@ -4718,15 +4718,17 @@
 					},
 					initrowdetails: initRowDetails
 				});
-
+				$('#fixedsearchResultsGrid').attr('tabindex', 0);
 				
-					$('#fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+				$('#fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
 						columnOrderChanged('fixedsearchResultsGrid'); 
 					}); 
 				
 				
 				$("#fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-					
+					setTimeout(function() {
+						selectFirstCell();
+					}, 100);
 					
 						$("#fixedsearchResultsGrid").attr('tabindex', 0);
 
@@ -4781,6 +4783,21 @@
 						setPinColumnState('fixedsearchResultsGrid','GUID',true);
 					
 				});
+				function selectFirstCell() {
+    var grid = $('#fixedsearchResultsGrid');
+    var cell = grid.jqxGrid('getselectedcell');
+    if (
+      !cell ||
+      typeof cell.rowindex === 'undefined' ||
+      cell.datafield === undefined
+    ) {
+        var columns = grid.jqxGrid('columns').records;
+        if (columns.length) {
+            grid.jqxGrid('selectcell', 0, columns[0].datafield);
+        }
+    }
+}
+				
 				$('#fixedsearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
 					var args = event.args;
