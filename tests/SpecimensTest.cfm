@@ -4359,7 +4359,11 @@ Target JSON:
 			$('##'+whichGrid+'selectModeContainer').show();
 			$('##'+whichGrid+'PostGridControls').show();
 		}
-
+function loadGeoreferenceCount(result_uuid, elementId, labelStart, labelEnd) {
+  // Add the logic for what should happen here...
+  // For now, you could log or do nothing:
+  console.log('loadGeoreferenceCount called with', arguments);
+}
 	</script>
 	
 	<!---  script>
