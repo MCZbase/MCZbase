@@ -1,5 +1,18 @@
 <cfset pageTitle = "Search Specimen | Basic">
 <cfinclude template = "/shared/_header.cfm">
+	
+<cfset defaultSelectionMode = "none">
+<cfif defaultSelectionMode EQ "none">
+	<cfset defaultenablebrowserselection = "true">
+<cfelse>
+	<cfset defaultenablebrowserselection = "false">
+</cfif>	
+
+<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+	<cfset oneOfUs = 1>
+<cfelse>
+	<cfset oneOfUs = 0>
+</cfif>
   <div id="fixedsearchResultsGrid"></div>
   <script>
     var data = [
