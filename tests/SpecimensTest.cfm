@@ -1494,7 +1494,7 @@ limitations under the License.
 													<div id="fixedresultDownloadButtonContainer"></div>
 													<span id="fixedmanageButton" class=""></span>
 													<span id="fixedremoveButtonDiv" class=""></span>
-													<div id="fixedresultBMMapLinkContainer"></div>
+										<!---			<div id="fixedresultBMMapLinkContainer"></div>--->
 													<div id="fixedselectModeContainer" class="ml-3" style="display: none;" >
 														<script>
 															function fixedchangeSelectMode(){
