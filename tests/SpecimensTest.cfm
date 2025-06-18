@@ -4408,11 +4408,11 @@ function loadGeoreferenceCount(result_uuid, elementId, labelStart, labelEnd) {
         </tr>
     </thead>
     <tbody>
-        <cfloop query="myResults">
+        <cfloop query="fixedsearchResultsGrid">
             <tr>
                 <td>#htmlEditFormat(fixedsearchResultsGrid.GUID)#</td>
                 <td>#htmlEditFormat(fixedsearchResultsGrid.Collection)#</td>
-				<td>#htmlEditFormat(fixedsearchResultsGrid.Catalog Number)#</td>
+				<td>#htmlEditFormat(fixedsearchResultsGrid.Cat_num)#</td>
             </tr>
         </cfloop>
     </tbody>
