@@ -2432,7 +2432,35 @@ Target JSON:
 					</div>
 				</div>
 			</div>
+			<cfset lastcolumn = 'OTHERCATALOGNUMBERS'>
+	<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getFieldMetadata_result">
+		SELECT upper(column_name) as column_name, sql_element, data_type, category, label, disp_order, hideable, hidden, cellsrenderer, width
+		FROM cf_spec_res_cols_r
+		WHERE access_role = 'PUBLIC'
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				OR access_role = 'COLDFUSION_USER'
+			</cfif>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+				OR access_role = 'MANAGE_TRANSACTIONS'
+			</cfif>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+				OR access_role = 'MANAGE_SPECIMENS'
+			</cfif>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"DATA_ENTRY")>
+				OR access_role = 'DATA_ENTRY'
+			</cfif>
+		ORDER by disp_order
+	</cfquery>
 		</main>
+																
+																
+			<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); border-color: transparent; opacity: 0.99; display: none; z-index: 2;">
+			<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; width: 10em; height: 2.4em;line-height: 2.4em; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -5em; opacity: 1;">
+				<div class="jqx-grid-load" style="float: left; overflow: hidden; height: 32px; width: 32px;"></div>
+				<div style="float: left; display: block; margin-left: 1em;" >Searching...</div>	
+			</div>
+		</div>	
+	</div><!--- end overlaycontainer --->	
 </cfoutput>
 		
 		
