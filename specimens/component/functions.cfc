@@ -6856,16 +6856,22 @@ function showLLFormat(orig_units) {
 									<li class="list-group-item">
 										<h5 class="mb-0 d-inline-block">Loan History:</h5>
 										<cfif isLoanedItem.collection_object_id gt 0>
-											<a class="d-inline-block" href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#" target="_blank">
-												Loans that include parts of this cataloged item (#loanList.recordcount#).
+											Loans that include parts of this cataloged item 
+											<a class="d-inline-block" href="/Transactions.cfm?action=findLoans&execute=true&method=getLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#" target="_blank">
+												(#loanList.recordcount#)
 											</a>
+											.
 										<cfelse>
 											No Loans include parts of this cataloged item.
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 											<cfloop query="loanList">
 												<ul class="d-block">
-													<li class="d-block">#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#) #loanList.part_name# (#loanList.preserve_method#) #loanList.coll_obj_disposition#</li>
+													<li class="d-block">
+														<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loanList.transaction_id#" target="_blank">
+															#loanList.loan_number#
+														</a>
+														(#loanList.loan_type# #loanList.loan_status#) #loanList.part_name# (#loanList.preserve_method#) Part Disposition: #loanList.coll_obj_disposition#</li>
 												</ul>
 											</cfloop>
 										</cfif>
