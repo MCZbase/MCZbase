@@ -95,7 +95,21 @@
 .col-xxl-11 {max-width: 90.333333%}
 }
 </style>	
-		
+	<script>
+		// From broofa's answer in https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
+		// uses the crypto library to obtain a random number and generates RFC4122 version 4 UUID.
+		function getVersion4UUID() {
+		  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+		 (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+		  );
+		}
+	</script>
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+		<!--- enable communication between search and manage pages --->
+		<script>
+			var bc = new BroadcastChannel('resultset_channel');
+		</script>
+	</cfif>
 </cfoutput>
   <div id="fixedsearchResultsGrid"></div>
   <script>
