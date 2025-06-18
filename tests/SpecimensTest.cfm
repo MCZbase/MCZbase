@@ -45,7 +45,11 @@
 <cfelse>
 	<cfset searchText = url.searchText>
 </cfif>
-	
+<cfset enableMobileKeywordTabModal = false>
+<cfif not isdefined("action") AND not isDefined("execute") AND not isDefined("method")>
+	<!--- enable test for mobile browser to make the keyword tab modal on page load if no question was asked in the uri. --->
+	<cfset enableMobileKeywordTabModal = true>
+</cfif>
 <cfif not isdefined("collection_cde") AND isdefined("collection_id") AND len(collection_id) GT 0 >
 	<!--- if collection id was provided, but not a collection code, lookup the collection code --->
 	<cfquery name="lookupCollection_cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupCollection_cde_result" timeout="#Application.short_timeout#">
