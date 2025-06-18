@@ -4399,7 +4399,24 @@ function loadGeoreferenceCount(result_uuid, elementId, labelStart, labelEnd) {
     $('##fixedsearchResultsGrid').on('sort', removeTabbablesInsideGrid);
 
 	</script>
-	
+	<table id="fixedsearchResultsGrid">
+    <thead>
+        <tr>
+            <th>GUID</th>
+            <th>Collection</th>
+			<th>Catalog Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        <cfloop query="myResults">
+            <tr>
+                <td>#htmlEditFormat(fixedsearchResultsGrid.GUID)#</td>
+                <td>#htmlEditFormat(fixedsearchResultsGrid.Collection)#</td>
+				<td>#htmlEditFormat(fixedsearchResultsGrid.Catalog Number)#</td>
+            </tr>
+        </cfloop>
+    </tbody>
+</table>
 	<!---  script>
 	TODO: indentation is broken, and this references ids not present on the page, so it breaks this block.  Remove or add back in if left/right blocks for faceted search are added back in.
 	TODO: Fix the indentation and nesting, this looks like one function, but isn't.
