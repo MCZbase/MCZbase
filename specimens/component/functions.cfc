@@ -6820,7 +6820,8 @@ function showLLFormat(orig_units) {
 										to_char(loan.return_due_date, 'yyyy-mm-dd') return_due_date,  
 										to_char(loan.closed_date, 'yyyy-mm-dd') closed_date, 
 										specimen_part.part_name, specimen_part.preserve_method,
-										coll_object.coll_obj_disposition
+										coll_object.coll_obj_disposition,
+										get_trans_agent(loan.transaction_id,'recipient institution') as recipient_institution
 									FROM
 										specimen_part left join loan_item on specimen_part.collection_object_id=loan_item.collection_object_id
 										join loan on loan_item.transaction_id = loan.transaction_id
@@ -6879,8 +6880,12 @@ function showLLFormat(orig_units) {
 														<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loanList.transaction_id#" target="_blank">
 															#loanList.loan_number#
 														</a>
-														#loanList.loan_type# #loanList.loan_status# 
 														#loanList.loan_date# 
+														#loanList.loan_type#
+														#loanList.loan_status# 
+														<cfif loanList.recipient_institution NEQ "">
+															To: #loanList.recipient_institution#
+														</cfif>
 														<cfif loanList.return_due_date NEQ "" and loanList.closed_date EQ "">
 															<cfif loanList.return_due_date GT now()>
 																<strong style="text-danger">Overdue: #loanList.return_due_date#</strong>
