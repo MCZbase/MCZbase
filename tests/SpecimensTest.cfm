@@ -227,9 +227,9 @@ limitations under the License.
 								<cfset builderTabShow = "hidden">
 								<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
 								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">--->
 							</cfcase>
-						<!---	<cfcase value="keywordSearch">
+							<cfcase value="keywordSearch">
 								<cfset fixedTabActive = "">
 								<cfset fixedTabShow = "hidden">
 								<cfset keywordTabActive = "active">
@@ -250,21 +250,21 @@ limitations under the License.
 								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset builderTabAria = "aria-selected=""true"" tabindex=""0"" ">
-							</cfcase>--->
+							</cfcase>
 							<cfdefaultcase>
 								<cfset fixedTabActive = "active">
 								<cfset fixedTabShow = "">
-								<!---<cfset keywordTabActive = "">
+								<cfset keywordTabActive = "">
 								<cfset keywordTabShow = "hidden">
 								<cfset builderTabActive = "">
-								<cfset builderTabShow = "hidden">--->
+								<cfset builderTabShow = "hidden">
 								<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
-								<!---<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">--->
+								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfdefaultcase>
 						</cfswitch>
 						<cfif enableMobileKeywordTabModal EQ true>
-							<!--- check for a narrow screen, and if so, make the keyword search tab modal --->
+							 check for a narrow screen, and if so, make the keyword search tab modal 
 							<script>
 								$(document).ready(function() {
 									if (window.innerWidth <= 600) { 
