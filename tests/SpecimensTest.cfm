@@ -3446,14 +3446,40 @@ Target JSON:
 						columnOrderChanged('fixedsearchResultsGrid'); 
 					}); 
 				</cfif>
-				
-				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-					
-					
-						$("##fixedsearchResultsGrid").attr('tabindex', 0);
+				$('##fixedsearchResultsGrid').attr('tabindex', 0);
+
+// After binding, select the first cell (this is good UX for mouse and programmatic changes)
+$('##fixedsearchResultsGrid').on('bindingcomplete', function() {
+    setTimeout(function() {
+        selectFirstCell();
+    }, 100);
+});
+
+// On container focus (including tab-from-keyboard), select the first cell
+$('##fixedsearchResultsGrid').on('focus', function(e) {
+    setTimeout(function() {
+        selectFirstCell();
+    }, 10);
+});
+
+// Helper selects first visible cell **only if nothing is already selected**
+function selectFirstCell() {
+    var grid = $('##fixedsearchResultsGrid');
+    var cell = grid.jqxGrid('getselectedcell');
+    if (
+      !cell ||
+      typeof cell.rowindex === 'undefined' ||
+      cell.datafield === undefined
+    ) {
+        var columns = grid.jqxGrid('columns').records;
+        if (columns.length) {
+            grid.jqxGrid('selectcell', 0, columns[0].datafield);
+        }
+    }
+}
 
 						// Set all interactive descendants to non-tabbable
-						$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
+						//$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
 
 						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
 						if (columns && columns.length > 0) {
@@ -3462,16 +3488,16 @@ Target JSON:
 						$("##fixedsearchResultsGrid").focus();
 
 						// The rest of your existing logic...
-						$("##fixedsearchResultsGrid").on('focusin', function(event) {
-							// Check if any cell is already selected
-							var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
-							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
-								var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-								if (columns && columns.length > 0) {
-									$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
-								}
-							}
-						});
+						//$("##fixedsearchResultsGrid").on('focusin', function(event) {
+//							// Check if any cell is already selected
+//							var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+//							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
+//								var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+//								if (columns && columns.length > 0) {
+//									$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+//								}
+//							}
+//						});
 					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
