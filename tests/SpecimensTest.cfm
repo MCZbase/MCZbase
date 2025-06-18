@@ -13,6 +13,38 @@
 <cfelse>
 	<cfset oneOfUs = 0>
 </cfif>
+<cfquery name="ctCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+	SELECT
+		collection_cde,
+		collection,
+		collection_id
+	FROM
+		collection
+	ORDER BY collection.collection
+</cfquery>
+<cfquery name="ctother_id_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT count(*) ct, other_id_type 
+	FROM coll_obj_other_id_num co
+	GROUP BY other_id_type 
+	ORDER BY other_id_type
+</cfquery>
+<cfquery name="ctnature_of_id" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
+	SELECT nature_of_id, count(*) as ct 
+	FROM IDENTIFICATION
+	GROUP BY nature_of_id
+ 	ORDER BY nature_of_id
+</cfquery>
+
+<cfquery name="column_headers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 1
+</cfquery>
+
+<!--- ensure that pass through parameters for linking to a search are defined --->
+<cfif NOT isdefined("url.searchText")>
+	<cfset searchText = "">
+<cfelse>
+	<cfset searchText = url.searchText>
+</cfif>
   <div id="fixedsearchResultsGrid"></div>
   <script>
     var data = [
