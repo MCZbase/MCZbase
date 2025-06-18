@@ -3781,29 +3781,6 @@ Target JSON:
 
     // The fixes for keyboard navigation (put after grid setup!):
 
-    $("##fixedsearchResultsGrid").attr('tabindex', 0);
-
-    function selectFirstCell() {
-        var grid = $('##fixedsearchResultsGrid');
-        var cell = grid.jqxGrid('getselectedcell');
-        if (!cell || cell.rowindex === undefined || cell.datafield === undefined) {
-            var columns = grid.jqxGrid('columns').records;
-            if (columns.length) grid.jqxGrid('selectcell', 0, columns[0].datafield);
-        }
-    }
-    $('##fixedsearchResultsGrid').on('focus', function() {
-        setTimeout(selectFirstCell, 10);
-    });
-
-    function removeTabbablesInsideGrid() {
-        $('##fixedsearchResultsGrid')
-            .find('a, button, input, [tabindex]')
-            .attr('tabindex', -1);
-    }
-    $('##fixedsearchResultsGrid').on('bindingcomplete', removeTabbablesInsideGrid);
-    $('##fixedsearchResultsGrid').on('pagechanged', removeTabbablesInsideGrid);
-    $('##fixedsearchResultsGrid').on('columnreordered', removeTabbablesInsideGrid);
-    $('##fixedsearchResultsGrid').on('sort', removeTabbablesInsideGrid);
 
 
 			/* Setup jqxgrid for builder Search */
@@ -4395,6 +4372,32 @@ function loadGeoreferenceCount(result_uuid, elementId, labelStart, labelEnd) {
   // For now, you could log or do nothing:
   console.log('loadGeoreferenceCount called with', arguments);
 }
+		
+		
+		    $("##fixedsearchResultsGrid").attr('tabindex', 0);
+
+    function selectFirstCell() {
+        var grid = $('##fixedsearchResultsGrid');
+        var cell = grid.jqxGrid('getselectedcell');
+        if (!cell || cell.rowindex === undefined || cell.datafield === undefined) {
+            var columns = grid.jqxGrid('columns').records;
+            if (columns.length) grid.jqxGrid('selectcell', 0, columns[0].datafield);
+        }
+    }
+    $('##fixedsearchResultsGrid').on('focus', function() {
+        setTimeout(selectFirstCell, 10);
+    });
+
+    function removeTabbablesInsideGrid() {
+        $('##fixedsearchResultsGrid')
+            .find('a, button, input, [tabindex]')
+            .attr('tabindex', -1);
+    }
+    $('##fixedsearchResultsGrid').on('bindingcomplete', removeTabbablesInsideGrid);
+    $('##fixedsearchResultsGrid').on('pagechanged', removeTabbablesInsideGrid);
+    $('##fixedsearchResultsGrid').on('columnreordered', removeTabbablesInsideGrid);
+    $('##fixedsearchResultsGrid').on('sort', removeTabbablesInsideGrid);
+
 	</script>
 	
 	<!---  script>
