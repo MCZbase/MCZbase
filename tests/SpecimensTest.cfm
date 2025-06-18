@@ -3641,6 +3641,8 @@ Target JSON:
 					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 				}
 		
+				
+				
 				$("##keywordsearchResultsGrid").jqxGrid({
 					width: '100%',
 					autoheight: 'true',
@@ -3774,7 +3776,40 @@ Target JSON:
 					$("##keywordunselectrowindex").text(event.args.rowindex);
 				});
 			});
-	
+	$(document).ready(function() {
+
+    // Your jqxGrid setup/initialization FIRST
+    $("#fixedsearchResultsGrid").jqxGrid({
+        // ... all your grid options...
+    });
+
+    // The fixes for keyboard navigation (put after grid setup!):
+
+    $("#fixedsearchResultsGrid").attr('tabindex', 0);
+
+    function selectFirstCell() {
+        var grid = $('#fixedsearchResultsGrid');
+        var cell = grid.jqxGrid('getselectedcell');
+        if (!cell || cell.rowindex === undefined || cell.datafield === undefined) {
+            var columns = grid.jqxGrid('columns').records;
+            if (columns.length) grid.jqxGrid('selectcell', 0, columns[0].datafield);
+        }
+    }
+    $('#fixedsearchResultsGrid').on('focus', function() {
+        setTimeout(selectFirstCell, 10);
+    });
+
+    function removeTabbablesInsideGrid() {
+        $('#fixedsearchResultsGrid')
+            .find('a, button, input, [tabindex]')
+            .attr('tabindex', -1);
+    }
+    $('#fixedsearchResultsGrid').on('bindingcomplete', removeTabbablesInsideGrid);
+    $('#fixedsearchResultsGrid').on('pagechanged', removeTabbablesInsideGrid);
+    $('#fixedsearchResultsGrid').on('columnreordered', removeTabbablesInsideGrid);
+    $('#fixedsearchResultsGrid').on('sort', removeTabbablesInsideGrid);
+
+});
 			/* Setup jqxgrid for builder Search */
 			$('##builderSearchForm').bind('submit', function(evt){
 				evt.preventDefault();
