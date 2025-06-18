@@ -3524,7 +3524,7 @@ Target JSON:
 						setPinColumnState('fixedsearchResultsGrid','GUID',true);
 					</cfif>
 				});
-				$('#fixedsearchResultsGrid').on('focus', function(e) {
+				$('##fixedsearchResultsGrid').on('focus', function(e) {
 					setTimeout(function() {
 						selectFirstCell();
 					}, 10);
