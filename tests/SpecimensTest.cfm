@@ -3446,32 +3446,45 @@ Target JSON:
 						columnOrderChanged('fixedsearchResultsGrid'); 
 					}); 
 				</cfif>
-				
-				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-					
-					
-						$("##fixedsearchResultsGrid").attr('tabindex', 0);
+				$('#fixedsearchResultsGrid').attr('tabindex', 0);
 
-						// Set all interactive descendants to non-tabbable
-						$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
+					function selectFirstCell() {
+						var grid = $('#fixedsearchResultsGrid');
+						var cell = grid.jqxGrid('getselectedcell');
+						if (
+						  !cell ||
+						  typeof cell.rowindex === 'undefined' ||
+						  cell.datafield === undefined
+						) {
+							var columns = grid.jqxGrid('columns').records;
+							if (columns.length) {
+								grid.jqxGrid('selectcell', 0, columns[0].datafield);
+							}
+						}
+					}
+					function removeTabbablesInsideGrid() {
+						$('#fixedsearchResultsGrid').find('a, button, input, [tabindex]').attr('tabindex', -1);
+					}
 
-						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+					$('#fixedsearchResultsGrid').on('bindingcomplete', function(event) {
+						selectFirstCell();
+						removeTabbablesInsideGrid();
+					});
+					$('#fixedsearchResultsGrid').on('pagechanged', removeTabbablesInsideGrid);
+
+					$('#fixedsearchResultsGrid').on('focus', function(e) {
+						setTimeout(selectFirstCell, 10);
+					});
+				//$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
+//					setTimeout(function() {
+//						selectFirstCell();
+//					}, 100);
+					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
 						if (columns && columns.length > 0) {
 							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
 						}
-						$("##fixedsearchResultsGrid").focus();
 
-						// The rest of your existing logic...
-						$("##fixedsearchResultsGrid").on('focusin', function(event) {
-							// Check if any cell is already selected
-							var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
-							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
-								var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-								if (columns && columns.length > 0) {
-									$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
-								}
-							}
-						});
+						
 					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
@@ -3513,6 +3526,11 @@ Target JSON:
 						console.log(#session.specimens_pin_guid#);
 						setPinColumnState('fixedsearchResultsGrid','GUID',true);
 					</cfif>
+				});
+				$('#fixedsearchResultsGrid').on('focus', function(e) {
+					setTimeout(function() {
+						selectFirstCell();
+					}, 10);
 				});
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
