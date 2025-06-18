@@ -1,19 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>jqxGrid Keyboard Navigation Test 20</title>
-  <link rel="stylesheet" href="https://jqwidgets.com/public/jqwidgets/styles/jqx.base.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://jqwidgets.com/public/jqwidgets/jqxcore.js"></script>
-  <script src="https://jqwidgets.com/public/jqwidgets/jqxdata.js"></script>
-  <script src="https://jqwidgets.com/public/jqwidgets/jqxbuttons.js"></script>
-  <script src="https://jqwidgets.com/public/jqwidgets/jqxscrollbar.js"></script>
-  <script src="https://jqwidgets.com/public/jqwidgets/jqxmenu.js"></script>
-  <script src="https://jqwidgets.com/public/jqwidgets/jqxgrid.js"></script>
-  <script src="https://jqwidgets.com/public/jqwidgets/jqxgrid.selection.js"></script>
-</head>
-<body>
+<cfset pageTitle = "Search Specimen | Basic">
+<cfinclude template = "/shared/_header.cfm">
   <div id="fixedsearchResultsGrid"></div>
   <script>
     var data = [
