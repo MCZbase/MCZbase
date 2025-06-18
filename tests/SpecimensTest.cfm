@@ -45,6 +45,58 @@
 <cfelse>
 	<cfset searchText = url.searchText>
 </cfif>
+	
+<cfif not isdefined("collection_cde") AND isdefined("collection_id") AND len(collection_id) GT 0 >
+	<!--- if collection id was provided, but not a collection code, lookup the collection code --->
+	<cfquery name="lookupCollection_cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupCollection_cde_result" timeout="#Application.short_timeout#">
+		SELECT
+			collection_cde code
+		FROM
+			collection
+		WHERE
+			collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+	</cfquery>
+	<cfloop query="lookupCollection_cde">
+		<cfset collection_cde = lookupCollection_cde.code>
+		<cfset collection = lookupCollection_cde.code>
+	</cfloop>
+</cfif>
+<cfif not isdefined("underscore_collection") AND isdefined("underscore_collection_id") AND len(underscore_collection_id) GT 0 >
+	<!--- if underscore collection id was provided, but not a collection name, lookup the collection name --->
+	<cfquery name="lookupNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupNamedGroup_result" timeout="#Application.short_timeout#">
+		SELECT
+			collection_name
+		FROM
+			underscore_collection
+		WHERE
+			underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+	</cfquery>
+	<cfloop query="lookupNamedGroup">
+		<cfset underscore_collection = lookupNamedGroup.collection_name>
+	</cfloop>
+</cfif>
+		
+<cfoutput>
+<style>
+/*fas is for the arrow up and down (more and less on form sections*/
+.fas {
+	font-size: 16px;
+}
+/*for the */
+@media screen and (max-width: 678px) {
+       .animation-element {
+               width: 100%;
+               margin: 0px 0px 30px 0px;
+       }
+}
+/* below is for the basic search width of form fields area inside teal box */
+@media screen and (min-width: 1200px) {
+.col-xxl-1 {max-width: 7.666667%}
+.col-xxl-11 {max-width: 90.333333%}
+}
+</style>	
+		
+</cfoutput>
   <div id="fixedsearchResultsGrid"></div>
   <script>
     var data = [
