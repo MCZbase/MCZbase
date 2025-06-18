@@ -6771,7 +6771,7 @@ function showLLFormat(orig_units) {
 							trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccn.accn_id#">
 				  	</cfquery>
 					<cfset accnDept = "">
-					<cfif NOT lookupAccn.catitem_coll_cde IS accnCollection.collection_cde>
+					<cfif NOT lookupAccn.catitem_coll_cde IS accnCollection.collection_cde and len(accnCollection.collection_cde) GT 0>
 						<!--- accession is in a different department than the cataloged item --->
 						<cfset accnDept = "(#accnCollection.collection_cde#)">
 					</cfif>
