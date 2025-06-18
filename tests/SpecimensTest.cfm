@@ -3341,6 +3341,7 @@ Target JSON:
 					},
 					initrowdetails: initRowDetails
 				});
+				$('#fixedsearchResultsGrid').attr('tabindex', 0);
 
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
@@ -3350,17 +3351,15 @@ Target JSON:
 				
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					
-					
-						$("##fixedsearchResultsGrid").attr('tabindex', 0);
-
+					setTimeout(function() {
+					$('#fixedsearchResultsGrid').focus();
 						// Set all interactive descendants to non-tabbable
-						$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
+						//$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
 
 						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
 						if (columns && columns.length > 0) {
 							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
 						}
-						$("##fixedsearchResultsGrid").focus();
 
 						// The rest of your existing logic...
 						$("##fixedsearchResultsGrid").on('focusin', function(event) {
