@@ -3279,7 +3279,7 @@ Target JSON:
 					sortable: true,
 					pageable: true,
 					editable: false,
-					virtualmode: true,
+					//virtualmode: true,
 					enablemousewheel: #session.gridenablemousewheel#,
 					keyboardnavigation: true,
 					pagesize: '#session.specimens_pagesize#',
