@@ -6744,7 +6744,7 @@ function showLLFormat(orig_units) {
 									<tr>
 										<td>#getItems.collection# #getItems.cat_num#</td>
 										<td>#getItems.scientific_name#</td>
-										<td><a href="Specimens.cfm?Accn_trans_id=#getItems.transaction_id#" target="_top">#getItems.accnColln# #getItems.Accn_number#</a></td>
+										<td><a href="Specimens.cfm?Accn_trans_id=#getItems.transaction_id#" target="_top">#getItems.accnColl# #getItems.Accn_number#</a></td>
 										<td>
 											#getItems.collectors# 											
 										</td>
