@@ -1904,7 +1904,7 @@ limitations under the License.
 						<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								count(distinct specimen_part.collection_object_id) ct_parts,
-								count(distinct deacc_item.collection_object_id) ct_deaccessioned
+								count(distinct deacc_item.collection_object_id) ct_deaccessioned,
 								count(distinct deacc_item.transaction_id) ct_deaccessions
 							FROM
 								specimen_part 
