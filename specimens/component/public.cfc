@@ -1991,11 +1991,11 @@ limitations under the License.
 						<!--- publicly available deaccession information --->
 						<cfquery name="deaccessionCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT
-								count(specimen_part.collection_object_id) parts,
-								count(deacc_item.collection_object_id) deaccessionedParts
+								count(distinct specimen_part.collection_object_id) parts,
+								count(distinct deacc_item.collection_object_id) deaccessionedParts
 							FROM
 								specimen_part 
-								join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
+								left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
 							WHERE
 								specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 							GROUP BY
@@ -2004,11 +2004,11 @@ limitations under the License.
 						<cfif deaccessionCount.deaccessionedParts GT 0>
 							<cfset hasContent = true>
 							<li class="font-weight-lessbold mb-1 d-inline-block float-left pr-1">
-							<cfif deaccessionCount.parts EQ deaccessionCount.deaccessionedParts>
-								Deaccessioned
-							<cfelse>
-								Some Parts have been Deaccessioned
-							</cfif>
+								<cfif deaccessionCount.parts EQ deaccessionCount.deaccessionedParts>
+									Deaccessioned
+								<cfelse>
+									Some Parts have been Deaccessioned
+								</cfif>
 							</li>
 						</cfif>
 					</cfif>
