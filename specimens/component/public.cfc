@@ -1863,9 +1863,9 @@ limitations under the License.
 								<a class="d-inline-block" href="/Transactions.cfm?action=findLoans&execute=true&method=getLoans&collection_object_id=#variables.collection_object_id#" target="_blank">
 									(#loanList.recordcount#)
 								</a>.
-								<cfloop query="loanList">
-									<ul class="d-block">
-										<li class="d-block">
+								<ul class="d-block float-left pl-0">
+									<cfloop query="loanList">
+										<li class="d-block pl-0">
 											<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loanList.transaction_id#" target="_blank">
 												#loanList.loan_number#
 											</a>
@@ -1887,8 +1887,8 @@ limitations under the License.
 											</cfif>
 											Part: #loanList.part_name# (#loanList.preserve_method#) Part Disposition: #loanList.coll_obj_disposition#</li>
 										</li>
-									</ul>
-								</cfloop>
+									</cfloop>
+								</ul>
 							<cfelse>
 								No Loans include this cataloged item.
 							</cfif>
@@ -1928,9 +1928,9 @@ limitations under the License.
 									(#deaccessionList.recordcount#)
 								</a>. 
 								&nbsp;
-								<ul class="d-block">
+								<ul class="d-block float-left pl-0">
 									<cfloop query="deaccessionList">
-										<li class="d-block">
+										<li class="d-block pl-0">
 											<a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">
 												#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)
 											</a>
