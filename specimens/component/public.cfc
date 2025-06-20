@@ -1870,7 +1870,7 @@ limitations under the License.
 							<span class="font-weight-lessbold mb-0 d-inline-block float-left pr-1">Loan History:</span>
 							<cfif isLoanedItem.ct GT 0>
 								Loans that include parts of this cataloged item 
-								<a class="d-inline-block" href="/Transactions.cfm?action=findLoans&execute=true&method=getLoans&collection_object_id=#variables.collection_object_id#" target="_blank">
+								<a class="d-inline-block" href="/Transactions.cfm?action=findLoans&execute=true&method=getLoans&specimen_guid=MCZ%3AHerp%3AA-255#getGuid.guid#" target="_blank">
 									(#loanList.recordcount#)
 								</a>.
 								<ul class="d-block float-left pl-0">
