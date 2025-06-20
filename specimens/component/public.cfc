@@ -1895,10 +1895,11 @@ limitations under the License.
 						</li>
 						<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
-								count(deacc_item.collection_object_id) ct
+								count(specimen_part.collection_object_id) ct_parts,
+								count(deacc_item.collection_object_id) ct_deaccessioned
 							FROM
 								specimen_part 
-								join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
+								left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
 							WHERE
 								specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
@@ -1918,7 +1919,7 @@ limitations under the License.
 								deacc_number is not null AND
 								specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
-						<cfif isDeaccessionedItem.ct GT 0>
+						<cfif isDeaccessionedItem.ct_deaccessioned GT 0>
 							<cfset hasContent = true>
 							<li class="list-group-item">
 								<span class="font-weight-lessbold mb-1 d-inline-block float-left pr-1">Deaccessions:</span>
@@ -1927,20 +1928,24 @@ limitations under the License.
 									(#deaccessionList.recordcount#)
 								</a>. 
 								&nbsp;
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-									<cfloop query="deaccessionList">
-										<ul class="d-block">
-											<li class="d-block">
-												<a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">
-													#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)
-												</a>
-												#deaccession_date#
-												Part: #deaccessionList.part_name# (#deaccessionList.preserve_method#) Part Disposition: #deaccessionList.coll_obj_disposition#</li>
-											</li>
-										</ul>
-									</cfloop>
-								</cfif>
+								<cfloop query="deaccessionList">
+									<ul class="d-block">
+										<li class="d-block">
+											<a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">
+												#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)
+											</a>
+											#deaccession_date#
+											Part: #deaccessionList.part_name# (#deaccessionList.preserve_method#) Part Disposition: #deaccessionList.coll_obj_disposition#</li>
+										</li>
+									</ul>
+								</cfloop>
 							</li>
+							<cfif isDeaccessionedItem.ct_parts EQ isDeaccessionedItem.ct_deaccessioned>
+								<!--- all parts of this cataloged item have been deaccessioned --->
+								<li class="list-group-item pt-0 pb-1">
+									<span class="font-weight-lessbold mb-0 d-inline-block">All Parts have been Deaccessioned</span>
+								</li>
+							</cfif>
 						</cfif>
 					<cfelse>
 						<!--- publicly available deaccession information --->
