@@ -1780,13 +1780,13 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="accnCollection" datasource="cf_dbuser">
 							SELECT collection_cde
-							from trans 
+							FROM trans 
 								left join collection on trans.collection_id = collection.collection_id
 							WHERE
 								trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccn.accn_id#">
 					  	</cfquery>
 						<cfset accnDept = "">
-						<cfif NOT lookupAccn.catitem_coll_cde IS accnCollection.collection_cde AND len(accnCollection.collection_cde) GT 0>
+						<cfif len(accnCollection.collection_cde) GT 0 AND NOT (lookupAccn.catitem_coll_cde IS accnCollection.collection_cde) >
 							<!--- accession is in a different department than the cataloged item --->
 							<cfset accnDept = "(#accnCollection.collection_cde#)">
 						</cfif>
