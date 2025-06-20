@@ -1715,6 +1715,7 @@ limitations under the License.
 					SELECT
 						flat.guid
 					FROM
+						<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 					WHERE 
 						flat.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
