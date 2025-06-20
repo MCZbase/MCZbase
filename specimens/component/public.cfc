@@ -1921,8 +1921,8 @@ limitations under the License.
 						<cfif isDeaccessionedItem.ct GT 0>
 							<cfset hasContent = true>
 							<li class="list-group-item">
-								<span class="font-weight-lessbold mb-1 d-inline-block float-left">Deaccessions: </span>
-								Deaccessions that include parts from cataloged item 
+								<span class="font-weight-lessbold mb-1 d-inline-block float-left pr-1">Deaccessions:</span>
+								Deaccessions that include parts of this cataloged item 
 								<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#variables.collection_object_id#" target="_mainFrame">
 									(#deaccessionList.recordcount#)
 								</a>. 
