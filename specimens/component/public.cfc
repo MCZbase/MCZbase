@@ -1922,7 +1922,11 @@ limitations under the License.
 							<cfset hasContent = true>
 							<li class="list-group-item">
 								<span class="font-weight-lessbold mb-1 d-inline-block float-left">Deaccessions: </span>
-								<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#" target="_mainFrame">Deaccessions that include parts from cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
+								Deaccessions that include parts from cataloged item 
+								<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#variables.collection_object_id#" target="_mainFrame">
+									(#deaccessionList.recordcount#)
+								</a>. 
+								&nbsp;
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 									<cfloop query="deaccessionList">
 										<ul class="d-block">
