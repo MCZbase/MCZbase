@@ -1927,6 +1927,8 @@ limitations under the License.
 							WHERE
 								deacc_number is not null AND
 								specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+							ORDER BY
+								deacc_number
 						</cfquery>
 						<cfif isDeaccessionedItem.ct_deaccessioned GT 0>
 							<cfset hasContent = true>
@@ -1938,15 +1940,28 @@ limitations under the License.
 								</a>. 
 								&nbsp;
 								<ul class="d-block float-left pl-0">
+									<cfset deacc_num = "">
 									<cfloop query="deaccessionList">
-										<li class="d-block pl-0">
-											<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#deaccessionList.transaction_id#" target="_blank">
-												#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)
-											</a>
-											#deaccession_date#
-											Part: #deaccessionList.part_name# (#deaccessionList.preserve_method#) Part Disposition: #deaccessionList.coll_obj_disposition#</li>
-										</li>
+										<cfif deaccessionList.deacc_number NEQ deacc_num>
+											<cfif len(deacc_num) GT 0>
+												<!--- close out the previous list item if it exists --->
+												</li>
+											</cfif>
+											<!--- start a new list item for a deaccession --->
+											<li class="d-block pl-0">
+												<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#deaccessionList.transaction_id#" target="_blank">
+													#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)
+												</a>
+												#deaccession_date#
+										</cfif>
+										<!--- list parts --->
+										<strong>Part:</strong> #deaccessionList.part_name# (#deaccessionList.preserve_method#) Part Disposition: #deaccessionList.coll_obj_disposition#
+										<cfset deacc_num = deaccessionList.deacc_number>
 									</cfloop>
+									<cfif len(deacc_num) GT 0>
+										<!--- close out the last list item --->
+										</li>
+									</cfif>
 								</ul>
 							</li>
 							<cfif isDeaccessionedItem.ct_parts EQ isDeaccessionedItem.ct_deaccessioned>
