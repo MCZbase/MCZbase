@@ -1737,7 +1737,7 @@ limitations under the License.
 						<cfif checkAccn.accnVpdVisible EQ 1>
 							<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT
-									'visible' as visiblity_to_user,
+									'visible' as visibility_to_user,
 									cataloged_item.accn_id,
 									cataloged_item.collection_cde catitem_coll_cde,
 									collection.collection_cde as accn_coll_cde,
@@ -1758,7 +1758,7 @@ limitations under the License.
 							<!--- internal user may be constrained by a VPD, use a datasource that can look accross VPDs to get the accession number --->
 							<cfquery name="lookupAccn" datasource="cf_dbuser">
 								SELECT
-									'hidden' as visiblity_to_user,
+									'hidden' as visibility_to_user,
 									cataloged_item.accn_id,
 									cataloged_item.collection_cde catitem_coll_cde,
 									collection.collection_cde as accn_coll_cde,
