@@ -1737,8 +1737,10 @@ limitations under the License.
 						<cfif checkAccn.accnVpdVisible EQ 1>
 							<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT
+									'visible' as visiblity_to_user,
 									cataloged_item.accn_id,
 									cataloged_item.collection_cde catitem_coll_cde,
+									collection.collection_cde as accn_coll_cde,
 									accn.accn_number,
 									accn_type,
 									accn_status,
@@ -1748,6 +1750,7 @@ limitations under the License.
 									cataloged_item
 									left join accn on cataloged_item.accn_id =  accn.transaction_id
 									left join trans on accn.transaction_id = trans.transaction_id
+									left join collection on trans.collection_id = collection.collection_id
 								WHERE
 									cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 							</cfquery>
@@ -1755,8 +1758,10 @@ limitations under the License.
 							<!--- internal user may be constrained by a VPD, use a datasource that can look accross VPDs to get the accession number --->
 							<cfquery name="lookupAccn" datasource="cf_dbuser">
 								SELECT
-									'' as accn_id,
+									'hidden' as visiblity_to_user,
+									cataloged_item.accn_id,
 									cataloged_item.collection_cde catitem_coll_cde,
+									collection.collection_cde as accn_coll_cde,
 									accn.accn_number,
 									'' as accn_type,
 									'' as accn_status,
@@ -1766,6 +1771,7 @@ limitations under the License.
 									cataloged_item
 									left join accn on cataloged_item.accn_id =  accn.transaction_id
 									left join trans on accn.transaction_id = trans.transaction_id
+									left join collection on trans.collection_id = collection.collection_id
 								WHERE
 									cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 							</cfquery>
@@ -1778,17 +1784,10 @@ limitations under the License.
 								permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccn.accn_id#">
 								and permit.restriction_summary IS NOT NULL
 						</cfquery>
-						<cfquery name="accnCollection" datasource="cf_dbuser">
-							SELECT collection_cde
-							FROM trans 
-								left join collection on trans.collection_id = collection.collection_id
-							WHERE
-								trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccn.accn_id#">
-					  	</cfquery>
 						<cfset accnDept = "">
-						<cfif len(accnCollection.collection_cde) GT 0 AND NOT (lookupAccn.catitem_coll_cde IS accnCollection.collection_cde) >
+						<cfif lookupAccn.catitem_coll_cde NEQ lookupAccn.accn_coll_cde>
 							<!--- accession is in a different department than the cataloged item --->
-							<cfset accnDept = "(#accnCollection.collection_cde#)">
+							<cfset accnDept = "(#lookupAccn.accn_coll_cde#)">
 						</cfif>
 						<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 							SELECT 
@@ -1809,7 +1808,7 @@ limitations under the License.
 						</cfquery>
 						<cfset hasContent = true>
 						<li class="list-group-item pt-0"><span class="font-weight-lessbold mb-0 d-inline-block">Accession:</span>
-							<cfif len(lookupAccn.accn_id) GT 0>
+							<cfif lookupAccn.visibility_to_user) EQ 'visible'>
 								<!--- user has access to edit the accession, so link to edit it --->
 								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#lookupAccn.accn_id#" target="_blank">#lookupAccn.accn_number#</a>
 								#accnDept#
@@ -1820,6 +1819,11 @@ limitations under the License.
 							</cfif>
 							<cfif accnLimitations.recordcount GT 0>
 								<strong>Restrictions on use exist:</strong>
+								<ul class="pl-0">
+									<cfloop query="accnLimitations">
+										<li class="small90">#specific_type# - #restriction_summary#</li>
+									</cfloop>
+								</ul>
 							</cfif>
 							<cfif accnMedia.recordcount gt 0>
 								<cfloop query="accnMedia">
