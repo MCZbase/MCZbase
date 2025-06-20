@@ -1855,45 +1855,44 @@ limitations under the License.
 								loan_number is not null AND
 								specimen_part.derived_from_cat_item = <cfqueryparam value="#variables.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
-							<cfset hasContent = true>
-							<li class="list-group-item pt-0">
-								<span class="font-weight-lessbold mb-0 d-inline-block float-left pr-1">Loan History:</span>
-								<cfif isLoanedItem.ct GT 0>
-									Loans that include parts of this cataloged item 
-									<a class="d-inline-block" href="/Transactions.cfm?action=findLoans&execute=true&method=getLoans&collection_object_id=#variables.collection_object_id#" target="_blank">
-										(#loanList.recordcount#)
-									</a>.
-									<cfloop query="loanList">
-										<ul class="d-block">
-											<li class="d-block">
-												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loanList.transaction_id#" target="_blank">
-													#loanList.loan_number#
-												</a>
-												#loanList.loan_date# 
-												#loanList.loan_type#
-												#loanList.loan_status# 
-												<cfif loanList.recipient_institution NEQ "">
-													To: #loanList.recipient_institution#
+						<cfset hasContent = true>
+						<li class="list-group-item pt-0">
+							<span class="font-weight-lessbold mb-0 d-inline-block float-left pr-1">Loan History:</span>
+							<cfif isLoanedItem.ct GT 0>
+								Loans that include parts of this cataloged item 
+								<a class="d-inline-block" href="/Transactions.cfm?action=findLoans&execute=true&method=getLoans&collection_object_id=#variables.collection_object_id#" target="_blank">
+									(#loanList.recordcount#)
+								</a>.
+								<cfloop query="loanList">
+									<ul class="d-block">
+										<li class="d-block">
+											<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loanList.transaction_id#" target="_blank">
+												#loanList.loan_number#
+											</a>
+											#loanList.loan_date# 
+											#loanList.loan_type#
+											#loanList.loan_status# 
+											<cfif loanList.recipient_institution NEQ "">
+												To: #loanList.recipient_institution#
+											</cfif>
+											<cfif loanList.return_due_date NEQ "" and loanList.closed_date EQ "">
+												<cfif loanList.return_due_date GT now()>
+													<strong style="text-danger">Overdue: #loanList.return_due_date#</strong>
+												<cfelse>
+													Due: #loanList.return_due_date#
 												</cfif>
-												<cfif loanList.return_due_date NEQ "" and loanList.closed_date EQ "">
-													<cfif loanList.return_due_date GT now()>
-														<strong style="text-danger">Overdue: #loanList.return_due_date#</strong>
-													<cfelse>
-														Due: #loanList.return_due_date#
-													</cfif>
-												</cfif>
-												<cfif loanList.closed_date NEQ "">
-													Closed: #loanList.closed_date#
-												</cfif>
-												Part: #loanList.part_name# (#loanList.preserve_method#) Part Disposition: #loanList.coll_obj_disposition#</li>
-											</li>
-										</ul>
-									</cfloop>
-								<cfelse>
-									No Loans include this cataloged item.
-								</cfif>
-							</li>
-						</cfif>
+											</cfif>
+											<cfif loanList.closed_date NEQ "">
+												Closed: #loanList.closed_date#
+											</cfif>
+											Part: #loanList.part_name# (#loanList.preserve_method#) Part Disposition: #loanList.coll_obj_disposition#</li>
+										</li>
+									</ul>
+								</cfloop>
+							<cfelse>
+								No Loans include this cataloged item.
+							</cfif>
+						</li>
 						<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								count(deacc_item.collection_object_id) ct
