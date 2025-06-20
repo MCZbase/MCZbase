@@ -1808,7 +1808,7 @@ limitations under the License.
 						</cfquery>
 						<cfset hasContent = true>
 						<li class="list-group-item pt-0"><span class="font-weight-lessbold mb-0 d-inline-block">Accession:</span>
-							<cfif lookupAccn.visibility_to_user) EQ 'visible'>
+							<cfif lookupAccn.visibility_to_user EQ 'visible'>
 								<!--- user has access to edit the accession, so link to edit it --->
 								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#lookupAccn.accn_id#" target="_blank">#lookupAccn.accn_number#</a>
 								#accnDept#
