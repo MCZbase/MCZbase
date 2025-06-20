@@ -1710,7 +1710,14 @@ limitations under the License.
 					<cfset hasManageTransactions = 1>
 				<cfelse>
 					<cfset hasManageTransactions = 0>
-				</cfif>
+				</cfif>	
+				<cfquery name="getGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						flat.guid
+					FROM
+					WHERE 
+						flat.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
 	
 				<cfset hasContent = false>
 				<ul class="list-group pl-0">
@@ -1806,7 +1813,7 @@ limitations under the License.
 								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#lookupAccn.accn_id#" target="_blank">#lookupAccn.accn_number#</a>
 								#accnDept#
 								#lookupAccn.accn_type# (#lookupAccn.accn_status#) Received: #lookupAccn.received_date# From: #lookupAccn.received_from#
-								<button type="button" class="btn btn-xs btn-powder-blue py-0 small" onclick=" openEditCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage); $('##transactionsDialog').dialog('close'); ">Edit</button>
+								<button type="button" class="btn btn-xs btn-powder-blue py-0 small" onclick=" openEditCatalogDialog(#collection_object_id#,'catalogDialog','#getGuid.guid#',reloadPage); $('##transactionsDialog').dialog('close'); ">Edit</button>
 							<cfelse>
 								#lookupAccn.accn_number# #accnDept#
 							</cfif>
@@ -1895,8 +1902,9 @@ limitations under the License.
 						</li>
 						<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
-								count(specimen_part.collection_object_id) ct_parts,
-								count(deacc_item.collection_object_id) ct_deaccessioned
+								count(distinct specimen_part.collection_object_id) ct_parts,
+								count(distinct deacc_item.collection_object_id) ct_deaccessioned
+								count(distinct deaccession.transaction_id) ct_deaccessions
 							FROM
 								specimen_part 
 								left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
@@ -1924,14 +1932,14 @@ limitations under the License.
 							<li class="list-group-item">
 								<span class="font-weight-lessbold mb-1 d-inline-block float-left pr-1">Deaccessions:</span>
 								Deaccessions that include parts of this cataloged item 
-								<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#variables.collection_object_id#" target="_mainFrame">
-									(#deaccessionList.recordcount#)
+								<a class="d-inline-block" href="/Transactions.cfm?action=findDeaccessions&execute=true&method=getDeaccessions&specimen_guid=#getGuid.guid#" target="_blank">
+									(#isDeaccessionedItem.ct_deaccessioned#)
 								</a>. 
 								&nbsp;
 								<ul class="d-block float-left pl-0">
 									<cfloop query="deaccessionList">
 										<li class="d-block pl-0">
-											<a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">
+											<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#deaccessionList.transaction_id#" target="_blank">
 												#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)
 											</a>
 											#deaccession_date#
