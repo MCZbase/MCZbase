@@ -2022,23 +2022,23 @@ limitations under the License.
 							join project_trans on project.project_id = project_trans.project_id
 							join cataloged_item on project_trans.transaction_id = cataloged_item.accn_id
 						WHERE
-							cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+							cataloged_item.collection_object_id = <cfqueryparam value="#variables.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						GROUP BY project_name, project.project_id
 					</cfquery>
 					<cfquery name="hasLoanInProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
 							project_name, project.project_id 
 						FROM 
-							loan_item
+							specimen_part 
+							join loan_item on loan_item.collection_object_id = specimen_part.collection_object_id
 							join project_trans on loan_item.transaction_id=project_trans.transaction_id
 							join project on project_trans.project_id=project.project_id
-							join specimen_part on specimen_part.collection_object_id = loan_item.collection_object_id
 						WHERE 
-							specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+							specimen_part.derived_from_cat_item = <cfqueryparam value="#variables.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						GROUP BY 
 							project_name, project.project_id
 					</cfquery>
-					<cfif isProj.project_name gt 0>
+					<cfif isProj.recordcount GT 0>
 						<cfset hasContent = true>
 						<cfloop query="isProj">
 							<li class="list-group-item pt-0">
@@ -2047,7 +2047,7 @@ limitations under the License.
 							</li>
 						</cfloop>
 					</cfif>
-					<cfif hasLoanInProject.project_name gt 0>
+					<cfif hasLoanInProject.recordcount GT 0>
 						<cfset hasContent = true>
 						<cfloop query="hasLoanInProject">
 							<li class="list-group-item pt-0">
