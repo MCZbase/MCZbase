@@ -1701,19 +1701,21 @@ limitations under the License.
 <cffunction name="getTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+
 	<cfthread name="getTransactionsThread">
 		<cfoutput>
 			<cftry>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-					<cfset oneOfUs = 1>
+					<cfset hasManageTransactions = 1>
 				<cfelse>
-					<cfset oneOfUs = 0>
+					<cfset hasManageTransactions = 0>
 				</cfif>
 	
 				<cfset hasContent = false>
 				<ul class="list-group pl-0">
 					<!--- Accession for the cataloged item, display internally only --->
-					<cfif oneOfUs is 1>
+					<cfif hasManageTransactions is 1>
 						<cfquery name="checkAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT
 								decode(trans.transaction_id, null, 0, 1) accnVpdVisible
@@ -1800,10 +1802,13 @@ limitations under the License.
 						<cfset hasContent = true>
 						<li class="list-group-item pt-0"><span class="font-weight-lessbold mb-0 d-inline-block">Accession:</span>
 							<cfif len(lookupAccn.accn_id) GT 0>
-								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#lookupAccn.accn_id#">#lookupAccn.accn_number#</a>
+								<!--- user has access to edit the accession, so link to edit it --->
+								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#lookupAccn.accn_id#" target="_blank">#lookupAccn.accn_number#</a>
+								#accnDept#
 								#lookupAccn.accn_type# (#lookupAccn.accn_status#) Received: #lookupAccn.received_date# From: #lookupAccn.received_from#
+								<button type="button" class="btn btn-xs btn-powder-blue py-0 small" onclick=" openEditCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage); $('##transactionsDialog').dialog('close'); ">Edit</button>
 							<cfelse>
-								#lookupAccn.accn_number#
+								#lookupAccn.accn_number# #accnDept#
 							</cfif>
 							<cfif accnLimitations.recordcount GT 0>
 								<strong>Restrictions on use exist:</strong>
@@ -1818,99 +1823,44 @@ limitations under the License.
 								</cfloop>
 							</cfif>
 						</li>
-					</cfif>
-					<!--------------------  Projects ------------------------------------>	
-					<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT 
-							project_name, project.project_id 
-						FROM
-							project
-							join project_trans on project.project_id = project_trans.project_id
-							join cataloged_item on project_trans.transaction_id = cataloged_item.accn_id
-						WHERE
-							cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-						GROUP BY project_name, project.project_id
-					</cfquery>
-					<cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT 
-							project_name, project.project_id 
-						FROM 
-							loan_item
-							join project_trans on loan_item.transaction_id=project_trans.transaction_id
-							join project on project_trans.project_id=project.project_id
-							join specimen_part on specimen_part.collection_object_id = loan_item.collection_object_id
-						WHERE 
-							specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-						GROUP BY 
-							project_name, project.project_id
-					</cfquery>
-					<cfif isProj.project_name gt 0>
-						<cfset hasContent = true>
-						<cfloop query="isProj">
-							<li class="list-group-item pt-0">
-								<span class="mb-0 d-inline-block font-weight-lessbold">Contributed By Project:</span>
-								<a href="/project/#project_name#">#isProj.project_name#</a>
-							</li>
-						</cfloop>
-					</cfif>
-					<cfif isLoan.project_name gt 0>
-						<cfset hasContent = true>
-						<cfloop query="isLoan">
-							<li class="list-group-item pt-0">
-								<span class="mb-0 d-inline-block font-weight-lessbold">Used By Project:</span> 
-								<a href="/project/#project_name#" target="_mainFrame">#isLoan.project_name#</a> 
-							</li>
-						</cfloop>
-					</cfif>
-					<!--- Usage ---->
-					<cfif oneOfUs IS 1>
+					</cfif><!--- end hasManageTransactions for display of accession --->
+
+					<!--- Loans and Deaccessions, internal information ---->
+					<cfif hasManageTransactions IS 1>
 						<cfquery name="isLoanedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
-								loan_item.collection_object_id 
+								count(loan_item.collection_object_id) ct 
 							FROM 
 								loan_item
 								join specimen_part on loan_item.collection_object_id=specimen_part.collection_object_id
 							WHERE 
-								specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								specimen_part.derived_from_cat_item = <cfqueryparam value="#variables.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
 						<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT 
-								distinct loan_number, loan_type, loan_status, loan.transaction_id 
+							SELECT DISTINCT 
+								loan_number, loan_type, loan_status, loan.transaction_id, 
+								to_char(trans.trans_date,'yyyy-mm-dd')  loan_date, 
+								to_char(loan.return_due_date, 'yyyy-mm-dd') return_due_date,  
+								to_char(loan.closed_date, 'yyyy-mm-dd') closed_date, 
+								specimen_part.part_name, specimen_part.preserve_method,
+								coll_object.coll_obj_disposition,
+								get_trans_agent(loan.transaction_id,'recipient institution') as recipient_institution
 							FROM
-								specimen_part 
+								specimen_part
 								join loan_item on specimen_part.collection_object_id=loan_item.collection_object_id
 								join loan on loan_item.transaction_id = loan.transaction_id
+								join trans on loan.transaction_id = trans.transaction_id	
+								join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 							WHERE
 								loan_number is not null AND
-								specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								specimen_part.derived_from_cat_item = <cfqueryparam value="#variables.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
-						<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT 
-								deacc_item.collection_object_id 
-							FROM
-								specimen_part 
-								join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
-							WHERE
-								specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-						</cfquery>
-						<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT 
-								distinct deacc_number, deacc_type, deaccession.transaction_id 
-							FROM
-								specimen_part 
-								join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
-								join deaccession on deacc_item.transaction_id = deaccession.transaction_id
-							WHERE
-								deacc_number is not null AND
-								specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-						</cfquery>
-						<cfif isLoanedItem.collection_object_id gt 0 and oneOfUs is 1>
 							<cfset hasContent = true>
 							<li class="list-group-item pt-0">
 								<span class="font-weight-lessbold mb-0 d-inline-block float-left pr-1">Loan History:</span>
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+								<cfif isLoanedItem.ct GT 0>
 									Loans that include parts of this cataloged item 
-									<a class="d-inline-block" href="/Transactions.cfm?action=findLoans&execute=true&method=getLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#" target="_blank">
+									<a class="d-inline-block" href="/Transactions.cfm?action=findLoans&execute=true&method=getLoans&collection_object_id=#variables.collection_object_id#" target="_blank">
 										(#loanList.recordcount#)
 									</a>.
 									<cfloop query="loanList">
@@ -1919,16 +1869,56 @@ limitations under the License.
 												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loanList.transaction_id#" target="_blank">
 													#loanList.loan_number#
 												</a>
-												(#loanList.loan_type# #loanList.loan_status#)
+												#loanList.loan_date# 
+												#loanList.loan_type#
+												#loanList.loan_status# 
+												<cfif loanList.recipient_institution NEQ "">
+													To: #loanList.recipient_institution#
+												</cfif>
+												<cfif loanList.return_due_date NEQ "" and loanList.closed_date EQ "">
+													<cfif loanList.return_due_date GT now()>
+														<strong style="text-danger">Overdue: #loanList.return_due_date#</strong>
+													<cfelse>
+														Due: #loanList.return_due_date#
+													</cfif>
+												</cfif>
+												<cfif loanList.closed_date NEQ "">
+													Closed: #loanList.closed_date#
+												</cfif>
+												Part: #loanList.part_name# (#loanList.preserve_method#) Part Disposition: #loanList.coll_obj_disposition#</li>
 											</li>
 										</ul>
 									</cfloop>
 								<cfelse>
-									#loanList.recordcount# Loans include this cataloged item.
+									No Loans include this cataloged item.
 								</cfif>
 							</li>
 						</cfif>
-						<cfif isDeaccessionedItem.collection_object_id gt 0 and oneOfUs is 1>
+						<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT 
+								count(deacc_item.collection_object_id) ct
+							FROM
+								specimen_part 
+								join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
+							WHERE
+								specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						</cfquery>
+						<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT DISTINCT 
+								deacc_number, deacc_type, deaccession.transaction_id,
+								to_char(trans.trans_date,'yyyy-mm-dd')  deaccession_date, 
+								specimen_part.part_name, specimen_part.preserve_method,
+								coll_object.coll_obj_disposition
+							FROM
+								specimen_part 
+								join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
+								join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+								join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+							WHERE
+								deacc_number is not null AND
+								specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						</cfquery>
+						<cfif isDeaccessionedItem.ct GT 0>
 							<cfset hasContent = true>
 							<li class="list-group-item">
 								<span class="font-weight-lessbold mb-1 d-inline-block float-left">Deaccessions: </span>
@@ -1936,13 +1926,20 @@ limitations under the License.
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 									<cfloop query="deaccessionList">
 										<ul class="d-block">
-											<li class="d-block"> <a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a></li>
+											<li class="d-block">
+												<a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">
+													#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)
+												</a>
+												#deaccession_date#
+												Part: #loanList.part_name# (#loanList.preserve_method#) Part Disposition: #loanList.coll_obj_disposition#</li>
+											</li>
 										</ul>
 									</cfloop>
 								</cfif>
 							</li>
 						</cfif>
 					<cfelse>
+						<!--- publicly available deaccession information --->
 						<cfquery name="deaccessionCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT
 								count(specimen_part.collection_object_id) parts,
@@ -1964,23 +1961,65 @@ limitations under the License.
 								Some Parts have been Deaccessioned
 							</cfif>
 							</li>
+						</cfif>
+					</cfif>
 
+					<!--------------------  Projects ------------------------------------>	
+					<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT 
+							project_name, project.project_id 
+						FROM
+							project
+							join project_trans on project.project_id = project_trans.project_id
+							join cataloged_item on project_trans.transaction_id = cataloged_item.accn_id
+						WHERE
+							cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						GROUP BY project_name, project.project_id
+					</cfquery>
+					<cfquery name="hasLoanInProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT 
+							project_name, project.project_id 
+						FROM 
+							loan_item
+							join project_trans on loan_item.transaction_id=project_trans.transaction_id
+							join project on project_trans.project_id=project.project_id
+							join specimen_part on specimen_part.collection_object_id = loan_item.collection_object_id
+						WHERE 
+							specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						GROUP BY 
+							project_name, project.project_id
+					</cfquery>
+					<cfif isProj.project_name gt 0>
+						<cfset hasContent = true>
+						<cfloop query="isProj">
+							<li class="list-group-item pt-0">
+								<span class="mb-0 d-inline-block font-weight-lessbold">Contributed By Project:</span>
+								<a href="/ProjectDetail.cfm?src=proj&project_id=#isProj.project_id#" target="_blank">#isProj.project_name#</a>
+							</li>
+						</cfloop>
+					</cfif>
+					<cfif hasLoanInProject.project_name gt 0>
+						<cfset hasContent = true>
+						<cfloop query="hasLoanInProject">
+							<li class="list-group-item pt-0">
+								<span class="mb-0 d-inline-block font-weight-lessbold">Used By Project:</span> 
+								<a href="/ProjectDetail.cfm?src=proj&project_id=#hasLoanInProject.project_id#" target="_blank">#hasLoanInProject.project_name#</a>
+							</li>
+						</cfloop>
+					</cfif>
+
+					<cfif NOT hasContent>
+						<!--- failover block, expected if no transactions are visible to the user --->
+						<cfif hasManageTransactions IS 1>
+							<!--- we shouldn't actually get here, as all cataloged items have an accession --->
+							<li class="small list-group-item py-0 font-italic">None</li>
+						<cfelse>
+							<!--- if no transactions are visible, then we note that information is masked --->
+							<li class="small list-group-item py-0 font-italic">[Masked]</li>
 						</cfif>
 					</cfif>
 				</ul>
-					<cfif NOT hasContent>
-						<cfif oneOfUs IS 1>
-							<ul class="list-group pl-0">
-								<!--- we shoudn't actually get here, as all cataloged items have an accession --->
-								<li class="small list-group-item py-0 font-italic">None</li>
-							</ul>
-						<cfelse>
-							<ul class="list-group pl-0">
-								<li class="small list-group-item py-0 font-italic">[Masked]</li>
-							</ul>
-						</cfif>
-					</cfif>
-			
+		
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
