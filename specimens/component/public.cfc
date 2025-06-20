@@ -1935,7 +1935,7 @@ limitations under the License.
 													#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)
 												</a>
 												#deaccession_date#
-												Part: #loanList.part_name# (#loanList.preserve_method#) Part Disposition: #loanList.coll_obj_disposition#</li>
+												Part: #deaccessionList.part_name# (#deaccessionList.preserve_method#) Part Disposition: #deaccessionList.coll_obj_disposition#</li>
 											</li>
 										</ul>
 									</cfloop>
