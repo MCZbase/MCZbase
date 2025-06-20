@@ -1928,8 +1928,8 @@ limitations under the License.
 									(#deaccessionList.recordcount#)
 								</a>. 
 								&nbsp;
-								<cfloop query="deaccessionList">
-									<ul class="d-block">
+								<ul class="d-block">
+									<cfloop query="deaccessionList">
 										<li class="d-block">
 											<a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">
 												#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)
@@ -1937,8 +1937,8 @@ limitations under the License.
 											#deaccession_date#
 											Part: #deaccessionList.part_name# (#deaccessionList.preserve_method#) Part Disposition: #deaccessionList.coll_obj_disposition#</li>
 										</li>
-									</ul>
-								</cfloop>
+									</cfloop>
+								</ul>
 							</li>
 							<cfif isDeaccessionedItem.ct_parts EQ isDeaccessionedItem.ct_deaccessioned>
 								<!--- all parts of this cataloged item have been deaccessioned --->
