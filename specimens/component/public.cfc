@@ -1778,7 +1778,7 @@ limitations under the License.
 								trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccn.accn_id#">
 					  	</cfquery>
 						<cfset accnDept = "">
-						<cfif NOT lookupAccn.catitem_coll_cde IS accnCollection.collection_cde>
+						<cfif NOT lookupAccn.catitem_coll_cde IS accnCollection.collection_cde AND len(accnCollection.collection_cde) GT 0>
 							<!--- accession is in a different department than the cataloged item --->
 							<cfset accnDept = "(#accnCollection.collection_cde#)">
 						</cfif>
@@ -1912,6 +1912,7 @@ limitations under the License.
 								specimen_part 
 								join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
 								join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+								join trans on deaccession.transaction_id = trans.transaction_id
 								join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 							WHERE
 								deacc_number is not null AND
