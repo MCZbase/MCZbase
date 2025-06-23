@@ -780,7 +780,7 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-5">
 													<label for="taxona" class="data-entry-label">Taxon A:</label>
-													<input type="text" name="taxona" id="taxona" class="data-entry-input" autocomplete="off">
+													<input type="text" name="taxona" id="taxona" class="data-entry-input reqdClr" required>
 													<input type="hidden" name="taxona_id" id="taxona_id">
 													<script>
 														// Initialize taxon autocomplete
@@ -792,7 +792,7 @@ limitations under the License.
 												<div class="col-12 col-md-5">
 													<div class="form-row" id="taxonb_row" style="display:none;">
 														<label for="taxonb" class="data-entry-label">Taxon B:</label>
-														<input type="text" name="taxonb" id="taxonb" class="data-entry-input" autocomplete="off">
+														<input type="text" name="taxonb" id="taxonb" class="data-entry-input">
 														<input type="hidden" name="taxonb_id" id="taxonb_id">
 														<script>
 															// Initialize taxon B autocomplete
@@ -819,7 +819,12 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-3">
 													<label for="nature_of_id" class="data-entry-label">Nature of ID:</label>
-													<input type="text" name="nature_of_id" id="nature_of_id" class="data-entry-input">
+													<select name="nature_of_id" id="nature_of_id" class="data-entry-select reqdClr" required>
+														<option></option>
+														<cfloop query="ctNature">
+															<option value="#ctNature.nature_of_id#">#ctNature.description#</option>
+														</cfloop>
+													</select>
 												</div>
 												<div class="col-12 col-md-6">
 													<!--- publication autocomplete --->
@@ -841,16 +846,16 @@ limitations under the License.
 													<label for="stored_as_fg" class="data-entry-label">Stored As:</label>
 													<input type="checkbox" name="stored_as_fg" id="stored_as_fg" value="1">
 												</div>
-												<div class="col-12 col-md-2">
+												<div class="col-12 col-md-3">
 													<!--- autocomplete for a determiner --->
-													<label for="determiner_id" class="data-entry-label">Determiner:</label>
-													<input type="text" name="determiner" id="determiner" class="data-entry-input">
+													<label for="determiner" class="data-entry-label">Determiner:</label>
+													<input type="text" name="determiner" id="determiner" class="data-entry-input reqdClr" required>
 													<input type="hidden" name="determiner_id" id="determiner_id_1">
 													<input type="hidden" name="determiner_count" id="determiner_count" value="1">
 													<script>
 														// Initialize determiner autocomplete
 														$(document).ready(function() {
-															makeAgentAutocompleteMeta("determiner","determiner_id");
+															makeAgentAutocompleteMeta("determiner","determiner_id_1");
 														});
 													</script>
 													<!--- button to add another set of determiner controls --->
