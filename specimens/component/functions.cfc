@@ -989,7 +989,7 @@ limitations under the License.
 					<li>None</li>
 				</cfif>
 				<cfloop query="getIdentifications" index="i">
-					<li style="margin-bottom:2em; border:1px solid #ccc; padding:1em;">
+					<li style="margin-bottom:2em; border:1px solid; padding:1em;">
 						<input type="hidden" name="identification_id_#i#" value="#identification_id#">
 						<div class="form-row">
 							<label for="scientific_name_#i#" class="data-entry-label">Scientific Name:</label>
