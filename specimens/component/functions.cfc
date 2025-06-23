@@ -807,7 +807,7 @@ limitations under the License.
 													<script>
 														// Initialize datepicker
 														$(document).ready(function() {
-															$("#made_date").datepicker({
+															$("##made_date").datepicker({
 																dateFormat: "yyyy-mm-dd",
 																changeMonth: true,
 																changeYear: true,
@@ -858,23 +858,23 @@ limitations under the License.
 													<script>
 														function addDeterminerControl() {
 															// get the number of current determiner controls
-															var currentCount = parseInt($("#determiner_count").val());
+															var currentCount = parseInt($("##determiner_count").val());
 															// Add a new determiner control
 															var newControl = '<input type="text" name="det'+currentCount+'" id="det'+currentCount+'"  class="data-entry-input">';
 															newControl += '<input type="hidden" name="determiner_id'+currentCount+'" id="determiner_id_'+currentCount+'" value="" >';
 															// button to remove this determiner control
 															newControl += '<button type="button" class="btn btn-xs btn-secondary" id="removeDet'+currentCount+'" onClick="removeLastDeterminerControl();">Remove</button>';
-															$("#determiner_ids").append(newControl);
+															$("##determiner_ids").append(newControl);
 															makeRichAgentPickerControlMeta2("det"+currentCount,"determiner_id"+currentCount);
 															// Increment the count
 															currentCount++;
-															$("#determiner_count").val(currentCount);
+															$("##determiner_count").val(currentCount);
 														}
 														function removeDeterminerControl(index) {
 															// Remove the determiner control pair specified by index
-															$("#det"+index).remove();
-															$("#determiner_id_"+index).remove();
-															$("#removeDet"+index).remove();
+															$("##det"+index).remove();
+															$("##determiner_id_"+index).remove();
+															$("##removeDet"+index).remove();
 														}
 													</script>
 													<!--- hidden input to store determiner IDs for multiple determiner support --->
@@ -918,7 +918,7 @@ limitations under the License.
 													}
 												});
 												// set the determiner_ids hidden input to the comma separated list
-												$("#determiner_ids").val(determinerIds.join(','));
+												$("##determiner_ids").val(determinerIds.join(','));
 												setFeedbackControlState("addIdStatus","saving")
 												var form = $('#addIdentificationForm');
 												var data = form.serialize();
@@ -1056,7 +1056,7 @@ limitations under the License.
 				// Optionally, make datepicker, taxon picker, etc for each row
 				$(document).ready(function() {
 					<cfloop query="getIdentifications" index="i">
-						$("#made_date_#i#").datepicker({dateFormat:"yy-mm-dd"});
+						$("##made_date_#i#").datepicker({dateFormat:"yy-mm-dd"});
 					</cfloop>
 				});
 				function handleEditIdentifications() {
@@ -1065,7 +1065,7 @@ limitations under the License.
 						url : "/path/to/identification.cfc?method=updateIdentifications",
 						type : "post",
 						dataType : "json",
-						data: $("#editIdentificationsForm").serialize(),
+						data: $("##editIdentificationsForm").serialize(),
 						success: function (result) {
 							if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') {
 								setFeedbackControlState("saveIdentificationsResultsDiv","saved")
