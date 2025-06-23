@@ -941,7 +941,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div id="identificationDialogList" class="col-12 float-left mt-4 mb-4 px-0">
-									<cfset idList = getIdentificationsUnthreadedHTML(collection_object_id = variables.collection_object_id)>
+									<cfset idList = getIdentificationsUnthreadedHTML(collection_object_id = variables.collection_object_id, editable=true)>
 								</div>
 							</div>
 						</div>

@@ -453,90 +453,96 @@ limitations under the License.
 --->
 <cffunction name="getIdentificationsUnthreadedHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		<cfoutput>
-			<cftry>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-					<cfset oneOfUs = 1>
-				<cfelse>
-					<cfset oneOfUs = 0>
-				</cfif>
-				<!--- check for mask record, hide if mask record and not one of us ---->
-				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT 
-						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
-					FROM DUAL
-				</cfquery>
-				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
-					<cfthrow message="Record Masked">
-				</cfif>
-				<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT
-						identification.scientific_name,
-						identification.collection_object_id,
-						made_date,
-						nature_of_id,
-						identification_remarks,
-						identification.identification_id,
-						accepted_id_fg,
-						taxa_formula,
-						formatted_publication,
-						identification.publication_id,
-						stored_as_fg
+	<cfargument name="editable" type="boolean" required="no" default="false">
+
+	<cfset collection_object_id = arguments.collection_object_id>
+	<cfset editable = arguments.editable>
+	<cfoutput>
+		<cftry>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				<cfset oneOfUs = 1>
+			<cfelse>
+				<cfset oneOfUs = 0>
+			</cfif>
+			<!--- check for mask record, hide if mask record and not one of us ---->
+			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+				FROM DUAL
+			</cfquery>
+			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+				<cfthrow message="Record Masked">
+			</cfif>
+			<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT
+					identification.scientific_name,
+					identification.collection_object_id,
+					made_date,
+					nature_of_id,
+					identification_remarks,
+					identification.identification_id,
+					accepted_id_fg,
+					taxa_formula,
+					formatted_publication,
+					identification.publication_id,
+					stored_as_fg
+				FROM
+					identification
+					left join formatted_publication on identification.publication_id=formatted_publication.publication_id and format_style='short'
+				WHERE
+					identification.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				ORDER BY 
+					accepted_id_fg DESC,sort_order, made_date DESC
+			</cfquery>
+			<cfset i=1>
+			<cfloop query="identification">
+				<cfquery name="determiners" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT distinct
+						preferred_agent_name.agent_name,
+						identification_agent.agent_id,
+						agent.agentguid,
+						agent.agentguid_guid_type,
+						identifier_order
 					FROM
-						identification
-						left join formatted_publication on identification.publication_id=formatted_publication.publication_id and format_style='short'
-					WHERE
-						identification.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					ORDER BY 
-						accepted_id_fg DESC,sort_order, made_date DESC
+						identification_agent
+						left join preferred_agent_name on identification_agent.agent_id = preferred_agent_name.agent_id
+						left join agent on identification_agent.agent_id = agent.agent_id
+					WHERE 
+						identification_agent.identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
+					ORDER BY
+						identifier_order
 				</cfquery>
-				<cfset i=1>
-				<cfloop query="identification">
-					<cfquery name="determiners" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT distinct
-							preferred_agent_name.agent_name,
-							identification_agent.agent_id,
-							agent.agentguid,
-							agent.agentguid_guid_type,
-							identifier_order
-						FROM
-							identification_agent
-							left join preferred_agent_name on identification_agent.agent_id = preferred_agent_name.agent_id
-							left join agent on identification_agent.agent_id = agent.agent_id
-						WHERE 
-							identification_agent.identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
-						ORDER BY
-							identifier_order
-					</cfquery>
-					<cfset nameAsInIdentification = identification.scientific_name>
-					<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT distinct
-							identification_taxonomy.variable,
-							taxonomy.taxon_name_id,
-							display_name,
-							scientific_name,
-							author_text,
-							full_taxon_name,
-							taxonomy.taxonid,
-							taxonomy.taxonid_guid_type
-						FROM 
-							identification_taxonomy
-							JOIN taxonomy on identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id
-						WHERE 
-							identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
-					</cfquery>
-					<cfif identification.accepted_id_fg is 1>
+				<cfset nameAsInIdentification = identification.scientific_name>
+				<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT distinct
+						identification_taxonomy.variable,
+						taxonomy.taxon_name_id,
+						display_name,
+						scientific_name,
+						author_text,
+						full_taxon_name,
+						taxonomy.taxonid,
+						taxonomy.taxonid_guid_type
+					FROM 
+						identification_taxonomy
+						JOIN taxonomy on identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id
+					WHERE 
+						identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
+				<cfif identification.accepted_id_fg is 1>
+					<cfset divClasses ="list-group border-green rounded mx-1 my-2 p-2 h4 font-weight-normal">
+				<cfelse>
+					<cfset divClasses ="list-group border-transparent rounded mx-1 mt-0 mb-1 p-1 h4 font-weight-normal">
+				</cfif>
+				<div class="#divClasses#">
+	a				<cfif identification.accepted_id_fg is 1>
 						<!---	Start for current Identification, enclose in green bordered block. --->
-						<div class="list-group border-green rounded mx-1 my-2 p-2 h4 font-weight-normal">
 						<div class="d-inline-block my-0 h5 text-success">Current Identification</div>
 					<cfelse>
-						<div class="list-group border-transparent rounded mx-1 mt-0 mb-1 p-1 h4 font-weight-normal">
 						<!---	Start of former Identifications --->
 						<cfif identification.recordcount GT 2><cfset plural = "s"><cfelse><cfset plural = ""></cfif>
 						<cfset IDtitle = "Previous Identification#plural#">
-						<!--- no ul for previous identifications --->
 						<cfif i EQ 2>
-						
 							<div class="h6 mt-0 mb-1 text-success formerID">#IDtitle#</div>
 						</cfif>
 					</cfif>
@@ -560,10 +566,10 @@ limitations under the License.
 							<cfset nameAsInTaxon="#identification.taxa_formula#">
 							<cfloop query="getTaxa">
 								<!--- replace each component of the formula with the name, in a hyperlink --->
-								<cfset thisLink='<a href="/name/#getTaxa.scientific_name#" class="d-inline">#getTaxa.display_name#</a>'>
+								<cfset thisLink='<a href="/name/#getTaxa.scientific_name#" class="d-inline">#getTaxa.display_name#</a>'><!--- ' --->
 								<cfif identification.taxa_formula NEQ "A x B">
 									<!--- include the authorship if not a hybrid --->
-									<cfset thisLink= '#thisLink# <span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>'>
+									<cfset thisLink= '#thisLink# <span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>'><!--- ' --->
 								</cfif>
 								<cfset expandedVariables=#replace(expandedVariables,getTaxa.variable,thisLink)#>
 								<cfset nameAsInTaxon=#replace(nameAsInTaxon,getTaxa.variable,getTaxa.scientific_name)#>
@@ -572,10 +578,10 @@ limitations under the License.
 							#expandedVariables#
 						</cfif>
 						<cfif listcontainsnocase(session.roles,"manage_specimens")>
-						<cfif stored_as_fg is 1>
-							<span class="bg-gray float-right rounded p-1 text-muted font-weight-lessbold">STORED AS</span>
+							<cfif stored_as_fg is 1>
+								<span class="bg-gray float-right rounded p-1 text-muted font-weight-lessbold">STORED AS</span>
+							</cfif>
 						</cfif>
-					</cfif>
 					</div>
 					
 					<cfif len(formatted_publication) gt 0>
@@ -650,20 +656,17 @@ limitations under the License.
 					<cfif len(identification_remarks) gt 0>
 						<div class="small"><span class="font-weight-lessbold">Remarks:</span> #identification.identification_remarks#</div>
 					</cfif>
-					
-					
-						</div>
-					
-					<cfset i = i+1>
-				</cfloop>
-			<cfcatch>
-				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-				<cfset function_called = "#GetFunctionCalledName()#">
-				<h2 class='h3'>Error in #function_called#:</h2>
-				<div>#error_message#</div>
-			</cfcatch>
-			</cftry>
-		</cfoutput>
+				</div>
+				<cfset i = i+1>
+			</cfloop>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<h2 class='h3'>Error in #function_called#:</h2>
+			<div>#error_message#</div>
+		</cfcatch>
+		</cftry>
+	</cfoutput>
 </cffunction>
 
 <!--- getOtherIdsHTML obtain a block of html listing other id numbers for a cataloged item
