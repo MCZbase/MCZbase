@@ -995,9 +995,17 @@ limitations under the License.
 	<cfset var data = ArrayNew(1)>
 
 	<cfset var scientific_name = arguments.taxa_formula>
+	<!--- throw an exception if formula contains B but taxon B is not provided --->
+	<cfif arguments.taxa_formula contains "B" and len(arguments.taxonb) EQ 0>	
+		<cfthrow message="Taxon B is required when the formula contains 'B'.">
+	</cfif>
+	<!--- replace B in the formula with a string that is not likely to occurr in a scientific name --->
+	<cfset scientific_name = REReplace(scientific_name, "\bB\b", "||TAXON_B||", "all")>
+	<!--- replace A in the formula with the taxon A name --->
 	<cfset scientific_name = REReplace(scientific_name, "\bA\b", arguments.taxona, "all")>
 	<cfif len(arguments.taxonb)>
-		<cfset scientific_name = REReplace(scientific_name, "\bB\b", arguments.taxonb, "all")>
+		<!--- replace the placeholder for B with the taxon B name if provided --->
+		<cfset scientific_name = REReplace(scientific_name, "||TAXON_B||", arguments.taxonb, "all")>
 	</cfif>
 	<!--- Clean up any double spaces or trailing punctuation --->
 	<cfset scientific_name = Trim(REReplace(scientific_name, "[ ]{2,}", " ", "all"))>
