@@ -822,7 +822,7 @@ limitations under the License.
 													<select name="nature_of_id" id="nature_of_id" class="data-entry-select reqdClr" required>
 														<option></option>
 														<cfloop query="ctNature">
-															<option value="#ctNature.nature_of_id#">#ctNature.description#</option>
+															<option value="#ctNature.nature_of_id#">#ctNature.nature_of_id# #ctNature.description#</option>
 														</cfloop>
 													</select>
 												</div>
