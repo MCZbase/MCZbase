@@ -19,6 +19,7 @@ limitations under the License.
 <cfinclude template = "/shared/functionLib.cfm">
 <cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? remove ? --->
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml --->
+<cfinclude template="/specimens/component/public.cfc" runOnce="true"><!--- for getIdentificationsUnthreadedHTML  --->
 
 <cffunction name="updateCatNumber" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="numeric" required="yes">
