@@ -455,8 +455,17 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="editable" type="boolean" required="no" default="false">
 
-	<cfset collection_object_id = arguments.collection_object_id>
-	<cfset editable = arguments.editable>
+	<cfset variables.editable = arguments.editable>
+	<!--- check to see if user has rights to edit identifications if editable is set to true --->
+	<cfif editable>
+		<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+			<cfset variables.editable = true>
+		<cfelse>
+			<cfset variables.editable = false>
+		</cfif>
+	</cfif>
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
 	<cfoutput>
 		<cftry>
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -535,7 +544,7 @@ limitations under the License.
 					<cfset divClasses ="list-group border-transparent rounded mx-1 mt-0 mb-1 p-1 h4 font-weight-normal">
 				</cfif>
 				<div class="#divClasses#">
-	a				<cfif identification.accepted_id_fg is 1>
+					<cfif identification.accepted_id_fg is 1>
 						<!---	Start for current Identification, enclose in green bordered block. --->
 						<div class="d-inline-block my-0 h5 text-success">Current Identification</div>
 					<cfelse>
@@ -543,7 +552,18 @@ limitations under the License.
 						<cfif identification.recordcount GT 2><cfset plural = "s"><cfelse><cfset plural = ""></cfif>
 						<cfset IDtitle = "Previous Identification#plural#">
 						<cfif i EQ 2>
-							<div class="h6 mt-0 mb-1 text-success formerID">#IDtitle#</div>
+							<div class="h6 mt-0 mb-1 text-success formerID">
+								#IDtitle#
+								<cfif editable>
+									<span class="float-right">
+										<button class="btn btn-sm btn-secondary" 
+											onclick="editIdentification('#identification.identification_id#','edit')">Edit</button>
+										<button class="btn btn-sm btn-danger" 
+											onclick="removeIdentification('#identification.identification_id#','delete')">Delete</button>
+									</span>
+								</cfif>
+								</span>
+							</div>
 						</cfif>
 					</cfif>
 					<div class="h4 my-0 font-weight-lessbold d-inline-block">
