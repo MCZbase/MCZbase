@@ -554,15 +554,6 @@ limitations under the License.
 						<cfif i EQ 2>
 							<div class="h6 mt-0 mb-1 text-success formerID">
 								#IDtitle#
-								<cfif editable>
-									<span class="float-right">
-										<button class="btn btn-sm btn-secondary" 
-											onclick="editIdentification('#identification.identification_id#','edit')">Edit</button>
-										<button class="btn btn-sm btn-danger" 
-											onclick="removeIdentification('#identification.identification_id#','delete')">Delete</button>
-									</span>
-								</cfif>
-								</span>
 							</div>
 						</cfif>
 					</cfif>
@@ -601,6 +592,16 @@ limitations under the License.
 							<cfif stored_as_fg is 1>
 								<span class="bg-gray float-right rounded p-1 text-muted font-weight-lessbold">STORED AS</span>
 							</cfif>
+						</cfif>
+						<cfif editable>
+							<span class="float-right">
+								<button class="btn btn-sm btn-secondary" 
+									onclick="editIdentification('#identification.identification_id#','edit')">Edit</button>
+								<cfif identification.accepted_id_fg NEQ 1>
+									<button class="btn btn-sm btn-danger" 
+										onclick="removeIdentification('#identification.identification_id#','delete')">Delete</button>
+								</cfif>
+							</span>
 						</cfif>
 					</div>
 					
