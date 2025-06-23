@@ -557,7 +557,8 @@ limitations under the License.
 							</div>
 						</cfif>
 					</cfif>
-					<div class="h4 my-0 font-weight-lessbold d-inline-block">
+					<div class="h4 my-0 font-weight-lessbold d-flex">
+						<div>
 						<cfif getTaxa.recordcount is 1 and identification.taxa_formula IS 'A'>
 							<!--- simple formula with no added information just show name and link --->
 							<cfloop query="getTaxa"><!--- just to be explicit, only one row should match --->
@@ -593,12 +594,13 @@ limitations under the License.
 								<span class="bg-gray float-right rounded p-1 text-muted font-weight-lessbold">STORED AS</span>
 							</cfif>
 						</cfif>
+						</div>
 						<cfif editable>
-							<span class="float-right">
-								<button class="btn btn-sm btn-secondary" 
+							<span class="ml-auto">
+								<button class="btn btn-xs btn-secondary" 
 									onclick="editIdentification('#identification.identification_id#','edit')">Edit</button>
 								<cfif identification.accepted_id_fg NEQ 1>
-									<button class="btn btn-sm btn-danger" 
+									<button class="btn btn-xs btn-danger" 
 										onclick="removeIdentification('#identification.identification_id#','delete')">Delete</button>
 								</cfif>
 							</span>
