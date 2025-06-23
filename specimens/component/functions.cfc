@@ -920,7 +920,7 @@ limitations under the License.
 												// set the determiner_ids hidden input to the comma separated list
 												$("##determiner_ids").val(determinerIds.join(','));
 												setFeedbackControlState("addIdStatus","saving")
-												var form = $('#addIdentificationForm');
+												var form = $('##addIdentificationForm');
 												var data = form.serialize();
 												$.ajax({
 													url: '/specimens/component/functions.cfc',
@@ -1088,8 +1088,8 @@ limitations under the License.
 							taxonBRow.style.display = '';
 						} else {
 							taxonBRow.style.display = 'none';
-							$('#taxonb_' + idx).val('');
-							$('#taxonb_id_' + idx).val('');
+							$('##taxonb_' + idx).val('');
+							$('##taxonb_id_' + idx).val('');
 						}
 					}
 				}
