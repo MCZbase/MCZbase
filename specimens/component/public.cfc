@@ -595,7 +595,7 @@ limitations under the License.
 						</cfif>
 						<cfif editable>
 							<span class="float-right">
-								<button class="btn btn-sm btn-secondary" 
+								<button class="btn btn-sm btn-secondary py-0" 
 									onclick="editIdentification('#identification.identification_id#','edit')">Edit</button>
 								<cfif identification.accepted_id_fg NEQ 1>
 									<button class="btn btn-sm btn-danger" 
