@@ -1000,14 +1000,14 @@ limitations under the License.
 		<cfthrow message="Taxon B is required when the formula contains 'B'.">
 	</cfif>
 	<!--- replace A in the formula with a string that is not likely to occur in a scientific name --->
-	<cfset scientific_name = REReplace(scientific_name, "\bA\b", "||TAXON_A||", "all")>
+	<cfset scientific_name = REReplace(scientific_name, "\bA\b", "TAXON_A", "all")>
 	<!--- replace B in the formula with a string that is not likely to occurr in a scientific name --->
-	<cfset scientific_name = REReplace(scientific_name, "\bB\b", "||TAXON_B||", "all")>
+	<cfset scientific_name = REReplace(scientific_name, "\bB\b", "TAXON_B", "all")>
 	<!--- replace the placeholder for A in the formula with the taxon A name --->
-	<cfset scientific_name = REReplace(scientific_name, "||TAXON_A||", arguments.taxona, "all")>
+	<cfset scientific_name = replace(scientific_name, "TAXON_A", arguments.taxona)>
 	<cfif len(arguments.taxonb)>
 		<!--- replace the placeholder for B with the taxon B name if provided --->
-		<cfset scientific_name = REReplace(scientific_name, "||TAXON_B||", arguments.taxonb, "all")>
+		<cfset scientific_name = replace(scientific_name, "TAXON_B", arguments.taxonb)>
 	</cfif>
 	<!--- Clean up any double spaces or trailing punctuation --->
 	<cfset scientific_name = Trim(REReplace(scientific_name, "[ ]{2,}", " ", "all"))>
