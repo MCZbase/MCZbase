@@ -426,14 +426,33 @@ limitations under the License.
 	<cfreturn getIdentifiersThread.output>
 </cffunction>
 							
-<!--- getIdentificationsHTML obtain a block of html listing identifications for a cataloged item
+<!--- getIdentificationsHTML obtain a block of html listing identifications for a cataloged item, threaded wrapper
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
  @return html for viewing identifications for the specified cataloged item. 
+ @see getIdentificationsUnthreadedHTML
 --->
 <cffunction name="getIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+
 	<cfthread name="getIdentificationsThread">
+		<cfoutput>
+			<!--- get content from unthreaded method --->
+			<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=variables.collection_object_id)>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getIdentificationsThread" />
+	<cfreturn getIdentificationsThread.output>
+</cffunction>
+
+<!--- getIdentificationsUnthreadedHTML obtain a block of html listing identifications for a cataloged item
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
+ @return html for viewing identifications for the specified cataloged item.
+ @see getIdentificationsHTML
+--->
+<cffunction name="getIdentificationsUnthreadedHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfoutput>
 			<cftry>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -645,9 +664,6 @@ limitations under the License.
 			</cfcatch>
 			</cftry>
 		</cfoutput>
-	</cfthread>
-	<cfthread action="join" name="getIdentificationsThread" />
-	<cfreturn getIdentificationsThread.output>
 </cffunction>
 
 <!--- getOtherIdsHTML obtain a block of html listing other id numbers for a cataloged item
