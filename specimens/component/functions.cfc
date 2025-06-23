@@ -988,7 +988,9 @@ limitations under the License.
 				<cfif getIdentifications.recordcount EQ 0>
 					<li>None</li>
 				</cfif>
-				<cfloop query="getIdentifications" index="i">
+				<cfset i = 0>
+				<cfloop query="getIdentifications">
+					<cfset i = i + 1>
 					<li style="margin-bottom:2em; border:1px solid; padding:1em;">
 						<input type="hidden" name="identification_id_#i#" value="#identification_id#">
 						<div class="form-row">
