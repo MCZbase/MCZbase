@@ -785,7 +785,7 @@ limitations under the License.
 													<script>
 														// Initialize taxon autocomplete
 														$(document).ready(function() {
-															makeRichTaxonPickerControlMeta2("taxona","taxona_id");
+															makeScientificNameAutocompleteMeta("taxona","taxona_id");
 														});
 													</script>
 												</div>
@@ -797,7 +797,7 @@ limitations under the License.
 														<script>
 															// Initialize taxon B autocomplete
 															$(document).ready(function() {
-																makeRichTaxonPickerControlMeta2("taxonb","taxonb_id");
+																makeScientificNameAutocompleteMeta("taxonb","taxonb_id");
 															});
 														</script>
 													</div>
@@ -809,7 +809,7 @@ limitations under the License.
 														// Initialize datepicker
 														$(document).ready(function() {
 															$("##made_date").datepicker({
-																dateFormat: "yyyy-mm-dd",
+																dateFormat: "yy-mm-dd",
 																changeMonth: true,
 																changeYear: true,
 																showButtonPanel: true
@@ -829,7 +829,7 @@ limitations under the License.
 													<script>
 														// Initialize publication autocomplete
 														$(document).ready(function() {
-															makeRichPublicationPickerControlMeta2("publication","publication_id");
+															makePublicationAutocompleteMeta("publication","publication_id");
 														});
 													</script>
 												</div>
@@ -850,7 +850,7 @@ limitations under the License.
 													<script>
 														// Initialize determiner autocomplete
 														$(document).ready(function() {
-															makeRichAgentPickerControlMeta2("determiner","determiner_id");
+															makeAgentAutocompleteMeta("determiner","determiner_id");
 														});
 													</script>
 													<!--- button to add another set of determiner controls --->
