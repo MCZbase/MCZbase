@@ -732,604 +732,677 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-<!---getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
- @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
+<!--- getEditIdentificationsHTML Threaded method to obtain a block of html to populate an identifications editor dialog for a specimen.
+ @param collection_object_id the collection_object_id for the collection object for which to obtain the identifications
 	editor dialog.
- @return html for editing identifications for the specified cataloged item. 
+ @return html for editing identifications for the specified collection object.
 --->
 <cffunction name="getEditIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		<cfthread name="getEditIdentsThread"> 
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+
+	<cfthread name="getIdentificationsThread">
+		<cftry>
+			<!--- Load available formulas --->
+			<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT taxa_formula, description
+				FROM cttaxa_formula
+				ORDER BY taxa_formula
+			</cfquery>
+			<cfquery name="ctNature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT nature_of_id, description 
+				FROM ctnature_of_id 
+				ORDER BY nature_of_id
+			</cfquery>
 			<cfoutput>
-			<cftry>
-				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select nature_of_id from ctnature_of_id
-				</cfquery>
-				<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select taxa_formula from cttaxa_formula order by taxa_formula
-				</cfquery>
-				<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT distinct
-						identification.identification_id,
-						institution_acronym,
-						identification.scientific_name,
-						cat_num,
-						cataloged_item.collection_id,
-						cataloged_item.collection_cde,
-						collection.collection_id,
-						made_date,
-						nature_of_id,
-						accepted_id_fg,
-						identification_remarks,
-						MCZBASE.GETSHORTCITATION(identification.publication_id) as formatted_publication,
-						identification.publication_id,
-						identification.sort_order,
-						identification.stored_as_fg
-					FROM
-						cataloged_item
-						left join identification on identification.collection_object_id = cataloged_item.collection_object_id
-						left join collection on cataloged_item.collection_id=collection.collection_id
-					WHERE
-						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-					ORDER BY 
-						accepted_id_fg DESC, sort_order ASC
-				</cfquery>
-				<cfquery name="determiners" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT distinct
-						agent_name, identifier_order, identification_agent.agent_id, identification_agent_id
-					FROM
-						identification_agent
-						left join preferred_agent_name on identification_agent.agent_id = preferred_agent_name.agent_id
-					WHERE
-						identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getIDs.identification_id#">
-					ORDER BY
-						identifier_order
-				</cfquery>
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-12 float-left">
-							<div class="col-12 float-left px-0">
+				<div id="identificationHTML">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12 float-left">
 								<div class="add-form float-left">
 									<div class="add-form-header pt-1 px-2 col-12 float-left">
-										<h2 class="h3 text-white my-0 px-1 pb-1">
-											Add New Determination
-										</h2>
+										<h2 class="h3 my-0 px-1 pb-1">Add Identification</h2>
 									</div>
-									<div class="card-body"> 
-										<script>
-											function idFormulaChanged(newFormula,baseId) { 
-												if(newFormula.includes("B")) {
-													$('##' + baseId).show();
-													$('##'+baseId+'_label').show();
-												} else { 
-													$('##' + baseId).hide();
-													$('##'+baseId+'_label').hide();
-													$('##' + baseId).val("");
-													$('##'+baseID+'_id').val("");
-												}
-											}
-										</script>
-										<form name="addForm" id="addForm">
-											<input type="hidden" name="Action" value="createNew">
-											<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-											<div class="row float-left mx-1 mt-0 pt-2 pb-1">
-												<div class="col-12 col-md-6 float-left px-0">
-													<div class="col-12 col-md-3 px-1 float-left">
-														<label for="taxa_formula" class="data-entry-label">ID Formula</label>
-														<cfif not isdefined("taxa_formula")>
-															<cfset taxa_formula='A'>
-														</cfif>
-														<select name="taxa_formula" id="taxa_formula" size="1" class="reqdClr w-100" required onchange="idFormulaChanged(this.value,'taxonb');">
-															<cfset selected_value = "#taxa_formula#">
-															<cfloop query="ctFormula">
-																<cfif selected_value EQ ctFormula.taxa_formula>
-																	<cfset selected = "selected='selected'">
-																	<cfelse>
-																	<cfset selected ="">
-																</cfif>
-																<option #selected# value="#ctFormula.taxa_formula#">#ctFormula.taxa_formula#</option>
-															</cfloop>
-														</select>
-													</div>
-													<div class="col-12 col-md-9 px-1 float-left">
-														<label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
-														<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input">
-														<input type="hidden" name="taxona_id" id="taxona_id">
-													</div>
-													<div class="col-12 col-md-8 px-1 d-none float-left">
-														<label id="taxonb_label" for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
-														<input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
-														<input type="hidden" name="taxonb_id" id="taxonb_id">
-													</div>
+									<div class="card-body">
+										<form name="addIdentificationForm" id="addIdentificationForm">
+											<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
+											<input type="hidden" name="method" value="addIdentification">
+											<input type="hidden" name="returnformat" value="json">
+											<div class="form-row">
+												<div class="col-12 col-md-2">
+													<label for="taxa_formula" class="data-entry-label">ID Formula:</label>
+													<select name="taxa_formula" id="taxa_formula" class="data-entry-input reqdClr" onchange="updateTaxonBVisibility();" required>
+														<cfloop query="ctFormula">
+															<option value="#ctFormula.taxa_formula#">#ctFormula.taxa_formula#</option>
+														</cfloop>
+													</select>
 												</div>
-												<div class="col-12 col-md-6 px-1 float-left">	
-													<div class="col-12 col-md-6 px-1 float-left">
-														<label for="made_date" class="data-entry-label" >Date Identified</label>
-														<input type="text" name="made_date" id="made_date" class="data-entry-input">
-													</div>
-													<div class="col-12 col-md-6 px-1 float-left">
-														<label for="nature_of_id" class="data-entry-label mt-0" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
-														<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
-															<cfloop query="ctnature">
-																<option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
-															</cfloop>
-														</select>
-													</div>
-												</div>
-								<div class="row col-12 mt-2 px-0 mx-0">
-									<div class="col-12 col-md-6 px-1 float-left">
-										<label for="identification_publication" class="data-entry-label" >Sensu</label>
-										<input type="hidden" name="new_publication_id" id="new_publication_id">
-										<input type="text" id="newPub" class="data-entry-input mb-1">
-									</div>
-									<div class="col-12 col-md-6 px-1 float-left">
-										<label for="identification_remarks" class="data-entry-label mt-0" >Remarks</label>
-										<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
-									</div>
-								</div>
-												<div class="col-12 col-md-12 px-0 float-left">
-													<cfset idnum=1>
-													<cfset i=1>
-													<div class="col-12 col-md-6 px-0 my-1 float-left">
-													<cfloop query="determiners">
-														<div id="IdTr_#i#_#idnum#">
-															<label for="IdBy_#i#_#idnum#" class="data-entry-label col-6 float-left">
-															Identified By
-															<h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-															</label>
-															<div class="col-12 col-md-12 px-1 float-left">
-																<div class="input-group col-9 px-0 float-left">
-																	<div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
-																	<input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(agent_name)#" class="reqdClr data-entry-input form-control" >
-																</div>
-																<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
-																<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">
-																<a aria-label="Add another Identifier" class="float-left btn btn-xs btn-primary addNewIDName col-3 px-0 rounded" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Name</a> 
-															</div>
-														</div>
-														<script>
-															makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
-														</script> 
-												
-													<cfset idnum=idnum+1>
-													</cfloop>
-												</div>
-												</div>
-													
-													
-							
-											<div id="addNewID" class="row mx-0"></div>
-											<script>
-												function addIdentAgentToForm(agent_id,agent_name) { 
-													// add trans_agent record
-													getIdent_agent(IdBy_#i#_#idnum#,IdBy_#i#_#idnum#_id,'##newID');
-													// trigger save needed
-													handleChange();
-												}
-											</script>
-										
-												<div class="col-12 col-md-12 py-2 mt-1 px-1 float-left">
-													<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
-												</div>
-											
-											<script>
-												$(document).ready(function() {
-													makeScientificNameAutocompleteMeta("taxona", "taxona_id");
-													makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
-													makeRichAgentPicker("newIdBy", "newIdBy_id", "newIdBy_icon", "newIdBy_view", null);
-													makePublicationAutocompleteMeta("newPub", "new_publication_id");
-												});
-											</script>
-										</form>
-									</div>
-								</div>
-							</div>
-							<div class="col-12 col-lg-12 float-left mt-4 mb-4 px-0">
-								<form name="editIdentificationsForm" id="editIdentificationsForm">
-									<input type="hidden" name="method" value="updateIdentifications">
-									<input type="hidden" name="returnformat" value="json">
-									<input type="hidden" name="queryformat" value="column">
-									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-									<h1 class="h3 mb-1 px-1"> Edit Existing Determinations <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a> </h1>
-									<div class="row mx-0">
-										<div class="col-12 px-0 float-left">
-										
-											<cfset i = 1>
-											<cfset sortCount=getIds.recordcount - 1>
-											<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIds.recordcount#">
-											<cfloop query="getIds">
-												<cfquery name="determiners" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-													SELECT distinct
-														agent_name, identifier_order, identification_agent.agent_id, identification_agent_id
-													FROM
-														identification_agent
-														left join preferred_agent_name on identification_agent.agent_id = preferred_agent_name.agent_id
-													WHERE
-														identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
-													ORDER BY
-														identifier_order
-												</cfquery>
-												<cfset thisIdentification_id = #identification_id#>
-												<input type="hidden" name="identification_id_#i#" id="identification_id_#i#" value="#identification_id#">
-												<input type="hidden" name="number_of_determiners_#i#" id="number_of_determiners_#i#" value="#determiners.recordcount#">
-												<div class="col-12 border bg-light px-3 rounded mt-0 mb-2 pt-2 pb-1 float-left">
-													<div class="row mt-2">
-														<div class="col-12 col-md-6 pr-0"> 
-															<!--- TODO: A/B pickers --->
-															<label for="scientific_name_#i#" class="data-entry-label">Scientific Name</label>
-															<input type="text" name="scientific_name_#i#" id="scientific_name_#i#" class="data-entry-input" readonly="true" value="#scientific_name#">
-														</div>
-														<!--- TODO: make flippedAccepted() js function available --->
-														<div class="col-12 col-md-4">
-															<label for="accepted_id_fg_#i#" class="data-entry-label">Accepted</label>
-															<cfif #accepted_id_fg# is 0>
-																<cfset read = "">
-																<cfset selected0 = "selected">
-																<cfset selected1 = "">
-																<cfelse>
-																<cfset read = "readonly='true'">
-																<cfset selected0 = "">
-																<cfset selected1 = "selected">
-															</cfif>
-															<select name="accepted_id_fg_#i#" id="accepted_id_fg_#i#" size="1" #read# class="reqdClr w-50" onchange="flippedAccepted('#i#')">
-																<option value="1" #selected1#>yes</option>
-																<option value="0" #selected0#>no</option>
-																<cfif #ACCEPTED_ID_FG# is 0>
-																	<option value="DELETE">DELETE</option>
-																</cfif>
-															</select>
-															<cfif #ACCEPTED_ID_FG# is 0>
-																<span class="infoLink text-danger" onclick="document.getElementById('accepted_id_fg_#i#').value='DELETE';flippedAccepted('#i#');">Delete</span>
-																<cfelse>
-																<span>Current Identification</span>
-															</cfif>
-														</div>
-													</div>
-													<div class="row mt-2">
-														<div class="col-12 px-0">
-															<cfset idnum=1>
-															<cfloop query="determiners">
-																<div id="IdTr_#i#_#idnum#">
-																	<div class="col-12">
-																		<label for="IdBy_#i#_#idnum#">
-																		Identified By
-																		<h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-																		</label>
-																		<div class="col-12 px-0">
-																			<div class="input-group col-6 px-0 float-left">
-																				<div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
-																				<input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(agent_name)#" class="reqdClr data-entry-input form-control" >
-																			</div>
-																			<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
-																			<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">
-																			<a aria-label="Add another Identifier" class="float-left btn btn-xs btn-primary addIDName rounded mx-1" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Name</a> </div>
-																	</div>
-																	<script>
-																		makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon","IdBy_#i#_#idnum#_view",'#agent_id#');
-																	</script> 
-																</div>
-																<!---This needs to get the next number from the loop and look up the agent from the database when add another identifier button is clicked//; I tried to create a js function to connect to the cf function but it wasn't working so I left it like this for now. The design idea is there for adding and removing identifiers.---> 
-																<script>	
-																	$(document).ready(function(){
-																		$(".addIDName").click(function(){$("##newID").append('<div class="col-12"><label for="IdBy_#i#_#idnum#" class="data-entry-label mt-1">Identified By this one <h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5></label><div class="col-12 px-0"><div class="input-group col-6 px-0 float-left"><div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span></div><input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(determiners.agent_name)#" class="reqdClr data-entry-input form-control"></div><input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#determiners.agent_id#"><input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#determiners.identification_agent_id#"></div><button href="javascript:void(0);" arial-label="remove" class="btn data-entry-button px-2 mx-0 addIDName float-left remIDName"><i class="fas fa-times"></i></button></div></div></div>');
-																		});
-																		$("##newID").on('click','.remIDName',function(){$(this).parent().remove()});
-																	});
-																</script>
-																<cfset idnum=idnum+1>
-															</cfloop>
-														</div>
-													</div>
-													<div id="newID" class="row"></div>
+												<div class="col-12 col-md-5">
+													<label for="taxona" class="data-entry-label">Taxon A:</label>
+													<input type="text" name="taxona" id="taxona" class="data-entry-input" autocomplete="off">
+													<input type="hidden" name="taxona_id" id="taxona_id">
 													<script>
-														function addIdentAgentToForm(agent_id,agent_name) { 
-															// add trans_agent record
-															getIdent_agent(IdBy_#i#_#idnum#,IdBy_#i#_#idnum#_id,'##newID');
-															// trigger save needed
-															handleChange();
+														// Initialize taxon autocomplete
+														$(document).ready(function() {
+															makeRichTaxonPickerControlMeta2("taxona","taxona_id");
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-5">
+													<div class="form-row" id="taxonb_row" style="display:none;">
+														<label for="taxonb" class="data-entry-label">Taxon B:</label>
+														<input type="text" name="taxonb" id="taxonb" class="data-entry-input" autocomplete="off">
+														<input type="hidden" name="taxonb_id" id="taxonb_id">
+														<script>
+															// Initialize taxon B autocomplete
+															$(document).ready(function() {
+																makeRichTaxonPickerControlMeta2("taxonb","taxonb_id");
+															});
+														</script>
+													</div>
+												</div>
+												<div class="col-12 col-md-3">
+													<label for="made_date" class="data-entry-label">Date Identified:</label>
+													<input type="text" name="made_date" id="made_date" class="data-entry-input">
+													<script>
+														// Initialize datepicker
+														$(document).ready(function() {
+															$("#made_date").datepicker({
+																dateFormat: "yyyy-mm-dd",
+																changeMonth: true,
+																changeYear: true,
+																showButtonPanel: true
+															});
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-3">
+													<label for="nature_of_id" class="data-entry-label">Nature of ID:</label>
+													<input type="text" name="nature_of_id" id="nature_of_id" class="data-entry-input">
+												</div>
+												<div class="col-12 col-md-6">
+													<!--- publication autocomplete --->
+													<label for="publication" class="data-entry-label">Sensu:</label>
+													<input type="text" name="sensu" id="publication" class="data-entry-input">
+													<input type="hidden" name="publication_id" id="publication_id">
+													<script>
+														// Initialize publication autocomplete
+														$(document).ready(function() {
+															makeRichPublicationPickerControlMeta2("publication","publication_id");
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-10">
+													<label for="identification_remarks" class="data-entry-label">Remarks:</label>
+													<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="stored_as_fg" class="data-entry-label">Stored As:</label>
+													<input type="checkbox" name="stored_as_fg" id="stored_as_fg" value="1">
+												</div>
+												<div class="col-12 col-md-2">
+													<!--- autocomplete for a determiner --->
+													<label for="determiner_id" class="data-entry-label">Determiner:</label>
+													<input type="text" name="determiner" id="determiner" class="data-entry-input">
+													<input type="hidden" name="determiner_id" id="determiner_id_1">
+													<input type="hidden" name="determiner_count" id="determiner_count" value="1">
+													<script>
+														// Initialize determiner autocomplete
+														$(document).ready(function() {
+															makeRichAgentPickerControlMeta2("determiner","determiner_id");
+														});
+													</script>
+													<!--- button to add another set of determiner controls --->
+													<button type="button" class="btn btn-xs btn-secondary" id="addDeterminerButton"
+															 onClick="addDeterminerControl();">Add Determiner</button>
+													<script>
+														function addDeterminerControl() {
+															// get the number of current determiner controls
+															var currentCount = parseInt($("#determiner_count").val());
+															// Add a new determiner control
+															var newControl = '<input type="text" name="det'+currentCount+'" id="det'+currentCount+'"  class="data-entry-input">';
+															newControl += '<input type="hidden" name="determiner_id'+currentCount+'" id="determiner_id_'+currentCount+'" value="" >';
+															// button to remove this determiner control
+															newControl += '<button type="button" class="btn btn-xs btn-secondary" id="removeDet'+currentCount+'" onClick="removeLastDeterminerControl();">Remove</button>';
+															$("#determiner_ids").append(newControl);
+															makeRichAgentPickerControlMeta2("det"+currentCount,"determiner_id"+currentCount);
+															// Increment the count
+															currentCount++;
+															$("#determiner_count").val(currentCount);
+														}
+														function removeDeterminerControl(index) {
+															// Remove the determiner control pair specified by index
+															$("#det"+index).remove();
+															$("#determiner_id_"+index).remove();
+															$("#removeDet"+index).remove();
 														}
 													</script>
-													<div class="row mt-2">
-														<div class="col-12 col-md-3">
-															<label for="made_date_#i#" class="data-entry-label">ID Date</label>
-															<input type="text" value="#made_date#" name="made_date_#i#" id="made_date_#i#" class="data-entry-input">
-														</div>
-														<div class="col-12 col-md-3 px-0">
-															<label for="nature_of_id_#i#" class="data-entry-label">Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
-															<cfset thisID = #nature_of_id#>
-															<select name="nature_of_id_#i#" id="nature_of_id_#i#" size="1" class="reqdClr w-100">
-																<cfloop query="ctnature">
-																	<cfif #ctnature.nature_of_id# is #thisID#>
-																		<cfset selected="selected='selected'">
-																		<cfelse>
-																		<cfset selected="">
-																	</cfif>
-																	<option #selected# value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
-																</cfloop>
-															</select>
-														</div>
-														<div class="col-12 col-md-6">
-															<label for="publication_#i#" class="data-entry-label">Sensu</label>
-															<!--- TODO: Cause clearing publication picker to clear id --->
-															<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#publication_id#">
-															<input type="text" id="publication_#i#" value='#encodeForHTML(formatted_publication)#' class="data-entry-input">
-														</div>
-													</div>
-													<div class="row mt-2">
-														<div class="col-12 col-md-12 mb-2">
-															<label for="identification_remarks_#i#" class="data-entry-label">Remarks:</label>
-															<input type="text" name="identification_remarks_#i#" id="identification_remarks_#i#" class="data-entry-input" value="#encodeForHtml(identification_remarks)#" >
-														</div>
-														<div class="col-12 col-md-3 mb-2">
-															<cfif #accepted_id_fg# is 0>
-																<label for="sort_order_#i#" class="data-entry-label">Sort Order:</label>
-																<select name="sort_order_#i#" id="sort_order_#i#" size="1" class="w-100">
-																	<option <cfif #sort_order# is ""> selected </cfif> value=""></option>
-																	<cfloop index="X" from="1" to="#sortCount#">
-																		<option <cfif #sort_order# is #X#> selected </cfif> value="#X#">#X#</option>
-																	</cfloop>
-																</select>
-																<cfelse>
-																<input type="hidden" name="sort_order_#i#" id="sort_order_#i#" value="">
-															</cfif>
-														</div>
-														<div class="col-12 col-md-3 mt-3 mb-2">
-															<cfif #accepted_id_fg# is 0>
-																<label for="storedas_#i#" class="d-inline-block mt-1">Stored As</label>
-																<input type="checkbox" class="data-entry-checkbox" name="storedas_#i#" id="storedas_#i#" value = "1" <cfif #stored_as_fg# EQ 1>checked</cfif> />
-																<cfelse>
-																<input type="hidden" name="storedas_#i#" id="storedas_#i#" value="0">
-															</cfif>
-														</div>
-													</div>
-													<script>
-														$(document).ready(function() {
-															//makeScientificNameAutocompleteMeta("taxona", "taxona_id");
-															//makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
-															makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
-														});
-													</script> 
+													<!--- hidden input to store determiner IDs for multiple determiner support --->
+													<input type="hidden" name="determiner_ids" id="determiner_ids" class="data-entry-input">
 												</div>
-												<cfset i = #i#+1>
-											</cfloop>
-											<div class="col-12 mt-2 float-left">
-												<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
-													onClick="if (checkFormValidity($('##editIdentificationsForm')[0])) { editIdentificationsSubmit();  } ">
-												<output id="saveIdentificationsResultDiv" class="text-danger">&nbsp;</output>
+												<div class="col-12">
+													<input type="button" value="Add" class="btn btn-xs btn-primary" id="addIdButton"
+																 onClick="handleAddIdentification();">
+													<output id="addIdStatus" class="pt-1"></output>
+												</div>
 											</div>
-											<script>
-												function editIdentificationsSubmit(){
-													$('##saveIdentificationsResultDiv').html('Saving....');
-													$('##saveIdentificationsResultDiv').addClass('text-warning');
-													$('##saveIdentificationsResultDiv').removeClass('text-success');
-													$('##saveIdentificationsResultDiv').removeClass('text-danger');
-													$.ajax({
-														url : "/specimens/component/functions.cfc",
-														type : "post",
-														dataType : "json",
-														data: $("##editIdentificationsForm").serialize(),
-														success: function (result) {
-															if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-																$('##saveIdentificationsResultDiv').html('Saved');
-																$('##saveIdentificationsResultDiv').addClass('text-success');
-																$('##saveIdentificationsResultDiv').removeClass('text-warning');
-																$('##saveIdentificationsResultDiv').removeClass('text-danger');
-															} else {
-																// we shouldn't be able to reach this block, backing error should return an http 500 status
-																$('##saveIdentificationsResultDiv').html('Error');
-																$('##saveIdentificationsResultDiv').addClass('text-danger');
-																$('##saveIdentificationsResultDiv').removeClass('text-warning');
-																$('##saveIdentificationsResultDiv').removeClass('text-success');
-																messageDialog('Error updating identification history: '+result.DATA.MESSAGE[0], 'Error saving identification history.');
-															}
-														},
-														error: function(jqXHR,textStatus,error){
-															$('##saveIdentificationsResultDiv').html('Error');
-															$('##saveIdentificationsResultDiv').addClass('text-danger');
-															$('##saveIdentificationsResultDiv').removeClass('text-warning');
-															$('##saveIdentificationsResultDiv').removeClass('text-success');
-															handleFail(jqXHR,textStatus,error,"saving changes to identification history");
-														}
-													});
-												};
-											</script> 
-										</div>
+										</form>
+										<script>
+											// Show/hide Taxon B row based on formula (contains B)
+											function updateTaxonBVisibility() {
+												var formula = document.getElementById('taxa_formula').value;
+												if (formula.includes('B')) {
+													document.getElementById('taxonb_row').style.display = '';
+												} else {
+													document.getElementById('taxonb_row').style.display = 'none';
+													document.getElementById('taxonb').value = '';
+													document.getElementById('taxonb_id').value = '';
+												}
+											}
+											// Init on load
+											document.addEventListener('DOMContentLoaded', function() {
+												updateTaxonBVisibility();
+											});
+
+											function reloadIdentificationsDialogAndPage() {
+												reloadIdentifications();
+												loadIdentificationsList("#variables.collection_object_id#", "identificationDialogList");
+											}
+											function handleAddIdentification() {
+												// iterate through all of the determiner_id controls and add their values to a comma separated list in determiner_ids
+												var determinerIds = [];
+												$("input[name^='determiner_id_']").each(function() {
+													var id = $(this).val();
+													if (id) {
+														determinerIds.push(id);
+													}
+												});
+												// set the determiner_ids hidden input to the comma separated list
+												$("#determiner_ids").val(determinerIds.join(','));
+												setFeedbackControlState("addIdStatus","saving")
+												var form = $('#addIdentificationForm');
+												var data = form.serialize();
+												$.ajax({
+													url: '/specimens/component/functions.cfc',
+													data: data,
+													type: 'POST',
+													success: function() {
+														setFeedbackControlState("addIdStatus","saved")
+														reloadIdentificationsDialogAndPage();
+													}
+													,error: function(jqXHR, textStatus, errorThrown) {
+														setFeedbackControlState("addIdStatus","error")
+														handleFail(jqXHR, textStatus, errorThrown, "adding identification");
+													}
+												});
+											}
+										</script>
 									</div>
-								</form>
+								</div>
+								<div id="identificationDialogList" class="col-12 float-left mt-4 mb-4 px-0">
+									<cfset idList = getIdentificationsDetailHTML(collection_object_id = variables.collection_object_id)>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<cfcatch>
-					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-					<cfset function_called = "#GetFunctionCalledName()#">
-					<h2 class="h3">Error in #function_called#:</h2>
-					<div>#error_message#</div>
-				</cfcatch>
-			</cftry>
-		</cfoutput>
-	</cfthread>
-	<cfthread action="join" name="getEditIdentsThread" />
-	<cfreturn getEditIdentsThread.output>
-</cffunction>
-
-<!--- function updateIdentifications update the identifications for an arbitrary number of identifications in the identification history of a collection object 
-	@param collection_object_id the collecton object to which the identification history pertains
-	@param number_of_ids the number of determinations in the identification history
---->
-<cffunction name="updateIdentifications" returntype="any" access="remote" returnformat="json">
-	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfoutput> 
-		<!--- disable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
-		<cftry>
-			<cfquery datasource="uam_god">
-				alter trigger tr_stored_as_fg disable
-			</cfquery>
+			</cfoutput>
 			<cfcatch>
-				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-				<cfset function_called = "#GetFunctionCalledName()#">
-				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-				<cfabort>
+				<cfoutput>
+					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
+				</cfoutput>
 			</cfcatch>
 		</cftry>
-		<cftransaction>
-			<!--- perform the updates on the arbitary number of identifications --->
-			<cftry>
-				<cfloop from="1" to="#NUMBER_OF_IDS#" index="n">
-					<cfset thisAcceptedIdFg = #evaluate("ACCEPTED_ID_FG_" & n)#>
-					<cfset thisIdentificationId = #evaluate("IDENTIFICATION_ID_" & n)#>
-					<cfset thisIdRemark = #evaluate("IDENTIFICATION_REMARKS_" & n)#>
-					<cfset thisMadeDate = #evaluate("MADE_DATE_" & n)#>
-					<cfset thisNature = #evaluate("NATURE_OF_ID_" & n)#>
-					<cfset thisNumIds = #evaluate("NUMBER_OF_DETERMINERS_" & n)#>
-					<cfset thisPubId = #evaluate("publication_id_" & n)#>
-					<cfset thisSortOrder = #evaluate("sort_order_" & n)#>
-					<cfif #isdefined("storedas_" & n)#>
-						<cfset thisStoredAs = #evaluate("storedas_" & n)#>
-						<cfelse>
-						<cfset thisStoredAs = 0>
-					</cfif>
-					<cfif thisAcceptedIdFg is 1>
-						<cfquery name="upOldID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE identification 
-							SET ACCEPTED_ID_FG=0 
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-						</cfquery>
-						<cfquery name="newAcceptedId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE identification 
-							SET ACCEPTED_ID_FG=1, sort_order = null 
-							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
-						</cfquery>
-						<cfset thisStoredAs = 0>
-					</cfif>
-					<cfif thisStoredAs is 1>
-						<cfquery name="upStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE identification 
-							SET STORED_AS_FG=0 
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-						</cfquery>
-						<cfquery name="newStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE identification 
-							SET STORED_AS_FG=1 
-							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
-						</cfquery>
-						<cfelse>
-						<cfquery name="newStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE identification 
-							SET STORED_AS_FG=0 
-							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
-						</cfquery>
-					</cfif>
-					<cfif thisAcceptedIdFg is "DELETE">
-						<cfquery name="deleteId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							DELETE FROM identification_agent
-							WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
-						</cfquery>
-						<cfquery name="deleteTId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							DELETE FROM identification_taxonomy 
-							WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
-						</cfquery>
-						<cfquery name="deleteId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							DELETE FROM identification 
-							WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
-						</cfquery>
-						<cfelse>
-						<cfquery name="updateId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							UPDATE identification SET
-								nature_of_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisNature#">,
-								made_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisMadeDate#">,
-								identification_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#(thisIdRemark)#">
-								<cfif len(thisPubId) gt 0>
-									,publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPubId#">
-								<cfelse>
-									,publication_id = NULL
-								</cfif>
-								<cfif len(thisSortOrder) gt 0>
-									,sort_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisSortOrder#">
-								<cfelse>
-									,sort_order = NULL
-								</cfif>
-							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
-						</cfquery>
-						<cfloop from="1" to="#thisNumIds#" index="nid">
-							<cftry>
-								<!--- couter does not increment backwards - may be a few empty loops in here ---->
-								<cfset thisIdId = evaluate("IdBy_" & n & "_" & nid & "_id")>
-								<cfcatch>
-									<cfset thisIdId =-1>
-								</cfcatch>
-							</cftry>
-							<cftry>
-								<cfset thisIdAgntId = evaluate("identification_agent_id_" & n & "_" & nid)>
-								<cfcatch>
-									<cfset thisIdAgntId=-1>
-								</cfcatch>
-							</cftry>
-							<cfif #thisIdAgntId# is -1 and (thisIdId is not "DELETE" and thisIdId gte 0)>
-								<!--- new determiner --->
-								<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									INSERT INTO identification_agent
-									( 
-										IDENTIFICATION_ID,
-										AGENT_ID,
-										IDENTIFIER_ORDER 
-									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdId#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nid#">
-									)
+	</cfthread>
+	<cfthread action="join" name="getIdentificationsThread" />
+	<cfreturn getIdentificationsThread.output>
+</cffunction>
+
+<!--- Editable Unthreaded: getIdentificationsDetailHTML 
+	@param collection_object_id the collection_object_id for the collection object for which to obtain the identifications to edit
+	@return html for editing identifications for the specified collection object.
+--->
+<cffunction name="getIdentificationsDetailHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cftry>
+		<!--- Fetch identifications and any lookup tables you need for dropdowns, e.g. formulas or natures --->
+		<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			select taxa_formula from cttaxa_formula order by taxa_formula
+		</cfquery>
+		<cfquery name="ctNature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			select nature_of_id from ctnature_of_id
+		</cfquery>
+		<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT identification_id, scientific_name, made_date, nature_of_id, identification_remarks, accepted_id_fg, stored_as_fg, taxa_formula, publication_id, sort_order
+			FROM identification
+			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+			ORDER BY accepted_id_fg DESC, sort_order ASC, made_date DESC
+		</cfquery>
+		<cfoutput>
+			<h2 class="h3">Edit Identifications</h2>
+			<form id="editIdentificationsForm" name="editIdentificationsForm">
+				<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
+				<input type="hidden" name="number_of_ids" value="#getIdentifications.recordcount#">
+				<ul style="list-style:none; padding:0;">
+				<cfif getIdentifications.recordcount EQ 0>
+					<li>None</li>
+				</cfif>
+				<cfloop query="getIdentifications" index="i">
+					<li style="margin-bottom:2em; border:1px solid #ccc; padding:1em;">
+						<input type="hidden" name="identification_id_#i#" value="#identification_id#">
+						<div class="form-row">
+							<label for="scientific_name_#i#" class="data-entry-label">Scientific Name:</label>
+							<input type="text" name="scientific_name_#i#" id="scientific_name_#i#" class="data-entry-input" value="#encodeForHTML(scientific_name)#" readonly>
+						</div>
+						<div class="form-row">
+							<label for="taxa_formula_#i#" class="data-entry-label">ID Formula:</label>
+							<select name="taxa_formula_#i#" id="taxa_formula_#i#" class="data-entry-input" onchange="updateTaxonBVisibilityEdit('#i#');">
+								<cfloop query="ctFormula">
+									<option value="#ctFormula.taxa_formula#" <cfif taxa_formula EQ ctFormula.taxa_formula>selected</cfif>>#ctFormula.taxa_formula#</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="form-row">
+							<label for="made_date_#i#" class="data-entry-label">Date Identified:</label>
+							<input type="text" name="made_date_#i#" id="made_date_#i#" class="data-entry-input" value="#made_date#">
+						</div>
+						<div class="form-row">
+							<label for="nature_of_id_#i#" class="data-entry-label">Nature of ID:</label>
+							<select name="nature_of_id_#i#" id="nature_of_id_#i#" class="data-entry-input">
+								<cfloop query="ctNature">
+									<option value="#ctNature.nature_of_id#" <cfif nature_of_id EQ ctNature.nature_of_id>selected</cfif>>#ctNature.nature_of_id#</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="form-row">
+							<label for="publication_id_#i#" class="data-entry-label">Publication ID:</label>
+							<input type="text" name="publication_id_#i#" id="publication_id_#i#" class="data-entry-input" value="#publication_id#">
+						</div>
+						<div class="form-row">
+							<label for="identification_remarks_#i#" class="data-entry-label">Remarks:</label>
+							<input type="text" name="identification_remarks_#i#" id="identification_remarks_#i#" class="data-entry-input" value="#encodeForHtml(identification_remarks)#">
+						</div>
+						<div class="form-row">
+							<label for="accepted_id_fg_#i#" class="data-entry-label">Accepted:</label>
+							<select name="accepted_id_fg_#i#" id="accepted_id_fg_#i#" class="data-entry-input">
+								<option value="1" <cfif accepted_id_fg EQ 1>selected</cfif>>Yes</option>
+								<option value="0" <cfif accepted_id_fg EQ 0>selected</cfif>>No</option>
+								<option value="DELETE">Delete</option>
+							</select>
+						</div>
+						<div class="form-row">
+							<label for="stored_as_fg_#i#" class="data-entry-label">Stored As:</label>
+							<input type="checkbox" name="stored_as_fg_#i#" id="stored_as_fg_#i#" value="1" <cfif stored_as_fg EQ 1>checked</cfif>>
+						</div>
+						<div class="form-row">
+							<label for="sort_order_#i#" class="data-entry-label">Sort Order:</label>
+							<input type="text" name="sort_order_#i#" id="sort_order_#i#" class="data-entry-input" value="#sort_order#">
+						</div>
+						<div class="form-row">
+							<input type="button" value="Remove" class="btn btn-xs btn-warning"
+								aria-label="Remove this identification"
+								onClick="removeIdentification(#identification_id#, #variables.collection_object_id#, reloadIdentificationsDialogAndPage);">
+						</div>
+					</li>
+				</cfloop>
+				</ul>
+				<div>
+					<input type="button" value="Save All Changes" class="btn btn-xs btn-primary" onClick="handleEditIdentifications();">
+					<output id="saveIdentificationsResultDiv" class="text-danger">&nbsp;</output>
+				</div>
+			</form>
+			<script>
+				// Optionally, make datepicker, taxon picker, etc for each row
+				$(document).ready(function() {
+					<cfloop query="getIdentifications" index="i">
+						$("#made_date_#i#").datepicker({dateFormat:"yy-mm-dd"});
+					</cfloop>
+				});
+				function handleEditIdentifications() {
+					setFeedbackControlState("saveIdentificationsResultsDiv","saving")
+					$.ajax({
+						url : "/path/to/identification.cfc?method=updateIdentifications",
+						type : "post",
+						dataType : "json",
+						data: $("#editIdentificationsForm").serialize(),
+						success: function (result) {
+							if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') {
+								setFeedbackControlState("saveIdentificationsResultsDiv","saved")
+							} else {
+								setFeedbackControlState("saveIdentificationsResultsDiv","error")
+								messageDialog('Error updating identification history: '+result.DATA.MESSAGE[0], 'Error saving identification history.');
+							}
+						},
+						error: function(jqXHR,textStatus,error){
+							setFeedbackControlState("saveIdentificationsResultsDiv","error")
+							handleFail(jqXHR,textStatus,error,"saving changes to identification history");
+						}
+					});
+				}
+				function updateTaxonBVisibilityEdit(idx) {
+					var formula = document.getElementById('taxa_formula_' + idx).value;
+					var taxonBRow = document.getElementById('taxonb_row_' + idx);
+					if (taxonBRow) {
+						if (formula.includes('B')) {
+							taxonBRow.style.display = '';
+						} else {
+							taxonBRow.style.display = 'none';
+							$('#taxonb_' + idx).val('');
+							$('#taxonb_id_' + idx).val('');
+						}
+					}
+				}
+			</script>
+		</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+	</cftry>
+</cffunction>
+
+<!--- addIdentification add an identification to a collection object.
+	@param collection_object_id the collection_object_id for the collection object to which to add the identification.
+	@param taxa_formula the taxa formula to use for the identification.
+	@param taxona the taxon A name to use for the identification.
+	@param taxona_id the taxon A ID to use for the identification.
+	@param taxonb the taxon B name to use for the identification (optional).
+	@param taxonb_id the taxon B ID to use for the identification (optional).
+	@param made_date the date the identification was made (optional).
+	@param nature_of_id the nature of the identification.
+	@param publication_id the publication ID for Sensu for the identification (optional).
+	@param identification_remarks any remarks for the identification (optional).
+	@param stored_as_fg whether to store the identification as a field guide (optional, default 0).
+	@param determiner_ids a comma-separated list of agent IDs for the determiners.
+ --->
+<cffunction name="addIdentification" access="remote" returntype="any" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="taxa_formula" type="string" required="yes">
+	<cfargument name="taxona" type="string" required="yes">
+	<cfargument name="taxona_id" type="string" required="yes">
+	<cfargument name="taxonb" type="string" required="no" default="">
+	<cfargument name="taxonb_id" type="string" required="no" default="">
+	<cfargument name="made_date" type="string" required="no" default="">
+	<cfargument name="nature_of_id" type="string" required="yes">
+	<cfargument name="publication_id" type="string" required="no" default="">
+	<cfargument name="identification_remarks" type="string" required="no" default="">
+	<cfargument name="stored_as_fg" type="string" required="no" default="0">
+	<cfargument name="determiner_ids" type="string" required="yes">
+	<!--- determiner_ids: comma-separated agent_id's --->
+	<cfset var data = ArrayNew(1)>
+
+	<cfset var scientific_name = arguments.taxa_formula>
+	<cfset scientific_name = REReplace(scientific_name, "\bA\b", arguments.taxona, "all")>
+	<cfif len(arguments.taxonb)>
+		<cfset scientific_name = REReplace(scientific_name, "\bB\b", arguments.taxonb, "all")>
+	</cfif>
+	<!--- Clean up any double spaces or trailing punctuation --->
+	<cfset scientific_name = Trim(REReplace(scientific_name, "[ ]{2,}", " ", "all"))>
+	<cftransaction>
+		<cftry>
+			<!--- Only one accepted per specimen, unset the flag for others --->
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE identification SET ACCEPTED_ID_FG=0 WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			</cfquery>
+			<!--- Insert identification --->
+			<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="result_newID">
+				INSERT INTO identification (
+					identification_id,
+					collection_object_id,
+					made_date,
+					nature_of_id,
+					accepted_id_fg,
+					identification_remarks,
+					taxa_formula,
+					scientific_name,
+					publication_id,
+					stored_as_fg
+				) VALUES (
+					sq_identification_id.nextval,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.made_date#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.nature_of_id#">,
+					1,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.identification_remarks#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.taxa_formula#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,
+					<cfif len(arguments.publication_id)>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.publication_id#">
+					<cfelse>
+						NULL
+					</cfif>,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.stored_as_fg#">
+				)
+			</cfquery>
+			<cfset var new_identification_id = result_newID.generatedkey>
+			<!--- Insert determiners --->
+			<cfif len(arguments.determiner_ids)>
+				<cfset var agentList = ListToArray(arguments.determiner_ids)>
+				<cfloop from="1" to="#ArrayLen(agentList)#" index="idx">
+					<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						INSERT INTO identification_agent (
+							identification_id,
+							agent_id,
+							identifier_order
+						) VALUES (
+							sq_identification_id.currval,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agentList[idx]#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#idx#">
+						)
+					</cfquery>
+				</cfloop>
+			</cfif>
+			<!--- Taxonomy linking for A and (optionally) B --->
+			<cfif len(arguments.taxona_id)>
+				<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					INSERT INTO identification_taxonomy (
+						identification_id,
+						taxon_name_id,
+						variable
+					) VALUES (
+						sq_identification_id.currval,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxona_id#">,
+						'A'
+					)
+				</cfquery>
+			</cfif>
+			<cfif len(arguments.taxonb_id)>
+				<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					INSERT INTO identification_taxonomy (
+						identification_id,
+						taxon_name_id,
+						variable
+					) VALUES (
+						sq_identification_id.currval,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxonb_id#">,
+						'B'
+					)
+				</cfquery>
+			</cfif>
+			<cftransaction action="commit"/>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "added">
+			<cfset row["id"] = "#new_identification_id#">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- Remove an identification (prevents removing accepted) --->
+<cffunction name="removeIdentification" access="remote" returntype="any" returnformat="json">
+	<cfargument name="identification_id" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+	<cfquery name="getAccepted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT accepted_id_fg FROM identification WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.identification_id#">
+	</cfquery>
+	<cfif getAccepted.accepted_id_fg EQ 1>
+		<cfset row = StructNew()>
+		<cfset row["status"] = "error">
+		<cfset row["message"] = "Cannot delete the accepted identification.">
+		<cfset data[1] = row>
+		<cfreturn #serializeJSON(data)#>
+	</cfif>
+	<cftransaction>
+		<cftry>
+			<!--- Remove associated records --->
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				DELETE FROM identification_agent WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.identification_id#">
+			</cfquery>
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				DELETE FROM identification_taxonomy WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.identification_id#">
+			</cfquery>
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				DELETE FROM identification WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.identification_id#">
+			</cfquery>
+			<cftransaction action="commit"/>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "removed">
+			<cfset row["id"] = "#arguments.identification_id#">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- Bulk update identifications for a collection object (edit/save all fields, triggers, flags, etc.) --->
+<cffunction name="updateIdentifications" access="remote" returntype="any" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="identificationUpdates" type="array" required="yes">
+	<!--- Each element: struct with all fields including accepted_id_fg, stored_as_fg, sort_order, etc. --->
+	<cfset var data = ArrayNew(1)>
+	<!--- Disable the stored_as_fg trigger if needed --->
+	<cftry>
+		<cfquery datasource="uam_god">
+			alter trigger tr_stored_as_fg disable
+		</cfquery>
+		<cfcatch>
+			<!--- if already disabled, ignore --->
+		</cfcatch>
+	</cftry>
+	<cftransaction>
+		<cftry>
+			<cfloop array="#arguments.identificationUpdates#" index="ident">
+				<cfset var id = ident.identification_id>
+				<cfset var accepted = ident.accepted_id_fg>
+				<cfset var storedas = structKeyExists(ident,"stored_as_fg") ? ident.stored_as_fg : 0>
+				<cfset var sort_order = structKeyExists(ident,"sort_order") ? ident.sort_order : "">
+				<!--- Accepted logic: only one per specimen --->
+				<cfif accepted EQ 1>
+					<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE identification SET accepted_id_fg = 0 WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+					</cfquery>
+					<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE identification SET accepted_id_fg = 1, sort_order = null WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id#">
+					</cfquery>
+					<cfset storedas = 0>
+				</cfif>
+				<!--- Stored as logic: only one per specimen --->
+				<cfif storedas EQ 1>
+					<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE identification SET stored_as_fg = 0 WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+					</cfquery>
+					<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE identification SET stored_as_fg = 1 WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id#">
+					</cfquery>
+				<cfelse>
+					<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE identification SET stored_as_fg = 0 WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id#">
+					</cfquery>
+				</cfif>
+				<!--- If delete requested --->
+				<cfif accepted EQ "DELETE">
+					<!--- Delete all associated agents and taxonomy --->
+					<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						DELETE FROM identification_agent WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id#">
+					</cfquery>
+					<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						DELETE FROM identification_taxonomy WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id#">
+					</cfquery>
+					<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						DELETE FROM identification WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id#">
+					</cfquery>
+				<cfelse>
+					<!--- Update fields --->
+					<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE identification SET
+							nature_of_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ident.nature_of_id#">,
+							made_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ident.made_date#">,
+							identification_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ident.identification_remarks#">,
+							publication_id = <cfif len(ident.publication_id)><cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ident.publication_id#"><cfelse>NULL</cfif>,
+							sort_order = <cfif len(sort_order)><cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#sort_order#"><cfelse>NULL</cfif>
+						WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id#">
+					</cfquery>
+					<!--- Update determiners (identification_agent) --->
+					<cfif structKeyExists(ident, "determiners")>
+						<cfloop array="#ident.determiners#" index="det">
+							<cfif det.action EQ "add">
+								<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									INSERT INTO identification_agent (identification_id, agent_id, identifier_order)
+									VALUES (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#id#">,
+													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#det.agent_id#">,
+													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#det.identifier_order#">)
 								</cfquery>
-								<cfelse>
-								<!--- update or delete --->
-								<cfif #thisIdId# is "DELETE">
-									<!--- delete --->
-									<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										DELETE FROM identification_agent
-										WHERE identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdAgntId#">
-									</cfquery>
-									<cfelseif thisIdId gte 0>
-									<!--- update --->
-									<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										UPDATE identification_agent sET
-											agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdId#">,
-											identifier_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nid#">
-										 WHERE
-										 	identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdAgntId#">
-									</cfquery>
-								</cfif>
+							<cfelseif det.action EQ "delete">
+								<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									DELETE FROM identification_agent WHERE identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#det.identification_agent_id#">
+								</cfquery>
+							<cfelseif det.action EQ "update">
+								<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									UPDATE identification_agent SET
+										agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#det.agent_id#">,
+										identifier_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#det.identifier_order#">
+									WHERE identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#det.identification_agent_id#">
+								</cfquery>
 							</cfif>
 						</cfloop>
 					</cfif>
-				</cfloop>
-				<cftransaction action="commit">
-				<cfset data=queryNew("status, message, id")>
-				<cfset t = queryaddrow(data,1)>
-				<cfset t = QuerySetCell(data, "status", "1", 1)>
-				<cfset t = QuerySetCell(data, "message", "Record updated.", 1)>
-				<cfset t = QuerySetCell(data, "id", "#collection_object_id#", 1)>
-				<cfreturn data>
-				<cfcatch>
-					<cftransaction action="rollback">
-					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-					<cfset function_called = "#GetFunctionCalledName()#">
-					<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-					<cfabort>
-				</cfcatch>
-			</cftry>
-		</cftransaction>
-		<cftry>
-			<!--- re-enable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
-			<cfquery datasource="uam_god">
-				alter trigger tr_stored_as_fg enable
-			</cfquery>
-			<cfcatch>
-				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-				<cfset function_called = "#GetFunctionCalledName()#">
-				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-				<cfabort>
-			</cfcatch>
+				</cfif>
+			</cfloop>
+			<cftransaction action="commit"/>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "1">
+			<cfset row["message"] = "Record updated.">
+			<cfset row["id"] = "#arguments.collection_object_id#">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
 		</cftry>
-	</cfoutput>
+	</cftransaction>
+	<!--- Re-enable the trigger --->
+	<cftry>
+		<cfquery datasource="uam_god">
+			alter trigger tr_stored_as_fg enable
+		</cfquery>
+		<cfcatch>
+			<!--- ignore if already enabled --->
+		</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
 <!---function getEditIdentificationHtml obtain an html block to popluate an edit dialog for an identification 
@@ -1438,102 +1511,6 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getIdentificationThread" />
 	<cfreturn getIdentificationThread.output>
-</cffunction>
-
-<cffunction name="saveID" access="remote" returntype="any" returnformat="json">
-	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfargument name="identification_id" type="string" required="yes">
-	<cfargument name="scientific_name" type="string" required="no">
-	<cfargument name="accepted_ID_fg" type="string" required="yes">
-	<cfargument name="identified_by" type="string" required="yes">
-	<cfargument name="made_date" type="string" required="no">
-	<cfargument name="nature_of_id" type="string" required="yes">
-	<cfargument name="stored_as_fg" type="string" required="yes">
-	<cfset data = ArrayNew(1)>
-	<cftransaction>
-		<cftry>
-			<cfquery name="updateIdentificationCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newIdentificationCheck_result">
-				SELECT count(*) as ct from identification
-				WHERE
-					IDENTIFICATION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#identification_id#'>
-			</cfquery>
-			<cfif updateIdentificationCheck.ct NEQ 1>
-				<cfthrow message = "Unable to update identification. Provided identification_id does not match a record in the ID table.">
-			</cfif>
-			<cfquery name="updateIdentification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateIdentification">
-				UPDATE identification SET
-					identification_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">,
-					MADE_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(made_date,'yyyy-mm-dd')#">,
-					NATURE_OF_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_id#">,
-					STORED_AS_FG = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#STORED_AS_FG#">,
-					SORT_ORDER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sort_order#">,
-					Taxa_formula = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxa_formula#">
-					<cfif isDefined("identification_remarks")>
-						, identification_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_remarks#">
-					</cfif>
-				where
-					identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
-			</cfquery>
-			<cfloop from="1" to="#numAgents#" index="n">
-				<cfif IsDefined("identification_agent_id_" & n) >
-					<cfset trans_agent_id_ = evaluate("identification_agent_id_" & n)>
-					<cfset agent_id_ = evaluate("agent_id_" & n)>
-					<cftry>
-						<cfset del_agnt_=evaluate("del_agnt_" & n)>
-						<cfcatch>
-							<cfset del_agnt_=0>
-						</cfcatch>
-					</cftry>
-					<cfif del_agnt_ is "1" and isnumeric(trans_agent_id_) and identification_agent_id_ gt 0>
-						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							delete from identification_agent 
-							where identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_agent_id_#">
-						</cfquery>
-						<cfelse>
-						<cfif len(agent_id_) GT 0>
-							<!--- don't try to add/update a blank row --->
-							<cfif identification_agent_id_ is "new" and del_agnt_ is 0>
-								<cfquery name="newIdentificationAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									INSERT INTO identification_agent (
-										identification_id,
-										agent_id,
-										identification_order,
-										identification_agent_id
-									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_order_#">
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_agent_id_#">
-									)
-								</cfquery>
-								<cfelseif del_agnt_ is 0>
-								<cfquery name="upIdentificationAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									update identification_agent set
-										agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
-										identification_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_id_#">
-									where
-										identification_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_agent_id_#">
-								</cfquery>
-							</cfif>
-						</cfif>
-					</cfif>
-				</cfif>
-			</cfloop>
-			<cfset row = StructNew()>
-			<cfset row["status"] = "saved">
-			<cfset row["id"] = "#identification_id#">
-			<cfset data[1] = row>
-			<cftransaction action="commit">
-			<cfcatch>
-				<cftransaction action="rollback">
-				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-				<cfset function_called = "#GetFunctionCalledName()#">
-				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-				<cfabort>
-			</cfcatch>
-		</cftry>
-	</cftransaction>
-	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
 <cffunction name="getMediaTable" returntype="query" access="remote">
