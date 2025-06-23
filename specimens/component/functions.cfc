@@ -1057,8 +1057,10 @@ limitations under the License.
 			<script>
 				// Optionally, make datepicker, taxon picker, etc for each row
 				$(document).ready(function() {
-					<cfloop query="getIdentifications" index="i">
-						$("##made_date_#i#").datepicker({dateFormat:"yy-mm-dd"});
+					<cfset i = 0>
+					<cfloop query="getIdentifications">
+						<cfset i = i + 1>
+						$("##made_date_#i#").datepicker({dateFormat:"yyyy-mm-dd"});
 					</cfloop>
 				});
 				function handleEditIdentifications() {
