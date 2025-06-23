@@ -503,6 +503,36 @@ limitations under the License.
 				ORDER BY 
 					accepted_id_fg DESC,sort_order, made_date DESC
 			</cfquery>
+			<cfif editable>
+			<script>
+					function removeIdentification(identification_id,feedbackDiv) {
+						setFeedbackControlState(feedbackDiv,"removing")
+						// Call the server-side function to remove the identification
+						$.ajax({
+							url: '/specimens/component/functions.cfc',
+							type: 'POST',
+							data: {
+								method: 'removeIdentification',
+								returnformat: 'json',
+								identification_id: identification_id
+							},
+							success: function(response) {
+								// Handle the response from the server
+								if (response[0].status == "removed") {
+									setFeedbackControlState(feedbackDiv,"removed")
+									reloadIdentifications();
+								} else {
+									setFeedbackControlState(feedbackDiv,"error")
+								}
+							},
+							error: function(xhr, status, error) {
+								setFeedbackControlState(feedbackDiv,"error")
+								handleError(xhr, status, error);
+							}
+						});
+					}
+				</script>
+			</cfif>
 			<cfset i=1>
 			<cfloop query="identification">
 				<cfquery name="determiners" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -599,9 +629,16 @@ limitations under the License.
 									onclick="editIdentification('#identification.identification_id#','edit')">Edit</button>
 								<cfif identification.accepted_id_fg NEQ 1>
 									<button class="btn btn-xs btn-danger py-0" 
-										onclick="removeIdentification('#identification.identification_id#','delete')">Delete</button>
+										onclick=" confirmDialog('Are you sure you want to delete this identification?', 'Delete Identification',removeIdentification_#i#);"
+										>Delete</button>
+									<script>
+										function removeIdentification_#i#() {
+											removeIdentification('#identification.identification_id#','editIdentificationOutput_#i#');
+										};
+									</script>
 								</cfif>
 							</span>
+							<output id="editIdentificationOutput_#i#" class="editIdentificationOutput"></output>
 						</cfif>
 					</div>
 					

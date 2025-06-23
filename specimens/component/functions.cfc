@@ -1099,36 +1099,38 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-<!--- Remove an identification (prevents removing accepted) --->
+<!--- Remove an identification (prevents removing accepted) 
+  @param identification_id the identification_id to remove.
+--->
 <cffunction name="removeIdentification" access="remote" returntype="any" returnformat="json">
 	<cfargument name="identification_id" type="string" required="yes">
+
+	<cfset variables.identification_id = arguments.identification_id>
+
 	<cfset data = ArrayNew(1)>
 	<cfquery name="getAccepted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT accepted_id_fg FROM identification WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.identification_id#">
+		SELECT accepted_id_fg FROM identification WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.identification_id#">
 	</cfquery>
-	<cfif getAccepted.accepted_id_fg EQ 1>
-		<cfset row = StructNew()>
-		<cfset row["status"] = "error">
-		<cfset row["message"] = "Cannot delete the accepted identification.">
-		<cfset data[1] = row>
-		<cfreturn #serializeJSON(data)#>
-	</cfif>
+
 	<cftransaction>
 		<cftry>
+			<cfif getAccepted.accepted_id_fg EQ 1>
+				<cfthrow message="Cannot delete the accepted identification.">
+			</cfif>
 			<!--- Remove associated records --->
 			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				DELETE FROM identification_agent WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.identification_id#">
+				DELETE FROM identification_agent WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.identification_id#">
 			</cfquery>
 			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				DELETE FROM identification_taxonomy WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.identification_id#">
+				DELETE FROM identification_taxonomy WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.identification_id#">
 			</cfquery>
 			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				DELETE FROM identification WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.identification_id#">
+				DELETE FROM identification WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.identification_id#">
 			</cfquery>
 			<cftransaction action="commit"/>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "removed">
-			<cfset row["id"] = "#arguments.identification_id#">
+			<cfset row["id"] = "#variables.identification_id#">
 			<cfset data[1] = row>
 		<cfcatch>
 			<cftransaction action="rollback"/>
