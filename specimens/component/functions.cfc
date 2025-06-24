@@ -1314,7 +1314,7 @@ limitations under the License.
 											<div class="form-row">
 												<div class="col-12 col-md-2">
 													<label for="taxa_formula" class="data-entry-label">ID Formula:</label>
-													<select name="taxa_formula" id="edit_taxa_formula" class="data-entry-input reqdClr" onchange="updateEditTaxonBVisibility();" required>
+													<select name="taxa_formula" id="eid_edit_taxa_formula" class="data-entry-input reqdClr" onchange="updateEditTaxonBVisibility();" required>
 														<cfloop query="ctFormula">
 															<option value="#ctFormula.taxa_formula#" <cfif idData.taxa_formula EQ ctFormula.taxa_formula>selected</cfif>>#ctFormula.taxa_formula#</option>
 														</cfloop>
@@ -1322,8 +1322,8 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-5">
 													<label for="taxona" class="data-entry-label">Taxon A:</label>
-													<input type="text" name="taxona" id="edit_taxona" class="data-entry-input reqdClr" required value="#taxonA.scientific_name#">
-													<input type="hidden" name="taxona_id" id="edit_taxona_id" value="#taxonA.taxon_name_id#">
+													<input type="text" name="taxona" id="eid_edit_taxona" class="data-entry-input reqdClr" required value="#taxonA.scientific_name#">
+													<input type="hidden" name="taxona_id" id="eid_edit_taxona_id" value="#taxonA.taxon_name_id#">
 													<script>
 														// Initialize taxon autocomplete
 														$(document).ready(function() {
@@ -1332,10 +1332,10 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-5">
-													<div class="form-row" id="edit_taxonb_row" <cfif NOT idData.taxa_formula CONTAINS "B">style="display:none;"</cfif>>
+													<div class="form-row" id="eid_edit_taxonb_row" <cfif NOT idData.taxa_formula CONTAINS "B">style="display:none;"</cfif>>
 														<label for="taxonb" class="data-entry-label">Taxon B:</label>
-														<input type="text" name="taxonb" id="edit_taxonb" class="data-entry-input" value="#taxonB.scientific_name#">
-														<input type="hidden" name="taxonb_id" id="edit_taxonb_id" value="#taxonB.taxon_name_id#">
+														<input type="text" name="taxonb" id="eid_edit_taxonb" class="data-entry-input" value="#taxonB.scientific_name#">
+														<input type="hidden" name="taxonb_id" id="eid_edit_taxonb_id" value="#taxonB.taxon_name_id#">
 														<script>
 															// Initialize taxon B autocomplete
 															$(document).ready(function() {
@@ -1346,7 +1346,7 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-3">
 													<label for="made_date" class="data-entry-label">Date Identified:</label>
-													<input type="text" name="made_date" id="edit_made_date" class="data-entry-input" value="#idData.made_date#">
+													<input type="text" name="made_date" id="eid_edit_made_date" class="data-entry-input" value="#idData.made_date#">
 													<script>
 														// Initialize datepicker
 														$(document).ready(function() {
@@ -1361,7 +1361,7 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-3">
 													<label for="nature_of_id" class="data-entry-label">Nature of ID:</label>
-													<select name="nature_of_id" id="edit_nature_of_id" class="data-entry-select reqdClr" required>
+													<select name="nature_of_id" id="eid_edit_nature_of_id" class="data-entry-select reqdClr" required>
 														<cfloop query="ctNature">
 															<option value="#ctNature.nature_of_id#" <cfif idData.nature_of_id EQ ctNature.nature_of_id>selected</cfif>>#ctNature.nature_of_id# #ctNature.description#</option>
 														</cfloop>
@@ -1370,8 +1370,8 @@ limitations under the License.
 												<div class="col-12 col-md-6">
 													<!--- publication autocomplete --->
 													<label for="publication" class="data-entry-label">Sensu:</label>
-													<input type="text" name="sensu" id="edit_publication" class="data-entry-input" value="#idData.short_citation#">
-													<input type="hidden" name="publication_id" id="edit_publication_id" value="#idData.publication_id#">
+													<input type="text" name="sensu" id="eid_edit_publication" class="data-entry-input" value="#idData.short_citation#">
+													<input type="hidden" name="publication_id" id="eid_edit_publication_id" value="#idData.publication_id#">
 													<script>
 														// Initialize publication autocomplete
 														$(document).ready(function() {
@@ -1381,27 +1381,27 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-10">
 													<label for="identification_remarks" class="data-entry-label">Remarks:</label>
-													<input type="text" name="identification_remarks" id="edit_identification_remarks" class="data-entry-input" value="#idData.identification_remarks#">
+													<input type="text" name="identification_remarks" id="eid_edit_identification_remarks" class="data-entry-input" value="#idData.identification_remarks#">
 												</div>
 												<div class="col-12 col-md-2">
 													<label for="stored_as_fg" class="data-entry-label">Stored As:</label>
-													<input type="checkbox" name="stored_as_fg" id="edit_stored_as_fg" value="1" <cfif idData.stored_as_fg EQ 1>checked</cfif>>
+													<input type="checkbox" name="stored_as_fg" id="eid_edit_stored_as_fg" value="1" <cfif idData.stored_as_fg EQ 1>checked</cfif>>
 												</div>
 												<div class="col-12 col-md-3">
 													<label for="accepted_id_fg" class="data-entry-label">Accepted ID:</label>
-													<input type="checkbox" name="accepted_id_fg" id="edit_accepted_id_fg" value="1" <cfif idData.accepted_id_fg EQ 1>checked</cfif>>
+													<input type="checkbox" name="accepted_id_fg" id="eid_edit_accepted_id_fg" value="1" <cfif idData.accepted_id_fg EQ 1>checked</cfif>>
 												</div>
 												
 												<!--- Determiners section --->
 												<div class="col-12 mt-3">
 													<h4 class="h5">Determiners</h4>
-													<div id="edit_determiners_container">
+													<div id="eid_edit_determiners_container">
 														<cfloop query="determiners">
-															<div class="determiner-row mb-2" id="determiner_row_#determiners.identification_agent_id#">
+															<div class="determiner-row mb-2" id="eid_determiner_row_#determiners.identification_agent_id#">
 																<input type="hidden" name="det_id_#determiners.identification_agent_id#" value="#determiners.identification_agent_id#">
-																<input type="text" name="det_name_#determiners.identification_agent_id#" id="det_name_#determiners.identification_agent_id#" class="data-entry-input determiner-input" value="#determiners.agent_name#">
-																<input type="hidden" name="det_agent_id_#determiners.identification_agent_id#" id="det_agent_id_#determiners.identification_agent_id#" value="#determiners.agent_id#">
-																<input type="number" name="det_order_#determiners.identification_agent_id#" id="det_order_#determiners.identification_agent_id#" class="data-entry-input determiner-order" value="#determiners.identifier_order#" style="width:60px;" min="1">
+																<input type="text" name="det_name_#determiners.identification_agent_id#" id="eid_det_name_#determiners.identification_agent_id#" class="data-entry-input determiner-input" value="#determiners.agent_name#">
+																<input type="hidden" name="det_agent_id_#determiners.identification_agent_id#" id="eid_det_agent_id_#determiners.identification_agent_id#" value="#determiners.agent_id#">
+																<input type="number" name="det_order_#determiners.identification_agent_id#" id="eid_det_order_#determiners.identification_agent_id#" class="data-entry-input determiner-order" value="#determiners.identifier_order#" style="width:60px;" min="1">
 																<button type="button" class="btn btn-xs btn-secondary ml-2" onclick="removeEditDeterminer('#determiners.identification_agent_id#')">Remove</button>
 																<script>
 																	// Initialize agent autocomplete for each determiner
@@ -1413,27 +1413,27 @@ limitations under the License.
 														</cfloop>
 													</div>
 													<!--- Button to add another determiner --->
-													<button type="button" class="btn btn-xs btn-secondary mt-2" id="addEditDeterminerButton" onClick="addEditDeterminerControl();">Add Determiner</button>
+													<button type="button" class="btn btn-xs btn-secondary mt-2" id="eid_addEditDeterminerButton" onClick="addEditDeterminerControl();">Add Determiner</button>
 												</div>
 												
 												<!--- Action buttons --->
 												<div class="col-12 mt-3">
-													<input type="button" value="Save Changes" class="btn btn-xs btn-primary mr-2" id="saveIdButton" onClick="handleSaveIdentification();">
+													<input type="button" value="Save Changes" class="btn btn-xs btn-primary mr-2" id="eid_saveIdButton" onClick="handleSaveIdentification();">
 													<input type="button" value="Cancel" class="btn btn-xs btn-secondary" onClick="closeEditDialog();">
-													<output id="editIdStatus" class="pt-1"></output>
+													<output id="eid_editIdStatus" class="pt-1"></output>
 												</div>
 											</div>
 										</form>
 										<script>
 											// Show/hide Taxon B row based on formula
 											function updateEditTaxonBVisibility() {
-												var formula = document.getElementById('edit_taxa_formula').value;
+												var formula = document.getElementById('eid_edit_taxa_formula').value;
 												if (formula.includes('B')) {
-													document.getElementById('edit_taxonb_row').style.display = '';
+													document.getElementById('eid_edit_taxonb_row').style.display = '';
 												} else {
-													document.getElementById('edit_taxonb_row').style.display = 'none';
-													document.getElementById('edit_taxonb').value = '';
-													document.getElementById('edit_taxonb_id').value = '';
+													document.getElementById('eid_edit_taxonb_row').style.display = 'none';
+													document.getElementById('eid_edit_taxonb').value = '';
+													document.getElementById('eid_edit_taxonb_id').value = '';
 												}
 											}
 											
@@ -1444,11 +1444,11 @@ limitations under the License.
 												newDeterminerId--;  // Use negative IDs for new determiners to distinguish from existing ones
 												var newId = "new_" + Math.abs(newDeterminerId);
 												
-												var newRow = '<div class="determiner-row mb-2" id="determiner_row_' + newId + '">';
+												var newRow = '<div class="determiner-row mb-2" id="eid_determiner_row_' + newId + '">';
 												newRow += '<input type="hidden" name="det_id_' + newId + '" value="new">';
-												newRow += '<input type="text" name="det_name_' + newId + '" id="det_name_' + newId + '" class="data-entry-input determiner-input">';
-												newRow += '<input type="hidden" name="det_agent_id_' + newId + '" id="det_agent_id_' + newId + '" value="">';
-												newRow += '<input type="number" name="det_order_' + newId + '" id="det_order_' + newId + '" class="data-entry-input determiner-order" value="' + ($("##edit_determiners_container .determiner-row").length + 1) + '" style="width:60px;" min="1">';
+												newRow += '<input type="text" name="det_name_' + newId + '" id="eid_det_name_' + newId + '" class="data-entry-input determiner-input">';
+												newRow += '<input type="hidden" name="det_agent_id_' + newId + '" id="eid_det_agent_id_' + newId + '" value="">';
+												newRow += '<input type="number" name="det_order_' + newId + '" id="eid_det_order_' + newId + '" class="data-entry-input determiner-order" value="' + ($("##edit_determiners_container .determiner-row").length + 1) + '" style="width:60px;" min="1">';
 												newRow += '<button type="button" class="btn btn-xs btn-secondary ml-2" onclick="removeEditDeterminer(\'' + newId + '\')">Remove</button>';
 												newRow += '</div>';
 												
@@ -1459,7 +1459,7 @@ limitations under the License.
 											}
 											
 											function removeEditDeterminer(id) {
-												$("##determiner_row_" + id).remove();
+												$("##eid_determiner_row_" + id).remove();
 												// Update order numbers
 												var order = 1;
 												$(".determiner-order").each(function() {
