@@ -721,6 +721,7 @@ limitations under the License.
 			<script>
 				function editIdentification(identification_id,callback) {
 					var title = "Edit Identification";
+					dialogId = "editIdentificationDialog";
 					createSpecimenEditDialog("editIdentificationDialog",title,callback);
 					// Call the server-side function to get the edit HTML, load into the dialog
 					$.ajax({
