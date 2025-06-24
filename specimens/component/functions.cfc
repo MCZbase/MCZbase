@@ -1256,10 +1256,10 @@ limitations under the License.
 			<cfquery name="taxonA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					identification_taxonomy.taxon_name_id,
-					taxon_name.scientific_name
+					taxonomy.scientific_name
 				FROM
 					identification_taxonomy
-					JOIN taxon_name ON identification_taxonomy.taxon_name_id = taxon_name.taxon_name_id
+					JOIN taxonomy ON identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id
 				WHERE
 					identification_taxonomy.identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.identification_id#">
 					AND identification_taxonomy.variable = 'A'
@@ -1269,10 +1269,10 @@ limitations under the License.
 			<cfquery name="taxonB" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					identification_taxonomy.taxon_name_id,
-					taxon_name.scientific_name
+					taxonomy.scientific_name
 				FROM
 					identification_taxonomy
-					JOIN taxon_name ON identification_taxonomy.taxon_name_id = taxon_name.taxon_name_id
+					JOIN taxonomy ON identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id
 				WHERE
 					identification_taxonomy.identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.identification_id#">
 					AND identification_taxonomy.variable = 'B'
