@@ -755,196 +755,232 @@ limitations under the License.
 				FROM ctnature_of_id 
 				ORDER BY nature_of_id
 			</cfquery>
+			<!--- Determine what this identification is on --->
+			<cfquery name="getDetermined" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
+				SELECT coll_object_type
+				FROM coll_object
+				WHERE 
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#variables.collection_object_id#">
+			</cfquery>
+			<cfif getDetermined.recordcount EQ 0>
+				<cfthrow message="No such collection_object_id.">
+			</cfif>
+			<cfset target = "">
+			<cfif getDetermined.coll_object_type EQ "CI">
+				<cfquery name="getTarget" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
+					SELECT guid
+					FROM FLAT
+					WHERE 
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#variables.collection_object_id#">
+				</cfquery>
+				<cfset target = getTarget.guid>
+			<cfelseif getDetermined.coll_object_type EQ "SP">
+				<cfquery name="getTarget" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
+					SELECT guid, specimen_part.part_name, specimen_part.preserve_method
+					FROM 
+						specimen_part
+						join FLAT on specimen_part.derived_from_cat_item = flat.collection_object_id 
+					WHERE 
+						specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#variables.collection_object_id#">
+				</cfquery>
+				<cfset target = "#getTarget.guid# #getTarget.part_name# (#getTarget.preserve_method#)">
+			</cfif>
+			<cfif length(target) GT 0>
+				<cfset target = " to #target#">
+			</cfif>
 			<cfoutput>
 				<div id="identificationHTML">
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12 float-left">
-								<div class="add-form float-left">
-									<div class="add-form-header pt-1 px-2 col-12 float-left">
-										<h2 class="h3 my-0 px-1 pb-1">Add Identification</h2>
-									</div>
-									<div class="card-body">
-										<form name="addIdentificationForm" id="addIdentificationForm">
-											<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
-											<input type="hidden" name="method" value="addIdentification">
-											<input type="hidden" name="returnformat" value="json">
-											<div class="form-row">
-												<div class="col-12 col-md-2">
-													<label for="taxa_formula" class="data-entry-label">ID Formula:</label>
-													<select name="taxa_formula" id="taxa_formula" class="data-entry-input reqdClr" onchange="updateTaxonBVisibility();" required>
-														<cfloop query="ctFormula">
-															<option value="#ctFormula.taxa_formula#">#ctFormula.taxa_formula#</option>
-														</cfloop>
-													</select>
-												</div>
-												<div class="col-12 col-md-5">
-													<label for="taxona" class="data-entry-label">Taxon A:</label>
-													<input type="text" name="taxona" id="taxona" class="data-entry-input reqdClr" required>
-													<input type="hidden" name="taxona_id" id="taxona_id">
-													<script>
-														// Initialize taxon autocomplete
-														$(document).ready(function() {
-															makeScientificNameAutocompleteMeta("taxona","taxona_id");
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-5">
-													<div class="form-row" id="taxonb_row" style="display:none;">
-														<label for="taxonb" class="data-entry-label">Taxon B:</label>
-														<input type="text" name="taxonb" id="taxonb" class="data-entry-input">
-														<input type="hidden" name="taxonb_id" id="taxonb_id">
+								<cfif getDetermined.coll_object_type EQ "CI" OR getDetermined.coll_object_type EQ "SP">
+									<!--- identifiable, thus allow add identifications --->
+									<div class="add-form float-left">
+										<div class="add-form-header pt-1 px-2 col-12 float-left">
+											<h2 class="h3 my-0 px-1 pb-1">Add Identification#target#</h2>
+										</div>
+										<div class="card-body">
+											<form name="addIdentificationForm" id="addIdentificationForm">
+												<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
+												<input type="hidden" name="method" value="addIdentification">
+												<input type="hidden" name="returnformat" value="json">
+												<div class="form-row">
+													<div class="col-12 col-md-2">
+														<label for="taxa_formula" class="data-entry-label">ID Formula:</label>
+														<select name="taxa_formula" id="taxa_formula" class="data-entry-input reqdClr" onchange="updateTaxonBVisibility();" required>
+															<cfloop query="ctFormula">
+																<option value="#ctFormula.taxa_formula#">#ctFormula.taxa_formula#</option>
+															</cfloop>
+														</select>
+													</div>
+													<div class="col-12 col-md-5">
+														<label for="taxona" class="data-entry-label">Taxon A:</label>
+														<input type="text" name="taxona" id="taxona" class="data-entry-input reqdClr" required>
+														<input type="hidden" name="taxona_id" id="taxona_id">
 														<script>
-															// Initialize taxon B autocomplete
+															// Initialize taxon autocomplete
 															$(document).ready(function() {
-																makeScientificNameAutocompleteMeta("taxonb","taxonb_id");
+																makeScientificNameAutocompleteMeta("taxona","taxona_id");
 															});
 														</script>
 													</div>
-												</div>
-												<div class="col-12 col-md-3">
-													<label for="made_date" class="data-entry-label">Date Identified:</label>
-													<input type="text" name="made_date" id="made_date" class="data-entry-input">
-													<script>
-														// Initialize datepicker
-														$(document).ready(function() {
-															$("##made_date").datepicker({
-																dateFormat: "yy-mm-dd",
-																changeMonth: true,
-																changeYear: true,
-																showButtonPanel: true
+													<div class="col-12 col-md-5">
+														<div class="form-row" id="taxonb_row" style="display:none;">
+															<label for="taxonb" class="data-entry-label">Taxon B:</label>
+															<input type="text" name="taxonb" id="taxonb" class="data-entry-input">
+															<input type="hidden" name="taxonb_id" id="taxonb_id">
+															<script>
+																// Initialize taxon B autocomplete
+																$(document).ready(function() {
+																	makeScientificNameAutocompleteMeta("taxonb","taxonb_id");
+																});
+															</script>
+														</div>
+													</div>
+													<div class="col-12 col-md-3">
+														<label for="made_date" class="data-entry-label">Date Identified:</label>
+														<input type="text" name="made_date" id="made_date" class="data-entry-input">
+														<script>
+															// Initialize datepicker
+															$(document).ready(function() {
+																$("##made_date").datepicker({
+																	dateFormat: "yy-mm-dd",
+																	changeMonth: true,
+																	changeYear: true,
+																	showButtonPanel: true
+																});
 															});
-														});
-													</script>
+														</script>
+													</div>
+													<div class="col-12 col-md-3">
+														<label for="nature_of_id" class="data-entry-label">Nature of ID:</label>
+														<select name="nature_of_id" id="nature_of_id" class="data-entry-select reqdClr" required>
+															<option></option>
+															<cfloop query="ctNature">
+																<option value="#ctNature.nature_of_id#">#ctNature.nature_of_id# #ctNature.description#</option>
+															</cfloop>
+														</select>
+													</div>
+													<div class="col-12 col-md-6">
+														<!--- publication autocomplete --->
+														<label for="publication" class="data-entry-label">Sensu:</label>
+														<input type="text" name="sensu" id="publication" class="data-entry-input">
+														<input type="hidden" name="publication_id" id="publication_id">
+														<script>
+															// Initialize publication autocomplete
+															$(document).ready(function() {
+																makePublicationAutocompleteMeta("publication","publication_id");
+															});
+														</script>
+													</div>
+													<div class="col-12 col-md-10">
+														<label for="identification_remarks" class="data-entry-label">Remarks:</label>
+														<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
+													</div>
+													<div class="col-12 col-md-2">
+														<label for="stored_as_fg" class="data-entry-label">Stored As:</label>
+														<input type="checkbox" name="stored_as_fg" id="stored_as_fg" value="1">
+													</div>
+													<div class="col-12 col-md-3">
+														<!--- autocomplete for a determiner --->
+														<label for="determiner" class="data-entry-label">Determiner:</label>
+														<input type="text" name="determiner" id="determiner" class="data-entry-input reqdClr" required>
+														<input type="hidden" name="determiner_id" id="determiner_id_1">
+														<input type="hidden" name="determiner_count" id="determiner_count" value="1">
+														<script>
+															// Initialize determiner autocomplete
+															$(document).ready(function() {
+																makeAgentAutocompleteMeta("determiner","determiner_id_1");
+															});
+														</script>
+														<!--- button to add another set of determiner controls --->
+														<button type="button" class="btn btn-xs btn-secondary" id="addDeterminerButton"
+																 onClick="addDeterminerControl();">Add Determiner</button>
+														<script>
+															function addDeterminerControl() {
+																// get the number of current determiner controls
+																var currentCount = parseInt($("##determiner_count").val());
+																// Add a new determiner control
+																var newControl = '<input type="text" name="det'+currentCount+'" id="det'+currentCount+'"  class="data-entry-input">';
+																newControl += '<input type="hidden" name="determiner_id'+currentCount+'" id="determiner_id_'+currentCount+'" value="" >';
+																// button to remove this determiner control
+																newControl += '<button type="button" class="btn btn-xs btn-secondary" id="removeDet'+currentCount+'" onClick="removeLastDeterminerControl();">Remove</button>';
+																$("##determiner_ids").append(newControl);
+																makeRichAgentPickerControlMeta2("det"+currentCount,"determiner_id"+currentCount);
+																// Increment the count
+																currentCount++;
+																$("##determiner_count").val(currentCount);
+															}
+															function removeDeterminerControl(index) {
+																// Remove the determiner control pair specified by index
+																$("##det"+index).remove();
+																$("##determiner_id_"+index).remove();
+																$("##removeDet"+index).remove();
+															}
+														</script>
+														<!--- hidden input to store determiner IDs for multiple determiner support --->
+														<input type="hidden" name="determiner_ids" id="determiner_ids" class="data-entry-input">
+													</div>
+													<div class="col-12">
+														<input type="button" value="Add" class="btn btn-xs btn-primary" id="addIdButton"
+																	 onClick="handleAddIdentification();">
+														<output id="addIdStatus" class="pt-1"></output>
+													</div>
 												</div>
-												<div class="col-12 col-md-3">
-													<label for="nature_of_id" class="data-entry-label">Nature of ID:</label>
-													<select name="nature_of_id" id="nature_of_id" class="data-entry-select reqdClr" required>
-														<option></option>
-														<cfloop query="ctNature">
-															<option value="#ctNature.nature_of_id#">#ctNature.nature_of_id# #ctNature.description#</option>
-														</cfloop>
-													</select>
-												</div>
-												<div class="col-12 col-md-6">
-													<!--- publication autocomplete --->
-													<label for="publication" class="data-entry-label">Sensu:</label>
-													<input type="text" name="sensu" id="publication" class="data-entry-input">
-													<input type="hidden" name="publication_id" id="publication_id">
-													<script>
-														// Initialize publication autocomplete
-														$(document).ready(function() {
-															makePublicationAutocompleteMeta("publication","publication_id");
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-10">
-													<label for="identification_remarks" class="data-entry-label">Remarks:</label>
-													<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
-												</div>
-												<div class="col-12 col-md-2">
-													<label for="stored_as_fg" class="data-entry-label">Stored As:</label>
-													<input type="checkbox" name="stored_as_fg" id="stored_as_fg" value="1">
-												</div>
-												<div class="col-12 col-md-3">
-													<!--- autocomplete for a determiner --->
-													<label for="determiner" class="data-entry-label">Determiner:</label>
-													<input type="text" name="determiner" id="determiner" class="data-entry-input reqdClr" required>
-													<input type="hidden" name="determiner_id" id="determiner_id_1">
-													<input type="hidden" name="determiner_count" id="determiner_count" value="1">
-													<script>
-														// Initialize determiner autocomplete
-														$(document).ready(function() {
-															makeAgentAutocompleteMeta("determiner","determiner_id_1");
-														});
-													</script>
-													<!--- button to add another set of determiner controls --->
-													<button type="button" class="btn btn-xs btn-secondary" id="addDeterminerButton"
-															 onClick="addDeterminerControl();">Add Determiner</button>
-													<script>
-														function addDeterminerControl() {
-															// get the number of current determiner controls
-															var currentCount = parseInt($("##determiner_count").val());
-															// Add a new determiner control
-															var newControl = '<input type="text" name="det'+currentCount+'" id="det'+currentCount+'"  class="data-entry-input">';
-															newControl += '<input type="hidden" name="determiner_id'+currentCount+'" id="determiner_id_'+currentCount+'" value="" >';
-															// button to remove this determiner control
-															newControl += '<button type="button" class="btn btn-xs btn-secondary" id="removeDet'+currentCount+'" onClick="removeLastDeterminerControl();">Remove</button>';
-															$("##determiner_ids").append(newControl);
-															makeRichAgentPickerControlMeta2("det"+currentCount,"determiner_id"+currentCount);
-															// Increment the count
-															currentCount++;
-															$("##determiner_count").val(currentCount);
-														}
-														function removeDeterminerControl(index) {
-															// Remove the determiner control pair specified by index
-															$("##det"+index).remove();
-															$("##determiner_id_"+index).remove();
-															$("##removeDet"+index).remove();
-														}
-													</script>
-													<!--- hidden input to store determiner IDs for multiple determiner support --->
-													<input type="hidden" name="determiner_ids" id="determiner_ids" class="data-entry-input">
-												</div>
-												<div class="col-12">
-													<input type="button" value="Add" class="btn btn-xs btn-primary" id="addIdButton"
-																 onClick="handleAddIdentification();">
-													<output id="addIdStatus" class="pt-1"></output>
-												</div>
-											</div>
-										</form>
-										<script>
-											// Show/hide Taxon B row based on formula (contains B)
-											function updateTaxonBVisibility() {
-												var formula = document.getElementById('taxa_formula').value;
-												if (formula.includes('B')) {
-													document.getElementById('taxonb_row').style.display = '';
-												} else {
-													document.getElementById('taxonb_row').style.display = 'none';
-													document.getElementById('taxonb').value = '';
-													document.getElementById('taxonb_id').value = '';
+											</form>
+											<script>
+												// Show/hide Taxon B row based on formula (contains B)
+												function updateTaxonBVisibility() {
+													var formula = document.getElementById('taxa_formula').value;
+													if (formula.includes('B')) {
+														document.getElementById('taxonb_row').style.display = '';
+													} else {
+														document.getElementById('taxonb_row').style.display = 'none';
+														document.getElementById('taxonb').value = '';
+														document.getElementById('taxonb_id').value = '';
+													}
 												}
-											}
-											// Init on load
-											document.addEventListener('DOMContentLoaded', function() {
-												updateTaxonBVisibility();
-											});
-
-											function reloadIdentificationsDialogAndPage() {
-												reloadIdentifications();
-												loadIdentificationsList("#variables.collection_object_id#", "identificationDialogList");
-											}
-											function handleAddIdentification() {
-												// iterate through all of the determiner_id controls and add their values to a comma separated list in determiner_ids
-												var determinerIds = [];
-												$("input[name^='determiner_id_']").each(function() {
-													var id = $(this).val();
-													if (id) {
-														determinerIds.push(id);
-													}
+												// Init on load
+												document.addEventListener('DOMContentLoaded', function() {
+													updateTaxonBVisibility();
 												});
-												// set the determiner_ids hidden input to the comma separated list
-												$("##determiner_ids").val(determinerIds.join(','));
-												setFeedbackControlState("addIdStatus","saving")
-												var form = $('##addIdentificationForm');
-												var data = form.serialize();
-												$.ajax({
-													url: '/specimens/component/functions.cfc',
-													data: data,
-													type: 'POST',
-													success: function() {
-														setFeedbackControlState("addIdStatus","saved")
-														reloadIdentificationsDialogAndPage();
-													}
-													,error: function(jqXHR, textStatus, errorThrown) {
-														setFeedbackControlState("addIdStatus","error")
-														handleFail(jqXHR, textStatus, errorThrown, "adding identification");
-													}
-												});
-											}
-										</script>
+	
+												function reloadIdentificationsDialogAndPage() {
+													reloadIdentifications();
+													loadIdentificationsList("#variables.collection_object_id#", "identificationDialogList");
+												}
+												function handleAddIdentification() {
+													// iterate through all of the determiner_id controls and add their values to a comma separated list in determiner_ids
+													var determinerIds = [];
+													$("input[name^='determiner_id_']").each(function() {
+														var id = $(this).val();
+														if (id) {
+															determinerIds.push(id);
+														}
+													});
+													// set the determiner_ids hidden input to the comma separated list
+													$("##determiner_ids").val(determinerIds.join(','));
+													setFeedbackControlState("addIdStatus","saving")
+													var form = $('##addIdentificationForm');
+													var data = form.serialize();
+													$.ajax({
+														url: '/specimens/component/functions.cfc',
+														data: data,
+														type: 'POST',
+														success: function() {
+															setFeedbackControlState("addIdStatus","saved")
+															reloadIdentificationsDialogAndPage();
+														}
+														,error: function(jqXHR, textStatus, errorThrown) {
+															setFeedbackControlState("addIdStatus","error")
+															handleFail(jqXHR, textStatus, errorThrown, "adding identification");
+														}
+													});
+												}
+											</script>
+										</div>
 									</div>
-								</div>
+								</cfif>
 								<div id="identificationDialogList" class="col-12 float-left mt-4 mb-4 px-0">
 									<cfset idList = getIdentificationsUnthreadedHTML(collection_object_id = variables.collection_object_id, editable=true)>
 								</div>
@@ -1013,6 +1049,19 @@ limitations under the License.
 	<cfset scientific_name = Trim(REReplace(scientific_name, "[ ]{2,}", " ", "all"))>
 	<cftransaction>
 		<cftry>
+			<cfquery name="getType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
+				SELECT coll_object_type
+				FROM coll_object
+				WHERE 
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#variables.collection_object_id#">
+			</cfquery>
+			<cfif getType.recordcount EQ 0>
+				<cfthrow message="No such collection_object_id.">
+			</cfif>
+			<!--- only add identifications to allowed types, cataloged item, specimen part--->
+			<cfif NOT (getType.coll_object_type EQ "CI" OR getType.coll_object_type EQ "SP") >
+				<cfthrow message = "Identifications can not be added to a collection object of type [#getType.coll_object_type#]">
+			</cfif>
 			<!--- Only one accepted per specimen, unset the flag for others --->
 			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE identification SET ACCEPTED_ID_FG=0 WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
@@ -1119,7 +1168,9 @@ limitations under the License.
 
 	<cfset data = ArrayNew(1)>
 	<cfquery name="getAccepted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT accepted_id_fg FROM identification WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.identification_id#">
+		SELECT accepted_id_fg 
+		FROM identification 
+		WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.identification_id#">
 	</cfquery>
 
 	<cftransaction>
@@ -1596,6 +1647,7 @@ limitations under the License.
 									<cfelseif getComponents.coll_object_type is "SS">
 										<cfset variables.coll_object_type="Subsample#variables.subtype#">
 									<cfelseif getComponents.coll_object_type is "IO"><!--- identifiable object thus a new occurrence --->
+										<!--- TODO: Identify specimen parts with identifications through linked identifications, not type --->
 										<cfset variables.coll_object_type="Different Organism">
 										<!--- TODO: show occurrence ID value(s) for the identifiable object(s) --->
 										<cfset variables.occurrences="(occurrenceID: **TODO** )">
