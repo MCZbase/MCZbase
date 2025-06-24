@@ -1244,9 +1244,9 @@ limitations under the License.
 					fp_short.formatted_publication short_citation
 				FROM 
 					identification
-					LEFT JOIN formatted_publication fp_long ON identification.publication_id = fp_pub.publication_id and 
+					LEFT JOIN formatted_publication fp_long ON identification.publication_id = fp_long.publication_id and 
 						fp_long.format_style = 'long'
-					LEFT JOIN formatted_publication fp_short ON identification.publication_id = fp_pub.publication_id and 
+					LEFT JOIN formatted_publication fp_short ON identification.publication_id = fp_short.publication_id and 
 						fp_short.format_style = 'short'
 				WHERE 
 					identification.identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.identification_id#">
