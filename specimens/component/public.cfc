@@ -733,7 +733,7 @@ limitations under the License.
 							identification_id: identification_id
 						},
 						success: function(response) {
-							$("##" + dialogId + "_div").html(result);
+							$("##" + dialogId + "_div").html(response);
 						},
 						error: function(xhr, status, error) {
 							handleError(xhr, status, error);
