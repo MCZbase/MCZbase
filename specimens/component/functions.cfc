@@ -947,7 +947,7 @@ limitations under the License.
 	
 												function reloadIdentificationsDialogAndPage() {
 													reloadIdentifications();
-													loadIdentificationsList("#variables.collection_object_id#", "identificationDialogList");
+													loadIdentificationsList("#variables.collection_object_id#", "identificationDialogList","true");
 												}
 												function handleAddIdentification() {
 													// iterate through all of the determiner_id controls and add their values to a comma separated list in determiner_ids

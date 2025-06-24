@@ -137,36 +137,34 @@ function createCitationEditDialog(dialogId,title,closecallback,max_height=775) {
 	thedialog.dialog('open');
 }
 
-/** updateIdentifications function 
- * TODO: Work in progress
+/** updateIdentifications update identifications for a collection object in bulk.
  *
- * @param identification_id the id of the identification to update
+ * @param collection_object_id the id of the collection_object for which to update identifications.
+ * @param identificationUpdates array of updates to apply to identifications/
  * @param targetDiv the id of the div in which to display the updated
  *   identifications count without a leading # selector.
+ * @param callback a callback function to invoke on success.
  *
- * @see updateIdentifications in specimens/component/functions.cfc
  **/
-function updateIdentifications(identification_id,targetDiv) {
+function updateIdentifications(collection_object_id, identificationUpdates,targetDiv,callback) {
    alert("updateIdentifications incomplete implementation");
 	// TODO: implement pass update data
-	// TODO: probably refactor to update an identification
 	jQuery.ajax({
 		dataType: "json",
 		url: "/specimens/component/functions.cfc",
 		data: { 
 			method : "updateIdentifications",
-			identification_id : idenification_id,
+			collection_object_id : collection_object_id,
+			identificationUpdates : identificationUpdates,
 			returnformat : "json",
 			queryformat : 'column'
 		},
 		error: function (jqXHR, status, message) {
-			messageDialog("Error updating identifications count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+			handleFail(jqXHR,status,message,"updating identifications");
 		},
 		success: function (result) {
-			if (result.DATA.STATUS[0]==1) {
-				var message  = "There are identifications";
-	
-				$('#' + targetDiv).html(message);
+			if (callback instanceof Function) {
+				callback();
 			}
 		}
 	});
@@ -200,6 +198,31 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
 	});
 }
 
+/** loadIdentificationsList reload the identifications list for a collection object 
+ * @param collection_object_id the id of the collection_object for which to load identifications.
+ * @param targetDivId the id of the div in which to load the identifications list without a leading # selector.
+ * @param editable boolean indicating whether the identifications should be editable, 
+ *		if true, the identifications will be displayed with edit/remove buttons.
+ */
+function loadIdentificationsList(collection_object_id,targetDivId,editable) { 
+	jQuery.ajax({
+		url : "/specimens/component/functions.cfc",
+		type : "post",
+		dataType : "html",
+		data: {
+			method: "getIdentificationsUnthreadedHTML",
+			editable: editable,
+			collection_object_id: collection_object_id
+		},
+		success: function (result) {
+			console.log("Reloading identifications dialog content");
+			$("#" + targetDivId).html(result);
+		},
+		error: function(jqXHR,textStatus,error){
+			handleFail(jqXHR,textStatus,error,"reloading ideqntifications");
+		}
+	});
+};
 
 /** openEditNamedGroupsDialog open a dialog for editing 
  * named group membership for a cataloged item.
