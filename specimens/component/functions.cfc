@@ -785,7 +785,7 @@ limitations under the License.
 				</cfquery>
 				<cfset target = "#getTarget.guid# #getTarget.part_name# (#getTarget.preserve_method#)">
 			</cfif>
-			<cfif length(target) GT 0>
+			<cfif len(target) GT 0>
 				<cfset target = " to #target#">
 			</cfif>
 			<cfoutput>
