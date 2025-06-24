@@ -1531,7 +1531,7 @@ limitations under the License.
 					<p>#cfcatch.message# #cfcatch.detail#</p>
 					<cfif isDefined("session.roles") and listFindNoCase(session.roles,"global_admin")>
 						<cfdump var="#cfcatch#" label="Error Details">
-					</cfdump>
+					</cfif>
 				</cfoutput>
 			</cfcatch>
 		</cftry>
