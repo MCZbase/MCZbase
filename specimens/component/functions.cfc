@@ -1526,7 +1526,12 @@ limitations under the License.
 			</cfoutput>
 			<cfcatch>
 				<cfoutput>
-					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
+					<cfset function_called = "#GetFunctionCalledName()#">
+					<h3 class="mt-2 text-danger">Error in #function_called# #cfcatch.type#</h3>
+					<p>#cfcatch.message# #cfcatch.detail#</p>
+					<cfif isDefined("session.roles") and listFindNoCase(session.roles,"global_admin")>
+						<cfdump var="#cfcatch#" label="Error Details">
+					</cfdump>
 				</cfoutput>
 			</cfcatch>
 		</cftry>
