@@ -626,7 +626,7 @@ limitations under the License.
 						<cfif editable>
 							<span class="float-right">
 								<button class="btn btn-xs btn-secondary py-0" 
-									onclick="editIdentification('#identification.identification_id#','edit')">Edit</button>
+									onclick="editIdentification('#identification.identification_id#')">Edit</button>
 								<cfif identification.accepted_id_fg NEQ 1>
 									<button class="btn btn-xs btn-danger py-0" 
 										onclick=" confirmDialog('Are you sure you want to delete this identification?', 'Delete Identification',removeIdentification_#i#);"
@@ -717,6 +717,29 @@ limitations under the License.
 				</div>
 				<cfset i = i+1>
 			</cfloop>
+			<div id="editIdentificationDialog"></div>
+			<script>
+				function editIdentification(identification_id,callback) {
+					var title = "Edit Identification";
+					createSpecimenEditDialog("editIdentificationDialog",title,callback);
+					// Call the server-side function to get the edit HTML, load into the dialog
+					$.ajax({
+						url: '/specimens/component/functions.cfc',
+						type: 'POST',
+						data: {
+							method: 'getEditSingleIdentificationHTML',
+							returnformat: 'plain',
+							identification_id: identification_id
+						},
+						success: function(response) {
+							$("#" + dialogId + "_div").html(result);
+						},
+						error: function(xhr, status, error) {
+							handleError(xhr, status, error);
+						}
+					});
+				}
+			</script>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
