@@ -1240,11 +1240,14 @@ limitations under the License.
 					identification.scientific_name,
 					identification.publication_id,
 					identification.stored_as_fg,
-					pub.full_citation,
-					pub.short_citation
+					fp_long.formatted_publication full_citation,
+					fp_short.formatted_publication short_citation
 				FROM 
 					identification
-					LEFT JOIN publication pub ON identification.publication_id = pub.publication_id
+					LEFT JOIN formatted_publication fp_long ON identification.publication_id = fp_pub.publication_id and 
+						fp_long.format = 'long'
+					LEFT JOIN formatted_publication fp_short ON identification.publication_id = fp_pub.publication_id and 
+						fp_short.format = 'short'
 				WHERE 
 					identification.identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.identification_id#">
 			</cfquery>
