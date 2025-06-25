@@ -882,7 +882,7 @@ limitations under the License.
 														<input type="checkbox" name="stored_as_fg" id="stored_as_fg" value="1">
 													</div>
 													<div class="col-12">
-														<div class="form-row" id="addNewDetsHere">
+														<div class="form-row" id="addIdNewDetsFormRow">
 															<div class="col-12 col-md-3">
 																<!--- autocomplete for a determiner --->
 																<label for="determiner" class="data-entry-label">Determiner:</label>
@@ -903,11 +903,14 @@ limitations under the License.
 																		// get the number of current determiner controls
 																		var currentCount = parseInt($("##determiner_count").val());
 																		// Add a new determiner control
-																		var newControl = '<div class="col-12 col-md-3"><input type="text" name="det'+currentCount+'" id="det'+currentCount+'"  class="data-entry-input">';
+																		var newControl = '<div class="col-12 col-md-3">';
+																		newControl += '<label for="det'+currentCount+'"  class="data-entry-label"> Determiner '+currentCount +':</label>';
+																		newControl += '<input type="text" name="det'+currentCount+'" id="det'+currentCount+'"  class="data-entry-input">';
 																		newControl += '<input type="hidden" name="determiner_id'+currentCount+'" id="determiner_id_'+currentCount+'" value="" >';
 																		// button to remove this determiner control
-																		newControl += '<button type="button" class="btn btn-xs btn-secondary" id="removeDet'+currentCount+'" onClick="removeDeterminerControl();">Remove</button></div>';
-																		$("##addNewDetsHere").append(newControl);
+																		newControl += '<button type="button" class="btn btn-xs btn-secondary" id="removeDet'+currentCount+'" onClick="removeDeterminerControl();">Remove</button>';
+																		newControl += '</div>';
+																		$("##addIdNewDetsFormRow").append(newControl);
 																		makeAgentAutocompleteMeta("det"+currentCount,"determiner_id"+currentCount);
 																		// Increment the count
 																		currentCount++;
