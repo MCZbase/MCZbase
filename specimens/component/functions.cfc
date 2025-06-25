@@ -890,17 +890,17 @@ limitations under the License.
 														<!--- add event listener to set values of accepted_id_fg and stored_as_fg based on id_state selection --->
 														<script>
 															$(document).ready(function() {
-																$("#id_state").change(function() {
+																$("##id_state").change(function() {
 																	var state = $(this).val();
 																	if (state === "current") {
-																		$("#accepted_id_fg").val("1");
-																		$("#stored_as_fg").val("0");
+																		$("##accepted_id_fg").val("1");
+																		$("##stored_as_fg").val("0");
 																	} else if (state === "previous") {
-																		$("#accepted_id_fg").val("0");
-																		$("#stored_as_fg").val("0");
+																		$("##accepted_id_fg").val("0");
+																		$("##stored_as_fg").val("0");
 																	} else if (state === "stored_as") {
-																		$("#accepted_id_fg").val("0");
-																		$("#stored_as_fg").val("1");
+																		$("##accepted_id_fg").val("0");
+																		$("##stored_as_fg").val("1");
 																	}
 																});
 															});
