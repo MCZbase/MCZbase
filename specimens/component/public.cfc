@@ -476,7 +476,7 @@ limitations under the License.
 			<!--- check for mask record, hide if mask record and not one of us ---->
 			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">) encumbranceDetail
 				FROM DUAL
 			</cfquery>
 			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
@@ -499,7 +499,7 @@ limitations under the License.
 					identification
 					left join formatted_publication on identification.publication_id=formatted_publication.publication_id and format_style='short'
 				WHERE
-					identification.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+					identification.collection_object_id = <cfqueryparam value="#variables.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				ORDER BY 
 					accepted_id_fg DESC,sort_order, made_date DESC
 			</cfquery>
@@ -522,6 +522,10 @@ limitations under the License.
 								if (response[0].status == "removed") {
 									setFeedbackControlState(feedbackDiv,"removed")
 									reloadIdentifications();
+									// if dialog exists reload the list
+									if ($("#identificationDialogList").length) {
+										loadIdentificationsList("#identification.collection_object_id#", "identificationDialogList","true");
+									}
 								} else {
 									setFeedbackControlState(feedbackDiv,"error")
 								}
