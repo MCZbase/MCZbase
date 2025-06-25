@@ -1113,12 +1113,17 @@ limitations under the License.
 			<cfif NOT (getType.coll_object_type EQ "CI" OR getType.coll_object_type EQ "SP") >
 				<cfthrow message = "Identifications can not be added to a collection object of type [#getType.coll_object_type#]">
 			</cfif>
-			<!--- Only one accepted per specimen, unset the flag for others --->
-			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE identification SET ACCEPTED_ID_FG=0 WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
-			</cfquery>
+			<cfif variables.accepted_id_fg EQ 1>
+				<!--- if this is an accepted identification, force unset the stored_as_fg flag --->
+				<cfset variables.stored_as_fg = 0>
+			<cfelse>
+				<!--- Only one accepted per specimen, unset the flag for others --->
+				<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE identification SET ACCEPTED_ID_FG=0 WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+				</cfquery>
+			</cfif>
 			<!--- Insert identification --->
-			<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="result_newID">
+			<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newID_result">
 				INSERT INTO identification (
 					identification_id,
 					collection_object_id,
@@ -1147,7 +1152,13 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.stored_as_fg#">
 				)
 			</cfquery>
-			<cfset var new_identification_id = result_newID.generatedkey>
+			<!--- lookup the oracle primary key value for the inserted identification.identification_id --->
+			<cfquery name="getNewIDPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT identification_id
+				FROM identification
+				WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newID_result.GENERATEDKEY#">
+			</cfquery>
+			<cfset var new_identification_id =getNewIDPK.identification_id>
 			<!--- Insert determiners --->
 			<cfif len(variables.determiner_ids)>
 				<cfset var agentList = ListToArray(variables.determiner_ids)>
@@ -1173,7 +1184,7 @@ limitations under the License.
 						taxon_name_id,
 						variable
 					) VALUES (
-						sq_identification_id.currval,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_identification_id#">,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxona_id#">,
 						'A'
 					)
@@ -1186,7 +1197,7 @@ limitations under the License.
 						taxon_name_id,
 						variable
 					) VALUES (
-						sq_identification_id.currval,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_identification_id#">,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxonb_id#">,
 						'B'
 					)
