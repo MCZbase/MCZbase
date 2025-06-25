@@ -1119,7 +1119,17 @@ limitations under the License.
 				<cfset variables.stored_as_fg = 0>
 				<!--- Only one accepted per specimen, unset the flag for others --->
 				<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE identification SET ACCEPTED_ID_FG=0 WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					UPDATE identification 
+					SET ACCEPTED_ID_FG = 0 
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+				</cfquery>
+			</cfif>
+			<cfif variables.stored_as_fg EQ "1">
+				<!--- Only one stored as per specimen, unset the flag for others --->
+				<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE identification 
+					SET STORED_AS_FG = 0 
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 				</cfquery>
 			</cfif>
 			<!--- Insert identification --->
