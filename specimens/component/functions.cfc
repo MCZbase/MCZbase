@@ -1036,12 +1036,26 @@ limitations under the License.
 	<cfargument name="identification_remarks" type="string" required="no" default="">
 	<cfargument name="stored_as_fg" type="string" required="no" default="0">
 	<cfargument name="determiner_ids" type="string" required="yes">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.taxa_formula = arguments.taxa_formula>
+	<cfset variables.taxona = arguments.taxona>
+	<cfset variables.taxona_id = arguments.taxona_id>
+	<cfset variables.taxonb = arguments.taxonb>
+	<cfset variables.taxonb_id = arguments.taxonb_id>
+	<cfset variables.made_date = arguments.made_date>
+	<cfset variables.nature_of_id = arguments.nature_of_id>
+	<cfset variables.publication_id = arguments.publication_id>
+	<cfset variables.identification_remarks = arguments.identification_remarks>
+	<cfset variables.stored_as_fg = arguments.stored_as_fg>
+	<cfset variables.determiner_ids = arguments.determiner_ids>
+
 	<!--- determiner_ids: comma-separated agent_id's --->
 	<cfset var data = ArrayNew(1)>
 
-	<cfset var scientific_name = arguments.taxa_formula>
+	<cfset var scientific_name = variables.taxa_formula>
 	<!--- throw an exception if formula contains B but taxon B is not provided --->
-	<cfif arguments.taxa_formula contains "B" and len(arguments.taxonb) EQ 0>	
+	<cfif variables.taxa_formula contains "B" and len(variables.taxonb) EQ 0>	
 		<cfthrow message="Taxon B is required when the formula contains 'B'.">
 	</cfif>
 	<!--- replace A in the formula with a string that is not likely to occur in a scientific name --->
@@ -1049,10 +1063,10 @@ limitations under the License.
 	<!--- replace B in the formula with a string that is not likely to occurr in a scientific name --->
 	<cfset scientific_name = REReplace(scientific_name, "\bB\b", "TAXON_B", "all")>
 	<!--- replace the placeholder for A in the formula with the taxon A name --->
-	<cfset scientific_name = replace(scientific_name, "TAXON_A", arguments.taxona)>
-	<cfif len(arguments.taxonb)>
+	<cfset scientific_name = replace(scientific_name, "TAXON_A", variables.taxona)>
+	<cfif len(variables.taxonb)>
 		<!--- replace the placeholder for B with the taxon B name if provided --->
-		<cfset scientific_name = replace(scientific_name, "TAXON_B", arguments.taxonb)>
+		<cfset scientific_name = replace(scientific_name, "TAXON_B", variables.taxonb)>
 	</cfif>
 	<!--- Clean up any double spaces or trailing punctuation --->
 	<cfset scientific_name = Trim(REReplace(scientific_name, "[ ]{2,}", " ", "all"))>
@@ -1073,7 +1087,7 @@ limitations under the License.
 			</cfif>
 			<!--- Only one accepted per specimen, unset the flag for others --->
 			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				UPDATE identification SET ACCEPTED_ID_FG=0 WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+				UPDATE identification SET ACCEPTED_ID_FG=0 WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 			</cfquery>
 			<!--- Insert identification --->
 			<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="result_newID">
@@ -1090,25 +1104,25 @@ limitations under the License.
 					stored_as_fg
 				) VALUES (
 					sq_identification_id.nextval,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.made_date#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.nature_of_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.made_date#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.nature_of_id#">,
 					1,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.identification_remarks#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.taxa_formula#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.identification_remarks#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.taxa_formula#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,
-					<cfif len(arguments.publication_id)>
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.publication_id#">
+					<cfif len(variables.publication_id)>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.publication_id#">
 					<cfelse>
 						NULL
 					</cfif>,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.stored_as_fg#">
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.stored_as_fg#">
 				)
 			</cfquery>
 			<cfset var new_identification_id = result_newID.generatedkey>
 			<!--- Insert determiners --->
-			<cfif len(arguments.determiner_ids)>
-				<cfset var agentList = ListToArray(arguments.determiner_ids)>
+			<cfif len(variables.determiner_ids)>
+				<cfset var agentList = ListToArray(variables.determiner_ids)>
 				<cfloop from="1" to="#ArrayLen(agentList)#" index="idx">
 					<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						INSERT INTO identification_agent (
@@ -1124,7 +1138,7 @@ limitations under the License.
 				</cfloop>
 			</cfif>
 			<!--- Taxonomy linking for A and (optionally) B --->
-			<cfif len(arguments.taxona_id)>
+			<cfif len(variables.taxona_id)>
 				<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO identification_taxonomy (
 						identification_id,
@@ -1132,12 +1146,12 @@ limitations under the License.
 						variable
 					) VALUES (
 						sq_identification_id.currval,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxona_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxona_id#">,
 						'A'
 					)
 				</cfquery>
 			</cfif>
-			<cfif len(arguments.taxonb_id)>
+			<cfif len(variables.taxonb_id)>
 				<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO identification_taxonomy (
 						identification_id,
@@ -1145,7 +1159,7 @@ limitations under the License.
 						variable
 					) VALUES (
 						sq_identification_id.currval,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxonb_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxonb_id#">,
 						'B'
 					)
 				</cfquery>
