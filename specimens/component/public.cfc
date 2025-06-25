@@ -523,7 +523,7 @@ limitations under the License.
 									setFeedbackControlState(feedbackDiv,"removed")
 									reloadIdentifications();
 									// if dialog exists reload the list
-									if ($("#identificationDialogList").length) {
+									if ($("##identificationDialogList").length) {
 										loadIdentificationsList("#identification.collection_object_id#", "identificationDialogList","true");
 									}
 								} else {
