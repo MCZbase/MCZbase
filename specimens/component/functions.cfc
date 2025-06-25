@@ -881,45 +881,50 @@ limitations under the License.
 														<label for="stored_as_fg" class="data-entry-label">Stored As:</label>
 														<input type="checkbox" name="stored_as_fg" id="stored_as_fg" value="1">
 													</div>
-													<div class="col-12 col-md-3">
-														<!--- autocomplete for a determiner --->
-														<label for="determiner" class="data-entry-label">Determiner:</label>
-														<input type="text" name="determiner" id="determiner" class="data-entry-input reqdClr" required>
-														<input type="hidden" name="determiner_id" id="determiner_id_1">
-														<input type="hidden" name="determiner_count" id="determiner_count" value="1">
-														<script>
-															// Initialize determiner autocomplete
-															$(document).ready(function() {
-																makeAgentAutocompleteMeta("determiner","determiner_id_1");
-															});
-														</script>
-														<!--- button to add another set of determiner controls --->
-														<button type="button" class="btn btn-xs btn-secondary" id="addDeterminerButton"
-																 onClick="addDeterminerControl();">Add Determiner</button>
-														<script>
-															function addDeterminerControl() {
-																// get the number of current determiner controls
-																var currentCount = parseInt($("##determiner_count").val());
-																// Add a new determiner control
-																var newControl = '<input type="text" name="det'+currentCount+'" id="det'+currentCount+'"  class="data-entry-input">';
-																newControl += '<input type="hidden" name="determiner_id'+currentCount+'" id="determiner_id_'+currentCount+'" value="" >';
-																// button to remove this determiner control
-																newControl += '<button type="button" class="btn btn-xs btn-secondary" id="removeDet'+currentCount+'" onClick="removeLastDeterminerControl();">Remove</button>';
-																$("##determiner_ids").append(newControl);
-																makeAgentAutocompleteMeta("det"+currentCount,"determiner_id"+currentCount);
-																// Increment the count
-																currentCount++;
-																$("##determiner_count").val(currentCount);
-															}
-															function removeDeterminerControl(index) {
-																// Remove the determiner control pair specified by index
-																$("##det"+index).remove();
-																$("##determiner_id_"+index).remove();
-																$("##removeDet"+index).remove();
-															}
-														</script>
-														<!--- hidden input to store determiner IDs for multiple determiner support --->
-														<input type="hidden" name="determiner_ids" id="determiner_ids" class="data-entry-input">
+													<div class="col-12">
+														<div class="form-row">
+															<div class="col-12 col-md-3">
+																<!--- autocomplete for a determiner --->
+																<label for="determiner" class="data-entry-label">Determiner:</label>
+																<input type="text" name="determiner" id="determiner" class="data-entry-input reqdClr" required>
+																<input type="hidden" name="determiner_id" id="determiner_id_1">
+																<input type="hidden" name="determiner_count" id="determiner_count" value="1">
+																<script>
+																	// Initialize determiner autocomplete
+																	$(document).ready(function() {
+																		makeAgentAutocompleteMeta("determiner","determiner_id_1");
+																	});
+																</script>
+																<!--- button to add another set of determiner controls --->
+																<button type="button" class="btn btn-xs btn-secondary" id="addDeterminerButton"
+																		 onClick="addDeterminerControl();">Add Determiner</button>
+																<script>
+																	function addDeterminerControl() {
+																		// get the number of current determiner controls
+																		var currentCount = parseInt($("##determiner_count").val());
+																		// Add a new determiner control
+																		var newControl = '<div class="col-12 col-md-3"><input type="text" name="det'+currentCount+'" id="det'+currentCount+'"  class="data-entry-input">';
+																		newControl += '<input type="hidden" name="determiner_id'+currentCount+'" id="determiner_id_'+currentCount+'" value="" >';
+																		// button to remove this determiner control
+																		newControl += '<button type="button" class="btn btn-xs btn-secondary" id="removeDet'+currentCount+'" onClick="removeDeterminerControl();">Remove</button></div>';
+																		$("##addNewDetsHere").append(newControl);
+																		makeAgentAutocompleteMeta("det"+currentCount,"determiner_id"+currentCount);
+																		// Increment the count
+																		currentCount++;
+																		$("##determiner_count").val(currentCount);
+																	}
+																	function removeDeterminerControl(index) {
+																		// Remove the determiner control pair specified by index
+																		$("##det"+index).remove();
+																		$("##determiner_id_"+index).remove();
+																		$("##removeDet"+index).remove();
+																	}
+																</script>
+																<!--- hidden input to store determiner IDs for multiple determiner support --->
+																<input type="hidden" name="determiner_ids" id="determiner_ids" class="data-entry-input">
+																	</div>
+															<div id="addNewDetsHere"></div>
+														</div>
 													</div>
 													<div class="col-12">
 														<input type="button" value="Add" class="btn btn-xs btn-primary" id="addIdButton"
