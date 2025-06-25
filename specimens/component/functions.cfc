@@ -902,9 +902,11 @@ limitations under the License.
 																	function addDeterminerControl() {
 																		// get the number of current determiner controls
 																		var currentCount = parseInt($("##determiner_count").val());
+																		// Increment the count
+																		currentCount++;
 																		// Add a new determiner control
 																		var newControl = '<div class="col-12 col-md-3" id="det_div_'+currentCount+'">';
-																		newControl += '<label id="det_label_'+currentCount+'" for="det'+currentCount+'"  class="data-entry-label"> Determiner '+currentCount + 1 +':</label>';
+																		newControl += '<label id="det_label_'+currentCount+'" for="det'+currentCount+'"  class="data-entry-label"> Determiner '+currentCount + ':</label>';
 																		newControl += '<input type="text" name="det'+currentCount+'" id="det'+currentCount+'"  class="data-entry-input">';
 																		newControl += '<input type="hidden" name="determiner_id'+currentCount+'" id="determiner_id_'+currentCount+'" value="" >';
 																		// button to remove this determiner control
@@ -912,8 +914,6 @@ limitations under the License.
 																		newControl += '</div>';
 																		$("##addIdNewDetsFormRow").append(newControl);
 																		makeAgentAutocompleteMeta("det"+currentCount,"determiner_id"+currentCount);
-																		// Increment the count
-																		currentCount++;
 																		$("##determiner_count").val(currentCount);
 																	}
 																	function removeDeterminerControl(index) {
