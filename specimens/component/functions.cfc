@@ -906,7 +906,7 @@ limitations under the License.
 																// button to remove this determiner control
 																newControl += '<button type="button" class="btn btn-xs btn-secondary" id="removeDet'+currentCount+'" onClick="removeLastDeterminerControl();">Remove</button>';
 																$("##determiner_ids").append(newControl);
-																makeRichAgentPickerControlMeta2("det"+currentCount,"determiner_id"+currentCount);
+																makeAgentAutocompleteMeta("det"+currentCount,"determiner_id"+currentCount);
 																// Increment the count
 																currentCount++;
 																$("##determiner_count").val(currentCount);
