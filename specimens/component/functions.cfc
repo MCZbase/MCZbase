@@ -986,12 +986,13 @@ limitations under the License.
 												function handleAddIdentification() {
 													// iterate through all of the determiner_id controls and add their values to a comma separated list in determiner_ids
 													var determinerIds = [];
-													$("input[name^='determiner_id_']").each(function() {
+													$("input[id^='determiner_id_']").each(function() {
 														var id = $(this).val();
 														if (id) {
 															determinerIds.push(id);
 														}
 													});
+													console.log(determinerIds);
 													// set the determiner_ids hidden input to the comma separated list
 													$("##determiner_ids").val(determinerIds.join(','));
 													setFeedbackControlState("addIdStatus","saving")
