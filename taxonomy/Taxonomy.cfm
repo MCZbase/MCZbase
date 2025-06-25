@@ -286,7 +286,7 @@ limitations under the License.
 					});
 				};
 			</script>
-			<section class="row mx-0 border rounded my-2 px-1 pt-1 pb-2">
+			<section class="border rounded my-2 px-1 pt-1 pb-2" style="margin-left: -1rem; width: 100%;">
 				<form class="col-12" name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form">
 					<div class="row my-1">
 						<div class="col-12 col-sm-3 mb-1">
