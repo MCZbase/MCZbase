@@ -938,7 +938,7 @@ limitations under the License.
 																		newControl += '<button type="button" class="btn btn-xs btn-secondary" id="removeDet'+currentCount+'" onClick="removeDeterminerControl('+currentCount+');">Remove</button>';
 																		newControl += '</div>';
 																		$("##addIdNewDetsFormRow").append(newControl);
-																		makeAgentAutocompleteMeta("det"+currentCount,"determiner_id"+currentCount);
+																		makeAgentAutocompleteMeta("det"+currentCount,"determiner_id_"+currentCount);
 																		$("##determiner_count").val(currentCount);
 																	}
 																	function removeDeterminerControl(index) {
