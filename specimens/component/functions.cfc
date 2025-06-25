@@ -878,8 +878,33 @@ limitations under the License.
 														<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
 													</div>
 													<div class="col-12 col-md-2">
-														<label for="stored_as_fg" class="data-entry-label">Stored As:</label>
-														<input type="checkbox" name="stored_as_fg" id="stored_as_fg" value="1">
+														<input type="hidden" name="accepted_id_fg" id="accepted_id_fg" value="1">
+														<input type="hidden" name="stored_as_fg" id="stored_as_fg" value="0">
+														<!--- select to indicate if this identification is to be created as the current identification, as a previous identification, or previous identification which is the stored as name --->
+														<label for="id_state" class="data-entry-label">Id is:</label>
+														<select name="id_state" id="id_state" class="data-entry-select reqdClr" required>
+															<option value="current">Current</option>
+															<option value="previous">Previous</option>
+															<option value="stored_as">Previous: Stored As</option>
+														</select>
+														<!--- add event listener to set values of accepted_id_fg and stored_as_fg based on id_state selection --->
+														<script>
+															$(document).ready(function() {
+																$("#id_state").change(function() {
+																	var state = $(this).val();
+																	if (state === "current") {
+																		$("#accepted_id_fg").val("1");
+																		$("#stored_as_fg").val("0");
+																	} else if (state === "previous") {
+																		$("#accepted_id_fg").val("0");
+																		$("#stored_as_fg").val("0");
+																	} else if (state === "stored_as") {
+																		$("#accepted_id_fg").val("0");
+																		$("#stored_as_fg").val("1");
+																	}
+																});
+															});
+														</script>
 													</div>
 													<div class="col-12">
 														<div class="form-row" id="addIdNewDetsFormRow">
@@ -1020,6 +1045,7 @@ limitations under the License.
 	@param nature_of_id the nature of the identification.
 	@param publication_id the publication ID for Sensu for the identification (optional).
 	@param identification_remarks any remarks for the identification (optional).
+	@param accepted_id_fg whether to set the identification is to be the current identification.
 	@param stored_as_fg whether to store the identification as a field guide (optional, default 0).
 	@param determiner_ids a comma-separated list of agent IDs for the determiners.
  --->
@@ -1034,6 +1060,7 @@ limitations under the License.
 	<cfargument name="nature_of_id" type="string" required="yes">
 	<cfargument name="publication_id" type="string" required="no" default="">
 	<cfargument name="identification_remarks" type="string" required="no" default="">
+	<cfargument name="accepted_id_fg" type="string" required="yes">
 	<cfargument name="stored_as_fg" type="string" required="no" default="0">
 	<cfargument name="determiner_ids" type="string" required="yes">
 
@@ -1047,6 +1074,7 @@ limitations under the License.
 	<cfset variables.nature_of_id = arguments.nature_of_id>
 	<cfset variables.publication_id = arguments.publication_id>
 	<cfset variables.identification_remarks = arguments.identification_remarks>
+	<cfset variables.accepted_id_fg = arguments.accepted_id_fg>
 	<cfset variables.stored_as_fg = arguments.stored_as_fg>
 	<cfset variables.determiner_ids = arguments.determiner_ids>
 
@@ -1107,7 +1135,7 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.made_date#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.nature_of_id#">,
-					1,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.accepted_id_fg#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.identification_remarks#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.taxa_formula#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,
