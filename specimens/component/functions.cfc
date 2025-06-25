@@ -1117,7 +1117,6 @@ limitations under the License.
 			<cfif variables.accepted_id_fg EQ "1">
 				<!--- if this is an accepted identification, force unset the stored_as_fg flag --->
 				<cfset variables.stored_as_fg = 0>
-			<cfelse>
 				<!--- Only one accepted per specimen, unset the flag for others --->
 				<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE identification SET ACCEPTED_ID_FG=0 WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
