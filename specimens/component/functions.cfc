@@ -882,7 +882,7 @@ limitations under the License.
 														<input type="checkbox" name="stored_as_fg" id="stored_as_fg" value="1">
 													</div>
 													<div class="col-12">
-														<div class="form-row">
+														<div class="form-row" id="addNewDetsHere">
 															<div class="col-12 col-md-3">
 																<!--- autocomplete for a determiner --->
 																<label for="determiner" class="data-entry-label">Determiner:</label>
@@ -922,8 +922,7 @@ limitations under the License.
 																</script>
 																<!--- hidden input to store determiner IDs for multiple determiner support --->
 																<input type="hidden" name="determiner_ids" id="determiner_ids" class="data-entry-input">
-																	</div>
-															<div id="addNewDetsHere"></div>
+															</div>
 														</div>
 													</div>
 													<div class="col-12">
