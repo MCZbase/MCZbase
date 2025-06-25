@@ -511,6 +511,7 @@ limitations under the License.
 						$.ajax({
 							url: '/specimens/component/functions.cfc',
 							type: 'POST',
+							dataType: 'json',
 							data: {
 								method: 'removeIdentification',
 								returnformat: 'json',
