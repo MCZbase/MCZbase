@@ -1114,7 +1114,7 @@ limitations under the License.
 			<cfif NOT (getType.coll_object_type EQ "CI" OR getType.coll_object_type EQ "SP") >
 				<cfthrow message = "Identifications can not be added to a collection object of type [#getType.coll_object_type#]">
 			</cfif>
-			<cfif variables.accepted_id_fg EQ 1>
+			<cfif variables.accepted_id_fg EQ "1">
 				<!--- if this is an accepted identification, force unset the stored_as_fg flag --->
 				<cfset variables.stored_as_fg = 0>
 			<cfelse>
@@ -1141,7 +1141,7 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.made_date#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.nature_of_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.accepted_id_fg#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.accepted_id_fg#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.identification_remarks#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.taxa_formula#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,
