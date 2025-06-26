@@ -1126,7 +1126,7 @@ limitations under the License.
 			</cfif>
 			<cfif variables.stored_as_fg EQ "1">
 				<!--- Only one stored as per specimen, unset the flag for others --->
-				<cfquery name="unserStoredFG" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="unsetStoredFG" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE identification 
 					SET STORED_AS_FG = 0 
 					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
