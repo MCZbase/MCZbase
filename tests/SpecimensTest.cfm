@@ -3655,7 +3655,7 @@ Target JSON:
 					var maxZIndex = getMaxZIndex();
 					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 				}
-		
+
 				$("##keywordsearchResultsGrid").jqxGrid({
 					width: '100%',
 					autoheight: 'true',
@@ -3676,11 +3676,7 @@ Target JSON:
 					columnsreorder: true,
 					groupable: true,
 					cellclassname: function (row, columnfield, value, rowdata, columnproperty) {
-					// Use the column index if you want—for first column:
-					var columns = $('#yourGridId').jqxGrid('columns').records;
-					var colIdx = columns.findIndex(function(col){return col.datafield == columnfield});
-					if(colIdx === 0) { return 'jqx-grid-cell-locked'; }
-					return '';
+				
 					selectionmode: '#defaultSelectionMode#',
 					enablebrowserselection: #defaultenablebrowserselection#,
 					altrows: true,
