@@ -604,6 +604,7 @@ limitations under the License.
 									<cfset link = getGuidLink(guid=#getTaxa.taxonid#,guid_type=#getTaxa.taxonid_guid_type#)>
 									<span>#link#</span>
 								</cfif>
+								<!--- also obtain in form without authorship or link --->
 								<cfset nameAsInTaxon = getTaxa.scientific_name>
 							</cfloop>
 						<cfelse>
@@ -613,7 +614,8 @@ limitations under the License.
 							<!--- but A and B can occur in scientific names, so replace the A and B with unique TXON_A and TXON_B strings for replacement --->
 							<cfset expandedFormula = replace(expandedFormula,"A","TXON_A","all")>
 							<cfset expandedFormula = replace(expandedFormula,"B","TXON_B","all")>
-							<cfset nameAsInTaxon="#identification.taxa_formula#">
+							<!--- Also obtain in form with authorships and link and form without --->
+							<cfset nameAsInTaxon="#expandedFormula#">
 							<cfloop query="getTaxa">
 								<!--- replace each component of the formula with the name, in a hyperlink --->
 								<cfset thisLink='<a href="/name/#getTaxa.scientific_name#" class="d-inline">#getTaxa.display_name#</a>'><!--- ' --->
@@ -624,8 +626,10 @@ limitations under the License.
 								<cfset varToReplace = getTaxa.variable>
 								<cfset varToReplace = replace(varToReplace,"A","TXON_A","all")>
 								<cfset varToReplace = replace(varToReplace,"B","TXON_B","all")>
+								<!--- expandedFormula replaces with links and authorships --->
 								<cfset expandedFormula=#replace(expandedFormula,varToReplace,thisLink)#>
-								<cfset nameAsInTaxon=#replace(nameAsInTaxon,getTaxa.variable,getTaxa.scientific_name)#>
+								<!--- nameAsInTaxon replaces with just the scientific name --->
+								<cfset nameAsInTaxon=#replace(nameAsInTaxon,varToReplace,getTaxa.scientific_name)#>
 								<cfset i=#i#+1>
 							</cfloop>
 							#expandedFormula#
