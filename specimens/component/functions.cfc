@@ -1082,37 +1082,41 @@ limitations under the License.
 	<!--- determiner_ids: comma-separated agent_id's --->
 	<cfset var data = ArrayNew(1)>
 
-	<cfset var scientific_name = variables.taxa_formula>
-	<!--- throw an exception if formula contains B but taxon B is not provided --->
-	<cfif variables.taxa_formula contains "B" and len(variables.taxonb) EQ 0>	
-		<cfthrow message="Taxon B is required when the formula contains 'B'.">
-	</cfif>
-	<!--- replace A in the formula with a string that is not likely to occur in a scientific name --->
-	<cfset scientific_name = REReplace(scientific_name, "\bA\b", "TAXON_A", "all")>
-	<!--- replace B in the formula with a string that is not likely to occurr in a scientific name --->
-	<cfset scientific_name = REReplace(scientific_name, "\bB\b", "TAXON_B", "all")>
-	<!--- replace the placeholder for A in the formula with the taxon A name --->
-	<!--- lookup the taxon A name in the taxon name table to not include the authorship --->
-	<cfquery name="getTaxonA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		SELECT scientific_name
-		FROM taxon_name
-		WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#variables.taxona_id#">
-	</cfquery>
-	<cfset scientific_name = replace(scientific_name, "TAXON_A", getTaxonA.scientific_name)>
-	<cfif len(variables.taxonb)>
-		<!--- replace the placeholder for B with the taxon B name if provided --->
-		<!--- lookup the taxon B name in the taxon name table to not include the authorship --->
-		<cfquery name="getTaxonB" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT scientific_name
-			FROM taxon_name
-			WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#variables.taxonb_id#">
-		</cfquery>
-		<cfset scientific_name = replace(scientific_name, "TAXON_B", getTaxonB.scientific_name)>
-	</cfif>
-	<!--- Clean up any double spaces or trailing punctuation --->
-	<cfset scientific_name = Trim(REReplace(scientific_name, "[ ]{2,}", " ", "all"))>
 	<cftransaction>
 		<cftry>
+
+			<!--- setup variables for either 1 (A) or 2 (A and B) taxa from formula in identification --->
+			<cfset var scientific_name = variables.taxa_formula>
+			<!--- throw an exception if formula contains B but taxon B is not provided --->
+			<cfif variables.taxa_formula contains "B" and len(variables.taxonb) EQ 0>	
+				<cfthrow message="Taxon B is required when the formula contains 'B'.">
+			</cfif>
+			<!--- replace A in the formula with a string that is not likely to occur in a scientific name --->
+			<cfset scientific_name = REReplace(scientific_name, "\bA\b", "TAXON_A", "all")>
+			<!--- replace B in the formula with a string that is not likely to occurr in a scientific name --->
+			<cfset scientific_name = REReplace(scientific_name, "\bB\b", "TAXON_B", "all")>
+			<!--- replace the placeholder for A in the formula with the taxon A name --->
+			<!--- lookup the taxon A name in the taxon name table to not include the authorship --->
+			<cfquery name="getTaxonA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT scientific_name
+				FROM taxonomy
+				WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#variables.taxona_id#">
+			</cfquery>
+			<cfset scientific_name = replace(scientific_name, "TAXON_A", getTaxonA.scientific_name)>
+			<cfif len(variables.taxonb)>
+				<!--- replace the placeholder for B with the taxon B name if provided --->
+				<!--- lookup the taxon B name in the taxon name table to not include the authorship --->
+				<cfquery name="getTaxonB" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT scientific_name
+					FROM taxonomy
+					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#variables.taxonb_id#">
+				</cfquery>
+				<cfset scientific_name = replace(scientific_name, "TAXON_B", getTaxonB.scientific_name)>
+			</cfif>
+			<!--- Clean up any double spaces or trailing punctuation --->
+			<cfset scientific_name = Trim(REReplace(scientific_name, "[ ]{2,}", " ", "all"))>
+
+			<!--- Check if the collection_object_id exists and is of a type that takes identifications --->
 			<cfquery name="getType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 				SELECT coll_object_type
 				FROM coll_object
@@ -1126,6 +1130,7 @@ limitations under the License.
 			<cfif NOT (getType.coll_object_type EQ "CI" OR getType.coll_object_type EQ "SP") >
 				<cfthrow message = "Identifications can not be added to a collection object of type [#getType.coll_object_type#]">
 			</cfif>
+
 			<cfif variables.accepted_id_fg EQ "1">
 				<!--- if this is an accepted identification, force unset the stored_as_fg flag --->
 				<cfset variables.stored_as_fg = 0>
