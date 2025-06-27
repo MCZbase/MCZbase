@@ -366,7 +366,7 @@ function loadGeoreferenceCount(result_uuid, elementId, labelStart, labelEnd) {
 													OR (isDefined("other_id_number_1") and len(other_id_number_1) GT 0)>
 													<cfset hiddenHaveValue = true>
 												</cfif>
-												<cfif listFind(searchPrefList,"IDDetail") GT 0 OR hiddenHaveValue>
+												<!---<cfif listFind(searchPrefList,"IDDetail") GT 0 OR hiddenHaveValue>
 													<cfset IDDetailStyle="">
 													<cfset toggleTo = "0">
 														<cfset IDButton = "show less <i class='fas fa-caret-right' style='vertical-align: middle;'></i>">
@@ -374,7 +374,7 @@ function loadGeoreferenceCount(result_uuid, elementId, labelStart, labelEnd) {
 													<cfset IDDetailStyle="display:none;">
 													<cfset toggleTo = "1">
 														<cfset IDButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>">
-												</cfif> 
+												</cfif> --->
 														
 												<div class="col-12 col-xl-2 col-xxl-one col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
