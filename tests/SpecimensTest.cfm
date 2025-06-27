@@ -3364,16 +3364,16 @@ Target JSON:
 	
 
 				var dataAdapter = new $.jqx.dataAdapter(search);
-				//var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-//					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
-//					var details = $($(parentElement).children()[0]);
-//					console.log(index);
-//					details.html("<div id='fixedrowDetailsTarget" + index + "'></div>");
-//					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
-//					// Workaround, expansion sits below row in zindex.
-//					var maxZIndex = getMaxZIndex();
-//					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
-//				}
+				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+					var details = $($(parentElement).children()[0]);
+					console.log(index);
+					details.html("<div id='fixedrowDetailsTarget" + index + "'></div>");
+					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
+					// Workaround, expansion sits below row in zindex.
+					var maxZIndex = getMaxZIndex();
+					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+				}
 
 	
 				$("##fixedsearchResultsGrid").jqxGrid({
@@ -3409,7 +3409,6 @@ Target JSON:
 						return dataAdapter.records;
 					},
 					columns: [
-					
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 							<cfif isdefined("session.killRow") AND session.killRow GT 0>
 								<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
@@ -3417,7 +3416,6 @@ Target JSON:
 							</cfif>
 						</cfif>
 						<cfset lastrow ="">
-					
 						<cfloop query="getFieldMetadata">
 							<cfset cellrenderer = "">
 							<cfif len(getFieldMetadata.cellsrenderer) GT 0>
@@ -3441,35 +3439,13 @@ Target JSON:
 						</cfloop>
 						#lastrow#
 					],
-					$('##fixedsearchResultsGrid').on('click', '.details-btn', function(e) {
-						e.stopPropagation();
-						var grid = $('##fixedsearchResultsGrid');
-						// Find the nearest grid row
-						var $rowElem = $(this).closest('.jqx-grid-row');
-						var rowIndex = $rowElem.index();
-
-						// Fallback: If .jqx-grid-row is not found reliably, use getcellatposition:
-						if(rowIndex < 0) {
-						  var pos = $(this).offset();
-						  var cellInfo = grid.jqxGrid('getcellatposition', pos.left + 5, pos.top + 5);
-						  rowIndex = cellInfo ? cellInfo.row : 0;
-						}
-
-						var rowData = grid.jqxGrid('getrowdata', rowIndex);
-						openCustomDetailsDialog(rowIndex, rowData);
-					});
-
-					function openCustomDetailsDialog(rowIndex, rowData) {
-						// Use your old rowdetails dialog code here!
-						// Example: call your dialog-creating function, passing rowData
-						createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',rowData,rowIndex);
-					}
-					//rowdetails: true,
-//					rowdetailstemplate: {
-//						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-//						rowdetailsheight:  1 // row details will be placed in popup dialog
-//					},
-//					initrowdetails: initRowDetails
+			
+					rowdetails: true,
+					rowdetailstemplate: {
+						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+						rowdetailsheight:  1 // row details will be placed in popup dialog
+					},
+					initrowdetails: initRowDetails
 				});
 
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
@@ -3545,20 +3521,20 @@ Target JSON:
 						setPinColumnState('fixedsearchResultsGrid','GUID',true);
 					</cfif>
 				});
-				//$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
-//					//  Create a content div, add it to the detail row, and make it into a dialog.
-//					var args = event.args;
-//					var rowIndex = args.rowindex;
-//					var datarecord = args.owner.source.records[rowIndex];
-//					console.log(rowIndex);
-//					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
-//				});
-//				$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
-//					// remove the dialog holding the row details
-//					var args = event.args;
-//					var rowIndex = args.rowindex;
-//					$("##fixedsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
-//				});
+				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
+					//  Create a content div, add it to the detail row, and make it into a dialog.
+					var args = event.args;
+					var rowIndex = args.rowindex;
+					var datarecord = args.owner.source.records[rowIndex];
+					console.log(rowIndex);
+					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
+				});
+				$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
+					// remove the dialog holding the row details
+					var args = event.args;
+					var rowIndex = args.rowindex;
+					$("##fixedsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+				});
 				// display selected row index.
 				$("##fixedsearchResultsGrid").on('rowselect', function (event) {
 					$("##fixedselectrowindex").text(event.args.rowindex);
