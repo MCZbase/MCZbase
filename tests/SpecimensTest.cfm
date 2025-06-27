@@ -3675,7 +3675,6 @@ Target JSON:
 					autoshowloadelement: false,  // overlay acts as load element for form+results
 					columnsreorder: true,
 					groupable: true,
-					cellclassname: function (row, columnfield, value, rowdata, columnproperty) {
 				
 					selectionmode: '#defaultSelectionMode#',
 					enablebrowserselection: #defaultenablebrowserselection#,
