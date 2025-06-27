@@ -3445,15 +3445,13 @@ Target JSON:
 							</cfif>
 						</cfloop>
 						#lastrow#
-					]
-					//	,		 
-//					
-//					rowdetails: true,
-//					rowdetailstemplate: {
-//						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-//						rowdetailsheight:  1 // row details will be placed in popup dialog
-//					},
-//					initrowdetails: initRowDetails
+						],
+					rowdetails: true,
+					rowdetailstemplate: {
+						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+						rowdetailsheight:  1 // row details will be placed in popup dialog
+					},
+					initrowdetails: initRowDetails
 				});
 
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
