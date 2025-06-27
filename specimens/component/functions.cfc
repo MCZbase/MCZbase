@@ -760,7 +760,7 @@ limitations under the License.
 				SELECT coll_object_type
 				FROM coll_object
 				WHERE 
-					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#variables.collection_object_id#">
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 			</cfquery>
 			<cfif getDetermined.recordcount EQ 0>
 				<cfthrow message="No such collection_object_id.">
@@ -771,7 +771,7 @@ limitations under the License.
 					SELECT guid
 					FROM FLAT
 					WHERE 
-						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#variables.collection_object_id#">
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 				</cfquery>
 				<cfset target = getTarget.guid>
 			<cfelseif getDetermined.coll_object_type EQ "SP">
@@ -781,7 +781,7 @@ limitations under the License.
 						specimen_part
 						join FLAT on specimen_part.derived_from_cat_item = flat.collection_object_id 
 					WHERE 
-						specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#variables.collection_object_id#">
+						specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 				</cfquery>
 				<cfset target = "#getTarget.guid# #getTarget.part_name# (#getTarget.preserve_method#)">
 			</cfif>
@@ -1100,7 +1100,7 @@ limitations under the License.
 			<cfquery name="getTaxonA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT scientific_name
 				FROM taxonomy
-				WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#variables.taxona_id#">
+				WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxona_id#">
 			</cfquery>
 			<cfset scientific_name = replace(scientific_name, "TAXON_A", getTaxonA.scientific_name)>
 			<cfif len(variables.taxonb)>
@@ -1109,7 +1109,7 @@ limitations under the License.
 				<cfquery name="getTaxonB" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT scientific_name
 					FROM taxonomy
-					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#variables.taxonb_id#">
+					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxonb_id#">
 				</cfquery>
 				<cfset scientific_name = replace(scientific_name, "TAXON_B", getTaxonB.scientific_name)>
 			</cfif>
@@ -1121,7 +1121,7 @@ limitations under the License.
 				SELECT coll_object_type
 				FROM coll_object
 				WHERE 
-					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#variables.collection_object_id#">
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 			</cfquery>
 			<cfif getType.recordcount EQ 0>
 				<cfthrow message="No such collection_object_id.">

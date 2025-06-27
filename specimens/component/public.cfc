@@ -608,7 +608,11 @@ limitations under the License.
 							</cfloop>
 						<cfelse>
 							<!--- interpret the taxon formula in identification --->
-							<cfset expandedVariables="#identification.taxa_formula#">
+							<cfset expandedFormula="#identification.taxa_formula#">
+							<!--- Taxon Formula is a string like "A" or "A x B", where these A,B place holders are replaced by scientific names --->
+							<!--- but A and B can occur in scientific names, so replace the A and B with unique TXON_A and TXON_B strings for replacement --->
+							<cfset expandedFormula = replace("A",expandedFormula,"TXON_A","all")>
+							<cfset expandedFormula = replace("B",expandedFormula,"TXON_B","all")>
 							<cfset nameAsInTaxon="#identification.taxa_formula#">
 							<cfloop query="getTaxa">
 								<!--- replace each component of the formula with the name, in a hyperlink --->
@@ -617,11 +621,14 @@ limitations under the License.
 									<!--- include the authorship if not a hybrid --->
 									<cfset thisLink= '#thisLink# <span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>'><!--- ' --->
 								</cfif>
-								<cfset expandedVariables=#replace(expandedVariables,getTaxa.variable,thisLink)#>
+								<cfset varToReplace = getTaxa.variable>
+								<cfset varToReplace = replace(varToReplace,"A","TXON_A","all")>
+								<cfset varToReplace = replace(varToReplace,"B","TXON_B","all")>
+								<cfset expandedFormula=#replace(expandedFormula,varToReplace,thisLink)#>
 								<cfset nameAsInTaxon=#replace(nameAsInTaxon,getTaxa.variable,getTaxa.scientific_name)#>
 								<cfset i=#i#+1>
 							</cfloop>
-							#expandedVariables#
+							#expandedFormula#
 						</cfif>
 						<cfif listcontainsnocase(session.roles,"manage_specimens")>
 							<cfif stored_as_fg is 1>
