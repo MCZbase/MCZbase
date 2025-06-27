@@ -3207,6 +3207,7 @@ Target JSON:
 
 		/* End Setup jqxgrids for search ****************************************************************************************/
 		$(document).ready(function() {
+			<cfset detailscol = "{text: '', datafield: 'action', width: 40, cellsrenderer: function(row, columnfield, value, defaulthtml, columnproperties, rowdata) { return '<button type=\'button\' class=\'details-btn\' tabindex=\'0\' aria-label=\'Show details\' data-row=\'' + row + '\'>></button>'; }, editable: false, hidable: false, hidden: false }," >
 			/* Setup jqxgrid for fixed Search */
 			$('##fixedSearchForm').bind('submit', function(evt){
 				evt.preventDefault();
