@@ -3381,6 +3381,13 @@ Target JSON:
 					autoheight: 'true',
 					source: dataAdapter,
 					filterable: false,
+					cellclassname: function (row, columnfield, value, rowdata, columnproperty) {
+						// Use the column index if you want—for first column:
+						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+						var colIdx = columns.findIndex(function(col){return col.datafield == columnfield});
+						if(colIdx === 0) { return 'jqx-grid-cell-locked'; }
+						return '';
+					},
 					sortable: true,
 					pageable: true,
 					editable: false,
