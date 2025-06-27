@@ -100,7 +100,7 @@ limitations under the License.
 					get_scientific_name_auths(cataloged_item.collection_object_id)
 					) as sci_name,
 				nvl2(mczbase.concattypestatus_label(cataloged_item.collection_object_id), 
-					mczbase.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,mczbase.get_top_type_status_kind(cataloged_item.collection_object_id)), 
+					mczbase.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,mczbase.get_top_typestatus_kind(cataloged_item.collection_object_id)), 
 					get_scientific_name_auths(cataloged_item.collection_object_id)
 					) as just_sci_name,
 				flat.phylum as phylum,
