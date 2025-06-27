@@ -2636,7 +2636,7 @@ Target JSON:
 	</cfquery>
 
 	<!--- " --->
-
+<cfset detailscol = "{text: '', datafield: 'action', width: 40, sortable: false, filterable: false, editable: false, cellsrenderer: function(row, columnfield, value, defaulthtml, columnproperties, rowdata) { return '<button type=\'button\' class=\'details-btn\' tabindex=\'0\' aria-label=\'Show details\' data-row=\'' + row + '\'>&#8230;</button>'; }, hidable: false, hidden: false }," >
 	<script>
 		// setup for persistence of column selections
 		window.columnHiddenSettings = new Object();
@@ -3128,7 +3128,7 @@ Target JSON:
 		  });
 		  return json;
 		}
-<cfset detailscol = "{text: '', datafield: 'action', width: 40, sortable: false, filterable: false, editable: false, cellsrenderer: function(row, columnfield, value, defaulthtml, columnproperties, rowdata) { return '<button type=\'button\' class=\'details-btn\' tabindex=\'0\' aria-label=\'Show details\' data-row=\'' + row + '\'>&#8230;</button>'; }, hidable: false, hidden: false }," >
+
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 			<!--- Enable communication between search and manage pages when modifying search results --->
 
