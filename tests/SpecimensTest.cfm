@@ -3397,7 +3397,7 @@ Target JSON:
 					autoshowloadelement: false,  // overlay acts as load element for form+results
 					columnsreorder: true,
 					groupable: true,
-					selectionmode: 'fullrow',
+					selectionmode: 'singlecell',
 					//enablebrowserselection: #defaultenablebrowserselection#,
 					altrows: true,
 					showtoolbar: false,
@@ -3409,6 +3409,7 @@ Target JSON:
 						return dataAdapter.records;
 					},
 					columns: [
+						#detailscol#
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 							<cfif isdefined("session.killRow") AND session.killRow GT 0>
 								<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
@@ -3416,6 +3417,11 @@ Target JSON:
 							</cfif>
 						</cfif>
 						<cfset lastrow ="">
+						<cfset detailscol = "{text: '', datafield: 'action', width: 40, sortable: false, filterable: false, editable: false, 
+							cellsrenderer: function(row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+							  return '<button type=\"button\" class=\"details-btn\" tabindex=\"0\" aria-label=\"Show details\">&#8230;</button>';
+							}, 
+							hidable: false, hidden: false }," >
 						<cfloop query="getFieldMetadata">
 							<cfset cellrenderer = "">
 							<cfif len(getFieldMetadata.cellsrenderer) GT 0>
@@ -3439,13 +3445,35 @@ Target JSON:
 						</cfloop>
 						#lastrow#
 					],
-			
-					rowdetails: true,
-					rowdetailstemplate: {
-						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-						rowdetailsheight:  1 // row details will be placed in popup dialog
-					},
-					initrowdetails: initRowDetails
+					$('##fixedsearchResultsGrid').on('click', '.details-btn', function(e) {
+						e.stopPropagation();
+						var grid = $('##fixedsearchResultsGrid');
+						// Find the nearest grid row
+						var $rowElem = $(this).closest('.jqx-grid-row');
+						var rowIndex = $rowElem.index();
+
+						// Fallback: If .jqx-grid-row is not found reliably, use getcellatposition:
+						if(rowIndex < 0) {
+						  var pos = $(this).offset();
+						  var cellInfo = grid.jqxGrid('getcellatposition', pos.left + 5, pos.top + 5);
+						  rowIndex = cellInfo ? cellInfo.row : 0;
+						}
+
+						var rowData = grid.jqxGrid('getrowdata', rowIndex);
+						openCustomDetailsDialog(rowIndex, rowData);
+					});
+
+					function openCustomDetailsDialog(rowIndex, rowData) {
+						// Use your old rowdetails dialog code here!
+						// Example: call your dialog-creating function, passing rowData
+						createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',rowData,rowIndex);
+					}
+					//rowdetails: true,
+//					rowdetailstemplate: {
+//						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+//						rowdetailsheight:  1 // row details will be placed in popup dialog
+//					},
+//					initrowdetails: initRowDetails
 				});
 
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
@@ -3521,20 +3549,20 @@ Target JSON:
 						setPinColumnState('fixedsearchResultsGrid','GUID',true);
 					</cfif>
 				});
-				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
-					//  Create a content div, add it to the detail row, and make it into a dialog.
-					var args = event.args;
-					var rowIndex = args.rowindex;
-					var datarecord = args.owner.source.records[rowIndex];
-					console.log(rowIndex);
-					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
-				});
-				$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
-					// remove the dialog holding the row details
-					var args = event.args;
-					var rowIndex = args.rowindex;
-					$("##fixedsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
-				});
+				//$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
+//					//  Create a content div, add it to the detail row, and make it into a dialog.
+//					var args = event.args;
+//					var rowIndex = args.rowindex;
+//					var datarecord = args.owner.source.records[rowIndex];
+//					console.log(rowIndex);
+//					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
+//				});
+//				$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
+//					// remove the dialog holding the row details
+//					var args = event.args;
+//					var rowIndex = args.rowindex;
+//					$("##fixedsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+//				});
 				// display selected row index.
 				$("##fixedsearchResultsGrid").on('rowselect', function (event) {
 					$("##fixedselectrowindex").text(event.args.rowindex);
