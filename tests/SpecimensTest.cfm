@@ -3646,7 +3646,22 @@ Target JSON:
          			});
 					} 
 				};	
-	
+	$('##fixedsearchResultsGrid').on('click', '.details-btn', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var rowIndex = $(this).data('row');
+    var grid = $('##fixedsearchResultsGrid');
+    var rowData = grid.jqxGrid('getrowdata', rowIndex);
+
+    // Show a detail dialog/pane
+    $('##rowDetailsDialog').html(
+        '<div style="padding:1em;"><b>Details for row:</b><br><pre>' + JSON.stringify(rowData, null, 2) + '</pre></div>'
+    ).dialog({
+        title: "Specimen Row Details",
+        width: 500,
+        modal: true
+    });
+});
 				var dataAdapter = new $.jqx.dataAdapter(search);
 				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
