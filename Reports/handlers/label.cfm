@@ -102,6 +102,7 @@ limitations under the License.
 				concatAcceptedIdentifyingAgent(cataloged_item.collection_object_id) identified_by,
 				MCZBASE.CONCATTYPESTATUS_LABEL(cataloged_item.collection_object_id) as tsname,
 				MCZBASE.CONCATTYPESTATUS_WORDS(cataloged_item.collection_object_id) as type_status,
+				MCZBASE.GET_TOP_TYPESTATUS_KIND(cataloged_item.collection_object_id) as type_status_kind,
 				cataloged_item.cat_num as catalog_number,
 				cataloged_item.collection_cde,
 				parent.barcode as barcode_number,
@@ -174,9 +175,16 @@ limitations under the License.
 										<div style="height: 0.9in; font: 0.9em Helvetica; overflow: hidden;">#verbatim_locality#</div>
 									</cfcase>
 									<cfcase value="Slide_1x3__IZ">
+										<cfif type_status_kind EQ 'Primary'>
+											<cfset type_status_color = "color: red;">
+										<cfelseif type_status_kind EQ 'Secondary'>
+											<cfset type_status_color = "color: blue;">
+										<cfelse>
+											<cfset type_status_color = "">
+										</cfif>
 										<div>
 											<strong style="font: 0.9em 'Times-Roman';">MCZ:#collection_cde#:#catalog_number#</strong>
-											<strong style="float: right; font: 0.9em Helvetica; color: red;">#type_status#</strong>
+											<strong style="float: right; font: 0.9em Helvetica; #type_status_color#">#type_status#</strong>
 										</div>
 										<cfif len(parent_label) EQ 0 or parent_label EQ 'unplaced'>
 											<cfset parent = "">
@@ -184,7 +192,7 @@ limitations under the License.
 											<cfset parent = " in #parent_label#">
 										</cfif>
 										<div><strong style="font: 0.9em Helvetica;">#sci_name#</strong></div>
-										<div style="height: 0.9in; vertical-align: -0.5; font: 0.9em Helvetica overflow: hidden;">#container_label#</div>
+										<div style="height: 0.9in; vertical-align: -0.5; font: 0.9em Helvetica; overflow: hidden;">#container_label#</div>
 									</cfcase>
 								</cfswitch>
 							</div>
