@@ -3395,6 +3395,11 @@ Target JSON:
 					virtualmode: true,
 					enablemousewheel: #session.gridenablemousewheel#,
 					keyboardnavigation: true,
+					cellclassname: function (row, columnfield, value, rowdata, columnproperty) {
+					var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+					var colIdx = columns.findIndex(function(col){return col.datafield == columnfield});
+					if(colIdx === 0) { return 'jqx-grid-cell-locked'; }
+					return '';
 					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','500'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
@@ -3446,12 +3451,12 @@ Target JSON:
 						</cfloop>
 						#lastrow#
 						],
-					//rowdetails: true,
-					//rowdetailstemplate: {
-						//rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-						//rowdetailsheight:  1 // row details will be placed in popup dialog
-					//},
-					//initrowdetails: initRowDetails
+					rowdetails: true,
+					rowdetailstemplate: {
+						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+						rowdetailsheight:  1 // row details will be placed in popup dialog
+					},
+					initrowdetails: initRowDetails
 				});
 
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
