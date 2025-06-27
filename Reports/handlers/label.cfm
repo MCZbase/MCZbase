@@ -99,6 +99,10 @@ limitations under the License.
 					mczbase.concattypestatus_label(cataloged_item.collection_object_id), 
 					get_scientific_name_auths(cataloged_item.collection_object_id)
 					) as sci_name,
+				nvl2(mczbase.concattypestatus_label(cataloged_item.collection_object_id), 
+					mczbase.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,mczbase.get_top_type_status_kind(cataloged_item.collection_object_id)), 
+					get_scientific_name_auths(cataloged_item.collection_object_id)
+					) as just_sci_name,
 				flat.phylum as phylum,
 				flat.phylclass as phylclass,
 				flat.phylorder as phylorder,
@@ -107,6 +111,7 @@ limitations under the License.
 				MCZBASE.CONCATTYPESTATUS_LABEL(cataloged_item.collection_object_id) as tsname,
 				MCZBASE.CONCATTYPESTATUS_WORDS(cataloged_item.collection_object_id) as type_status,
 				MCZBASE.GET_TOP_TYPESTATUS_KIND(cataloged_item.collection_object_id) as type_status_kind,
+				MCZBASE.GET_TOP_TYPESTATUS(cataloged_item.collection_object_id) as top_type_status,
 				cataloged_item.cat_num as catalog_number,
 				cataloged_item.collection_cde,
 				parent.barcode as barcode_number,
@@ -176,6 +181,7 @@ limitations under the License.
 											<cfset parent = " in #parent_label#">
 										</cfif>
 										<div style="font: 0.9em helvetica">Container:#container_label##parent#</div>
+										<div><strong style="font: 0.9em Helvetica;">#just_sci_name#</strong></div>
 										<div><strong style="font: 0.9em Helvetica;">#sci_name#</strong></div>
 										<div style="height: 0.9in; font: 0.9em Helvetica; overflow: hidden;">#verbatim_locality#</div>
 									</cfcase>
@@ -189,14 +195,14 @@ limitations under the License.
 										</cfif>
 										<div>
 											<strong style="font: 0.9em 'Times-Roman';">MCZ:#collection_cde#:#catalog_number#</strong>
-											<strong style="float: right; font: 0.9em Helvetica; #type_status_color#">#type_status#</strong>
+											<strong style="float: right; font: 0.9em Helvetica; #type_status_color#">#top_type_status#</strong>
 										</div>
 										<cfif len(parent_label) EQ 0 or parent_label EQ 'unplaced'>
 											<cfset parent = "">
 										<cfelse>
 											<cfset parent = " in #parent_label#">
 										</cfif>
-										<div><strong style="font: 0.9em Helvetica;">#phylum# #phylclass# #phylorder# #family#</strong></div>
+										<div style="font: 0.9em Helvetica;">#phylum# #phylclass# #phylorder# #family#</div>
 										<div><strong style="font: 0.9em Helvetica;">#sci_name#</strong></div>
 										<div style="position:absolute; bottom:0; left:0; right:0; font: 0.9em Helvetica;">#container_label#</div>
 									</cfcase>
