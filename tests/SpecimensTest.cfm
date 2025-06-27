@@ -3645,16 +3645,16 @@ Target JSON:
 				};	
 	
 				var dataAdapter = new $.jqx.dataAdapter(search);
-				//var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-//					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
-//					var details = $($(parentElement).children()[0]);
-//					console.log(index);
-//					details.html("<div id='keywordrowDetailsTarget" + index + "'></div>");
-//					createSpecimenRowDetailsDialog('keywordsearchResultsGrid','keywordrowDetailsTarget',datarecord,index);
-//					// Workaround, expansion sits below row in zindex.
-//					var maxZIndex = getMaxZIndex();
-//					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
-//				}
+				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+					var details = $($(parentElement).children()[0]);
+					console.log(index);
+					details.html("<div id='keywordrowDetailsTarget" + index + "'></div>");
+					createSpecimenRowDetailsDialog('keywordsearchResultsGrid','keywordrowDetailsTarget',datarecord,index);
+					// Workaround, expansion sits below row in zindex.
+					var maxZIndex = getMaxZIndex();
+					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+				}
 		
 				$("##keywordsearchResultsGrid").jqxGrid({
 					width: '100%',
@@ -3675,7 +3675,12 @@ Target JSON:
 					autoshowloadelement: false,  // overlay acts as load element for form+results
 					columnsreorder: true,
 					groupable: true,
-					cellclassname: 'jqx-grid-cell-locked',
+					cellclassname: function (row, columnfield, value, rowdata, columnproperty) {
+					// Use the column index if you want—for first column:
+					var columns = $('#yourGridId').jqxGrid('columns').records;
+					var colIdx = columns.findIndex(function(col){return col.datafield == columnfield});
+					if(colIdx === 0) { return 'jqx-grid-cell-locked'; }
+					return '';
 					selectionmode: '#defaultSelectionMode#',
 					enablebrowserselection: #defaultenablebrowserselection#,
 					altrows: true,
@@ -3693,9 +3698,7 @@ Target JSON:
 								#removerow#
 							</cfif>
 						</cfif>
-						cellclassname: function(row, columnfield, value, rowdata, columnproperties){
-							return 'jqx-grid-cell-locked';
-						},
+						
 						<cfset lastrow ="">
 						<cfloop query="getFieldMetadata">
 							<cfset cellrenderer = "">
