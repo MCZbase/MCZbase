@@ -99,6 +99,8 @@ limitations under the License.
 					mczbase.concattypestatus_label(cataloged_item.collection_object_id), 
 					get_scientific_name_auths(cataloged_item.collection_object_id)
 					) as sci_name,
+				get_scientific_name_auths(cataloged_item.collection_object_id) as sci_name_with_auth,
+				mczbase.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,mczbase.get_top_typestatus_kind(cataloged_item.collection_object_id)) as type_name,
 				nvl2(mczbase.concattypestatus_label(cataloged_item.collection_object_id), 
 					mczbase.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,mczbase.get_top_typestatus_kind(cataloged_item.collection_object_id)), 
 					get_scientific_name_auths(cataloged_item.collection_object_id)
@@ -202,7 +204,11 @@ limitations under the License.
 											<cfset parent = " in #parent_label#">
 										</cfif>
 										<div style="font: 0.9em Helvetica;">#phylum# #phylclass# #phylorder# #family#</div>
-										<div><strong style="font: 0.9em Helvetica;">#just_sci_name#</strong></div>
+										<cfif len(type_name) GT 0>
+											<div><strong style="font: 0.9em Helvetica;">#type_name#</strong></div>
+										<cfelse>
+											<div><strong style="font: 0.9em Helvetica;">#sci_name_with_auth#</strong></div>
+										</cfif>
 										<div><strong style="font: 0.9em Helvetica;">#sci_name#</strong></div>
 										<div style="position:absolute; bottom:0.1em; left:0.1em; right:0; font: 0.9em Helvetica;">#container_label#</div>
 									</cfcase>
