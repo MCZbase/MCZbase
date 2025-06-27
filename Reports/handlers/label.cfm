@@ -181,7 +181,6 @@ limitations under the License.
 											<cfset parent = " in #parent_label#">
 										</cfif>
 										<div style="font: 0.9em helvetica">Container:#container_label##parent#</div>
-										<div><strong style="font: 0.9em Helvetica;">#just_sci_name#</strong></div>
 										<div><strong style="font: 0.9em Helvetica;">#sci_name#</strong></div>
 										<div style="height: 0.9in; font: 0.9em Helvetica; overflow: hidden;">#verbatim_locality#</div>
 									</cfcase>
@@ -203,8 +202,9 @@ limitations under the License.
 											<cfset parent = " in #parent_label#">
 										</cfif>
 										<div style="font: 0.9em Helvetica;">#phylum# #phylclass# #phylorder# #family#</div>
+										<div><strong style="font: 0.9em Helvetica;">#just_sci_name#</strong></div>
 										<div><strong style="font: 0.9em Helvetica;">#sci_name#</strong></div>
-										<div style="position:absolute; bottom:0; left:0; right:0; font: 0.9em Helvetica;">#container_label#</div>
+										<div style="position:absolute; bottom:0.1em; left:0.1em; right:0; font: 0.9em Helvetica;">#container_label#</div>
 									</cfcase>
 								</cfswitch>
 							</div>
