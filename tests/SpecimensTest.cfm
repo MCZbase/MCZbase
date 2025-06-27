@@ -3203,7 +3203,7 @@ Target JSON:
 				} 
 			}
 		</cfif> 
-		<cfset detailscol = "{text: '', datafield: 'action', width: 40, sortable: false, filterable: false, editable: false, cellsrenderer: function(row, columnfield, value, defaulthtml, columnproperties, rowdata) { return '<button type=\'button\' class=\'details-btn\' tabindex=\'0\' aria-label=\'Show details\'>X</button>'; }, hidable: false, hidden: false }," >
+		<cfset detailscol = "{text: '', datafield: 'action', width: 40, sortable: false, filterable: false, editable: false, cellsrenderer: function(row, columnfield, value, defaulthtml, columnproperties, rowdata) { return '<button type=\'button\' class=\'details-btn\' tabindex=\'0\' aria-label=\'Show details\'>O</button>'; }, hidable: false, hidden: false }," >
 		/* End Setup jqxgrids for search ****************************************************************************************/
 		$(document).ready(function() {
 			/* Setup jqxgrid for fixed Search */
@@ -3374,7 +3374,47 @@ Target JSON:
 //					var maxZIndex = getMaxZIndex();
 //					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 //				}
+$('##fixedsearchResultsGrid').on('click', '.details-btn', function(e) {
+    e.preventDefault();
+    e.stopPropagation(); // Prevent cell navigation if wanted
 
+    // Find the row in which this button was clicked
+    var $rowElm = $(this).closest('.jqx-grid-row'); // this finds the *visual* row
+    var grid = $('##fixedsearchResultsGrid');
+    var rowIndex;
+
+    // jqxGrid sometimes renders detail rows or grouping rows, so use the grid API:
+    // A more robust method: use data-row attribute if present, else use getcellatposition:
+    if ($rowElm.length && $rowElm.data('row')) {
+      rowIndex = $rowElm.data('row');
+    } else {
+      // Fallback: get mouse coordinates and map to cell
+      var offset = $(this).offset();
+      var cellinfo = grid.jqxGrid('getcellatposition', offset.left + 5, offset.top + 5);
+      rowIndex = cellinfo ? cellinfo.row : null;
+    }
+
+    // If rowIndex is still unknown, fallback: try to find from the parent cell
+    if (rowIndex == null) {
+      var $cellElm = $(this).closest('.jqx-grid-cell');
+      if ($cellElm.length) {
+        var cellIndex = $cellElm.parent().children().index($cellElm);
+        rowIndex = $cellElm.parent().index();
+      }
+    }
+
+    // If you've defined your columns so that the row index is passed to the renderer function,
+    // you could output a data attribute like data-row="#row#" in the button for easier lookup.
+
+    // Now get the data for this row
+    if (rowIndex != null) {
+      var rowData = grid.jqxGrid('getrowdata', rowIndex);
+      // Call your details logic using rowData and rowIndex
+      openCustomDetailsDialog(rowIndex, rowData);
+    } else {
+      alert('Could not determine row.'); // For debugging
+    }
+});
 	
 				$("##fixedsearchResultsGrid").jqxGrid({
 					width: '100%',
