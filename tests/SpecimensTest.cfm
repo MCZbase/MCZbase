@@ -3408,8 +3408,9 @@ Target JSON:
 					rendergridrows: function () {
 						return dataAdapter.records;
 					},
+					<cfset detailscol = "{text: '', datafield: 'action', width: 40, sortable: false, filterable: false, editable: false, cellsrenderer: function(row, columnfield, value, defaulthtml, columnproperties, rowdata) { return '<button type=\'button\' class=\'details-btn\' tabindex=\'0\' aria-label=\'Show details\' data-row=\'' + row + '\'>&#8230;</button>'; }, hidable: false, hidden: false }," >
 					columns: [
-						<cfset detailscol = "{text: '', datafield: 'action', width: 40, sortable: false, filterable: false, editable: false, cellsrenderer: function(row, columnfield, value, defaulthtml, columnproperties, rowdata) { return '<button type=\'button\' class=\'details-btn\' tabindex=\'0\' aria-label=\'Show details\' data-row=\'' + row + '\'>&#8230;</button>'; }, hidable: false, hidden: false }," >
+					
 
 						#detailscol#
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
