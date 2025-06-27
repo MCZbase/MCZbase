@@ -3439,7 +3439,13 @@ Target JSON:
 						</cfloop>
 						#lastrow#
 					],
-					cellclassname: function(row, columnfield, value, rowdata, columnproperty) {
+					rowdetails: true,
+					rowdetailstemplate: {
+						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+						rowdetailsheight:  1 // row details will be placed in popup dialog
+					},
+					initrowdetails: initRowDetails,
+						cellclassname: function(row, columnfield, value, rowdata, columnproperty) {
 							if (columnproperty && columnproperty.datafield) {
 							// Use columnproperty here
 							// For first column, compare with your known datafield value
@@ -3448,13 +3454,7 @@ Target JSON:
 							}
 						}
 						return '';
-					},
-					rowdetails: true,
-					rowdetailstemplate: {
-						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-						rowdetailsheight:  1 // row details will be placed in popup dialog
-					},
-					initrowdetails: initRowDetails
+					}
 				});
 
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
