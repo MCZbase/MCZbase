@@ -3385,7 +3385,7 @@ Target JSON:
 							if (columnproperty && columnproperty.datafield) {
 							// Use columnproperty here
 							// For first column, compare with your known datafield value
-							if (columnproperty.datafield === 'RemoveRow') { // Or your first datafield name
+							if (columnproperty.datafield === 'initRowDetails') { // Or your first datafield name
 								return 'jqx-grid-cell-locked';
 							}
 						}
