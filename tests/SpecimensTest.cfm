@@ -3204,7 +3204,7 @@ Target JSON:
 				} 
 			}
 		</cfif> 
-
+<cfset detailscol = "{text: '', datafield: 'action', width: 40, sortable: false, filterable: false, editable: false, cellsrenderer: function(row, columnfield, value, defaulthtml, columnproperties, rowdata) { return '<button type=\'button\' class=\'details-btn\' tabindex=\'0\' aria-label=\'Show details\' data-row=\'' + row + '\'>&#8230;</button>'; }, hidable: false, hidden: false }," >
 		/* End Setup jqxgrids for search ****************************************************************************************/
 		$(document).ready(function() {
 			/* Setup jqxgrid for fixed Search */
@@ -3375,7 +3375,7 @@ Target JSON:
 //					var maxZIndex = getMaxZIndex();
 //					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 //				}
-		<cfset detailscol = "{text: '', datafield: 'action', width: 40, sortable: false, filterable: false, editable: false, cellsrenderer: function(row, columnfield, value, defaulthtml, columnproperties, rowdata) { return '<button type=\'button\' class=\'details-btn\' tabindex=\'0\' aria-label=\'Show details\' data-row=\'' + row + '\'>&#8230;</button>'; }, hidable: false, hidden: false }," >
+		
 	
 				$("##fixedsearchResultsGrid").jqxGrid({
 					width: '100%',
