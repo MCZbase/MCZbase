@@ -2637,11 +2637,6 @@ Target JSON:
 	<!--- " --->
 
 	<script>
-//<!---Does this affect it? BELOW--->
-//<!---Does this affect it? BELOW--->
-//<!---Does this affect it? BELOW--->
-		
-		
 		// setup for persistence of column selections
 		window.columnHiddenSettings = new Object();
 
@@ -2824,9 +2819,7 @@ Target JSON:
 				}
 			}
 		</cfif>
-//<!---Does this affect it? BELOW--->
-//<!---Does this affect it? BELOW--->
-//<!---Does this affect it? BELOW--->
+
 		function loadColumnOrder(gridId) { 
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
 				jQuery.ajax({
@@ -3341,8 +3334,7 @@ Target JSON:
 						loadError: function(jqXHR, textStatus, error) {
 							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 						},
-						async: true
-							,
+						async: true,
 						deleterow: function (rowid, commit) {
 							console.log(rowid);
 							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
@@ -3376,13 +3368,14 @@ Target JSON:
 					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 					var details = $($(parentElement).children()[0]);
 					console.log(index);
-					details.html("<div id='fixedrowDetailsTarget" + index + "' class='jqx-grid-cell-locked'></div>");
+					details.html("<div id='fixedrowDetailsTarget" + index + "'></div>");
 					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
 					// Workaround, expansion sits below row in zindex.
 					var maxZIndex = getMaxZIndex();
 					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 				}
 
+	
 				$("##fixedsearchResultsGrid").jqxGrid({
 					width: '100%',
 					autoheight: 'true',
@@ -3392,10 +3385,8 @@ Target JSON:
 					pageable: true,
 					editable: false,
 					virtualmode: true,
-					cellclassname: function (initRowDetails) {if 
 					enablemousewheel: #session.gridenablemousewheel#,
 					keyboardnavigation: true,
-					
 					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','500'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
@@ -3446,7 +3437,8 @@ Target JSON:
 							</cfif>
 						</cfloop>
 						#lastrow#
-						],
+					],
+					
 					rowdetails: true,
 					rowdetailstemplate: {
 						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
@@ -3537,7 +3529,7 @@ Target JSON:
 					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
 				});
 				$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
-					 remove the dialog holding the row details
+					// remove the dialog holding the row details
 					var args = event.args;
 					var rowIndex = args.rowindex;
 					$("##fixedsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
@@ -3654,7 +3646,7 @@ Target JSON:
 					var maxZIndex = getMaxZIndex();
 					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 				}
-
+		
 				$("##keywordsearchResultsGrid").jqxGrid({
 					width: '100%',
 					autoheight: 'true',
@@ -3674,7 +3666,6 @@ Target JSON:
 					autoshowloadelement: false,  // overlay acts as load element for form+results
 					columnsreorder: true,
 					groupable: true,
-				
 					selectionmode: '#defaultSelectionMode#',
 					enablebrowserselection: #defaultenablebrowserselection#,
 					altrows: true,
@@ -3692,7 +3683,6 @@ Target JSON:
 								#removerow#
 							</cfif>
 						</cfif>
-						
 						<cfset lastrow ="">
 						<cfloop query="getFieldMetadata">
 							<cfset cellrenderer = "">
@@ -3716,8 +3706,7 @@ Target JSON:
 							</cfif>
 						</cfloop>
 						#lastrow#
-					]
-						,
+					],
 					rowdetails: true,
 					rowdetailstemplate: {
 						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
