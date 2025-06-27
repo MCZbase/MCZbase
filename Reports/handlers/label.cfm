@@ -184,7 +184,7 @@ limitations under the License.
 											<cfset parent = " in #parent_label#">
 										</cfif>
 										<div><strong style="font: 0.9em Helvetica;">#sci_name#</strong></div>
-										<div style="height: 0.9in; font: 0.9em Helvetica;">#container_label#</div>
+										<div style="height: 0.9in; vertical-align: -0.5; font: 0.9em Helvetica overflow: hidden;">#container_label#</div>
 									</cfcase>
 								</cfswitch>
 							</div>
