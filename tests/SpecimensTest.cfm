@@ -3364,16 +3364,16 @@ Target JSON:
 	
 
 				var dataAdapter = new $.jqx.dataAdapter(search);
-				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
-					var details = $($(parentElement).children()[0]);
-					console.log(index);
-					details.html("<div id='fixedrowDetailsTarget" + index + "'></div>");
-					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
-					// Workaround, expansion sits below row in zindex.
-					var maxZIndex = getMaxZIndex();
-					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
-				}
+				//var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+//					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+//					var details = $($(parentElement).children()[0]);
+//					console.log(index);
+//					details.html("<div id='fixedrowDetailsTarget" + index + "'></div>");
+//					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
+//					// Workaround, expansion sits below row in zindex.
+//					var maxZIndex = getMaxZIndex();
+//					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+//				}
 
 	
 				$("##fixedsearchResultsGrid").jqxGrid({
