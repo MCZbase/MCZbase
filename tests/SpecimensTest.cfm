@@ -3445,16 +3445,6 @@ Target JSON:
 						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
 						rowdetailsheight:  1 // row details will be placed in popup dialog
 					},
-					cellclassname: function(row, columnfield, value, rowdata, columnproperty) {
-							if (columnproperty && columnproperty.datafield) {
-							// Use columnproperty here
-							// For first column, compare with your known datafield value
-							if (columnproperty.datafield === 'rowdetails') { // Or your first datafield name
-								return 'jqx-grid-cell-locked';
-							}
-						}
-						return '';
-					},
 					initrowdetails: initRowDetails
 				});
 
