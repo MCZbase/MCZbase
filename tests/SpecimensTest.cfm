@@ -3283,30 +3283,30 @@ Target JSON:
 							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 						},
 						async: true,
-		//				deleterow: function (rowid, commit) {
-//							console.log(rowid);
-//							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
-//							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
-//							console.log(collobjtoremove);
-//		        			$.ajax({
-//            				url: "/specimens/component/search.cfc",
-//            				data: { 
-//									method: 'removeItemFromResult', 
-//									result_id: $('##result_id_fixedSearch').val(),
-//									collection_object_id: collobjtoremove
-//								},
-//								dataType: 'json',
-//           					success : function (data) { 
-//									console.log(data);
-//									commit(true);
-//									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
-//								},
-//            				error : function (jqXHR, textStatus, error) {
-//          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
-//									commit(false);
-//            				}
-//         				});
-//						} 
+						deleterow: function (rowid, commit) {
+							console.log(rowid);
+							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
+							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
+							console.log(collobjtoremove);
+		        			$.ajax({
+            				url: "/specimens/component/search.cfc",
+            				data: { 
+									method: 'removeItemFromResult', 
+									result_id: $('##result_id_fixedSearch').val(),
+									collection_object_id: collobjtoremove
+								},
+								dataType: 'json',
+           					success : function (data) { 
+									console.log(data);
+									commit(true);
+									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+								},
+            				error : function (jqXHR, textStatus, error) {
+          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
+									commit(false);
+            				}
+         				});
+						} 
 					};
 				} else { 
 					search = 
@@ -3372,18 +3372,17 @@ Target JSON:
 	
 
 				var dataAdapter = new $.jqx.dataAdapter(search);
-			//	var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-//					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
-//					var details = $($(parentElement).children()[0]);
-//					console.log(index);
-//					details.html("<div id='fixedrowDetailsTarget" + index + "'></div>");
-//					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
-//					// Workaround, expansion sits below row in zindex.
-//					var maxZIndex = getMaxZIndex();
-//					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
-//				}
+				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+					var details = $($(parentElement).children()[0]);
+					console.log(index);
+					details.html("<div id='fixedrowDetailsTarget" + index + "' class='jqx-grid-cell-locked'></div>");
+					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
+					// Workaround, expansion sits below row in zindex.
+					var maxZIndex = getMaxZIndex();
+					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+				}
 
-	
 				$("##fixedsearchResultsGrid").jqxGrid({
 					width: '100%',
 					autoheight: 'true',
@@ -3393,13 +3392,10 @@ Target JSON:
 					pageable: true,
 					editable: false,
 					virtualmode: true,
+					cellclassname: function (initRowDetails) {if 
 					enablemousewheel: #session.gridenablemousewheel#,
 					keyboardnavigation: true,
-					cellclassname: function (row, columnfield, value, rowdata, columnproperty) {
-					var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
-					var colIdx = columns.findIndex(function(col){return col.datafield == columnfield});
-					if(colIdx === 0) { return 'jqx-grid-cell-locked'; }
-					return '';
+					
 					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','500'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
@@ -3540,12 +3536,12 @@ Target JSON:
 					console.log(rowIndex);
 					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
 				});
-				//$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
-					// remove the dialog holding the row details
-				//	var args = event.args;
-				//	var rowIndex = args.rowindex;
-				//	$("##fixedsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
-				//});
+				$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
+					 remove the dialog holding the row details
+					var args = event.args;
+					var rowIndex = args.rowindex;
+					$("##fixedsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+				});
 				// display selected row index.
 				$("##fixedsearchResultsGrid").on('rowselect', function (event) {
 					$("##fixedselectrowindex").text(event.args.rowindex);
