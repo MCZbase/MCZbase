@@ -106,7 +106,7 @@ limitations under the License.
 				cataloged_item.collection_cde,
 				parent.barcode as barcode_number,
 				parent.label as container_label,
-				MCZBASE.GET_PARENTCONTLABELFORCONT(container.parent_container_id) as parent_label,
+				MCZBASE.GET_PARENTCONTLABELFORCONT(container.parent_container_id) as parent_label
 			FROM
 				user_search_table
 				JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
