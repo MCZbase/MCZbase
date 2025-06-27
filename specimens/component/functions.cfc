@@ -1092,10 +1092,22 @@ limitations under the License.
 	<!--- replace B in the formula with a string that is not likely to occurr in a scientific name --->
 	<cfset scientific_name = REReplace(scientific_name, "\bB\b", "TAXON_B", "all")>
 	<!--- replace the placeholder for A in the formula with the taxon A name --->
-	<cfset scientific_name = replace(scientific_name, "TAXON_A", variables.taxona)>
+	<!--- lookup the taxon A name in the taxon name table to not include the authorship --->
+	<cfquery name="getTaxonA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT scientific_name
+		FROM taxon_name
+		WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#variables.taxona_id#">
+	</cfquery>
+	<cfset scientific_name = replace(scientific_name, "TAXON_A", getTaxonA.scientific_name)>
 	<cfif len(variables.taxonb)>
 		<!--- replace the placeholder for B with the taxon B name if provided --->
-		<cfset scientific_name = replace(scientific_name, "TAXON_B", variables.taxonb)>
+		<!--- lookup the taxon B name in the taxon name table to not include the authorship --->
+		<cfquery name="getTaxonB" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT scientific_name
+			FROM taxon_name
+			WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#variables.taxonb_id#">
+		</cfquery>
+		<cfset scientific_name = replace(scientific_name, "TAXON_B", getTaxonB.scientific_name)>
 	</cfif>
 	<!--- Clean up any double spaces or trailing punctuation --->
 	<cfset scientific_name = Trim(REReplace(scientific_name, "[ ]{2,}", " ", "all"))>
