@@ -2637,6 +2637,11 @@ Target JSON:
 	<!--- " --->
 
 	<script>
+//<!---Does this affect it? BELOW--->
+//<!---Does this affect it? BELOW--->
+//<!---Does this affect it? BELOW--->
+		
+		
 		// setup for persistence of column selections
 		window.columnHiddenSettings = new Object();
 
@@ -2819,7 +2824,9 @@ Target JSON:
 				}
 			}
 		</cfif>
-
+//<!---Does this affect it? BELOW--->
+//<!---Does this affect it? BELOW--->
+//<!---Does this affect it? BELOW--->
 		function loadColumnOrder(gridId) { 
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
 				jQuery.ajax({
@@ -3276,30 +3283,30 @@ Target JSON:
 							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 						},
 						async: true,
-						deleterow: function (rowid, commit) {
-							console.log(rowid);
-							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
-							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
-							console.log(collobjtoremove);
-		        			$.ajax({
-            				url: "/specimens/component/search.cfc",
-            				data: { 
-									method: 'removeItemFromResult', 
-									result_id: $('##result_id_fixedSearch').val(),
-									collection_object_id: collobjtoremove
-								},
-								dataType: 'json',
-           					success : function (data) { 
-									console.log(data);
-									commit(true);
-									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
-								},
-            				error : function (jqXHR, textStatus, error) {
-          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
-									commit(false);
-            				}
-         				});
-						} 
+		//				deleterow: function (rowid, commit) {
+//							console.log(rowid);
+//							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
+//							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
+//							console.log(collobjtoremove);
+//		        			$.ajax({
+//            				url: "/specimens/component/search.cfc",
+//            				data: { 
+//									method: 'removeItemFromResult', 
+//									result_id: $('##result_id_fixedSearch').val(),
+//									collection_object_id: collobjtoremove
+//								},
+//								dataType: 'json',
+//           					success : function (data) { 
+//									console.log(data);
+//									commit(true);
+//									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+//								},
+//            				error : function (jqXHR, textStatus, error) {
+//          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
+//									commit(false);
+//            				}
+//         				});
+//						} 
 					};
 				} else { 
 					search = 
@@ -3334,7 +3341,8 @@ Target JSON:
 						loadError: function(jqXHR, textStatus, error) {
 							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 						},
-						async: true,
+						async: true
+							,
 						deleterow: function (rowid, commit) {
 							console.log(rowid);
 							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
@@ -3364,16 +3372,16 @@ Target JSON:
 	
 
 				var dataAdapter = new $.jqx.dataAdapter(search);
-				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
-					var details = $($(parentElement).children()[0]);
-					console.log(index);
-					details.html("<div id='fixedrowDetailsTarget" + index + "'></div>");
-					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
-					// Workaround, expansion sits below row in zindex.
-					var maxZIndex = getMaxZIndex();
-					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
-				}
+			//	var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+//					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+//					var details = $($(parentElement).children()[0]);
+//					console.log(index);
+//					details.html("<div id='fixedrowDetailsTarget" + index + "'></div>");
+//					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
+//					// Workaround, expansion sits below row in zindex.
+//					var maxZIndex = getMaxZIndex();
+//					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+//				}
 
 	
 				$("##fixedsearchResultsGrid").jqxGrid({
@@ -3437,14 +3445,15 @@ Target JSON:
 							</cfif>
 						</cfloop>
 						#lastrow#
-					],
-					
-					rowdetails: true,
-					rowdetailstemplate: {
-						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-						rowdetailsheight:  1 // row details will be placed in popup dialog
-					},
-					initrowdetails: initRowDetails
+					]
+					//	,		 
+//					
+//					rowdetails: true,
+//					rowdetailstemplate: {
+//						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+//						rowdetailsheight:  1 // row details will be placed in popup dialog
+//					},
+//					initrowdetails: initRowDetails
 				});
 
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
@@ -3520,20 +3529,20 @@ Target JSON:
 						setPinColumnState('fixedsearchResultsGrid','GUID',true);
 					</cfif>
 				});
-				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
-					//  Create a content div, add it to the detail row, and make it into a dialog.
-					var args = event.args;
-					var rowIndex = args.rowindex;
-					var datarecord = args.owner.source.records[rowIndex];
-					console.log(rowIndex);
-					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
-				});
-				$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
+				//$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
+//					//  Create a content div, add it to the detail row, and make it into a dialog.
+//					var args = event.args;
+//					var rowIndex = args.rowindex;
+//					var datarecord = args.owner.source.records[rowIndex];
+//					console.log(rowIndex);
+//					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
+//				});
+				//$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
 					// remove the dialog holding the row details
-					var args = event.args;
-					var rowIndex = args.rowindex;
-					$("##fixedsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
-				});
+				//	var args = event.args;
+				//	var rowIndex = args.rowindex;
+				//	$("##fixedsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+				//});
 				// display selected row index.
 				$("##fixedsearchResultsGrid").on('rowselect', function (event) {
 					$("##fixedselectrowindex").text(event.args.rowindex);
@@ -3636,16 +3645,16 @@ Target JSON:
 				};	
 	
 				var dataAdapter = new $.jqx.dataAdapter(search);
-				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
-					var details = $($(parentElement).children()[0]);
-					console.log(index);
-					details.html("<div id='keywordrowDetailsTarget" + index + "'></div>");
-					createSpecimenRowDetailsDialog('keywordsearchResultsGrid','keywordrowDetailsTarget',datarecord,index);
-					// Workaround, expansion sits below row in zindex.
-					var maxZIndex = getMaxZIndex();
-					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
-				}
+				//var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+//					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+//					var details = $($(parentElement).children()[0]);
+//					console.log(index);
+//					details.html("<div id='keywordrowDetailsTarget" + index + "'></div>");
+//					createSpecimenRowDetailsDialog('keywordsearchResultsGrid','keywordrowDetailsTarget',datarecord,index);
+//					// Workaround, expansion sits below row in zindex.
+//					var maxZIndex = getMaxZIndex();
+//					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+//				}
 		
 				$("##keywordsearchResultsGrid").jqxGrid({
 					width: '100%',
@@ -3706,13 +3715,14 @@ Target JSON:
 							</cfif>
 						</cfloop>
 						#lastrow#
-					],
-					rowdetails: true,
-					rowdetailstemplate: {
-						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-						rowdetailsheight:  1 // row details will be placed in popup dialog
-					},
-					initrowdetails: initRowDetails
+					]
+					//	,
+//					rowdetails: true,
+//					rowdetailstemplate: {
+//						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+//						rowdetailsheight:  1 // row details will be placed in popup dialog
+//					},
+//					initrowdetails: initRowDetails
 				});
 		
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
@@ -3757,20 +3767,20 @@ Target JSON:
 					</cfif>
 				});
 	
-				$('##keywordsearchResultsGrid').on('rowexpand', function (event) {
-					//  Create a content div, add it to the detail row, and make it into a dialog.
-					var args = event.args;
-					var rowIndex = args.rowindex;
-					var datarecord = args.owner.source.records[rowIndex];
-					console.log(rowIndex);
-					createSpecimenRowDetailsDialog('keywordsearchResultsGrid','keywordrowDetailsTarget',datarecord,rowIndex);
-				});
-				$('##keywordsearchResultsGrid').on('rowcollapse', function (event) {
-					// remove the dialog holding the row details
-					var args = event.args;
-					var rowIndex = args.rowindex;
-					$("##keywordsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
-				});
+				//$('##keywordsearchResultsGrid').on('rowexpand', function (event) {
+//					//  Create a content div, add it to the detail row, and make it into a dialog.
+//					var args = event.args;
+//					var rowIndex = args.rowindex;
+//					var datarecord = args.owner.source.records[rowIndex];
+//					console.log(rowIndex);
+//					createSpecimenRowDetailsDialog('keywordsearchResultsGrid','keywordrowDetailsTarget',datarecord,rowIndex);
+//				});
+//				$('##keywordsearchResultsGrid').on('rowcollapse', function (event) {
+//					// remove the dialog holding the row details
+//					var args = event.args;
+//					var rowIndex = args.rowindex;
+//					$("##keywordsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+//				});
 				// display selected row index.
 				$("##keywordsearchResultsGrid").on('rowselect', function (event) {
 					$("##keywordselectrowindex").text(event.args.rowindex);
@@ -3870,16 +3880,16 @@ Target JSON:
 				};	
 	
 				var dataAdapter = new $.jqx.dataAdapter(search);
-				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
-					var details = $($(parentElement).children()[0]);
-					console.log(index);
-					details.html("<div id='builderrowDetailsTarget" + index + "'></div>");
-					createSpecimenRowDetailsDialog('buildersearchResultsGrid','builderrowDetailsTarget',datarecord,index);
-					// Workaround, expansion sits below row in zindex.
-					var maxZIndex = getMaxZIndex();
-					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
-				}
+				//var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+//					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+//					var details = $($(parentElement).children()[0]);
+//					console.log(index);
+//					details.html("<div id='builderrowDetailsTarget" + index + "'></div>");
+//					createSpecimenRowDetailsDialog('buildersearchResultsGrid','builderrowDetailsTarget',datarecord,index);
+//					// Workaround, expansion sits below row in zindex.
+//					var maxZIndex = getMaxZIndex();
+//					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+//				}
 		
 				$("##buildersearchResultsGrid").jqxGrid({
 					width: '100%',
@@ -3941,13 +3951,14 @@ Target JSON:
 							</cfif>
 						</cfloop>
 						#lastrow#
-					],
-					rowdetails: true,
-					rowdetailstemplate: {
-						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-						rowdetailsheight:  1 // row details will be placed in popup dialog
-					},
-					initrowdetails: initRowDetails
+					]
+					//	,
+//					rowdetails: true,
+//					rowdetailstemplate: {
+//						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+//						rowdetailsheight:  1 // row details will be placed in popup dialog
+//					},
+//					initrowdetails: initRowDetails
 				});
 		
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
@@ -3990,20 +4001,20 @@ Target JSON:
 						setPinColumnState('buildersearchResultsGrid','GUID',true);
 					</cfif>
 				});
-				$('##buildersearchResultsGrid').on('rowexpand', function (event) {
-					//  Create a content div, add it to the detail row, and make it into a dialog.
-					var args = event.args;
-					var rowIndex = args.rowindex;
-					var datarecord = args.owner.source.records[rowIndex];
-					console.log(rowIndex);
-					createSpecimenRowDetailsDialog('buildersearchResultsGrid','builderrowDetailsTarget',datarecord,rowIndex);
-				});
-				$('##buildersearchResultsGrid').on('rowcollapse', function (event) {
-					// remove the dialog holding the row details
-					var args = event.args;
-					var rowIndex = args.rowindex;
-					$("##buildersearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
-				});
+				//$('##buildersearchResultsGrid').on('rowexpand', function (event) {
+//					//  Create a content div, add it to the detail row, and make it into a dialog.
+//					var args = event.args;
+//					var rowIndex = args.rowindex;
+//					var datarecord = args.owner.source.records[rowIndex];
+//					console.log(rowIndex);
+//					createSpecimenRowDetailsDialog('buildersearchResultsGrid','builderrowDetailsTarget',datarecord,rowIndex);
+//				});
+//				$('##buildersearchResultsGrid').on('rowcollapse', function (event) {
+//					// remove the dialog holding the row details
+//					var args = event.args;
+//					var rowIndex = args.rowindex;
+//					$("##buildersearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+//				});
 				// display selected row index.
 				$("##buildersearchResultsGrid").on('rowselect', function (event) {
 					$("##builderselectrowindex").text(event.args.rowindex);
