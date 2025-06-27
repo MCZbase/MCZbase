@@ -100,7 +100,7 @@ limitations under the License.
 					get_scientific_name_auths(cataloged_item.collection_object_id)
 					) as sci_name,
 				get_scientific_name_auths(cataloged_item.collection_object_id) as sci_name_with_auth,
-				mczbase.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,mczbase.get_top_typestatus_kind(cataloged_item.collection_object_id)) as type_name,
+				mczbase.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,mczbase.get_top_typestatus(cataloged_item.collection_object_id)) as type_name,
 				nvl2(mczbase.concattypestatus_label(cataloged_item.collection_object_id), 
 					mczbase.GET_TYPESTATUSNAME(cataloged_item.collection_object_id,mczbase.get_top_typestatus_kind(cataloged_item.collection_object_id)), 
 					get_scientific_name_auths(cataloged_item.collection_object_id)
