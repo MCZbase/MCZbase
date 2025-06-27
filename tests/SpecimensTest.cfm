@@ -3445,8 +3445,7 @@ Target JSON:
 						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
 						rowdetailsheight:  1 // row details will be placed in popup dialog
 					},
-					initrowdetails: initRowDetails,
-						cellclassname: 'jqx-grid-cell-locked'
+					initrowdetails: initRowDetails
 				});
 
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
