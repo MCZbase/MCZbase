@@ -3657,6 +3657,8 @@ Target JSON:
 					editable: false,
 					virtualmode: true,
 					enablemousewheel: #session.gridenablemousewheel#,
+					keywordnavigation: 'true',
+					selectionmode: 'singleCell',
 					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','500'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
@@ -3666,7 +3668,7 @@ Target JSON:
 					autoshowloadelement: false,  // overlay acts as load element for form+results
 					columnsreorder: true,
 					groupable: true,
-					selectionmode: '#defaultSelectionMode#',
+					//selectionmode: '#defaultSelectionMode#',
 					enablebrowserselection: #defaultenablebrowserselection#,
 					altrows: true,
 					showtoolbar: false,
