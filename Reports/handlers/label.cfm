@@ -204,12 +204,14 @@ limitations under the License.
 											<cfset parent = " in #parent_label#">
 										</cfif>
 										<div style="font: 0.9em Helvetica;">#phylum# #phylclass# #phylorder# #family#</div>
+										<div style="position:absolute; bottom:0.4in; left:0.05in; right:0;">
 										<cfif len(type_name) GT 0>
-											<div><strong style="font: 0.9em Helvetica;">#type_name#</strong></div>
+											<strong style="font: 0.9em Helvetica;">#type_name#</strong>
 										<cfelse>
-											<div><strong style="font: 0.9em Helvetica;">#sci_name_with_auth#</strong></div>
+											<strong style="font: 0.9em Helvetica;">#sci_name_with_auth#</strong>
 										</cfif>
-										<div style="position:absolute; bottom:0.08in; left:0.1in; right:0; font: 0.9em Helvetica;">#container_label#</div>
+										</div>
+										<div style="position:absolute; bottom:0.08in; left:0.05in; right:0; font: 0.9em Helvetica;">#container_label#</div>
 									</cfcase>
 								</cfswitch>
 							</div>
