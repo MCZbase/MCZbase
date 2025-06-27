@@ -3218,7 +3218,8 @@ Target JSON:
 						lookupColumnVisibilities ('#cgi.script_name#','Default');
 					}
 				</cfif>
-
+				<cfset detailscol = "{text: '', datafield: 'action', width: 40, sortable: false, filterable: false, editable: false, cellsrenderer: function(row, columnfield, value, defaulthtml, columnproperties, rowdata) { return '<button type=\'button\' class=\'details-btn\' tabindex=\'0\' aria-label=\'Show details\'>what</button>'; }, hidable: false, hidden: false }," >
+						<cfloop query="getFieldMetadata">
 				fixedSearchLoaded = 0;
 
 				$("##overlay").show();
@@ -3417,8 +3418,7 @@ Target JSON:
 							</cfif>
 						</cfif>
 						<cfset lastrow ="">
-						<cfset detailscol = "{text: '', datafield: 'action', width: 40, sortable: false, filterable: false, editable: false, cellsrenderer: function(row, columnfield, value, defaulthtml, columnproperties, rowdata) { return '<button type=\'button\' class=\'details-btn\' tabindex=\'0\' aria-label=\'Show details\'>what</button>'; }, hidable: false, hidden: false }," >
-						<cfloop query="getFieldMetadata">
+						
 							<cfset cellrenderer = "">
 							<cfif len(getFieldMetadata.cellsrenderer) GT 0>
 								<cfif left(getFieldMetadata.cellsrenderer,1) EQ "_"> 
