@@ -3409,7 +3409,7 @@ Target JSON:
 						return dataAdapter.records;
 					},
 					columns: [
-						#detailscol#
+					
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 							<cfif isdefined("session.killRow") AND session.killRow GT 0>
 								<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
