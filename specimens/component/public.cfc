@@ -611,8 +611,8 @@ limitations under the License.
 							<cfset expandedFormula="#identification.taxa_formula#">
 							<!--- Taxon Formula is a string like "A" or "A x B", where these A,B place holders are replaced by scientific names --->
 							<!--- but A and B can occur in scientific names, so replace the A and B with unique TXON_A and TXON_B strings for replacement --->
-							<cfset expandedFormula = replace("A",expandedFormula,"TXON_A","all")>
-							<cfset expandedFormula = replace("B",expandedFormula,"TXON_B","all")>
+							<cfset expandedFormula = replace(expandedFormula,"A","TXON_A","all")>
+							<cfset expandedFormula = replace(expandedFormula,"B","TXON_B","all")>
 							<cfset nameAsInTaxon="#identification.taxa_formula#">
 							<cfloop query="getTaxa">
 								<!--- replace each component of the formula with the name, in a hyperlink --->
