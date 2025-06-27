@@ -209,8 +209,7 @@ limitations under the License.
 										<cfelse>
 											<div><strong style="font: 0.9em Helvetica;">#sci_name_with_auth#</strong></div>
 										</cfif>
-										<div><strong style="font: 0.9em Helvetica;">#sci_name#</strong></div>
-										<div style="position:absolute; bottom:0.1em; left:0.1em; right:0; font: 0.9em Helvetica;">#container_label#</div>
+										<div style="position:absolute; bottom:0.08in; left:0.1in; right:0; font: 0.9em Helvetica;">#container_label#</div>
 									</cfcase>
 								</cfswitch>
 							</div>
