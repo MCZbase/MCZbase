@@ -3550,7 +3550,7 @@ Target JSON:
 				});
 			});
 			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
-			 $('#fixedsearchResultsGrid').on('click', '.details-btn', function(e) {
+			 $('##fixedsearchResultsGrid').on('click', '.details-btn', function(e) {
 				e.preventDefault();
 				var rowIndex = $(this).data('row');
 				var grid = $('##fixedsearchResultsGrid');
