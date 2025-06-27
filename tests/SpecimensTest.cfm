@@ -3381,16 +3381,7 @@ Target JSON:
 					autoheight: 'true',
 					source: dataAdapter,
 					filterable: false,
-					cellclassname: function(row, columnfield, value, rowdata, columnproperty) {
-							if (columnproperty && columnproperty.datafield) {
-							// Use columnproperty here
-							// For first column, compare with your known datafield value
-							if (columnproperty.datafield === 'initRowDetails') { // Or your first datafield name
-								return 'jqx-grid-cell-locked';
-							}
-						}
-						return '';
-					},
+		
 					sortable: true,
 					pageable: true,
 					editable: false,
@@ -3448,7 +3439,16 @@ Target JSON:
 						</cfloop>
 						#lastrow#
 					],
-					
+					cellclassname: function(row, columnfield, value, rowdata, columnproperty) {
+							if (columnproperty && columnproperty.datafield) {
+							// Use columnproperty here
+							// For first column, compare with your known datafield value
+							if (columnproperty.datafield === 'initRowDetails') { // Or your first datafield name
+								return 'jqx-grid-cell-locked';
+							}
+						}
+						return '';
+					},
 					rowdetails: true,
 					rowdetailstemplate: {
 						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
