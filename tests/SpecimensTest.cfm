@@ -3417,11 +3417,7 @@ Target JSON:
 							</cfif>
 						</cfif>
 						<cfset lastrow ="">
-						<cfset detailscol = "{text: '', datafield: 'action', width: 40, sortable: false, filterable: false, editable: false, 
-							cellsrenderer: function(row, columnfield, value, defaulthtml, columnproperties, rowdata) {
-								return '<button type=\"button\" class=\"details-btn\" tabindex=\"0\" aria-label=\"Show details\">what</button>';
-							}, 
-							hidable: false, hidden: false }," >
+						<cfset detailscol = "{text: '', datafield: 'action', width: 40, sortable: false, filterable: false, editable: false, cellsrenderer: function(row, columnfield, value, defaulthtml, columnproperties, rowdata) { return '<button type=\'button\' class=\'details-btn\' tabindex=\'0\' aria-label=\'Show details\'>what</button>'; }, hidable: false, hidden: false }," >
 						<cfloop query="getFieldMetadata">
 							<cfset cellrenderer = "">
 							<cfif len(getFieldMetadata.cellsrenderer) GT 0>
