@@ -3364,16 +3364,16 @@ Target JSON:
 	
 
 				var dataAdapter = new $.jqx.dataAdapter(search);
-				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
-					var details = $($(parentElement).children()[0]);
-					console.log(index);
-					details.html("<div id='fixedrowDetailsTarget" + index + "'></div>");
-					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
-					// Workaround, expansion sits below row in zindex.
-					var maxZIndex = getMaxZIndex();
-					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
-				}
+				//var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+//					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+//					var details = $($(parentElement).children()[0]);
+//					console.log(index);
+//					details.html("<div id='fixedrowDetailsTarget" + index + "'></div>");
+//					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
+//					// Workaround, expansion sits below row in zindex.
+//					var maxZIndex = getMaxZIndex();
+//					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+//				}
 
 	
 				$("##fixedsearchResultsGrid").jqxGrid({
@@ -3381,7 +3381,6 @@ Target JSON:
 					autoheight: 'true',
 					source: dataAdapter,
 					filterable: false,
-		
 					sortable: true,
 					pageable: true,
 					editable: false,
@@ -3440,12 +3439,12 @@ Target JSON:
 						#lastrow#
 					],
 			
-					rowdetails: true,
-					rowdetailstemplate: {
-						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-						rowdetailsheight:  1 // row details will be placed in popup dialog
-					},
-					initrowdetails: initRowDetails
+					//rowdetails: true,
+//					rowdetailstemplate: {
+//						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+//						rowdetailsheight:  1 // row details will be placed in popup dialog
+//					},
+//					initrowdetails: initRowDetails
 				});
 
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
