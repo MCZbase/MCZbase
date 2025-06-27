@@ -205,7 +205,7 @@ limitations under the License.
 											<cfset parent = " in #parent_label#">
 										</cfif>
 										<div style="font: 0.9em Helvetica;">#phylum# #phylclass# #phylorder# #family#</div>
-										<div style="position:absolute; bottom:0.4in; left:0.05in; right:0;">
+										<div style="position:absolute; bottom:0.35in; left:0.05in; right:0;">
 										<cfif len(type_name) GT 0>
 											<strong style="font: 0.9em Helvetica;">#type_name# #type_author#</strong>
 										<cfelse>
