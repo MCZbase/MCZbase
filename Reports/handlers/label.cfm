@@ -92,6 +92,42 @@ limitations under the License.
 		<cfset labelBorder = 'border: 1px solid black;'>
 		<cfset labelHeight = 'height: 1.0in;'>
 	</cfcase>
+	<cfcase value="Slide_1x3__IZ">
+		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT DISTINCT
+				nvl2(mczbase.concattypestatus_label(cataloged_item.collection_object_id), 
+					mczbase.concattypestatus_label(cataloged_item.collection_object_id), 
+					get_scientific_name_auths(cataloged_item.collection_object_id)
+					) as sci_name,
+				concatAcceptedIdentifyingAgent(cataloged_item.collection_object_id) identified_by,
+				MCZBASE.CONCATTYPESTATUS_LABEL(cataloged_item.collection_object_id) as tsname,
+				MCZBASE.CONCATTYPESTATUS_WORDS(cataloged_item.collection_object_id) as type_status,
+				cataloged_item.cat_num as catalog_number,
+				cataloged_item.collection_cde,
+				parent.barcode as barcode_number,
+				parent.label as container_label,
+				MCZBASE.GET_PARENTCONTLABELFORCONT(container.parent_container_id) as parent_label,
+			FROM
+				user_search_table
+				JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
+				join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+				join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
+				join container on coll_obj_cont_hist.container_id = container.container_id
+				join container parent on container.parent_container_id = parent.container_id
+			WHERE
+				coll_obj_cont_hist.current_container_fg = 1 AND
+				specimen_part.preserve_method LIKE '%slide%' AND
+				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+			ORDER BY
+				lpad(cataloged_item.cat_num,10)
+		</cfquery>
+		<cfset orientation = "portrait">
+		<cfset columns = 2>
+		<cfset tableWidth = 'width: 6in;'>
+		<cfset labelWidth = 'width: 3.0in;'>
+		<cfset labelBorder = 'border: 1px solid black;'>
+		<cfset labelHeight = 'height: 1.0in;'>
+	</cfcase>
 </cfswitch>
 
 <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# padding: 5px;'>
@@ -136,6 +172,19 @@ limitations under the License.
 										<div style="font: 0.9em helvetica">Container:#container_label##parent#</div>
 										<div><strong style="font: 0.9em Helvetica;">#sci_name#</strong></div>
 										<div style="height: 0.9in; font: 0.9em Helvetica; overflow: hidden;">#verbatim_locality#</div>
+									</cfcase>
+									<cfcase value="Slide_1x3__IZ">
+										<div>
+											<strong style="font: 0.9em 'Times-Roman';">MCZ:#collection_cde#:#catalog_number#</strong>
+											<strong style="float: right; font: 0.9em Helvetica; color: red;">#type_status#</strong>
+										</div>
+										<cfif len(parent_label) EQ 0 or parent_label EQ 'unplaced'>
+											<cfset parent = "">
+										<cfelse>
+											<cfset parent = " in #parent_label#">
+										</cfif>
+										<div><strong style="font: 0.9em Helvetica;">#sci_name#</strong></div>
+										<div style="height: 0.9in; font: 0.9em Helvetica;">#container_label#</div>
 									</cfcase>
 								</cfswitch>
 							</div>
