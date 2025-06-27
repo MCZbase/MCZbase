@@ -99,6 +99,10 @@ limitations under the License.
 					mczbase.concattypestatus_label(cataloged_item.collection_object_id), 
 					get_scientific_name_auths(cataloged_item.collection_object_id)
 					) as sci_name,
+				flat.phylum as phylum,
+				flat.phylclass as phylclass,
+				flat.phylorder as phylorder,
+				flat.family as family,
 				concatAcceptedIdentifyingAgent(cataloged_item.collection_object_id) identified_by,
 				MCZBASE.CONCATTYPESTATUS_LABEL(cataloged_item.collection_object_id) as tsname,
 				MCZBASE.CONCATTYPESTATUS_WORDS(cataloged_item.collection_object_id) as type_status,
@@ -115,6 +119,7 @@ limitations under the License.
 				join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
 				join container on coll_obj_cont_hist.container_id = container.container_id
 				join container parent on container.parent_container_id = parent.container_id
+				join flat on cataloged_item.collection_object_id = flat.collection_object_id
 			WHERE
 				coll_obj_cont_hist.current_container_fg = 1 AND
 				specimen_part.preserve_method LIKE '%slide%' AND
@@ -191,8 +196,9 @@ limitations under the License.
 										<cfelse>
 											<cfset parent = " in #parent_label#">
 										</cfif>
+										<div><strong style="font: 0.9em Helvetica;">#phylum# #phylclass# #phylorder# #family#</strong></div>
 										<div><strong style="font: 0.9em Helvetica;">#sci_name#</strong></div>
-										<div style="height: 0.9in; vertical-align: -0.5; font: 0.9em Helvetica; overflow: hidden;">#container_label#</div>
+										<div style="position:absolute; bottom:0; left:0; right:0; font: 0.9em Helvetica;">#container_label#</div>
 									</cfcase>
 								</cfswitch>
 							</div>
