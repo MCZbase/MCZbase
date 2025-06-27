@@ -2634,6 +2634,7 @@ Target JSON:
 			</cfif>
 		ORDER by disp_order
 	</cfquery>
+
 	<!--- " --->
 
 	<script>
@@ -3408,6 +3409,12 @@ Target JSON:
 						return dataAdapter.records;
 					},
 					columns: [
+						<cfset detailscol = "{text: '', datafield: 'action', width: 40, sortable: false, filterable: false, editable: false, " &
+							"cellsrenderer: function(row, columnfield, value, defaulthtml, columnproperties, rowdata) { " &
+							"return '<button type=\"button\" class=\"details-btn\" tabindex=\"0\" aria-label=\"Show details\" data-row=\"' + row + '\">&#8230;</button>'; " &
+							"}, " &
+							"hidable: false, hidden: false }," 
+							>
 						#detailscol#
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 							<cfif isdefined("session.killRow") AND session.killRow GT 0>
@@ -4402,7 +4409,7 @@ Target JSON:
 			classie.toggle( showRightPush, 'disabled' );
 		}
 	}
-	</script --->
+</script> --->
 	
 	<script>
 	/*!
