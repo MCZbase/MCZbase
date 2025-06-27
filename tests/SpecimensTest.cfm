@@ -3409,12 +3409,8 @@ Target JSON:
 						return dataAdapter.records;
 					},
 					columns: [
-						<cfset detailscol = "{text: '', datafield: 'action', width: 40, sortable: false, filterable: false, editable: false, " &
-							"cellsrenderer: function(row, columnfield, value, defaulthtml, columnproperties, rowdata) { " &
-							"return '<button type=\"button\" class=\"details-btn\" tabindex=\"0\" aria-label=\"Show details\" data-row=\"' + row + '\">></button>'; " &
-							"}, " &
-							"hidable: false, hidden: false }," 
-							>
+						<cfset detailscol = "{text: '', datafield: 'action', width: 40, sortable: false, filterable: false, editable: false, cellsrenderer: function(row, columnfield, value, defaulthtml, columnproperties, rowdata) { return '<button type=\'button\' class=\'details-btn\' tabindex=\'0\' aria-label=\'Show details\' data-row=\'' + row + '\'>&#8230;</button>'; }, hidable: false, hidden: false }," >
+
 						#detailscol#
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 							<cfif isdefined("session.killRow") AND session.killRow GT 0>
@@ -3552,7 +3548,13 @@ Target JSON:
 				});
 			});
 			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
-	 
+			 $('#fixedsearchResultsGrid').on('click', '.details-btn', function(e) {
+				e.preventDefault();
+				var rowIndex = $(this).data('row');
+				var grid = $('##fixedsearchResultsGrid');
+				var rowData = grid.jqxGrid('getrowdata', rowIndex);
+				createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget', rowData, rowIndex);
+			});
 			
 			/* Setup jqxgrid for keyword Search */
 			$('##keywordSearchForm').bind('submit', function(evt){ 
