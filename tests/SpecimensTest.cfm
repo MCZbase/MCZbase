@@ -92,13 +92,7 @@ limitations under the License.
 </cfswitch>
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
-<script>
-function loadGeoreferenceCount(result_uuid, elementId, labelStart, labelEnd) {
-  // Add the logic for what should happen here...
-  // For now, you could log or do nothing:
-  console.log('loadGeoreferenceCount called with', arguments);
-}
-</script>
+
 <cfset defaultSelectionMode = "none">
 <cfif defaultSelectionMode EQ "none">
 	<cfset defaultenablebrowserselection = "true">
@@ -1533,7 +1527,7 @@ function loadGeoreferenceCount(result_uuid, elementId, labelStart, labelEnd) {
 												<div class="row mx-0 mt-0"> 
 													
 													<!--- Grid Related code is below along with search handlers --->
-													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
+													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table" tabindex="0">
 													</div>
 													<div id="fixedPostGridControls" class="p-1 d-none d-md-block" style="display: none;" >
 														<!--- a mouse wheel toggle could go here --->
@@ -2634,7 +2628,6 @@ Target JSON:
 			</cfif>
 		ORDER by disp_order
 	</cfquery>
-
 	<!--- " --->
 
 	<script>
@@ -3207,7 +3200,6 @@ Target JSON:
 
 		/* End Setup jqxgrids for search ****************************************************************************************/
 		$(document).ready(function() {
-			<cfset detailscol = "{text: '', datafield: 'action', width: 40, cellsrenderer: function(row, columnfield, value, defaulthtml, columnproperties, rowdata) { return '<button type=\'button\' class=\'details-btn\' tabindex=\'0\' aria-label=\'Show details\' data-row=\'' + row + '\'>></button>'; }, editable: false, hidable: false, hidden: false }," >
 			/* Setup jqxgrid for fixed Search */
 			$('##fixedSearchForm').bind('submit', function(evt){
 				evt.preventDefault();
@@ -3366,16 +3358,16 @@ Target JSON:
 	
 
 				var dataAdapter = new $.jqx.dataAdapter(search);
-				//var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-//					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
-//					var details = $($(parentElement).children()[0]);
-//					console.log(index);
-//					details.html("<div id='fixedrowDetailsTarget" + index + "'></div>");
-//					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
-//					// Workaround, expansion sits below row in zindex.
-//					var maxZIndex = getMaxZIndex();
-//					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
-//				}
+				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+					var details = $($(parentElement).children()[0]);
+					console.log(index);
+					details.html("<div id='fixedrowDetailsTarget" + index + "'></div>");
+					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
+					// Workaround, expansion sits below row in zindex.
+					var maxZIndex = getMaxZIndex();
+					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+				}
 
 	
 				$("##fixedsearchResultsGrid").jqxGrid({
@@ -3410,7 +3402,6 @@ Target JSON:
 						return dataAdapter.records;
 					},
 					columns: [
-						#detailscol#
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 							<cfif isdefined("session.killRow") AND session.killRow GT 0>
 								<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
@@ -3441,13 +3432,13 @@ Target JSON:
 						</cfloop>
 						#lastrow#
 					],
-			
-					//rowdetails: true,
-//					rowdetailstemplate: {
-//						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-//						rowdetailsheight:  1 // row details will be placed in popup dialog
-//					},
-//					initrowdetails: initRowDetails
+					
+					rowdetails: true,
+					rowdetailstemplate: {
+						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+						rowdetailsheight:  1 // row details will be placed in popup dialog
+					},
+					initrowdetails: initRowDetails
 				});
 
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
@@ -3547,13 +3538,7 @@ Target JSON:
 				});
 			});
 			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
-			 $('##fixedsearchResultsGrid').on('click', '.details-btn', function(e) {
-				e.preventDefault();
-				var rowIndex = $(this).data('row');
-				var grid = $('##fixedsearchResultsGrid');
-				var rowData = grid.jqxGrid('getrowdata', rowIndex);
-				createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget', rowData, rowIndex);
-			});
+	 
 			
 			/* Setup jqxgrid for keyword Search */
 			$('##keywordSearchForm').bind('submit', function(evt){ 
@@ -4410,7 +4395,7 @@ Target JSON:
 			classie.toggle( showRightPush, 'disabled' );
 		}
 	}
-</script> --->
+	</script --->
 	
 	<script>
 	/*!
