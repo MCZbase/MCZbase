@@ -1527,7 +1527,7 @@ limitations under the License.
 												<div class="row mx-0 mt-0"> 
 													
 													<!--- Grid Related code is below along with search handlers --->
-													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table" tabindex="0">
+													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
 													</div>
 													<div id="fixedPostGridControls" class="p-1 d-none d-md-block" style="display: none;" >
 														<!--- a mouse wheel toggle could go here --->
