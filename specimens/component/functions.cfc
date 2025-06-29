@@ -1668,7 +1668,9 @@ limitations under the License.
 	@param identification_remarks any remarks for the identification (optional).
 	@param stored_as_fg whether to store the identification as a field guide (optional, default 0).
 	@param accepted_id_fg whether this is the accepted identification (optional, default 0).
-	@param determiners a JSON array of determiner objects with det_id, agent_id, and order properties.
+	@param determiner_ids a comma-separated list of agent IDs for the determiners.
+		TODO: update to use a single string of comma-separated agent IDs instead of JSON array.
+	@return JSON object with status and identification ID.
  --->
 <cffunction name="saveIdentification" access="remote" returntype="any" returnformat="json">
 	<cfargument name="identification_id" type="string" required="yes">
@@ -1684,10 +1686,9 @@ limitations under the License.
 	<cfargument name="identification_remarks" type="string" required="no" default="">
 	<cfargument name="stored_as_fg" type="string" required="no" default="0">
 	<cfargument name="accepted_id_fg" type="string" required="no" default="0">
-	<cfargument name="determiners" type="string" required="yes">
+	<cfargument name="determiner_ids" type="string" required="yes">
 	
 	<cfset var data = ArrayNew(1)>
-	<cfset determinersArray = deserializeJSON(arguments.determiners)>
 	
 	<cfset var scientific_name = arguments.taxa_formula>
 	<!--- throw an exception if formula contains B but taxon B is not provided --->
@@ -1801,15 +1802,12 @@ limitations under the License.
 				WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.identification_id#">
 			</cfquery>
 			
-			<cfset var existingIds = ValueList(existingDeterminers.identification_agent_id)>
-			<cfset var processedIds = "">
+			<cfset variables.existingIds = ValueList(existingDeterminers.identification_agent_id)>
+			<cfset variables.processedIds = "">
 			
+			<cfset variables.determinersArray = ListToArray(arguments.determiner_ids)>
 			<!--- Process each determiner from the form --->
-			<cfloop array="#determinersArray#" index="det">
-				<cfset var detId = det.det_id>
-				<cfset var agentId = det.agent_id>
-				<cfset var orderNum = det.order>
-				
+			<cfloop list="#arguments.determiner_ids#" index="detId">
 				<cfif detId EQ "new">
 					<!--- This is a new determiner to add --->
 					<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
