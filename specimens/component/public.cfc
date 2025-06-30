@@ -752,7 +752,7 @@ limitations under the License.
 						},
 						success: function(response) {
 							console.log("editIdentification: response = " + response);
-							console.log($"##" + dialogId + "_div");
+							console.log($("##" + dialogId + "_div"));
 							// defer execution to ensure dialog is created before loading content
 							setTimeout(function() { $("##" + dialogId + "_div").html(response); }, 0);
 						},
