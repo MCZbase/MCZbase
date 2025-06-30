@@ -1541,8 +1541,8 @@ limitations under the License.
 																</script>
 															</div>
 														</cfif>
-														<input type="hidden" name="eid_determiner_count" id="eid_determiner_count" value="#determiner_count#">
-														<input type="hidden" name="eid_determiner_ids" id="eid_determiner_ids" class="data-entry-input">
+														<input type="hidden" name="determiner_count" id="eid_determiner_count" value="#determiner_count#">
+														<input type="hidden" name="determiner_ids" id="eid_determiner_ids" class="data-entry-input">
 													</div>
 													<button type="button" class="btn btn-xs btn-secondary mt-2" id="eid_addEditDeterminerButton" onClick="addEditDeterminerControl();">Add Determiner</button>
 												</div>
