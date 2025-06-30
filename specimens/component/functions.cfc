@@ -1532,7 +1532,7 @@ limitations under the License.
 																<label id="eid_det_label_1" for="eid_det_name_1" class="data-entry-label">Determiner 1:</label>
 																<input type="text" name="eid_det_name_1" id="eid_det_name_1" class="data-entry-input reqdClr" required>
 																<input type="hidden" name="eid_determiner_id_1" id="eid_determiner_id_1">
-																<input type="hidden" name="eid_identification_agent_id_1">
+																<input type="hidden" name="eid_identification_agent_id_1" value="new">
 																<button type="button" class="btn btn-xs btn-secondary" id="eid_removeDet1" onClick="removeEditDeterminerControl(1);">Remove</button>
 																<script>
 																	$(document).ready(function() {
@@ -1542,7 +1542,10 @@ limitations under the License.
 															</div>
 														</cfif>
 														<input type="hidden" name="determiner_count" id="eid_determiner_count" value="#determiner_count#">
+														<!--- List of agent ids of determiners that were selected --->
 														<input type="hidden" name="determiner_ids" id="eid_determiner_ids" class="data-entry-input">
+														<!--- List of primary key values for existing identification_agent records --->
+														<input type="hidden" name="identification_agent_ids" id="eid_identification_agent_ids" class="data-entry-input">
 													</div>
 													<button type="button" class="btn btn-xs btn-secondary mt-2" id="eid_addEditDeterminerButton" onClick="addEditDeterminerControl();">Add Determiner</button>
 												</div>
@@ -1576,7 +1579,7 @@ limitations under the License.
 												newControl += '<label id="eid_det_label_' + currentCount + '" for="eid_det_name_' + currentCount + '" class="data-entry-label">Determiner ' + currentCount + ':</label>';
 												newControl += '<input type="text" name="eid_det_name_' + currentCount + '" id="eid_det_name_' + currentCount + '" class="data-entry-input reqdClr" required>';
 												newControl += '<input type="hidden" name="eid_determiner_id_' + currentCount + '" id="eid_determiner_id_' + currentCount + '">';
-												newControl += '<input type="hidden" name="eid_identification_agent_id_' + currentCount + '">';
+												newControl += '<input type="hidden" name="eid_identification_agent_id_' + currentCount + '" value="new">';
 												newControl += '<button type="button" class="btn btn-xs btn-secondary" id="eid_removeDet' + currentCount + '" onClick="removeEditDeterminerControl(' + currentCount + ');">Remove</button>';
 												newControl += '</div>';
 												$("##eid_edit_determiners_form_row").append(newControl);
@@ -1595,9 +1598,22 @@ limitations under the License.
 								
 											function handleSaveIdentification() {
 												setFeedbackControlState("editIdStatus", "saving");
+												// Expected number of determiner field sets 
+												var count = parseInt($("##eid_determiner_count").val());
+												// Collect all identification_agent_ids for determiner records
+												var identificationAgentIds = [];
+												for (var i=1; i<=count; i++) {
+													var $div = $("##eid_det_div_" + i);
+													if ($div.length > 0) {
+														var idAgentId = $div.find("[name='eid_identification_agent_id_" + i + "']").val();
+														if (idAgentId) {
+															identificationAgentIds.push(idAgentId);
+														}
+													}
+												}
+												$("##eid_identification_agent_ids").val(identificationAgentIds.join(','));
 												// Collect all determiner agent_ids
 												var determinerIds = [];
-												var count = parseInt($("##eid_determiner_count").val());
 												for (var i = 1; i <= count; i++) {
 													var $div = $("##eid_det_div_" + i);
 													if ($div.length > 0) {
@@ -1686,15 +1702,12 @@ limitations under the License.
 	<cfargument name="identification_remarks" type="string" required="no" default="">
 	<cfargument name="stored_as_fg" type="string" required="no" default="0">
 	<cfargument name="accepted_id_fg" type="string" required="no" default="0">
-	<cfargument name="determiner_ids" type="string" required="yes">
+	<cfargument name="identification_agent_ids" type="string" required="yes"><!--- the list of identification_agent_ids for the associative entity --->
+	<cfargument name="determiner_ids" type="string" required="yes"> <!--- the list of agent_ids for determiners --->
 	
 	<cfset var data = ArrayNew(1)>
 	
 	<cfset var scientific_name = arguments.taxa_formula>
-	<!--- throw an exception if formula contains B but taxon B is not provided --->
-	<cfif arguments.taxa_formula contains "B" and len(arguments.taxonb) EQ 0>	
-		<cfthrow message="Taxon B is required when the formula contains 'B'.">
-	</cfif>
 	
 	<!--- replace A in the formula with a string that is not likely to occur in a scientific name --->
 	<cfset scientific_name = REReplace(scientific_name, "\bA\b", "TAXON_A", "all")>
@@ -1721,6 +1734,13 @@ limitations under the License.
 	
 	<cftransaction>
 		<cftry>
+			<!--- throw an exception if formula contains B but taxon B is not provided --->
+			<cfif arguments.taxa_formula contains "B" and len(arguments.taxonb) EQ 0>	
+				<cfthrow message="Taxon B is required when the formula contains 'B'.">
+			</cfif>
+			<cfif listLen(arguments.identification_agent_ids) NEQ listLen(arguments.determiner_ids)>
+				<cfthrow message="The number of identification_agent_ids must match the number of determiner_ids.">
+			</cfif>
 			<!--- Handle accepted_id_fg flag - only one per specimen --->
 			<cfif arguments.accepted_id_fg EQ 1>
 				<cfquery name="setAcceptedZero" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1805,9 +1825,24 @@ limitations under the License.
 			<cfset variables.existingIds = ValueList(existingDeterminers.identification_agent_id)>
 			<cfset variables.processedIds = "">
 			
+			<!--- combine determiner_ids and identification_agent_ids lists into a two dimensional array for processing --->
+			<cfset variables.determinersArray = ArrayNew(1)>
+			<cfset var agentId = 0>
+			<cfset var orderNum = 0>
+			<cfset var processedIds = "">
+			<cfloop list="#arguments.identification_agent_ids#" index="id">
+				<cfset var detStruct = StructNew()>
+				<cfset detStruct["identification_agent_id"] = id>
+				<cfset detStruct["agent_id"] = ListGetAt(arguments.determiner_ids, ListFindNoCase(arguments.identification_agent_ids, id))>
+				<cfset detStruct["identifier_order"] = orderNum>
+				<cfset ArrayAppend(variables.determinersArray, detStruct)>
+				<cfset orderNum = orderNum + 1>
+			</cfloop>
+
 			<cfset variables.determinersArray = ListToArray(arguments.determiner_ids)>
 			<!--- Process each determiner from the form --->
-			<cfloop list="#arguments.determiner_ids#" index="detId">
+			<cfloop array="#variables.determinersArray#" index="det">
+				<cfset var detId = det.identification_agent_id>
 				<cfif detId EQ "new">
 					<!--- This is a new determiner to add --->
 					<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
