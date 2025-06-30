@@ -1839,7 +1839,6 @@ limitations under the License.
 				<cfset orderNum = orderNum + 1>
 			</cfloop>
 
-			<cfset variables.determinersArray = ListToArray(arguments.determiner_ids)>
 			<!--- Process each determiner from the form --->
 			<cfloop array="#variables.determinersArray#" index="det">
 				<cfset var detId = det.identification_agent_id>
