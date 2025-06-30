@@ -1592,7 +1592,7 @@ limitations under the License.
 											}
 								
 											function closeEditDialog() {
-												$("##editIdentificationHTML").remove();
+												$("##editIdentificationDialog").dialog("close");
 												reloadIdentifications();
 											}
 								
