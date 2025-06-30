@@ -642,7 +642,7 @@ limitations under the License.
 						<cfif editable>
 							<span class="float-right">
 								<button class="btn btn-xs btn-secondary py-0" 
-									onclick="editIdentification('#identification.identification_id#')">Edit</button>
+									onclick="editIdentification('#identification.identification_id#',reloadIdentificationsDialogAndPage)">Edit</button>
 								<cfif identification.accepted_id_fg NEQ 1>
 									<button class="btn btn-xs btn-danger py-0" 
 										onclick=" confirmDialog('Are you sure you want to delete this identification?', 'Delete Identification',removeIdentification_#i#);"
@@ -753,7 +753,7 @@ limitations under the License.
 							identification_id: identification_id
 						},
 						success: function(response) {
-							console.log("editIdentification: response = " + response);
+							console.log("editIdentification: success");
 							console.log($("##" + dialogId + "_div"));
 							// defer execution to ensure dialog is created before loading content
 							setTimeout(function() { $("##" + dialogId + "_div").html(response); }, 0);
