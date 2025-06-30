@@ -1831,7 +1831,7 @@ limitations under the License.
 			<cfset var orderNum = 0>
 			<cfset var processedIds = "">
 			<cfloop list="#arguments.identification_agent_ids#" index="id">
-				<cfset var detStruct = StructNew()>
+												<cfset variables.detStruct = StructNew()>
 				<cfset detStruct["identification_agent_id"] = id>
 				<cfset detStruct["agent_id"] = ListGetAt(arguments.determiner_ids, ListFindNoCase(arguments.identification_agent_ids, id))>
 				<cfset detStruct["identifier_order"] = orderNum>
@@ -1842,6 +1842,8 @@ limitations under the License.
 			<!--- Process each determiner from the form --->
 			<cfloop array="#variables.determinersArray#" index="det">
 				<cfset var detId = det.identification_agent_id>
+				<cfset var agentId = det.agent_id>
+				<cfset var orderNum = det.identifier_order>
 				<cfif detId EQ "new">
 					<!--- This is a new determiner to add --->
 					<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1872,7 +1874,9 @@ limitations under the License.
 				<cfif NOT ListFind(processedIds, existingId)>
 					<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						DELETE FROM identification_agent 
-						WHERE identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#existingId#">
+						WHERE
+							identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#existingId#">
+							AND identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.identification_id#">
 					</cfquery>
 				</cfif>
 			</cfloop>
