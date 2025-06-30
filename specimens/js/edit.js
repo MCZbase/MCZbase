@@ -72,7 +72,9 @@ function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775) {
 			}
 			$("#"+dialogId+"_div").html("");
 			try {
-				$("#"+dialogId).dialog('destroy');
+				if ($("#"+dialogId).hasClass("ui-dialog-content")) {
+					$("#"+dialogId).dialog('destroy');
+				}
 			} catch (e) {
 				console.error("Error destroying dialog: " + e);
 			}

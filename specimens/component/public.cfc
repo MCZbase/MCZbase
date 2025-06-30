@@ -738,7 +738,7 @@ limitations under the License.
 				function editIdentification(identification_id,callback) {
 					var title = "Edit Identification";
 					dialogId = "editIdentificationDialog";
-					createSpecimenEditDialog("editIdentificationDialog",title,callback);
+					createSpecimenEditDialog(dialogId,title,callback);
 					// Call the server-side function to get the edit HTML, load into the dialog
 					$.ajax({
 						url: '/specimens/component/functions.cfc',
@@ -749,7 +749,8 @@ limitations under the License.
 							identification_id: identification_id
 						},
 						success: function(response) {
-							$("##" + dialogId + "_div").html(response);
+							// defer execution to ensure dialog is created before loading content
+							setTimeout(function() { $("##" + dialogId + "_div").html(response); }, 0);
 						},
 						error: function(xhr, status, error) {
 							handleError(xhr, status, error);
