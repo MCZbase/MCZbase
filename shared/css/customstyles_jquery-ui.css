@@ -190,11 +190,13 @@ override Bootstrap styles
 	font-family:Arial, Helvetica, "sans-serif"
 }
 .ui-widget-header {
-	border: 1px solid #A41034;
 	border: 1px solid #dddddd;
+	/* unused line.  c1272d is the crimson from the Harvard header, BAC5C6 is grey from footer, ui-bg_gloss-wave_35_f6a828_500x100.png was orange, not a custom image */
+   /* 
 	background: #c1272d url("/shared/images/ui-bg_gloss-wave_35_BAC5C6_500x100.png") 50% 50% repeat-x;
-	background: #ebebeb url("/shared/images/ui-bg_gloss-wave_35_BAC5C6_500x100.png") 50% 50% repeat-x;
-	color: #ffffff;
+   */
+   /* this appears to be the intent for the custom ui-widget-header, a light grey background */
+	background: #ebebeb url("/shared/images/ui-bg_gloss-wave_35_ebebeb_500x100.png") 50% 50% repeat-x;
 	color: #000000;
 }
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
