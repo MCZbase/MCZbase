@@ -1403,6 +1403,8 @@ limitations under the License.
 											<input type="hidden" name="collection_object_id" value="#idData.collection_object_id#">
 											<input type="hidden" name="method" value="saveIdentification">
 											<input type="hidden" name="returnformat" value="json">
+											<input type="hidden" name="accepted_id_fg" id="eid_edit_accepted_id_fg" value="#idData.accepted_id_fg#">
+											<input type="hidden" name="stored_as_fg" id="eid_edit_stored_as_fg" value="#idData.stored_as_fg#">
 											<div class="form-row">
 												<div class="col-12 col-md-2">
 													<label for="taxa_formula" class="data-entry-label">ID Formula:</label>
@@ -1417,7 +1419,6 @@ limitations under the License.
 													<input type="text" name="taxona" id="eid_edit_taxona" class="data-entry-input reqdClr" required value="#taxonA.scientific_name#">
 													<input type="hidden" name="taxona_id" id="eid_edit_taxona_id" value="#taxonA.taxon_name_id#">
 													<script>
-														// Initialize taxon autocomplete
 														$(document).ready(function() {
 															makeScientificNameAutocompleteMeta("edit_taxona","edit_taxona_id");
 														});
@@ -1429,7 +1430,6 @@ limitations under the License.
 														<input type="text" name="taxonb" id="eid_edit_taxonb" class="data-entry-input" value="#taxonB.scientific_name#">
 														<input type="hidden" name="taxonb_id" id="eid_edit_taxonb_id" value="#taxonB.taxon_name_id#">
 														<script>
-															// Initialize taxon B autocomplete
 															$(document).ready(function() {
 																makeScientificNameAutocompleteMeta("edit_taxonb","edit_taxonb_id");
 															});
@@ -1440,7 +1440,6 @@ limitations under the License.
 													<label for="made_date" class="data-entry-label">Date Identified:</label>
 													<input type="text" name="made_date" id="eid_edit_made_date" class="data-entry-input" value="#idData.made_date#">
 													<script>
-														// Initialize datepicker
 														$(document).ready(function() {
 															$("##edit_made_date").datepicker({
 																dateFormat: "yy-mm-dd",
@@ -1460,12 +1459,10 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-12 col-md-6">
-													<!--- publication autocomplete --->
 													<label for="publication" class="data-entry-label">Sensu:</label>
 													<input type="text" name="sensu" id="eid_edit_publication" class="data-entry-input" value="#idData.short_citation#">
 													<input type="hidden" name="publication_id" id="eid_edit_publication_id" value="#idData.publication_id#">
 													<script>
-														// Initialize publication autocomplete
 														$(document).ready(function() {
 															makePublicationAutocompleteMeta("edit_publication","edit_publication_id");
 														});
@@ -1476,38 +1473,80 @@ limitations under the License.
 													<input type="text" name="identification_remarks" id="eid_edit_identification_remarks" class="data-entry-input" value="#idData.identification_remarks#">
 												</div>
 												<div class="col-12 col-md-2">
-													<label for="stored_as_fg" class="data-entry-label">Stored As:</label>
-													<input type="checkbox" name="stored_as_fg" id="eid_edit_stored_as_fg" value="1" <cfif idData.stored_as_fg EQ 1>checked</cfif>>
+													<!--- Unified identification state (current, and stored as flags) select --->
+													<!--- Determine id_state based on accepted_id_fg and stored_as_fg --->
+													<cfset id_state = "previous">
+													<cfif idData.accepted_id_fg EQ 1>
+														<cfset id_state = "current">
+													<cfelseif idData.stored_as_fg EQ 1>
+														<cfset id_state = "stored_as">
+													</cfif>
+													<label for="id_state" class="data-entry-label">Id is:</label>
+													<select name="id_state" id="eid_edit_id_state" class="data-entry-select reqdClr" required>
+														<option value="current" <cfif id_state EQ "current">selected</cfif>>Current</option>
+														<option value="previous" <cfif id_state EQ "previous">selected</cfif>>Previous</option>
+														<option value="stored_as" <cfif id_state EQ "stored_as">selected</cfif>>Previous: Stored As</option>
+													</select>
+													<script>
+														$(document).ready(function() {
+															$("##eid_edit_id_state").change(function() {
+																var state = $(this).val();
+																if (state === "current") {
+																	$("##eid_edit_accepted_id_fg").val("1");
+																	$("##eid_edit_stored_as_fg").val("0");
+																} else if (state === "previous") {
+																	$("##eid_edit_accepted_id_fg").val("0");
+																	$("##eid_edit_stored_as_fg").val("0");
+																} else if (state === "stored_as") {
+																	$("##eid_edit_accepted_id_fg").val("0");
+																	$("##eid_edit_stored_as_fg").val("1");
+																}
+															});
+														});
+													</script>
 												</div>
-												<div class="col-12 col-md-3">
-													<label for="accepted_id_fg" class="data-entry-label">Accepted ID:</label>
-													<input type="checkbox" name="accepted_id_fg" id="eid_edit_accepted_id_fg" value="1" <cfif idData.accepted_id_fg EQ 1>checked</cfif>>
-												</div>
-												
-												<!--- Determiners section --->
-												<div class="col-12 mt-3">
-													<h4 class="h5">Determiners</h4>
-													<div id="eid_edit_determiners_container">
+								
+												<!--- Determiners section using same layout as Add form --->
+												<div class="col-12">
+													<div class="form-row" id="eid_edit_determiners_form_row">
+														<cfset determiner_count = 0>
 														<cfloop query="determiners">
-															<div class="determiner-row mb-2" id="eid_determiner_row_#determiners.identification_agent_id#">
-																<input type="hidden" name="det_id_#determiners.identification_agent_id#" value="#determiners.identification_agent_id#">
-																<input type="text" name="det_name_#determiners.identification_agent_id#" id="eid_det_name_#determiners.identification_agent_id#" class="data-entry-input determiner-input" value="#determiners.agent_name#">
-																<input type="hidden" name="det_agent_id_#determiners.identification_agent_id#" id="eid_det_agent_id_#determiners.identification_agent_id#" value="#determiners.agent_id#">
-																<input type="number" name="det_order_#determiners.identification_agent_id#" id="eid_det_order_#determiners.identification_agent_id#" class="data-entry-input determiner-order" value="#determiners.identifier_order#" style="width:60px;" min="1">
-																<button type="button" class="btn btn-xs btn-secondary ml-2" onclick="removeEditDeterminer('#determiners.identification_agent_id#')">Remove</button>
+															<cfset determiner_count = determiner_count + 1>
+															<div class="col-12 col-md-3" id="eid_det_div_#determiner_count#">
+																<label id="eid_det_label_#determiner_count#" for="eid_det_name_#determiner_count#" class="data-entry-label">Determiner #determiner_count#:</label>
+																<input type="text" name="eid_det_name_#determiner_count#" id="eid_det_name_#determiner_count#" class="data-entry-input reqdClr" value="#determiners.agent_name#" required>
+																<input type="hidden" name="eid_determiner_id_#determiner_count#" id="eid_determiner_id_#determiner_count#" value="#determiners.agent_id#">
+																<input type="hidden" name="eid_identification_agent_id_#determiner_count#" value="#determiners.identification_agent_id#">
+																<button type="button" class="btn btn-xs btn-secondary" id="eid_removeDet#determiner_count#" onClick="removeEditDeterminerControl(#determiner_count#);">Remove</button>
 																<script>
-																	// Initialize agent autocomplete for each determiner
 																	$(document).ready(function() {
-																		makeAgentAutocompleteMeta("det_name_#determiners.identification_agent_id#","det_agent_id_#determiners.identification_agent_id#");
+																		makeAgentAutocompleteMeta("eid_det_name_#determiner_count#", "eid_determiner_id_#determiner_count#");
 																	});
 																</script>
 															</div>
 														</cfloop>
+														<!--- Failover case: if no determiners are present, ensure at least one set of controls is shown --->
+														<cfif determiner_count EQ 0>
+															<cfset determiner_count = 1>
+															<div class="col-12 col-md-3" id="eid_det_div_1">
+																<label id="eid_det_label_1" for="eid_det_name_1" class="data-entry-label">Determiner 1:</label>
+																<input type="text" name="eid_det_name_1" id="eid_det_name_1" class="data-entry-input reqdClr" required>
+																<input type="hidden" name="eid_determiner_id_1" id="eid_determiner_id_1">
+																<input type="hidden" name="eid_identification_agent_id_1">
+																<button type="button" class="btn btn-xs btn-secondary" id="eid_removeDet1" onClick="removeEditDeterminerControl(1);">Remove</button>
+																<script>
+																	$(document).ready(function() {
+																		makeAgentAutocompleteMeta("eid_det_name_1", "eid_determiner_id_1");
+																	});
+																</script>
+															</div>
+														</cfif>
+														<input type="hidden" name="eid_determiner_count" id="eid_determiner_count" value="#determiner_count#">
+														<input type="hidden" name="eid_determiner_ids" id="eid_determiner_ids" class="data-entry-input">
 													</div>
-													<!--- Button to add another determiner --->
 													<button type="button" class="btn btn-xs btn-secondary mt-2" id="eid_addEditDeterminerButton" onClick="addEditDeterminerControl();">Add Determiner</button>
 												</div>
-												
+								
 												<!--- Action buttons --->
 												<div class="col-12 mt-3">
 													<input type="button" value="Save Changes" class="btn btn-xs btn-primary mr-2" id="eid_saveIdButton" onClick="handleSaveIdentification();">
@@ -1528,68 +1567,49 @@ limitations under the License.
 													document.getElementById('eid_edit_taxonb_id').value = '';
 												}
 											}
-											
-											// Track any new determiners added during editing
-											var newDeterminerId = 0;
-											
+								
+											// Determiner controls logic, matching Add form
 											function addEditDeterminerControl() {
-												newDeterminerId--;  // Use negative IDs for new determiners to distinguish from existing ones
-												var newId = "new_" + Math.abs(newDeterminerId);
-												
-												var newRow = '<div class="determiner-row mb-2" id="eid_determiner_row_' + newId + '">';
-												newRow += '<input type="hidden" name="det_id_' + newId + '" value="new">';
-												newRow += '<input type="text" name="det_name_' + newId + '" id="eid_det_name_' + newId + '" class="data-entry-input determiner-input">';
-												newRow += '<input type="hidden" name="det_agent_id_' + newId + '" id="eid_det_agent_id_' + newId + '" value="">';
-												newRow += '<input type="number" name="det_order_' + newId + '" id="eid_det_order_' + newId + '" class="data-entry-input determiner-order" value="' + ($("##edit_determiners_container .determiner-row").length + 1) + '" style="width:60px;" min="1">';
-												newRow += '<button type="button" class="btn btn-xs btn-secondary ml-2" onclick="removeEditDeterminer(\'' + newId + '\')">Remove</button>';
-												newRow += '</div>';
-												
-												$("##edit_determiners_container").append(newRow);
-												
-												// Initialize autocomplete for the new determiner
-												makeAgentAutocompleteMeta("det_name_" + newId, "det_agent_id_" + newId);
+												var currentCount = parseInt($("##eid_determiner_count").val());
+												currentCount++;
+												var newControl = '<div class="col-12 col-md-3" id="eid_det_div_' + currentCount + '">';
+												newControl += '<label id="eid_det_label_' + currentCount + '" for="eid_det_name_' + currentCount + '" class="data-entry-label">Determiner ' + currentCount + ':</label>';
+												newControl += '<input type="text" name="eid_det_name_' + currentCount + '" id="eid_det_name_' + currentCount + '" class="data-entry-input reqdClr" required>';
+												newControl += '<input type="hidden" name="eid_determiner_id_' + currentCount + '" id="eid_determiner_id_' + currentCount + '">';
+												newControl += '<input type="hidden" name="eid_identification_agent_id_' + currentCount + '">';
+												newControl += '<button type="button" class="btn btn-xs btn-secondary" id="eid_removeDet' + currentCount + '" onClick="removeEditDeterminerControl(' + currentCount + ');">Remove</button>';
+												newControl += '</div>';
+												$("##eid_edit_determiners_form_row").append(newControl);
+												makeAgentAutocompleteMeta("eid_det_name_" + currentCount, "eid_determiner_id_" + currentCount);
+												$("##eid_determiner_count").val(currentCount);
 											}
-											
-											function removeEditDeterminer(id) {
-												$("##eid_determiner_row_" + id).remove();
-												// Update order numbers
-												var order = 1;
-												$(".determiner-order").each(function() {
-													$(this).val(order++);
-												});
+											function removeEditDeterminerControl(index) {
+												$("##eid_det_div_" + index).remove();
+												// Optionally decrement the count, but keep unique indexes
 											}
-											
+								
 											function closeEditDialog() {
-												// Close the dialog or go back to identification list
 												$("##editIdentificationHTML").remove();
 												reloadIdentifications();
 											}
-											
+								
 											function handleSaveIdentification() {
 												setFeedbackControlState("editIdStatus", "saving");
-												
-												// Collect all determiners (existing and new)
-												var determiners = [];
-												$("##edit_determiners_container .determiner-row").each(function() {
-													var rowId = $(this).attr('id').replace('determiner_row_', '');
-													var detId = $("input[name='det_id_" + rowId + "']").val();
-													var agentId = $("input[name='det_agent_id_" + rowId + "']").val();
-													var order = $("input[name='det_order_" + rowId + "']").val();
-													
-													if (agentId && agentId.length > 0) {
-														determiners.push({
-															det_id: detId,
-															agent_id: agentId,
-															order: order
-														});
+												// Collect all determiner agent_ids
+												var determinerIds = [];
+												var count = parseInt($("##eid_determiner_count").val());
+												for (var i = 1; i <= count; i++) {
+													var $div = $("##eid_det_div_" + i);
+													if ($div.length > 0) {
+														var agentId = $div.find("[id^='eid_determiner_id_']").val();
+														if (agentId) {
+															determinerIds.push(agentId);
+														}
 													}
-												});
-												
-												// Add determiners to the form data
+												}
+												$("##eid_determiner_ids").val(determinerIds.join(','));
 												var form = $('##editIdentificationForm');
 												var formData = form.serialize();
-												formData += "&determiners=" + JSON.stringify(determiners);
-												
 												$.ajax({
 													url: '/specimens/component/functions.cfc',
 													data: formData,
@@ -1605,6 +1625,11 @@ limitations under the License.
 													}
 												});
 											}
+								
+											// Init on load
+											document.addEventListener('DOMContentLoaded', function() {
+												updateEditTaxonBVisibility();
+											});
 										</script>
 									</div>
 								</div>
@@ -1643,7 +1668,9 @@ limitations under the License.
 	@param identification_remarks any remarks for the identification (optional).
 	@param stored_as_fg whether to store the identification as a field guide (optional, default 0).
 	@param accepted_id_fg whether this is the accepted identification (optional, default 0).
-	@param determiners a JSON array of determiner objects with det_id, agent_id, and order properties.
+	@param determiner_ids a comma-separated list of agent IDs for the determiners.
+		TODO: update to use a single string of comma-separated agent IDs instead of JSON array.
+	@return JSON object with status and identification ID.
  --->
 <cffunction name="saveIdentification" access="remote" returntype="any" returnformat="json">
 	<cfargument name="identification_id" type="string" required="yes">
@@ -1659,10 +1686,9 @@ limitations under the License.
 	<cfargument name="identification_remarks" type="string" required="no" default="">
 	<cfargument name="stored_as_fg" type="string" required="no" default="0">
 	<cfargument name="accepted_id_fg" type="string" required="no" default="0">
-	<cfargument name="determiners" type="string" required="yes">
+	<cfargument name="determiner_ids" type="string" required="yes">
 	
 	<cfset var data = ArrayNew(1)>
-	<cfset determinersArray = deserializeJSON(arguments.determiners)>
 	
 	<cfset var scientific_name = arguments.taxa_formula>
 	<!--- throw an exception if formula contains B but taxon B is not provided --->
@@ -1776,15 +1802,12 @@ limitations under the License.
 				WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.identification_id#">
 			</cfquery>
 			
-			<cfset var existingIds = ValueList(existingDeterminers.identification_agent_id)>
-			<cfset var processedIds = "">
+			<cfset variables.existingIds = ValueList(existingDeterminers.identification_agent_id)>
+			<cfset variables.processedIds = "">
 			
+			<cfset variables.determinersArray = ListToArray(arguments.determiner_ids)>
 			<!--- Process each determiner from the form --->
-			<cfloop array="#determinersArray#" index="det">
-				<cfset var detId = det.det_id>
-				<cfset var agentId = det.agent_id>
-				<cfset var orderNum = det.order>
-				
+			<cfloop list="#arguments.determiner_ids#" index="detId">
 				<cfif detId EQ "new">
 					<!--- This is a new determiner to add --->
 					<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
