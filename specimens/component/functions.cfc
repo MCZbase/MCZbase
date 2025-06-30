@@ -1420,7 +1420,7 @@ limitations under the License.
 													<input type="hidden" name="taxona_id" id="eid_edit_taxona_id" value="#taxonA.taxon_name_id#">
 													<script>
 														$(document).ready(function() {
-															makeScientificNameAutocompleteMeta("edit_taxona","edit_taxona_id");
+															makeScientificNameAutocompleteMeta("eid_edit_taxona","eid_edit_taxona_id");
 														});
 													</script>
 												</div>
@@ -1431,7 +1431,7 @@ limitations under the License.
 														<input type="hidden" name="taxonb_id" id="eid_edit_taxonb_id" value="#taxonB.taxon_name_id#">
 														<script>
 															$(document).ready(function() {
-																makeScientificNameAutocompleteMeta("edit_taxonb","edit_taxonb_id");
+																makeScientificNameAutocompleteMeta("eid_edit_taxonb","eid_edit_taxonb_id");
 															});
 														</script>
 													</div>
@@ -1441,7 +1441,7 @@ limitations under the License.
 													<input type="text" name="made_date" id="eid_edit_made_date" class="data-entry-input" value="#idData.made_date#">
 													<script>
 														$(document).ready(function() {
-															$("##edit_made_date").datepicker({
+															$("##eid_edit_made_date").datepicker({
 																dateFormat: "yy-mm-dd",
 																changeMonth: true,
 																changeYear: true,
@@ -1464,7 +1464,7 @@ limitations under the License.
 													<input type="hidden" name="publication_id" id="eid_edit_publication_id" value="#idData.publication_id#">
 													<script>
 														$(document).ready(function() {
-															makePublicationAutocompleteMeta("edit_publication","edit_publication_id");
+															makePublicationAutocompleteMeta("eid_edit_publication","eid_edit_publication_id");
 														});
 													</script>
 												</div>
