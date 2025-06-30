@@ -733,7 +733,9 @@ limitations under the License.
 				</div>
 				<cfset i = i+1>
 			</cfloop>
-			<div id="editIdentificationDialog"></div>
+			<cfif editable>
+				<div id="editIdentificationDialog"></div>
+			</cfif>
 			<script>
 				function editIdentification(identification_id,callback) {
 					var title = "Edit Identification";
