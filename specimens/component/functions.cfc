@@ -3995,17 +3995,26 @@ limitations under the License.
 											<th><span>Disposition</span></th>
 											<th><span>##</span></th>
 											<th><span>Container</span></th>
+											<th>Action</th>
 										</tr>
 									</thead>
 									<tbody>
 										<cfset i=1>
 										<cfloop query="mPart">
 											<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
-												<td><input class="data-entry-input" value="#part_name#"></td>
+												<td>
+													<input class="data-entry-input" value="#part_name#">
+												</td>
 												<td><input class="data-entry-input" size="7" value="#part_condition#"></td>
 												<td><input class="data-entry-input" size="7" value="#part_disposition#"></td>
 												<td><input class="data-entry-input" size="2" value="#lot_count#"></td>
 												<td><input class="data-entry-input" value="#label#"></td>
+												<td>
+													<!--- remove button --->
+													<button type="button" class="btn btn-xs btn-danger" onclick="confirmDialog('Remove this part?', 'Confirm Delete Part', function() { removePart('#part_id#'); });">Remove</button>
+													<!--- make mixed collection button --->
+													<button type="button" class="btn btn-xs btn-warning" onclick="confirmDialog('Make mixed collection?', 'Confirm Mixed Collection', function() { openEditIdentificationsDialog('#part_id#','identificationsDialog',reloadIdentifications); });">ID Mixed</button>
+												</td>
 											</tr>
 											<cfif len(part_remarks) gt 0>
 												<tr class="small">
