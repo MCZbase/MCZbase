@@ -474,17 +474,15 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="editable" type="boolean" required="no" default="false">
 
-	<cfset variables.editable = arguments.editable>
 	<!--- check to see if user has rights to edit identifications if editable is set to true --->
-	<cfif editable>
+	<cfif arguments.editable>
 		<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-			<cfset variables.editable = true>
+			<cfset arguments.editable = true>
 		<cfelse>
-			<cfset variables.editable = false>
+			<cfset arguments.editable = false>
 		</cfif>
 	</cfif>
 
-	<cfset variables.collection_object_id = arguments.collection_object_id>
 	<cfoutput>
 		<cftry>
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -495,7 +493,7 @@ limitations under the License.
 			<!--- check for mask record, hide if mask record and not one of us ---->
 			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">) encumbranceDetail
+					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">) encumbranceDetail
 				FROM DUAL
 			</cfquery>
 			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
@@ -518,11 +516,11 @@ limitations under the License.
 					identification
 					left join formatted_publication on identification.publication_id=formatted_publication.publication_id and format_style='short'
 				WHERE
-					identification.collection_object_id = <cfqueryparam value="#variables.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+					identification.collection_object_id = <cfqueryparam value="#arguments.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				ORDER BY 
 					accepted_id_fg DESC,sort_order, made_date DESC
 			</cfquery>
-			<cfif editable>
+			<cfif arguments.editable>
 			<script>
 					function removeIdentification(identification_id,feedbackDiv) {
 						setFeedbackControlState(feedbackDiv,"removing")
@@ -658,7 +656,7 @@ limitations under the License.
 								<span class="bg-gray float-right rounded p-1 text-muted font-weight-lessbold">STORED AS</span>
 							</cfif>
 						</cfif>
-						<cfif editable>
+						<cfif arguments.editable>
 							<span class="float-right">
 								<button class="btn btn-xs btn-secondary py-0" 
 									onclick="editIdentification('#identification.identification_id#',reloadIdentificationsDialogAndPage)">Edit</button>
@@ -752,7 +750,7 @@ limitations under the License.
 				</div>
 				<cfset i = i+1>
 			</cfloop>
-			<cfif editable>
+			<cfif arguments.editable>
 				<div id="editIdentificationDialog"></div>
 			</cfif>
 			<script>
