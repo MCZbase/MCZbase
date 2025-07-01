@@ -1868,6 +1868,44 @@ limitations under the License.
 			
 			<cfset variables.existingIds = ValueList(existingDeterminers.identification_agent_id)>
 			<cfset variables.processedIds = "">
+
+			<!--- ensure determiner_positions are not duplicated and represent a user selected order with duplicated moved down the list --->
+			<cfset posArray = listToArray(determiner_positions)>
+			<cfset n = arrayLen(posArray)>
+			<cfset newPositions = arrayNew(1)>
+			<!--- Create a copy of the determiner position array --->
+			<cfset tempArray = arrayNew(1)>
+			<cfloop from="1" to="#n#" index="i">
+				<cfset tempArray[i] = posArray[i]>
+			</cfloop>
+			<!--- Work backwards, so the last occurrence of a given number is kept (supporting a user moving determiner 3 to position 1, but not changing other positions) --->
+			<cfloop index="i" from="#n#" to="1" step="-1">
+				<cfset currVal = tempArray[i]>
+				<!--- Make sure currVal is unique for indices > i --->
+				<cfloop index="j" from="i+1" to="#n#">
+					<cfif tempArray[j] EQ currVal>
+						<cfset currVal = currVal + 1>
+						<!--- Restart inner loop if we change currVal --->
+						<cfset j = i>
+					</cfif>
+				</cfloop>
+				<cfset newPositions[i] = currVal>
+			</cfloop>
+			<!--- Now, ensure all values are in 1..N and unique --->
+			<cfset seen = structNew()>
+			<cfloop index="i" from="1" to="#n#">
+				<!--- If out of range or already seen, increment up to find available slot --->
+				<cfset val = newPositions[i]>
+				<cfloop condition="val LT 1 OR val GT n OR structKeyExists(seen, val)">
+					<cfset val = val + 1>
+					<cfif val GT n>
+						<cfset val = 1>
+					</cfif>
+				</cfloop>
+				<cfset newPositions[i] = val>
+				<cfset seen[val] = true>
+			</cfloop>
+			<cfset determiner_positions = arrayToList(newPositions)>
 			
 			<!--- combine determiner_ids, determiner_positions, and identification_agent_ids lists into a two dimensional array for processing --->
 			<cfset variables.determinersArray = ArrayNew(1)>
