@@ -741,8 +741,9 @@ limitations under the License.
 					var title = "Edit Identification";
 					dialogId = "editIdentificationDialog";
 					max_height = 450;
+					width_cap = 1100; 
 					console.log("editIdentification: identification_id = " + identification_id);
-					createSpecimenEditDialog(dialogId,title,callback,max_height);
+					createSpecimenEditDialog(dialogId,title,callback,max_height,width_cap);
 					// Call the server-side function to get the edit HTML, load into the dialog
 					$.ajax({
 						url: '/specimens/component/functions.cfc',
