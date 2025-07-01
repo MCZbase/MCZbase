@@ -4023,6 +4023,22 @@ limitations under the License.
 														</span></td>
 												</tr>
 											</cfif>
+											<!--- check for identifications - mixed collection - part with identifications --->
+											<cfquery name="getIdentifications" dbtype="query">
+												select
+													identification_id
+												from
+													identification
+												where
+													collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+											</cfquery>
+											<cfif getIdentifications.recordcount GT 0>
+												<tr class="small">
+													<td colspan="5">
+														<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=part_id)>
+													</td>
+												</tr>
+											</cfif>
 											<cfquery name="patt" dbtype="query">
 												select
 													attribute_type,
