@@ -194,9 +194,10 @@ limitations under the License.
 										<cfelse>
 											<cfset cl = container_label>
 										</cfif>
-										<div style="font: 0.8em helvetica">Container:#cl##parent#</div>
+										<div style="font: 0.9em helvetica">Container:#cl##parent#</div>
 										<div><strong style="font: 0.9em Helvetica;">#sci_name#</strong></div>
-										<div style="height: 0.9in; font: 0.8em Helvetica; overflow: hidden;">#verbatim_locality#</div>
+										<div style="height: 0.9in; font: 0.9em Helvetica; overflow: hidden;">#verbatim_locality#</div>
+										<span style="display: block; #fullHeight# width: 0; visibility: hidden;"></span>
 									</cfcase>
 									<cfcase value="Slide_1x3__IZ">
 										<cfif type_status_kind EQ 'Primary'>
@@ -216,14 +217,15 @@ limitations under the License.
 											<cfset parent = " in #parent_label#">
 										</cfif>
 										<div style="font: 0.8em Helvetica;">#phylum# #phylclass# #phylorder# #family#</div>
-										<div style="position:absolute; bottom:0.33in; left:0.05in; right:0;">
+										<div style="position:absolute; bottom:0.32in; left:0.05in; right:0;">
 										<cfif len(type_name) GT 0>
-											<strong style="font: 0.8em Helvetica;">#type_name# #type_author#</strong>
+											<strong style="font: 0.9em Helvetica;">#type_name# #type_author#</strong>
 										<cfelse>
-											<strong style="font: 0.8em Helvetica;">#sci_name_with_auth#</strong>
+											<strong style="font: 0.9em Helvetica;">#sci_name_with_auth#</strong>
 										</cfif>
 										</div>
 										<div style="position:absolute; bottom:0.08in; left:0.05in; right:0; font: 0.9em Helvetica;">#container_label#</div>
+										<span style="display: block; #fullHeight# width: 0; visibility: hidden;"></span>
 									</cfcase>
 								</cfswitch>
 							</div>
