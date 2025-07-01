@@ -393,6 +393,19 @@ limitations under the License.
 					AND 
 						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
+				<!--- check for mixed collection --->
+				<cfquery name="checkMixed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						COUNT(identification_id) AS mixedCollectionCount
+					FROM 
+						specimen_part
+						join identification on specimen_part.collection_object_id = identification.collection_object_id
+						join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+					WHERE 
+						specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						AND 
+						coll_object.coll_object_type = 'SP'
+				</cfquery>
 				<cfif len(identifiers.cat_num) gt 0>
 					<ul class="list-group pl-0 py-1">
 						<li class="list-group-item py-0">
@@ -411,6 +424,12 @@ limitations under the License.
 							<span class="float-left font-weight-lessbold">GUID: </span>
 							<span class="float-left pl-1 mb-0"><a href="https://mczbase.mcz.harvard.edu/guid/#identifiers.guid_prefix#:#identifiers.cat_num#">#identifiers.guid_prefix#:#identifiers.cat_num#</a></span>
 						</li>
+						<cfif checkMixed.mixedCollectionCount GT 0>
+							<li class="list-group-item py-0">
+								<span class="float-left font-weight-lessbold">Mixed Collection: </span>
+								<span class="float-left pl-1 mb-0">This specimen is a mixed collection.</span>
+							</li>
+						</cfif>
 					</ul>
 				</cfif>
 			<cfcatch>
@@ -1258,6 +1277,22 @@ limitations under the License.
 										</span>
 									</td>
 								</tr>
+								<!--- check for identifications - mixed collection - part with identifications --->
+								<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT
+										identification_id
+									FROM
+										identification
+									WHERE
+										collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+								</cfquery>
+								<cfif getIdentifications.recordcount GT 0>
+									<tr class="small">
+										<td colspan="5">
+											<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=part_id)>
+										</td>
+									</tr>
+								</cfif>
 								<cfif len(part_remarks) gt 0>
 									<tr class="small90">
 										<td colspan="6" class="mb-0 pb-1 pt-0">
