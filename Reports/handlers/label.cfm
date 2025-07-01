@@ -53,6 +53,7 @@ limitations under the License.
 		<cfset labelWidth = 'width: 3.5in;'>
 		<cfset labelBorder = 'border: 1px solid black;'>
 		<cfset labelHeight = 'height: 2.0in;'>
+		<cfset fullHeight = 'height: 2.0in;'>
 		<cfset marginx = '0.5'>
 	</cfcase>
 	<cfcase value="Slide_1x3__Mala">
@@ -92,6 +93,7 @@ limitations under the License.
 		<cfset labelWidth = 'width: 2.875in;'>
 		<cfset labelBorder = 'border: 1px solid black;'>
 		<cfset labelHeight = 'height: 0.875in;'>
+		<cfset fullHeight = 'height: 1.0in;'>
 		<cfset marginx = '1.124'>
 	</cfcase>
 	<cfcase value="Slide_1x3__IZ">
@@ -143,11 +145,12 @@ limitations under the License.
 		<cfset labelWidth = 'width: 2.875in;'>
 		<cfset labelBorder = 'border: 1px solid black;'>
 		<cfset labelHeight = 'height: 0.875in;'>
+		<cfset fullHeight = 'height: 1.0in;'>
 		<cfset marginx = '1.124'>
 	</cfcase>
 </cfswitch>
 
-<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# padding: 5px; overflow: hidden;'>
+<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# padding: 5px;'>
 <cfdocument format="pdf" pagetype="letter" margintop=".25" marginbottom=".25" marginleft="#marginx#" marginright="#marginx#" orientation="#orientation#" fontembed="yes" saveAsName="MCZ_labels_#result_id#.pdf">
 	<cfoutput>
 		<cfdocumentitem type="header">
@@ -167,7 +170,7 @@ limitations under the License.
 				<tr>
 					<cfset columnCounter = 0>
 					<cfloop query="getItems">
-						<td style="#labelHeight# vertical-align: top;">
+						<td style="#fullHeight# vertical-align: top;">
 							<div style="#labelStyle# position: relative;">
 								<cfswitch expression = "#variables.target#">
 									<cfcase value="Dry_Large_Type__All">
