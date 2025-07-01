@@ -4024,7 +4024,7 @@ limitations under the License.
 												</tr>
 											</cfif>
 											<!--- check for identifications - mixed collection - part with identifications --->
-											<cfquery name="getIdentifications" dbtype="query">
+											<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 												select
 													identification_id
 												from
