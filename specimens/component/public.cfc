@@ -2429,6 +2429,7 @@ limitations under the License.
 							datum,
 							max_error_distance,
 							max_error_units,
+							to_meters(max_error_distance, max_error_units) as coordinateuncertaintyinmeters,
 							orig_lat_long_units,
 							lat_deg,
 							dec_lat_min,
@@ -2517,7 +2518,7 @@ limitations under the License.
 						<cfset coordinates="#coordlookup.dec_lat#,#coordlookup.dec_long#">
 						<!--- coordinates_* referenced in localityMapSetup --->
 						<input type="hidden" id="coordinates_#loc_collevent.locality_id#" value="#coordinates#">
-						<input type="hidden" id="error_#loc_collevent.locality_id#" value="1196">
+						<input type="hidden" id="error_#loc_collevent.locality_id#" value="#coordlookup.coordinateuncertaintyinmeters#">
 						<div id="mapdiv_#loc_collevent.locality_id#" class="tinymap" style="width:100%;height:180px;" aria-label="Google Map of specimen collection location"></div>
 					</div>
 				<cfelse>

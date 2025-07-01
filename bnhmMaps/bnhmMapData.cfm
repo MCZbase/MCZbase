@@ -233,7 +233,7 @@
 			chr(9) & '</annotation>';
 		variables.joFileWriter.writeLine(a);
 		a=chr(9) & '<concepts>' & chr(10) &
-			chr(9) & '<concept order="1" viewlist="0" colorlist="0" datatype="darwin:relatedinformation"  alias="Related Information" />' & chr(10) &
+			chr(9) & '<concept order="1" viewlist="1" colorlist="0" datatype="darwin:relatedinformation"  alias="Related Information" />' & chr(10) &
 			chr(9) & chr(9) & '<concept order="2" viewlist="1" colorlist="1" datatype="darwin:scientificname" alias="Scientific Name"/>' & chr(10) &
 			chr(9) & chr(9) & '<concept order="3" viewlist="1" colorlist="0" datatype="char120_1" alias="Verbatim Date"/>' & chr(10) &
 			chr(9) & chr(9) & '<concept order="4" viewlist="1" colorlist="0" datatype="darwin:locality" alias="Specific Locality"/>' & chr(10) &
