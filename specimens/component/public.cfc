@@ -740,7 +740,7 @@ limitations under the License.
 				function editIdentification(identification_id,callback) {
 					var title = "Edit Identification";
 					dialogId = "editIdentificationDialog";
-					max_height = 400;
+					max_height = 450;
 					console.log("editIdentification: identification_id = " + identification_id);
 					createSpecimenEditDialog(dialogId,title,callback,max_height);
 					// Call the server-side function to get the edit HTML, load into the dialog

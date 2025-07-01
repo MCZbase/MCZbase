@@ -63,7 +63,8 @@ function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775) {
 			var maxZindex = getMaxZIndex();
 			$('.ui-dialog').css({'z-index': maxZindex + 6 });
 			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
-			
+			// position consistently with top at top of browser window:
+			$(this).dialog("option", "position",{ my: "top", at: "top", of: window, collision: "fit" });
 		},
 		close: function(event,ui) {
 			console.log("Close called on dialog in div with id: " + dialogId);
