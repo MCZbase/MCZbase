@@ -190,14 +190,13 @@ limitations under the License.
 											<cfset parent = " in #parent_label#">
 										</cfif>
 										<cfif lcase(container_label) EQ 'the museum of comparative zoology'>
-											<cfset container_label = "MCZ Unplaced">
+											<cfset cl = "MCZ Unplaced">
+										<cfelse>
+											<cfset cl = container_label>
 										</cfif>
-										<cfif lcase(parent) EQ "the museum of comparative zoology">
-											<cfset parent = "MCZ Unplaced">
-										</cfif>
-										<div style="font: 0.9em helvetica">Container:#container_label##parent#</div>
+										<div style="font: 0.8em helvetica">Container:#cl##parent#</div>
 										<div><strong style="font: 0.9em Helvetica;">#sci_name#</strong></div>
-										<div style="height: 0.9in; font: 0.9em Helvetica; overflow: hidden;">#verbatim_locality#</div>
+										<div style="height: 0.8in; font: 0.9em Helvetica; overflow: hidden;">#verbatim_locality#</div>
 									</cfcase>
 									<cfcase value="Slide_1x3__IZ">
 										<cfif type_status_kind EQ 'Primary'>
@@ -216,12 +215,12 @@ limitations under the License.
 										<cfelse>
 											<cfset parent = " in #parent_label#">
 										</cfif>
-										<div style="font: 0.9em Helvetica;">#phylum# #phylclass# #phylorder# #family#</div>
-										<div style="position:absolute; bottom:0.35in; left:0.05in; right:0;">
+										<div style="font: 0.8em Helvetica;">#phylum# #phylclass# #phylorder# #family#</div>
+										<div style="position:absolute; bottom:0.33in; left:0.05in; right:0;">
 										<cfif len(type_name) GT 0>
-											<strong style="font: 0.9em Helvetica;">#type_name# #type_author#</strong>
+											<strong style="font: 0.8em Helvetica;">#type_name# #type_author#</strong>
 										<cfelse>
-											<strong style="font: 0.9em Helvetica;">#sci_name_with_auth#</strong>
+											<strong style="font: 0.8em Helvetica;">#sci_name_with_auth#</strong>
 										</cfif>
 										</div>
 										<div style="position:absolute; bottom:0.08in; left:0.05in; right:0; font: 0.9em Helvetica;">#container_label#</div>
