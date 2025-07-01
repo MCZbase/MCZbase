@@ -1643,6 +1643,11 @@ limitations under the License.
 											}
 								
 											function handleSaveIdentification() {
+												// Validate required fields
+												if (!$("##editIdentificationForm")[0].checkValidity()) {
+													$("##editIdentificationForm")[0].reportValidity();
+													return;
+												}
 												setFeedbackControlState("editIdStatus", "saving");
 												// Expected number of determiner field sets 
 												var count = parseInt($("##eid_determiner_count").val());
