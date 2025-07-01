@@ -985,6 +985,11 @@ limitations under the License.
 													loadIdentificationsList("#variables.collection_object_id#", "identificationDialogList","true");
 												}
 												function handleAddIdentification() {
+													// Validate required fields
+													if (!$("##addIdentificationForm")[0].checkValidity()) {
+														$("##addIdentificationForm")[0].reportValidity();
+														return;
+													}
 													// iterate through all of the determiner_id controls and add their values to a comma separated list in determiner_ids
 													var determinerIds = [];
 													$("input[id^='determiner_id_']").each(function() {
