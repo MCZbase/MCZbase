@@ -53,6 +53,7 @@ limitations under the License.
 		<cfset labelWidth = 'width: 3.5in;'>
 		<cfset labelBorder = 'border: 1px solid black;'>
 		<cfset labelHeight = 'height: 2.0in;'>
+		<cfset marginx = '0.5'>
 	</cfcase>
 	<cfcase value="Slide_1x3__Mala">
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -88,9 +89,10 @@ limitations under the License.
 		<cfset orientation = "portrait">
 		<cfset columns = 2>
 		<cfset tableWidth = 'width: 6in;'>
-		<cfset labelWidth = 'width: 3.0in;'>
+		<cfset labelWidth = 'width: 2.875in;'>
 		<cfset labelBorder = 'border: 1px solid black;'>
-		<cfset labelHeight = 'height: 1.0in;'>
+		<cfset labelHeight = 'height: 0.875in;'>
+		<cfset marginx = '0.75'>
 	</cfcase>
 	<cfcase value="Slide_1x3__IZ">
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -138,14 +140,15 @@ limitations under the License.
 		<cfset orientation = "portrait">
 		<cfset columns = 2>
 		<cfset tableWidth = 'width: 6in;'>
-		<cfset labelWidth = 'width: 3.0in;'>
+		<cfset labelWidth = 'width: 2.875in;'>
 		<cfset labelBorder = 'border: 1px solid black;'>
-		<cfset labelHeight = 'height: 1.0in;'>
+		<cfset labelHeight = 'height: 0.875in;'>
+		<cfset marginx = '0.75'>
 	</cfcase>
 </cfswitch>
 
 <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# padding: 5px;'>
-<cfdocument format="pdf" pagetype="letter" margintop=".25" marginbottom=".25" marginleft=".5" marginright=".5" orientation="#orientation#" fontembed="yes" saveAsName="MCZ_labels_#result_id#.pdf">
+<cfdocument format="pdf" pagetype="letter" margintop=".25" marginbottom=".25" marginleft="#marginx#" marginright="#marginx#" orientation="#orientation#" fontembed="yes" saveAsName="MCZ_labels_#result_id#.pdf">
 	<cfoutput>
 		<cfdocumentitem type="header">
 			<div style="text-align: center; font-size: x-small;">
@@ -164,7 +167,7 @@ limitations under the License.
 				<tr>
 					<cfset columnCounter = 0>
 					<cfloop query="getItems">
-						<td style="#labelHeight# #labelWidth#">
+						<td>
 							<div style="#labelStyle# position: relative;">
 								<cfswitch expression = "#variables.target#">
 									<cfcase value="Dry_Large_Type__All">
