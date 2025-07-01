@@ -189,10 +189,10 @@ limitations under the License.
 										<cfelse>
 											<cfset parent = " in #parent_label#">
 										</cfif>
-										<cfif container_label EQ 'The Museum Of Comparative Zoology'>
+										<cfif lcase(container_label) EQ 'the museum of comparative zoology'>
 											<cfset container_label = "MCZ Unplaced">
 										</cfif>
-										<cfif parent EQ "The Museum Of Comparative Zoology">
+										<cfif lcase(parent) EQ "the museum of comparative zoology">
 											<cfset parent = "MCZ Unplaced">
 										</cfif>
 										<div style="font: 0.9em helvetica">Container:#container_label##parent#</div>
