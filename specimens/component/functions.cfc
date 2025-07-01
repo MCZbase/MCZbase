@@ -934,6 +934,7 @@ limitations under the License.
 																		newControl += '<label id="det_label_'+currentCount+'" for="det'+currentCount+'"  class="data-entry-label"> Determiner '+currentCount + ':</label>';
 																		newControl += '<input type="text" name="det'+currentCount+'" id="det'+currentCount+'"  class="data-entry-input">';
 																		newControl += '<input type="hidden" name="determiner_id'+currentCount+'" id="determiner_id_'+currentCount+'" value="" >';
+																		// no option to change determiner order when creating new identifications
 																		// button to remove this determiner control
 																		newControl += '<button type="button" class="btn btn-xs btn-secondary" id="removeDet'+currentCount+'" onClick="removeDeterminerControl('+currentCount+');">Remove</button>';
 																		newControl += '</div>';
@@ -984,6 +985,11 @@ limitations under the License.
 													loadIdentificationsList("#variables.collection_object_id#", "identificationDialogList","true");
 												}
 												function handleAddIdentification() {
+													// Validate required fields
+													if (!$("##addIdentificationForm")[0].checkValidity()) {
+														$("##addIdentificationForm")[0].reportValidity();
+														return;
+													}
 													// iterate through all of the determiner_id controls and add their values to a comma separated list in determiner_ids
 													var determinerIds = [];
 													$("input[id^='determiner_id_']").each(function() {
@@ -1420,7 +1426,7 @@ limitations under the License.
 													<input type="hidden" name="taxona_id" id="eid_edit_taxona_id" value="#taxonA.taxon_name_id#">
 													<script>
 														$(document).ready(function() {
-															makeScientificNameAutocompleteMeta("edit_taxona","edit_taxona_id");
+															makeScientificNameAutocompleteMeta("eid_edit_taxona","eid_edit_taxona_id");
 														});
 													</script>
 												</div>
@@ -1431,7 +1437,7 @@ limitations under the License.
 														<input type="hidden" name="taxonb_id" id="eid_edit_taxonb_id" value="#taxonB.taxon_name_id#">
 														<script>
 															$(document).ready(function() {
-																makeScientificNameAutocompleteMeta("edit_taxonb","edit_taxonb_id");
+																makeScientificNameAutocompleteMeta("eid_edit_taxonb","eid_edit_taxonb_id");
 															});
 														</script>
 													</div>
@@ -1441,7 +1447,7 @@ limitations under the License.
 													<input type="text" name="made_date" id="eid_edit_made_date" class="data-entry-input" value="#idData.made_date#">
 													<script>
 														$(document).ready(function() {
-															$("##edit_made_date").datepicker({
+															$("##eid_edit_made_date").datepicker({
 																dateFormat: "yy-mm-dd",
 																changeMonth: true,
 																changeYear: true,
@@ -1464,7 +1470,7 @@ limitations under the License.
 													<input type="hidden" name="publication_id" id="eid_edit_publication_id" value="#idData.publication_id#">
 													<script>
 														$(document).ready(function() {
-															makePublicationAutocompleteMeta("edit_publication","edit_publication_id");
+															makePublicationAutocompleteMeta("eid_edit_publication","eid_edit_publication_id");
 														});
 													</script>
 												</div>
@@ -1506,18 +1512,34 @@ limitations under the License.
 													</script>
 												</div>
 								
-												<!--- Determiners section using same layout as Add form --->
+												<!--- Determiners --->
 												<div class="col-12">
 													<div class="form-row" id="eid_edit_determiners_form_row">
 														<cfset determiner_count = 0>
 														<cfloop query="determiners">
 															<cfset determiner_count = determiner_count + 1>
-															<div class="col-12 col-md-3" id="eid_det_div_#determiner_count#">
-																<label id="eid_det_label_#determiner_count#" for="eid_det_name_#determiner_count#" class="data-entry-label">Determiner #determiner_count#:</label>
-																<input type="text" name="eid_det_name_#determiner_count#" id="eid_det_name_#determiner_count#" class="data-entry-input reqdClr" value="#determiners.agent_name#" required>
-																<input type="hidden" name="eid_determiner_id_#determiner_count#" id="eid_determiner_id_#determiner_count#" value="#determiners.agent_id#">
-																<input type="hidden" name="eid_identification_agent_id_#determiner_count#" value="#determiners.identification_agent_id#">
-																<button type="button" class="btn btn-xs btn-secondary" id="eid_removeDet#determiner_count#" onClick="removeEditDeterminerControl(#determiner_count#);">Remove</button>
+															<div class="col-12 col-md-3 form-row" id="eid_det_div_#determiner_count#">
+																<div class="col-12 col-md-10 pr-0">
+																	<label id="eid_det_label_#determiner_count#" for="eid_det_name_#determiner_count#" class="data-entry-label">Determiner #determiner_count#:</label>
+																	<input type="text" name="eid_det_name_#determiner_count#" id="eid_det_name_#determiner_count#" class="data-entry-input reqdClr" value="#determiners.agent_name#" required>
+																	<input type="hidden" name="eid_determiner_id_#determiner_count#" id="eid_determiner_id_#determiner_count#" value="#determiners.agent_id#">
+																	<input type="hidden" name="eid_identification_agent_id_#determiner_count#" value="#determiners.identification_agent_id#">
+																</div>
+																<div class="col-12 col-md-2 pl-0">
+																	<!--- select to change position --->
+																	<label for="eid_det_position_#determiner_count#" class="data-entry-label" aria-label="Ordinal Position">&nbsp;</label>
+																	<select name="det_position_#determiner_count#" id="eid_det_position_#determiner_count#" class="data-entry-select">
+																		<cfloop from="1" to="#determiners.recordcount#" index="pos">
+																			<cfif pos EQ determiner_count>
+																				<cfset selected="selected">
+																			<cfelse>
+																				<cfset selected="">
+																			</cfif>
+																			<option value="#pos#" #selected#>#pos#</option>
+																		</cfloop>
+																	</select>
+																</div>
+																<button type="button" class="btn btn-xs btn-secondary ml-1" id="eid_removeDet#determiner_count#" onClick="removeEditDeterminerControl(#determiner_count#);">Remove</button>
 																<script>
 																	$(document).ready(function() {
 																		makeAgentAutocompleteMeta("eid_det_name_#determiner_count#", "eid_determiner_id_#determiner_count#");
@@ -1528,12 +1550,18 @@ limitations under the License.
 														<!--- Failover case: if no determiners are present, ensure at least one set of controls is shown --->
 														<cfif determiner_count EQ 0>
 															<cfset determiner_count = 1>
-															<div class="col-12 col-md-3" id="eid_det_div_1">
-																<label id="eid_det_label_1" for="eid_det_name_1" class="data-entry-label">Determiner 1:</label>
-																<input type="text" name="eid_det_name_1" id="eid_det_name_1" class="data-entry-input reqdClr" required>
-																<input type="hidden" name="eid_determiner_id_1" id="eid_determiner_id_1">
-																<input type="hidden" name="eid_identification_agent_id_1">
-																<button type="button" class="btn btn-xs btn-secondary" id="eid_removeDet1" onClick="removeEditDeterminerControl(1);">Remove</button>
+															<div class="col-12 col-md-3 form-row" id="eid_det_div_1">
+																<div class="col-12 col-md-10 pr-0">
+																	<label id="eid_det_label_1" for="eid_det_name_1" class="data-entry-label">Determiner 1:</label>
+																	<input type="text" name="eid_det_name_1" id="eid_det_name_1" class="data-entry-input reqdClr" required>
+																	<input type="hidden" name="eid_determiner_id_1" id="eid_determiner_id_1">
+																	<input type="hidden" name="eid_identification_agent_id_1" value="new">
+																	<input type="hidden" name="det_position_1" id="eid_det_position_1" value="1">
+																</div>
+																<div class="col-12 col-md-2 pl-0">
+																	&nbsp;<!--- no position select for failover case --->
+																</div>
+																<button type="button" class="btn btn-xs btn-secondary ml-1" id="eid_removeDet1" onClick="removeEditDeterminerControl(1);">Remove</button>
 																<script>
 																	$(document).ready(function() {
 																		makeAgentAutocompleteMeta("eid_det_name_1", "eid_determiner_id_1");
@@ -1541,8 +1569,13 @@ limitations under the License.
 																</script>
 															</div>
 														</cfif>
-														<input type="hidden" name="eid_determiner_count" id="eid_determiner_count" value="#determiner_count#">
-														<input type="hidden" name="eid_determiner_ids" id="eid_determiner_ids" class="data-entry-input">
+														<input type="hidden" name="determiner_count" id="eid_determiner_count" value="#determiner_count#">
+														<!--- List of agent ids of determiners that were selected --->
+														<input type="hidden" name="determiner_ids" id="eid_determiner_ids" class="data-entry-input">
+														<!--- List of primary key values for existing identification_agent records --->
+														<input type="hidden" name="identification_agent_ids" id="eid_identification_agent_ids" class="data-entry-input">
+														<!--- List of positions for each determiner (1 to n) --->
+														<input type="hidden" name="determiner_positions" id="eid_determiner_positions" class="data-entry-input">
 													</div>
 													<button type="button" class="btn btn-xs btn-secondary mt-2" id="eid_addEditDeterminerButton" onClick="addEditDeterminerControl();">Add Determiner</button>
 												</div>
@@ -1572,12 +1605,28 @@ limitations under the License.
 											function addEditDeterminerControl() {
 												var currentCount = parseInt($("##eid_determiner_count").val());
 												currentCount++;
-												var newControl = '<div class="col-12 col-md-3" id="eid_det_div_' + currentCount + '">';
+												var newControl = '<div class="col-12 col-md-3 form-row" id="eid_det_div_' + currentCount + '">';
+												newControl += '<div class="col-12 col-md-10 pr-0">';
 												newControl += '<label id="eid_det_label_' + currentCount + '" for="eid_det_name_' + currentCount + '" class="data-entry-label">Determiner ' + currentCount + ':</label>';
 												newControl += '<input type="text" name="eid_det_name_' + currentCount + '" id="eid_det_name_' + currentCount + '" class="data-entry-input reqdClr" required>';
 												newControl += '<input type="hidden" name="eid_determiner_id_' + currentCount + '" id="eid_determiner_id_' + currentCount + '">';
-												newControl += '<input type="hidden" name="eid_identification_agent_id_' + currentCount + '">';
-												newControl += '<button type="button" class="btn btn-xs btn-secondary" id="eid_removeDet' + currentCount + '" onClick="removeEditDeterminerControl(' + currentCount + ');">Remove</button>';
+												newControl += '<input type="hidden" name="eid_identification_agent_id_' + currentCount + '" value="new">';
+												newControl += '</div>';
+												newControl += '<div class="col-12 col-md-2 pl-0">';
+												// select to change position 
+												newControl += '<label for="eid_det_position_' + currentCount + '" class="data-entry-label" aria-label="Ordinal Position">&nbsp;</label>';
+												newControl += '<select name="det_position_' + currentCount + '" id="eid_det_position_' + currentCount + '" class="data-entry-select">';
+												for (var i = 1; i <= currentCount; i++) {
+													if (i === currentCount) {
+														newControl += '<option value="' + i + '" selected>' + i + '</option>';
+													} else {
+														// For previous positions, we can only select up to currentCount - 1
+														newControl += '<option value="' + i + '">' + i + '</option>';
+													}
+												}
+												newControl += '</select>';
+												newControl += '</div>';
+												newControl += '<button type="button" class="btn btn-xs btn-secondary ml-1" id="eid_removeDet' + currentCount + '" onClick="removeEditDeterminerControl(' + currentCount + ');">Remove</button>';
 												newControl += '</div>';
 												$("##eid_edit_determiners_form_row").append(newControl);
 												makeAgentAutocompleteMeta("eid_det_name_" + currentCount, "eid_determiner_id_" + currentCount);
@@ -1589,15 +1638,33 @@ limitations under the License.
 											}
 								
 											function closeEditDialog() {
-												$("##editIdentificationHTML").remove();
+												$("##editIdentificationDialog").dialog("close");
 												reloadIdentifications();
 											}
 								
 											function handleSaveIdentification() {
+												// Validate required fields
+												if (!$("##editIdentificationForm")[0].checkValidity()) {
+													$("##editIdentificationForm")[0].reportValidity();
+													return;
+												}
 												setFeedbackControlState("editIdStatus", "saving");
+												// Expected number of determiner field sets 
+												var count = parseInt($("##eid_determiner_count").val());
+												// Collect all identification_agent_ids for determiner records
+												var identificationAgentIds = [];
+												for (var i=1; i<=count; i++) {
+													var $div = $("##eid_det_div_" + i);
+													if ($div.length > 0) {
+														var idAgentId = $div.find("[name='eid_identification_agent_id_" + i + "']").val();
+														if (idAgentId) {
+															identificationAgentIds.push(idAgentId);
+														}
+													}
+												}
+												$("##eid_identification_agent_ids").val(identificationAgentIds.join(','));
 												// Collect all determiner agent_ids
 												var determinerIds = [];
-												var count = parseInt($("##eid_determiner_count").val());
 												for (var i = 1; i <= count; i++) {
 													var $div = $("##eid_det_div_" + i);
 													if ($div.length > 0) {
@@ -1608,6 +1675,18 @@ limitations under the License.
 													}
 												}
 												$("##eid_determiner_ids").val(determinerIds.join(','));
+												// Collect all determiner positions
+												var determinerPositions = [];
+												for (var i = 1; i <= count; i++) {
+													var $div = $("##eid_det_div_" + i);
+													if ($div.length > 0) {
+														var position = $div.find("[id^='eid_det_position_']").val();
+														if (position) {
+															determinerPositions.push(position);
+														}
+													}
+												}
+												$("##eid_determiner_positions").val(determinerPositions.join(','));
 												var form = $('##editIdentificationForm');
 												var formData = form.serialize();
 												$.ajax({
@@ -1668,8 +1747,9 @@ limitations under the License.
 	@param identification_remarks any remarks for the identification (optional).
 	@param stored_as_fg whether to store the identification as a field guide (optional, default 0).
 	@param accepted_id_fg whether this is the accepted identification (optional, default 0).
+	@param identification_agent_ids a comma-separated list of identification agent IDs for the associative entity.
 	@param determiner_ids a comma-separated list of agent IDs for the determiners.
-		TODO: update to use a single string of comma-separated agent IDs instead of JSON array.
+	@param determiner_positions a comma-separated list of positions for the determiners.
 	@return JSON object with status and identification ID.
  --->
 <cffunction name="saveIdentification" access="remote" returntype="any" returnformat="json">
@@ -1686,15 +1766,13 @@ limitations under the License.
 	<cfargument name="identification_remarks" type="string" required="no" default="">
 	<cfargument name="stored_as_fg" type="string" required="no" default="0">
 	<cfargument name="accepted_id_fg" type="string" required="no" default="0">
-	<cfargument name="determiner_ids" type="string" required="yes">
-	
+	<cfargument name="identification_agent_ids" type="string" required="yes"><!--- the list of identification_agent_ids for the associative entity --->
+	<cfargument name="determiner_ids" type="string" required="yes"> <!--- the list of agent_ids for determiners --->
+	<cfargument name="determiner_positions" type="string" required="yes"> <!--- the list of positions for determiners --->	
+
 	<cfset var data = ArrayNew(1)>
 	
 	<cfset var scientific_name = arguments.taxa_formula>
-	<!--- throw an exception if formula contains B but taxon B is not provided --->
-	<cfif arguments.taxa_formula contains "B" and len(arguments.taxonb) EQ 0>	
-		<cfthrow message="Taxon B is required when the formula contains 'B'.">
-	</cfif>
 	
 	<!--- replace A in the formula with a string that is not likely to occur in a scientific name --->
 	<cfset scientific_name = REReplace(scientific_name, "\bA\b", "TAXON_A", "all")>
@@ -1721,6 +1799,17 @@ limitations under the License.
 	
 	<cftransaction>
 		<cftry>
+			<!--- throw an exception if formula contains B but taxon B is not provided --->
+			<cfif arguments.taxa_formula contains "B" and len(arguments.taxonb) EQ 0>	
+				<cfthrow message="Taxon B is required when the formula contains 'B'.">
+			</cfif>
+			<!--- check that the lists of determiner information are the same length --->
+			<cfif listLen(arguments.identification_agent_ids) NEQ listLen(arguments.determiner_ids)>
+				<cfthrow message="The number of identification_agent_ids must match the number of determiner_ids.">
+			</cfif>
+			<cfif listLen(arguments.identification_agent_ids) NEQ listLen(arguments.determiner_positions)>
+				<cfthrow message="The number of identification_agent_ids must match the number of determiner_positions.">
+			</cfif>
 			<!--- Handle accepted_id_fg flag - only one per specimen --->
 			<cfif arguments.accepted_id_fg EQ 1>
 				<cfquery name="setAcceptedZero" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1804,10 +1893,69 @@ limitations under the License.
 			
 			<cfset variables.existingIds = ValueList(existingDeterminers.identification_agent_id)>
 			<cfset variables.processedIds = "">
+
+			<!--- ensure determiner_positions are not duplicated and represent a user selected order with duplicated moved down the list --->
+			<cfset posArray = listToArray(determiner_positions)>
+			<cfset n = arrayLen(posArray)>
+			<cfset newPositions = arrayNew(1)>
+			<!--- Create a copy of the determiner position array --->
+			<cfset tempArray = arrayNew(1)>
+			<cfloop from="1" to="#n#" index="i">
+				<cfset tempArray[i] = posArray[i]>
+			</cfloop>
+			<!--- Work backwards, so the last occurrence of a given number is kept (supporting a user moving determiner 3 to position 1, but not changing other positions) --->
+			<cfloop index="i" from="#n#" to="1" step="-1">
+				<cfset currVal = tempArray[i]>
+				<!--- Make sure currVal is unique for indices > i --->
+				<cfset start= i + 1>
+				<cfloop index="j" from="#start#" to="#n#">
+					<cfif tempArray[j] EQ currVal>
+						<cfset currVal = currVal + 1>
+						<!--- Restart inner loop if we change currVal --->
+						<cfset j = i>
+					</cfif>
+				</cfloop>
+				<cfset newPositions[i] = currVal>
+			</cfloop>
+			<!--- Now, ensure all values are in 1..N and unique --->
+			<cfset seen = structNew()>
+			<cfloop index="i" from="1" to="#n#">
+				<!--- If out of range or already seen, increment up to find available slot --->
+				<cfset val = newPositions[i]>
+				<cfloop condition="val LT 1 OR val GT n OR structKeyExists(seen, val)">
+					<cfset val = val + 1>
+					<cfif val GT n>
+						<cfset val = 1>
+					</cfif>
+				</cfloop>
+				<cfset newPositions[i] = val>
+				<cfset seen[val] = true>
+			</cfloop>
+			<cfset determiner_positions = arrayToList(newPositions)>
 			
-			<cfset variables.determinersArray = ListToArray(arguments.determiner_ids)>
+			<!--- combine determiner_ids, determiner_positions, and identification_agent_ids lists into a two dimensional array for processing --->
+			<cfset variables.determinersArray = ArrayNew(1)>
+			<cfset var agentId = 0>
+			<cfset var orderNum = 0>
+			<cfset var processedIds = "">
+			<cfloop list="#arguments.identification_agent_ids#" index="id">
+												<cfset variables.detStruct = StructNew()>
+				<cfset detStruct["identification_agent_id"] = id>
+				<cfset detStruct["agent_id"] = ListGetAt(arguments.determiner_ids, ListFindNoCase(arguments.identification_agent_ids, id))>
+				<cfset var ordinalPosition = ListGetAt(arguments.determiner_positions, ListFindNoCase(arguments.identification_agent_ids, id))>
+				<cfif len(ordinalPosition)>
+					<cfset orderNum = Val(ordinalPosition)>
+				</cfif>
+				<cfset detStruct["identifier_order"] = orderNum>
+				<cfset ArrayAppend(variables.determinersArray, detStruct)>
+				<cfset orderNum = orderNum + 1>
+			</cfloop>
+
 			<!--- Process each determiner from the form --->
-			<cfloop list="#arguments.determiner_ids#" index="detId">
+			<cfloop array="#variables.determinersArray#" index="det">
+				<cfset var detId = det.identification_agent_id>
+				<cfset var agentId = det.agent_id>
+				<cfset var orderNum = det.identifier_order>
 				<cfif detId EQ "new">
 					<!--- This is a new determiner to add --->
 					<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1838,7 +1986,9 @@ limitations under the License.
 				<cfif NOT ListFind(processedIds, existingId)>
 					<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						DELETE FROM identification_agent 
-						WHERE identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#existingId#">
+						WHERE
+							identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#existingId#">
+							AND identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.identification_id#">
 					</cfquery>
 				</cfif>
 			</cfloop>
@@ -3845,23 +3995,48 @@ limitations under the License.
 											<th><span>Disposition</span></th>
 											<th><span>##</span></th>
 											<th><span>Container</span></th>
+											<th>Action</th>
 										</tr>
 									</thead>
 									<tbody>
 										<cfset i=1>
 										<cfloop query="mPart">
 											<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
-												<td><input class="data-entry-input" value="#part_name#"></td>
+												<td>
+													<input class="data-entry-input" value="#part_name#">
+												</td>
 												<td><input class="data-entry-input" size="7" value="#part_condition#"></td>
 												<td><input class="data-entry-input" size="7" value="#part_disposition#"></td>
 												<td><input class="data-entry-input" size="2" value="#lot_count#"></td>
 												<td><input class="data-entry-input" value="#label#"></td>
+												<td>
+													<!--- remove button --->
+													<button type="button" class="btn btn-xs btn-danger" onclick="confirmDialog('Remove this part?', 'Confirm Delete Part', function() { removePart('#part_id#'); });">Remove</button>
+													<!--- make mixed collection button --->
+													<button type="button" class="btn btn-xs btn-warning" onclick="confirmDialog('Make mixed collection?', 'Confirm Mixed Collection', function() { openEditIdentificationsDialog('#part_id#','identificationsDialog',reloadIdentifications); });">ID Mixed</button>
+												</td>
 											</tr>
 											<cfif len(part_remarks) gt 0>
 												<tr class="small">
 													<td colspan="5"><span class="d-block"><span class="font-italic pl-1">Remarks:</span>
 														<input class="w-100" type="text" value="#part_remarks#">
 														</span></td>
+												</tr>
+											</cfif>
+											<!--- check for identifications - mixed collection - part with identifications --->
+											<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												select
+													identification_id
+												from
+													identification
+												where
+													collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+											</cfquery>
+											<cfif getIdentifications.recordcount GT 0>
+												<tr class="small">
+													<td colspan="5">
+														<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=part_id)>
+													</td>
 												</tr>
 											</cfif>
 											<cfquery name="patt" dbtype="query">

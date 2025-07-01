@@ -715,6 +715,11 @@ function openItemConditionHistoryDialog(collection_object_id, dialogId) {
 }
 
 function localityMapSetup(){
+	// check if google.maps is loaded
+	if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
+		console.error("Google Maps API is not loaded.");
+		return;
+	}
 	/*map customization and polygon functionality commented  out for now. This will be useful as we implement more features -bkh*/
 	$("input[id^='coordinates_']").each(function(e){
 		var locid=this.id.split('_')[1];

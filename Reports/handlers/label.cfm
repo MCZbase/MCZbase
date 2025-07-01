@@ -53,6 +53,8 @@ limitations under the License.
 		<cfset labelWidth = 'width: 3.5in;'>
 		<cfset labelBorder = 'border: 1px solid black;'>
 		<cfset labelHeight = 'height: 2.0in;'>
+		<cfset fullHeight = 'height: 2.0in;'>
+		<cfset marginx = '0.5'>
 	</cfcase>
 	<cfcase value="Slide_1x3__Mala">
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -88,9 +90,12 @@ limitations under the License.
 		<cfset orientation = "portrait">
 		<cfset columns = 2>
 		<cfset tableWidth = 'width: 6in;'>
-		<cfset labelWidth = 'width: 3.0in;'>
+		<cfset labelWidth = 'width: 2.875in;'>
 		<cfset labelBorder = 'border: 1px solid black;'>
+		<cfset labelHeight = 'height: 0.875in;'>
 		<cfset labelHeight = 'height: 1.0in;'>
+		<cfset fullHeight = 'height: 1.0in;'>
+		<cfset marginx = '1.124'>
 	</cfcase>
 	<cfcase value="Slide_1x3__IZ">
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -138,14 +143,17 @@ limitations under the License.
 		<cfset orientation = "portrait">
 		<cfset columns = 2>
 		<cfset tableWidth = 'width: 6in;'>
-		<cfset labelWidth = 'width: 3.0in;'>
+		<cfset labelWidth = 'width: 2.875in;'>
 		<cfset labelBorder = 'border: 1px solid black;'>
+		<cfset labelHeight = 'height: 0.875in;'>
 		<cfset labelHeight = 'height: 1.0in;'>
+		<cfset fullHeight = 'height: 1.0in;'>
+		<cfset marginx = '1.124'>
 	</cfcase>
 </cfswitch>
 
 <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# padding: 5px;'>
-<cfdocument format="pdf" pagetype="letter" margintop=".25" marginbottom=".25" marginleft=".5" marginright=".5" orientation="#orientation#" fontembed="yes" saveAsName="MCZ_labels_#result_id#.pdf">
+<cfdocument format="pdf" pagetype="letter" margintop=".25" marginbottom=".25" marginleft="#marginx#" marginright="#marginx#" orientation="#orientation#" fontembed="yes" saveAsName="MCZ_labels_#result_id#.pdf">
 	<cfoutput>
 		<cfdocumentitem type="header">
 			<div style="text-align: center; font-size: x-small;">
@@ -164,7 +172,7 @@ limitations under the License.
 				<tr>
 					<cfset columnCounter = 0>
 					<cfloop query="getItems">
-						<td style="#labelHeight# #labelWidth#">
+						<td style="#fullHeight# vertical-align: top;">
 							<div style="#labelStyle# position: relative;">
 								<cfswitch expression = "#variables.target#">
 									<cfcase value="Dry_Large_Type__All">
@@ -183,9 +191,15 @@ limitations under the License.
 										<cfelse>
 											<cfset parent = " in #parent_label#">
 										</cfif>
-										<div style="font: 0.9em helvetica">Container:#container_label##parent#</div>
+										<cfif lcase(container_label) EQ 'the museum of comparative zoology'>
+											<cfset cl = "MCZ Unplaced">
+										<cfelse>
+											<cfset cl = container_label>
+										</cfif>
+										<div style="font: 0.9em helvetica">Container:#cl##parent#</div>
 										<div><strong style="font: 0.9em Helvetica;">#sci_name#</strong></div>
 										<div style="height: 0.9in; font: 0.9em Helvetica; overflow: hidden;">#verbatim_locality#</div>
+										<span style="display: block; position: absolute; top: 1in; height: 1px; width: 1px;"></span>
 									</cfcase>
 									<cfcase value="Slide_1x3__IZ">
 										<cfif type_status_kind EQ 'Primary'>
@@ -204,15 +218,16 @@ limitations under the License.
 										<cfelse>
 											<cfset parent = " in #parent_label#">
 										</cfif>
-										<div style="font: 0.9em Helvetica;">#phylum# #phylclass# #phylorder# #family#</div>
-										<div style="position:absolute; bottom:0.35in; left:0.05in; right:0;">
+										<div style="font: 0.8em Helvetica;">#phylum# #phylclass# #phylorder# #family#</div>
+										<div style="position:absolute; bottom:0.18in; left:0.05in; right:0;">
 										<cfif len(type_name) GT 0>
 											<strong style="font: 0.9em Helvetica;">#type_name# #type_author#</strong>
 										<cfelse>
 											<strong style="font: 0.9em Helvetica;">#sci_name_with_auth#</strong>
 										</cfif>
 										</div>
-										<div style="position:absolute; bottom:0.08in; left:0.05in; right:0; font: 0.9em Helvetica;">#container_label#</div>
+										<div style="position:absolute; bottom:0.01in; left:0.05in; right:0; font: 0.9em Helvetica;">#container_label#</div>
+										<span style="display: block; position: absolute; top: 1in; height: 1px; width: 1px;"></span>
 									</cfcase>
 								</cfswitch>
 							</div>

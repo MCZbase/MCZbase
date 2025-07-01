@@ -393,6 +393,19 @@ limitations under the License.
 					AND 
 						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
+				<!--- check for mixed collection --->
+				<cfquery name="checkMixed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						COUNT(identification_id) AS mixedCollectionCount
+					FROM 
+						specimen_part
+						join identification on specimen_part.collection_object_id = identification.collection_object_id
+						join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+					WHERE 
+						specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						AND 
+						coll_object.coll_object_type = 'SP'
+				</cfquery>
 				<cfif len(identifiers.cat_num) gt 0>
 					<ul class="list-group pl-0 py-1">
 						<li class="list-group-item py-0">
@@ -411,6 +424,12 @@ limitations under the License.
 							<span class="float-left font-weight-lessbold">GUID: </span>
 							<span class="float-left pl-1 mb-0"><a href="https://mczbase.mcz.harvard.edu/guid/#identifiers.guid_prefix#:#identifiers.cat_num#">#identifiers.guid_prefix#:#identifiers.cat_num#</a></span>
 						</li>
+						<cfif checkMixed.mixedCollectionCount GT 0>
+							<li class="list-group-item py-0">
+								<span class="float-left font-weight-lessbold">Mixed Collection: </span>
+								<span class="float-left pl-1 mb-0">This specimen is a mixed collection.</span>
+							</li>
+						</cfif>
 					</ul>
 				</cfif>
 			<cfcatch>
@@ -434,12 +453,12 @@ limitations under the License.
 <cffunction name="getIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
-	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.getIdLocal_collection_object_id = arguments.collection_object_id>
 
 	<cfthread name="getIdentificationsThread">
 		<cfoutput>
 			<!--- get content from unthreaded method --->
-			<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=variables.collection_object_id)>
+			<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=variables.getIdLocal_collection_object_id)>
 		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getIdentificationsThread" />
@@ -455,17 +474,15 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="editable" type="boolean" required="no" default="false">
 
-	<cfset variables.editable = arguments.editable>
 	<!--- check to see if user has rights to edit identifications if editable is set to true --->
-	<cfif editable>
+	<cfif arguments.editable>
 		<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-			<cfset variables.editable = true>
+			<cfset arguments.editable = true>
 		<cfelse>
-			<cfset variables.editable = false>
+			<cfset arguments.editable = false>
 		</cfif>
 	</cfif>
 
-	<cfset variables.collection_object_id = arguments.collection_object_id>
 	<cfoutput>
 		<cftry>
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -476,7 +493,7 @@ limitations under the License.
 			<!--- check for mask record, hide if mask record and not one of us ---->
 			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
-					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">) encumbranceDetail
+					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">) encumbranceDetail
 				FROM DUAL
 			</cfquery>
 			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
@@ -499,11 +516,11 @@ limitations under the License.
 					identification
 					left join formatted_publication on identification.publication_id=formatted_publication.publication_id and format_style='short'
 				WHERE
-					identification.collection_object_id = <cfqueryparam value="#variables.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+					identification.collection_object_id = <cfqueryparam value="#arguments.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				ORDER BY 
 					accepted_id_fg DESC,sort_order, made_date DESC
 			</cfquery>
-			<cfif editable>
+			<cfif arguments.editable>
 			<script>
 					function removeIdentification(identification_id,feedbackDiv) {
 						setFeedbackControlState(feedbackDiv,"removing")
@@ -639,10 +656,10 @@ limitations under the License.
 								<span class="bg-gray float-right rounded p-1 text-muted font-weight-lessbold">STORED AS</span>
 							</cfif>
 						</cfif>
-						<cfif editable>
+						<cfif arguments.editable>
 							<span class="float-right">
 								<button class="btn btn-xs btn-secondary py-0" 
-									onclick="editIdentification('#identification.identification_id#')">Edit</button>
+									onclick="editIdentification('#identification.identification_id#',reloadIdentificationsDialogAndPage)">Edit</button>
 								<cfif identification.accepted_id_fg NEQ 1>
 									<button class="btn btn-xs btn-danger py-0" 
 										onclick=" confirmDialog('Are you sure you want to delete this identification?', 'Delete Identification',removeIdentification_#i#);"
@@ -733,12 +750,17 @@ limitations under the License.
 				</div>
 				<cfset i = i+1>
 			</cfloop>
-			<div id="editIdentificationDialog"></div>
+			<cfif arguments.editable>
+				<div id="editIdentificationDialog"></div>
+			</cfif>
 			<script>
 				function editIdentification(identification_id,callback) {
 					var title = "Edit Identification";
 					dialogId = "editIdentificationDialog";
-					createSpecimenEditDialog("editIdentificationDialog",title,callback);
+					max_height = 450;
+					width_cap = 1100; 
+					console.log("editIdentification: identification_id = " + identification_id);
+					createSpecimenEditDialog(dialogId,title,callback,max_height,width_cap);
 					// Call the server-side function to get the edit HTML, load into the dialog
 					$.ajax({
 						url: '/specimens/component/functions.cfc',
@@ -749,7 +771,9 @@ limitations under the License.
 							identification_id: identification_id
 						},
 						success: function(response) {
-							$("##" + dialogId + "_div").html(response);
+							console.log("editIdentification: success");
+							// defer execution to ensure dialog is created before loading content
+							setTimeout(function() { $("##" + dialogId + "_div").html(response); }, 0);
 						},
 						error: function(xhr, status, error) {
 							handleError(xhr, status, error);
@@ -1251,6 +1275,22 @@ limitations under the License.
 										</span>
 									</td>
 								</tr>
+								<!--- check for identifications - mixed collection - part with identifications --->
+								<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT
+										identification_id
+									FROM
+										identification
+									WHERE
+										collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+								</cfquery>
+								<cfif getIdentifications.recordcount GT 0>
+									<tr class="small">
+										<td colspan="5">
+											<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=part_id)>
+										</td>
+									</tr>
+								</cfif>
 								<cfif len(part_remarks) gt 0>
 									<tr class="small90">
 										<td colspan="6" class="mb-0 pb-1 pt-0">
@@ -2429,6 +2469,7 @@ limitations under the License.
 							datum,
 							max_error_distance,
 							max_error_units,
+							to_meters(max_error_distance, max_error_units) as coordinateuncertaintyinmeters,
 							orig_lat_long_units,
 							lat_deg,
 							dec_lat_min,
@@ -2517,7 +2558,7 @@ limitations under the License.
 						<cfset coordinates="#coordlookup.dec_lat#,#coordlookup.dec_long#">
 						<!--- coordinates_* referenced in localityMapSetup --->
 						<input type="hidden" id="coordinates_#loc_collevent.locality_id#" value="#coordinates#">
-						<input type="hidden" id="error_#loc_collevent.locality_id#" value="1196">
+						<input type="hidden" id="error_#loc_collevent.locality_id#" value="#coordlookup.coordinateuncertaintyinmeters#">
 						<div id="mapdiv_#loc_collevent.locality_id#" class="tinymap" style="width:100%;height:180px;" aria-label="Google Map of specimen collection location"></div>
 					</div>
 				<cfelse>

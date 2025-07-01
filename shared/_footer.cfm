@@ -24,7 +24,7 @@ limitations under the License.
 					<a href="https://mcz.harvard.edu/acknowledgment-harmful-content" class="policy_link" aria-label="acknowledgment of harmful content">Acknowledgment of Harmful Content</a>
 				</div>
 				<div class="col-sm-12 col-md-4 text-center">
-					<a href="https://mczbase.mcz.harvard.edu/info/HowToCite.cfm" class="policy_link" aria-label="How to cite MCZbase">How to Cite MCZbase</a>
+					<a href="/info/HowToCite.cfm" class="policy_link" aria-label="How to cite MCZbase">How to Cite MCZbase</a>
 				</div>
 				<div class="col-sm-12 col-md-4 text-center">
 					<a href="/info/bugs.cfm" aria-label="feedback/report errors" target="_blank">Feedback&#8202;/&#8202;Report Errors</a>

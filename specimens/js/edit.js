@@ -24,8 +24,10 @@ limitations under the License.
 	@param title the title for the dialog
 	@param closecallback a callback function to invoke on closing the dialog.
 	@param max_height the maximum height for the dialog, optional, default 775
+	@param width_cap the maximum width for the dialog when screen is larger 
+    than extra large (1333), optional, default 999
 */
-function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775) {
+function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775,width_cap=999) {
 	var content = '<div id="'+dialogId+'_div">Loading...</div>';
 	var x=1;
 	var h = $(window).height();
@@ -36,8 +38,8 @@ function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775) {
 		// 90% width up to extra large screens
 		w = Math.floor(w *.9);
 	} else if (w>1333) { 
-		// cap width at 1200 pixel
-		w = 999;
+		// cap width at specified value
+		w = width_cap;
 	}
 	console.log("Creating dialog in div with id: " + dialogId);
 	var thedialog = $("#"+dialogId).html(content)
@@ -63,7 +65,8 @@ function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775) {
 			var maxZindex = getMaxZIndex();
 			$('.ui-dialog').css({'z-index': maxZindex + 6 });
 			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
-			
+			// position consistently with top at top of browser window:
+			$(this).dialog("option", "position",{ my: "top", at: "top", of: window, collision: "fit" });
 		},
 		close: function(event,ui) {
 			console.log("Close called on dialog in div with id: " + dialogId);
@@ -72,7 +75,9 @@ function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775) {
 			}
 			$("#"+dialogId+"_div").html("");
 			try {
-				$("#"+dialogId).dialog('destroy');
+				if ($("#"+dialogId).hasClass("ui-dialog-content")) {
+					$("#"+dialogId).dialog('destroy');
+				}
 			} catch (e) {
 				console.error("Error destroying dialog: " + e);
 			}
