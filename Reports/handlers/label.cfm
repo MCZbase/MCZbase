@@ -93,6 +93,7 @@ limitations under the License.
 		<cfset labelWidth = 'width: 2.875in;'>
 		<cfset labelBorder = 'border: 1px solid black;'>
 		<cfset labelHeight = 'height: 0.875in;'>
+		<cfset labelHeight = 'height: 1.0in;'>
 		<cfset fullHeight = 'height: 1.0in;'>
 		<cfset marginx = '1.124'>
 	</cfcase>
@@ -145,6 +146,7 @@ limitations under the License.
 		<cfset labelWidth = 'width: 2.875in;'>
 		<cfset labelBorder = 'border: 1px solid black;'>
 		<cfset labelHeight = 'height: 0.875in;'>
+		<cfset labelHeight = 'height: 1.0in;'>
 		<cfset fullHeight = 'height: 1.0in;'>
 		<cfset marginx = '1.124'>
 	</cfcase>
