@@ -1882,7 +1882,8 @@ limitations under the License.
 			<cfloop index="i" from="#n#" to="1" step="-1">
 				<cfset currVal = tempArray[i]>
 				<!--- Make sure currVal is unique for indices > i --->
-				<cfloop index="j" from="i+1" to="#n#">
+				<cfset start= i + 1>
+				<cfloop index="j" from="#start#" to="#n#">
 					<cfif tempArray[j] EQ currVal>
 						<cfset currVal = currVal + 1>
 						<!--- Restart inner loop if we change currVal --->
