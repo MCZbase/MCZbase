@@ -934,6 +934,7 @@ limitations under the License.
 																		newControl += '<label id="det_label_'+currentCount+'" for="det'+currentCount+'"  class="data-entry-label"> Determiner '+currentCount + ':</label>';
 																		newControl += '<input type="text" name="det'+currentCount+'" id="det'+currentCount+'"  class="data-entry-input">';
 																		newControl += '<input type="hidden" name="determiner_id'+currentCount+'" id="determiner_id_'+currentCount+'" value="" >';
+																		// no option to change determiner order when creating new identifications
 																		// button to remove this determiner control
 																		newControl += '<button type="button" class="btn btn-xs btn-secondary" id="removeDet'+currentCount+'" onClick="removeDeterminerControl('+currentCount+');">Remove</button>';
 																		newControl += '</div>';
@@ -1517,6 +1518,17 @@ limitations under the License.
 																<input type="text" name="eid_det_name_#determiner_count#" id="eid_det_name_#determiner_count#" class="data-entry-input reqdClr" value="#determiners.agent_name#" required>
 																<input type="hidden" name="eid_determiner_id_#determiner_count#" id="eid_determiner_id_#determiner_count#" value="#determiners.agent_id#">
 																<input type="hidden" name="eid_identification_agent_id_#determiner_count#" value="#determiners.identification_agent_id#">
+																<!--- select to change position --->
+																<select name="det_position_#determiner_count#" id="eid_det_position_#determiner_count#" class="data-entry-select">
+																	<cfloop from="1" to="#determiners.recordcount#" index="pos">
+																		<cfif pos EQ determiner_count>
+																			<cfset selected="selected">
+																		<cfelse>
+																			<cfset selected="">
+																		</cfif>
+																		<option value="#pos#" #selected#>#pos#</option>
+																	</cfloop>
+																</select>
 																<button type="button" class="btn btn-xs btn-secondary" id="eid_removeDet#determiner_count#" onClick="removeEditDeterminerControl(#determiner_count#);">Remove</button>
 																<script>
 																	$(document).ready(function() {
@@ -1533,6 +1545,7 @@ limitations under the License.
 																<input type="text" name="eid_det_name_1" id="eid_det_name_1" class="data-entry-input reqdClr" required>
 																<input type="hidden" name="eid_determiner_id_1" id="eid_determiner_id_1">
 																<input type="hidden" name="eid_identification_agent_id_1" value="new">
+																<input type="hidden" name="det_position_1" id="eid_det_position_1" value="1">
 																<button type="button" class="btn btn-xs btn-secondary" id="eid_removeDet1" onClick="removeEditDeterminerControl(1);">Remove</button>
 																<script>
 																	$(document).ready(function() {
@@ -1546,6 +1559,8 @@ limitations under the License.
 														<input type="hidden" name="determiner_ids" id="eid_determiner_ids" class="data-entry-input">
 														<!--- List of primary key values for existing identification_agent records --->
 														<input type="hidden" name="identification_agent_ids" id="eid_identification_agent_ids" class="data-entry-input">
+														<!--- List of positions for each determiner (1 to n) --->
+														<input type="hidden" name="determiner_positions" id="eid_determiner_positions" class="data-entry-input">
 													</div>
 													<button type="button" class="btn btn-xs btn-secondary mt-2" id="eid_addEditDeterminerButton" onClick="addEditDeterminerControl();">Add Determiner</button>
 												</div>
@@ -1580,6 +1595,17 @@ limitations under the License.
 												newControl += '<input type="text" name="eid_det_name_' + currentCount + '" id="eid_det_name_' + currentCount + '" class="data-entry-input reqdClr" required>';
 												newControl += '<input type="hidden" name="eid_determiner_id_' + currentCount + '" id="eid_determiner_id_' + currentCount + '">';
 												newControl += '<input type="hidden" name="eid_identification_agent_id_' + currentCount + '" value="new">';
+												// select to change position 
+												newControl += '<select name="det_position_' + currentCount + '" id="eid_det_position_' + currentCount + '" class="data-entry-select">';
+												for (var i = 1; i <= currentCount; i++) {
+													if (i === currentCount) {
+														newControl += '<option value="' + i + '" selected>' + i + '</option>';
+													} else {
+														// For previous positions, we can only select up to currentCount - 1
+														newControl += '<option value="' + i + '">' + i + '</option>';
+													}
+												}
+												newControl += '</select>';
 												newControl += '<button type="button" class="btn btn-xs btn-secondary" id="eid_removeDet' + currentCount + '" onClick="removeEditDeterminerControl(' + currentCount + ');">Remove</button>';
 												newControl += '</div>';
 												$("##eid_edit_determiners_form_row").append(newControl);
@@ -1624,6 +1650,18 @@ limitations under the License.
 													}
 												}
 												$("##eid_determiner_ids").val(determinerIds.join(','));
+												// Collect all determiner positions
+												var determinerPositions = [];
+												for (var i = 1; i <= count; i++) {
+													var $div = $("##eid_det_div_" + i);
+													if ($div.length > 0) {
+														var position = $div.find("[id^='eid_det_position_']").val();
+														if (position) {
+															determinerPositions.push(position);
+														}
+													}
+												}
+												$("##eid_determiner_positions").val(determinerPositions.join(','));
 												var form = $('##editIdentificationForm');
 												var formData = form.serialize();
 												$.ajax({
@@ -1684,8 +1722,9 @@ limitations under the License.
 	@param identification_remarks any remarks for the identification (optional).
 	@param stored_as_fg whether to store the identification as a field guide (optional, default 0).
 	@param accepted_id_fg whether this is the accepted identification (optional, default 0).
+	@param identification_agent_ids a comma-separated list of identification agent IDs for the associative entity.
 	@param determiner_ids a comma-separated list of agent IDs for the determiners.
-		TODO: update to use a single string of comma-separated agent IDs instead of JSON array.
+	@param determiner_positions a comma-separated list of positions for the determiners.
 	@return JSON object with status and identification ID.
  --->
 <cffunction name="saveIdentification" access="remote" returntype="any" returnformat="json">
@@ -1704,7 +1743,8 @@ limitations under the License.
 	<cfargument name="accepted_id_fg" type="string" required="no" default="0">
 	<cfargument name="identification_agent_ids" type="string" required="yes"><!--- the list of identification_agent_ids for the associative entity --->
 	<cfargument name="determiner_ids" type="string" required="yes"> <!--- the list of agent_ids for determiners --->
-	
+	<cfargument name="determiner_positions" type="string" required="yes"> <!--- the list of positions for determiners --->	
+
 	<cfset var data = ArrayNew(1)>
 	
 	<cfset var scientific_name = arguments.taxa_formula>
@@ -1738,8 +1778,12 @@ limitations under the License.
 			<cfif arguments.taxa_formula contains "B" and len(arguments.taxonb) EQ 0>	
 				<cfthrow message="Taxon B is required when the formula contains 'B'.">
 			</cfif>
+			<!--- check that the lists of determiner information are the same length --->
 			<cfif listLen(arguments.identification_agent_ids) NEQ listLen(arguments.determiner_ids)>
 				<cfthrow message="The number of identification_agent_ids must match the number of determiner_ids.">
+			</cfif>
+			<cfif listLen(arguments.identification_agent_ids) NEQ listLen(arguments.determiner_positions)>
+				<cfthrow message="The number of identification_agent_ids must match the number of determiner_positions.">
 			</cfif>
 			<!--- Handle accepted_id_fg flag - only one per specimen --->
 			<cfif arguments.accepted_id_fg EQ 1>
@@ -1825,7 +1869,7 @@ limitations under the License.
 			<cfset variables.existingIds = ValueList(existingDeterminers.identification_agent_id)>
 			<cfset variables.processedIds = "">
 			
-			<!--- combine determiner_ids and identification_agent_ids lists into a two dimensional array for processing --->
+			<!--- combine determiner_ids, determiner_positions, and identification_agent_ids lists into a two dimensional array for processing --->
 			<cfset variables.determinersArray = ArrayNew(1)>
 			<cfset var agentId = 0>
 			<cfset var orderNum = 0>
@@ -1834,6 +1878,10 @@ limitations under the License.
 												<cfset variables.detStruct = StructNew()>
 				<cfset detStruct["identification_agent_id"] = id>
 				<cfset detStruct["agent_id"] = ListGetAt(arguments.determiner_ids, ListFindNoCase(arguments.identification_agent_ids, id))>
+				<cfset var ordinalPosition = ListGetAt(arguments.determiner_positions, ListFindNoCase(arguments.identification_agent_ids, id))>
+				<cfif len(ordinalPosition)>
+					<cfset orderNum = Val(ordinalPosition)>
+				</cfif>
 				<cfset detStruct["identifier_order"] = orderNum>
 				<cfset ArrayAppend(variables.determinersArray, detStruct)>
 				<cfset orderNum = orderNum + 1>
