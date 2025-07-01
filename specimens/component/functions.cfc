@@ -1534,7 +1534,7 @@ limitations under the License.
 																		</cfloop>
 																	</select>
 																</div>
-																<button type="button" class="btn btn-xs btn-secondary" id="eid_removeDet#determiner_count#" onClick="removeEditDeterminerControl(#determiner_count#);">Remove</button>
+																<button type="button" class="btn btn-xs btn-secondary ml-1" id="eid_removeDet#determiner_count#" onClick="removeEditDeterminerControl(#determiner_count#);">Remove</button>
 																<script>
 																	$(document).ready(function() {
 																		makeAgentAutocompleteMeta("eid_det_name_#determiner_count#", "eid_determiner_id_#determiner_count#");
@@ -1545,13 +1545,18 @@ limitations under the License.
 														<!--- Failover case: if no determiners are present, ensure at least one set of controls is shown --->
 														<cfif determiner_count EQ 0>
 															<cfset determiner_count = 1>
-															<div class="col-12 col-md-3" id="eid_det_div_1">
-																<label id="eid_det_label_1" for="eid_det_name_1" class="data-entry-label">Determiner 1:</label>
-																<input type="text" name="eid_det_name_1" id="eid_det_name_1" class="data-entry-input reqdClr" required>
-																<input type="hidden" name="eid_determiner_id_1" id="eid_determiner_id_1">
-																<input type="hidden" name="eid_identification_agent_id_1" value="new">
-																<input type="hidden" name="det_position_1" id="eid_det_position_1" value="1">
-																<button type="button" class="btn btn-xs btn-secondary" id="eid_removeDet1" onClick="removeEditDeterminerControl(1);">Remove</button>
+															<div class="col-12 col-md-3 form-row" id="eid_det_div_1">
+																<div class="col-12 col-md-10 pr-0">
+																	<label id="eid_det_label_1" for="eid_det_name_1" class="data-entry-label">Determiner 1:</label>
+																	<input type="text" name="eid_det_name_1" id="eid_det_name_1" class="data-entry-input reqdClr" required>
+																	<input type="hidden" name="eid_determiner_id_1" id="eid_determiner_id_1">
+																	<input type="hidden" name="eid_identification_agent_id_1" value="new">
+																	<input type="hidden" name="det_position_1" id="eid_det_position_1" value="1">
+																</div>
+																<div class="col-12 col-md-2 pl-0">
+																	&nbsp;<!--- no position select for failover case --->
+																</div>
+																<button type="button" class="btn btn-xs btn-secondary ml-1" id="eid_removeDet1" onClick="removeEditDeterminerControl(1);">Remove</button>
 																<script>
 																	$(document).ready(function() {
 																		makeAgentAutocompleteMeta("eid_det_name_1", "eid_determiner_id_1");
@@ -1595,11 +1600,14 @@ limitations under the License.
 											function addEditDeterminerControl() {
 												var currentCount = parseInt($("##eid_determiner_count").val());
 												currentCount++;
-												var newControl = '<div class="col-12 col-md-3" id="eid_det_div_' + currentCount + '">';
+												var newControl = '<div class="col-12 col-md-3 form-row" id="eid_det_div_' + currentCount + '">';
+												newControl += '<div class="col-12 col-md-10 pr-0">';
 												newControl += '<label id="eid_det_label_' + currentCount + '" for="eid_det_name_' + currentCount + '" class="data-entry-label">Determiner ' + currentCount + ':</label>';
 												newControl += '<input type="text" name="eid_det_name_' + currentCount + '" id="eid_det_name_' + currentCount + '" class="data-entry-input reqdClr" required>';
 												newControl += '<input type="hidden" name="eid_determiner_id_' + currentCount + '" id="eid_determiner_id_' + currentCount + '">';
 												newControl += '<input type="hidden" name="eid_identification_agent_id_' + currentCount + '" value="new">';
+												newControl += '</div>';
+												newControl += '<div class="col-12 col-md-2 pl-0">';
 												// select to change position 
 												newControl += '<select name="det_position_' + currentCount + '" id="eid_det_position_' + currentCount + '" class="data-entry-select">';
 												for (var i = 1; i <= currentCount; i++) {
@@ -1611,7 +1619,8 @@ limitations under the License.
 													}
 												}
 												newControl += '</select>';
-												newControl += '<button type="button" class="btn btn-xs btn-secondary" id="eid_removeDet' + currentCount + '" onClick="removeEditDeterminerControl(' + currentCount + ');">Remove</button>';
+												newControl += '</div>';
+												newControl += '<button type="button" class="btn btn-xs btn-secondary ml-1" id="eid_removeDet' + currentCount + '" onClick="removeEditDeterminerControl(' + currentCount + ');">Remove</button>';
 												newControl += '</div>';
 												$("##eid_edit_determiners_form_row").append(newControl);
 												makeAgentAutocompleteMeta("eid_det_name_" + currentCount, "eid_determiner_id_" + currentCount);
