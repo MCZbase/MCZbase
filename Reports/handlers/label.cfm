@@ -92,7 +92,7 @@ limitations under the License.
 		<cfset labelWidth = 'width: 2.875in;'>
 		<cfset labelBorder = 'border: 1px solid black;'>
 		<cfset labelHeight = 'height: 0.875in;'>
-		<cfset marginx = '1.25'>
+		<cfset marginx = '1.125'>
 	</cfcase>
 	<cfcase value="Slide_1x3__IZ">
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -143,7 +143,7 @@ limitations under the License.
 		<cfset labelWidth = 'width: 2.875in;'>
 		<cfset labelBorder = 'border: 1px solid black;'>
 		<cfset labelHeight = 'height: 0.875in;'>
-		<cfset marginx = '1.25'>
+		<cfset marginx = '1.125'>
 	</cfcase>
 </cfswitch>
 
