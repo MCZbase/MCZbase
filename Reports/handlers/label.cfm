@@ -197,7 +197,7 @@ limitations under the License.
 										<div style="font: 0.9em helvetica">Container:#cl##parent#</div>
 										<div><strong style="font: 0.9em Helvetica;">#sci_name#</strong></div>
 										<div style="height: 0.9in; font: 0.9em Helvetica; overflow: hidden;">#verbatim_locality#</div>
-										<span style="display: block; #fullHeight# width: 0; visibility: hidden;"></span>
+										<span style="display: block; position: absolute; top: 1in; height: 1px; width: 1px;"></span>
 									</cfcase>
 									<cfcase value="Slide_1x3__IZ">
 										<cfif type_status_kind EQ 'Primary'>
@@ -225,7 +225,7 @@ limitations under the License.
 										</cfif>
 										</div>
 										<div style="position:absolute; bottom:0.08in; left:0.05in; right:0; font: 0.9em Helvetica;">#container_label#</div>
-										<span style="display: block; #fullHeight# width: 0; visibility: hidden;"></span>
+										<span style="display: block; position: absolute; top: 1in; height: 1px; width: 1px;"></span>
 									</cfcase>
 								</cfswitch>
 							</div>
