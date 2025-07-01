@@ -1514,14 +1514,15 @@ limitations under the License.
 														<cfloop query="determiners">
 															<cfset determiner_count = determiner_count + 1>
 															<div class="col-12 col-md-3 form-row" id="eid_det_div_#determiner_count#">
-																<div class="col-12 col-md-10">
+																<div class="col-12 col-md-10 pr-0">
 																	<label id="eid_det_label_#determiner_count#" for="eid_det_name_#determiner_count#" class="data-entry-label">Determiner #determiner_count#:</label>
 																	<input type="text" name="eid_det_name_#determiner_count#" id="eid_det_name_#determiner_count#" class="data-entry-input reqdClr" value="#determiners.agent_name#" required>
 																	<input type="hidden" name="eid_determiner_id_#determiner_count#" id="eid_determiner_id_#determiner_count#" value="#determiners.agent_id#">
 																	<input type="hidden" name="eid_identification_agent_id_#determiner_count#" value="#determiners.identification_agent_id#">
 																</div>
-																<div class="col-12 col-md-2">
+																<div class="col-12 col-md-2 pl-0">
 																	<!--- select to change position --->
+																	<label for="eid_det_position_#determiner_count#" class="data-entry-label" aria-label="Ordinal Position">&nbsp;</label>
 																	<select name="det_position_#determiner_count#" id="eid_det_position_#determiner_count#" class="data-entry-select">
 																		<cfloop from="1" to="#determiners.recordcount#" index="pos">
 																			<cfif pos EQ determiner_count>
