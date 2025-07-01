@@ -1507,28 +1507,32 @@ limitations under the License.
 													</script>
 												</div>
 								
-												<!--- Determiners section using same layout as Add form --->
+												<!--- Determiners --->
 												<div class="col-12">
 													<div class="form-row" id="eid_edit_determiners_form_row">
 														<cfset determiner_count = 0>
 														<cfloop query="determiners">
 															<cfset determiner_count = determiner_count + 1>
-															<div class="col-12 col-md-3" id="eid_det_div_#determiner_count#">
-																<label id="eid_det_label_#determiner_count#" for="eid_det_name_#determiner_count#" class="data-entry-label">Determiner #determiner_count#:</label>
-																<input type="text" name="eid_det_name_#determiner_count#" id="eid_det_name_#determiner_count#" class="data-entry-input reqdClr" value="#determiners.agent_name#" required>
-																<input type="hidden" name="eid_determiner_id_#determiner_count#" id="eid_determiner_id_#determiner_count#" value="#determiners.agent_id#">
-																<input type="hidden" name="eid_identification_agent_id_#determiner_count#" value="#determiners.identification_agent_id#">
-																<!--- select to change position --->
-																<select name="det_position_#determiner_count#" id="eid_det_position_#determiner_count#" class="data-entry-select">
-																	<cfloop from="1" to="#determiners.recordcount#" index="pos">
-																		<cfif pos EQ determiner_count>
-																			<cfset selected="selected">
-																		<cfelse>
-																			<cfset selected="">
-																		</cfif>
-																		<option value="#pos#" #selected#>#pos#</option>
-																	</cfloop>
-																</select>
+															<div class="col-12 col-md-3 form-row" id="eid_det_div_#determiner_count#">
+																<div class="col-12 col-md-10">
+																	<label id="eid_det_label_#determiner_count#" for="eid_det_name_#determiner_count#" class="data-entry-label">Determiner #determiner_count#:</label>
+																	<input type="text" name="eid_det_name_#determiner_count#" id="eid_det_name_#determiner_count#" class="data-entry-input reqdClr" value="#determiners.agent_name#" required>
+																	<input type="hidden" name="eid_determiner_id_#determiner_count#" id="eid_determiner_id_#determiner_count#" value="#determiners.agent_id#">
+																	<input type="hidden" name="eid_identification_agent_id_#determiner_count#" value="#determiners.identification_agent_id#">
+																</div>
+																<div class="col-12 col-md-2">
+																	<!--- select to change position --->
+																	<select name="det_position_#determiner_count#" id="eid_det_position_#determiner_count#" class="data-entry-select">
+																		<cfloop from="1" to="#determiners.recordcount#" index="pos">
+																			<cfif pos EQ determiner_count>
+																				<cfset selected="selected">
+																			<cfelse>
+																				<cfset selected="">
+																			</cfif>
+																			<option value="#pos#" #selected#>#pos#</option>
+																		</cfloop>
+																	</select>
+																</div>
 																<button type="button" class="btn btn-xs btn-secondary" id="eid_removeDet#determiner_count#" onClick="removeEditDeterminerControl(#determiner_count#);">Remove</button>
 																<script>
 																	$(document).ready(function() {
