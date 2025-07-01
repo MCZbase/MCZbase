@@ -453,12 +453,12 @@ limitations under the License.
 <cffunction name="getIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
-	<cfset var local_collection_object_id = arguments.collection_object_id>
+	<cfset variables.getIdLocal_collection_object_id = arguments.collection_object_id>
 
 	<cfthread name="getIdentificationsThread">
 		<cfoutput>
 			<!--- get content from unthreaded method --->
-			<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=local_collection_object_id)>
+			<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=variables.getIdLocal_collection_object_id)>
 		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getIdentificationsThread" />
