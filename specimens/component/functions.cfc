@@ -4430,27 +4430,22 @@ limitations under the License.
 					publication.publication_type,
 					doi,
 					cited_taxon_name_id,
-					citation.citation_id
+					ctcitation_type_status.category
 				FROM
-					citation,
-					cataloged_item,
-					collection,
-					identification,
-					taxonomy citedTaxa,
-					formatted_publication,
-					publication
+					citation
+					join cataloged_item on citation.collection_object_id = cataloged_item.collection_object_id
+					join collection on cataloged_item.collection_id = collection.collection_id
+					left join identification on cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
+					join ctcitation_type_status on citation.type_status = ctTypeStatus.type_status 
+					left join taxonomy citedTaxa on citation.cited_taxon_name_id = citedTaxa.taxon_name_id
+					join publication on citation.publication_id = publication.publication_id 
+					join formatted_publication on citation.publication_id = formatted_publication.publication_id AND format_style='long'
 				WHERE
-					citation.collection_object_id = cataloged_item.collection_object_id AND
-					cataloged_item.collection_id = collection.collection_id AND
-					citation.cited_taxon_name_id = citedTaxa.taxon_name_id (+) AND
-					cataloged_item.collection_object_id = identification.collection_object_id (+) AND
-					identification.accepted_id_fg = 1 AND
-					citation.publication_id = publication.publication_id AND
-					citation.publication_id = formatted_publication.publication_id AND
-					format_style='long' and
 					citation.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 				ORDER BY
-					occurs_page_number,cat_num
+					ctcitation_type_status.ordinal,
+					citation.type_status,
+					occurs_page_number
 			</cfquery>
 			
 			<div class="row mx-0">
