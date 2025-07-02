@@ -4275,10 +4275,12 @@ limitations under the License.
 												<div class="float-left col-12 col-md-4 px-1">
 													<label for="cited_sci_Name" class="data-entry-label">Cited Scientific Name</label>
 													<input name="citsciname" class="data-entry-input reqdClr" id="cited_sci_Name" type="text" required>
+													<input type="hidden" name="cited_taxon_name_id" id="cited_taxon_name_id" value="">
 												</div>
 												<div class="float-left col-12 col-md-4 px-1">
 													<label for="scientific_name" class="data-entry-label">Accepted Scientific Name</label>
 													<input name="scientific_name" class="data-entry-input" id="scientific_name" type="text">
+													<input type="hidden" name="accepted_taxon_name_id" id="accepted_taxon_name_id" value="">
 												</div>
 												<div class="float-left col-12 col-md-4 px-1">
 													<label for="type_status" class="data-entry-label">Citation Type</label>
@@ -4320,6 +4322,12 @@ limitations under the License.
 									// Add event listener to the save button
 									$('##newCitation_submit').on('click', function(event) {
 										event.preventDefault();
+										// Validate the form
+										if ($('##newCitation')[0].checkValidity() === false) {
+											// If the form is invalid, show validation messages
+											$('##newCitation')[0].reportValidity();
+											return false; // Prevent form submission if validation fails
+										}
 										setFeedbackControlState("newCitation_output","saving");
 										$.ajax({
 											url: '/publications/component/functions.cfc',
