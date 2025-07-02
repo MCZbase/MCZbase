@@ -4595,27 +4595,30 @@ limitations under the License.
 	<cfargument name="publication_id" type="string" required="yes">
 
 	<cfthread name="removeCitationThread"> 
-	<cftry>
-		<cftransaction>
-			<cfquery name="deleteCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				delete from citation
-				where
-				collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-				and publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-				and cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_taxon_name_id#">
-			</cfquery>
-		</cftransaction>
-			<cfset row["status"] = "deleted">
-			<cftransaction action="commit">
-		<cfcatch>
-				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-				<cfset function_called = "#GetFunctionCalledName()#">
-				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-				<cfabort>
-		</cfcatch>
-	</cftry>
+		<cfoutput>
+			<cftransaction>
+				<cftry>
+					<cfquery name="deleteCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						DELETE FROM citation
+						WHERE
+							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+							and publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+							and cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_taxon_name_id#">
+					</cfquery>
+					<cfset row["status"] = "deleted">
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+					<cfset function_called = "#GetFunctionCalledName()#">
+					<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+					<cfabort>
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="removeCitationThread"> 
+	<cfthread action="join" name="removeCitationThread" /> 
 	<cfreturn removeCitationThread.output>
 </cffunction>
 
