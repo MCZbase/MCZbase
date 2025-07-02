@@ -4186,23 +4186,11 @@ limitations under the License.
 			</cfoutput>
 			<cfcatch>
 				<cfoutput>
-					<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
-						<cfelse>
-						<cfset queryError = ''>
+					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+					<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+						<cfdump var="#cfcatch#">
 					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-					<cfcontent reset="yes">
-					<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
-						</div>
-					</div>
 				</cfoutput>
 			</cfcatch>
 		</cftry>
@@ -4212,6 +4200,10 @@ limitations under the License.
 </cffunction>
 
 
+<!--- getEditCitationHTML returns the HTML for the edit citations dialog.
+ @param collection_object_id the collection_object_id for the cataloged item to edit citations for.
+ @return HTML for the edit citations dialog, including a form to add new citations and a table of existing citations.
+--->
 <cffunction name="getEditCitationHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditCitationsThread"> 
@@ -4462,40 +4454,29 @@ limitations under the License.
 							return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn-xs btn-outline-primary" href="#Application.serverRootUrl#/specimens/component/search.cfc?action=edit&taxon_name_id=' + value + '">Edit</a></span>';
 						};
 					</cfif>
-
-
-				
 				</script> 
-				<cfcatch>
-					<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
-						<cfelse>
-						<cfset queryError = ''>
-					</cfif>
-					<cfset message=trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)>
-					<cfcontent reset="yes">
-					<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
-						</div>
-					</div>
-				</cfcatch>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+					<cfdump var="#cfcatch#">
+				</cfif>
+			</cfcatch>
 			</cftry>
 		</cfoutput> 
+	</cfthread>
+	<cfthread action="join" name="getEditCitationThread" />
+	<cfreturn getEditCitationThread.output>
+</cffunction>
 	
-<!--- get all cited specimens --->
 <!------------------------------------------------------------------------------->
 <!---remove citation --button for removing media relationship = shows cataloged_item--->
 <cffunction name="removeCitation" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="cited_taxon_name_id" type="string" required="yes">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="publication_id" type="string" required="yes">
-		<cfthread name="removeCitationThread"> 
+
+	<cfthread name="removeCitationThread"> 
 	<cftry>
 		<cftransaction>
 			<cfquery name="deleteCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -4516,9 +4497,10 @@ limitations under the License.
 		</cfcatch>
 	</cftry>
 	</cfthread>
-	<cfthread action="join" name="getEditCitationThread" />
-	<cfreturn getEditCitationThread.output>
+	<cfthread action="join" name="removeCitationThread"> 
+	<cfreturn removeCitationThread.output>
 </cffunction>
+
 <!------------------------------------------------------------------------------->
 <cfif action is "nothing">
      <div style="width: 99%; margin: 0 auto; padding: 0 .5rem 5em .5rem;">
