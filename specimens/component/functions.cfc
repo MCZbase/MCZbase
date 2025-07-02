@@ -4244,60 +4244,63 @@ limitations under the License.
 										<h2 class="h3 my-0 px-1 bp-1">Add New Citation of #guid#</h2>
 									</div>
 									<div class="card-body">
-										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
-											<div class="col-12 col-md-3 mt-2 float-right">
-												<a class="btn btn-xs btn-outline-primary px-2 float-right" target="_blank" href="/publication/Publication.cfm?action=new">Add New Publication <i class="fas fa-external-link-alt"></i></a>
-											</div>
-										</cfif>
 										<form name="newCitation" id="newCitation">
 											<input type="hidden" name="collection_object_id" value="#getCatItem.collection_object_id#">
 											<input type="hidden" name="method" value="addCitation">
-											<div class="row mx-0 pb-2">
-												<ul class="col-12 px-0 mt-2 mb-1">
-													<li class="list-group-item float-left col-12 px-1">
-														<label for="publication" class="data-entry-label">Publication Title</label>
-														<input type="hidden" name="publication_id" id="publication_id" value="">
-														<input type="text" id="publication" value="" class="data-entry-input reqdClr" required>
-													</li>
-													<li class="list-group-item float-left col-12 col-md-4 px-1">
-														<label for="collection" class="data-entry-label">Cites Collection</label>
-														<select name="collection" id="collection" size="1" class="data-entry-select">
-															<option value="">All</option>
-															<cfloop query="ctColl">
-																<option value="#collection#">#collection#</option>
-															</cfloop>
-														</select>
-													</li>
-													<li class="list-group-item float-left col-12 col-md-4 px-1">
-														<label for="cited_sci_Name" class="data-entry-label">Cited Scientific Name</label>
-														<input name="citsciname" class="data-entry-input" id="cited_sci_Name" type="text">
-													</li>
-													<li class="list-group-item float-left col-12 col-md-4 px-1">
-														<label for="scientific_name" class="data-entry-label">Accepted Scientific Name</label>
-														<input name="scientific_name" class="data-entry-input" id="scientific_name" type="text">
-													</li>
-													<li class="list-group-item float-left col-12 col-md-4 px-1">
-														<label for="type_status" class="data-entry-label">Citation Type</label>
-														<select name="type_status" id="type_status" class="data-entry-select reqdClr" required>
-															<option value=""></option>
-															<cfloop query="ctTypeStatus">
-																<option value="#type_status#">#type_status#</option>
-															</cfloop>
-														</select>
-													</li>
-													<li class="list-group-item float-left col-12 col-md-4 px-1">
-														<label for="occurs_page_number" class="data-entry-label">Page ##</label>
-														<input name="occurs_page_number" id="occurs_page_number" class="data-entry-input" type="text" value="">
-													</li>
-													<li class="list-group-item float-left col-12 col-md-4 px-1">
-														<label for="citation_page_uri" class="data-entry-label">Page URI</label>
-														<input name="citation_page_uri" id="citation_page_uri" class="data-entry-input" type="text" value="">
-													</li>
-													<li class="list-group-item float-left col-12 px-1">
-														<label for="citation_remarks" class="data-entry-label">Remarks</label>
-														<input name="citation_remarks" id="citation_remarks" class="data-entry-input" type="text" value="" maxlength="255">
-													</li>
-												</ul>
+											<div class="row mx-0 pb-2 col-12 px-0 mt-2 mb-1">
+												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
+													<cfset cols = "col-12 col-md-9">
+												<cfelse>
+													<cfset cols = "col-12">
+												</cfif>
+												<div class="float-left #cols# px-1">
+													<label for="publication" class="data-entry-label">Publication Title</label>
+													<input type="hidden" name="publication_id" id="publication_id" value="">
+													<input type="text" id="publication" value="" class="data-entry-input reqdClr" required>
+												</div>
+												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
+													<div class="col-12 col-md-3 mt-2 float-right">
+														<a class="btn btn-xs btn-outline-primary px-2 float-right" target="_blank" href="/publications/Publication.cfm?action=new">Add New Publication <i class="fas fa-external-link-alt"></i></a>
+													</div>
+												</cfif>
+												<div class="float-left col-12 col-md-4 px-1">
+													<label for="collection" class="data-entry-label">Cites Collection</label>
+													<select name="collection" id="collection" size="1" class="data-entry-select">
+														<option value="">All</option>
+														<cfloop query="ctColl">
+															<option value="#collection#">#collection#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="float-left col-12 col-md-4 px-1">
+													<label for="cited_sci_Name" class="data-entry-label">Cited Scientific Name</label>
+													<input name="citsciname" class="data-entry-input" id="cited_sci_Name" type="text">
+												</div>
+												<div class="float-left col-12 col-md-4 px-1">
+													<label for="scientific_name" class="data-entry-label">Accepted Scientific Name</label>
+													<input name="scientific_name" class="data-entry-input" id="scientific_name" type="text">
+												</div>
+												<div class="float-left col-12 col-md-4 px-1">
+													<label for="type_status" class="data-entry-label">Citation Type</label>
+													<select name="type_status" id="type_status" class="data-entry-select reqdClr" required>
+														<option value=""></option>
+														<cfloop query="ctTypeStatus">
+															<option value="#type_status#">#type_status#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="float-left col-12 col-md-4 px-1">
+													<label for="occurs_page_number" class="data-entry-label">Page ##</label>
+													<input name="occurs_page_number" id="occurs_page_number" class="data-entry-input" type="text" value="">
+												</div>
+												<div class="float-left col-12 col-md-4 px-1">
+													<label for="citation_page_uri" class="data-entry-label">Page URI</label>
+													<input name="citation_page_uri" id="citation_page_uri" class="data-entry-input" type="text" value="">
+												</div>
+												<div class="float-left col-12 px-1">
+													<label for="citation_remarks" class="data-entry-label">Remarks</label>
+													<input name="citation_remarks" id="citation_remarks" class="data-entry-input" type="text" value="" maxlength="255">
+												</div>
 												<div class="col-12 col-md-12 px-1 mt-2">
 													<button id="newCitation_submit" value="Create" class="btn btn-xs btn-primary" title="Create Citation">Create Citation</button>
 													<output id="newCitation_output"></output>
