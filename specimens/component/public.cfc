@@ -80,7 +80,7 @@ limitations under the License.
 					SELECT 
 						count(identification.collection_object_id) ct
 					FROM
-						<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> as flatTable
+						<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flatTable
 						join coll_object on flatTable.collection_object_id = coll_object.collection_object_id
 						join specimen_part on coll_object.collection_object_id = specimen_part.derived_from_cat_item
 						join identification on specimen_part.collection_object_id = identification.collection_object_id
