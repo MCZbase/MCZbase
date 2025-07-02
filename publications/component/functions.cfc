@@ -2036,4 +2036,99 @@ limitations under the License.
 	<cfreturn getMediaForPubThread.output>
 </cffunction>
 
+<!--- createCitation create a new citation record 
+ @param publication_id the publication to which the citation applies
+ @param collection_object_id the collection object to which the citation applies
+ @param cited_taxon_name_id the taxon name cited in the citation
+ @param occurs_page_number the page number on which the citation occurs in the publication
+ @param type_status the type status of the citation, if any
+ @param citation_remarks any remarks about the citation
+ @param citation_page_uri the URI of the page in the publication where the citation occurs
+ @return a structure with status=inserted and id=citation_id
+	or if an exception was raised, an http response with http statuscode of 500.
+--->
+<cffunction name="createCitation" access="remote" returntype="any" returnformat="json">
+	<cfargument name="publication_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="cited_taxon_name_id" type="string" required="yes">
+	<cfargument name="occurs_page_number" type="string" required="no" default="">
+	<cfargument name="type_status" type="string" required="no" default="">
+	<cfargument name="citation_remarks" type="string" required="no" default="">
+	<cfargument name="citation_page_uri" type="string" required="no" default="">
+
+	<cfset data = ArrayNew(1)>
+
+	<cftransaction>
+		<cftry>
+			<cfquery name="newCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newCitation_result">
+				INSERT INTO citation (
+					publication_id,
+					collection_object_id,
+					cit_current_fg,
+					cited_taxon_name_id
+					<cfif len(#occurs_page_number#) gt 0>
+						,occurs_page_number
+					</cfif>
+					<cfif len(#type_status#) gt 0>
+						,type_status
+					</cfif>
+					<cfif len(#citation_remarks#) gt 0>
+						,citation_remarks
+					</cfif>
+					<cfif len(#citation_page_uri#) gt 0>
+						,citation_page_uri
+					</cfif>
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.publication_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">,
+					1,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.cited_taxon_name_id#">
+					<cfif len(#occurs_page_number#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.occurs_page_number#">
+					</cfif>
+					<cfif len(#type_status#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.type_status#">
+					</cfif>
+					<cfif len(#citation_remarks#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.citation_remarks#">
+					</cfif>
+					<cfif len(#citation_page_uri#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.citation_page_uri#">
+					</cfif>
+					)
+				</cfquery>
+				<cfif newCitation_result.recordcount NEQ 1>
+					<cfthrow message = "error inserting citation record for publication [#encodeForHtml(arguments.publication_id)#]">
+				</cfif>
+				<cfset rowid = newCitation_result.generatedkey>
+				<!--- TODO Add citation_id to make citation a strong entity --->
+				<cfset id = rowid>
+				<!---
+				<cfquery name="getId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getId_result">
+					SELECT
+						citation_id as id
+					FROM 
+						citation
+					WHERE
+						ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
+				</cfquery>	
+				<cfset id = getId.id>
+				--->
+				<cfset row = StructNew()>
+				<cfset row["status"] = "inserted">
+				<cfset row["id"] = "#id#">
+				<cfset data[1] = row>
+				<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>			
+</cffunction>
+
 </cfcomponent>
