@@ -131,7 +131,7 @@ limitations under the License.
 									<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
 										<cfset cols="col-12 col-xl-6">
 									<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
-										<cfset cols""col-12 col-xl-3">
+										<cfset cols="col-12 col-xl-3">
 									<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7>
 										<cfset cols="col-12 col-xl-5">
 									<cfelse>
@@ -174,18 +174,18 @@ limitations under the License.
 											</cfif>
 										</div>
 									</div>
-									<div class="float-left mt-1 mt-xl-3 pr-md-0 
-										<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
-												col-12 col-xl-3 
-										<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
-												col-12 col-xl-1
-										<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
-												col-12 col-xl-3 
-										<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7>
-											col-12 col-xl-1
-										<cfelse>
-											col-12 </cfif>
-										">
+									<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
+										<cfset cols="col-12 col-xl-3"> 
+									<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
+										<cfset cols="col-12 col-xl-1">
+									<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
+										<cfset cols="col-12 col-xl-3"> 
+									<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7>
+										<cfset cols="col-12 col-xl-1">
+									<cfelse>
+										<cfset cols="col-12">
+									</cfif>
+									<div class="float-left mt-1 mt-xl-3 pr-md-0 #cols#">
 										<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
 											<cfif summary.toptypestatuskind eq 'Primary' >
 												<h2 class="col-12 d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
@@ -198,18 +198,18 @@ limitations under the License.
 										</cfif>	
 									</div>
 										
-									<div class="float-left pr-md-0 my-1 mt-xl-2
-										<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
-											col-12 col-xl-5 
-										<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
-											col-12 col-xl-5
-										<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
-											col-12 col-xl-5 
-										<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7> 
-											col-12 col-xl-5
-										<cfelse> 
-											col-xl-5 </cfif>
-										">
+									<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
+										<cfset cols="col-12 col-xl-5">
+									<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
+										<cfset cols="col-12 col-xl-5">
+									<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
+										<cfset cols="col-12 col-xl-5">
+									<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7> 
+										<cfset cols="col-12 col-xl-5">
+									<cfelse> 
+										<cfset cols="col-xl-5">
+									</cfif>
+									<div class="float-left pr-md-0 my-1 mt-xl-2 #cols# ">
 										<div class="col-12 px-xl-0"><span class="small">Date Collected: </span>
 											<h2 class="h5 mb-1 d-inline-block">
 												<cftry>
