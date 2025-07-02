@@ -4274,7 +4274,7 @@ limitations under the License.
 												</div>
 												<div class="float-left col-12 col-md-4 px-1">
 													<label for="cited_sci_Name" class="data-entry-label">Cited Scientific Name</label>
-													<input name="citsciname" class="data-entry-input" id="cited_sci_Name" type="text">
+													<input name="citsciname" class="data-entry-input reqdClr" id="cited_sci_Name" type="text" required>
 												</div>
 												<div class="float-left col-12 col-md-4 px-1">
 													<label for="scientific_name" class="data-entry-label">Accepted Scientific Name</label>
@@ -4314,8 +4314,8 @@ limitations under the License.
 										// make publication autocomplete
 										makePublicationAutocompleteMeta("publication", "publication_id");
 										// make scientific name autocompletes
-										makeTaxonomyAutocompleteMeta("cited_sci_Name", "cited_taxon_name_id");
-										makeTaxonomyAutocompleteMeta("scientific_name", "accepted_taxon_name_id");
+										makeScientificNameAutocompleteMeta("cited_sci_Name", "cited_taxon_name_id");
+										makeScientificNameAutocompleteMeta("scientific_name", "accepted_taxon_name_id");
 									});
 									// Add event listener to the save button
 									$('##newCitation_submit').on('click', function(event) {
@@ -4475,7 +4475,7 @@ limitations under the License.
 										<div class="col-12 col-md-3">
 											<label for="cit_cited_name#i#" class="data-entry-label">Cited Scientific Name</label>
 											<input type="hidden" name="cited_taxon_name_id" id="cit_cited_name_id#i#" value="#cited_taxon_name_id#">
-											<input type="text" class="data-entry-input" id="cit_cited_name#i#" name="cited_name" value="#citSciName#">
+											<input type="text" class="data-entry-input reqdClr" id="cit_cited_name#i#" name="cited_name" value="#citSciName#" required>
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="cit_type_status#i#" class="data-entry-label">Citation Type</label>
@@ -4515,7 +4515,7 @@ limitations under the License.
 										// make publication autocomplete
 										makePublicationAutocompleteMeta("cit_publication#i#", "cit_publication_id#i#");
 										// make cited name autocomplete
-										makeTaxonomyAutocompleteMeta("cit_cited_name#i#", "cit_cited_name_id#i#");
+										makeScientificNameAutocompleteMeta("cit_cited_name#i#", "cit_cited_name_id#i#");
 									});
 								</script>
 							</cfloop>
