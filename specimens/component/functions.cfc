@@ -4421,6 +4421,7 @@ limitations under the License.
 			
 			<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
+					'TODO' as citation_id,
 					citation.publication_id,
 					citation.collection_object_id,
 					collection,
