@@ -2436,7 +2436,7 @@ limitations under the License.
 									WHERE coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatalog.collection_object_id#">
 								</cfquery>
 								<cfif checkMixed.ct gt 0>
-									<cfset variables.coll_object_type="#variabls.coll_object_type#: Mixed Collection">
+									<cfset variables.coll_object_type="#variables.coll_object_type#: Mixed Collection">
 								</cfif>
 								#variables.coll_object_type# #getCatalog.cataloged_item_type_description# 
 								( occurrenceID: https://mczbase.mcz.harvard.edu/guid/#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num# )
