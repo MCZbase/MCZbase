@@ -4418,7 +4418,7 @@ limitations under the License.
 					citedTaxa.scientific_name as citSciName,
 					occurs_page_number,
 					citation_page_uri,
-					type_status,
+					citation.type_status,
 					citation_remarks,
 					cit_current_fg,
 					citation_remarks,
@@ -4436,7 +4436,7 @@ limitations under the License.
 					join cataloged_item on citation.collection_object_id = cataloged_item.collection_object_id
 					join collection on cataloged_item.collection_id = collection.collection_id
 					left join identification on cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
-					join ctcitation_type_status on citation.type_status = ctTypeStatus.type_status 
+					join ctcitation_type_status on citation.type_status = ctcitation_sype_status.type_status 
 					left join taxonomy citedTaxa on citation.cited_taxon_name_id = citedTaxa.taxon_name_id
 					join publication on citation.publication_id = publication.publication_id 
 					join formatted_publication on citation.publication_id = formatted_publication.publication_id AND format_style='long'
@@ -4445,7 +4445,7 @@ limitations under the License.
 				ORDER BY
 					ctcitation_type_status.ordinal,
 					citation.type_status,
-					occurs_page_number
+					publication.published_year DESC
 			</cfquery>
 			
 			<div class="row mx-0">
