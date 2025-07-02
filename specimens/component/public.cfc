@@ -74,18 +74,34 @@ limitations under the License.
 				<cfif summary.recordcount LT 1>
 					<cfthrow message="No such cataloged item found.">
 				</cfif>
+				<!--- check for mixed collection --->
+				<cfset variables.isMixed = false>
+				<cfquery name="checkMixed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						count(identification.collection_object_id) ct
+					FROM
+						<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> as flatTable
+						join coll_object on flatTable.collection_object_id = coll_object.collection_object_id
+						join specimen_part on coll_object.collection_object_id = specimen_part.derived_from_cat_item
+						join identification on specimen_part.collection_object_id = identification.collection_object_id
+					WHERE
+						flatTable.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<cfif checkMixed.ct GT 0>
+					<cfset variables.isMixed = true>
+				</cfif>
 
 				<cfset typeName = summary.type_status>
 				<!--- handle the edge cases of a specimen having more than one type status --->
 				<cfif summary.toptypestatuskind eq 'Primary' > 
 					<cfset twotypes = '#replace(summary.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
-					<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
+					<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'><!--- " --->
 				<cfelseif summary.toptypestatuskind eq 'Secondary' >
 					<cfset twotypes= '#replace(summary.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
-					<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
+					<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'><!--- " --->
 				<cfelse>
 					<cfset twotypes= '#replace(summary.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
-					<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> </span>'>
+					<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> </span>'><!--- " --->
 				</cfif>
 				<div class="container-fluid" id="content">
 					<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
@@ -110,24 +126,51 @@ limitations under the License.
 							</cfif>
 							<div class="card box-shadow #divclass# bg-transparent">
 								<div class="row mb-0">
-									<div class="float-left pr-md-0 my-1 
-										<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
-											col-12 col-xl-4 
-										<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
-											col-12 col-xl-6
-										<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
-											col-12 col-xl-3 
-										<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7>
-											col-12 col-xl-5
-										<cfelse>
-											col-6 </cfif>
-									">
-								<cfset thisLink='<a href="/name/#summary.sci_name#" class="text-dark font-weight-bold">#summary.sci_name#</a>'>
+									<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
+										<cfset cols="col-12 col-xl-4">
+									<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
+										<cfset cols="col-12 col-xl-6">
+									<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
+										<cfset cols""col-12 col-xl-3">
+									<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7>
+										<cfset cols="col-12 col-xl-5">
+									<cfelse>
+										<cfset cols="col-6">
+									</cfif>
+									<div class="float-left pr-md-0 my-1 #cols# ">
 										<div class="col-12 px-0">
 											<h1 class="col-12 mb-1 h4 font-weight-bold">MCZ #summary.collection# #summary.cat_num#</h1>
 											<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
-												#thisLink#
+												<a href="/name/#summary.sci_name#" class="text-dark font-weight-bold">#summary.sci_name#</a>
 											</h2>
+											<cfif isMixed>
+												<cfquery name="mixedCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+													SELECT 
+														identification.scientific_name
+													FROM 
+														specimen_part
+														join identification on specimen_part.collection_object_id = identification.collection_object_id
+														join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+													WHERE 
+														specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#summary.collection_object_id#">
+														AND coll_object.coll_object_type = 'SP'
+												</cfquery>
+												<cfif mixedCollection.recordcount EQ 1> 
+													<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
+														Mixed Collection:
+														#mixedCollection.scientific_name#
+													</h2>
+												<cfelseif mixedCollection.recordcount GT 1>
+													<h3 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
+														Mixed Collection:
+														<cfset separator = "">
+														<cfloop query="mixedCollection">
+															#separator##mixedCollection.scientific_name#
+															<cfset separator = ";">
+														</cfloop>
+													</h3>
+												</cfif>
+											</cfif>
 										</div>
 									</div>
 									<div class="float-left mt-1 mt-xl-3 pr-md-0 

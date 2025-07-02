@@ -151,6 +151,22 @@ limitations under the License.
 	WHERE
 		collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
+<!--- check for mixed collection --->
+<cfset variables.isMixed = false>
+<cfquery name="checkMixed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT 
+		count(identification.collection_object_id) ct
+	FROM
+		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> as flatTable
+		join coll_object on flatTable.collection_object_id = coll_object.collection_object_id
+		join specimen_part on coll_object.collection_object_id = specimen_part.derived_from_cat_item
+		join identification on specimen_part.collection_object_id = identification.collection_object_id
+	WHERE
+		flatTable.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+</cfquery>
+<cfif checkMixed.ct GT 0>
+	<cfset variables.isMixed = true>
+</cfif>
 
 <!--- (3) Display the page header ---> 
 <!--- Successfully found a specimen, set the pageTitle plus page metadata and call the header to reflect this ---> 
