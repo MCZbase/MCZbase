@@ -961,6 +961,11 @@ limitations under the License.
 						substr(formatted_publication, - 4)
 				</cfquery>
 				<cfset i = 1>
+				<cfif citations.recordcount EQ 0>
+					<ul class="list-group">
+						<li class="small list-group-item py-0 font-italic">None</li>
+					</ul>
+				</cfif>
 				<cfloop query="citations" group="formatted_publication">
 					<div class="list-group pt-0 d-block pb-1 px-2 w-100 mb-0 small95">
 						<span class="d-inline"></span>
