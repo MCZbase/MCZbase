@@ -146,7 +146,7 @@ limitations under the License.
 											<cfif isMixed>
 												<cfquery name="mixedCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 													SELECT 
-														identification.scientific_name
+														distinct identification.scientific_name
 													FROM 
 														specimen_part
 														join identification on specimen_part.collection_object_id = identification.collection_object_id
@@ -154,6 +154,7 @@ limitations under the License.
 													WHERE 
 														specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#summary.collection_object_id#">
 														AND coll_object.coll_object_type = 'SP'
+														AND identification.accepted_id_fg = 1
 												</cfquery>
 												<cfif mixedCollection.recordcount EQ 1> 
 													<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
