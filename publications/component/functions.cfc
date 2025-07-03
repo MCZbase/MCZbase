@@ -2143,7 +2143,7 @@ limitations under the License.
  @return a structure with status=inserted and id=citation_id
 	or if an exception was raised, an http response with http statuscode of 500.
 --->
-<cffunction name="createCitation" access="remote" returntype="any" returnformat="json">
+<cffunction name="updateCitation" access="remote" returntype="any" returnformat="json">
 	<cfargument name="original_publication_id" type="string" required="yes">
 	<cfargument name="original_collection_object_id" type="string" required="yes">
 	<cfargument name="original_cited_taxon_name_id" type="string" required="yes">
