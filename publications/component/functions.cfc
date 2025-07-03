@@ -2182,8 +2182,8 @@ limitations under the License.
 						,citation_page_uri = NULL
 					</cfif>
 				WHERE 
-					publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.original_publication_id#">,
-					AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.original_collection_object_id#">,
+					publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.original_publication_id#">
+					AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.original_collection_object_id#">
 					AND cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.original_cited_taxon_name_id#">
 			</cfquery>
 			<cfif updateCitation_result.recordcount NEQ 1>
