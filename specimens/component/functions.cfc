@@ -4254,12 +4254,43 @@ limitations under the License.
 													<cfset cols = "col-12">
 												</cfif>
 												<div class="float-left #cols# px-1">
-													<label for="publication" class="data-entry-label">Publication Title</label>
-													<input type="hidden" name="publication_id" id="publication_id" value="">
+													<label for="publication" class="data-entry-label">Publication Title <span id="lookedUpPublicationLink"></span></label>
+													<input type="hidden" name="publication_id" id="publication_id" value="" onchange="setPublicationLink(this.value);">
 													<input type="text" id="publication" value="" class="data-entry-input reqdClr" required>
+													<script>
+														function setPublicationLink(publicationId) {
+															if (publicationId) {
+																var text = "<span id='lookedUpPublicationShort'>View</span>";
+																document.getElementById("lookedUpPublicationLink").innerHTML = '(<a href="/publications/showPublication.cfm?publication_id=' + publicationId + '" target="_blank">'+text+'</a>)';
+																// lookup the publication short citation
+																$.ajax({
+																	url: '/publications/component/functions.cfc',
+																	type: 'POST',
+																	dataType: 'json',
+																	data: {
+																		method: 'getPublicationCitationForms',
+																		publication_id: publicationId
+																	},
+																	success: function(response) {
+																		console.log(response);
+																		// Check if the response contains a short title
+																		if (response && response.short) {
+																			document.getElementById("lookedUpPublicationShort").innerHTML = response.short_title;
+																		}
+																	},
+																	error: function(xhr, status, error) {
+																		console.error('Error fetching publication short title:', error);
+																	}
+																});
+															} else {
+																document.getElementById("lookedUpPublicationLink").innerHTML = '';
+															}
+														}
+													</script>
 												</div>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
 													<div class="col-12 col-md-3 mt-2 float-right">
+														<label class="data-entry-label">&nbsp;</label>
 														<a class="btn btn-xs btn-outline-primary px-2 float-right" target="_blank" href="/publications/Publication.cfm?action=new">Add New Publication <i class="fas fa-external-link-alt"></i></a>
 													</div>
 												</cfif>
