@@ -124,6 +124,8 @@ limitations under the License.
 									<cfset divclass="border-0">
 								<cfelseif summary.toptypestatuskind eq 'Secondary' >
 									<cfset divclass="no-card">
+								<cfelse>
+									<cfset divclass="no-card">
 								</cfif>
 							<cfelse>
 								<cfset divclass="no-card">
