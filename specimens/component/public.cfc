@@ -40,6 +40,15 @@ limitations under the License.
 				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 					<cfthrow message="Record Masked">
 				</cfif>
+				<!--- Look up presence of an image from flat, may be stale, TODO make live --->
+				<cfquery name="iheader" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				 	SELECT 
+						imageurl
+					FROM
+						<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
+					WHERE
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
 				<!--- Lookup live data (with redactions as specified by encumbrances) as flat may be stale --->
 				<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				 	SELECT DISTINCT
@@ -133,14 +142,14 @@ limitations under the License.
 							<div class="card box-shadow #divclass# bg-transparent">
 								<div class="row mb-0">
 									<cfset cols="col-6">
-									<cfif isDefined("header.imageurl") and isDefined("summary.cited_as")>
-										<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
+									<cfif isDefined("iheader.imageurl") and isDefined("summary.cited_as")>
+										<cfif len(iheader.imageurl) gt 7 and len(summary.cited_as) gt 7> 
 											<cfset cols="col-12 col-xl-4">
-										<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
+										<cfelseif len(iheader.imageurl) gt 7 and len(summary.cited_as) lt 7> 
 											<cfset cols="col-12 col-xl-6">
-										<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
+										<cfelseif len(iheader.imageurl) lt 7 and len(summary.cited_as) gt 7> 
 											<cfset cols="col-12 col-xl-3">
-										<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7>
+										<cfelseif len(iheader.imageurl) lt 7 and len(summary.cited_as) lt 7>
 											<cfset cols="col-12 col-xl-5">
 										<cfelse>
 											<cfset cols="col-6">
@@ -182,14 +191,14 @@ limitations under the License.
 										</div>
 									</div>
 									<cfset cols="col-12">
-									<cfif isDefined("header.imageurl") and isDefined("summary.cited_as")>
-		a								<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
+									<cfif isDefined("iheader.imageurl") and isDefined("summary.cited_as")>
+		a								<cfif len(iheader.imageurl) gt 7 and len(summary.cited_as) gt 7> 
 											<cfset cols="col-12 col-xl-3"> 
-										<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
+										<cfelseif len(iheader.imageurl) gt 7 and len(summary.cited_as) lt 7> 
 											<cfset cols="col-12 col-xl-1">
-										<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
+										<cfelseif len(iheader.imageurl) lt 7 and len(summary.cited_as) gt 7> 
 											<cfset cols="col-12 col-xl-3"> 
-										<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7>
+										<cfelseif len(iheader.imageurl) lt 7 and len(summary.cited_as) lt 7>
 											<cfset cols="col-12 col-xl-1">
 										<cfelse>
 											<cfset cols="col-12">
@@ -209,14 +218,14 @@ limitations under the License.
 									</div>
 										
 									<cfset cols="col-xl-5">
-									<cfif isDefined("header.imageurl") and isDefined("summary.cited_as")>
-										<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
+									<cfif isDefined("iheader.imageurl") and isDefined("summary.cited_as")>
+										<cfif len(iheader.imageurl) gt 7 and len(summary.cited_as) gt 7> 
 											<cfset cols="col-12 col-xl-5">
-										<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
+										<cfelseif len(iheader.imageurl) gt 7 and len(summary.cited_as) lt 7> 
 											<cfset cols="col-12 col-xl-5">
-										<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
+										<cfelseif len(iheader.imageurl) lt 7 and len(summary.cited_as) gt 7> 
 											<cfset cols="col-12 col-xl-5">
-										<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7> 
+										<cfelseif len(iheader.imageurl) lt 7 and len(summary.cited_as) lt 7> 
 											<cfset cols="col-12 col-xl-5">
 										<cfelse> 
 											<cfset cols="col-xl-5">
