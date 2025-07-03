@@ -132,16 +132,19 @@ limitations under the License.
 							</cfif>
 							<div class="card box-shadow #divclass# bg-transparent">
 								<div class="row mb-0">
-									<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
-										<cfset cols="col-12 col-xl-4">
-									<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
-										<cfset cols="col-12 col-xl-6">
-									<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
-										<cfset cols="col-12 col-xl-3">
-									<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7>
-										<cfset cols="col-12 col-xl-5">
-									<cfelse>
-										<cfset cols="col-6">
+									<cfset cols="col-6">
+									<cfif isDefined("header.imageurl") and isDefined("summary.cited_as")>
+										<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
+											<cfset cols="col-12 col-xl-4">
+										<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
+											<cfset cols="col-12 col-xl-6">
+										<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
+											<cfset cols="col-12 col-xl-3">
+										<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7>
+											<cfset cols="col-12 col-xl-5">
+										<cfelse>
+											<cfset cols="col-6">
+										</cfif>
 									</cfif>
 									<div class="float-left pr-md-0 my-1 #cols# ">
 										<div class="col-12 px-0">
