@@ -4223,11 +4223,6 @@ limitations under the License.
 				</cfquery>
 				<cfset guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num#">
 				
-				<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT collection, collection_id 
-					FROM collection 
-					ORDER BY collection
-				</cfquery>
 				<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT type_status 
 					FROM ctcitation_type_status 
@@ -4494,6 +4489,11 @@ limitations under the License.
 								<form name="editCitation#i#" id="editCitation#i#">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 									<input type="hidden" name="citation_id" value="#citation_id#">
+									<!--- TODO: add citation_id, until then use weak key values --->
+									<input type="hidden" name="original_collection_object_id" id="orig_col_obj_id#i#"  value="#collection_object_id#">
+									<input type="hidden" name="original_publication_id" id="orig_publication_id#i#" value="#publication_id#">
+									<input type="hidden" name="original_cited_taxon_name_id" id="orig_cited_name_id#i#" value="#cited_taxon_name_id#">
+
 									<input type="hidden" name="method" value="updateCitation">
 									<div class="row mx-0 border py-1 mb-0">
 										<div class="col-12">
@@ -4575,7 +4575,7 @@ limitations under the License.
 										var feedbackOutput = 'cit_output' + id;
 										setFeedbackControlState(feedbackOutput,"saving")
 										$.ajax({
-											url: '/specimens/component/functions.cfc',
+											url: '/publications/component/functions.cfc',
 											type: 'POST',
 											dataType: 'json',
 											data: $("##editCitation" + id).serialize(),
@@ -4598,7 +4598,7 @@ limitations under the License.
 										var feedbackOutput = 'cit_output' + id;
 										setFeedbackControlState(feedbackOutput,"deleting")
 										$.ajax({
-											url: '/specimens/component/functions.cfc',
+											url: '/publications/component/functions.cfc',
 											type: 'POST',
 											dataType: 'json',
 											data: {
@@ -4642,49 +4642,8 @@ limitations under the License.
 	</cfoutput>
 </cffunction>	
 
-<!--- deleteCitation deletes a citation record from the database.
- @param cited_taxon_name_id the taxon name id of the cited taxon
- @param collection_object_id the collection object id of the cataloged item
- @param publication_id the publication id of the citation to delete
- @return a JSON object with status = deleted
---->
-<cffunction name="deleteCitation" returntype="any" access="remote" returnformat="json">
-	<cfargument name="cited_taxon_name_id" type="string" required="yes">
-	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfargument name="publication_id" type="string" required="yes">
-	<!--- TODO: Implement citation_id --->
 
-	<cfset data = ArrayNew(1)>
-	<cfoutput>
-		<cftransaction>
-			<cftry>
-				<cfquery name="deleteCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteCitation_result">
-					DELETE FROM citation
-					WHERE
-						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-						and publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-						and cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_taxon_name_id#">
-				</cfquery>
-				<cfif deleteCitation_result.recordcount NEQ 1>
-					<cfthrow message = "Error deleting citation record, delete would remove other than one citation record.">
-				</cfif>
-				<cfset row = StructNew()>
-				<cfset row["status"] = "deleted">
-				<cfset arrayAppend(data, row)>
-				<cftransaction action="commit">
-			<cfcatch>
-				<cftransaction action="rollback">
-				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-				<cfset function_called = "#GetFunctionCalledName()#">
-				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-				<cfabort>
-			</cfcatch>
-			</cftry>
-		</cftransaction>
-	</cfoutput>
-	<cfreturn serializeJson(data)>
-</cffunction>
-
+<!--- Duplicate of function in ajax/functions.cfc TODO: Determine where this goes --->
 <cffunction name="getCatalogedItemCitation" access="remote">
 	<cfargument name="collection_id" type="numeric" required="yes">
 	<cfargument name="theNum" type="string" required="yes">

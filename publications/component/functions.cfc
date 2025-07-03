@@ -2131,4 +2131,123 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>			
 </cffunction>
 
+<!--- updateCitation update an existing citation record 
+ TODO: Add citation_id
+ @param publication_id the publication to which the citation applies
+ @param collection_object_id the collection object to which the citation applies
+ @param cited_taxon_name_id the taxon name cited in the citation
+ @param occurs_page_number the page number on which the citation occurs in the publication
+ @param type_status the type status of the citation, if any
+ @param citation_remarks any remarks about the citation
+ @param citation_page_uri the URI of the page in the publication where the citation occurs
+ @return a structure with status=inserted and id=citation_id
+	or if an exception was raised, an http response with http statuscode of 500.
+--->
+<cffunction name="createCitation" access="remote" returntype="any" returnformat="json">
+	<cfargument name="original_publication_id" type="string" required="yes">
+	<cfargument name="original_collection_object_id" type="string" required="yes">
+	<cfargument name="original_cited_taxon_name_id" type="string" required="yes">
+	<cfargument name="publication_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="cited_taxon_name_id" type="string" required="yes">
+	<cfargument name="type_status" type="string" required="yes">
+	<cfargument name="occurs_page_number" type="string" required="no" default="">
+	<cfargument name="citation_remarks" type="string" required="no" default="">
+	<cfargument name="citation_page_uri" type="string" required="no" default="">
+
+	<cfset data = ArrayNew(1)>
+
+	<cftransaction>
+		<cftry>
+			<cfquery name="updateCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateCitation_result">
+				UPDATE citation
+				SET 
+					publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.publication_id#">
+					,collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+					,cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.cited_taxon_name_id#">
+					,type_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.type_status#">
+					<cfif len(#occurs_page_number#) gt 0>
+						,occurs_page_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.occurs_page_number#">
+					<cfelse>
+						,occurs_page_number = NULL
+					</cfif>
+					<cfif len(#citation_remarks#) gt 0>
+						,citation_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.citation_remarks#">
+					<cfelse>
+						,citation_remarks = NULL
+					</cfif>
+					<cfif len(#citation_page_uri#) gt 0>
+						,citation_page_uri = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.citation_page_uri#">
+					<cfelse>
+						,citation_page_uri = NULL
+					</cfif>
+				WHERE 
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.original_publication_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.original_collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.original_cited_taxon_name_id#">
+				</cfquery>
+				<cfif updateCitation_result.recordcount NEQ 1>
+					<cfthrow message = "error updating citation record for publication [#encodeForHtml(arguments.publication_id)#]">
+				</cfif>
+				<cfset id="TODO">
+				<cfset row = StructNew()>
+				<cfset row["status"] = "updated">
+				<cfset row["id"] = "#id#">
+				<cfset data[1] = row>
+				<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>			
+</cffunction>
+
+<!--- deleteCitation deletes a citation record from the database.
+ @param cited_taxon_name_id the taxon name id of the cited taxon
+ @param collection_object_id the collection object id of the cataloged item
+ @param publication_id the publication id of the citation to delete
+ @return a JSON object with status = deleted
+--->
+<cffunction name="deleteCitation" returntype="any" access="remote" returnformat="json">
+	<cfargument name="cited_taxon_name_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="publication_id" type="string" required="yes">
+	<!--- TODO: Implement citation_id --->
+
+	<cfset data = ArrayNew(1)>
+	<cfoutput>
+		<cftransaction>
+			<cftry>
+				<cfquery name="deleteCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteCitation_result">
+					DELETE FROM citation
+					WHERE
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						and publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+						and cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_taxon_name_id#">
+				</cfquery>
+				<cfif deleteCitation_result.recordcount NEQ 1>
+					<cfthrow message = "Error deleting citation record, delete would remove other than one citation record.">
+				</cfif>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "deleted">
+				<cfset arrayAppend(data, row)>
+				<cftransaction action="commit">
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+				<cfabort>
+			</cfcatch>
+			</cftry>
+		</cftransaction>
+	</cfoutput>
+	<cfreturn serializeJson(data)>
+</cffunction>
+
 </cfcomponent>
