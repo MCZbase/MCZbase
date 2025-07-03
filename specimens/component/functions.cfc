@@ -4602,13 +4602,20 @@ limitations under the License.
 											data: {
 												method: 'deleteCitation',
 												citation_id: $("##editCitation" + id + " input[name='citation_id']").val(),
+												publication_id: $("##editCitation" + id + " input[name='publication_id']").val(),
+												cited_taxon_name_id: $("##editCitation" + id + " input[name='cited_taxon_name_id']").val(),
 												collection_object_id: $("##editCitation" + id + " input[name='collection_object_id']").val()
 											},
 											success: function(response) {
-												setFeedbackControlState(feedbackOutput,"deleted");
-												reloadCitations();
-												// remove the form from the DOM
-												$("##editCitation" + id).remove();
+												if (response && response[0].status == "deleted") {
+													setFeedbackControlState(feedbackOutput,"deleted");
+													reloadCitations();
+													// remove the form from the DOM
+													$("##editCitation" + id).remove();
+												} else {
+													setFeedbackControlState(feedbackOutput,"error");
+													console.log(response)
+												}
 											},
 											error: function(xhr, status, error) {
 												setFeedbackControlState(feedbackOutput,"error")
