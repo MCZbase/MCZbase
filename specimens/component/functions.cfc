@@ -4577,6 +4577,7 @@ limitations under the License.
 										$.ajax({
 											url: '/specimens/component/functions.cfc',
 											type: 'POST',
+											responseType: 'json',
 											data: $("##editCitation" + id).serialize(),
 											success: function(response) {
 												setFeedbackControlState(feedbackOutput,"saved");
@@ -4599,6 +4600,7 @@ limitations under the License.
 										$.ajax({
 											url: '/specimens/component/functions.cfc',
 											type: 'POST',
+											responseType: 'json',
 											data: {
 												method: 'deleteCitation',
 												citation_id: $("##editCitation" + id + " input[name='citation_id']").val(),
