@@ -4446,8 +4446,6 @@ limitations under the License.
 					'TODO' as citation_id,
 					citation.publication_id,
 					citation.collection_object_id,
-					collection,
-					collection.collection_id,
 					cat_num,
 					identification.scientific_name,
 					citedTaxa.scientific_name as citSciName,
@@ -4460,7 +4458,6 @@ limitations under the License.
 					publication_title,
 					REGEXP_REPLACE(longpub.formatted_publication, '<\/?(?:i|em|b)>', '', 1, 0) as formpublong,
 					short.formatted_publication as formpubshort,
-					formatted_publication.publication_id,
 					publication.publication_id,
 					publication.published_year,
 					publication.publication_type,
@@ -4470,7 +4467,6 @@ limitations under the License.
 				FROM
 					citation
 					join cataloged_item on citation.collection_object_id = cataloged_item.collection_object_id
-					join collection on cataloged_item.collection_id = collection.collection_id
 					left join identification on cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
 					join ctcitation_type_status on citation.type_status = ctcitation_type_status.type_status 
 					left join taxonomy citedTaxa on citation.cited_taxon_name_id = citedTaxa.taxon_name_id
@@ -4637,40 +4633,47 @@ limitations under the License.
 	</cfoutput>
 </cffunction>	
 
-
-<!------------------------------------------------------------------------------->
-<!---remove citation --button for removing media relationship = shows cataloged_item--->
-<cffunction name="removeCitation" returntype="string" access="remote" returnformat="plain">
+<!--- deleteCitation deletes a citation record from the database.
+ @param cited_taxon_name_id the taxon name id of the cited taxon
+ @param collection_object_id the collection object id of the cataloged item
+ @param publication_id the publication id of the citation to delete
+ @return a JSON object with status = deleted
+--->
+<cffunction name="deleteCitation" returntype="any" access="remote" returnformat="json">
 	<cfargument name="cited_taxon_name_id" type="string" required="yes">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="publication_id" type="string" required="yes">
+	<!--- TODO: Implement citation_id --->
 
-	<cfthread name="removeCitationThread"> 
-		<cfoutput>
-			<cftransaction>
-				<cftry>
-					<cfquery name="deleteCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						DELETE FROM citation
-						WHERE
-							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-							and publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-							and cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_taxon_name_id#">
-					</cfquery>
-					<cfset row["status"] = "deleted">
-					<cftransaction action="commit">
-				<cfcatch>
-					<cftransaction action="rollback">
-					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-					<cfset function_called = "#GetFunctionCalledName()#">
-					<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-					<cfabort>
-				</cfcatch>
-				</cftry>
-			</cftransaction>
-		</cfoutput>
-	</cfthread>
-	<cfthread action="join" name="removeCitationThread" /> 
-	<cfreturn removeCitationThread.output>
+	<cfset data = ArrayNew(1)>
+	<cfoutput>
+		<cftransaction>
+			<cftry>
+				<cfquery name="deleteCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteCitation_result">
+					DELETE FROM citation
+					WHERE
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						and publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+						and cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_taxon_name_id#">
+				</cfquery>
+				<cfif deleteCitation_result.recordcount NEQ 1>
+					<cfthrow message = "Error deleting citation record, delete would remove other than one citation record.">
+				</cfif>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "deleted">
+				<cfset arrayAppend(data, row)>
+				<cftransaction action="commit">
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+				<cfabort>
+			</cfcatch>
+			</cftry>
+		</cftransaction>
+	</cfoutput>
+	<cfreturn serializeJson(data)>
 </cffunction>
 
 <cffunction name="getCatalogedItemCitation" access="remote">
