@@ -4458,7 +4458,7 @@ limitations under the License.
 					cit_current_fg,
 					citation_remarks,
 					publication_title,
-					REGEXP_REPLACE(formatted_publication.formatted_publication, '<\/?(?:i|em|b)>', '', 1, 0) as formpublong,
+					REGEXP_REPLACE(longpub.formatted_publication, '<\/?(?:i|em|b)>', '', 1, 0) as formpublong,
 					short.formatted_publication as formpubshort,
 					formatted_publication.publication_id,
 					publication.publication_id,
@@ -4475,8 +4475,8 @@ limitations under the License.
 					join ctcitation_type_status on citation.type_status = ctcitation_type_status.type_status 
 					left join taxonomy citedTaxa on citation.cited_taxon_name_id = citedTaxa.taxon_name_id
 					join publication on citation.publication_id = publication.publication_id 
-					join formatted_publication on citation.publication_id = formatted_publication.publication_id AND format_style='long'
-					join formatted_publication short on citation.publication_id = formatted_publication.publication_id AND format_style='short'
+					join formatted_publication longpub on citation.publication_id = longpub.publication_id AND format_style='long'
+					join formatted_publication short on citation.publication_id = short.publication_id AND format_style='short'
 				WHERE
 					citation.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 				ORDER BY
