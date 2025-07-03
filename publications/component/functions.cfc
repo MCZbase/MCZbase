@@ -2182,19 +2182,19 @@ limitations under the License.
 						,citation_page_uri = NULL
 					</cfif>
 				WHERE 
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.original_publication_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.original_collection_object_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.original_cited_taxon_name_id#">
-				</cfquery>
-				<cfif updateCitation_result.recordcount NEQ 1>
-					<cfthrow message = "error updating citation record for publication [#encodeForHtml(arguments.publication_id)#]">
-				</cfif>
-				<cfset id="TODO">
-				<cfset row = StructNew()>
-				<cfset row["status"] = "updated">
-				<cfset row["id"] = "#id#">
-				<cfset data[1] = row>
-				<cftransaction action="commit">
+					publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.original_publication_id#">,
+					AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.original_collection_object_id#">,
+					AND cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.original_cited_taxon_name_id#">
+			</cfquery>
+			<cfif updateCitation_result.recordcount NEQ 1>
+				<cfthrow message = "error updating citation record for publication [#encodeForHtml(arguments.publication_id)#]">
+			</cfif>
+			<cfset id="TODO">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "updated">
+			<cfset row["id"] = "#id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
