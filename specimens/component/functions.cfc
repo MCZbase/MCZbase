@@ -4279,8 +4279,8 @@ limitations under the License.
 																	success: function(response) {
 																		console.log(response);
 																		// Check if the response contains a short title
-																		if (response && response.short) {
-																			document.getElementById("lookedUpPublicationShort").innerHTML = response.short_title;
+																		if (response && response[0].short) {
+																			document.getElementById("lookedUpPublicationShort").innerHTML = response[0].short;
 																		}
 																	},
 																	error: function(xhr, status, error) {
