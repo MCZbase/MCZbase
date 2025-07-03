@@ -4269,7 +4269,7 @@ limitations under the License.
 																document.getElementById("lookedUpPublicationLink").innerHTML = '(<a href="/publications/showPublication.cfm?publication_id=' + publicationId + '" target="_blank">'+text+'</a>)';
 																// lookup the publication short citation
 																$.ajax({
-																	url: '/publications/component/functions.cfc',
+																	url: '/publications/component/search.cfc',
 																	type: 'POST',
 																	dataType: 'json',
 																	data: {
