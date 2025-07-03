@@ -181,16 +181,19 @@ limitations under the License.
 											</cfif>
 										</div>
 									</div>
-									<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
-										<cfset cols="col-12 col-xl-3"> 
-									<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
-										<cfset cols="col-12 col-xl-1">
-									<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
-										<cfset cols="col-12 col-xl-3"> 
-									<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7>
-										<cfset cols="col-12 col-xl-1">
-									<cfelse>
-										<cfset cols="col-12">
+									<cfset cols="col-12">
+									<cfif isDefined("header.imageurl") and isDefined("summary.cited_as")>
+		a								<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
+											<cfset cols="col-12 col-xl-3"> 
+										<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
+											<cfset cols="col-12 col-xl-1">
+										<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
+											<cfset cols="col-12 col-xl-3"> 
+										<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7>
+											<cfset cols="col-12 col-xl-1">
+										<cfelse>
+											<cfset cols="col-12">
+										</cfif>
 									</cfif>
 									<div class="float-left mt-1 mt-xl-3 pr-md-0 #cols#">
 										<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
@@ -205,16 +208,19 @@ limitations under the License.
 										</cfif>	
 									</div>
 										
-									<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
-										<cfset cols="col-12 col-xl-5">
-									<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
-										<cfset cols="col-12 col-xl-5">
-									<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
-										<cfset cols="col-12 col-xl-5">
-									<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7> 
-										<cfset cols="col-12 col-xl-5">
-									<cfelse> 
-										<cfset cols="col-xl-5">
+									<cfset cols="col-xl-5">
+									<cfif isDefined("header.imageurl") and isDefined("summary.cited_as")>
+										<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
+											<cfset cols="col-12 col-xl-5">
+										<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
+											<cfset cols="col-12 col-xl-5">
+										<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
+											<cfset cols="col-12 col-xl-5">
+										<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7> 
+											<cfset cols="col-12 col-xl-5">
+										<cfelse> 
+											<cfset cols="col-xl-5">
+										</cfif>
 									</cfif>
 									<div class="float-left pr-md-0 my-1 mt-xl-2 #cols# ">
 										<div class="col-12 px-xl-0"><span class="small">Date Collected: </span>
