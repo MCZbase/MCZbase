@@ -4254,7 +4254,7 @@ limitations under the License.
 													<cfset cols = "col-12">
 												</cfif>
 												<div class="float-left #cols# px-1">
-													<label for="publication" class="data-entry-label">Publication Title <span id="lookedUpPublicationLink"></span></label>
+													<label for="publication" class="data-entry-label">Publication <span id="lookedUpPublicationLink"></span></label>
 													<input type="hidden" name="publication_id" id="publication_id" value="">
 													<input type="text" id="publication" value="" class="data-entry-input reqdClr" required>
 													<script>
@@ -4299,25 +4299,11 @@ limitations under the License.
 													</div>
 												</cfif>
 												<div class="float-left col-12 col-md-4 px-1">
-													<label for="collection" class="data-entry-label">Cites Collection</label>
-													<select name="collection" id="collection" size="1" class="data-entry-select">
-														<option value="">All</option>
-														<cfloop query="ctColl">
-															<option value="#collection#">#collection#</option>
-														</cfloop>
-													</select>
-												</div>
-												<div class="float-left col-12 col-md-4 px-1">
 													<label for="cited_sci_Name" class="data-entry-label">Cited Scientific Name</label>
 													<input name="citsciname" class="data-entry-input reqdClr" id="cited_sci_Name" type="text" required>
 													<input type="hidden" name="cited_taxon_name_id" id="cited_taxon_name_id" value="">
 												</div>
-												<div class="float-left col-12 col-md-4 px-1">
-													<label for="scientific_name" class="data-entry-label">Accepted Scientific Name</label>
-													<input name="scientific_name" class="data-entry-input" id="scientific_name" type="text">
-													<input type="hidden" name="accepted_taxon_name_id" id="accepted_taxon_name_id" value="">
-												</div>
-												<div class="float-left col-12 col-md-4 px-1">
+												<div class="float-left col-12 col-md-3 px-1">
 													<label for="type_status" class="data-entry-label">Citation Type</label>
 													<select name="type_status" id="type_status" class="data-entry-select reqdClr" required>
 														<option value=""></option>
@@ -4326,17 +4312,19 @@ limitations under the License.
 														</cfloop>
 													</select>
 												</div>
-												<div class="float-left col-12 col-md-4 px-1">
+												<div class="float-left col-12 col-md-2 px-1">
 													<label for="occurs_page_number" class="data-entry-label">Page ##</label>
 													<input name="occurs_page_number" id="occurs_page_number" class="data-entry-input" type="text" value="">
 												</div>
-												<div class="float-left col-12 col-md-4 px-1">
+												<div class="float-left col-12 col-md-3 px-1">
 													<label for="citation_page_uri" class="data-entry-label">Page URI</label>
 													<input name="citation_page_uri" id="citation_page_uri" class="data-entry-input" type="text" value="">
 												</div>
 												<div class="float-left col-12 px-1">
-													<label for="citation_remarks" class="data-entry-label">Remarks</label>
-													<input name="citation_remarks" id="citation_remarks" class="data-entry-input" type="text" value="" maxlength="255">
+													<label for="citation_remarks" class="data-entry-label">Remarks	(<span id="length_remarks"></span>)</label>
+													<textarea id="citation_remarks" name="citation_remarks" 
+														onkeyup="countCharsLeft('citation_remarks', 4000, 'length_remarks');"
+														class="data-entry-textarea autogrow mb-1" maxlength="4000"></textarea>
 												</div>
 												<div class="col-12 col-md-12 px-1 mt-2">
 													<button id="newCitation_submit" value="Create" class="btn btn-xs btn-primary" title="Create Citation">Create Citation</button>
@@ -4352,7 +4340,6 @@ limitations under the License.
 										makePublicationAutocompleteMeta("publication", "publication_id",setPublicationLink);
 										// make scientific name autocompletes
 										makeScientificNameAutocompleteMeta("cited_sci_Name", "cited_taxon_name_id");
-										makeScientificNameAutocompleteMeta("scientific_name", "accepted_taxon_name_id");
 									});
 									// Add event listener to the save button
 									$('##newCitation_submit').on('click', function(event) {
@@ -4471,7 +4458,8 @@ limitations under the License.
 					cit_current_fg,
 					citation_remarks,
 					publication_title,
-					formatted_publication.formatted_publication as formpub,
+					REGEXP_REPLACE(formatted_publication.formatted_publication, '<\/?(?:i|em|b)>', '', 1, 0) as formpublong,
+					short.formatted_publication as formpubshort,
 					formatted_publication.publication_id,
 					publication.publication_id,
 					publication.published_year,
@@ -4488,6 +4476,7 @@ limitations under the License.
 					left join taxonomy citedTaxa on citation.cited_taxon_name_id = citedTaxa.taxon_name_id
 					join publication on citation.publication_id = publication.publication_id 
 					join formatted_publication on citation.publication_id = formatted_publication.publication_id AND format_style='long'
+					join formatted_publication short on citation.publication_id = formatted_publication.publication_id AND format_style='short'
 				WHERE
 					citation.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 				ORDER BY
@@ -4510,20 +4499,23 @@ limitations under the License.
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 									<input type="hidden" name="citation_id" value="#citation_id#">
 									<input type="hidden" name="method" value="updateCitation">
-									<div class="row mx-0 border pb-1 mb-2">
+									<div class="row mx-0 border py-1 mb-0">
 										<div class="col-12">
-											<label for="cit_publication#i#" class="data-entry-label">Publication</label>
+											<label for="cit_publication#i#" class="data-entry-label">
+												Publication 
+												(<a href="/publications/showPublication.cfm?publication_id="#publication_id#"">#formputshort#</a>)
+											</label>
 											<input type="hidden" name="publication_id" id="cit_publication_id#i#" value="#publication_id#">
-											<input type="text" class="data-entry-input" id="cit_publication#i#" name="publication" value="#formpub#">
+											<input type="text" class="data-entry-input" id="cit_publication#i#" name="publication" value="#formpublong#">
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-4">
 											<label for="cit_cited_name#i#" class="data-entry-label">Cited Scientific Name</label>
 											<input type="hidden" name="cited_taxon_name_id" id="cit_cited_name_id#i#" value="#cited_taxon_name_id#">
 											<input type="text" class="data-entry-input reqdClr" id="cit_cited_name#i#" name="cited_name" value="#citSciName#" required>
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="cit_type_status#i#" class="data-entry-label">Citation Type</label>
-											<select name="type_status" id="cit_type_status#i#" class="data-entry-select">
+											<select name="type_status" id="cit_type_status#i#" class="data-entry-select reqdClr" required>
 												<option value=""></option>
 												<cfloop query="ctTypeStatus">
 													<cfif ctTypeStatus.type_status EQ getCited.type_status>
@@ -4535,7 +4527,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-2">
 											<label for="cit_page#i#" class="data-entry-label">Page ##</label>
 											<input type="text" class="data-entry-input" id="cit_page#i#" name="occurs_page_number" value="#occurs_page_number#">
 										</div>
@@ -4544,8 +4536,11 @@ limitations under the License.
 											<input type="text" class="data-entry-input" id="cit_page_uri#i#" name="citation_page_uri" value="#citation_page_uri#">
 										</div>
 										<div class="col-12 col-md-9">
-											<label for="cit_remarks#i#" class="data-entry-label">Remarks</label>
-											<input type="text" class="data-entry-input" id="cit_remarks#i#" name="citation_remarks" value="#citation_remarks#">
+											<label for="cit_remarks#i#" class="data-entry-label">Remarks (<span id="length_remarks_#i#"></span>)</label>
+											<textarea id="cit_remarks#i#" name="citation_remarks" 
+												onkeyup="countCharsLeft('cit_remarks#i#', 4000, 'length_remarks_#i#');"
+												class="data-entry-textarea autogrow mb-1" maxlength="4000"
+											>#citation_remarks#</textarea>
 										</div>
 										<div class="col-12 col-md-3 pt-2">
 											<button id="cit_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Citation">Save</button>
@@ -4564,11 +4559,23 @@ limitations under the License.
 								</script>
 							</cfloop>
 							<script>
+								// Make all textareas with autogrow class be bound to the autogrow function on key up
+								$(document).ready(function() { 
+									$("textarea.autogrow").keyup(autogrow);
+									$('textarea.autogrow').keyup();
+								});
 								// Add event listeners to the buttons
 								document.querySelectorAll('button[id^="cit_submit"]').forEach(function(button) {
 									button.addEventListener('click', function(event) {
 										event.preventDefault();
+										// save changes to a citation
 										var id = button.id.replace('cit_submit', '');
+										// check form validity
+										if (!$("##editCitation" + id).get(0).checkValidity()) {
+											// If the form is invalid, show validation messages
+											$("##editCitation" + id).get(0).reportValidity();
+											return false; // Prevent form submission if validation fails
+										}
 										var feedbackOutput = 'cit_output' + id;
 										setFeedbackControlState(feedbackOutput,"saving")
 										$.ajax({
@@ -4589,6 +4596,7 @@ limitations under the License.
 								document.querySelectorAll('button[id^="cit_delete"]').forEach(function(button) {
 									button.addEventListener('click', function(event) {
 										event.preventDefault();
+										// delete a citation record
 										var id = button.id.replace('cit_delete', '');
 										var feedbackOutput = 'cit_output' + id;
 										setFeedbackControlState(feedbackOutput,"deleting")
