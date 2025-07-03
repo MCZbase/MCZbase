@@ -111,6 +111,8 @@ limitations under the License.
 							<cfset sectionclass="primaryType">
 						<cfelseif summary.toptypestatuskind eq 'Secondary' >
 							<cfset sectionclass="secondaryType">
+						<cfelse>
+							<cfset sectionclass="defaultType">
 						</cfif>
 					<cfelse>
 						<cfset sectionclass="defaultType">
