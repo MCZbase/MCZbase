@@ -4456,7 +4456,7 @@ limitations under the License.
 					cit_current_fg,
 					citation_remarks,
 					publication_title,
-					REGEXP_REPLACE(longpub.formatted_publication, '<\/?(?:i|em|b)>', '', 1, 0) as formpublong,
+					REGEXP_REPLACE(longpub.formatted_publication, '<[\\/]?(i|em|b)>', '', 1, 0) as formpublong,
 					short.formatted_publication as formpubshort,
 					publication.publication_id,
 					publication.published_year,
