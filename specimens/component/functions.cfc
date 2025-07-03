@@ -4499,7 +4499,7 @@ limitations under the License.
 										<div class="col-12">
 											<label for="cit_publication#i#" class="data-entry-label">
 												Publication 
-												(<a href="/publications/showPublication.cfm?publication_id="#publication_id#"">#formpubshort#</a>)
+												(<a href="/publications/showPublication.cfm?publication_id='#publication_id#'">#formpubshort#</a>)
 											</label>
 											<input type="hidden" name="publication_id" id="cit_publication_id#i#" value="#publication_id#">
 											<input type="text" class="data-entry-input" id="cit_publication#i#" name="publication" value="#formpublong#">
