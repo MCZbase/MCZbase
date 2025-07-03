@@ -192,7 +192,7 @@ limitations under the License.
 									</div>
 									<cfset cols="col-12">
 									<cfif isDefined("iheader.imageurl") and isDefined("summary.cited_as")>
-		a								<cfif len(iheader.imageurl) gt 7 and len(summary.cited_as) gt 7> 
+										<cfif len(iheader.imageurl) gt 7 and len(summary.cited_as) gt 7> 
 											<cfset cols="col-12 col-xl-3"> 
 										<cfelseif len(iheader.imageurl) gt 7 and len(summary.cited_as) lt 7> 
 											<cfset cols="col-12 col-xl-1">
