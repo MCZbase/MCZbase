@@ -717,7 +717,7 @@ limitations under the License.
 										Citations
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Add/Remove</a>
+										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Edit</a>
 									</cfif>
 								</h3>
 							</div>
