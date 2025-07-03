@@ -4255,9 +4255,14 @@ limitations under the License.
 												</cfif>
 												<div class="float-left #cols# px-1">
 													<label for="publication" class="data-entry-label">Publication Title <span id="lookedUpPublicationLink"></span></label>
-													<input type="hidden" name="publication_id" id="publication_id" value="" onchange="setPublicationLink(this.value);">
+													<input type="hidden" name="publication_id" id="publication_id" value="">
 													<input type="text" id="publication" value="" class="data-entry-input reqdClr" required>
 													<script>
+														/**
+														 * Sets the publication link and short title in the UI.
+														 * @param {string} publicationId - The ID of the publication.
+														 * @see makePublicationAutocompleteMeta, where this can be passed as the callback
+														 */
 														function setPublicationLink(publicationId) {
 															if (publicationId) {
 																var text = "<span id='lookedUpPublicationShort'>View</span>";
@@ -4289,8 +4294,7 @@ limitations under the License.
 													</script>
 												</div>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
-													<div class="col-12 col-md-3 mt-2 float-right">
-														<label class="data-entry-label">&nbsp;</label>
+													<div class="col-12 col-md-3 mt-3 float-right">
 														<a class="btn btn-xs btn-outline-primary px-2 float-right" target="_blank" href="/publications/Publication.cfm?action=new">Add New Publication <i class="fas fa-external-link-alt"></i></a>
 													</div>
 												</cfif>
@@ -4345,7 +4349,7 @@ limitations under the License.
 								<script>
 									$(document).ready(function() {
 										// make publication autocomplete
-										makePublicationAutocompleteMeta("publication", "publication_id");
+										makePublicationAutocompleteMeta("publication", "publication_id",setPublicationLink);
 										// make scientific name autocompletes
 										makeScientificNameAutocompleteMeta("cited_sci_Name", "cited_taxon_name_id");
 										makeScientificNameAutocompleteMeta("scientific_name", "accepted_taxon_name_id");

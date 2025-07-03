@@ -1094,8 +1094,9 @@ function makeLicenseAutocompleteMeta(valueControl, idControl) {
  *
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected publication_id (without a leading # selector).
+ *  @param callback a callback function that is called with the selected publication_id as a parameter when a selection is made.
  */
-function makePublicationAutocompleteMeta(valueControl, idControl) { 
+function makePublicationAutocompleteMeta(valueControl, idControl, callback=null) { 
 	$('#'+valueControl).autocomplete({
 		source: function (request, response) { 
 			$.ajax({
@@ -1110,6 +1111,20 @@ function makePublicationAutocompleteMeta(valueControl, idControl) {
 		},
 		select: function (event, result) {
 			$('#'+idControl).val(result.item.id);
+			if (callback && typeof callback === 'function') { 
+				// if a callback is provided, call it with the selected item.
+				try { 
+					callback(result.item.id);
+				} catch (error) {
+					console.log("Error invoking callback (will retry with no parameters): " + error);
+					// try invoking callback with no parameters
+					try { 
+						callback();
+					} catch (error) {
+						console.log("Error invoking callback with no parameters: " + error);
+					}
+				}
+			}
 		},
 		minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 
