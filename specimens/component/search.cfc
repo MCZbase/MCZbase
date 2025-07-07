@@ -2787,10 +2787,13 @@ Function getPartNameAutocompleteMeta.  Search for specimen_part.part_name values
  with a _renderItem overriden to display more detail on the picklist, and minimal details for the selected value.
 
 @param term information to search for.
+@param collection_cde the collection code to limit the part name values to, restricting to that collection in the code table.
 @return a json structure containing id and value, with guid in value and collection_object_id in id, and guid with more data in meta.
 --->
 <cffunction name="getPartNameAutocompleteMeta" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
+	<cfargument name="collection_cde" type="string" required="no" default="">
+
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
@@ -2799,11 +2802,15 @@ Function getPartNameAutocompleteMeta.  Search for specimen_part.part_name values
 				count(f.collection_object_id) ct,
 				specimen_part.part_name
 			FROM
-				#session.flatTableName# f
-				left join specimen_part on f.collection_object_id = specimen_part.DERIVED_FROM_CAT_ITEM
+				<cfif ucase(session.flatTableName) EQ "FLAT">#session.flatTableName#<cfelse>FILTERED_FLAT</cfif> f
+				join specimen_part on f.collection_object_id = specimen_part.DERIVED_FROM_CAT_ITEM
+				left join ctspecimen_part_name on specimen_part.part_name = ctspecimen_part_name.part_name
 			WHERE
 				f.collection_object_id IS NOT NULL
 				AND specimen_part.part_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
+				<cfif isDefined("arguments.collection_cde") and len(arguments.collection_cde) GT 0>
+					AND ctspecimen_part_name.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collection_cde#"> 
+				</cfif>
 			GROUP BY
 				specimen_part.part_name
 			ORDER BY

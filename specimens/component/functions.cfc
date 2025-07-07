@@ -3969,9 +3969,7 @@ limitations under the License.
 											<div class="row mx-0 pb-2 col-12 px-0 mt-2 mb-1">
 												<div class="float-left col-12 col-md-4 px-1">
 													<label for="part_name" class="data-entry-label">Part Name</label>
-													<input name="part_name" class="data-entry-input reqdClr" id="part_name" type="text" required
-														onchange="findPart(this.id,this.value,'#getCatItem.collection_cde#');"
-														onkeypress="return noenter(event);">
+													<input name="part_name" class="data-entry-input reqdClr" id="part_name" type="text" required>
 												</div>
 												<div class="float-left col-12 col-md-4 px-1">
 													<label for="preserve_method" class="data-entry-label">Preserve Method</label>
@@ -4030,6 +4028,8 @@ limitations under the License.
 									$(document).ready(function() {
 										// make container barcode autocomplete, reference containers that can contain collection objects
 										makeContainerAutocompleteMetaExcludeCO("container_barcode", "container_id");
+										// make part name autocomplete, limiting to parts in the collection for the collection object
+										makePartNameAutocompleteMetaForCollection("part_name", "#getCatItem.collection_cde#");
 									});
 									// Add event listener to the save button
 									$('##newPart_submit').on('click', function(event) {
@@ -4388,7 +4388,7 @@ limitations under the License.
 										// make container barcode autocomplete
 										makeContainerAutocompleteMetaExcludeCO("container_label#i#", "container_id#i#");
 										// make part name autocomplete
-										makePartNameAutocompleteMeta("part_name#i#", "#getCatItem.collection_cde#");
+										makePartNameAutocompleteMetaForCollection("part_name#i#", "#getCatItem.collection_cde#");
 									});
 								</script>
 							</cfloop>
