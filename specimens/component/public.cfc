@@ -541,11 +541,12 @@ limitations under the License.
 	<cfargument name="editable" type="boolean" required="no" default="false">
 
 	<!--- check to see if user has rights to edit identifications if editable is set to true --->
+	<cfset var local_editable = arguments.editable>
 	<cfif arguments.editable>
 		<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-			<cfset arguments.editable = true>
+			<cfset local_editable = true>
 		<cfelse>
-			<cfset arguments.editable = false>
+			<cfset local_editable = false>
 		</cfif>
 	</cfif>
 
@@ -586,7 +587,7 @@ limitations under the License.
 				ORDER BY 
 					accepted_id_fg DESC,sort_order, made_date DESC
 			</cfquery>
-			<cfif arguments.editable>
+			<cfif local_editable>
 			<script>
 					function removeIdentification(identification_id,feedbackDiv) {
 						setFeedbackControlState(feedbackDiv,"removing")
@@ -722,7 +723,7 @@ limitations under the License.
 								<span class="bg-gray float-right rounded p-1 text-muted font-weight-lessbold">STORED AS</span>
 							</cfif>
 						</cfif>
-						<cfif arguments.editable>
+						<cfif local_editable>
 							<span class="float-right">
 								<button class="btn btn-xs btn-secondary py-0" 
 									onclick="editIdentification('#identification.identification_id#',reloadIdentificationsDialogAndPage)">Edit</button>
@@ -816,7 +817,7 @@ limitations under the License.
 				</div>
 				<cfset i = i+1>
 			</cfloop>
-			<cfif arguments.editable>
+			<cfif local_editable>
 				<div id="editIdentificationDialog"></div>
 			</cfif>
 			<script>
@@ -1137,6 +1138,17 @@ limitations under the License.
 --->
 <cffunction name="getPartsHTMLUnthreaded" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="editable" type="boolean" required="no" default="false">
+
+	<!--- check to see if user has rights to edit parts if editable is set to true --->
+	<cfset var local_editable = arguments.editable>
+	<cfif arguments.editable>
+		<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+			<cfset local_editable = true>
+		<cfelse>
+			<cfset local_editable = false>
+		</cfif>
+	</cfif>
 
 	<cfoutput>
 		<cftry>
@@ -1361,6 +1373,11 @@ limitations under the License.
 										<a href="javascript:void(0)" aria-label="Condition/Preparation History"
 											onClick=" openHistoryDialog(#mainParts.part_id#, 'historyDialog#mainParts.part_id#');">History#histCount#</a>
 									</span>
+									<cfif local_editable>
+										<span class="small mb-0 pb-0">
+											<a class="btn btn-xs btn-secondary" href="javascript:void(0)" aria-label="Edit Part">Edit</a>
+										</span>
+									</cfif>
 								</td>
 							</tr>
 							<!--- check for identifications - mixed collection - part with identifications --->
