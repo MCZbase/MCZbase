@@ -4624,8 +4624,8 @@ limitations under the License.
 					VALUES (
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newPartCollObjectID#">,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_object_remarks#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.agent_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#now()#">
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAagentId#">,
+						sysdate
 					)
 				</cfquery>
 			</cfif>
