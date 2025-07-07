@@ -39,6 +39,7 @@ limitations under the License.
 <script type="text/javascript" src="/localities/js/collectingevents.js"></script>
 <cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 	<script type="text/javascript" src="/specimens/js/specimens.js"></script>
+	<script type="text/javascript" src="/containers/js/containers.js"></script>
 </cfif>
 <cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_transactions")>
 	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
