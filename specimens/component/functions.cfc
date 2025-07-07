@@ -4571,7 +4571,7 @@ limitations under the License.
 			<cfset var newPartCollObjectID = getPK.part_id>
 			<!--- insert a collection object record for the specimen part --->
 			<cfquery name="newCollObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newCollObject_result">
-				INSERT INTO collection_object (
+				INSERT INTO coll_object (
 					COLLECTION_OBJECT_ID,
 					COLL_OBJECT_TYPE,
 					entered_person_id,
