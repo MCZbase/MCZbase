@@ -4231,7 +4231,7 @@ limitations under the License.
 						<cfif mPart.recordCount EQ 0>
 							<p>No parts found</p>
 						<cfelse>
-							<cfset i = 0>
+							<cfset var i = 0>
 							<cfloop query="mPart">
 								<cfset i = i + 1>
 								<form name="editPart#i#" id="editPart#i#">

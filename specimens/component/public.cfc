@@ -622,7 +622,7 @@ limitations under the License.
 					}
 				</script>
 			</cfif>
-			<cfset i=1>
+			<cfset var i=1>
 			<cfloop query="identification">
 				<cfquery name="determiners" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT distinct
@@ -714,7 +714,6 @@ limitations under the License.
 								<cfset expandedFormula=#replace(expandedFormula,varToReplace,thisLink)#>
 								<!--- nameAsInTaxon replaces with just the scientific name --->
 								<cfset nameAsInTaxon=#replace(nameAsInTaxon,varToReplace,getTaxa.scientific_name)#>
-								<cfset i=#i#+1>
 							</cfloop>
 							#expandedFormula#
 						</cfif>
@@ -729,16 +728,16 @@ limitations under the License.
 									onclick="editIdentification('#identification.identification_id#',reloadIdentificationsDialogAndPage)">Edit</button>
 								<cfif identification.accepted_id_fg NEQ 1>
 									<button class="btn btn-xs btn-danger py-0" 
-										onclick=" confirmDialog('Are you sure you want to delete this identification?', 'Delete Identification',removeIdentification_#i#);"
+										onclick=" confirmDialog('Are you sure you want to delete this identification?', 'Delete Identification',removeIdentification_#local.i#);"
 										>Delete</button>
 									<script>
-										function removeIdentification_#i#() {
-											removeIdentification('#identification.identification_id#','editIdentificationOutput_#i#');
+										function removeIdentification_#local.i#() {
+											removeIdentification('#identification.identification_id#','editIdentificationOutput_#local.i#');
 										};
 									</script>
 								</cfif>
 							</span>
-							<output id="editIdentificationOutput_#i#" class="editIdentificationOutput"></output>
+							<output id="editIdentificationOutput_#local.i#" class="editIdentificationOutput"></output>
 						</cfif>
 					</div>
 					
@@ -815,7 +814,7 @@ limitations under the License.
 						<div class="small"><span class="font-weight-lessbold">Remarks:</span> #identification.identification_remarks#</div>
 					</cfif>
 				</div>
-				<cfset i = i+1>
+				<cfset local.i = local.i+1>
 			</cfloop>
 			<cfif local_editable>
 				<div id="editIdentificationDialog"></div>
