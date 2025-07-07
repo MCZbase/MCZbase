@@ -4726,23 +4726,15 @@ limitations under the License.
 				<cfthrow message="Error: Cannot delete part with attributes. Please remove attributes first.">
 			</cfif>
 
-			<!--- delete any remarks associated with the part --->
-			<cfquery name="deleteRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteRemarks_result">
-				DELETE FROM coll_object_remark
-				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
-			</cfquery>
-
 			<!--- delete the specimen part record --->
 			<cfquery name="deletePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deletePart_result">
 				DELETE FROM specimen_part
 				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 			</cfquery>
-			<!--- delete the collection object record --->
-			<cfquery name="deleteCollObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteCollObject_result">
-				DELETE FROM coll_object
-				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
-			</cfquery>
-			<cfif deleteCollObject_result.recordcount NEQ 1 OR deletePart_result.recordcount NEQ 1>
+			<!--- delete of the collection object record is done by TR_SPECIMENPART_AD --->
+			<!--- delete of the coll_object_remark record is done by TR_SPECIMENPART_AD --->
+			<!--- delete of any coll_obj_cont_hist records is done by TR_SPECIMENPART_AD --->
+			<cfif deletePart_result.recordcount NEQ 1>
 				<cfthrow message="Error: Other than one coll_object or specimen_part record deleted">
 			</cfif>
 
