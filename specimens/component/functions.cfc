@@ -4386,7 +4386,7 @@ limitations under the License.
 								<script>
 									$(document).ready(function() {
 										// make container barcode autocomplete
-										makeContainerAutocompleteMeta("container_label#i#", "container_id#i#");
+										makeContainerAutocompleteMetaExcludeCO("container_label#i#", "container_id#i#");
 										// make part name autocomplete
 										makePartNameAutocompleteMeta("part_name#i#", "#getCatItem.collection_cde#");
 									});

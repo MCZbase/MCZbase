@@ -101,7 +101,6 @@ function makeContainerAutocompleteMetaExcludeCO(nameControl, idControl, clear=fa
 		},
 		minLength: 3
 	});
-	};
 	// Set the custom render item after autocomplete is initialized
 	$('#'	+nameControl).autocomplete("instance")._renderItem = function(ul, item) {
 		// override to display meta "matched name * (preferred name)" instead of value in picklist.
