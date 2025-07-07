@@ -3964,8 +3964,10 @@ limitations under the License.
 									</div>
 									<div class="card-body">
 										<form name="newPart" id="newPart">
-											<input type="hidden" name="collection_object_id" value="#getCatItem.collection_object_id#">
+											<input type="hidden" name="derived_from_cat_item" value="#getCatItem.collection_object_id#">
 											<input type="hidden" name="method" value="createSpecimenPart">
+											<input type="hidden" name="is_subsample" value="false"><!--- TODO: Add subsample support --->
+											<input type="hidden" name="subsampled_from_obj_id" value="">
 											<div class="row mx-0 pb-2 col-12 px-0 mt-2 mb-1">
 												<div class="float-left col-12 col-md-4 px-1">
 													<label for="part_name" class="data-entry-label">Part Name</label>
@@ -4531,7 +4533,6 @@ limitations under the License.
 	<cfargument name="coll_object_remarks" type="string" required="no" default="">
 	<cfargument name="is_subsample" type="boolean" required="no" default="false">
 	<cfargument name="subsampled_from_obj_id" type="string" required="no" default="">
-
 
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
