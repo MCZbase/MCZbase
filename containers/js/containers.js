@@ -53,7 +53,7 @@ function makeContainerAutocompleteMeta(nameControl, idControl, clear=false) {
 		minLength: 3
 	});
 	// Set the custom render item after autocomplete is initialized
-   $('#'+nameControl).data("ui-autocomplete")._renderItem = function(ul, item) {
+   $('#'+nameControl).autocomplete("instance")._renderItem = function(ul, item) {
       // override to display meta "matched name * (preferred name)" instead of value in picklist.
       return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
    };
