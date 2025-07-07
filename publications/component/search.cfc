@@ -889,4 +889,41 @@ Function getJournalNames.  Search for publications by fields
 	</cftransaction>
 </cffunction>
 
+<!--- Function getPublicationCitation.  Get the formatted publication citations for a given publication_id, returning json 
+  with entries for each format_style.
+@param publication_id the publication_id to get formatted citations for.
+@return a json structure containing publication_id, and the value of formatted_publication for each format_style.
+--->
+<cffunction name="getPublicationCitationForms" access="remote" returntype="any" returnformat="json">
+	<cfargument name="publication_id" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+	<cftry>
+      <cfset rows = 0>
+		<cfquery name="getPublication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPublication_result" timeout="#Application.query_timeout#">
+			SELECT 
+				publication_id, formatted_publication, format_style
+			FROM 
+				formatted_publication
+			WHERE
+			 	publication_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.publication_id#">
+		</cfquery>
+		<cfset i = 1>
+		<cfset row = StructNew()>
+		<cfloop query="getPublication">
+			<cfset row["publication_id"] = "#getPublication.publication_id#">
+			<cfset row["#getPublication.format_style#"] = "#getPublication.formatted_publication#" >
+		</cfloop>
+		<cfset data[i]  = row>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>
