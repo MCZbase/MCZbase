@@ -4547,7 +4547,6 @@ limitations under the License.
 				SELECT collection_object_id
 				FROM cataloged_item
 				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.derived_from_cat_item#">
-					AND coll_object_type = 'CI'
 			</cfquery>
 			<cfif checkDerivedFrom.recordcount EQ 0>
 				<cfthrow message="Error: Specified derived_from_cat_item does not exist.">
