@@ -4148,6 +4148,7 @@ limitations under the License.
 				SELECT
 					specimen_part.collection_object_id part_id,
 					pc.label label,
+					pc.container_id container_id,
 					nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
 					specimen_part.part_name as base_part_name,
 					specimen_part.preserve_method,
@@ -4188,6 +4189,7 @@ limitations under the License.
 				SELECT
 					part_id,
 					label,
+					container_id,
 					part_name,
 					base_part_name,
 					preserve_method,
@@ -4203,6 +4205,7 @@ limitations under the License.
 				GROUP BY
 					part_id,
 					label,
+					container_id,
 					part_name,
 					base_part_name,
 					preserve_method,
@@ -4293,6 +4296,7 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<label for="container_label#i#" class="data-entry-label">Container</label>
 											<input type="text" class="data-entry-input" id="container_label#i#" name="container_barcode" value="#label#">
+											<input type="hidden" id="container_id#i#" name="container_id" value="#container_id#">
 										</div>
 										<div class="col-12 col-md-9">
 											<label for="part_remarks#i#" class="data-entry-label">Remarks (<span id="length_remarks_#i#"></span>)</label>
@@ -4783,7 +4787,7 @@ limitations under the License.
 						<cfif getCited.recordCount EQ 0>
 							<li>No citations</li>
 						<cfelse>
-							<cfset i = 0>
+							<cfset var i = 0>
 							<cfloop query="getCited">
 								<cfset i = i + 1>
 								<form name="editCitation#i#" id="editCitation#i#">
