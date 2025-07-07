@@ -4565,8 +4565,7 @@ limitations under the License.
 			</cfif>
 			<!--- obtain the next collection_object_id from the sequence to use for the new part --->
 			<cfquery name="getPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPK_result">
-				SELECT sq_collection_object_id.nextval 
-				INTO part_id 
+				SELECT sq_collection_object_id.nextval as part_id 
 				FROM dual
 			</cfquery>
 			<cfset var newPartCollObjectID = getPK.part_id>
