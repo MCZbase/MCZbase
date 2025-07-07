@@ -4617,15 +4617,11 @@ limitations under the License.
 			<cfif len(arguments.coll_object_remarks) GT 0>
 				<cfquery name="newCollObjectRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO coll_object_remark (
-						COLLECTION_OBJECT_ID
-						,REMARK
-						,entered_person_id
-						,coll_object_remark_entered_date)
-					VALUES (
+						collection_object_id
+						,coll_object_remarks
+					) VALUES (
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newPartCollObjectID#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_object_remarks#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
-						sysdate
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_object_remarks#">
 					)
 				</cfquery>
 			</cfif>
