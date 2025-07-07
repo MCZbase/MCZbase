@@ -4718,7 +4718,7 @@ limitations under the License.
 
 			<!--- check if the part has attributes --->
 			<cfquery name="checkAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT attribute_id
+				SELECT part_attribute_id
 				FROM specimen_part_attribute
 				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 			</cfquery>
