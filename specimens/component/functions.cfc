@@ -3965,7 +3965,7 @@ limitations under the License.
 									<div class="card-body">
 										<form name="newPart" id="newPart">
 											<input type="hidden" name="collection_object_id" value="#getCatItem.collection_object_id#">
-											<input type="hidden" name="method" value="createPart">
+											<input type="hidden" name="method" value="createSpecimenPart">
 											<div class="row mx-0 pb-2 col-12 px-0 mt-2 mb-1">
 												<div class="float-left col-12 col-md-4 px-1">
 													<label for="part_name" class="data-entry-label">Part Name</label>
