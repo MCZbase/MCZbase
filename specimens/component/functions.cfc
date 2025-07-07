@@ -4028,8 +4028,8 @@ limitations under the License.
 								</div>
 								<script>
 									$(document).ready(function() {
-										// make container barcode autocomplete
-										makeContainerAutocompleteMeta("container_barcode", "container_id");
+										// make container barcode autocomplete, reference containers that can contain collection objects
+										makeContainerAutocompleteMetaExcludeCO("container_barcode", "container_id");
 									});
 									// Add event listener to the save button
 									$('##newPart_submit').on('click', function(event) {
