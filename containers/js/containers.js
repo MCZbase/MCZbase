@@ -51,10 +51,13 @@ function makeContainerAutocompleteMeta(nameControl, idControl, clear=false) {
 			}
 		},
 		minLength: 3
-	}).autocomplete("instance")._renderItem = function(ul,item) { 
-		// override to display meta "matched name * (preferred name)" instead of value in picklist.
-		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
-	};
+	});
+	// Set the custom render item after autocomplete is initialized
+   $('#'+nameControl).data("ui-autocomplete")._renderItem = function(ul, item) {
+      // override to display meta "matched name * (preferred name)" instead of value in picklist.
+      return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+   };
+
 };
 /** Make a paired hidden container_id and text container control into an autocomplete container picker that displays meta 
  *  on picklist and value on selection, limiting matches to non-collection object containers.
