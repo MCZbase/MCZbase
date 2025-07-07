@@ -4661,7 +4661,7 @@ limitations under the License.
 			<cftransaction action="commit">
 			<cfset row = StructNew()>
 			<cfset row["status"] = "saved">
-			<cfset row["id"] = "#getPk.id#">
+			<cfset row["id"] = "#newPartCollObjectID#">
 			<cfset data[1] = row>
 		<cfcatch>
 			<cftransaction action="rollback">
