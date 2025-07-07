@@ -4585,7 +4585,7 @@ limitations under the License.
 				VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newPartCollObjectID#">,
 					<cfif is_subsample> 'SS' <cfelse> 'SP' </cfif>,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.agent_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
 					sysdate,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.coll_obj_disposition#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.lot_count#">,
