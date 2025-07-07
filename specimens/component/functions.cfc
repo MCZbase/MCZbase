@@ -4688,7 +4688,7 @@ limitations under the License.
 			<!--- check that the specified collection_object_id exists and is a specimen part --->
 			<cfquery name="checkPartExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT collection_object_id
-				FROM collection_object
+				FROM coll_object
 				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 					AND coll_object_type = 'SP'
 			</cfquery>
@@ -4698,7 +4698,7 @@ limitations under the License.
 			<!--- check if the part has subsamples --->
 			<cfquery name="checkSubsamples" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT collection_object_id
-				FROM collection_object
+				FROM specimen_part
 				WHERE sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 			</cfquery>
 			<!--- if it does, throw an error --->
