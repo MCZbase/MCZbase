@@ -4628,6 +4628,7 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.agent_id#">,
 						<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#now()#">
 					)
+				</cfquery>
 			</cfif>
 			<!--- from procedure b_bulkload_parts 
 			    SELECT container_id INTO r_container_id FROM coll_obj_cont_hist WHERE collection_object_id = part_id;
