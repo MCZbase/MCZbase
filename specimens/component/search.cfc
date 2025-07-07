@@ -2818,6 +2818,9 @@ Function getPartNameAutocompleteMeta.  Search for specimen_part.part_name values
 				</cfif>
 			GROUP BY
 				specimen_part.part_name
+				<cfif isDefined("arguments.collection_cde") and len(arguments.collection_cde) GT 0>
+					, ctspecimen_part_name.description
+				</cfif>
 			ORDER BY
 				specimen_part.part_name
 		</cfquery>
