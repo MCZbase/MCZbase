@@ -4503,6 +4503,269 @@ limitations under the License.
 	</cfoutput>
 </cffunction>
 
+<!--- createSpecimenPart creates a new specimen part record.
+ @param derived_from_cat_item the collection object id of the cataloged item this part is derived from
+ @param part_name the name of the part
+ @param preserve_method the preservation method for the part
+ @param lot_count the count of the lot
+ @param lot_count_modifier the modifier for the lot count (optional)
+ @param coll_obj_disposition the disposition of the specimen part collection object
+ @param condition the condition of the specimen part collection object
+ @param condition_remarks remarks about the condition (optional)
+ @param container_barcode barcode of the container (optional)
+ @param coll_object_remarks remarks about the specimen part collection object (optional)
+ @param is_subsample whether this is a subsample (default false)
+ @param subsampled_from_obj_id if this is a subsample, the collection object id it was sampled from (optional, required if is_subsample is true)
+ @return a JSON object with success status or an http 500 error if there was an error
+--->
+<cffunction name="createSpecimenPart" returntype="any" access="remote" returnformat="json">
+	<cfargument name="derived_from_cat_item" type="string" required="yes">
+	<cfargument name="part_name" type="string" required="yes">
+	<cfargument name="preserve_method" type="string" required="yes">
+	<cfargument name="lot_count" type="string" required="yes">
+	<cfargument name="lot_count_modifier" type="string" required="no" default="">
+	<cfargument name="coll_obj_disposition" type="string" required="yes">
+	<cfargument name="condition" type="string" required="yes">
+	<cfargument name="condition_remarks" type="string" required="no" default="">
+	<cfargument name="container_barcode" type="string" required="no" default="">
+	<cfargument name="coll_object_remarks" type="string" required="no" default="">
+	<cfargument name="is_subsample" type="boolean" required="no" default="false">
+	<cfargument name="subsampled_from_obj_id" type="string" required="no" default="">
+
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfif is_subsample>
+				<cfif len(arguments.subsampled_from_obj_id) EQ 0>
+					<cfthrow message="Error: subsampled_from_obj_id is required if is_subsample is true.">
+				</cfif>
+			</cfif>
+			<!--- check that specified derived_from_cat_item exists --->
+			<cfquery name="checkDerivedFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT collection_object_id
+				FROM cataloged_item
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.derived_from_cat_item#">
+					AND coll_object_type = 'CI'
+			</cfquery>
+			<cfif checkDerivedFrom.recordcount EQ 0>
+				<cfthrow message="Error: Specified derived_from_cat_item does not exist.">
+			</cfif>
+			<!--- if subsample, check that the part being sampled from exists --->
+			<cfif arguments.is_subsample>
+					<cfquery name="checkSubsampledFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT collection_object_id
+					FROM collection_object
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.subsampled_from_obj_id#">
+						AND coll_object_type = 'SP'
+				</cfquery>
+				<cfif checkSubsampledFrom.recordcount NEQ 1>
+					<cfthrow message="Error: Specified subsampled_from_obj_id does not exist or is not a specimen part.">
+				</cfif>
+			</cfif>
+			<!--- obtain the next collection_object_id from the sequence to use for the new part --->
+			<cfquery name="getPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPK_result">
+				SELECT sq_collection_object_id.nextval 
+				INTO part_id 
+				FROM dual
+			</cfquery>
+			<cfset var newPartCollObjectID = getPK.part_id>
+			<!--- insert a collection object record for the specimen part --->
+			<cfquery name="newCollObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newCollObject_result">
+				INSERT INTO collection_object (
+					COLLECTION_OBJECT_ID,
+					COLL_OBJECT_TYPE,
+					entered_person_id,
+					coll_object_entered_date,
+					COLL_OBJ_DISPOSITION,
+					LOT_COUNT,
+					LOT_COUNT_MODIFIER,
+					CONDITION,
+					CONDITION_REMARKS
+				)
+				VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newPartCollObjectID#">,
+					<cfif is_subsample> 'SS' <cfelse> 'SP' </cfif>,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.agent_id#">,
+					sysdate,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.coll_obj_disposition#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.lot_count#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.lot_count_modifier#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.condition#">,
+					<cfif len(arguments.condition_remarks) GT 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.condition_remarks#">
+					<cfelse>
+						NULL
+					</cfif>
+				)
+			</cfquery>
+			<cfquery name="newPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newPart_result">
+				INSERT INTO specimen_part (
+					COLLECTION_OBJECT_ID
+					,PART_NAME
+					,PRESERVE_METHOD
+					,DERIVED_FROM_CAT_ITEM)
+				VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newPartCollObjectID#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.part_name#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.preserve_method#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.derived_from_cat_item#">)
+			</cfquery>
+			<cfif newPart_result.recordcount NEQ 1>
+				<cfthrow message="Error: Other than one specimen_art record created">
+			</cfif>
+			<!--- insert collection object remarks if they were provided --->
+			<cfif len(arguments.coll_object_remarks) GT 0>
+				<cfquery name="newCollObjectRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					INSERT INTO coll_object_remark (
+						COLLECTION_OBJECT_ID
+						,REMARK
+						,entered_person_id
+						,coll_object_remark_entered_date)
+					VALUES (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newPartCollObjectID#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_object_remarks#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.agent_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#now()#">
+					)
+			</cfif>
+			<!--- from procedure b_bulkload_parts 
+			    SELECT container_id INTO r_container_id FROM coll_obj_cont_hist WHERE collection_object_id = part_id;
+			    --dbms_output.put_line ('CURRENT part IS : ' || r_container_id);
+				SELECT container_id into r_parent_container_id FROM container WHERE barcode = r_barcode;
+				--dbms_output.put_line ('got parent contianer id: ' || r_parent_container_id);
+				UPDATE container SET 
+					parent_container_id = r_parent_container_id,
+					parent_install_date = sysdate
+				WHERE 
+					container_id = r_container_id;
+			--->
+			<!--- insert a container of type collection object to represent the part --->
+
+			<!--- insert a collection object container history record if a container barcode was provided --->
+
+			<cfif len(arguments.container_barcode) GT 0>
+				<cfquery name="np" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT container_id 
+					FROM coll_obj_cont_hist 
+					WHERE collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newPartCollObjectID#">
+				</cfquery>
+				<cfquery name="pc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT container_id 
+					FROM container 
+					WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.container_barcode#">
+				</cfquery>
+				<cfquery name="m2p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE container 
+					SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pc.container_id#">
+					WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#np.container_id#">
+				</cfquery>
+			</cfif>
+
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#getPk.id#">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
+<!--- deletePart deletes a specimen part record.
+ @param collection_object_id the collection_object_id of the part to delete
+ @return a JSON object with success status or an http 500 error if there was an error
+--->
+<cffunction name="deletePart" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<!--- check that the specified collection_object_id exists and is a specimen part --->
+			<cfquery name="checkPartExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT collection_object_id
+				FROM collection_object
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+					AND coll_object_type = 'SP'
+			</cfquery>
+			<cfif checkPartExists.recordcount EQ 0>
+				<cfthrow message="Error: Specified collection_object_id does not exist or is not a specimen part.">
+			</cfif>
+			<!--- check if the part has subsamples --->
+			<cfquery name="checkSubsamples" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT collection_object_id
+				FROM collection_object
+				WHERE sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			</cfquery>
+			<!--- if it does, throw an error --->
+			<cfif checkSubsamples.recordcount GT 0>
+				<cfthrow message="Error: Cannot delete part with subsamples. Please remove subsamples first.">
+			</cfif>
+
+			<!--- check if the part has identifications --->
+			<cfquery name="checkIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT identification_id
+				FROM identification
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			</cfquery>
+			<cfif checkIdentifications.recordcount GT 0>
+				<cfthrow message="Error: Cannot delete part with identifications. Please remove identifications first.">
+			</cfif>
+
+			<!--- check if the part has attributes --->
+			<cfquery name="checkAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT attribute_id
+				FROM specimen_part_attribute
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			</cfquery>
+			<cfif checkAttributes.recordcount GT 0>
+				<cfthrow message="Error: Cannot delete part with attributes. Please remove attributes first.">
+			</cfif>
+
+			<!--- delete any remarks associated with the part --->
+			<cfquery name="deleteRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteRemarks_result">
+				DELETE FROM coll_object_remark
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			</cfquery>
+
+			<!--- delete the specimen part record --->
+			<cfquery name="deletePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deletePart_result">
+				DELETE FROM specimen_part
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			</cfquery>
+			<!--- delete the collection object record --->
+			<cfquery name="deleteCollObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteCollObject_result">
+				DELETE FROM coll_object
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			</cfquery>
+			<cfif deleteCollObject_result.recordcount NEQ 1 OR deletePart_result.recordcount NEQ 1>
+				<cfthrow message="Error: Other than one coll_object or specimen_part record deleted">
+			</cfif>
+
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "deleted">	
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
 <!--- getEditCitationHTML returns the HTML for the edit citations dialog.
  @param collection_object_id the collection_object_id for the cataloged item to edit citations for.
  @return HTML for the edit citations dialog, including a form to add new citations and a table of existing citations.
