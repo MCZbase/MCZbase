@@ -1122,10 +1122,10 @@ limitations under the License.
 <cffunction name="getPartsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
-	<cfthread name="getPartsThread">
+	<cfthread name="getPartsThread" collection_object_id="#arguments.collection_object_id#">
 		<cfoutput>
 			<!--- get content from unthreaded method --->
-			<cfset content = getPartsHTMLUnthreaded(collection_object_id=arguments.collection_object_id)>
+			<cfset content = getPartsHTMLUnthreaded(collection_object_id=collection_object_id)>
 		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getPartsThread"/>
