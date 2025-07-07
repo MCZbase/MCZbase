@@ -2801,6 +2801,11 @@ Function getPartNameAutocompleteMeta.  Search for specimen_part.part_name values
 			SELECT 
 				count(f.collection_object_id) ct,
 				specimen_part.part_name
+				<cfif isDefined("arguments.collection_cde") and len(arguments.collection_cde) GT 0>
+					, ctspecimen_part_name.description
+				<cfelse>
+					. '' as description
+				</cfif>
 			FROM
 				<cfif ucase(session.flatTableName) EQ "FLAT">#session.flatTableName#<cfelse>FILTERED_FLAT</cfif> f
 				join specimen_part on f.collection_object_id = specimen_part.DERIVED_FROM_CAT_ITEM
@@ -2822,7 +2827,7 @@ Function getPartNameAutocompleteMeta.  Search for specimen_part.part_name values
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.part_name#">
 			<cfset row["value"] = "#search.part_name#" >
-			<cfset row["meta"] = "#search.part_name# (#search.ct#)" >
+			<cfset row["meta"] = "#search.part_name# (#search.ct#) #search.description#" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
