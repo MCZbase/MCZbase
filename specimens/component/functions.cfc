@@ -4757,7 +4757,7 @@ limitations under the License.
 	<cfargument name="part_collection_object_id" type="string" required="yes">
 	<cfargument name="part_name" type="string" required="yes">
 	<cfargument name="preserve_method" type="string" required="yes">
-	<cfargument name="dispoistion" type="string" required="yes">
+	<cfargument name="disposition" type="string" required="yes">
 	<cfargument name="condition" type="string" required="yes">
 	<cfargument name="lot_count" type="string" required="yes">
 	<cfargument name="lot_count_modifier" type="string" required="yes">
