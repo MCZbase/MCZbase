@@ -4764,7 +4764,7 @@ limitations under the License.
 	<cfargument name="coll_object_remarks" type="string" required="yes">
 	<!--- TODO: Update container code --->
 	<cfargument name="parent_container_id" type="string" required="no" default="">
-	<cfargument name="part_container-id" type="string" required="no" default="">
+	<cfargument name="part_container_id" type="string" required="no" default="">
 
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
