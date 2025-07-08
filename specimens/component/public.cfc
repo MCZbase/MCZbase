@@ -207,9 +207,9 @@ limitations under the License.
 													</h3>
 												</cfif>
 											</cfif>
-											<cfif len(restrictions) GT 0>
+											<cfif len(local.restrictions) GT 0>
 												<div class="col-12 px-0">
-													<span class="text-danger font-weight-bold">#restrictions#</span>
+													<span class="text-danger font-weight-bold">#local.restrictions#</span>
 												</div>
 											</cfif>
 										</div>
