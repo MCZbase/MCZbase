@@ -4816,7 +4816,7 @@ limitations under the License.
 				<cfquery name="updateCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE coll_object_remark 
 					SET
-						<cfif len(thiscoll_object_remarks) gt 0>
+						<cfif len(arguments.coll_object_remarks) gt 0>
 							coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_object_remarks#">
 						<cfelse>
 							coll_object_remarks = null
