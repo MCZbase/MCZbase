@@ -2409,7 +2409,7 @@ limitations under the License.
 							cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 							and permit.restriction_summary is not null
 					</cfquery>
-					<cfif hasRestrictions.recordcount GT 0>
+					<cfif getRestrictions.recordcount GT 0>
 						<cfset local.restrictions = "Restrictions on use:<ul>"><!--- " --->
 						<cfloop query="getRestrictions">
 							<cfset local.restrictions = "#local.restrictions#<li>#getRestrictions.restriction_summary#</li>"><!--- " --->
