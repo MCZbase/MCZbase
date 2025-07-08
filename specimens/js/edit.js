@@ -732,3 +732,57 @@ function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 	});
 };
 
+/** openEditCitationsDialog open a dialog for editing citations for a cataloged item.
+ *
+ * @param collection_object_id for the cataloged_item for which to edit citations.
+ * @param dialogId the id in the dom for the div to turn into the dialog without
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openEditCitationsDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Citations for " + guid;
+	createCitationEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditCitationHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Citations dialog");
+		},
+		dataType: "html"
+	});
+};
+
+/** openEditPartsDialog open a dialog for editing parts for a cataloged item.
+ *
+ * @param collection_object_id for the cataloged_item for which to edit parts.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openEditPartsDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Parts for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditPartsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Parts dialog");
+		},
+		dataType: "html"
+	});
+};
+

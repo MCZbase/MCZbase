@@ -355,24 +355,6 @@ function loadCitationMedia(collection_object_id,targetDivId) {
 	});
 }
 
-function openEditCitationsDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Citations for " + guid;
-	createCitationEditDialog(dialogId,title,callback);
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getEditCitationHTML",
-			collection_object_id: collection_object_id,
-		},
-		success: function (result) {
-			$("#" + dialogId + "_div").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit Citations dialog");
-		},
-		dataType: "html"
-	});
-};
 
 function getCatalogedItemCitation (id,type) {
 	var collection_id = document.getElementById('collection').value;
@@ -427,6 +409,7 @@ function success_getCatalogedItemCitation (r) {
 }
 
 function loadParts(collection_object_id,targetDivId) { 
+   console.log("Called loadParts for collection_object_id: " + collection_object_id);
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
 		data : {
@@ -442,6 +425,7 @@ function loadParts(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 }
+
 function loadPartCount(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
@@ -460,25 +444,6 @@ function loadPartCount(collection_object_id,targetDivId) {
 		dataType: "json"
 	});
 }
-
-function openEditPartsDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Parts for " + guid;
-	createSpecimenEditDialog(dialogId,title,callback);
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getEditPartsHTML",
-			collection_object_id: collection_object_id,
-		},
-		success: function (result) {
-			$("#" + dialogId + "_div").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit Parts dialog");
-		},
-		dataType: "html"
-	});
-};
 
 function loadRelations(collection_object_id,targetDivId) { 
 	jQuery.ajax({
