@@ -4770,7 +4770,7 @@ limitations under the License.
 	<cftransaction>
 		<cftry>
 			<!--- TODO: Unused???  --->
-			<cfset enteredbyid = session.myAgentId#>
+			<cfset enteredbyid = session.myAgentId>
 
 			<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE specimen_part 
