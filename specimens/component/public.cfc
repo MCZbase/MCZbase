@@ -208,9 +208,9 @@ limitations under the License.
 												</cfif>
 											</cfif>
 											<cfif len(local.restrictions) GT 0>
-												<div class="col-12 px-0">
+												<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
 													<span class="text-danger font-weight-bold">#local.restrictions#</span>
-												</div>
+												</h2>
 											</cfif>
 										</div>
 									</div>
