@@ -2400,6 +2400,7 @@ limitations under the License.
 					<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT distinct
 							permit.restriction_summary
+							permit.specific_type
 						FROM 
 							cataloged_item
 							join accn on cataloged_item.accn_id = accn.transaction_id
@@ -2412,7 +2413,7 @@ limitations under the License.
 					<cfif getRestrictions.recordcount GT 0>
 						<cfset local.restrictions = "Restrictions on use:<ul>"><!--- " --->
 						<cfloop query="getRestrictions">
-							<cfset local.restrictions = "#local.restrictions#<li>#getRestrictions.restriction_summary#</li>"><!--- " --->
+							<cfset local.restrictions = "#local.restrictions#<li><strong>#getRestrictions.specific_type#</strong>#getRestrictions.restriction_summary#</li>"><!--- " --->
 						</cfloop>
 						<cfset local.restrictions = "#local.restrictions#</ul>"><!--- " --->
 					</cfif>

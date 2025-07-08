@@ -2059,10 +2059,10 @@ limitations under the License.
 							</cfquery>
 						</cfif>
 						<cfquery name="accnLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select specific_type, restriction_summary 
-							from  permit_trans 
+							SELECT specific_type, restriction_summary 
+							FROM permit_trans 
 								left join permit on permit_trans.permit_id = permit.permit_id
-							where 
+							WHERE 
 								permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccn.accn_id#">
 								and permit.restriction_summary IS NOT NULL
 						</cfquery>
@@ -2089,7 +2089,8 @@ limitations under the License.
 								MCZBASE.is_media_encumbered(media.media_id) < 1
 						</cfquery>
 						<cfset hasContent = true>
-						<li class="list-group-item pt-0"><span class="font-weight-lessbold mb-0 d-inline-block">Accession:</span>
+						<li class="list-group-item pt-0">
+							<span class="font-weight-lessbold mb-0 d-inline-block">Accession:</span>
 							<cfif lookupAccn.visibility_to_user EQ 'visible'>
 								<!--- user has access to edit the accession, so link to edit it --->
 								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#lookupAccn.accn_id#" target="_blank">#lookupAccn.accn_number#</a>
@@ -2100,7 +2101,9 @@ limitations under the License.
 								#lookupAccn.accn_number# #accnDept#
 							</cfif>
 							<cfif accnLimitations.recordcount GT 0>
-								<strong>Restrictions on use exist:</strong>
+								</li>
+								<li class="list-group-item pt-0">
+									<span class="font-weight-lessbold mb-0 d-inline-block">Restrictions on use exist:</span>
 								<ul class="pl-0">
 									<cfloop query="accnLimitations">
 										<li class="small90">#specific_type# - #restriction_summary#</li>
