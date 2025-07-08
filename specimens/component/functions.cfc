@@ -4278,7 +4278,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-4">
 											<label for="part_disposition#i#" class="data-entry-label">Disposition</label>
-											<select name="coll_obj_disposition" id="part_disposition#i#" class="data-entry-select reqdClr" required>
+											<select name="disposition" id="part_disposition#i#" class="data-entry-select reqdClr" required>
 												<option value=""></option>
 												<cfloop query="ctDisp">
 													<cfif ctDisp.coll_obj_disposition EQ mPart.part_disposition>
