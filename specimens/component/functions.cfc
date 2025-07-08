@@ -2397,6 +2397,25 @@ limitations under the License.
 							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						AND disposition_remarks is not null
 					</cfquery>
+					<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT distinct
+							permit.restriction_summary
+						FROM 
+							cataloged_item
+							join accession on cataloged_item.accession_id = accession.accession_id
+							join permit_trans on accession.transaction_id = permit_trans.transaction_id
+							join permit on permit_trans.permit_id = permit.permit_id
+						WHERE 
+							cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">)
+							and permit.restriction_summary is not null
+					</cfquery>
+					<cfif hasRestrictions.ct GT 0>
+						<cfset local.restrictions = "Restrictions on use:<ul>"><!--- " --->
+						<cfloop query="getRestrictions">
+							<cfset local.restrictions = "#local.restrictions#<li>#getRestrictions.restriction_summary#</li>"><!--- " --->
+						</cfloop>
+						<cfset local.restrictions = "#local.restrictions#</ul>"><!--- " --->
+					</cfif>
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12 float-left mb-4 px=0 border">
@@ -2407,6 +2426,9 @@ limitations under the License.
 										<li>Accession: <a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#">#getCatalog.accn_number#</a></li>
 									<cfelse>
 										<li>Accession: <a href="">#getCatalog.accn_number#</a></li>
+									</cfif>
+									<cfif isDefined("local.restrictions") and len(local.restrictions) GT 0>
+										<li>#local.restrictions#</li>
 									</cfif>
 									<li>Received Date: #dateformat(getCatalog.received_date,'mm/dd/yyyy')#</li>
 									<li>Accession Status: #getCatalog.accn_status#</li>

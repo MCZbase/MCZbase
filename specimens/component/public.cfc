@@ -101,6 +101,25 @@ limitations under the License.
 					<cfset variables.isMixed = true>
 					<cfset mixedMarker = " Mixed Collection">
 				</cfif>
+				<!--- lookup restrictions on use from permits on the accession --->
+				<cfset var restrictions = "">
+				<cfif oneOfUs EQ 1>
+					<cfquery name="hasRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT 
+							count(*) as ct
+						FROM 
+							cataloged_item
+							join accession on cataloged_item.accession_id = accession.accession_id
+							join permit_trans on accession.transaction_id = permit_trans.transaction_id
+							join permit on permit_trans.permit_id = permit.permit_id
+						WHERE 
+							cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">)
+							and permit.restriction_summary is not null
+					</cfquery>
+					<cfif hasRestrictions.ct GT 0>
+						<cfset local.restrictions = "This specimen has restrictions on use.">
+					</cfif>
+				</cfif>
 
 				<cfset typeName = summary.type_status>
 				<!--- handle the edge cases of a specimen having more than one type status --->
@@ -186,6 +205,11 @@ limitations under the License.
 															<cfset separator = ";">
 														</cfloop>
 													</h3>
+												</cfif>
+												<cfif len(restrictions) GT 0>
+													<div class="col-12 px-0">
+														<span class="text-danger font-weight-bold">#restrictions#</span>
+													</div>
 												</cfif>
 											</cfif>
 										</div>
