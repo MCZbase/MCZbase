@@ -4658,26 +4658,40 @@ limitations under the License.
 				WHERE 
 					container_id = r_container_id;
 			--->
-			<!--- insert a container of type collection object to represent the part --->
-
-			<!--- insert a collection object container history record if a container barcode was provided --->
-
+			<!--- insert of a container of type collection object to represent the part is performed by trigger MAKE_PART_COLL_OBJ_CONT	--->
 			<cfif len(arguments.container_barcode) GT 0>
-				<cfquery name="np" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<!--- place the collection object container into the specified container and --->
+				<!--- insert a collection object container history record if a container barcode was provided --->
+				<!--- first, find the current collection object container --->
+				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT container_id 
 					FROM coll_obj_cont_hist 
 					WHERE collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newPartCollObjectID#">
+						and current_container_fg = 1
 				</cfquery>
-				<cfquery name="pc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfif getPartContainer.recordcount EQ 0>
+					<cfthrow message = "Unable to find the current container of type collection object for the part">
+				</cfif>
+				<!--- then find the container into which to place it --->
+				<cfquery name="getParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT container_id 
 					FROM container 
 					WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.container_barcode#">
 				</cfquery>
-				<cfquery name="m2p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfif getParentContainer.recordcount EQ 0>
+					<cfthrow message="Unable to find specified parent container">
+				</cfif>
+				<!--- then place the container into the specified parent --->
+				<!--- trigger MOVE_CONTAINER enforces rules on container movement --->
+				<!--- trigger GET_CONTAINER_HISTORY updates the container_history to reflect the move --->
+				<cfquery name="moveToParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="moveToParent_result">
 					UPDATE container 
-					SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pc.container_id#">
-					WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#np.container_id#">
+					SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParentContainer.container_id#">
+					WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPartContainer.container_id#">
 				</cfquery>
+				<cfif moveToParent_result.recordcount NEQ 1>
+					<cfthrow message="Unable to move to parent container, move altered other than 1 container. ">
+				</cfif>
 			</cfif>
 
 			<cftransaction action="commit">
