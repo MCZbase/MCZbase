@@ -109,7 +109,7 @@ limitations under the License.
 							count(*) as ct
 						FROM 
 							cataloged_item
-							join accession on cataloged_item.accession_id = accession.accession_id
+							join accn on cataloged_item.accession_id = accession.accession_id
 							join permit_trans on accession.transaction_id = permit_trans.transaction_id
 							join permit on permit_trans.permit_id = permit.permit_id
 						WHERE 
