@@ -113,7 +113,7 @@ limitations under the License.
 							join permit_trans on accession.transaction_id = permit_trans.transaction_id
 							join permit on permit_trans.permit_id = permit.permit_id
 						WHERE 
-							cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">)
+							cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 							and permit.restriction_summary is not null
 					</cfquery>
 					<cfif hasRestrictions.ct GT 0>
