@@ -106,7 +106,7 @@ limitations under the License.
 				<cfif oneOfUs EQ 1>
 					<cfquery name="hasRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT 
-							count(*) as ct
+							count(permit.permit_id) as ct
 						FROM 
 							cataloged_item
 							join accn on cataloged_item.accn_id = accn.transaction_id
@@ -206,11 +206,11 @@ limitations under the License.
 														</cfloop>
 													</h3>
 												</cfif>
-												<cfif len(restrictions) GT 0>
-													<div class="col-12 px-0">
-														<span class="text-danger font-weight-bold">#restrictions#</span>
-													</div>
-												</cfif>
+											</cfif>
+											<cfif len(restrictions) GT 0>
+												<div class="col-12 px-0">
+													<span class="text-danger font-weight-bold">#restrictions#</span>
+												</div>
 											</cfif>
 										</div>
 									</div>
