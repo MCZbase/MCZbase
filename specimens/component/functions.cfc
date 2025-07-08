@@ -4237,8 +4237,7 @@ limitations under the License.
 							<cfloop query="mPart">
 								<cfset i = i + 1>
 								<form name="editPart#i#" id="editPart#i#">
-									<input type="hidden" name="collection_object_id" value="#part_id#">
-									<input type="hidden" name="original_collection_object_id" value="#part_id#">
+									<input type="hidden" name="part_collection_object_id" value="#part_id#">
 									<input type="hidden" name="method" value="updatePart">
 									<div class="row mx-0 border py-1 mb-0">
 										<div class="col-12 col-md-4">
@@ -4753,6 +4752,150 @@ limitations under the License.
 	</cftransaction>
 	<cfreturn serializeJSON(data)>
 </cffunction>
+
+<cffunction name="updatePart" returntype="any" access="remote" returnformat="json">
+	<cfargument name="part_collection_object_id" type="string" required="yes">
+	<cfargument name="part_name" type="string" required="yes">
+	<cfargument name="preserve_method" type="string" required="yes">
+	<cfargument name="dispoistion" type="string" required="yes">
+	<cfargument name="condition" type="string" required="yes">
+	<cfargument name="lot_count" type="string" required="yes">
+	<cfargument name="lot_count_modifier" type="string" required="yes">
+	<cfargument name="coll_object_remarks" type="string" required="yes">
+	<!--- TODO: Update container code --->
+	<cfargument name="parent_container_id" type="string" required="no" default="">
+	<cfargument name="part_container-id" type="string" required="no" default="">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<!--- TODO: Unused???  --->
+			<cfset enteredbyid = session.myAgentId#>
+
+			<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE specimen_part 
+				SET
+					part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.part_name#">,
+					preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.preserve_method#">
+				WHERE 
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">
+			</cfquery>
+			<cfquery name="upPartCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE coll_object 
+				SET
+					coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.disposition#">,
+					condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.condition#">,
+					lot_count_modifier= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.lot_count_modifier#">,
+					lot_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.lot_count#">
+				WHERE 
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">
+			</cfquery>
+
+			<!--- check if a remarks record exists for this specimen part --->
+			<cfquery name="ispartRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT coll_object_remarks 
+				FROM coll_object_remark 
+				WHERE
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">
+			</cfquery>
+			<cfif ispartRem.recordcount is 0>
+				<!--- if not and ther are remarks, add a record --->
+				<cfif len(thiscoll_object_remarks) gt 0>
+					<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						INSERT INTO coll_object_remark (
+							collection_object_id, 
+						coll_object_remarks
+						) VALUES (
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_object_remarks#">
+						)
+					</cfquery>
+				</cfif>
+			<cfelse>
+				<!--- if one exists, update it. --->
+				<cfquery name="updateCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE coll_object_remark 
+					SET
+						<cfif len(thiscoll_object_remarks) gt 0>
+							coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_object_remarks#">
+						<cfelse>
+							coll_object_remarks = null
+						</cfif>
+					WHERE 
+							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">
+				</cfquery>
+			</cfif>
+
+			<!---- TODO: Update container placement code 
+			<cfif len(thisnewCode) gt 0>
+				<cfquery name="isCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						container_id, container_type, parent_container_id
+					FROM
+						container
+					WHERE
+						barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisnewCode#">
+						AND container_type <> 'collection object'
+						AND institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
+				</cfquery>
+				<cfif #isCont.container_type# is 'cryovial label'>
+					<cfquery name="upCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE container 
+						SET container_type='cryovial'
+						WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isCont.container_id#">
+							AND container_type='cryovial label'
+					</cfquery>
+				</cfif>
+				<cfif isCont.recordcount is 1>
+					<cfquery name="thisCollCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							container_id
+						FROM
+							coll_obj_cont_hist
+						WHERE
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartId#">
+					</cfquery>
+					<cfquery name="upPartBC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							container
+						SET
+							parent_install_date = sysdate,
+							parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isCont.container_id#">
+						WHERE
+							container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisCollCont.container_id#">
+					</cfquery>
+					<cfquery name="upPartPLF" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE container 
+						SET print_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisprint_fg#">
+						WHERE
+							container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isCont.container_id#">
+					</cfquery>
+				</cfif>
+				<cfif isCont.recordcount lt 1>
+					<cfthrow message = "That barcode was not found in the container database. You can only put parts into appropriate pre-existing containers.">
+				</cfif>
+				<cfif #isCont.recordcount# gt 1>
+					<cfthrow message="That barcode has multiple matches, that should not occurr.. Please file a bug report">
+				</cfif>
+			</cfif>
+			--->
+
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "deleted">	
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
 
 <!--- getEditCitationHTML returns the HTML for the edit citations dialog.
  @param collection_object_id the collection_object_id for the cataloged item to edit citations for.
