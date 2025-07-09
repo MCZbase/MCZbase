@@ -2399,8 +2399,11 @@ limitations under the License.
 					</cfquery>
 					<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT distinct
-							permit.restriction_summary,
-							permit.specific_type
+							case when length(permit.restriction_summary) > 30 then substr(permit.restriction_summary,1,30) || '...' else permit restriction_summary end as restriction_summary,
+							permit.specific_type,
+							permit.permit_num,
+							permit.permit_title,
+							permit.permit_id
 						FROM 
 							cataloged_item
 							join accn on cataloged_item.accn_id = accn.transaction_id
@@ -2411,9 +2414,9 @@ limitations under the License.
 							and permit.restriction_summary is not null
 					</cfquery>
 					<cfif getRestrictions.recordcount GT 0>
-						<cfset local.restrictions = "Restrictions on use:<ul>"><!--- " --->
+						<cfset local.restrictions = "Permits with restrictions on use:<ul>"><!--- " --->
 						<cfloop query="getRestrictions">
-							<cfset local.restrictions = "#local.restrictions#<li><strong>#getRestrictions.specific_type#</strong>#getRestrictions.restriction_summary#</li>"><!--- " --->
+							<cfset local.restrictions = "#local.restrictions#<li><strong><a href='/transactions/Permit.cfm?action=edit&permit_id=#getRestrictions.permit_id#' target='_blank'>#getRestrictions.specific_type# #getRestrictions.permit_num#</a></strong>#getRestrictions.restriction_summary#</li>"><!--- " --->
 						</cfloop>
 						<cfset local.restrictions = "#local.restrictions#</ul>"><!--- " --->
 					</cfif>
