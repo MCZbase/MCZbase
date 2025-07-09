@@ -444,15 +444,19 @@ limitations under the License.
 						</div>
 					</div>
 				</section>
-			
+			 	<button id="show-wiki" class="btn btn-primary">Show Wiki Article</button>
+				
+
 				<!-- Accordion at the bottom: -->
-				<div id="wikiAccordionWrapper" class="mt-2">
+				<div id="wikiAccordionWrapper" class="mt-1">
 					<div class="accordion" id="wikiAccordion">
 						<div class="card">
 						<div class="card-header" id="wikiHeading">
 							<h2 class="mb-0">
-								<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##wikiAccordionBody" aria-expanded="false" aria-controls="wikiAccordionBody">
-								Wiki Article
+								<button class="btn btn-link collapsed w-100 text-left" type="button"
+										data-toggle="collapse" data-target="#wikiAccordionBody"
+										aria-expanded="false" aria-controls="wikiAccordionBody">
+									Wiki Article
 								</button>
 							</h2>
 						</div>
@@ -707,10 +711,10 @@ $('#show-wiki').on('click', function(e) {
 			$('#wiki-content').html(html);
 			// Fix images if necessary
 			$('#wiki-content').find('img').each(function() {
-			  var src = $(this).attr('src');
-			  if (src && !src.match(/^(?:https?:)?\//)) {
+			var src = $(this).attr('src');
+				if (src && !src.match(/^(?:https?:)?\//)) {
 				$(this).attr('src','/wiki/' + src);
-			  }
+			}
 			});
 		},
 		error: function() {
