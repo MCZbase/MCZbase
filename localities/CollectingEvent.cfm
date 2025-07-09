@@ -717,7 +717,7 @@ limitations under the License.
 		url: '/shared/component/functions.cfc?method=getWikiSection&returnFormat=json',
 		data: {
 		page: "Locality_-_Data_Entry",
-		section: 1
+		section: 3
 		},
 		dataType: 'json',
 		success: function(resp) {
