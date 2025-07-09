@@ -294,19 +294,20 @@ limitations under the License.
 						</div>
 						<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
 					</div>
+					<div id="wikiDrawer" class="wiki-drawer border">
+						<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+							<h5 class="mb-0">Wiki Article</h5>
+							<button type="button" class="close" id="closeWikiDrawer" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div id="wiki-content" class="p-3">
+							Loading...
+						</div>
+					</div>
 				</section>
 			</main>
-			<div id="wikiDrawer" class="wiki-drawer border">
-				<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
-					<h5 class="mb-0">Wiki Article</h5>
-					<button type="button" class="close" id="closeWikiDrawer" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div id="wiki-content" class="p-3">
-					Loading...
-				</div>
-			</div>
+			
 		</cfoutput>
 	</cfcase>
 	<cfcase value="makenewLocality">
