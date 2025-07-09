@@ -30,7 +30,11 @@ limitations under the License.
 <cfelseif isdefined("url.collecting_event_id") and len(url.collecting_event_id) GT 0>
 	<cfset variables.collecting_event_id=url.collecting_event_id>
 </cfif>
-
+<style>
+	.mw-toc-heading {
+		margin-bottom: 0;
+	}
+</style>
 <cfif not isdefined("variables.action")>
 	<cfif not isdefined("variables.collecting_event_id")>
 		<cfset variables.action="new">
