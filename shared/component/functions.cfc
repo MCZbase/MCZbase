@@ -1695,5 +1695,21 @@ limitations under the License.
 	</cfcatch>
 	</cftry>
 </cffunction>
+			
 
+<cffunction name="getWikiSection" access="remote" returntype="string" output="false">
+	<cfargument name="page" type="string" required="yes">
+	<cfargument name="section" type="string" required="yes">
+	<cfset var api = "">
+	<cfhttp 
+		url="https://code.mcz.harvard.edu/wiki/api.php?action=parse&page=#encodeForURL(arguments.page)#&section=#encodeForURL(arguments.section)#&prop=text&format=json" 
+		method="get" 
+		result="api"
+		redirect="false">
+	<cfheader name="Content-Type" value="application/json">
+	<cfreturn api.fileContent>
+</cffunction>
+		
+		
 </cfcomponent>
+
