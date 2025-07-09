@@ -713,14 +713,14 @@ limitations under the License.
 
       $('#wikiDrawer').addClass('open');
       $('#wikiDrawerOverlay').addClass('active');
-      $('#main-content').addClass('pushed');
+      $('#content').addClass('pushed');
     });
 
     // Hide on close or overlay click
     $('#closeWikiDrawer, #wikiDrawerOverlay').on('click', function() {
       $('#wikiDrawer').removeClass('open');
       $('#wikiDrawerOverlay').removeClass('active');
-      $('#main-content').removeClass('pushed');
+      $('#content').removeClass('pushed');
     });
   </script>
 <cfinclude template = "/shared/_footer.cfm">
