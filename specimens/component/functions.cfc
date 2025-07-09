@@ -8380,7 +8380,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 			</cfquery>
 
 			<!--- Get existing part attributes --->
-			<cfquery name="pAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfquery name="getPartAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					part_attribute_id,
 					attribute_type,
@@ -8410,10 +8410,10 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 									<div class="card-body">
 										<form name="editPartAttributesForm" id="editPartAttributesForm">
 											<input type="hidden" name="partID" value="#variables.partID#">
-											<input type="hidden" name="collectionCDE" value="#getCollectionCDE.collectionCDE#">
+											<input type="hidden" name="collectionCDE" value="#getCollectionCDE.collection_cde#">
 											<input type="hidden" name="method" value="savePartAttributes">
 											<input type="hidden" name="returnformat" value="json">
-											<input type="hidden" name="patidlist" value="#valuelist(pAtt.part_attribute_id)#">
+											<input type="hidden" name="patidlist" value="#valuelist(getPartAttributes.part_attribute_id)#">
 											
 											<div class="table-responsive">
 												<table class="table table-striped table-bordered">
@@ -8429,7 +8429,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 														</tr>
 													</thead>
 													<tbody>
-														<cfloop query="pAtt">
+														<cfloop query="getPartAttributes">
 															<tr id="pa_r_#part_attribute_id#">
 																<td>#attribute_type#</td>
 																<td id="pa_v_#part_attribute_id#">
@@ -8484,7 +8484,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 															<td>
 																<select name="attribute_type_new" id="pa_attribute_type_new" 
 																		class="data-entry-select" 
-																		onchange="setPartAttOptions('new', this.value, '#getCollectionCDE.collectionCDE#')">
+																		onchange="setPartAttOptions('new', this.value, '#getCollectionCDE.collection_cde#')">
 																	<option value="">Create New Part Attribute...</option>
 																	<cfloop query="ctspecpart_attribute_type">
 																		<option value="#attribute_type#">#attribute_type#</option>
