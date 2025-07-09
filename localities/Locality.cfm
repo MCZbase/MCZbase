@@ -731,7 +731,8 @@ $('#show-wiki').on('click', function(e) {
 		data: {
 			action: "parse",
 			page: pageTitle,
-			prop: "sections",
+			section: index,
+			prop: "text",
 			format: "json",
 			origin: "*"
 		},
