@@ -714,14 +714,26 @@ limitations under the License.
 			success: function(html) {
 				$('#wiki-content').html(html);
 				// Fix images if necessary
-				$('#wiki-content').find('img').each(function() {
-					var src = $(this).attr('src');
-					if(src && src.indexOf('images/') === 0) {
-						$(this).attr('src', 'https://code.mcz.harvard.edu' + src);
+				 // Fix images: swap thumbnails for full-size images
+				$('#wiki-content a.image').each(function() {
+					var $a = $(this);
+					var $img = $a.find('img');
+					var fullSrc = $a.attr('href');
+					if ($img.length && fullSrc) {
+						// Fix anchor to absolute URL
+						if (fullSrc.indexOf('http') !== 0) 
+							fullSrc = 'https://code.mcz.harvard.edu' + fullSrc;
+
+						$a.attr('href', fullSrc).attr('target', '_blank');
+						$img.attr('src', fullSrc).removeAttr('srcset');
 					}
-					// Optionally set a default width if none present
-					if (!$(this).attr('width')) {
-						$(this).attr('width', 1100); // choose your default width
+				});
+				// Optionally, fix any remaining img[src] not wrapped in 'a.image'
+				$('#wiki-content img').each(function() {
+					var $img = $(this);
+					var src = $img.attr('src');
+					if (src && src.indexOf('/wiki/images/') === 0 && src.indexOf('http') !== 0) {
+						$img.attr('src', 'https://code.mcz.harvard.edu' + src);
 					}
 				});
 			},
