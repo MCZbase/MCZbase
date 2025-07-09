@@ -109,21 +109,12 @@ limitations under the License.
 				collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		</cfquery>
 		<cfoutput>
-			<div id="wikiDrawer" class="wiki-drawer">
-				<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
-					<h5 class="mb-0">Wiki Article</h5>
-					<button type="button" class="close" id="closeWikiDrawer" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div id="wiki-content" class="p-3">
-					Loading...
-				</div>
-			</div>
-			<button id="show-wiki" class="btn btn-primary mb-3">Show Wiki Article</button>
+			
+			
 			<div id="wikiDrawerOverlay" class="wiki-drawer-overlay"></div>
 			<main class="container-fluid mt-3 pb-5 mb-5" id="content">
 				<div class="row mx-0">
+				
 				<section class="col-12 col-md-9 px-md-0 col-xl-8 px-xl-0">
 					<div class="col-12 px-0 pl-md-0 pr-md-3">
 						<h1 class="h2 mt-2 mb-0 px-3">
@@ -292,6 +283,7 @@ limitations under the License.
 			<main class="container-fluid container-xl my-2" id="content">
 				<section class="row">
 					<div class="col-12 mt-2 mb-5">
+					<button id="show-wiki" class="btn btn-primary">Show Wiki Article</button>
 					<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Locality#extra#</h1>
 						<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
 							<form name="createLocality" method="post" action="/localities/Locality.cfm">
@@ -687,6 +679,29 @@ limitations under the License.
 		<cftransaction>
 	</cfcase>
 </cfswitch>
+<div id="wikiDrawer" class="wiki-drawer">
+	<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+		<h5 class="mb-0">Wiki Article</h5>
+		<button type="button" class="close" id="closeWikiDrawer" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div id="wiki-content" class="p-3">
+		Loading...
+	</div>
+</div>
+<div id="wikiDrawer" class="wiki-drawer">
+    <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+      <h5 class="mb-0">Wiki Article</h5>
+      <button type="button" class="close" id="closeWikiDrawer" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div id="wiki-content" class="p-3">
+      Loading...
+    </div>
+  </div>
+  <div id="wikiDrawerOverlay" class="wiki-drawer-overlay"></div>
  <script>
     $('#show-wiki').on('click', function(e) {
       e.preventDefault();
