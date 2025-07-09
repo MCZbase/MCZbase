@@ -707,8 +707,10 @@ $('#show-wiki').on('click', function(e) {
 		},
 		dataType: 'json',
 		success: function(resp) {
-			if (resp.parse && resp.parse.text) {
-				$('#wiki-content').html(resp.parse.text);
+			var html = (resp.parse && resp.parse.text && (resp.parse.text["*"] || resp.parse.text)) || "";
+			if (html) {
+				$('#wiki-content').html(html);
+				
 				// image fixing
 				$('#wiki-content').find('a.image').each(function() {
 					var $a = $(this);
@@ -734,8 +736,9 @@ $('#show-wiki').on('click', function(e) {
 				$('#wiki-content').html('<div class="alert alert-warning">Section not found.</div>');
 			}
 		},
-		error: function() {
-			$('#wiki-content').html('<div class="alert alert-danger">Error contacting wiki API for sections.</div>');
+		error: function(jqXHR, textStatus, errorThrown) {
+			$('#wiki-content').html('<div class="alert alert-danger">AJAX error: '+textStatus+'<br>'+errorThrown+'</div>');
+			console.log("AJAX ERROR", jqXHR, textStatus, errorThrown);
 		}
 	});
 	$('#wikiDrawer').addClass('open');
