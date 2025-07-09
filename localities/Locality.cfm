@@ -715,7 +715,7 @@ $('#show-wiki').on('click', function(e) {
 	e.preventDefault();
 	
 	var pageTitle = "Locality"; // Use this variable for clarity
-	var sectionTitle = "Create New Locality"
+	var sectionTitle = "Create_New_Locality"
 
 	$('#wiki-content').html('Loading...');
 
