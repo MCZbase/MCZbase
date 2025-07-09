@@ -4261,81 +4261,83 @@ limitations under the License.
 								<cfset i = i + 1>
 								<div class="row mx-0 border py-1 mb-0">
 									<form name="editPart#i#" id="editPart#i#">
-										<input type="hidden" name="part_collection_object_id" value="#part_id#">
-										<input type="hidden" name="method" value="updatePart">
-										<div class="col-12 col-md-4">
-											<label for="part_name#i#" class="data-entry-label">Part Name</label>
-											<input type="text" class="data-entry-input reqdClr" id="part_name#i#" name="part_name" value="#base_part_name#" required>
-										</div>
-										<div class="col-12 col-md-4">
-											<label for="preserve_method#i#" class="data-entry-label">Preserve Method</label>
-											<select name="preserve_method" id="preserve_method#i#" class="data-entry-select reqdClr" required>
-												<option value=""></option>
-												<cfloop query="ctPreserveMethod">
-													<cfif ctPreserveMethod.preserve_method EQ mPart.preserve_method>
-														<cfset selected = "selected">
-													<cfelse>
-														<cfset selected = "">
-													</cfif>
-													<option value="#ctPreserveMethod.preserve_method#" #selected#>#ctPreserveMethod.preserve_method#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-2">
-											<label for="lot_count_modifier#i#" class="data-entry-label">Count Modifier</label>
-											<select name="lot_count_modifier" id="lot_count_modifier#i#" class="data-entry-select">
-												<option value=""></option>
-												<cfloop query="ctModifiers">
-													<cfif ctModifiers.modifier EQ mPart.lot_count_modifier>
-														<cfset selected = "selected">
-													<cfelse>
-														<cfset selected = "">
-													</cfif>
-													<option value="#ctModifiers.modifier#" #selected#>#ctModifiers.modifier#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-2">
-											<label for="lot_count#i#" class="data-entry-label">Count</label>
-											<input type="text" class="data-entry-input reqdClr" id="lot_count#i#" name="lot_count" value="#lot_count#" required>
-										</div>
-										<div class="col-12 col-md-4">
-											<label for="part_disposition#i#" class="data-entry-label">Disposition</label>
-											<select name="disposition" id="part_disposition#i#" class="data-entry-select reqdClr" required>
-												<option value=""></option>
-												<cfloop query="ctDisp">
-													<cfif ctDisp.coll_obj_disposition EQ mPart.part_disposition>
-														<cfset selected = "selected">
-													<cfelse>
-														<cfset selected = "">
-													</cfif>
-													<option value="#ctDisp.coll_obj_disposition#" #selected#>#ctDisp.coll_obj_disposition#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-4">
-											<label for="part_condition#i#" class="data-entry-label">Condition</label>
-											<input type="text" class="data-entry-input reqdClr" id="part_condition#i#" name="condition" value="#part_condition#" required>
-										</div>
-										<div class="col-12 col-md-4">
-											<label for="container_label#i#" class="data-entry-label">Container</label>
-											<input type="text" class="data-entry-input" id="container_label#i#" name="container_barcode" value="#label#">
-											<input type="hidden" id="container_id#i#" name="container_id" value="#container_id#">
-										</div>
-										<div class="col-12 col-md-9">
-											<label for="part_remarks#i#" class="data-entry-label">Remarks (<span id="length_remarks_#i#"></span>)</label>
-											<textarea id="part_remarks#i#" name="coll_object_remarks" 
-												onkeyup="countCharsLeft('part_remarks#i#', 4000, 'length_remarks_#i#');"
-												class="data-entry-textarea autogrow mb-1" maxlength="4000"
-											>#part_remarks#</textarea>
-										</div>
-										<div class="col-12 col-md-3 pt-2">
-											<button id="part_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Part">Save</button>
-											<button id="part_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Part">Delete</button>
-											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-												<button id="part_mixed#i#" value="Mixed" class="btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
-											</cfif>
-											<output id="part_output#i#"></output>
+										<div class="col-12 row">
+											<input type="hidden" name="part_collection_object_id" value="#part_id#">
+											<input type="hidden" name="method" value="updatePart">
+											<div class="col-12 col-md-4">
+												<label for="part_name#i#" class="data-entry-label">Part Name</label>
+												<input type="text" class="data-entry-input reqdClr" id="part_name#i#" name="part_name" value="#base_part_name#" required>
+											</div>
+											<div class="col-12 col-md-4">
+												<label for="preserve_method#i#" class="data-entry-label">Preserve Method</label>
+												<select name="preserve_method" id="preserve_method#i#" class="data-entry-select reqdClr" required>
+													<option value=""></option>
+													<cfloop query="ctPreserveMethod">
+														<cfif ctPreserveMethod.preserve_method EQ mPart.preserve_method>
+															<cfset selected = "selected">
+														<cfelse>
+															<cfset selected = "">
+														</cfif>
+														<option value="#ctPreserveMethod.preserve_method#" #selected#>#ctPreserveMethod.preserve_method#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-2">
+												<label for="lot_count_modifier#i#" class="data-entry-label">Count Modifier</label>
+												<select name="lot_count_modifier" id="lot_count_modifier#i#" class="data-entry-select">
+													<option value=""></option>
+													<cfloop query="ctModifiers">
+														<cfif ctModifiers.modifier EQ mPart.lot_count_modifier>
+															<cfset selected = "selected">
+														<cfelse>
+															<cfset selected = "">
+														</cfif>
+														<option value="#ctModifiers.modifier#" #selected#>#ctModifiers.modifier#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-2">
+												<label for="lot_count#i#" class="data-entry-label">Count</label>
+												<input type="text" class="data-entry-input reqdClr" id="lot_count#i#" name="lot_count" value="#lot_count#" required>
+											</div>
+											<div class="col-12 col-md-4">
+												<label for="part_disposition#i#" class="data-entry-label">Disposition</label>
+												<select name="disposition" id="part_disposition#i#" class="data-entry-select reqdClr" required>
+													<option value=""></option>
+													<cfloop query="ctDisp">
+														<cfif ctDisp.coll_obj_disposition EQ mPart.part_disposition>
+															<cfset selected = "selected">
+														<cfelse>
+															<cfset selected = "">
+														</cfif>
+														<option value="#ctDisp.coll_obj_disposition#" #selected#>#ctDisp.coll_obj_disposition#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-4">
+												<label for="part_condition#i#" class="data-entry-label">Condition</label>
+												<input type="text" class="data-entry-input reqdClr" id="part_condition#i#" name="condition" value="#part_condition#" required>
+											</div>
+											<div class="col-12 col-md-4">
+												<label for="container_label#i#" class="data-entry-label">Container</label>
+												<input type="text" class="data-entry-input" id="container_label#i#" name="container_barcode" value="#label#">
+												<input type="hidden" id="container_id#i#" name="container_id" value="#container_id#">
+											</div>
+											<div class="col-12 col-md-9">
+												<label for="part_remarks#i#" class="data-entry-label">Remarks (<span id="length_remarks_#i#"></span>)</label>
+												<textarea id="part_remarks#i#" name="coll_object_remarks" 
+													onkeyup="countCharsLeft('part_remarks#i#', 4000, 'length_remarks_#i#');"
+													class="data-entry-textarea autogrow mb-1" maxlength="4000"
+												>#part_remarks#</textarea>
+											</div>
+											<div class="col-12 col-md-3 pt-2">
+												<button id="part_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Part">Save</button>
+												<button id="part_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Part">Delete</button>
+												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+													<button id="part_mixed#i#" value="Mixed" class="btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
+												</cfif>
+												<output id="part_output#i#"></output>
+											</div>
 										</div>
 									</form>
 
@@ -4346,11 +4348,9 @@ limitations under the License.
 										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 									</cfquery>
 									<cfif getIdentifications.recordcount GT 0>
-										<div class="row mx-0 border-left border-right px-1 py-1 bg-light">
-											<div class="col-12 small">
-												<strong>Mixed Collection Identifications of #mpart.base_part_name# (#mpart.preserve_method#)</strong>
-												#getIdentificationsUnthreadedHTML(collection_object_id=part_id)#
-											</div>
+										<div class="col-12 small">
+											<strong>Mixed Collection Identifications of #mpart.base_part_name# (#mpart.preserve_method#)</strong>
+											#getIdentificationsUnthreadedHTML(collection_object_id=part_id)#
 										</div>
 									</cfif>
 	
