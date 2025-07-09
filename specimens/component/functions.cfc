@@ -2399,7 +2399,7 @@ limitations under the License.
 					</cfquery>
 					<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT distinct
-							case when length(permit.restriction_summary) > 30 then substr(permit.restriction_summary,1,30) || '...' else permit restriction_summary end as restriction_summary,
+							case when length(permit.restriction_summary) > 30 then substr(permit.restriction_summary,1,30) || '...' else permit.restriction_summary end as restriction_summary,
 							permit.specific_type,
 							permit.permit_num,
 							permit.permit_title,
