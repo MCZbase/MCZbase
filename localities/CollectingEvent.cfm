@@ -717,7 +717,7 @@ limitations under the License.
 				$('#wiki-content').find('img').each(function() {
 					var src = $(this).attr('src');
 					if(src && src.indexOf('images/') === 0) {
-						$(this).attr('src', 'https://code.mcz.harvard.edu/wiki/' + src);
+						$(this).attr('src', 'https://code.mcz.harvard.edu/' + src);
 					}
 				});
 			},
