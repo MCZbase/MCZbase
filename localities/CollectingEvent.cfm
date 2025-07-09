@@ -716,7 +716,7 @@ limitations under the License.
 		$.ajax({
 		url: '/shared/component/functions.cfc?method=getWikiSection&returnFormat=json',
 		data: {
-		page: "Locality",
+		page: "Locality_-_Data_Entry",
 		section: 1
 		},
 		dataType: 'json',
