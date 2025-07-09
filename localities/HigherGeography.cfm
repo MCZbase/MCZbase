@@ -169,34 +169,10 @@ limitations under the License.
 	<cfcase value="new">
 		<cfinclude template="/localities/component/highergeog.cfc" runOnce="true">
 		<cfoutput>
-
-
-			
 			<cfset extra = "">
 			<cfset blockform = getHigherGeographyFormHtml(mode="new")>
 			<main class="container-fluid container-xl mt-3" id="content">
 			<button id="show-wiki" class="btn btn-xs btn-info mt-1">Show Wiki Article</button>
-				<script>
-					$('##show-wiki').on('click', function(e) {
-						e.preventDefault();
-						var pageName = "Higher_Geography";
-						var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&returnFormat=plain&page=" + encodeURIComponent(pageName);
-
-						$('##wiki-content').html('Loading...');
-						$.ajax({
-							url: proxyUrl,
-							type: 'GET',
-							dataType: 'html',
-							success: function(html) {
-							$('##wiki-content').html(html);
-						},
-						error: function() {
-							$('##wiki-content').html('<div class="alert alert-danger">Error fetching wiki content.</div>');
-						}
-						});
-						$('##wikiModal').modal('show');
-					});
-				</script>
 				<section class="row">
 					<div class="col-12">
 						<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Higher Geography#extra#</h1>
@@ -425,55 +401,56 @@ limitations under the License.
 <script>
 $('#show-wiki').on('click', function(e) {
 	e.preventDefault();
-	var pageName = "Higher_Geography";
-	var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&returnFormat=plain&page=" + encodeURIComponent(pageName);
 
 	$('#wiki-content').html('Loading...');
+
 	$.ajax({
-		url: proxyUrl,
-		type: 'GET',
-		dataType: 'html',
-		success: function(html) {
-			$('#wiki-content').html(html);
+		url: '/shared/component/functions.cfc?method=getWikiSection&returnFormat=json',
+		data: {
+		page: "Higher_Geography",
+		section: 3
+		},
+		dataType: 'json',
+		success: function(resp) {
+			var html = (resp.parse && resp.parse.text && (resp.parse.text["*"] || resp.parse.text)) || "";
+			$('#wiki-content').html(html || "<div>Section not found.</div>");
+			// image processing
 			$('#wiki-content').find('a.image').each(function() {
 				var $a = $(this);
 				var $img = $a.find('img');
 				var href = $a.attr('href');
 				var src = $img.attr('src');
-				// Set anchor to absolute
 				if (href && href.indexOf('http') !== 0) {
 					href = 'https://code.mcz.harvard.edu' + href;
 					$a.attr('href', href);
 				}
 				$a.attr('target', '_blank');
-				// Set image src to absolute (for thumbnail)
 				if (src && src.indexOf('http') !== 0) {
 					src = 'https://code.mcz.harvard.edu' + src;
 					$img.attr('src', src);
 				}
-				// Optional: Fix srcset (do full replace if needed!)
 				var srcset = $img.attr('srcset');
 				if (srcset) {
 					$img.attr('srcset', srcset.replace(/(\/wiki\/images\/[^\s]*)/g, "https://code.mcz.harvard.edu$1"));
 				}
+				$img.removeAttr('width').removeAttr('height');
 			});
 		},
-		error: function() {
-			$('##wiki-content').html('<div class="alert alert-danger">Error fetching wiki content.</div>');
+		error: function(jqXHR, textStatus, errorThrown) {
+			$('#wiki-content').html('<div class="alert alert-danger">AJAX error: '+textStatus+'<br>'+errorThrown+'</div>');
+			console.log("AJAX ERROR", jqXHR, textStatus, errorThrown);
 		}
 	});
-
-	// Show the tray
 	$('#wikiDrawer').addClass('open');
-	$('#wikiDrawerOverlay').addClass('active');
+	$('#content').addClass('pushed');
 });
 
-// Hide on close button or overlay click
-$('#closeWikiDrawer, #wikiDrawerOverlay').on('click', function() {
+// Hide on close button click 
+$('#closeWikiDrawer').on('click', function() {
 	$('#wikiDrawer').removeClass('open');
-	$('#wikiDrawerOverlay').removeClass('active');
+	$('#content').removeClass('pushed');
 });
 </script>
 <!-- Overlay (optional, for modal effect) -->
-<div id="wikiDrawerOverlay" class="wiki-drawer-overlay"></div>
+
 <cfinclude template = "/shared/_footer.cfm">
