@@ -708,7 +708,7 @@ limitations under the License.
 </div>
 <div id="wikiDrawerOverlay" class="wiki-drawer-overlay"></div>
 <script>
-	$('#show-wiki').on('click', function(e) {
+$('#show-wiki').on('click', function(e) {
 	e.preventDefault();
 	var pageName = "Higher_Geography";
 	var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&returnFormat=plain&page=" + encodeURIComponent(pageName);
@@ -726,24 +726,17 @@ limitations under the License.
 		}
 	});
 
-	$('#show-wiki').on('click', function(e) {
-	e.preventDefault();
-	$('#wiki-content').html('Loading...');
-	// Simulated AJAX for demo: replace this with your real AJAX call if needed.
-	setTimeout(function(){
-		$('#wiki-content').html('<h4>Higher Geography</h4><p>This is your wiki article content!</p>');
-	}, 800);
+	// Show the tray and push the content over
+	$('#wikiDrawer').addClass('open');
+	$('#wikiDrawerOverlay').addClass('active');
+	$('#main-content').addClass('pushed');
+});
 
-		$('#wikiDrawer').addClass('open');
-		$('#wikiDrawerOverlay').addClass('active');
-		$('#content').addClass('pushed');
-	});
-
-	// Hide on close or overlay click
-		$('#closeWikiDrawer, #wikiDrawerOverlay').on('click', function() {
-		$('#wikiDrawer').removeClass('open');
-		$('#wikiDrawerOverlay').removeClass('active');
-		$('#content').removeClass('pushed');
-	});
+// Hide on close or overlay click
+$('#closeWikiDrawer, #wikiDrawerOverlay').on('click', function() {
+$('#wikiDrawer').removeClass('open');
+$('#wikiDrawerOverlay').removeClass('active');
+$('#main-content').removeClass('pushed');
+});
 </script>
 <cfinclude template = "/shared/_footer.cfm">
