@@ -753,6 +753,10 @@ $('#show-wiki').on('click', function(e) {
 					$img.attr('srcset', srcset.replace(/(\/wiki\/images\/[^\s]*)/g, "https://code.mcz.harvard.edu$1"));
 				}
 			});
+			$('#wiki-content').find('img').each(function() {
+				$(this).removeAttr('width')
+					   .removeAttr('height');
+			});
 		},
 		error: function() {
 			$('#wiki-content').html('<div class="alert alert-danger">Error fetching wiki content.</div>');
