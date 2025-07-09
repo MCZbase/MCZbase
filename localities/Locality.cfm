@@ -721,7 +721,7 @@ limitations under the License.
 <script>
 $('#show-wiki').on('click', function(e) {
 	e.preventDefault();
-	var pageName = "Collecting_Event";
+	var pageName = "Locality";
 	var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&returnFormat=plain&page=" + encodeURIComponent(pageName);
 
 	$('#wiki-content').html('Loading...');
