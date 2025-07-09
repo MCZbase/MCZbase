@@ -460,7 +460,7 @@ limitations under the License.
 									<div id="wikiAccordionBody" class="collapse"
 											aria-labelledby="wikiHeading"
 											data-parent="##wikiAccordion">
-										<div class="card-body" id="wiki-content">
+										<div class="card-body p-4" id="wiki-content">
 										<!-- Wiki content loaded here -->
 										</div>
 									</div>
