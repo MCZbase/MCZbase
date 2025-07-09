@@ -175,7 +175,7 @@ limitations under the License.
 			<cfset extra = "">
 			<cfset blockform = getHigherGeographyFormHtml(mode="new")>
 			<main class="container-fluid container-xl mt-3" id="content">
-			<button id="show-wiki" class="btn btn-primary">Show Wiki Article</button>
+			<button id="show-wiki" class="btn btn-xs btn-info mt-1">Show Wiki Article</button>
 				<script>
 					$('##show-wiki').on('click', function(e) {
 						e.preventDefault();
