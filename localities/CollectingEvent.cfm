@@ -717,17 +717,25 @@ limitations under the License.
 				 // Fix images: swap thumbnails for full-size images
 				 $('#wiki-content').find('a.image').each(function() {
 					var $a = $(this);
-					var full = $a.attr('href');
-					if (full && full.indexOf('http') !== 0) {
-						full = 'https://code.mcz.harvard.edu' + full;
+					var $img = $a.find('img');
+					var href = $a.attr('href');
+					var src = $img.attr('src');
+					// Set anchor to absolute
+					if (href && href.indexOf('http') !== 0) {
+						href = 'https://code.mcz.harvard.edu' + href;
+						$a.attr('href', href);
 					}
-					var filename = full.replace(/^.*\//, ''); // Just the filename
-					// Link shows filename; change to .text(full) if you want full URL
-					var $newA = $('<a>')
-						.attr('href', full)
-						.attr('target', '_blank')
-						.text(filename);
-					$a.replaceWith($newA);
+					$a.attr('target', '_blank');
+					// Set image src to absolute (for thumbnail)
+					if (src && src.indexOf('http') !== 0) {
+						src = 'https://code.mcz.harvard.edu' + src;
+						$img.attr('src', src);
+					}
+					// Optional: Fix srcset (do full replace if needed!)
+					var srcset = $img.attr('srcset');
+					if (srcset) {
+						$img.attr('srcset', srcset.replace(/(\/wiki\/images\/[^\s]*)/g, "https://code.mcz.harvard.edu$1"));
+					}
 				});
 			},
 			error: function() {
