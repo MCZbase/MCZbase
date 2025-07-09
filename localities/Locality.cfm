@@ -287,7 +287,7 @@ limitations under the License.
 			<main class="container-fluid container-xl my-2" id="content">
 				<section class="row">
 					<div class="col-12 mt-2 mb-5">
-					<button id="show-wiki" class="btn btn-primary">Show Wiki Article</button>
+					
 					<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Locality#extra#</h1>
 						<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
 							<form name="createLocality" method="post" action="/localities/Locality.cfm">
@@ -295,6 +295,7 @@ limitations under the License.
 								#blockform#
 							</form>
 						</div>
+						<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
 					</div>
 				</section>
 			</main>
