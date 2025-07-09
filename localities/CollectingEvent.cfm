@@ -454,9 +454,11 @@ limitations under the License.
 						<div class="card-header" id="wikiHeading">
 							<h2 class="mb-0">
 								<button class="btn btn-link collapsed w-100 text-left" type="button"
-										data-toggle="collapse" data-target="##wikiAccordionBody"
-										aria-expanded="false" aria-controls="wikiAccordionBody">
-									Wiki Article
+									data-toggle="collapse"
+									data-target="#wikiAccordionBody"
+									aria-expanded="false"
+									aria-controls="wikiAccordionBody">
+								Wiki Article
 								</button>
 							</h2>
 						</div>
