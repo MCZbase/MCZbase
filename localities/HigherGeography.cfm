@@ -19,7 +19,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-
+<style>
+	.offcanvas-end {
+		width: 500px;
+	}
+</style>
 <cfif not isdefined("action")>
 	<cfif not isdefined("geog_auth_rec_id")>
 		<cfset action="new">
@@ -384,6 +388,36 @@ limitations under the License.
 		<cftransaction>
 	</cfcase>
 </cfswitch>
+<!-- Button to open drawer -->
+<!---<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#myDrawer" aria-controls="myDrawer">
+  Open Side Tray
+</button>--->
+<!-- The button that opens the tray -->
+<button id="show-wiki" class="btn btn-primary" type="button">
+  Show Wiki Article
+</button>
+
+<!-- The side tray -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="wikiDrawer" aria-labelledby="wikiDrawerLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="wikiDrawerLabel">Wiki Article</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body" id="wiki-content">
+    Loading...
+  </div>
+</div>
+
+<!-- Offcanvas drawer -->
+<!---<div class="offcanvas offcanvas-end" tabindex="-1" id="wikiModal" aria-labelledby="wikiHelpTray">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="wikiHelpTray">Hello</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    Content goes here!
+  </div>
+</div>
 <div class="modal fade" id="wikiModal" tabindex="-1" role="dialog" aria-labelledby="wikiModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -398,5 +432,28 @@ limitations under the License.
       </div>
     </div>
   </div>
-</div>
+</div>--->
+<script>
+$('##show-wiki').on('click', function(e) {
+    e.preventDefault();
+    var pageName = "Higher_Geography";
+    var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&returnFormat=plain&page=" + encodeURIComponent(pageName);
+
+    $('##wiki-content').html('Loading...');
+    $.ajax({
+        url: proxyUrl,
+        type: 'GET',
+        dataType: 'html',
+        success: function(html) {
+            $('#wiki-content').html(html);
+        },
+        error: function() {
+            $('##wiki-content').html('<div class="alert alert-danger">Error fetching wiki content.</div>');
+        }
+    });
+    // Show the offcanvas
+    var wikiDrawer = new bootstrap.Offcanvas(document.getElementById('wikiDrawer'));
+    wikiDrawer.show();
+});
+</script>
 <cfinclude template = "/shared/_footer.cfm">
