@@ -707,8 +707,6 @@ limitations under the License.
 	$('#wikiAccordionBody').on('show.bs.collapse', function () {
 		if(wikiLoaded) return;
 		wikiLoaded = true;
-		var pageName = "Collecting_Event"; // Or dynamic
-		var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&returnFormat=plain&page=" + encodeURIComponent(pageName);
 		$('#wiki-content').html('Loading...');
 		// Open the accordion
 		$('#wikiAccordionBody').collapse('show');
@@ -716,7 +714,7 @@ limitations under the License.
 		$.ajax({
 		url: '/shared/component/functions.cfc?method=getWikiSection&returnFormat=json',
 		data: {
-		page: "Locality_-_Data_Entry",
+		page: "Locality_-_Data_Entry",// Collecting event section (3) on the locality page 
 		section: 3
 		},
 		dataType: 'json',

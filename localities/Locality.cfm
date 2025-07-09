@@ -690,9 +690,6 @@ limitations under the License.
 <script>
 $('#show-wiki').on('click', function(e) {
 	e.preventDefault();
-	
-	var pageTitle = "Locality"; // Use this variable for clarity
-
 	$('#wiki-content').html('Loading...');
 
 	$.ajax({
