@@ -803,7 +803,7 @@ function editPartAttributes(part_collection_object_id,callback) {
 			partID: part_collection_object_id
 		},
 		success: function(response) {
-			console.log("editIdentification: success");
+			console.log("editPartAttributes: success");
 			// defer execution to ensure dialog is created before loading content
 			setTimeout(function() { $("##" + dialogId + "_div").html(response); }, 0);
 		},

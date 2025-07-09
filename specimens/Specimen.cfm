@@ -795,6 +795,7 @@ limitations under the License.
 					<div class="accordion" id="accordionParts">
 						<div class="card mb-2 bg-light">
 							<div id="partsDialog"></div>
+							<div id="editPartAttributesDialog"></div>
 							<div class="card-header" id="headingParts">
 								<h3 class="h5 my-0">
 									<button type="button" class="headerLnk text-left w-100 h-100" aria-controls="PartsPane" aria-label="Parts Pane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">

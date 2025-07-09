@@ -4379,10 +4379,13 @@ limitations under the License.
 											attribute_remark,
 											agent_name
 									</cfquery>
-									<cfif patt.recordcount GT 0>
-										<div class="row mx-0 border-left border-right border-bottom px-2 py-1">
+									<div class="col-12 row mx-0 border-left border-right border-bottom px-2 py-1">
+										<cfif patt.recordcount EQ 0>
+											<strong>No Part Attributes:</strong>
+											<button class="btn btn-xs btn-secondary py-0" onclick="editPartAttributes('#part_id#',reloadParts)">Edit</button>
+										<cfelse>
 											<div class="col-12 small">
-												<strong>Part Attributes:</strong>
+												<strong>Part Attributes (#patt.recordcount#):</strong>
 												<button class="btn btn-xs btn-secondary py-0" onclick="editPartAttributes('#part_id#',reloadParts)">Edit</button>
 												<cfloop query="patt">
 													<div class="ml-2">
@@ -4394,8 +4397,8 @@ limitations under the License.
 													</div>
 												</cfloop>
 											</div>
-										</div>
-									</cfif>
+										</cfif>
+									</div>
 								</div>
 
 								<!--- Show subsamples --->
