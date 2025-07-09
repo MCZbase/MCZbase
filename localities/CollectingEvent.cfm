@@ -715,26 +715,19 @@ limitations under the License.
 				$('#wiki-content').html(html);
 				// Fix images if necessary
 				 // Fix images: swap thumbnails for full-size images
-				$('#wiki-content a.image').each(function() {
+				 $('#wiki-content').find('a.image').each(function() {
 					var $a = $(this);
-					var $img = $a.find('img');
-					var fullSrc = $a.attr('href');
-					if ($img.length && fullSrc) {
-						// Fix anchor to absolute URL
-						if (fullSrc.indexOf('http') !== 0) 
-							fullSrc = 'https://code.mcz.harvard.edu' + fullSrc;
-
-						$a.attr('href', fullSrc).attr('target', '_blank');
-						$img.attr('src', fullSrc).removeAttr('srcset');
+					var full = $a.attr('href');
+					if (full && full.indexOf('http') !== 0) {
+						full = 'https://code.mcz.harvard.edu' + full;
 					}
-				});
-				// Optionally, fix any remaining img[src] not wrapped in 'a.image'
-				$('#wiki-content img').each(function() {
-					var $img = $(this);
-					var src = $img.attr('src');
-					if (src && src.indexOf('/wiki/images/') === 0 && src.indexOf('http') !== 0) {
-						$img.attr('src', 'https://code.mcz.harvard.edu' + src);
-					}
+					var filename = full.replace(/^.*\//, ''); // Just the filename
+					// Link shows filename; change to .text(full) if you want full URL
+					var $newA = $('<a>')
+						.attr('href', full)
+						.attr('target', '_blank')
+						.text(filename);
+					$a.replaceWith($newA);
 				});
 			},
 			error: function() {
