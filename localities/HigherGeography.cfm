@@ -20,9 +20,32 @@ limitations under the License.
 
 --->
 <style>
-	.offcanvas-end {
-		width: 500px;
-	}
+.wiki-drawer {
+	position: fixed;
+	top: 0;
+	right: -500px; /* hidden by default, adjust width as needed */
+	width: 400px;
+	max-width: 90vw;
+	height: 100vh;
+	background: #fff;
+	box-shadow: -2px 0 10px rgba(0,0,0,0.15);
+	z-index: 1051; /* higher than .modal (1050) */
+	transition: right 0.3s ease;
+	overflow-y: auto;
+}
+.wiki-drawer.open {
+	right: 0;
+}
+.wiki-drawer-overlay {
+	display: none;
+	position: fixed;
+	top: 0; left: 0; width: 100%; height: 100vh;
+	background: rgba(0,0,0,0.5);
+	z-index: 1050;
+}
+.wiki-drawer-overlay.active {
+	display: block;
+}
 </style>
 <cfif not isdefined("action")>
 	<cfif not isdefined("geog_auth_rec_id")>
@@ -152,9 +175,7 @@ limitations under the License.
 			<cfset extra = "">
 			<cfset blockform = getHigherGeographyFormHtml(mode="new")>
 			<main class="container-fluid container-xl mt-3" id="content">
-				<button id="show-wiki" class="btn btn-info">
-					<i class="bi bi-info-circle"></i> Show Related Wiki Article
-				</button>
+			<button id="show-wiki" class="btn btn-primary">Show Wiki Article</button>
 				<script>
 					$('##show-wiki').on('click', function(e) {
 						e.preventDefault();
@@ -388,51 +409,19 @@ limitations under the License.
 		<cftransaction>
 	</cfcase>
 </cfswitch>
-<!-- Button to open drawer -->
-<!---<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#myDrawer" aria-controls="myDrawer">
-  Open Side Tray
-</button>--->
-<!-- The button that opens the tray -->
-<button id="show-wiki" class="btn btn-primary" type="button">
-  Show Wiki Article
-</button>
 
-<!-- The side tray -->
-<div class="offcanvas offcanvas-end" tabindex="-1" id="wikiDrawer" aria-labelledby="wikiDrawerLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="wikiDrawerLabel">Wiki Article</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+<!-- Side tray (hidden by default) -->
+<div id="wikiDrawer" class="wiki-drawer">
+  <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+    <h5 class="mb-0">Wiki Article</h5>
+    <button type="button" class="close" id="closeWikiDrawer" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-  <div class="offcanvas-body" id="wiki-content">
+  <div id="wiki-content" class="p-3">
     Loading...
   </div>
 </div>
-
-<!-- Offcanvas drawer -->
-<!---<div class="offcanvas offcanvas-end" tabindex="-1" id="wikiModal" aria-labelledby="wikiHelpTray">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="wikiHelpTray">Hello</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    Content goes here!
-  </div>
-</div>
-<div class="modal fade" id="wikiModal" tabindex="-1" role="dialog" aria-labelledby="wikiModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="wikiModalLabel">Wiki Article</h5>
-           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-      </div>
-      <div class="modal-body" id="wiki-content">
-        Loading...
-      </div>
-    </div>
-  </div>
-</div>--->
 <script>
 $('##show-wiki').on('click', function(e) {
     e.preventDefault();
@@ -445,15 +434,24 @@ $('##show-wiki').on('click', function(e) {
         type: 'GET',
         dataType: 'html',
         success: function(html) {
-            $('#wiki-content').html(html);
+            $('##wiki-content').html(html);
         },
         error: function() {
             $('##wiki-content').html('<div class="alert alert-danger">Error fetching wiki content.</div>');
         }
     });
-    // Show the offcanvas
-    var wikiDrawer = new bootstrap.Offcanvas(document.getElementById('wikiDrawer'));
-    wikiDrawer.show();
+
+    // Show the tray
+    $('##wikiDrawer').addClass('open');
+    $('##wikiDrawerOverlay').addClass('active');
+});
+
+// Hide on close button or overlay click
+$('##closeWikiDrawer, #wikiDrawerOverlay').on('click', function() {
+    $('#wikiDrawer').removeClass('open');
+    $('#wikiDrawerOverlay').removeClass('active');
 });
 </script>
+<!-- Overlay (optional, for modal effect) -->
+<div id="wikiDrawerOverlay" class="wiki-drawer-overlay"></div>
 <cfinclude template = "/shared/_footer.cfm">
