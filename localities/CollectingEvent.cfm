@@ -703,49 +703,57 @@ limitations under the License.
 	</cfcase>
 </cfswitch>
 <script>
-	var wikiLoaded = false;
-	$('#wikiAccordionBody').on('show.bs.collapse', function () {
-		if(wikiLoaded) return;
-		wikiLoaded = true;
-		var pageName = "Collecting_Event"; // Or dynamic
-		var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&returnFormat=plain&page=" + encodeURIComponent(pageName);
+$('#show-wiki').on('click', function(e) {
+	e.preventDefault();
 
-		$('#wiki-content').html('Loading...');
-		$.ajax({
-			url: proxyUrl,
-			type: 'GET',
-			dataType: 'html',
-			success: function(html) {
-				$('#wiki-content').html(html);
-				// Fix images if necessary
-				// Fix images: swap thumbnails for full-size images
-				$('#wiki-content').find('a.image').each(function() {
-					var $a = $(this);
-					var $img = $a.find('img');
-					var href = $a.attr('href');
-					var src = $img.attr('src');
-					// Set anchor to absolute
-					if (href && href.indexOf('http') !== 0) {
-						href = 'https://code.mcz.harvard.edu' + href;
-						$a.attr('href', href);
-					}
-					$a.attr('target', '_blank');
-					// Set image src to absolute (for thumbnail)
-					if (src && src.indexOf('http') !== 0) {
-						src = 'https://code.mcz.harvard.edu' + src;
-						$img.attr('src', src);
-					}
-					// Optional: Fix srcset (do full replace if needed!)
-					var srcset = $img.attr('srcset');
-					if (srcset) {
-						$img.attr('srcset', srcset.replace(/(\/wiki\/images\/[^\s]*)/g, "https://code.mcz.harvard.edu$1"));
-					}
-				});
-			},
-			error: function() {
-				$('#wiki-content').html('<div class="alert alert-danger">Error fetching wiki content.</div>');
-			}
-		});
+	$('#wiki-content').html('Loading...');
+
+	$.ajax({
+		url: '/shared/component/functions.cfc?method=getWikiSection&returnFormat=json',
+		data: {
+		page: "Collecting_Event",
+		section: 3
+		},
+		dataType: 'json',
+		success: function(resp) {
+			var html = (resp.parse && resp.parse.text && (resp.parse.text["*"] || resp.parse.text)) || "";
+			$('#wiki-content').html(html || "<div>Section not found.</div>");
+			$('#wiki-content').find('.mw-editsection').remove();
+			// image processing
+			$('#wiki-content').find('a.image').each(function() {
+				var $a = $(this);
+				var $img = $a.find('img');
+				var href = $a.attr('href');
+				var src = $img.attr('src');
+				if (href && href.indexOf('http') !== 0) {
+					href = 'https://code.mcz.harvard.edu' + href;
+					$a.attr('href', href);
+				}
+				$a.attr('target', '_blank');
+				if (src && src.indexOf('http') !== 0) {
+					src = 'https://code.mcz.harvard.edu' + src;
+					$img.attr('src', src);
+				}
+				var srcset = $img.attr('srcset');
+				if (srcset) {
+					$img.attr('srcset', srcset.replace(/(\/wiki\/images\/[^\s]*)/g, "https://code.mcz.harvard.edu$1"));
+				}
+				$img.removeAttr('width').removeAttr('height');
+			});
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			$('#wiki-content').html('<div class="alert alert-danger">AJAX error: '+textStatus+'<br>'+errorThrown+'</div>');
+			console.log("AJAX ERROR", jqXHR, textStatus, errorThrown);
+		}
 	});
+	$('#wikiDrawer').addClass('open');
+	$('#content').addClass('pushed');
+});
+
+// Hide on close button click 
+$('#closeWikiDrawer').on('click', function() {
+	$('#wikiDrawer').removeClass('open');
+	$('#content').removeClass('pushed');
+});
 </script>
 <cfinclude template = "/shared/_footer.cfm">

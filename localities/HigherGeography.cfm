@@ -452,6 +452,5 @@ $('#closeWikiDrawer').on('click', function() {
 	$('#content').removeClass('pushed');
 });
 </script>
-<!-- Overlay (optional, for modal effect) -->
 
 <cfinclude template = "/shared/_footer.cfm">
