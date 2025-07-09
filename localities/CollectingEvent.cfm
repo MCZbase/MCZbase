@@ -34,7 +34,7 @@ limitations under the License.
 	.mw-toc-heading {
 		margin-bottom: 0;
 	}
-</style>
+	</style>
 <cfif not isdefined("variables.action")>
 	<cfif not isdefined("variables.collecting_event_id")>
 		<cfset variables.action="new">
@@ -703,22 +703,26 @@ limitations under the License.
 	</cfcase>
 </cfswitch>
 <script>
-$('#show-wiki').on('click', function(e) {
-	e.preventDefault();
+	var wikiLoaded = false;
+	$('#wikiAccordionBody').on('show.bs.collapse', function () {
+		if(wikiLoaded) return;
+		wikiLoaded = true;
+		var pageName = "Collecting_Event"; // Or dynamic
+		var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&returnFormat=plain&page=" + encodeURIComponent(pageName);
+		$('#wiki-content').html('Loading...');
+		// Open the accordion
+		$('#wikiAccordionBody').collapse('show');
 
-	$('#wiki-content').html('Loading...');
-
-	$.ajax({
+		$.ajax({
 		url: '/shared/component/functions.cfc?method=getWikiSection&returnFormat=json',
 		data: {
-		page: "Locality_-_Data_Entry",
-		section: 1.3
+		page: "Locality",
+		section: 1
 		},
 		dataType: 'json',
 		success: function(resp) {
 			var html = (resp.parse && resp.parse.text && (resp.parse.text["*"] || resp.parse.text)) || "";
 			$('#wiki-content').html(html || "<div>Section not found.</div>");
-			$('#wiki-content').find('.mw-editsection').remove();
 			// image processing
 			$('#wiki-content').find('a.image').each(function() {
 				var $a = $(this);
@@ -750,10 +754,6 @@ $('#show-wiki').on('click', function(e) {
 	$('#content').addClass('pushed');
 });
 
-// Hide on close button click 
-$('#closeWikiDrawer').on('click', function() {
-	$('#wikiDrawer').removeClass('open');
-	$('#content').removeClass('pushed');
-});
+
 </script>
 <cfinclude template = "/shared/_footer.cfm">
