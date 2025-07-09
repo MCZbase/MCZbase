@@ -47,38 +47,43 @@ limitations under the License.
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
 <style>
-.wiki-drawer {
-	position: fixed;
-	top: 0;
-	left: -400px;
-	width: 400px;
-	max-width: 90vw;
-	height: 100vh;
-	background: #fff;
-	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
-	z-index: 1051;
-	transition: left 0.3s ease;
-	overflow-y: auto;
-}
-.wiki-drawer.open {
-	left: 0;
-}
-.wiki-drawer-overlay {
-	display: none;
-	position: fixed;
-	top: 0; left: 0; width: 100%; height: 100vh;
-	background: rgba(0,0,0,0.5);
-	z-index: 1050;
-}
-.wiki-drawer-overlay.active {
-	display: block;
-}
-#main-content {
-	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
-}
-#main-content.pushed {
-	margin-left: 400px;
-}
+ .wiki-drawer {
+      position: fixed;
+      top: 0;
+      left: -400px;
+      width: 400px;
+      max-width: 90vw;
+      height: 100vh;
+      background: #fff;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+      z-index: 1051;
+      transition: left 0.3s;
+      overflow-y: auto;
+    }
+    .wiki-drawer.open {
+      left: 0;
+    }
+    .wiki-drawer-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0,0,0,0.5);
+      z-index: 1050;
+    }
+    .wiki-drawer-overlay.active {
+      display: block;
+    }
+    #content {
+      transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
+      background: #e0f7fa;
+      min-height: 100vh;
+    }
+    #content.pushed {
+      margin-left: 400px;  /* adjust this if you changed drawer width */
+    }
 </style>
 <cfswitch expression="#action#">
 	<cfcase value="edit">
