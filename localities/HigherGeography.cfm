@@ -423,18 +423,18 @@ limitations under the License.
   </div>
 </div>
 <script>
-$('##show-wiki').on('click', function(e) {
+$('#show-wiki').on('click', function(e) {
     e.preventDefault();
     var pageName = "Higher_Geography";
     var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&returnFormat=plain&page=" + encodeURIComponent(pageName);
 
-    $('##wiki-content').html('Loading...');
+    $('#wiki-content').html('Loading...');
     $.ajax({
         url: proxyUrl,
         type: 'GET',
         dataType: 'html',
         success: function(html) {
-            $('##wiki-content').html(html);
+            $('#wiki-content').html(html);
         },
         error: function() {
             $('##wiki-content').html('<div class="alert alert-danger">Error fetching wiki content.</div>');
@@ -442,12 +442,12 @@ $('##show-wiki').on('click', function(e) {
     });
 
     // Show the tray
-    $('##wikiDrawer').addClass('open');
-    $('##wikiDrawerOverlay').addClass('active');
+    $('#wikiDrawer').addClass('open');
+    $('#wikiDrawerOverlay').addClass('active');
 });
 
 // Hide on close button or overlay click
-$('##closeWikiDrawer, #wikiDrawerOverlay').on('click', function() {
+$('#closeWikiDrawer, #wikiDrawerOverlay').on('click', function() {
     $('#wikiDrawer').removeClass('open');
     $('#wikiDrawerOverlay').removeClass('active');
 });
