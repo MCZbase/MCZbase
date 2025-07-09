@@ -2399,7 +2399,7 @@ limitations under the License.
 					</cfquery>
 					<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT distinct
-							permit.restriction_summary
+							permit.restriction_summary,
 							permit.specific_type
 						FROM 
 							cataloged_item

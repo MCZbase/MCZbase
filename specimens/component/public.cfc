@@ -117,8 +117,9 @@ limitations under the License.
 							and permit.restriction_summary is not null
 					</cfquery>
 					<cfif hasRestrictions.ct GT 0>
-						<cfset local.restrictions = "This specimen has restrictions on use.">
+						<cfset local.restrictions = "This specimen may have restrictions on use.">
 					</cfif>
+					<!--- TODO: Text for external users, e.g. "This specimen may have restrictions on use, please contact the collection for more information." --->
 				</cfif>
 
 				<cfset typeName = summary.type_status>
