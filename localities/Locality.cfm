@@ -731,31 +731,21 @@ $('#show-wiki').on('click', function(e) {
 		dataType: 'html',
 		success: function(html) {
 			$('#wiki-content').html(html);
-			$('#wiki-content').find('a.image').each(function() {
+			 $('#wiki-content').find('a.image').each(function() {
 				var $a = $(this);
 				var $img = $a.find('img');
 				var href = $a.attr('href');
-				var src = $img.attr('src');
-				// Set anchor to absolute
+				// Make anchor href absolute
 				if (href && href.indexOf('http') !== 0) {
 					href = 'https://code.mcz.harvard.edu' + href;
 					$a.attr('href', href);
 				}
 				$a.attr('target', '_blank');
-				// Set image src to absolute (for thumbnail)
-				if (src && src.indexOf('http') !== 0) {
-					src = 'https://code.mcz.harvard.edu' + src;
-					$img.attr('src', src);
+				// Replace img src with full original (no more thumb limitation!)
+				if ($img.length) {
+					$img.attr('src', href);
+					$img.removeAttr('srcset width height');
 				}
-				// Optional: Fix srcset (do full replace if needed!)
-				var srcset = $img.attr('srcset');
-				if (srcset) {
-					$img.attr('srcset', srcset.replace(/(\/wiki\/images\/[^\s]*)/g, "https://code.mcz.harvard.edu$1"));
-				}
-			});
-			$('#wiki-content').find('img').each(function() {
-				$(this).removeAttr('width')
-					   .removeAttr('height');
 			});
 		},
 		error: function() {
