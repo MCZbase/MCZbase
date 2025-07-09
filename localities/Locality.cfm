@@ -695,17 +695,8 @@ limitations under the License.
 		<cftransaction>
 	</cfcase>
 </cfswitch>
-<div id="wikiDrawer" class="wiki-drawer">
-	<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
-		<h5 class="mb-0">Wiki Article</h5>
-		<button type="button" class="close" id="closeWikiDrawer" aria-label="Close">
-		<span aria-hidden="true">&times;</span>
-		</button>
-	</div>
-	<div id="wiki-content" class="p-3">
-		Loading...
-	</div>
-</div>
+
+					
 <div id="wikiDrawer" class="wiki-drawer">
 	<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
 		<h5 class="mb-0">Wiki Article</h5>
