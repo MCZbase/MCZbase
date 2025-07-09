@@ -50,36 +50,27 @@ limitations under the License.
 .container-xl {
 	max-width: 1500px;
 }
-.wikiDrawer {
-	position: fixed;
-	top: 0;
-	left: -400px;
-	width: 400px;
-	max-width: 90vw;
-	height: 100vh;
-	background: #fff;
-	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
-	z-index: 1051;
-	transition: left 0.3s;
-	overflow-y: auto;
+.wiki-drawer {
+  position: fixed;
+  top: 0;
+  left: -400px;
+  width: 400px;
+  max-width: 90vw;
+  height: 100vh;
+  background: #fff;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+  z-index: 1051;
+  transition: left 0.3s;
+  overflow-y: auto;
 }
-.wikiDrawer.open {
-	left: 0;
-}
-#wiki-content img {
-	max-width: 100%;
-	width: 100%;
-	height: auto;
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
+.wiki-drawer.open {
+  left: 0;
 }
 #content {
-	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
-	min-height: 100vh;
+  transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
 }
 #content.pushed {
-	margin-left: 400px;  /* adjust this if you changed drawer width */
+  margin-left: 400px;
 }
 </style>
 <cfswitch expression="#action#">
@@ -293,22 +284,22 @@ limitations under the License.
 							</form>
 						</div>
 						<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
-						<div id="wikiDrawer" class="wiki-drawer border">
-						<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
-							<h5 class="mb-0">Wiki Article</h5>
-							<button type="button" class="close" id="closeWikiDrawer" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div id="wiki-content" class="p-3">
-							Loading...
-						</div>
-					</div>
+
 					</div>
 					
 				</section>
 			</main>
-			
+			<div id="wikiDrawer" class="wiki-drawer border">
+				<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+					<h5 class="mb-0">Wiki Article</h5>
+					<button type="button" class="close" id="closeWikiDrawer" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div id="wiki-content" class="p-3">
+					Loading...
+				</div>
+			</div>
 		</cfoutput>
 	</cfcase>
 	<cfcase value="makenewLocality">
