@@ -4259,10 +4259,10 @@ limitations under the License.
 							<cfset var i = 0>
 							<cfloop query="mPart">
 								<cfset i = i + 1>
-								<form name="editPart#i#" id="editPart#i#">
-									<input type="hidden" name="part_collection_object_id" value="#part_id#">
-									<input type="hidden" name="method" value="updatePart">
-									<div class="row mx-0 border py-1 mb-0">
+								<div class="row mx-0 border py-1 mb-0">
+									<form name="editPart#i#" id="editPart#i#">
+										<input type="hidden" name="part_collection_object_id" value="#part_id#">
+										<input type="hidden" name="method" value="updatePart">
 										<div class="col-12 col-md-4">
 											<label for="part_name#i#" class="data-entry-label">Part Name</label>
 											<input type="text" class="data-entry-input reqdClr" id="part_name#i#" name="part_name" value="#base_part_name#" required>
@@ -4337,62 +4337,62 @@ limitations under the License.
 											</cfif>
 											<output id="part_output#i#"></output>
 										</div>
-									</div>
-								</form>
+									</form>
 
-								<!--- Show identifications if this is a mixed collection --->
-								<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT identification_id
-									FROM identification
-									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
-								</cfquery>
-								<cfif getIdentifications.recordcount GT 0>
-									<div class="row mx-0 border-left border-right px-2 py-1 bg-light">
-										<div class="col-12 small">
-											<strong>Mixed Collection Identifications:</strong>
-											#getIdentificationsUnthreadedHTML(collection_object_id=part_id)#
+									<!--- Show identifications if this is a mixed collection --->
+									<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT identification_id
+										FROM identification
+										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+									</cfquery>
+									<cfif getIdentifications.recordcount GT 0>
+										<div class="row mx-0 border-left border-right px-1 py-1 bg-light">
+											<div class="col-12 small">
+												<strong>Mixed Collection Identifications of #mpart.base_part_name# (#mpart.preserve_method#)</strong>
+												#getIdentificationsUnthreadedHTML(collection_object_id=part_id)#
+											</div>
 										</div>
-									</div>
-								</cfif>
-
-								<!--- Show part attributes --->
-								<cfquery name="patt" dbtype="query">
-									SELECT
-										attribute_type,
-										attribute_value,
-										attribute_units,
-										determined_date,
-										attribute_remark,
-										agent_name
-									FROM
-										rparts
-									WHERE
-										attribute_type IS NOT NULL AND
-										part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
-									GROUP BY
-										attribute_type,
-										attribute_value,
-										attribute_units,
-										determined_date,
-										attribute_remark,
-										agent_name
-								</cfquery>
-								<cfif patt.recordcount GT 0>
-									<div class="row mx-0 border-left border-right border-bottom px-2 py-1">
-										<div class="col-12 small">
-											<strong>Part Attributes:</strong>
-											<cfloop query="patt">
-												<div class="ml-2">
-													#attribute_type# = #attribute_value#
-													<cfif len(attribute_units) GT 0> #attribute_units#</cfif>
-													<cfif len(determined_date) GT 0> (determined: #dateformat(determined_date,"yyyy-mm-dd")#)</cfif>
-													<cfif len(agent_name) GT 0> by #agent_name#</cfif>
-													<cfif len(attribute_remark) GT 0> - #attribute_remark#</cfif>
-												</div>
-											</cfloop>
+									</cfif>
+	
+									<!--- Show part attributes --->
+									<cfquery name="patt" dbtype="query">
+										SELECT
+											attribute_type,
+											attribute_value,
+											attribute_units,
+											determined_date,
+											attribute_remark,
+											agent_name
+										FROM
+											rparts
+										WHERE
+											attribute_type IS NOT NULL AND
+											part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+										GROUP BY
+											attribute_type,
+											attribute_value,
+											attribute_units,
+											determined_date,
+											attribute_remark,
+											agent_name
+									</cfquery>
+									<cfif patt.recordcount GT 0>
+										<div class="row mx-0 border-left border-right border-bottom px-2 py-1">
+											<div class="col-12 small">
+												<strong>Part Attributes:</strong>
+												<cfloop query="patt">
+													<div class="ml-2">
+														#attribute_type# = #attribute_value#
+														<cfif len(attribute_units) GT 0> #attribute_units#</cfif>
+														<cfif len(determined_date) GT 0> (determined: #dateformat(determined_date,"yyyy-mm-dd")#)</cfif>
+														<cfif len(agent_name) GT 0> by #agent_name#</cfif>
+														<cfif len(attribute_remark) GT 0> - #attribute_remark#</cfif>
+													</div>
+												</cfloop>
+											</div>
 										</div>
-									</div>
-								</cfif>
+									</cfif>
+								</div>
 
 								<!--- Show subsamples --->
 								<cfquery name="sPart" dbtype="query">
