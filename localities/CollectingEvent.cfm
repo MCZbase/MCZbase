@@ -712,7 +712,7 @@ $('#show-wiki').on('click', function(e) {
 		url: '/shared/component/functions.cfc?method=getWikiSection&returnFormat=json',
 		data: {
 		page: "Locality_-_Data_Entry",
-		section: 3
+		section: 1.3
 		},
 		dataType: 'json',
 		success: function(resp) {
