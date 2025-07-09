@@ -47,6 +47,9 @@ limitations under the License.
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
 <style>
+.container-xl {
+	max-width: 1500px;
+}
 .wiki-drawer {
 	position: fixed;
 	top: 0;
