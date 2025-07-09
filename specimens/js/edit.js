@@ -786,3 +786,29 @@ function openEditPartsDialog(collection_object_id,dialogId,guid,callback) {
 	});
 };
 
+function editPartAttributes(part_collection_object_id,callback) {
+	var title = "Edit Part Attributes";
+	dialogId = "editPartAttributesDialog";
+	max_height = 650;
+	width_cap = 1100; 
+	console.log("editPartAttributes: part_collection_object_id = " + part_collection_object_id);
+	createSpecimenEditDialog(dialogId,title,callback,max_height,width_cap);
+	// Call the server-side function to get the edit HTML, load into the dialog
+	$.ajax({
+		url: '/specimens/component/functions.cfc',
+		type: 'POST',
+		data: {
+			method: 'getEditPartAttributesHTML',
+			returnformat: 'plain',
+			partID: part_collection_object_id
+		},
+		success: function(response) {
+			console.log("editIdentification: success");
+			// defer execution to ensure dialog is created before loading content
+			setTimeout(function() { $("##" + dialogId + "_div").html(response); }, 0);
+		},
+		error: function(xhr, status, error) {
+			handleError(xhr, status, error);
+		}
+	});
+}
