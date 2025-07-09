@@ -759,17 +759,15 @@ $('#show-wiki').on('click', function(e) {
 		}
 	});
 
-	// Show the tray and push the content over
+	// Show the tray and push the content over (NO OVERLAY)
 	$('#wikiDrawer').addClass('open');
-	$('#wikiDrawerOverlay').addClass('active');
 	$('#content').addClass('pushed');
 });
 
-// Hide on close or overlay click
-$('#closeWikiDrawer, #wikiDrawerOverlay').on('click', function() {
-$('#wikiDrawer').removeClass('open');
-$('#wikiDrawerOverlay').removeClass('active');
-$('#content').removeClass('pushed');
+// Hide on close button click (NO OVERLAY)
+$('#closeWikiDrawer').on('click', function() {
+	$('#wikiDrawer').removeClass('open');
+	$('#content').removeClass('pushed');
 });
 </script>
 <cfinclude template = "/shared/_footer.cfm">
