@@ -444,6 +444,28 @@ limitations under the License.
 						</div>
 					</div>
 				</section>
+			 	<button id="show-wiki" class="btn btn-primary">Show Wiki Article</button>
+				
+
+				<!-- Accordion at the bottom: -->
+				<div id="wikiAccordionWrapper" class="mt-5">
+					<div class="accordion" id="wikiAccordion">
+						<div class="card">
+						<div class="card-header" id="wikiHeading">
+							<h2 class="mb-0">
+								<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="##wikiAccordionBody" aria-expanded="false" aria-controls="wikiAccordionBody">
+								Wiki Article
+								</button>
+							</h2>
+						</div>
+							<div id="wikiAccordionBody" class="collapse" aria-labelledby="wikiHeading" data-parent="##wikiAccordion">
+								<div class="card-body" id="wiki-content">
+							<!-- Content comes here -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</main>
 		</cfoutput>
 	</cfcase>
@@ -670,5 +692,33 @@ limitations under the License.
 		<cflocation addtoken="no" url="/localities/CollectingEvent.cfm?collecting_event_id=#encodeForUrl(nextColl.nextColl)#">
 	</cfcase>
 </cfswitch>
+<script>
+$('#show-wiki').on('click', function(e) {
+	e.preventDefault();
+	var pageName = "Collecting Event"; // Or dynamic
+	var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&returnFormat=plain&page=" + encodeURIComponent(pageName);
 
+	$('#wiki-content').html('Loading...');
+	$('#wikiAccordionBody').collapse('show');
+
+	$.ajax({
+		url: proxyUrl,
+		type: 'GET',
+		dataType: 'html',
+		success: function(html) {
+			$('#wiki-content').html(html);
+			// Fix images if necessary
+			$('#wiki-content').find('img').each(function() {
+			  var src = $(this).attr('src');
+			  if (src && !src.match(/^(?:https?:)?\//)) {
+				$(this).attr('src','/wiki/' + src);
+			  }
+			});
+		},
+		error: function() {
+			$('#wiki-content').html('<div class="alert alert-danger">Error fetching wiki content.</div>');
+		}
+	});
+});
+</script>
 <cfinclude template = "/shared/_footer.cfm">
