@@ -723,6 +723,8 @@ limitations under the License.
 		success: function(resp) {
 			var html = (resp.parse && resp.parse.text && (resp.parse.text["*"] || resp.parse.text)) || "";
 			$('#wiki-content').html(html || "<div>Section not found.</div>");
+			// remove the edit link next to the title
+			$('#wiki-content').find('.mw-editsection').remove();
 			// image processing
 			$('#wiki-content').find('a.image').each(function() {
 				var $a = $(this);
