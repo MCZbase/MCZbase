@@ -698,32 +698,32 @@ limitations under the License.
 	</cfcase>
 </cfswitch>
 <script>
-$('#show-wiki').on('click', function(e) {
-	e.preventDefault();
-	var pageName = "Collecting_Event"; // Or dynamic
-	var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&returnFormat=plain&page=" + encodeURIComponent(pageName);
+	var wikiLoaded = false;
+	$('#wikiAccordionBody').on('show.bs.collapse', function () {
+		if(wikiLoaded) return;
+		wikiLoaded = true;
+		var pageName = "Collecting_Event"; // Or dynamic
+		var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&returnFormat=plain&page=" + encodeURIComponent(pageName);
 
-	$('#wiki-content').html('Loading...');
-	$('#wikiAccordionBody').collapse('show');
-
-	$.ajax({
-		url: proxyUrl,
-		type: 'GET',
-		dataType: 'html',
-		success: function(html) {
-			$('#wiki-content').html(html);
-			// Fix images if necessary
-			$('#wiki-content').find('img').each(function() {
-			var src = $(this).attr('src');
-				if (src && !src.match(/^(?:https?:)?\//)) {
-				$(this).attr('src','/wiki/' + src);
+		$('#wiki-content').html('Loading...');
+		$.ajax({
+			url: proxyUrl,
+			type: 'GET',
+			dataType: 'html',
+			success: function(html) {
+				$('#wiki-content').html(html);
+				// Fix images if necessary
+				$('#wiki-content').find('img').each(function() {
+				var src = $(this).attr('src');
+					if (src && !src.match(/^(?:https?:)?\//)) {
+					$(this).attr('src','/wiki/' + src);
+				}
+				});
+			},
+			error: function() {
+				$('#wiki-content').html('<div class="alert alert-danger">Error fetching wiki content.</div>');
 			}
-			});
-		},
-		error: function() {
-			$('#wiki-content').html('<div class="alert alert-danger">Error fetching wiki content.</div>');
-		}
+		});
 	});
-});
 </script>
 <cfinclude template = "/shared/_footer.cfm">
