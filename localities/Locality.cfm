@@ -46,7 +46,40 @@ limitations under the License.
 </cfswitch>
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
-
+<style>
+.wiki-drawer {
+	position: fixed;
+	top: 0;
+	left: -400px;
+	width: 400px;
+	max-width: 90vw;
+	height: 100vh;
+	background: #fff;
+	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+	z-index: 1051;
+	transition: left 0.3s ease;
+	overflow-y: auto;
+}
+.wiki-drawer.open {
+	left: 0;
+}
+.wiki-drawer-overlay {
+	display: none;
+	position: fixed;
+	top: 0; left: 0; width: 100%; height: 100vh;
+	background: rgba(0,0,0,0.5);
+	z-index: 1050;
+}
+.wiki-drawer-overlay.active {
+	display: block;
+}
+#main-content {
+	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
+}
+#main-content.pushed {
+	margin-left: 400px;
+}
+</style>
 <cfswitch expression="#action#">
 	<cfcase value="edit">
 		<cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
@@ -76,11 +109,24 @@ limitations under the License.
 				collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		</cfquery>
 		<cfoutput>
+			<div id="wikiDrawer" class="wiki-drawer">
+				<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+					<h5 class="mb-0">Wiki Article</h5>
+					<button type="button" class="close" id="closeWikiDrawer" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div id="wiki-content" class="p-3">
+					Loading...
+				</div>
+			</div>
+			<button id="show-wiki" class="btn btn-primary mb-3">Show Wiki Article</button>
+			<div id="wikiDrawerOverlay" class="wiki-drawer-overlay"></div>
 			<main class="container-fluid mt-3 pb-5 mb-5" id="content">
 				<div class="row mx-0">
 				<section class="col-12 col-md-9 px-md-0 col-xl-8 px-xl-0">
 					<div class="col-12 px-0 pl-md-0 pr-md-3">
-			  			<h1 class="h2 mt-2 mb-0 px-3">
+						<h1 class="h2 mt-2 mb-0 px-3">
 							Edit Locality 
 							[<a href="/localities/viewLocality.cfm?locality_id=#localityExists.locality_id#" target="_blank">#encodeForHtml(locality_id)#</a>]
 							<i class="fas fa-info-circle" onClick="getMCZDocs('Edit_Locality')" aria-label="help link"></i>
@@ -641,5 +687,25 @@ limitations under the License.
 		<cftransaction>
 	</cfcase>
 </cfswitch>
+ <script>
+    $('#show-wiki').on('click', function(e) {
+      e.preventDefault();
+      $('#wiki-content').html('Loading...');
+      // Simulated AJAX for demo: replace this with your real AJAX call if needed.
+      setTimeout(function(){
+        $('#wiki-content').html('<h4>Higher Geography</h4><p>This is your wiki article content!</p>');
+      }, 800);
 
+      $('#wikiDrawer').addClass('open');
+      $('#wikiDrawerOverlay').addClass('active');
+      $('#main-content').addClass('pushed');
+    });
+
+    // Hide on close or overlay click
+    $('#closeWikiDrawer, #wikiDrawerOverlay').on('click', function() {
+      $('#wikiDrawer').removeClass('open');
+      $('#wikiDrawerOverlay').removeClass('active');
+      $('#main-content').removeClass('pushed');
+    });
+  </script>
 <cfinclude template = "/shared/_footer.cfm">
