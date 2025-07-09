@@ -701,78 +701,43 @@ $('#show-wiki').on('click', function(e) {
 	e.preventDefault();
 	
 	var pageTitle = "Locality"; // Use this variable for clarity
-	var sectionTitle = "Create_New_Locality"
 
 	$('#wiki-content').html('Loading...');
 
-	// Step 1: Get section index for "Create Locality"
 	$.ajax({
 		url: "https://code.mcz.harvard.edu/wiki/api.php",
 		data: {
 			action: "parse",
 			page: pageTitle,
-			prop: "sections",
+			section: 1,
+			prop: "text",
 			format: "json",
 			origin: "*"
 		},
 		dataType: 'json',
 		success: function(resp) {
-			var index = null;
 			if (resp.parse && resp.parse.sections) {
-				$.each(resp.parse.sections, function(i, sec) {
-					// Adjust "Create Locality" to match your heading text
-					if (sec.line.trim() === sectionTitle) {
-						index = sec.index;
-					}
-				});
-			}
-			if (index) {
-				// Step 2: Now fetch that section's HTML
-				$.ajax({
-					url: "https://code.mcz.harvard.edu/wiki/api.php",
-					data: {
-						action: "parse",
-						page: pageTitle,
-						section: index,
-						prop: "text",
-						format: "json",
-						origin: "*"
-					},
-					dataType: "json",
-					success: function(resp2) {
-						if (resp2.parse && resp2.parse.text) {
-							$('#wiki-content').html(resp2.parse.text);
-
-							// Fix image/anchor URLs and remove width/height
-							$('#wiki-content').find('a.image').each(function() {
-								var $a = $(this);
-								var $img = $a.find('img');
-								var href = $a.attr('href');
-								var src = $img.attr('src');
-								if (href && href.indexOf('http') !== 0) {
-									href = 'https://code.mcz.harvard.edu' + href;
-									$a.attr('href', href);
-								}
-								$a.attr('target', '_blank');
-								if (src && src.indexOf('http') !== 0) {
-									src = 'https://code.mcz.harvard.edu' + src;
-									$img.attr('src', src);
-								}
-								var srcset = $img.attr('srcset');
-								if (srcset) {
-									$img.attr('srcset', srcset.replace(/(\/wiki\/images\/[^\s]*)/g, "https://code.mcz.harvard.edu$1"));
-								}
-								$img.removeAttr('width').removeAttr('height');
-							});
-							// Also remove width/height from any stray images not wrapped in anchors
-							$('#wiki-content').find('img').removeAttr('width height');
-						} else {
-							$('#wiki-content').html('<div class="alert alert-warning">Section not found.</div>');
+				$('#wiki-content').html(resp.parse.text);
+					$('#wiki-content').find('a.image').each(function() {
+						var $a = $(this);
+						var $img = $a.find('img');
+						var href = $a.attr('href');
+						var src = $img.attr('src');
+						if (href && href.indexOf('http') !== 0) {
+							href = 'https://code.mcz.harvard.edu' + href;
+							$a.attr('href', href);
 						}
-					},
-					error: function() {
-						$('#wiki-content').html('<div class="alert alert-danger">Error fetching wiki section content.</div>');
-					}
+						$a.attr('target', '_blank');
+						if (src && src.indexOf('http') !== 0) {
+							src = 'https://code.mcz.harvard.edu' + src;
+							$img.attr('src', src);
+						}
+						var srcset = $img.attr('srcset');
+						if (srcset) {
+							$img.attr('srcset', srcset.replace(/(\/wiki\/images\/[^\s]*)/g, "https://code.mcz.harvard.edu$1"));
+						}
+						$img.removeAttr('width').removeAttr('height');
+					});
 				});
 			} else {
 				$('#wiki-content').html('<div class="alert alert-warning">Section not found.</div>');
