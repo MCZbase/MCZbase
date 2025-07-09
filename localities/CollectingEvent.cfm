@@ -444,11 +444,9 @@ limitations under the License.
 						</div>
 					</div>
 				</section>
-			 	<button id="show-wiki" class="btn btn-primary">Show Wiki Article</button>
-				
-
+			
 				<!-- Accordion at the bottom: -->
-				<div id="wikiAccordionWrapper" class="mt-5">
+				<div id="wikiAccordionWrapper" class="mt-2">
 					<div class="accordion" id="wikiAccordion">
 						<div class="card">
 						<div class="card-header" id="wikiHeading">
