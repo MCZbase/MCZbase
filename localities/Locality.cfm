@@ -50,7 +50,7 @@ limitations under the License.
 .container-xl {
 	max-width: 1500px;
 }
-.wiki-drawer {
+.wikiDrawer {
 	position: fixed;
 	top: 0;
 	left: -400px;
@@ -63,21 +63,8 @@ limitations under the License.
 	transition: left 0.3s;
 	overflow-y: auto;
 }
-.wiki-drawer.open {
+.wikiDrawer.open {
 	left: 0;
-}
-.wiki-drawer-overlay {
-	display: none;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100vh;
-	background: rgba(0,0,0,0.5);
-	z-index: 1050;
-}
-.wiki-drawer-overlay.active {
-	display: block;
 }
 #wiki-content img {
 	max-width: 100%;
@@ -298,8 +285,7 @@ limitations under the License.
 			<main class="container-fluid container-xl my-2" id="content">
 				<section class="row">
 					<div class="col-12 mt-2 mb-5">
-					
-					<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Locality#extra#</h1>
+						<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Locality#extra#</h1>
 						<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
 							<form name="createLocality" method="post" action="/localities/Locality.cfm">
 								<input type="hidden" name="Action" value="makenewLocality">
