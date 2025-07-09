@@ -714,8 +714,8 @@ limitations under the License.
 			success: function(html) {
 				$('#wiki-content').html(html);
 				// Fix images if necessary
-				 // Fix images: swap thumbnails for full-size images
-				 $('#wiki-content').find('a.image').each(function() {
+				// Fix images: swap thumbnails for full-size images
+				$('#wiki-content').find('a.image').each(function() {
 					var $a = $(this);
 					var $img = $a.find('img');
 					var href = $a.attr('href');
