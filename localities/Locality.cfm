@@ -696,7 +696,7 @@ $('#show-wiki').on('click', function(e) {
 	$('#wiki-content').html('Loading...');
 
 	$.ajax({
-		url: '/shared/component/functions.cfc?method=getWikiSection',
+		url: '/shared/component/functions.cfc?method=getWikiSection&returnFormat=json',
 		data: {
 		page: "Locality",
 		section: 1
