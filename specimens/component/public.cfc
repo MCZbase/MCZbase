@@ -210,7 +210,7 @@ limitations under the License.
 											</cfif>
 											<cfif len(local.restrictions) GT 0>
 												<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
-													<span class="text-danger font-weight-bold">#local.restrictions#</span>
+													<span class="text-danger font-weight-bold" style="white-space: nowrap;">#local.restrictions#</span>
 												</h2>
 											</cfif>
 										</div>
