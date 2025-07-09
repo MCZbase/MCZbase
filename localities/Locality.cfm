@@ -310,6 +310,17 @@ limitations under the License.
 					</div>
 				</section>
 			</main>
+			<div id="wikiDrawer" class="wiki-drawer">
+				<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+					<h5 class="mb-0">Wiki Article</h5>
+					<button type="button" class="close" id="closeWikiDrawer" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div id="wiki-content" class="p-3">
+					Loading...
+				</div>
+			</div>
 		</cfoutput>
 	</cfcase>
 	<cfcase value="makenewLocality">
@@ -697,21 +708,12 @@ limitations under the License.
 </cfswitch>
 
 					
-<div id="wikiDrawer" class="wiki-drawer">
-	<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
-		<h5 class="mb-0">Wiki Article</h5>
-		<button type="button" class="close" id="closeWikiDrawer" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-	</div>
-	<div id="wiki-content" class="p-3">
-		Loading...
-	</div>
-</div>
+
 
 <script>
 $('#show-wiki').on('click', function(e) {
 	e.preventDefault();
+	
 	var pageTitle = "Locality"; // Use this variable for clarity
 	var sectionTitle = "Create New Locality"
 
@@ -734,7 +736,7 @@ $('#show-wiki').on('click', function(e) {
 			if (resp.parse && resp.parse.sections) {
 				$.each(resp.parse.sections, function(i, sec) {
 					// Adjust "Create Locality" to match your heading text
-					if (sec.line.trim() === "Create Locality") {
+					if (sec.line.trim() === sectionTitle) {
 						index = sec.index;
 					}
 				});
