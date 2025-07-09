@@ -805,7 +805,7 @@ function editPartAttributes(part_collection_object_id,callback) {
 		success: function(response) {
 			console.log("editPartAttributes: success");
 			// defer execution to ensure dialog is created before loading content
-			setTimeout(function() { $("##" + dialogId + "_div").html(response); }, 0);
+			setTimeout(function() { $("#" + dialogId + "_div").html(response); }, 0);
 		},
 		error: function(xhr, status, error) {
 			handleError(xhr, status, error);
