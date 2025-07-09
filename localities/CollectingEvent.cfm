@@ -711,7 +711,7 @@ $('#show-wiki').on('click', function(e) {
 	$.ajax({
 		url: '/shared/component/functions.cfc?method=getWikiSection&returnFormat=json',
 		data: {
-		page: "Collecting_Event",
+		page: "Locality_-_Data_Entry",
 		section: 3
 		},
 		dataType: 'json',
