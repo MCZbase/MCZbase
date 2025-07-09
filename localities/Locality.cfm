@@ -693,8 +693,6 @@ limitations under the License.
 	</cfcase>
 </cfswitch>
 
-					
-
 
 <script>
 $('#show-wiki').on('click', function(e) {
@@ -739,7 +737,6 @@ $('#show-wiki').on('click', function(e) {
 					}
 					$img.removeAttr('width').removeAttr('height');
 				});
-				});
 			} else {
 				$('#wiki-content').html('<div class="alert alert-warning">Section not found.</div>');
 			}
@@ -748,13 +745,11 @@ $('#show-wiki').on('click', function(e) {
 			$('#wiki-content').html('<div class="alert alert-danger">Error contacting wiki API for sections.</div>');
 		}
 	});
-
-	// Show the tray and push the content over (NO OVERLAY)
 	$('#wikiDrawer').addClass('open');
 	$('#content').addClass('pushed');
 });
 
-// Hide on close button click (NO OVERLAY)
+// Hide on close button click 
 $('#closeWikiDrawer').on('click', function() {
 	$('#wikiDrawer').removeClass('open');
 	$('#content').removeClass('pushed');
