@@ -78,11 +78,10 @@ limitations under the License.
 }
 #content {
 	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
-	background: #e0f7fa;
 	min-height: 100vh;
 }
 #content.pushed {
-	margin-left: 400px;  /* adjust this if you changed drawer width */
+	margin-left: 500px;  /* adjust this if you changed drawer width */
 }
 </style>
 <cfswitch expression="#action#">
