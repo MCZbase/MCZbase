@@ -2416,7 +2416,7 @@ limitations under the License.
 					<cfif getRestrictions.recordcount GT 0>
 						<cfset local.restrictions = "Permits with restrictions on use:<ul>"><!--- " --->
 						<cfloop query="getRestrictions">
-							<cfset local.restrictions = "#local.restrictions#<li><strong><a href='/transactions/Permit.cfm?action=edit&permit_id=#getRestrictions.permit_id#' target='_blank'>#getRestrictions.specific_type# #getRestrictions.permit_num#</a></strong>#getRestrictions.restriction_summary#</li>"><!--- " --->
+							<cfset local.restrictions = "#local.restrictions#<li><strong><a href='/transactions/Permit.cfm?action=view&permit_id=#getRestrictions.permit_id#' target='_blank'>#getRestrictions.specific_type# #getRestrictions.permit_num#</a></strong> #getRestrictions.restriction_summary#</li>"><!--- " --->
 						</cfloop>
 						<cfset local.restrictions = "#local.restrictions#</ul>"><!--- " --->
 					</cfif>

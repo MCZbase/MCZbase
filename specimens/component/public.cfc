@@ -2060,12 +2060,31 @@ limitations under the License.
 							</cfquery>
 						</cfif>
 						<cfquery name="accnLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT specific_type, restriction_summary 
+							SELECT 
+								case when length(permit.restriction_summary) > 30 then substr(permit.restriction_summary,1,30) || '...' else permit.restriction_summary end as restriction_summary,
+								permit.specific_type,
+								permit.permit_num,
+								permit.permit_title,
+								permit.permit_id
 							FROM permit_trans 
-								left join permit on permit_trans.permit_id = permit.permit_id
+								join permit on permit_trans.permit_id = permit.permit_id
 							WHERE 
 								permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccn.accn_id#">
 								and permit.restriction_summary IS NOT NULL
+						</cfquery>
+						<cfquery name="accnBenefits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT 
+								case when length(permit.benefits_summary) > 30 then substr(permit.benefits_summary,1,30) || '...' else permit.benefits_summary end as benefits_summary,
+								case when length(permit.internal_benefits_summary) > 30 then substr(permit.internal_benefits_summary,1,30) || '...' else permit.internal_benefits_summary end as internal_benefits_summary,
+								permit.specific_type,
+								permit.permit_num,
+								permit.permit_title,
+								permit.permit_id
+							FROM permit_trans 
+								join permit on permit_trans.permit_id = permit.permit_id
+							WHERE 
+								permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccn.accn_id#">
+								AND (permit.benefits_summary IS NOT NULL OR permit.internal_benefits_summary IS NOT NULL)	
 						</cfquery>
 						<cfset accnDept = "">
 						<cfif lookupAccn.catitem_coll_cde NEQ lookupAccn.accn_coll_cde>
@@ -2104,12 +2123,40 @@ limitations under the License.
 							<cfif accnLimitations.recordcount GT 0>
 								</li>
 								<li class="list-group-item pt-0">
-									<span class="font-weight-lessbold mb-0 d-inline-block">Restrictions on use exist:</span>
-								<ul class="pl-0">
-									<cfloop query="accnLimitations">
-										<li class="small90">#specific_type# - #restriction_summary#</li>
-									</cfloop>
-								</ul>
+									<span class="font-weight-lessbold mb-0 d-inline-block">Permits with restrictions on use:</span>
+									<ul class="pl-0">
+										<cfloop query="accnLimitations">
+											<li class="small90">
+												<a href="/transactions/Permit.cfm?action=view&permit_id=#accnLimitations.permit_id#" target="_blank">
+													#accnLimitations.specific_type# #accnLimitations.permit_num#
+												</a> 
+												#accnLimitations.restriction_summary#
+											</li>
+										</cfloop>
+									</ul>
+								<!--- li closed later --->
+							</cfif>
+							<cfif accnBenefits.recordcount GT 0>
+								</li>
+								<li class="list-group-item pt-0">
+									<span class="font-weight-lessbold mb-0 d-inline-block">Permits with required benefits:</span>
+									<ul class="pl-0">
+										<cfloop query="accnBenefits">
+											<li class="small90">
+												<a href="/transactions/Permit.cfm?action=view&permit_id=#accnBenefits.permit_id#" target="_blank">
+													#accnBenefits.specific_type# #accnBenefits.permit_num#
+												</a> 
+												<cfif len(accnBenefits.benefits_summary) gt 0>
+													<strong>Apply to All:</strong> #accnBenefits.benefits_summary#
+												</cfif>
+												<cfif len(accnBenefits.internal_benefits_summary) gt 0>
+													<cfif len(accnBenefits.benefits_summary) gt 0>, </cfif>
+													<strong>Apply to Harvard:</strong> #accnBenefits.internal_benefits_summary#
+												</cfif>
+											</li>
+										</cfloop>
+									</ul>
+								<!--- li closed later --->
 							</cfif>
 							<cfif accnMedia.recordcount gt 0>
 								<cfloop query="accnMedia">
