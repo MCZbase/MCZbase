@@ -722,6 +722,7 @@ limitations under the License.
 $('#show-wiki').on('click', function(e) {
 	e.preventDefault();
 	var pageTitle = "Locality"; // Use this variable for clarity
+	var sectionTitle = "Create New Locality"
 
 	$('#wiki-content').html('Loading...');
 
