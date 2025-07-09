@@ -79,6 +79,14 @@ limitations under the License.
 .wiki-drawer-overlay.active {
 	display: block;
 }
+#wiki-content img {
+	max-width: 100%;
+	width: 100%;
+	height: auto;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
 #content {
 	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
 	min-height: 100vh;
