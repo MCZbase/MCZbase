@@ -293,8 +293,7 @@ limitations under the License.
 							</form>
 						</div>
 						<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
-					</div>
-					<div id="wikiDrawer" class="wiki-drawer border">
+						<div id="wikiDrawer" class="wiki-drawer border">
 						<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
 							<h5 class="mb-0">Wiki Article</h5>
 							<button type="button" class="close" id="closeWikiDrawer" aria-label="Close">
@@ -305,6 +304,8 @@ limitations under the License.
 							Loading...
 						</div>
 					</div>
+					</div>
+					
 				</section>
 			</main>
 			
