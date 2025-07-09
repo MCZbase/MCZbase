@@ -50,8 +50,8 @@ limitations under the License.
 .wiki-drawer {
 	position: fixed;
 	top: 0;
-	left: -450px;
-	width: 450px;
+	left: -410px;
+	width: 410px;
 	max-width: 90vw;
 	height: 100vh;
 	background: #fff;
@@ -81,7 +81,7 @@ limitations under the License.
 	min-height: 100vh;
 }
 #content.pushed {
-	margin-left: 450px;  /* adjust this if you changed drawer width */
+	margin-left: 410px;  /* adjust this if you changed drawer width */
 }
 </style>
 <cfswitch expression="#action#">
