@@ -47,43 +47,43 @@ limitations under the License.
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
 <style>
- .wiki-drawer {
-      position: fixed;
-      top: 0;
-      left: -400px;
-      width: 400px;
-      max-width: 90vw;
-      height: 100vh;
-      background: #fff;
-      box-shadow: 2px 0 10px rgba(0,0,0,0.15);
-      z-index: 1051;
-      transition: left 0.3s;
-      overflow-y: auto;
-    }
-    .wiki-drawer.open {
-      left: 0;
-    }
-    .wiki-drawer-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background: rgba(0,0,0,0.5);
-      z-index: 1050;
-    }
-    .wiki-drawer-overlay.active {
-      display: block;
-    }
-    #content {
-      transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
-      background: #e0f7fa;
-      min-height: 100vh;
-    }
-    #content.pushed {
-      margin-left: 400px;  /* adjust this if you changed drawer width */
-    }
+.wiki-drawer {
+	position: fixed;
+	top: 0;
+	left: -400px;
+	width: 400px;
+	max-width: 90vw;
+	height: 100vh;
+	background: #fff;
+	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+	z-index: 1051;
+	transition: left 0.3s;
+	overflow-y: auto;
+}
+.wiki-drawer.open {
+	left: 0;
+}
+.wiki-drawer-overlay {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	background: rgba(0,0,0,0.5);
+	z-index: 1050;
+}
+.wiki-drawer-overlay.active {
+	display: block;
+}
+#content {
+	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
+	background: #e0f7fa;
+	min-height: 100vh;
+}
+#content.pushed {
+	margin-left: 400px;  /* adjust this if you changed drawer width */
+}
 </style>
 <cfswitch expression="#action#">
 	<cfcase value="edit">
@@ -696,36 +696,54 @@ limitations under the License.
 	</div>
 </div>
 <div id="wikiDrawer" class="wiki-drawer">
-    <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
-      <h5 class="mb-0">Wiki Article</h5>
-      <button type="button" class="close" id="closeWikiDrawer" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div id="wiki-content" class="p-3">
-      Loading...
-    </div>
-  </div>
-  <div id="wikiDrawerOverlay" class="wiki-drawer-overlay"></div>
- <script>
-    $('#show-wiki').on('click', function(e) {
-      e.preventDefault();
-      $('#wiki-content').html('Loading...');
-      // Simulated AJAX for demo: replace this with your real AJAX call if needed.
-      setTimeout(function(){
-        $('#wiki-content').html('<h4>Higher Geography</h4><p>This is your wiki article content!</p>');
-      }, 800);
+	<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+		<h5 class="mb-0">Wiki Article</h5>
+		<button type="button" class="close" id="closeWikiDrawer" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div id="wiki-content" class="p-3">
+		Loading...
+	</div>
+</div>
+<div id="wikiDrawerOverlay" class="wiki-drawer-overlay"></div>
+<script>
+	$('#show-wiki').on('click', function(e) {
+	e.preventDefault();
+	var pageName = "Higher_Geography";
+	var proxyUrl = "/shared/component/functions.cfc?method=getWikiArticle&returnFormat=plain&page=" + encodeURIComponent(pageName);
 
-      $('#wikiDrawer').addClass('open');
-      $('#wikiDrawerOverlay').addClass('active');
-      $('#content').addClass('pushed');
-    });
+	$('#wiki-content').html('Loading...');
+	$.ajax({
+		url: proxyUrl,
+		type: 'GET',
+		dataType: 'html',
+		success: function(html) {
+			$('#wiki-content').html(html);
+		},
+		error: function() {
+			$('#wiki-content').html('<div class="alert alert-danger">Error fetching wiki content.</div>');
+		}
+	});
 
-    // Hide on close or overlay click
-    $('#closeWikiDrawer, #wikiDrawerOverlay').on('click', function() {
-      $('#wikiDrawer').removeClass('open');
-      $('#wikiDrawerOverlay').removeClass('active');
-      $('#content').removeClass('pushed');
-    });
-  </script>
+	$('#show-wiki').on('click', function(e) {
+	e.preventDefault();
+	$('#wiki-content').html('Loading...');
+	// Simulated AJAX for demo: replace this with your real AJAX call if needed.
+	setTimeout(function(){
+		$('#wiki-content').html('<h4>Higher Geography</h4><p>This is your wiki article content!</p>');
+	}, 800);
+
+		$('#wikiDrawer').addClass('open');
+		$('#wikiDrawerOverlay').addClass('active');
+		$('#content').addClass('pushed');
+	});
+
+	// Hide on close or overlay click
+		$('#closeWikiDrawer, #wikiDrawerOverlay').on('click', function() {
+		$('#wikiDrawer').removeClass('open');
+		$('#wikiDrawerOverlay').removeClass('active');
+		$('#content').removeClass('pushed');
+	});
+</script>
 <cfinclude template = "/shared/_footer.cfm">
