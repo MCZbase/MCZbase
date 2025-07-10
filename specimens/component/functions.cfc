@@ -8429,56 +8429,6 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 														</tr>
 													</thead>
 													<tbody>
-														<cfloop query="getPartAttributes">
-															<tr id="pa_r_#part_attribute_id#">
-																<td>#attribute_type#</td>
-																<td id="pa_v_#part_attribute_id#">
-																	#getPartAttrSelect('v', attribute_type, attribute_value, part_attribute_id)#
-																</td>
-																<td id="pa_u_#part_attribute_id#">
-																	#getPartAttrSelect('u', attribute_type, attribute_units, part_attribute_id)#
-																</td>
-																<td>
-																	<input type="text" name="determined_date_#part_attribute_id#" 
-																		   value="#dateformat(determined_date,'yyyy-mm-dd')#" 
-																		   class="data-entry-input" 
-																		   id="pa_determined_date_#part_attribute_id#">
-																	<script>
-																		$(document).ready(function() {
-																			$("##pa_determined_date_#part_attribute_id#").datepicker({
-																				dateFormat: "yy-mm-dd",
-																				changeMonth: true,
-																				changeYear: true,
-																				showButtonPanel: true
-																			});
-																		});
-																	</script>
-																</td>
-																<td>
-																	<input type="hidden" name="determined_by_agent_id_#part_attribute_id#" 
-																		   value="#determined_by_agent_id#" 
-																		   id="pa_determined_by_agent_id_#part_attribute_id#">
-																	<input type="text" name="determined_agent_#part_attribute_id#" 
-																		   id="pa_determined_agent_#part_attribute_id#"
-																		   value="#agent_name#" 
-																		   class="data-entry-input">
-																	<script>
-																		$(document).ready(function() {
-																			makeAgentAutocompleteMeta("pa_determined_agent_#part_attribute_id#", "pa_determined_by_agent_id_#part_attribute_id#");
-																		});
-																	</script>
-																</td>
-																<td>
-																	<input type="text" name="attribute_remark_#part_attribute_id#" 
-																		   value="#attribute_remark#" 
-																		   class="data-entry-input">
-																</td>
-																<td>
-																	<input type="checkbox" name="delete_#part_attribute_id#" value="1" class="form-check-input">
-																</td>
-															</tr>
-														</cfloop>
-														
 														<!--- New attribute row --->
 														<tr id="pa_r_new" class="table-info">
 															<td>
@@ -8533,6 +8483,56 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 																		onclick="handleCreatePartAttribute();">Create</button>
 															</td>
 														</tr>
+														<cfloop query="getPartAttributes">
+															<tr id="pa_r_#part_attribute_id#">
+																<td>#attribute_type#</td>
+																<td id="pa_v_#part_attribute_id#">
+																	#getPartAttrSelect('v', attribute_type, attribute_value, part_attribute_id)#
+																</td>
+																<td id="pa_u_#part_attribute_id#">
+																	#getPartAttrSelect('u', attribute_type, attribute_units, part_attribute_id)#
+																</td>
+																<td>
+																	<input type="text" name="determined_date_#part_attribute_id#" 
+																		   value="#dateformat(determined_date,'yyyy-mm-dd')#" 
+																		   class="data-entry-input" 
+																		   id="pa_determined_date_#part_attribute_id#">
+																	<script>
+																		$(document).ready(function() {
+																			$("##pa_determined_date_#part_attribute_id#").datepicker({
+																				dateFormat: "yy-mm-dd",
+																				changeMonth: true,
+																				changeYear: true,
+																				showButtonPanel: true
+																			});
+																		});
+																	</script>
+																</td>
+																<td>
+																	<input type="hidden" name="determined_by_agent_id_#part_attribute_id#" 
+																		   value="#determined_by_agent_id#" 
+																		   id="pa_determined_by_agent_id_#part_attribute_id#">
+																	<input type="text" name="determined_agent_#part_attribute_id#" 
+																		   id="pa_determined_agent_#part_attribute_id#"
+																		   value="#agent_name#" 
+																		   class="data-entry-input">
+																	<script>
+																		$(document).ready(function() {
+																			makeAgentAutocompleteMeta("pa_determined_agent_#part_attribute_id#", "pa_determined_by_agent_id_#part_attribute_id#");
+																		});
+																	</script>
+																</td>
+																<td>
+																	<input type="text" name="attribute_remark_#part_attribute_id#" 
+																		   value="#attribute_remark#" 
+																		   class="data-entry-input">
+																</td>
+																<td>
+																	<input type="checkbox" name="delete_#part_attribute_id#" value="1" class="form-check-input">
+																</td>
+															</tr>
+														</cfloop>
+														
 													</tbody>
 												</table>
 											</div>
