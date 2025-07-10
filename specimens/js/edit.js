@@ -789,8 +789,8 @@ function openEditPartsDialog(collection_object_id,dialogId,guid,callback) {
 function editPartAttributes(part_collection_object_id,callback) {
 	var title = "Edit Part Attributes";
 	dialogId = "editPartAttributesDialog";
-	max_height = 650;
-	width_cap = 1100; 
+	max_height = 750;
+	width_cap = 1300; 
 	console.log("editPartAttributes: part_collection_object_id = " + part_collection_object_id);
 	createSpecimenEditDialog(dialogId,title,callback,max_height,width_cap);
 	// Call the server-side function to get the edit HTML, load into the dialog

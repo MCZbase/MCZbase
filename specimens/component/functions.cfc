@@ -8423,7 +8423,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											<input type="hidden" name="method" value="createPartAttribute">
 											<div class="row mx-0 pb-2">
 												<ul class="col-12 px-0 mt-2 mb-1">
-													<li class="list-group-item float-left col-12 col-md-4 px-1">
+													<li class="list-group-item float-left col-12 col-md-3 px-1">
 														<label for="attribute_type" class="data-entry-label">Attribute Type</label>
 														<select name="attribute_type" id="attribute_type" class="data-entry-select reqdClr" required>
 															<option value=""></option>
@@ -8432,25 +8432,25 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 															</cfloop>
 														</select>
 													</li>
-													<li class="list-group-item float-left col-12 col-md-4 px-1">
+													<li class="list-group-item float-left col-12 col-md-3 px-1">
 														<label for="attribute_value" class="data-entry-label">Value</label>
 														<input type="text" class="data-entry-input" id="attribute_value" name="attribute_value" value="">
 													</li>
-													<li class="list-group-item float-left col-12 col-md-4 px-1">
+													<li class="list-group-item float-left col-12 col-md-2 px-1">
 														<label for="attribute_units" class="data-entry-label">Units</label>
 														<input type="text" class="data-entry-input" id="attribute_units" name="attribute_units" value="">
 													</li>
-													<li class="list-group-item float-left col-12 col-md-4 px-1">
+													<li class="list-group-item float-left col-12 col-md-2 px-1">
 														<label for="determined_by_agent" class="data-entry-label">Determiner</label>
 														<input type="text" class="data-entry-input" id="determined_by_agent" name="determined_by_agent" value="#getCurrentUser.agent_name#">
 														<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id" value="#getCurrentUser.agent_id#">
 													</li>
-													<li class="list-group-item float-left col-12 col-md-4 px-1">
+													<li class="list-group-item float-left col-12 col-md-2 px-1">
 														<label for="determined_date" class="data-entry-label">Determined Date</label>
 														<input type="text" class="data-entry-input" id="determined_date" name="determined_date" 
 															placeholder="yyyy-mm-dd" value="#dateformat(now(),"yyyy-mm-dd")#">
 													</li>
-													<li class="list-group-item float-left col-12 col-md-12 px-1">
+													<li class="list-group-item float-left col-12 col-md-10 px-1">
 														<label for="attribute_remark" class="data-entry-label">Remarks</label>
 														<textarea id="attribute_remark" name="attribute_remark" 
 															onkeyup="countCharsLeft('attribute_remark', 4000, 'length_remark');"
@@ -8458,7 +8458,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 														<span id="length_remark"></span>
 													</li>
 												</ul>
-												<div class="col-12 col-md-12 px-1 mt-2">
+												<div class="col-12 col-md-2 px-1 mt-2">
 													<button id="newPartAttribute_submit" value="Create" class="btn btn-xs btn-primary" title="Create Part Attribute">Create Attribute</button>
 													<output id="newPartAttribute_output"></output>
 												</div>
