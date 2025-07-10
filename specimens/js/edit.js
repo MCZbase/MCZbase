@@ -824,6 +824,7 @@ function handlePartAttributeTypeChange(suffix, partID) {
     var selectedType = $('#attribute_type' + suffix).val();
     var valueFieldId = 'attribute_value' + suffix;
     var unitsFieldId = 'attribute_units' + suffix;
+	console.log("handlePartAttributeTypeChange: selectedType = " + selectedType + ", partID = " + partID + ", suffix = " + suffix);
     
     // lookup value code table and units code table from ctspec_part_att_att
     $.ajax({
