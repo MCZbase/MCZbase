@@ -8363,7 +8363,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 		<cfoutput>
 			<cftry>
 				
-				<!--- lookup the collection code and part info given the part ID --->
+				<!--- lookup the guid and part info given the part ID --->
 				<cfquery name="getPartInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						specimen_part.part_name,
@@ -8383,6 +8383,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					FROM ctspecpart_attribute_type 
 					ORDER BY attribute_type
 				</cfquery>
+				<!--- TODO: Add infrastructure for limiting by collection --->
 				
 				<cfset partLabel = "#getPartInfo.part_name#">
 				<cfif len(getPartInfo.preserve_method)>
@@ -8550,12 +8551,12 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 			
 			<!--- lookup the collection code given the part ID --->
 			<cfquery name="getCollectionCDE" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT collection_cde 
+				SELECT cataloged_item.collection_cde 
 				FROM specimen_part
 					join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
-					join collection on cataloged_item.collection_id = collection.collection_id
 				WHERE specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.partID#">
 			</cfquery>
+			<!--- TODO: Provide infrastructure for limiting part attribtues by collection --->
 
 			<!--- Get existing part attributes --->
 			<cfquery name="getPartAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
