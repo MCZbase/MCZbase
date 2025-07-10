@@ -812,3 +812,123 @@ function editPartAttributes(part_collection_object_id,callback) {
 		}
 	});
 }
+
+/** handlePartAttributeTypeChange handles the change of part attribute type.
+ * @param suffix optional suffix for the attribute fields (e.g., for multiple attributes), assumes that the
+ * attribute type is in a select with id = 'attribute_type' or id = 'attribute_type' + suffix.
+ * similarly assumes that the value field is in an input with id = 'attribute_value' or id = 'attribute_value' + suffix,
+ * and the units field is in an input with id = 'attribute_units' or id = 'attribute_units' + suffix.
+ * @param partID the ID of the part to which the attribute belongs
+ */
+function handlePartAttributeTypeChange(suffix, partID) {
+    var selectedType = $('#attribute_type' + (suffix ? suffix : '')).val();
+    var valueFieldId = 'attribute_value' + (suffix ? suffix : '');
+    var unitsFieldId = 'attribute_units' + (suffix ? suffix : '');
+    var valueCellId = suffix ? 'value_cell_' + suffix : null;
+    var unitsCellId = suffix ? 'units_cell_' + suffix : null;
+    
+    // lookup value code table and units code table from ctspec_part_att_att
+    // set select lists for value and units accordingly, or set as text input
+    $.ajax({
+        url: '/specimens/component/functions.cfc',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            partID: partID,
+            method: 'getPartAttributeCodeTables',
+            attribute_type: selectedType
+        },
+        success: function(response) {
+            console.log(response);
+            
+            // Handle value field
+            if (response[0].value_code_table) {
+                $('#' + valueFieldId).prop('disabled', false);
+                
+                // Get current value to preserve it
+                var currentValue = $('#' + valueFieldId).val();
+                
+                // Create select element
+                var selectHtml = '<label for="' + valueFieldId + '" class="data-entry-label">Value</label>' +
+                               '<select id="' + valueFieldId + '" name="attribute_value" class="data-entry-select reqdClr" required>' +
+                               '<option value=""></option>';
+                
+                // Add options from response
+                var values = response[0].value_values.split('|');
+                $.each(values, function(index, value) {
+                    var selected = (value === currentValue) ? ' selected' : '';
+                    selectHtml += '<option value="' + value + '"' + selected + '>' + value + '</option>';
+                });
+                selectHtml += '</select>';
+                
+                // Replace the field
+                if (valueCellId) {
+                    $('#' + valueCellId).html(selectHtml);
+                } else {
+                    $('#' + valueFieldId).replaceWith(selectHtml.replace(/.*<select/, '<select').replace(/<\/select>.*/, '</select>'));
+                }
+            } else {
+                // Get current value to preserve it
+                var currentValue = $('#' + valueFieldId).val();
+                
+                // Create text input
+                var inputHtml = '<label for="' + valueFieldId + '" class="data-entry-label">Value</label>' +
+                              '<input type="text" class="data-entry-input reqdClr" id="' + valueFieldId + '" name="attribute_value" value="' + currentValue + '" required>';
+                
+                // Replace the field
+                if (valueCellId) {
+                    $('#' + valueCellId).html(inputHtml);
+                } else {
+                    $('#' + valueFieldId).replaceWith(inputHtml.replace(/.*<input/, '<input').replace(/>.*/, '>'));
+                }
+                $('#' + valueFieldId).prop('disabled', false);
+            }
+            
+            // Handle units field
+            if (response[0].units_code_table) {
+                $('#' + unitsFieldId).prop('disabled', false);
+                
+                // Get current value to preserve it
+                var currentUnits = $('#' + unitsFieldId).val();
+                
+                // Create select element
+                var selectHtml = '<label for="' + unitsFieldId + '" class="data-entry-label">Units</label>' +
+                               '<select id="' + unitsFieldId + '" name="attribute_units" class="data-entry-select">' +
+                               '<option value=""></option>';
+                
+                // Add options from response
+                $.each(response[0].units_values.split('|'), function(index, value) {
+                    var selected = (value === currentUnits) ? ' selected' : '';
+                    selectHtml += '<option value="' + value + '"' + selected + '>' + value + '</option>';
+                });
+                selectHtml += '</select>';
+                
+                // Replace the field
+                if (unitsCellId) {
+                    $('#' + unitsCellId).html(selectHtml);
+                } else {
+                    $('#' + unitsFieldId).replaceWith(selectHtml.replace(/.*<select/, '<select').replace(/<\/select>.*/, '</select>'));
+                }
+            } else {
+                // Get current value to preserve it
+                var currentUnits = $('#' + unitsFieldId).val();
+                
+                // Create text input (but keep it disabled for units when no code table)
+                var inputHtml = '<label for="' + unitsFieldId + '" class="data-entry-label">Units</label>' +
+                              '<input type="text" class="data-entry-input" id="' + unitsFieldId + '" name="attribute_units" value="' + currentUnits + '">';
+                
+                // Replace the field
+                if (unitsCellId) {
+                    $('#' + unitsCellId).html(inputHtml);
+                } else {
+                    $('#' + unitsFieldId).replaceWith(inputHtml.replace(/.*<input/, '<input').replace(/>.*/, '>'));
+                }
+                $('#' + unitsFieldId).prop('disabled', true);
+                $('#' + unitsFieldId).removeClass('reqdClr');
+            }
+        },
+        error: function(xhr, status, error) {
+            handleFail(xhr,status,error,"handling change of part attribute type.");
+        }
+    });
+}
