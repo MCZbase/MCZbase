@@ -5554,6 +5554,10 @@ limitations under the License.
 	<cfreturn serializeJSON(result)>
 </cffunction>
 
+<!--- getEditAttributesHTML obtain the content of a dialog for editing attributes for a collection object.
+ @param collection_object_id the collection object id to obtain the attributes for
+ @return a string containing the HTML for the edit attributes dialog
+--->
 <cffunction name="getEditAttributesHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfset variables.collection_object_id = arguments.collection_object_id>
@@ -8383,7 +8387,20 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					FROM ctspecpart_attribute_type 
 					ORDER BY attribute_type
 				</cfquery>
-				<!--- TODO: Add infrastructure for limiting by collection --->
+
+				<!--- Get current user for default determiner --->
+				<cfquery name="getCurrentUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT agent_id, 
+							agent_name
+					FROM preferred_agent_name
+					WHERE
+						agent_id in (
+							SELECT agent_id 
+							FROM agent_name 
+							WHERE upper(agent_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
+								and agent_name_type = 'login'
+						)
+				</cfquery>
 				
 				<cfset partLabel = "#getPartInfo.part_name#">
 				<cfif len(getPartInfo.preserve_method)>
@@ -8404,40 +8421,43 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 										<form name="newPartAttribute" id="newPartAttribute">
 											<input type="hidden" name="collection_object_id" value="#attributes.partID#">
 											<input type="hidden" name="method" value="createPartAttribute">
-											<div class="row mx-0 pb-2 col-12 px-0 mt-2 mb-1">
-												<div class="float-left col-12 col-md-3 px-1">
-													<label for="attribute_type" class="data-entry-label">Attribute Type</label>
-													<select name="attribute_type" id="attribute_type" class="data-entry-select reqdClr" required
-															onchange="setPartAttOptions('new', this.value, '#getPartInfo.collection_cde#')">
-														<option value=""></option>
-														<cfloop query="ctspecpart_attribute_type">
-															<option value="#attribute_type#">#attribute_type#</option>
-														</cfloop>
-													</select>
-												</div>
-												<div class="float-left col-12 col-md-3 px-1" id="value_cell_new">
-													<label for="attribute_value" class="data-entry-label">Value</label>
-													<input name="attribute_value" id="attribute_value" class="data-entry-input reqdClr" type="text" required>
-												</div>
-												<div class="float-left col-12 col-md-2 px-1" id="units_cell_new">
-													<label for="attribute_units" class="data-entry-label">Units</label>
-													<input name="attribute_units" id="attribute_units" class="data-entry-input" type="text">
-												</div>
-												<div class="float-left col-12 col-md-2 px-1">
-													<label for="determined_date" class="data-entry-label">Date Determined</label>
-													<input name="determined_date" id="determined_date" class="data-entry-input" type="text" placeholder="yyyy-mm-dd">
-												</div>
-												<div class="float-left col-12 col-md-2 px-1">
-													<label for="determined_agent" class="data-entry-label">Determined By</label>
-													<input name="determined_agent" id="determined_agent" class="data-entry-input" type="text" placeholder="Pick agent">
-													<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id">
-												</div>
-												<div class="float-left col-12 px-1">
-													<label for="attribute_remark" class="data-entry-label">Remarks (<span id="length_remark"></span>)</label>
-													<textarea id="attribute_remark" name="attribute_remark" 
-														onkeyup="countCharsLeft('attribute_remark', 4000, 'length_remark');"
-														class="data-entry-textarea autogrow mb-1" maxlength="4000"></textarea>
-												</div>
+											<div class="row mx-0 pb-2">
+												<ul class="col-12 px-0 mt-2 mb-1">
+													<li class="list-group-item float-left col-12 col-md-4 px-1">
+														<label for="attribute_type" class="data-entry-label">Attribute Type</label>
+														<select name="attribute_type" id="attribute_type" class="data-entry-select reqdClr" required>
+															<option value=""></option>
+															<cfloop query="ctspecpart_attribute_type">
+																<option value="#attribute_type#">#attribute_type#</option>
+															</cfloop>
+														</select>
+													</li>
+													<li class="list-group-item float-left col-12 col-md-4 px-1">
+														<label for="attribute_value" class="data-entry-label">Value</label>
+														<input type="text" class="data-entry-input" id="attribute_value" name="attribute_value" value="">
+													</li>
+													<li class="list-group-item float-left col-12 col-md-4 px-1">
+														<label for="attribute_units" class="data-entry-label">Units</label>
+														<input type="text" class="data-entry-input" id="attribute_units" name="attribute_units" value="">
+													</li>
+													<li class="list-group-item float-left col-12 col-md-4 px-1">
+														<label for="determined_by_agent" class="data-entry-label">Determiner</label>
+														<input type="text" class="data-entry-input" id="determined_by_agent" name="determined_by_agent" value="#getCurrentUser.agent_name#">
+														<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id" value="#getCurrentUser.agent_id#">
+													</li>
+													<li class="list-group-item float-left col-12 col-md-4 px-1">
+														<label for="determined_date" class="data-entry-label">Determined Date</label>
+														<input type="text" class="data-entry-input" id="determined_date" name="determined_date" 
+															placeholder="yyyy-mm-dd" value="#dateformat(now(),"yyyy-mm-dd")#">
+													</li>
+													<li class="list-group-item float-left col-12 col-md-12 px-1">
+														<label for="attribute_remark" class="data-entry-label">Remarks</label>
+														<textarea id="attribute_remark" name="attribute_remark" 
+															onkeyup="countCharsLeft('attribute_remark', 4000, 'length_remark');"
+															class="data-entry-textarea autogrow mb-1" maxlength="4000"></textarea>
+														<span id="length_remark"></span>
+													</li>
+												</ul>
 												<div class="col-12 col-md-12 px-1 mt-2">
 													<button id="newPartAttribute_submit" value="Create" class="btn btn-xs btn-primary" title="Create Part Attribute">Create Attribute</button>
 													<output id="newPartAttribute_output"></output>
@@ -8448,15 +8468,73 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 								</div>
 								<script>
 									$(document).ready(function() {
-										// make determined by agent autocomplete
-										makeAgentAutocompleteMeta("determined_agent", "determined_by_agent_id");
-										// setup date picker
-										$("##determined_date").datepicker({
-											dateFormat: "yy-mm-dd",
-											changeMonth: true,
-											changeYear: true,
-											showButtonPanel: true
+										// disable units and value fields until type is selected
+										$('##attribute_value').prop('disabled', true);
+										$('##attribute_units').prop('disabled', true);
+										// make the determined date a date picker
+										$("##determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
+										// make the determined by agent into an agent autocomplete
+										makeAgentAutocompleteMeta('determined_by_agent','determined_by_agent_id');
+									});
+									function handlePartAttributeTypeChange() {
+										var selectedType = $('##attribute_type').val();
+										// lookup value code table and units code table from ctspec_part_att_att
+										// set select lists for value and units accordingly, or set as text input
+										$.ajax({
+											url: '/specimens/component/functions.cfc',
+											type: 'POST',
+											dataType: 'json',
+											data: {
+												partID: '#attributes.partID#',
+												method: 'getPartAttributeCodeTables',
+												attribute_type: selectedType
+											},
+											success: function(response) {
+												console.log(response);
+												// determine if the value field should be a select based on the response
+												if (response[0].value_code_table) {
+													$('##attribute_value').prop('disabled', false);
+													// convert the value field to a select
+													$('##attribute_value').replaceWith('<select id="attribute_value" name="attribute_value" class="data-entry-select reqdClr" required></select>');
+													// Populate the value select with options from the response
+													// value_values is a pipe delimited list of values
+													var values = response[0].value_values.split('|');
+													$('##attribute_value').append('<option value=""></option>');
+													$.each(values, function(index, value) {
+														$('##attribute_value').append('<option value="' + value + '">' + value + '</option>');
+													});
+												} else {
+													// enable as a text input, replace any existing select
+													$('##attribute_value').replaceWith('<input type="text" class="data-entry-input reqdClr" id="attribute_value" name="attribute_value" value="" required>');
+													$('##attribute_value').prop('disabled', false);
+												}
+												// Determine if the units field should be enabled based on the response
+												if (response[0].units_code_table) {
+													$('##attribute_units').prop('disabled', false);
+													// convert the units field to a select
+													$('##attribute_units').replaceWith('<select id="attribute_units" name="attribute_units" class="data-entry-select"></select>');
+													// Populate the units select with options from the response
+													// units_values is a pipe delimited list of values
+													$('##attribute_units').append('<option value=""></option>');
+													$.each(response[0].units_values.split('|'), function(index, value) {
+														$('##attribute_units').append('<option value="' + value + '">' + value + '</option>');
+													});
+												} else {
+													// units are either picklists or not used.
+													$('##attribute_units').prop('disabled', true);
+													$('##attribute_units').val('');
+													// remove any reqdClr class
+													$('##attribute_units').removeClass('reqdClr');
+												}
+											},
+											error: function(xhr, status, error) {
+												handleFail(xhr,status,error,"handling change of part attribute type.");
+											}
 										});
+									}
+									// Add change listener to the attribute type select
+									$('##attribute_type').on('change', function() {
+										handlePartAttributeTypeChange();
 									});
 									// Add event listener to the save button
 									$('##newPartAttribute_submit').on('click', function(event) {
@@ -8479,8 +8557,11 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												reloadEditExistingPartAttributes();
 												// Clear form
 												$('##newPartAttribute')[0].reset();
-												$('##value_cell_new').html('<label for="attribute_value" class="data-entry-label">Value</label><input name="attribute_value" id="attribute_value" class="data-entry-input reqdClr" type="text" required>');
-												$('##units_cell_new').html('<label for="attribute_units" class="data-entry-label">Units</label><input name="attribute_units" id="attribute_units" class="data-entry-input" type="text">');
+												// Reset value and units fields to text inputs and disable
+												$('##attribute_value').replaceWith('<input type="text" class="data-entry-input" id="attribute_value" name="attribute_value" value="">');
+												$('##attribute_units').replaceWith('<input type="text" class="data-entry-input" id="attribute_units" name="attribute_units" value="">');
+												$('##attribute_value').prop('disabled', true);
+												$('##attribute_units').prop('disabled', true);
 											},
 											error: function(xhr, status, error) {
 												setFeedbackControlState("newPartAttribute_output","error");
@@ -8528,6 +8609,138 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	</cfthread>
 	<cfthread action="join" name="getEditPartAttributesThread" />
 	<cfreturn getEditPartAttributesThread.output>
+</cffunction>
+
+<!--- 
+ getPartAttributeCodeTables lookup value and unit code tables for a given part attribute type.
+ @param partID the part collection object id to obtain the collection by which to limit the code table values
+ @param attribute_type the attribute type to obtain the code tables for
+ @return a JSON object containing the attribute type, value code table, units code table, and the values for each
+  with the values for each code table returned as a pipe delimited string
+--->
+<cffunction name="getPartAttributeCodeTables" returntype="any" access="remote" returnformat="json">
+	<cfargument name="partID" type="string" required="yes">
+	<cfargument name="attribute_type" type="string" required="yes">
+	<cfset variables.partID = arguments.partID>
+	<cfset variables.attribute_type = arguments.attribute_type>
+	<cfset result = ArrayNew(1)>
+	<cftry>
+		<!--- Get collection info for the part --->
+		<cfquery name="getPartCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT 
+				cataloged_item.collection_cde
+			FROM specimen_part
+				join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+			WHERE 
+				specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.partID#">
+		</cfquery>
+		
+		<!--- Get the code tables for this attribute type --->
+		<cfquery name="getPartAttributeCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
+				attribute_type,
+				upper(value_code_table) value_code_table,
+				upper(unit_code_table) units_code_table
+			FROM
+				ctspec_part_att_att
+			WHERE 
+				attribute_type = <cfqueryparam value="#variables.attribute_type#" cfsqltype="CF_SQL_VARCHAR">
+		</cfquery>
+		
+		<cfif getPartAttributeCodeTables.recordCount EQ 1>
+			<cfset row = StructNew()>
+			<cfset row["value_code_table"] = "#getPartAttributeCodeTables.value_code_table#">
+			<cfset row["units_code_table"] = "#getPartAttributeCodeTables.units_code_table#">
+			<cfset row["attribute_type"] = "#getPartAttributeCodeTables.attribute_type#">
+			
+			<!--- Handle value code table --->
+			<cfif len(getPartAttributeCodeTables.value_code_table) GT 0>
+				<cfset variables.table = getPartAttributeCodeTables.value_code_table>
+				<!--- Default field name is the table name with CT prefix removed --->
+				<cfset variables.field = replace(getPartAttributeCodeTables.value_code_table,"CT","","one")>
+				
+				<!--- check if the table has a collection_cde field --->
+				<cfquery name="getValueFieldMetadata" datasource="uam_god">
+					SELECT
+						COUNT(*) as ct
+					FROM
+						sys.all_tab_columns
+					WHERE
+						table_name = <cfqueryparam value="#variables.table#" cfsqltype="CF_SQL_VARCHAR">
+						AND owner = 'MCZBASE'
+						AND column_name = 'COLLECTION_CDE'
+				</cfquery>
+				
+				<!--- obtain values, limit by collection if there is one --->
+				<cfquery name="getValueCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT distinct
+						#variables.field# as value
+					FROM
+						#variables.table#
+					<cfif getValueFieldMetadata.ct GT 0>
+					WHERE
+						collection_cde = <cfqueryparam value="#getPartCollection.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
+					</cfif>
+					ORDER BY
+						#variables.field#
+				</cfquery>
+				<cfset values="">
+				<cfloop query="getValueCodeTable">
+					<cfset values = listAppend(values, getValueCodeTable.value, "|")>
+				</cfloop>
+				<cfset row["value_values"] = "#values#">
+			</cfif>
+			
+			<!--- Handle units code table --->
+			<cfif len(getPartAttributeCodeTables.units_code_table) GT 0>
+				<cfset variables.unitsTable = getPartAttributeCodeTables.units_code_table>
+				<cfset variables.unitsField = replace(getPartAttributeCodeTables.units_code_table,"CT","","one")>
+				
+				<!--- check if the units table has a collection_cde field --->
+				<cfquery name="getUnitsFieldMetadata" datasource="uam_god">
+					SELECT
+						COUNT(*) as ct
+					FROM
+						sys.all_tab_columns
+					WHERE
+						table_name = <cfqueryparam value="#variables.unitsTable#" cfsqltype="CF_SQL_VARCHAR">
+						AND owner = 'MCZBASE'
+						AND column_name = 'COLLECTION_CDE'
+				</cfquery>
+				
+				<cfquery name="getUnitsCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT distinct
+						#variables.unitsField# as value
+					FROM
+						#variables.unitsTable#
+					<cfif getUnitsFieldMetadata.ct GT 0>
+					WHERE
+						collection_cde = <cfqueryparam value="#getPartCollection.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
+					</cfif>
+					ORDER BY
+						#variables.unitsField#
+				</cfquery>
+				<cfset units="">
+				<cfloop query="getUnitsCodeTable">
+					<cfset units = listAppend(units, getUnitsCodeTable.value, "|")>
+				</cfloop>
+				<cfset row["units_values"] = "#units#">
+			</cfif>
+			<cfset arrayAppend(result, row)>
+		<cfelse>
+			<!--- not found, therefore no code tables specified for that attribute type --->
+			<cfset row = StructNew()>
+			<cfset row["attribute_type"] = "#variables.attribute_type#">
+			<cfset arrayAppend(result, row)>
+		</cfif>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(result)>
 </cffunction>
 
 <!--- 
