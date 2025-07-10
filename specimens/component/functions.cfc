@@ -8354,16 +8354,192 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 <!--- getEditPartAttributesHTML 
  Threaded method to obtain a dialog for editing part attributes of a specimen part
  @param partID the collection_object_id for the specimen part to edit attributes for
- @param collectionCDE the collection code for the specimen
- @return HTML for editing part attributes
+ @return HTML for editing part attributes with separate forms for creating new and editing existing attributes
 --->
 <cffunction name="getEditPartAttributesHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="partID" type="string" required="yes">
 	
-	<cfset variables.partID = arguments.partID>
+	<cfthread name="getEditPartAttributesThread" partID="#arguments.partID#">
+		<cfoutput>
+			<cftry>
+				
+				<!--- lookup the collection code and part info given the part ID --->
+				<cfquery name="getPartInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						specimen_part.part_name,
+						specimen_part.preserve_method,
+						collection.collection_cde,
+						cataloged_item.cat_num,
+						collection.institution_acronym
+					FROM specimen_part
+						join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+						join collection on cataloged_item.collection_id = collection.collection_id
+					WHERE specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.partID#">
+				</cfquery>
 
+				<!--- Load controlled vocabulary for attribute types --->
+				<cfquery name="ctspecpart_attribute_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT attribute_type 
+					FROM ctspecpart_attribute_type 
+					ORDER BY attribute_type
+				</cfquery>
+				
+				<cfset partLabel = "#getPartInfo.part_name#">
+				<cfif len(getPartInfo.preserve_method)>
+					<cfset partLabel = "#partLabel# (#getPartInfo.preserve_method#)">
+				</cfif>
+				<cfset guid = "#getPartInfo.institution_acronym#:#getPartInfo.collection_cde#:#getPartInfo.cat_num#">
 
-	<cfthread name="getEditPartAttributesThread">
+				<!--- add new part attribute form --->
+				<div class="col-12 mt-4 px-1">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12">
+								<div class="add-form">
+									<div class="add-form-header pt-1 px-2" id="headingPartAttribute">
+										<h2 class="h3 my-0 px-1 bp-1">Add New Part Attribute for #guid# #partLabel#</h2>
+									</div>
+									<div class="card-body">
+										<form name="newPartAttribute" id="newPartAttribute">
+											<input type="hidden" name="collection_object_id" value="#attributes.partID#">
+											<input type="hidden" name="method" value="createPartAttribute">
+											<div class="row mx-0 pb-2 col-12 px-0 mt-2 mb-1">
+												<div class="float-left col-12 col-md-3 px-1">
+													<label for="attribute_type" class="data-entry-label">Attribute Type</label>
+													<select name="attribute_type" id="attribute_type" class="data-entry-select reqdClr" required
+															onchange="setPartAttOptions('new', this.value, '#getPartInfo.collection_cde#')">
+														<option value=""></option>
+														<cfloop query="ctspecpart_attribute_type">
+															<option value="#attribute_type#">#attribute_type#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="float-left col-12 col-md-3 px-1" id="value_cell_new">
+													<label for="attribute_value" class="data-entry-label">Value</label>
+													<input name="attribute_value" id="attribute_value" class="data-entry-input reqdClr" type="text" required>
+												</div>
+												<div class="float-left col-12 col-md-2 px-1" id="units_cell_new">
+													<label for="attribute_units" class="data-entry-label">Units</label>
+													<input name="attribute_units" id="attribute_units" class="data-entry-input" type="text">
+												</div>
+												<div class="float-left col-12 col-md-2 px-1">
+													<label for="determined_date" class="data-entry-label">Date Determined</label>
+													<input name="determined_date" id="determined_date" class="data-entry-input" type="text" placeholder="yyyy-mm-dd">
+												</div>
+												<div class="float-left col-12 col-md-2 px-1">
+													<label for="determined_agent" class="data-entry-label">Determined By</label>
+													<input name="determined_agent" id="determined_agent" class="data-entry-input" type="text" placeholder="Pick agent">
+													<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id">
+												</div>
+												<div class="float-left col-12 px-1">
+													<label for="attribute_remark" class="data-entry-label">Remarks (<span id="length_remark"></span>)</label>
+													<textarea id="attribute_remark" name="attribute_remark" 
+														onkeyup="countCharsLeft('attribute_remark', 4000, 'length_remark');"
+														class="data-entry-textarea autogrow mb-1" maxlength="4000"></textarea>
+												</div>
+												<div class="col-12 col-md-12 px-1 mt-2">
+													<button id="newPartAttribute_submit" value="Create" class="btn btn-xs btn-primary" title="Create Part Attribute">Create Attribute</button>
+													<output id="newPartAttribute_output"></output>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+								<script>
+									$(document).ready(function() {
+										// make determined by agent autocomplete
+										makeAgentAutocompleteMeta("determined_agent", "determined_by_agent_id");
+										// setup date picker
+										$("##determined_date").datepicker({
+											dateFormat: "yy-mm-dd",
+											changeMonth: true,
+											changeYear: true,
+											showButtonPanel: true
+										});
+									});
+									// Add event listener to the save button
+									$('##newPartAttribute_submit').on('click', function(event) {
+										event.preventDefault();
+										// Validate the form
+										if ($('##newPartAttribute')[0].checkValidity() === false) {
+											// If the form is invalid, show validation messages
+											$('##newPartAttribute')[0].reportValidity();
+											return false; // Prevent form submission if validation fails
+										}
+										setFeedbackControlState("newPartAttribute_output","saving");
+										$.ajax({
+											url: '/specimens/component/functions.cfc',
+											type: 'POST',
+											responseType: 'json',
+											data: $('##newPartAttribute').serialize(),
+											success: function(response) {
+												console.log(response);
+												setFeedbackControlState("newPartAttribute_output","saved");
+												reloadEditExistingPartAttributes();
+												// Clear form
+												$('##newPartAttribute')[0].reset();
+												$('##value_cell_new').html('<label for="attribute_value" class="data-entry-label">Value</label><input name="attribute_value" id="attribute_value" class="data-entry-input reqdClr" type="text" required>');
+												$('##units_cell_new').html('<label for="attribute_units" class="data-entry-label">Units</label><input name="attribute_units" id="attribute_units" class="data-entry-input" type="text">');
+											},
+											error: function(xhr, status, error) {
+												setFeedbackControlState("newPartAttribute_output","error");
+												handleFail(xhr,status,error,"saving part attribute.");
+											}
+										});
+									});
+									function reloadEditExistingPartAttributes() {
+										// reload the edit existing part attributes section
+										$.ajax({
+											url: '/specimens/component/functions.cfc',
+											type: 'POST',
+											dataType: 'html',
+											data: {
+												method: 'getEditExistingPartAttributesUnthreaded',
+												partID: '#attributes.partID#'
+											},
+											success: function(response) {
+												$('##editExistingPartAttributesDiv').html(response);
+											},
+											error: function(xhr, status, error) {
+												handleFail(xhr,status,error,"reloading edit existing part attributes.");
+											}
+										});
+									}
+								</script>
+								<!--- edit existing part attributes --->
+								<div id="editExistingPartAttributesDiv">
+									<!--- this div is replaced with the edit existing part attributes HTML when attributes are added --->
+									#getEditExistingPartAttributesUnthreaded(partID=attributes.partID)#
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+					<cfdump var="#cfcatch#">
+				</cfif>
+			</cfcatch>
+			</cftry>
+		</cfoutput> 
+	</cfthread>
+	<cfthread action="join" name="getEditPartAttributesThread" />
+	<cfreturn getEditPartAttributesThread.output>
+</cffunction>
+
+<!--- 
+ getEditExistingPartAttributesUnthreaded returns the HTML for the edit existing part attributes section, 
+ intended to be used from within threaded getEditPartAttributesHTML or invoked independently to reload 
+ just the edit existing part attributes section of the dialog.
+ @param partID the part collection object id to obtain existing attributes for
+ @return a string containing the HTML for the edit existing part attributes section
+--->
+<cffunction name="getEditExistingPartAttributesUnthreaded" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="partID" type="string" required="yes">
+
+	<cfoutput>
 		<cftry>
 			<!--- Load controlled vocabulary for attribute types --->
 			<cfquery name="ctspecpart_attribute_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -8371,12 +8547,14 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				FROM ctspecpart_attribute_type 
 				ORDER BY attribute_type
 			</cfquery>
+			
 			<!--- lookup the collection code given the part ID --->
 			<cfquery name="getCollectionCDE" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT collection_cde 
 				FROM specimen_part
 					join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
-				WHERE specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.partID#">
+					join collection on cataloged_item.collection_id = collection.collection_id
+				WHERE specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.partID#">
 			</cfquery>
 
 			<!--- Get existing part attributes --->
@@ -8395,287 +8573,211 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					preferred_agent_name
 				WHERE
 					specimen_part_attribute.determined_by_agent_id = preferred_agent_name.agent_id (+) AND
-					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.partID#">
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.partID#">
+				ORDER BY attribute_type, attribute_value
 			</cfquery>
-
-			<cfoutput>
-				<div id="editPartAttributesHTML">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-12 float-left">
-								<div class="edit-form float-left">
-									<div class="edit-form-header pt-1 px-2 col-12 float-left">
-										<h2 class="h3 my-0 px-1 pb-1">Edit Part Attributes</h2>
-									</div>
-									<div class="card-body">
-										<form name="editPartAttributesForm" id="editPartAttributesForm">
-											<input type="hidden" name="partID" value="#variables.partID#">
-											<input type="hidden" name="collectionCDE" value="#getCollectionCDE.collection_cde#">
-											<input type="hidden" name="method" value="savePartAttributes">
-											<input type="hidden" name="returnformat" value="json">
-											<input type="hidden" name="patidlist" value="#valuelist(getPartAttributes.part_attribute_id)#">
-											
-											<div class="table-responsive">
-												<table class="table table-striped table-bordered">
-													<thead>
-														<tr>
-															<th>Attribute</th>
-															<th>Value</th>
-															<th>Units</th>
-															<th>Date</th>
-															<th>Determined By</th>
-															<th>Remark</th>
-															<th>Delete?</th>
-														</tr>
-													</thead>
-													<tbody>
-														<!--- New attribute row --->
-														<tr id="pa_r_new" class="table-info">
-															<td>
-																<select name="attribute_type_new" id="pa_attribute_type_new" 
-																		class="data-entry-select" 
-																		onchange="setPartAttOptions('new', this.value, '#getCollectionCDE.collection_cde#')">
-																	<option value="">Create New Part Attribute...</option>
-																	<cfloop query="ctspecpart_attribute_type">
-																		<option value="#attribute_type#">#attribute_type#</option>
-																	</cfloop>
-																</select>
-															</td>
-															<td id="pa_v_new">
-																<input type="hidden" name="attribute_value_new">
-															</td>
-															<td id="pa_u_new">
-																<input type="hidden" name="attribute_units_new">
-															</td>
-															<td>
-																<input type="text" name="determined_date_new" 
-																	   id="pa_determined_date_new" 
-																	   class="data-entry-input">
-																<script>
-																	$(document).ready(function() {
-																		$("##pa_determined_date_new").datepicker({
-																			dateFormat: "yy-mm-dd",
-																			changeMonth: true,
-																			changeYear: true,
-																			showButtonPanel: true
-																		});
-																	});
-																</script>
-															</td>
-															<td>
-																<input type="hidden" name="determined_id_new" id="pa_determined_id_new">
-																<input type="text" name="determined_agent_new" 
-																	   id="pa_determined_agent_new" 
-																	   class="data-entry-input">
-																<script>
-																	$(document).ready(function() {
-																		makeAgentAutocompleteMeta("pa_determined_agent_new", "pa_determined_id_new");
-																	});
-																</script>
-															</td>
-															<td>
-																<input type="text" name="attribute_remark_new" 
-																	   id="pa_attribute_remark_new" 
-																	   class="data-entry-input">
-															</td>
-															<td>
-																<button type="button" class="btn btn-xs btn-primary" 
-																		onclick="handleCreatePartAttribute();">Create</button>
-															</td>
-														</tr>
-														<cfloop query="getPartAttributes">
-															<tr id="pa_r_#part_attribute_id#">
-																<td>#attribute_type#</td>
-																<td id="pa_v_#part_attribute_id#">
-																	#getPartAttrSelect('v', attribute_type, attribute_value, part_attribute_id)#
-																</td>
-																<td id="pa_u_#part_attribute_id#">
-																	#getPartAttrSelect('u', attribute_type, attribute_units, part_attribute_id)#
-																</td>
-																<td>
-																	<input type="text" name="determined_date_#part_attribute_id#" 
-																		   value="#dateformat(determined_date,'yyyy-mm-dd')#" 
-																		   class="data-entry-input" 
-																		   id="pa_determined_date_#part_attribute_id#">
-																	<script>
-																		$(document).ready(function() {
-																			$("##pa_determined_date_#part_attribute_id#").datepicker({
-																				dateFormat: "yy-mm-dd",
-																				changeMonth: true,
-																				changeYear: true,
-																				showButtonPanel: true
-																			});
-																		});
-																	</script>
-																</td>
-																<td>
-																	<input type="hidden" name="determined_by_agent_id_#part_attribute_id#" 
-																		   value="#determined_by_agent_id#" 
-																		   id="pa_determined_by_agent_id_#part_attribute_id#">
-																	<input type="text" name="determined_agent_#part_attribute_id#" 
-																		   id="pa_determined_agent_#part_attribute_id#"
-																		   value="#agent_name#" 
-																		   class="data-entry-input">
-																	<script>
-																		$(document).ready(function() {
-																			makeAgentAutocompleteMeta("pa_determined_agent_#part_attribute_id#", "pa_determined_by_agent_id_#part_attribute_id#");
-																		});
-																	</script>
-																</td>
-																<td>
-																	<input type="text" name="attribute_remark_#part_attribute_id#" 
-																		   value="#attribute_remark#" 
-																		   class="data-entry-input">
-																</td>
-																<td>
-																	<input type="checkbox" name="delete_#part_attribute_id#" value="1" class="form-check-input">
-																</td>
-															</tr>
-														</cfloop>
-														
-													</tbody>
-												</table>
+			
+			<div class="row mx-0">
+				<div class="bg-light p-2 col-12 row">
+					<h1 class="h3">Edit Existing Part Attributes</h1>
+					<div class="col-12 px-0 pb-3">
+						<cfif getPartAttributes.recordCount EQ 0>
+							<p>No part attributes found</p>
+						<cfelse>
+							<cfset var i = 0>
+							<cfloop query="getPartAttributes">
+								<cfset i = i + 1>
+								<div class="row mx-0 border py-1 mb-0">
+									<form name="editPartAttribute#i#" id="editPartAttribute#i#">
+										<div class="col-12 row">
+											<input type="hidden" name="part_attribute_id" value="#part_attribute_id#">
+											<input type="hidden" name="method" value="updatePartAttribute">
+											<div class="col-12 col-md-3">
+												<label for="attribute_type#i#" class="data-entry-label">Attribute Type</label>
+												<select name="attribute_type" id="attribute_type#i#" class="data-entry-select reqdClr" required
+														onchange="setPartAttOptions('#i#', this.value, '#getCollectionCDE.collection_cde#')">
+													<option value=""></option>
+													<cfloop query="ctspecpart_attribute_type">
+														<cfif ctspecpart_attribute_type.attribute_type EQ getPartAttributes.attribute_type>
+															<cfset selected = "selected">
+														<cfelse>
+															<cfset selected = "">
+														</cfif>
+														<option value="#ctspecpart_attribute_type.attribute_type#" #selected#>#ctspecpart_attribute_type.attribute_type#</option>
+													</cfloop>
+												</select>
 											</div>
-											
-											<!--- Action buttons --->
-											<div class="form-row mt-3">
-												<div class="col-12">
-													<input type="button" value="Save Changes" 
-														   class="btn btn-xs btn-primary mr-2" 
-														   onclick="handleSavePartAttributes();">
-													<input type="button" value="Close" 
-														   class="btn btn-xs btn-secondary" 
-														   onclick="closePartAttributesDialog();">
-													<output id="pa_editStatus" class="pt-1"></output>
-												</div>
+											<div class="col-12 col-md-3" id="value_cell_#i#">
+												#getPartAttrSelect('v', attribute_type, attribute_value, i)#
 											</div>
-										</form>
-										
-										<script>
-											function closePartAttributesDialog() {
-												$("##editPartAttributesDialog").dialog("close");
-											}
-											
-											function handleCreatePartAttribute() {
-												// Validate required fields for new attribute
-												var attributeType = $("##pa_attribute_type_new").val();
-												if (!attributeType) {
-													alert("Please select an attribute type.");
-													return;
-												}
-												
-												setFeedbackControlState("pa_editStatus", "saving");
-												
-												var formData = $("##editPartAttributesForm").serialize() + "&action=createPartAttribute";
-												
-												$.ajax({
-													url: '/specimens/component/functions.cfc',
-													data: formData,
-													type: 'POST',
-													success: function(response) {
-														setFeedbackControlState("pa_editStatus", "saved");
-														// Reload the dialog to show the new attribute
-														reloadPartAttributesDialog();
-													},
-													error: function(jqXHR, textStatus, errorThrown) {
-														setFeedbackControlState("pa_editStatus", "error");
-														handleFail(jqXHR, textStatus, errorThrown, "creating part attribute");
-													}
-												});
-											}
-											
-											function handleSavePartAttributes() {
-												setFeedbackControlState("pa_editStatus", "saving");
-												
-												var formData = $("##editPartAttributesForm").serialize();
-												
-												$.ajax({
-													url: '/specimens/component/functions.cfc',
-													data: formData,
-													type: 'POST',
-													success: function(response) {
-														setFeedbackControlState("pa_editStatus", "saved");
-														closePartAttributesDialog();
-													},
-													error: function(jqXHR, textStatus, errorThrown) {
-														setFeedbackControlState("pa_editStatus", "error");
-														handleFail(jqXHR, textStatus, errorThrown, "saving part attributes");
-													}
-												});
-											}
-											
-											function reloadPartAttributesDialog() {
-												// Reload the dialog content
-												var partID = $("##editPartAttributesForm input[name='partID']").val();
-												var collectionCDE = $("##editPartAttributesForm input[name='collectionCDE']").val();
-												
-												$.ajax({
-													url: '/specimens/component/functions.cfc',
-													data: {
-														method: 'getEditPartAttributesHTML',
-														partID: partID,
-														collectionCDE: collectionCDE
-													},
-													success: function(response) {
-														$("##editPartAttributesDialog").html(response);
-													},
-													error: function(jqXHR, textStatus, errorThrown) {
-														handleFail(jqXHR, textStatus, errorThrown, "reloading part attributes");
-													}
-												});
-											}
-										</script>
-									</div>
+											<div class="col-12 col-md-2" id="units_cell_#i#">
+												#getPartAttrSelect('u', attribute_type, attribute_units, i)#
+											</div>
+											<div class="col-12 col-md-2">
+												<label for="determined_date#i#" class="data-entry-label">Date Determined</label>
+												<input type="text" class="data-entry-input" id="determined_date#i#" name="determined_date" 
+													   value="#dateformat(determined_date,'yyyy-mm-dd')#" placeholder="yyyy-mm-dd">
+											</div>
+											<div class="col-12 col-md-2">
+												<label for="determined_agent#i#" class="data-entry-label">Determined By</label>
+												<input type="text" class="data-entry-input" id="determined_agent#i#" name="determined_agent" 
+													   value="#agent_name#" placeholder="Pick agent">
+												<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id#i#" value="#determined_by_agent_id#">
+											</div>
+											<div class="col-12 col-md-9">
+												<label for="attribute_remark#i#" class="data-entry-label">Remarks (<span id="length_remark_#i#"></span>)</label>
+												<textarea id="attribute_remark#i#" name="attribute_remark" 
+													onkeyup="countCharsLeft('attribute_remark#i#', 4000, 'length_remark_#i#');"
+													class="data-entry-textarea autogrow mb-1" maxlength="4000"
+												>#attribute_remark#</textarea>
+											</div>
+											<div class="col-12 col-md-3 pt-2">
+												<button id="partAttribute_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Part Attribute">Save</button>
+												<button id="partAttribute_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Part Attribute">Delete</button>
+												<output id="partAttribute_output#i#"></output>
+											</div>
+										</div>
+									</form>
 								</div>
-							</div>
-						</div>
+
+								<script>
+									$(document).ready(function() {
+										// make determined by agent autocomplete
+										makeAgentAutocompleteMeta("determined_agent#i#", "determined_by_agent_id#i#");
+										// setup date picker
+										$("##determined_date#i#").datepicker({
+											dateFormat: "yy-mm-dd",
+											changeMonth: true,
+											changeYear: true,
+											showButtonPanel: true
+										});
+									});
+								</script>
+							</cfloop>
+							<script>
+								// Make all textareas with autogrow class be bound to the autogrow function on key up
+								$(document).ready(function() { 
+									$("textarea.autogrow").keyup(autogrow);
+									$('textarea.autogrow').keyup();
+								});
+								// Add event listeners to the buttons
+								document.querySelectorAll('button[id^="partAttribute_submit"]').forEach(function(button) {
+									button.addEventListener('click', function(event) {
+										event.preventDefault();
+										// save changes to a part attribute
+										var id = button.id.replace('partAttribute_submit', '');
+										// check form validity
+										if (!$("##editPartAttribute" + id).get(0).checkValidity()) {
+											// If the form is invalid, show validation messages
+											$("##editPartAttribute" + id).get(0).reportValidity();
+											return false; // Prevent form submission if validation fails
+										}
+										var feedbackOutput = 'partAttribute_output' + id;
+										setFeedbackControlState(feedbackOutput,"saving")
+										$.ajax({
+											url: '/specimens/component/functions.cfc',
+											type: 'POST',
+											dataType: 'json',
+											data: $("##editPartAttribute" + id).serialize(),
+											success: function(response) {
+												setFeedbackControlState(feedbackOutput,"saved");
+												reloadPartAttributes();
+											},
+											error: function(xhr, status, error) {
+												setFeedbackControlState(feedbackOutput,"error")
+												handleFail(xhr,status,error,"saving change to part attribute.");
+											}
+										});
+									});
+								});
+								document.querySelectorAll('button[id^="partAttribute_delete"]').forEach(function(button) {
+									button.addEventListener('click', function(event) {
+										event.preventDefault();
+										// delete a part attribute record
+										var id = button.id.replace('partAttribute_delete', '');
+										var feedbackOutput = 'partAttribute_output' + id;
+										confirmDialog('Remove this part attribute? This action cannot be undone.', 'Confirm Delete Part Attribute', function() {
+											setFeedbackControlState(feedbackOutput,"deleting")
+											$.ajax({
+												url: '/specimens/component/functions.cfc',
+												type: 'POST',
+												dataType: 'json',
+												data: {
+													method: 'deletePartAttribute',
+													part_attribute_id: $("##editPartAttribute" + id + " input[name='part_attribute_id']").val()
+												},
+												success: function(response) {
+													setFeedbackControlState(feedbackOutput,"deleted");
+													reloadPartAttributes();
+												},
+												error: function(xhr, status, error) {
+													setFeedbackControlState(feedbackOutput,"error")
+													handleFail(xhr,status,error,"deleting part attribute.");
+												}
+											});
+										});
+									});
+								});
+								function reloadPartAttributes() {
+									// reload the edit existing part attributes section
+									$.ajax({
+										url: '/specimens/component/functions.cfc',
+										type: 'POST',
+										dataType: 'html',
+										data: {
+											method: 'getEditExistingPartAttributesUnthreaded',
+											partID: '#arguments.partID#'
+										},
+										success: function(response) {
+											$('##editExistingPartAttributesDiv').html(response);
+										},
+										error: function(xhr, status, error) {
+											handleFail(xhr,status,error,"reloading edit existing part attributes.");
+										}
+									});
+								}
+							</script>
+						</cfif>
 					</div>
 				</div>
-			</cfoutput>
-			
+			</div>
 		<cfcatch>
-			<cfoutput>
-				<cfset function_called = "#GetFunctionCalledName()#">
-				<h3 class="mt-2 text-danger">Error in #function_called# #cfcatch.type#</h3>
-				<p>#cfcatch.message# #cfcatch.detail#</p>
-				<cfif isDefined("session.roles") and listFindNoCase(session.roles,"global_admin")>
-					<cfdump var="#cfcatch#" label="Error Details">
-				</cfif>
-			</cfoutput>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+				<cfdump var="#cfcatch#">
+			</cfif>
 		</cfcatch>
 		</cftry>
-	</cfthread>
-	<cfthread action="join" name="getEditPartAttributesThread" />
-	<cfreturn getEditPartAttributesThread.output>
+	</cfoutput>
 </cffunction>
 
-<!--- createPartAttribute 
+
+<!--- createPartAttribute
  Creates a new part attribute record
- @param partID the collection_object_id for the specimen part
- @param collectionCDE the collection code
- @param attribute_type_new the attribute type for the new attribute
- @param attribute_value_new the value for the new attribute
- @param attribute_units_new the units for the new attribute
- @param determined_date_new the date the attribute was determined
- @param determined_id_new the agent_id of who determined the attribute
- @param attribute_remark_new any remarks for the attribute
- @return JSON response with status
+ @param collection_object_id the collection_object_id for the specimen part to which the attribute applies
+ @param attribute_type the type of attribute to create
+ @param attribute_value the value of the attribute
+ @param attribute_units the units of the attribute, optional
+ @param determined_date the date the attribute was determined, optional
+ @param determined_by_agent_id the agent who determined the attribute, optional
+ @param attribute_remark any free text remarks about the attribute, optional
+ @return JSON response with status = "saved" and the new part_attribute_id, or an http 500 response if an error occurs.
 --->
 <cffunction name="createPartAttribute" access="remote" returntype="any" returnformat="json">
-	<cfargument name="partID" type="string" required="yes">
-	<cfargument name="collectionCDE" type="string" required="yes">
-	<cfargument name="attribute_type_new" type="string" required="yes">
-	<cfargument name="attribute_value_new" type="string" required="no" default="">
-	<cfargument name="attribute_units_new" type="string" required="no" default="">
-	<cfargument name="determined_date_new" type="string" required="no" default="">
-	<cfargument name="determined_id_new" type="string" required="no" default="">
-	<cfargument name="attribute_remark_new" type="string" required="no" default="">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="attribute_type" type="string" required="yes">
+	<cfargument name="attribute_value" type="string" required="yes">
+	<cfargument name="attribute_units" type="string" required="no" default="">
+	<cfargument name="determined_date" type="string" required="no" default="">
+	<cfargument name="determined_by_agent_id" type="string" required="no" default="">
+	<cfargument name="attribute_remark" type="string" required="no" default="">
 
 	<cfset var data = ArrayNew(1)>
 	
 	<cftransaction>
 		<cftry>
-			<cfquery name="insertAttr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insertResult">
+			<cfquery name="insertAttr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insertAttr_result">
 				INSERT INTO specimen_part_attribute (
 					collection_object_id,
 					attribute_type,
@@ -8685,28 +8787,30 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					determined_by_agent_id,
 					attribute_remark
 				) VALUES (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.partID#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_type_new#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_value_new#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_units_new#">,
-					<cfif len(arguments.determined_date_new)>
-						<cfqueryparam cfsqltype="CF_SQL_DATE" value="#arguments.determined_date_new#">
-					<cfelse>
-						NULL
-					</cfif>,
-					<cfif len(arguments.determined_id_new)>
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.determined_id_new#">
-					<cfelse>
-						NULL
-					</cfif>,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_remark_new#">
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_value#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_units#" null="#len(arguments.attribute_units) EQ 0#">,
+					<cfqueryparam cfsqltype="CF_SQL_DATE" value="#arguments.determined_date#" null="#len(arguments.determined_date) EQ 0#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.determined_by_agent_id#" null="#len(arguments.determined_by_agent_id) EQ 0#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_remark#" null="#len(arguments.attribute_remark) EQ 0#">
 				)
 			</cfquery>
+			<!--- obtain the primary key value part_attribute_id of the newly created record using returned rowid --->
+			<cfquery name="getNewPartAttributeID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getNewPartAttributeID_result">
+				SELECT part_attribute_id 
+				FROM specimen_part_attribute 
+				WHERE
+					ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insertAttr_result.GENERATEDKEY#">
+			</cfquery>
+			<cfif getNewPartAttributeID_result.recordcount NEQ 1>
+				<cfthrow message="Error retrieving new part attribute ID. Expected one row, but got #getNewPartAttributeID_result.recordcount#">
+			</cfif>
 			
 			<cftransaction action="commit">
 			<cfset row = StructNew()>
-			<cfset row["status"] = "created">
-			<cfset row["id"] = "#arguments.partID#">
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#getNewPartAttributeID.part_attribute_id#">
 			<cfset data[1] = row>
 			
 		<cfcatch>
@@ -8722,80 +8826,49 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-<!--- savePartAttributes 
- Saves changes to part attribute records
- @param partID the collection_object_id for the specimen part
- @param collectionCDE the collection code
- @param patidlist comma-separated list of part_attribute_ids being edited
- @return JSON response with status
+<!--- updatePartAttribute Updates an existing part attribute record
+ @param part_attribute_id the primary key of the specimen_part_attribute to update
+ @param attribute_type the new type of attribute to update
+ @param attribute_value the new value of the attribute to update
+ @param attribute_units the new units of the attribute, optional
+ @param determined_date the new date the attribute was determined, optional
+ @param determined_by_agent_id the new agent who determined the attribute, optional
+ @param attribute_remark any new free text remarks about the attribute, optional
+ @return JSON response with status = "saved" or an http 500 response if an error occurs.
 --->
-<cffunction name="savePartAttributes" access="remote" returntype="any" returnformat="json">
-	<cfargument name="partID" type="string" required="yes">
-	<cfargument name="collectionCDE" type="string" required="yes">
-	<cfargument name="patidlist" type="string" required="yes">
+<cffunction name="updatePartAttribute" access="remote" returntype="any" returnformat="json">
+	<cfargument name="part_attribute_id" type="string" required="yes">
+	<cfargument name="attribute_type" type="string" required="yes">
+	<cfargument name="attribute_value" type="string" required="yes">
+	<cfargument name="attribute_units" type="string" required="no" default="">
+	<cfargument name="determined_date" type="string" required="no" default="">
+	<cfargument name="determined_by_agent_id" type="string" required="no" default="">
+	<cfargument name="attribute_remark" type="string" required="no" default="">
 
 	<cfset var data = ArrayNew(1)>
 	
 	<cftransaction>
 		<cftry>
-			<cfloop from="1" to="#listlen(arguments.patidlist)#" index="i">
-				<cfset thisPartAtId = listgetat(arguments.patidlist, i)>
-				
-				<!--- Check if this attribute should be deleted --->
-				<cfset thisDeleteFlag = "">
-				<cftry>
-					<cfset thisDeleteFlag = evaluate("arguments.delete_" & thisPartAtId)>
-				<cfcatch>
-					<cfset thisDeleteFlag = "">
-				</cfcatch>
-				</cftry>
-				
-				<cfif thisDeleteFlag EQ 1>
-					<cfquery name="deleteAttr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						DELETE FROM specimen_part_attribute 
-						WHERE part_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartAtId#">
-					</cfquery>
-				<cfelse>
-					<!--- Update the attribute --->
-					<cfset thisAttributeUnits = "">
-					<cftry>
-						<cfset thisAttributeUnits = evaluate("arguments.attribute_units_" & thisPartAtId)>
-					<cfcatch>
-						<cfset thisAttributeUnits = "">
-					</cfcatch>
-					</cftry>
-					
-					<cfset thisAttributeRemark = evaluate("arguments.attribute_remark_" & thisPartAtId)>
-					<cfset thisAttributeValue = evaluate("arguments.attribute_value_" & thisPartAtId)>
-					<cfset thisDeterminerId = evaluate("arguments.determined_by_agent_id_" & thisPartAtId)>
-					<cfset thisDate = evaluate("arguments.determined_date_" & thisPartAtId)>
-					
-					<cfquery name="updateAttr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE specimen_part_attribute 
-						SET
-							attribute_units = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttributeUnits#">,
-							attribute_remark = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttributeRemark#">,
-							attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttributeValue#">,
-							<cfif len(thisDeterminerId)>
-								determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisDeterminerId#">,
-							<cfelse>
-								determined_by_agent_id = NULL,
-							</cfif>
-							<cfif len(thisDate)>
-								determined_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#thisDate#">
-							<cfelse>
-								determined_date = NULL
-							</cfif>
-						WHERE 
-							part_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartAtId#">
-					</cfquery>
-				</cfif>
-			</cfloop>
+			<cfquery name="updateAttr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAttr_result">
+				UPDATE specimen_part_attribute 
+				SET
+					attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_type#">,
+					attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_value#">,
+					attribute_units = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_units#" null="#len(arguments.attribute_units) EQ 0#">,
+					determined_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#arguments.determined_date#" null="#len(arguments.determined_date) EQ 0#">,
+					determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.determined_by_agent_id#" null="#len(arguments.determined_by_agent_id) EQ 0#">,
+					attribute_remark = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_remark#" null="#len(arguments.attribute_remark) EQ 0#">
+				WHERE 
+					part_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_attribute_id#">
+			</cfquery>
+			<cfif updateAttr_result.recordcount NEQ 1>
+				<cfthrow message="Error updating part attribute. Expected one row affected, but got #updateAttr_result.recordcount# with part_attribute_id #encodeForHtml(arguments.part_attribute_id)#">
+			</cfif>
 			
 			<cftransaction action="commit">
 			<cfset row = StructNew()>
 			<cfset row["status"] = "saved">
-			<cfset row["id"] = "#arguments.partID#">
+			<cfset row["id"] = "#arguments.part_attribute_id#">
 			<cfset data[1] = row>
 			
 		<cfcatch>
@@ -8811,6 +8884,42 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- deletePartAttribute Deletes a part attribute record
+ @param part_attribute_id the part_attribute_id to delete
+ @return JSON response with status = "deleted" or an http 500 response if an error occurs.
+--->
+<cffunction name="deletePartAttribute" access="remote" returntype="any" returnformat="json">
+	<cfargument name="part_attribute_id" type="string" required="yes">
+
+	<cfset var data = ArrayNew(1)>
+	
+	<cftransaction>
+		<cftry>
+			<cfquery name="deleteAttr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteAttr_result">
+				DELETE FROM specimen_part_attribute 
+				WHERE part_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_attribute_id#">
+			</cfquery>
+			<cfif deleteAttr_result.recordcount NEQ 1>
+				<cfthrow message="Error deleting part attribute. Expected one row affected, but got #deleteAttr_result.recordcount# with part_attribute_id #encodeForHtml(arguments.part_attribute_id)#">
+			</cfif>
+			
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "deleted">
+			<cfset row["id"] = "#arguments.part_attribute_id#">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 
 
 <!--- getPartAttrSelect 
