@@ -412,7 +412,7 @@ $('#show-wiki').on('click', function(e) {
 		},
 		dataType: 'json',
 		success: function(resp) {
-			$('#wiki-content').html(response);
+			$('#wiki-content').html(html);
 			//var html = (resp.parse && resp.parse.text && (resp.parse.text["*"] || resp.parse.text)) || "";
 //			$('#wiki-content').html(html || "<div>Section not found.</div>");
 //			$('#wiki-content').find('.mw-editsection').remove();
