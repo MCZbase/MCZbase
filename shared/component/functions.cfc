@@ -1709,7 +1709,7 @@ limitations under the License.
 			and (structKeyExists(parsed.parse.text, "*") ? parsed.parse.text["*"] : parsed.parse.text))>
 			<!--- Remove edit links and fix imgs server-side --->
 		<cfif html neq "">
-		<!-- Remove the entire editsection span (with brackets, edit link, etc.) -->
+			<!-- Remove the entire editsection span (with brackets, edit link, etc.) -->
 			<cfset html = rereplacenocase(html, '(?s)<span class="mw-editsection".*?</span>', '', "all")>
 			<!-- (Extra defense) Remove edit section brackets if they ever fall outside the main span -->
 			<cfset html = rereplacenocase(html, '<span class="mw-editsection-bracket">\[</span>', '', "all")>
