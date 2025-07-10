@@ -8960,15 +8960,27 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					</cfif>
 				</cfloop>
 				<cfsavecontent variable="rv">
-					<select name="attribute_value_#arguments.paid#" class="data-entry-select">
-						<cfloop query="r">
-							<option value="#r.d#" <cfif arguments.val EQ r.d>selected</cfif>>#r.d#</option>
-						</cfloop>
-					</select>
+					<cfoutput>
+						<label for="attribute_value_#arguments.paid#" class="data-entry-label">Value</label>
+						<select name="attribute_value" id="attribute_value_#arguments.paid#" class="data-entry-select reqdClr" required>
+							<option value=""></option>
+							<cfloop query="r">
+								<cfif arguments.val EQ r.d>
+									<cfset selected = "selected">
+								<cfelse>
+									<cfset selected = "">
+								</cfif>
+								<option value="#r.d#" #selected#>#r.d#</option>
+							</cfloop>
+						</select>
+					</cfoutput>
 				</cfsavecontent>
 			<cfelse>
 				<cfsavecontent variable="rv">
-					<input type="text" name="attribute_value_#arguments.paid#" value="#arguments.val#" class="data-entry-input">
+					<cfoutput>
+						<label for="attribute_value_#arguments.paid#" class="data-entry-label">Value</label>
+						<input type="text" name="attribute_value" id="attribute_value_#arguments.paid#" value="#arguments.val#" class="data-entry-input reqdClr" required>
+					</cfoutput>
 				</cfsavecontent>
 			</cfif>
 		<cfelseif arguments.u_or_v EQ "u">
@@ -8984,11 +8996,27 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					</cfif>
 				</cfloop>
 				<cfsavecontent variable="rv">
-					<select name="attribute_units_#arguments.paid#" class="data-entry-select">
-						<cfloop query="r">
-							<option value="#r.d#" <cfif arguments.val EQ r.d>selected</cfif>>#r.d#</option>
-						</cfloop>
-					</select>
+					<cfoutput>
+						<label for="attribute_units_#arguments.paid#" class="data-entry-label">Units</label>
+						<select name="attribute_units" id="attribute_units_#arguments.paid#" class="data-entry-select">
+							<option value=""></option>
+							<cfloop query="r">
+								<cfif arguments.val EQ r.d>
+									<cfset selected = "selected">
+								<cfelse>
+									<cfset selected = "">
+								</cfif>
+								<option value="#r.d#" #selected#>#r.d#</option>
+							</cfloop>
+						</select>
+					</cfoutput>
+				</cfsavecontent>
+			<cfelse>
+				<cfsavecontent variable="rv">
+					<cfoutput>
+						<label for="attribute_units_#arguments.paid#" class="data-entry-label">Units</label>
+						<input type="text" name="attribute_units" id="attribute_units_#arguments.paid#" value="#arguments.val#" class="data-entry-input">
+					</cfoutput>
 				</cfsavecontent>
 			</cfif>
 		</cfif>
