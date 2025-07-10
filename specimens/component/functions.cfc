@@ -8656,7 +8656,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 													class="data-entry-textarea autogrow mb-1" maxlength="4000"
 												>#attribute_remark#</textarea>
 											</div>
-											<div class="col-12 col-md-3 pt-2">
+											<div class="col-12 col-md-3 pt-3">
 												<button id="partAttribute_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Part Attribute">Save</button>
 												<button id="partAttribute_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Part Attribute">Delete</button>
 												<output id="partAttribute_output#i#"></output>
