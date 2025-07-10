@@ -498,108 +498,113 @@ limitations under the License.
 					<strong>CONDITIONS</strong>
 				</div>
 				<div style="text-align: left;#font# font-size: x-small;">
-					<strong>1. TRANSPORTATION<strong>
-					<p>The Museum of Comparative Zoology will determine the appropriate means of transportation of the loan material and will approve in writing all
-						transportation arrangements. The Borrowing Institution agrees to cover all shipping costs, including courier fee, courier travel, and courier per diem to
-						and from the Museum of Comparative Zoology.
+					<strong>1. USE</strong>
+					<p>Specimens are loaned to bona fide institutions for non-commercial use (e.g., education, exhibition). 
+						Loans may not be transferred to other institutions without express written permission. 
 					</p>
-					<strong>2. PACKING</strong>
-					<p>The Museum of Comparative Zoology will determine the appropriate means of packing the loan material and will approve in writing all crating and
-						packing arrangements. The Borrowing Institution agrees to cover all crating and packing costs.
+					<strong>2. TRANSPORTATION</strong>
+					<p>The Museum of Comparative Zoology (MCZ) will determine the appropriate means 
+						of transportation of the loan material and will approve in writing all
+						transportation arrangements. The Borrowing Institution agrees to cover 
+						all shipping costs, including courier fee, courier travel, and courier per diem to
+						and from the MCZ.
 					</p>
-					<strong>3. INSURANCE</strong>
+					<strong>3. PACKING</strong>
+					<p>The MCZ will determine the appropriate means of packing the loan material 
+						and will approve in writing all crating and packing arrangements. The Borrowing 
+						Institution agrees to cover all crating and packing costs.
+					</p>
+					<strong>4. INSURANCE</strong>
 					<p>If insurance is arranged by the Borrowing Institution, coverage will be under
 						an All Risk fine arts "wall to wall" policy from the time that the loan object(s)
-						leaves the Museum of Comparative Zoology, until the object(s) is returned
-						to the Museum of Comparative Zoology and the final condition reports are
+						leaves the MCZ, until the object(s) is returned to the MCZ and the final condition reports are
 						completed. Coverage will include all risk of physical damage or loss
 						including, but not limited to, loss or damage from earthquakes, floods,
 						strikes, riots, or civil commotion. The loan object(s) will be insured at the
-						value(s) assigned by the Museum of Comparative Zoology in 
-						this agreement. The Borrowing Institution&##39;s policy will name "President
-						and Fellows of Harvard College" as additional insured and will waive
+						value(s) assigned by the MCZ in this agreement. The Borrowing Institution&##39;s policy 
+						will name "President and Fellows of Harvard College" as additional insured and will waive
 						subrogation rights against Harvard University. A Certificate of Insurance
-						evidencing such coverage must be delivered to the Museum of
-						Comparative Zoology before shipment to the Borrowing Institution occurs.
-						The Borrowing Institution agrees to cover any deductible under its policy. If
-						the Museum of Comparative Zoology carries insurance under its policy, the
+						evidencing such coverage must be delivered to the MCZ before shipment to the 
+						Borrowing Institution occurs.  The Borrowing Institution agrees to cover any 
+						deductible under its policy. If the MCZ carries insurance under its policy, the
 						Borrowing Institution will be responsible for the cost of the premium while
 						the loan object(s) is in transit and on location.
 					</p>
-					<strong> 4. WITHDRAWAL OF OBJECTS </strong>
-					<p>The Museum of Comparative Zoology reserves the right to withdraw any
+					<strong>5. LOAN RETURN, WITHDRAWAL OF OBJECTS </strong>
+					<p>Specimens must be returned by the date stated on the invoice unless a loan renewal 
+						is granted in writing. Loans are granted for a period of up to one year and 
+						may be renewed up to four times in one-year increments. Loans that have been 
+						open for five years must be returned to the MCZ. A new loan request can then 
+						be submitted for consideration.  The MCZ reserves the right to withdraw any
 						items whose condition has deteriorated or may deteriorate due to continued
 						travel, or whose security appears to be threatened, or when other urgent
 						reasons necessitate withdrawal.
 					</p>
-					<strong> 5. PROCEDURE IN EVENT OF MISHAP </strong>
+					<strong>6. PROCEDURE IN EVENT OF MISHAP </strong>
 					<p>In the event that a loan item is damaged, destroyed, lost or stolen, the
-						Borrowing Institution shall give the Departmental contact at the Museum of
-						Comparative Zoology immediate telephone notice, followed by written
+						Borrowing Institution shall give the Departmental contact at the MCZ 
+						immediate telephone notice, followed by written
 						confirmation. The report of damage or loss should provide a description of
 						the extent and circumstances surrounding the mishap. No repairs or other
 						actions may be taken on the object(s) by the Borrowing Institution without
-						instruction in writing from the Museum of Comparative Zoology.
+						instruction in writing from the MCZ.
 					</p>
-					<strong> 6. PUBLICITY AND CREDITS </strong>
-					<p>
-						The credit line as shown on the first page of this form will be used in all printed
+					<strong>7. PUBLICITY AND CREDITS </strong>
+					<p>The credit line as shown on the first page of this form will be used in all printed
 						material (including web) related to the loan object(s). Loans for exhibition
 						require that one copy of any catalog or publicity material be sent directly to
-						the Departmental contact at the Museum of Comparative Zoology.
+						the Departmental contact at the MCZ.
 					</p>
-					<strong> 7. PHOTOGRAPHY </strong>
-					<p> All photographs of Museum of Comparative Zoology items to be used in
+					<strong>8. PHOTOGRAPHY </strong>
+					<p>All photographs of MCZ items to be used in
 						exhibition catalog, brochures, publicity releases, and the like, either will be
-						taken by the Museum of Comparative Zoology or, if taken by another
-						photographer, must be approved in writing by the Museum. Copyright to
-						any photograph of Museum of Comparative Zoology object(s), regardless of
+						taken by the MCZ or, if taken by another photographer, must be approved in writing 
+						by the MCZ. Copyright to any photograph of MCZ object(s), regardless of
 						the photographer and the intended use, is retained by the President and
 						Fellows of Harvard College, and a copy of any photograph must be sent
-						directly to the MCZ Departmental contact if not taken by the Museum of
-						Comparative Zoology. Use of the photograph in any publication (including
-						web) requires prior permission by the Museum of Comparative Zoology. All
+						directly to the MCZ Departmental contact if not taken by the MCZ. Use of the 
+						photograph in any publication (including web) requires prior permission by the MCZ. All
 						permissions are for one time only.
 					</p>
-					<strong> 8. GENERAL CARE AND HANDLING </strong>
-					<p> The Borrowing Institution will exercise the same care and handling to the
+					<strong>9. GENERAL CARE AND HANDLING </strong>
+					<p>Borrowing institutions must demonstrate the ability to properly unpack, 
+						care for, use, and return the specimens according to best practices. 
+						The Borrowing Institution will exercise the same care and handling of the
 						loan item(s) as it does in the safekeeping of comparable property of its own.
 						Each object shall remain in the same condition in which it was received.
 						The Borrowing Institution agrees to follow all special handling, installation,
 						and packing instructions provided on the first page of this document, and
 						detailed in the correspondence and the Departmental Loan document from
-						the Museum of Comparative Zoology to the Borrowing Institution.
-						Upon arrival, all travel containers must be equilibrated to the environment
-						for 24-48 hours before unpacked.
+						the MCZ to the Borrowing Institution.  Upon arrival, all travel containers 
+						must be equilibrated to the environment for 24-48 hours before unpacked.
 						No restoration, repair, cleaning, or fumigation of loan objects may be
-						performed by the borrower without instruction in writing from the Museum of
-						Comparative Zoology. Other organic objects stored or exhibited with those
-						from the Museum of Comparative Zoology must be free of infestation.
+						performed by the borrower without instruction in writing from the MCZ. 
+						Other organic objects stored or exhibited with those from the MCZ must 
+						be free of infestation.
 					</p>
-					<strong> 9. CONDITION REPORT </strong>
-					<p> The Museum of Comparative Zoology will provide a detailed condition
+					<strong>10. CONDITION REPORT </strong>
+					<p>The MCZ will provide a detailed condition
 						report of the loan item(s). The Borrowing Institution will review this condition
 						report against the loan item(s) at the time of its arrival and departure.
 					</p>
-					<strong> 10. EXHIBITION DESIGN AND INSTALLATION </strong>
-					<p> The Borrowing Institution agrees to comply with all requirements detailed on
+					<strong>11. EXHIBITION DESIGN AND INSTALLATION </strong>
+					<p>The Borrowing Institution agrees to comply with all requirements detailed on
 						the first page of this document, as well as those described in correspondence
-						and the Departmental Loan document from the Museum of Comparative
-						Zoology to the Borrowing Institution.
+						and the Departmental Loan document from the MCZ to the Borrowing Institution.
 						Mounting fixtures must be padded at contact points with the loan item(s).
 					</p>
-					<strong> 11. LOAN FEES </strong>
-					<p> The Borrowing Institution agrees to pay administrative loan fees,
+					<strong>12. LOAN FEES </strong>
+					<p>The Borrowing Institution agrees to pay administrative loan fees,
 						conservation, mount fabrication costs, courier fee, courier travel, and
 						courier per diem as detailed in correspondence and the Departmental Loan
-						document from the Museum of Comparative Zoology to the Borrowing
+						document from the MCZ to the Borrowing
 						Institution.
 					</p>
-					<strong> 12. GOVERNING LAW </strong>
-					<p> 
-						This agreement shall be governed by and construed in accordance with the laws of the Commonwealth of Massachusetts.
+					<strong>13. GOVERNING LAW </strong>
+					<p>This agreement shall be governed by and construed in accordance with the laws 
+						of the Commonwealth of Massachusetts.
 					</p>
-					<strong>13. NON-ASSIGNABILITY AND BINDING EFFECT</strong>
+					<strong>14. NON-ASSIGNABILITY AND BINDING EFFECT</strong>
 					<p>Neither party&##39;s rights nor obligation hereunder may be assigned except with
 						the other&##39;s written consent. Subject to the foregoing, this agreement shall
 						be binding on and inure to the benefit of the parties and their successors
