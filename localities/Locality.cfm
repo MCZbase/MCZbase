@@ -686,17 +686,17 @@ limitations under the License.
 	</cfcase>
 </cfswitch>
 
-
 <script>
 $('#show-wiki').on('click', function(e) {
 	e.preventDefault();
+
 	$('#wiki-content').html('Loading...');
 
 	$.ajax({
 		url: '/shared/component/functions.cfc?method=getWikiSection&returnFormat=json',
 		data: {
-		page: "Higher_Geography",
-		section: 3
+		page: "Locality",
+		section: 1
 		},
 		dataType: 'json',
 		success: function(response) {

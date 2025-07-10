@@ -1710,7 +1710,7 @@ limitations under the License.
 			<!--- Remove edit links and fix imgs server-side --->
 		<cfif html neq "">
 		<!-- Remove `.mw-editsection` blocks -->
-		<cfset html = rereplacenocase(html, "<span class=""mw-editsection""[^>]*>.*?</span>", "", "all")>
+		<cfset html = rereplacenocase(html, "(?s)<span class=""mw-editsection""[^>]*>.*?</span>", "", "all")>
 		<!-- Replace all image src/href/srcset with absolute urls as needed (add more regex as desired) -->
 		<cfset html = rereplacenocase(html, '(<img[^>]+src=")(/wiki/)', '\1https://code.mcz.harvard.edu/wiki/', "all")>
 		<cfset html = rereplacenocase(html, '(<a[^>]+href=")(/wiki/)', '\1https://code.mcz.harvard.edu/wiki/', "all")>

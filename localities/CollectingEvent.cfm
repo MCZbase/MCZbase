@@ -702,6 +702,7 @@ limitations under the License.
 		<cflocation addtoken="no" url="/localities/CollectingEvent.cfm?collecting_event_id=#encodeForUrl(nextColl.nextColl)#">
 	</cfcase>
 </cfswitch>
+
 <script>
 	var wikiLoaded = false;
 	$('#wikiAccordionBody').on('show.bs.collapse', function () {
@@ -729,7 +730,5 @@ limitations under the License.
 	$('#wikiDrawer').addClass('open');
 	$('#content').addClass('pushed');
 });
-
-
 </script>
 <cfinclude template = "/shared/_footer.cfm">
