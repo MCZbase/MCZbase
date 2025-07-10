@@ -412,30 +412,31 @@ $('#show-wiki').on('click', function(e) {
 		},
 		dataType: 'json',
 		success: function(resp) {
-			var html = (resp.parse && resp.parse.text && (resp.parse.text["*"] || resp.parse.text)) || "";
-			$('#wiki-content').html(html || "<div>Section not found.</div>");
-			$('#wiki-content').find('.mw-editsection').remove();
-			// image processing
-			$('#wiki-content').find('a.image').each(function() {
-				var $a = $(this);
-				var $img = $a.find('img');
-				var href = $a.attr('href');
-				var src = $img.attr('src');
-				if (href && href.indexOf('http') !== 0) {
-					href = 'https://code.mcz.harvard.edu' + href;
-					$a.attr('href', href);
-				}
-				$a.attr('target', '_blank');
-				if (src && src.indexOf('http') !== 0) {
-					src = 'https://code.mcz.harvard.edu' + src;
-					$img.attr('src', src);
-				}
-				var srcset = $img.attr('srcset');
-				if (srcset) {
-					$img.attr('srcset', srcset.replace(/(\/wiki\/images\/[^\s]*)/g, "https://code.mcz.harvard.edu$1"));
-				}
-				$img.removeAttr('width').removeAttr('height');
-			});
+			$('#wiki-content').html(response);
+			//var html = (resp.parse && resp.parse.text && (resp.parse.text["*"] || resp.parse.text)) || "";
+//			$('#wiki-content').html(html || "<div>Section not found.</div>");
+//			$('#wiki-content').find('.mw-editsection').remove();
+//			// image processing
+//			$('#wiki-content').find('a.image').each(function() {
+//				var $a = $(this);
+//				var $img = $a.find('img');
+//				var href = $a.attr('href');
+//				var src = $img.attr('src');
+//				if (href && href.indexOf('http') !== 0) {
+//					href = 'https://code.mcz.harvard.edu' + href;
+//					$a.attr('href', href);
+//				}
+//				$a.attr('target', '_blank');
+//				if (src && src.indexOf('http') !== 0) {
+//					src = 'https://code.mcz.harvard.edu' + src;
+//					$img.attr('src', src);
+//				}
+//				var srcset = $img.attr('srcset');
+//				if (srcset) {
+//					$img.attr('srcset', srcset.replace(/(\/wiki\/images\/[^\s]*)/g, "https://code.mcz.harvard.edu$1"));
+//				}
+//				$img.removeAttr('width').removeAttr('height');
+//			});
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			$('#wiki-content').html('<div class="alert alert-danger">AJAX error: '+textStatus+'<br>'+errorThrown+'</div>');
