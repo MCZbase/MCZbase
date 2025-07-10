@@ -821,14 +821,11 @@ function editPartAttributes(part_collection_object_id,callback) {
  * @param partID the ID of the part to which the attribute belongs
  */
 function handlePartAttributeTypeChange(suffix, partID) {
-    var selectedType = $('#attribute_type' + (suffix ? suffix : '')).val();
-    var valueFieldId = 'attribute_value' + (suffix ? suffix : '');
-    var unitsFieldId = 'attribute_units' + (suffix ? suffix : '');
-    var valueCellId = suffix ? 'value_cell_' + suffix : null;
-    var unitsCellId = suffix ? 'units_cell_' + suffix : null;
+    var selectedType = $('#attribute_type' + suffix).val();
+    var valueFieldId = 'attribute_value' + suffix;
+    var unitsFieldId = 'attribute_units' + suffix;
     
     // lookup value code table and units code table from ctspec_part_att_att
-    // set select lists for value and units accordingly, or set as text input
     $.ajax({
         url: '/specimens/component/functions.cfc',
         type: 'POST',
@@ -843,12 +840,7 @@ function handlePartAttributeTypeChange(suffix, partID) {
             
             // Handle value field
             if (response[0].value_code_table) {
-                $('#' + valueFieldId).prop('disabled', false);
-                
-                // Get current value to preserve it
-                var currentValue = $('#' + valueFieldId).val();
-                
-                // Create select element
+                // Create select element with label
                 var selectHtml = '<label for="' + valueFieldId + '" class="data-entry-label">Value</label>' +
                                '<select id="' + valueFieldId + '" name="attribute_value" class="data-entry-select reqdClr" required>' +
                                '<option value=""></option>';
@@ -856,75 +848,43 @@ function handlePartAttributeTypeChange(suffix, partID) {
                 // Add options from response
                 var values = response[0].value_values.split('|');
                 $.each(values, function(index, value) {
-                    var selected = (value === currentValue) ? ' selected' : '';
-                    selectHtml += '<option value="' + value + '"' + selected + '>' + value + '</option>';
+                    selectHtml += '<option value="' + value + '">' + value + '</option>';
                 });
                 selectHtml += '</select>';
                 
-                // Replace the field
-                if (valueCellId) {
-                    $('#' + valueCellId).html(selectHtml);
-                } else {
-                    $('#' + valueFieldId).replaceWith(selectHtml.replace(/.*<select/, '<select').replace(/<\/select>.*/, '</select>'));
-                }
+                // Replace the entire parent element content
+                $('#' + valueFieldId).parent().html(selectHtml);
             } else {
-                // Get current value to preserve it
-                var currentValue = $('#' + valueFieldId).val();
-                
-                // Create text input
+                // Create text input with label
                 var inputHtml = '<label for="' + valueFieldId + '" class="data-entry-label">Value</label>' +
-                              '<input type="text" class="data-entry-input reqdClr" id="' + valueFieldId + '" name="attribute_value" value="' + currentValue + '" required>';
+                              '<input type="text" class="data-entry-input reqdClr" id="' + valueFieldId + '" name="attribute_value" value="" required>';
                 
-                // Replace the field
-                if (valueCellId) {
-                    $('#' + valueCellId).html(inputHtml);
-                } else {
-                    $('#' + valueFieldId).replaceWith(inputHtml.replace(/.*<input/, '<input').replace(/>.*/, '>'));
-                }
-                $('#' + valueFieldId).prop('disabled', false);
+                // Replace the entire parent element content
+                $('#' + valueFieldId).parent().html(inputHtml);
             }
             
             // Handle units field
             if (response[0].units_code_table) {
-                $('#' + unitsFieldId).prop('disabled', false);
-                
-                // Get current value to preserve it
-                var currentUnits = $('#' + unitsFieldId).val();
-                
-                // Create select element
+                // Create select element with label
                 var selectHtml = '<label for="' + unitsFieldId + '" class="data-entry-label">Units</label>' +
                                '<select id="' + unitsFieldId + '" name="attribute_units" class="data-entry-select">' +
                                '<option value=""></option>';
                 
                 // Add options from response
                 $.each(response[0].units_values.split('|'), function(index, value) {
-                    var selected = (value === currentUnits) ? ' selected' : '';
-                    selectHtml += '<option value="' + value + '"' + selected + '>' + value + '</option>';
+                    selectHtml += '<option value="' + value + '">' + value + '</option>';
                 });
                 selectHtml += '</select>';
                 
-                // Replace the field
-                if (unitsCellId) {
-                    $('#' + unitsCellId).html(selectHtml);
-                } else {
-                    $('#' + unitsFieldId).replaceWith(selectHtml.replace(/.*<select/, '<select').replace(/<\/select>.*/, '</select>'));
-                }
+                // Replace the entire parent element content
+                $('#' + unitsFieldId).parent().html(selectHtml);
             } else {
-                // Get current value to preserve it
-                var currentUnits = $('#' + unitsFieldId).val();
-                
-                // Create text input (but keep it disabled for units when no code table)
+                // Create text input with label (disabled for units when no code table)
                 var inputHtml = '<label for="' + unitsFieldId + '" class="data-entry-label">Units</label>' +
-                              '<input type="text" class="data-entry-input" id="' + unitsFieldId + '" name="attribute_units" value="' + currentUnits + '">';
+                              '<input type="text" class="data-entry-input" id="' + unitsFieldId + '" name="attribute_units" value="" disabled>';
                 
-                // Replace the field
-                if (unitsCellId) {
-                    $('#' + unitsCellId).html(inputHtml);
-                } else {
-                    $('#' + unitsFieldId).replaceWith(inputHtml.replace(/.*<input/, '<input').replace(/>.*/, '>'));
-                }
-                $('#' + unitsFieldId).prop('disabled', true);
-                $('#' + unitsFieldId).removeClass('reqdClr');
+                // Replace the entire parent element content
+                $('#' + unitsFieldId).parent().html(inputHtml);
             }
         },
         error: function(xhr, status, error) {
