@@ -8618,8 +8618,8 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											<input type="hidden" name="part_attribute_id" value="#part_attribute_id#">
 											<input type="hidden" name="method" value="updatePartAttribute">
 											<div class="col-12 col-md-3">
-												<label for="attribute_type#i#" class="data-entry-label">Attribute Type</label>
-												<select name="attribute_type" id="attribute_type#i#" class="data-entry-select reqdClr" required
+												<label for="attribute_type_#i#" class="data-entry-label">Attribute Type</label>
+												<select name="attribute_type" id="attribute_type_#i#" class="data-entry-select reqdClr" required
 														onchange="handlePartAttributeTypeChange('_#i#', '#arguments.partID#')">
 													<option value=""></option>
 													<cfloop query="ctspecpart_attribute_type">
