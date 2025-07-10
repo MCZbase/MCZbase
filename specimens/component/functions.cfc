@@ -8607,7 +8607,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					<h1 class="h3">Edit Existing Part Attributes</h1>
 					<div class="col-12 px-0 pb-3">
 						<cfif getPartAttributes.recordCount EQ 0>
-							<p>No part attributes found</p>
+							<p>None</p>
 						<cfelse>
 							<cfset var i = 0>
 							<cfloop query="getPartAttributes">
