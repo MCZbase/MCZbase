@@ -1704,8 +1704,23 @@ limitations under the License.
 		url="https://code.mcz.harvard.edu/wiki/api.php?action=parse&page=#encodeForURL(arguments.page)#&section=#encodeForURL(arguments.section)#&prop=text&format=json" 
 		method="get" 
 		result="api">
-	<cfset content = api.fileContent>
-	<cfreturn content>
+		<cfset parsed = deserializeJson(api.fileContent)>
+		<cfset html = (structKeyExists(parsed, "parse") and structKeyExists(parsed.parse, "text") 
+			and (structKeyExists(parsed.parse.text, "*") ? parsed.parse.text["*"] : parsed.parse.text))>
+			<!--- Remove edit links and fix imgs server-side --->
+		<cfif html neq "">
+		<!-- Remove `.mw-editsection` blocks -->
+		<cfset html = rereplacenocase(html, "<span class=""mw-editsection""[^>]*>.*?</span>", "", "all")>
+		<!-- Replace all image src/href/srcset with absolute urls as needed (add more regex as desired) -->
+		<cfset html = rereplacenocase(html, '(<img[^>]+src=")(/wiki/)', '\1https://code.mcz.harvard.edu/wiki/', "all")>
+		<cfset html = rereplacenocase(html, '(<a[^>]+href=")(/wiki/)', '\1https://code.mcz.harvard.edu/wiki/', "all")>
+		<!-- Remove any width/height attributes on img tags -->
+		<cfset html = rereplacenocase(html, '\s+(width|height)="[0-9]+', '', "all")>
+	</cfif>
+	<cfset result = html>
+	<cfset response = { 'result' = result } >
+	<cfheader name="Content-Type" value="application/json">
+	<cfreturn serializeJson(response)>
 </cffunction>
 		
 		
