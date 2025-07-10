@@ -8609,11 +8609,9 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												</select>
 											</div>
 											<div class="col-12 col-md-3" id="value_cell_#i#">
-												<label class="data-entry-label">Value</label>
 												#getPartAttrSelect('v', attribute_type, attribute_value, i)#
 											</div>
 											<div class="col-12 col-md-2" id="units_cell_#i#">
-												<label class="data-entry-label">Units</label>
 												#getPartAttrSelect('u', attribute_type, attribute_units, i)#
 											</div>
 											<div class="col-12 col-md-2">
