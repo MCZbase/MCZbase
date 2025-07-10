@@ -1709,15 +1709,16 @@ limitations under the License.
 			and (structKeyExists(parsed.parse.text, "*") ? parsed.parse.text["*"] : parsed.parse.text))>
 			<!--- Remove edit links and fix imgs server-side --->
 		<cfif html neq "">
-		<!-- Remove `.mw-editsection` blocks -->
-		<!-- Remove the entire editsection spans -->
+		<!-- Remove the entire editsection span (with brackets, edit link, etc.) -->
 		<cfset html = rereplacenocase(html, '(?s)<span class="mw-editsection".*?</span>', '', "all")>
-		<!-- Remove editsection-bracket spans (both brackets) -->
+		<!-- (Extra defense) Remove edit section brackets if they ever fall outside the main span -->
 		<cfset html = rereplacenocase(html, '<span class="mw-editsection-bracket">\[</span>', '', "all")>
 		<cfset html = rereplacenocase(html, '<span class="mw-editsection-bracket">\]</span>', '', "all")>
-		<!-- Remove any leftover edit] text -->
+		<!-- Remove any <a ...>edit</a> hyperlink, anywhere -->
+		<cfset html = rereplacenocase(html, '(?i)<a\b[^>]*>\s*edit\s*</a>', '', "all")>
+		<!-- Remove literal "edit]" just in case -->
 		<cfset html = rereplacenocase(html, 'edit\]', '', "all")>
-		<!-- Remove lone bracket, if present after text -->
+		<!-- (optional) Remove any lone closing bracket after word (paranoid bulletproofing) -->
 		<cfset html = rereplacenocase(html, '([\w\s])\](?=\s|<)', '\1', "all")>
 			
 		<!-- Replace all image src/href/srcset with absolute urls as needed (add more regex as desired) -->
