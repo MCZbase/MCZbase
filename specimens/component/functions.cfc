@@ -5676,7 +5676,7 @@ limitations under the License.
 													<label for="attribute_remark" class="data-entry-label">Remarks</label>
 													<input type="text" class="data-entry-input" id="attribute_remark" name="attribute_remark" value="" maxlength="255">
 												</div>
-												<div class="col-12 col-md-13 px-1 pt-1 mt-2">
+												<div class="col-12 col-md-2 px-1 pt-1 mt-3">
 													<button id="newAttribute_submit" value="Create" class="btn btn-xs btn-primary" title="Create Attribute">Create Attribute</button>
 													<output id="newAttribute_output"></output>
 												</div>
