@@ -8613,13 +8613,13 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							<cfloop query="getPartAttributes">
 								<cfset i = i + 1>
 								<div class="row mx-0 border py-1 mb-0">
-									<form name="editPartAttribute#i#" id="editPartAttribute#i#">
+									<form name="editPartAttribute#i#" id="editPartAttribute#i#" class="mb-1">
 										<div class="col-12 row">
 											<input type="hidden" name="part_attribute_id" value="#part_attribute_id#">
 											<input type="hidden" name="method" value="updatePartAttribute">
 											<div class="col-12 col-md-3">
 												<cfset current = "<span class='small90'>(#getPartAttributes.attribute_type#)</span>"><!--- " --->
-												<label for="attribute_type_#i#" class="data-entry-label">Attribute Type </label>
+												<label for="attribute_type_#i#" class="data-entry-label">Attribute Type #current#</label>
 												<select name="attribute_type" id="attribute_type_#i#" class="data-entry-select reqdClr" required
 														onchange="handlePartAttributeTypeChange('_#i#', '#arguments.partID#')">
 													<option value=""></option>
@@ -8650,14 +8650,14 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 													   value="#agent_name#" placeholder="Pick agent">
 												<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id#i#" value="#determined_by_agent_id#">
 											</div>
-											<div class="col-12 col-md-9">
+											<div class="col-12 col-md-9 pt-1">
 												<label for="attribute_remark#i#" class="data-entry-label">Remarks (<span id="length_remark_#i#"></span>)</label>
 												<textarea id="attribute_remark#i#" name="attribute_remark" 
 													onkeyup="countCharsLeft('attribute_remark#i#', 4000, 'length_remark_#i#');"
 													class="data-entry-textarea autogrow mb-1" maxlength="4000"
 												>#attribute_remark#</textarea>
 											</div>
-											<div class="col-12 col-md-3 pt-3">
+											<div class="col-12 col-md-3 pt-4">
 												<button id="partAttribute_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Part Attribute">Save</button>
 												<button id="partAttribute_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Part Attribute">Delete</button>
 												<output id="partAttribute_output#i#"></output>
