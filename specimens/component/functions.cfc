@@ -4263,6 +4263,12 @@ limitations under the License.
 							<cfloop query="mPart">
 								<cfset i = i + 1>
 								<div class="row mx-0 border py-1 mb-0">
+									<!--- find identifications of the part to see if this is a mixed collection --->
+									<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT identification_id
+										FROM identification
+										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+									</cfquery>
 									<form name="editPart#i#" id="editPart#i#">
 										<div class="col-12 row">
 											<input type="hidden" name="part_collection_object_id" value="#part_id#">
@@ -4335,9 +4341,15 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-3 pt-2">
 												<button id="part_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Part">Save</button>
-												<button id="part_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Part">Delete</button>
-												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-													<button id="part_mixed#i#" value="Mixed" class="btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
+												<cfif getIdentifications.recordcount EQ 0>
+													<button id="part_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Part">Delete</button>
+													<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+														<button id="part_mixed#i#" value="Mixed" class="btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
+													</cfif>
+												<cfelse>
+													<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+														<button id="part_mixed#i#" value="Mixed" class="btn btn-xs btn-warning" title="Make Mixed Collection">Edit Identifications</button>
+													</cfif>
 												</cfif>
 												<output id="part_output#i#"></output>
 											</div>
@@ -4345,11 +4357,6 @@ limitations under the License.
 									</form>
 
 									<!--- Show identifications if this is a mixed collection --->
-									<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT identification_id
-										FROM identification
-										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
-									</cfquery>
 									<cfif getIdentifications.recordcount GT 0>
 										<div class="col-12 small">
 											<strong>Mixed Collection Identifications of #mpart.base_part_name# (#mpart.preserve_method#)</strong>
