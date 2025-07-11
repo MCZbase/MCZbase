@@ -494,7 +494,7 @@ limitations under the License.
 				</div>
 			</cfdocumentsection>
 			<cfdocumentsection name="Exhibition Loan Conditions">
-				<div style="text-align: center; #font# font-size: 1em;">
+				<div style="text-align: center; #font# font-size: x-small;">
 					<strong>CONDITIONS</strong>
 				</div>
 				<div style="text-align: left;#font# font-size: x-small;">
