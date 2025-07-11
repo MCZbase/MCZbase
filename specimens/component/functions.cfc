@@ -4501,7 +4501,7 @@ limitations under the License.
 											// make mixed collection
 											var id = button.id.replace('part_mixed', '');
 											var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
-											var guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num# " + $('#editPart' + id + ' input[name="part_name"]').val() + ' (' + $('#editPart' + id + ' select[name="preserve_method"]').val() + ')';
+											var guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num# " + $('##editPart' + id + ' input[name="part_name"]').val() + ' (' + $('##editPart' + id + ' select[name="preserve_method"]').val() + ')';
 											openEditIdentificationsDialog(partId,'identificationsDialog',guid,function(){
 												reloadParts();
 											});
@@ -4517,7 +4517,7 @@ limitations under the License.
 													// make mixed collection
 													var id = button.id.replace('newpart_mixed', '');
 													var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
-													var guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num# " + $('#editPart' + id + ' input[name="part_name"]').val() + ' (' + $('#editPart' + id + ' select[name="preserve_method"]').val() + ')';
+													var guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num# " + $('##editPart' + id + ' input[name="part_name"]').val() + ' (' + $('##editPart' + id + ' select[name="preserve_method"]').val() + ')';
 													openEditIdentificationsDialog(partId,'identificationsDialog',guid,function(){
 														reloadParts();
 													});
@@ -5637,48 +5637,46 @@ limitations under the License.
 										<h2 class="h3 my-0 px-1 bp-1">Add New Attribute to #guid#</h2>
 									</div>
 									<div class="card-body">
-										<form name="newAttribute" id="newAttribute">
+										<form name="newAttribute" id="newAttribute" class="mb-1">
 											<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 											<input type="hidden" name="method" value="addAttribute">
 											<div class="row mx-0 pb-2">
-												<ul class="col-12 px-0 mt-2 mb-1">
-													<li class="list-group-item float-left col-12 col-md-4 px-1">
-														<label for="attribute_type" class="data-entry-label">Name</label>
-														<select name="attribute_type" id="attribute_type" class="data-entry-select reqdClr" required>
-															<option value=""></option>
-															<cfloop query="getAttributeTypes">
-																<option value="#attribute_type#">#attribute_type#</option>
-															</cfloop>
-														</select>
-													</li>
-													<li class="list-group-item float-left col-12 col-md-4 px-1">
-														<label for="attribute_value" class="data-entry-label">Value</label>
-														<input type="text" class="data-entry-input" id="attribute_value" name="attribute_value" value="">
-													</li>
-													<li class="list-group-item float-left col-12 col-md-4 px-1">
-														<label for="attribute_units" class="data-entry-label">Units</label>
-														<input type="text" class="data-entry-input" id="attribute_units" name="attribute_units" value="">
-													</li>
-													<li class="list-group-item float-left col-12 col-md-4 px-1">
-														<label for="determined_by_agent" class="data-entry-label">Determiner</label>
-														<input type="text" class="data-entry-input" id="determined_by_agent" name="determined_by_agent" value="#getCurrentUser.agent_name#">
-														<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id" value="#getCurrentUser.agent_id#">
-													</li>
-													<li class="list-group-item float-left col-12 col-md-4 px-1">
-														<label for="determined_date" class="data-entry-label">Determined Date</label>
-														<input type="text" class="data-entry-input" id="determined_date" name="determined_date" 
-															placeholder="yyyy-mm-dd" value="#dateformat(now(),"yyyy-mm-dd")#">
-													</li>
-													<li class="list-group-item float-left col-12 col-md-4 px-1">
-														<label for="determination_method" class="data-entry-label">Determined Method</label>
-														<input type="text" class="data-entry-input" id="determination_method" name="determination_method" value="">
-													</li>
-													<li class="list-group-item float-left col-12 col-md-12 px-1">
-														<label for="attribute_remark" class="data-entry-label">Remarks</label>
-														<input type="text" class="data-entry-input" id="attribute_remark" name="attribute_remark" value="" maxlength="255">
-													</li>
-												</ul>
-												<div class="col-12 col-md-12 px-1 mt-2">
+												<div class="col-12 col-md-4 px-1">
+													<label for="attribute_type" class="data-entry-label">Name</label>
+													<select name="attribute_type" id="attribute_type" class="data-entry-select reqdClr" required>
+														<option value=""></option>
+														<cfloop query="getAttributeTypes">
+															<option value="#attribute_type#">#attribute_type#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12 col-md-4 px-1">
+													<label for="attribute_value" class="data-entry-label">Value</label>
+													<input type="text" class="data-entry-input" id="attribute_value" name="attribute_value" value="">
+												</div>
+												<div class="col-12 col-md-4 px-1">
+													<label for="attribute_units" class="data-entry-label">Units</label>
+													<input type="text" class="data-entry-input" id="attribute_units" name="attribute_units" value="">
+												</div>
+												<div class="col-12 col-md-4 px-1">
+													<label for="determined_by_agent" class="data-entry-label">Determiner</label>
+													<input type="text" class="data-entry-input" id="determined_by_agent" name="determined_by_agent" value="#getCurrentUser.agent_name#">
+													<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id" value="#getCurrentUser.agent_id#">
+												</div>
+												<div class="col-12 col-md-4 px-1">
+													<label for="determined_date" class="data-entry-label">Determined Date</label>
+													<input type="text" class="data-entry-input" id="determined_date" name="determined_date" 
+														placeholder="yyyy-mm-dd" value="#dateformat(now(),"yyyy-mm-dd")#">
+												</div>
+												<div class="col-12 col-md-4 px-1">
+													<label for="determination_method" class="data-entry-label">Determined Method</label>
+													<input type="text" class="data-entry-input" id="determination_method" name="determination_method" value="">
+												</div>
+												<div class="col-12 col-md-10 px-1 pt-1">
+													<label for="attribute_remark" class="data-entry-label">Remarks</label>
+													<input type="text" class="data-entry-input" id="attribute_remark" name="attribute_remark" value="" maxlength="255">
+												</div>
+												<div class="col-12 col-md-2 px-1 pt-1 mt-3">
 													<button id="newAttribute_submit" value="Create" class="btn btn-xs btn-primary" title="Create Attribute">Create Attribute</button>
 													<output id="newAttribute_output"></output>
 												</div>
@@ -5887,12 +5885,22 @@ limitations under the License.
 					</cfif>
 					<cfset i = 0>
 					<cfloop query="getAttributes">
+						<cfquery name="getAttributeCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT
+								attribute_type,
+								upper(value_code_table) value_code_table,
+								upper(units_code_table) units_code_table
+							FROM
+								ctattribute_code_tables
+							WHERE 
+								attribute_type = <cfqueryparam value="#getAttributes.attribute_type#" cfsqltype="CF_SQL_VARCHAR">
+						</cfquery>
 						<cfset i = i + 1>
-						<form name="editAttribute#i#" id="editAttribute#i#">
+						<form name="editAttribute#i#" id="editAttribute#i#" class="my-0 py-0">
 							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 							<input type="hidden" name="attribute_id" value="#attribute_id#">
 							<input type="hidden" name="method" value="updateAttribute">
-							<div class="row mx-0 border pb-1">
+							<div class="row mx-0 border py-1">
 								<div class="col-12 col-md-2">
 									<label for="att_name#i#" class="data-entry-label">Name</label>
 									<select class="data-entry-select reqdClr" id="att_name#i#" name="attribute_type" required>
@@ -5908,11 +5916,77 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-md-2">
 									<label for="att_value" class="data-entry-label reqdClr" required>Value</label>
-									<input type="text" class="data-entry-input" id="att_value#i#" name="attribute_value" value="#attribute_value#">
+									<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.value_code_table) GT 0>
+										<cfset valueCodeTable = getAttributeCodeTables.value_code_table>
+										<!--- find out if the value code table has a collection_cde field --->
+										<cfquery name="checkForCollectionCde" datasource="uam_god">
+											SELECT
+												COUNT(*) as ct
+											FROM
+												sys.all_tab_columns
+											WHERE
+												table_name = <cfqueryparam value="#valueCodeTable#" cfsqltype="CF_SQL_VARCHAR">
+												AND owner = 'MCZBASE'
+												AND column_name = 'COLLECTION_CDE'
+										</cfquery>
+										<!--- default is attribute field is the attribute code table name with CT prefix removed --->
+										<cfset var field="">
+										<cfif ucase(valueCodeTable) EQ "CTASSOCIATED_GRANTS">
+											<cfset field="ASSOCIATED_GRANT">
+										<cfelseif ucase(valueCodeTable) EQ "CTCOLLECTION_FULL_NAMES">
+											<cfset field="COLLECTION">
+										<cfelse>
+											<cfset field=replace(valueCodeTable,"CT","","one")>
+										</cfif>
+										<cfquery name="getValueCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT
+												#field# as value
+											FROM
+												#valueCodeTable#
+											<cfif checkForCollectionCde.ct GT 0>
+												WHERE
+													collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
+											</cfif>
+											ORDER BY
+												#field#
+										</cfquery>
+										<select class="data-entry-select reqdClr" id="att_value#i#" name="attribute_value" required>
+											<option value=""></option>
+											<cfloop query="getValueCodeTable">
+												<option value="#getValueCodeTable.value#" <cfif getValueCodeTable.value EQ getAttributes.attribute_value>selected</cfif>>#value#</option>
+											</cfloop>
+										</select>
+									<cfelse>
+										<input type="text" class="data-entry-input" id="att_value#i#" name="attribute_value" value="#attribute_value#">
+									</cfif>
 								</div>
 								<div class="col-12 col-md-2">
 									<label for="att_units" class="data-entry-label">Units</label>
-									<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="#attribute_units#">
+									<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.units_code_table) GT 0>
+										<cfset unitsCodeTable = getAttributeCodeTables.units_code_table>
+										<cfquery name="getUnitsCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT
+												#replace(unitsCodeTable,"CT","","one")# as unit
+											FROM
+												#unitsCodeTable#
+											ORDER BY
+												#replace(unitsCodeTable,"CT","","one")#
+										</cfquery>
+										<select class="data-entry-select" id="att_units#i#" name="attribute_units">
+											<option value=""></option>
+											<cfloop query="getUnitsCodeTable">
+												<option value="#getUnitsCodeTable.unit#" <cfif getUnitsCodeTable.unit EQ getAttributes.attribute_units>selected</cfif>>#unit#</option>
+											</cfloop>
+										</select>
+									<cfelse>
+										<!--- if no code table for units, use a text input, but disable it --->
+										<cfif len(attribute_units) EQ 0>
+											<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="" disabled>
+										<cfelse>
+											<!--- but if there is a value, which there shouldn't be, failover and use a text input --->
+											<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="#attribute_units#">
+										</cfif>
+									</cfif>
 								</div>
 								<div class="col-12 col-md-2">
 									<label class="data-entry-label">Determiner</label>
@@ -5933,11 +6007,11 @@ limitations under the License.
 									<label class="data-entry-label" for="att_method#i#">Method</label>
 									<input type="text" class="data-entry-input" id="att_method#i#" name="determination_method" value="#determination_method#">
 								</div>
-								<div class="col-12 col-md-9">
+								<div class="col-12 col-md-9 mt-1">
 									<label for="att_rem" class="data-entry-label">Remarks</label>
 									<input type="text" class="data-entry-input" id="att_rem#i#" name="attribute_remark" value="#attribute_remark#">
 								</div>
-								<div class="col-12 col-md-3 pt-2">
+								<div class="col-12 col-md-3 mt-1 pt-3">
 									<button id="att_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Attribute">Save</button>
 									<button id="att_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Attribute">Delete</button>
 									<output id="att_output#i#"></output>
