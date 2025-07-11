@@ -5887,6 +5887,16 @@ limitations under the License.
 					</cfif>
 					<cfset i = 0>
 					<cfloop query="getAttributes">
+						<cfquery name="getAttributeCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT
+								attribute_type,
+								upper(value_code_table) value_code_table,
+								upper(units_code_table) units_code_table
+							FROM
+								ctattribute_code_tables
+							WHERE 
+								attribute_type = <cfqueryparam value="#variables.attribute_type#" cfsqltype="CF_SQL_VARCHAR">
+						</cfquery>
 						<cfset i = i + 1>
 						<form name="editAttribute#i#" id="editAttribute#i#">
 							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
@@ -5908,11 +5918,68 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-md-2">
 									<label for="att_value" class="data-entry-label reqdClr" required>Value</label>
-									<input type="text" class="data-entry-input" id="att_value#i#" name="attribute_value" value="#attribute_value#">
+									<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.value_code_table) GT 0>
+										<cfset valueCodeTable = getAttributeCodeTables.value_code_table>
+										<!--- find out if the value code table has a collection_cde field --->
+										<cfquery name="checkForCollectionCde" datasource="uam_god">
+											SELECT
+												COUNT(*) as ct
+											FROM
+												sys.all_tab_columns
+											WHERE
+												table_name = <cfqueryparam value="#valueCodeTable#" cfsqltype="CF_SQL_VARCHAR">
+												AND owner = 'MCZBASE'
+												AND column_name = 'COLLECTION_CDE'
+										</cfquery>
+										<cfquery name="getValueCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT
+												#replace(valueCodeTable,"CT","","one")# as value
+											FROM
+												#valueCodeTable#
+											<cfif checkForCollectionCde.ct GT 0>
+												WHERE
+													collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
+											</cfif>
+											ORDER BY
+												#replace(valueCodeTable,"CT","","one")#
+										</cfquery>
+										<select class="data-entry-select reqdClr" id="att_value#i#" name="attribute_value" required>
+											<option value=""></option>
+											<cfloop list="#valueValues#" index="value">
+												<option value="#value#" <cfif value EQ getAttributes.attribute_value>selected</cfif>>#value#</option>
+											</cfloop>
+										</select>
+									<cfelse>
+										<input type="text" class="data-entry-input" id="att_value#i#" name="attribute_value" value="#attribute_value#">
+									</cfif>
 								</div>
 								<div class="col-12 col-md-2">
 									<label for="att_units" class="data-entry-label">Units</label>
-									<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="#attribute_units#">
+									<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.units_code_table) GT 0>
+										<cfset unitsCodeTable = getAttributeCodeTables.units_code_table>
+										<cfquery getUnitsCodeTable datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT
+												#replace(unitsCodeTable,"CT","","one")# as value
+											FROM
+												#unitsCodeTable#
+											ORDER BY
+												#replace(unitsCodeTable,"CT","","one")#
+										</cfquery>
+										<select class="data-entry-select" id="att_units#i#" name="attribute_units">
+											<option value=""></option>
+											<cfloop list="#unitsValues#" index="unit">
+												<option value="#unit#" <cfif unit EQ getAttributes.attribute_units>selected</cfif>>#unit#</option>
+											</cfloop>
+										</select>
+									<cfelse>
+										<!--- if no code table for units, use a text input, but disable it --->
+										<cfif len(attribute_units) EQ 0>
+											<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="" disabled>
+										<cfelse>
+											<!--- but if there is a value, which there shouldn't be, failover and use a text input --->
+											<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="#attribute_units#">
+										</cfif>
+									</cfif>
 								</div>
 								<div class="col-12 col-md-2">
 									<label class="data-entry-label">Determiner</label>
