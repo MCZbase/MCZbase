@@ -3989,7 +3989,7 @@ limitations under the License.
 										<h2 class="h3 my-0 px-1 bp-1">Add New Part for #guid#</h2>
 									</div>
 									<div class="card-body">
-										<form name="newPart" id="newPart">
+										<form name="newPart" id="newPart" class="mb-0">
 											<input type="hidden" name="derived_from_cat_item" value="#getCatItem.collection_object_id#">
 											<input type="hidden" name="method" value="createSpecimenPart">
 											<input type="hidden" name="is_subsample" value="false"><!--- TODO: Add subsample support --->
@@ -4038,13 +4038,13 @@ limitations under the License.
 													<label for="container_barcode" class="data-entry-label">Container</label>
 													<input name="container_barcode" id="container_barcode" class="data-entry-input" type="text" placeholder="Scan or type barcode">
 												</div>
-												<div class="float-left col-12 px-1">
+												<div class="float-left col-12 col-md-10 px-1 mt-1">
 													<label for="coll_object_remarks" class="data-entry-label">Remarks (<span id="length_remarks"></span>)</label>
 													<textarea id="coll_object_remarks" name="coll_object_remarks" 
 														onkeyup="countCharsLeft('coll_object_remarks', 4000, 'length_remarks');"
 														class="data-entry-textarea autogrow mb-1" maxlength="4000"></textarea>
 												</div>
-												<div class="col-12 col-md-12 px-1 mt-2">
+												<div class="col-12 col-md-2 px-1 pt-3 mt-1">
 													<button id="newPart_submit" value="Create" class="btn btn-xs btn-primary" title="Create Part">Create Part</button>
 													<output id="newPart_output"></output>
 												</div>
@@ -4263,6 +4263,12 @@ limitations under the License.
 							<cfloop query="mPart">
 								<cfset i = i + 1>
 								<div class="row mx-0 border py-1 mb-0">
+									<!--- find identifications of the part to see if this is a mixed collection --->
+									<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT identification_id
+										FROM identification
+										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+									</cfquery>
 									<form name="editPart#i#" id="editPart#i#">
 										<div class="col-12 row">
 											<input type="hidden" name="part_collection_object_id" value="#part_id#">
@@ -4335,9 +4341,15 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-3 pt-2">
 												<button id="part_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Part">Save</button>
-												<button id="part_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Part">Delete</button>
-												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-													<button id="part_mixed#i#" value="Mixed" class="btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
+												<cfif getIdentifications.recordcount EQ 0>
+													<button id="part_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Part">Delete</button>
+													<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+														<button id="newpart_mixed#i#" value="Mixed" class="btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
+													</cfif>
+												<cfelse>
+													<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+														<button id="part_mixed#i#" value="Mixed" class="btn btn-xs btn-warning" title="Make Mixed Collection">Edit Identifications</button>
+													</cfif>
 												</cfif>
 												<output id="part_output#i#"></output>
 											</div>
@@ -4345,11 +4357,6 @@ limitations under the License.
 									</form>
 
 									<!--- Show identifications if this is a mixed collection --->
-									<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT identification_id
-										FROM identification
-										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
-									</cfquery>
 									<cfif getIdentifications.recordcount GT 0>
 										<div class="col-12 small">
 											<strong>Mixed Collection Identifications of #mpart.base_part_name# (#mpart.preserve_method#)</strong>
@@ -4488,17 +4495,36 @@ limitations under the License.
 									});
 								});
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-								document.querySelectorAll('button[id^="part_mixed"]').forEach(function(button) {
-									button.addEventListener('click', function(event) {
-										event.preventDefault();
-										// make mixed collection
-										var id = button.id.replace('part_mixed', '');
-										var partId = $("##editPart" + id + " input[name='collection_object_id']").val();
-										openEditIdentificationsDialog(partId,'identificationsDialog',function(){
-											reloadParts();
+									document.querySelectorAll('button[id^="part_mixed"]').forEach(function(button) {
+										button.addEventListener('click', function(event) {
+											event.preventDefault();
+											// make mixed collection
+											var id = button.id.replace('part_mixed', '');
+											var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
+											var guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num# " + $('#editPart' + id + ' input[name="part_name"]').val() + ' (' + $('#editPart' + id + ' select[name="preserve_method"]').val() + ')';
+											openEditIdentificationsDialog(partId,'identificationsDialog',guid,function(){
+												reloadParts();
+											});
 										});
 									});
-								});
+									document.querySelectorAll('button[id^="newpart_mixed"]').forEach(function(button) {
+										button.addEventListener('click', function(event) {
+											event.preventDefault();
+											// confirm making mixed collection
+											confirmDialog('Adding identifications to this part will make this cataloged item into a mixed collection.  This means that the cataloged item will no longer be a single taxon, but rather a collection of parts with different identifications.  <strong>Are you sure you want to do this?</strong>  This is appropriate for some cases in some collections, such as when a cataloged item ins a composite of multiple taxa, such as pin with an ant and an associated insect on the same pin and a single catalog number, but not appropriate for all collections.  If you are unsure, please seek guidance before proceeding.', 
+												'Confirm Mixed Collection', 
+												function() {
+													// make mixed collection
+													var id = button.id.replace('newpart_mixed', '');
+													var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
+													var guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num# " + $('#editPart' + id + ' input[name="part_name"]').val() + ' (' + $('#editPart' + id + ' select[name="preserve_method"]').val() + ')';
+													openEditIdentificationsDialog(partId,'identificationsDialog',guid,function(){
+														reloadParts();
+													});
+												}
+											);
+										});
+									});
 								</cfif>
 								function reloadParts() {
 									// reload the edit existing parts section
@@ -8418,47 +8444,44 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 										<h2 class="h3 my-0 px-1 bp-1">Add New Part Attribute for #guid# #partLabel#</h2>
 									</div>
 									<div class="card-body">
-										<form name="newPartAttribute" id="newPartAttribute">
+										<form name="newPartAttribute" id="newPartAttribute" class="mb-1">
 											<input type="hidden" name="collection_object_id" value="#attributes.partID#">
 											<input type="hidden" name="method" value="createPartAttribute">
 											<div class="row mx-0 pb-2">
-												<ul class="col-12 px-0 mt-2 mb-1">
-													<li class="list-group-item float-left col-12 col-md-3 px-1">
-														<label for="attribute_type" class="data-entry-label">Attribute Type</label>
-														<select name="attribute_type" id="attribute_type" class="data-entry-select reqdClr" required>
-															<option value=""></option>
-															<cfloop query="ctspecpart_attribute_type">
-																<option value="#attribute_type#">#attribute_type#</option>
-															</cfloop>
-														</select>
-													</li>
-													<li class="list-group-item float-left col-12 col-md-3 px-1">
-														<label for="attribute_value" class="data-entry-label">Value</label>
-														<input type="text" class="data-entry-input" id="attribute_value" name="attribute_value" value="">
-													</li>
-													<li class="list-group-item float-left col-12 col-md-2 px-1">
-														<label for="attribute_units" class="data-entry-label">Units</label>
-														<input type="text" class="data-entry-input" id="attribute_units" name="attribute_units" value="">
-													</li>
-													<li class="list-group-item float-left col-12 col-md-2 px-1">
-														<label for="determined_by_agent" class="data-entry-label">Determiner</label>
-														<input type="text" class="data-entry-input" id="determined_by_agent" name="determined_by_agent" value="#getCurrentUser.agent_name#">
-														<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id" value="#getCurrentUser.agent_id#">
-													</li>
-													<li class="list-group-item float-left col-12 col-md-2 px-1">
-														<label for="determined_date" class="data-entry-label">Determined Date</label>
-														<input type="text" class="data-entry-input" id="determined_date" name="determined_date" 
-															placeholder="yyyy-mm-dd" value="#dateformat(now(),"yyyy-mm-dd")#">
-													</li>
-													<li class="list-group-item float-left col-12 col-md-10 px-1">
-														<label for="attribute_remark" class="data-entry-label">Remarks</label>
-														<textarea id="attribute_remark" name="attribute_remark" 
-															onkeyup="countCharsLeft('attribute_remark', 4000, 'length_remark');"
-															class="data-entry-textarea autogrow mb-1" maxlength="4000"></textarea>
-														<span id="length_remark"></span>
-													</li>
-												</ul>
-												<div class="col-12 col-md-2 px-1 mt-2">
+												<div class=" col-12 col-md-3 px-1">
+													<label for="attribute_type" class="data-entry-label">Attribute Type</label>
+													<select name="attribute_type" id="attribute_type" class="data-entry-select reqdClr" required>
+														<option value=""></option>
+														<cfloop query="ctspecpart_attribute_type">
+															<option value="#attribute_type#">#attribute_type#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class=" col-12 col-md-3 px-1">
+													<label for="attribute_value" class="data-entry-label">Value</label>
+													<input type="text" class="data-entry-input" id="attribute_value" name="attribute_value" value="">
+												</div>
+												<div class=" col-12 col-md-2 px-1">
+													<label for="attribute_units" class="data-entry-label">Units</label>
+													<input type="text" class="data-entry-input" id="attribute_units" name="attribute_units" value="">
+												</div>
+												<div class=" col-12 col-md-2 px-1">
+													<label for="determined_by_agent" class="data-entry-label">Determiner</label>
+													<input type="text" class="data-entry-input" id="determined_by_agent" name="determined_by_agent" value="#getCurrentUser.agent_name#">
+													<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id" value="#getCurrentUser.agent_id#">
+												</div>
+												<div class=" col-12 col-md-2 px-1">
+													<label for="determined_date" class="data-entry-label">Determined Date</label>
+													<input type="text" class="data-entry-input" id="determined_date" name="determined_date" 
+														placeholder="yyyy-mm-dd" value="#dateformat(now(),"yyyy-mm-dd")#">
+												</div>
+												<div class=" col-12 col-md-10 px-1 mt-1">
+													<label for="attribute_remark" class="data-entry-label">Remarks (<span id="length_remark"></span>)</label>
+													<textarea id="attribute_remark" name="attribute_remark" 
+														onkeyup="countCharsLeft('attribute_remark', 4000, 'length_remark');"
+														class="data-entry-textarea autogrow mb-1" maxlength="4000"></textarea>
+												</div>
+												<div class="col-12 col-md-2 px-1 pt-3 mt-1">
 													<button id="newPartAttribute_submit" value="Create" class="btn btn-xs btn-primary" title="Create Part Attribute">Create Attribute</button>
 													<output id="newPartAttribute_output"></output>
 												</div>
@@ -8613,12 +8636,13 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							<cfloop query="getPartAttributes">
 								<cfset i = i + 1>
 								<div class="row mx-0 border py-1 mb-0">
-									<form name="editPartAttribute#i#" id="editPartAttribute#i#">
+									<form name="editPartAttribute#i#" id="editPartAttribute#i#" class="mb-1">
 										<div class="col-12 row">
 											<input type="hidden" name="part_attribute_id" value="#part_attribute_id#">
 											<input type="hidden" name="method" value="updatePartAttribute">
 											<div class="col-12 col-md-3">
-												<label for="attribute_type_#i#" class="data-entry-label">Attribute Type</label>
+												<cfset current = "<span class='small90'>(#getPartAttributes.attribute_type#)</span>"><!--- " --->
+												<label for="attribute_type_#i#" class="data-entry-label">Attribute Type #current#</label>
 												<select name="attribute_type" id="attribute_type_#i#" class="data-entry-select reqdClr" required
 														onchange="handlePartAttributeTypeChange('_#i#', '#arguments.partID#')">
 													<option value=""></option>
@@ -8649,14 +8673,14 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 													   value="#agent_name#" placeholder="Pick agent">
 												<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id#i#" value="#determined_by_agent_id#">
 											</div>
-											<div class="col-12 col-md-9">
+											<div class="col-12 col-md-9 pt-1">
 												<label for="attribute_remark#i#" class="data-entry-label">Remarks (<span id="length_remark_#i#"></span>)</label>
 												<textarea id="attribute_remark#i#" name="attribute_remark" 
 													onkeyup="countCharsLeft('attribute_remark#i#', 4000, 'length_remark_#i#');"
 													class="data-entry-textarea autogrow mb-1" maxlength="4000"
 												>#attribute_remark#</textarea>
 											</div>
-											<div class="col-12 col-md-3 pt-3">
+											<div class="col-12 col-md-3 pt-4">
 												<button id="partAttribute_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Part Attribute">Save</button>
 												<button id="partAttribute_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Part Attribute">Delete</button>
 												<output id="partAttribute_output#i#"></output>
@@ -9081,6 +9105,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 
 <!--- getPartAttrSelect 
  Helper function to generate form controls for part attributes based on controlled vocabularies
+
  @param u_or_v string indicating whether to generate controls for units ('u') or values ('v')
  @param patype the attribute type to generate controls for
  @param val the current value to select
@@ -9093,7 +9118,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	<cfargument name="val" type="string" required="yes">
 	<cfargument name="paid" type="numeric" required="yes">
 	
-	<cfset var rv = "">
+	<cfset var retval = "">
 	
 	<cftry>
 		<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -9113,9 +9138,10 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						</cfquery>
 					</cfif>
 				</cfloop>
-				<cfsavecontent variable="rv">
+				<cfsavecontent variable="retval">
+					<cfset current = "<span class='small90'>(#arguments.val#)</span>"><!--- " --->
 					<cfoutput>
-						<label for="attribute_value_#arguments.paid#" class="data-entry-label">Value</label>
+						<label for="attribute_value_#arguments.paid#" class="data-entry-label">Value #current#</label>
 						<select name="attribute_value" id="attribute_value_#arguments.paid#" class="data-entry-select reqdClr" required>
 							<option value=""></option>
 							<cfloop query="r">
@@ -9130,9 +9156,10 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					</cfoutput>
 				</cfsavecontent>
 			<cfelse>
-				<cfsavecontent variable="rv">
+				<cfsavecontent variable="retval">
+					<cfset current = "<span class='small90'>(#arguments.val#)</span>"><!--- " --->
 					<cfoutput>
-						<label for="attribute_value_#arguments.paid#" class="data-entry-label">Value</label>
+						<label for="attribute_value_#arguments.paid#" class="data-entry-label">Value#current#</label>
 						<input type="text" name="attribute_value" id="attribute_value_#arguments.paid#" value="#arguments.val#" class="data-entry-input reqdClr" required>
 					</cfoutput>
 				</cfsavecontent>
@@ -9149,9 +9176,13 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						</cfquery>
 					</cfif>
 				</cfloop>
-				<cfsavecontent variable="rv">
+				<cfsavecontent variable="retval">
+					<cfset current = "">
+					<cfif len(arguments.val) GT 0>
+						<cfset current = " <span class='small90'>(#arguments.val#)</span>"><!--- " --->
+					</cfif>
 					<cfoutput>
-						<label for="attribute_units_#arguments.paid#" class="data-entry-label">Units</label>
+						<label for="attribute_units_#arguments.paid#" class="data-entry-label">Units#current#</label>
 						<select name="attribute_units" id="attribute_units_#arguments.paid#" class="data-entry-select">
 							<option value=""></option>
 							<cfloop query="r">
@@ -9166,9 +9197,13 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					</cfoutput>
 				</cfsavecontent>
 			<cfelse>
-				<cfsavecontent variable="rv">
+				<cfsavecontent variable="retval">
+					<cfset current = "">
+					<cfif len(arguments.val) GT 0>
+						<cfset current = " <span class='small90'>(#arguments.val#)</span>"><!--- " --->
+					</cfif>
 					<cfoutput>
-						<label for="attribute_units_#arguments.paid#" class="data-entry-label">Units</label>
+						<label for="attribute_units_#arguments.paid#" class="data-entry-label">Units#current#</label>
 						<input type="text" name="attribute_units" id="attribute_units_#arguments.paid#" value="#arguments.val#" class="data-entry-input">
 					</cfoutput>
 				</cfsavecontent>
@@ -9183,7 +9218,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	</cfcatch>
 	</cftry>
 	
-	<cfreturn rv>
+	<cfreturn retval>
 </cffunction>
 
 </cfcomponent>
