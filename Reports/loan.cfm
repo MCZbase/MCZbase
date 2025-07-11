@@ -494,7 +494,7 @@ limitations under the License.
 				</div>
 			</cfdocumentsection>
 			<cfdocumentsection name="Exhibition Loan Conditions">
-				<div style="text-align: center; #font# font-size: 1em;">
+				<div style="text-align: center; #font# font-size: x-small;">
 					<strong>CONDITIONS</strong>
 				</div>
 				<div style="text-align: left;#font# font-size: x-small;">
@@ -574,7 +574,7 @@ limitations under the License.
 						Each object shall remain in the same condition in which it was received.
 						The Borrowing Institution agrees to follow all special handling, installation,
 						and packing instructions provided on the first page of this document, and
-						detailed in the correspondence and the Departmental Loan document from
+						detailed in the correspondence and the Loan document from
 						the MCZ to the Borrowing Institution.  Upon arrival, all travel containers 
 						must be equilibrated to the environment for 24-48 hours before unpacked.
 						No restoration, repair, cleaning, or fumigation of loan objects may be
@@ -596,9 +596,8 @@ limitations under the License.
 					<strong>12. LOAN FEES </strong>
 					<p>The Borrowing Institution agrees to pay administrative loan fees,
 						conservation, mount fabrication costs, courier fee, courier travel, and
-						courier per diem as detailed in correspondence and the Departmental Loan
-						document from the MCZ to the Borrowing
-						Institution.
+						courier per diem as detailed in correspondence and the Loan document 
+						from the MCZ to the Borrowing Institution.
 					</p>
 					<strong>13. GOVERNING LAW </strong>
 					<p>This agreement shall be governed by and construed in accordance with the laws 
