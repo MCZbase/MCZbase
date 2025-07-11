@@ -551,9 +551,8 @@ limitations under the License.
 					</p>
 					<strong>7. PUBLICITY AND CREDITS </strong>
 					<p>The credit line as shown on the first page of this form will be used in all printed
-						material (including web) related to the loan object(s).  One copy of any exhibition 
-						catalog or publicity material must be sent directly to the Departmental contact 
-						at the MCZ.
+						material (including web) related to the loan object(s).  One copy of any publication, 
+						catalog, or publicity material must be sent to the Departmental contact at the MCZ.
 					</p>
 					<strong>8. PHOTOGRAPHY </strong>
 					<p>All photographs of MCZ items to be used in
