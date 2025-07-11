@@ -8455,7 +8455,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 														onkeyup="countCharsLeft('attribute_remark', 4000, 'length_remark');"
 														class="data-entry-textarea autogrow mb-1" maxlength="4000"></textarea>
 												</div>
-												<div class="col-12 col-md-2 px-1 mt-4">
+												<div class="col-12 col-md-2 px-1 pt-3 mt-1">
 													<button id="newPartAttribute_submit" value="Create" class="btn btn-xs btn-primary" title="Create Part Attribute">Create Attribute</button>
 													<output id="newPartAttribute_output"></output>
 												</div>
