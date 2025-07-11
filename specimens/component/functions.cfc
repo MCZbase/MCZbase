@@ -5957,7 +5957,7 @@ limitations under the License.
 									<label for="att_units" class="data-entry-label">Units</label>
 									<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.units_code_table) GT 0>
 										<cfset unitsCodeTable = getAttributeCodeTables.units_code_table>
-										<cfquery getUnitsCodeTable datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										<cfquery name="getUnitsCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT
 												#replace(unitsCodeTable,"CT","","one")# as value
 											FROM
