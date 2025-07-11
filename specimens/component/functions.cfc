@@ -4500,7 +4500,7 @@ limitations under the License.
 										event.preventDefault();
 										// make mixed collection
 										var id = button.id.replace('part_mixed', '');
-										var partId = $("##editPart" + id + " input[name='collection_object_id']").val();
+										var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
 										openEditIdentificationsDialog(partId,'identificationsDialog',function(){
 											reloadParts();
 										});
