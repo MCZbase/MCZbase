@@ -3989,7 +3989,7 @@ limitations under the License.
 										<h2 class="h3 my-0 px-1 bp-1">Add New Part for #guid#</h2>
 									</div>
 									<div class="card-body">
-										<form name="newPart" id="newPart">
+										<form name="newPart" id="newPart" class="mb-0">
 											<input type="hidden" name="derived_from_cat_item" value="#getCatItem.collection_object_id#">
 											<input type="hidden" name="method" value="createSpecimenPart">
 											<input type="hidden" name="is_subsample" value="false"><!--- TODO: Add subsample support --->
@@ -4038,13 +4038,13 @@ limitations under the License.
 													<label for="container_barcode" class="data-entry-label">Container</label>
 													<input name="container_barcode" id="container_barcode" class="data-entry-input" type="text" placeholder="Scan or type barcode">
 												</div>
-												<div class="float-left col-12 px-1">
+												<div class="float-left col-12 col-md-10 px-1 mt-1">
 													<label for="coll_object_remarks" class="data-entry-label">Remarks (<span id="length_remarks"></span>)</label>
 													<textarea id="coll_object_remarks" name="coll_object_remarks" 
 														onkeyup="countCharsLeft('coll_object_remarks', 4000, 'length_remarks');"
 														class="data-entry-textarea autogrow mb-1" maxlength="4000"></textarea>
 												</div>
-												<div class="col-12 col-md-12 px-1 mt-2">
+												<div class="col-12 col-md-2 px-1 pt-3 mt-1">
 													<button id="newPart_submit" value="Create" class="btn btn-xs btn-primary" title="Create Part">Create Part</button>
 													<output id="newPart_output"></output>
 												</div>
