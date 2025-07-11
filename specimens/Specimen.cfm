@@ -39,6 +39,7 @@ limitations under the License.
 <script type="text/javascript" src="/localities/js/collectingevents.js"></script>
 <cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 	<script type="text/javascript" src="/specimens/js/specimens.js"></script>
+	<script type="text/javascript" src="/containers/js/containers.js"></script>
 </cfif>
 <cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_transactions")>
 	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
@@ -794,6 +795,7 @@ limitations under the License.
 					<div class="accordion" id="accordionParts">
 						<div class="card mb-2 bg-light">
 							<div id="partsDialog"></div>
+							<div id="editPartAttributesDialog"></div>
 							<div class="card-header" id="headingParts">
 								<h3 class="h5 my-0">
 									<button type="button" class="headerLnk text-left w-100 h-100" aria-controls="PartsPane" aria-label="Parts Pane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">

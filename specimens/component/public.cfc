@@ -101,6 +101,26 @@ limitations under the License.
 					<cfset variables.isMixed = true>
 					<cfset mixedMarker = " Mixed Collection">
 				</cfif>
+				<!--- lookup restrictions on use from permits on the accession --->
+				<cfset var restrictions = "">
+				<cfif oneOfUs EQ 1>
+					<cfquery name="hasRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT 
+							count(permit.permit_id) as ct
+						FROM 
+							cataloged_item
+							join accn on cataloged_item.accn_id = accn.transaction_id
+							join permit_trans on accn.transaction_id = permit_trans.transaction_id
+							join permit on permit_trans.permit_id = permit.permit_id
+						WHERE 
+							cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+							and permit.restriction_summary is not null
+					</cfquery>
+					<cfif hasRestrictions.ct GT 0>
+						<cfset local.restrictions = "This specimen may have restrictions on use.">
+					</cfif>
+					<!--- TODO: Text for external users, e.g. "This specimen may have restrictions on use, please contact the collection for more information." --->
+				</cfif>
 
 				<cfset typeName = summary.type_status>
 				<!--- handle the edge cases of a specimen having more than one type status --->
@@ -187,6 +207,11 @@ limitations under the License.
 														</cfloop>
 													</h3>
 												</cfif>
+											</cfif>
+											<cfif len(local.restrictions) GT 0>
+												<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
+													<span class="text-danger font-weight-bold" style="white-space: nowrap;">#local.restrictions#</span>
+												</h2>
 											</cfif>
 										</div>
 									</div>
@@ -541,11 +566,12 @@ limitations under the License.
 	<cfargument name="editable" type="boolean" required="no" default="false">
 
 	<!--- check to see if user has rights to edit identifications if editable is set to true --->
+	<cfset var local_editable = arguments.editable>
 	<cfif arguments.editable>
 		<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-			<cfset arguments.editable = true>
+			<cfset local_editable = true>
 		<cfelse>
-			<cfset arguments.editable = false>
+			<cfset local_editable = false>
 		</cfif>
 	</cfif>
 
@@ -586,7 +612,7 @@ limitations under the License.
 				ORDER BY 
 					accepted_id_fg DESC,sort_order, made_date DESC
 			</cfquery>
-			<cfif arguments.editable>
+			<cfif local_editable>
 			<script>
 					function removeIdentification(identification_id,feedbackDiv) {
 						setFeedbackControlState(feedbackDiv,"removing")
@@ -621,7 +647,7 @@ limitations under the License.
 					}
 				</script>
 			</cfif>
-			<cfset i=1>
+			<cfset var i=1>
 			<cfloop query="identification">
 				<cfquery name="determiners" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT distinct
@@ -713,7 +739,6 @@ limitations under the License.
 								<cfset expandedFormula=#replace(expandedFormula,varToReplace,thisLink)#>
 								<!--- nameAsInTaxon replaces with just the scientific name --->
 								<cfset nameAsInTaxon=#replace(nameAsInTaxon,varToReplace,getTaxa.scientific_name)#>
-								<cfset i=#i#+1>
 							</cfloop>
 							#expandedFormula#
 						</cfif>
@@ -722,22 +747,22 @@ limitations under the License.
 								<span class="bg-gray float-right rounded p-1 text-muted font-weight-lessbold">STORED AS</span>
 							</cfif>
 						</cfif>
-						<cfif arguments.editable>
+						<cfif local_editable>
 							<span class="float-right">
 								<button class="btn btn-xs btn-secondary py-0" 
 									onclick="editIdentification('#identification.identification_id#',reloadIdentificationsDialogAndPage)">Edit</button>
 								<cfif identification.accepted_id_fg NEQ 1>
 									<button class="btn btn-xs btn-danger py-0" 
-										onclick=" confirmDialog('Are you sure you want to delete this identification?', 'Delete Identification',removeIdentification_#i#);"
+										onclick=" confirmDialog('Are you sure you want to delete this identification?', 'Delete Identification',removeIdentification_#local.i#);"
 										>Delete</button>
 									<script>
-										function removeIdentification_#i#() {
-											removeIdentification('#identification.identification_id#','editIdentificationOutput_#i#');
+										function removeIdentification_#local.i#() {
+											removeIdentification('#identification.identification_id#','editIdentificationOutput_#local.i#');
 										};
 									</script>
 								</cfif>
 							</span>
-							<output id="editIdentificationOutput_#i#" class="editIdentificationOutput"></output>
+							<output id="editIdentificationOutput_#local.i#" class="editIdentificationOutput"></output>
 						</cfif>
 					</div>
 					
@@ -814,9 +839,9 @@ limitations under the License.
 						<div class="small"><span class="font-weight-lessbold">Remarks:</span> #identification.identification_remarks#</div>
 					</cfif>
 				</div>
-				<cfset i = i+1>
+				<cfset local.i = local.i+1>
 			</cfloop>
-			<cfif arguments.editable>
+			<cfif local_editable>
 				<div id="editIdentificationDialog"></div>
 			</cfif>
 			<script>
@@ -1113,169 +1138,385 @@ limitations under the License.
 	<cfreturn cfthread["getCitMediaThread#tn#"].output>
 </cffunction>
 								
-<!--- getPartsHTML obtain a block of html listing parts/preparations for a specified cataloged item
+<!--- getPartsHTML threaded wrapper for getPartsHTMLUnthreaded to obtain a block of html listing parts/preparations 
+  for a specified cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the parts.
  @return html listing parts for the specified cataloged item.
 --->
 <cffunction name="getPartsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
-	<cfthread name="getPartsThread">
+	<cfthread name="getPartsThread" collection_object_id="#arguments.collection_object_id#">
 		<cfoutput>
-			<cftry>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-					<cfset oneOfUs = 1>
-				<cfelse>
-					<cfset oneOfUs = 0>
-				</cfif>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-					<cfset manageTransactions = 1>
-				<cfelse>
-					<cfset manageTransactions = 0>
-				</cfif>
-				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT 
-						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
-					FROM DUAL
+			<!--- get content from unthreaded method --->
+			<cfset content = getPartsHTMLUnthreaded(collection_object_id=collection_object_id)>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getPartsThread"/>
+	<cfreturn getPartsThread.output>
+</cffunction>
+
+<!--- getPartsHTMLUnthreaded obtain a block of html listing parts/preparations for a specified cataloged item
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the parts.
+ @return html listing parts for the specified cataloged item.
+--->
+<cffunction name="getPartsHTMLUnthreaded" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="editable" type="boolean" required="no" default="false">
+
+	<!--- check to see if user has rights to edit parts if editable is set to true --->
+	<cfset var local_editable = arguments.editable>
+	<cfif arguments.editable>
+		<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+			<cfset local_editable = true>
+		<cfelse>
+			<cfset local_editable = false>
+		</cfif>
+	</cfif>
+
+	<cfoutput>
+		<cftry>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				<cfset oneOfUs = 1>
+			<cfelse>
+				<cfset oneOfUs = 0>
+			</cfif>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+				<cfset manageTransactions = 1>
+			<cfelse>
+				<cfset manageTransactions = 0>
+			</cfif>
+			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT 
+					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+				FROM DUAL
+			</cfquery>
+			<!--- check for mask record, hide if mask record and not one of us ---->
+			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+				<cfthrow message="Record Masked">
+			</cfif>
+			<!--- return text instead of throwing an exception if mask parts --->
+			<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
+				<div class="mt-1"></div><!--- Masked, return no data on parts --->
+			<cfelse>
+				<!--- find out if any of this material is on loan --->
+				<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT distinct loan_number, loan_type, loan_status, loan.transaction_id 
+					FROM
+						specimen_part 
+						left join loan_item on specimen_part.collection_object_id=loan_item.collection_object_id
+			 			left join loan on loan_item.transaction_id = loan.transaction_id
+					WHERE
+						loan_number is not null and
+						specimen_part.derived_from_cat_item=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
-				<!--- check for mask record, hide if mask record and not one of us ---->
-				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
-					<cfthrow message="Record Masked">
-				</cfif>
-				<!--- return text instead of throwing an exception if mask parts --->
-				<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
-					<div class="mt-1"></div><!--- Masked, return no data on parts --->
-				<cfelse>
-					<!--- find out if any of this material is on loan --->
-					<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT distinct loan_number, loan_type, loan_status, loan.transaction_id 
-						FROM
-							specimen_part 
-							left join loan_item on specimen_part.collection_object_id=loan_item.collection_object_id
-				 			left join loan on loan_item.transaction_id = loan.transaction_id
-						WHERE
-							loan_number is not null and
-							specimen_part.derived_from_cat_item=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-					</cfquery>
-					<!--- find out if any of this material has been deaccessioned --->
-					<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT distinct deacc_number, deaccession.transaction_id, specimen_part.collection_object_id
-						FROM
-							specimen_part 
-							left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
-				 			left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
-						WHERE
-							deacc_number is not null and
-							specimen_part.derived_from_cat_item=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-					</cfquery>
-					<!--- retrieve all the denormalized parts data in one query, then query those results to get normalized information to display --->
-					<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						select
-							specimen_part.collection_object_id part_id,
-							<cfif oneOfUs EQ 1>
-								pc.label, 
-								pc.container_id as container_id,
-							<cfelse>
-								null as label,
-								null as container_id,
+				<!--- find out if any of this material has been deaccessioned --->
+				<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT distinct deacc_number, deaccession.transaction_id, specimen_part.collection_object_id
+					FROM
+						specimen_part 
+						left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
+			 			left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+					WHERE
+						deacc_number is not null and
+						specimen_part.derived_from_cat_item=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<!--- retrieve all the denormalized parts data in one query, then query those results to get normalized information to display --->
+				<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select
+						specimen_part.collection_object_id part_id,
+						<cfif oneOfUs EQ 1>
+							pc.label, 
+							pc.container_id as container_id,
+						<cfelse>
+							null as label,
+							null as container_id,
+						</cfif>
+						nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
+						sampled_from_obj_id,
+						coll_object.COLL_OBJ_DISPOSITION part_disposition,
+						coll_object.CONDITION part_condition,
+						nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count,
+						coll_object_remarks part_remarks,
+						attribute_type,
+						attribute_value,
+						attribute_units,
+						determined_date,
+						attribute_remark,
+						agent_name,
+						agent.agent_id,
+						agentguid,
+						agentguid_guid_type
+					from
+						specimen_part
+						left join coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
+						left join coll_object_remark on coll_object.collection_object_id=coll_object_remark.collection_object_id
+						left join coll_obj_cont_hist on coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id
+						left join container oc on coll_obj_cont_hist.container_id=oc.container_id
+						left join container pc on oc.parent_container_id=pc.container_id
+						left join specimen_part_attribute on specimen_part.collection_object_id=specimen_part_attribute.collection_object_id
+						left join preferred_agent_name on specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id
+						left join agent on specimen_part_attribute.determined_by_agent_id = agent.agent_id
+					where
+						specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<!---- obtain the distinct parts from the getParts query (collapsing duplicated rows from attributes) --->
+				<cfquery name="distinctParts" dbtype="query">
+					select
+						part_id,
+						label, container_id,
+						part_name,
+						sampled_from_obj_id,
+						part_disposition,
+						part_condition,
+						lot_count,
+						part_remarks
+					from
+						getParts
+					group by
+						part_id,
+						label, container_id,
+						part_name,
+						sampled_from_obj_id,
+						part_disposition,
+						part_condition,
+						lot_count,
+						part_remarks
+					order by
+						part_name, part_id
+				</cfquery>
+				<table class="table px-1 table-responsive-md w-100 tablesection my-1">
+					<thead class="thead-light">
+						<tr>
+							<th class="py-0"><span>Part</span></th>
+							<th class="py-0"><span>Condition</span></th>
+							<th class="py-0"><span>Disposition</span></th>
+							<th class="py-0"><span>Count</span></th>
+							<cfif oneOfus is "1">
+								<th class="py-0">
+									<span>Container</span>
+								</th>
 							</cfif>
-							nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
-							sampled_from_obj_id,
-							coll_object.COLL_OBJ_DISPOSITION part_disposition,
-							coll_object.CONDITION part_condition,
-							nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count,
-							coll_object_remarks part_remarks,
-							attribute_type,
-							attribute_value,
-							attribute_units,
-							determined_date,
-							attribute_remark,
-							agent_name,
-							agent.agent_id,
-							agentguid,
-							agentguid_guid_type
-						from
-							specimen_part
-							left join coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
-							left join coll_object_remark on coll_object.collection_object_id=coll_object_remark.collection_object_id
-							left join coll_obj_cont_hist on coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id
-							left join container oc on coll_obj_cont_hist.container_id=oc.container_id
-							left join container pc on oc.parent_container_id=pc.container_id
-							left join specimen_part_attribute on specimen_part.collection_object_id=specimen_part_attribute.collection_object_id
-							left join preferred_agent_name on specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id
-							left join agent on specimen_part_attribute.determined_by_agent_id = agent.agent_id
-						where
-							specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-					</cfquery>
-					<!---- obtain the distinct parts from the getParts query (collapsing duplicated rows from attributes) --->
-					<cfquery name="distinctParts" dbtype="query">
-						select
-							part_id,
-							label, container_id,
-							part_name,
-							sampled_from_obj_id,
-							part_disposition,
-							part_condition,
-							lot_count,
-							part_remarks
-						from
-							getParts
-						group by
-							part_id,
-							label, container_id,
-							part_name,
-							sampled_from_obj_id,
-							part_disposition,
-							part_condition,
-							lot_count,
-							part_remarks
-						order by
-							part_name, part_id
-					</cfquery>
-					<table class="table px-1 table-responsive-md w-100 tablesection my-1">
-						<thead class="thead-light">
-							<tr>
-								<th class="py-0"><span>Part</span></th>
-								<th class="py-0"><span>Condition</span></th>
-								<th class="py-0"><span>Disposition</span></th>
-								<th class="py-0"><span>Count</span></th>
-								<cfif oneOfus is "1">
-									<th class="py-0">
-										<span>Container</span>
-									</th>
-								</cfif>
-								<th class="py-0"></th>
-								
-							</tr>
-						</thead>
-						<tbody class="bg-white">
-							<!--- iterate through the main (not subsampled) parts --->
-							<cfquery name="mainParts" dbtype="query">
-								select * from distinctParts where sampled_from_obj_id is null order by part_name
+							<th class="py-0"></th>
+							
+						</tr>
+					</thead>
+					<tbody class="bg-white">
+						<!--- iterate through the main (not subsampled) parts --->
+						<cfquery name="mainParts" dbtype="query">
+							select * from distinctParts where sampled_from_obj_id is null order by part_name
+						</cfquery>
+						<cfset i=1>
+						<cfloop query="mainParts">
+							<cfquery name="historyCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT sum(cti) ct from (
+									SELECT count(*) cti 
+									FROM object_condition 
+									WHERE
+										collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+									UNION
+									SELECT count(*) cti
+									FROM specimen_part_pres_hist
+									WHERE
+										collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+								)
 							</cfquery>
-							<cfset i=1>
-							<cfloop query="mainParts">
+							<cfif historyCount.ct GT 2><cfset histCount = " (#historyCount.ct#)"><cfelse><cfset histCount = ""></cfif>
+							<div id="historyDialog#mainParts.part_id#"></div>
+							<tr <cfif mainParts.recordcount gt 1>class="line-top-sd"<cfelse></cfif>>
+								<td class="py-1"><span class="font-weight-lessbold">#part_name#</span></td>
+								<td class="py-1">
+									#part_condition#
+								</td>
+								<!--- TODO: Link out to history for part(s) --->
+								<td class="py-1">
+									#part_disposition#
+									<cfif loanList.recordcount GT 0 AND manageTransactions IS "1">
+										<!--- look up whether this part is in an open loan --->
+										<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT
+												loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks
+											FROM 
+												specimen_part 
+												LEFT JOIN loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
+												LEFT JOIN loan on loan_item.transaction_id = loan.transaction_id
+											WHERE
+												 specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+												and loan_status <> 'closed'
+										</cfquery>
+										<cfloop query="partonloan">
+											<cfif partonloan.loan_status EQ 'open' and mainParts.part_disposition EQ 'on loan'>
+												<!--- normal case --->
+												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
+											<cfelse>
+												<!--- partial returns, in process, historical, in-house, or in open loan but part disposition in collection--->
+												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number# (#partonloan.loan_status#)</a>
+											</cfif>
+										</cfloop>
+									</cfif>
+									<cfif deaccessionList.recordcount GT 0 AND manageTransactions IS "1">
+										<!--- look up whether this part has been deaccessioned --->
+										<cfquery name="partdeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT
+												deacc_number, deacc_type, deaccession.transaction_id
+											FROM 
+												specimen_part 
+												JOIN deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
+												JOIN deaccession on deacc_item.transaction_id = deaccession.transaction_id
+											WHERE
+												specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+										</cfquery>
+										<cfif partdeacc.recordcount GT 0>
+											<cfif deaccessionList.recordcount EQ mainParts.recordcount>
+												<!--- just mark all parts as deaccessioned, deaccession number will be in Transaction section --->
+												<span class="d-block small mb-0 pb-0">In Deaccession.</span>
+											<cfelse>
+												<!--- when not all parts have been deaccessioned, link to the deaccession --->
+												<span class="d-block small mb-0 pb-0">In Deacc:
+													<cfloop query="partdeacc">
+														<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#partdeacc.transaction_id#">#partdeacc.deacc_number#</a> (#partdeacc.deacc_type#)
+													</cfloop>
+												</span>
+											</cfif>
+										</cfif>
+									</cfif>
+								</td>
+								<td class="py-1">#lot_count#</td>
+								<cfif oneOfus is "1">
+									<div id="partContDialog_#collection_object_id#"></div>
+									<td class="pb-0">
+										#label# 
+										<span class="small mb-0 pb-0">
+											<a href="javascript:void(0)" aria-label="Part Container Placement"
+												onClick=" openPartContainersDialog(#collection_object_id#, 'partContDialog_#collection_object_id#'); ">Placement</a>
+										</span>
+									</td>
+								</cfif>
+								<td class="py-1">
+									<span class="small mb-0 pb-0">
+										<a href="javascript:void(0)" aria-label="Condition/Preparation History"
+											onClick=" openHistoryDialog(#mainParts.part_id#, 'historyDialog#mainParts.part_id#');">History#histCount#</a>
+									</span>
+									<cfif local_editable>
+										<span class="small mb-0 pb-0">
+											<a class="btn btn-xs btn-secondary" href="javascript:void(0)" aria-label="Edit Part">Edit</a>
+										</span>
+									</cfif>
+								</td>
+							</tr>
+							<!--- check for identifications - mixed collection - part with identifications --->
+							<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT
+									identification_id
+								FROM
+									identification
+								WHERE
+									collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+							</cfquery>
+							<cfif getIdentifications.recordcount GT 0>
+								<tr class="small">
+									<td colspan="5">
+										<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=part_id)>
+									</td>
+								</tr>
+							</cfif>
+							<cfif len(part_remarks) gt 0>
+								<tr class="small90">
+									<td colspan="6" class="mb-0 pb-1 pt-0">
+										<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
+									</td>
+								</tr>
+							</cfif>
+							<!--- for each part list the part attributes --->
+							<cfquery name="partAttributes" dbtype="query">
+								SELECT
+									attribute_type,
+									attribute_value,
+									attribute_units,
+									determined_date,
+									attribute_remark,
+									agent_name,
+									agent_id,
+									agentguid,
+									agentguid_guid_type
+								FROM
+									getParts
+								WHERE
+									attribute_type is not null and
+									part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+								GROUP BY
+									attribute_type,
+									attribute_value,
+									attribute_units,
+									determined_date,
+									attribute_remark,
+									agent_name,
+									agent_id,
+									agentguid,
+									agentguid_guid_type
+							</cfquery>
+							<cfif partAttributes.recordcount gt 0>
+								<tr class="border-top-0">
+									<td colspan="6" class="border-top-0 mt-0 py-0">
+										<cfloop query="partAttributes">
+											<div class="small90 pl-3 line-height-sm">
+												#attribute_type# = <span class="">#attribute_value#</span> &nbsp;
+											<cfif len(attribute_units) gt 0>
+												#attribute_units# &nbsp;
+											</cfif>
+											<cfif len(determined_date) gt 0>
+												determined date=<span class="">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
+											</cfif>
+											<cfif len(agent_name) gt 0>
+												<cfif #agent_id# NEQ "0">
+													<cfset agentLinkOut = "">
+													<cfif len(agentguid) GT 0>
+														<cfset agentLinkOut = getGuidLink(guid=#agentguid#,guid_type=#agentguid_guid_type#)>
+													</cfif>
+													<cfset attDeterminer="<a href='/agents/Agent.cfm?agent_id=#agent_id#'>#agent_name#</a>#agentLinkOut#"> <!--- " --->
+												<cfelse>
+													<cfset attDeterminer="#agent_name#">
+												</cfif>
+												determined by=<span class="">#attDeterminer#</span> &nbsp;
+											</cfif>
+											<cfif len(attribute_remark) gt 0>
+												remark=<span class="">#attribute_remark#</span> &nbsp;
+											</cfif>
+											</div>
+										</cfloop>
+									</td>
+								</tr>
+							</cfif>
+							<!--- iterate through the subsampled parts for each part --->
+							<cfquery name="subsampleParts" dbtype="query">
+								select * from distinctParts where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+							</cfquery>
+							<cfloop query="subsampleParts">
 								<cfquery name="historyCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT sum(cti) ct from (
 										SELECT count(*) cti 
 										FROM object_condition 
 										WHERE
-											collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+											collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
 										UNION
 										SELECT count(*) cti
 										FROM specimen_part_pres_hist
 										WHERE
-											collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+											collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
 									)
 								</cfquery>
 								<cfif historyCount.ct GT 2><cfset histCount = " (#historyCount.ct#)"><cfelse><cfset histCount = ""></cfif>
-								<div id="historyDialog#mainParts.part_id#"></div>
-								<tr <cfif mainParts.recordcount gt 1>class="line-top-sd"<cfelse></cfif>>
-									<td class="py-1"><span class="font-weight-lessbold">#part_name#</span></td>
+								<div id="historyDialog#subsampleParts.part_id#"></div>
+								<tr>
+									<td class="py-1">
+										<span class="d-inline-block pl-3">
+										<span class="font-weight-bold " style="font-size: 17px;">&##172;</span> 
+										<span class="font-italic">Subsample:</span> #part_name#</span>
+									</td>
 									<td class="py-1">
 										#part_condition#
+										
 									</td>
-									<!--- TODO: Link out to history for part(s) --->
 									<td class="py-1">
 										#part_disposition#
 										<cfif loanList.recordcount GT 0 AND manageTransactions IS "1">
@@ -1288,11 +1529,11 @@ limitations under the License.
 													LEFT JOIN loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
 													LEFT JOIN loan on loan_item.transaction_id = loan.transaction_id
 												WHERE
-													 specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+													specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
 													and loan_status <> 'closed'
 											</cfquery>
 											<cfloop query="partonloan">
-												<cfif partonloan.loan_status EQ 'open' and mainParts.part_disposition EQ 'on loan'>
+												<cfif partonloan.loan_status EQ 'open' and subsampleParts.part_disposition EQ 'on loan'>
 													<!--- normal case --->
 													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
 												<cfelse>
@@ -1311,15 +1552,15 @@ limitations under the License.
 													JOIN deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
 													JOIN deaccession on deacc_item.transaction_id = deaccession.transaction_id
 												WHERE
-													specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+													specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
 											</cfquery>
-											<cfif partdeacc.recordcount GT 0>
+											<cfif partdeacc.recordcount>
 												<cfif deaccessionList.recordcount EQ mainParts.recordcount>
 													<!--- just mark all parts as deaccessioned, deaccession number will be in Transaction section --->
-													<span class="d-block small mb-0 pb-0">In Deaccession.</span>
+													<span class="d-block small mb-0 pb-0">In Deaccession</span>
 												<cfelse>
 													<!--- when not all parts have been deaccessioned, link to the deaccession --->
-													<span class="d-block small mb-0 pb-0">In Deacc:
+													<span class="d-block small mb-0 pb-0">Deacc:
 														<cfloop query="partdeacc">
 															<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#partdeacc.transaction_id#">#partdeacc.deacc_number#</a> (#partdeacc.deacc_type#)
 														</cfloop>
@@ -1331,7 +1572,7 @@ limitations under the License.
 									<td class="py-1">#lot_count#</td>
 									<cfif oneOfus is "1">
 										<div id="partContDialog_#collection_object_id#"></div>
-										<td class="pb-0">
+										<td class="py-1">
 											#label# 
 											<span class="small mb-0 pb-0">
 												<a href="javascript:void(0)" aria-label="Part Container Placement"
@@ -1342,34 +1583,20 @@ limitations under the License.
 									<td class="py-1">
 										<span class="small mb-0 pb-0">
 											<a href="javascript:void(0)" aria-label="Condition/Preparation History"
-												onClick=" openHistoryDialog(#mainParts.part_id#, 'historyDialog#mainParts.part_id#');">History#histCount#</a>
+												onClick=" openHistoryDialog(#subsampleParts.part_id#, 'historyDialog#subsampleParts.part_id#');">History#histCount#</a>
 										</span>
 									</td>
 								</tr>
-								<!--- check for identifications - mixed collection - part with identifications --->
-								<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT
-										identification_id
-									FROM
-										identification
-									WHERE
-										collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
-								</cfquery>
-								<cfif getIdentifications.recordcount GT 0>
-									<tr class="small">
-										<td colspan="5">
-											<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=part_id)>
-										</td>
-									</tr>
-								</cfif>
 								<cfif len(part_remarks) gt 0>
 									<tr class="small90">
-										<td colspan="6" class="mb-0 pb-1 pt-0">
-											<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
+										<td colspan="6" class="pt-1">
+											<span class="pl-3 d-block pb-1">
+												<span class="font-italic">Remarks:</span> #part_remarks#
+											</span>
 										</td>
 									</tr>
 								</cfif>
-								<!--- for each part list the part attributes --->
+								<!--- for each subsample part list any part attributes --->
 								<cfquery name="partAttributes" dbtype="query">
 									SELECT
 										attribute_type,
@@ -1385,7 +1612,7 @@ limitations under the License.
 										getParts
 									WHERE
 										attribute_type is not null and
-										part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+										part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
 									GROUP BY
 										attribute_type,
 										attribute_value,
@@ -1399,12 +1626,12 @@ limitations under the License.
 								</cfquery>
 								<cfif partAttributes.recordcount gt 0>
 									<tr class="border-top-0">
-										<td colspan="6" class="border-top-0 mt-0 py-0">
+										<td colspan="6" class="border-top-0 mt-0 pb-2 pt-1">
 											<cfloop query="partAttributes">
-												<div class="small90 pl-3 line-height-sm">
-													#attribute_type# = <span class="">#attribute_value#</span> &nbsp;
+												<div class="small90 pl-3 pb-2 line-height-sm">
+													#attribute_type#&nbsp;=&nbsp;<span class="">#attribute_value#</span>
 												<cfif len(attribute_units) gt 0>
-													#attribute_units# &nbsp;
+												#attribute_units#&nbsp;
 												</cfif>
 												<cfif len(determined_date) gt 0>
 													determined date=<span class="">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
@@ -1422,199 +1649,27 @@ limitations under the License.
 													determined by=<span class="">#attDeterminer#</span> &nbsp;
 												</cfif>
 												<cfif len(attribute_remark) gt 0>
-													remark=<span class="">#attribute_remark#</span> &nbsp;
+													remark=<span class="f">#attribute_remark#</span> &nbsp;
 												</cfif>
 												</div>
 											</cfloop>
 										</td>
 									</tr>
 								</cfif>
-								<!--- iterate through the subsampled parts for each part --->
-								<cfquery name="subsampleParts" dbtype="query">
-									select * from distinctParts where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
-								</cfquery>
-								<cfloop query="subsampleParts">
-									<cfquery name="historyCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT sum(cti) ct from (
-											SELECT count(*) cti 
-											FROM object_condition 
-											WHERE
-												collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
-											UNION
-											SELECT count(*) cti
-											FROM specimen_part_pres_hist
-											WHERE
-												collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
-										)
-									</cfquery>
-									<cfif historyCount.ct GT 2><cfset histCount = " (#historyCount.ct#)"><cfelse><cfset histCount = ""></cfif>
-									<div id="historyDialog#subsampleParts.part_id#"></div>
-									<tr>
-										<td class="py-1">
-											<span class="d-inline-block pl-3">
-											<span class="font-weight-bold " style="font-size: 17px;">&##172;</span> 
-											<span class="font-italic">Subsample:</span> #part_name#</span>
-										</td>
-										<td class="py-1">
-											#part_condition#
-											
-										</td>
-										<td class="py-1">
-											#part_disposition#
-											<cfif loanList.recordcount GT 0 AND manageTransactions IS "1">
-												<!--- look up whether this part is in an open loan --->
-												<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-													SELECT
-														loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks
-													FROM 
-														specimen_part 
-														LEFT JOIN loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
-														LEFT JOIN loan on loan_item.transaction_id = loan.transaction_id
-													WHERE
-														specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
-														and loan_status <> 'closed'
-												</cfquery>
-												<cfloop query="partonloan">
-													<cfif partonloan.loan_status EQ 'open' and subsampleParts.part_disposition EQ 'on loan'>
-														<!--- normal case --->
-														<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
-													<cfelse>
-														<!--- partial returns, in process, historical, in-house, or in open loan but part disposition in collection--->
-														<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number# (#partonloan.loan_status#)</a>
-													</cfif>
-												</cfloop>
-											</cfif>
-											<cfif deaccessionList.recordcount GT 0 AND manageTransactions IS "1">
-												<!--- look up whether this part has been deaccessioned --->
-												<cfquery name="partdeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-													SELECT
-														deacc_number, deacc_type, deaccession.transaction_id
-													FROM 
-														specimen_part 
-														JOIN deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
-														JOIN deaccession on deacc_item.transaction_id = deaccession.transaction_id
-													WHERE
-														specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
-												</cfquery>
-												<cfif partdeacc.recordcount>
-													<cfif deaccessionList.recordcount EQ mainParts.recordcount>
-														<!--- just mark all parts as deaccessioned, deaccession number will be in Transaction section --->
-														<span class="d-block small mb-0 pb-0">In Deaccession</span>
-													<cfelse>
-														<!--- when not all parts have been deaccessioned, link to the deaccession --->
-														<span class="d-block small mb-0 pb-0">Deacc:
-															<cfloop query="partdeacc">
-																<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#partdeacc.transaction_id#">#partdeacc.deacc_number#</a> (#partdeacc.deacc_type#)
-															</cfloop>
-														</span>
-													</cfif>
-												</cfif>
-											</cfif>
-										</td>
-										<td class="py-1">#lot_count#</td>
-										<cfif oneOfus is "1">
-											<div id="partContDialog_#collection_object_id#"></div>
-											<td class="py-1">
-												#label# 
-												<span class="small mb-0 pb-0">
-													<a href="javascript:void(0)" aria-label="Part Container Placement"
-														onClick=" openPartContainersDialog(#collection_object_id#, 'partContDialog_#collection_object_id#'); ">Placement</a>
-												</span>
-											</td>
-										</cfif>
-										<td class="py-1">
-											<span class="small mb-0 pb-0">
-												<a href="javascript:void(0)" aria-label="Condition/Preparation History"
-													onClick=" openHistoryDialog(#subsampleParts.part_id#, 'historyDialog#subsampleParts.part_id#');">History#histCount#</a>
-											</span>
-										</td>
-									</tr>
-									<cfif len(part_remarks) gt 0>
-										<tr class="small90">
-											<td colspan="6" class="pt-1">
-												<span class="pl-3 d-block pb-1">
-													<span class="font-italic">Remarks:</span> #part_remarks#
-												</span>
-											</td>
-										</tr>
-									</cfif>
-									<!--- for each subsample part list any part attributes --->
-									<cfquery name="partAttributes" dbtype="query">
-										SELECT
-											attribute_type,
-											attribute_value,
-											attribute_units,
-											determined_date,
-											attribute_remark,
-											agent_name,
-											agent_id,
-											agentguid,
-											agentguid_guid_type
-										FROM
-											getParts
-										WHERE
-											attribute_type is not null and
-											part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
-										GROUP BY
-											attribute_type,
-											attribute_value,
-											attribute_units,
-											determined_date,
-											attribute_remark,
-											agent_name,
-											agent_id,
-											agentguid,
-											agentguid_guid_type
-									</cfquery>
-									<cfif partAttributes.recordcount gt 0>
-										<tr class="border-top-0">
-											<td colspan="6" class="border-top-0 mt-0 pb-2 pt-1">
-												<cfloop query="partAttributes">
-													<div class="small90 pl-3 pb-2 line-height-sm">
-														#attribute_type#&nbsp;=&nbsp;<span class="">#attribute_value#</span>
-													<cfif len(attribute_units) gt 0>
-													#attribute_units#&nbsp;
-													</cfif>
-													<cfif len(determined_date) gt 0>
-														determined date=<span class="">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
-													</cfif>
-													<cfif len(agent_name) gt 0>
-														<cfif #agent_id# NEQ "0">
-															<cfset agentLinkOut = "">
-															<cfif len(agentguid) GT 0>
-																<cfset agentLinkOut = getGuidLink(guid=#agentguid#,guid_type=#agentguid_guid_type#)>
-															</cfif>
-															<cfset attDeterminer="<a href='/agents/Agent.cfm?agent_id=#agent_id#'>#agent_name#</a>#agentLinkOut#"> <!--- " --->
-														<cfelse>
-															<cfset attDeterminer="#agent_name#">
-														</cfif>
-														determined by=<span class="">#attDeterminer#</span> &nbsp;
-													</cfif>
-													<cfif len(attribute_remark) gt 0>
-														remark=<span class="f">#attribute_remark#</span> &nbsp;
-													</cfif>
-													</div>
-												</cfloop>
-											</td>
-										</tr>
-									</cfif>
-								</cfloop><!--- subsamples --->
-		
-							</cfloop><!--- parts --->
-						</tbody>
-					</table>
-				</cfif>
-			<cfcatch>
-				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-				<cfset function_called = "#GetFunctionCalledName()#">
-				<h2 class='h3'>Error in #function_called#:</h2>
-				<div>#error_message#</div>
-			</cfcatch>
-			</cftry>
-		</cfoutput>
-	</cfthread>
-	<cfthread action="join" name="getPartsThread"/>
-	<cfreturn getPartsThread.output>
+							</cfloop><!--- subsamples --->
+	
+						</cfloop><!--- parts --->
+					</tbody>
+				</table>
+			</cfif>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<h2 class='h3'>Error in #function_called#:</h2>
+			<div>#error_message#</div>
+		</cfcatch>
+		</cftry>
+	</cfoutput>
 </cffunction>
 
 <!--- getPartCount obtain the number of parts for a cataloged item 
@@ -2005,12 +2060,31 @@ limitations under the License.
 							</cfquery>
 						</cfif>
 						<cfquery name="accnLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							select specific_type, restriction_summary 
-							from  permit_trans 
-								left join permit on permit_trans.permit_id = permit.permit_id
-							where 
+							SELECT 
+								case when length(permit.restriction_summary) > 30 then substr(permit.restriction_summary,1,30) || '...' else permit.restriction_summary end as restriction_summary,
+								permit.specific_type,
+								permit.permit_num,
+								permit.permit_title,
+								permit.permit_id
+							FROM permit_trans 
+								join permit on permit_trans.permit_id = permit.permit_id
+							WHERE 
 								permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccn.accn_id#">
 								and permit.restriction_summary IS NOT NULL
+						</cfquery>
+						<cfquery name="accnBenefits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT 
+								case when length(permit.benefits_summary) > 30 then substr(permit.benefits_summary,1,30) || '...' else permit.benefits_summary end as benefits_summary,
+								case when length(permit.internal_benefits_summary) > 30 then substr(permit.internal_benefits_summary,1,30) || '...' else permit.internal_benefits_summary end as internal_benefits_summary,
+								permit.specific_type,
+								permit.permit_num,
+								permit.permit_title,
+								permit.permit_id
+							FROM permit_trans 
+								join permit on permit_trans.permit_id = permit.permit_id
+							WHERE 
+								permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccn.accn_id#">
+								AND (permit.benefits_summary IS NOT NULL OR permit.internal_benefits_summary IS NOT NULL)	
 						</cfquery>
 						<cfset accnDept = "">
 						<cfif lookupAccn.catitem_coll_cde NEQ lookupAccn.accn_coll_cde>
@@ -2035,7 +2109,8 @@ limitations under the License.
 								MCZBASE.is_media_encumbered(media.media_id) < 1
 						</cfquery>
 						<cfset hasContent = true>
-						<li class="list-group-item pt-0"><span class="font-weight-lessbold mb-0 d-inline-block">Accession:</span>
+						<li class="list-group-item pt-0">
+							<span class="font-weight-lessbold mb-0 d-inline-block">Accession:</span>
 							<cfif lookupAccn.visibility_to_user EQ 'visible'>
 								<!--- user has access to edit the accession, so link to edit it --->
 								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#lookupAccn.accn_id#" target="_blank">#lookupAccn.accn_number#</a>
@@ -2046,12 +2121,42 @@ limitations under the License.
 								#lookupAccn.accn_number# #accnDept#
 							</cfif>
 							<cfif accnLimitations.recordcount GT 0>
-								<strong>Restrictions on use exist:</strong>
-								<ul class="pl-0">
-									<cfloop query="accnLimitations">
-										<li class="small90">#specific_type# - #restriction_summary#</li>
-									</cfloop>
-								</ul>
+								</li>
+								<li class="list-group-item pt-0">
+									<span class="font-weight-lessbold mb-0 d-inline-block">Permits with restrictions on use:</span>
+									<ul class="pl-0">
+										<cfloop query="accnLimitations">
+											<li class="small90">
+												<a href="/transactions/Permit.cfm?action=view&permit_id=#accnLimitations.permit_id#" target="_blank">
+													#accnLimitations.specific_type# #accnLimitations.permit_num#
+												</a> 
+												#accnLimitations.restriction_summary#
+											</li>
+										</cfloop>
+									</ul>
+								<!--- li closed later --->
+							</cfif>
+							<cfif accnBenefits.recordcount GT 0>
+								</li>
+								<li class="list-group-item pt-0">
+									<span class="font-weight-lessbold mb-0 d-inline-block">Permits with required benefits:</span>
+									<ul class="pl-0">
+										<cfloop query="accnBenefits">
+											<li class="small90">
+												<a href="/transactions/Permit.cfm?action=view&permit_id=#accnBenefits.permit_id#" target="_blank">
+													#accnBenefits.specific_type# #accnBenefits.permit_num#
+												</a> 
+												<cfif len(accnBenefits.benefits_summary) gt 0>
+													<strong>Apply to All:</strong> #accnBenefits.benefits_summary#
+												</cfif>
+												<cfif len(accnBenefits.internal_benefits_summary) gt 0>
+													<cfif len(accnBenefits.benefits_summary) gt 0>, </cfif>
+													<strong>Apply to Harvard:</strong> #accnBenefits.internal_benefits_summary#
+												</cfif>
+											</li>
+										</cfloop>
+									</ul>
+								<!--- li closed later --->
 							</cfif>
 							<cfif accnMedia.recordcount gt 0>
 								<cfloop query="accnMedia">

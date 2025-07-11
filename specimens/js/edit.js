@@ -732,3 +732,164 @@ function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 	});
 };
 
+/** openEditCitationsDialog open a dialog for editing citations for a cataloged item.
+ *
+ * @param collection_object_id for the cataloged_item for which to edit citations.
+ * @param dialogId the id in the dom for the div to turn into the dialog without
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openEditCitationsDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Citations for " + guid;
+	createCitationEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditCitationHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Citations dialog");
+		},
+		dataType: "html"
+	});
+};
+
+/** openEditPartsDialog open a dialog for editing parts for a cataloged item.
+ *
+ * @param collection_object_id for the cataloged_item for which to edit parts.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openEditPartsDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Parts for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditPartsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Parts dialog");
+		},
+		dataType: "html"
+	});
+};
+
+function editPartAttributes(part_collection_object_id,callback) {
+	var title = "Edit Part Attributes";
+	dialogId = "editPartAttributesDialog";
+	max_height = 750;
+	width_cap = 1300; 
+	console.log("editPartAttributes: part_collection_object_id = " + part_collection_object_id);
+	createSpecimenEditDialog(dialogId,title,callback,max_height,width_cap);
+	// Call the server-side function to get the edit HTML, load into the dialog
+	$.ajax({
+		url: '/specimens/component/functions.cfc',
+		type: 'POST',
+		data: {
+			method: 'getEditPartAttributesHTML',
+			returnformat: 'plain',
+			partID: part_collection_object_id
+		},
+		success: function(response) {
+			console.log("editPartAttributes: success");
+			// defer execution to ensure dialog is created before loading content
+			setTimeout(function() { $("#" + dialogId + "_div").html(response); }, 0);
+		},
+		error: function(xhr, status, error) {
+			handleError(xhr, status, error);
+		}
+	});
+}
+
+/** handlePartAttributeTypeChange handles the change of part attribute type.
+ * @param suffix optional suffix for the attribute fields (e.g., for multiple attributes), assumes that the
+ * attribute type is in a select with id = 'attribute_type' or id = 'attribute_type' + suffix.
+ * similarly assumes that the value field is in an input with id = 'attribute_value' or id = 'attribute_value' + suffix,
+ * and the units field is in an input with id = 'attribute_units' or id = 'attribute_units' + suffix.
+ * @param partID the ID of the part to which the attribute belongs
+ */
+function handlePartAttributeTypeChange(suffix, partID) {
+    var selectedType = $('#attribute_type' + suffix).val();
+    var valueFieldId = 'attribute_value' + suffix;
+    var unitsFieldId = 'attribute_units' + suffix;
+	console.log("handlePartAttributeTypeChange: selectedType = " + selectedType + ", partID = " + partID + ", suffix = " + suffix);
+    
+    // lookup value code table and units code table from ctspec_part_att_att
+    $.ajax({
+        url: '/specimens/component/functions.cfc',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            partID: partID,
+            method: 'getPartAttributeCodeTables',
+            attribute_type: selectedType
+        },
+        success: function(response) {
+            console.log(response);
+            
+            // Handle value field
+            if (response[0].value_code_table) {
+                // Create select element with label
+                var selectHtml = '<label for="' + valueFieldId + '" class="data-entry-label">Value</label>' +
+                               '<select id="' + valueFieldId + '" name="attribute_value" class="data-entry-select reqdClr" required>' +
+                               '<option value=""></option>';
+                
+                // Add options from response
+                var values = response[0].value_values.split('|');
+                $.each(values, function(index, value) {
+                    selectHtml += '<option value="' + value + '">' + value + '</option>';
+                });
+                selectHtml += '</select>';
+                
+                // Replace the entire parent element content
+                $('#' + valueFieldId).parent().html(selectHtml);
+            } else {
+                // Create text input with label
+                var inputHtml = '<label for="' + valueFieldId + '" class="data-entry-label">Value</label>' +
+                              '<input type="text" class="data-entry-input reqdClr" id="' + valueFieldId + '" name="attribute_value" value="" required>';
+                
+                // Replace the entire parent element content
+                $('#' + valueFieldId).parent().html(inputHtml);
+            }
+            
+            // Handle units field
+            if (response[0].units_code_table) {
+                // Create select element with label
+                var selectHtml = '<label for="' + unitsFieldId + '" class="data-entry-label">Units</label>' +
+                               '<select id="' + unitsFieldId + '" name="attribute_units" class="data-entry-select">' +
+                               '<option value=""></option>';
+                
+                // Add options from response
+                $.each(response[0].units_values.split('|'), function(index, value) {
+                    selectHtml += '<option value="' + value + '">' + value + '</option>';
+                });
+                selectHtml += '</select>';
+                
+                // Replace the entire parent element content
+                $('#' + unitsFieldId).parent().html(selectHtml);
+            } else {
+                // Create text input with label (disabled for units when no code table)
+                var inputHtml = '<label for="' + unitsFieldId + '" class="data-entry-label">Units</label>' +
+                              '<input type="text" class="data-entry-input" id="' + unitsFieldId + '" name="attribute_units" value="" disabled>';
+                
+                // Replace the entire parent element content
+                $('#' + unitsFieldId).parent().html(inputHtml);
+            }
+        },
+        error: function(xhr, status, error) {
+            handleFail(xhr,status,error,"handling change of part attribute type.");
+        }
+    });
+}

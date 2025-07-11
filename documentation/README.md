@@ -263,9 +263,16 @@ In some cases, such as the bulkloaders, the same .cfm page may be called with ei
     <cfif isDefined("variables.action") AND variables.action is "dumpProblems">
        ...
 
-It is a good practice to be explicit about variables scope.
+It is a good practice to be explicit about variables scope:
 
      <cfset variables.endDate=form.endDate>
+
+or local scope:
+
+     <cfset var endDate=form.endDate>
+		#local.endDate#
+
+Variable scope is available to all pages processed in the same request, so if the same variable name may be given different values by different functions processed in the same request (e.g. when collection_object_id may be used for a cataloged item in one function and a specimen part in another function), then there may be unintended consequences of using variable scope, and local scope may be preferred.
 
 Use explicit argument scope and variables scope for backing methods that use threading to make the argument values available within the thread:
 
@@ -275,6 +282,18 @@ Use explicit argument scope and variables scope for backing methods that use thr
        <cfthread name="getSomethingThread" >
 		    <cfquery ....
               result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
+			</cfquery>
+			<!--- note, changing the value of variables.result_id will change it for the entire request (page scope), and could hit deadlocks between threads --->
+
+Or better, pass variables from argument scope into the thread as thread attributes.
+
+    <cffunction name="getSomthing" access="remote" returntype="any" returnformat="plain">
+       <cfargument name="result_id" type="string" required="yes">
+       <cfthread name="getSomethingThread" result_id="#arguments.result_id#" >
+		    <cfquery ....
+              result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+			</cfquery>
+			<!--- changing the value of result_id here will only change the copy within the thread --->
 
 ### Functions
 

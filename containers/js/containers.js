@@ -23,7 +23,8 @@ limitations under the License.
  *  @param clear, optional, default false, set to true for data entry controls to clear both controls when change
  *   is made other than selection from picklist.
  */
-function makeContainerAutocompleteMeta(nameControl, idControl, clear=false) { 
+function makeContainerAutocompleteMeta(nameControl, idControl, clear=false) {
+	console.log("Element ["+nameControl+"] exists:", $('#'+nameControl).length > 0);
 	$('#'+nameControl).autocomplete({
 		source: function (request, response) { 
 			$.ajax({
@@ -51,10 +52,13 @@ function makeContainerAutocompleteMeta(nameControl, idControl, clear=false) {
 			}
 		},
 		minLength: 3
-	}).autocomplete("instance")._renderItem = function(ul,item) { 
-		// override to display meta "matched name * (preferred name)" instead of value in picklist.
-		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
-	};
+	});
+	// Set the custom render item after autocomplete is initialized
+   $('#'+nameControl).autocomplete("instance")._renderItem = function(ul, item) {
+      // override to display meta "matched name * (preferred name)" instead of value in picklist.
+      return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+   };
+
 };
 /** Make a paired hidden container_id and text container control into an autocomplete container picker that displays meta 
  *  on picklist and value on selection, limiting matches to non-collection object containers.
@@ -64,6 +68,7 @@ function makeContainerAutocompleteMeta(nameControl, idControl, clear=false) {
  *   is made other than selection from picklist.
  */
 function makeContainerAutocompleteMetaExcludeCO(nameControl, idControl, clear=false) { 
+	console.log("Element ["+nameControl+"] exists:", $('#'+nameControl).length > 0);
 	$('#'+nameControl).autocomplete({
 		source: function (request, response) { 
 			$.ajax({
@@ -95,7 +100,9 @@ function makeContainerAutocompleteMetaExcludeCO(nameControl, idControl, clear=fa
 			}
 		},
 		minLength: 3
-	}).autocomplete("instance")._renderItem = function(ul,item) { 
+	});
+	// Set the custom render item after autocomplete is initialized
+	$('#'	+nameControl).autocomplete("instance")._renderItem = function(ul, item) {
 		// override to display meta "matched name * (preferred name)" instead of value in picklist.
 		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
 	};

@@ -1351,7 +1351,8 @@ function makeCollectingEventAutocompleteMeta(valueControl, idControl) {
 	};
 };
 
-/** Make a text control into an autocomplete part name  picker.
+/** Make a text control into an autocomplete part name picker, intended for use with search,
+ * prepends an equals sign on selection.
  *
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  */
@@ -1371,6 +1372,38 @@ function makePartNameAutocompleteMeta(valueControl ) {
 		select: function (event, result) {
 			event.preventDefault();
 			$('#'+valueControl).val("=" + result.item.value);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
+/** Make a text control into an autocomplete part name picker limited by collection, intended for use with data entry
+ * does not prepend an equals sign on selection.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param collection_cde the collection code to limit the autocomplete to.
+ */
+function makePartNameAutocompleteMetaForCollection(valueControl,collection_cde) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/specimens/component/search.cfc",
+				data: { 
+					term: request.term, 
+					collection_cde: collection_cde,
+					method: 'getPartNameAutocompleteMeta' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up part names for a part name picker");
+				}
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+valueControl).val(result.item.value);
 		},
 		minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 

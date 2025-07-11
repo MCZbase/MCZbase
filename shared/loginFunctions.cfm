@@ -64,6 +64,7 @@ limitations under the License.
 	<cfset session.showObservations="">
 	<cfset session.result_sort="">
 	<cfset session.username="">
+	<cfset session.myAgentId="">
 	<cfset session.killrow="0">
 	<cfset session.searchBy="">
 	<cfset session.fancyCOID="">

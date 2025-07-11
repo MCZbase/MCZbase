@@ -2397,6 +2397,29 @@ limitations under the License.
 							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						AND disposition_remarks is not null
 					</cfquery>
+					<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT distinct
+							case when length(permit.restriction_summary) > 30 then substr(permit.restriction_summary,1,30) || '...' else permit.restriction_summary end as restriction_summary,
+							permit.specific_type,
+							permit.permit_num,
+							permit.permit_title,
+							permit.permit_id
+						FROM 
+							cataloged_item
+							join accn on cataloged_item.accn_id = accn.transaction_id
+							join permit_trans on accn.transaction_id = permit_trans.transaction_id
+							join permit on permit_trans.permit_id = permit.permit_id
+						WHERE 
+							cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+							and permit.restriction_summary is not null
+					</cfquery>
+					<cfif getRestrictions.recordcount GT 0>
+						<cfset local.restrictions = "Permits with restrictions on use:<ul>"><!--- " --->
+						<cfloop query="getRestrictions">
+							<cfset local.restrictions = "#local.restrictions#<li><strong><a href='/transactions/Permit.cfm?action=view&permit_id=#getRestrictions.permit_id#' target='_blank'>#getRestrictions.specific_type# #getRestrictions.permit_num#</a></strong> #getRestrictions.restriction_summary#</li>"><!--- " --->
+						</cfloop>
+						<cfset local.restrictions = "#local.restrictions#</ul>"><!--- " --->
+					</cfif>
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12 float-left mb-4 px=0 border">
@@ -2407,6 +2430,9 @@ limitations under the License.
 										<li>Accession: <a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#">#getCatalog.accn_number#</a></li>
 									<cfelse>
 										<li>Accession: <a href="">#getCatalog.accn_number#</a></li>
+									</cfif>
+									<cfif isDefined("local.restrictions") and len(local.restrictions) GT 0>
+										<li>#local.restrictions#</li>
 									</cfif>
 									<li>Received Date: #dateformat(getCatalog.received_date,'mm/dd/yyyy')#</li>
 									<li>Accession Status: #getCatalog.accn_status#</li>
@@ -3889,41 +3915,277 @@ limitations under the License.
 	<cfreturn getAgentIdentsThread.output>
 </cffunction>
 
+
+
+<!--- getEditPartsHTML returns the HTML for the edit parts dialog.
+ @param collection_object_id the collection_object_id for the cataloged item to edit parts for.
+ @return HTML for the edit parts dialog, including a form to add new parts and a table of existing parts.
+--->
 <cffunction name="getEditPartsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
-	<cfset variables.collection_object_id = arguments.collection_object_id>
 	<!--- TODO: Cases to handle: 
 	  One Cataloged Item, one occurrence, one or more parts, each a material sample, each part in one container.
 	  One Cataloged Item, a set of parts may be a separate occurrence with a separate identification history, each part a material sample, each part in one container, need occurrence ids for additional parts after the first, need rows in at least digir_filtered_flat for additional occurrences.
 	  More than one cataloged item, each a separate occurrence, with a set of parts, each part a material sample, parts may be in the same collection object container (thus loanable only as a unit).
    --->
-	<cfthread name="getEditPartsThread">
+	<cfthread name="getEditPartsThread" collection_object_id="#arguments.collection_object_id#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getCatItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						cataloged_item.collection_object_id,
+						cataloged_item.cat_num,
+						cataloged_item.collection_cde,
+						collection.institution_acronym
+					FROM
+						cataloged_item 
+						join collection on cataloged_item.collection_id = collection.collection_id
+					WHERE
+						cataloged_item.collection_object_id = <cfqueryparam value="#attributes.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
+				<cfset guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num#">
+				<!--- check for mixed collection --->
+				<cfquery name="checkMixed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT count(identification_id) ct
+					FROM coll_object
+						join specimen_part on specimen_part.derived_from_cat_item = coll_object.collection_object_id
+						join identification on specimen_part.collection_object_id = identification.collection_object_id
+					WHERE coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatItem.collection_object_id#">
+				</cfquery>
+				<cfif checkMixed.ct gt 0>
+					<cfset var mixedCollection = true>
+					<cfset guid = "#guid# (mixed collection)">
+				<cfelse>
+					<cfset var mixedCollection = false>
+				</cfif>
+
+				<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT coll_obj_disposition 
+					FROM ctcoll_obj_disp 
+					ORDER BY coll_obj_disposition
+				</cfquery>
+				
+				<cfquery name="ctModifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT modifier 
+					FROM ctnumeric_modifiers 
+					ORDER BY modifier DESC
+				</cfquery>
+				
+				<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT preserve_method
+					FROM ctspecimen_preserv_method
+					WHERE collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
+					ORDER BY preserve_method
+				</cfquery>
+
+				<!--- add new part --->
+				<div class="col-12 mt-4 px-1">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12">
+								<div class="add-form">
+									<div class="add-form-header pt-1 px-2" id="headingPart">
+										<h2 class="h3 my-0 px-1 bp-1">Add New Part for #guid#</h2>
+									</div>
+									<div class="card-body">
+										<form name="newPart" id="newPart">
+											<input type="hidden" name="derived_from_cat_item" value="#getCatItem.collection_object_id#">
+											<input type="hidden" name="method" value="createSpecimenPart">
+											<input type="hidden" name="is_subsample" value="false"><!--- TODO: Add subsample support --->
+											<input type="hidden" name="subsampled_from_obj_id" value="">
+											<div class="row mx-0 pb-2 col-12 px-0 mt-2 mb-1">
+												<div class="float-left col-12 col-md-4 px-1">
+													<label for="part_name" class="data-entry-label">Part Name</label>
+													<input name="part_name" class="data-entry-input reqdClr" id="part_name" type="text" required>
+												</div>
+												<div class="float-left col-12 col-md-4 px-1">
+													<label for="preserve_method" class="data-entry-label">Preserve Method</label>
+													<select name="preserve_method" id="preserve_method" class="data-entry-select reqdClr" required>
+														<option value=""></option>
+														<cfloop query="ctPreserveMethod">
+															<option value="#preserve_method#">#preserve_method#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="float-left col-12 col-md-2 px-1">
+													<label for="lot_count_modifier" class="data-entry-label">Count Modifier</label>
+													<select name="lot_count_modifier" id="lot_count_modifier" class="data-entry-select">
+														<option value=""></option>
+														<cfloop query="ctModifiers">
+															<option value="#modifier#">#modifier#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="float-left col-12 col-md-2 px-1">
+													<label for="lot_count" class="data-entry-label">Count</label>
+													<input name="lot_count" id="lot_count" class="data-entry-input reqdClr" type="text" required>
+												</div>
+												<div class="float-left col-12 col-md-4 px-1">
+													<label for="coll_obj_disposition" class="data-entry-label">Disposition</label>
+													<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select reqdClr" required>
+														<option value=""></option>
+														<cfloop query="ctDisp">
+															<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="float-left col-12 col-md-4 px-1">
+													<label for="condition" class="data-entry-label">Condition</label>
+													<input name="condition" id="condition" class="data-entry-input reqdClr" type="text" required>
+												</div>
+												<div class="float-left col-12 col-md-4 px-1">
+													<label for="container_barcode" class="data-entry-label">Container</label>
+													<input name="container_barcode" id="container_barcode" class="data-entry-input" type="text" placeholder="Scan or type barcode">
+												</div>
+												<div class="float-left col-12 px-1">
+													<label for="coll_object_remarks" class="data-entry-label">Remarks (<span id="length_remarks"></span>)</label>
+													<textarea id="coll_object_remarks" name="coll_object_remarks" 
+														onkeyup="countCharsLeft('coll_object_remarks', 4000, 'length_remarks');"
+														class="data-entry-textarea autogrow mb-1" maxlength="4000"></textarea>
+												</div>
+												<div class="col-12 col-md-12 px-1 mt-2">
+													<button id="newPart_submit" value="Create" class="btn btn-xs btn-primary" title="Create Part">Create Part</button>
+													<output id="newPart_output"></output>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+								<script>
+									$(document).ready(function() {
+										// make container barcode autocomplete, reference containers that can contain collection objects
+										makeContainerAutocompleteMetaExcludeCO("container_barcode", "container_id");
+										// make part name autocomplete, limiting to parts in the collection for the collection object
+										makePartNameAutocompleteMetaForCollection("part_name", "#getCatItem.collection_cde#");
+									});
+									// Add event listener to the save button
+									$('##newPart_submit').on('click', function(event) {
+										event.preventDefault();
+										// Validate the form
+										if ($('##newPart')[0].checkValidity() === false) {
+											// If the form is invalid, show validation messages
+											$('##newPart')[0].reportValidity();
+											return false; // Prevent form submission if validation fails
+										}
+										setFeedbackControlState("newPart_output","saving");
+										$.ajax({
+											url: '/specimens/component/functions.cfc',
+											type: 'POST',
+											responseType: 'json',
+											data: $('##newPart').serialize(),
+											success: function(response) {
+												console.log(response);
+												setFeedbackControlState("newPart_output","saved");
+												reloadEditExistingParts();
+											},
+											error: function(xhr, status, error) {
+												setFeedbackControlState("newPart_output","error");
+												handleFail(xhr,status,error,"saving part.");
+											}
+										});
+									});
+									function reloadEditExistingParts() {
+										// reload the edit existing parts section
+										$.ajax({
+											url: '/specimens/component/functions.cfc',
+											type: 'POST',
+											dataType: 'html',
+											data: {
+												method: 'getEditExistingPartsUnthreaded',
+												collection_object_id: '#attributes.collection_object_id#'
+											},
+											success: function(response) {
+												$('##editExistingPartsDiv').html(response);
+											},
+											error: function(xhr, status, error) {
+												handleFail(xhr,status,error,"reloading edit existing parts.");
+											}
+										});
+									}
+								</script>
+								<!--- edit existing parts --->
+								<div id="editExistingPartsDiv">
+									<!--- this div is replaced with the edit existing parts HTML when parts are added --->
+									#getEditExistingPartsUnthreaded(collection_object_id=attributes.collection_object_id)#
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+					<cfdump var="#cfcatch#">
+				</cfif>
+			</cfcatch>
+			</cftry>
+		</cfoutput> 
+	</cfthread>
+	<cfthread action="join" name="getEditPartsThread" />
+	<cfreturn getEditPartsThread.output>
+</cffunction>
+
+<!--- 
+ getEditExistingPartsUnthreaded returns the HTML for the edit existing parts section, intended to be used
+ from within threaded getEditPartsHTML or invoked independently to reload just the edit existing parts section 
+ of the dialog.
+ @param collection_object_id the collection object id to obtain existing parts for
+ @return a string containing the HTML for the edit existing parts section
+--->
+<cffunction name="getEditExistingPartsUnthreaded" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfoutput>
 		<cftry>
-			<cfquery name="collcode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select collection_cde from cataloged_item where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+			<cfquery name="getCatItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT
+					cataloged_item.collection_object_id,
+					cataloged_item.cat_num,
+					cataloged_item.collection_cde,
+					collection.institution_acronym
+				FROM
+					cataloged_item 
+					join collection on cataloged_item.collection_id = collection.collection_id
+				WHERE
+					cataloged_item.collection_object_id = <cfqueryparam value="#arguments.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
+			<cfset guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num#">
+			
 			<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select coll_obj_disposition from ctcoll_obj_disp order by coll_obj_disposition
+				SELECT coll_obj_disposition 
+				FROM ctcoll_obj_disp 
+				ORDER BY coll_obj_disposition
 			</cfquery>
+			
 			<cfquery name="ctModifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select modifier from ctnumeric_modifiers order by modifier desc
+				SELECT modifier 
+				FROM ctnumeric_modifiers 
+				ORDER BY modifier DESC
 			</cfquery>
+			
 			<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select preserve_method
-				from ctspecimen_preserv_method
-				where collection_cde = '#collcode.collection_cde#'
-				order by preserve_method
+				SELECT preserve_method
+				FROM ctspecimen_preserv_method
+				WHERE collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
+				ORDER BY preserve_method
 			</cfquery>
+			
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select
+				SELECT
 					specimen_part.collection_object_id part_id,
 					pc.label label,
+					pc.container_id container_id,
 					nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
+					specimen_part.part_name as base_part_name,
+					specimen_part.preserve_method,
 					sampled_from_obj_id,
 					coll_object.COLL_OBJ_DISPOSITION part_disposition,
 					coll_object.CONDITION part_condition,
-					nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count,
+					coll_object.lot_count_modifier,
+					coll_object.lot_count,
+					nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) display_lot_count,
 					coll_object_remarks part_remarks,
 					attribute_type,
 					attribute_value,
@@ -3931,7 +4193,7 @@ limitations under the License.
 					determined_date,
 					attribute_remark,
 					agent_name
-				from
+				FROM
 					specimen_part,
 					coll_object,
 					coll_object_remark,
@@ -3940,7 +4202,7 @@ limitations under the License.
 					container pc,
 					specimen_part_attribute,
 					preferred_agent_name
-				where
+				WHERE
 					specimen_part.collection_object_id=specimen_part_attribute.collection_object_id (+) and
 					specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id (+) and
 					specimen_part.collection_object_id=coll_object.collection_object_id and
@@ -3948,256 +4210,736 @@ limitations under the License.
 					coll_object.collection_object_id=coll_object_remark.collection_object_id (+) and
 					coll_obj_cont_hist.container_id=oc.container_id and
 					oc.parent_container_id=pc.container_id (+) and
-					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 			</cfquery>
+			
 			<cfquery name="parts" dbtype="query">
-				select
+				SELECT
 					part_id,
 					label,
+					container_id,
 					part_name,
+					base_part_name,
+					preserve_method,
 					sampled_from_obj_id,
 					part_disposition,
 					part_condition,
+					lot_count_modifier,
 					lot_count,
+					display_lot_count,
 					part_remarks
-				from
+				FROM
 					rparts
-				group by
+				GROUP BY
 					part_id,
 					label,
+					container_id,
 					part_name,
+					base_part_name,
+					preserve_method,
 					sampled_from_obj_id,
 					part_disposition,
 					part_condition,
+					lot_count_modifier,
 					lot_count,
+					display_lot_count,
 					part_remarks
-				order by
+				ORDER BY
 					part_name
 			</cfquery>
+			
 			<cfquery name="mPart" dbtype="query">
-				select * from parts where sampled_from_obj_id is null order by part_name
+				SELECT * FROM parts WHERE sampled_from_obj_id IS NULL ORDER BY part_name
 			</cfquery>
-			<cfset ctPart.ct=''>
-			<cfquery name="ctPart" dbtype="query">
-				select count(*) as ct from parts group by lot_count order by part_name
-			</cfquery>
-			<cfoutput>
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-12 mt-1">
-							<form>
-								<h1 class="h3 px-1">Edit Existing Parts</h1>
-								<table class="table border-bottom mb-0">
-									<thead>
-										<tr class="bg-light">
-											<th><span>Part Name</span></th>
-											<th><span>Condition</span></th>
-											<th><span>Disposition</span></th>
-											<th><span>##</span></th>
-											<th><span>Container</span></th>
-											<th>Action</th>
-										</tr>
-									</thead>
-									<tbody>
-										<cfset i=1>
-										<cfloop query="mPart">
-											<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
-												<td>
-													<input class="data-entry-input" value="#part_name#">
-												</td>
-												<td><input class="data-entry-input" size="7" value="#part_condition#"></td>
-												<td><input class="data-entry-input" size="7" value="#part_disposition#"></td>
-												<td><input class="data-entry-input" size="2" value="#lot_count#"></td>
-												<td><input class="data-entry-input" value="#label#"></td>
-												<td>
-													<!--- remove button --->
-													<button type="button" class="btn btn-xs btn-danger" onclick="confirmDialog('Remove this part?', 'Confirm Delete Part', function() { removePart('#part_id#'); });">Remove</button>
-													<!--- make mixed collection button --->
-													<button type="button" class="btn btn-xs btn-warning" onclick="confirmDialog('Make mixed collection?', 'Confirm Mixed Collection', function() { openEditIdentificationsDialog('#part_id#','identificationsDialog',reloadIdentifications); });">ID Mixed</button>
-												</td>
-											</tr>
-											<cfif len(part_remarks) gt 0>
-												<tr class="small">
-													<td colspan="5"><span class="d-block"><span class="font-italic pl-1">Remarks:</span>
-														<input class="w-100" type="text" value="#part_remarks#">
-														</span></td>
-												</tr>
-											</cfif>
-											<!--- check for identifications - mixed collection - part with identifications --->
-											<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												select
-													identification_id
-												from
-													identification
-												where
-													collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
-											</cfquery>
-											<cfif getIdentifications.recordcount GT 0>
-												<tr class="small">
-													<td colspan="5">
-														<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=part_id)>
-													</td>
-												</tr>
-											</cfif>
-											<cfquery name="patt" dbtype="query">
-												select
-													attribute_type,
-													attribute_value,
-													attribute_units,
-													determined_date,
-													attribute_remark,
-													agent_name
-												from
-													rparts
-												where
-													attribute_type is not null and
-													part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
-												group by
-													attribute_type,
-													attribute_value,
-													attribute_units,
-													determined_date,
-													attribute_remark,
-													agent_name
-											</cfquery>
-											<cfif patt.recordcount gt 0>
-												<tr>
-													<td colspan="5"><cfloop query="patt">
-															<div class="small pl-3" style="line-height: .9rem;">
-																<input type="text" class="" value="#attribute_type#">
-																=
-																<input class="" value="#attribute_value#">
-																<cfif len(attribute_units) gt 0>
-																	<input type="text" class="" value="#attribute_units#">
-																</cfif>
-																<cfif len(determined_date) gt 0>
-																	determined date =
-																	<input type="text" class="" value="#dateformat(determined_date,"yyyy-mm-dd")#">
-																</cfif>
-																<cfif len(agent_name) gt 0>
-																	determined by =
-																	<input type="text" class="" value="#agent_name#">
-																</cfif>
-																<cfif len(attribute_remark) gt 0>
-																	remark =
-																	<input type="text" class="" value="#attribute_remark#">
-																</cfif>
-															</div>
-														</cfloop></td>
-												</tr>
-											</cfif>
-											<cfquery name="sPart" dbtype="query">
-												select * from parts where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
-											</cfquery>
-											<cfloop query="sPart">
-												<tr>
-													<td><span class="d-inline-block pl-3">#part_name# <span class="font-italic">subsample</span></span></td>
-													<td>#part_condition#</td>
-													<td>#part_disposition#</td>
-													<td>#lot_count#</td>
-													<td>#label#</td>
-												</tr>
-												<cfif len(part_remarks) gt 0>
-													<tr class="small">
-														<td colspan="5"><span class="pl-3 d-block"> <span class="font-italic">Remarks:</span>
-															<input class="" type="text" value="#part_remarks#">
-															</span></td>
-													</tr>
+			
+			<div class="row mx-0">
+				<div class="bg-light p-2 col-12 row">
+					<h1 class="h3">Edit Existing Parts</h1>
+					<div class="col-12 px-0 pb-3">
+						<cfif mPart.recordCount EQ 0>
+							<p>No parts found</p>
+						<cfelse>
+							<cfset var i = 0>
+							<cfloop query="mPart">
+								<cfset i = i + 1>
+								<div class="row mx-0 border py-1 mb-0">
+									<form name="editPart#i#" id="editPart#i#">
+										<div class="col-12 row">
+											<input type="hidden" name="part_collection_object_id" value="#part_id#">
+											<input type="hidden" name="method" value="updatePart">
+											<div class="col-12 col-md-4">
+												<label for="part_name#i#" class="data-entry-label">Part Name</label>
+												<input type="text" class="data-entry-input reqdClr" id="part_name#i#" name="part_name" value="#base_part_name#" required>
+											</div>
+											<div class="col-12 col-md-4">
+												<label for="preserve_method#i#" class="data-entry-label">Preserve Method</label>
+												<select name="preserve_method" id="preserve_method#i#" class="data-entry-select reqdClr" required>
+													<option value=""></option>
+													<cfloop query="ctPreserveMethod">
+														<cfif ctPreserveMethod.preserve_method EQ mPart.preserve_method>
+															<cfset selected = "selected">
+														<cfelse>
+															<cfset selected = "">
+														</cfif>
+														<option value="#ctPreserveMethod.preserve_method#" #selected#>#ctPreserveMethod.preserve_method#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-2">
+												<label for="lot_count_modifier#i#" class="data-entry-label">Count Modifier</label>
+												<select name="lot_count_modifier" id="lot_count_modifier#i#" class="data-entry-select">
+													<option value=""></option>
+													<cfloop query="ctModifiers">
+														<cfif ctModifiers.modifier EQ mPart.lot_count_modifier>
+															<cfset selected = "selected">
+														<cfelse>
+															<cfset selected = "">
+														</cfif>
+														<option value="#ctModifiers.modifier#" #selected#>#ctModifiers.modifier#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-2">
+												<label for="lot_count#i#" class="data-entry-label">Count</label>
+												<input type="text" class="data-entry-input reqdClr" id="lot_count#i#" name="lot_count" value="#lot_count#" required>
+											</div>
+											<div class="col-12 col-md-4">
+												<label for="part_disposition#i#" class="data-entry-label">Disposition</label>
+												<select name="disposition" id="part_disposition#i#" class="data-entry-select reqdClr" required>
+													<option value=""></option>
+													<cfloop query="ctDisp">
+														<cfif ctDisp.coll_obj_disposition EQ mPart.part_disposition>
+															<cfset selected = "selected">
+														<cfelse>
+															<cfset selected = "">
+														</cfif>
+														<option value="#ctDisp.coll_obj_disposition#" #selected#>#ctDisp.coll_obj_disposition#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-4">
+												<label for="part_condition#i#" class="data-entry-label">Condition</label>
+												<input type="text" class="data-entry-input reqdClr" id="part_condition#i#" name="condition" value="#part_condition#" required>
+											</div>
+											<div class="col-12 col-md-4">
+												<label for="container_label#i#" class="data-entry-label">Container</label>
+												<input type="text" class="data-entry-input" id="container_label#i#" name="container_barcode" value="#label#">
+												<input type="hidden" id="container_id#i#" name="container_id" value="#container_id#">
+											</div>
+											<div class="col-12 col-md-9">
+												<label for="part_remarks#i#" class="data-entry-label">Remarks (<span id="length_remarks_#i#"></span>)</label>
+												<textarea id="part_remarks#i#" name="coll_object_remarks" 
+													onkeyup="countCharsLeft('part_remarks#i#', 4000, 'length_remarks_#i#');"
+													class="data-entry-textarea autogrow mb-1" maxlength="4000"
+												>#part_remarks#</textarea>
+											</div>
+											<div class="col-12 col-md-3 pt-2">
+												<button id="part_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Part">Save</button>
+												<button id="part_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Part">Delete</button>
+												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+													<button id="part_mixed#i#" value="Mixed" class="btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
 												</cfif>
-											</cfloop>
-										</cfloop>
-									</tbody>
-								</table>
-							</form>
-							<div class="col-8 px-0 mt-3">
-								<div id="accordionNewPart">
-									<div class="card">
-										<div class="card-header pt-1" id="headingNewPart">
-											<h1 class="my-0 px-1">
-												<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseNewPart" aria-expanded="true" aria-controls="collapseNewPart"> <span class="h4">Add Specimen Part</span> </button>
-											</h1>
-										</div>
-										<div id="collapseNewPart" class="collapse" aria-labelledby="headingNewPart" data-parent="##accordionNewPart">
-											<div class="card-body mt-2"> <a name="newPart"></a>
-												<form name="newPart">
-													<input type="hidden" name="Action" value="newPart">
-													<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-													<table class="table table-light border-0 col-12 px-0 mb-2">
-														<tr>
-															<td class="border-0"><div align="right">Part Name: </div></td>
-															<td class="border-0"><input type="text" name="part_name" id="part_name" class="reqdClr"
-																	onchange="findPart(this.id,this.value,'#collcode.collection_cde#');"
-																	onkeypress="return noenter(event);"></td>
-														</tr>
-														<tr>
-															<td class="border-0"><div align="right">Preserve Method: </div></td>
-															<td class="border-0"><select name="preserve_method" size="1"  class="reqdClr">
-																	<cfloop query="ctPreserveMethod">
-																		<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
-																	</cfloop>
-																</select>
-															</td>
-														</tr>
-														<tr>
-															<td class="border-0"><div align="right">Count:</div></td>
-															<td class="border-0"><select name="lot_count_modifier" size="1">
-																	<option value=""></option>
-																	<cfloop query="ctModifiers">
-																		<option value="#ctModifiers.modifier#">#ctModifiers.modifier#</option>
-																	</cfloop>
-																</select>
-																<input type="text" name="lot_count" class="reqdClr" size="2"></td>
-														</tr>
-														<tr>
-															<td class="border-0"><div align="right">Disposition:</div></td>
-															<td class="border-0">
-																<select name="coll_obj_disposition" size="1"  class="reqdClr">
-																	<cfloop query="ctDisp">
-																		<option value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-																	</cfloop>
-																</select>
-															</td>
-														</tr>
-														<tr>
-															<td class="border-0"><div align="right">Condition:</div></td>
-															<td class="border-0"><input type="text" name="condition" class="reqdClr"></td>
-														</tr>
-														<tr>
-															<td class="border-0" style="width: 200px;"><div align="right">Remarks:</div></td>
-															<td class="border-0"><input type="text" name="coll_object_remarks" size="50"></td>
-														</tr>
-														<tr>
-															<td colspan="2" class="border-0">
-																<div align="center">
-																	<input type="submit" value="Create" class="btn btn-xs btn-primary">
-																</div>
-															</td>
-														</tr>
-													</table>
-												</form>
+												<output id="part_output#i#"></output>
 											</div>
 										</div>
+									</form>
+
+									<!--- Show identifications if this is a mixed collection --->
+									<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT identification_id
+										FROM identification
+										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+									</cfquery>
+									<cfif getIdentifications.recordcount GT 0>
+										<div class="col-12 small">
+											<strong>Mixed Collection Identifications of #mpart.base_part_name# (#mpart.preserve_method#)</strong>
+											#getIdentificationsUnthreadedHTML(collection_object_id=part_id)#
+										</div>
+									</cfif>
+	
+									<!--- Show part attributes --->
+									<cfquery name="patt" dbtype="query">
+										SELECT
+											attribute_type,
+											attribute_value,
+											attribute_units,
+											determined_date,
+											attribute_remark,
+											agent_name
+										FROM
+											rparts
+										WHERE
+											attribute_type IS NOT NULL AND
+											part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+										GROUP BY
+											attribute_type,
+											attribute_value,
+											attribute_units,
+											determined_date,
+											attribute_remark,
+											agent_name
+									</cfquery>
+									<div class="col-12 row mx-0 border-left border-right border-bottom px-2 py-1">
+										<cfif patt.recordcount EQ 0>
+											<strong>No Part Attributes:</strong>
+											<button class="btn btn-xs btn-secondary py-0" onclick="editPartAttributes('#part_id#',reloadParts)">Edit</button>
+										<cfelse>
+											<div class="col-12 small">
+												<strong>Part Attributes (#patt.recordcount#):</strong>
+												<button class="btn btn-xs btn-secondary py-0" onclick="editPartAttributes('#part_id#',reloadParts)">Edit</button>
+												<cfloop query="patt">
+													<div class="ml-2">
+														#attribute_type# = #attribute_value#
+														<cfif len(attribute_units) GT 0> #attribute_units#</cfif>
+														<cfif len(determined_date) GT 0> (determined: #dateformat(determined_date,"yyyy-mm-dd")#)</cfif>
+														<cfif len(agent_name) GT 0> by #agent_name#</cfif>
+														<cfif len(attribute_remark) GT 0> - #attribute_remark#</cfif>
+													</div>
+												</cfloop>
+											</div>
+										</cfif>
 									</div>
 								</div>
-							</div>
-						</div>
+
+								<!--- Show subsamples --->
+								<cfquery name="sPart" dbtype="query">
+									SELECT * FROM parts WHERE sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+								</cfquery>
+								<cfloop query="sPart">
+									<div class="row mx-0 border-left border-right px-2 py-1 bg-light">
+										<div class="col-12 small">
+											<strong>Subsample:</strong> #part_name# | Condition: #part_condition# | Disposition: #part_disposition# | Count: #display_lot_count# | Container: #label#
+											<cfif len(part_remarks) GT 0><br><em>Remarks:</em> #part_remarks#</cfif>
+										</div>
+									</div>
+								</cfloop>
+
+								<script>
+									$(document).ready(function() {
+										// make container barcode autocomplete
+										makeContainerAutocompleteMetaExcludeCO("container_label#i#", "container_id#i#");
+										// make part name autocomplete
+										makePartNameAutocompleteMetaForCollection("part_name#i#", "#getCatItem.collection_cde#");
+									});
+								</script>
+							</cfloop>
+							<script>
+								// Make all textareas with autogrow class be bound to the autogrow function on key up
+								$(document).ready(function() { 
+									$("textarea.autogrow").keyup(autogrow);
+									$('textarea.autogrow').keyup();
+								});
+								// Add event listeners to the buttons
+								document.querySelectorAll('button[id^="part_submit"]').forEach(function(button) {
+									button.addEventListener('click', function(event) {
+										event.preventDefault();
+										// save changes to a part
+										var id = button.id.replace('part_submit', '');
+										// check form validity
+										if (!$("##editPart" + id).get(0).checkValidity()) {
+											// If the form is invalid, show validation messages
+											$("##editPart" + id).get(0).reportValidity();
+											return false; // Prevent form submission if validation fails
+										}
+										var feedbackOutput = 'part_output' + id;
+										setFeedbackControlState(feedbackOutput,"saving")
+										$.ajax({
+											url: '/specimens/component/functions.cfc',
+											type: 'POST',
+											dataType: 'json',
+											data: $("##editPart" + id).serialize(),
+											success: function(response) {
+												setFeedbackControlState(feedbackOutput,"saved");
+												reloadParts();
+											},
+											error: function(xhr, status, error) {
+												setFeedbackControlState(feedbackOutput,"error")
+												handleFail(xhr,status,error,"saving change to part.");
+											}
+										});
+									});
+								});
+								document.querySelectorAll('button[id^="part_delete"]').forEach(function(button) {
+									button.addEventListener('click', function(event) {
+										event.preventDefault();
+										// delete a part record
+										var id = button.id.replace('part_delete', '');
+										var feedbackOutput = 'part_output' + id;
+										confirmDialog('Remove this part? This action cannot be undone.', 'Confirm Delete Part', function() {
+											setFeedbackControlState(feedbackOutput,"deleting")
+											$.ajax({
+												url: '/specimens/component/functions.cfc',
+												type: 'POST',
+												dataType: 'json',
+												data: {
+													method: 'deletePart',
+													collection_object_id: $("##editPart" + id + " input[name='collection_object_id']").val()
+												},
+												success: function(response) {
+													setFeedbackControlState(feedbackOutput,"deleted");
+													reloadParts();
+												},
+												error: function(xhr, status, error) {
+													setFeedbackControlState(feedbackOutput,"error")
+													handleFail(xhr,status,error,"deleting part.");
+												}
+											});
+										});
+									});
+								});
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+								document.querySelectorAll('button[id^="part_mixed"]').forEach(function(button) {
+									button.addEventListener('click', function(event) {
+										event.preventDefault();
+										// make mixed collection
+										var id = button.id.replace('part_mixed', '');
+										var partId = $("##editPart" + id + " input[name='collection_object_id']").val();
+										openEditIdentificationsDialog(partId,'identificationsDialog',function(){
+											reloadParts();
+										});
+									});
+								});
+								</cfif>
+								function reloadParts() {
+									// reload the edit existing parts section
+									$.ajax({
+										url: '/specimens/component/functions.cfc',
+										type: 'POST',
+										dataType: 'html',
+										data: {
+											method: 'getEditExistingPartsUnthreaded',
+											collection_object_id: '#arguments.collection_object_id#'
+										},
+										success: function(response) {
+											$('##editExistingPartsDiv').html(response);
+										},
+										error: function(xhr, status, error) {
+											handleFail(xhr,status,error,"reloading edit existing parts.");
+										}
+									});
+								}
+							</script>
+						</cfif>
 					</div>
 				</div>
-			</cfoutput>
-			<cfcatch>
-				<cfoutput>
-					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-					<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-						<cfdump var="#cfcatch#">
-					</cfif>
-				</cfoutput>
-			</cfcatch>
+			</div>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+				<cfdump var="#cfcatch#">
+			</cfif>
+		</cfcatch>
 		</cftry>
-	</cfthread>
-	<cfthread action="join" name="getEditPartsThread" />
-	<cfreturn getEditPartsThread.output>
+	</cfoutput>
 </cffunction>
+
+<!--- createSpecimenPart creates a new specimen part record.
+ @param derived_from_cat_item the collection object id of the cataloged item this part is derived from
+ @param part_name the name of the part
+ @param preserve_method the preservation method for the part
+ @param lot_count the count of the lot
+ @param lot_count_modifier the modifier for the lot count (optional)
+ @param coll_obj_disposition the disposition of the specimen part collection object
+ @param condition the condition of the specimen part collection object
+ @param condition_remarks remarks about the condition (optional)
+ @param container_barcode barcode of the container (optional)
+ @param coll_object_remarks remarks about the specimen part collection object (optional)
+ @param is_subsample whether this is a subsample (default false)
+ @param subsampled_from_obj_id if this is a subsample, the collection object id it was sampled from (optional, required if is_subsample is true)
+ @return a JSON object with success status or an http 500 error if there was an error
+--->
+<cffunction name="createSpecimenPart" returntype="any" access="remote" returnformat="json">
+	<cfargument name="derived_from_cat_item" type="string" required="yes">
+	<cfargument name="part_name" type="string" required="yes">
+	<cfargument name="preserve_method" type="string" required="yes">
+	<cfargument name="lot_count" type="string" required="yes">
+	<cfargument name="lot_count_modifier" type="string" required="no" default="">
+	<cfargument name="coll_obj_disposition" type="string" required="yes">
+	<cfargument name="condition" type="string" required="yes">
+	<cfargument name="condition_remarks" type="string" required="no" default="">
+	<cfargument name="container_barcode" type="string" required="no" default="">
+	<cfargument name="coll_object_remarks" type="string" required="no" default="">
+	<cfargument name="is_subsample" type="boolean" required="no" default="false">
+	<cfargument name="subsampled_from_obj_id" type="string" required="no" default="">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfif is_subsample>
+				<cfif len(arguments.subsampled_from_obj_id) EQ 0>
+					<cfthrow message="Error: subsampled_from_obj_id is required if is_subsample is true.">
+				</cfif>
+			</cfif>
+			<!--- check that specified derived_from_cat_item exists --->
+			<cfquery name="checkDerivedFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT collection_object_id
+				FROM cataloged_item
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.derived_from_cat_item#">
+			</cfquery>
+			<cfif checkDerivedFrom.recordcount EQ 0>
+				<cfthrow message="Error: Specified derived_from_cat_item does not exist.">
+			</cfif>
+			<!--- if subsample, check that the part being sampled from exists --->
+			<cfif arguments.is_subsample>
+					<cfquery name="checkSubsampledFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT collection_object_id
+					FROM collection_object
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.subsampled_from_obj_id#">
+						AND coll_object_type = 'SP'
+				</cfquery>
+				<cfif checkSubsampledFrom.recordcount NEQ 1>
+					<cfthrow message="Error: Specified subsampled_from_obj_id does not exist or is not a specimen part.">
+				</cfif>
+			</cfif>
+			<!--- obtain the next collection_object_id from the sequence to use for the new part --->
+			<cfquery name="getPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPK_result">
+				SELECT sq_collection_object_id.nextval as part_id 
+				FROM dual
+			</cfquery>
+			<cfset var newPartCollObjectID = getPK.part_id>
+			<!--- insert a collection object record for the specimen part --->
+			<cfquery name="newCollObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newCollObject_result">
+				INSERT INTO coll_object (
+					COLLECTION_OBJECT_ID,
+					COLL_OBJECT_TYPE,
+					entered_person_id,
+					coll_object_entered_date,
+					COLL_OBJ_DISPOSITION,
+					LOT_COUNT,
+					LOT_COUNT_MODIFIER,
+					CONDITION,
+					CONDITION_REMARKS
+				)
+				VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newPartCollObjectID#">,
+					<cfif is_subsample> 'SS' <cfelse> 'SP' </cfif>,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+					sysdate,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_obj_disposition#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.lot_count#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.lot_count_modifier#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.condition#">,
+					<cfif len(arguments.condition_remarks) GT 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.condition_remarks#">
+					<cfelse>
+						NULL
+					</cfif>
+				)
+			</cfquery>
+			<cfquery name="newPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newPart_result">
+				INSERT INTO specimen_part (
+					COLLECTION_OBJECT_ID
+					,PART_NAME
+					,PRESERVE_METHOD
+					,DERIVED_FROM_CAT_ITEM)
+				VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newPartCollObjectID#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.part_name#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.preserve_method#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.derived_from_cat_item#">)
+			</cfquery>
+			<cfif newPart_result.recordcount NEQ 1>
+				<cfthrow message="Error: Other than one specimen_art record created">
+			</cfif>
+			<!--- insert collection object remarks if they were provided --->
+			<cfif len(arguments.coll_object_remarks) GT 0>
+				<cfquery name="newCollObjectRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					INSERT INTO coll_object_remark (
+						collection_object_id
+						,coll_object_remarks
+					) VALUES (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newPartCollObjectID#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_object_remarks#">
+					)
+				</cfquery>
+			</cfif>
+			<!--- from procedure b_bulkload_parts 
+			    SELECT container_id INTO r_container_id FROM coll_obj_cont_hist WHERE collection_object_id = part_id;
+			    --dbms_output.put_line ('CURRENT part IS : ' || r_container_id);
+				SELECT container_id into r_parent_container_id FROM container WHERE barcode = r_barcode;
+				--dbms_output.put_line ('got parent contianer id: ' || r_parent_container_id);
+				UPDATE container SET 
+					parent_container_id = r_parent_container_id,
+					parent_install_date = sysdate
+				WHERE 
+					container_id = r_container_id;
+			--->
+			<!--- insert of a container of type collection object to represent the part is performed by trigger MAKE_PART_COLL_OBJ_CONT	--->
+			<cfif len(arguments.container_barcode) GT 0>
+				<!--- place the collection object container into the specified container and --->
+				<!--- insert a collection object container history record if a container barcode was provided --->
+				<!--- first, find the current collection object container --->
+				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT container_id 
+					FROM coll_obj_cont_hist 
+					WHERE collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newPartCollObjectID#">
+						and current_container_fg = 1
+				</cfquery>
+				<cfif getPartContainer.recordcount EQ 0>
+					<cfthrow message = "Unable to find the current container of type collection object for the part">
+				</cfif>
+				<!--- then find the container into which to place it --->
+				<cfquery name="getParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT container_id 
+					FROM container 
+					WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.container_barcode#">
+				</cfquery>
+				<cfif getParentContainer.recordcount EQ 0>
+					<cfthrow message="Unable to find specified parent container">
+				</cfif>
+				<!--- then place the container into the specified parent --->
+				<!--- trigger MOVE_CONTAINER enforces rules on container movement --->
+				<!--- trigger GET_CONTAINER_HISTORY updates the container_history to reflect the move --->
+				<cfquery name="moveToParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="moveToParent_result">
+					UPDATE container 
+					SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParentContainer.container_id#">
+					WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPartContainer.container_id#">
+				</cfquery>
+				<cfif moveToParent_result.recordcount NEQ 1>
+					<cfthrow message="Unable to move to parent container, move altered other than 1 container. ">
+				</cfif>
+			</cfif>
+
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#newPartCollObjectID#">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
+<!--- deletePart deletes a specimen part record.
+ @param collection_object_id the collection_object_id of the part to delete
+ @return a JSON object with success status or an http 500 error if there was an error
+--->
+<cffunction name="deletePart" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<!--- check that the specified collection_object_id exists and is a specimen part --->
+			<cfquery name="checkPartExists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT collection_object_id
+				FROM coll_object
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+					AND coll_object_type = 'SP'
+			</cfquery>
+			<cfif checkPartExists.recordcount EQ 0>
+				<cfthrow message="Error: Specified collection_object_id does not exist or is not a specimen part.">
+			</cfif>
+			<!--- check if the part has subsamples --->
+			<cfquery name="checkSubsamples" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT collection_object_id
+				FROM specimen_part
+				WHERE sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			</cfquery>
+			<!--- if it does, throw an error --->
+			<cfif checkSubsamples.recordcount GT 0>
+				<cfthrow message="Error: Cannot delete part with subsamples. Please remove subsamples first.">
+			</cfif>
+
+			<!--- check if the part has identifications --->
+			<cfquery name="checkIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT identification_id
+				FROM identification
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			</cfquery>
+			<cfif checkIdentifications.recordcount GT 0>
+				<cfthrow message="Error: Cannot delete part with identifications. Please remove identifications first.">
+			</cfif>
+
+			<!--- check if the part has attributes --->
+			<cfquery name="checkAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT part_attribute_id
+				FROM specimen_part_attribute
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			</cfquery>
+			<cfif checkAttributes.recordcount GT 0>
+				<cfthrow message="Error: Cannot delete part with attributes. Please remove attributes first.">
+			</cfif>
+
+			<!--- delete the specimen part record --->
+			<cfquery name="deletePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deletePart_result">
+				DELETE FROM specimen_part
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			</cfquery>
+			<!--- delete of the collection object record is done by TR_SPECIMENPART_AD --->
+			<!--- delete of the coll_object_remark record is done by TR_SPECIMENPART_AD --->
+			<!--- delete of any coll_obj_cont_hist records is done by TR_SPECIMENPART_AD --->
+			<cfif deletePart_result.recordcount NEQ 1>
+				<cfthrow message="Error: Other than one coll_object or specimen_part record deleted">
+			</cfif>
+
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "deleted">	
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
+<cffunction name="updatePart" returntype="any" access="remote" returnformat="json">
+	<cfargument name="part_collection_object_id" type="string" required="yes">
+	<cfargument name="part_name" type="string" required="yes">
+	<cfargument name="preserve_method" type="string" required="yes">
+	<cfargument name="disposition" type="string" required="yes">
+	<cfargument name="condition" type="string" required="yes">
+	<cfargument name="lot_count" type="string" required="yes">
+	<cfargument name="lot_count_modifier" type="string" required="yes">
+	<cfargument name="coll_object_remarks" type="string" required="yes">
+	<!--- TODO: Update container code --->
+	<cfargument name="parent_container_id" type="string" required="no" default="">
+	<cfargument name="part_container_id" type="string" required="no" default="">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<!--- TODO: Unused???  --->
+			<cfset enteredbyid = session.myAgentId>
+
+			<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE specimen_part 
+				SET
+					part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.part_name#">,
+					preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.preserve_method#">
+				WHERE 
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">
+			</cfquery>
+			<cfquery name="upPartCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE coll_object 
+				SET
+					coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.disposition#">,
+					condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.condition#">,
+					lot_count_modifier= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.lot_count_modifier#">,
+					lot_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.lot_count#">
+				WHERE 
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">
+			</cfquery>
+
+			<!--- check if a remarks record exists for this specimen part --->
+			<cfquery name="ispartRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT coll_object_remarks 
+				FROM coll_object_remark 
+				WHERE
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">
+			</cfquery>
+			<cfif ispartRem.recordcount is 0>
+				<!--- if not and ther are remarks, add a record --->
+				<cfif len(thiscoll_object_remarks) gt 0>
+					<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						INSERT INTO coll_object_remark (
+							collection_object_id, 
+						coll_object_remarks
+						) VALUES (
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_object_remarks#">
+						)
+					</cfquery>
+				</cfif>
+			<cfelse>
+				<!--- if one exists, update it. --->
+				<cfquery name="updateCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE coll_object_remark 
+					SET
+						<cfif len(arguments.coll_object_remarks) gt 0>
+							coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_object_remarks#">
+						<cfelse>
+							coll_object_remarks = null
+						</cfif>
+					WHERE 
+							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">
+				</cfquery>
+			</cfif>
+
+			<!---- TODO: Update container placement code 
+			<cfif len(thisnewCode) gt 0>
+				<cfquery name="isCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						container_id, container_type, parent_container_id
+					FROM
+						container
+					WHERE
+						barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisnewCode#">
+						AND container_type <> 'collection object'
+						AND institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
+				</cfquery>
+				<cfif #isCont.container_type# is 'cryovial label'>
+					<cfquery name="upCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE container 
+						SET container_type='cryovial'
+						WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isCont.container_id#">
+							AND container_type='cryovial label'
+					</cfquery>
+				</cfif>
+				<cfif isCont.recordcount is 1>
+					<cfquery name="thisCollCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							container_id
+						FROM
+							coll_obj_cont_hist
+						WHERE
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartId#">
+					</cfquery>
+					<cfquery name="upPartBC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE
+							container
+						SET
+							parent_install_date = sysdate,
+							parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isCont.container_id#">
+						WHERE
+							container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisCollCont.container_id#">
+					</cfquery>
+					<cfquery name="upPartPLF" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE container 
+						SET print_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisprint_fg#">
+						WHERE
+							container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isCont.container_id#">
+					</cfquery>
+				</cfif>
+				<cfif isCont.recordcount lt 1>
+					<cfthrow message = "That barcode was not found in the container database. You can only put parts into appropriate pre-existing containers.">
+				</cfif>
+				<cfif #isCont.recordcount# gt 1>
+					<cfthrow message="That barcode has multiple matches, that should not occurr.. Please file a bug report">
+				</cfif>
+			</cfif>
+			--->
+
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "deleted">	
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
 
 <!--- getEditCitationHTML returns the HTML for the edit citations dialog.
  @param collection_object_id the collection_object_id for the cataloged item to edit citations for.
@@ -4483,7 +5225,7 @@ limitations under the License.
 						<cfif getCited.recordCount EQ 0>
 							<li>No citations</li>
 						<cfelse>
-							<cfset i = 0>
+							<cfset var i = 0>
 							<cfloop query="getCited">
 								<cfset i = i + 1>
 								<form name="editCitation#i#" id="editCitation#i#">
@@ -4812,6 +5554,10 @@ limitations under the License.
 	<cfreturn serializeJSON(result)>
 </cffunction>
 
+<!--- getEditAttributesHTML obtain the content of a dialog for editing attributes for a collection object.
+ @param collection_object_id the collection object id to obtain the attributes for
+ @return a string containing the HTML for the edit attributes dialog
+--->
 <cffunction name="getEditAttributesHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfset variables.collection_object_id = arguments.collection_object_id>
@@ -7606,6 +8352,838 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 		</cftry>
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+
+<!--- getEditPartAttributesHTML 
+ Threaded method to obtain a dialog for editing part attributes of a specimen part
+ @param partID the collection_object_id for the specimen part to edit attributes for
+ @return HTML for editing part attributes with separate forms for creating new and editing existing attributes
+--->
+<cffunction name="getEditPartAttributesHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="partID" type="string" required="yes">
+	
+	<cfthread name="getEditPartAttributesThread" partID="#arguments.partID#">
+		<cfoutput>
+			<cftry>
+				
+				<!--- lookup the guid and part info given the part ID --->
+				<cfquery name="getPartInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						specimen_part.part_name,
+						specimen_part.preserve_method,
+						collection.collection_cde,
+						cataloged_item.cat_num,
+						collection.institution_acronym
+					FROM specimen_part
+						join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+						join collection on cataloged_item.collection_id = collection.collection_id
+					WHERE specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.partID#">
+				</cfquery>
+
+				<!--- Load controlled vocabulary for attribute types --->
+				<cfquery name="ctspecpart_attribute_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT attribute_type 
+					FROM ctspecpart_attribute_type 
+					ORDER BY attribute_type
+				</cfquery>
+
+				<!--- Get current user for default determiner --->
+				<cfquery name="getCurrentUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT agent_id, 
+							agent_name
+					FROM preferred_agent_name
+					WHERE
+						agent_id in (
+							SELECT agent_id 
+							FROM agent_name 
+							WHERE upper(agent_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
+								and agent_name_type = 'login'
+						)
+				</cfquery>
+				
+				<cfset partLabel = "#getPartInfo.part_name#">
+				<cfif len(getPartInfo.preserve_method)>
+					<cfset partLabel = "#partLabel# (#getPartInfo.preserve_method#)">
+				</cfif>
+				<cfset guid = "#getPartInfo.institution_acronym#:#getPartInfo.collection_cde#:#getPartInfo.cat_num#">
+
+				<!--- add new part attribute form --->
+				<div class="col-12 mt-4 px-1">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12">
+								<div class="add-form">
+									<div class="add-form-header pt-1 px-2" id="headingPartAttribute">
+										<h2 class="h3 my-0 px-1 bp-1">Add New Part Attribute for #guid# #partLabel#</h2>
+									</div>
+									<div class="card-body">
+										<form name="newPartAttribute" id="newPartAttribute">
+											<input type="hidden" name="collection_object_id" value="#attributes.partID#">
+											<input type="hidden" name="method" value="createPartAttribute">
+											<div class="row mx-0 pb-2">
+												<ul class="col-12 px-0 mt-2 mb-1">
+													<li class="list-group-item float-left col-12 col-md-3 px-1">
+														<label for="attribute_type" class="data-entry-label">Attribute Type</label>
+														<select name="attribute_type" id="attribute_type" class="data-entry-select reqdClr" required>
+															<option value=""></option>
+															<cfloop query="ctspecpart_attribute_type">
+																<option value="#attribute_type#">#attribute_type#</option>
+															</cfloop>
+														</select>
+													</li>
+													<li class="list-group-item float-left col-12 col-md-3 px-1">
+														<label for="attribute_value" class="data-entry-label">Value</label>
+														<input type="text" class="data-entry-input" id="attribute_value" name="attribute_value" value="">
+													</li>
+													<li class="list-group-item float-left col-12 col-md-2 px-1">
+														<label for="attribute_units" class="data-entry-label">Units</label>
+														<input type="text" class="data-entry-input" id="attribute_units" name="attribute_units" value="">
+													</li>
+													<li class="list-group-item float-left col-12 col-md-2 px-1">
+														<label for="determined_by_agent" class="data-entry-label">Determiner</label>
+														<input type="text" class="data-entry-input" id="determined_by_agent" name="determined_by_agent" value="#getCurrentUser.agent_name#">
+														<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id" value="#getCurrentUser.agent_id#">
+													</li>
+													<li class="list-group-item float-left col-12 col-md-2 px-1">
+														<label for="determined_date" class="data-entry-label">Determined Date</label>
+														<input type="text" class="data-entry-input" id="determined_date" name="determined_date" 
+															placeholder="yyyy-mm-dd" value="#dateformat(now(),"yyyy-mm-dd")#">
+													</li>
+													<li class="list-group-item float-left col-12 col-md-10 px-1">
+														<label for="attribute_remark" class="data-entry-label">Remarks</label>
+														<textarea id="attribute_remark" name="attribute_remark" 
+															onkeyup="countCharsLeft('attribute_remark', 4000, 'length_remark');"
+															class="data-entry-textarea autogrow mb-1" maxlength="4000"></textarea>
+														<span id="length_remark"></span>
+													</li>
+												</ul>
+												<div class="col-12 col-md-2 px-1 mt-2">
+													<button id="newPartAttribute_submit" value="Create" class="btn btn-xs btn-primary" title="Create Part Attribute">Create Attribute</button>
+													<output id="newPartAttribute_output"></output>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+								<script>
+									$(document).ready(function() {
+										// disable units and value fields until type is selected
+										$('##attribute_value').prop('disabled', true);
+										$('##attribute_units').prop('disabled', true);
+										// make the determined date a date picker
+										$("##determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
+										// make the determined by agent into an agent autocomplete
+										makeAgentAutocompleteMeta('determined_by_agent','determined_by_agent_id');
+									});
+									// Add change listener to the attribute type select
+									$('##attribute_type').on('change', function() {
+										handlePartAttributeTypeChange("","#attributes.partID#");
+									});
+									// Add event listener to the save button
+									$('##newPartAttribute_submit').on('click', function(event) {
+										event.preventDefault();
+										// Validate the form
+										if ($('##newPartAttribute')[0].checkValidity() === false) {
+											// If the form is invalid, show validation messages
+											$('##newPartAttribute')[0].reportValidity();
+											return false; // Prevent form submission if validation fails
+										}
+										setFeedbackControlState("newPartAttribute_output","saving");
+										$.ajax({
+											url: '/specimens/component/functions.cfc',
+											type: 'POST',
+											responseType: 'json',
+											data: $('##newPartAttribute').serialize(),
+											success: function(response) {
+												console.log(response);
+												setFeedbackControlState("newPartAttribute_output","saved");
+												reloadEditExistingPartAttributes();
+												// Clear form
+												$('##newPartAttribute')[0].reset();
+												// Reset value and units fields to text inputs and disable
+												$('##attribute_value').replaceWith('<input type="text" class="data-entry-input" id="attribute_value" name="attribute_value" value="">');
+												$('##attribute_units').replaceWith('<input type="text" class="data-entry-input" id="attribute_units" name="attribute_units" value="">');
+												$('##attribute_value').prop('disabled', true);
+												$('##attribute_units').prop('disabled', true);
+											},
+											error: function(xhr, status, error) {
+												setFeedbackControlState("newPartAttribute_output","error");
+												handleFail(xhr,status,error,"saving part attribute.");
+											}
+										});
+									});
+									function reloadEditExistingPartAttributes() {
+										// reload the edit existing part attributes section
+										$.ajax({
+											url: '/specimens/component/functions.cfc',
+											type: 'POST',
+											dataType: 'html',
+											data: {
+												method: 'getEditExistingPartAttributesUnthreaded',
+												partID: '#attributes.partID#'
+											},
+											success: function(response) {
+												$('##editExistingPartAttributesDiv').html(response);
+											},
+											error: function(xhr, status, error) {
+												handleFail(xhr,status,error,"reloading edit existing part attributes.");
+											}
+										});
+									}
+								</script>
+								<!--- edit existing part attributes --->
+								<div id="editExistingPartAttributesDiv">
+									<!--- this div is replaced with the edit existing part attributes HTML when attributes are added --->
+									#getEditExistingPartAttributesUnthreaded(partID=attributes.partID)#
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+					<cfdump var="#cfcatch#">
+				</cfif>
+			</cfcatch>
+			</cftry>
+		</cfoutput> 
+	</cfthread>
+	<cfthread action="join" name="getEditPartAttributesThread" />
+	<cfreturn getEditPartAttributesThread.output>
+</cffunction>
+
+<!--- 
+ getEditExistingPartAttributesUnthreaded returns the HTML for the edit existing part attributes section, 
+ intended to be used from within threaded getEditPartAttributesHTML or invoked independently to reload 
+ just the edit existing part attributes section of the dialog.
+ @param partID the part collection object id to obtain existing attributes for
+ @return a string containing the HTML for the edit existing part attributes section
+--->
+<cffunction name="getEditExistingPartAttributesUnthreaded" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="partID" type="string" required="yes">
+
+	<cfoutput>
+		<cftry>
+			<!--- Load controlled vocabulary for attribute types --->
+			<cfquery name="ctspecpart_attribute_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT attribute_type 
+				FROM ctspecpart_attribute_type 
+				ORDER BY attribute_type
+			</cfquery>
+			
+			<!--- lookup the collection code given the part ID --->
+			<cfquery name="getCollectionCDE" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT cataloged_item.collection_cde 
+				FROM specimen_part
+					join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+				WHERE specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.partID#">
+			</cfquery>
+
+			<!--- Get existing part attributes --->
+			<cfquery name="getPartAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT
+					part_attribute_id,
+					attribute_type,
+					attribute_value,
+					attribute_units,
+					determined_date,
+					determined_by_agent_id,
+					attribute_remark,
+					agent_name
+				FROM
+					specimen_part_attribute,
+					preferred_agent_name
+				WHERE
+					specimen_part_attribute.determined_by_agent_id = preferred_agent_name.agent_id (+) AND
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.partID#">
+				ORDER BY attribute_type, attribute_value
+			</cfquery>
+			
+			<div class="row mx-0">
+				<div class="bg-light p-2 col-12 row">
+					<h1 class="h3">Edit Existing Part Attributes</h1>
+					<div class="col-12 px-0 pb-3">
+						<cfif getPartAttributes.recordCount EQ 0>
+							<p>None</p>
+						<cfelse>
+							<cfset var i = 0>
+							<cfloop query="getPartAttributes">
+								<cfset i = i + 1>
+								<div class="row mx-0 border py-1 mb-0">
+									<form name="editPartAttribute#i#" id="editPartAttribute#i#">
+										<div class="col-12 row">
+											<input type="hidden" name="part_attribute_id" value="#part_attribute_id#">
+											<input type="hidden" name="method" value="updatePartAttribute">
+											<div class="col-12 col-md-3">
+												<label for="attribute_type_#i#" class="data-entry-label">Attribute Type</label>
+												<select name="attribute_type" id="attribute_type_#i#" class="data-entry-select reqdClr" required
+														onchange="handlePartAttributeTypeChange('_#i#', '#arguments.partID#')">
+													<option value=""></option>
+													<cfloop query="ctspecpart_attribute_type">
+														<cfif ctspecpart_attribute_type.attribute_type EQ getPartAttributes.attribute_type>
+															<cfset selected = "selected">
+														<cfelse>
+															<cfset selected = "">
+														</cfif>
+														<option value="#ctspecpart_attribute_type.attribute_type#" #selected#>#ctspecpart_attribute_type.attribute_type#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-3" id="value_cell_#i#">
+												#getPartAttrSelect('v', attribute_type, attribute_value, i)#
+											</div>
+											<div class="col-12 col-md-2" id="units_cell_#i#">
+												#getPartAttrSelect('u', attribute_type, attribute_units, i)#
+											</div>
+											<div class="col-12 col-md-2">
+												<label for="determined_date#i#" class="data-entry-label">Date Determined</label>
+												<input type="text" class="data-entry-input" id="determined_date#i#" name="determined_date" 
+													   value="#dateformat(determined_date,'yyyy-mm-dd')#" placeholder="yyyy-mm-dd">
+											</div>
+											<div class="col-12 col-md-2">
+												<label for="determined_agent#i#" class="data-entry-label">Determined By</label>
+												<input type="text" class="data-entry-input" id="determined_agent#i#" name="determined_agent" 
+													   value="#agent_name#" placeholder="Pick agent">
+												<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id#i#" value="#determined_by_agent_id#">
+											</div>
+											<div class="col-12 col-md-9">
+												<label for="attribute_remark#i#" class="data-entry-label">Remarks (<span id="length_remark_#i#"></span>)</label>
+												<textarea id="attribute_remark#i#" name="attribute_remark" 
+													onkeyup="countCharsLeft('attribute_remark#i#', 4000, 'length_remark_#i#');"
+													class="data-entry-textarea autogrow mb-1" maxlength="4000"
+												>#attribute_remark#</textarea>
+											</div>
+											<div class="col-12 col-md-3 pt-3">
+												<button id="partAttribute_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Part Attribute">Save</button>
+												<button id="partAttribute_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Part Attribute">Delete</button>
+												<output id="partAttribute_output#i#"></output>
+											</div>
+										</div>
+									</form>
+								</div>
+
+								<script>
+									$(document).ready(function() {
+										// make determined by agent autocomplete
+										makeAgentAutocompleteMeta("determined_agent#i#", "determined_by_agent_id#i#");
+										// setup date picker
+										$("##determined_date#i#").datepicker({
+											dateFormat: "yy-mm-dd",
+											changeMonth: true,
+											changeYear: true,
+											showButtonPanel: true
+										});
+									});
+								</script>
+							</cfloop>
+							<script>
+								// Make all textareas with autogrow class be bound to the autogrow function on key up
+								$(document).ready(function() { 
+									$("textarea.autogrow").keyup(autogrow);
+									$('textarea.autogrow').keyup();
+								});
+								// Add event listeners to the buttons
+								document.querySelectorAll('button[id^="partAttribute_submit"]').forEach(function(button) {
+									button.addEventListener('click', function(event) {
+										event.preventDefault();
+										// save changes to a part attribute
+										var id = button.id.replace('partAttribute_submit', '');
+										// check form validity
+										if (!$("##editPartAttribute" + id).get(0).checkValidity()) {
+											// If the form is invalid, show validation messages
+											$("##editPartAttribute" + id).get(0).reportValidity();
+											return false; // Prevent form submission if validation fails
+										}
+										var feedbackOutput = 'partAttribute_output' + id;
+										setFeedbackControlState(feedbackOutput,"saving")
+										$.ajax({
+											url: '/specimens/component/functions.cfc',
+											type: 'POST',
+											dataType: 'json',
+											data: $("##editPartAttribute" + id).serialize(),
+											success: function(response) {
+												setFeedbackControlState(feedbackOutput,"saved");
+												reloadPartAttributes();
+											},
+											error: function(xhr, status, error) {
+												setFeedbackControlState(feedbackOutput,"error")
+												handleFail(xhr,status,error,"saving change to part attribute.");
+											}
+										});
+									});
+								});
+								document.querySelectorAll('button[id^="partAttribute_delete"]').forEach(function(button) {
+									button.addEventListener('click', function(event) {
+										event.preventDefault();
+										// delete a part attribute record
+										var id = button.id.replace('partAttribute_delete', '');
+										var feedbackOutput = 'partAttribute_output' + id;
+										confirmDialog('Remove this part attribute? This action cannot be undone.', 'Confirm Delete Part Attribute', function() {
+											setFeedbackControlState(feedbackOutput,"deleting")
+											$.ajax({
+												url: '/specimens/component/functions.cfc',
+												type: 'POST',
+												dataType: 'json',
+												data: {
+													method: 'deletePartAttribute',
+													part_attribute_id: $("##editPartAttribute" + id + " input[name='part_attribute_id']").val()
+												},
+												success: function(response) {
+													setFeedbackControlState(feedbackOutput,"deleted");
+													reloadPartAttributes();
+												},
+												error: function(xhr, status, error) {
+													setFeedbackControlState(feedbackOutput,"error")
+													handleFail(xhr,status,error,"deleting part attribute.");
+												}
+											});
+										});
+									});
+								});
+								function reloadPartAttributes() {
+									// reload the edit existing part attributes section
+									$.ajax({
+										url: '/specimens/component/functions.cfc',
+										type: 'POST',
+										dataType: 'html',
+										data: {
+											method: 'getEditExistingPartAttributesUnthreaded',
+											partID: '#arguments.partID#'
+										},
+										success: function(response) {
+											$('##editExistingPartAttributesDiv').html(response);
+										},
+										error: function(xhr, status, error) {
+											handleFail(xhr,status,error,"reloading edit existing part attributes.");
+										}
+									});
+								}
+							</script>
+						</cfif>
+					</div>
+				</div>
+			</div>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+				<cfdump var="#cfcatch#">
+			</cfif>
+		</cfcatch>
+		</cftry>
+	</cfoutput>
+</cffunction>
+
+<!--- 
+ getPartAttributeCodeTables lookup value and unit code tables for a given part attribute type.
+ @param partID the part collection object id to obtain the collection by which to limit the code table values
+ @param attribute_type the attribute type to obtain the code tables for
+ @return a JSON object containing the attribute type, value code table, units code table, and the values for each
+  with the values for each code table returned as a pipe delimited string
+--->
+<cffunction name="getPartAttributeCodeTables" returntype="any" access="remote" returnformat="json">
+	<cfargument name="partID" type="string" required="yes">
+	<cfargument name="attribute_type" type="string" required="yes">
+	<cfset variables.partID = arguments.partID>
+	<cfset variables.attribute_type = arguments.attribute_type>
+	<cfset result = ArrayNew(1)>
+	<cftry>
+		<!--- Get collection info for the part --->
+		<cfquery name="getPartCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT 
+				cataloged_item.collection_cde
+			FROM specimen_part
+				join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+			WHERE 
+				specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.partID#">
+		</cfquery>
+		
+		<!--- Get the code tables for this attribute type --->
+		<cfquery name="getPartAttributeCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT
+				attribute_type,
+				upper(value_code_table) value_code_table,
+				upper(unit_code_table) units_code_table
+			FROM
+				ctspec_part_att_att
+			WHERE 
+				attribute_type = <cfqueryparam value="#variables.attribute_type#" cfsqltype="CF_SQL_VARCHAR">
+		</cfquery>
+		
+		<cfif getPartAttributeCodeTables.recordCount EQ 1>
+			<cfset row = StructNew()>
+			<cfset row["value_code_table"] = "#getPartAttributeCodeTables.value_code_table#">
+			<cfset row["units_code_table"] = "#getPartAttributeCodeTables.units_code_table#">
+			<cfset row["attribute_type"] = "#getPartAttributeCodeTables.attribute_type#">
+			
+			<!--- Handle value code table --->
+			<cfif len(getPartAttributeCodeTables.value_code_table) GT 0>
+				<cfset variables.table = getPartAttributeCodeTables.value_code_table>
+				<!--- Default field name is the table name with CT prefix removed --->
+				<cfset variables.field = replace(getPartAttributeCodeTables.value_code_table,"CT","","one")>
+				
+				<!--- check if the table has a collection_cde field --->
+				<cfquery name="getValueFieldMetadata" datasource="uam_god">
+					SELECT
+						COUNT(*) as ct
+					FROM
+						sys.all_tab_columns
+					WHERE
+						table_name = <cfqueryparam value="#variables.table#" cfsqltype="CF_SQL_VARCHAR">
+						AND owner = 'MCZBASE'
+						AND column_name = 'COLLECTION_CDE'
+				</cfquery>
+				
+				<!--- obtain values, limit by collection if there is one --->
+				<cfquery name="getValueCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT distinct
+						#variables.field# as value
+					FROM
+						#variables.table#
+					<cfif getValueFieldMetadata.ct GT 0>
+					WHERE
+						collection_cde = <cfqueryparam value="#getPartCollection.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
+					</cfif>
+					ORDER BY
+						#variables.field#
+				</cfquery>
+				<cfset values="">
+				<cfloop query="getValueCodeTable">
+					<cfset values = listAppend(values, getValueCodeTable.value, "|")>
+				</cfloop>
+				<cfset row["value_values"] = "#values#">
+			</cfif>
+			
+			<!--- Handle units code table --->
+			<cfif len(getPartAttributeCodeTables.units_code_table) GT 0>
+				<cfset variables.unitsTable = getPartAttributeCodeTables.units_code_table>
+				<cfset variables.unitsField = replace(getPartAttributeCodeTables.units_code_table,"CT","","one")>
+				
+				<!--- check if the units table has a collection_cde field --->
+				<cfquery name="getUnitsFieldMetadata" datasource="uam_god">
+					SELECT
+						COUNT(*) as ct
+					FROM
+						sys.all_tab_columns
+					WHERE
+						table_name = <cfqueryparam value="#variables.unitsTable#" cfsqltype="CF_SQL_VARCHAR">
+						AND owner = 'MCZBASE'
+						AND column_name = 'COLLECTION_CDE'
+				</cfquery>
+				
+				<cfquery name="getUnitsCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT distinct
+						#variables.unitsField# as value
+					FROM
+						#variables.unitsTable#
+					<cfif getUnitsFieldMetadata.ct GT 0>
+					WHERE
+						collection_cde = <cfqueryparam value="#getPartCollection.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
+					</cfif>
+					ORDER BY
+						#variables.unitsField#
+				</cfquery>
+				<cfset units="">
+				<cfloop query="getUnitsCodeTable">
+					<cfset units = listAppend(units, getUnitsCodeTable.value, "|")>
+				</cfloop>
+				<cfset row["units_values"] = "#units#">
+			</cfif>
+			<cfset arrayAppend(result, row)>
+		<cfelse>
+			<!--- not found, therefore no code tables specified for that attribute type --->
+			<cfset row = StructNew()>
+			<cfset row["attribute_type"] = "#variables.attribute_type#">
+			<cfset arrayAppend(result, row)>
+		</cfif>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn serializeJSON(result)>
+</cffunction>
+
+
+<!--- createPartAttribute
+ Creates a new part attribute record
+ @param collection_object_id the collection_object_id for the specimen part to which the attribute applies
+ @param attribute_type the type of attribute to create
+ @param attribute_value the value of the attribute
+ @param attribute_units the units of the attribute, optional
+ @param determined_date the date the attribute was determined, optional
+ @param determined_by_agent_id the agent who determined the attribute, optional
+ @param attribute_remark any free text remarks about the attribute, optional
+ @return JSON response with status = "saved" and the new part_attribute_id, or an http 500 response if an error occurs.
+--->
+<cffunction name="createPartAttribute" access="remote" returntype="any" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="attribute_type" type="string" required="yes">
+	<cfargument name="attribute_value" type="string" required="yes">
+	<cfargument name="attribute_units" type="string" required="no" default="">
+	<cfargument name="determined_date" type="string" required="no" default="">
+	<cfargument name="determined_by_agent_id" type="string" required="no" default="">
+	<cfargument name="attribute_remark" type="string" required="no" default="">
+
+	<cfset var data = ArrayNew(1)>
+	
+	<cftransaction>
+		<cftry>
+			<cfquery name="insertAttr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insertAttr_result">
+				INSERT INTO specimen_part_attribute (
+					collection_object_id,
+					attribute_type,
+					attribute_value,
+					attribute_units,
+					determined_date,
+					determined_by_agent_id,
+					attribute_remark
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_value#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_units#" null="#len(arguments.attribute_units) EQ 0#">,
+					<cfqueryparam cfsqltype="CF_SQL_DATE" value="#arguments.determined_date#" null="#len(arguments.determined_date) EQ 0#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.determined_by_agent_id#" null="#len(arguments.determined_by_agent_id) EQ 0#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_remark#" null="#len(arguments.attribute_remark) EQ 0#">
+				)
+			</cfquery>
+			<!--- obtain the primary key value part_attribute_id of the newly created record using returned rowid --->
+			<cfquery name="getNewPartAttributeID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getNewPartAttributeID_result">
+				SELECT part_attribute_id 
+				FROM specimen_part_attribute 
+				WHERE
+					ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insertAttr_result.GENERATEDKEY#">
+			</cfquery>
+			<cfif getNewPartAttributeID_result.recordcount NEQ 1>
+				<cfthrow message="Error retrieving new part attribute ID. Expected one row, but got #getNewPartAttributeID_result.recordcount#">
+			</cfif>
+			
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#getNewPartAttributeID.part_attribute_id#">
+			<cfset data[1] = row>
+			
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- updatePartAttribute Updates an existing part attribute record
+ @param part_attribute_id the primary key of the specimen_part_attribute to update
+ @param attribute_type the new type of attribute to update
+ @param attribute_value the new value of the attribute to update
+ @param attribute_units the new units of the attribute, optional
+ @param determined_date the new date the attribute was determined, optional
+ @param determined_by_agent_id the new agent who determined the attribute, optional
+ @param attribute_remark any new free text remarks about the attribute, optional
+ @return JSON response with status = "saved" or an http 500 response if an error occurs.
+--->
+<cffunction name="updatePartAttribute" access="remote" returntype="any" returnformat="json">
+	<cfargument name="part_attribute_id" type="string" required="yes">
+	<cfargument name="attribute_type" type="string" required="yes">
+	<cfargument name="attribute_value" type="string" required="yes">
+	<cfargument name="attribute_units" type="string" required="no" default="">
+	<cfargument name="determined_date" type="string" required="no" default="">
+	<cfargument name="determined_by_agent_id" type="string" required="no" default="">
+	<cfargument name="attribute_remark" type="string" required="no" default="">
+
+	<cfset var data = ArrayNew(1)>
+	
+	<cftransaction>
+		<cftry>
+			<cfquery name="updateAttr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAttr_result">
+				UPDATE specimen_part_attribute 
+				SET
+					attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_type#">,
+					attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_value#">,
+					attribute_units = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_units#" null="#len(arguments.attribute_units) EQ 0#">,
+					determined_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#arguments.determined_date#" null="#len(arguments.determined_date) EQ 0#">,
+					determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.determined_by_agent_id#" null="#len(arguments.determined_by_agent_id) EQ 0#">,
+					attribute_remark = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.attribute_remark#" null="#len(arguments.attribute_remark) EQ 0#">
+				WHERE 
+					part_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_attribute_id#">
+			</cfquery>
+			<cfif updateAttr_result.recordcount NEQ 1>
+				<cfthrow message="Error updating part attribute. Expected one row affected, but got #updateAttr_result.recordcount# with part_attribute_id #encodeForHtml(arguments.part_attribute_id)#">
+			</cfif>
+			
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#arguments.part_attribute_id#">
+			<cfset data[1] = row>
+			
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- deletePartAttribute Deletes a part attribute record
+ @param part_attribute_id the part_attribute_id to delete
+ @return JSON response with status = "deleted" or an http 500 response if an error occurs.
+--->
+<cffunction name="deletePartAttribute" access="remote" returntype="any" returnformat="json">
+	<cfargument name="part_attribute_id" type="string" required="yes">
+
+	<cfset var data = ArrayNew(1)>
+	
+	<cftransaction>
+		<cftry>
+			<cfquery name="deleteAttr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteAttr_result">
+				DELETE FROM specimen_part_attribute 
+				WHERE part_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_attribute_id#">
+			</cfquery>
+			<cfif deleteAttr_result.recordcount NEQ 1>
+				<cfthrow message="Error deleting part attribute. Expected one row affected, but got #deleteAttr_result.recordcount# with part_attribute_id #encodeForHtml(arguments.part_attribute_id)#">
+			</cfif>
+			
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "deleted">
+			<cfset row["id"] = "#arguments.part_attribute_id#">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+
+<!--- getPartAttrSelect 
+ Helper function to generate form controls for part attributes based on controlled vocabularies
+ @param u_or_v string indicating whether to generate controls for units ('u') or values ('v')
+ @param patype the attribute type to generate controls for
+ @param val the current value to select
+ @param paid the part attribute ID for naming form controls
+ @return HTML string containing the appropriate form control or an http 500 response if an error occurs.
+--->
+<cffunction name="getPartAttrSelect" returntype="string" access="public">
+	<cfargument name="u_or_v" type="string" required="yes">
+	<cfargument name="patype" type="string" required="yes">
+	<cfargument name="val" type="string" required="yes">
+	<cfargument name="paid" type="numeric" required="yes">
+	
+	<cfset var rv = "">
+	
+	<cftry>
+		<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT * FROM ctspec_part_att_att 
+			WHERE attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.patype#">
+		</cfquery>
+		
+		<cfif arguments.u_or_v EQ "v">
+			<cfif len(k.VALUE_code_table) GT 0>
+				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT * FROM #k.VALUE_code_table#
+				</cfquery>
+				<cfloop list="#d.columnlist#" index="i">
+					<cfif i NEQ "description" AND i NEQ "collection_cde">
+						<cfquery name="r" dbtype="query">
+							SELECT #i# AS d FROM d ORDER BY #i#
+						</cfquery>
+					</cfif>
+				</cfloop>
+				<cfsavecontent variable="rv">
+					<cfoutput>
+						<label for="attribute_value_#arguments.paid#" class="data-entry-label">Value</label>
+						<select name="attribute_value" id="attribute_value_#arguments.paid#" class="data-entry-select reqdClr" required>
+							<option value=""></option>
+							<cfloop query="r">
+								<cfif arguments.val EQ r.d>
+									<cfset selected = "selected">
+								<cfelse>
+									<cfset selected = "">
+								</cfif>
+								<option value="#r.d#" #selected#>#r.d#</option>
+							</cfloop>
+						</select>
+					</cfoutput>
+				</cfsavecontent>
+			<cfelse>
+				<cfsavecontent variable="rv">
+					<cfoutput>
+						<label for="attribute_value_#arguments.paid#" class="data-entry-label">Value</label>
+						<input type="text" name="attribute_value" id="attribute_value_#arguments.paid#" value="#arguments.val#" class="data-entry-input reqdClr" required>
+					</cfoutput>
+				</cfsavecontent>
+			</cfif>
+		<cfelseif arguments.u_or_v EQ "u">
+			<cfif len(k.unit_code_table) GT 0>
+				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT * FROM #k.unit_code_table#
+				</cfquery>
+				<cfloop list="#d.columnlist#" index="i">
+					<cfif i NEQ "description" AND i NEQ "collection_cde">
+						<cfquery name="r" dbtype="query">
+							SELECT #i# AS d FROM d ORDER BY #i#
+						</cfquery>
+					</cfif>
+				</cfloop>
+				<cfsavecontent variable="rv">
+					<cfoutput>
+						<label for="attribute_units_#arguments.paid#" class="data-entry-label">Units</label>
+						<select name="attribute_units" id="attribute_units_#arguments.paid#" class="data-entry-select">
+							<option value=""></option>
+							<cfloop query="r">
+								<cfif arguments.val EQ r.d>
+									<cfset selected = "selected">
+								<cfelse>
+									<cfset selected = "">
+								</cfif>
+								<option value="#r.d#" #selected#>#r.d#</option>
+							</cfloop>
+						</select>
+					</cfoutput>
+				</cfsavecontent>
+			<cfelse>
+				<cfsavecontent variable="rv">
+					<cfoutput>
+						<label for="attribute_units_#arguments.paid#" class="data-entry-label">Units</label>
+						<input type="text" name="attribute_units" id="attribute_units_#arguments.paid#" value="#arguments.val#" class="data-entry-input">
+					</cfoutput>
+				</cfsavecontent>
+			</cfif>
+		</cfif>
+		
+	<cfcatch>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	
+	<cfreturn rv>
 </cffunction>
 
 </cfcomponent>
