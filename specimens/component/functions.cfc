@@ -6007,11 +6007,11 @@ limitations under the License.
 									<label class="data-entry-label" for="att_method#i#">Method</label>
 									<input type="text" class="data-entry-input" id="att_method#i#" name="determination_method" value="#determination_method#">
 								</div>
-								<div class="col-12 col-md-9">
+								<div class="col-12 col-md-9 mt-1">
 									<label for="att_rem" class="data-entry-label">Remarks</label>
 									<input type="text" class="data-entry-input" id="att_rem#i#" name="attribute_remark" value="#attribute_remark#">
 								</div>
-								<div class="col-12 col-md-3 pt-2">
+								<div class="col-12 col-md-3 mt-1 pt-3">
 									<button id="att_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Attribute">Save</button>
 									<button id="att_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Attribute">Delete</button>
 									<output id="att_output#i#"></output>
