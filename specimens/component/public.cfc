@@ -2805,11 +2805,47 @@ limitations under the License.
 							</li>
 						</cfif>
 					</ul>
+					<cfset countInHG = "">
+					<cfset countInLoc = "">
+					<cfset countInCE = "">
+					<cfif oneOfUs EQ 1>
+						<!--- obtain counts of material from same higher geography, locality, and collecting event (whether visible to the current user or not) --->
+						<cfquery name="higherGeogCount" datasource="uam_god">
+							SELECT 
+								count(distinct cataloged_item.collection_object_id) as ct_higher_geog
+							FROM
+								cataloged_item
+								join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+								join locality on collecting_event.locality_id = locality.locality_id
+							WHERE
+								locality.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.geog_auth_rec_id#">
+						</cfquery>
+						<cfset countInHG = " (#higherGeogCount.ct_higher_geog#)">
+						<cfquery name="localityCount" datasource="uam_god">
+							SELECT 
+								count(distinct cataloged_item.collection_object_id) as ct_locality
+							FROM
+								cataloged_item
+								join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+							WHERE
+								collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.locality_id#">
+						</cfquery>
+						<cfset countInLoc = " (#localityCount.ct_locality#)">
+						<cfquery name="collectingEventCount" datasource="uam_god">
+							SELECT 
+								count(distinct cataloged_item.collection_object_id) as ct_collecting_event
+							FROM
+								cataloged_item
+							WHERE
+								cataloged_item.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.collecting_event_id#">
+						</cfquery>
+						<cfset countInCE = " (#collectingEventCount.ct_collecting_event#)">
+					</cfif>
 					<div class="w-100 float-left">
-						<span class="px-2 float-left pt-0 pb-1"><a class="small90" href="/Specimens.cfm?execute=true&action=fixedSearch&higher_geog==#loc_collevent.higher_geog#" title="See other specimens with this Higher Geography">Specimens with same Higher Geography</a></span>
+						<span class="px-2 float-left pt-0 pb-1"><a class="small90" href="/Specimens.cfm?execute=true&action=fixedSearch&higher_geog==#loc_collevent.higher_geog#" title="See other specimens with this Higher Geography">Specimens with same Higher Geography#countInHG#</a></span>
 					</div>
 					<div class="w-100 float-left">
-						<span class="px-2 float-left pt-0 pb-1"><a class="small90" href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=LOCALITY%3ALOCALITY_LOCALITY_ID_PICK&searchText1=#encodeForURL(loc_collevent.spec_locality)#%20(#loc_collevent.locality_id#)&searchId1=#loc_collevent.locality_id#" title="See other specimens with this Locality">Specimens from the same Locality</a></span>
+						<span class="px-2 float-left pt-0 pb-1"><a class="small90" href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=LOCALITY%3ALOCALITY_LOCALITY_ID_PICK&searchText1=#encodeForURL(loc_collevent.spec_locality)#%20(#loc_collevent.locality_id#)&searchId1=#loc_collevent.locality_id#" title="See other specimens with this Locality">Specimens from the same Locality#countInLoc#</a></span>
 					</div>
 					<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
 					<cfset eventDate = "">
@@ -2821,7 +2857,7 @@ limitations under the License.
 						</cfif>
 					</cfif>
 					<div class="w-100 float-left">
-						<span class="float-left px-2 pb-1"><a class="small90" href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=CATALOGED_ITEM%3ACATALOGED%20ITEM_COLLECTING_EVENT_ID&searchText1=#encodeForURL(loc_collevent.spec_locality)#%20#eventDate#%20(#loc_collevent.collecting_event_id#)&searchId1=#loc_collevent.collecting_event_id#" title="See other specimens from this collecting event">Specimens from the same Collecting Event</a></span>
+						<span class="float-left px-2 pb-1"><a class="small90" href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=CATALOGED_ITEM%3ACATALOGED%20ITEM_COLLECTING_EVENT_ID&searchText1=#encodeForURL(loc_collevent.spec_locality)#%20#eventDate#%20(#loc_collevent.collecting_event_id#)&searchId1=#loc_collevent.collecting_event_id#" title="See other specimens from this collecting event">Specimens from the same Collecting Event#countInCE#</a></span>
 					</div>
 				</div>
 				<div class="col-12 float-left px-0">
