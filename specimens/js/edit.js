@@ -713,6 +713,14 @@ function openEditAttributesDialog(collection_object_id,dialogId,guid,callback) {
 	});
 };
 
+/** openEditLocalityDialog opens a dialog for editing locality and collecting event
+ * for a cataloged item.
+ * @param collection_object_id for the cataloged_item for which to edit locality and collecting event.
+ * @param dialogId the id in the dom for the div to turn into the dialog without
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
 function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Locality and Collecting Event for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
@@ -786,6 +794,11 @@ function openEditPartsDialog(collection_object_id,dialogId,guid,callback) {
 	});
 };
 
+/** editPartAttributes opens a dialog for editing attributes of a part.
+
+ * @param part_collection_object_id the id of the part for which to edit attributes.
+ * @param callback a callback function to invoke on closing the dialog.
+ */
 function editPartAttributes(part_collection_object_id,callback) {
 	var title = "Edit Part Attributes";
 	dialogId = "editPartAttributesDialog";
@@ -813,7 +826,10 @@ function editPartAttributes(part_collection_object_id,callback) {
 	});
 }
 
-/** handlePartAttributeTypeChange handles the change of part attribute type.
+/** handlePartAttributeTypeChange handles the change of part attribute type, changes input controls
+ * for value and units field to select (with an appropriate controlled vocabulary) or text input based 
+ * on the selected attribute type.
+ *
  * @param suffix optional suffix for the attribute fields (e.g., for multiple attributes), assumes that the
  * attribute type is in a select with id = 'attribute_type' or id = 'attribute_type' + suffix.
  * similarly assumes that the value field is in an input with id = 'attribute_value' or id = 'attribute_value' + suffix,
@@ -842,8 +858,7 @@ function handlePartAttributeTypeChange(suffix, partID) {
             // Handle value field
             if (response[0].value_code_table) {
                 // Create select element with label
-                var selectHtml = '<label for="' + valueFieldId + '" class="data-entry-label">Value</label>' +
-                               '<select id="' + valueFieldId + '" name="attribute_value" class="data-entry-select reqdClr" required>' +
+                var selectHtml = '<select id="' + valueFieldId + '" name="attribute_value" class="data-entry-select reqdClr" required>' +
                                '<option value=""></option>';
                 
                 // Add options from response
@@ -853,22 +868,20 @@ function handlePartAttributeTypeChange(suffix, partID) {
                 });
                 selectHtml += '</select>';
                 
-                // Replace the entire parent element content
-                $('#' + valueFieldId).parent().html(selectHtml);
+                // Replace the element content
+                $('#' + valueFieldId).html(selectHtml);
             } else {
                 // Create text input with label
-                var inputHtml = '<label for="' + valueFieldId + '" class="data-entry-label">Value</label>' +
-                              '<input type="text" class="data-entry-input reqdClr" id="' + valueFieldId + '" name="attribute_value" value="" required>';
+                var inputHtml = '<input type="text" class="data-entry-input reqdClr" id="' + valueFieldId + '" name="attribute_value" value="" required>';
                 
-                // Replace the entire parent element content
-                $('#' + valueFieldId).parent().html(inputHtml);
+                // Replace the element content
+                $('#' + valueFieldId).html(inputHtml);
             }
             
             // Handle units field
             if (response[0].units_code_table) {
                 // Create select element with label
-                var selectHtml = '<label for="' + unitsFieldId + '" class="data-entry-label">Units</label>' +
-                               '<select id="' + unitsFieldId + '" name="attribute_units" class="data-entry-select">' +
+                var selectHtml = '<select id="' + unitsFieldId + '" name="attribute_units" class="data-entry-select">' +
                                '<option value=""></option>';
                 
                 // Add options from response
@@ -877,15 +890,14 @@ function handlePartAttributeTypeChange(suffix, partID) {
                 });
                 selectHtml += '</select>';
                 
-                // Replace the entire parent element content
-                $('#' + unitsFieldId).parent().html(selectHtml);
+                // Replace the element content
+                $('#' + unitsFieldId).html(selectHtml);
             } else {
                 // Create text input with label (disabled for units when no code table)
-                var inputHtml = '<label for="' + unitsFieldId + '" class="data-entry-label">Units</label>' +
-                              '<input type="text" class="data-entry-input" id="' + unitsFieldId + '" name="attribute_units" value="" disabled>';
+                var inputHtml = '<input type="text" class="data-entry-input" id="' + unitsFieldId + '" name="attribute_units" value="" disabled>';
                 
-                // Replace the entire parent element content
-                $('#' + unitsFieldId).parent().html(inputHtml);
+                // Replace the element content
+                $('#' + unitsFieldId).html(inputHtml);
             }
         },
         error: function(xhr, status, error) {
