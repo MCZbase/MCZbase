@@ -5945,8 +5945,8 @@ limitations under the License.
 										</cfquery>
 										<select class="data-entry-select reqdClr" id="att_value#i#" name="attribute_value" required>
 											<option value=""></option>
-											<cfloop list="#valueValues#" index="value">
-												<option value="#value#" <cfif value EQ getAttributes.attribute_value>selected</cfif>>#value#</option>
+											<cfloop query="getValueCodeTable">
+												<option value="#getValueCodeTable.value#" <cfif getValueCodeTable.value EQ getAttributes.attribute_value>selected</cfif>>#value#</option>
 											</cfloop>
 										</select>
 									<cfelse>
@@ -5959,7 +5959,7 @@ limitations under the License.
 										<cfset unitsCodeTable = getAttributeCodeTables.units_code_table>
 										<cfquery name="getUnitsCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT
-												#replace(unitsCodeTable,"CT","","one")# as value
+												#replace(unitsCodeTable,"CT","","one")# as unit
 											FROM
 												#unitsCodeTable#
 											ORDER BY
@@ -5967,8 +5967,8 @@ limitations under the License.
 										</cfquery>
 										<select class="data-entry-select" id="att_units#i#" name="attribute_units">
 											<option value=""></option>
-											<cfloop list="#unitsValues#" index="unit">
-												<option value="#unit#" <cfif unit EQ getAttributes.attribute_units>selected</cfif>>#unit#</option>
+											<cfloop query="getUnitsCodeTable">
+												<option value="#getUnitsCodeTable.aunit#" <cfif getUnitsCodeTable.unit EQ getAttributes.attribute_units>selected</cfif>>#unit#</option>
 											</cfloop>
 										</select>
 									<cfelse>
