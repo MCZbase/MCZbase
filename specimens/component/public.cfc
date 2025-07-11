@@ -2812,7 +2812,7 @@ limitations under the License.
 						<!--- obtain counts of material from same higher geography, locality, and collecting event (whether visible to the current user or not) --->
 						<cfquery name="higherGeogCount" datasource="uam_god">
 							SELECT 
-								count(distinct cataloged_item.collection_object_id) as ct_higher_geog,
+								count(distinct cataloged_item.collection_object_id) as ct_higher_geog
 							FROM
 								cataloged_item
 								join locality on cataloged_item.locality_id = locality.locality_id
