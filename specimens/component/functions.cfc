@@ -8618,7 +8618,8 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											<input type="hidden" name="part_attribute_id" value="#part_attribute_id#">
 											<input type="hidden" name="method" value="updatePartAttribute">
 											<div class="col-12 col-md-3">
-												<label for="attribute_type_#i#" class="data-entry-label">Attribute Type</label>
+												<cfset current = "<span class='small90'>(#getPartAttributes.attribute_type#)</span>"><!--- " --->
+												<label for="attribute_type_#i#" class="data-entry-label">Attribute Type </label>
 												<select name="attribute_type" id="attribute_type_#i#" class="data-entry-select reqdClr" required
 														onchange="handlePartAttributeTypeChange('_#i#', '#arguments.partID#')">
 													<option value=""></option>
@@ -9081,6 +9082,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 
 <!--- getPartAttrSelect 
  Helper function to generate form controls for part attributes based on controlled vocabularies
+
  @param u_or_v string indicating whether to generate controls for units ('u') or values ('v')
  @param patype the attribute type to generate controls for
  @param val the current value to select
@@ -9093,7 +9095,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	<cfargument name="val" type="string" required="yes">
 	<cfargument name="paid" type="numeric" required="yes">
 	
-	<cfset var rv = "">
+	<cfset var retval = "">
 	
 	<cftry>
 		<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -9113,9 +9115,10 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						</cfquery>
 					</cfif>
 				</cfloop>
-				<cfsavecontent variable="rv">
+				<cfsavecontent variable="retval">
+					<cfset current = "<span class='small90'>(#arguments.val#)</span>"><!--- " --->
 					<cfoutput>
-						<label for="attribute_value_#arguments.paid#" class="data-entry-label">Value</label>
+						<label for="attribute_value_#arguments.paid#" class="data-entry-label">Value #current#</label>
 						<select name="attribute_value" id="attribute_value_#arguments.paid#" class="data-entry-select reqdClr" required>
 							<option value=""></option>
 							<cfloop query="r">
@@ -9130,9 +9133,10 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					</cfoutput>
 				</cfsavecontent>
 			<cfelse>
-				<cfsavecontent variable="rv">
+				<cfsavecontent variable="retval">
+					<cfset current = "<span class='small90'>(#arguments.val#)</span>"><!--- " --->
 					<cfoutput>
-						<label for="attribute_value_#arguments.paid#" class="data-entry-label">Value</label>
+						<label for="attribute_value_#arguments.paid#" class="data-entry-label">Value#current#</label>
 						<input type="text" name="attribute_value" id="attribute_value_#arguments.paid#" value="#arguments.val#" class="data-entry-input reqdClr" required>
 					</cfoutput>
 				</cfsavecontent>
@@ -9149,9 +9153,13 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						</cfquery>
 					</cfif>
 				</cfloop>
-				<cfsavecontent variable="rv">
+				<cfsavecontent variable="retval">
+					<cfset current = "">
+					<cfif len(arguments.val) GT 0>
+						<cfset current = " <span class='small90'>(#arguments.val#)</span>"><!--- " --->
+					</cfif>
 					<cfoutput>
-						<label for="attribute_units_#arguments.paid#" class="data-entry-label">Units</label>
+						<label for="attribute_units_#arguments.paid#" class="data-entry-label">Units#current#</label>
 						<select name="attribute_units" id="attribute_units_#arguments.paid#" class="data-entry-select">
 							<option value=""></option>
 							<cfloop query="r">
@@ -9166,9 +9174,13 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					</cfoutput>
 				</cfsavecontent>
 			<cfelse>
-				<cfsavecontent variable="rv">
+				<cfsavecontent variable="retval">
+					<cfset current = "">
+					<cfif len(arguments.val) GT 0>
+						<cfset current = " <span class='small90'>(#arguments.val#)</span>"><!--- " --->
+					</cfif>
 					<cfoutput>
-						<label for="attribute_units_#arguments.paid#" class="data-entry-label">Units</label>
+						<label for="attribute_units_#arguments.paid#" class="data-entry-label">Units#current#</label>
 						<input type="text" name="attribute_units" id="attribute_units_#arguments.paid#" value="#arguments.val#" class="data-entry-input">
 					</cfoutput>
 				</cfsavecontent>
@@ -9183,7 +9195,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	</cfcatch>
 	</cftry>
 	
-	<cfreturn rv>
+	<cfreturn retval>
 </cffunction>
 
 </cfcomponent>
