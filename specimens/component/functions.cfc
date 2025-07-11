@@ -5968,7 +5968,7 @@ limitations under the License.
 										<select class="data-entry-select" id="att_units#i#" name="attribute_units">
 											<option value=""></option>
 											<cfloop query="getUnitsCodeTable">
-												<option value="#getUnitsCodeTable.aunit#" <cfif getUnitsCodeTable.unit EQ getAttributes.attribute_units>selected</cfif>>#unit#</option>
+												<option value="#getUnitsCodeTable.unit#" <cfif getUnitsCodeTable.unit EQ getAttributes.attribute_units>selected</cfif>>#unit#</option>
 											</cfloop>
 										</select>
 									<cfelse>
