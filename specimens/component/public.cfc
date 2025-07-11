@@ -2815,11 +2815,10 @@ limitations under the License.
 								count(distinct cataloged_item.collection_object_id) as ct_higher_geog
 							FROM
 								cataloged_item
-								join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id`
+								join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 								join locality on collecting_event.locality_id = locality.locality_id
-								join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 							WHERE
-								geog_auth_rec.higher_geog = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loc_collevent.higher_geog#">
+								locality.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.geog_auth_rec_id#">
 						</cfquery>
 						<cfset countInHG = " (#higherGeogCount.ct_higher_geog#)">
 						<cfquery name="localityCount" datasource="uam_god">
@@ -2827,10 +2826,9 @@ limitations under the License.
 								count(distinct cataloged_item.collection_object_id) as ct_locality
 							FROM
 								cataloged_item
-								join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id`
-								join locality on collecting_event.locality_id = locality.locality_id
+								join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 							WHERE
-								locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.locality_id#">
+								collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.locality_id#">
 						</cfquery>
 						<cfset countInLoc = " (#localityCount.ct_locality#)">
 						<cfquery name="collectingEventCount" datasource="uam_god">
