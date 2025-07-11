@@ -5895,7 +5895,7 @@ limitations under the License.
 							FROM
 								ctattribute_code_tables
 							WHERE 
-								attribute_type = <cfqueryparam value="#variables.attribute_type#" cfsqltype="CF_SQL_VARCHAR">
+								attribute_type = <cfqueryparam value="#getAttributes.attribute_type#" cfsqltype="CF_SQL_VARCHAR">
 						</cfquery>
 						<cfset i = i + 1>
 						<form name="editAttribute#i#" id="editAttribute#i#">
