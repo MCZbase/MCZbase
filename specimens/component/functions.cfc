@@ -4501,7 +4501,8 @@ limitations under the License.
 											// make mixed collection
 											var id = button.id.replace('part_mixed', '');
 											var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
-											openEditIdentificationsDialog(partId,'identificationsDialog',function(){
+											var guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num# " + $('#editPart' + id + ' input[name="part_name"]').val() + ' (' + $('#editPart' + id + ' select[name="preserve_method"]').val() + ')';
+											openEditIdentificationsDialog(partId,'identificationsDialog',guid,function(){
 												reloadParts();
 											});
 										});
@@ -4516,7 +4517,8 @@ limitations under the License.
 													// make mixed collection
 													var id = button.id.replace('newpart_mixed', '');
 													var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
-													openEditIdentificationsDialog(partId,'identificationsDialog',function(){
+													var guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num# " + $('#editPart' + id + ' input[name="part_name"]').val() + ' (' + $('#editPart' + id + ' select[name="preserve_method"]').val() + ')';
+													openEditIdentificationsDialog(partId,'identificationsDialog',guid,function(){
 														reloadParts();
 													});
 												}
