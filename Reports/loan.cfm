@@ -551,9 +551,9 @@ limitations under the License.
 					</p>
 					<strong>7. PUBLICITY AND CREDITS </strong>
 					<p>The credit line as shown on the first page of this form will be used in all printed
-						material (including web) related to the loan object(s). Loans for exhibition
-						require that one copy of any catalog or publicity material be sent directly to
-						the Departmental contact at the MCZ.
+						material (including web) related to the loan object(s).  One copy of any exhibition 
+						catalog or publicity material must be sent directly to the Departmental contact 
+						at the MCZ.
 					</p>
 					<strong>8. PHOTOGRAPHY </strong>
 					<p>All photographs of MCZ items to be used in
@@ -590,7 +590,7 @@ limitations under the License.
 					<strong>11. EXHIBITION DESIGN AND INSTALLATION </strong>
 					<p>The Borrowing Institution agrees to comply with all requirements detailed on
 						the first page of this document, as well as those described in correspondence
-						and the Departmental Loan document from the MCZ to the Borrowing Institution.
+						and the Loan document from the MCZ to the Borrowing Institution.
 						Mounting fixtures must be padded at contact points with the loan item(s).
 					</p>
 					<strong>12. LOAN FEES </strong>
