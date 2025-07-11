@@ -5950,7 +5950,7 @@ limitations under the License.
 													collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
 											</cfif>
 											ORDER BY
-												#replace(valueCodeTable,"CT","","one")#
+												#field#
 										</cfquery>
 										<select class="data-entry-select reqdClr" id="att_value#i#" name="attribute_value" required>
 											<option value=""></option>
