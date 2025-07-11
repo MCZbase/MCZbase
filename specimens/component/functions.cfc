@@ -5931,9 +5931,16 @@ limitations under the License.
 												AND owner = 'MCZBASE'
 												AND column_name = 'COLLECTION_CDE'
 										</cfquery>
+										<!--- default is attribute field is the attribute code table name with CT prefix removed --->
+										<cfset var field=replace(valueCodeTable,"CT","","one")>
+										<cfif ucase(valueCodeTable) EQ "CTASSOCIATED_GRANTS">
+											<cfset field="ASSOCIATED_GRANT">
+										<cfelseif ucase(valueCodeTable) EQ "CTCOLLECTION_FULL_NAMES">
+											<cfset field="COLLECTION">
+										</cfif>
 										<cfquery name="getValueCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT
-												#replace(valueCodeTable,"CT","","one")# as value
+												#field# as value
 											FROM
 												#valueCodeTable#
 											<cfif checkForCollectionCde.ct GT 0>
