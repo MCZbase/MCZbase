@@ -4344,7 +4344,7 @@ limitations under the License.
 												<cfif getIdentifications.recordcount EQ 0>
 													<button id="part_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Part">Delete</button>
 													<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-														<button id="part_mixed#i#" value="Mixed" class="btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
+														<button id="newpart_mixed#i#" value="Mixed" class="btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
 													</cfif>
 												<cfelse>
 													<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
@@ -4495,17 +4495,34 @@ limitations under the License.
 									});
 								});
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-								document.querySelectorAll('button[id^="part_mixed"]').forEach(function(button) {
-									button.addEventListener('click', function(event) {
-										event.preventDefault();
-										// make mixed collection
-										var id = button.id.replace('part_mixed', '');
-										var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
-										openEditIdentificationsDialog(partId,'identificationsDialog',function(){
-											reloadParts();
+									document.querySelectorAll('button[id^="part_mixed"]').forEach(function(button) {
+										button.addEventListener('click', function(event) {
+											event.preventDefault();
+											// make mixed collection
+											var id = button.id.replace('part_mixed', '');
+											var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
+											openEditIdentificationsDialog(partId,'identificationsDialog',function(){
+												reloadParts();
+											});
 										});
 									});
-								});
+									document.querySelectorAll('button[id^="newpart_mixed"]').forEach(function(button) {
+										button.addEventListener('click', function(event) {
+											event.preventDefault();
+											// confirm making mixed collection
+											confirmDialog('Adding identifications to this part will make this cataloged item into a mixed collection.  This means that the cataloged item will no longer be a single taxon, but rather a collection of parts with different identifications.  Are you sure you want to do this?  This is appropriate for some cases in some collections, such as when a cataloged item ins a composite of multiple taxa, but not appropriate for all collections.  If you are unsure, please consult with your  manager before proceeding.', 
+												'Confirm Mixed Collection', 
+												function() {
+													// make mixed collection
+													var id = button.id.replace('newpart_mixed', '');
+													var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
+													openEditIdentificationsDialog(partId,'identificationsDialog',function(){
+														reloadParts();
+													});
+												}
+											);
+										});
+									});
 								</cfif>
 								function reloadParts() {
 									// reload the edit existing parts section
