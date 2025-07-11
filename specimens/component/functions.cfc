@@ -5932,11 +5932,13 @@ limitations under the License.
 												AND column_name = 'COLLECTION_CDE'
 										</cfquery>
 										<!--- default is attribute field is the attribute code table name with CT prefix removed --->
-										<cfset var field=replace(valueCodeTable,"CT","","one")>
+										<cfset var field="">
 										<cfif ucase(valueCodeTable) EQ "CTASSOCIATED_GRANTS">
 											<cfset field="ASSOCIATED_GRANT">
 										<cfelseif ucase(valueCodeTable) EQ "CTCOLLECTION_FULL_NAMES">
 											<cfset field="COLLECTION">
+										<cfelse>
+											<cfset field=replace(valueCodeTable,"CT","","one")>
 										</cfif>
 										<cfquery name="getValueCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT
