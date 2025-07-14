@@ -174,11 +174,11 @@ limitations under the License.
 			<!--- Create an HTML table to display the results --->
 			<cfif asCSV>
 				<cfif variables.gbifLookup AND NOT variables.wormsLookup>
-					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,MCZBASE_FORMULA,GBIF,GBIFWITHAUTH")>
+					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,MCZBASE_FORMULA,GBIF,GBIFWITHAUTH,MATCHDESCRIPTION")>
 				<cfelseif variables.wormsLookup AND NOT variables.gbifLookup>
-					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,MCZBASE_FORMULA,WORMS,WORMSWITHAUTH")>
+					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,MCZBASE_FORMULA,WORMS,WORMSWITHAUTH,MATCHDESCRIPTION")>
 				<cfelseif variables.wormsLookup AND variables.gbifLookup>
-					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,MCZBASE_FORMULA,GBIF,WORMS,GBIFWITHAUTH,WORMSWITHAUTH")>
+					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,MCZBASE_FORMULA,GBIF,WORMS,GBIFWITHAUTH,WORMSWITHAUTH,GBIFMATCHDESCRIPTION,WORMSMATCHDESCRIPTION")>
 				<cfelse>
 					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,MCZBASE_FORMULA")>
 				</cfif>
@@ -191,9 +191,11 @@ limitations under the License.
 								<th>MCZbase</th>
 								<cfif variables.gbifLookup>
 									<th>GBIF</th>
+									<th>GBIF Match Description</th>
 								</cfif>
 								<cfif variables.wormsLookup>
 									<th>WoRMS</th>
+									<th>WoRMS Match Description</th>
 								</cfif>
 							</tr>
 						</thead>
@@ -273,6 +275,8 @@ limitations under the License.
 					<cfset gbifNameWithAuth = "">
 					<cfset wormsName = "">
 					<cfset wormsNameWithAuth = "">
+					<cfset gbifMatchDescription = "">
+					<cfset wormsMatchDescription = "">
 					<cfif variables.gbifLookup>
 						<!--- Lookup name in GBIF Backbone taxonomy --->
 						<cfobject type="Java" class="org.filteredpush.qc.sciname.services.Validator" name="validator">
@@ -324,6 +328,7 @@ limitations under the License.
 							<cfset gbifNameWithAuth = "">
 						</cfcatch>
 						</cftry>
+						<cfset gbifMatchDescription = r.MATCHDESCRIPTION>
 						<cfset result["GBIF Backbone"] = r>
 					</cfif>
 					<cfif variables.wormsLookup>
@@ -375,6 +380,7 @@ limitations under the License.
 							<cfset r.HABITATFLAGS = "">
 						</cfcatch>
 						</cftry>
+						<cfset wormsMatchDescription = r.MATCHDESCRIPTION>
 						<cfset result["WoRMS"] = r>
 					</cfif>
 
@@ -392,12 +398,16 @@ limitations under the License.
 								<cfset formula = matchedFormula>
 							</cfif>
 						</cfif>
+						<cfset gbifMatchDescription = replace(gbifMatchDescription, '"', '""', 'all')><!--- escape quotes for CSV --->
+						<cfset wormsMatchDescription = replace(wormsMatchDescription, '"', '""', 'all')><!--- escape quotes for CSV --->
+						<cfset gbifNameWithAuth = replace(gbifNameWithAuth, '"', '""', 'all')><!--- escape quotes for CSV --->
+						<cfset wormsNameWithAuth = replace(wormsNameWithAuth, '"', '""', 'all')><!--- escape quotes for CSV --->
 						<cfif variables.gbifLookup AND NOT variables.wormsLookup>
-							<cfset ArrayAppend(resultsArray, '#scientificName#,#foundState#,#formula#,#gbifName#,"#gbifNameWithAuth#"')>
+							<cfset ArrayAppend(resultsArray, '#scientificName#,#foundState#,#formula#,#gbifName#,"#gbifNameWithAuth#","#gbifMatchDescription#"')>
 						<cfelseif variables.wormsLookup AND NOT variables.gbifLookup>
-							<cfset ArrayAppend(resultsArray, '#scientificName#,#foundState#,#formula#,#wormsName#,"#wormsNameWithAuth#"')>
+							<cfset ArrayAppend(resultsArray, '#scientificName#,#foundState#,#formula#,#wormsName#,"#wormsNameWithAuth#","#wormsMatchDescription#"')>
 						<cfelseif variables.wormsLookup AND variables.gbifLookup>
-							<cfset ArrayAppend(resultsArray, '#scientificName#,#foundState#,#formula#,#gbifName#,#wormsName#,"#gbifNameWithAuth#","#wormsNameWithAuth#"')>
+							<cfset ArrayAppend(resultsArray, '#scientificName#,#foundState#,#formula#,#gbifName#,#wormsName#,"#gbifNameWithAuth#","#wormsNameWithAuth#","#gbifMatchDescription#","#wormsMatchDescription#"')>
 						<cfelse>
 							<cfset ArrayAppend(resultsArray, "#scientificName#,#foundState#,#formula#")>
 						</cfif>
@@ -418,9 +428,11 @@ limitations under the License.
 								</td>
 								<cfif variables.gbifLookup>
 									<td>#gbifNameWithAuth#</td>
+									<td>#gbifMatchDescription#</td>
 								</cfif>
 								<cfif variables.wormsLookup>
 									<td>#wormsNameWithAuth#</td>
+									<td>#wormsMatchDescription#</td>
 								</cfif>
 							</tr>
 						</cfoutput>
