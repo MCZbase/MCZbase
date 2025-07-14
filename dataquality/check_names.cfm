@@ -225,7 +225,7 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 				</cfloop>
-				<cfif len(trim(scientificName)) GT 0 AND ListContains(evaluatedNames, scientificName,"|") EQ 0>
+				<cfif len(trim(scientificName)) GT 0 AND ListFind(evaluatedNames, scientificName,"|") EQ 0>
 					<cfset evaluatedNames = ListAppend(evaluatedNames, scientificName,"|")>
 					<cfset distinctNameCount = distinctNameCount + 1>
 					<!--- Execute a query to check the scientific name against MCZbase taxonomy --->
