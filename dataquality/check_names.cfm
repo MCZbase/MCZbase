@@ -308,7 +308,7 @@ limitations under the License.
 								<cfset gbifName = "#returnName.getScientificName()#">
 								<cfset gbifNameWithAuth = "#returnName.getScientificName()# #returnName.getAuthorship()#">
 							<cfelse>
-								<cfset r.MATCHDESCRIPTION = "ValidateReturnedEmpty">
+								<cfset r.MATCHDESCRIPTION = "Not Found">
 								<cfset r.SCIENTIFICNAME = "">
 								<cfset r.AUTHORSHIP = "">
 								<cfset r.GUID = "">
@@ -362,7 +362,7 @@ limitations under the License.
 								<cfset wormsName = "#returnName.getScientificName()#">
 								<cfset wormsNameWithAuth = "#returnName.getScientificName()# #returnName.getAuthorship()#">
 							<cfelse>
-								<cfset r.MATCHDESCRIPTION = "ValidateReturnedEmpty">
+								<cfset r.MATCHDESCRIPTION = "Not Found">
 								<cfset r.SCIENTIFICNAME = "">
 								<cfset r.AUTHORSHIP = "">
 								<cfset r.GUID = "">
