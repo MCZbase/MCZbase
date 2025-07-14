@@ -174,11 +174,11 @@ limitations under the License.
 			<!--- Create an HTML table to display the results --->
 			<cfif asCSV>
 				<cfif variables.gbifLookup AND NOT variables.wormsLookup>
-					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,MCZBASE_FORMULA,GBIF")>
+					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,MCZBASE_FORMULA,GBIF,GBIFWITHAUTH")>
 				<cfelseif variables.wormsLookup AND NOT variables.gbifLookup>
-					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,MCZBASE_FORMULA,WORMS")>
+					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,MCZBASE_FORMULA,WORMS,WORMSWITHAUTH")>
 				<cfelseif variables.wormsLookup AND variables.gbifLookup>
-					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,MCZBASE_FORMULA,GBIF,WORMS")>
+					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,MCZBASE_FORMULA,GBIF,WORMS,GBIFWITHAUTH,WORMSWITHAUTH")>
 				<cfelse>
 					<cfset ArrayAppend(resultsArray, "SCIENTIFIC_NAME,MCZBASE,MCZBASE_FORMULA")>
 				</cfif>
@@ -303,6 +303,15 @@ limitations under the License.
 								<cfset r.HABITATFLAGS = "">
 								<cfset gbifName = "#returnName.getScientificName()#">
 								<cfset gbifNameWithAuth = "#returnName.getScientificName()# #returnName.getAuthorship()#">
+							<cfelse>
+								<cfset r.MATCHDESCRIPTION = "ValidateReturnedEmpty">
+								<cfset r.SCIENTIFICNAME = "">
+								<cfset r.AUTHORSHIP = "">
+								<cfset r.GUID = "">
+								<cfset r.AUTHORSTRINGDISTANCE = "">
+								<cfset r.HABITATFLAGS = "">
+								<cfset gbifName = "">
+								<cfset gbifNameWithAuth = "">
 							</cfif>
 						<cfcatch>
 							<cfset r.MATCHDESCRIPTION = "Error">
@@ -311,6 +320,8 @@ limitations under the License.
 							<cfset r.GUID = "">
 							<cfset r.AUTHORSTRINGDISTANCE = "">
 							<cfset r.HABITATFLAGS = "">
+							<cfset gbifName="">
+							<cfset gbifNameWithAuth = "">
 						</cfcatch>
 						</cftry>
 						<cfset result["GBIF Backbone"] = r>
@@ -345,6 +356,15 @@ limitations under the License.
 								<cfset r.HABITATFLAGS = "">
 								<cfset wormsName = "#returnName.getScientificName()#">
 								<cfset wormsNameWithAuth = "#returnName.getScientificName()# #returnName.getAuthorship()#">
+							<cfelse>
+								<cfset r.MATCHDESCRIPTION = "ValidateReturnedEmpty">
+								<cfset r.SCIENTIFICNAME = "">
+								<cfset r.AUTHORSHIP = "">
+								<cfset r.GUID = "">
+								<cfset r.AUTHORSTRINGDISTANCE = "">
+								<cfset r.HABITATFLAGS = "">
+								<cfset wormsName = "">
+								<cfset wormsNameWithAuth = "">
 							</cfif>
 						<cfcatch>
 							<cfset r.MATCHDESCRIPTION = "Error">
@@ -373,11 +393,11 @@ limitations under the License.
 							</cfif>
 						</cfif>
 						<cfif variables.gbifLookup AND NOT variables.wormsLookup>
-							<cfset ArrayAppend(resultsArray, "#scientificName#,#foundState#,#formula#,#gbifName#")>
+							<cfset ArrayAppend(resultsArray, '#scientificName#,#foundState#,#formula#,#gbifName#,"#gbifNameWithAuth#"')>
 						<cfelseif variables.wormsLookup AND NOT variables.gbifLookup>
-							<cfset ArrayAppend(resultsArray, "#scientificName#,#foundState#,#formula#,#wormsName#")>
+							<cfset ArrayAppend(resultsArray, '#scientificName#,#foundState#,#formula#,#wormsName#,"#wormsNameWithAuth#"')>
 						<cfelseif variables.wormsLookup AND variables.gbifLookup>
-							<cfset ArrayAppend(resultsArray, "#scientificName#,#foundState#,#formula#,#gbifName#,#wormsName#")>
+							<cfset ArrayAppend(resultsArray, '#scientificName#,#foundState#,#formula#,#gbifName#,#wormsName#,"#gbifNameWithAuth#","#wormsNameWithAuth#"')>
 						<cfelse>
 							<cfset ArrayAppend(resultsArray, "#scientificName#,#foundState#,#formula#")>
 						</cfif>
