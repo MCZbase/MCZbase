@@ -118,7 +118,6 @@ Disallow: /userBrowseBulked.cfm
 Disallow: /userBrowseBulkedGrid.cfm
 Disallow: /users/
 Disallow: /viewAccn.cfm
-Disallow: /wideLabels.cfm
 Disallow: /digir/
 Sitemap: https://mczbase.mcz.harvard.edu/sitemapindex.xml.gz
 User-agent: dotbot
