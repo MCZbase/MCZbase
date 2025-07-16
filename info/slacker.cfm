@@ -28,7 +28,7 @@ limitations under the License.
 </cfif>
 
 <main class="container-fluid" id="content">
-	<div class="row">
+	<section class="row">
 		<div class="col-12">
 
 			<cfswitch expression="#local.action#">
@@ -283,7 +283,7 @@ limitations under the License.
 			</cfswitch>
 			
 		</div>
-	</div>
+	</section>
 </main>
 
 <cfinclude template="/shared/_footer.cfm">
