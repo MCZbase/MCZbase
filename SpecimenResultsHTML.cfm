@@ -1502,15 +1502,6 @@ document.getElementById('saveme').submit();
 	<cfoutput>
 	<form name="goSomewhereElseNow" method="post">
 		<select name="goWhere" size="1">
-			<option value="mammalLabels.cfm?collection_object_id=#collObjIdList#&action=box">
-				UAM Mammals Box Labels
-			</option>
-			<option value="MSBMammLabels.cfm?collection_object_id=#collObjIdList#">
-				MSB Mammals Labels
-			</option>
-			<option value="wideLabels.cfm?collection_object_id=#collObjIdList#">
-				MVZ wide Labels
-			</option>
 			<option value="findContainer.cfm?collection_object_id=#collObjIdList#&srch=part">
 				Part Locations
 			</option>

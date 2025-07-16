@@ -101,7 +101,6 @@ Disallow: /Locality.cfm
 Disallow: /locDownload.cfm
 Disallow: /media.cfm
 Disallow: /moveContainer.cfm
-Disallow: /MSBMammLabels.cfm
 Disallow: /nothing.cfm
 Disallow: /part2container.cfm
 Disallow: /Permit.cfm
@@ -118,7 +117,6 @@ Disallow: /userBrowseBulked.cfm
 Disallow: /userBrowseBulkedGrid.cfm
 Disallow: /users/
 Disallow: /viewAccn.cfm
-Disallow: /wideLabels.cfm
 Disallow: /digir/
 Sitemap: https://mczbase.mcz.harvard.edu/sitemapindex.xml.gz
 User-agent: dotbot
