@@ -18,6 +18,7 @@ limitations under the License.
 --->
 <cfset pageTitle="Miscelaneous Suspect Data Reports">
 <cfinclude template="/shared/_header.cfm">
+<script src="/lib/misc/sorttable.js"></script>
 
 <cfset action = "">
 <cfif not isDefined("url.action")>
@@ -67,7 +68,7 @@ limitations under the License.
 							<p><strong>#data.recordcount#</strong> publication<cfif data.recordcount NEQ 1>s</cfif> found with no authors.</p>
 							
 							<div class="table-responsive">
-								<table class="table table-striped">
+								<table class="table table-striped sortable">
 									<thead>
 										<tr>
 											<th>Publication ID</th>
@@ -116,7 +117,7 @@ limitations under the License.
 							<p><strong>#data.recordcount#</strong> publication<cfif data.recordcount NEQ 1>s</cfif> found with no citations.</p>
 							
 							<div class="table-responsive">
-								<table class="table table-striped">
+								<table class="table table-striped sortable">
 									<thead>
 										<tr>
 											<th>Publication</th>
@@ -167,7 +168,7 @@ limitations under the License.
 							<p><strong>#data.recordcount#</strong> project<cfif data.recordcount NEQ 1>s</cfif> found with loans but no publications.</p>
 							
 							<div class="table-responsive">
-								<table class="table table-striped">
+								<table class="table table-striped sortable">
 									<thead>
 										<tr>
 											<th>Project Name</th>
@@ -213,7 +214,7 @@ limitations under the License.
 						<h2 class="h2">Counts of Transactions and Publications per Project</h2>
 						<p><a href="/info/slacker.cfm">&laquo; Back to miscelaneous Reports</a></p>
 						<div class="table-responsive">
-							<table class="table table-striped">
+							<table class="table table-striped sortable">
 								<thead>
 									<tr>
 										<th>Accession Count</th>
@@ -261,7 +262,7 @@ limitations under the License.
 							<p><strong>#data.recordcount#</strong> loan<cfif data.recordcount NEQ 1>s</cfif> found with no attached cataloged items.</p>
 							
 							<div class="table-responsive">
-								<table class="table table-striped">
+								<table class="table table-striped sortable">
 									<thead>
 										<tr>
 											<th>Collection</th>
