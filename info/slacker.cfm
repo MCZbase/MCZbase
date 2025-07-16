@@ -123,6 +123,52 @@ limitations under the License.
 					</cfloop>
 				</cfoutput>
 			</cfcase>
+			<cfcase value="projCounts">
+				<cfquery name="data" datasource="uam_god">
+					SELECT 
+						count(accn.transaction_id) accession_ct,
+						count(loan.transaction_id) loan_ct, 
+						count(project_publication.publication_id) publication_ct,
+						project.project_id,
+						project_name
+					FROM 
+						project 
+						left join project_trans on project.project_id = project_trans.project_id
+						left join loan on project_trans.transaction_id = loan.transaction_id
+						left join project_publication on project.project_id = project_publication.project_id 
+						left join accn on project_trans.transaction_id = accn.transaction_id
+					GROUP BY project.project_id, project_name
+					ORDER BY project_name
+				</cfquery>
+				<cfoutput>
+					<h2 class="h2">Counts of Transactions and Publications per Project</h2>
+					<table>
+						<thead>
+							<tr>
+								<th>Accession Count</th>
+								<th>Loan Count</th>
+								<th>Publication Count</th>
+								<th>Project Name</th>
+								<th>Links</th>
+							</tr>
+						</thead>
+						<tbody>
+						<cfloop query="data">
+							<tr>
+								<td>#accession_ct#</td>
+								<td>#loan_ct#</td>
+								<td>#publication_ct#</td>
+								<td>#project_name#</td>
+								<td>
+									<a href="/ProjectDetail.cfm?project_id=#project_id#">Project Details</a>
+									<a href="/Project.cfm?action=editProject&project_id=#project_id#">Edit Project</a>
+								</td>
+							</tr>
+						</cfloop>
+						</tbody>
+					</table>
+				</cfoutput>
+			</cfcase>
 			<cfcase value="loanNoSpec">
 				<!--- TODO: Should be supported in transactions search --->
 				<cfquery name="data" datasource="uam_god">
