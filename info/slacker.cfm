@@ -83,7 +83,8 @@ limitations under the License.
 											<td>#formatted_publication#</td>
 											<td>#publication_type#</td>
 											<td>
-												<a href="/publications/Publication.cfm?publication_id=#publication_id#" class="btn btn-primary btn-sm">Edit</a>
+												<a href="/publications/showPublication.cfm?publication_id=#publication_id#" class="btn btn-outline-info btn-xs">View</a>
+												<a href="/publications/Publication.cfm?publication_id=#publication_id#" class="btn btn-primary btn-xs">Edit</a>
 											</td>
 										</tr>
 									</cfloop>
@@ -126,8 +127,8 @@ limitations under the License.
 										<tr>
 											<td>#formatted_publication#</td>
 											<td>
-												<a href="/publications/showPublication.cfm?publication_id=#publication_id#" class="btn btn-outline-info btn-sm">Details</a>
-												<a href="/publications/Publication.cfm?publication_id=#publication_id#" class="btn btn-primary btn-sm">Edit</a>
+												<a href="/publications/showPublication.cfm?publication_id=#publication_id#" class="btn btn-outline-info btn-xs">View</a>
+												<a href="/publications/Publication.cfm?publication_id=#publication_id#" class="btn btn-primary btn-xs">Edit</a>
 											</td>
 										</tr>
 									</cfloop>
@@ -175,8 +176,8 @@ limitations under the License.
 										<tr>
 											<td>#project_name#</td>
 											<td>
-												<a href="/ProjectDetail.cfm?project_id=#project_id#" class="btn btn-outline-info btn-sm">Details</a>
-												<a href="/Project.cfm?action=editProject&project_id=#project_id#" class="btn btn-primary btn-sm">Edit</a>
+												<a href="/ProjectDetail.cfm?project_id=#project_id#" class="btn btn-outline-info btn-xs">Details</a>
+												<a href="/Project.cfm?action=editProject&project_id=#project_id#" class="btn btn-primary btn-xs">Edit</a>
 											</td>
 										</tr>
 									</cfloop>
@@ -226,8 +227,8 @@ limitations under the License.
 										<td>#publication_ct#</td>
 										<td>#project_name#</td>
 										<td>
-											<a href="/ProjectDetail.cfm?project_id=#project_id#" class="btn btn-outline-info btn-sm">Details</a>
-											<a href="/Project.cfm?action=editProject&project_id=#project_id#" class="btn btn-primary btn-sm">Edit</a>
+											<a href="/ProjectDetail.cfm?project_id=#project_id#" class="btn btn-outline-info btn-xs">Details</a>
+											<a href="/Project.cfm?action=editProject&project_id=#project_id#" class="btn btn-primary btn-xs">Edit</a>
 										</td>
 									</tr>
 								</cfloop>
@@ -268,7 +269,7 @@ limitations under the License.
 											<td>#collection#</td>
 											<td>#loan_number#</td>
 											<td>
-												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#" class="btn btn-primary btn-sm">Edit</a>
+												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#" class="btn btn-primary btn-xs">Edit</a>
 											</td>
 										</tr>
 									</cfloop>
