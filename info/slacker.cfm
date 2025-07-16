@@ -19,7 +19,7 @@ limitations under the License.
 <cfset pageTitle="Miscelaneous Suspect Data Reports">
 <cfinclude template="/shared/_header.cfm">
 
-<cfset var action = "">
+<cfset action = "">
 <cfif not isDefined("url.action")>
 	<cfset local.action = "entryPoint">
 <cfelse>
