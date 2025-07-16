@@ -67,7 +67,7 @@ limitations under the License.
 						<cfif data.recordcount GT 0>
 							<p><strong>#data.recordcount#</strong> publication<cfif data.recordcount NEQ 1>s</cfif> found with no authors.</p>
 							
-							<table class="table table-striped sortable table-responsive">
+							<table id="table" class="table table-striped sortable table-responsive">
 								<thead>
 									<tr>
 										<th>Publication ID</th>
@@ -114,7 +114,7 @@ limitations under the License.
 						<cfif data.recordcount GT 0>
 							<p><strong>#data.recordcount#</strong> publication<cfif data.recordcount NEQ 1>s</cfif> found with no citations.</p>
 							
-							<table class="table table-striped sortable table-responsive">
+							<table id="table" class="table table-striped sortable table-responsive">
 								<thead>
 									<tr>
 										<th>Publication</th>
@@ -163,7 +163,7 @@ limitations under the License.
 						<cfif data.recordcount GT 0>
 							<p><strong>#data.recordcount#</strong> project<cfif data.recordcount NEQ 1>s</cfif> found with loans but no publications.</p>
 							
-							<table class="table table-striped sortable table-responsive">
+							<table id="table" class="table table-striped sortable table-responsive">
 								<thead>
 									<tr>
 										<th>Project Name</th>
@@ -208,7 +208,7 @@ limitations under the License.
 						<h2 class="h2">Counts of Transactions and Publications per Project</h2>
 						<p><a href="/info/slacker.cfm">&laquo; Back to miscelaneous Reports</a></p>
 
-						<table class="table table-striped sortable table-responsive">
+						<table id="table" class="table table-striped sortable table-responsive">
 							<thead>
 								<tr>
 									<th>Accession Count</th>
@@ -254,7 +254,7 @@ limitations under the License.
 						<cfif data.recordcount GT 0>
 							<p><strong>#data.recordcount#</strong> loan<cfif data.recordcount NEQ 1>s</cfif> found with no attached cataloged items.</p>
 							
-							<table class="table table-striped sortable table-responsive">
+							<table id="table" class="table table-striped sortable table-responsive">
 								<thead>
 									<tr>
 										<th>Collection</th>
