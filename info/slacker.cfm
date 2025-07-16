@@ -67,30 +67,28 @@ limitations under the License.
 						<cfif data.recordcount GT 0>
 							<p><strong>#data.recordcount#</strong> publication<cfif data.recordcount NEQ 1>s</cfif> found with no authors.</p>
 							
-							<div class="table-responsive">
-								<table class="table table-striped sortable">
-									<thead>
+							<table class="table table-striped sortable table-responsive">
+								<thead>
+									<tr>
+										<th>Publication ID</th>
+										<th>Long Citation</th>
+										<th>Type</th>
+										<th>Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<cfloop query="data">
 										<tr>
-											<th>Publication ID</th>
-											<th>Long Citation</th>
-											<th>Type</th>
-											<th>Actions</th>
+											<td>#publication_id#</td>
+											<td>#formatted_publication#</td>
+											<td>#publication_type#</td>
+											<td>
+												<a href="/publications/Publication.cfm?publication_id=#publication_id#" class="btn btn-primary btn-sm">Edit</a>
+											</td>
 										</tr>
-									</thead>
-									<tbody>
-										<cfloop query="data">
-											<tr>
-												<td>#publication_id#</td>
-												<td>#formatted_publication#</td>
-												<td>#publication_type#</td>
-												<td>
-													<a href="/publications/Publication.cfm?publication_id=#publication_id#" class="btn btn-primary btn-sm">Edit</a>
-												</td>
-											</tr>
-										</cfloop>
-									</tbody>
-								</table>
-							</div>
+									</cfloop>
+								</tbody>
+							</table>
 						<cfelse>
 							<p class="text-success"><strong>No issues found!</strong> All publications have authors.</p>
 						</cfif>
@@ -116,27 +114,25 @@ limitations under the License.
 						<cfif data.recordcount GT 0>
 							<p><strong>#data.recordcount#</strong> publication<cfif data.recordcount NEQ 1>s</cfif> found with no citations.</p>
 							
-							<div class="table-responsive">
-								<table class="table table-striped sortable">
-									<thead>
+							<table class="table table-striped sortable table-responsive">
+								<thead>
+									<tr>
+										<th>Publication</th>
+										<th>Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<cfloop query="data">
 										<tr>
-											<th>Publication</th>
-											<th>Actions</th>
+											<td>#formatted_publication#</td>
+											<td>
+												<a href="/publications/showPublication.cfm?publication_id=#publication_id#" class="btn btn-outline-info btn-sm">Details</a>
+												<a href="/publications/Publication.cfm?publication_id=#publication_id#" class="btn btn-primary btn-sm">Edit</a>
+											</td>
 										</tr>
-									</thead>
-									<tbody>
-										<cfloop query="data">
-											<tr>
-												<td>#formatted_publication#</td>
-												<td>
-													<a href="/publications/showPublication.cfm?publication_id=#publication_id#" class="btn btn-outline-info btn-sm">Details</a>
-													<a href="/publications/Publication.cfm?publication_id=#publication_id#" class="btn btn-primary btn-sm">Edit</a>
-												</td>
-											</tr>
-										</cfloop>
-									</tbody>
-								</table>
-							</div>
+									</cfloop>
+								</tbody>
+							</table>
 						<cfelse>
 							<p class="text-success"><strong>No issues found!</strong> All publications have citations.</p>
 						</cfif>
@@ -167,27 +163,25 @@ limitations under the License.
 						<cfif data.recordcount GT 0>
 							<p><strong>#data.recordcount#</strong> project<cfif data.recordcount NEQ 1>s</cfif> found with loans but no publications.</p>
 							
-							<div class="table-responsive">
-								<table class="table table-striped sortable">
-									<thead>
+							<table class="table table-striped sortable table-responsive">
+								<thead>
+									<tr>
+										<th>Project Name</th>
+										<th>Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<cfloop query="data">
 										<tr>
-											<th>Project Name</th>
-											<th>Actions</th>
+											<td>#project_name#</td>
+											<td>
+												<a href="/ProjectDetail.cfm?project_id=#project_id#" class="btn btn-outline-info btn-sm">Details</a>
+												<a href="/Project.cfm?action=editProject&project_id=#project_id#" class="btn btn-primary btn-sm">Edit</a>
+											</td>
 										</tr>
-									</thead>
-									<tbody>
-										<cfloop query="data">
-											<tr>
-												<td>#project_name#</td>
-												<td>
-													<a href="/ProjectDetail.cfm?project_id=#project_id#" class="btn btn-outline-info btn-sm">Details</a>
-													<a href="/Project.cfm?action=editProject&project_id=#project_id#" class="btn btn-primary btn-sm">Edit</a>
-												</td>
-											</tr>
-										</cfloop>
-									</tbody>
-								</table>
-							</div>
+									</cfloop>
+								</tbody>
+							</table>
 						<cfelse>
 							<p class="text-success"><strong>No issues found!</strong> All projects with loans have associated publications.</p>
 						</cfif>
@@ -213,33 +207,32 @@ limitations under the License.
 					<cfoutput>
 						<h2 class="h2">Counts of Transactions and Publications per Project</h2>
 						<p><a href="/info/slacker.cfm">&laquo; Back to miscelaneous Reports</a></p>
-						<div class="table-responsive">
-							<table class="table table-striped sortable">
-								<thead>
+
+						<table class="table table-striped sortable table-responsive">
+							<thead>
+								<tr>
+									<th>Accession Count</th>
+									<th>Loan Count</th>
+									<th>Publication Count</th>
+									<th>Project Name</th>
+									<th>Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<cfloop query="data">
 									<tr>
-										<th>Accession Count</th>
-										<th>Loan Count</th>
-										<th>Publication Count</th>
-										<th>Project Name</th>
-										<th>Actions</th>
+										<td>#accession_ct#</td>
+										<td>#loan_ct#</td>
+										<td>#publication_ct#</td>
+										<td>#project_name#</td>
+										<td>
+											<a href="/ProjectDetail.cfm?project_id=#project_id#" class="btn btn-outline-info btn-sm">Details</a>
+											<a href="/Project.cfm?action=editProject&project_id=#project_id#" class="btn btn-primary btn-sm">Edit</a>
+										</td>
 									</tr>
-								</thead>
-								<tbody>
-									<cfloop query="data">
-										<tr>
-											<td>#accession_ct#</td>
-											<td>#loan_ct#</td>
-											<td>#publication_ct#</td>
-											<td>#project_name#</td>
-											<td>
-												<a href="/ProjectDetail.cfm?project_id=#project_id#" class="btn btn-outline-info btn-sm">Details</a>
-												<a href="/Project.cfm?action=editProject&project_id=#project_id#" class="btn btn-primary btn-sm">Edit</a>
-											</td>
-										</tr>
-									</cfloop>
-								</tbody>
-							</table>
-						</div>
+								</cfloop>
+							</tbody>
+						</table>
 					</cfoutput>
 				</cfcase>
 				<cfcase value="loanNoSpec">
@@ -261,28 +254,26 @@ limitations under the License.
 						<cfif data.recordcount GT 0>
 							<p><strong>#data.recordcount#</strong> loan<cfif data.recordcount NEQ 1>s</cfif> found with no attached cataloged items.</p>
 							
-							<div class="table-responsive">
-								<table class="table table-striped sortable">
-									<thead>
+							<table class="table table-striped sortable table-responsive">
+								<thead>
+									<tr>
+										<th>Collection</th>
+										<th>Loan Number</th>
+										<th>Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<cfloop query="data">
 										<tr>
-											<th>Collection</th>
-											<th>Loan Number</th>
-											<th>Actions</th>
+											<td>#collection#</td>
+											<td>#loan_number#</td>
+											<td>
+												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#" class="btn btn-primary btn-sm">Edit</a>
+											</td>
 										</tr>
-									</thead>
-									<tbody>
-										<cfloop query="data">
-											<tr>
-												<td>#collection#</td>
-												<td>#loan_number#</td>
-												<td>
-													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#" class="btn btn-primary btn-sm">Edit</a>
-												</td>
-											</tr>
-										</cfloop>
-									</tbody>
-								</table>
-							</div>
+									</cfloop>
+								</tbody>
+							</table>
 						<cfelse>
 							<p class="text-success"><strong>No issues found!</strong> All loans have associated cataloged items.</p>
 						</cfif>
