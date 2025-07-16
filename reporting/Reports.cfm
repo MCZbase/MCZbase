@@ -46,7 +46,7 @@ Landing pad page with lists of various self service reports.
 						<br/>
 						<h2 class="h3">Broken or Problematic Reports</h1>
 						<li><a href="/info/mia_in_genbank.cfm">Genbank Missing Data</a></li>
-						<li><a href="/info/slacker.cfm">Suspect Data</a></li>
+						<li><a href="/info/slacker.cfm">Suspect Data, publications, projects, etc</a></li>
 						<li><a href="/info/dupAgent.cfm">Duplicate Agents</a></li>
 						<li><a href="/Admin/bad_taxonomy.cfm">Invalid Taxonomy</a></li>
 						<li><a href="/tools/TaxonomyScriptGap.cfm">Taxonomy Gaps</a></li>
