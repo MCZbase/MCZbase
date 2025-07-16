@@ -62,7 +62,7 @@ limitations under the License.
 					</cfquery>
 					<cfoutput>
 						<h1 class="h2">Publications with no Authors</h1>
-						<p><a href="/info/slacker.cfm">&laquo; Back to miscelaneous Reports</a></p>
+						<p><a href="/reporting/Reports.cfm">&laquo; Back to List of Reports</a></p>
 						
 						<cfif data.recordcount GT 0>
 							<p><strong>#data.recordcount#</strong> publication<cfif data.recordcount NEQ 1>s</cfif> found with no authors.</p>
@@ -110,7 +110,7 @@ limitations under the License.
 					</cfquery>
 					<cfoutput>
 						<h1 class="h2">Publications with no Citations</h1>
-						<p><a href="/info/slacker.cfm">&laquo; Back to miscelaneous Reports</a></p>
+						<p><a href="/reporting/Reports.cfm">&laquo; Back to List of Reports</a></p>
 						
 						<cfif data.recordcount GT 0>
 							<p><strong>#data.recordcount#</strong> publication<cfif data.recordcount NEQ 1>s</cfif> found with no citations.</p>
@@ -159,7 +159,7 @@ limitations under the License.
 					</cfquery>
 					<cfoutput>
 						<h1 class="h2">Projects with Loans and without Publications</h1>
-						<p><a href="/info/slacker.cfm">&laquo; Back to miscelaneous Reports</a></p>
+						<p><a href="/reporting/Reports.cfm">&laquo; Back to List of Reports</a></p>
 						
 						<cfif data.recordcount GT 0>
 							<p><strong>#data.recordcount#</strong> project<cfif data.recordcount NEQ 1>s</cfif> found with loans but no publications.</p>
@@ -207,7 +207,7 @@ limitations under the License.
 					</cfquery>
 					<cfoutput>
 						<h2 class="h2">Counts of Transactions and Publications per Project</h2>
-						<p><a href="/info/slacker.cfm">&laquo; Back to miscelaneous Reports</a></p>
+						<p><a href="/reporting/Reports.cfm">&laquo; Back to List of Reports</a></p>
 
 						<table id="table" class="table table-striped sortable table-responsive">
 							<thead>
@@ -250,7 +250,7 @@ limitations under the License.
 					</cfquery>
 					<cfoutput>
 						<h1 class="h2">Loans without Specimens</h1>
-						<p><a href="/info/slacker.cfm">&laquo; Back to miscelaneous Reports</a></p>
+						<p><a href="/reporting/Reports.cfm">&laquo; Back to List of Reports</a></p>
 						
 						<cfif data.recordcount GT 0>
 							<p><strong>#data.recordcount#</strong> loan<cfif data.recordcount NEQ 1>s</cfif> found with no attached cataloged items.</p>

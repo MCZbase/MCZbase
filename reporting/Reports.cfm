@@ -38,6 +38,10 @@ Landing pad page with lists of various self service reports.
 				 	<li class="py-1"><a href="/Taxa.cfm?execute=true&method=getTaxa&action=search&kingdom=NULL&phylum=NULL&phylclass=NULL&phylorder=NULL&family=NULL">Missing Higher Taxonomy</a> &ndash; No kingdom, phylumn, class, order, or family (using "Null" in a query on Taxa.cfm)</li>
 				 	<li class="py-1"><a href="/tools/findGap.cfm">Catalog Number Gaps</a> &ndash; Show gaps in Catalog Number series</li>
 					<li class="py-1"><a href="/reporting/PrimaryTypes.cfm">Primary Types</a> &ndash; Obtain reports by collection.</li>
+					<li class="py-1"><a href="/info/slacker.cfm?action=projCounts">Counts of Transactions and Publications for Projects</a></li>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
+						<li class="py-1"><a href="/info/slacker.cfm?action=pubNoAuth">Publications without Authors</a></li>
+					</cfif>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 				 		<li class="py-1"><a href="/reporting/UnknownSovereignNation.cfm">Unknown Sovereign Nation</a> &ndash; Find localities with [unknown] Sovereign Nation for cleanup.</li>
 				 		<li class="py-1"><a href="/reporting/ProblemCollectingEventDates.cfm">Problematic Collecting Dates</a> &ndash; Find collecting events with out of range dates.</li>
@@ -46,7 +50,7 @@ Landing pad page with lists of various self service reports.
 						<br/>
 						<h2 class="h3">Broken or Problematic Reports</h1>
 						<li><a href="/info/mia_in_genbank.cfm">Genbank Missing Data</a></li>
-						<li><a href="/info/slacker.cfm">Suspect Data, publications, projects, etc</a></li>
+						<li><a href="/info/slacker.cfm">Suspect Data in publications, projects, etc</a></li>
 						<li><a href="/info/dupAgent.cfm">Duplicate Agents</a></li>
 						<li><a href="/Admin/bad_taxonomy.cfm">Invalid Taxonomy</a></li>
 						<li><a href="/tools/TaxonomyScriptGap.cfm">Taxonomy Gaps</a></li>
