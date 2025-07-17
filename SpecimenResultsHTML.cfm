@@ -1515,9 +1515,6 @@ document.getElementById('saveme').submit();
 					Add To Named Group
 				</option>
 			</cfif>
-			<option value="/Reports/print_nk.cfm?collection_object_id=#collObjIdList#">
-				Print NK pages
-			</option>
 		</select>
 		<input type="button"
 			value="Go"
