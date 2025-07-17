@@ -84,15 +84,17 @@
 <main id="content">
 	<section class="container-fluid mb-3">
 		<div class="row mx-0 mb-3">
-			<h1>#pageTitle#</h1>
-			<p>Checking media files in <code>#targetDirectory#</code> directory.</p>
-			<cfthread  name="checkMediaThread">
-				<cfoutput>
-					<cfset processDirectoryRecursive("#Application.webDirectory#/#targetDirectory#", targetDirectory,0)>
-				</cfoutput>
-			</cfthread>
-			<cfthread action="join" name="checkMediaThread">
-			#checkMediaThread.output#
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+				<h1>#pageTitle#</h1>
+				<p>Checking media files in <code>#targetDirectory#</code> directory.</p>
+				<cfthread  name="checkMediaThread">
+					<cfoutput>
+						<cfset processDirectoryRecursive("#Application.webDirectory#/#targetDirectory#", targetDirectory,0)>
+					</cfoutput>
+				</cfthread>
+				<cfthread action="join" name="checkMediaThread">
+				#checkMediaThread.output#
+			</cfif>
 		</div>
 	</section>
 </main>
