@@ -71,7 +71,7 @@ limitations under the License.
 			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
 			<div id="template" class="my-1 mx-0">
 			<label for="templatearea" class="data-entry-label" style="line-height: inherit;">
-					Copy this header line, paste it into a blank worksheet, and save it as a .csv file or <a href="/tools/BulkloadRelations.cfm?action=getCSVHeader" class="font-weight-bold">download</a> a template.
+					Copy this header line, paste it into a blank worksheet, and save it as a .csv file or <a href="/tools/BulkloadOtherID.cfm?action=getCSVHeader" class="font-weight-bold">download</a> a template.
 				</label>
 				<textarea style="height: 30px;" cols="90" id="templatearea" class="mb-1 w-100 data-entry-textarea small">#fieldlist#</textarea>
 			</div>

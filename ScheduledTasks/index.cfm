@@ -1,3 +1,4 @@
+<cfset pageTitle = "Scheduled Tasks">
 <cfinclude template="/shared/_header.cfm">
 <main class="container-fluid" id="content">
 	<section class="row">
@@ -12,11 +13,11 @@
 					<cfloop query="dir">
 						<li> 
 							<a href="#name#">#name#</a> 
-							<cfif isdefined("dir.lastModified")> (Last Modified: #dateFormat(dir.lastModified, "mm/dd/yyyy")#)</cfif> 
+							<cfif isdefined("dir.dateLastModified")> (Last Modified: #dateFormat(dir.dateLastModified, "mm/dd/yyyy")#)</cfif> 
 						</li>
 					</cfloop>
 					</ul>
-				<cfoutput>
+				</cfoutput>
 
 			</cfif>
 		</div>

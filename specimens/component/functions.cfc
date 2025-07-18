@@ -6359,161 +6359,170 @@ limitations under the License.
 --->
 <cffunction name="getEditLocalityHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+
 	<cfthread name="getEditLocalityThread"> <cfoutput>
-			<cftry>
-				<cfoutput>
-					<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
-						<div class="error"> Improper call. Aborting..... </div>
-						<cfabort>
-					</cfif>
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-						<cfset oneOfUs = 1>
-						<cfelse>
-						<cfset oneOfUs = 0>
-					</cfif>
-				</cfoutput>
-				<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select distinct
-						collection_object_id,
-						collecting_event_id,
-						LOCALITY_ID,
-						nvl(sovereign_nation,'[unknown]') as sovereign_nation,
-						geog_auth_rec_id,
-						MAXIMUM_ELEVATION,
-						MINIMUM_ELEVATION,
-						ORIG_ELEV_UNITS,
-						SPEC_LOCALITY,
-						LOCALITY_REMARKS,
-						DEPTH_UNITS,
-						MIN_DEPTH,
-						MAX_DEPTH,
-						NOGEOREFBECAUSE,
-						LAT_LONG_ID,
-						LAT_DEG,
-						DEC_LAT_MIN,
-						LAT_MIN,
-						LAT_SEC,
-						LAT_DIR,
-						LONG_DEG,
-						DEC_LONG_MIN,
-						LONG_MIN,
-						LONG_SEC,
-						LONG_DIR,
-						DEC_LAT,
-						DEC_LONG,
-						UTM_ZONE,
-						UTM_EW,
-						UTM_NS,
-						DATUM,
-						ORIG_LAT_LONG_UNITS,
-						DETERMINED_BY_AGENT_ID,
-						coordinate_determiner,
-						DETERMINED_DATE,
-						LAT_LONG_REMARKS,
-						MAX_ERROR_DISTANCE,
-						MAX_ERROR_UNITS,
-						ACCEPTED_LAT_LONG_FG,
-						EXTENT,
-						GPSACCURACY,
-						GEOREFMETHOD,
-						VERIFICATIONSTATUS,
-						LAT_LONG_REF_SOURCE,
-						HIGHER_GEOG,
-						BEGAN_DATE,
-						ENDED_DATE,
-						VERBATIM_DATE,
-						VERBATIM_LOCALITY,
-						COLL_EVENT_REMARKS,
-						COLLECTING_SOURCE,
-						COLLECTING_METHOD,
-						HABITAT_DESC,
-						COLLECTING_TIME,
-						FISH_FIELD_NUMBER,
-						VERBATIMCOORDINATES,
-						VERBATIMLATITUDE,
-						VERBATIMLONGITUDE,
-						VERBATIMCOORDINATESYSTEM,
-						VERBATIMSRS,
-						STARTDAYOFYEAR,
-						ENDDAYOFYEAR,
-						VERIFIED_BY_AGENT_ID,
-						VERIFIEDBY
-					from
-						spec_with_loc
-					where
-						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-				</cfquery>
-				<cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select
-						GEOLOGY_ATTRIBUTE_ID,
-						GEOLOGY_ATTRIBUTE,
-						GEO_ATT_VALUE,
-						GEO_ATT_DETERMINER_ID,
-						geo_att_determiner,
-						GEO_ATT_DETERMINED_DATE,
-						GEO_ATT_DETERMINED_METHOD,
-						GEO_ATT_REMARK
-					from
-						spec_with_loc
-					where
-						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> and
-						GEOLOGY_ATTRIBUTE is not null
-					group by
-						GEOLOGY_ATTRIBUTE_ID,
-						GEOLOGY_ATTRIBUTE,
-						GEO_ATT_VALUE,
-						GEO_ATT_DETERMINER_ID,
-						geo_att_determiner,
-						GEO_ATT_DETERMINED_DATE,
-						GEO_ATT_DETERMINED_METHOD,
-						GEO_ATT_REMARK
-				</cfquery>
-				<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select orig_elev_units from ctorig_elev_units
-				</cfquery>
-				<cfquery name="ctdepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select depth_units from ctdepth_units
-				</cfquery>
-				<cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select datum from ctdatum
-				</cfquery>
-				<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select georefMethod from ctgeorefmethod
-				</cfquery>
-				<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select VerificationStatus from ctVerificationStatus order by VerificationStatus
-				</cfquery>
-				<cfquery name="cterror" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select LAT_LONG_ERROR_UNITS from ctLAT_LONG_ERROR_UNITS
-				</cfquery>
-				<cfquery name="ctew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select e_or_w from ctew
-				</cfquery>
-				<cfquery name="ctns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select n_or_s from ctns
-				</cfquery>
-				<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select ORIG_LAT_LONG_UNITS from ctLAT_LONG_UNITS
-				</cfquery>
-				<cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select COLLECTING_SOURCE from ctcollecting_source
-				</cfquery>
-				<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select geology_attribute from ctgeology_attribute order by ordinal
-				</cfquery>
-				<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-					select sovereign_nation from ctsovereign_nation order by sovereign_nation
-				</cfquery>
-				<cfquery name="cecount" datasource="uam_god">
-					select count(collection_object_id) ct from cataloged_item
-					where collecting_event_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#l.collecting_event_id#">
-				</cfquery>
-				<cfquery name="loccount" datasource="uam_god">
-					select count(ci.collection_object_id) ct from cataloged_item ci
-					left join collecting_event on ci.collecting_event_id = collecting_event.collecting_event_id
-					where collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#l.locality_id#">
-				</cfquery>
-				<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		<cftry>
+			<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
+				<cfthrow message="No or uninterpretable collection_object_id was provided.">
+			</cfif>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				<cfset oneOfUs = 1>
+				<cfelse>
+				<cfset oneOfUs = 0>
+			</cfif>
+			<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT DISTINCT
+					collection_object_id,
+					collecting_event_id,
+					LOCALITY_ID,
+					nvl(sovereign_nation,'[unknown]') as sovereign_nation,
+					geog_auth_rec_id,
+					MAXIMUM_ELEVATION,
+					MINIMUM_ELEVATION,
+					ORIG_ELEV_UNITS,
+					SPEC_LOCALITY,
+					LOCALITY_REMARKS,
+					DEPTH_UNITS,
+					MIN_DEPTH,
+					MAX_DEPTH,
+					NOGEOREFBECAUSE,
+					LAT_LONG_ID,
+					LAT_DEG,
+					DEC_LAT_MIN,
+					LAT_MIN,
+					LAT_SEC,
+					LAT_DIR,
+					LONG_DEG,
+					DEC_LONG_MIN,
+					LONG_MIN,
+					LONG_SEC,
+					LONG_DIR,
+					DEC_LAT,
+					DEC_LONG,
+					UTM_ZONE,
+					UTM_EW,
+					UTM_NS,
+					DATUM,
+					ORIG_LAT_LONG_UNITS,
+					DETERMINED_BY_AGENT_ID,
+					coordinate_determiner,
+					DETERMINED_DATE,
+					LAT_LONG_REMARKS,
+					MAX_ERROR_DISTANCE,
+					MAX_ERROR_UNITS,
+					ACCEPTED_LAT_LONG_FG,
+					EXTENT,
+					GPSACCURACY,
+					GEOREFMETHOD,
+					VERIFICATIONSTATUS,
+					LAT_LONG_REF_SOURCE,
+					HIGHER_GEOG,
+					BEGAN_DATE,
+					ENDED_DATE,
+					VERBATIM_DATE,
+					VERBATIM_LOCALITY,
+					COLL_EVENT_REMARKS,
+					COLLECTING_SOURCE,
+					COLLECTING_METHOD,
+					HABITAT_DESC,
+					COLLECTING_TIME,
+					FISH_FIELD_NUMBER,
+					VERBATIMCOORDINATES,
+					VERBATIMLATITUDE,
+					VERBATIMLONGITUDE,
+					VERBATIMCOORDINATESYSTEM,
+					VERBATIMSRS,
+					STARTDAYOFYEAR,
+					ENDDAYOFYEAR,
+					VERIFIED_BY_AGENT_ID,
+					VERIFIEDBY
+				FROM
+					spec_with_loc
+				WHERE
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+			</cfquery>
+			<cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT
+					GEOLOGY_ATTRIBUTE_ID,
+					GEOLOGY_ATTRIBUTE,
+					GEO_ATT_VALUE,
+					GEO_ATT_DETERMINER_ID,
+					geo_att_determiner,
+					GEO_ATT_DETERMINED_DATE,
+					GEO_ATT_DETERMINED_METHOD,
+					GEO_ATT_REMARK
+				FROM
+					spec_with_loc
+				WHERE
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> and
+					GEOLOGY_ATTRIBUTE is not null
+				GROUP BY
+					GEOLOGY_ATTRIBUTE_ID,
+					GEOLOGY_ATTRIBUTE,
+					GEO_ATT_VALUE,
+					GEO_ATT_DETERMINER_ID,
+					geo_att_determiner,
+					GEO_ATT_DETERMINED_DATE,
+					GEO_ATT_DETERMINED_METHOD,
+					GEO_ATT_REMARK
+			</cfquery>
+			<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select orig_elev_units from ctorig_elev_units
+			</cfquery>
+			<cfquery name="ctdepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select depth_units from ctdepth_units
+			</cfquery>
+			<cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select datum from ctdatum
+			</cfquery>
+			<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select georefMethod from ctgeorefmethod
+			</cfquery>
+			<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select VerificationStatus from ctVerificationStatus order by VerificationStatus
+			</cfquery>
+			<cfquery name="cterror" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select LAT_LONG_ERROR_UNITS from ctLAT_LONG_ERROR_UNITS
+			</cfquery>
+			<cfquery name="ctew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select e_or_w from ctew
+			</cfquery>
+			<cfquery name="ctns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select n_or_s from ctns
+			</cfquery>
+			<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select ORIG_LAT_LONG_UNITS from ctLAT_LONG_UNITS
+			</cfquery>
+			<cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select COLLECTING_SOURCE from ctcollecting_source
+			</cfquery>
+			<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select geology_attribute from ctgeology_attribute order by ordinal
+			</cfquery>
+			<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+				select sovereign_nation from ctsovereign_nation order by sovereign_nation
+			</cfquery>
+
+			<!--- find what elements are shared with other specimens, use data source that spans VPNs to obtain correct counts despite visibility to user --->
+			<cfquery name="cecount" datasource="uam_god">
+				select count(collection_object_id) ct from cataloged_item
+				where collecting_event_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value = "#l.collecting_event_id#">
+			</cfquery>
+			<cfquery name="loccount" datasource="uam_god">
+				select count(ci.collection_object_id) ct from cataloged_item ci
+				left join collecting_event on ci.collecting_event_id = collecting_event.collecting_event_id
+				where collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value = "#l.locality_id#">
+			</cfquery>
+			<cfquery name="sharedHigherGeogCount" datasource="uam_god">
+				select count(cataloged_item.collection_object_id) as ct
+				FROM cataloged_item
+					JOIN collecting_event ON cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+					JOIN locality ON collecting_event.locality_id = locality.locality_id
+				WHERE
+					geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#l.geog_auth_rec_id#">
+			</cfquery>
+
+			<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						cataloged_item.collection_object_id as collection_object_id,
 						cataloged_item.cat_num,
@@ -6705,15 +6714,12 @@ limitations under the License.
 						accn.transaction_id = trans.transaction_id(+) AND
 						cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					</cfquery>
+				</cfquery>
 				<div class="row mx-0">
-					<div class="col-6 pl-0 pr-3 mb-2 float-right">
 					<cfform name="loc" method="post" action="specLocality.cfm">
 						<input type="hidden" name="action" value="saveChange">
 						<input type="hidden" name="nothing" id="nothing">
 						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-						<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
-						</div>
 						<div class="col-6 px-0 float-left">
 							<p class="font-italic text-danger pt-3">Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.</p>
 							<ul class="list-unstyled row mx-0 px-0 py-1 mb-0">
@@ -7423,36 +7429,27 @@ function showLLFormat(orig_units) {
 								</li>
 							</ul>
 							<script>
-		showLLFormat('#l.ORIG_LAT_LONG_UNITS#');
-	</script> 
+								showLLFormat('#l.ORIG_LAT_LONG_UNITS#');
+							</script> 
+							<cfif loccount.ct eq 1 and cecount.ct eq 1>
+								<input type="submit" value="Save Changes" class="btn btn-xs btn-primary">
+								<cfelse>
+								<div class="mt-3">
+									<input type="submit" value="Split and Save Changes" class="btn  btn-xs btn-primary">
+									<span class="ml-3">A new locality and collecting event will be created with these values and changes will apply to this record only. </span> 
+								</div>
+							</cfif>
 						</div>
-						<cfif loccount.ct eq 1 and cecount.ct eq 1>
-							<input type="submit" value="Save Changes" class="btn btn-xs btn-primary">
-							<cfelse>
-							<div class="mt-3">
-								<input type="submit" value="Split and Save Changes" class="btn  btn-xs btn-primary">
-								<span class="ml-3">A new locality and collecting event will be created with these values and changes will apply to this record only. </span> </div>
-						</cfif>
 					</cfform>
 				</div>
 				<cfcatch>
-					<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
-						<cfelse>
-						<cfset queryError = ''>
+					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+					<cfset function_called = "#GetFunctionCalledName()#">
+					<h2 class="h3">Error in #function_called#:</h2>
+					<div>#error_message#</div>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+						<cfdump var="#cfcatch#">
 					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-					<cfcontent reset="yes">
-					<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
-						</div>
-					</div>
 				</cfcatch>
 			</cftry>
 		</cfoutput> </cfthread>
