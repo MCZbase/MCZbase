@@ -6707,7 +6707,6 @@ limitations under the License.
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
 				<div class="row mx-0">
-					<div class="col-6 pl-0 pr-3 mb-2 float-right">
 					<cfform name="loc" method="post" action="specLocality.cfm">
 						<input type="hidden" name="action" value="saveChange">
 						<input type="hidden" name="nothing" id="nothing">
@@ -7429,7 +7428,8 @@ function showLLFormat(orig_units) {
 							<cfelse>
 							<div class="mt-3">
 								<input type="submit" value="Split and Save Changes" class="btn  btn-xs btn-primary">
-								<span class="ml-3">A new locality and collecting event will be created with these values and changes will apply to this record only. </span> </div>
+								<span class="ml-3">A new locality and collecting event will be created with these values and changes will apply to this record only. </span> 
+							</div>
 						</cfif>
 					</cfform>
 				</div>
