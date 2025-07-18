@@ -16,7 +16,7 @@
 						</li>
 					</cfloop>
 					</ul>
-				<cfoutput>
+				</cfoutput>
 
 			</cfif>
 		</div>
