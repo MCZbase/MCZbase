@@ -23,6 +23,7 @@
 								Last Commit: #gitOutput#
 							<cfcatch>
 							</cfcatch>
+							</cftry>
 						</li>
 					</cfloop>
 					</ul>
