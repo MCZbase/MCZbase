@@ -1,3 +1,4 @@
+<cfset pageTitle = "Scheduled Tasks">
 <cfinclude template="/shared/_header.cfm">
 <main class="container-fluid" id="content">
 	<section class="row">
