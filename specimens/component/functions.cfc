@@ -6712,8 +6712,6 @@ limitations under the License.
 						<input type="hidden" name="action" value="saveChange">
 						<input type="hidden" name="nothing" id="nothing">
 						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-						<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
-						</div>
 						<div class="col-6 px-0 float-left">
 							<p class="font-italic text-danger pt-3">Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.</p>
 							<ul class="list-unstyled row mx-0 px-0 py-1 mb-0">
