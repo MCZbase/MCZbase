@@ -14,16 +14,6 @@
 						<li> 
 							<a href="#name#">#name#</a> 
 							<cfif isdefined("dir.dateLastModified")> (Last Modified: #dateFormat(dir.dateLastModified, "mm/dd/yyyy")#)</cfif> 
-							<!--- ask git what was the most recent commit date for this file --->
-							<cftry>
-								<cfexecute name="/bin/bash" 
-									arguments="-c ""cd #Application.webDirectory#/ScheduledTasks && git log -1 --format=%cd --date=short #name#"" " 
-									variable="gitOutput"  errorVariable="gitError"
-									timeout="5"></cfexecute>
-								Last Commit: #gitOutput#
-							<cfcatch>
-							</cfcatch>
-							</cftry>
 						</li>
 					</cfloop>
 					</ul>
