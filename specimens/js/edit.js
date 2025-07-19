@@ -38,8 +38,10 @@ function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775,wi
 		// 90% width up to extra large screens
 		w = Math.floor(w *.9);
 	} else if (w>1333) { 
-		// cap width at specified value
-		w = width_cap;
+		// cap width at specified value, but no more that 95% of the screen width
+		if (width_cap < w * .95) {
+			w = width_cap;
+		}
 	}
 	console.log("Creating dialog in div with id: " + dialogId);
 	var thedialog = $("#"+dialogId).html(content)
