@@ -723,7 +723,7 @@ function openEditAttributesDialog(collection_object_id,dialogId,guid,callback) {
  */
 function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Locality and Collecting Event for " + guid;
-	createSpecimenEditDialog(dialogId,title,callback);
+	createSpecimenEditDialog(dialogId,title,callback,775,1800);
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
