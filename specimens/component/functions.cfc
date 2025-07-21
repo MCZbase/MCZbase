@@ -6573,7 +6573,7 @@ limitations under the License.
 					join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 					join locality on collecting_event.locality_id = locality.locality_id
 					left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
-					left join preferred_agent_name on latLongAgnt on accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id
+					left join preferred_agent_name latLongAgnt on accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id
 					join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 					join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
 					left join coll_object_remark on coll_object.collection_object_id = coll_object_remark.collection_object_id
