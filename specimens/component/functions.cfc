@@ -6799,8 +6799,6 @@ limitations under the License.
 										</cfif>
 									</label>
 								</li>
-								<cfset blockform = getCollectingEventFormHtml(collecting_event_id = "#lookupEvent.collecting_event_id#",mode="edit")>
-								#blockform#
 								<li class="col-12 col-md-12 pb-2 px-0">
 									<cfinput type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#getLoc.verbatim_locality#" required="true" message="Verbatim Locality is required.">
 								</li>
