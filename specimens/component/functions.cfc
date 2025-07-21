@@ -6502,6 +6502,7 @@ limitations under the License.
 						)
 					end VerbatimLongitude,
 					locality.sovereign_nation,
+					locality.nogeorefbecause,
 					collecting_event.verbatimcoordinates,
 					collecting_event.verbatimlatitude verblat,
 					collecting_event.verbatimlongitude verblong,
