@@ -674,7 +674,6 @@ $('#show-wiki').on('click', function(e) {
 		data: {
 		page: "Locality",
 		showImages: false
-			//,section: 1
 		},
 		dataType: 'json',
 		success: function(response) {
