@@ -685,7 +685,7 @@ $('#show-wiki').on('click', function(e) {
 			console.log("AJAX ERROR", jqXHR, textStatus, errorThrown);
 		}
 	});
- 	openWikiDrawer();
+	openWikiDrawer();
 });
 </script>
 <cfinclude template = "/shared/_footer.cfm">
