@@ -5,13 +5,13 @@
 * *****/
 // shared/js/shared-scripts.js
 function openWikiDrawer() {
-    $('#wikiDrawer').addClass('open');
-    $('#content').addClass('pushed');
+	$('#wikiDrawer').addClass('open');
+	$('#content').addClass('pushed');
 }
 
 function closeWikiDrawer() {
-    $('#wikiDrawer').removeClass('open');
-    $('#content').removeClass('pushed');
+	$('#wikiDrawer').removeClass('open');
+	$('#content').removeClass('pushed');
 }
 
 $(document).on('click', '#closeWikiDrawer', function() { closeWikiDrawer(); });
