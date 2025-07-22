@@ -140,8 +140,9 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
-			 
+		 
 <cffunction name="getWikiArticle" access="remote" returntype="string" output="false" returnFormat="plain">
+	
 	<cfargument name="page" type="string" required="true">
 	<cfargument name="showImages" type="boolean" default="false">
 	<cfset var pageTitle = arguments.page>
@@ -150,12 +151,18 @@ limitations under the License.
 		method="get"
 		result="wikiContent">
 	</cfhttp>
-		<!-- Conditionally remove images if showImages is false -->
-		<cfif NOT arguments.showImages>
-			<cfset cleanedContent = rereplacenocase(cleanedContent, "<img[^>]*>", "", "all")>
-		</cfif>
+	<cfset var cleanedContent = wikiContent.fileContent>
+	<cfif isDefined("arguments.showImages")>
+		<cfset arguments.showImages = (arguments.showImages EQ "false" OR arguments.showImages EQ "0" OR arguments.showImages EQ "no") ? false : !!arguments.showImages>
+	<cfelse>
+		<cfset arguments.showImages = true>
+	</cfif>
+	<!-- Conditionally remove images if showImages is false -->
+	<cfif NOT arguments.showImages>
+		<cfset cleanedContent = rereplacenocase(cleanedContent, "<img[^>]*>", "", "all")>
+	</cfif>
 	<cfcontent type="text/html; charset=UTF-8" reset="true">
-	<cfreturn wikiContent.fileContent>
+	<cfreturn cleanedContent>
 	<cfabort>
 </cffunction>
 <!------------------------------------->
