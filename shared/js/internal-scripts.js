@@ -1,17 +1,7 @@
 /**
  * Place scripts that should be available only to authenticated users here.
 */
-function openWikiDrawer() {
-    $('#wikiDrawer').addClass('open');
-    $('#content').addClass('pushed');
-}
 
-function closeWikiDrawer() {
-    $('#wikiDrawer').removeClass('open');
-    $('#content').removeClass('pushed');
-}
-
-$(document).on('click', '#closeWikiDrawer', function() { closeWikiDrawer(); });
 /** setFeedbackControlState is used to set the css classes and message of the feedback control
  * @param control the id of the control to set without a leading # selector
  * @param state the state to set, one of 'saving', 'saved', 'error', 'info', 'success', 'removed'

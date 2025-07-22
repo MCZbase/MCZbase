@@ -4,6 +4,19 @@
 /**** this will make a content tray appear on the left of the page and push the content into the remaining space
 * *****/
 // shared/js/shared-scripts.js
+function openWikiDrawer() {
+    $('#wikiDrawer').addClass('open');
+    $('#content').addClass('pushed');
+}
+
+function closeWikiDrawer() {
+    $('#wikiDrawer').removeClass('open');
+    $('#content').removeClass('pushed');
+}
+
+$(document).on('click', '#closeWikiDrawer', function() { closeWikiDrawer(); });
+
+
 
 function processWikiContent($container) {
     $container.find('.mw-editsection').remove();
