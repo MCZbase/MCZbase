@@ -143,7 +143,7 @@ limitations under the License.
 		 
 <cffunction name="getWikiArticle" access="remote" returntype="string" output="false" returnFormat="plain">
 	<cfargument name="page" type="string" required="true">
-	<cfargument name="showImages" type="boolean" default="false">
+	<cfargument name="showImages" required="false">
 	<cfset var pageTitle = arguments.page>
 	<cfset var url = "https://code.mcz.harvard.edu/wiki/index.php?action=render&title=" & URLEncodedFormat(pageTitle)>
 	<cfhttp url="#url#" method="get" result="wikiContent"/>
@@ -164,8 +164,9 @@ limitations under the License.
 	<cfif NOT showImages>
 		<cfset cleanedContent = rereplacenocase(cleanedContent, "(?s)<img[^>]*>", "", "all")>
 	</cfif>
-	<cfcontent type="text/html; charset=UTF-8" reset="true">
-	<cfreturn cleanedContent>
+	 <!--- REMOVE cfcontent of text/html --->
+	<cfheader name="Content-Type" value="application/json">
+	<cfreturn serializeJson({result=cleanedContent})>
 </cffunction>
 <!------------------------------------->
 <!--- Given some basic query parameters for media records, find matching media records and return
