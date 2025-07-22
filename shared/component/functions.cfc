@@ -149,6 +149,10 @@ limitations under the License.
 		method="get"
 		result="wikiContent">
 	</cfhttp>
+		<!-- Conditionally remove images if showImages is false -->
+		<cfif NOT arguments.showImages>
+			<cfset cleanedContent = rereplacenocase(cleanedContent, "<img[^>]*>", "", "all")>
+		</cfif>
 	<cfcontent type="text/html; charset=UTF-8" reset="true">
 	<cfreturn wikiContent.fileContent>
 	<cfabort>

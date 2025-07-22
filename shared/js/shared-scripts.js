@@ -17,7 +17,6 @@ function closeWikiDrawer() {
 $(document).on('click', '#closeWikiDrawer', function() { closeWikiDrawer(); });
 
 
-
 function processWikiContent($container) {
 	$container.find('.mw-editsection').remove();
 	$container.find('a').filter(function() {
