@@ -1,7 +1,41 @@
 /**
  * Place scripts that should be available on all web pages for all users here.
 */
+/**** this will make a content tray appear on the left of the page and push the content into the remaining space
+* *****/
+// shared/js/shared-scripts.js
 
+function processWikiContent($container) {
+    $container.find('.mw-editsection').remove();
+    $container.find('a').filter(function() {
+        return $(this).text().trim().toLowerCase() === "edit";
+    }).remove();
+    $container.html($container.html().replace(/edit\]|\]$/gm, ''));
+    $container.find('a.image').each(function() {
+        var $a = $(this), $img = $a.find('img');
+        var href = $a.attr('href');
+        var src = $img.attr('src');
+        if (href && href.indexOf('http') !== 0) $a.attr('href', 'https://code.mcz.harvard.edu' + href);
+        $a.attr('target', '_blank');
+        if (src && src.indexOf('http') !== 0) $img.attr('src', 'https://code.mcz.harvard.edu' + src);
+        var srcset = $img.attr('srcset');
+        if (srcset) $img.attr('srcset', srcset.replace(/(\/wiki\/images\/[^\s]*)/g, "https://code.mcz.harvard.edu$1"));
+        $img.removeAttr('width').removeAttr('height');
+    });
+    $container.find('img').removeAttr('width').removeAttr('height');
+}
+
+function openWikiDrawer() {
+    $('#wikiDrawer').addClass('open');
+    $('#content').addClass('pushed');
+}
+
+function closeWikiDrawer() {
+    $('#wikiDrawer').removeClass('open');
+    $('#content').removeClass('pushed');
+}
+
+$(document).on('click', '#closeWikiDrawer', function() { closeWikiDrawer(); });
 /** Make some readable content for a message dialog from an error message,
  * message may be empty, in which case placeholder text is returned, message
  * may start with the coldfusion responseText for a server error of <!-- \" --->,

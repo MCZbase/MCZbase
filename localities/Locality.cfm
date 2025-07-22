@@ -685,7 +685,6 @@ limitations under the License.
 		<cftransaction>
 	</cfcase>
 </cfswitch>
-
 <script>
 $('#show-wiki').on('click', function(e) {
 	e.preventDefault();
@@ -707,14 +706,7 @@ $('#show-wiki').on('click', function(e) {
 			console.log("AJAX ERROR", jqXHR, textStatus, errorThrown);
 		}
 	});
-	$('#wikiDrawer').addClass('open');
-	$('#content').addClass('pushed');
-});
-
-// Hide on close button click 
-$('#closeWikiDrawer').on('click', function() {
-	$('#wikiDrawer').removeClass('open');
-	$('#content').removeClass('pushed');
+ 	openWikiDrawer();
 });
 </script>
 <cfinclude template = "/shared/_footer.cfm">
