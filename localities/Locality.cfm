@@ -51,26 +51,29 @@ limitations under the License.
 	max-width: 1500px;
 }
 .wiki-drawer {
-  position: fixed;
-  top: 0;
-  left: -400px;
-  width: 400px;
-  max-width: 90vw;
-  height: 100vh;
-  background: #fff;
-  box-shadow: 2px 0 10px rgba(0,0,0,0.15);
-  z-index: 1051;
-  transition: left 0.3s;
-  overflow-y: auto;
+	position: fixed;
+	top: 0;
+	left: -400px;
+	width: 400px;
+	max-width: 90vw;
+	height: 100vh;
+	background: #fff;
+	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+	z-index: 1051;
+	transition: left 0.3s;
+	overflow-y: auto;
 }
 .wiki-drawer.open {
-  left: 0;
+	left: 0;
 }
 #content {
-  transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
+	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
+	width: 100%;
+	box-sizing: border-box;
 }
 #content.pushed {
-  margin-left: 400px;
+	margin-left: 400px;
+	width: calc(100% - 400px);
 }
 </style>
 <cfswitch expression="#action#">
@@ -102,154 +105,153 @@ limitations under the License.
 				collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		</cfquery>
 		<cfoutput>
-			
-			
-			<div id="wikiDrawerOverlay" class="wiki-drawer-overlay"></div>
-			<main class="container-fluid mt-3 pb-5 mb-5" id="content">
-				<div class="row mx-0">
-				
-				<section class="col-12 col-md-9 px-md-0 col-xl-8 px-xl-0">
-					<div class="col-12 px-0 pl-md-0 pr-md-3">
-						<h1 class="h2 mt-2 mb-0 px-3">
-							Edit Locality 
-							[<a href="/localities/viewLocality.cfm?locality_id=#localityExists.locality_id#" target="_blank">#encodeForHtml(locality_id)#</a>]
-							<i class="fas fa-info-circle" onClick="getMCZDocs('Edit_Locality')" aria-label="help link"></i>
-						</h1>
-						<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
-							<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
-							<div id="relatedTo">#blockRelated#</div>
-							<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
-							<div id="summary" class="small95 px-2 pb-0"><span class="sr-only">Summary: </span>#summary#</div>
-						</div>
-						
-						<div class="border rounded px-2 my-2 pt-2 pb-2" arial-labeledby="formheading">
-							<cfset formId = "editLocalityForm">
-							<cfset outputDiv="saveResultsDiv">
-							<form name="editLocality" id="#formId#">
-								<input type="hidden" id="locality_id" name="locality_id" value="#locality_id#">
-								<input type="hidden" name="method" value="updateLocality">
-								<cfset blockEditForm = getEditLocalityHtml(locality_id = "#locality_id#", formId="#formId#", outputDiv="#outputDiv#", saveButtonFunction="saveEdits")>
-								#blockEditForm#
-							</form>
-							<script>
-								function reloadLocalityBlocks() { 
-									updateLocalitySummary('#locality_id#','summary');	
-									reloadGeology();
-									reloadGeoreferences(); // also does uses and delete bit
-								}
-								function reloadGeology()  {
-									loadGeologyHTML('#locality_id#','geologyDiv', 'reloadGeology');
-								}
-								function reloadMap()  {
-									loadLocalityMapHTML('#locality_id#','mapDiv');
-								}
-								function reloadGeoreferences() {
-									loadGeoreferencesHTML('#locality_id#','georeferencesDiv', 'reloadGeoreferences');
-									reloadMap();
-									updateLocalityUses('#locality_id#','relatedTo');	
-									updateLocalityDeleteBit('#locality_id#','deleteButtonBit');
-								}
-								function reloadMedia()  {
-									loadLocalityMediaHTML('#locality_id#','mediaDiv');
-									updateLocalityUses('#locality_id#','relatedto');	
-									updateLocalityDeleteBit('#locality_id#','deleteButtonBit');
-								}
-								function saveEdits(){ 
-									saveEditsFromFormCallback("#formId#","/localities/component/functions.cfc","#outputDiv#","saving locality record",reloadLocalityBlocks);
-								};
-							</script>			
-							<div class="row">
-								<div class="col-12 px-3">
-									<button type="button" class="btn btn-xs btn-secondary float-right mx-1 mt-2 mt-md-0" 
-										onClick=" location.assign('/localities/Locality.cfm?action=new&geog_auth_rec_id=#encodeForUrl(localityExists.geog_auth_rec_id)#');" 
-									>
-										New Locality in same higher geography</button>
-									<button type="button" class="btn btn-xs btn-secondary float-right mx-1 mt-2 mt-md-0" 
-										onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" 
-									>
-										Clone Locality
-									</button>
-									<cfif localityUses.numOfCollEvents GT "0">
-										<button type="button" class="btn btn-xs btn-warning float-right mx-1 mt-2 mt-md-0"
-											 onClick="location.assign('/Locality.cfm?Action=findCollEvent&locality_id=#encodeForUrl(locality_id)#');"
-										>
-											Move Collecting Events
-										</button>
-									</cfif>
-								</div>
-							</div>
-							<div class="row mx-0">
-								<cfset blockDeleteButton = getLocalityDeleteBitHtml(locality_id = "#locality_id#")>
-								<div class="col-12 px-1 mt-1" id="deleteButtonBit">
-									#blockDeleteButton#
-								</div>
-							</div>
-						</div>
-					</div>	
+			<div class="wiki-layout">
+				<div id="wikiDrawer" class="wiki-drawer"></div>
+				<main class="container-fluid mt-3 pb-5 mb-5" id="content">
 					<div class="row mx-0">
-						<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-3">
-							<div class="border rounded px-3 my-2 py-3">
-								<cfset geology = getLocalityGeologyHtml(locality_id="#locality_id#",callback_name='reloadGeology')>
-								<div id="geologyDiv">#geology#</div>
+						<section class="col-12 col-md-9 px-md-0 col-xl-8 px-xl-0">
+						<div class="col-12 px-0 pl-md-0 pr-md-3">
+							<h1 class="h2 mt-2 mb-0 px-3">
+								Edit Locality 
+								[<a href="/localities/viewLocality.cfm?locality_id=#localityExists.locality_id#" target="_blank">#encodeForHtml(locality_id)#</a>]
+								<i class="fas fa-info-circle" onClick="getMCZDocs('Edit_Locality')" aria-label="help link"></i>
+							</h1>
+							<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
+								<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
+								<div id="relatedTo">#blockRelated#</div>
+								<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
+								<div id="summary" class="small95 px-2 pb-0"><span class="sr-only">Summary: </span>#summary#</div>
+							</div>
+
+							<div class="border rounded px-2 my-2 pt-2 pb-2" arial-labeledby="formheading">
+								<cfset formId = "editLocalityForm">
+								<cfset outputDiv="saveResultsDiv">
+								<form name="editLocality" id="#formId#">
+									<input type="hidden" id="locality_id" name="locality_id" value="#locality_id#">
+									<input type="hidden" name="method" value="updateLocality">
+									<cfset blockEditForm = getEditLocalityHtml(locality_id = "#locality_id#", formId="#formId#", outputDiv="#outputDiv#", saveButtonFunction="saveEdits")>
+									#blockEditForm#
+								</form>
+								<script>
+									function reloadLocalityBlocks() { 
+										updateLocalitySummary('#locality_id#','summary');	
+										reloadGeology();
+										reloadGeoreferences(); // also does uses and delete bit
+									}
+									function reloadGeology()  {
+										loadGeologyHTML('#locality_id#','geologyDiv', 'reloadGeology');
+									}
+									function reloadMap()  {
+										loadLocalityMapHTML('#locality_id#','mapDiv');
+									}
+									function reloadGeoreferences() {
+										loadGeoreferencesHTML('#locality_id#','georeferencesDiv', 'reloadGeoreferences');
+										reloadMap();
+										updateLocalityUses('#locality_id#','relatedTo');	
+										updateLocalityDeleteBit('#locality_id#','deleteButtonBit');
+									}
+									function reloadMedia()  {
+										loadLocalityMediaHTML('#locality_id#','mediaDiv');
+										updateLocalityUses('#locality_id#','relatedto');	
+										updateLocalityDeleteBit('#locality_id#','deleteButtonBit');
+									}
+									function saveEdits(){ 
+										saveEditsFromFormCallback("#formId#","/localities/component/functions.cfc","#outputDiv#","saving locality record",reloadLocalityBlocks);
+									};
+								</script>			
+								<div class="row">
+									<div class="col-12 px-3">
+										<button type="button" class="btn btn-xs btn-secondary float-right mx-1 mt-2 mt-md-0" 
+											onClick=" location.assign('/localities/Locality.cfm?action=new&geog_auth_rec_id=#encodeForUrl(localityExists.geog_auth_rec_id)#');" 
+										>
+											New Locality in same higher geography</button>
+										<button type="button" class="btn btn-xs btn-secondary float-right mx-1 mt-2 mt-md-0" 
+											onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" 
+										>
+											Clone Locality
+										</button>
+										<cfif localityUses.numOfCollEvents GT "0">
+											<button type="button" class="btn btn-xs btn-warning float-right mx-1 mt-2 mt-md-0"
+												 onClick="location.assign('/Locality.cfm?Action=findCollEvent&locality_id=#encodeForUrl(locality_id)#');"
+											>
+												Move Collecting Events
+											</button>
+										</cfif>
+									</div>
+								</div>
+								<div class="row mx-0">
+									<cfset blockDeleteButton = getLocalityDeleteBitHtml(locality_id = "#locality_id#")>
+									<div class="col-12 px-1 mt-1" id="deleteButtonBit">
+										#blockDeleteButton#
+									</div>
+								</div>
+							</div>
+						</div>	
+						<div class="row mx-0">
+							<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-3">
+								<div class="border rounded px-3 my-2 py-3">
+									<cfset geology = getLocalityGeologyHtml(locality_id="#locality_id#",callback_name='reloadGeology')>
+									<div id="geologyDiv">#geology#</div>
+								</div>
+							</div>
+							<div class="col-12 px-0 pl-md-0 pr-md-3 col-md-6">
+								<div class="border rounded px-3 my-2 py-3">
+									<cfset georeferences = getLocalityGeoreferencesHtml(locality_id="#locality_id#",callback_name='reloadGeoreferences')>
+									<div id="georeferencesDiv">#georeferences#</div>
+								</div>
 							</div>
 						</div>
-						<div class="col-12 px-0 pl-md-0 pr-md-3 col-md-6">
-							<div class="border rounded px-3 my-2 py-3">
-								<cfset georeferences = getLocalityGeoreferencesHtml(locality_id="#locality_id#",callback_name='reloadGeoreferences')>
-								<div id="georeferencesDiv">#georeferences#</div>
+						<div class="col-12 px-0 pr-md-3 pl-md-0 ">
+							<div class="border bg-light rounded p-3 my-2">
+								<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
+								<script>
+									function runTests() {
+										$("##SpaceDQDiv").html("Running tests....");
+										loadSpaceQC("", #locality_id#, "SpaceDQDiv");
+									}
+								</script>
+								<input type="button" value="Run Quality Control Tests" class="btn btn-xs btn-secondary" onClick=" runTests(); ">
+								<!---  Space tests --->
+								<div id="SpaceDQDiv"></div>
 							</div>
 						</div>
-					</div>
-					<div class="col-12 px-0 pr-md-3 pl-md-0 ">
-						<div class="border bg-light rounded p-3 my-2">
-							<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
-							<script>
-								function runTests() {
-									$("##SpaceDQDiv").html("Running tests....");
-									loadSpaceQC("", #locality_id#, "SpaceDQDiv");
-								}
-							</script>
-							<input type="button" value="Run Quality Control Tests" class="btn btn-xs btn-secondary" onClick=" runTests(); ">
-							<!---  Space tests --->
-							<div id="SpaceDQDiv"></div>
-						</div>
-					</div>
-					<div class="col-12 px-0 pr-md-3 pl-md-0 ">
-						<div class="border bg-light rounded p-3 my-2">
-							<cfset media = getLocalityMediaHtml(locality_id="#locality_id#")>
-							<div id="mediaDiv" class="row">#media#</div>
-							<div id="addMediaDiv">
-								<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT media_relationship as relation 
-									FROM ctmedia_relationship 
-									WHERE media_relationship like '% locality'
-									ORDER BY media_relationship
-								</cfquery>
-								<cfloop query="relations">
-									<cfset summary = replace(replace(summary,'"','','all'),"'","","all")>
-									<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" openlinkmediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
-									<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" opencreatemediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
-								</cfloop>
+						<div class="col-12 px-0 pr-md-3 pl-md-0 ">
+							<div class="border bg-light rounded p-3 my-2">
+								<cfset media = getLocalityMediaHtml(locality_id="#locality_id#")>
+								<div id="mediaDiv" class="row">#media#</div>
+								<div id="addMediaDiv">
+									<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT media_relationship as relation 
+										FROM ctmedia_relationship 
+										WHERE media_relationship like '% locality'
+										ORDER BY media_relationship
+									</cfquery>
+									<cfloop query="relations">
+										<cfset summary = replace(replace(summary,'"','','all'),"'","","all")>
+										<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" openlinkmediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
+										<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" opencreatemediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
+									</cfloop>
+								</div>
+								<div id="mediaDialogDiv"></div>
 							</div>
-							<div id="mediaDialogDiv"></div>
 						</div>
+					</section>
+						<section class="mt-3 mt-md-5 col-12 px-md-0 col-md-3 col-xl-4">
+							<!--- map --->
+							<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+								<cfset map = getLocalityMapHtml(locality_id="#locality_id#")>
+								<div id="mapDiv">#map#</div>
+							</div>
+							<!--- verbatim values --->
+							<div class="col-12 pt-2">
+								<h2 class="h4">Verbatim localities (from associated collecting events)</h2>
+								<cfset verbatim = getLocalityVerbatimHtml(locality_id="#locality_id#", context="edit")>
+								<div id="verbatimDiv">#verbatim#</div>
+							</div>
+					</section>
 					</div>
-				</section>
-				<section class="mt-3 mt-md-5 col-12 px-md-0 col-md-3 col-xl-4">
-						<!--- map --->
-						<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
-							<cfset map = getLocalityMapHtml(locality_id="#locality_id#")>
-							<div id="mapDiv">#map#</div>
-						</div>
-						<!--- verbatim values --->
-						<div class="col-12 pt-2">
-							<h2 class="h4">Verbatim localities (from associated collecting events)</h2>
-							<cfset verbatim = getLocalityVerbatimHtml(locality_id="#locality_id#", context="edit")>
-							<div id="verbatimDiv">#verbatim#</div>
-						</div>
-				</section>
-				</div>
-			</main>
+				</main>
+			</div>
 		</cfoutput>
 	</cfcase>
 	<cfcase value="new">
