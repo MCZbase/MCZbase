@@ -19,23 +19,23 @@ $(document).on('click', '#closeWikiDrawer', function() { closeWikiDrawer(); });
 
 
 function processWikiContent($container) {
-    $container.find('.mw-editsection').remove();
-    $container.find('a').filter(function() {
-        return $(this).text().trim().toLowerCase() === "edit";
-    }).remove();
-    $container.html($container.html().replace(/edit\]|\]$/gm, ''));
-    $container.find('a.image').each(function() {
-        var $a = $(this), $img = $a.find('img');
-        var href = $a.attr('href');
-        var src = $img.attr('src');
-        if (href && href.indexOf('http') !== 0) $a.attr('href', 'https://code.mcz.harvard.edu' + href);
-        $a.attr('target', '_blank');
-        if (src && src.indexOf('http') !== 0) $img.attr('src', 'https://code.mcz.harvard.edu' + src);
-        var srcset = $img.attr('srcset');
-        if (srcset) $img.attr('srcset', srcset.replace(/(\/wiki\/images\/[^\s]*)/g, "https://code.mcz.harvard.edu$1"));
-        $img.removeAttr('width').removeAttr('height');
-    });
-    $container.find('img').removeAttr('width').removeAttr('height');
+	$container.find('.mw-editsection').remove();
+	$container.find('a').filter(function() {
+		return $(this).text().trim().toLowerCase() === "edit";
+	}).remove();
+	$container.html($container.html().replace(/edit\]|\]$/gm, ''));
+	$container.find('a.image').each(function() {
+		var $a = $(this), $img = $a.find('img');
+		var href = $a.attr('href');
+		var src = $img.attr('src');
+		if (href && href.indexOf('http') !== 0) $a.attr('href', 'https://code.mcz.harvard.edu' + href);
+		$a.attr('target', '_blank');
+		if (src && src.indexOf('http') !== 0) $img.attr('src', 'https://code.mcz.harvard.edu' + src);
+		var srcset = $img.attr('srcset');
+		if (srcset) $img.attr('srcset', srcset.replace(/(\/wiki\/images\/[^\s]*)/g, "https://code.mcz.harvard.edu$1"));
+		$img.removeAttr('width').removeAttr('height');
+	});
+	$container.find('img').removeAttr('width').removeAttr('height');
 }
 
 
