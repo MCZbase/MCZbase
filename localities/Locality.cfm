@@ -666,14 +666,14 @@ limitations under the License.
 <script>
 $('#show-wiki').on('click', function(e) {
 	e.preventDefault();
-	var showImg = $('#wiki-images-checkbox').prop('checked');
+
 	$('#wiki-content').html('Loading...');
 
 	$.ajax({
 		url: '/shared/component/functions.cfc?method=getWikiSection&returnFormat=json',
 		data: {
 		page: "Locality",
-		showImages: false
+		section: 1
 		},
 		dataType: 'json',
 		success: function(response) {
