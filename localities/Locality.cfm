@@ -50,31 +50,7 @@ limitations under the License.
 .container-xl {
 	max-width: 1500px;
 }
-.wiki-drawer {
-	position: fixed;
-	top: 0;
-	left: -400px;
-	width: 400px;
-	max-width: 90vw;
-	height: 100vh;
-	background: #fff;
-	box-shadow: 2px 0 10px rgba(0,0,0,0.15);
-	z-index: 1051;
-	transition: left 0.3s;
-	overflow-y: auto;
-}
-.wiki-drawer.open {
-	left: 0;
-}
-#content {
-	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
-	width: 100%;
-	box-sizing: border-box;
-}
-#content.pushed {
-	margin-left: 400px;
-	width: calc(100% - 400px);
-}
+
 </style>
 <cfswitch expression="#action#">
 	<cfcase value="edit">
