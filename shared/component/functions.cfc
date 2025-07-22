@@ -147,9 +147,7 @@ limitations under the License.
 	<cfargument name="showImages" type="boolean" default="false">
 	<cfset var pageTitle = arguments.page>
 	<cfset var url = "https://code.mcz.harvard.edu/wiki/index.php?action=render&title=" & URLEncodedFormat(pageTitle)>
-	<cfhttp url="#url#"
-		method="get"
-		result="wikiContent">
+	<cfhttp url="#url#" method="get" result="wikiContent">
 	</cfhttp>
 	<cfset var cleanedContent = wikiContent.fileContent>
 	<cfif isDefined("arguments.showImages")>
@@ -159,7 +157,7 @@ limitations under the License.
 	</cfif>
 	<!-- Conditionally remove images if showImages is false -->
 	<cfif NOT arguments.showImages>
-		<cfset cleanedContent = rereplacenocase(cleanedContent, "<img[^>]*>", "", "all")>
+		<cfset cleanedContent = rereplacenocase(cleanedContent, "(?s)<img[^>]*>", "", "all")>
 	</cfif>
 	<cfcontent type="text/html; charset=UTF-8" reset="true">
 	<cfreturn cleanedContent>
