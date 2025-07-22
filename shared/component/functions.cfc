@@ -146,7 +146,7 @@ limitations under the License.
 	<cfargument name="page" type="string" required="true">
 	<cfargument name="showImages" type="boolean" default="false">
 	<cfset var pageTitle = arguments.page>
-	<cfset var url = "https://code.mcz.harvard.edu/wiki/index.php?action=render&showImages=false&title=" & URLEncodedFormat(pageTitle)>
+	<cfset var url = "https://code.mcz.harvard.edu/wiki/index.php?action=render&title=" & URLEncodedFormat(pageTitle)>
 	<cfhttp url="#url#"
 		method="get"
 		result="wikiContent">
