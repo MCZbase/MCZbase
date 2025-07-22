@@ -142,26 +142,30 @@ limitations under the License.
 
 		 
 <cffunction name="getWikiArticle" access="remote" returntype="string" output="false" returnFormat="plain">
-	
 	<cfargument name="page" type="string" required="true">
 	<cfargument name="showImages" type="boolean" default="false">
 	<cfset var pageTitle = arguments.page>
 	<cfset var url = "https://code.mcz.harvard.edu/wiki/index.php?action=render&title=" & URLEncodedFormat(pageTitle)>
-	<cfhttp url="#url#" method="get" result="wikiContent">
-	</cfhttp>
+	<cfhttp url="#url#" method="get" result="wikiContent"/>
 	<cfset var cleanedContent = wikiContent.fileContent>
-	<cfif isDefined("arguments.showImages")>
-		<cfset arguments.showImages = (arguments.showImages EQ "false" OR arguments.showImages EQ "0" OR arguments.showImages EQ "no") ? false : !!arguments.showImages>
+		
+	<!-- Coerce showImages robustly -->
+	<cfif structKeyExists(arguments,"showImages")>
+		<cfset var showImages = (
+			arguments.showImages EQ false OR
+			arguments.showImages EQ "false" OR
+			arguments.showImages EQ "0" OR
+			arguments.showImages EQ "no"
+		) ? false : true>
 	<cfelse>
-		<cfset arguments.showImages = true>
+		<cfset var showImages = true>
 	</cfif>
 	<!-- Conditionally remove images if showImages is false -->
-	<cfif NOT arguments.showImages>
+	<cfif NOT showImages>
 		<cfset cleanedContent = rereplacenocase(cleanedContent, "(?s)<img[^>]*>", "", "all")>
 	</cfif>
 	<cfcontent type="text/html; charset=UTF-8" reset="true">
 	<cfreturn cleanedContent>
-	<cfabort>
 </cffunction>
 <!------------------------------------->
 <!--- Given some basic query parameters for media records, find matching media records and return
