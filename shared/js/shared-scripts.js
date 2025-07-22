@@ -25,17 +25,7 @@ function processWikiContent($container) {
     $container.find('img').removeAttr('width').removeAttr('height');
 }
 
-function openWikiDrawer() {
-    $('#wikiDrawer').addClass('open');
-    $('#content').addClass('pushed');
-}
 
-function closeWikiDrawer() {
-    $('#wikiDrawer').removeClass('open');
-    $('#content').removeClass('pushed');
-}
-
-$(document).on('click', '#closeWikiDrawer', function() { closeWikiDrawer(); });
 /** Make some readable content for a message dialog from an error message,
  * message may be empty, in which case placeholder text is returned, message
  * may start with the coldfusion responseText for a server error of <!-- \" --->,
