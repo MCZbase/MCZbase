@@ -151,14 +151,14 @@ limitations under the License.
 		
 	<!-- Coerce showImages robustly -->
 	<cfif structKeyExists(arguments,"showImages")>
-		<cfset var showImages = (
+		<cfset arguments.showImages = (
 			arguments.showImages EQ false OR
 			arguments.showImages EQ "false" OR
 			arguments.showImages EQ "0" OR
 			arguments.showImages EQ "no"
 		) ? false : true>
 	<cfelse>
-		<cfset var showImages = true>
+		<cfset arguments.showImages = true>
 	</cfif>
 	<!-- Conditionally remove images if showImages is false -->
 	<cfif NOT showImages>
