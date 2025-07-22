@@ -1,14 +1,26 @@
-<cfinclude template="/includes/_header.cfm">
-    <div style="width: 32em; margin:0 auto;padding: 2em 0 4em 0;">
-        <h2 class="wikilink">Scheduled Tasks</h2>
-         <div style="width: 32em; margin:2em auto 4em auto;padding: .5em 2em .5em 2em;border: 1px solid gray;background-color: #f8f8f8">
+<cfset pageTitle = "Scheduled Tasks">
+<cfinclude template="/shared/_header.cfm">
+<main class="container-fluid" id="content">
+	<section class="row">
+		<div class="col-12">
+			<h2 class="h2">Scheduled Tasks</h2>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+				<p>Scheduled tasks are used to run background jobs at specified intervals.</p>
         
-<cfdirectory action="list" directory="#Application.webDirectory#/ScheduledTasks" name="d" sort="name ASC">
-<cfoutput>
-	<cfloop query="d">
-        <p><a href="#name#">#name#</a></p>
-	</cfloop>
-</cfoutput>
-    </div>
-    </div>
-<cfinclude template="/includes/_footer.cfm">
+				<cfdirectory action="list" directory="#Application.webDirectory#/ScheduledTasks" name="dir" sort="name ASC">
+				<cfoutput>
+					<ul>
+					<cfloop query="dir">
+						<li> 
+							<a href="#name#">#name#</a> 
+							<cfif isdefined("dir.dateLastModified")> (Last Modified: #dateFormat(dir.dateLastModified, "mm/dd/yyyy")#)</cfif> 
+						</li>
+					</cfloop>
+					</ul>
+				</cfoutput>
+
+			</cfif>
+		</div>
+	</section>
+</main>
+<cfinclude template="/shared/_footer.cfm">
