@@ -6656,9 +6656,11 @@ limitations under the License.
 
 				<div class="row mx-0">
 					<cfset guid = "#getLoc.institution_acronym#:#getLoc.collection_cde#:#getLoc.cat_num#">
-					<h2 class="h2">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
-					<button class="btn btn-xs btn-secondary mb-2" onclick="closeInPage();">Back to Specimen without saving changes</button>
-					<cfform name="loc" method="post" action="specLocality.cfm">
+					<div class="col-12 px-0 pt-1">
+						<h2 class="h2 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
+						<button class="btn btn-xs btn-secondary float-right" onclick="closeInPage();">Back to Specimen without saving changes</button>
+					</div>
+					<form name="loc" method="post" action="specLocality.cfm">
 						<input type="hidden" name="action" value="saveChange">
 						<input type="hidden" name="nothing" id="nothing">
 						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
@@ -7381,7 +7383,7 @@ function showLLFormat(orig_units) {
 								</div>
 							</cfif>
 						</div>
-					</cfform>
+					</form>
 				</div>
 				<cfcatch>
 					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
