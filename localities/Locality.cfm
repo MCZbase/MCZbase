@@ -673,7 +673,8 @@ $('#show-wiki').on('click', function(e) {
 		url: '/shared/component/functions.cfc?method=getWikiArticle&returnFormat=json&showImages=false',
 		data: {
 		page: "Locality",
-		showImages: false
+		showImages: false,
+		section: 1
 		},
 		dataType: 'json',
 		success: function(response) {

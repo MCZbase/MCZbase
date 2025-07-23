@@ -150,7 +150,6 @@ limitations under the License.
 	<cfhttp url="#url#" method="get" result="wikiContent"/>
 	<cfset var cleanedContent = wikiContent.fileContent>
 		
-	<!-- Coerce showImages robustly -->
 	<cfif structKeyExists(arguments,"showImages")>
 		<cfset arguments.showImages = (
 			arguments.showImages EQ false OR
@@ -161,11 +160,10 @@ limitations under the License.
 	<cfelse>
 		<cfset arguments.showImages = true>
 	</cfif>
-	<!-- Conditionally remove images if showImages is false -->
-	<cfif NOT showImages>
-		<cfset cleanedContent = rereplacenocase(cleanedContent, "(?s)<img[^>]*>", "", "all")>
+	<cfif NOT arguments.showImages>
+		<cfset cleanedContent = rereplacenocase(cleanedContent, "(?i)<img\b[^>]*>", "", "all")>
 	</cfif>
-	 <!--- REMOVE cfcontent of text/html --->
+
 	<cfheader name="Content-Type" value="application/json">
 	<cfreturn serializeJson({result=cleanedContent})>
 </cffunction>
