@@ -40,7 +40,7 @@ function showWiki(page, showImages) {
 	openWikiDrawer();
 	loadWikiContent({
 		page: page,
-		//section: section, // Support section selection!
+		section: section, // Support section selection!
 		showImages: showImages,
 		onSuccess: function(html) {
 			$('#wiki-content').html(html);
