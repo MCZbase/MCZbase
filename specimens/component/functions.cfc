@@ -6665,7 +6665,19 @@ limitations under the License.
 						<input type="hidden" name="nothing" id="nothing">
 						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 						<div class="col-6 px-0 float-left">
-							<p class="font-italic text-danger pt-3">Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.</p>
+							<cfif cecount.ct GT 0 OR loccount.ct GT 0>
+								<h3 class="h3">
+									<cfif cecount.ct GT 1>
+										Collecting Event <span class="text-danger">Shared with #cecount.ct# other specimens</span> 
+									</cfif>
+									<cfif loccount.ct GT 1>
+										Locality <span class="text-danger">Shared with #loccount.ct# other specimens</span>
+									</cfif>
+								</h3>
+								<p class="font-italic text-danger pt-3">Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.</p>
+							<cfelse>
+								<p class="font-italic text-success pt-3">The collecting event and locality are used only by this specimen.</p>
+							</cfif>
 							<ul class="list-unstyled row mx-0 px-0 py-1 mb-0">
 								<cfif len(getLoc.continent_ocean) gt 0>
 									<li class="list-group-item col-4 px-0"><em>Continent or Ocean:</em></li>
@@ -6716,8 +6728,7 @@ limitations under the License.
 								</h4>
 								<input type="text" value="#getLoc.higher_geog#" class="col-12 col-sm-8 reqdClr disabled">
 								<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
-								<input type="submit" value="Save" class="btn btn-xs btn-secondary" id="saveGeogChangeButton"
-			 				style="display:none">
+								<input type="submit" value="Save" class="btn btn-xs btn-secondary" id="saveGeogChangeButton" style="display:none">
 							</div>
 						</div>
 						<div class="col-12 float-left px-0">
