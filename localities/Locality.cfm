@@ -81,12 +81,7 @@ limitations under the License.
 				collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		</cfquery>
 		<cfoutput>
-			<!---<div class="wiki-layout">--->
-		<button id="show-wiki" ...>Show Wiki Article</button>
-				<div id="wikiDrawer" class="wiki-drawer">
-				  <button type="button" class="close" id="closeWikiDrawer" ...>×</button>
-				  <div id="wiki-content" class="p-3"></div>
-				</div>
+			<div class="wiki-layout">
 				<div id="wikiDrawer" class="wiki-drawer"></div>
 				<main class="container-fluid mt-3 pb-5 mb-5" id="content">
 					<div class="row mx-0">
@@ -232,7 +227,7 @@ limitations under the License.
 					</section>
 					</div>
 				</main>
-			<!---</div>--->
+			</div>
 		</cfoutput>
 	</cfcase>
 	<cfcase value="new">
@@ -266,7 +261,8 @@ limitations under the License.
 								#blockform#
 							</form>
 						</div>
-						<!---<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>--->
+						<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
+
 					</div>
 					
 				</section>
