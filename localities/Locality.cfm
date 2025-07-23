@@ -663,38 +663,13 @@ limitations under the License.
 		<cftransaction>
 	</cfcase>
 </cfswitch>
-<script>
+
+<button id="show-wiki">Show Wiki Article</button>
 <script>
 $('#show-wiki').on('click', function(e) {
 	e.preventDefault();
-	
-	showWiki("Locality", true); // or false if you want to suppress images
+	showWiki("Locality", true); // or false for no images
 });
-
-	
-	
-//$('#show-wiki').on('click', function(e) {
-//	e.preventDefault();
-//
-//	$('#wiki-content').html('Loading...');
-//
-//	$.ajax({
-//		url: '/shared/component/functions.cfc?method=getWikiArticle&returnFormat=json',
-//		data: {
-//		page: "Locality",
-//		showImages: false,
-//		section: 1
-//		},
-//		dataType: 'json',
-//		success: function(response) {
-//			$('#wiki-content').html(response.result || response.RESULT || "<div>Section not found.</div>");
-//		},
-//		error: function(jqXHR, textStatus, errorThrown) {
-//			$('#wiki-content').html('<div class="alert alert-danger">AJAX error: '+textStatus+'<br>'+errorThrown+'</div>');
-//			console.log("AJAX ERROR", jqXHR, textStatus, errorThrown);
-//		}
-//	});
-//	openWikiDrawer();
-//});
 </script>
+
 <cfinclude template = "/shared/_footer.cfm">
