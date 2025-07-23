@@ -144,7 +144,6 @@ limitations under the License.
 <cffunction name="getWikiArticle" access="remote" returntype="string" output="false" returnFormat="plain">
 	<cfargument name="page" type="string" required="true">
 	<cfargument name="showImages" required="false">
-	<cfargument name="section" type="string" required="yes">
 	<cfset var pageTitle = arguments.page>
 	<cfset var url = "https://code.mcz.harvard.edu/wiki/index.php?action=render&section=1&title=" & URLEncodedFormat(pageTitle)>
 	<cfhttp url="#url#" method="get" result="wikiContent"/>
