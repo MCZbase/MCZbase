@@ -743,7 +743,7 @@ function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 };
 
 function closeInPage() { 
-	$("#InPageEditorDiv").html(");
+	$("#InPageEditorDiv").html("");
 	$('#SpecimenDetailsDiv').show();
 	$('#editControlsBlock').show();
 }
