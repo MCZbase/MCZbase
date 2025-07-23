@@ -678,7 +678,7 @@ $('#show-wiki').on('click', function(e) {
 		},
 		dataType: 'json',
 		success: function(response) {
-			$('#wiki-content').html(response.result || "<div>Section not found.</div>");
+			$('#wiki-content').html(response.result || response.RESULT || "<div>Section not found.</div>");
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			$('#wiki-content').html('<div class="alert alert-danger">AJAX error: '+textStatus+'<br>'+errorThrown+'</div>');
