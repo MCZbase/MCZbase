@@ -742,6 +742,32 @@ function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 	});
 };
 
+function closeInPage() { 
+	$("#InPageEditorDiv").html(");
+	$('#SpecimenDetailsDiv').show();
+	$('#editControlsBlock').show();
+}
+
+function openEditLocalityInPage(collection_object_id,callback) { 
+	$('#SpecimenDetailsDiv').hide();
+	$('#editControlsBlock').hide();
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditLocalityHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#InPageEditorDiv").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit CollectingEvent/Locality form");
+			closeInPage();
+		},
+		dataType: "html"
+	});
+}
+
 /** openEditCitationsDialog open a dialog for editing citations for a cataloged item.
  *
  * @param collection_object_id for the cataloged_item for which to edit citations.
