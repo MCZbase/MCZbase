@@ -746,11 +746,22 @@ function closeInPage() {
 	$("#InPageEditorDiv").html("");
 	$('#SpecimenDetailsDiv').show();
 	$('#editControlsBlock').show();
+	$("#InPageEditorDiv").removeClass("border");
+	$("#InPageEditorDiv").removeClass("border-secondary");
+	$("#InPageEditorDiv").removeClass("rounded");
+	$("#InPageEditorDiv").removeClass("py-2");
+	$("#InPageEditorDiv").removeClass("border-3");
 }
 
 function openEditLocalityInPage(collection_object_id,callback) { 
 	$('#SpecimenDetailsDiv').hide();
 	$('#editControlsBlock').hide();
+	$("#InPageEditorDiv").addClass("border");
+	$("#InPageEditorDiv").addClass("border-secondary");
+	$("#InPageEditorDiv").addClass("rounded");
+	$("#InPageEditorDiv").addClass("py-2");
+	$("#InPageEditorDiv").addClass("border-3");
+	$("#InPageEditorDiv").html("Loading...");
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
