@@ -6531,6 +6531,8 @@ limitations under the License.
 					accepted_lat_long.long_min,
 					accepted_lat_long.long_sec,
 					accepted_lat_long.gpsaccuracy,
+					accepted_lat_long.verified_by_agent_id,
+					MCZBASE.getAgentNameOfType(accepted_lat_long.verified_by_agent_id) as verifiedBy,
 					latLongAgnt.agent_name coordinate_determiner,
 					geog_auth_rec.geog_auth_rec_id,
 					geog_auth_rec.continent_ocean,
