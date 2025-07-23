@@ -6667,11 +6667,13 @@ limitations under the License.
 						<div class="col-6 px-0 float-left">
 							<cfif cecount.ct GT 0 OR loccount.ct GT 0>
 								<h3 class="h3">
+									<cfset separator = "">
 									<cfif cecount.ct GT 1>
-										Collecting Event <span class="text-danger">Shared with #cecount.ct# other specimens</span> 
+										Collecting Event is <span class="text-danger">Shared with #cecount.ct# other specimens</span> 
+										<cfset separator = " ; ">
 									</cfif>
 									<cfif loccount.ct GT 1>
-										Locality <span class="text-danger">Shared with #loccount.ct# other specimens</span>
+										#separator#Locality is <span class="text-danger">Shared with #loccount.ct# other specimens</span>
 									</cfif>
 								</h3>
 								<p class="font-italic text-danger pt-3">Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.</p>
