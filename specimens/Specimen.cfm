@@ -467,7 +467,7 @@ limitations under the License.
 			<cfset isNext="">
 			<cfset isPrev="">
 		</cfif>
-		<!--- Div to hold full page editing dialog ---
+		<!--- Div to hold full page editing dialog --->
 		<div id="InPageEditorDiv"></div>
 		<!--- controls for editing record --->
 		<div class="container-lg d-none d-lg-block" id="editControlsDiv">
