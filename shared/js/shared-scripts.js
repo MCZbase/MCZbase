@@ -38,7 +38,7 @@ function loadWikiContent(options) {
 		}
 	});
 }
-function showWiki(page, showImages) {
+function showWiki(page, showImages, section) {
 	$('#wiki-content').html('Loading...');
 	openWikiDrawer();
 	loadWikiContent({
