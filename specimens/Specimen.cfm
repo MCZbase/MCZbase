@@ -467,8 +467,10 @@ limitations under the License.
 			<cfset isNext="">
 			<cfset isPrev="">
 		</cfif>
+		
 		<!--- Div to hold full page editing dialog --->
-		<div id="InPageEditorDiv"></div>
+		<div id="InPageEditorDiv" class="container-fluid"></div>
+
 		<!--- controls for editing record --->
 		<div class="container-lg d-none d-lg-block" id="editControlsDiv">
 			<div class="row mt-2" id="editControlsBlock">
@@ -558,7 +560,7 @@ limitations under the License.
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditLocalityInPage(#collection_object_id#,reloadLocality)">Locality</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Event</button>
+						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditLocalityInPage(#collection_object_id#,reloadLocality)">Event</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)">Collectors</button>
@@ -983,7 +985,7 @@ limitations under the License.
 										Location and Collecting Event
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">
+										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditLocalityInPage(#collection_object_id#,reloadLocality)">
 											Edit
 										</a>
 									</cfif>

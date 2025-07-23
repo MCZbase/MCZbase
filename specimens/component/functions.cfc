@@ -6508,6 +6508,7 @@ limitations under the License.
 					collecting_event.verbatimlongitude verblong,
 					collecting_event.verbatimcoordinatesystem,
 					collecting_event.verbatimSRS,
+					'TODO' as coordinate_determiner,
 					accepted_lat_long.dec_lat,
 					accepted_lat_long.dec_long,
 					accepted_lat_long.max_error_distance,
