@@ -146,7 +146,7 @@ limitations under the License.
 	<cfargument name="page" type="string" required="true">
 	<cfargument name="section" type="string" required="false">
 	<cfargument name="showImages" required="false">
-	<cfset var url = "https://code.mcz.harvard.edu/wiki/index.php?action=render&title=" & URLEncodedFormat(arguments.page)>
+	<cfset var url = "https://code.mcz.harvard.edu/wiki/api.php?action=parse&page=" & URLEncodedFormat(arguments.page) & "&section=" & URLEncodedFormat(arguments.section) & "&prop=text&format=json">
 	<cfhttp url="#url#" method="get" result="wikiContent" />
 	<cfset var cleanedContent = wikiContent.fileContent>
 	<cfif structKeyExists(arguments,"showImages")>
