@@ -468,7 +468,7 @@ limitations under the License.
 			<cfset isPrev="">
 		</cfif>
 		<!--- controls for editing record --->
-		<div class="container-lg d-none d-lg-block">
+		<div class="container-lg d-none d-lg-block" id="editControlsDiv">
 			<div class="row mt-2" id="editControlsBlock">
 				<ul class="list-group list-inline list-group-horizontal-md py-0 mx-auto">
 					<cfset resultBit = "">
@@ -606,7 +606,7 @@ limitations under the License.
 		</div>
 	</cfif>
 	
-	<div class="container-fluid ">
+	<div class="container-fluid " id="SpecimenDetailsDiv">
 		<div class="row mx-0 mt-2">
 
 			<!----------------------------- one left column for media only if media exist ---------------------------------->
