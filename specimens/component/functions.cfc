@@ -6520,6 +6520,7 @@ limitations under the License.
 					accepted_lat_long.georefmethod,
 					accepted_lat_long.verificationstatus,
 					accepted_lat_long.orig_lat_long_units,
+					accepted_lat_long.extent,
 					latLongAgnt.agent_name coordinate_determiner,
 					geog_auth_rec.geog_auth_rec_id,
 					geog_auth_rec.continent_ocean,
