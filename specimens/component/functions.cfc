@@ -6412,6 +6412,7 @@ limitations under the License.
 					cataloged_item.collection_object_id as collection_object_id,
 					cataloged_item.cat_num,
 					collection.collection_cde,
+					collection.institution_acronym,
 					cataloged_item.accn_id,
 					collection.collection,
 					identification.scientific_name,
@@ -6654,6 +6655,9 @@ limitations under the License.
 			</cfquery>
 
 				<div class="row mx-0">
+					<cfset guid = "#getLoc.institution_acronym#:#getLoc.collection_cde#:#getLoc.cat_num#">
+					<h2 class="h2">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
+					<button class="btn btn-xs btn-secondary mb-2" onclick="closeInPage();">Back to Specimen without saving changes</button>
 					<cfform name="loc" method="post" action="specLocality.cfm">
 						<input type="hidden" name="action" value="saveChange">
 						<input type="hidden" name="nothing" id="nothing">
