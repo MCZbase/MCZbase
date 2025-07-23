@@ -6530,6 +6530,8 @@ limitations under the License.
 					accepted_lat_long.long_deg,
 					accepted_lat_long.long_min,
 					accepted_lat_long.long_sec,
+					accepted_lat_long.dec_lat_min,
+					accepted_lat_long.dec_long_min,
 					accepted_lat_long.gpsaccuracy,
 					accepted_lat_long.verified_by_agent_id,
 					MCZBASE.get_AgentNameOfType(accepted_lat_long.verified_by_agent_id) as verifiedBy,
