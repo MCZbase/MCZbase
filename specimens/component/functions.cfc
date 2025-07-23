@@ -6520,8 +6520,7 @@ limitations under the License.
 					accepted_lat_long.georefmethod,
 					accepted_lat_long.verificationstatus,
 					accepted_lat_long.orig_lat_long_units,
-					'TODO' as coordinate_determiner,
-					latLongAgnt.agent_name latLongDeterminer,
+					latLongAgnt.agent_name coordinate_determiner,
 					geog_auth_rec.geog_auth_rec_id,
 					geog_auth_rec.continent_ocean,
 					geog_auth_rec.country,
@@ -6971,7 +6970,7 @@ limitations under the License.
 								</li>
 								<li class="col-12 col-md-10 pb-2 px-0">
 									<input type="text" name="determined_date" id="determined_date"
-									   value="#dateformat(getLoc.determined_date,'yyyy-mm-dd')#" class="reqdClr">
+									   value="#dateformat(getLoclatlongdetermined_date,'yyyy-mm-dd')#" class="reqdClr">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="MAX_ERROR_DISTANCE" class="px-2 data-entry-label text-right"> Maximum Error </label>
