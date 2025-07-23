@@ -669,6 +669,7 @@ limitations under the License.
 $('#show-wiki').on('click', function(e) {
 	e.preventDefault();
 	showWiki("Locality", false); // or true for images
+	//showWiki("Locality", true, 1); // 1 or whatever section number you want --if section is desired at some point
 });
 </script>
 
