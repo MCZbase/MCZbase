@@ -668,7 +668,9 @@ limitations under the License.
 <script>
 $('#show-wiki').on('click', function(e) {
 	e.preventDefault();
-	//showWiki("Locality", false); // or true for images (you must sign into the code domain to see images)
+	$('#wiki-content').html('Loading...');
+	openWikiDrawer();// <-- Open right away!
+	//showWiki("Locality", true); // true/false for images (when true - you must sign into the code domain to see images)
 	showWiki("Locality", false, 2); // 1 or whatever section number you want --if section is desired at some point
 });
 </script>
