@@ -158,8 +158,7 @@ limitations under the License.
 		<cfhttp url="#url#" method="get" result="wikiContent" />
 		<cfset var cleanedContent = wikiContent.fileContent>
 	</cfif>
-	<cfhttp url="#url#" method="get" result="wikiContent" />
-	<cfset var cleanedContent = wikiContent.fileContent>
+
 	<cfif structKeyExists(arguments,"showImages")>
 		<cfset arguments.showImages =
 			(arguments.showImages EQ false OR arguments.showImages EQ "false" OR arguments.showImages EQ "0" OR arguments.showImages EQ "no") ? false : true>
