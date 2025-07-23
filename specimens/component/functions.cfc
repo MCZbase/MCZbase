@@ -6722,6 +6722,7 @@ limitations under the License.
 									&nbsp;&nbsp;
 									<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
 										<button onclick="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> Edit Shared Higher Geography</button>
+										<span> (shared with #sharedHigherGeogCount.ct# specimens)</span>
 									<cfelse>
 										<button onclick="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> View </button>
 									</cfif>
@@ -6736,7 +6737,8 @@ limitations under the License.
 							<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
 								<li class="col-12 col-md-12 px-0 pt-1">
 									<label for="spec_locality" class="data-entry-label pt-1"> Specific Locality
-										&nbsp;&nbsp; <a href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank"> Edit Shared Specific Locality</a>
+										&nbsp;&nbsp; 
+										<a class="btn btn-xs btn-info" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank"> Edit Shared Specific Locality</a>
 										<cfif loccount.ct eq 1>
 											(unique to this specimen)
 											<cfelse>
@@ -6827,7 +6829,8 @@ limitations under the License.
 							<h1 class="h3 mt-3">Collecting Event</h1>
 							<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border">
 								<li class="col-12 col-md-12 px-0 pt-1 mt-2">
-									<label for="verbatim_locality" class="data-entry-label px-2"> Verbatim Locality &nbsp;&nbsp; <a href="/localities/CollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank"> Edit Shared Collecting Event</a>
+									<label for="verbatim_locality" class="data-entry-label px-2"> Verbatim Locality &nbsp;&nbsp; 
+									<a class="btn btn-xs btn-info" href="/localities/CollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank"> Edit Shared Collecting Event</a>
 										<cfif cecount.ct eq 1>
 											(unique to this specimen)
 											<cfelse>
@@ -7385,14 +7388,17 @@ function showLLFormat(orig_units) {
 							<script>
 								showLLFormat('#getLoc.ORIG_LAT_LONG_UNITS#');
 							</script> 
-							<cfif loccount.ct eq 1 and cecount.ct eq 1>
-								<input type="submit" value="Save Changes" class="btn btn-xs btn-primary">
-								<cfelse>
-								<div class="mt-3">
-									<input type="submit" value="Split and Save Changes" class="btn  btn-xs btn-primary">
-									<span class="ml-3">A new locality and collecting event will be created with these values and changes will apply to this record only. </span> 
-								</div>
-							</cfif>
+							<div class="col-12">
+								<cfif loccount.ct eq 1 and cecount.ct eq 1>
+									<input type="submit" value="Save Changes" class="btn btn-xs btn-primary float-left">
+									<cfelse>
+									<div class="mt-3 float-left">
+										<input type="submit" value="Split and Save Changes" class="btn btn-xs btn-primary">
+										<span class="ml-3">A new locality and collecting event will be created with these values and changes will apply to this record only. </span> 
+									</div>
+								</cfif>
+								<button class="btn btn-xs btn-secondary float-right" onclick="closeInPage();">Back to Specimen without saving changes</button>
+							</div>
 						</div>
 					</form>
 				</div>
