@@ -146,7 +146,18 @@ limitations under the License.
 	<cfargument name="page" type="string" required="true">
 	<cfargument name="section" type="string" required="false">
 	<cfargument name="showImages" required="false">
-	<cfset var url = "https://code.mcz.harvard.edu/wiki/api.php?action=parse&page=" & URLEncodedFormat(arguments.page) & "&section=" & URLEncodedFormat(arguments.section) & "&prop=text&format=json">
+	 <!-- Select wiki API endpoint based on section argument -->
+	<cfif structKeyExists(arguments, "section") AND len(arguments.section)>
+		<cfset var url = "https://code.mcz.harvard.edu/wiki/api.php?action=parse&page=" & URLEncodedFormat(arguments.page) & "&section=" & URLEncodedFormat(arguments.section) & "&prop=text&format=json">
+		<cfhttp url="#url#" method="get" result="wikiContent" />
+		<cfset var parsed = deserializeJson(wikiContent.fileContent)>
+		<cfset var cleanedContent = (structKeyExists(parsed, "parse") and structKeyExists(parsed.parse, "text") and (structKeyExists(parsed.parse.text, "*") ? parsed.parse.text["*"] : parsed.parse.text))>
+	<cfelse>
+		<!-- Full page fallback -->
+		<cfset var url = "https://code.mcz.harvard.edu/wiki/index.php?action=render&title=" & URLEncodedFormat(arguments.page)>
+		<cfhttp url="#url#" method="get" result="wikiContent" />
+		<cfset var cleanedContent = wikiContent.fileContent>
+	</cfif>
 	<cfhttp url="#url#" method="get" result="wikiContent" />
 	<cfset var cleanedContent = wikiContent.fileContent>
 	<cfif structKeyExists(arguments,"showImages")>
