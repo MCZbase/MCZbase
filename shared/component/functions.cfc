@@ -146,7 +146,7 @@ limitations under the License.
 	<cfargument name="page" type="string" required="true">
 	<cfargument name="section" type="string" required="false">
 	<cfargument name="showImages" required="false">
-	 <!-- Select wiki API endpoint based on section argument -->
+	<!-- Select wiki API endpoint based on section argument -->
 	<cfif structKeyExists(arguments, "section") AND len(arguments.section)>
 		<cfset var url = "https://code.mcz.harvard.edu/wiki/api.php?action=parse&page=" & URLEncodedFormat(arguments.page) & "&section=" & URLEncodedFormat(arguments.section) & "&prop=text&format=json">
 		<cfhttp url="#url#" method="get" result="wikiContent" />
@@ -158,7 +158,6 @@ limitations under the License.
 		<cfhttp url="#url#" method="get" result="wikiContent" />
 		<cfset var cleanedContent = wikiContent.fileContent>
 	</cfif>
-
 	<cfif structKeyExists(arguments,"showImages")>
 		<cfset arguments.showImages =
 			(arguments.showImages EQ false OR arguments.showImages EQ "false" OR arguments.showImages EQ "0" OR arguments.showImages EQ "no") ? false : true>
@@ -170,7 +169,7 @@ limitations under the License.
 	</cfif>
 	<cfheader name="Content-Type" value="application/json">
 	<cfreturn serializeJson({result=cleanedContent})>
-</cffunction> 
+</cffunction>
 
 
 <!------------------------------------->
