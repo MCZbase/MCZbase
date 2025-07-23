@@ -13,6 +13,9 @@ function loadWikiContent(options) {
 		showImages: options.showImages,
 		returnFormat: 'json'
 	};
+	if(options.section) {
+		params.section = options.section;
+	}
 	$.ajax({
 		url: '/shared/component/functions.cfc?method=getWikiArticle',
 		data: params,
