@@ -664,11 +664,11 @@ limitations under the License.
 	</cfcase>
 </cfswitch>
 
-<button id="show-wiki">Show Wiki Article</button>
+
 <script>
 $('#show-wiki').on('click', function(e) {
 	e.preventDefault();
-	showWiki("Locality", true); // or false for no images
+	showWiki("Locality", false); // or true for images
 });
 </script>
 
