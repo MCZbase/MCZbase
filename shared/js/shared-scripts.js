@@ -4,7 +4,8 @@
 
 
 /**** 
-this will make a Wiki content drawer appear on the left of the page and push the content into the remaining space
+The following scripts make a Wiki content drawer appear on the left of the page and push the content into the remaining space.
+The control the processing of images and the code for the drawer opening and closing. 
 *****/
 function loadWikiContent(options) {
 	var params = {
@@ -34,7 +35,6 @@ function loadWikiContent(options) {
 		}
 	});
 }
-
 function showWiki(page, showImages) {
 	$('#wiki-content').html('Loading...');
 	openWikiDrawer();
@@ -47,7 +47,6 @@ function showWiki(page, showImages) {
 		}
 	});
 }
-
 // Shared wiki drawer open/close functions
 function openWikiDrawer() {
 	$('#wikiDrawer').addClass('open');
