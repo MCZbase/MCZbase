@@ -6734,7 +6734,7 @@ limitations under the License.
 									</label>
 								</li>
 								<li class="col-12 pb-1 col-md-12 pb-2 px-0">
-									<cfinput type="text" class="data-entry-input" name="spec_locality" id="spec_locality" value="#getLoc.spec_locality#" required="true" message="Specific Locality is required.">
+									<input type="text" class="data-entry-input" name="spec_locality" id="spec_locality" value="#getLoc.spec_locality#" required="true" message="Specific Locality is required.">
 								</li>
 								<li class=" col-12 col-md-2 px-0 py-1">
 									<label for="sovereign_nation" class="data-entry-label pt-1 text-right">Sovereign Nation</label>
@@ -6750,13 +6750,13 @@ limitations under the License.
 									<label for="minimum_elevation" class="data-entry-label px-2 text-right"> Min. Elevation </label>
 								</li>
 								<li class=" col-12 col-md-2 pb-2 px-0">
-									<cfinput type="text" class="px-2 data-entry-input mr-2" name="minimum_elevation" id="minimum_elevation" value="#getLoc.MINIMUM_ELEVATION#" validate="numeric" message="Minimum Elevation is a number.">
+									<input type="text" class="px-2 data-entry-input mr-2" name="minimum_elevation" id="minimum_elevation" value="#getLoc.MINIMUM_ELEVATION#" validate="numeric" message="Minimum Elevation is a number.">
 								</li>
 								<li class=" col-12 col-md-2 py-1 px-0">
 									<label for="maximum_elevation"  class="data-entry-label px-2 text-right"> Max. Elevation </label>
 								</li>
 								<li class=" col-12 col-md-2 pb-2 px-0">
-									<cfinput type="text" class="data-entry-label px-2 mr-2" id="maximum_elevation" name="maximum_elevation" value="#getLoc.MAXIMUM_ELEVATION#" validate="numeric" message="Maximum Elevation is a number.">
+									<input type="text" class="data-entry-label px-2 mr-2" id="maximum_elevation" name="maximum_elevation" value="#getLoc.MAXIMUM_ELEVATION#" validate="numeric" message="Maximum Elevation is a number.">
 								</li>
 								<li class=" col-12 col-md-2 py-1 px-0">
 									<label for="orig_elev_units" class="data-entry-label px-2 text-right"> Elevation Units </label>
@@ -6774,13 +6774,13 @@ limitations under the License.
 									<label for="min_depth" class="data-entry-label px-2 text-right"> Min. Depth </label>
 								</li>
 								<li class="col-12 col-md-2 pb-1 px-0">
-									<cfinput type="text" class="data-entry-input" name="min_depth" id="min_depth" value="#getLoc.min_depth#" validate="numeric" message="Minimum Depth is a number.">
+									<input type="text" class="data-entry-input" name="min_depth" id="min_depth" value="#getLoc.min_depth#" validate="numeric" message="Minimum Depth is a number.">
 								</li>
 								<li class=" col-12 col-md-2 py-1 px-0">
 									<label for="max_depth" class="data-entry-label px-2 text-right"> Max. Depth </label>
 								</li>
 								<li class="col-12 col-md-2 pb-1 px-0">
-									<cfinput type="text" id="max_depth" name="max_depth" value="#getLoc.max_depth#" size="3" validate="numeric" class="data-entry-input px-2 mr-2" message="Maximum Depth is a number.">
+									<input type="text" id="max_depth" name="max_depth" value="#getLoc.max_depth#" size="3" validate="numeric" class="data-entry-input px-2 mr-2" message="Maximum Depth is a number.">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="depth_units"  class="data-entry-label px-2 text-right"> Depth Units </label>
@@ -6825,37 +6825,37 @@ limitations under the License.
 									</label>
 								</li>
 								<li class="col-12 col-md-12 pb-2 px-0">
-									<cfinput type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#getLoc.verbatim_locality#" required="true" message="Verbatim Locality is required.">
+									<input type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#getLoc.verbatim_locality#" required="true" message="Verbatim Locality is required.">
 								</li>
 								<li class="col-12 col-md-2 py-2 px-0">
 									<label for="verbatim_date" class="px-2 data-entry-label text-right">Verbatim Date</label>
 								</li>
 								<li class="col-12 col-md-2 pb-2 px-0">
-									<cfinput type="text" class="data-entry-input" name="verbatim_date" id="verbatim_date" value="#getLoc.verbatim_date#" required="true" message="Verbatim Date is a required text field.">
+									<input type="text" class="data-entry-input" name="verbatim_date" id="verbatim_date" value="#getLoc.verbatim_date#" required="true" message="Verbatim Date is a required text field.">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="collecting time" class="px-2 data-entry-label text-right">Collecting Time</label>
 								</li>
 								<li class="col-12 col-md-2 pb-2 px-0">
-									<cfinput type="text" class="data-entry-input" name="collecting_time" id="collecting_time" value="#getLoc.collecting_time#">
+									<input type="text" class="data-entry-input" name="collecting_time" id="collecting_time" value="#getLoc.collecting_time#">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="ich field number" class="px-2 data-entry-label text-right"> Ich. Field Number </label>
 								</li>
 								<li class="col-12 col-md-2 pb-2 px-0">
-									<cfinput type="text" class="px-2 data-entry-input" name="ich_field_number" id="ich_field_number" value="#getLoc.fish_field_number#">
+									<input type="text" class="px-2 data-entry-input" name="ich_field_number" id="ich_field_number" value="#getLoc.fish_field_number#">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="startDayofYear" class="px-2 data-entry-label text-right"> Start Day of Year</label>
 								</li>
 								<li class="col-12 col-md-4 pb-2 px-0">
-									<cfinput type="text" class="px-2 data-entry-input" name="startDayofYear" id="startDayofYear" value="#getLoc.startdayofyear#">
+									<input type="text" class="px-2 data-entry-input" name="startDayofYear" id="startDayofYear" value="#getLoc.startdayofyear#">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="endDayofYear" class="px-2 data-entry-label text-right"> End Day of Year </label>
 								</li>
 								<li class="col-12 col-md-4 pb-2 px-0">
-									<cfinput type="text" class="px-2 data-entry-input" name="endDayofYear" id="endDayofYear" value="#getLoc.enddayofyear#">
+									<input type="text" class="px-2 data-entry-input" name="endDayofYear" id="endDayofYear" value="#getLoc.enddayofyear#">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="began_date" class="px-2 data-entry-label text-right">Began Date/Time</label>
@@ -7156,13 +7156,13 @@ function showLLFormat(orig_units) {
 									<label for="dec_lat" class="data-entry-label px-2 text-right">Decimal Latitude</label>
 								</li>
 								<li class="col-12 col-md-3 pb-2 px-0">
-									<cfinput type="text" name="dec_lat" id="dec_lat" value="#getLoc.dec_lat#" class="reqdClr data-entry-input" validate="numeric">
+									<input type="text" name="dec_lat" id="dec_lat" value="#getLoc.dec_lat#" class="reqdClr data-entry-input" validate="numeric">
 								</li>
 								<li class="col-12 col-md-3 py-1 px-0">
 									<label for="dec_long" class="data-entry-label px-2 text-right">Decimal Longitude</label>
 								</li>
 								<li class="col-12 col-md-3 pb-2 px-0">
-									<cfinput type="text" name="DEC_LONG" value="#getLoc.DEC_LONG#" id="dec_long" class="reqdClr data-entry-input" validate="numeric">
+									<input type="text" name="DEC_LONG" value="#getLoc.DEC_LONG#" id="dec_long" class="reqdClr data-entry-input" validate="numeric">
 								</li>
 							</ul>
 							<ul id="dms" style="display: none;" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
@@ -7170,20 +7170,20 @@ function showLLFormat(orig_units) {
 									<label for="lat_deg" class="data-entry-label px-2 text-right">Lat. Deg.</label>
 								</li>
 								<li class="col-12 col-md-1 pb-2 px-0">
-									<cfinput type="text" name="LAT_DEG" value="#getLoc.LAT_DEG#" size="4" id="lat_deg" class="reqdClr data-entry-input"
+									<input type="text" name="LAT_DEG" value="#getLoc.LAT_DEG#" size="4" id="lat_deg" class="reqdClr data-entry-input"
 								 validate="numeric">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="lat_min" class="data-entry-label px-2 text-right">Lat. Min.</label>
 								</li>
 								<li class="col-12 col-md-1 pb-2 px-0">
-									<cfinput type="text" name="LAT_MIN" value="#getLoc.LAT_MIN#" size="4" id="lat_min" class="reqdClr data-entry-input" validate="numeric">
+									<input type="text" name="LAT_MIN" value="#getLoc.LAT_MIN#" size="4" id="lat_min" class="reqdClr data-entry-input" validate="numeric">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="lat_sec" class="data-entry-label px-2 text-right">Lat. Sec.</label>
 								</li>
 								<li class="col-12 col-md-1 pb-2 px-0">
-									<cfinput type="text" name="LAT_SEC" value="#getLoc.LAT_SEC#" id="lat_sec" class="reqdClr data-entry-input" validate="numeric">
+									<input type="text" name="LAT_SEC" value="#getLoc.LAT_SEC#" id="lat_sec" class="reqdClr data-entry-input" validate="numeric">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="lat_dir" class="data-entry-label px-2 text-right">Lat. Dir.</label>
@@ -7199,21 +7199,21 @@ function showLLFormat(orig_units) {
 									<label for="long_deg" class="data-entry-label px-2 text-right">Long. Deg.</label>
 								</li>
 								<li class="col-12 col-md-1 pb-2 px-0">
-									<cfinput type="text" name="LONG_DEG" value="#getLoc.LONG_DEG#" size="4" id="long_deg" class="reqdClr data-entry-input"
+									<input type="text" name="LONG_DEG" value="#getLoc.LONG_DEG#" size="4" id="long_deg" class="reqdClr data-entry-input"
 																	   validate="numeric">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="long_min" class="data-entry-label px-2 text-right">Long. Min.</label>
 								</li>
 								<li class="col-12 col-md-1 pb-2 px-0">
-									<cfinput type="text" name="LONG_MIN" value="#getLoc.LONG_MIN#" size="4" id="long_min" class="reqdClr data-entry-input"
+									<input type="text" name="LONG_MIN" value="#getLoc.LONG_MIN#" size="4" id="long_min" class="reqdClr data-entry-input"
 																	   validate="numeric">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="long_sec" class="data-entry-label px-2 text-right">Long. Sec.</label>
 								</li>
 								<li class="col-12 col-md-1 pb-2 px-0">
-									<cfinput type="text" name="LONG_SEC" value="#getLoc.LONG_SEC#" id="long_sec"  class="reqdClr data-entry-input"
+									<input type="text" name="LONG_SEC" value="#getLoc.LONG_SEC#" id="long_sec"  class="reqdClr data-entry-input"
 																		   validate="numeric">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
@@ -7242,7 +7242,7 @@ function showLLFormat(orig_units) {
 								<label>
 								</li>
 								<li class="col-12 col-md-2 pb-2 px-0">
-									<cfinput type="text" name="DEC_LAT_MIN" value="#getLoc.DEC_LAT_MIN#" id="dec_lat_min" class="reqdClr data-entry-input"
+									<input type="text" name="DEC_LAT_MIN" value="#getLoc.DEC_LAT_MIN#" id="dec_lat_min" class="reqdClr data-entry-input"
 																	   validate="numeric">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
@@ -7263,7 +7263,7 @@ function showLLFormat(orig_units) {
 								<label>
 								</li>
 								<li class="col-12 col-md-2 pb-2 px-0">
-									<cfinput type="text" name="dmLONG_DEG" value="#getLoc.LONG_DEG#" size="4" id="dmlong_deg" class="reqdClr data-entry-input"
+									<input type="text" name="dmLONG_DEG" value="#getLoc.LONG_DEG#" size="4" id="dmlong_deg" class="reqdClr data-entry-input"
 																	   validate="numeric">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
@@ -7272,7 +7272,7 @@ function showLLFormat(orig_units) {
 								<label>
 								</li>
 								<li class="col-12 col-md-2 pb-2 px-0">
-									<cfinput type="text" name="DEC_LONG_MIN" value="#getLoc.DEC_LONG_MIN#" id="dec_long_min" class="reqdClr data-entry-input"
+									<input type="text" name="DEC_LONG_MIN" value="#getLoc.DEC_LONG_MIN#" id="dec_long_min" class="reqdClr data-entry-input"
 																	 validate="numeric">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
@@ -7293,20 +7293,20 @@ function showLLFormat(orig_units) {
 									<label for="utm_zone" class="data-entry-label px-2 text-right"> UTM Zone </label>
 								</li>
 								<li class="col-12 col-md-2 pb-2 px-0">
-									<cfinput type="text" name="UTM_ZONE" value="#getLoc.UTM_ZONE#" id="utm_zone" class="reqdClr data-entry-input" validate="numeric">
+									<input type="text" name="UTM_ZONE" value="#getLoc.UTM_ZONE#" id="utm_zone" class="reqdClr data-entry-input" validate="numeric">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="utm_ew" class="data-entry-label px-2 text-right"> UTM East/West </label>
 								</li>
 								<li class="col-12 col-md-2 pb-2 px-0">
-									<cfinput type="text" name="UTM_EW" value="#getLoc.UTM_EW#" id="utm_ew" class="reqdClr data-entry-input"
+									<input type="text" name="UTM_EW" value="#getLoc.UTM_EW#" id="utm_ew" class="reqdClr data-entry-input"
 																	   validate="numeric">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="utm_ns" class="data-entry-label px-2 text-right"> UTM North/South </label>
 								</li>
 								<li class="col-12 col-md-2 pb-2 px-0">
-									<cfinput type="text" name="UTM_NS" value="#getLoc.UTM_NS#" id="utm_ns" class="reqdClr data-entry-input" validate="numeric">
+									<input type="text" name="UTM_NS" value="#getLoc.UTM_NS#" id="utm_ns" class="reqdClr data-entry-input" validate="numeric">
 								</li>
 							</ul>
 							<ul class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
@@ -7314,61 +7314,61 @@ function showLLFormat(orig_units) {
 									<label class="data-entry-label px-2 text-right">Verbatim Coordinates (summary)</label>
 								</li>
 								<li class="col-12 col-md-2 pb-2 px-0">
-									<cfinput type="text" name="verbatimCoordinates" id="verbatimCoordinates" value="#getLoc.verbatimCoordinates#" class="data-entry-input">
+									<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" value="#getLoc.verbatimCoordinates#" class="data-entry-input">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label class="data-entry-label px-2 text-right">Verbatim Latitude</label>
 								</li>
 								<li class="col-12 col-md-2 pb-2 px-0">
-									<cfinput type="text" name="verbatimLatitude" id="verbatimLatitude" value="#getLoc.verbatimLatitude#" class="data-entry-input">
+									<input type="text" name="verbatimLatitude" id="verbatimLatitude" value="#getLoc.verbatimLatitude#" class="data-entry-input">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label class="data-entry-label px-2 text-right">Verbatim Longitude</label>
 								</li>
 								<li class="col-12 col-md-2 pb-2 px-0">
-									<cfinput type="text" name="verbatimLongitude" id="verbatimLongitude" value="#getLoc.verbatimLongitude#" class="data-entry-input">
+									<input type="text" name="verbatimLongitude" id="verbatimLongitude" value="#getLoc.verbatimLongitude#" class="data-entry-input">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label class="data-entry-label px-2 text-right">Verbatim Coordinate System (e.g., decimal degrees)</label>
 								</li>
 								<li class="col-12 col-md-2 pb-2 px-0">
-									<cfinput type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" value="#getLoc.verbatimCoordinateSystem#" class="data-entry-input">
+									<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" value="#getLoc.verbatimCoordinateSystem#" class="data-entry-input">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label class="data-entry-label px-2 text-right">Verbatim SRS (e.g., datum)</label>
 								</li>
 								<li class="col-12 col-md-2 pb-2 px-0">
-									<cfinput type="text" name="verbatimSRS" id="verbatimSRS" value="#getLoc.verbatimSRS#" class="data-entry-input">
+									<input type="text" name="verbatimSRS" id="verbatimSRS" value="#getLoc.verbatimSRS#" class="data-entry-input">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="verbatimCoordinates" class="data-entry-label px-2 text-right"> Verbatim Coordinates </label>
 								</li>
 								<li class="col-12 col-md-2 pb-2 px-0">
-									<cfinput type="text" name="verbatimCoordinates" value="#getLoc.verbatimCoordinates#" id="verbatimCoordinates" class="data-entry-input">
+									<input type="text" name="verbatimCoordinates" value="#getLoc.verbatimCoordinates#" id="verbatimCoordinates" class="data-entry-input">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="verbatimLatitude" class="data-entry-label px-2 text-right"> Verbatim Latitude </label>
 								</li>
 								<li class="col-12 col-md-2 pb-2 px-0">
-									<cfinput type="text" name="verbatimLatitude" value="#getLoc.verbatimLatitude#" id="verbatimLatitude" class="data-entry-input">
+									<input type="text" name="verbatimLatitude" value="#getLoc.verbatimLatitude#" id="verbatimLatitude" class="data-entry-input">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="verbatimLongitude" class="data-entry-label px-2 text-right"> Verbatim Longitude </label>
 								</li>
 								<li class="col-12 col-md-2 pb-2 px-0">
-									<cfinput type="text" name="verbatimLongitude" value="#getLoc.verbatimLongitude#" id="verbatimLongitude" class="data-entry-input">
+									<input type="text" name="verbatimLongitude" value="#getLoc.verbatimLongitude#" id="verbatimLongitude" class="data-entry-input">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="verbatimCoordinateSystem" class="data-entry-label px-2 text-right"> Verbatim Coordinate System </label>
 								</li>
 								<li class="col-12 col-md-2 pb-2 px-0">
-									<cfinput type="text" name="verbatimCoordinateSystem" value="#getLoc.verbatimCoordinateSystem#" id="verbatimCoordinateSystem" class="data-entry-input">
+									<input type="text" name="verbatimCoordinateSystem" value="#getLoc.verbatimCoordinateSystem#" id="verbatimCoordinateSystem" class="data-entry-input">
 								</li>
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="verbatimSRS" class="data-entry-label px-2 text-right"> Verbatim SRS </label>
 								</li>
 								<li class="col-12 col-md-9 pb-2 px-0">
-									<cfinput type="text" name="verbatimSRS" value="#getLoc.verbatimSRS#" id="verbatimSRS" class="data-entry-input">
+									<input type="text" name="verbatimSRS" value="#getLoc.verbatimSRS#" id="verbatimSRS" class="data-entry-input">
 								</li>
 							</ul>
 							<script>
