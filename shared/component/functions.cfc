@@ -166,43 +166,7 @@ limitations under the License.
 	<cfheader name="Content-Type" value="application/json">
 	<cfreturn serializeJson({result=cleanedContent})>
 </cffunction>
-		
 
-<cffunction name="getWikiSection" access="remote" returntype="string" output="false">
-	<cfargument name="page" type="string" required="yes">
-	<cfargument name="section" type="string" required="yes">
-	<cfhttp 
-		url="https://code.mcz.harvard.edu/wiki/api.php?action=parse&page=#encodeForURL(arguments.page)#&section=#encodeForURL(arguments.section)#&prop=text&format=json" 
-		method="get" 
-		result="api">
-		<cfset parsed = deserializeJson(api.fileContent)>
-		<cfset html = (structKeyExists(parsed, "parse") and structKeyExists(parsed.parse, "text") 
-			and (structKeyExists(parsed.parse.text, "*") ? parsed.parse.text["*"] : parsed.parse.text))>
-			<!--- Remove edit links and fix imgs server-side --->
-		<cfif html neq "">
-			<!-- Remove the entire editsection span (with brackets, edit link, etc.) -->
-			<cfset html = rereplacenocase(html, '(?s)<span class="mw-editsection".*?</span>', '', "all")>
-			<!-- (Extra defense) Remove edit section brackets if they ever fall outside the main span -->
-			<cfset html = rereplacenocase(html, '<span class="mw-editsection-bracket">\[</span>', '', "all")>
-			<cfset html = rereplacenocase(html, '<span class="mw-editsection-bracket">\]</span>', '', "all")>
-			<!-- Remove any <a ...>edit</a> hyperlink, anywhere -->
-			<cfset html = rereplacenocase(html, '(?i)<a\b[^>]*>\s*edit\s*</a>', '', "all")>
-			<!-- Remove literal "edit]" just in case -->
-			<cfset html = rereplacenocase(html, 'edit\]', '', "all")>
-			<!-- (optional) Remove any lone closing bracket after word (paranoid bulletproofing) -->
-			<cfset html = rereplacenocase(html, '([\w\s])\](?=\s|<)', '\1', "all")>
-
-			<!-- Replace all image src/href/srcset with absolute urls as needed (add more regex as desired) -->
-			<cfset html = rereplacenocase(html, '(<img[^>]+src=")(/wiki/)', '\1https://code.mcz.harvard.edu/wiki/', "all")>
-			<cfset html = rereplacenocase(html, '(<a[^>]+href=")(/wiki/)', '\1https://code.mcz.harvard.edu/wiki/', "all")>
-			<!-- Remove any width/height attributes on img tags -->
-			<cfset html = rereplacenocase(html, '\s+(width|height)="[0-9]+', '', "all")>
-		</cfif>
-	<cfset result = html>
-	<cfset response = { 'result' = result } >
-	<cfheader name="Content-Type" value="application/json">
-	<cfreturn serializeJson(response)>
-</cffunction>
 <!------------------------------------->
 <!--- Given some basic query parameters for media records, find matching media records and return
 		a list with controls to link those media records in a provided relation to a provided target 
