@@ -82,6 +82,11 @@ limitations under the License.
 		</cfquery>
 		<cfoutput>
 			<div class="wiki-layout">
+			<!---	<button id="show-wiki" ...>Show Wiki Article</button>
+				<div id="wikiDrawer" class="wiki-drawer">
+				  <button type="button" class="close" id="closeWikiDrawer" ...>×</button>
+				  <div id="wiki-content" class="p-3"></div>
+				</div>--->
 				<div id="wikiDrawer" class="wiki-drawer"></div>
 				<main class="container-fluid mt-3 pb-5 mb-5" id="content">
 					<div class="row mx-0">
@@ -262,7 +267,6 @@ limitations under the License.
 							</form>
 						</div>
 						<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
-
 					</div>
 					
 				</section>
@@ -664,28 +668,37 @@ limitations under the License.
 	</cfcase>
 </cfswitch>
 <script>
+<script>
 $('#show-wiki').on('click', function(e) {
 	e.preventDefault();
-
-	$('#wiki-content').html('Loading...');
-
-	$.ajax({
-		url: '/shared/component/functions.cfc?method=getWikiArticle&returnFormat=json',
-		data: {
-		page: "Locality",
-		showImages: false,
-		section: 1
-		},
-		dataType: 'json',
-		success: function(response) {
-			$('#wiki-content').html(response.result || response.RESULT || "<div>Section not found.</div>");
-		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			$('#wiki-content').html('<div class="alert alert-danger">AJAX error: '+textStatus+'<br>'+errorThrown+'</div>');
-			console.log("AJAX ERROR", jqXHR, textStatus, errorThrown);
-		}
-	});
-	openWikiDrawer();
+	
+	showWiki("Locality", true); // or false if you want to suppress images
 });
+
+	
+	
+//$('#show-wiki').on('click', function(e) {
+//	e.preventDefault();
+//
+//	$('#wiki-content').html('Loading...');
+//
+//	$.ajax({
+//		url: '/shared/component/functions.cfc?method=getWikiArticle&returnFormat=json',
+//		data: {
+//		page: "Locality",
+//		showImages: false,
+//		section: 1
+//		},
+//		dataType: 'json',
+//		success: function(response) {
+//			$('#wiki-content').html(response.result || response.RESULT || "<div>Section not found.</div>");
+//		},
+//		error: function(jqXHR, textStatus, errorThrown) {
+//			$('#wiki-content').html('<div class="alert alert-danger">AJAX error: '+textStatus+'<br>'+errorThrown+'</div>');
+//			console.log("AJAX ERROR", jqXHR, textStatus, errorThrown);
+//		}
+//	});
+//	openWikiDrawer();
+//});
 </script>
 <cfinclude template = "/shared/_footer.cfm">

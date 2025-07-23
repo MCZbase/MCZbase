@@ -4,38 +4,115 @@
 /**** this will make a content tray appear on the left of the page and push the content into the remaining space
 * *****/
 // shared/js/shared-scripts.js
+//function openWikiDrawer() {
+//	$('#wikiDrawer').addClass('open');
+//	$('#content').addClass('pushed');
+//}
+//
+//function closeWikiDrawer() {
+//	$('#wikiDrawer').removeClass('open');
+//	$('#content').removeClass('pushed');
+//}
+//
+//$(document).on('click', '#closeWikiDrawer', function() { closeWikiDrawer(); });
+//
+//
+//function processWikiContent($container) {
+//	$container.find('.mw-editsection').remove();
+//	$container.find('a').filter(function() {
+//		return $(this).text().trim().toLowerCase() === "edit";
+//	}).remove();
+//	$container.html($container.html().replace(/edit\]|\]$/gm, ''));
+//	$container.find('a.image').each(function() {
+//		var $a = $(this), $img = $a.find('img');
+//		var href = $a.attr('href');
+//		var src = $img.attr('src');
+//		if (href && href.indexOf('http') !== 0) $a.attr('href', 'https://code.mcz.harvard.edu' + href);
+//		$a.attr('target', '_blank');
+//		if (src && src.indexOf('http') !== 0) $img.attr('src', 'https://code.mcz.harvard.edu' + src);
+//		var srcset = $img.attr('srcset');
+//		if (srcset) $img.attr('srcset', srcset.replace(/(\/wiki\/images\/[^\s]*)/g, "https://code.mcz.harvard.edu$1"));
+//		$img.removeAttr('width').removeAttr('height');
+//	});
+//	$container.find('img').removeAttr('width').removeAttr('height');
+//}
+////
+// Shared: load and display wiki content in the drawer
+function loadWikiContent(options) {
+    var params = {
+        page: options.page,
+        showImages: options.showImages,
+        returnFormat: 'json'
+    };
+    $.ajax({
+        url: '/shared/component/functions.cfc?method=getWikiArticle',
+        data: params,
+        dataType: 'json',
+        success: function(response) {
+            var html = response.result || response.RESULT || "<div>Section not found.</div>";
+            if (typeof options.onSuccess === 'function') {
+                options.onSuccess(html);
+            } else {
+                $('#wiki-content').html(html);
+                processWikiContent($('#wiki-content'));
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            if (typeof options.onError === 'function') {
+                options.onError(jqXHR, textStatus, errorThrown);
+            } else {
+                $('#wiki-content').html('<div class="alert alert-danger">AJAX error: '+textStatus+'<br>'+errorThrown+'</div>');
+            }
+        }
+    });
+}
+
+function showWiki(page, showImages) {
+    $('#wiki-content').html('Loading...');
+    openWikiDrawer();
+    loadWikiContent({
+        page: page,
+        showImages: showImages,
+        onSuccess: function(html) {
+            $('#wiki-content').html(html);
+            processWikiContent($('#wiki-content'));
+        }
+    });
+}
+
+// Shared wiki drawer open/close functions
 function openWikiDrawer() {
-	$('#wikiDrawer').addClass('open');
-	$('#content').addClass('pushed');
+    $('#wikiDrawer').addClass('open');
+    $('#content').addClass('pushed');
 }
-
 function closeWikiDrawer() {
-	$('#wikiDrawer').removeClass('open');
-	$('#content').removeClass('pushed');
+    $('#wikiDrawer').removeClass('open');
+    $('#content').removeClass('pushed');
 }
+$(document).on('click', '#closeWikiDrawer', closeWikiDrawer);
 
-$(document).on('click', '#closeWikiDrawer', function() { closeWikiDrawer(); });
-
-
+// Shared process/cleanup wiki content
 function processWikiContent($container) {
-	$container.find('.mw-editsection').remove();
-	$container.find('a').filter(function() {
-		return $(this).text().trim().toLowerCase() === "edit";
-	}).remove();
-	$container.html($container.html().replace(/edit\]|\]$/gm, ''));
-	$container.find('a.image').each(function() {
-		var $a = $(this), $img = $a.find('img');
-		var href = $a.attr('href');
-		var src = $img.attr('src');
-		if (href && href.indexOf('http') !== 0) $a.attr('href', 'https://code.mcz.harvard.edu' + href);
-		$a.attr('target', '_blank');
-		if (src && src.indexOf('http') !== 0) $img.attr('src', 'https://code.mcz.harvard.edu' + src);
-		var srcset = $img.attr('srcset');
-		if (srcset) $img.attr('srcset', srcset.replace(/(\/wiki\/images\/[^\s]*)/g, "https://code.mcz.harvard.edu$1"));
-		$img.removeAttr('width').removeAttr('height');
-	});
-	$container.find('img').removeAttr('width').removeAttr('height');
+    $container.find('.mw-editsection').remove();
+    $container.find('a').filter(function() {
+        return $(this).text().trim().toLowerCase() === "edit";
+    }).remove();
+    $container.html($container.html().replace(/edit\]|\]$/gm, ''));
+    $container.find('a.image').each(function() {
+        var $a = $(this), $img = $a.find('img');
+        var href = $a.attr('href');
+        var src = $img.attr('src');
+        if (href && href.indexOf('http') !== 0) $a.attr('href', 'https://code.mcz.harvard.edu' + href);
+        $a.attr('target', '_blank');
+        if (src && src.indexOf('http') !== 0) $img.attr('src', 'https://code.mcz.harvard.edu' + src);
+        var srcset = $img.attr('srcset');
+        if (srcset) $img.attr('srcset', srcset.replace(/(\/wiki\/images\/[^\s]*)/g, "https://code.mcz.harvard.edu$1"));
+        $img.removeAttr('width').removeAttr('height');
+    });
+    $container.find('img').removeAttr('width').removeAttr('height');
 }
+
+
 
 
 /** Make some readable content for a message dialog from an error message,

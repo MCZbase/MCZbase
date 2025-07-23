@@ -140,8 +140,25 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
-		 
 <cffunction name="getWikiArticle" access="remote" returntype="string" output="false" returnFormat="plain">
+	<cfargument name="page" type="string" required="true">
+	<cfargument name="showImages" required="false">
+	<cfset var url = "https://code.mcz.harvard.edu/wiki/index.php?action=render&title=" & URLEncodedFormat(arguments.page)>
+	<cfhttp url="#url#" method="get" result="wikiContent" />
+	<cfset var cleanedContent = wikiContent.fileContent>
+	<cfif structKeyExists(arguments,"showImages")>
+		<cfset arguments.showImages =
+			(arguments.showImages EQ false OR arguments.showImages EQ "false" OR arguments.showImages EQ "0" OR arguments.showImages EQ "no") ? false : true>
+	<cfelse>
+		<cfset arguments.showImages = true>
+	</cfif>
+	<cfif NOT arguments.showImages>
+		<cfset cleanedContent = rereplacenocase(cleanedContent, "(?i)<img\b[^>]*>", "", "all")>
+	</cfif>
+	<cfheader name="Content-Type" value="application/json">
+	<cfreturn serializeJson({result=cleanedContent})>
+</cffunction> 
+<!---<cffunction name="getWikiArticle" access="remote" returntype="string" output="false" returnFormat="plain">
 	<cfargument name="page" type="string" required="true">
 	<cfargument name="showImages" required="false">
 	<cfset var pageTitle = arguments.page>
@@ -165,7 +182,7 @@ limitations under the License.
 
 	<cfheader name="Content-Type" value="application/json">
 	<cfreturn serializeJson({result=cleanedContent})>
-</cffunction>
+</cffunction>--->
 
 <!------------------------------------->
 <!--- Given some basic query parameters for media records, find matching media records and return
