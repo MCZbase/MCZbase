@@ -669,7 +669,7 @@ limitations under the License.
 $('#show-wiki').on('click', function(e) {
 	e.preventDefault();
 	//showWiki("Locality", true); // true/false for images (when true - you must sign into the code domain to see images)
-	showWiki("Locality", false); // 1 or whatever section number you want --if section is desired at some point
+	showWiki("Locality", false, 0); // 1 or whatever section number you want --if section is desired at some point. ("0" or leaving it off and removing the comma keeps the table of //contents)
 });
 </script>
 
