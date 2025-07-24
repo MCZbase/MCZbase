@@ -288,7 +288,7 @@ limitations under the License.
 					$("##show-wiki").show();
 					$("##hide-wiki").hide();
 				});
-				$.documentReady(function() {
+				$(document).ready(function() {
 					$("##hide-wiki").hide();
 				});
 			</script>
