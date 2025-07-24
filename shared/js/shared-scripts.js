@@ -51,6 +51,19 @@ function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, clo
 		}
 	});
 }
+
+function repositionDialog() {
+	var drawerWidth = $('#wikiDrawer').hasClass('open') ? ($('#wikiDrawer').width() || 400) : 0;
+	$(".ui-dialog:visible").each(function() {
+		var dialog = $(this);
+		var win = $(window);
+		var newLeft = drawerWidth + (win.width() - drawerWidth - dialog.outerWidth()) / 2;
+		if (newLeft + dialog.outerWidth() > win.width()) newLeft = win.width() - dialog.outerWidth() - 10;
+		if (newLeft < drawerWidth) newLeft = drawerWidth + 10;
+		dialog.css('left', newLeft + 'px');
+	});
+}
+
 // Shared wiki drawer open/close functions, assume wiki drawer is a div with id wikiDrawer, and
 // that there are show-wiki and hide-wiki buttons to toggle with the drawer.
 function openWikiDrawer() {
@@ -58,12 +71,18 @@ function openWikiDrawer() {
 	$('#content').addClass('pushed');
 	$("#show-wiki").hide();
 	$("#hide-wiki").show();
+	$('#content').one('transitionend webkitTransitionEnd oTransitionEnd', function() {
+		repositionDialog();
+	});
 }
 function closeWikiDrawer() {
 	$('#wikiDrawer').removeClass('open');
 	$('#content').removeClass('pushed');
 	$("#show-wiki").show();
 	$("#hide-wiki").hide();
+	$('#content').one('transitionend webkitTransitionEnd oTransitionEnd', function() {
+		repositionDialog();
+	});
 }
 
 // Shared process/cleanup wiki content
@@ -91,7 +110,7 @@ function processWikiContent($container) {
 	});
 	$container.find('img').removeAttr('width').removeAttr('height');
 
-   $container.find('a').contents().unwrap(); // remove all <a> tags around text, leaving just the text.
+	$container.find('a').contents().unwrap(); // remove all <a> tags around text, leaving just the text.
 
    // alternately, correct links to point to the wiki, uncomment the following lines to do so:
 	// TODO: Put this into the backing method, only allowed for coldfusion_user roles
