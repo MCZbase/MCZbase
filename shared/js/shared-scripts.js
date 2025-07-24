@@ -53,14 +53,11 @@ function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, clo
 }
 
 function repositionDialog() {
-	var drawerWidth = $('#wikiDrawer').hasClass('open') ? ($('#wikiDrawer').width() || 400) : 0;
-	$(".ui-dialog:visible").each(function() {
-		var dialog = $(this);
-		var win = $(window);
-		var newLeft = drawerWidth + (win.width() - drawerWidth - dialog.outerWidth()) / 2;
-		if (newLeft + dialog.outerWidth() > win.width()) newLeft = win.width() - dialog.outerWidth() - 10;
-		if (newLeft < drawerWidth) newLeft = drawerWidth + 10;
-		dialog.css('left', newLeft + 'px');
+	// Recenter all open jQuery UI dialogs
+	$(".ui-dialog-content:visible").each(function() {
+	try {
+		$(this).dialog("option", "position", { my: "center", at: "center", of: window });
+		} catch (e) { /* silently ignore if not a dialog */ }
 	});
 }
 
@@ -72,7 +69,7 @@ function openWikiDrawer() {
 	$("#show-wiki").hide();
 	$("#hide-wiki").show();
 	$('#content').one('transitionend webkitTransitionEnd oTransitionEnd', function() {
-		repositionDialog();
+		repositionDialog(console.log("Repositioning!"));
 	});
 }
 function closeWikiDrawer() {
