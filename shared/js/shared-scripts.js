@@ -74,16 +74,18 @@ function closeWikiDrawer() {
 	});
 }
 function repositionDialog() {
-    console.log("Dialog repositioning!");
-    $(".ui-dialog-content:visible").each(function() {
-        var $dlg = $(this).closest(".ui-dialog");
-        var $content = $("#content");
-        var contentOffset = $content.offset().left;
-        var contentWidth = $content.outerWidth();
-        var dialogWidth = $dlg.outerWidth();
-        var left = contentOffset + (contentWidth - dialogWidth) / 2;
-        $dlg.css({ left: left + "px" });
-    });
+	var wikiDrawer = $('#wikiDrawer');
+	var wikiOpen   = wikiDrawer.hasClass('open');
+	var wikiWidth  = wikiOpen ? wikiDrawer.outerWidth() : 0;
+	var winWidth   = $(window).width();
+
+	$(".ui-dialog-content:visible").each(function() {
+		var $dlg = $(this).closest(".ui-dialog");
+		var dialogWidth = $dlg.outerWidth();
+		// Center in visible area (right of wiki drawer)
+		var left = wikiWidth + ((winWidth - wikiWidth - dialogWidth) / 2);
+		$dlg.css({ left: left + "px" });
+	});
 }
 // Shared process/cleanup wiki content
 function processWikiContent($container) {
