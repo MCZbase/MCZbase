@@ -277,7 +277,7 @@ limitations under the License.
 			<script>
 				$('##show-wiki').on('click', function(e) {
 					e.preventDefault();
-					showWiki("Locality", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer);
+					showWiki("Locality", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,1);
 				});
 			</script>
 		</cfoutput>
