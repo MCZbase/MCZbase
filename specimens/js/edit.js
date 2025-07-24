@@ -38,8 +38,10 @@ function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775,wi
 		// 90% width up to extra large screens
 		w = Math.floor(w *.9);
 	} else if (w>1333) { 
-		// cap width at specified value
-		w = width_cap;
+		// cap width at specified value, but no more that 95% of the screen width
+		if (width_cap < w * .95) {
+			w = width_cap;
+		}
 	}
 	console.log("Creating dialog in div with id: " + dialogId);
 	var thedialog = $("#"+dialogId).html(content)
@@ -723,7 +725,7 @@ function openEditAttributesDialog(collection_object_id,dialogId,guid,callback) {
  */
 function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Locality and Collecting Event for " + guid;
-	createSpecimenEditDialog(dialogId,title,callback);
+	createSpecimenEditDialog(dialogId,title,callback,800,1400);
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
@@ -739,6 +741,43 @@ function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
+
+function closeInPage() { 
+	$("#InPageEditorDiv").html("");
+	$('#SpecimenDetailsDiv').show();
+	$('#editControlsBlock').show();
+	$("#InPageEditorDiv").removeClass("border");
+	$("#InPageEditorDiv").removeClass("border-secondary");
+	$("#InPageEditorDiv").removeClass("rounded");
+	$("#InPageEditorDiv").removeClass("py-2");
+	$("#InPageEditorDiv").removeClass("border-3");
+}
+
+function openEditLocalityInPage(collection_object_id,callback) { 
+	$('#SpecimenDetailsDiv').hide();
+	$('#editControlsBlock').hide();
+	$("#InPageEditorDiv").addClass("border");
+	$("#InPageEditorDiv").addClass("border-secondary");
+	$("#InPageEditorDiv").addClass("rounded");
+	$("#InPageEditorDiv").addClass("py-2");
+	$("#InPageEditorDiv").addClass("border-3");
+	$("#InPageEditorDiv").html("Loading...");
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditLocalityHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#InPageEditorDiv").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit CollectingEvent/Locality form");
+			closeInPage();
+		},
+		dataType: "html"
+	});
+}
 
 /** openEditCitationsDialog open a dialog for editing citations for a cataloged item.
  *
