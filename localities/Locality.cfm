@@ -662,6 +662,19 @@ limitations under the License.
 			</div>
 			<div id="wiki-content" class="p-3"></div>
 		</div>
+		<script>
+			function repositionDialogs() {
+				var drawerWidth = $('##wikiDrawer').hasClass('open') ? ($('##wikiDrawer').width() || 400) : 0;
+				$(".ui-dialog:visible").each(function() {
+					var dialog = $(this);
+					var win = $(window);
+					var newLeft = drawerWidth + (win.width() - drawerWidth - dialog.outerWidth()) / 2;
+					if (newLeft + dialog.outerWidth() > win.width()) newLeft = win.width() - dialog.outerWidth() - 10;
+					if (newLeft < drawerWidth) newLeft = drawerWidth + 10;
+					dialog.css('left', newLeft + 'px');
+				});
+			}
+		</script>
 		<!--- NOTE: wikiDrawer, show-wiki, hide-wiki are hard coded in openWikiDrawer and closeWikiDrawer functions. --->
 		<script>
 			$('##show-wiki').on('click', function(e) {
@@ -671,12 +684,14 @@ limitations under the License.
 				<cfelse>
 					showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
 				</cfif>
+				repositionDialogs();
 				$("##show-wiki").hide();
 				$("##hide-wiki").show();
 			});
 			$('##hide-wiki').on('click', function(e) {
 				e.preventDefault();
 				closeWikiDrawer();
+				repositionDialogs();
 			});
 			$(document).ready(function() {
 				$("##hide-wiki").hide();
