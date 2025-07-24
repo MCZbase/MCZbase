@@ -266,6 +266,7 @@ limitations under the License.
 					</div>
 				</section>
 			</main>
+			<cfset targetWikiPage = "Locality">
 			<div id="wikiDrawer" class="wiki-drawer border">
 				<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
 					<h5 class="mb-0" id="wiki-content-title">Wiki Article</h5>
@@ -280,9 +281,9 @@ limitations under the License.
 				$('##show-wiki').on('click', function(e) {
 					e.preventDefault();
 					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-						showWiki("Locality", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
+						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
 					<cfelse>
-						showWiki("Locality", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
+						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
 					</cfif>
 					$("##show-wiki").hide();
 					$("##hide-wiki").show();
