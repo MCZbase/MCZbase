@@ -53,11 +53,10 @@ function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, clo
 }
 
 function repositionDialog() {
-	// Recenter all open jQuery UI dialogs
+	var contentOffset = $("#content").offset().left;
 	$(".ui-dialog-content:visible").each(function() {
-	try {
-		$(this).dialog("option", "position", { my: "center", at: "center", of: window });
-		} catch (e) { /* silently ignore if not a dialog */ }
+		var $dlg = $(this).closest(".ui-dialog");
+		$dlg.css("left", contentOffset + 50); // 50 = whatever margin you want
 	});
 }
 
