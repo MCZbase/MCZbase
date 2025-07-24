@@ -174,7 +174,7 @@ limitations under the License.
 	</cfif>
 	
 	<!--- Process the content to remove unwanted tags and attributes --->
-	<cfif isDefined("arguments.showImages") AND arguments.showImages EQ "true" AND cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+	<cfif isDefined("arguments.showImages") AND arguments.showImages EQ "true" AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 		<!--- If showImages is true and this is a sufficiently privileged user, keep the images --->
 	<cfelse>
 		<!--- otherwise remove all <img> tags --->
