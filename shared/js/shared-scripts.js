@@ -12,7 +12,7 @@
  * @param titleTargetDiv the id of the div to place the title into without a leading # selector.
  * @param section optional, the section number to load from the wiki page, default 0 for the entire wiki article.
  */
-function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, closeFunction, section=0) {
+function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, closeFunction, section=null) {
 	$('#'+targetDiv).html('Loading...');
 	$('#'+titleTargetDiv).html('Wiki Article: ' + page);
 	$.ajax({
