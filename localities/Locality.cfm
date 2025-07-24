@@ -650,6 +650,9 @@ limitations under the License.
 <cfif isDefined("action") AND ( action EQ "new" OR action EQ "edit" )>
 	<cfoutput>
 		<cfset targetWikiPage = "Locality">
+		<cfif action EQ "edit">
+			<cfset targetWikiPage = "Edit_Locality">
+		</cfif>
 		<div id="wikiDrawer" class="wiki-drawer border">
 			<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
 				<h5 class="mb-0" id="wiki-content-title">Wiki Article</h5>
