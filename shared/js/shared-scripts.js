@@ -52,13 +52,6 @@ function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, clo
 	});
 }
 
-function repositionDialog() {
-	var contentOffset = $("#content").offset().left;
-	$(".ui-dialog-content:visible").each(function() {
-		var $dlg = $(this).closest(".ui-dialog");
-		$dlg.css("left", contentOffset + 50); // 50 = whatever margin you want
-	});
-}
 
 // Shared wiki drawer open/close functions, assume wiki drawer is a div with id wikiDrawer, and
 // that there are show-wiki and hide-wiki buttons to toggle with the drawer.
@@ -68,7 +61,7 @@ function openWikiDrawer() {
 	$("#show-wiki").hide();
 	$("#hide-wiki").show();
 	$('#content').one('transitionend webkitTransitionEnd oTransitionEnd', function() {
-		repositionDialog(console.log("Repositioning!"));
+		repositionDialog();
 	});
 }
 function closeWikiDrawer() {
@@ -80,7 +73,18 @@ function closeWikiDrawer() {
 		repositionDialog();
 	});
 }
-
+function repositionDialog() {
+    console.log("Dialog repositioning!");
+    $(".ui-dialog-content:visible").each(function() {
+        var $dlg = $(this).closest(".ui-dialog");
+        var $content = $("#content");
+        var contentOffset = $content.offset().left;
+        var contentWidth = $content.outerWidth();
+        var dialogWidth = $dlg.outerWidth();
+        var left = contentOffset + (contentWidth - dialogWidth) / 2;
+        $dlg.css({ left: left + "px" });
+    });
+}
 // Shared process/cleanup wiki content
 function processWikiContent($container) {
 	$container.find('.mw-editsection').remove(); // remove edit controls
