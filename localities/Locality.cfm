@@ -177,38 +177,38 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="col-12 px-0 pr-md-3 pl-md-0 ">
-							<div class="border bg-light rounded p-3 my-2">
-								<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
-								<script>
-									function runTests() {
-										$("##SpaceDQDiv").html("Running tests....");
-										loadSpaceQC("", #locality_id#, "SpaceDQDiv");
-									}
-								</script>
-								<input type="button" value="Run Quality Control Tests" class="btn btn-xs btn-secondary" onClick=" runTests(); ">
-								<!---  Space tests --->
-								<div id="SpaceDQDiv"></div>
-							</div>
+					<div class="col-12 px-0 pr-md-3 pl-md-0 ">
+						<div class="border bg-light rounded p-3 my-2">
+							<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
+							<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
+							<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
+							<script>
+								function runTests() {
+									$("##SpaceDQDiv").html("Running tests....");
+									loadSpaceQC("", #locality_id#, "SpaceDQDiv");
+								}
+							</script>
+							<input type="button" value="Run Quality Control Tests" class="btn btn-xs btn-secondary" onClick=" runTests(); ">
+							<!---  Space tests --->
+							<div id="SpaceDQDiv"></div>
 						</div>
-						<div class="col-12 px-0 pr-md-3 pl-md-0 ">
-							<div class="border bg-light rounded p-3 my-2">
-								<cfset media = getLocalityMediaHtml(locality_id="#locality_id#")>
-								<div id="mediaDiv" class="row">#media#</div>
-								<div id="addMediaDiv">
-									<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT media_relationship as relation 
-										FROM ctmedia_relationship 
-										WHERE media_relationship like '% locality'
-										ORDER BY media_relationship
-									</cfquery>
-									<cfloop query="relations">
-										<cfset summary = replace(replace(summary,'"','','all'),"'","","all")>
-										<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" openlinkmediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
-										<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" opencreatemediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
-									</cfloop>
-								</div>
-								<div id="mediaDialogDiv"></div>
+					</div>
+					<div class="col-12 px-0 pr-md-3 pl-md-0 ">
+						<div class="border bg-light rounded p-3 my-2">
+							<cfset media = getLocalityMediaHtml(locality_id="#locality_id#")>
+							<div id="mediaDiv" class="row">#media#</div>
+							<div id="addMediaDiv">
+								<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT media_relationship as relation 
+									FROM ctmedia_relationship 
+									WHERE media_relationship like '% locality'
+									ORDER BY media_relationship
+								</cfquery>
+								<cfloop query="relations">
+									<cfset summary = replace(replace(summary,'"','','all'),"'","","all")>
+									<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" openlinkmediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
+									<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" opencreatemediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
+								</cfloop>
 							</div>
 						</div>
 					</section>
@@ -251,51 +251,21 @@ limitations under the License.
 			<cfelse>
 				<cfset blockform = getCreateLocalityHtml()>
 			</cfif>
-			<main class="container-fluid container-xl my-2" id="content">
-				<section class="row">
-					<div class="col-12 mt-2 mb-5">
-						<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Locality#extra#</h1>
-						<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
-							<form name="createLocality" method="post" action="/localities/Locality.cfm">
-								<input type="hidden" name="Action" value="makenewLocality">
-								#blockform#
-							</form>
+				<main class="container-fluid container-xl my-2" id="content">
+					<section class="row">
+						<div class="col-12 mt-2 mb-5">
+							<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Locality#extra#</h1>
+							<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
+								<form name="createLocality" method="post" action="/localities/Locality.cfm">
+									<input type="hidden" name="Action" value="makenewLocality">
+									#blockform#
+								</form>
+							</div>
+							<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
+							<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
 						</div>
-						<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
-						<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
-					</div>
-				</section>
-			</main>
-			<cfset targetWikiPage = "Locality">
-			<div id="wikiDrawer" class="wiki-drawer border">
-				<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
-					<h5 class="mb-0" id="wiki-content-title">Wiki Article</h5>
-					<button type="button" class="close" id="closeWikiDrawer" aria-label="Close" onClick="closeWikiDrawer();">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div id="wiki-content" class="p-3"></div>
-			</div>
-			<!--- NOTE: wikiDrawer, show-wiki, hide-wiki are hard coded in openWikiDrawer and closeWikiDrawer functions. --->
-			<script>
-				$('##show-wiki').on('click', function(e) {
-					e.preventDefault();
-					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
-					<cfelse>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
-					</cfif>
-					$("##show-wiki").hide();
-					$("##hide-wiki").show();
-				});
-				$('##hide-wiki').on('click', function(e) {
-					e.preventDefault();
-					closeWikiDrawer();
-				});
-				$(document).ready(function() {
-					$("##hide-wiki").hide();
-				});
-			</script>
+					</section>
+				</main>
 		</cfoutput>
 	</cfcase>
 	<cfcase value="makenewLocality">
@@ -682,6 +652,38 @@ limitations under the License.
 	</cfcase>
 </cfswitch>
 
-
+<!--- wiki drawer outside of main --->
+<cfif isDefined("action") AND ( action EQ "new" OR action EQ "edit" )>
+	<cfset targetWikiPage = "Locality">
+	<div id="wikiDrawer" class="wiki-drawer border">
+		<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+			<h5 class="mb-0" id="wiki-content-title">Wiki Article</h5>
+			<button type="button" class="close" id="closeWikiDrawer" aria-label="Close" onClick="closeWikiDrawer();">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div id="wiki-content" class="p-3"></div>
+	</div>
+	<!--- NOTE: wikiDrawer, show-wiki, hide-wiki are hard coded in openWikiDrawer and closeWikiDrawer functions. --->
+	<script>
+		$('##show-wiki').on('click', function(e) {
+			e.preventDefault();
+			<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+				showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
+			<cfelse>
+				showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
+			</cfif>
+			$("##show-wiki").hide();
+			$("##hide-wiki").show();
+		});
+		$('##hide-wiki').on('click', function(e) {
+			e.preventDefault();
+			closeWikiDrawer();
+		});
+		$(document).ready(function() {
+			$("##hide-wiki").hide();
+		});
+	</script>
+</cfif>
 
 <cfinclude template = "/shared/_footer.cfm">

@@ -185,7 +185,6 @@ limitations under the License.
 	<cfreturn serializeJson({result=returnContent})>
 </cffunction>
 
-
 <!------------------------------------->
 <!--- Given some basic query parameters for media records, find matching media records and return
 		a list with controls to link those media records in a provided relation to a provided target 

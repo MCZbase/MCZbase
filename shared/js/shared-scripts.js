@@ -106,7 +106,6 @@ function processWikiContent($container) {
 
 /**** End wiki content loading and processing functions ****/
 
-
 /** Make some readable content for a message dialog from an error message,
  * message may be empty, in which case placeholder text is returned, message
  * may start with the coldfusion responseText for a server error of <!-- \" --->,
