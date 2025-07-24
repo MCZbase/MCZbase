@@ -158,7 +158,7 @@ limitations under the License.
 	<cfset var returnContent = "">
 
 	<!--- Select wiki API endpoint based on section argument --->
-	<cfif isDefined("arguments.section" AND len(arguments.section) GT 0 AND arguments.section NEQ "0">
+	<cfif isDefined("arguments.section") AND len(arguments.section) GT 0 AND arguments.section NEQ "0">
 		<cfset var url = "#wikiIRI#api.php?action=parse&page=" & URLEncodedFormat(arguments.page) & "&section=" & URLEncodedFormat(arguments.section) & "&prop=text&format=json">
 		<cfhttp url="#url#" method="get" result="wikiContent" />
 		<cfset var parsed = deserializeJson(wikiContent.fileContent)>
