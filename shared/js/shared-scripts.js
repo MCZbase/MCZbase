@@ -56,11 +56,16 @@ function closeWikiDrawer() {
 
 // Shared process/cleanup wiki content
 function processWikiContent($container) {
-	$container.find('.mw-editsection').remove();
+	$container.find('.mw-editsection').remove(); // remove edit controls
+	$container.find('#toc').remove(); // remove table of contents
+
 	$container.find('a').filter(function() {
 		return $(this).text().trim().toLowerCase() === "edit";
-	}).remove();
-	$container.html($container.html().replace(/edit\]|\]$/gm, ''));
+	}).remove(); // remove edit links within the content.
+
+	$container.html($container.html().replace(/edit\]|\]$/gm, '')); // remove trailing edit links and brackets
+
+	// Update image links to point to a corrected uri, and remove width/height attributes from images.
 	$container.find('a.image').each(function() {
 		var $a = $(this), $img = $a.find('img');
 		var href = $a.attr('href');
@@ -73,6 +78,18 @@ function processWikiContent($container) {
 		$img.removeAttr('width').removeAttr('height');
 	});
 	$container.find('img').removeAttr('width').removeAttr('height');
+
+   $container.find('a').contents().unwrap(); // remove all <a> tags around text, leaving just the text.
+
+   // alternately, correct links to point to the wiki, uncomment the following lines to do so:
+	// TODO: Put this into the backing method, only allowed for coldfusion_user roles
+   //$container.find('a').each(function() {
+	//	var $a = $(this);
+	//	if ($a.attr('href') && $a.attr('href').indexOf('http') !== 0) {
+	//		$a.attr('href', 'https://code.mcz.harvard.edu' + $a.attr('href'));
+	//	}
+	//	$a.attr('target', '_blank');
+	//});
 }
 
 /**** End wiki content loading and processing functions ****/
