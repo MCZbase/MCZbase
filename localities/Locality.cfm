@@ -262,7 +262,7 @@ limitations under the License.
 							</form>
 						</div>
 						<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
-						<button id="hide-wiki" class="btn btn-xs btn-info" hidden>Hide Wiki Article</button>
+						<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
 					</div>
 				</section>
 			</main>
@@ -286,6 +286,9 @@ limitations under the License.
 					e.preventDefault();
 					closeWikiDrawer();
 					$("##show-wiki").show();
+					$("##hide-wiki").hide();
+				});
+				$.documentReady(function() {
 					$("##hide-wiki").hide();
 				});
 			</script>
