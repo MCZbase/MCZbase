@@ -139,36 +139,50 @@ limitations under the License.
 
 	<cfreturn result>
 </cffunction>
+
 <!---
-	calls up the api for the wiki 
+ getWikiArticle invoke the mediawiki API to retrieve a wiki article and prepare it for display within MCZbase.
+
+ @param page the name of the wiki page to retrieve.
+ @param section the section of the wiki page to retrieve, if not provided, or if value is 0, then the full page is returned.
+ @param showImages if true then images are included in the returned content, if false then images are stripped from the content.
+ @return a JSON object with the result of the wiki article retrieval.
 --->
 <cffunction name="getWikiArticle" access="remote" returntype="string" output="false" returnFormat="plain">
 	<cfargument name="page" type="string" required="true">
-	<cfargument name="section" type="string" required="false">
-	<cfargument name="showImages" required="false">
-	<!-- Select wiki API endpoint based on section argument -->
-	<cfif structKeyExists(arguments, "section") AND len(arguments.section)>
-		<cfset var url = "https://code.mcz.harvard.edu/wiki/api.php?action=parse&page=" & URLEncodedFormat(arguments.page) & "&section=" & URLEncodedFormat(arguments.section) & "&prop=text&format=json">
+	<cfargument name="section" type="string" required="false" default="">
+	<cfargument name="showImages" type="string" required="false" default="false">
+
+	<cfset wikiIRI = "https://code.mcz.harvard.edu/wiki/">
+
+	<cfset var returnContent = "">
+
+	<!--- Select wiki API endpoint based on section argument --->
+	<cfif isDefined("arguments.section" AND len(arguments.section) GT 0 AND arguments.section NEQ "0">
+		<cfset var url = "#wikiIRI#api.php?action=parse&page=" & URLEncodedFormat(arguments.page) & "&section=" & URLEncodedFormat(arguments.section) & "&prop=text&format=json">
 		<cfhttp url="#url#" method="get" result="wikiContent" />
 		<cfset var parsed = deserializeJson(wikiContent.fileContent)>
-		<cfset var cleanedContent = (structKeyExists(parsed, "parse") and structKeyExists(parsed.parse, "text") and (structKeyExists(parsed.parse.text, "*") ? parsed.parse.text["*"] : parsed.parse.text))>
+		<cfset returnContent = (structKeyExists(parsed, "parse") and structKeyExists(parsed.parse, "text") and (structKeyExists(parsed.parse.text, "*") ? parsed.parse.text["*"] : parsed.parse.text))>
 	<cfelse>
 		<!-- Full page fallback -->
-		<cfset var url = "https://code.mcz.harvard.edu/wiki/index.php?action=render&title=" & URLEncodedFormat(arguments.page)>
+		<cfset var url = "#wikiIRI#/index.php?action=render&title=" & URLEncodedFormat(arguments.page)>
 		<cfhttp url="#url#" method="get" result="wikiContent" />
-		<cfset var cleanedContent = wikiContent.fileContent>
+		<cfset returnContent = wikiContent.fileContent>
 	</cfif>
-	<cfif structKeyExists(arguments,"showImages")>
-		<cfset arguments.showImages =
-			(arguments.showImages EQ false OR arguments.showImages EQ "false" OR arguments.showImages EQ "0" OR arguments.showImages EQ "no") ? false : true>
+	<cfif NOT isDefined("returnContent") OR len(returnContent) EQ 0>
+		<cfset returnContent = "No content found for the specified page or section.">
+	</cfif>
+	
+	<!--- Process the content to remove unwanted tags and attributes --->
+	<cfif isDefined("arguments.showImages") AND arguments.showImages EQ "true" AND cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+		<!--- If showImages is true and this is a sufficiently privileged user, keep the images --->
 	<cfelse>
-		<cfset arguments.showImages = true>
+		<!--- otherwise remove all <img> tags --->
+		<cfset returnContent = rereplacenocase(returnContent, "(?i)<img\b[^>]*>", "", "all")>   <!--- " --->
 	</cfif>
-	<cfif NOT arguments.showImages>
-		<cfset cleanedContent = rereplacenocase(cleanedContent, "(?i)<img\b[^>]*>", "", "all")>
-	</cfif>
+
 	<cfheader name="Content-Type" value="application/json">
-	<cfreturn serializeJson({result=cleanedContent})>
+	<cfreturn serializeJson({result=returnContent})>
 </cffunction>
 
 
