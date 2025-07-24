@@ -2817,8 +2817,18 @@ form.form-inline.logout-style {
 .wiki-drawer.open {
 	left: 0;
 }
+#content {
+	transition: margin-left 0.3s cubic-bezier(.77,0,.18,1);
+	width: 100%;
+	box-sizing: border-box;
+}
+#content.pushed {
+	margin-left: 400px;
+	width: calc(100% - 400px);
+}
 /****************end all screen styles*********************/
 /**********************************************************/
+
 /*********************************/
 /* Device styles below ***********/
 /*********************************/
