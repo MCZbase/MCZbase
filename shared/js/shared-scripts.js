@@ -60,41 +60,13 @@ function openWikiDrawer() {
 	$('#content').addClass('pushed');
 	$("#show-wiki").hide();
 	$("#hide-wiki").show();
-	$('#content').one('transitionend webkitTransitionEnd oTransitionEnd', function() {
-		repositionDialog();
-	});
 }
 function closeWikiDrawer() {
 	$('#wikiDrawer').removeClass('open');
 	$('#content').removeClass('pushed');
 	$("#show-wiki").show();
 	$("#hide-wiki").hide();
-	$('#content').one('transitionend webkitTransitionEnd oTransitionEnd', function() {
-		repositionDialog();
-	});
 }
-$.widget("ui.dialog", $.ui.dialog, {
-	options: {
-		width: 600
-	}
-});
-
-function repositionDialog() {
-	var wikiDrawer = $('#wikiDrawer');
-	var wikiOpen   = wikiDrawer.hasClass('open');
-	var wikiWidth  = wikiOpen ? wikiDrawer.outerWidth() : 0;
-	var winWidth   = $(window).width();
-
-	$(".ui-dialog-content:visible").each(function() {
-		var $dlg = $(this).closest(".ui-dialog");
-		var dialogWidth = $dlg.outerWidth();
-		// Center in visible area (right of wiki drawer)
-		var left = wikiWidth + ((winWidth - wikiWidth - dialogWidth) / 2);
-		$dlg.css({ left: left + "px" });
-	});
-}
-
-$(window).on('resize', repositionDialog);
 
 // Shared process/cleanup wiki content
 function processWikiContent($container) {
