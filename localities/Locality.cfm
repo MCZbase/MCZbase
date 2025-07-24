@@ -275,9 +275,9 @@ limitations under the License.
 				<div id="wiki-content" class="p-3"></div>
 			</div>
 			<script>
-				$('#show-wiki').on('click', function(e) {
+				$('##show-wiki').on('click', function(e) {
 					e.preventDefault();
-					showWiki("Locality", false, "wiki-content","wiki-content-title");
+					showWiki("Locality", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer);
 				});
 			</script>
 		</cfoutput>
