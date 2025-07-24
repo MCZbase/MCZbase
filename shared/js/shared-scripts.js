@@ -2,56 +2,49 @@
  * Place scripts that should be available on all web pages for all users here.
 */
 
+/**** Functions to load wiki content and display it in a target div within an MCZbase page, including support for a wikiDrawer drawer container ******/
 
-/**** 
-The following scripts make a Wiki content drawer appear on the left of the page and push the content into the remaining space.
-The control the processing of images and the code for the drawer opening and closing. 
-*****/
-function loadWikiContent(options) {
-	var params = {
-		page: options.page,
-		showImages: options.showImages,
-		returnFormat: 'json'
-	};
-	if(options.section) {
-		params.section = options.section;
-	}
+/**
+ * Show a wiki article in a target div, with options for showing images and specifying a target div for content.
+ * @param page the name of the wiki page to load.
+ * @param showImages boolean indicating whether to show images in the article, false to exclude images, true to include them.
+ * @param targetDiv the id of the div to place the content into without a leading # selector.
+ * @param titleTargetDiv the id of the div to place the title into without a leading # selector.
+ * @param section optional, the section number to load from the wiki page, default 0 for the entire wiki article.
+ */
+function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, closeFunction, section=0) {
+	$('#'+targetDiv).html('Loading...');
+	$('#'+titleTargetDiv).html('Wiki Article: ' + page);
 	$.ajax({
 		url: '/shared/component/functions.cfc?method=getWikiArticle',
-		data: params,
+		data: {
+			page: page,
+			showImages: showImages,
+			section: section,
+			returnFormat: 'json'
+		},
 		dataType: 'json',
 		success: function(response) {
 			var html = response.result || response.RESULT || "<div>Section not found.</div>";
-			if (typeof options.onSuccess === 'function') {
+			if (typeof openFunction === 'function') {
+				openFunction();
+			}
+			if (typeof onSuccess === 'function') {
 				options.onSuccess(html);
 			} else {
-				$('#wiki-content').html(html);
-				processWikiContent($('#wiki-content'));
+				$('#'+targetDiv).html(html);
+				processWikiContent($('#'+targetDiv));
 			}
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
-			if (typeof options.onError === 'function') {
-				options.onError(jqXHR, textStatus, errorThrown);
-			} else {
-				$('#wiki-content').html('<div class="alert alert-danger">AJAX error: '+textStatus+'<br>'+errorThrown+'</div>');
+			if (typeof closeFunction === 'function') {
+				closeFunction();
 			}
+			handleFail(jqXHR, textStatus, errorThrown, "loading wiki content for page: " + page);
 		}
 	});
 }
-function showWiki(page, showImages, section) {
-	$('#wiki-content').html('Loading...');
-	openWikiDrawer();
-	loadWikiContent({
-		page: page,
-		section: section, // Support section selection!
-		showImages: showImages,
-		onSuccess: function(html) {
-			$('#wiki-content').html(html);
-			processWikiContent($('#wiki-content'));
-		}
-	});
-}
-// Shared wiki drawer open/close functions
+// Shared wiki drawer open/close functions, assume wiki drawer is a div with id wikiDrawer
 function openWikiDrawer() {
 	$('#wikiDrawer').addClass('open');
 	$('#content').addClass('pushed');
@@ -60,7 +53,6 @@ function closeWikiDrawer() {
 	$('#wikiDrawer').removeClass('open');
 	$('#content').removeClass('pushed');
 }
-$(document).on('click', '#closeWikiDrawer', closeWikiDrawer);
 
 // Shared process/cleanup wiki content
 function processWikiContent($container) {
@@ -83,7 +75,7 @@ function processWikiContent($container) {
 	$container.find('img').removeAttr('width').removeAttr('height');
 }
 
-
+/**** End wiki content loading and processing functions ****/
 
 
 /** Make some readable content for a message dialog from an error message,

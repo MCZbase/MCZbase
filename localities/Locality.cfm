@@ -262,22 +262,24 @@ limitations under the License.
 							</form>
 						</div>
 						<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
-
 					</div>
-					
 				</section>
 			</main>
 			<div id="wikiDrawer" class="wiki-drawer border">
 				<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
-					<h5 class="mb-0">Wiki Article</h5>
-					<button type="button" class="close" id="closeWikiDrawer" aria-label="Close">
+					<h5 class="mb-0" id="wiki-content-title">Wiki Article</h5>
+					<button type="button" class="close" id="closeWikiDrawer" aria-label="Close" onClick="closeWikiDrawer();">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div id="wiki-content" class="p-3">
-					Loading...
-				</div>
+				<div id="wiki-content" class="p-3"></div>
 			</div>
+			<script>
+				$('#show-wiki').on('click', function(e) {
+					e.preventDefault();
+					showWiki("Locality", false, "wiki-content","wiki-content-title");
+				});
+			</script>
 		</cfoutput>
 	</cfcase>
 	<cfcase value="makenewLocality">
@@ -665,12 +667,5 @@ limitations under the License.
 </cfswitch>
 
 
-<script>
-$('#show-wiki').on('click', function(e) {
-	e.preventDefault();
-	//showWiki("Locality", true); // true/false for images (when true - you must sign into the code domain to see images)
-	showWiki("Locality", false, 0); // 1 or whatever section number you want("0" or leave it off and remove the comma to keep wiki page table of contents)
-});
-</script>
 
 <cfinclude template = "/shared/_footer.cfm">
