@@ -73,6 +73,12 @@ function closeWikiDrawer() {
 		repositionDialog();
 	});
 }
+$.widget("ui.dialog", $.ui.dialog, {
+	options: {
+		width: 600
+	}
+});
+
 function repositionDialog() {
 	var wikiDrawer = $('#wikiDrawer');
 	var wikiOpen   = wikiDrawer.hasClass('open');
@@ -87,6 +93,9 @@ function repositionDialog() {
 		$dlg.css({ left: left + "px" });
 	});
 }
+
+$(window).on('resize', repositionDialog);
+
 // Shared process/cleanup wiki content
 function processWikiContent($container) {
 	$container.find('.mw-editsection').remove(); // remove edit controls
