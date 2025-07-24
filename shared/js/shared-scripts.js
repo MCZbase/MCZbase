@@ -10,11 +10,18 @@
  * @param showImages boolean indicating whether to show images in the article, false to exclude images, true to include them.
  * @param targetDiv the id of the div to place the content into without a leading # selector.
  * @param titleTargetDiv the id of the div to place the title into without a leading # selector.
+ * @param openFunction optional, a function to call when the wiki content is successfully loaded, e.g. to open a drawer.
+ * @param closeFunction optional, a function to call when the wiki content fails to load, e.g. to close a drawer.
+ * @param titleLink boolean indicating whether to create a link to the wiki page in the title div, true to create a link, false to just show the title.
  * @param section optional, the section number to load from the wiki page, default 0 for the entire wiki article.
  */
-function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, closeFunction, section=null) {
+function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, closeFunction, titleLink, section=null) {
 	$('#'+targetDiv).html('Loading...');
-	$('#'+titleTargetDiv).html('Wiki Article: ' + page);
+	if (titleLink) {
+		$('#'+titleTargetDiv).html('Wiki Article: <a href="https://code.mcz.harvard.edu/wiki/index.php?title="' + page + '" target="_blank">' + page + '</a>');
+	} else {
+		$('#'+titleTargetDiv).html('Wiki Article: ' + page);
+	}
 	$.ajax({
 		url: '/shared/component/functions.cfc?method=getWikiArticle',
 		data: {

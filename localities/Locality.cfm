@@ -278,7 +278,11 @@ limitations under the License.
 			<script>
 				$('##show-wiki').on('click', function(e) {
 					e.preventDefault();
-					showWiki("Locality", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,1);
+					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+						showWiki("Locality", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,1);
+					<cfelse>
+						showWiki("Locality", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,1);
+					</cfif>
 					$("##show-wiki").hide();
 					$("##hide-wiki").show();
 				});
