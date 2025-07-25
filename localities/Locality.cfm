@@ -662,6 +662,7 @@ limitations under the License.
 			</div>
 			<div id="wiki-content" class="p-3"></div>
 		</div>
+
 		<!--- NOTE: wikiDrawer, show-wiki, hide-wiki are hard coded in openWikiDrawer and closeWikiDrawer functions. --->
 		<script>
 			$('##show-wiki').on('click', function(e) {
