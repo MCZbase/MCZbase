@@ -6654,32 +6654,39 @@ limitations under the License.
 					geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getLoc.geog_auth_rec_id#">
 			</cfquery>
 
-				<div class="row mx-0">
-					<cfset guid = "#getLoc.institution_acronym#:#getLoc.collection_cde#:#getLoc.cat_num#">
-					<div class="col-12 px-0 pt-1">
-						<h2 class="h2 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
-						<button class="btn btn-xs btn-secondary float-right" onclick="closeInPage();">Back to Specimen without saving changes</button>
-					</div>
-					<form name="loc" method="post" action="specLocality.cfm">
-						<input type="hidden" name="action" value="saveChange">
-						<input type="hidden" name="nothing" id="nothing">
-						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-						<div class="col-6 px-0 float-left">
-							<cfif cecount.ct GT 0 OR loccount.ct GT 0>
-								<h3 class="h3">
-									<cfset separator = "">
-									<cfif cecount.ct GT 1>
-										Collecting Event is <span class="text-danger">Shared with #cecount.ct# other specimens</span> 
-										<cfset separator = " ; ">
-									</cfif>
-									<cfif loccount.ct GT 1>
-										#separator#Locality is <span class="text-danger">Shared with #loccount.ct# other specimens</span>
-									</cfif>
-								</h3>
-								<p class="font-italic text-danger pt-3">Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.</p>
-							<cfelse>
-								<p class="font-italic text-success pt-3">The collecting event and locality are used only by this specimen.</p>
-							</cfif>
+			<div class="row mx-0">
+				<cfset guid = "#getLoc.institution_acronym#:#getLoc.collection_cde#:#getLoc.cat_num#">
+				<div class="col-12 px-0 pt-1">
+					<h2 class="h2 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
+					<button class="btn btn-xs btn-secondary float-right" onclick="closeInPage();">Back to Specimen without saving changes</button>
+				</div>
+				<form name="loc" method="post" action="specLocality.cfm" class="row">
+					<input type="hidden" name="action" value="saveChange">
+					<input type="hidden" name="nothing" id="nothing">
+					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+
+					<!--- higher geography --->
+					<div class="col-12 px-0 form-row">
+
+						<!--- describe action this form will take --->
+						<cfif cecount.ct GT 0 OR loccount.ct GT 0>
+							<h3 class="h3">
+								<cfset separator = "">
+								<cfif cecount.ct GT 1>
+									Collecting Event is <span class="text-danger">Shared with #cecount.ct# other specimens</span> 
+									<cfset separator = " ; ">
+								</cfif>
+								<cfif loccount.ct GT 1>
+									#separator#Locality is <span class="text-danger">Shared with #loccount.ct# other specimens</span>
+								</cfif>
+							</h3>
+							<p class="font-italic text-danger pt-3">Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.</p>
+						<cfelse>
+							<p class="font-italic text-success pt-3">The collecting event and locality are used only by this specimen.</p>
+						</cfif>
+
+						<!--- TODO: Clearer and shorter display of higher geography --->
+
 							<ul class="list-unstyled row mx-0 px-0 py-1 mb-0">
 								<cfif len(getLoc.continent_ocean) gt 0>
 									<li class="list-group-item col-4 px-0"><em>Continent or Ocean:</em></li>
@@ -6719,21 +6726,24 @@ limitations under the License.
 									<li class="list-group-item col-8 px-0">#getLoc.quad#</li>
 								</cfif>
 							</ul>
-							<div class="py-3">
-								<h4>Higher Geography
-									&nbsp;&nbsp;
-									<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-										<button onclick="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> Edit Shared Higher Geography</button>
-										<span> (shared with #sharedHigherGeogCount.ct# specimens)</span>
-									<cfelse>
-										<button onclick="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> View </button>
-									</cfif>
-								</h4>
-								<input type="text" value="#getLoc.higher_geog#" class="col-12 col-sm-8 reqdClr disabled">
-								<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
-								<input type="submit" value="Save" class="btn btn-xs btn-secondary" id="saveGeogChangeButton" style="display:none">
-							</div>
+
+						<div class="py-3">
+							<h4>Higher Geography
+								&nbsp;&nbsp;
+								<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
+									<button onclick="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> Edit Shared Higher Geography</button>
+									<span> (shared with #sharedHigherGeogCount.ct# specimens)</span>
+								<cfelse>
+									<button onclick="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> View </button>
+								</cfif>
+							</h4>
+							<input type="text" value="#getLoc.higher_geog#" class="col-12 col-sm-8 reqdClr disabled">
+							<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
+							<input type="submit" value="Save" class="btn btn-xs btn-secondary" id="saveGeogChangeButton" style="display:none">
 						</div>
+					</div>
+
+					<!--- locality --->
 						<div class="col-12 float-left px-0">
 							<h1 class="h3">Specific Locality</h1>
 							<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
@@ -6828,6 +6838,9 @@ limitations under the License.
 									</cfif>
 								</li>
 							</ul>
+
+						<!--- collecting event --->
+
 							<h1 class="h3 mt-3">Collecting Event</h1>
 							<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border">
 								<li class="col-12 col-md-12 px-0 pt-1 mt-2">
@@ -6916,6 +6929,15 @@ limitations under the License.
 									<input type="text" class="data-entry-input px-2" name="habitat_desc" id="habitat_desc" value="#getLoc.habitat_desc#" >
 								</li>
 							</ul>
+
+						<!--- TODO: Collecting event numbers --->
+						<div class="col-12 row">
+	
+						</div>
+
+						<!--- geology attributes (on locality) --->
+
+							<!--- TODO: Editable table with rows for each geology attribute, where new rows can be added, all changes saved at once with entire form --->
 							<h1 class="h3 mt-3">Geology</h1>
 							<ul id="gTab" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
 								<cfloop query="getGeology">
@@ -6996,7 +7018,12 @@ limitations under the License.
 									<input type="text" id="geo_att_remark" name="geo_att_remark" class="data-entry-input">
 								</li>
 							</ul>
-							<h1 class="h3 mt-3">Coordinates and Coordinate Metadata</h1>
+
+						<!--- current georeference (on locality) --->
+							
+							<h1 class="h3 mt-3">Georeference and Georeference Metadata</h1>
+							<!--- TODO: Count current georeferences --->
+							<!--- TODO: identify this as the current georeference, describe action on split --->
 							<ul id="llMeta" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="coordinate_determiner" class="data-entry-label px-2 text-right"> Coordinate Determiner </label>
@@ -7325,6 +7352,8 @@ function showLLFormat(orig_units) {
 									<input type="text" name="UTM_NS" value="#getLoc.UTM_NS#" id="utm_ns" class="reqdClr data-entry-input" validate="numeric">
 								</li>
 							</ul>
+
+						<!--- more verbatim collecting event information --->
 							<ul class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label class="data-entry-label px-2 text-right">Verbatim Coordinates (summary)</label>
@@ -7390,6 +7419,9 @@ function showLLFormat(orig_units) {
 							<script>
 								showLLFormat('#getLoc.ORIG_LAT_LONG_UNITS#');
 							</script> 
+
+							<!--- TODO: Additional verbatim fields --->
+
 							<div class="col-12">
 								<cfif loccount.ct eq 1 and cecount.ct eq 1>
 									<input type="submit" value="Save Changes" class="btn btn-xs btn-primary float-left">
