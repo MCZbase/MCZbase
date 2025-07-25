@@ -6681,25 +6681,27 @@ limitations under the License.
 
 						<cfquery name="getGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
-								geog_auth_rec.geog_auth_rec_id,
-								geog_auth_rec.continent_ocean,
-								geog_auth_rec.country,
-								geog_auth_rec.state_prov,
-								geog_auth_rec.county,
-								geog_auth_rec.quad,
-								geog_auth_rec.feature,
-								geog_auth_rec.island,
-								geog_auth_rec.island_group,
-								geog_auth_rec.sea,
-								geog_auth_rec.valid_catalog_term_fg,
-								geog_auth_rec.source_authority,
-								geog_auth_rec.higher_geog,
-								geog_auth_rec.ocean_region,
-								geog_auth_rec.ocean_subregion,
-								geog_auth_rec.water_feature,
-								geog_auth_rec.wkt_polygon,
-								geog_auth_rec.highergeographyid_guid_type,
-								geog_auth_rec.highergeographyid
+								geog_auth_rec_id,
+								continent_ocean,
+								country,
+								state_prov,
+								county,
+								quad,
+								feature,
+								island,
+								island_group,
+								sea,
+								valid_catalog_term_fg,
+								source_authority,
+								higher_geog,
+								ocean_region,
+								ocean_subregion,
+								water_feature,
+								wkt_polygon,
+								highergeographyid_guid_type,
+								highergeographyid,
+								curated_fg, 
+								management_remarks
 							FROM 
 								geog_auth_rec
 							WHERE
@@ -6724,9 +6726,30 @@ limitations under the License.
 						<cfloop query="getGeography">
 							<div class="col-12 px-0 pb-1">
  							   <ul class="list-unstyled sd small95 row mx-0 px-0 py-1 mb-0">
-	 							   <cfif len(valid_catalog_term_fg) EQ 1><cfset valid="*"><cfelse><cfset valid=""></cfif>
 									<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Higher Geography:</li>
-									<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.higher_geog##valid#</li>
+									<li class="list-group-item col-7 col-xl-8 px-0">
+										#getGeography.higher_geog#
+										<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> View </a>
+										<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
+											<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> Edit</a>
+										</cfif>
+									</li>
+									<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Shared with:</li>
+									<li class="list-group-item col-7 col-xl-8 px-0">#sharedHigherGeogCount.ct# cataloged items</li>
+	 							   <cfif getGeography.valid_catalog_term_fg EQ "1">
+										<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Valid for Data Entry:</li>
+										<li class="list-group-item col-7 col-xl-8 px-0">Yes</li>
+									</cfif>
+									<cfif getGeography.curated_fg EQ "1">
+										<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Vetted:</li>
+										<li class="list-group-item col-7 col-xl-8 px-0">Yes</li>
+									</cfif>
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
+										<cfif len(getGeography.management_remarks) GT 0>
+											<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Management Remarks:</li>
+											<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.management_remarks#</li>
+										</cfif>
+									</cfif>
 			
 									<!--- Loop through fields and display if they have values --->
 									<cfloop array="#fieldLabels#" index="fieldInfo">
@@ -6747,7 +6770,7 @@ limitations under the License.
 										</cfif>
 									</cfloop>
 									<cfif len(getGeography.wkt_polygon) gt 0>
-										<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Polygon to show on map:</li>
+										<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Has Polygon to show on map:</li>
 										<li class="list-group-item col-7 col-xl-8 px-0">Yes</li>
 									</cfif>
 									<cfif len(getGeography.highergeographyid) GT 0>
@@ -6759,16 +6782,9 @@ limitations under the License.
 							</div>
 						</cfloop>
 
-
+						<!--- TODO: Rework change higher geography for locality --->
 						<div class="py-3">
-							<h4>Higher Geography
-								&nbsp;&nbsp;
-								<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-									<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> Edit Shared Higher Geography</a>
-									<span> (shared with #sharedHigherGeogCount.ct# specimens)</span>
-								</cfif>
-								<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> View </a>
-							</h4>
+							<h4>Higher Geography:</h4>
 							<input type="text" value="#getLoc.higher_geog#" class="col-12 col-sm-8 reqdClr disabled">
 							<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
 							<input type="submit" value="Save" class="btn btn-xs btn-secondary" id="saveGeogChangeButton" style="display:none">
