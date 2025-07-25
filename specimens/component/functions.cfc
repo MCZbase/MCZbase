@@ -6724,7 +6724,7 @@ limitations under the License.
 						]>
 
 						<cfloop query="getGeography">
-							<div class="col-12 px-0 pb-1">
+							<div class="col-12 px-2 pb-1">
  							   <ul class="list-unstyled sd small95 row mx-0 px-0 py-1 mb-0">
 									<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Higher Geography:</li>
 									<li class="list-group-item col-7 col-xl-8 px-0">
