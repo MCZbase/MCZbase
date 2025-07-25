@@ -6541,15 +6541,6 @@ limitations under the License.
 					MCZBASE.get_AgentNameOfType(accepted_lat_long.verified_by_agent_id) as verifiedBy,
 					latLongAgnt.agent_name coordinate_determiner,
 					geog_auth_rec.geog_auth_rec_id,
-					geog_auth_rec.continent_ocean,
-					geog_auth_rec.country,
-					geog_auth_rec.state_prov,
-					geog_auth_rec.quad,
-					geog_auth_rec.county,
-					geog_auth_rec.island,
-					geog_auth_rec.island_group,
-					geog_auth_rec.sea,
-					geog_auth_rec.feature,
 					coll_object.coll_object_entered_date,
 					coll_object.last_edit_date,
 					coll_object.flags,
@@ -6660,7 +6651,8 @@ limitations under the License.
 					<h2 class="h2 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
 					<button class="btn btn-xs btn-secondary float-right" onclick="closeInPage();">Back to Specimen without saving changes</button>
 				</div>
-				<form name="loc" method="post" action="specLocality.cfm" class="row">
+				<form name="loc" method="post" class="row">
+					<!--- TODO: Form submission handler --->
 					<input type="hidden" name="action" value="saveChange">
 					<input type="hidden" name="nothing" id="nothing">
 					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
@@ -6687,55 +6679,95 @@ limitations under the License.
 
 						<!--- TODO: Clearer and shorter display of higher geography --->
 
-							<ul class="list-unstyled row mx-0 px-0 py-1 mb-0">
-								<cfif len(getLoc.continent_ocean) gt 0>
-									<li class="list-group-item col-4 px-0"><em>Continent or Ocean:</em></li>
-									<li class="list-group-item col-8 px-0">#getLoc.continent_ocean#</li>
-								</cfif>
-								<cfif len(getLoc.sea) gt 0>
-									<li class="list-group-item col-4 px-0"><em>Sea:</em></li>
-									<li class="list-group-item col-8 px-0">value="#getLoc.sea#</li>
-								</cfif>
-								<cfif len(getLoc.country) gt 0>
-									<li class="list-group-item col-4 px-0"><em>Country:</em></li>
-									<li class="list-group-item col-8 px-0">#getLoc.country#</li>
-								</cfif>
-								<cfif len(getLoc.state_prov) gt 0>
-									<li class="list-group-item col-4 px-0"><em>State:</em></li>
-									<li class="list-group-item col-8 px-0">#getLoc.state_prov#</li>
-								</cfif>
-								<cfif len(getLoc.feature) gt 0>
-									<li class="list-group-item col-4 px-0"><em>Feature:</em></li>
-									<li class="list-group-item col-8 px-0">#getLoc.feature#</li>
-								</cfif>
-								<cfif len(getLoc.county) gt 0>
-									<li class="list-group-item col-4 px-0"><em>County:</em></li>
-									<li class="list-group-item col-8 px-0">#getLoc.county#</li>
-								</cfif>
-								<cfif len(getLoc.island_group) gt 0>
-									<li class="list-group-item col-4 px-0"><em>Island Group:</em></li>
-									<li class="list-group-item col-8 px-0">#getLoc.island_group#</li>
-								</cfif>
+						<cfquery name="getGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT 
+								geog_auth_rec.geog_auth_rec_id,
+								geog_auth_rec.continent_ocean,
+								geog_auth_rec.country,
+								geog_auth_rec.state_prov,
+								geog_auth_rec.county,
+								geog_auth_rec.quad,
+								geog_auth_rec.feature,
+								geog_auth_rec.island,
+								geog_auth_rec.island_group,
+								geog_auth_rec.sea,
+								geog_auth_rec.valid_catalog_term_fg,
+								geog_auth_rec.source_authority,
+								geog_auth_rec.higher_geog,
+								geog_auth_rec.ocean_region,
+								geog_auth_rec.ocean_subregion,
+								geog_auth_rec.water_feature,
+								geog_auth_rec.wkt_polygon,
+								geog_auth_rec.highergeographyid_guid_type,
+								geog_auth_rec.highergeographyid
+							FROM 
+								geog_auth_rec
+							WHERE
+								geog_auth_rec.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getLoc.geog_auth_rec_id#">
+						</cfquery>
+						<cfset fieldLabels = [
+							{field: "continent_ocean", label: "Continent/Ocean"},
+							{field: "ocean_region", label: "Ocean Region"},
+							{field: "ocean_subregion", label: "Ocean Subregion"},
+							{field: "sea", label: "Sea"},
+							{field: "water_feature", label: "Water Feature"},
+							{field: "island_group", label: "Island Group"},
+							{field: "island", label: "Island"},
+							{field: "country", label: "Country"},
+							{field: "state_prov", label: "State/Province"},
+							{field: "county", label: "County"},
+							{field: "feature", label: "Feature"},
+							{field: "quad", label: "Quad"},
+							{field: "source_authority", label: "Source Authority"}
+						]>
 
-								<cfif len(getLoc.island) gt 0>
-									<li class="list-group-item col-4 px-0"><em>Island:</em></li>
-									<li class="list-group-item col-8 px-0">#getLoc.island#</li>
-								</cfif>
-								<cfif len(getLoc.quad) gt 0>
-									<li class="list-group-item col-4 px-0"><em>Quad:</em></li>
-									<li class="list-group-item col-8 px-0">#getLoc.quad#</li>
-								</cfif>
-							</ul>
+						<cfloop query="getGeography">
+							<div class="col-12 px-0 pb-1">
+ 							   <ul class="list-unstyled sd small95 row mx-0 px-0 py-1 mb-0">
+	 							   <cfif len(valid_catalog_term_fg) EQ 1><cfset valid="*"><cfelse><cfset valid=""></cfif>
+									<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Higher Geography:</li>
+									<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.higher_geog##valid#</li>
+			
+									<!--- Loop through fields and display if they have values --->
+									<cfloop array="#fieldLabels#" index="fieldInfo">
+										<cfset fieldValue = getGeography[fieldInfo.field][currentRow]>
+	   								<cfif len(fieldValue) gt 0>
+											<!--- Special handling for continent_ocean label --->
+											<cfif fieldInfo.field EQ "continent_ocean">
+												<cfif find('Ocean', fieldValue) GT 0>
+													<cfset displayLabel = "Ocean">
+												<cfelse>
+													<cfset displayLabel = "Continent">
+												</cfif>
+											<cfelse>
+												<cfset displayLabel = fieldInfo.label>
+											</cfif>
+											<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">#displayLabel#:</li>
+											<li class="list-group-item col-7 col-xl-8 px-0">#fieldValue#</li>
+										</cfif>
+									</cfloop>
+									<cfif len(getGeography.wkt_polygon) gt 0>
+										<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Polygon to show on map:</li>
+										<li class="list-group-item col-7 col-xl-8 px-0">Yes</li>
+									</cfif>
+									<cfif len(getGeography.highergeographyid) GT 0>
+										<cfset geogLink = getGuidLink(guid=#getGeography.highergeographyid#,guid_type=#getGeography.highergeographyid_guid_type#)>
+										<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Higher Geography ID:</li>
+										<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.highergeographyid# #geogLink#</li>
+									</cfif>
+								</ul>
+							</div>
+						</cfloop>
+
 
 						<div class="py-3">
 							<h4>Higher Geography
 								&nbsp;&nbsp;
 								<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-									<button onclick="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> Edit Shared Higher Geography</button>
+									<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> Edit Shared Higher Geography</a>
 									<span> (shared with #sharedHigherGeogCount.ct# specimens)</span>
-								<cfelse>
-									<button onclick="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> View </button>
 								</cfif>
+								<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> View </a>
 							</h4>
 							<input type="text" value="#getLoc.higher_geog#" class="col-12 col-sm-8 reqdClr disabled">
 							<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
@@ -7436,17 +7468,18 @@ function showLLFormat(orig_units) {
 						</div>
 					</form>
 				</div>
-				<cfcatch>
-					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-					<cfset function_called = "#GetFunctionCalledName()#">
-					<h2 class="h3">Error in #function_called#:</h2>
-					<div>#error_message#</div>
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-						<cfdump var="#cfcatch#">
-					</cfif>
-				</cfcatch>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+					<cfdump var="#cfcatch#">
+				</cfif>
+			</cfcatch>
 			</cftry>
-		</cfoutput> </cfthread>
+		</cfoutput> 
+	</cfthread>
 	<cfthread action="join" name="getEditLocalityThread" />
 	<cfreturn getEditLocalityThread.output>
 </cffunction>
