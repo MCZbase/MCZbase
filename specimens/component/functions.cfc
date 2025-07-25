@@ -6658,7 +6658,7 @@ limitations under the License.
 					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 
 					<!--- higher geography --->
-					<div class="col-12 px-0 form-row">
+					<div class="col-12 px-2 form-row">
 
 						<!--- describe action this form will take --->
 						<cfif cecount.ct GT 0 OR loccount.ct GT 0>
