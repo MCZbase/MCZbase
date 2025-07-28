@@ -7767,15 +7767,17 @@ function showLLFormat(orig_units) {
 							<!--- TODO: Additional verbatim fields --->
 
 							<div class="col-12">
-								<cfif loccount.ct eq 1 and cecount.ct eq 1>
-									<input type="submit" value="Save Changes" class="btn btn-xs btn-primary float-left">
+								<div class="mt-3 float-left">
+									<cfif loccount.ct eq 1 and cecount.ct eq 1>
+										<input type="submit" value="Save Changes" class="btn btn-xs btn-primary float-left">
 									<cfelse>
-									<div class="mt-3 float-left">
 										<input type="submit" value="Split and Save Changes" class="btn btn-xs btn-primary">
 										<span class="ml-3">A new locality and collecting event will be created with these values and changes will apply to this record only. </span> 
-									</div>
-								</cfif>
-								<button class="btn btn-xs btn-secondary float-right" onclick="closeInPage();">Back to Specimen without saving changes</button>
+									</cfif>
+								</div>
+								<div class="mt-3 float-right">
+									<button class="btn btn-xs btn-secondary" onclick="closeInPage();">Back to Specimen without saving changes</button>
+								</div>
 							</div>
 						</div>
 					</form>
