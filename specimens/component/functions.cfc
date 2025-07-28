@@ -7235,7 +7235,7 @@ limitations under the License.
 								<script>
 									$(document).ready(function() {
 										// Bind agent autocomplete to existing geology determiner fields
-										const initialRowCount = parseInt($('#geology_row_count').val());
+										const initialRowCount = parseInt($('##geology_row_count').val());
 										for (let i = 1; i <= initialRowCount; i++) {
 											makeAgentAutocompleteMeta('geo_att_determiner_' + i, 'geo_att_determiner_id_' + i);
 										}
@@ -7243,12 +7243,12 @@ limitations under the License.
 									
 									function addGeologyRow() {
 										// Remove "no geology" message if present
-										$('#noGeologyRow').remove();
+										$('##noGeologyRow').remove();
 										
 										// Get current row count and increment
-										let currentRowCount = parseInt($('#geology_row_count').val());
+										let currentRowCount = parseInt($('##geology_row_count').val());
 										currentRowCount++;
-										$('#geology_row_count').val(currentRowCount);
+										$('##geology_row_count').val(currentRowCount);
 										
 										// Build new row HTML
 										const newRow = `
@@ -7311,7 +7311,7 @@ limitations under the License.
 										`; <!--- " --->
 										
 										// Add new row to table
-										$('#geologyTableBody').append(newRow);
+										$('##geologyTableBody').append(newRow);
 										
 										// Bind agent autocomplete to the new row's determiner field
 										makeAgentAutocompleteMeta('geo_att_determiner_' + currentRowCount, 'geo_att_determiner_id_' + currentRowCount);
@@ -7322,12 +7322,12 @@ limitations under the License.
 										const rowIndex = row.data('row-index');
 										
 										// Mark row for deletion by setting geology_attribute to empty string
-										$(`#geology_attribute_${rowIndex}`).val('');
+										$(`##geology_attribute_${rowIndex}`).val('');
 										row.hide();
 										
 										// Show "no geology" message if no visible rows remain
-										if ($('#geologyTableBody tr:visible').length === 0) {
-											$('#geologyTableBody').append(`
+										if ($('##geologyTableBody tr:visible').length === 0) {
+											$('##geologyTableBody').append(`
 												<tr id="noGeologyRow">
 													<td colspan="7" class="text-muted text-center">No geological attributes for this locality.</td>
 												</tr>
