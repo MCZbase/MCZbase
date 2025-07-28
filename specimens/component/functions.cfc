@@ -6724,7 +6724,36 @@ limitations under the License.
 						]>
 
 						<cfloop query="getGeography">
-							<div class="col-12 px-2 pb-1">
+							<div class="col-12 px-0 py-1">
+								<h3 class="h3">Higher Geography:</h3>
+								<span class="font-weight-lessbold" id="higherGeographySpan">#getGeography.higher_geog#</span>
+								<input type="text" class="form-control form-control-sm" id="higherGeographyInput" name="higher_geog" value="#getGeography.higher_geog#" style="display: none;">
+								<input type="hidden" name="geog_auth_rec_id" value="#getGeography.geog_auth_rec_id#">
+								<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
+								<input type="button" value="Details" class="btn btn-xs btn-secondary mr-2" id="showGeogButton">
+								<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> View </a>
+								<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
+									<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> Edit</a>
+								</cfif>
+							</div>
+							<script>
+								$("##changeGeogButton").click(function() {
+									// Hide the span and show the input field
+									$("#higherGeographySpan").hide();
+									$("#higherGeographyInput").show();
+								});
+								$("##showGeogButton").click(function() {
+									// Toggle the visibility of the higher geography details
+									$("#higherGeographyDetailsDiv").toggle();
+									// Change button text based on visibility
+									if ($("#higherGeographyDetailsDiv").is(":visible")) {
+										$("#showGeogButton").val("Hide Details");
+									} else {
+										$("#showGeogButton").val("Details");
+									}
+								});
+							</script>
+							<div class="col-12 px-2 pb-1" id="higherGeographyDetailsDiv" style="display: none;">
  							   <ul class="list-unstyled sd small95 row mx-0 px-0 py-1 mb-0">
 									<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Higher Geography:</li>
 									<li class="list-group-item col-7 col-xl-8 px-0">
@@ -6786,7 +6815,6 @@ limitations under the License.
 						<div class="py-3">
 							<h4>Higher Geography:</h4>
 							<input type="text" value="#getLoc.higher_geog#" class="col-12 col-sm-8 reqdClr disabled">
-							<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
 							<input type="submit" value="Save" class="btn btn-xs btn-secondary" id="saveGeogChangeButton" style="display:none">
 						</div>
 					</div>
