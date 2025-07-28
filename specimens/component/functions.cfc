@@ -6792,100 +6792,110 @@ limitations under the License.
 					</div>
 
 					<!--- locality --->
-						<div class="col-12 float-left px-0">
-							<h1 class="h3">Specific Locality</h1>
-							<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
-								<li class="col-12 col-md-12 px-0 pt-1">
-									<label for="spec_locality" class="data-entry-label pt-1"> Specific Locality
-										&nbsp;&nbsp; 
-										<a class="btn btn-xs btn-info" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank"> Edit Shared Specific Locality</a>
-										<cfif loccount.ct eq 1>
-											(unique to this specimen)
-											<cfelse>
-											(shared with #loccount.ct# specimens)
-										</cfif>
-									</label>
-								</li>
-								<li class="col-12 pb-1 col-md-12 pb-2 px-0">
-									<input type="text" class="data-entry-input" name="spec_locality" id="spec_locality" value="#getLoc.spec_locality#" required="true" message="Specific Locality is required.">
-								</li>
-								<li class=" col-12 col-md-2 px-0 py-1">
-									<label for="sovereign_nation" class="data-entry-label pt-1 text-right">Sovereign Nation</label>
-								</li>
-								<li class="col-12  col-md-10 px-0 pb-2">
-									<select name="sovereign_nation" id="sovereign_nation" size="1" class="">
-										<cfloop query="ctSovereignNation">
-											<option <cfif isdefined("getLoc.sovereign_nation") AND ctsovereignnation.sovereign_nation is getLoc.sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
-										</cfloop>
-									</select>
-								</li>
-								<li class=" col-12 col-md-2 py-1 px-0">
-									<label for="minimum_elevation" class="data-entry-label px-2 text-right"> Min. Elevation </label>
-								</li>
-								<li class=" col-12 col-md-2 pb-2 px-0">
-									<input type="text" class="px-2 data-entry-input mr-2" name="minimum_elevation" id="minimum_elevation" value="#getLoc.MINIMUM_ELEVATION#" validate="numeric" message="Minimum Elevation is a number.">
-								</li>
-								<li class=" col-12 col-md-2 py-1 px-0">
-									<label for="maximum_elevation"  class="data-entry-label px-2 text-right"> Max. Elevation </label>
-								</li>
-								<li class=" col-12 col-md-2 pb-2 px-0">
-									<input type="text" class="data-entry-label px-2 mr-2" id="maximum_elevation" name="maximum_elevation" value="#getLoc.MAXIMUM_ELEVATION#" validate="numeric" message="Maximum Elevation is a number.">
-								</li>
-								<li class=" col-12 col-md-2 py-1 px-0">
-									<label for="orig_elev_units" class="data-entry-label px-2 text-right"> Elevation Units </label>
-								</li>
-								<li class=" col-12 col-md-2 pb-1 px-0">
-									<select name="orig_elev_units" id="orig_elev_units" size="1">
-										<option value=""></option>
-										<cfloop query="ctElevUnit">
-											<option <cfif #ctelevunit.orig_elev_units# is "#getLoc.orig_elev_units#"> selected </cfif>
-									value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
-										</cfloop>
-									</select>
-								</li>
-								<li class=" col-12 col-md-2 py-1 px-0">
-									<label for="min_depth" class="data-entry-label px-2 text-right"> Min. Depth </label>
-								</li>
-								<li class="col-12 col-md-2 pb-1 px-0">
-									<input type="text" class="data-entry-input" name="min_depth" id="min_depth" value="#getLoc.min_depth#" validate="numeric" message="Minimum Depth is a number.">
-								</li>
-								<li class=" col-12 col-md-2 py-1 px-0">
-									<label for="max_depth" class="data-entry-label px-2 text-right"> Max. Depth </label>
-								</li>
-								<li class="col-12 col-md-2 pb-1 px-0">
-									<input type="text" id="max_depth" name="max_depth" value="#getLoc.max_depth#" size="3" validate="numeric" class="data-entry-input px-2 mr-2" message="Maximum Depth is a number.">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="depth_units"  class="data-entry-label px-2 text-right"> Depth Units </label>
-								</li>
-								<li class=" col-12 col-md-2 pb-1 px-0">
-									<select name="depth_units" id="depth_units" class="" size="1">
-										<option value=""></option>
-										<cfloop query="ctdepthUnit">
-											<option <cfif #ctdepthUnit.depth_units# is "#getLoc.depth_units#"> selected </cfif>
-									value="#ctdepthUnit.depth_units#">#ctdepthUnit.depth_units#</option>
-										</cfloop>
-									</select>
-								</li>
-								<li class="col-12 col-md-12 pt-1 px-0">
-									<label for="locality_remarks" class="data-entry-label px-2">Locality Remarks</label>
-								</li>
-								<li class="col-12 col-md-12 pb-1 px-0">
-									<input type="text" class="data-entry-label px-2" name="locality_remarks" id="locality_remarks" value="#getLoc.LOCALITY_REMARKS#">
-								</li>
-								<li class=" col-12 col-md-12 pt-1 px-0">
-									<label for="NoGeorefBecause" class="data-entry-label px-2"> Not Georefererenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">(Suggested Entries)</a> </label>
-								</li>
-								<li class=" col-12 col-md-12 pb-2 px-0">
-									<input type="text" name="NoGeorefBecause" value="#getLoc.NoGeorefBecause#" class="data-entry-input">
-									<cfif #len(getLoc.orig_lat_long_units)# gt 0 AND len(#getLoc.NoGeorefBecause#) gt 0>
-										<div class="redMessage"> NotGeorefBecause should be NULL for localities with georeferences.
-											Please review this locality and update accordingly. </div>
-										<cfelseif #len(getLoc.orig_lat_long_units)# is 0 AND len(#getLoc.NoGeorefBecause#) is 0>
-										<div class="redMessage"> Please georeference this locality or enter a value for NoGeorefBecause. </div>
+					<div class="col-12 float-left px-0">
+						<h1 class="h3">Specific Locality</h1>
+						<div class="form-row mx-0 mb-0 bg-light border p-2">
+							<div class="col-12 mb-2 mt-0">
+								<label class="data-entry-label" for="spec_locality">
+									Specific Locality
+									&nbsp;&nbsp; 
+									<a class="btn btn-xs btn-info" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit Shared Specific Locality</a>
+									<cfif loccount.ct eq 1>
+										(unique to this specimen)
+									<cfelse>
+										(shared with #loccount.ct# specimens)
 									</cfif>
-								</li>
-							</ul>
+								</label>
+								<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.spec_locality)#" required>
+							</div>
+							
+							<div class="col-12 col-md-6 mb-2 mt-0">
+								<label class="data-entry-label" for="sovereign_nation">Sovereign Nation</label>
+								<select name="sovereign_nation" id="sovereign_nation" size="1" class="data-entry-select reqdClr">
+									<cfloop query="ctSovereignNation">
+										<cfif isdefined("getLoc.sovereign_nation") AND ctSovereignNation.sovereign_nation is getLoc.sovereign_nation>
+											<cfset selected="selected">
+										<cfelse>
+											<cfset selected="">
+										</cfif>
+										<option #selected# value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
+									</cfloop>
+								</select>
+							</div>
+							
+							<div class="col-12 col-md-6 mb-2 mt-0">
+								<label class="data-entry-label" for="NoGeorefBecause">
+									Not Georeferenced Because
+									<i class="fas fa-info-circle" onClick="getMCZDocs('Not_Georeferenced_Because')" aria-label="help link with suggested entries for why no georeference was added"></i>
+								</label>
+								<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input" value="#encodeForHTML(getLoc.NoGeorefBecause)#">
+								<cfif len(getLoc.orig_lat_long_units) gt 0 AND len(getLoc.NoGeorefBecause) gt 0>
+									<div class="text-danger small mt-1">NotGeorefBecause should be NULL for localities with georeferences. Please review this locality and update accordingly.</div>
+								<cfelseif len(getLoc.orig_lat_long_units) is 0 AND len(getLoc.NoGeorefBecause) is 0>
+									<div class="text-danger small mt-1">Please georeference this locality or enter a value for NoGeorefBecause.</div>
+								</cfif>
+							</div>
+						</div>
+						
+						<div class="form-row m-0">
+							<div class="col-12 col-md-2 py-1 mt-0">
+								<label class="data-entry-label" for="minimum_elevation"><span class="font-weight-lessbold">Elevation:</span> Minimum</label>
+								<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input" value="#encodeForHTML(getLoc.minimum_elevation)#">
+							</div>
+							
+							<div class="col-12 col-md-2 py-1 mt-0">
+								<label class="data-entry-label" for="maximum_elevation">Maximum Elevation</label>
+								<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input" value="#encodeForHTML(getLoc.maximum_elevation)#">
+							</div>
+							
+							<div class="col-12 col-md-2 py-1 mt-0">
+								<label class="data-entry-label" for="orig_elev_units">Elevation Units</label>
+								<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select">
+									<option value=""></option>
+									<cfloop query="ctElevUnit">
+										<cfif ctElevUnit.orig_elev_units is getLoc.orig_elev_units>
+											<cfset selected="selected">
+										<cfelse>
+											<cfset selected="">
+										</cfif>
+										<option #selected# value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
+									</cfloop>
+								</select>
+							</div>
+							
+							<div class="col-12 col-md-2 py-1 mt-0">
+								<label class="data-entry-label" for="min_depth"><span class="font-weight-lessbold">Depth:</span> Minimum</label>
+								<input type="text" name="min_depth" id="min_depth" class="data-entry-input" value="#encodeForHTML(getLoc.min_depth)#">
+							</div>
+							
+							<div class="col-12 col-md-2 py-1 mt-0">
+								<label class="data-entry-label" for="max_depth">Maximum Depth</label>
+								<input type="text" name="max_depth" id="max_depth" class="data-entry-input" value="#encodeForHTML(getLoc.max_depth)#">
+							</div>
+							
+							<div class="col-12 col-md-2 py-1 mt-0">
+								<label class="data-entry-label" for="depth_units">Depth Units</label>
+								<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
+									<option value=""></option>
+									<cfloop query="ctDepthUnit">
+										<cfif ctDepthUnit.depth_units is getLoc.depth_units>
+											<cfset selected="selected">
+										<cfelse>
+											<cfset selected="">
+										</cfif>
+										<option #selected# value="#ctDepthUnit.depth_units#">#ctDepthUnit.depth_units#</option>
+									</cfloop>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-row mx-0 my-1">
+							<div class="col-12 py-1">
+								<label class="data-entry-label" for="locality_remarks">Locality Remarks</label>
+								<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input" value="#encodeForHTML(getLoc.locality_remarks)#">
+							</div>
+						</div>
+					</div>
 
 						<!--- collecting event --->
 
