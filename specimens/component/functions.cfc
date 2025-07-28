@@ -6651,7 +6651,7 @@ limitations under the License.
 					<h2 class="h2 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
 					<button class="btn btn-xs btn-secondary float-right" onclick="closeInPage();">Back to Specimen without saving changes</button>
 				</div>
-				<form name="loc" method="post" class="row">
+				<form name="loc" method="post" class="row border p-1 m-1 bg-light">
 					<!--- TODO: Form submission handler --->
 					<input type="hidden" name="action" value="saveChange">
 					<input type="hidden" name="nothing" id="nothing">
@@ -6672,9 +6672,9 @@ limitations under the License.
 									#separator#Locality is <span class="text-danger">Shared with #loccount.ct# other specimens</span>
 								</cfif>
 							</h3>
-							<p class="font-italic text-danger pt-3">Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.</p>
+							<p class="font-italic text-danger">Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.</p>
 						<cfelse>
-							<p class="font-italic text-success pt-3">The collecting event and locality are used only by this specimen.</p>
+							<p class="font-italic text-success">The collecting event and locality are used only by this specimen.</p>
 						</cfif>
 
 						<!--- Display of higher geography --->
@@ -6828,7 +6828,7 @@ limitations under the License.
 								#followText#
 							</span>
 						</h2>
-						<div class="form-row mx-0 mb-0 bg-light border p-2">
+						<div class="form-row mx-0 mb-0 border-bottom p-2">
 							<div class="col-12 mb-2 mt-0">
 								<label class="data-entry-label" for="spec_locality">
 									Specific Locality
@@ -6938,7 +6938,7 @@ limitations under the License.
 									#followText#
 							</span>
 						</h2>
-						<div class="form-row mx-0 mb-0 bg-light border p-2">
+						<div class="form-row mx-0 mb-0 border-bottom p-2">
 							<div class="col-12 mb-2 mt-0">
 								<label class="data-entry-label" for="verbatim_locality">
 									Verbatim Locality
@@ -7368,7 +7368,7 @@ limitations under the License.
 							<h2 class="h3 mt-3">Georeference and Georeference Metadata</h2>
 							<!--- TODO: Count current georeferences --->
 							<!--- TODO: identify this as the current georeference, describe action on split --->
-							<ul id="llMeta" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
+							<ul id="llMeta" class="list-unstyled row mx-0 px-3 pt-3 pb-2 mb-0 border-bottom">
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label for="coordinate_determiner" class="data-entry-label px-2 text-right"> Coordinate Determiner </label>
 								</li>
