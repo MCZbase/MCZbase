@@ -342,9 +342,12 @@ limitations under the License.
 		<cfset finalPDFPath = "#tempDir#/MCZ_labels_#result_id#_final.pdf">
 		<cfpdf action="merge"
 			destination="#finalPDFPath#"
-			source="#arrayToList(tankPDFs,',')#"
 			overwrite="yes"
 		>
+			<cfloop from=1 to="#arraylen(tankPDFs)#" index="j">
+    			<cfpdfparam source="#tankPDFs[j]#">
+    		</cfloop>
+		</cfpdf>
 		
 		<!--- Stream the final PDF to the browser --->
 		<cfheader name="Content-Disposition" value="inline; filename=MCZ_labels_#result_id#_final.pdf">
