@@ -7124,8 +7124,8 @@ limitations under the License.
 							<script>
 								$(document).ready(function() {
 									// bind an opener for the geologyTableSection to the edit button
-									$('#buttonOpenEditGeologyTable').on('click', function() {
-										$('#geologyTableSection').toggle();
+									$('##buttonOpenEditGeologyTable').on('click', function() {
+										$('##geologyTableSection').toggle();
 									});
 								});
 							</script>
