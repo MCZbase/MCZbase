@@ -6725,16 +6725,18 @@ limitations under the License.
 
 						<cfloop query="getGeography">
 							<div class="col-12 px-0 py-1">
-								<h3 class="h3">Higher Geography:</h3>
+								<h3 class="h3">
+									Higher Geography
+									<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
+										<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-warning" target="_blank"> Edit Higher Geography</a>
+									</cfif>
+								</h3>
 								<span class="font-weight-lessbold" id="higherGeographySpan">#getGeography.higher_geog#</span>
 								<input type="text" class="data-entry-input reqdClr" id="higherGeographyInput" name="higher_geog" value="#getGeography.higher_geog#" style="display: none;">
 								<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#getGeography.geog_auth_rec_id#">
 								<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
-								<input type="button" value="Details" class="btn btn-xs btn-secondary mr-2" id="showGeogButton">
+								<input type="button" value="Details" class="btn btn-xs btn-info mr-2" id="showGeogButton">
 								<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> View </a>
-								<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-									<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> Edit</a>
-								</cfif>
 							</div>
 							<script>
 								$("##changeGeogButton").click(function() {
@@ -6821,10 +6823,11 @@ limitations under the License.
 									<cfset shared= "">
 									<cfset followText = "(unique to this specimen)">
 								<cfelse>
-									<cfset shared= "shared">
+									<cfset shared= "Shared">
 									<cfset followText = "(shared with #loccount.ct# specimens)">
 								</cfif>
-								<a class="btn btn-xs btn-info" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit #shared# Locality</a>
+								<a class="btn btn-xs btn-info" href="/localities/viewLocality.cfm?locality_id=#getLoc.locality_id#" target="_blank">View #shared# Locality</a>
+								<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit #shared# Locality</a>
 								#followText#
 							</span>
 						</h2>
@@ -6931,10 +6934,11 @@ limitations under the License.
 										<cfset shared= "">
 										<cfset followText = "(unique to this specimen)">
 									<cfelse>
-										<cfset shared= "shared">
+										<cfset shared= "Shared">
 										<cfset followText = "(shared with #cecount.ct# specimens)">
 									</cfif>
-									<a class="btn btn-xs btn-info" href="/localities/CollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">Edit #shared# Collecting Event</a>
+									<a class="btn btn-xs btn-info" href="/localities/viewCollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">View #shared# Collecting Event</a>
+									<a class="btn btn-xs btn-warning" href="/localities/CollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">Edit #shared# Collecting Event</a>
 									#followText#
 							</span>
 						</h2>
