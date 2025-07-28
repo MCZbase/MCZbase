@@ -7051,7 +7051,7 @@ limitations under the License.
 											and
 											geology_attributes.geology_attribute = geology_attribute_hierarchy.attribute
 								WHERE 
-									geology_attributes.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+									geology_attributes.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.locality_id#">
 								ORDER BY
 									ctgeology_attribute.ordinal
 							</cfquery>
