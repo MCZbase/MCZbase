@@ -6835,9 +6835,7 @@ limitations under the License.
 									<div class="text-danger small mt-1">Please georeference this locality or enter a value for NoGeorefBecause.</div>
 								</cfif>
 							</div>
-						</div>
 						
-						<div class="form-row m-0">
 							<div class="col-12 col-md-2 py-1 mt-0">
 								<label class="data-entry-label" for="minimum_elevation"><span class="font-weight-lessbold">Elevation:</span> Minimum</label>
 								<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input" value="#encodeForHTML(getLoc.minimum_elevation)#">
@@ -6887,111 +6885,133 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-						</div>
 						
-						<div class="form-row mx-0 my-1">
-							<div class="col-12 py-1">
-								<label class="data-entry-label" for="locality_remarks">Locality Remarks</label>
-								<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input" value="#encodeForHTML(getLoc.locality_remarks)#">
+							<div class="form-row mx-0 my-1">
+								<div class="col-12 py-1">
+									<label class="data-entry-label" for="locality_remarks">Locality Remarks</label>
+									<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input" value="#encodeForHTML(getLoc.locality_remarks)#">
+								</div>
 							</div>
 						</div>
 					</div>
 
 						<!--- collecting event --->
-
-							<h1 class="h3 mt-3">Collecting Event</h1>
-							<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border">
-								<li class="col-12 col-md-12 px-0 pt-1 mt-2">
-									<label for="verbatim_locality" class="data-entry-label px-2"> Verbatim Locality &nbsp;&nbsp; 
-									<a class="btn btn-xs btn-info" href="/localities/CollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank"> Edit Shared Collecting Event</a>
-										<cfif cecount.ct eq 1>
-											(unique to this specimen)
-											<cfelse>
-											(shared with #cecount.ct# specimens)
-										</cfif>
-									</label>
-								</li>
-								<li class="col-12 col-md-12 pb-2 px-0">
-									<input type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#getLoc.verbatim_locality#" required="true" message="Verbatim Locality is required.">
-								</li>
-								<li class="col-12 col-md-2 py-2 px-0">
-									<label for="verbatim_date" class="px-2 data-entry-label text-right">Verbatim Date</label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
-									<input type="text" class="data-entry-input" name="verbatim_date" id="verbatim_date" value="#getLoc.verbatim_date#" required="true" message="Verbatim Date is a required text field.">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="collecting time" class="px-2 data-entry-label text-right">Collecting Time</label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
-									<input type="text" class="data-entry-input" name="collecting_time" id="collecting_time" value="#getLoc.collecting_time#">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="ich field number" class="px-2 data-entry-label text-right"> Ich. Field Number </label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
-									<input type="text" class="px-2 data-entry-input" name="ich_field_number" id="ich_field_number" value="#getLoc.fish_field_number#">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="startDayofYear" class="px-2 data-entry-label text-right"> Start Day of Year</label>
-								</li>
-								<li class="col-12 col-md-4 pb-2 px-0">
-									<input type="text" class="px-2 data-entry-input" name="startDayofYear" id="startDayofYear" value="#getLoc.startdayofyear#">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="endDayofYear" class="px-2 data-entry-label text-right"> End Day of Year </label>
-								</li>
-								<li class="col-12 col-md-4 pb-2 px-0">
-									<input type="text" class="px-2 data-entry-input" name="endDayofYear" id="endDayofYear" value="#getLoc.enddayofyear#">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="began_date" class="px-2 data-entry-label text-right">Began Date/Time</label>
-								</li>
-								<li class="col-12 col-md-4 pb-2 px-0">
-									<input type="text" class="px-2 data-entry-input" name="began_date" id="began_date" value="#getLoc.began_date#" class="reqdClr">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="ended_date" class="px-2  data-entry-label text-right"> Ended Date/Time </label>
-								</li>
-								<li class="col-12 col-md-4 pb-2 px-0">
-									<input type="text" class="data-entry-input" name="ended_date" id="ended_date" value="#getLoc.ended_date#" class="reqdClr">
-								</li>
-								<li class="col-12 col-md-3 py-1 px-0">
-									<label for="coll_event_remarks" class="px-2  data-entry-label text-right"> Collecting Event Remarks </label>
-								</li>
-								<li class="col-12 col-md-9 pb-2 px-0">
-									<input type="text" class="data-entry-input" name="coll_event_remarks" id="coll_event_remarks" value="#getLoc.COLL_EVENT_REMARKS#">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="collecting_source" class="px-2 data-entry-label text-right"> Collecting Source </label>
-								</li>
-								<li class="col-12 col-md-4 pb-2 px-0">
-									<select name="collecting_source" class="data-entry-select" id="collecting_source" size="1" class="reqdClr">
+					<!--- collecting event --->
+					<div class="col-12 px-0">
+						<h1 class="h3 mt-3">Collecting Event</h1>
+						<div class="form-row mx-0 mb-0 bg-light border p-2">
+							<div class="col-12 mb-2 mt-0">
+								<label class="data-entry-label" for="verbatim_locality">
+									Verbatim Locality
+									&nbsp;&nbsp; 
+									<a class="btn btn-xs btn-info" href="/localities/CollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">Edit Shared Collecting Event</a>
+									<cfif cecount.ct eq 1>
+										(unique to this specimen)
+									<cfelse>
+										(shared with #cecount.ct# specimens)
+									</cfif>
+								</label>
+								<input type="text" name="verbatim_locality" id="verbatim_locality" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.verbatim_locality)#" required>
+							</div>
+							
+							<div class="col-12 col-md-3 mb-2 mt-0">
+								<label class="data-entry-label" for="verbatim_date">Verbatim Date</label>
+								<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.verbatim_date)#" required>
+							</div>
+							
+							<div class="col-12 col-md-3 mb-2 mt-0">
+								<label class="data-entry-label" for="began_date">Began Date/Time</label>
+								<input type="text" name="began_date" id="began_date" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.began_date)#">
+							</div>
+							
+							<div class="col-12 col-md-3 mb-2 mt-0">
+								<label class="data-entry-label" for="ended_date">Ended Date/Time</label>
+								<input type="text" name="ended_date" id="ended_date" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.ended_date)#">
+							</div>
+							
+							<div class="col-12 col-md-3 mb-2 mt-0">
+								<label class="data-entry-label" for="collecting_time">Collecting Time</label>
+								<input type="text" name="collecting_time" id="collecting_time" class="data-entry-input" value="#encodeForHTML(getLoc.collecting_time)#">
+							</div>
+						</div>
+						
+						<div class="form-row m-0">
+							<div class="col-12 col-md-2 py-1 mt-0">
+								<label class="data-entry-label" for="startDayofYear">Start Day of Year</label>
+								<input type="text" name="startDayofYear" id="startDayofYear" class="data-entry-input" value="#encodeForHTML(getLoc.startdayofyear)#">
+							</div>
+							
+							<div class="col-12 col-md-2 py-1 mt-0">
+								<label class="data-entry-label" for="endDayofYear">End Day of Year</label>
+								<input type="text" name="endDayofYear" id="endDayofYear" class="data-entry-input" value="#encodeForHTML(getLoc.enddayofyear)#">
+							</div>
+							
+							<div class="col-12 col-md-2 py-1 mt-0">
+								<label class="data-entry-label" for="ich_field_number">Ich. Field Number</label>
+								<input type="text" name="ich_field_number" id="ich_field_number" class="data-entry-input" value="#encodeForHTML(getLoc.fish_field_number)#">
+							</div>
+							
+							<div class="col-12 col-md-3 py-1 mt-0">
+								<label class="data-entry-label" for="collecting_source">Collecting Source</label>
+								<select name="collecting_source" id="collecting_source" size="1" class="data-entry-select reqdClr">
 									<option value=""></option>
 									<cfloop query="ctcollecting_source">
-										<option <cfif #ctcollecting_source.COLLECTING_SOURCE# is "#getLoc.COLLECTING_SOURCE#"> selected </cfif>
-						value="#ctcollecting_source.COLLECTING_SOURCE#">#ctcollecting_source.COLLECTING_SOURCE#</option>
+										<cfif ctcollecting_source.collecting_source is getLoc.collecting_source>
+											<cfset selected="selected">
+										<cfelse>
+											<cfset selected="">
+										</cfif>
+										<option #selected# value="#ctcollecting_source.collecting_source#">#ctcollecting_source.collecting_source#</option>
 									</cfloop>
-									</select>
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="collecting_method" class="data-entry-label px-2 text-right"> Collecting Method </label>
-								</li>
-								<li class="col-12 col-md-4 pb-2 px-0">
-									<input type="text" name="collecting_method" id="collecting_method" value="#getLoc.COLLECTING_METHOD#" >
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="habitat_desc" class="data-entry-label px-2 text-right"> Habitat </label>
-								</li>
-								<li class="col-12 col-md-10 pb-2 px-0">
-									<input type="text" class="data-entry-input px-2" name="habitat_desc" id="habitat_desc" value="#getLoc.habitat_desc#" >
-								</li>
-							</ul>
-
-						<!--- TODO: Collecting event numbers --->
-						<div class="col-12 row">
-	
+								</select>
+							</div>
+							
+							<div class="col-12 col-md-3 py-1 mt-0">
+								<label class="data-entry-label" for="collecting_method">Collecting Method</label>
+								<input type="text" name="collecting_method" id="collecting_method" class="data-entry-input" value="#encodeForHTML(getLoc.collecting_method)#">
+							</div>
 						</div>
+						
+						<div class="form-row mx-0 my-1">
+							<div class="col-12 py-1">
+								<label class="data-entry-label" for="habitat_desc">Habitat</label>
+								<input type="text" name="habitat_desc" id="habitat_desc" class="data-entry-input" value="#encodeForHTML(getLoc.habitat_desc)#">
+							</div>
+							
+							<div class="col-12 py-1">
+								<label class="data-entry-label" for="coll_event_remarks">Collecting Event Remarks</label>
+								<input type="text" name="coll_event_remarks" id="coll_event_remarks" class="data-entry-input" value="#encodeForHTML(getLoc.coll_event_remarks)#">
+							</div>
+						</div>
+					</div>
+					
+					<!--- TODO: Editing Collecting event numbers --->
+					<div class="col-12 px-0 mt-2">
+						<h3 class="h4">Collecting Event Numbers</h3>
+						
+						<!--- Display existing collecting event numbers --->
+						<div class="form-row mx-0 mb-2">
+							<div class="col-12">
+								<cfquery name="colEventNumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT number_series,
+										MCZBASE.get_agentnameoftype(collector_agent_id) as collector_agent,
+										coll_event_number,
+										coll_event_number_id
+									FROM
+										coll_event_number
+										left join coll_event_num_series on coll_event_number.coll_event_num_series_id = coll_event_num_series.coll_event_num_series_id
+									WHERE
+										coll_event_number.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+								</cfquery>
+								<h3 class="h4">Collector/Field Numbers (identifying collecting events)</h3>
+								<ul class="mb-1">
+									<cfloop query="colEventNumbers">
+										<li><span id="collEventNumber_#coll_event_number_id#">#coll_event_number# (#number_series#, #collector_agent#)</span></li>
+									</cfloop>
+								</ul>
+							</div>
+						</div>
+					</div>
 
 						<!--- geology attributes (on locality) --->
 
