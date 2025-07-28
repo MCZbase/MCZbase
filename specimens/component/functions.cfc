@@ -6793,18 +6793,24 @@ limitations under the License.
 
 					<!--- locality --->
 					<div class="col-12 float-left px-0">
-						<h1 class="h3">Specific Locality</h1>
+						<h2 class="h3">
+							Locality
+							<span class="pl-2">
+								<cfif loccount.ct eq 1>
+									<cfset shared= "">
+									<cfset followText = "(unique to this specimen)">
+								<cfelse>
+									<cfset shared= "shared">
+									<cfset followText = "(shared with #loccount.ct# specimens)">
+								</cfif>
+								<a class="btn btn-xs btn-info" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit #shared# Locality</a>
+								#followText#
+							</span>
+						</h2>
 						<div class="form-row mx-0 mb-0 bg-light border p-2">
 							<div class="col-12 mb-2 mt-0">
 								<label class="data-entry-label" for="spec_locality">
 									Specific Locality
-									&nbsp;&nbsp; 
-									<a class="btn btn-xs btn-info" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit Shared Specific Locality</a>
-									<cfif loccount.ct eq 1>
-										(unique to this specimen)
-									<cfelse>
-										(shared with #loccount.ct# specimens)
-									</cfif>
 								</label>
 								<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.spec_locality)#" required>
 							</div>
@@ -6895,21 +6901,26 @@ limitations under the License.
 						</div>
 					</div>
 
-						<!--- collecting event --->
 					<!--- collecting event --->
 					<div class="col-12 px-0">
-						<h1 class="h3 mt-3">Collecting Event</h1>
+						<h1 class="h3 mt-3">
+							Collecting Event
+							<span class="pl-2">
+									<cfif cecount.ct eq 1>
+										<cfset shared= "">
+										<cfset followText = "(unique to this specimen)">
+									<cfelse>
+										<cfset shared= "shared">
+										<cfset followText = "(shared with #cecount.ct# specimens)">
+									</cfif>
+									<a class="btn btn-xs btn-info" href="/localities/CollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">Edit #shared# Collecting Event</a>
+									#followText#
+							</span>
+						</h1>
 						<div class="form-row mx-0 mb-0 bg-light border p-2">
 							<div class="col-12 mb-2 mt-0">
 								<label class="data-entry-label" for="verbatim_locality">
 									Verbatim Locality
-									&nbsp;&nbsp; 
-									<a class="btn btn-xs btn-info" href="/localities/CollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">Edit Shared Collecting Event</a>
-									<cfif cecount.ct eq 1>
-										(unique to this specimen)
-									<cfelse>
-										(shared with #cecount.ct# specimens)
-									</cfif>
 								</label>
 								<input type="text" name="verbatim_locality" id="verbatim_locality" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.verbatim_locality)#" required>
 							</div>
@@ -6933,9 +6944,7 @@ limitations under the License.
 								<label class="data-entry-label" for="collecting_time">Collecting Time</label>
 								<input type="text" name="collecting_time" id="collecting_time" class="data-entry-input" value="#encodeForHTML(getLoc.collecting_time)#">
 							</div>
-						</div>
 						
-						<div class="form-row m-0">
 							<div class="col-12 col-md-2 py-1 mt-0">
 								<label class="data-entry-label" for="startDayofYear">Start Day of Year</label>
 								<input type="text" name="startDayofYear" id="startDayofYear" class="data-entry-input" value="#encodeForHTML(getLoc.startdayofyear)#">
@@ -6970,9 +6979,7 @@ limitations under the License.
 								<label class="data-entry-label" for="collecting_method">Collecting Method</label>
 								<input type="text" name="collecting_method" id="collecting_method" class="data-entry-input" value="#encodeForHTML(getLoc.collecting_method)#">
 							</div>
-						</div>
 						
-						<div class="form-row mx-0 my-1">
 							<div class="col-12 py-1">
 								<label class="data-entry-label" for="habitat_desc">Habitat</label>
 								<input type="text" name="habitat_desc" id="habitat_desc" class="data-entry-input" value="#encodeForHTML(getLoc.habitat_desc)#">
@@ -7001,7 +7008,7 @@ limitations under the License.
 										coll_event_number
 										left join coll_event_num_series on coll_event_number.coll_event_num_series_id = coll_event_num_series.coll_event_num_series_id
 									WHERE
-										coll_event_number.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+										coll_event_number.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.collecting_event_id#">
 								</cfquery>
 								<h3 class="h4">Collector/Field Numbers (identifying collecting events)</h3>
 								<ul class="mb-1">
