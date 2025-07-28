@@ -7057,69 +7057,69 @@ limitations under the License.
 							</cfquery>
 							<cfif getGeologicalAttributes.recordcount EQ 0>
 								<h3 class="h4">Geological Attributes</h3>
-									<ul>
-										<li>
-											Recent (no geological attributes) 
-										</li>
-									</ul>
-									<button type="button" class="btn btn-xs btn-secondary" onClick=" openGeologyTable(); ">Add</button>
+								<ul>
+									<li>
+										Recent (no geological attributes) 
+									</li>
+								</ul>
+								<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Add</button>
 							<cfelse>
 								<h3 class="h4">Geological Attributes</h3>
-									<ul>
-										<cfset valList = "">
-										<cfset shownParentsList = "">
-										<cfset separator = "">
-										<cfset separator2 = "">
-										<cfloop query="getGeologicalAttributes">
-											<cfset valList = "#valList##separator##getGeologicalAttributes.geo_att_value#">
-											<cfset separator = "|">
+								<ul>
+									<cfset valList = "">
+									<cfset shownParentsList = "">
+									<cfset separator = "">
+									<cfset separator2 = "">
+									<cfloop query="getGeologicalAttributes">
+										<cfset valList = "#valList##separator##getGeologicalAttributes.geo_att_value#">
+										<cfset separator = "|">
+									</cfloop>
+									<cfloop query="getGeologicalAttributes">
+										<cfquery name="getParentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+											SELECT distinct
+											  connect_by_root geology_attribute_hierarchy.attribute parent_attribute,
+											  connect_by_root attribute_value parent_attribute_value,
+											  connect_by_root usable_value_fg
+											FROM geology_attribute_hierarchy
+											  left join geology_attributes on
+											     geology_attribute_hierarchy.attribute = geology_attributes.geology_attribute
+											     and
+									   		  geology_attribute_hierarchy.attribute_value = geology_attributes.geo_att_value
+											WHERE geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getGeologicalAttributes.geology_attribute_hierarchy_id#">
+											CONNECT BY nocycle PRIOR geology_attribute_hierarchy_id = parent_id
+										</cfquery>
+										<cfset parentage="">
+										<cfloop query="getParentage">
+											<cfif ListContains(valList,getParentage.parent_attribute_value,"|") EQ 0 AND  ListContains(shownParentsList,getParentage.parent_attribute_value,"|") EQ 0 >
+												<cfset parentage="#parentage#<li><span class='text-secondary'>#getParentage.parent_attribute#:#getParentage.parent_attribute_value#</span></li>" > <!--- " --->
+												<cfset shownParentsList = "#shownParentsList##separator2##getParentage.parent_attribute_value#">
+												<cfset separator2 = "|">
+											</cfif>
 										</cfloop>
-										<cfloop query="getGeologicalAttributes">
-											<cfquery name="getParentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-												SELECT distinct
-												  connect_by_root geology_attribute_hierarchy.attribute parent_attribute,
-												  connect_by_root attribute_value parent_attribute_value,
-												  connect_by_root usable_value_fg
-												FROM geology_attribute_hierarchy
-												  left join geology_attributes on
-												     geology_attribute_hierarchy.attribute = geology_attributes.geology_attribute
-												     and
-										   		  geology_attribute_hierarchy.attribute_value = geology_attributes.geo_att_value
-												WHERE geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getGeologicalAttributes.geology_attribute_hierarchy_id#">
-												CONNECT BY nocycle PRIOR geology_attribute_hierarchy_id = parent_id
-											</cfquery>
-											<cfset parentage="">
-											<cfloop query="getParentage">
-												<cfif ListContains(valList,getParentage.parent_attribute_value,"|") EQ 0 AND  ListContains(shownParentsList,getParentage.parent_attribute_value,"|") EQ 0 >
-													<cfset parentage="#parentage#<li><span class='text-secondary'>#getParentage.parent_attribute#:#getParentage.parent_attribute_value#</span></li>" > <!--- " --->
-													<cfset shownParentsList = "#shownParentsList##separator2##getParentage.parent_attribute_value#">
-													<cfset separator2 = "|">
-												</cfif>
-											</cfloop>
-											#parentage#
-											<li>
-												<cfif len(getGeologicalAttributes.determined_method) GT 0>
-													<cfset method = " Method: #getGeologicalAttributes.determined_method#">
-												<cfelse>
-													<cfset method = "">
-												</cfif>
-												<cfif len(getGeologicalAttributes.geo_att_remark) GT 0>
-													<cfset remarks = " <span class='smaller-text'>Remarks: #getGeologicalAttributes.geo_att_remark#</span>"><!--- " --->
-												<cfelse>
-													<cfset remarks="">
-												</cfif>
-												<cfif usable_value_fg EQ 1>
-													<cfset marker = "*">
-													<cfset spanClass = "">
-												<cfelse>
-													<cfset marker = "">
-													<cfset spanClass = "text-danger">
-												</cfif>
-												<span class="#spanClass#">#geo_att_value# #marker#</span> (#geology_attribute#) #determined_by# #determined_date##method##remarks#
-											</li>
-										</cfloop>
-									</ul>
-									<button type="button" class="btn btn-xs btn-secondary" onClick=" openAddGeologyTable(); " id="buttonOpenEditGeologyTable">Edit</button>
+										#parentage#
+										<li>
+											<cfif len(getGeologicalAttributes.determined_method) GT 0>
+												<cfset method = " Method: #getGeologicalAttributes.determined_method#">
+											<cfelse>
+												<cfset method = "">
+											</cfif>
+											<cfif len(getGeologicalAttributes.geo_att_remark) GT 0>
+												<cfset remarks = " <span class='smaller-text'>Remarks: #getGeologicalAttributes.geo_att_remark#</span>"><!--- " --->
+											<cfelse>
+												<cfset remarks="">
+											</cfif>
+											<cfif usable_value_fg EQ 1>
+												<cfset marker = "*">
+												<cfset spanClass = "">
+											<cfelse>
+												<cfset marker = "">
+												<cfset spanClass = "text-danger">
+											</cfif>
+											<span class="#spanClass#">#geo_att_value# #marker#</span> (#geology_attribute#) #determined_by# #determined_date##method##remarks#
+										</li>
+									</cfloop>
+								</ul>
+								<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Edit</button>
 							</cfif>
 							<script>
 								$(document).ready(function() {
