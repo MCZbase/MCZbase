@@ -6739,17 +6739,17 @@ limitations under the License.
 							<script>
 								$("##changeGeogButton").click(function() {
 									// Hide the span and show the input field
-									$("#higherGeographySpan").hide();
-									$("#higherGeographyInput").show();
+									$("##higherGeographySpan").hide();
+									$("##higherGeographyInput").show();
 								});
 								$("##showGeogButton").click(function() {
 									// Toggle the visibility of the higher geography details
-									$("#higherGeographyDetailsDiv").toggle();
+									$("##higherGeographyDetailsDiv").toggle();
 									// Change button text based on visibility
-									if ($("#higherGeographyDetailsDiv").is(":visible")) {
-										$("#showGeogButton").val("Hide Details");
+									if ($("##higherGeographyDetailsDiv").is(":visible")) {
+										$("##showGeogButton").val("Hide Details");
 									} else {
-										$("#showGeogButton").val("Details");
+										$("##showGeogButton").val("Details");
 									}
 								});
 							</script>
