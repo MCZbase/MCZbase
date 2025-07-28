@@ -6903,7 +6903,7 @@ limitations under the License.
 
 					<!--- collecting event --->
 					<div class="col-12 px-0">
-						<h1 class="h3 mt-3">
+						<h2 class="h3 mt-3">
 							Collecting Event
 							<span class="pl-2">
 									<cfif cecount.ct eq 1>
@@ -6916,7 +6916,7 @@ limitations under the License.
 									<a class="btn btn-xs btn-info" href="/localities/CollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">Edit #shared# Collecting Event</a>
 									#followText#
 							</span>
-						</h1>
+						</h2>
 						<div class="form-row mx-0 mb-0 bg-light border p-2">
 							<div class="col-12 mb-2 mt-0">
 								<label class="data-entry-label" for="verbatim_locality">
@@ -7015,15 +7015,22 @@ limitations under the License.
 									<cfloop query="colEventNumbers">
 										<li><span id="collEventNumber_#coll_event_number_id#">#coll_event_number# (#number_series#, #collector_agent#)</span></li>
 									</cfloop>
+									<cfif colEventNumbers.recordcount EQ 0>
+										<li class="text-muted">None.</li>
+									</cfif>
 								</ul>
 							</div>
 						</div>
 					</div>
 
-						<!--- geology attributes (on locality) --->
+					<!--- geology attributes (on locality) --->
 
+					<div class="col-12 px-0">
 							<!--- TODO: Editable table with rows for each geology attribute, where new rows can be added, all changes saved at once with entire form --->
-							<h1 class="h3 mt-3">Geology</h1>
+							<h2 class="h3 mt-3">Geology</h2>
+							<cfif getGeology.recordcount EQ 0>
+								<p class="text-muted">No geological attributes for this locality.</p>
+							</cfif>
 							<ul id="gTab" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
 								<cfloop query="getGeology">
 									<cfset thisAttribute=g.geology_attribute>
@@ -7103,10 +7110,13 @@ limitations under the License.
 									<input type="text" id="geo_att_remark" name="geo_att_remark" class="data-entry-input">
 								</li>
 							</ul>
+						</div>
 
 						<!--- current georeference (on locality) --->
+
+						<div class="col-12 px-0">
 							
-							<h1 class="h3 mt-3">Georeference and Georeference Metadata</h1>
+							<h2 class="h3 mt-3">Georeference and Georeference Metadata</h2>
 							<!--- TODO: Count current georeferences --->
 							<!--- TODO: identify this as the current georeference, describe action on split --->
 							<ul id="llMeta" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
