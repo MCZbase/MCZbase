@@ -62,6 +62,11 @@ limitations under the License.
 				<div class="col-12">
 					<h1 class="h2 px-2">Bulk Part Container Change</h1>
 					<p class="px-2 mb-1">Move parts on #getCount.ct# cataloged items from specimen search result [#result_id#]</p>
+					<ul>
+						<li>Step 1: (This step) Filter a selected set of parts of the cataloged items in the search result that are to be moved.</li>
+						<li>Step 2: Review the selected parts and identify the container into which to move them.</li>
+						<li>Step 3: Move all the selected parts into the specified container.</li>
+					<ul>
 					<cfif getCount.ct gte 1000>
 						<cfthrow message="You can only use this form on up to 1000 specimens at a time. Please <a href='/Specimens.cfm'>revise your search</a>."><!--- " --->
 					</cfif>
@@ -154,86 +159,74 @@ limitations under the License.
 						ORDER BY coll_obj_disposition
 					</cfquery>
 
-					<div class="tabs card-header tab-card-header px-1 pb-0" id="partActionTabs">
-						<div class="tab-headers tabList" role="tablist" aria-label="Tab for bulk move Parts option">
-							<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0 active tabChangeButton" id="tab-1" tabid="1" role="tab" aria-controls="movePanel" aria-selected="true" tabindex="0">
-								Move Parts
-							</button>
-						</div>
-						<!--- End tab header div ---> 
-						<!--- Tab content div --->
-						<div class="tab-content"> 
-							<!--- Move Parts tab panel ****************************** --->
-							<div id="movePanel" role="tabpanel" aria-labelledby="tab-3" class="mx-0 " tabindex="0">
-								<h2 class="h3 card-title">Move Selected Parts</h2>
-								<p class="px-2">Identify existing parts to be moved from all the #getCount.ct# cataloged items.  You must provide at least one filter condition for parts to move.  You will be able to select the destination container, review, and confirm on the next screen.</p>
-								<h3 class="h4 px-2">Select values to identify the existing parts to be moved.</h3>
-								<form name="movePart" id="movePartForm" method="post" action="/specimens/changeQueryPartContainers.cfm">
-									<input type="hidden" name="action" value="movePart">
-									<input type="hidden" name="table_name" value="#table_name#">
-									<cfif isDefined("result_id") and len(result_id) GT 0>
-										<input type="hidden" name="result_id" value="#result_id#">
-									</cfif>
-									<div class="form-row mx-0">
-										<div class="col-12 col-md-3 pt-1">
-											<label for="exist_part_name" class="data-entry-label">Part Name</label>
-											<select name="exist_part_name" id="exist_part_name" size="1" class="data-entry-select one_must_be_filled_in">
-												<option selected="selected" value=""></option>
-												<cfloop query="existParts">
-													<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-3 pt-1">
-											<label for="exist_preserve_method" class="data-entry-label">Preserve Method</label>
-											<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="data-entry-select one_must_be_filled_in">
-												<option selected="selected" value=""></option>
-												<cfloop query="existPreserve">
-													<option value="#preserve_method#">#preserve_method# (#existPreserve.partCount# parts)</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-3 pt-1">
-											<label for="existing_lot_count" class="data-entry-label">Lot Count</label>
-											<select name="existing_lot_count" id="existing_lot_count" size="1" class="data-entry-select one_must_be_filled_in">
-												<option selected="selected" value=""></option>
-												<cfloop query="existLotCount">
-												<option value="#lot_count#">#lot_count#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-3 pt-1">
-											<label for="existing_coll_obj_disposition" class="data-entry-label">Disposition</label>
-											<select name="existing_coll_obj_disposition" id="existing_coll_obj_disposition" size="1" class="data-entry-select one_must_be_filled_in">
-												<option selected="selected" value=""></option>
-												<cfloop query="existDisp">
-													<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
-												</cfloop>
-											</select>
-										</div>
-									</div>
-									<div class="form-row mx-0">
-										<div class="col-12 pt-2">
-											<script>
-												$(document).ready(function () { 
-													$("##movePartForm").on("submit",function(e) { 
-														var valuesArray = $('##movePartForm .one_must_be_filled_in').get().map(e => e.value);
-														if (valuesArray.every(element => element == "")){ 
-															e.preventDefault();
-															messageDialog("Error: You must specify at least one value to specify which parts to move.","No Move Criteria Provided.");
-														}
-													});
-												});
-											</script>
-											<input type="submit" value="Select Parts To Move" class="btn btn-xs btn-danger makeChangeButton">
-										</div>
-									</div>
-								</form>
+					<div class="col-12 border border-rounded"> 
+						<h2 class="h3 card-title">Move Selected Parts</h2>
+						<p class="px-2">Identify existing parts to be moved from all the #getCount.ct# cataloged items.  You must provide at least one filter condition for parts to move.  You will be able to select the destination container, review, and confirm on the next screen.</p>
+						<h3 class="h4 px-2">Select values to identify the existing parts to be moved.</h3>
+						<form name="movePart" id="movePartForm" method="post" action="/specimens/changeQueryPartContainers.cfm">
+							<input type="hidden" name="action" value="movePart">
+							<input type="hidden" name="table_name" value="#table_name#">
+							<cfif isDefined("result_id") and len(result_id) GT 0>
+								<input type="hidden" name="result_id" value="#result_id#">
+							</cfif>
+							<div class="form-row mx-0">
+								<div class="col-12 col-md-3 pt-1">
+									<label for="exist_part_name" class="data-entry-label">Part Name</label>
+									<select name="exist_part_name" id="exist_part_name" size="1" class="data-entry-select one_must_be_filled_in">
+										<option selected="selected" value=""></option>
+										<cfloop query="existParts">
+											<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-3 pt-1">
+									<label for="exist_preserve_method" class="data-entry-label">Preserve Method</label>
+									<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="data-entry-select one_must_be_filled_in">
+										<option selected="selected" value=""></option>
+										<cfloop query="existPreserve">
+											<option value="#preserve_method#">#preserve_method# (#existPreserve.partCount# parts)</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-3 pt-1">
+									<label for="existing_lot_count" class="data-entry-label">Lot Count</label>
+									<select name="existing_lot_count" id="existing_lot_count" size="1" class="data-entry-select one_must_be_filled_in">
+										<option selected="selected" value=""></option>
+										<cfloop query="existLotCount">
+										<option value="#lot_count#">#lot_count#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-3 pt-1">
+									<label for="existing_coll_obj_disposition" class="data-entry-label">Disposition</label>
+									<select name="existing_coll_obj_disposition" id="existing_coll_obj_disposition" size="1" class="data-entry-select one_must_be_filled_in">
+										<option selected="selected" value=""></option>
+										<cfloop query="existDisp">
+											<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
+										</cfloop>
+									</select>
+								</div>
 							</div>
-						</div>
+							<div class="form-row mx-0">
+								<div class="col-12 pt-2">
+									<script>
+										$(document).ready(function () { 
+											$("##movePartForm").on("submit",function(e) { 
+												var valuesArray = $('##movePartForm .one_must_be_filled_in').get().map(e => e.value);
+												if (valuesArray.every(element => element == "")){ 
+													e.preventDefault();
+													messageDialog("Error: You must specify at least one value to specify which parts to move.","No Move Criteria Provided.");
+												}
+											});
+										});
+									</script>
+									<input type="submit" value="Select Parts To Move" class="btn btn-xs btn-danger makeChangeButton">
+								</div>
+							</div>
+						</form>
 					</div>
 
-					<h2 class="h3">Specimens to be Updated</h2>
+					<h2 class="h3">Specimens for which selected parts are to be moved</h2>
 					<cfquery name="getCollObjList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
 							cataloged_item.collection_object_id,
@@ -420,14 +413,15 @@ limitations under the License.
 			</cfquery>
 			<section class="row mx-0">
 				<div class="col-12 pt-3">
-					<h2 class="mt-2">Found #d.recordcount# parts to move</h2>
+					<h1 class="h2 mt-1">Bulk move parts into a container</h1>
+					<h2 class="h3 mt-">Found #d.recordcount# parts to move</h2>
 					<cfset targeturl="/specimens/changeQueryPartContainers.cfm?result_id=#result_id#">
 					<cfif d.recordcount EQ 0>
 						<h3 class="h4 mt-2">
 							Return to the Bulk Part Move tool <a href="#targeturl#">to change your criteria of which parts to move</a>.
 						</h3>
 					<cfelse>
-						<div class="py-2">
+						<div class="py-2 border border-rounded">
 							<form name="movePartForm" method="post" action="/specimens/changeQueryPartContainers.cfm">
 								<input type="hidden" name="action" value="movePart2">
 								<input type="hidden" name="result_id" value="#result_id#">
