@@ -430,7 +430,7 @@ limitations under the License.
 							<form name="movePartForm" method="post" action="/specimens/changeQueryPartContainers.cfm">
 								<input type="hidden" name="action" value="movePart2">
 								<input type="hidden" name="result_id" value="#result_id#">
-								<input type="hidden" name="partID" value="#valuelist(d.partID)#">
+								<input type="hidden" name="partIDs" value="#valuelist(d.partID)#">
 
 								<input type="hidden" name="target_container_id" id="target_container_id" value="">
 								<label for="room" class="data-entry-label">Limit search to Room:</label>
