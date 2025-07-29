@@ -94,6 +94,48 @@ limitations under the License.
 						WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colcdes#">
 					</cfquery>
 
+					<!--- queries used for picklists on form  --->
+					<cfquery name="existParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							count(specimen_part.collection_object_id) partcount,
+							specimen_part.part_name
+						FROM
+							specimen_part
+							JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
+						WHERE
+							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+						GROUP BY specimen_part.part_name
+						ORDER BY specimen_part.part_name
+					</cfquery>
+					<cfquery name="existPreserve" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							count(specimen_part.collection_object_id) partcount,
+							specimen_part.preserve_method
+						FROM
+							specimen_part
+							JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
+						WHERE
+							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+						GROUP BY specimen_part.preserve_method
+						ORDER BY specimen_part.preserve_method
+					</cfquery>
+					<cfquery name="existCO" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT
+							coll_object.lot_count_modifier,
+							coll_object.lot_count,
+							coll_object.coll_obj_disposition
+						FROM
+							specimen_part
+							JOIN coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
+							JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
+						WHERE
+							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+						GROUP BY 
+							coll_object.lot_count_modifier,
+							coll_object.lot_count,
+							coll_object.coll_obj_disposition
+					</cfquery>
+
 					<div class="tabs card-header tab-card-header px-1 pb-0" id="partActionTabs">
 						<div class="tab-headers tabList" role="tablist" aria-label="Tabs for bulk Add, Edit, or Delete Parts options">
 							<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0 active tabChangeButton" id="tab-1" tabid="1" role="tab" aria-controls="movePanel" aria-selected="true" tabindex="0">
