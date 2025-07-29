@@ -155,7 +155,7 @@ limitations under the License.
 					</cfquery>
 
 					<div class="tabs card-header tab-card-header px-1 pb-0" id="partActionTabs">
-						<div class="tab-headers tabList" role="tablist" aria-label="Tabs for bulk Add, Edit, or Delete Parts options">
+						<div class="tab-headers tabList" role="tablist" aria-label="Tab for bulk move Parts option">
 							<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0 active tabChangeButton" id="tab-1" tabid="1" role="tab" aria-controls="movePanel" aria-selected="true" tabindex="0">
 								Move Parts
 							</button>
@@ -164,7 +164,7 @@ limitations under the License.
 						<!--- Tab content div --->
 						<div class="tab-content"> 
 							<!--- Move Parts tab panel ****************************** --->
-							<div id="movePanel" role="tabpanel" aria-labelledby="tab-3" class="mx-0 " tabindex="0" hidden>
+							<div id="movePanel" role="tabpanel" aria-labelledby="tab-3" class="mx-0 " tabindex="0">
 								<h2 class="h3 card-title">Move Selected Parts</h2>
 								<p class="px-2">Identify existing parts to be moved from all the #getCount.ct# cataloged items.  You must provide at least one filter condition for parts to move.  You will be able to select the destination container, review, and confirm on the next screen.</p>
 								<h3 class="h4 px-2">Select values to identify the existing parts to be moved.</h3>
@@ -217,15 +217,15 @@ limitations under the License.
 											<script>
 												$(document).ready(function () { 
 													$("##movePartForm").on("submit",function(e) { 
-														var valuesArray = $('##deletePartForm .one_must_be_filled_in').get().map(e => e.value);
+														var valuesArray = $('##movePartForm .one_must_be_filled_in').get().map(e => e.value);
 														if (valuesArray.every(element => element == "")){ 
 															e.preventDefault();
-															messageDialog("Error: You must specify at least one value to specify which parts to delete.","No Delete Criteria Provided.");
+															messageDialog("Error: You must specify at least one value to specify which parts to move.","No Move Criteria Provided.");
 														}
 													});
 												});
 											</script>
-											<input type="submit" value="Delete Parts" class="btn btn-xs btn-danger makeChangeButton">
+											<input type="submit" value="Select Parts To Move" class="btn btn-xs btn-danger makeChangeButton">
 										</div>
 									</div>
 								</form>
@@ -470,7 +470,7 @@ limitations under the License.
 									});
 								</script>
 
-								<input type="submit" value="Delete these Parts" class="btn btn-xs btn-danger">
+								<input type="submit" value="Move these Parts" class="btn btn-xs btn-secondary">
 							</form>
 							<h3 class="h4 mt-2">
 								Or return to the Bulk Part Management tool <a href="#targeturl#">to change your criteria of which parts to moves</a>.
@@ -480,7 +480,7 @@ limitations under the License.
 							<tr>
 								<th>Specimen</th>
 								<th>ID</th>
-								<th>PartToBeDeleted</th>
+								<th>PartToBeMoved</th>
 								<th>PreserveMethod</th>
 								<th>Condition</th>
 								<th>CntMod</th>
