@@ -427,7 +427,7 @@ limitations under the License.
 								Return to the Bulk Part Move tool <a href="#targeturl#">to change your criteria of which parts to move</a>.
 							</h3>
 						<cfelse>
-							<form name="movePartForm" method="post" action="/specimens/changeQueryPartContainerss.cfm">
+							<form name="movePartForm" method="post" action="/specimens/changeQueryPartContainers.cfm">
 								<input type="hidden" name="action" value="movePart2">
 								<input type="hidden" name="result_id" value="#result_id#">
 								<input type="hidden" name="partID" value="#valuelist(d.partID)#">
