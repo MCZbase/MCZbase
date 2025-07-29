@@ -156,6 +156,10 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 				container_id, label, barcode, container_type
 			FROM 
 				container
+				<cfif len(arguments.ancestor_container_id) GT 0>
+					START WITH container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.ancestor_container_id#">
+					CONNECT BY PRIOR container_id = parent_container_id
+				</cfif>
 			WHERE
 				(
 				upper(label) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
@@ -167,16 +171,6 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 				</cfif>
 				) 
 				AND container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.type#">
-				<cfif len(arguments.ancestor_container_id) GT 0>
-					AND EXISTS (
-						SELECT 1
-						FROM container anc
-						START WITH anc.container_id = c.parent_container_id
-						CONNECT BY PRIOR anc.parent_container_id = anc.container_id
-							AND PRIOR anc.container_id != anc.parent_container_id
-						WHERE anc.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.ancestor_container_id#">
-					)
-				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
