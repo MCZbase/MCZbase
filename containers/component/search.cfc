@@ -154,12 +154,15 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT 
 				container_id, label, barcode, container_type
-			FROM 
+			FROM (
+				SELECT container_id, label, barcode, container_type
+				FROM 
 				container
 				<cfif len(arguments.ancestor_container_id) GT 0>
 					START WITH container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.ancestor_container_id#">
 					CONNECT BY PRIOR container_id = parent_container_id
 				</cfif>
+				)
 			WHERE
 				(
 				upper(label) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
