@@ -309,6 +309,7 @@ limitations under the License.
 	<!---------------------------------------------------------------------------->
 	<cfcase value="movePart">
 		<cfoutput>
+			<script type="text/javascript" src="/containers/js/containers.js"></script>
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select
 					specimen_part.collection_object_id partID,
@@ -366,17 +367,51 @@ limitations under the License.
 								Return to the Bulk Part Move tool <a href="#targeturl#">to change your criteria of which parts to move</a>.
 							</h3>
 						<cfelse>
-							<form name="deletePartForm" method="post" action="/specimens/changeQueryPartContainerss.cfm">
+							<form name="movePartForm" method="post" action="/specimens/changeQueryPartContainerss.cfm">
 								<input type="hidden" name="action" value="movePart2">
 								<input type="hidden" name="result_id" value="#result_id#">
 								<input type="hidden" name="partID" value="#valuelist(d.partID)#">
+
+								<input type="hidden" name="target_container_id" id="target_container_id" value="">
+								<label for="room" class="data-entry-label">Limit search to Room:</label>
+								<select name="room" id="room" class="data-entry-select">
+									<option value=""></option>
+									<cfquery name="rooms" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT container_id, container_name
+										FROM container
+										WHERE container_type = 'room'
+										ORDER BY container_name
+									</cfquery>
+									<cfloop query="rooms">
+										<option value="#container_id#">#container_name#</option>
+									</cfloop>
+								</select>
+								<label for="type" class="data-entry-label">Limit search to container Type:</label>
+								<select name="type" id="type" class="data-entry-select">
+									<option value=""></option>
+									<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT container_type
+											FROM container
+										GROUP BY container_type
+										ORDER BY container_type
+									</cfquery>
+									<cfloop query="types">
+										<option value="#container_type#">#container_type#</option>
+									</cfloop>
+								</select>
+
+								<!--- container autocomplete, limited by type and parent room --->
+								<label for="container" class="data-entry-label">Container to put parts into:</label>
+								<input type="text" name="container" id="container" class="data-entry-input" placeholder="Container Name or Barcode" aria-label="Container Name or Barcode">
+
+								<script>
+									$(document).ready(function () { 
+										makeContainerAutocompleteLimitedMeta("container", "target_container_id","type","room",true);
+									});
+								</script>
+
 								<input type="submit" value="Delete these Parts" class="btn btn-xs btn-danger">
 							</form>
-							<!--- TODO: Select container to move into --->
-
-							<!--- container autocomplete, limited by type and parent room --->
-
-
 							<h3 class="h4 mt-2">
 								Or return to the Bulk Part Management tool <a href="#targeturl#">to change your criteria of which parts to moves</a>.
 							</h3>

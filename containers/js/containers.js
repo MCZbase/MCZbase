@@ -116,7 +116,7 @@ function makeContainerAutocompleteMetaExcludeCO(nameControl, idControl, clear=fa
  *  @param clear, optional, default false, set to true for data entry controls to clear both controls when change
  *   is made other than selection from picklist.
  */
-function makeContainerAutocompleteMeta(nameControl, idControl, typeControl, ancestorControl, clear=false) {
+function makeContainerAutocompleteLimitedMeta(nameControl, idControl, typeControl, ancestorControl, clear=false) {
 	console.log("Element ["+nameControl+"] exists:", $('#'+nameControl).length > 0);
 	$('#'+nameControl).autocomplete({
 		source: function (request, response) { 
