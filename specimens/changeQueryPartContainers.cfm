@@ -437,13 +437,18 @@ limitations under the License.
 								<select name="room" id="room" class="data-entry-select">
 									<option value=""></option>
 									<cfquery name="rooms" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT container_id, container_name
+										SELECT container_id, label, barcode
 										FROM container
 										WHERE container_type = 'room'
-										ORDER BY container_name
+										ORDER BY label, barcode
 									</cfquery>
 									<cfloop query="rooms">
-										<option value="#container_id#">#container_name#</option>
+										<cfif label NEQ barcode>
+											<cfset displaylabel = label & " (" & barcode & ")">
+										<cfelse>
+											<cfset displaylabel = label>
+										</cfif>
+										<option value="#container_id#">#displaylabel#</option>
 									</cfloop>
 								</select>
 								<label for="type" class="data-entry-label">Limit search to container Type:</label>
@@ -451,8 +456,7 @@ limitations under the License.
 									<option value=""></option>
 									<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT container_type
-											FROM container
-										GROUP BY container_type
+											FROM ctcontainer_type
 										ORDER BY container_type
 									</cfquery>
 									<cfloop query="types">
