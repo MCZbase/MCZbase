@@ -418,100 +418,109 @@ limitations under the License.
 				order by
 					collection.collection,cataloged_item.cat_num
 			</cfquery>
-				<div class="row mx-0">
-					<div class="col-12">
-						<h2 class="mt-2">Found #d.recordcount# parts to move</h2>
-						<cfset targeturl="/specimens/changeQueryPartContainers.cfm?result_id=#result_id#">
-						<cfif d.recordcount EQ 0>
-							<h3 class="h4 mt-2">
-								Return to the Bulk Part Move tool <a href="#targeturl#">to change your criteria of which parts to move</a>.
-							</h3>
-						<cfelse>
+			<section class="row mx-0">
+				<div class="col-12 pt-3">
+					<h2 class="mt-2">Found #d.recordcount# parts to move</h2>
+					<cfset targeturl="/specimens/changeQueryPartContainers.cfm?result_id=#result_id#">
+					<cfif d.recordcount EQ 0>
+						<h3 class="h4 mt-2">
+							Return to the Bulk Part Move tool <a href="#targeturl#">to change your criteria of which parts to move</a>.
+						</h3>
+					<cfelse>
+						<div class="py-2">
 							<form name="movePartForm" method="post" action="/specimens/changeQueryPartContainers.cfm">
 								<input type="hidden" name="action" value="movePart2">
 								<input type="hidden" name="result_id" value="#result_id#">
 								<input type="hidden" name="partIDs" value="#valuelist(d.partID)#">
 
 								<input type="hidden" name="target_container_id" id="target_container_id" value="">
-								<label for="room" class="data-entry-label">Limit search to Room:</label>
-								<select name="room" id="room" class="data-entry-select">
-									<option value=""></option>
-									<cfquery name="rooms" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT container_id, label, barcode
-										FROM container
-										WHERE container_type = 'room'
-										ORDER BY label, barcode
-									</cfquery>
-									<cfloop query="rooms">
-										<cfif label NEQ barcode>
-											<cfset displaylabel = label & " (" & barcode & ")">
-										<cfelse>
-											<cfset displaylabel = label>
-										</cfif>
-										<option value="#container_id#">#displaylabel#</option>
-									</cfloop>
-								</select>
-								<label for="type" class="data-entry-label">Limit search to container Type:</label>
-								<select name="type" id="type" class="data-entry-select">
-									<option value=""></option>
-									<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT container_type
-											FROM ctcontainer_type
-										ORDER BY container_type
-									</cfquery>
-									<cfloop query="types">
-										<option value="#container_type#">#container_type#</option>
-									</cfloop>
-								</select>
-
-								<!--- container autocomplete, limited by type and parent room --->
-								<label for="container" class="data-entry-label">Container to put parts into:</label>
-								<input type="text" name="container" id="container" class="data-entry-input" placeholder="Container Name or Barcode" aria-label="Container Name or Barcode">
-
-								<script>
-									$(document).ready(function () { 
-										makeContainerAutocompleteLimitedMeta("container", "target_container_id","type","room",true);
-									});
-								</script>
-
-								<input type="submit" value="Move these Parts" class="btn btn-xs btn-secondary">
+								<div class="form-row mb-2">
+									<div class="col-12 col-md-3">
+										<label for="room" class="data-entry-label">Limit search to Room:</label>
+										<select name="room" id="room" class="data-entry-select">
+											<option value=""></option>
+											<cfquery name="rooms" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT container_id, label, barcode
+												FROM container
+												WHERE container_type = 'room'
+												ORDER BY label, barcode
+											</cfquery>
+											<cfloop query="rooms">
+												<cfif label NEQ barcode>
+													<cfset displaylabel = label & " (" & barcode & ")">
+												<cfelse>
+													<cfset displaylabel = label>
+												</cfif>
+												<option value="#container_id#">#displaylabel#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="type" class="data-entry-label">Limit search to container Type:</label>
+										<select name="type" id="type" class="data-entry-select">
+											<option value=""></option>
+											<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT container_type
+												FROM ctcontainer_type
+												ORDER BY container_type
+											</cfquery>
+											<cfloop query="types">
+												<option value="#container_type#">#container_type#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-3">
+										<!--- container autocomplete, limited by type and parent room --->
+										<label for="container" class="data-entry-label">Container to put parts into:</label>
+										<input type="text" name="container" id="container" class="data-entry-input" placeholder="Container Name or Barcode" aria-label="Container Name or Barcode">
+										<script>
+											$(document).ready(function () { 
+												makeContainerAutocompleteLimitedMeta("container", "target_container_id","type","room",true);
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-3">
+										<input type="submit" id="submitButton" value="Move these Parts" class="btn btn-xs btn-secondary mt-3">
+									</div>
+								</div>
 							</form>
 							<h3 class="h4 mt-2">
 								Or return to the Bulk Part Management tool <a href="#targeturl#">to change your criteria of which parts to moves</a>.
 							</h3>
 							<table class="table table-responsive table-striped d-xl-table">
-							<thead class="thead-light">
-							<tr>
-								<th>Specimen</th>
-								<th>ID</th>
-								<th>PartToBeMoved</th>
-								<th>PreserveMethod</th>
-								<th>Condition</th>
-								<th>CntMod</th>
-								<th>Cnt</th>
-								<th>Dispn</th>
-								<th>Remark</th>
-							</tr>
-							</thead>
-							<tbody>
-							<cfloop query="d">
+								<thead class="thead-light">
 								<tr>
-									<td>#collection# #cat_num#</td>
-									<td>#scientific_name#</td>
-									<td>#part_name#</td>
-									<td>#preserve_method#</td>
-									<td>#condition#</td>
-									<td>#lot_count_modifier#</td>
-									<td>#lot_count#</td>
-									<td>#coll_obj_disposition#</td>
-									<td>#coll_object_remarks#</td>
+									<th>Specimen</th>
+									<th>ID</th>
+									<th>PartToBeMoved</th>
+									<th>PreserveMethod</th>
+									<th>Condition</th>
+									<th>CntMod</th>
+									<th>Cnt</th>
+									<th>Dispn</th>
+									<th>Remark</th>
 								</tr>
-							</cfloop>
-							</tbody>
-						</table>
-					</div>
-				</div>						
-			</cfif>
+								</thead>
+								<tbody>
+									<cfloop query="d">
+										<tr>
+											<td>#collection# #cat_num#</td>
+											<td>#scientific_name#</td>
+											<td>#part_name#</td>
+											<td>#preserve_method#</td>
+											<td>#condition#</td>
+											<td>#lot_count_modifier#</td>
+											<td>#lot_count#</td>
+											<td>#coll_obj_disposition#</td>
+											<td>#coll_object_remarks#</td>
+										</tr>
+									</cfloop>
+								</tbody>
+							</table>
+						</div>
+					</cfif>
+				</div>
+			</section>
 		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------->
