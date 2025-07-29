@@ -135,6 +135,24 @@ limitations under the License.
 							coll_object.lot_count,
 							coll_object.coll_obj_disposition
 					</cfquery>
+					<cfquery name="existLotCountModifier" dbtype="query">
+						SELECT lot_count_modifier
+						FROM existCO
+						GROUP BY lot_count_modifier
+						ORDER BY lot_count_modifier
+					</cfquery>
+					<cfquery name="existLotCount" dbtype="query">
+						SELECT lot_count 
+						FROM existCO
+						GROUP BY lot_count 
+						ORDER BY lot_count
+					</cfquery>
+					<cfquery name="existDisp" dbtype="query">
+						SELECT coll_obj_disposition 
+						FROM existCO 
+						GROUP BY coll_obj_disposition 
+						ORDER BY coll_obj_disposition
+					</cfquery>
 
 					<div class="tabs card-header tab-card-header px-1 pb-0" id="partActionTabs">
 						<div class="tab-headers tabList" role="tablist" aria-label="Tabs for bulk Add, Edit, or Delete Parts options">
