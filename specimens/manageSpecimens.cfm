@@ -90,7 +90,7 @@ limitations under the License.
 									<a href="/findContainer.cfm?showControl=1&result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">View Part Containers</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled" target="_blank">Change Part Containers</a>
+									<a href="/specimens/changeQueryPartContainers.cfm?result_id=#encodeForUrl(result)id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Change Part Containers</a>
 								</li>
 								<li class="nav-item mb-1">
 									<a href="/specimens/changeQueryParts.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Modify Parts</a>
