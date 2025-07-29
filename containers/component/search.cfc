@@ -167,14 +167,14 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 				</cfif>
 				) 
 				AND container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.type#">
-				<cfif len(arguments.containing_parent_id) GT 0>
+				<cfif len(arguments.ancestor_container_id) GT 0>
 					AND EXISTS (
 						SELECT 1
 						FROM container anc
 						START WITH anc.container_id = c.parent_container_id
 						CONNECT BY PRIOR anc.parent_container_id = anc.container_id
 							AND PRIOR anc.container_id != anc.parent_container_id
-						WHERE anc.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.ancestor_parent_id#">
+						WHERE anc.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.ancestor_container_id#">
 					)
 				</cfif>
 		</cfquery>
