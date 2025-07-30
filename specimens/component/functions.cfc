@@ -7404,6 +7404,42 @@ limitations under the License.
 
 						<!--- current georeference (on locality) --->
 
+						<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT ORIG_LAT_LONG_UNITS 
+							FROM ctlat_long_units
+							ORDER BY ORIG_LAT_LONG_UNITS
+						</cfquery>
+						<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT georefmethod 
+							FROM ctgeorefmethod
+							ORDER BY georefmethod
+						</cfquery>
+						<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT verificationStatus 
+							FROM ctVerificationStatus 
+							ORDER BY verificationStatus
+						</cfquery>
+						<cfquery name="lookupForGeolocate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT 
+								country, state_prov, county,
+								spec_locality
+							FROM locality
+								join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+							WHERE
+								locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+						</cfquery>
+						<cfquery name="getCurrentUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT agent_id, 
+								agent_name
+							FROM preferred_agent_name
+							WHERE
+								agent_id in (
+									SELECT agent_id 
+									FROM agent_name 
+									WHERE upper(agent_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
+										and agent_name_type = 'login'
+								)
+						</cfquery>
 						<div class="col-12 px-0">
 						
 							<div class="col-12 px-0">
