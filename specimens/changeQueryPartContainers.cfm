@@ -79,7 +79,6 @@ limitations under the License.
 					<cfif getCount.ct gte 1000>
 						<cfthrow message="You can only use this form on up to 1000 specimens at a time. Please <a href='/Specimens.cfm'>revise your search</a>."><!--- " --->
 					</cfif>
-					<p>View the current <a href="/findContainer.cfm?showControl=1&result_id=#result_id#" target="_blank">Container Placement</a> of these parts.</p>
 
 					<cfset numParts=3>
 					<cfquery name="colcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -308,6 +307,7 @@ limitations under the License.
 							});
 						</script>
 					</cfif>
+					<p>View the current <a href="/findContainer.cfm?showControl=1&result_id=#result_id#" target="_blank">Container Placement</a> of these parts.</p>
 					<h2 class="h3">Specimens for which selected parts are to be moved</h2>
 					<table class="table table-responsive table-striped d-xl-table">
 						<thead class="thead-light"
