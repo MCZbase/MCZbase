@@ -73,7 +73,7 @@ limitations under the License.
 							<strong>Note:</strong> 
 							You cannot use this tool to move parts which have a container of type collection object that are within are in a <strong>#DISALLOWED_CONTAINER_TYPES#</strong>.
 							Please use the <a href="/tools/BulkloadContEditParent.cfm">Container Parent Edit Bulkloader</a> to move such parts.
-							You can build a csv file for this bulkloader from Manage-><a href='tools/downloadParts.cfm?result_id=#result_id#' target='_blank'>Parts Report/Download</a>
+							You can build a csv file for this bulkloader from Manage-><a href='/tools/downloadParts.cfm?result_id=#result_id#' target='_blank'>Parts Report/Download</a>
 						</li>
 					</ul>
 					<cfif getCount.ct gte 1000>
@@ -471,7 +471,7 @@ limitations under the License.
 			</cfquery>
 			<!--- check for types of parent container that shouldn't be moved  --->
 			<cfif checkTypes.recordcount GT 0>
-				<cfset error_message = "You cannot use this tool to move parts that are in a #DISALLOWED_CONTAINER_TYPES# . Please use the <a href='/tools/BulkloadContEditParent.cfm' target='_blank'>Container Parent Edit Bulkloader</a> to move these parts.  You can build a csv file for this bulkloader from Manage-><a href='tools/downloadParts.cfm?result_id=#result_id#' target='_blank'>Parts Report/Download</a>"><!--- " --->
+				<cfset error_message = "You cannot use this tool to move parts that are in a #DISALLOWED_CONTAINER_TYPES# . Please use the <a href='/tools/BulkloadContEditParent.cfm' target='_blank'>Container Parent Edit Bulkloader</a> to move these parts.  You can build a csv file for this bulkloader from Manage-><a href='/tools/downloadParts.cfm?result_id=#result_id#' target='_blank'>Parts Report/Download</a>"><!--- " --->
 				<cfthrow message="#error_message#">
 			</cfif>
 
