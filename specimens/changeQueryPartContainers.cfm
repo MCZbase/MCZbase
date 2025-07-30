@@ -278,18 +278,24 @@ limitations under the License.
 						ORDER BY container_type
 					</cfquery>
 					<h2 class="h3">Current Parent Container Types for the parts in this result set</h2>
+					<p>The collection object containers for the parts would be moved out of these containers.  Specimen parts are all in containers of type collection object, this tool moves these collection object containers from their current parent into a new parent.  In some cases (such as a part which is an insect on a pin), the desirable move is of the parent container (the pin) into a new location, rather than moving the part, (the insect) off of its current parent container (the pin). </p>
+					<cfset hasMovable = false>
 					<ul>
 						<cfloop query="getContainerTypes">
 							<li>
 								<cfif listContains(DISALLOWED_CONTAINER_TYPES, container_type)>
-									<span class="text-danger">#container_type#</span>
+									<span class="text-danger">#container_type#</span> [Cannot be moved with this tool]
 								<cfelse>
 									#container_type# 
+									<cfset hasMovable = true>
 								</cfif>
 								(#ct# parts)
 							</li>
 						</cfloop>
 					</ul>
+					<cfif not hasMovable>
+						<p class="text-danger">No parts in this result set are in containers that can be moved with this tool.</p>
+					<cfelse>
 					<h2 class="h3">Specimens for which selected parts are to be moved</h2>
 					<table class="table table-responsive table-striped d-xl-table">
 						<thead class="thead-light"
