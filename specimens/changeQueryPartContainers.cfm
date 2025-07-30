@@ -70,7 +70,7 @@ limitations under the License.
 						<li>Step 2: Review the selected parts and identify the container into which to move them.</li>
 						<li>Step 3: Move all the selected parts into the specified container.</li>
 						<li>Note: You cannot use this tool to move parts which have a container of type collection object that are within are in a <strong>#DISALLOWED_CONTAINER_TYPES#</strong>.  Please use the <a href="/tools/BulkloadContEditParent.cfm">Container Parent Edit Bulkloader</a> to move such parts.</li>
-					<ul>
+					</ul>
 					<cfif getCount.ct gte 1000>
 						<cfthrow message="You can only use this form on up to 1000 specimens at a time. Please <a href='/Specimens.cfm'>revise your search</a>."><!--- " --->
 					</cfif>
