@@ -417,7 +417,7 @@ limitations under the License.
 				ORDER BY
 					collection.collection,cataloged_item.cat_num
 			</cfquery>
-			<cfquery name="checkTypes" type="query">
+			<cfquery name="checkTypes" dbtype="query">
 				SELECT distinct container_type 
 				FROM d
 				WHERE container_type IN ( 
