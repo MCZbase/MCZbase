@@ -7538,8 +7538,12 @@ limitations under the License.
 											<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##determined_by_agent_id').val('#getCurrentUser.agent_id#');  $('##coordinate_determiner').val('#encodeForHtml(getCurrentUser.agent_name)#'); return false;" > (me) <span class="sr-only">Fill in determined by with #encodeForHtml(getCurrentUser.agent_name)#</span></a>
 										</label>
 										<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id" value="#getGeoreference.determined_by_agent_id#">
-										<input type="text" name="coordinate_determiner" id="coordinate_determiner" class="data-entry-input reqdClr"
-											   value="#getGeoreference.coordinate_determiner#" onchange="getAgent('determined_by_agent_id','coordinate_determiner','loc',this.value); return false;">
+										<input type="text" name="coordinate_determiner" id="coordinate_determiner" class="data-entry-input reqdClr" value="#getLoc.coordinate_determiner#">
+										<script>
+											$(document).ready(function() {
+												makeAgentAutocompleteMeta('coordinate_determiner', 'determined_by_agent_id');
+											});
+										</script>
 									</div>
 						
 									<!--- Date Determined --->
