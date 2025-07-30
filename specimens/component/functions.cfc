@@ -3923,13 +3923,14 @@ limitations under the License.
 --->
 <cffunction name="getEditPartsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="dialog" type="boolean" required="no" default="true">
 
 	<!--- TODO: Cases to handle: 
 	  One Cataloged Item, one occurrence, one or more parts, each a material sample, each part in one container.
 	  One Cataloged Item, a set of parts may be a separate occurrence with a separate identification history, each part a material sample, each part in one container, need occurrence ids for additional parts after the first, need rows in at least digir_filtered_flat for additional occurrences.
 	  More than one cataloged item, each a separate occurrence, with a set of parts, each part a material sample, parts may be in the same collection object container (thus loanable only as a unit).
    --->
-	<cfthread name="getEditPartsThread" collection_object_id="#arguments.collection_object_id#">
+	<cfthread name="getEditPartsThread" collection_object_id="#arguments.collection_object_id#" dialog="#arguments.inDialog#">
 		<cfoutput>
 			<cftry>
 				<cfquery name="getCatItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -3982,6 +3983,12 @@ limitations under the License.
 				<!--- add new part --->
 				<div class="col-12 mt-4 px-1">
 					<div class="container-fluid">
+						<cfif dialog>
+							<div class="col-12 px-0 pt-1">
+								<h2 class="h2 float-left">Edit Parts for #guid#</h2>
+								<button class="btn btn-xs btn-secondary float-right" onclick="closePartsInPage();">Back to Specimen without saving changes</button>
+							</div>
+						</cfif>
 						<div class="row">
 							<div class="col-12">
 								<div class="add-form">
@@ -4111,8 +4118,13 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
+						<button class="btn btn-xs btn-secondary float-right" onclick="closePartsInPage();">Back to Specimen without saving changes</button>
 					</div>
 				</div>
+				<script>
+					function closePartsInPage() {
+						closeInPage(reloadParts);
+					}
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
@@ -6649,7 +6661,7 @@ limitations under the License.
 				<cfset guid = "#getLoc.institution_acronym#:#getLoc.collection_cde#:#getLoc.cat_num#">
 				<div class="col-12 px-0 pt-1">
 					<h2 class="h2 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
-					<button class="btn btn-xs btn-secondary float-right" onclick="closeInPage();">Back to Specimen without saving changes</button>
+					<button class="btn btn-xs btn-secondary float-right" onclick="closeLocalityInPage();">Back to Specimen without saving changes</button>
 				</div>
 				<form name="loc" method="post" class="row border p-1 m-1 bg-light">
 					<!--- TODO: Form submission handler --->
@@ -7780,11 +7792,24 @@ function showLLFormat(orig_units) {
 									</cfif>
 								</div>
 								<div class="mt-3 float-right">
-									<button class="btn btn-xs btn-secondary" onclick="closeInPage();">Back to Specimen without saving changes</button>
+									<button class="btn btn-xs btn-secondary" onclick="closeLocalityInPage();">Back to Specimen without saving changes</button>
 								</div>
 							</div>
 						</div>
 					</form>
+					<script>
+						$(document).ready(function() {
+							// Initialize datepicker for determined_date
+							$("#determined_date").datepicker({
+								dateFormat: "yy-mm-dd",
+								changeMonth: true,
+								changeYear: true
+							});
+						});
+						function closeLocalityInPage() { 
+							// Close the in-page modal editor, and invoke the reloadLocality function
+							closeInPage(reloadLocality);
+						}
 				</div>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>

@@ -742,7 +742,10 @@ function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 	});
 };
 
-function closeInPage() { 
+/** closeInPage closes the in-page editor, restoring the SpecimenDetailsDiv and editControlsBlock.
+ * @param callback an optional callback function to invoke on closing the in-page editor.
+ */
+function closeInPage(callback=null) { 
 	$("#InPageEditorDiv").html("");
 	$('#SpecimenDetailsDiv').show();
 	$('#editControlsBlock').show();
@@ -751,8 +754,17 @@ function closeInPage() {
 	$("#InPageEditorDiv").removeClass("rounded");
 	$("#InPageEditorDiv").removeClass("py-2");
 	$("#InPageEditorDiv").removeClass("border-3");
+	if (callback instanceof Function) {
+		callback();
+	}
 }
 
+/** openEditLocalityInPage loads a form for editing locality and collecting event
+ * for a cataloged item into the editControlsBlock of a page hiding the SpecimenDetailsDiv.
+ * Invokes closeInPage() on an error.
+ * @param collection_object_id for the cataloged_item for which to edit locality and collecting event.
+ * @param callback a callback function, not currently used.
+ */
 function openEditLocalityInPage(collection_object_id,callback) { 
 	$('#SpecimenDetailsDiv').hide();
 	$('#editControlsBlock').hide();
@@ -778,6 +790,40 @@ function openEditLocalityInPage(collection_object_id,callback) {
 		dataType: "html"
 	});
 }
+
+/** openEditPartsInPage loads a form for editing parts for a cataloged item into the editControlsBlock 
+ * of a page hiding the SpecimenDetailsDiv.
+ * Invokes closeInPage() on an error.
+ * @param collection_object_id for the cataloged_item for which to edit parts.
+ * @param callback a callback function, not currently used.
+ */
+function openEditPartsInPage(collection_object_id,callback) { 
+	$('#SpecimenDetailsDiv').hide();
+	$('#editControlsBlock').hide();
+	$("#InPageEditorDiv").addClass("border");
+	$("#InPageEditorDiv").addClass("border-secondary");
+	$("#InPageEditorDiv").addClass("rounded");
+	$("#InPageEditorDiv").addClass("py-2");
+	$("#InPageEditorDiv").addClass("border-3");
+	$("#InPageEditorDiv").html("Loading...");
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditPartsHTML",
+			dialog : false,
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#InPageEditorDiv").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit parts form");
+			closeInPage();
+		},
+		dataType: "html"
+	});
+}
+
 
 /** openEditCitationsDialog open a dialog for editing citations for a cataloged item.
  *
