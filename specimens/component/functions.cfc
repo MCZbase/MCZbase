@@ -3930,7 +3930,7 @@ limitations under the License.
 	  One Cataloged Item, a set of parts may be a separate occurrence with a separate identification history, each part a material sample, each part in one container, need occurrence ids for additional parts after the first, need rows in at least digir_filtered_flat for additional occurrences.
 	  More than one cataloged item, each a separate occurrence, with a set of parts, each part a material sample, parts may be in the same collection object container (thus loanable only as a unit).
    --->
-	<cfthread name="getEditPartsThread" collection_object_id="#arguments.collection_object_id#" dialog="#arguments.inDialog#">
+	<cfthread name="getEditPartsThread" collection_object_id="#arguments.collection_object_id#" dialog="#arguments.dialog#">
 		<cfoutput>
 			<cftry>
 				<cfquery name="getCatItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
