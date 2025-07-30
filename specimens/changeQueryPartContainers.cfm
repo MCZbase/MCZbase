@@ -69,7 +69,7 @@ limitations under the License.
 						<li>Step 1: (This step) Filter a selected set of parts of the cataloged items in the search result that are to be moved.</li>
 						<li>Step 2: Review the selected parts and identify the container into which to move them.</li>
 						<li>Step 3: Move all the selected parts into the specified container.</li>
-						<li>Note: You cannot use this tool to move parts which have a container of type collection object that are within are in a <strong>#DISALLOWED_CONTAINER_TYPES#</strong>.  Please use the <a href="/tools/BulkLoadContEditParent.cfm">Container Parent Edit Bulkloader</a> to move such parts.</li>
+						<li>Note: You cannot use this tool to move parts which have a container of type collection object that are within are in a <strong>#DISALLOWED_CONTAINER_TYPES#</strong>.  Please use the <a href="/tools/BulkloadContEditParent.cfm">Container Parent Edit Bulkloader</a> to move such parts.</li>
 					<ul>
 					<cfif getCount.ct gte 1000>
 						<cfthrow message="You can only use this form on up to 1000 specimens at a time. Please <a href='/Specimens.cfm'>revise your search</a>."><!--- " --->
@@ -434,7 +434,7 @@ limitations under the License.
 			</cfquery>
 			<!--- check for types of parent container that shouldn't be moved  --->
 			<cfif checkTypes.recordcount GT 0>
-				<cfset error_message = "You cannot use this tool to move parts that are in a #DISSALLOWED_CONTAINER_TYPES# . Please use the <a href='/tools/BulkLoadContEditParent.cfm'>Container Parent Edit Bulkloader</a> to move these parts."><!--- " --->
+				<cfset error_message = "You cannot use this tool to move parts that are in a #DISSALLOWED_CONTAINER_TYPES# . Please use the <a href='/tools/BulkloadContEditParent.cfm'>Container Parent Edit Bulkloader</a> to move these parts."><!--- " --->
 				<cfthrow message="#error_message#">
 			</cfif>
 
