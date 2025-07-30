@@ -525,7 +525,7 @@ limitations under the License.
 									<div class="col-12 col-md-3">
 										<!--- container autocomplete, limited by type and parent room --->
 										<label for="container" class="data-entry-label">Container to put parts into:</label>
-										<input type="text" name="container" id="container" class="data-entry-input" placeholder="Container Name or Barcode" aria-label="Container Name or Barcode">
+										<input type="text" name="container" id="container" class="data-entry-input reqdClr" placeholder="Container Name or Barcode" aria-label="Container Name or Barcode">
 										<script>
 											$(document).ready(function () { 
 												makeContainerAutocompleteLimitedMeta("container", "target_container_id","type","room",true);
