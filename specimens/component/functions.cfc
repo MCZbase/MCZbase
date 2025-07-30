@@ -7426,7 +7426,7 @@ limitations under the License.
 							FROM locality
 								join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 							WHERE
-								locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+								locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.locality_id#">
 						</cfquery>
 						<cfquery name="getCurrentUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT agent_id, 
