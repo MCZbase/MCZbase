@@ -295,7 +295,7 @@ limitations under the License.
 					</ul>
 					<cfif not hasMovable>
 						<p class="text-danger">No parts in this result set are in containers that can be moved with this tool.</p>
-					<cfelse>
+					</cfif>
 					<h2 class="h3">Specimens for which selected parts are to be moved</h2>
 					<table class="table table-responsive table-striped d-xl-table">
 						<thead class="thead-light"
