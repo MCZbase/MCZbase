@@ -434,7 +434,7 @@ limitations under the License.
 			</cfquery>
 			<!--- check for types of parent container that shouldn't be moved  --->
 			<cfif checkTypes.recordcount GT 0>
-				<cfset error_message = "You cannot use this tool to move parts that are in a #DISSALLOWED_CONTAINER_TYPES# . Please use the <a href='/tools/BulkloadContEditParent.cfm'>Container Parent Edit Bulkloader</a> to move these parts."><!--- " --->
+				<cfset error_message = "You cannot use this tool to move parts that are in a #DISALLOWED_CONTAINER_TYPES# . Please use the <a href='/tools/BulkloadContEditParent.cfm'>Container Parent Edit Bulkloader</a> to move these parts."><!--- " --->
 				<cfthrow message="#error_message#">
 			</cfif>
 
