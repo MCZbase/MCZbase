@@ -260,7 +260,7 @@ limitations under the License.
 							LEFT JOIN container ON coll_obj_cont_hist.container_id = container.container_id
 							LEFT JOIN container parent_container ON container.parent_container_id = parent_container.container_id
 						WHERE
-							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"> and
+							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 						ORDER BY
 							collection.collection,cataloged_item.cat_num
 					</cfquery>
