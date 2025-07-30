@@ -3981,15 +3981,15 @@ limitations under the License.
 				</cfquery>
 
 				<!--- add new part --->
-				<div class="col-12 mt-4 px-1">
-					<div class="container-fluid">
+				<div class="col-12 mt-4 px-1 pb-2 border border-rounded bg-light">
+					<div class="container-fluid row ">
 						<cfif NOT dialog>
 							<div class="col-12 px-0 pt-1">
 								<h2 class="h2 float-left">Edit Parts for #guid#</h2>
 								<button class="btn btn-xs btn-secondary float-right" onclick="closePartsInPage();">Back to Specimen without saving changes</button>
 							</div>
 						</cfif>
-						<div class="row">
+						<div class="col-12 row">
 							<div class="col-12">
 								<div class="add-form">
 									<div class="add-form-header pt-1 px-2" id="headingPart">
