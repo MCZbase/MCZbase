@@ -6628,6 +6628,7 @@ limitations under the License.
 					geolocate_numresults,
 					geolocate_parsepattern,
 					verified_by_agent_id,
+					MCZBASE.get_agentnameoftype(verified_by_agent_id) as verified_by,
 					error_polygon,
 					coordinate_precision,
 					footprint_spatialfit,
