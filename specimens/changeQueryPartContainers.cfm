@@ -245,24 +245,22 @@ limitations under the License.
 							coll_object.lot_count_modifier,
 							coll_object.lot_count,
 							coll_object.coll_obj_disposition,
-							coll_object_remark.coll_object_remarks
+							coll_object_remark.coll_object_remarks,
+							parent_container.container_type,
+							parent_container.label
 						FROM
-							cataloged_item,
-							collection,
-							coll_object,
-							specimen_part,
-							identification,
-							coll_object_remark,
-							user_search_table
+							cataloged_item
+							join collection on cataloged_item.collection_id=collection.collection_id
+							join specimen_part on cataloged_item.collection_object_id=specimen_part.derived_from_cat_item
+							join coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
+							join identification on cataloged_item.collection_object_id=identification.collection_object_id and accepted_id_fg = 1
+							left join coll_object_remark on specimen_part.collection_object_id=coll_object_remark.collection_object_id
+							join user_search_table on cataloged_item.collection_object_id=user_search_table.collection_object_id
+							JOIN coll_obj_cont_hist ON specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND CURRENT_CONTAINER_FG = 1
+							LEFT JOIN container ON coll_obj_cont_hist.container_id = container.container_id
+							LEFT JOIN container parent_container ON container.parent_container_id = parent_container.container_id
 						WHERE
-							cataloged_item.collection_id=collection.collection_id and
-							cataloged_item.collection_object_id=user_search_table.collection_object_id and
 							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"> and
-							cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
-							specimen_part.collection_object_id=coll_object.collection_object_id and
-							specimen_part.collection_object_id=coll_object_remark.collection_object_id (+) and
-							cataloged_item.collection_object_id=identification.collection_object_id and
-							accepted_id_fg=1
 						ORDER BY
 							collection.collection,cataloged_item.cat_num
 					</cfquery>
@@ -294,7 +292,9 @@ limitations under the License.
 										lot_count_modifier,
 										lot_count,
 										coll_obj_disposition,
-										coll_object_remarks
+										coll_object_remarks,
+										container_type,
+										label
 									FROM
 										getCollObjList
 									WHERE
@@ -307,22 +307,23 @@ limitations under the License.
 										<thead class="thead-dark">
 											<th colspan="1">Part</th>
 											<th colspan="1">Preserve Method</th>
+											<th colspan="1">Current Placement</th>
 											<th colspan="1">Condition</th>
 											<th colspan="1">Count</th>
 											<th colspan="1">Disposition</th>
-											<th colspan="5">Remark</th>
+											<th colspan="4">Remark</th>
 										</thead>
 										<tbody>
 											<cfloop query="getParts">
 												<tr>
 													<td colspan="1">#part_name#</td>
 													<td colspan="1">#preserve_method#</td>
+													<td colspan="1">#label# (#container_type#)</td>
 													<td colspan="1">#condition#</td>
 													<td colspan="1">#lot_count# #lot_count_modifier#</td>
 													<td colspan="1">#coll_obj_disposition#</td>
-													<td colspan="5">#coll_object_remarks#</td>
+													<td colspan="4">#coll_object_remarks#</td>
 												</tr>
-										
 											</cfloop>
 										</tbody>
 									</table>
@@ -382,7 +383,8 @@ limitations under the License.
 					coll_object.lot_count,
 					coll_object.coll_obj_disposition,
 					coll_object_remark.coll_object_remarks,
-					parent_container.container_type
+					parent_container.container_type,
+					parent_container.label
 				FROM
 					cataloged_item 
 					join collection on cataloged_item.collection_id=collection.collection_id
@@ -505,6 +507,7 @@ limitations under the License.
 									<th>ID</th>
 									<th>PartToBeMoved</th>
 									<th>PreserveMethod</th>
+									<th>CurrentlyIn</th>
 									<th>Condition</th>
 									<th>CntMod</th>
 									<th>Cnt</th>
@@ -519,6 +522,7 @@ limitations under the License.
 											<td>#scientific_name#</td>
 											<td>#part_name#</td>
 											<td>#preserve_method#</td>
+											<td>#label#</td>
 											<td>#condition#</td>
 											<td>#lot_count_modifier#</td>
 											<td>#lot_count#</td>
