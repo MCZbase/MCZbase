@@ -6524,6 +6524,7 @@ limitations under the License.
 					collecting_event.verbatimcoordinatesystem,
 					collecting_event.verbatimSRS,
 					accepted_lat_long.lat_long_id,
+					accepted_lat_long.orig_lat_long_units,
 					latLongAgnt.agent_name coordinate_determiner,
 					geog_auth_rec.geog_auth_rec_id,
 					coll_object.coll_object_entered_date,
