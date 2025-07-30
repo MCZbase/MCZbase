@@ -3986,7 +3986,7 @@ limitations under the License.
 						<cfif NOT dialog>
 							<div class="col-12 px-0 pt-1">
 								<h2 class="h2 float-left">Edit Parts for #guid#</h2>
-								<button class="btn btn-xs btn-secondary float-right" onclick="closePartsInPage();">Back to Specimen without saving changes</button>
+								<button class="btn btn-xs btn-secondary float-right" onclick="closePartsInPage();">Back to Specimen</button>
 							</div>
 						</cfif>
 						<div class="col-12 row">
@@ -4117,7 +4117,7 @@ limitations under the License.
 									#getEditExistingPartsUnthreaded(collection_object_id=attributes.collection_object_id)#
 								</div>
 								<div class="col-12 mt-2">
-									<button class="btn btn-xs btn-secondary float-right" onclick="closePartsInPage();">Back to Specimen without saving changes</button>
+									<button class="btn btn-xs btn-secondary float-right" onclick="closePartsInPage();">Back to Specimen</button>
 								</div>
 							</div>
 						</div>
