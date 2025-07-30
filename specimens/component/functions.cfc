@@ -7800,7 +7800,7 @@ function showLLFormat(orig_units) {
 					<script>
 						$(document).ready(function() {
 							// Initialize datepicker for determined_date
-							$("#determined_date").datepicker({
+							$("##determined_date").datepicker({
 								dateFormat: "yy-mm-dd",
 								changeMonth: true,
 								changeYear: true
