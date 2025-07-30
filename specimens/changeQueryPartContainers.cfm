@@ -506,7 +506,7 @@ limitations under the License.
 								</div>
 							</form>
 							<h3 class="h4 mt-2">
-								Or return to the Bulk Part Management tool <a href="#targeturl#">to change your criteria of which parts to moves</a>.
+								Or return to the Bulk Part Management tool <a href="#targeturl#">to change your criteria of which parts to move</a>.
 							</h3>
 							<table class="table table-responsive table-striped d-xl-table">
 								<thead class="thead-light">
