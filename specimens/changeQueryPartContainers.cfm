@@ -28,7 +28,9 @@ limitations under the License.
 <cfif not isDefined("action")>
 	<cfset action="entryPoint">
 </cfif>
-<cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,vial,box">
+
+<!--- container types that cannot be used in this tool, violate user expectations of what container is being moved --->
+<cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,cryovial,jar,envelope,glass vial,freezer box">
 
 <main class="container-fluid px-4 py-3" id="content">
 <cftry>
@@ -380,7 +382,7 @@ limitations under the License.
 					coll_object.lot_count,
 					coll_object.coll_obj_disposition,
 					coll_object_remark.coll_object_remarks,
-					container.container_type
+					parent_container.container_type
 				FROM
 					cataloged_item 
 					join collection on cataloged_item.collection_id=collection.collection_id
@@ -391,6 +393,7 @@ limitations under the License.
 					left join coll_object_remark on specimen_part.collection_object_id=coll_object_remark.collection_object_id
 					join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND CURRENT_CONTAINER_FG = 1
 					join container on coll_obj_cont_hist.container_id = container.container_id
+					left join container parent_container on container.parent_container_id = parent_container.container_id
 				WHERE
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"> and
 					accepted_id_fg=1 
@@ -419,7 +422,7 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DISALLOWED_CONTAINER_TYPES#" list="yes" separator=",">
 				)
 			</cfquery>
-			<!--- check for types that shouldn't be moved  --->
+			<!--- check for types of parent container that shouldn't be moved  --->
 			<cfif checkTypes.recordcount GT 0>
 				<cfset error_message = "You cannot use this tool to move parts that are in a #DISSALLOWED_CONTAINER_TYPES# . Please use the <a href='/tools/BulkLoadContEditParent.cfm'>Container Parent Edit Bulkloader</a> to move these parts."><!--- " --->
 				<cfthrow message="#error_message#">
