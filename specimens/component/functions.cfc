@@ -3983,7 +3983,7 @@ limitations under the License.
 				<!--- add new part --->
 				<div class="col-12 mt-4 px-1">
 					<div class="container-fluid">
-						<cfif dialog>
+						<cfif NOT dialog>
 							<div class="col-12 px-0 pt-1">
 								<h2 class="h2 float-left">Edit Parts for #guid#</h2>
 								<button class="btn btn-xs btn-secondary float-right" onclick="closePartsInPage();">Back to Specimen without saving changes</button>
@@ -4116,9 +4116,11 @@ limitations under the License.
 									<!--- this div is replaced with the edit existing parts HTML when parts are added --->
 									#getEditExistingPartsUnthreaded(collection_object_id=attributes.collection_object_id)#
 								</div>
+								<div class="col-12 mt-2">
+									<button class="btn btn-xs btn-secondary float-right" onclick="closePartsInPage();">Back to Specimen without saving changes</button>
+								</div>
 							</div>
 						</div>
-						<button class="btn btn-xs btn-secondary float-right" onclick="closePartsInPage();">Back to Specimen without saving changes</button>
 					</div>
 				</div>
 				<script>
