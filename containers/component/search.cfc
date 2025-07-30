@@ -142,7 +142,7 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 --->
 <cffunction name="getContainerAutocompleteLimited" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
-	<cfargument name="type" type="string" required="yes">
+	<cfargument name="type" type="string" required="no" default="">
 	<cfargument name="ancestor_container_id" type="string" required="no" default="">
 
 	<!--- perform wildcard search anywhere in barcode or label --->
@@ -173,7 +173,11 @@ Function getContainerAutocompleteLimited.  Search for containers by name with a 
 					upper(container_id) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#term#">
 				</cfif>
 				) 
-				AND container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.type#">
+				<cfif isDefined("arguments.type") AND len(arguments.type) GT 0>
+					AND container_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.type#">
+				<cfelse>
+					AND rownum < 100
+				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
