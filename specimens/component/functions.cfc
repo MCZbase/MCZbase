@@ -7810,6 +7810,7 @@ function showLLFormat(orig_units) {
 							// Close the in-page modal editor, and invoke the reloadLocality function
 							closeInPage(reloadLocality);
 						}
+					</script>
 				</div>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
