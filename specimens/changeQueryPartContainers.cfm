@@ -163,7 +163,7 @@ limitations under the License.
 						ORDER BY coll_obj_disposition
 					</cfquery>
 
-					<div class="col-12 border border-rounded"> 
+					<div class="col-12 border border-rounded pb-2"> 
 						<h2 class="h3 card-title">Move Selected Parts</h2>
 						<p class="px-2">Identify existing parts to be moved from all the #getCount.ct# cataloged items.  You must provide at least one filter condition for parts to move.  You will be able to select the destination container, review, and confirm on the next screen.</p>
 						<h3 class="h4 px-2">Select values to identify the existing parts to be moved.</h3>
@@ -230,7 +230,6 @@ limitations under the License.
 						</form>
 					</div>
 
-					<h2 class="h3">Specimens for which selected parts are to be moved</h2>
 					<cfquery name="getCollObjList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
 							cataloged_item.collection_object_id,
@@ -271,6 +270,27 @@ limitations under the License.
 						GROUP BY
 							 collection_object_id,collection,cat_num,scientific_name,institution_acronym,collection_cde
 					</cfquery>
+					<cfquery name="getContainerTypes" dbtype="query">
+						SELECT count(collection_object_id) ct, container_type
+						FROM getCollObjList
+						WHERE container_type IS NOT NULL
+						GROUP BY container_type
+						ORDER BY container_type
+					</cfquery>
+					<h2 class="h3">Current Parent Container Types for the parts in this result set</h2>
+					<ul>
+						<cfloop query="getContainerTypes">
+							<li>
+								<cfif listContains(DISALLOWED_CONTAINER_TYPES, container_type)>
+									<span class="text-danger">#container_type#</span>
+								<cfelse>
+									#container_type# 
+								</cfif>
+								(#ct# parts)
+							</li>
+						</cfloop>
+					</ul>
+					<h2 class="h3">Specimens for which selected parts are to be moved</h2>
 					<table class="table table-responsive table-striped d-xl-table">
 						<thead class="thead-light"
 							<tr>
