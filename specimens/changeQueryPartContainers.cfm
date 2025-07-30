@@ -28,6 +28,7 @@ limitations under the License.
 <cfif not isDefined("action")>
 	<cfset action="entryPoint">
 </cfif>
+<cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,vial,box">
 
 <main class="container-fluid px-4 py-3" id="content">
 <cftry>
@@ -66,6 +67,7 @@ limitations under the License.
 						<li>Step 1: (This step) Filter a selected set of parts of the cataloged items in the search result that are to be moved.</li>
 						<li>Step 2: Review the selected parts and identify the container into which to move them.</li>
 						<li>Step 3: Move all the selected parts into the specified container.</li>
+						<li>Note: You cannot use this tool to move parts which have a container of type collection object that are within are in a <strong>#DISALLOWED_CONTAINER_TYPES#</strong>.  Please use the <a href="/tools/BulkLoadContEditParent.cfm">Container Parent Edit Bulkloader</a> to move such parts.</li>
 					<ul>
 					<cfif getCount.ct gte 1000>
 						<cfthrow message="You can only use this form on up to 1000 specimens at a time. Please <a href='/Specimens.cfm'>revise your search</a>."><!--- " --->
@@ -334,6 +336,8 @@ limitations under the License.
 	<!---------------------------------------------------------------------------->
 	<cfcase value="movePart2">
 		<cfoutput>
+			<!--- TODO: Support bulk move of parts that are in pins, moving the parent pin container rather than the collection object container --->
+
 			<!--- move parts into specified container --->
 			<cfquery name="move" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="move_result">
 				UPDATE container
@@ -364,7 +368,7 @@ limitations under the License.
 		<cfoutput>
 			<script type="text/javascript" src="/containers/js/containers.js"></script>
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select
+				SELECT
 					specimen_part.collection_object_id partID,
 					collection.collection,
 					cataloged_item.cat_num,
@@ -375,23 +379,20 @@ limitations under the License.
 					coll_object.lot_count_modifier,
 					coll_object.lot_count,
 					coll_object.coll_obj_disposition,
-					coll_object_remark.coll_object_remarks
-				from
-					cataloged_item,
-					collection,
-					coll_object,
-					specimen_part,
-					identification,
-					coll_object_remark,
-					user_search_table
-				where
-					cataloged_item.collection_id=collection.collection_id and
-					cataloged_item.collection_object_id=user_search_table.collection_object_id and
+					coll_object_remark.coll_object_remarks,
+					container.container_type
+				FROM
+					cataloged_item 
+					join collection on cataloged_item.collection_id=collection.collection_id
+					join specimen_part on cataloged_item.collection_object_id=specimen_part.derived_from_cat_item 
+					join coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
+					join identification on cataloged_item.collection_object_id=identification.collection_object_id
+					join user_search_table on cataloged_item.collection_object_id=user_search_table.collection_object_id 
+					left join coll_object_remark on specimen_part.collection_object_id=coll_object_remark.collection_object_id
+					join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND CURRENT_CONTAINER_FG = 1
+					join container on coll_obj_cont_hist.container_id = container.container_id
+				WHERE
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"> and
-					cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
-					specimen_part.collection_object_id=coll_object.collection_object_id and
-					specimen_part.collection_object_id=coll_object_remark.collection_object_id (+) and
-					cataloged_item.collection_object_id=identification.collection_object_id and
 					accepted_id_fg=1 
 					<cfif len(exist_part_name) gt 0>
 						and part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exist_part_name#">
@@ -408,9 +409,22 @@ limitations under the License.
 					<cfif len(exist_part_name) EQ 0 AND len(exist_preserve_method) EQ 0 AND len(existing_lot_count) EQ 0 AND len(existing_coll_obj_disposition) EQ 0>
 						and 0=1
 					</cfif>
-				order by
+				ORDER BY
 					collection.collection,cataloged_item.cat_num
 			</cfquery>
+			<cfquery name="checkTypes" type="query">
+				SELECT distinct container_type 
+				FROM d
+				WHERE container_type IN ( 
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DISALLOWED_CONTAINER_TYPES#" list="yes" separator=",">
+				)
+			</cfquery>
+			<!--- check for types that shouldn't be moved  --->
+			<cfif checkTypes.recordcount GT 0>
+				<cfset error_message = "You cannot use this tool to move parts that are in a #DISSALLOWED_CONTAINER_TYPES# . Please use the <a href='/tools/BulkLoadContEditParent.cfm'>Container Parent Edit Bulkloader</a> to move these parts."><!--- " --->
+				<cfthrow message="#error_message#">
+			</cfif>
+
 			<section class="row mx-0">
 				<div class="col-12 pt-3">
 					<h1 class="h2 mt-1">Bulk move parts into a container</h1>
