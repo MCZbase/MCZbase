@@ -355,12 +355,20 @@ limitations under the License.
 							and current_container_fg = 1
 					)
 			</cfquery>
+			<cfquery name="getTarget" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getTarget_result">
+				SELECT 
+					barcode, label, container_type
+				FROM 
+					container
+				WHERE
+					container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_container_id#">
+			</cfquery>
 			<div class="row mx-0">
 				<div class="col-12 mt-2">
-					<h2>Successfully moved #move_result.recordcount# parts into </h2>
+					<h2>Successfully moved #move_result.recordcount# parts into #getTarget.container_type# #getTarget.label# </h2>
 					<cfset targeturl="/specimens/changeQueryPartContainers.cfm?result_id=#result_id#">
 					<h4 class="mt-2"><a href="#targeturl#">Return to move parts in bulk</a></h4>
-					<cfset targeturl="">
+					<cfset targeturl="/findContainer.cfm?barcode=#getTarget.barcode#">
 					<h4 class="mt-2"><a href="#targeturl#">View Container</a></h4>
 				</div>
 			</div>
