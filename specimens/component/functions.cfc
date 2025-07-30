@@ -7382,340 +7382,536 @@ limitations under the License.
 						<!--- current georeference (on locality) --->
 
 						<div class="col-12 px-0">
+
+							<div class="col-12 px-0">
+								<h2 class="h3 mt-3">Georeference and Georeference Metadata</h2>
+								
+								<div class="form-row">
+									<!-- Coordinate Format Selection -->
+									<div class="col-12 col-md-3 mb-2">
+										<label for="ORIG_LAT_LONG_UNITS" class="data-entry-label">Coordinate Format</label>
+										<cfset thisUnits = #getLoc.ORIG_LAT_LONG_UNITS#>
+										<select name="ORIG_LAT_LONG_UNITS" id="ORIG_LAT_LONG_UNITS" class="data-entry-select reqdClr" onChange="changeLatLongUnitsEdit();">
+											<option value="">Not Georeferenced</option>
+											<cfloop query="ctunits">
+												<option <cfif #thisUnits# is "#ctunits.ORIG_LAT_LONG_UNITS#"> selected </cfif> 
+														value="#ctunits.ORIG_LAT_LONG_UNITS#">#ctunits.ORIG_LAT_LONG_UNITS#</option>
+											</cfloop>
+										</select>
+										<script>
+											function changeLatLongUnitsEdit(){ 
+												$(".latlong").prop('disabled', true);
+												$(".latlong").prop('required', false);
+												$(".latlong").removeClass('reqdClr');
+												$(".latlong").addClass('bg-lt-gray');
+												$(".utm").removeClass('reqdClr');
+												$(".utm").addClass('bg-lt-gray');
+												$(".utm").prop('disabled', true);
+												$(".utm").prop('required', false);
+												
+												var units = $("##ORIG_LAT_LONG_UNITS").val();
+												if (!units) { 
+													$(".latlong").prop('disabled', true);
+													$(".utm").prop('disabled', true);
+												} else if (units == 'decimal degrees') {
+													$("##dec_lat").prop('disabled', false);
+													$("##dec_lat").prop('required', true);
+													$("##dec_lat").addClass('reqdClr');
+													$("##dec_lat").removeClass('bg-lt-gray');
+													$("##dec_long").prop('disabled', false);
+													$("##dec_long").prop('required', true);
+													$("##dec_long").addClass('reqdClr');
+													$("##dec_long").removeClass('bg-lt-gray');
+												} else if (units == 'degrees dec. minutes') {
+													$("##dmlat_deg").prop('disabled', false);
+													$("##dmlat_deg").prop('required', true);
+													$("##dmlat_deg").addClass('reqdClr');
+													$("##dmlat_deg").removeClass('bg-lt-gray');
+													$("##dec_lat_min").prop('disabled', false);
+													$("##dec_lat_min").prop('required', true);
+													$("##dec_lat_min").addClass('reqdClr');
+													$("##dec_lat_min").removeClass('bg-lt-gray');
+													$("##dmlat_dir").prop('disabled', false);
+													$("##dmlat_dir").prop('required', true);
+													$("##dmlat_dir").addClass('reqdClr');
+													$("##dmlat_dir").removeClass('bg-lt-gray');
+													$("##dmlong_deg").prop('disabled', false);
+													$("##dmlong_deg").prop('required', true);
+													$("##dmlong_deg").addClass('reqdClr');
+													$("##dmlong_deg").removeClass('bg-lt-gray');
+													$("##dec_long_min").prop('disabled', false);
+													$("##dec_long_min").prop('required', true);
+													$("##dec_long_min").addClass('reqdClr');
+													$("##dec_long_min").removeClass('bg-lt-gray');
+													$("##dmlong_dir").prop('disabled', false);
+													$("##dmlong_dir").prop('required', true);
+													$("##dmlong_dir").addClass('reqdClr');
+													$("##dmlong_dir").removeClass('bg-lt-gray');
+												} else if (units == 'deg. min. sec.') {
+													$(".latlong").prop('disabled', false);
+													$(".latlong").addClass('reqdClr');
+													$(".latlong").removeClass('bg-lt-gray');
+													$(".latlong").prop('required', true);
+												} else if (units == 'UTM') {
+													$(".utm").prop('disabled', false);
+													$(".utm").prop('required', true);
+													$(".utm").addClass('reqdClr');
+													$(".utm").removeClass('bg-lt-gray');
+												}
+											} 
+											$(document).ready(changeLatLongUnitsEdit);
+										</script>
+									</div>
 							
-							<h2 class="h3 mt-3">Georeference and Georeference Metadata</h2>
-							<!--- TODO: Count current georeferences --->
-							<!--- TODO: identify this as the current georeference, describe action on split --->
-							<ul id="llMeta" class="list-unstyled row mx-0 px-3 pt-3 pb-2 mb-0 border-bottom">
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="coordinate_determiner" class="data-entry-label px-2 text-right"> Coordinate Determiner </label>
-								</li>
-								<li class="col-12 col-md-10 pb-2 px-0">
-									<input type="text" name="coordinate_determiner" id="coordinate_determiner" class="reqdClr" value="#getLoc.coordinate_determiner#" onchange="getAgent('DETERMINED_BY_AGENT_ID','coordinate_determiner','loc',this.value); return false;" onKeyPress="return noenter(event);">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<input type="hidden" name="DETERMINED_BY_AGENT_ID" value="#getLoc.DETERMINED_BY_AGENT_ID#">
-									<label for="DETERMINED_DATE" class="data-entry-label px-2"> Determined Date </label>
-								</li>
-								<li class="col-12 col-md-10 pb-2 px-0">
-									<input type="text" name="determined_date" id="determined_date"
-									   value="#dateformat(getLoc.latlongdetermineddate,'yyyy-mm-dd')#" class="reqdClr">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="MAX_ERROR_DISTANCE" class="px-2 data-entry-label text-right"> Maximum Error </label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
-									<input type="text" class="data-entry-input" name="MAX_ERROR_DISTANCE" id="MAX_ERROR_DISTANCE" value="#getLoc.MAX_ERROR_DISTANCE#" size="6">
-								</li>
-								<li class="col-12 col-md-1 pb-2 px-0 mx-1">
-									<select name="MAX_ERROR_UNITS" size="1" class="data-entry-select">
-										<option value=""></option>
-										<cfloop query="cterror">
-											<option <cfif #cterror.LAT_LONG_ERROR_UNITS# is "#getLoc.MAX_ERROR_UNITS#"> selected </cfif>
-								value="#cterror.LAT_LONG_ERROR_UNITS#">#cterror.LAT_LONG_ERROR_UNITS#</option>
-										</cfloop>
-									</select>
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="DATUM" class="data-entry-label px-2 text-right"> Datum </label>
-								</li>
-								<li class="col-12 col-md-3 pb-2 px-0">
-									<cfset thisDatum = #getLoc.DATUM#>
-									<select name="DATUM" id="DATUM" size="1" class="reqdClr data-entry-select">
-										<option value=""></option>
-										<cfloop query="ctdatum">
-											<option <cfif #ctdatum.DATUM# is "#thisDatum#"> selected </cfif>
-							value="#ctdatum.DATUM#">#ctdatum.DATUM#</option>
-										</cfloop>
-									</select>
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="georefMethod" class="data-entry-label px-2 text-right"> Georeference Method </label>
-								</li>
-								<li class="col-12 col-md-3 pb-2 px-0">
-									<cfset thisGeoMeth = #getLoc.georefMethod#>
-									<select name="georefMethod" id="georefMethod" size="1" class="reqdClr data-entry-select">
-										<cfloop query="ctGeorefMethod">
-											<option
-						<cfif #thisGeoMeth# is #ctGeorefMethod.georefMethod#> selected </cfif>
-							value="#georefMethod#">#georefMethod#</option>
-										</cfloop>
-									</select>
-								</li>
-								<li class="col-12 col-md-1 py-1 px-0">
-									<label for="extent" class="data-entry-label px-2 text-right"> Extent </label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
-									<input type="text" name="extent" id="extent" value="#getLoc.extent#" class="data-entry-input">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="GpsAccuracy" class="data-entry-label px-2 text-right"> GPS Accuracy </label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
-									<input type="text" name="GpsAccuracy" id="GpsAccuracy" value="#getLoc.GpsAccuracy#" class="data-entry-input">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="VerificationStatus" class="data-entry-label px-2 text-right"> Verification Status </label>
-								</li>
-								<li class="col-12 col-md-3 pb-2 px-0">
-									<cfset thisVerificationStatus = #getLoc.VerificationStatus#>
-									<select name="VerificationStatus" id="VerificationStatus" size="1" class="reqdClr  data-entry-select"
-				onchange="if (this.value=='verified by MCZ collection' || this.value=='rejected by MCZ collection')
-									{document.getElementById('verified_by').style.display = 'block';
-									document.getElementById('verified_byLBL').style.display = 'block';
-									document.getElementById('verified_by').className = 'reqdClr';}
-									else
-									{document.getElementById('verified_by').value = '';
-									document.getElementById('verified_by').style.display = 'none';
-									document.getElementById('verified_byLBL').style.display = 'none';
-									document.getElementById('verified_by').className = '';}">
-										<cfloop query="ctVerificationStatus">
-											<option
-							<cfif #thisVerificationStatus# is #ctVerificationStatus.VerificationStatus#> selected </cfif>
-								value="#VerificationStatus#">#VerificationStatus#</option>
-										</cfloop>
-									</select>
-								</li>
-								<li class="col-12 col-md-3 py-1 px-0">
-									<cfset thisVerifiedBy = #getLoc.verifiedby#>
-									<cfset thisVerifiedByAgentId = #getLoc.verified_by_agent_id#>
-									<label for="verified_by" id="verified_byLBL" <cfif #thisVerificationStatus# EQ "verified by MCZ collection" or #thisVerificationStatus# EQ "rejected by MCZ collection">style="display:block"<cfelse>style="display:none"</cfif>> Verified by </label>
-								</li>
-								<li class="col-12 col-md-4 pb-2 px-0">
-									<input type="text" name="verified_by" id="verified_by" value="#thisVerifiedBy#" 
-						<cfif #thisVerificationStatus# EQ "verified by MCZ collection" or #thisVerificationStatus# EQ "rejected by MCZ collection">class="reqdClr data-entry-input" style="display:block"
-						<cfelse>style="display:none"
-						</cfif>
-						onchange="if (this.value.length > 0){getAgent('verified_by_agent_id','verified_by','loc',this.value); return false;}"
-				onKeyPress="return noenter(event);">
-									<input type="hidden" name="verified_by_agent_id" value="#thisVerifiedByAgentId#">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="LAT_LONG_REF_SOURCE" class="data-entry-label px-2 text-right"> Reference </label>
-								</li>
-								<li class="col-12 col-md-10 pb-2 px-0">
-									<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE"  class="reqdClr data-entry-input"
-							   value="#encodeForHTML(getLoc.LAT_LONG_REF_SOURCE)#" />
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="LAT_LONG_REMARKS" class="data-entry-label px-2 text-right"> Remarks </label>
-								</li>
-								<li class="col-12 col-md-10 pb-2 px-0">
-									<input type="text" name="LAT_LONG_REMARKS" id="LAT_LONG_REMARKS" value="#encodeForHTML(getLoc.LAT_LONG_REMARKS)#" class="data-entry-input">
-								</li>
-							</ul>
-							<script>
-function showLLFormat(orig_units) {
-		//alert(orig_units);
-		var llMeta = document.getElementById('llMeta');
-		var decdeg = document.getElementById('decdeg');
-		var utm = document.getElementById('utm');
-		var ddm = document.getElementById('ddm');
-		var dms = document.getElementById('dms');
-		llMeta.style.display='none';
-		decdeg.style.display='none';
-		utm.style.display='none';
-		ddm.style.display='none';
-		dms.style.display='none';
-		//alert('everything off');
-		if (orig_units.length > 0) {
-			//alert('got soemthing');
-			llMeta.style.display='';
-			if (orig_units == 'decimal degrees') {
-				decdeg.style.display='';
-			}
-			else if (orig_units == 'UTM') {
-				//alert(utm.style.display);
-				utm.style.display='';
-				//alert(utm.style.display);
-			}
-			else if (orig_units == 'degrees dec. minutes') {
-				ddm.style.display='';
-			}
-			else if (orig_units == 'deg. min. sec.') {
-				dms.style.display='';
-			}
-			else if (orig_units == 'unknown') {
-			}
-			else {
-				alert('I have no idea what to do with ' + orig_units);
-			}
-		}
-	}
-		</script> 
+									<!-- Accepted Lat/Long Flag -->
+									<div class="col-12 col-md-3 mb-2">
+										<label for="ACCEPTED_LAT_LONG_FG" class="data-entry-label">Accepted</label>
+										<select name="ACCEPTED_LAT_LONG_FG" id="ACCEPTED_LAT_LONG_FG" class="data-entry-select reqdClr">
+											<option value="1" <cfif getLoc.ACCEPTED_LAT_LONG_FG EQ 1>selected</cfif>>Yes</option>
+											<option value="0" <cfif getLoc.ACCEPTED_LAT_LONG_FG EQ 0>selected</cfif>>No</option>
+										</select>
+									</div>
 							
-							<!-- ORIGINAL UNITS -->
-							<div class="col-12 col-md-12 py-1 px-0  row mx-0 px-3 pt-3 pb-2 mb-0 border">
-								<label for="ORIG_LAT_LONG_UNITS" class="data-entry-label px-2 col-3 text-left"> Select Original Coordinate Units <span class="small d-block">so the appropriate format appears</span> </label>
-								<cfset thisUnits = #getLoc.ORIG_LAT_LONG_UNITS#>
-								<select name="ORIG_LAT_LONG_UNITS" id="ORIG_LAT_LONG_UNITS" size="1" class="reqdClr" onchange="showLLFormat(this.value)">
-									<option value="">Not Georeferenced</option>
-									<cfloop query="ctunits">
-										<option
-						  	<cfif #thisUnits# is "#ctunits.ORIG_LAT_LONG_UNITS#"> selected </cfif>value="#ctunits.ORIG_LAT_LONG_UNITS#">#ctunits.ORIG_LAT_LONG_UNITS#</option>
-									</cfloop>
-								</select>
+									<!-- Determiner -->
+									<div class="col-12 col-md-3 mb-2">
+										<label for="coordinate_determiner" class="data-entry-label">
+											Determiner
+											<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##DETERMINED_BY_AGENT_ID').val('#getCurrentUser.agent_id#');  $('##coordinate_determiner').val('#encodeForHtml(getCurrentUser.agent_name)#'); return false;" > (me) <span class="sr-only">Fill in determined by with #encodeForHtml(getCurrentUser.agent_name)#</span></a>
+										</label>
+										<input type="hidden" name="DETERMINED_BY_AGENT_ID" id="DETERMINED_BY_AGENT_ID" value="#getLoc.DETERMINED_BY_AGENT_ID#">
+										<input type="text" name="coordinate_determiner" id="coordinate_determiner" class="data-entry-input reqdClr" 
+											   value="#getLoc.coordinate_determiner#" onchange="getAgent('DETERMINED_BY_AGENT_ID','coordinate_determiner','loc',this.value); return false;">
+									</div>
+							
+									<!-- Date Determined -->
+									<div class="col-12 col-md-3 mb-2">
+										<label for="determined_date" class="data-entry-label">Date Determined</label>
+										<input type="text" name="determined_date" id="determined_date" class="data-entry-input reqdClr" 
+											   placeholder="yyyy-mm-dd" value="#dateformat(getLoc.latlongdetermineddate,'yyyy-mm-dd')#">
+										<script>
+											$(document).ready(function() {
+												$("##determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
+											});
+										</script>
+									</div>
+							
+									<!-- Coordinate Input Fields - Decimal Degrees -->
+									<div class="col-12 col-md-3 mb-2">
+										<label for="dec_lat" class="data-entry-label">Decimal Latitude</label>
+										<input type="text" name="dec_lat" id="dec_lat" class="data-entry-input latlong" 
+											   value="#getLoc.dec_lat#" validate="numeric">
+									</div>
+							
+									<div class="col-12 col-md-3 mb-2">
+										<label for="dec_long" class="data-entry-label">Decimal Longitude</label>
+										<input type="text" name="DEC_LONG" id="dec_long" class="data-entry-input latlong" 
+											   value="#getLoc.DEC_LONG#" validate="numeric">
+									</div>
+							
+									<!-- Coordinate Input Fields - Degrees Decimal Minutes -->
+									<div class="col-12 col-md-3 mb-2">
+										<label for="dmlat_deg" class="data-entry-label">Latitude Degrees &##176;</label>
+										<input type="text" name="dmLAT_DEG" id="dmlat_deg" class="data-entry-input latlong" 
+											   value="#getLoc.LAT_DEG#">
+									</div>
+							
+									<div class="col-12 col-md-3 mb-2">
+										<label for="dec_lat_min" class="data-entry-label">Decimal Minutes &apos;</label>
+										<input type="text" name="DEC_LAT_MIN" id="dec_lat_min" class="data-entry-input latlong" 
+											   value="#getLoc.DEC_LAT_MIN#" validate="numeric">
+									</div>
+							
+									<div class="col-12 col-md-3 mb-2">
+										<label for="dmlat_dir" class="data-entry-label">Direction</label>
+										<select name="dmLAT_DIR" id="dmlat_dir" class="data-entry-select latlong">
+											<option value=""></option>
+											<option value="N" <cfif getLoc.LAT_DIR is "N">selected</cfif>>N</option>
+											<option value="S" <cfif getLoc.LAT_DIR is "S">selected</cfif>>S</option>
+										</select>
+									</div>
+							
+									<div class="col-12 col-md-3 mb-2">
+										<label for="dmlong_deg" class="data-entry-label">Longitude Degrees &##176;</label>
+										<input type="text" name="dmLONG_DEG" id="dmlong_deg" class="data-entry-input latlong" 
+											   value="#getLoc.LONG_DEG#" validate="numeric">
+									</div>
+							
+									<div class="col-12 col-md-3 mb-2">
+										<label for="dec_long_min" class="data-entry-label">Decimal Minutes &apos;</label>
+										<input type="text" name="DEC_LONG_MIN" id="dec_long_min" class="data-entry-input latlong" 
+											   value="#getLoc.DEC_LONG_MIN#" validate="numeric">
+									</div>
+							
+									<div class="col-12 col-md-3 mb-2">
+										<label for="dmlong_dir" class="data-entry-label">Direction</label>
+										<select name="dmLONG_DIR" id="dmlong_dir" class="data-entry-select latlong">
+											<option value=""></option>
+											<option value="E" <cfif getLoc.LONG_DIR is "E">selected</cfif>>E</option>
+											<option value="W" <cfif getLoc.LONG_DIR is "W">selected</cfif>>W</option>
+										</select>
+									</div>
+							
+									<!-- Coordinate Input Fields - Degrees Minutes Seconds -->
+									<div class="col-12 col-md-3 mb-2">
+										<label for="lat_deg" class="data-entry-label">Latitude Degrees &##176;</label>
+										<input type="text" name="LAT_DEG" id="lat_deg" class="data-entry-input latlong" 
+											   value="#getLoc.LAT_DEG#" validate="numeric">
+									</div>
+							
+									<div class="col-12 col-md-3 mb-2">
+										<label for="lat_min" class="data-entry-label">Minutes &apos;</label>
+										<input type="text" name="LAT_MIN" id="lat_min" class="data-entry-input latlong" 
+											   value="#getLoc.LAT_MIN#" validate="numeric">
+									</div>
+							
+									<div class="col-12 col-md-3 mb-2">
+										<label for="lat_sec" class="data-entry-label">Seconds &quot;</label>
+										<input type="text" name="LAT_SEC" id="lat_sec" class="data-entry-input latlong" 
+											   value="#getLoc.LAT_SEC#" validate="numeric">
+									</div>
+							
+									<div class="col-12 col-md-3 mb-2">
+										<label for="lat_dir" class="data-entry-label">Direction</label>
+										<select name="LAT_DIR" id="lat_dir" class="data-entry-select latlong">
+											<option value=""></option>
+											<option value="N" <cfif getLoc.LAT_DIR is "N">selected</cfif>>N</option>
+											<option value="S" <cfif getLoc.LAT_DIR is "S">selected</cfif>>S</option>
+										</select>
+									</div>
+							
+									<div class="col-12 col-md-3 mb-2">
+										<label for="long_deg" class="data-entry-label">Longitude Degrees &##176;</label>
+										<input type="text" name="LONG_DEG" id="long_deg" class="data-entry-input latlong" 
+											   value="#getLoc.LONG_DEG#" validate="numeric">
+									</div>
+							
+									<div class="col-12 col-md-3 mb-2">
+										<label for="long_min" class="data-entry-label">Minutes &apos;</label>
+										<input type="text" name="LONG_MIN" id="long_min" class="data-entry-input latlong" 
+											   value="#getLoc.LONG_MIN#" validate="numeric">
+									</div>
+							
+									<div class="col-12 col-md-3 mb-2">
+										<label for="long_sec" class="data-entry-label">Seconds &quot;</label>
+										<input type="text" name="LONG_SEC" id="long_sec" class="data-entry-input latlong" 
+											   value="#getLoc.LONG_SEC#" validate="numeric">
+									</div>
+							
+									<div class="col-12 col-md-3 mb-2">
+										<label for="long_dir" class="data-entry-label">Direction</label>
+										<select name="LONG_DIR" id="long_dir" class="data-entry-select latlong">
+											<option value=""></option>
+											<option value="E" <cfif getLoc.LONG_DIR is "E">selected</cfif>>E</option>
+											<option value="W" <cfif getLoc.LONG_DIR is "W">selected</cfif>>W</option>
+										</select>
+									</div>
+							
+									<!-- UTM Coordinate Fields -->
+									<div class="col-12 col-md-4 mb-2">
+										<label for="utm_zone" class="data-entry-label">UTM Zone/Letter</label>
+										<input type="text" name="UTM_ZONE" id="utm_zone" class="data-entry-input utm" 
+											   value="#getLoc.UTM_ZONE#">
+									</div>
+							
+									<div class="col-12 col-md-4 mb-2">
+										<label for="utm_ew" class="data-entry-label">Easting</label>
+										<input type="text" name="UTM_EW" id="utm_ew" class="data-entry-input utm" 
+											   value="#getLoc.UTM_EW#" validate="numeric">
+									</div>
+							
+									<div class="col-12 col-md-4 mb-2">
+										<label for="utm_ns" class="data-entry-label">Northing</label>
+										<input type="text" name="UTM_NS" id="utm_ns" class="data-entry-input utm" 
+											   value="#getLoc.UTM_NS#" validate="numeric">
+									</div>
+							
+									<!-- Geodetic Datum -->
+									<div class="col-12 col-md-3 mb-2">
+										<label for="DATUM" class="data-entry-label">
+											Geodetic Datum
+											<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##DATUM').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open geodetic datum pick list</span></a>
+										</label>
+										<cfset thisDatum = #getLoc.DATUM#>
+										<select name="DATUM" id="DATUM" class="data-entry-select reqdClr" required>
+											<option value=""></option>
+											<cfloop query="ctdatum">
+												<option <cfif #ctdatum.DATUM# is "#thisDatum#"> selected </cfif> 
+														value="#ctdatum.DATUM#">#ctdatum.DATUM#</option>
+											</cfloop>
+										</select>
+									</div>
+							
+									<!-- Error Radius -->
+									<div class="col-12 col-md-2 mb-2">
+										<label for="MAX_ERROR_DISTANCE" class="data-entry-label">Error Radius</label>
+										<input type="text" name="MAX_ERROR_DISTANCE" id="MAX_ERROR_DISTANCE" class="data-entry-input reqdClr" 
+											   value="#getLoc.MAX_ERROR_DISTANCE#" required>
+									</div>
+							
+									<div class="col-12 col-md-1 mb-2">
+										<label for="MAX_ERROR_UNITS" class="data-entry-label">
+											Units
+											<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##MAX_ERROR_UNITS').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list for error radius units</span></a>
+										</label>
+										<select name="MAX_ERROR_UNITS" id="MAX_ERROR_UNITS" class="data-entry-select reqdClr" required>
+											<option value=""></option>
+											<cfloop query="cterror">
+												<option <cfif #cterror.LAT_LONG_ERROR_UNITS# is "#getLoc.MAX_ERROR_UNITS#"> selected </cfif>
+														value="#cterror.LAT_LONG_ERROR_UNITS#">#cterror.LAT_LONG_ERROR_UNITS#</option>
+											</cfloop>
+										</select>
+									</div>
+							
+									<!-- Spatial Fit -->
+									<div class="col-12 col-md-3 mb-2">
+										<label for="SPATIALFIT" class="data-entry-label">Point Radius Spatial Fit</label>
+										<input type="text" name="SPATIALFIT" id="SPATIALFIT" class="data-entry-input" 
+											   value="#getLoc.SPATIALFIT#" pattern="^(0|1(\.[0-9]+)|[1-9][0-9.]{0,5}){0,1}$">
+									</div>
+							
+									<!-- Extent -->
+									<div class="col-12 col-md-2 mb-2">
+										<label for="extent" class="data-entry-label">Radial of Feature [Extent]</label>
+										<input type="text" name="extent" id="extent" class="data-entry-input" 
+											   value="#getLoc.extent#" pattern="^[0-9.]*$">
+									</div>
+							
+									<div class="col-12 col-md-1 mb-2">
+										<label for="EXTENT_UNITS" class="data-entry-label">
+											Units
+											<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##EXTENT_UNITS').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list for extent units</span></a>
+										</label>
+										<input type="text" name="EXTENT_UNITS" id="EXTENT_UNITS" class="data-entry-input" 
+											   value="#getLoc.EXTENT_UNITS#">
+										<script>
+											$(document).ready(function (){
+												makeCTAutocomplete('EXTENT_UNITS','lat_long_error_units');
+											});
+										</script>
+									</div>
+							
+									<!-- Coordinate Precision -->
+									<div class="col-12 col-md-3 mb-2">
+										<label for="COORDINATE_PRECISION" class="data-entry-label">Precision</label>
+										<select name="COORDINATE_PRECISION" id="COORDINATE_PRECISION" class="data-entry-select reqdClr" required>
+											<option value=""></option>
+											<option value="0" <cfif getLoc.COORDINATE_PRECISION EQ 0>selected</cfif>>Specified to 1&##176;</option>
+											<option value="1" <cfif getLoc.COORDINATE_PRECISION EQ 1>selected</cfif>>Specified to 0.1&##176;. latitude known to 11 km.</option>
+											<option value="2" <cfif getLoc.COORDINATE_PRECISION EQ 2>selected</cfif>>Specified to 0.01&##176;, use if known to 1&apos;, latitude known to 1,111 meters.</option>
+											<option value="3" <cfif getLoc.COORDINATE_PRECISION EQ 3>selected</cfif>>Specified to 0.001&##176;, latitude known to 111 meters.</option>
+											<option value="4" <cfif getLoc.COORDINATE_PRECISION EQ 4>selected</cfif>>Specified to 0.0001&##176;, use if known to 1&quot;, latitude known to 11 meters.</option>
+											<option value="5" <cfif getLoc.COORDINATE_PRECISION EQ 5>selected</cfif>>Specified to 0.00001&##176;, latitude known to 1 meter.</option>
+											<option value="6" <cfif getLoc.COORDINATE_PRECISION EQ 6>selected</cfif>>Specified to 0.000001&##176;, latitude known to 11 cm.</option>
+										</select>
+									</div>
+							
+									<!-- GPS Accuracy -->
+									<div class="col-12 col-md-3 mb-2">
+										<label for="GpsAccuracy" class="data-entry-label">GPS Accuracy</label>
+										<input type="text" name="GpsAccuracy" id="GpsAccuracy" class="data-entry-input" 
+											   value="#getLoc.GpsAccuracy#">
+									</div>
+							
+									<!-- Nearest Named Place -->
+									<div class="col-12 col-md-3 mb-2">
+										<label for="NEAREST_NAMED_PLACE" class="data-entry-label">Nearest Named Place</label>
+										<input type="text" name="NEAREST_NAMED_PLACE" id="NEAREST_NAMED_PLACE" class="data-entry-input" 
+											   value="#getLoc.NEAREST_NAMED_PLACE#">
+									</div>
+							
+									<!-- Georeference is of NNP -->
+									<div class="col-12 col-md-3 mb-2">
+										<label for="LAT_LONG_FOR_NNP_FG" class="data-entry-label">Georeference is of Nearest Named Place</label>
+										<select name="LAT_LONG_FOR_NNP_FG" id="LAT_LONG_FOR_NNP_FG" class="data-entry-select reqdClr" required>
+											<option value="0" <cfif getLoc.LAT_LONG_FOR_NNP_FG EQ 0>selected</cfif>>No</option>
+											<option value="1" <cfif getLoc.LAT_LONG_FOR_NNP_FG EQ 1>selected</cfif>>Yes</option>
+										</select>
+									</div>
+							
+									<!-- Reference -->
+									<div class="col-12 col-md-3 mb-2">
+										<label for="LAT_LONG_REF_SOURCE" class="data-entry-label">Reference</label>
+										<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE" class="data-entry-input reqdClr" 
+											   value="#encodeForHTML(getLoc.LAT_LONG_REF_SOURCE)#" required>
+									</div>
+							
+									<!-- Georeference Method -->
+									<div class="col-12 col-md-3 mb-2">
+										<label for="georefMethod" class="data-entry-label">
+											Method
+											<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##georefMethod').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open georeference method pick list</span></a>
+										</label>
+										<cfset thisGeoMeth = #getLoc.georefMethod#>
+										<select name="georefMethod" id="georefMethod" class="data-entry-select reqdClr" required>
+											<cfloop query="ctGeorefMethod">
+												<option <cfif #thisGeoMeth# is #ctGeorefMethod.georefMethod#> selected </cfif>
+														value="#georefMethod#">#georefMethod#</option>
+											</cfloop>
+										</select>
+									</div>
+							
+									<!-- Verification Status -->
+									<div class="col-12 col-md-3 mb-2">
+										<label for="VerificationStatus" class="data-entry-label">Verification Status</label>
+										<cfset thisVerificationStatus = #getLoc.VerificationStatus#>
+										<select name="VerificationStatus" id="VerificationStatus" class="data-entry-select reqdClr" 
+												onChange="changeVerificationStatusEdit();">
+											<cfloop query="ctVerificationStatus">
+												<option <cfif #thisVerificationStatus# is #ctVerificationStatus.VerificationStatus#> selected </cfif>
+														value="#VerificationStatus#">#VerificationStatus#</option>
+											</cfloop>
+										</select>
+										<script>
+											/* show/hide verified by agent controls depending on verification status */
+											function changeVerificationStatusEdit() { 
+												var status = $('##VerificationStatus').val();
+												if (status=='verified by MCZ collection' || status=='rejected by MCZ collection' || status=='verified by collector') {
+													$('##verified_by').show();
+													$('##verified_by_label').show();
+													$('##verified_by').addClass('reqdClr');
+												} else { 
+													$('##verified_by').hide();
+													$('##verified_by_label').hide();
+													$('##verified_by').removeClass('reqdClr');
+													$('##verified_by').val("");
+													$('##verified_by_agent_id').val("");
+												}
+											};
+											$(document).ready(changeVerificationStatusEdit);
+										</script>
+									</div>
+							
+									<!-- Verified By -->
+									<div class="col-12 col-md-3 mb-2">
+										<cfset thisVerifiedBy = #getLoc.verifiedby#>
+										<cfset thisVerifiedByAgentId = #getLoc.verified_by_agent_id#>
+										<label for="verified_by" id="verified_by_label" class="data-entry-label">
+											Verified by
+											<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##verified_by_agent_id').val('#getCurrentUser.agent_id#');  $('##verified_by').val('#encodeForHtml(getCurrentUser.agent_name)#'); return false;" > (me) <span class="sr-only">Fill in verified by with #encodeForHtml(getCurrentUser.agent_name)#</span></a>
+										</label>
+										<input type="hidden" name="verified_by_agent_id" id="verified_by_agent_id" value="#thisVerifiedByAgentId#">
+										<input type="text" name="verified_by" id="verified_by" class="data-entry-input" 
+											   value="#thisVerifiedBy#" onchange="if (this.value.length > 0){getAgent('verified_by_agent_id','verified_by','loc',this.value); return false;}">
+										<script><!--- " --->
+											$(document).ready(function() { 
+												makeAgentAutocompleteMeta("verified_by", "verified_by_agent_id");
+											});
+										</script>
+									</div>
+							
+									<!-- Remarks -->
+									<div class="col-12 mb-2">
+										<label class="data-entry-label" for="LAT_LONG_REMARKS">Georeference Remarks (<span id="length_LAT_LONG_REMARKS">0 of 4000 characters</span>)</label>
+										<textarea name="LAT_LONG_REMARKS" id="LAT_LONG_REMARKS" 
+												  onkeyup="countCharsLeft('LAT_LONG_REMARKS', 4000, 'length_LAT_LONG_REMARKS');"
+												  class="form-control form-control-sm w-100 autogrow mb-1" rows="2" 
+												  style="min-height: 30px;">#encodeForHTML(getLoc.LAT_LONG_REMARKS)#</textarea>
+										<script>
+											// Bind input to autogrow function on key up, and trigger autogrow to fit text
+											$(document).ready(function() { 
+												$("##LAT_LONG_REMARKS").keyup(autogrow);  
+												$('##LAT_LONG_REMARKS').keyup();
+											});
+										</script>
+									</div>
+							
+									<!-- Error Polygon (Footprint) -->
+									<div class="col-12 col-md-9 col-xl-10 mb-2">
+										<label for="ERROR_POLYGON" class="data-entry-label">Footprint Polygon (WKT)</label>
+										<input type="text" name="ERROR_POLYGON" id="ERROR_POLYGON" class="data-entry-input" 
+											   value="#getLoc.ERROR_POLYGON#">
+									</div>
+							
+									<div class="col-12 col-md-3 col-xl-2 mb-2">
+										<label for="FOOTPRINT_SPATIALFIT" class="data-entry-label">Footprint Spatial Fit</label>
+										<input type="text" name="FOOTPRINT_SPATIALFIT" id="FOOTPRINT_SPATIALFIT" class="data-entry-input" 
+											   value="#getLoc.FOOTPRINT_SPATIALFIT#" pattern="^(0|1(\.[0-9]+)|[1-9][0-9.]{0,5}){0,1}$">
+									</div>
+							
+									<!-- GeoLocate Metadata -->
+									<div class="col-12">
+										<h3 class="h4 mt-4">GeoLocate Georeference Metadata</h3>
+									</div>
+							
+									<div class="col-12 mb-2">
+										<label for="GEOLOCATE_UNCERTAINTYPOLYGON" class="data-entry-label">GeoLocate Uncertainty Polygon</label>
+										<input type="text" name="GEOLOCATE_UNCERTAINTYPOLYGON" id="GEOLOCATE_UNCERTAINTYPOLYGON" 
+											   class="data-entry-input" value="#getLoc.GEOLOCATE_UNCERTAINTYPOLYGON#" readonly>
+									</div>
+							
+									<div ```html
+									<div class="col-12 col-md-3 mb-2">
+										<label for="GEOLOCATE_SCORE" class="data-entry-label">GeoLocate Score</label>
+										<input type="text" name="GEOLOCATE_SCORE" id="GEOLOCATE_SCORE" class="data-entry-input" 
+											   value="#getLoc.GEOLOCATE_SCORE#" readonly>
+									</div>
+							
+									<div class="col-12 col-md-3 mb-2">
+										<label for="GEOLOCATE_PRECISION" class="data-entry-label">GeoLocate Precision</label>
+										<input type="text" name="GEOLOCATE_PRECISION" id="GEOLOCATE_PRECISION" class="data-entry-input" 
+											   value="#getLoc.GEOLOCATE_PRECISION#" readonly>
+									</div>
+							
+									<div class="col-12 col-md-3 mb-2">
+										<label for="GEOLOCATE_NUMRESULTS" class="data-entry-label">Number of Matches</label>
+										<input type="text" name="GEOLOCATE_NUMRESULTS" id="GEOLOCATE_NUMRESULTS" class="data-entry-input" 
+											   value="#getLoc.GEOLOCATE_NUMRESULTS#" readonly>
+									</div>
+							
+									<div class="col-12 col-md-3 mb-2">
+										<label for="GEOLOCATE_PARSEPATTERN" class="data-entry-label">Parse Pattern</label>
+										<input type="text" name="GEOLOCATE_PARSEPATTERN" id="GEOLOCATE_PARSEPATTERN" class="data-entry-input" 
+											   value="#getLoc.GEOLOCATE_PARSEPATTERN#" readonly>
+									</div>
+							
+									<!-- Field Verified Flag (if needed based on table structure) -->
+									<cfif structKeyExists(getLoc, "FIELD_VERIFIED_FG")>
+									<div class="col-12 col-md-3 mb-2">
+										<label for="FIELD_VERIFIED_FG" class="data-entry-label">Field Verified</label>
+										<select name="FIELD_VERIFIED_FG" id="FIELD_VERIFIED_FG" class="data-entry-select">
+											<option value="" <cfif getLoc.FIELD_VERIFIED_FG EQ "">selected</cfif>></option>
+											<option value="1" <cfif getLoc.FIELD_VERIFIED_FG EQ 1>selected</cfif>>Yes</option>
+											<option value="0" <cfif getLoc.FIELD_VERIFIED_FG EQ 0>selected</cfif>>No</option>
+										</select>
+									</div>
+									</cfif>
+								</div>
 							</div>
-							<ul id="decdeg" style="display: none;" class="list-unstyled bg-light col-12 row mx-0 px-3 pt-3 pb-2 mb-0 border">
-								<li class="col-12 col-md-3 py-1 px-0">
-									<label for="dec_lat" class="data-entry-label px-2 text-right">Decimal Latitude</label>
-								</li>
-								<li class="col-12 col-md-3 pb-2 px-0">
-									<input type="text" name="dec_lat" id="dec_lat" value="#getLoc.dec_lat#" class="reqdClr data-entry-input" validate="numeric">
-								</li>
-								<li class="col-12 col-md-3 py-1 px-0">
-									<label for="dec_long" class="data-entry-label px-2 text-right">Decimal Longitude</label>
-								</li>
-								<li class="col-12 col-md-3 pb-2 px-0">
-									<input type="text" name="DEC_LONG" value="#getLoc.DEC_LONG#" id="dec_long" class="reqdClr data-entry-input" validate="numeric">
-								</li>
-							</ul>
-							<ul id="dms" style="display: none;" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="lat_deg" class="data-entry-label px-2 text-right">Lat. Deg.</label>
-								</li>
-								<li class="col-12 col-md-1 pb-2 px-0">
-									<input type="text" name="LAT_DEG" value="#getLoc.LAT_DEG#" size="4" id="lat_deg" class="reqdClr data-entry-input"
-								 validate="numeric">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="lat_min" class="data-entry-label px-2 text-right">Lat. Min.</label>
-								</li>
-								<li class="col-12 col-md-1 pb-2 px-0">
-									<input type="text" name="LAT_MIN" value="#getLoc.LAT_MIN#" size="4" id="lat_min" class="reqdClr data-entry-input" validate="numeric">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="lat_sec" class="data-entry-label px-2 text-right">Lat. Sec.</label>
-								</li>
-								<li class="col-12 col-md-1 pb-2 px-0">
-									<input type="text" name="LAT_SEC" value="#getLoc.LAT_SEC#" id="lat_sec" class="reqdClr data-entry-input" validate="numeric">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="lat_dir" class="data-entry-label px-2 text-right">Lat. Dir.</label>
-								</li>
-								<li class="col-12 col-md-1 pb-2 px-0">
-									<select name="LAT_DIR" size="1" id="lat_dir"  class="reqdClr data-entry-select">
-										<option value=""></option>
-										<option <cfif #getLoc.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
-										<option <cfif #getLoc.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
-									</select>
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="long_deg" class="data-entry-label px-2 text-right">Long. Deg.</label>
-								</li>
-								<li class="col-12 col-md-1 pb-2 px-0">
-									<input type="text" name="LONG_DEG" value="#getLoc.LONG_DEG#" size="4" id="long_deg" class="reqdClr data-entry-input"
-																	   validate="numeric">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="long_min" class="data-entry-label px-2 text-right">Long. Min.</label>
-								</li>
-								<li class="col-12 col-md-1 pb-2 px-0">
-									<input type="text" name="LONG_MIN" value="#getLoc.LONG_MIN#" size="4" id="long_min" class="reqdClr data-entry-input"
-																	   validate="numeric">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="long_sec" class="data-entry-label px-2 text-right">Long. Sec.</label>
-								</li>
-								<li class="col-12 col-md-1 pb-2 px-0">
-									<input type="text" name="LONG_SEC" value="#getLoc.LONG_SEC#" id="long_sec"  class="reqdClr data-entry-input"
-																		   validate="numeric">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="long_dir" class="data-entry-label px-2 text-right">Long. Dir.</label>
-								</li>
-								<li class="col-12 col-md-1 pb-2 px-0">
-									<select name="LONG_DIR" size="1" id="long_dir" class="reqdClr data-entry-select">
-										<option value=""></option>
-										<option <cfif #getLoc.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
-										<option <cfif #getLoc.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
-									</select>
-								</li>
-							</ul>
-							<ul id="ddm" style="display: none;" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
-								<li class="col-12 col-md-2 py-1 px-0">
-								<label for="dmlat_deg" class="data-entry-label px-2 text-right">
-								Lat. Deg.
-								<label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
-									<input type="text" name="dmLAT_DEG" value="#getLoc.LAT_DEG#" size="4" id="dmlat_deg" class="reqdClr data-entry-input">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-								<label for="dec_lat_min" class="data-entry-label px-2 text-right">
-								Lat. Dec. Min.
-								<label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
-									<input type="text" name="DEC_LAT_MIN" value="#getLoc.DEC_LAT_MIN#" id="dec_lat_min" class="reqdClr data-entry-input"
-																	   validate="numeric">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-								<label for="dmlat_dir" class="data-entry-label px-2 text-right">
-								Lat. Dir.
-								<label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
-									<select name="dmLAT_DIR" size="1" id="dmlat_dir" class="reqdClr data-entry-select">
-										<option value=""></option>
-										<option <cfif #getLoc.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
-										<option <cfif #getLoc.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
-									</select>
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-								<label for="dmlong_deg" class="data-entry-label px-2 text-right">
-								Long. Deg.
-								<label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
-									<input type="text" name="dmLONG_DEG" value="#getLoc.LONG_DEG#" size="4" id="dmlong_deg" class="reqdClr data-entry-input"
-																	   validate="numeric">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-								<label for="dec_long_min" class="data-entry-label px-2 text-right">
-								Long. Dec. Min.
-								<label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
-									<input type="text" name="DEC_LONG_MIN" value="#getLoc.DEC_LONG_MIN#" id="dec_long_min" class="reqdClr data-entry-input"
-																	 validate="numeric">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-								<label for="dmlong_dir" class="data-entry-label px-2 text-right">
-								Long. Dir.
-								<label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
-									<select name="dmLONG_DIR" size="1" id="dmlong_dir" class="reqdClr data-entry-select">
-										<option value=""></option>
-										<option <cfif #getLoc.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
-										<option <cfif #getLoc.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
-									</select>
-								</li>
-							</ul>
-							<ul id="utm" style="display:none;" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="utm_zone" class="data-entry-label px-2 text-right"> UTM Zone </label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
-									<input type="text" name="UTM_ZONE" value="#getLoc.UTM_ZONE#" id="utm_zone" class="reqdClr data-entry-input" validate="numeric">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="utm_ew" class="data-entry-label px-2 text-right"> UTM East/West </label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
-									<input type="text" name="UTM_EW" value="#getLoc.UTM_EW#" id="utm_ew" class="reqdClr data-entry-input"
-																	   validate="numeric">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="utm_ns" class="data-entry-label px-2 text-right"> UTM North/South </label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
-									<input type="text" name="UTM_NS" value="#getLoc.UTM_NS#" id="utm_ns" class="reqdClr data-entry-input" validate="numeric">
-								</li>
-							</ul>
+							
+							<script>
+								$(document).ready(function() {
+									// Initialize agent autocomplete for determiner
+									makeAgentAutocompleteMeta("coordinate_determiner", "DETERMINED_BY_AGENT_ID");
+									
+									// Initialize controlled vocabulary autocompleters if needed
+									if (typeof makeCTAutocomplete === 'function') {
+										makeCTAutocomplete('DATUM','datum');
+										makeCTAutocomplete('MAX_ERROR_UNITS','lat_long_error_units');
+										makeCTAutocomplete('georefMethod','georefmethod');
+									}
+									
+									// Initialize character counter for remarks
+									countCharsLeft('LAT_LONG_REMARKS', 4000, 'length_LAT_LONG_REMARKS');
+									
+									// Set initial state based on coordinate format
+									changeLatLongUnitsEdit();
+									changeVerificationStatusEdit();
+								});
+								
+								// Function to handle "no enter" behavior if needed
+								function noenter(event) {
+									if (event.keyCode == 13) {
+										event.preventDefault();
+										return false;
+									}
+									return true;
+								}
+							</script>
+
+						</div>
 
 						<!--- more verbatim collecting event information --->
+						<div class="col-12 px-0">
 							<ul class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
 								<li class="col-12 col-md-2 py-1 px-0">
 									<label class="data-entry-label px-2 text-right">Verbatim Coordinates (summary)</label>
