@@ -7447,8 +7447,9 @@ limitations under the License.
 								<h2 class="h3 mt-3">Georeference and Georeference Metadata</h2>
 								
 								<div class="form-row">
+
 									<!--- Coordinate Format Selection --->
-									<div class="col-12 col-md-3 mb-2">
+									<div class="col-12 col-md-2 mb-2">
 										<label for="orig_lat_long_units" class="data-entry-label">Coordinate Format</label>
 										<cfset thisUnits = #getGeoreference.orig_lat_long_units#>
 										<select name="orig_lat_long_units" id="orig_lat_long_units" class="data-entry-select reqdClr" onChange="changeLatLongUnitsEdit();">
@@ -7524,15 +7525,18 @@ limitations under the License.
 									</div>
 						
 									<!--- Accepted Lat/Long Flag --->
-									<div class="col-12 col-md-3 mb-2">
+									<!--- will always be true, and not editable, the current georeference is shown here --->	
+									<!--- 
+									<div class="col-12 col-md-2 mb-2">
 										<label for="accepted_lat_long_fg" class="data-entry-label">Accepted</label>
 										<select name="accepted_lat_long_fg" id="accepted_lat_long_fg" class="data-entry-select reqdClr">
 											<option value="1" <cfif getGeoreference.accepted_lat_long_fg EQ 1>selected</cfif>>Yes</option>
 											<option value="0" <cfif getGeoreference.accepted_lat_long_fg EQ 0>selected</cfif>>No</option>
 										</select>
 									</div>
+									--->
 						
-									<!--- Determiner --->
+									<!--- Georeference Determiner --->
 									<div class="col-12 col-md-3 mb-2">
 										<label for="coordinate_determiner" class="data-entry-label">
 											Determiner
@@ -7548,8 +7552,8 @@ limitations under the License.
 									</div>
 						
 									<!--- Date Determined --->
-									<div class="col-12 col-md-3 mb-2">
-										<label for="determined_date" class="data-entry-label">Date Determined</label>
+									<div class="col-12 col-md-2 mb-2">
+										<label for="determined_date" class="data-entry-label">Date Georeferenced</label>
 										<input type="text" name="determined_date" id="determined_date" class="data-entry-input reqdClr"
 											   placeholder="yyyy-mm-dd" value="#dateformat(getGeoreference.determined_date,'yyyy-mm-dd')#">
 										<script>
