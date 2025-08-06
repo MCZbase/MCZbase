@@ -673,28 +673,21 @@ limitations under the License.
 				var $dlg = $('.ui-dialog:visible');
 				if (!$dlg.length) return;
 				var winWidth = $(window).width();
-				var dlgLeft = drawerWidth + margin, dlgTop = margin;
+				var dlgLeft = drawerWidth + margin;
+				var dlgTop = margin;
 				var dlgWidth = Math.max(winWidth - drawerWidth - margin * 2, 320);
-				var dlgHeight = Math.max(winHeight - margin * 2, 200);
-				$dlg.css({ left: dlgLeft + 'px', top: dlgTop + 'px', width: dlgWidth + 'px', height: '', maxWidth: '' });
-				$dlg.dialog('option', {
-					width: dlgWidth,
-					height: 'auto',
-					position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
-				});
-				var $titlebar=$dlg.find('.ui-dialog-titlebar'), $buttonpane=$dlg.find('.ui-dialog-buttonpane');
-				var contentHeight = dlgHeight - ($titlebar.outerHeight()||0) - ($buttonpane.outerHeight()||0);
-				$dlg.find('.ui-dialog-content').css({height: contentHeight+'px', maxHeight: contentHeight+'px'});
+				$dlg.dialog('option', 'width', dlgWidth);
+				$dlg.dialog('option', 'position', { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window });
+				$dlg.css({ left: dlgLeft + 'px', top: dlgTop + 'px', width: dlgWidth + 'px', maxWidth: 'none' });
 			}
 
 			function centerDialogProperly() {
 				var $dlg = $('.ui-dialog:visible');
-				
 				if (!$dlg.length) return;
 				$dlg.css({ left: '', top: '', width: '', height: '', maxWidth: '', maxHeight: '' });
 				$dlg.dialog('option', {
-					width: winWidth,
-					height: winHeight,
+					width: 'auto',
+					height: 'auto',
 					position: { my: "center", at: "center", of: window }
 				});
 				$dlg.dialog('option', 'position', { my: "center", at: "center", of: window });
@@ -741,7 +734,7 @@ limitations under the License.
 					}, 0);
 				});
 			});
-</script>
+		</script>
 	</cfoutput>
 </cfif>
 
