@@ -687,23 +687,17 @@ limitations under the License.
 			
 			function resizeUIDialogForDrawer() {
 				var $dlg = $('.ui-dialog:visible');
-				if ($dlg.length === 0) return; // No visible dialog, skip
+				if ($dlg.length === 0) return;
 
-				var drawerWidth = $('##wikiDrawer').is(':visible') ? 400 : 0;
-
-				// Window dimensions
+				// Use the real drawer ID here
+				var drawerWidth = $('#wikiDrawer').is(':visible') ? 400 : 0;
 				var winWidth = $(window).width();
 				var winHeight = $(window).height();
 
-				// Desired dialog dimensions
-				var dlgWidth = winWidth - drawerWidth;
-				var dlgHeight = winHeight;
+				var dlgWidth = Math.max(winWidth - drawerWidth, 320);
+				var dlgHeight = Math.max(winHeight, 200);
 
-				// Clamp to minimum allowed size
-				dlgWidth = Math.max(dlgWidth, 320);
-				dlgHeight = Math.max(dlgHeight, 200);
-
-				// Move and resize the dialog's outer container
+				// Move & resize the dialog
 				$dlg.css({
 					left: drawerWidth + 'px',
 					top: '0px',
@@ -713,18 +707,16 @@ limitations under the License.
 					maxHeight: dlgHeight + 'px'
 				});
 
-				// Get the title bar, which occupies vertical space
+				// Fit content in dialog box (subtracting title bar and button pane heights)
 				var $titlebar = $dlg.find('.ui-dialog-titlebar');
-				// Optional: Dialog button pane, may also take space at bottom
 				var $buttonpane = $dlg.find('.ui-dialog-buttonpane');
 				var contentHeight = dlgHeight 
 					- ($titlebar.outerHeight() || 0)
 					- ($buttonpane.outerHeight() || 0);
 
-				// Adjust the dialog content pane
 				$dlg.find('.ui-dialog-content').css({
 					height: contentHeight + 'px',
-					maxHeight: contentHeight + 'px' // Optional - prevents growing with overflowing content
+					maxHeight: contentHeight + 'px'
 				});
 			}
 		</script>
