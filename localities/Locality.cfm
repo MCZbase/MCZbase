@@ -684,6 +684,29 @@ limitations under the License.
 			$(document).ready(function() {
 				$("##hide-wiki").hide();
 			});
+			
+			function resizeDialogToFitDrawer() {
+				var drawerWidth = $('#wikiDrawer').is(':visible') ? 400 : 0;
+				var $dialog = $('.ui-dialog:visible'); // Get the visible dialog(s)
+				var margin = 0;
+				var minWidth = 320, minHeight = 200;
+				var dialogWidth = $(window).width() - drawerWidth - margin;
+				var dialogHeight = $(window).height() - margin;
+
+				if (dialogWidth < minWidth) dialogWidth = minWidth;
+				if (dialogHeight < minHeight) dialogHeight = minHeight;
+
+				// jQuery UI Dialog's outer box is .ui-dialog; use .css to resize and move it
+				$dialog.css({
+					width: dialogWidth + 'px',
+					height: dialogHeight + 'px',
+					left: drawerWidth + 'px',
+					top: '0px'
+				});
+
+				// Optionally, also set the .ui-dialog-content height
+				$dialog.find('.ui-dialog-content').css('height', (dialogHeight - $dialog.find('.ui-dialog-titlebar').outerHeight()) + 'px');
+			}
 		</script>
 	</cfoutput>
 </cfif>
