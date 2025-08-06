@@ -722,13 +722,30 @@ limitations under the License.
 				}, 400);
 			});
 
-			$('##hide-wiki').on('click', function(e) {
+			 $('##hide-wiki').on('click', function(e) {
+				// Button toggling for user
+				$('##hide-wiki').hide();
+				$('##show-wiki').show();
+
+				// Dialog repositioning for layout
 				setTimeout(function() {
 					if ($('.ui-dialog:visible').length > 0) {
 						centerDialog();
 					}
 				}, 400);
 			});
+			
+			 // Dialog positioning on open event
+			$(document).on('dialogopen', '.ui-dialog', function() {
+				setTimeout(function() {
+					if ($('##wikiDrawer').is(':visible')) {
+						pushDialogRightOfDrawer(drawerWidthPx, marginPx, dialogMaxWidth);
+					} else {
+						centerDialog();
+					}
+				}, 0);
+			});
+
 
 			// Responsive reposition on window resize
 			$(window).on('resize', function() {
