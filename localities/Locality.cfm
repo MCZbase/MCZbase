@@ -655,15 +655,7 @@ limitations under the License.
 		<cfif action EQ "edit">
 			<cfset targetWikiPage = "Edit_Locality">
 		</cfif>
-		<div id="wikiDrawer" class="wiki-drawer border">
-			<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
-				<h5 class="mb-0" id="wiki-content-title">Wiki Article</h5>
-				<button type="button" class="close" id="closeWikiDrawer" aria-label="Close" onClick="closeWikiDrawer();">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div id="wiki-content" class="p-3"></div>
-		</div>
+		
 
 		<!--- NOTE: wikiDrawer, show-wiki, hide-wiki are hard coded in openWikiDrawer and closeWikiDrawer functions. --->
 		<script>
@@ -742,6 +734,16 @@ limitations under the License.
 				}
 			});
 		</script>
+			
+		<div id="wikiDrawer" class="wiki-drawer border">
+			<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+				<h5 class="mb-0" id="wiki-content-title">Wiki Article</h5>
+				<button type="button" class="close" id="closeWikiDrawer" aria-label="Close" onClick="closeWikiDrawer();">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div id="wiki-content" class="p-3"></div>
+		</div>
 	</cfoutput>
 </cfif>
 
