@@ -692,31 +692,73 @@ limitations under the License.
 				$(window).on('resize', resizeUIDialogForDrawer);
 			});
 		
+		//	function resizeUIDialogForDrawer() {
+//				
+//				var $dlg = $('.ui-dialog:visible');
+//				if ($dlg.length === 0) return;
+//
+//				// Use the real drawer ID here
+//				var drawerWidth = $('##wikiDrawer').is(':visible') ? 400 : 0;
+//				var winWidth = $(window).width();
+//				var winHeight = $(window).height();
+//
+//				var dlgWidth = Math.max(winWidth - drawerWidth, 320);
+//				var dlgHeight = Math.max(winHeight, 200);
+//
+//				// Move & resize the dialog
+//				$dlg.css({
+//					left: drawerWidth + 'px',
+//					top: '0px',
+//					width: dlgWidth + 'px',
+//					height: dlgHeight + 'px',
+//					maxWidth: dlgWidth + 'px',
+//					maxHeight: dlgHeight + 'px'
+//				});
+//
+//				// Fit content in dialog box (subtracting title bar and button pane heights)
+//				var $titlebar = $dlg.find('.ui-dialog-titlebar');
+//				var $buttonpane = $dlg.find('.ui-dialog-buttonpane');
+//				var contentHeight = dlgHeight 
+//					- ($titlebar.outerHeight() || 0)
+//					- ($buttonpane.outerHeight() || 0);
+//
+//				$dlg.find('.ui-dialog-content').css({
+//					height: contentHeight + 'px',
+//					maxHeight: contentHeight + 'px'
+//				});
+//			}
+			
+			
+			
 			function resizeUIDialogForDrawer() {
-				
 				var $dlg = $('.ui-dialog:visible');
 				if ($dlg.length === 0) return;
 
-				// Use the real drawer ID here
-				var drawerWidth = $('##wikiDrawer').is(':visible') ? 400 : 0;
+				var drawerWidth = $('#wikiDrawer').is(':visible') ? 400 : 0;
 				var winWidth = $(window).width();
 				var winHeight = $(window).height();
 
-				var dlgWidth = Math.max(winWidth - drawerWidth, 320);
-				var dlgHeight = Math.max(winHeight, 200);
+				// 30px margin on each side (left/right and top/bottom)
+				var dlgLeft   = drawerWidth + margin;
+				var dlgTop    = margin;
+				var dlgWidth  = winWidth - drawerWidth - margin * 2;
+				var dlgHeight = winHeight - margin * 2;
 
-				// Move & resize the dialog
+				// Clamp to minimum allowed size (optional)
+				var minWidth = 320, minHeight = 200;
+				dlgWidth  = Math.max(dlgWidth, minWidth);
+				dlgHeight = Math.max(dlgHeight, minHeight);
+
 				$dlg.css({
-					left: drawerWidth + 'px',
-					top: '0px',
+					left: dlgLeft + 'px',
+					top: dlgTop + 'px',
 					width: dlgWidth + 'px',
 					height: dlgHeight + 'px',
 					maxWidth: dlgWidth + 'px',
 					maxHeight: dlgHeight + 'px'
 				});
 
-				// Fit content in dialog box (subtracting title bar and button pane heights)
-				var $titlebar = $dlg.find('.ui-dialog-titlebar');
+				var $titlebar   = $dlg.find('.ui-dialog-titlebar');
 				var $buttonpane = $dlg.find('.ui-dialog-buttonpane');
 				var contentHeight = dlgHeight 
 					- ($titlebar.outerHeight() || 0)
