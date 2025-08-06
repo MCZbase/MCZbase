@@ -669,55 +669,59 @@ limitations under the License.
 		<script>
 			var drawerWidthPx = 400, marginPx = 30;
 
-			function pushDialogForDrawer(margin, drawerWidth) {
+			function pushDialogRightOfDrawer(drawerWidth, margin) {
 				var $dlg = $('.ui-dialog:visible');
 				if (!$dlg.length) return;
-				// Set box-sizing to guarantee sizing
-				$dlg.css('box-sizing', 'border-box');
 				var winWidth = $(window).width();
+				var winHeight = $(window).height();
 				var dlgLeft = drawerWidth + margin;
-				var dlgTop = margin;
-				// Width: cannot be more than what is to the right of the drawer!
-				var dlgWidth = Math.max(winWidth - drawerWidth - margin * 2, 320); // 320 is min
-				// Set dialog width, position, and make sure it's fully to the right
-				$dlg.dialog('option', { width: dlgWidth, height: 'auto' });
+				var dlgWidth = winWidth - drawerWidth - margin * 2;
+
+				// Set dialog width and position using jQuery UI's API
+				$dlg.dialog('option', 'width', dlgWidth);
 				$dlg.dialog('option', 'position', {
-					my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window
+					my: "left top",
+					at: "left+" + dlgLeft + " top+" + margin,
+					of: window
 				});
+				// Remove any manual height left from previous states
+				$dlg.css({ left: '', top: '', height: '', maxWidth: '', boxSizing: '' });
+
+				// Set width explicitly for box-model safety
 				$dlg.css({
-					left: dlgLeft + 'px',
-					top: dlgTop + 'px',
 					width: dlgWidth + 'px',
-					// Force box-sizing for any dynamic dialog
-					'box-sizing': 'border-box',
-					'max-width': 'unset',
-					'min-width': '320px'
+					left: dlgLeft + 'px',
+					boxSizing: 'border-box'
 				});
-				// Optional: bump z-index if needed
-				$dlg.css('z-index', 1050);
 			}
 
-			function centerDialogProperly() {
+			function centerDialog() {
 				var $dlg = $('.ui-dialog:visible');
 				if (!$dlg.length) return;
-				$dlg.css({ left: '', top: '', width: '', height: '', maxWidth: '', minWidth: '', boxSizing: '' });
-				$dlg.dialog('option', { width: 'auto', height: 'auto', position: { my: "center", at: "center", of: window } });
-				$dlg.dialog('option', 'position', { my: "center", at: "center", of: window });
-				// z-index: leave as is so dialogs stay above drawer
+				$dlg.css({ left: '', top: '', width: '', height: '', maxWidth: '', boxSizing: '' });
+				$dlg.dialog('option', 'width', 'auto');
+				$dlg.dialog('option', 'height', 'auto');
+				$dlg.dialog('option', 'position', {
+					my: "center",
+					at: "center",
+					of: window
+				});
 			}
 
 			$(document).ready(function() {
 				$('##show-wiki').on('click', function(e) {
 					e.preventDefault();
 					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
+						showWiki("#targetWikiPage#", false, "wiki-content", "wiki-content-title", openWikiDrawer, closeWikiDrawer, true, 0);
 					<cfelse>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
+						showWiki("#targetWikiPage#", false, "wiki-content", "wiki-content-title", openWikiDrawer, closeWikiDrawer, false, 0);
 					</cfif>
-					$("##show-wiki").hide(); $("##hide-wiki").show();
+					$("##show-wiki").hide();
+					$("##hide-wiki").show();
+
 					setTimeout(function() {
 						if ($('##wikiDrawer').is(':visible')) {
-							pushDialogForDrawer(marginPx, drawerWidthPx);
+							pushDialogRightOfDrawer(drawerWidthPx, marginPx);
 						}
 					}, 400);
 				});
@@ -725,25 +729,25 @@ limitations under the License.
 				$('##hide-wiki').on('click', function(e) {
 					e.preventDefault();
 					closeWikiDrawer();
-					setTimeout(centerDialogProperly, 400);
+					setTimeout(centerDialog, 400);
 				});
 
 				$("##hide-wiki").hide();
 
 				$(window).on('resize', function() {
 					if ($('##wikiDrawer').is(':visible')) {
-						pushDialogForDrawer(marginPx, drawerWidthPx);
+						pushDialogRightOfDrawer(drawerWidthPx, marginPx);
 					} else {
-						centerDialogProperly();
+						centerDialog();
 					}
 				});
 
 				$(document).on('dialogopen', '.ui-dialog', function() {
 					setTimeout(function() {
 						if ($('##wikiDrawer').is(':visible')) {
-							pushDialogForDrawer(marginPx, drawerWidthPx);
+							pushDialogRightOfDrawer(drawerWidthPx, marginPx);
 						} else {
-							centerDialogProperly();
+							centerDialog();
 						}
 					}, 0);
 				});
