@@ -669,55 +669,41 @@ limitations under the License.
 		<script>
 			var drawerWidthPx = 400, marginPx = 30, dialogMaxWidth = 700;
 
-			// Push dialog to fill the area right of the drawer (with margin)
 			function pushDialogRightOfDrawer(drawerWidth, margin, maxDialogWidth) {
-				var $dlg = $('.ui-dialog:visible');
-				if (!$dlg.length) return;
+				var $dlgWidget = $('#addGeologyDialog'); // The dialog widget!
+				if (!$dlgWidget.length) return;
 				var winWidth = $(window).width();
 				var availableWidth = winWidth - drawerWidth - margin * 2;
 				var dlgWidth = Math.min(maxDialogWidth || availableWidth, availableWidth);
-
-				// Center dialog in right-side area
 				var leftOffset = drawerWidth + margin + (availableWidth - dlgWidth) / 2;
 
-				$dlg.dialog('option', 'width', dlgWidth);
-				$dlg.dialog('option', 'height', 'auto');
-				$dlg.dialog('option', 'position', {
+				$dlgWidget.dialog('option', 'width', dlgWidth);
+				$dlgWidget.dialog('option', 'height', 'auto');
+				$dlgWidget.dialog('option', 'position', {
 					my: "left top",
 					at: "left+" + leftOffset + " top+" + margin,
 					of: window
 				});
-				$dlg.css({
-					left: leftOffset + 'px',
-					top: margin + 'px',
+				// Optionally, you can set width in CSS on the widget as well for safety
+				$('.ui-dialog:visible').css({
 					width: dlgWidth + 'px',
-					maxWidth: '',
-					boxSizing: 'border-box'
+					left: leftOffset + 'px',
+					top: margin + 'px'
 				});
 			}
 
-			// Reset everything to center when the drawer is closed
 			function centerDialog() {
-				var $dlg = $('.ui-dialog:visible');
-				if (!$dlg.length) return;
-				$dlg.css({ left: '', top: '', width: '', height: '', maxWidth: '', boxSizing: '' });
-				$dlg.dialog('option', 'width', 'auto');
-				$dlg.dialog('option', 'height', 'auto');
-				$dlg.dialog('option', 'position', { my: "center", at: "center", of: window });
+				var $dlgWidget = $('#addGeologyDialog');
+				if (!$dlgWidget.length) return;
+				$dlgWidget.dialog('option', 'width', 'auto');
+				$dlgWidget.dialog('option', 'height', 'auto');
+				$dlgWidget.dialog('option', 'position', {
+					my: "center",
+					at: "center",
+					of: window
+				});
+				$('.ui-dialog:visible').css({ left: '', top: '', width: '', maxWidth: '' });
 			}
-
-			// Listen for any dialog open anywhere on the page.
-			// At the MOMENT the dialog is opened, check the drawer's state.
-			// If open, push right. If closed, center as normal.
-			$(document).on('dialogopen', '.ui-dialog', function() {
-				setTimeout(function() {
-					if ($('##wikiDrawer').is(':visible')) {
-						pushDialogRightOfDrawer(drawerWidthPx, marginPx, dialogMaxWidth);
-					} else {
-						centerDialog();
-					}
-				}, 0);
-			});
 
 			// ... Also, if the drawer is shown/hidden *after* a dialog is already open,
 			// you want to update the dialog's position then too:
