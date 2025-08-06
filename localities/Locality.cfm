@@ -716,7 +716,7 @@ limitations under the License.
 			// Listen for drawer being shown/hidden AFTER dialog is open
 			$('##show-wiki').on('click', function(e) {
 				setTimeout(function() {
-					if ($('#wikiDrawer').is(':visible') && $('.ui-dialog:visible').length > 0) {
+					if ($('##wikiDrawer').is(':visible') && $('.ui-dialog:visible').length > 0) {
 						pushDialogRightOfDrawer(drawerWidthPx, marginPx, dialogMaxWidth);
 					}
 				}, 400);
