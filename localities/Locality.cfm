@@ -705,7 +705,7 @@ limitations under the License.
 			// Listen only for dialog opening
 			$(document).on('dialogopen', '.ui-dialog', function() {
 				setTimeout(function() {
-					if ($('#wikiDrawer').is(':visible')) {
+					if ($('##wikiDrawer').is(':visible')) {
 						pushDialogRightOfDrawer(drawerWidthPx, marginPx, dialogMaxWidth);
 					} else {
 						centerDialog();
@@ -714,7 +714,7 @@ limitations under the License.
 			});
 
 			// Listen for drawer being shown/hidden AFTER dialog is open
-			$('#show-wiki').on('click', function(e) {
+			$('##show-wiki').on('click', function(e) {
 				setTimeout(function() {
 					if ($('#wikiDrawer').is(':visible') && $('.ui-dialog:visible').length > 0) {
 						pushDialogRightOfDrawer(drawerWidthPx, marginPx, dialogMaxWidth);
@@ -722,7 +722,7 @@ limitations under the License.
 				}, 400);
 			});
 
-			$('#hide-wiki').on('click', function(e) {
+			$('##hide-wiki').on('click', function(e) {
 				setTimeout(function() {
 					if ($('.ui-dialog:visible').length > 0) {
 						centerDialog();
@@ -732,7 +732,7 @@ limitations under the License.
 
 			// Responsive reposition on window resize
 			$(window).on('resize', function() {
-				if ($('#wikiDrawer').is(':visible') && $('.ui-dialog:visible').length > 0) {
+				if ($('##wikiDrawer').is(':visible') && $('.ui-dialog:visible').length > 0) {
 					pushDialogRightOfDrawer(drawerWidthPx, marginPx, dialogMaxWidth);
 				} else {
 					centerDialog();
