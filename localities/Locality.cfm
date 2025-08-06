@@ -678,9 +678,13 @@ limitations under the License.
 					left: dlgLeft + 'px',
 					top: dlgTop + 'px',
 					width: dlgWidth + 'px',
-					height: dlgHeight + 'px',
-					maxWidth: dlgWidth + 'px',
-					maxHeight: dlgHeight + 'px'
+					height: dlgHeight + 'px'
+				});
+				// Also set options so jQuery UI remembers for modal overlays
+				$dlg.prev('.ui-resizable-handle').end().dialog('option', {
+					width: dlgWidth,
+					height: dlgHeight,
+					position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
 				});
 				var $titlebar = $dlg.find('.ui-dialog-titlebar');
 				var $buttonpane = $dlg.find('.ui-dialog-buttonpane');
@@ -688,8 +692,7 @@ limitations under the License.
 					($titlebar.outerHeight() || 0) -
 					($buttonpane.outerHeight() || 0);
 				$dlg.find('.ui-dialog-content').css({
-					height: contentHeight + 'px',
-					maxHeight: contentHeight + 'px'
+					height: contentHeight + 'px'
 				});
 			}
 
@@ -704,9 +707,12 @@ limitations under the License.
 					left: dlgLeft + 'px',
 					top: dlgTop + 'px',
 					width: dlgWidth + 'px',
-					height: dlgHeight + 'px',
-					maxWidth: dlgWidth + 'px',
-					maxHeight: dlgHeight + 'px'
+					height: dlgHeight + 'px'
+				});
+				$dlg.prev('.ui-resizable-handle').end().dialog('option', {
+					width: dlgWidth,
+					height: dlgHeight,
+					position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
 				});
 				var $titlebar = $dlg.find('.ui-dialog-titlebar');
 				var $buttonpane = $dlg.find('.ui-dialog-buttonpane');
@@ -714,18 +720,15 @@ limitations under the License.
 					($titlebar.outerHeight() || 0) -
 					($buttonpane.outerHeight() || 0);
 				$dlg.find('.ui-dialog-content').css({
-					height: contentHeight + 'px',
-					maxHeight: contentHeight + 'px'
+					height: contentHeight + 'px'
 				});
 			}
 
-			// How wide is your drawer (match to your design)
 			var drawerWidthPx = 400;
-			// Margin to apply
 			var marginPx = 30;
 
 			$(document).ready(function() {
-				// When the drawer opens: push dialog
+				// Show/hide-wiki handlers
 				$('##show-wiki').on('click', function(e) {
 					e.preventDefault();
 					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
@@ -737,21 +740,19 @@ limitations under the License.
 					$("##hide-wiki").show();
 					setTimeout(function() {
 						pushDialogForDrawer(marginPx, drawerWidthPx);
-					}, 350);
+					}, 400); // 400ms for typical transition; adjust for your animation
 				});
 
-				// When the drawer closes: fit dialog to full window
 				$('##hide-wiki').on('click', function(e) {
 					e.preventDefault();
 					closeWikiDrawer();
 					setTimeout(function() {
 						fitDialogToWindow(marginPx);
-					}, 350);
+					}, 400);
 				});
 
 				$("##hide-wiki").hide();
 
-				// On resize: fit appropriately
 				$(window).on('resize', function() {
 					if ($('##wikiDrawer').is(':visible')) {
 						pushDialogForDrawer(marginPx, drawerWidthPx);
@@ -760,13 +761,15 @@ limitations under the License.
 					}
 				});
 
-				// When any dialog opens: fit to right size for drawer state
+				// .ui-dialog is outer box; run fix after every dialog open
 				$(document).on('dialogopen', '.ui-dialog', function() {
-					if ($('##wikiDrawer').is(':visible')) {
-						pushDialogForDrawer(marginPx, drawerWidthPx);
-					} else {
-						fitDialogToWindow(marginPx);
-					}
+					setTimeout(function() {
+						if ($('##wikiDrawer').is(':visible')) {
+							pushDialogForDrawer(marginPx, drawerWidthPx);
+						} else {
+							fitDialogToWindow(marginPx);
+						}
+					}, 0);
 				});
 			});
 		</script>
