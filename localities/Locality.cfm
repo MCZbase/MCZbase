@@ -666,95 +666,62 @@ limitations under the License.
 		</div>
 
 		<!--- NOTE: wikiDrawer, show-wiki, hide-wiki are hard coded in openWikiDrawer and closeWikiDrawer functions. --->
-		<script>
-			var drawerWidthPx = 400, marginPx = 30, dialogMaxWidth = 700;
+			<script>
+				$(document).ready(function() {
 
-			function pushDialogRightOfDrawer(drawerWidth, margin, maxDialogWidth) {
-				var $dlg = $('.ui-dialog:visible');
-				if (!$dlg.length) return;
-				var winWidth = $(window).width();
-				var availableWidth = winWidth - drawerWidth - margin * 2;
-				// Use dialogMaxWidth as the limit or available width, whichever is smaller
-				var dlgWidth = Math.min(maxDialogWidth || availableWidth, availableWidth);
-				var leftOffset = drawerWidth + margin + (availableWidth - dlgWidth) / 2;
-				$dlg.dialog('option', 'width', dlgWidth);
-				$dlg.dialog('option', 'height', 'auto');
-				$dlg.dialog('option', 'position', {
-					my: "left top",
-					at: "left+" + leftOffset + " top+" + margin,
-					of: window
+				// Hide the hide-wiki button startup
+				$('##hide-wiki').hide();
+
+				// When user shows the drawer, do your dialog positioning AND button swap
+				$('##show-wiki').on('click', function(e) {
+					// Button toggling for user
+					$('##show-wiki').hide();
+					$('##hide-wiki').show();
+
+					// Dialog repositioning for layout
+					setTimeout(function() {
+						if ($('##wikiDrawer').is(':visible') && $('.ui-dialog:visible').length > 0) {
+							pushDialogRightOfDrawer(drawerWidthPx, marginPx, dialogMaxWidth);
+						}
+					}, 400);
 				});
-				$dlg.css({
-					left: leftOffset + 'px',
-					top: margin + 'px',
-					width: dlgWidth + 'px',
-					maxWidth: '',
-					boxSizing: 'border-box'
+
+				// When user hides the drawer, do your dialog positioning AND button swap back
+				$('##hide-wiki').on('click', function(e) {
+					// Button toggling for user
+					$('##hide-wiki').hide();
+					$('##show-wiki').show();
+
+					// Dialog repositioning for layout
+					setTimeout(function() {
+						if ($('.ui-dialog:visible').length > 0) {
+							centerDialog();
+						}
+					}, 400);
 				});
-			}
 
-			function centerDialog() {
-				var $dlg = $('.ui-dialog:visible');
-				if (!$dlg.length) return;
-				$dlg.css({ left: '', top: '', width: '', height: '', maxWidth: '', boxSizing: '' });
-				$dlg.dialog('option', 'width', 'auto');
-				$dlg.dialog('option', 'height', 'auto');
-				$dlg.dialog('option', 'position', { my: "center", at: "center", of: window });
-			}
+				// Dialog positioning on open event
+				$(document).on('dialogopen', '.ui-dialog', function() {
+					setTimeout(function() {
+						if ($('##wikiDrawer').is(':visible')) {
+							pushDialogRightOfDrawer(drawerWidthPx, marginPx, dialogMaxWidth);
+						} else {
+							centerDialog();
+						}
+					}, 0);
+				});
 
-			// Listen only for dialog opening
-			$(document).on('dialogopen', '.ui-dialog', function() {
-				setTimeout(function() {
-					if ($('##wikiDrawer').is(':visible')) {
-						pushDialogRightOfDrawer(drawerWidthPx, marginPx, dialogMaxWidth);
-					} else {
-						centerDialog();
-					}
-				}, 0);
-			});
-
-			// Listen for drawer being shown/hidden AFTER dialog is open
-			$('##show-wiki').on('click', function(e) {
-				setTimeout(function() {
+				// Responsive reposition on window resize
+				$(window).on('resize', function() {
 					if ($('##wikiDrawer').is(':visible') && $('.ui-dialog:visible').length > 0) {
 						pushDialogRightOfDrawer(drawerWidthPx, marginPx, dialogMaxWidth);
-					}
-				}, 400);
-			});
-
-			 $('##hide-wiki').on('click', function(e) {
-				// Button toggling for user
-				$('##hide-wiki').hide();
-				$('##show-wiki').show();
-
-				// Dialog repositioning for layout
-				setTimeout(function() {
-					if ($('.ui-dialog:visible').length > 0) {
-						centerDialog();
-					}
-				}, 400);
-			});
-			
-			 // Dialog positioning on open event
-			$(document).on('dialogopen', '.ui-dialog', function() {
-				setTimeout(function() {
-					if ($('##wikiDrawer').is(':visible')) {
-						pushDialogRightOfDrawer(drawerWidthPx, marginPx, dialogMaxWidth);
 					} else {
 						centerDialog();
 					}
-				}, 0);
+				});
+
 			});
 
-
-			// Responsive reposition on window resize
-			$(window).on('resize', function() {
-				if ($('##wikiDrawer').is(':visible') && $('.ui-dialog:visible').length > 0) {
-					pushDialogRightOfDrawer(drawerWidthPx, marginPx, dialogMaxWidth);
-				} else {
-					centerDialog();
-				}
-			});
 		</script>
 	</cfoutput>
 </cfif>
