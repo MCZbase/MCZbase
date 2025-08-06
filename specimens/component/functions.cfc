@@ -7898,51 +7898,54 @@ limitations under the License.
 									</div>
 						
 									<!--- GeoLocate Metadata --->
-									<div class="col-12">
-										<h3 class="h4 mt-4">GeoLocate Georeference Metadata</h3>
-									</div>
-						
-									<div class="col-12 mb-2">
-										<label for="geolocate_uncertaintypolygon" class="data-entry-label">GeoLocate Uncertainty Polygon</label>
-										<input type="text" name="geolocate_uncertaintypolygon" id="geolocate_uncertaintypolygon"
-											   class="data-entry-input" value="#getGeoreference.geolocate_uncertaintypolygon#" readonly>
-									</div>
-						
-									<div class="col-12 col-md-3 mb-2">
-										<label for="geolocate_score" class="data-entry-label">GeoLocate Score</label>
-										<input type="text" name="geolocate_score" id="geolocate_score" class="data-entry-input"
-											   value="#getGeoreference.geolocate_score#" readonly>
-									</div>
-						
-									<div class="col-12 col-md-3 mb-2">
-										<label for="geolocate_precision" class="data-entry-label">GeoLocate Precision</label>
-										<input type="text" name="geolocate_precision" id="geolocate_precision" class="data-entry-input"
-											   value="#getGeoreference.geolocate_precision#" readonly>
-									</div>
-						
-									<div class="col-12 col-md-3 mb-2">
-										<label for="geolocate_numresults" class="data-entry-label">Number of Matches</label>
-										<input type="text" name="geolocate_numresults" id="geolocate_numresults" class="data-entry-input"
-											   value="#getGeoreference.geolocate_numresults#" readonly>
-									</div>
-						
-									<div class="col-12 col-md-3 mb-2">
-										<label for="geolocate_parsepattern" class="data-entry-label">Parse Pattern</label>
-										<input type="text" name="geolocate_parsepattern" id="geolocate_parsepattern" class="data-entry-input"
-											   value="#getGeoreference.geolocate_parsepattern#" readonly>
-									</div>
-						
-									<!--- Field Verified Flag (if needed based on table structure) --->
-									<cfif structKeyExists(getGeoreference, "field_verified_fg")>
-									<div class="col-12 col-md-3 mb-2">
-										<label for="field_verified_fg" class="data-entry-label">Field Verified</label>
-										<select name="field_verified_fg" id="field_verified_fg" class="data-entry-select">
-											<option value="" <cfif getGeoreference.field_verified_fg EQ "">selected</cfif>></option>
-											<option value="1" <cfif getGeoreference.field_verified_fg EQ 1>selected</cfif>>Yes</option>
-											<option value="0" <cfif getGeoreference.field_verified_fg EQ 0>selected</cfif>>No</option>
-										</select>
-									</div>
+									<cfif len(getGeoreference.geolocate_score) GT 0>
+										<div class="col-12">
+											<h3 class="h4 mt-4">GeoLocate Georeference Metadata</h3>
+										</div>
+							
+										<div class="col-12 mb-2">
+											<label for="geolocate_uncertaintypolygon" class="data-entry-label">GeoLocate Uncertainty Polygon</label>
+											<input type="text" name="geolocate_uncertaintypolygon" id="geolocate_uncertaintypolygon"
+												   class="data-entry-input" value="#getGeoreference.geolocate_uncertaintypolygon#" readonly>
+										</div>
+							
+										<div class="col-12 col-md-3 mb-2">
+											<label for="geolocate_score" class="data-entry-label">GeoLocate Score</label>
+											<input type="text" name="geolocate_score" id="geolocate_score" class="data-entry-input"
+												   value="#getGeoreference.geolocate_score#" readonly>
+										</div>
+							
+										<div class="col-12 col-md-3 mb-2">
+											<label for="geolocate_precision" class="data-entry-label">GeoLocate Precision</label>
+											<input type="text" name="geolocate_precision" id="geolocate_precision" class="data-entry-input"
+												   value="#getGeoreference.geolocate_precision#" readonly>
+										</div>
+							
+										<div class="col-12 col-md-3 mb-2">
+											<label for="geolocate_numresults" class="data-entry-label">Number of Matches</label>
+											<input type="text" name="geolocate_numresults" id="geolocate_numresults" class="data-entry-input"
+												   value="#getGeoreference.geolocate_numresults#" readonly>
+										</div>
+							
+										<div class="col-12 col-md-3 mb-2">
+											<label for="geolocate_parsepattern" class="data-entry-label">Parse Pattern</label>
+											<input type="text" name="geolocate_parsepattern" id="geolocate_parsepattern" class="data-entry-input"
+												   value="#getGeoreference.geolocate_parsepattern#" readonly>
+										</div>
+							
+										<!--- Field Verified Flag (if needed based on table structure) --->
+										<cfif structKeyExists(getGeoreference, "field_verified_fg")>
+										<div class="col-12 col-md-3 mb-2">
+											<label for="field_verified_fg" class="data-entry-label">Field Verified</label>
+											<select name="field_verified_fg" id="field_verified_fg" class="data-entry-select">
+												<option value="" <cfif getGeoreference.field_verified_fg EQ "">selected</cfif>></option>
+												<option value="1" <cfif getGeoreference.field_verified_fg EQ 1>selected</cfif>>Yes</option>
+												<option value="0" <cfif getGeoreference.field_verified_fg EQ 0>selected</cfif>>No</option>
+											</select>
+										</div>
+										</cfif>
 									</cfif>
+		
 								</div>
 							</div>
 						
@@ -7979,68 +7982,30 @@ limitations under the License.
 
 						<!--- more verbatim collecting event information --->
 						<div class="col-12 px-0">
+
 							<ul class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
-								<li class="col-12 col-md-2 py-1 px-0">
+								<div class="col-12 col-md-2 py-1 px-0">
 									<label class="data-entry-label px-2 text-right">Verbatim Coordinates (summary)</label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
 									<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" value="#getLoc.verbatimCoordinates#" class="data-entry-input">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
+								</div>
+								<div class="col-12 col-md-2 py-1 px-0">
 									<label class="data-entry-label px-2 text-right">Verbatim Latitude</label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
 									<input type="text" name="verbatimLatitude" id="verbatimLatitude" value="#getLoc.verbatimLatitude#" class="data-entry-input">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
+								</div>
+								<div class="col-12 col-md-2 py-1 px-0">
 									<label class="data-entry-label px-2 text-right">Verbatim Longitude</label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
 									<input type="text" name="verbatimLongitude" id="verbatimLongitude" value="#getLoc.verbatimLongitude#" class="data-entry-input">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
+								</div>
+								<div class="col-12 col-md-2 py-1 px-0">
 									<label class="data-entry-label px-2 text-right">Verbatim Coordinate System (e.g., decimal degrees)</label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
 									<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" value="#getLoc.verbatimCoordinateSystem#" class="data-entry-input">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
+								</div>
+								<div class="col-12 col-md-2 py-1 px-0">
 									<label class="data-entry-label px-2 text-right">Verbatim SRS (e.g., datum)</label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
 									<input type="text" name="verbatimSRS" id="verbatimSRS" value="#getLoc.verbatimSRS#" class="data-entry-input">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="verbatimCoordinates" class="data-entry-label px-2 text-right"> Verbatim Coordinates </label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
-									<input type="text" name="verbatimCoordinates" value="#getLoc.verbatimCoordinates#" id="verbatimCoordinates" class="data-entry-input">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="verbatimLatitude" class="data-entry-label px-2 text-right"> Verbatim Latitude </label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
-									<input type="text" name="verbatimLatitude" value="#getLoc.verbatimLatitude#" id="verbatimLatitude" class="data-entry-input">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="verbatimLongitude" class="data-entry-label px-2 text-right"> Verbatim Longitude </label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
-									<input type="text" name="verbatimLongitude" value="#getLoc.verbatimLongitude#" id="verbatimLongitude" class="data-entry-input">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="verbatimCoordinateSystem" class="data-entry-label px-2 text-right"> Verbatim Coordinate System </label>
-								</li>
-								<li class="col-12 col-md-2 pb-2 px-0">
-									<input type="text" name="verbatimCoordinateSystem" value="#getLoc.verbatimCoordinateSystem#" id="verbatimCoordinateSystem" class="data-entry-input">
-								</li>
-								<li class="col-12 col-md-2 py-1 px-0">
-									<label for="verbatimSRS" class="data-entry-label px-2 text-right"> Verbatim SRS </label>
-								</li>
-								<li class="col-12 col-md-9 pb-2 px-0">
-									<input type="text" name="verbatimSRS" value="#getLoc.verbatimSRS#" id="verbatimSRS" class="data-entry-input">
-								</li>
+								</div>
 							</ul>
+
 							<script>
 								showLLFormat('#getLoc.ORIG_LAT_LONG_UNITS#');
 							</script> 
