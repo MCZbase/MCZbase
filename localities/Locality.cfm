@@ -713,6 +713,7 @@ $(document).ready(function() {
 
     // When user shows the drawer, do your dialog positioning AND button swap
     $('##show-wiki').on('click', function(e) {
+		    alert("It works!");
         // Button toggling for user
         $('##show-wiki').hide();
         $('##hide-wiki').show();
