@@ -685,48 +685,7 @@ limitations under the License.
 				$("##hide-wiki").hide();
 			});
 			
-			function resizeUIDialogForDrawer() {
-				var $dlg = $('.ui-dialog:visible');
-				if ($dlg.length === 0) return; // No visible dialog, skip
-
-				var drawerWidth = $('#wikiDrawer').is(':visible') ? 400 : 0;
-
-				// Window dimensions
-				var winWidth = $(window).width();
-				var winHeight = $(window).height();
-
-				// Desired dialog dimensions
-				var dlgWidth = winWidth - drawerWidth;
-				var dlgHeight = winHeight;
-
-				// Clamp to minimum allowed size
-				dlgWidth = Math.max(dlgWidth, 320);
-				dlgHeight = Math.max(dlgHeight, 200);
-
-				// Move and resize the dialog's outer container
-				$dlg.css({
-					left: drawerWidth + 'px',
-					top: '0px',
-					width: dlgWidth + 'px',
-					height: dlgHeight + 'px',
-					maxWidth: dlgWidth + 'px',
-					maxHeight: dlgHeight + 'px'
-				});
-
-				// Get the title bar, which occupies vertical space
-				var $titlebar = $dlg.find('.ui-dialog-titlebar');
-				// Optional: Dialog button pane, may also take space at bottom
-				var $buttonpane = $dlg.find('.ui-dialog-buttonpane');
-				var contentHeight = dlgHeight 
-					- ($titlebar.outerHeight() || 0)
-					- ($buttonpane.outerHeight() || 0);
-
-				// Adjust the dialog content pane
-				$dlg.find('.ui-dialog-content').css({
-					height: contentHeight + 'px',
-					maxHeight: contentHeight + 'px' // Optional - prevents growing with overflowing content
-				});
-			}
+		
 		</script>
 	</cfoutput>
 </cfif>
