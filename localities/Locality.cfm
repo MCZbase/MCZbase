@@ -667,92 +667,6 @@ limitations under the License.
 
 		<!--- NOTE: wikiDrawer, show-wiki, hide-wiki are hard coded in openWikiDrawer and closeWikiDrawer functions. --->
 		<script>
-//			$('##show-wiki').on('click', function(e) {
-//				e.preventDefault();
-//				<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-//					showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
-//				<cfelse>
-//					showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
-//				</cfif>
-//				$("##show-wiki").hide();
-//				$("##hide-wiki").show();
-//				//setTimeout(resizeUIDialogForDrawer, 350);
-//				setTimeout(pushDialogForDrawer, 350); 
-//			});
-//			$('##hide-wiki').on('click', function(e) {
-//				e.preventDefault();
-//				closeWikiDrawer();
-//				//setTimeout(resizeUIDialogForDrawer, 350);
-//				setTimeout(popDialogForDrawer, 350);
-//			});
-//			$(document).ready(function() {
-//				$("##hide-wiki").hide();
-//				// Attach the dialogopen event on page load
-//				$(document).on('dialogopen', '.ui-dialog', resizeUIDialogForDrawer);
-//
-//				// And watch for window resize too!
-//				$(window).on('resize', resizeUIDialogForDrawer);
-//			});
-		
-//			function resizeUIDialogForDrawer() {
-//				
-//				var $dlg = $('.ui-dialog:visible');
-//				if ($dlg.length === 0) return;
-//
-//				// Use the real drawer ID here
-//				var drawerWidth = $('##wikiDrawer').is(':visible') ? 400 : 0;
-//				var winWidth = $(window).width();
-//				var winHeight = $(window).height();
-//
-//				var dlgWidth = Math.max(winWidth - drawerWidth, 320);
-//				var dlgHeight = Math.max(winHeight, 200);
-//
-//				// Move & resize the dialog
-//				$dlg.css({
-//					left: drawerWidth + 'px',
-//					top: '0px',
-//					width: dlgWidth + 'px',
-//					height: dlgHeight + 'px',
-//					maxWidth: dlgWidth + 'px',
-//					maxHeight: dlgHeight + 'px'
-//				});
-//
-//				// Fit content in dialog box (subtracting title bar and button pane heights)
-//				var $titlebar = $dlg.find('.ui-dialog-titlebar');
-//				var $buttonpane = $dlg.find('.ui-dialog-buttonpane');
-//				var contentHeight = dlgHeight 
-//					- ($titlebar.outerHeight() || 0)
-//					- ($buttonpane.outerHeight() || 0);
-//
-//				$dlg.find('.ui-dialog-content').css({
-//					height: contentHeight + 'px',
-//					maxHeight: contentHeight + 'px'
-//				});
-//			}
-//			function popDialogForDrawer() {
-//				var $dlg = $('.ui-dialog:visible');
-//				if ($dlg.length === 0) return;
-//
-//				var orig = $dlg.data('original-dimensions');
-//				if (orig) {
-//					$dlg.css({
-//						left: orig.left,
-//						top: orig.top,
-//						width: orig.width,
-//						height: orig.height,
-//						maxWidth: orig.width,
-//						maxHeight: orig.height
-//					});
-//					$dlg.removeData('original-dimensions');
-//				}
-//			}
-		</script>
-			
-		<script>
-			/* --- Utility: Margin in px --- */
-			 // 30px margin
-
-			/* --- Shift Dialog Over When Drawer Opens --- */
 			function pushDialogForDrawer() {
 				var $dlg = $('.ui-dialog:visible');
 				if ($dlg.length === 0) return;
@@ -769,9 +683,6 @@ limitations under the License.
 				var dlgLeft = drawerWidth + margin, dlgTop = margin;
 				var dlgWidth = Math.max(w - drawerWidth - margin*2, 320);
 				var dlgHeight = Math.max(h - margin*2, 200);
-				
-
-				// Set dialog box size and position
 				$dlg.css({
 					left: dlgLeft + 'px',
 					top: dlgTop + 'px',
@@ -780,36 +691,31 @@ limitations under the License.
 					maxWidth: dlgWidth + 'px',
 					maxHeight: dlgHeight + 'px'
 				});
-
-				// Set content height
 				var $titlebar   = $dlg.find('.ui-dialog-titlebar');
 				var $buttonpane = $dlg.find('.ui-dialog-buttonpane');
 				var contentHeight = dlgHeight 
 					- ($titlebar.outerHeight() || 0)
 					- ($buttonpane.outerHeight() || 0);
-
 				$dlg.find('.ui-dialog-content').css({
 					height: contentHeight + 'px',
 					maxHeight: contentHeight + 'px'
 				});
 			}
-
-			/* --- Restore Dialog State When Drawer Closes --- */
 			function popDialogForDrawer() {
 				var $dlg = $('.ui-dialog:visible');
 				if ($dlg.length === 0) return;
 				var orig = $dlg.data('original-dimensions');
 				if (orig) {
-					$dlg.css({ left: orig.left, top: orig.top, width: orig.width, height: orig.height,
-						maxWidth: orig.width, maxHeight: orig.height });
+					$dlg.css({
+						left: orig.left, top: orig.top,
+						width: orig.width, height: orig.height,
+						maxWidth: orig.width, maxHeight: orig.height
+					});
 					$dlg.removeData('original-dimensions');
 				}
 				$dlg.find('.ui-dialog-content').css({ height: '', maxHeight: '' });
 			}
-
-			/* --- Hook It Up --- */
 			$(document).ready(function() {
-				// When drawer opens, shift dialog
 				$('##show-wiki').on('click', function(e) {
 					e.preventDefault();
 					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
@@ -819,29 +725,23 @@ limitations under the License.
 					</cfif>
 					$("##show-wiki").hide();
 					$("##hide-wiki").show();
-					setTimeout(pushDialogForDrawer, 350); // adjust delay for drawer animation if needed
+					setTimeout(pushDialogForDrawer, 350);
 				});
-
-				// When drawer closes, restore dialog
 				$('##hide-wiki').on('click', function(e) {
 					e.preventDefault();
 					closeWikiDrawer();
 					setTimeout(popDialogForDrawer, 350);
 				});
-
-				// Hide the hide button by default
 				$("##hide-wiki").hide();
-
-				// When any dialog opens, reset original data and apply push if drawer's open
-				$(document).on('dialogopen', '.ui-dialog', function() {
-					$(this).removeData('original-dimensions');
+				$(window).on('resize', function() {
 					if ($('##wikiDrawer').is(':visible')) {
 						pushDialogForDrawer();
+					} else {
+						popDialogForDrawer();
 					}
 				});
-
-				// Also re-flow only if drawer is open and window is resized
-				$(window).on('resize', function() {
+				$(document).on('dialogopen', '.ui-dialog', function() {
+					$(this).removeData('original-dimensions');
 					if ($('##wikiDrawer').is(':visible')) {
 						pushDialogForDrawer();
 					}
