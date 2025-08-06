@@ -734,7 +734,7 @@ limitations under the License.
 				var $dlg = $('.ui-dialog:visible');
 				if ($dlg.length === 0) return;
 
-				var drawerWidth = $('#wikiDrawer').is(':visible') ? 400 : 0;
+				var drawerWidth = $('##wikiDrawer').is(':visible') ? 400 : 0;
 				var winWidth = $(window).width();
 				var winHeight = $(window).height();
 
