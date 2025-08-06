@@ -690,7 +690,7 @@ limitations under the License.
 				if ($dlg.length === 0) return;
 
 				// Use the real drawer ID here
-				var drawerWidth = $('#wikiDrawer').is(':visible') ? 400 : 0;
+				var drawerWidth = $('##wikiDrawer').is(':visible') ? 400 : 0;
 				var winWidth = $(window).width();
 				var winHeight = $(window).height();
 
