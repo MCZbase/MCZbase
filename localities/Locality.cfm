@@ -666,82 +666,84 @@ limitations under the License.
 		</div>
 
 		<!--- NOTE: wikiDrawer, show-wiki, hide-wiki are hard coded in openWikiDrawer and closeWikiDrawer functions. --->
-		<script>
-// Push dialog to fill the area right of the drawer (with margin)
-		function pushDialogRightOfDrawer(drawerWidth, margin, maxDialogWidth) {
-			var $dlg = $('.ui-dialog:visible');
-			if (!$dlg.length) return;
-			var winWidth = $(window).width();
-			var availableWidth = winWidth - drawerWidth - margin * 2;
-			var dlgWidth = Math.min(maxDialogWidth || availableWidth, availableWidth);
 
-			// Center dialog in right-side area
-			var leftOffset = drawerWidth + margin + (availableWidth - dlgWidth) / 2;
+<script>
+	var drawerWidthPx = 400, marginPx = 30, dialogMaxWidth = 700;
 
-			$dlg.dialog('option', 'width', dlgWidth);
-			$dlg.dialog('option', 'height', 'auto');
-			$dlg.dialog('option', 'position', {
-				my: "left top",
-				at: "left+" + leftOffset + " top+" + margin,
-				of: window
-			});
-			$dlg.css({
-				left: leftOffset + 'px',
-				top: margin + 'px',
-				width: dlgWidth + 'px',
-				maxWidth: '',
-				boxSizing: 'border-box'
-			});
-		}
+	// Push dialog to fill the area right of the drawer (with margin)
+	function pushDialogRightOfDrawer(drawerWidth, margin, maxDialogWidth) {
+		var $dlg = $('.ui-dialog:visible');
+		if (!$dlg.length) return;
+		var winWidth = $(window).width();
+		var availableWidth = winWidth - drawerWidth - margin * 2;
+		var dlgWidth = Math.min(maxDialogWidth || availableWidth, availableWidth);
 
-		// Reset everything to center when the drawer is closed
-		function centerDialog() {
-			var $dlg = $('.ui-dialog:visible');
-			if (!$dlg.length) return;
-			$dlg.css({ left: '', top: '', width: '', height: '', maxWidth: '', boxSizing: '' });
-			$dlg.dialog('option', 'width', 'auto');
-			$dlg.dialog('option', 'height', 'auto');
-			$dlg.dialog('option', 'position', { my: "center", at: "center", of: window });
-		}
+		// Center dialog in right-side area
+		var leftOffset = drawerWidth + margin + (availableWidth - dlgWidth) / 2;
 
-		// Listen for any dialog open anywhere on the page.
-		// At the MOMENT the dialog is opened, check the drawer's state.
-		// If open, push right. If closed, center as normal.
-		$(document).on('dialogopen', '.ui-dialog', function() {
-			setTimeout(function() {
-				if ($('##wikiDrawer').is(':visible')) {
-					pushDialogRightOfDrawer(drawerWidthPx, marginPx, dialogMaxWidth);
-				} else {
-					centerDialog();
-				}
-			}, 0);
+		$dlg.dialog('option', 'width', dlgWidth);
+		$dlg.dialog('option', 'height', 'auto');
+		$dlg.dialog('option', 'position', {
+			my: "left top",
+			at: "left+" + leftOffset + " top+" + margin,
+			of: window
 		});
-
-		// ... Also, if the drawer is shown/hidden *after* a dialog is already open,
-		// you want to update the dialog's position then too:
-		$('##show-wiki').on('click', function(e) {
-			setTimeout(function() {
-				if ($('##wikiDrawer').is(':visible')) {
-					pushDialogRightOfDrawer(drawerWidthPx, marginPx, dialogMaxWidth);
-				}
-			}, 400);
+		$dlg.css({
+			left: leftOffset + 'px',
+			top: margin + 'px',
+			width: dlgWidth + 'px',
+			maxWidth: '',
+			boxSizing: 'border-box'
 		});
+	}
 
-		$('##hide-wiki').on('click', function(e) {
-			setTimeout(centerDialog, 400);
-		});
+	// Reset everything to center when the drawer is closed
+	function centerDialog() {
+		var $dlg = $('.ui-dialog:visible');
+		if (!$dlg.length) return;
+		$dlg.css({ left: '', top: '', width: '', height: '', maxWidth: '', boxSizing: '' });
+		$dlg.dialog('option', 'width', 'auto');
+		$dlg.dialog('option', 'height', 'auto');
+		$dlg.dialog('option', 'position', { my: "center", at: "center", of: window });
+	}
 
-		// Also listen for window resizing (responsive):
-		$(window).on('resize', function() {
+	// Listen for any dialog open anywhere on the page.
+	// At the MOMENT the dialog is opened, check the drawer's state.
+	// If open, push right. If closed, center as normal.
+	$(document).on('dialogopen', '.ui-dialog', function() {
+		setTimeout(function() {
 			if ($('##wikiDrawer').is(':visible')) {
 				pushDialogRightOfDrawer(drawerWidthPx, marginPx, dialogMaxWidth);
 			} else {
 				centerDialog();
 			}
-		});
+		}, 0);
+	});
 
+	// ... Also, if the drawer is shown/hidden *after* a dialog is already open,
+	// you want to update the dialog's position then too:
+	$('##show-wiki').on('click', function(e) {
+		setTimeout(function() {
+			if ($('##wikiDrawer').is(':visible')) {
+				pushDialogRightOfDrawer(drawerWidthPx, marginPx, dialogMaxWidth);
+			}
+		}, 400);
+	});
 
-		</script>
+	$('##hide-wiki').on('click', function(e) {
+		setTimeout(centerDialog, 400);
+	});
+
+	// Also listen for window resizing (responsive):
+	$(window).on('resize', function() {
+		if ($('##wikiDrawer').is(':visible')) {
+			pushDialogRightOfDrawer(drawerWidthPx, marginPx, dialogMaxWidth);
+		} else {
+			centerDialog();
+		}
+	});
+
+</script>
 	</cfoutput>
 </cfif>
 
