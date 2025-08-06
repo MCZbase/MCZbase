@@ -713,13 +713,13 @@ limitations under the License.
 						if ($('##wikiDrawer').is(':visible')) {
 							pushDialogForDrawer(marginPx, drawerWidthPx);
 						}
-					}, 400);
+					}, 100);
 				});
 
 				$('##hide-wiki').on('click', function(e) {
 					e.preventDefault();
 					closeWikiDrawer();
-					setTimeout(centerDialogProperly, 400);
+					setTimeout(centerDialogProperly, 100);
 				});
 				$("##hide-wiki").hide();
 
