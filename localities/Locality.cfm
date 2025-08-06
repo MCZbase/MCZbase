@@ -667,35 +667,12 @@ limitations under the License.
 
 		<!--- NOTE: wikiDrawer, show-wiki, hide-wiki are hard coded in openWikiDrawer and closeWikiDrawer functions. --->
 		<script>
-			function fitDialogToWindow(margin) {
-				var $dlg = $('.ui-dialog:visible');
-				if (!$dlg.length) return;
-				var winWidth = $(window).width(), winHeight = $(window).height();
-				var dlgLeft = margin, dlgTop = margin;
-				var dlgWidth = Math.max(winWidth - margin * 2, 320);
-				var dlgHeight = Math.max(winHeight - margin * 2, 200);
-				$dlg.css({
-					left: dlgLeft + 'px',
-					top: dlgTop + 'px',
-					width: dlgWidth + 'px',
-					height: dlgHeight + 'px'
-				});
-				// Also set options so jQuery UI remembers for modal overlays
-				$dlg.prev('.ui-resizable-handle').end().dialog('option', {
-					width: dlgWidth,
-					height: dlgHeight,
-					position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
-				});
-				var $titlebar = $dlg.find('.ui-dialog-titlebar');
-				var $buttonpane = $dlg.find('.ui-dialog-buttonpane');
-				var contentHeight = dlgHeight -
-					($titlebar.outerHeight() || 0) -
-					($buttonpane.outerHeight() || 0);
-				$dlg.find('.ui-dialog-content').css({
-					height: contentHeight + 'px'
-				});
-			}
 
+			// --- CONFIGURATION ---
+			var drawerWidthPx = 400; // drawer width, px
+			var marginPx = 30;       // margin around the dialog, px
+
+			// --- Position and size the dialog beside the drawer with margin
 			function pushDialogForDrawer(margin, drawerWidth) {
 				var $dlg = $('.ui-dialog:visible');
 				if (!$dlg.length) return;
@@ -703,18 +680,19 @@ limitations under the License.
 				var dlgLeft = drawerWidth + margin, dlgTop = margin;
 				var dlgWidth = Math.max(winWidth - drawerWidth - margin * 2, 320);
 				var dlgHeight = Math.max(winHeight - margin * 2, 200);
+
 				$dlg.css({
 					left: dlgLeft + 'px',
 					top: dlgTop + 'px',
 					width: dlgWidth + 'px',
 					height: dlgHeight + 'px'
 				});
-				$dlg.prev('.ui-resizable-handle').end().dialog('option', {
+				$dlg.dialog('option', {
 					width: dlgWidth,
 					height: dlgHeight,
 					position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
 				});
-				var $titlebar = $dlg.find('.ui-dialog-titlebar');
+				var $titlebar   = $dlg.find('.ui-dialog-titlebar');
 				var $buttonpane = $dlg.find('.ui-dialog-buttonpane');
 				var contentHeight = dlgHeight -
 					($titlebar.outerHeight() || 0) -
@@ -724,11 +702,20 @@ limitations under the License.
 				});
 			}
 
-			var drawerWidthPx = 400;
-			var marginPx = 30;
+			// --- Center the dialog in the window. Optionally restores width/height to auto
+			function centerDialog() {
+				var $dlg = $('.ui-dialog:visible');
+				if (!$dlg.length) return;
+				// Remove manual size/pos, let jQuery UI center it
+				$dlg.css({ left: '', top: '', width: '', height: '', maxWidth: '', maxHeight: '' });
+				$dlg.dialog('option', 'position', { my: "center", at: "center", of: window });
+				// Uncomment these two lines if you want dialog to restore to original auto size:
+				// $dlg.dialog('option', { width: 'auto', height: 'auto' });
+				$dlg.find('.ui-dialog-content').css({ height: '', maxHeight: '' });
+			}
 
 			$(document).ready(function() {
-				// Show/hide-wiki handlers
+				// Show wiki: open drawer, push dialog
 				$('##show-wiki').on('click', function(e) {
 					e.preventDefault();
 					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
@@ -738,36 +725,37 @@ limitations under the License.
 					</cfif>
 					$("##show-wiki").hide();
 					$("##hide-wiki").show();
+
 					setTimeout(function() {
 						pushDialogForDrawer(marginPx, drawerWidthPx);
-					}, 400); // 400ms for typical transition; adjust for your animation
+					}, 400); // Adjust if your drawer animates slower/faster
 				});
 
+				// Hide wiki: close drawer, center dialog
 				$('##hide-wiki').on('click', function(e) {
 					e.preventDefault();
 					closeWikiDrawer();
-					setTimeout(function() {
-						fitDialogToWindow(marginPx);
-					}, 400);
+					setTimeout(centerDialog, 400);
 				});
 
 				$("##hide-wiki").hide();
 
+				// Window resize: update dialog position
 				$(window).on('resize', function() {
 					if ($('##wikiDrawer').is(':visible')) {
 						pushDialogForDrawer(marginPx, drawerWidthPx);
 					} else {
-						fitDialogToWindow(marginPx);
+						centerDialog();
 					}
 				});
 
-				// .ui-dialog is outer box; run fix after every dialog open
+				// When any dialog is opened, position it correctly based on drawer state
 				$(document).on('dialogopen', '.ui-dialog', function() {
 					setTimeout(function() {
 						if ($('##wikiDrawer').is(':visible')) {
 							pushDialogForDrawer(marginPx, drawerWidthPx);
 						} else {
-							fitDialogToWindow(marginPx);
+							centerDialog();
 						}
 					}, 0);
 				});
