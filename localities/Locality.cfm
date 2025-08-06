@@ -679,7 +679,6 @@ limitations under the License.
 				$dlg.dialog('option', {
 					width: dlgWidth,
 					height: 'auto',
-					maxHeight: #height#,
 					position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
 				});
 			}
