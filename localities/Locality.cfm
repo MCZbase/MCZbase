@@ -750,14 +750,12 @@ limitations under the License.
 			
 		<script>
 			/* --- Utility: Margin in px --- */
-			var dialogMargin = 30; // 30px margin
+			 // 30px margin
 
 			/* --- Shift Dialog Over When Drawer Opens --- */
 			function pushDialogForDrawer() {
 				var $dlg = $('.ui-dialog:visible');
 				if ($dlg.length === 0) return;
-
-				// Save only if not already saved
 				if (!$dlg.data('original-dimensions')) {
 					$dlg.data('original-dimensions', {
 						left:  $dlg.css('left'),
@@ -766,20 +764,12 @@ limitations under the License.
 						height:$dlg.css('height')
 					});
 				}
-
-				var drawerWidth = $('##wikiDrawer').is(':visible') ? 400 : 0;
-				var winWidth = $(window).width();
-				var winHeight = $(window).height();
-
-				var dlgLeft   = drawerWidth + dialogMargin;
-				var dlgTop    = dialogMargin;
-				var dlgWidth  = winWidth - drawerWidth - (dialogMargin * 2);
-				var dlgHeight = winHeight - (dialogMargin * 2);
-
-				// Minimum size guards
-				var minWidth = 320, minHeight = 200;
-				dlgWidth  = Math.max(dlgWidth, minWidth);
-				dlgHeight = Math.max(dlgHeight, minHeight);
+				var margin = 30, drawerWidth = $('##wikiDrawer').is(':visible') ? 400 : 0;
+				var w = $(window).width(), h = $(window).height();
+				var dlgLeft = drawerWidth + margin, dlgTop = margin;
+				var dlgWidth = Math.max(w - drawerWidth - margin*2, 320);
+				var dlgHeight = Math.max(h - margin*2, 200);
+				
 
 				// Set dialog box size and position
 				$dlg.css({
@@ -808,23 +798,13 @@ limitations under the License.
 			function popDialogForDrawer() {
 				var $dlg = $('.ui-dialog:visible');
 				if ($dlg.length === 0) return;
-
 				var orig = $dlg.data('original-dimensions');
 				if (orig) {
-					$dlg.css({
-						left: orig.left,
-						top: orig.top,
-						width: orig.width,
-						height: orig.height,
-						maxWidth: orig.width,
-						maxHeight: orig.height
-					});
+					$dlg.css({ left: orig.left, top: orig.top, width: orig.width, height: orig.height,
+						maxWidth: orig.width, maxHeight: orig.height });
 					$dlg.removeData('original-dimensions');
 				}
-				$dlg.find('.ui-dialog-content').css({
-					height: '',
-					maxHeight: ''
-				});
+				$dlg.find('.ui-dialog-content').css({ height: '', maxHeight: '' });
 			}
 
 			/* --- Hook It Up --- */
