@@ -670,7 +670,7 @@ limitations under the License.
 			var drawerWidthPx = 400, marginPx = 30, dialogMaxWidth = 700;
 
 			function pushDialogRightOfDrawer(drawerWidth, margin, maxDialogWidth) {
-				var $dlgWidget = $('#addGeologyDialog'); // The dialog widget!
+				var $dlgWidget = $('##addGeologyDialog'); // The dialog widget!
 				if (!$dlgWidget.length) return;
 				var winWidth = $(window).width();
 				var availableWidth = winWidth - drawerWidth - margin * 2;
@@ -693,7 +693,7 @@ limitations under the License.
 			}
 
 			function centerDialog() {
-				var $dlgWidget = $('#addGeologyDialog');
+				var $dlgWidget = $('##addGeologyDialog');
 				if (!$dlgWidget.length) return;
 				$dlgWidget.dialog('option', 'width', 'auto');
 				$dlgWidget.dialog('option', 'height', 'auto');
