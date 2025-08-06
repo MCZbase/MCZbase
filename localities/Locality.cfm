@@ -667,58 +667,132 @@ limitations under the License.
 
 		<!--- NOTE: wikiDrawer, show-wiki, hide-wiki are hard coded in openWikiDrawer and closeWikiDrawer functions. --->
 		<script>
-			$('##show-wiki').on('click', function(e) {
-				e.preventDefault();
-				<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-					showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
-				<cfelse>
-					showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
-				</cfif>
-				$("##show-wiki").hide();
-				$("##hide-wiki").show();
-				setTimeout(resizeUIDialogForDrawer, 350);
-				setTimeout(pushDialogForDrawer, 350); 
-			});
-			$('##hide-wiki').on('click', function(e) {
-				e.preventDefault();
-				closeWikiDrawer();
-				setTimeout(resizeUIDialogForDrawer, 350);
-				setTimeout(popDialogForDrawer, 350);
-			});
-			$(document).ready(function() {
-				$("##hide-wiki").hide();
-				// Attach the dialogopen event on page load
-				$(document).on('dialogopen', '.ui-dialog', resizeUIDialogForDrawer);
-
-				// And watch for window resize too!
-				$(window).on('resize', resizeUIDialogForDrawer);
-			});
+//			$('##show-wiki').on('click', function(e) {
+//				e.preventDefault();
+//				<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+//					showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
+//				<cfelse>
+//					showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
+//				</cfif>
+//				$("##show-wiki").hide();
+//				$("##hide-wiki").show();
+//				//setTimeout(resizeUIDialogForDrawer, 350);
+//				setTimeout(pushDialogForDrawer, 350); 
+//			});
+//			$('##hide-wiki').on('click', function(e) {
+//				e.preventDefault();
+//				closeWikiDrawer();
+//				//setTimeout(resizeUIDialogForDrawer, 350);
+//				setTimeout(popDialogForDrawer, 350);
+//			});
+//			$(document).ready(function() {
+//				$("##hide-wiki").hide();
+//				// Attach the dialogopen event on page load
+//				$(document).on('dialogopen', '.ui-dialog', resizeUIDialogForDrawer);
+//
+//				// And watch for window resize too!
+//				$(window).on('resize', resizeUIDialogForDrawer);
+//			});
 		
-			function resizeUIDialogForDrawer() {
-				
+//			function resizeUIDialogForDrawer() {
+//				
+//				var $dlg = $('.ui-dialog:visible');
+//				if ($dlg.length === 0) return;
+//
+//				// Use the real drawer ID here
+//				var drawerWidth = $('##wikiDrawer').is(':visible') ? 400 : 0;
+//				var winWidth = $(window).width();
+//				var winHeight = $(window).height();
+//
+//				var dlgWidth = Math.max(winWidth - drawerWidth, 320);
+//				var dlgHeight = Math.max(winHeight, 200);
+//
+//				// Move & resize the dialog
+//				$dlg.css({
+//					left: drawerWidth + 'px',
+//					top: '0px',
+//					width: dlgWidth + 'px',
+//					height: dlgHeight + 'px',
+//					maxWidth: dlgWidth + 'px',
+//					maxHeight: dlgHeight + 'px'
+//				});
+//
+//				// Fit content in dialog box (subtracting title bar and button pane heights)
+//				var $titlebar = $dlg.find('.ui-dialog-titlebar');
+//				var $buttonpane = $dlg.find('.ui-dialog-buttonpane');
+//				var contentHeight = dlgHeight 
+//					- ($titlebar.outerHeight() || 0)
+//					- ($buttonpane.outerHeight() || 0);
+//
+//				$dlg.find('.ui-dialog-content').css({
+//					height: contentHeight + 'px',
+//					maxHeight: contentHeight + 'px'
+//				});
+//			}
+//			function popDialogForDrawer() {
+//				var $dlg = $('.ui-dialog:visible');
+//				if ($dlg.length === 0) return;
+//
+//				var orig = $dlg.data('original-dimensions');
+//				if (orig) {
+//					$dlg.css({
+//						left: orig.left,
+//						top: orig.top,
+//						width: orig.width,
+//						height: orig.height,
+//						maxWidth: orig.width,
+//						maxHeight: orig.height
+//					});
+//					$dlg.removeData('original-dimensions');
+//				}
+//			}
+		</script>
+			
+		<script>
+			/* --- Utility: Margin in px --- */
+			var dialogMargin = 30; // 30px margin
+
+			/* --- Shift Dialog Over When Drawer Opens --- */
+			function pushDialogForDrawer() {
 				var $dlg = $('.ui-dialog:visible');
 				if ($dlg.length === 0) return;
 
-				// Use the real drawer ID here
+				// Save only if not already saved
+				if (!$dlg.data('original-dimensions')) {
+					$dlg.data('original-dimensions', {
+						left:  $dlg.css('left'),
+						top:   $dlg.css('top'),
+						width: $dlg.css('width'),
+						height:$dlg.css('height')
+					});
+				}
+
 				var drawerWidth = $('##wikiDrawer').is(':visible') ? 400 : 0;
 				var winWidth = $(window).width();
 				var winHeight = $(window).height();
 
-				var dlgWidth = Math.max(winWidth - drawerWidth, 320);
-				var dlgHeight = Math.max(winHeight, 200);
+				var dlgLeft   = drawerWidth + dialogMargin;
+				var dlgTop    = dialogMargin;
+				var dlgWidth  = winWidth - drawerWidth - (dialogMargin * 2);
+				var dlgHeight = winHeight - (dialogMargin * 2);
 
-				// Move & resize the dialog
+				// Minimum size guards
+				var minWidth = 320, minHeight = 200;
+				dlgWidth  = Math.max(dlgWidth, minWidth);
+				dlgHeight = Math.max(dlgHeight, minHeight);
+
+				// Set dialog box size and position
 				$dlg.css({
-					left: drawerWidth + 'px',
-					top: '0px',
+					left: dlgLeft + 'px',
+					top: dlgTop + 'px',
 					width: dlgWidth + 'px',
 					height: dlgHeight + 'px',
 					maxWidth: dlgWidth + 'px',
 					maxHeight: dlgHeight + 'px'
 				});
 
-				// Fit content in dialog box (subtracting title bar and button pane heights)
-				var $titlebar = $dlg.find('.ui-dialog-titlebar');
+				// Set content height
+				var $titlebar   = $dlg.find('.ui-dialog-titlebar');
 				var $buttonpane = $dlg.find('.ui-dialog-buttonpane');
 				var contentHeight = dlgHeight 
 					- ($titlebar.outerHeight() || 0)
@@ -729,6 +803,8 @@ limitations under the License.
 					maxHeight: contentHeight + 'px'
 				});
 			}
+
+			/* --- Restore Dialog State When Drawer Closes --- */
 			function popDialogForDrawer() {
 				var $dlg = $('.ui-dialog:visible');
 				if ($dlg.length === 0) return;
@@ -745,7 +821,52 @@ limitations under the License.
 					});
 					$dlg.removeData('original-dimensions');
 				}
+				$dlg.find('.ui-dialog-content').css({
+					height: '',
+					maxHeight: ''
+				});
 			}
+
+			/* --- Hook It Up --- */
+			$(document).ready(function() {
+				// When drawer opens, shift dialog
+				$('##show-wiki').on('click', function(e) {
+					e.preventDefault();
+					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
+					<cfelse>
+						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
+					</cfif>
+					$("##show-wiki").hide();
+					$("##hide-wiki").show();
+					setTimeout(pushDialogForDrawer, 350); // adjust delay for drawer animation if needed
+				});
+
+				// When drawer closes, restore dialog
+				$('##hide-wiki').on('click', function(e) {
+					e.preventDefault();
+					closeWikiDrawer();
+					setTimeout(popDialogForDrawer, 350);
+				});
+
+				// Hide the hide button by default
+				$("##hide-wiki").hide();
+
+				// When any dialog opens, reset original data and apply push if drawer's open
+				$(document).on('dialogopen', '.ui-dialog', function() {
+					$(this).removeData('original-dimensions');
+					if ($('##wikiDrawer').is(':visible')) {
+						pushDialogForDrawer();
+					}
+				});
+
+				// Also re-flow only if drawer is open and window is resized
+				$(window).on('resize', function() {
+					if ($('##wikiDrawer').is(':visible')) {
+						pushDialogForDrawer();
+					}
+				});
+			});
 		</script>
 	</cfoutput>
 </cfif>
