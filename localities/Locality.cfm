@@ -668,11 +668,10 @@ limitations under the License.
 		<!--- NOTE: wikiDrawer, show-wiki, hide-wiki are hard coded in openWikiDrawer and closeWikiDrawer functions. --->
 		<script>
 
-			// --- CONFIGURATION ---
-			var drawerWidthPx = 400; // drawer width, px
-			var marginPx = 30;       // margin around the dialog, px
+			var drawerWidthPx = 400;
+			var marginPx = 30;
 
-			// --- Position and size the dialog beside the drawer with margin
+			// Move and resize the dialog to the right of the drawer, with margins
 			function pushDialogForDrawer(margin, drawerWidth) {
 				var $dlg = $('.ui-dialog:visible');
 				if (!$dlg.length) return;
@@ -702,20 +701,18 @@ limitations under the License.
 				});
 			}
 
-			// --- Center the dialog in the window. Optionally restores width/height to auto
+			// Center the dialog in the window and clear out any manual widths
 			function centerDialog() {
 				var $dlg = $('.ui-dialog:visible');
 				if (!$dlg.length) return;
-				// Remove manual size/pos, let jQuery UI center it
 				$dlg.css({ left: '', top: '', width: '', height: '', maxWidth: '', maxHeight: '' });
 				$dlg.dialog('option', 'position', { my: "center", at: "center", of: window });
-				// Uncomment these two lines if you want dialog to restore to original auto size:
-				// $dlg.dialog('option', { width: 'auto', height: 'auto' });
+				$dlg.dialog('option', { width: 'auto', height: 'auto' }); // restore auto-sizing if wanted
 				$dlg.find('.ui-dialog-content').css({ height: '', maxHeight: '' });
 			}
 
 			$(document).ready(function() {
-				// Show wiki: open drawer, push dialog
+				// Show the wiki drawer and push dialog right if open
 				$('##show-wiki').on('click', function(e) {
 					e.preventDefault();
 					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
@@ -725,13 +722,14 @@ limitations under the License.
 					</cfif>
 					$("##show-wiki").hide();
 					$("##hide-wiki").show();
-
 					setTimeout(function() {
-						pushDialogForDrawer(marginPx, drawerWidthPx);
-					}, 400); // Adjust if your drawer animates slower/faster
+						if ($('##wikiDrawer').is(':visible')) {
+							pushDialogForDrawer(marginPx, drawerWidthPx);
+						}
+					}, 400);
 				});
 
-				// Hide wiki: close drawer, center dialog
+				// Hide the wiki drawer and recenter dialog
 				$('##hide-wiki').on('click', function(e) {
 					e.preventDefault();
 					closeWikiDrawer();
@@ -740,7 +738,7 @@ limitations under the License.
 
 				$("##hide-wiki").hide();
 
-				// Window resize: update dialog position
+				// On resize: update dialog appropriately
 				$(window).on('resize', function() {
 					if ($('##wikiDrawer').is(':visible')) {
 						pushDialogForDrawer(marginPx, drawerWidthPx);
@@ -749,7 +747,7 @@ limitations under the License.
 					}
 				});
 
-				// When any dialog is opened, position it correctly based on drawer state
+				// On dialog open: check state and adjust just once
 				$(document).on('dialogopen', '.ui-dialog', function() {
 					setTimeout(function() {
 						if ($('##wikiDrawer').is(':visible')) {
@@ -760,6 +758,7 @@ limitations under the License.
 					}, 0);
 				});
 			});
+
 		</script>
 	</cfoutput>
 </cfif>
