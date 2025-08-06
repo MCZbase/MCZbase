@@ -684,6 +684,8 @@ limitations under the License.
 			$(document).ready(function() {
 				$("##hide-wiki").hide();
 			});
+			
+		
 		</script>
 	</cfoutput>
 </cfif>
