@@ -670,9 +670,9 @@ limitations under the License.
 			$('##show-wiki').on('click', function(e) {
 				e.preventDefault();
 				<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-					showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
+					showWiki("##targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
 				<cfelse>
-					showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
+					showWiki("##targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
 				</cfif>
 				$("##show-wiki").hide();
 				$("##hide-wiki").show();
@@ -689,7 +689,7 @@ limitations under the License.
 				var $dlg = $('.ui-dialog:visible');
 				if ($dlg.length === 0) return; // No visible dialog, skip
 
-				var drawerWidth = $('#wikiDrawer').is(':visible') ? 400 : 0;
+				var drawerWidth = $('##wikiDrawer').is(':visible') ? 400 : 0;
 
 				// Window dimensions
 				var winWidth = $(window).width();
