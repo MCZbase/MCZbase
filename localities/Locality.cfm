@@ -693,7 +693,7 @@ limitations under the License.
 			});
 		
 			function resizeUIDialogForDrawer() {
-				var margin 30;
+				
 				var $dlg = $('.ui-dialog:visible');
 				if ($dlg.length === 0) return;
 
@@ -701,20 +701,14 @@ limitations under the License.
 				var drawerWidth = $('##wikiDrawer').is(':visible') ? 400 : 0;
 				var winWidth = $(window).width();
 				var winHeight = $(window).height();
-				
-				// 30px margin on each side (left/right and top/bottom)
-				var dlgLeft   = drawerWidth + margin;
-				var dlgTop    = margin;
-				var dlgWidth  = winWidth - drawerWidth - margin * 2;
-				var dlgHeight = winHeight - margin * 2;
 
 				var dlgWidth = Math.max(winWidth - drawerWidth, 320);
 				var dlgHeight = Math.max(winHeight, 200);
 
 				// Move & resize the dialog
 				$dlg.css({
-					left: dlgLeft + 'px',
-					top: dlgTop + 'px',
+					left: drawerWidth + 'px',
+					top: '0px',
 					width: dlgWidth + 'px',
 					height: dlgHeight + 'px',
 					maxWidth: dlgWidth + 'px',
