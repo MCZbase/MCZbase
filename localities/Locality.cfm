@@ -745,12 +745,6 @@ limitations under the License.
 					});
 					$dlg.removeData('original-dimensions');
 				}
-
-				// Optionally, restore content pane height (or let it auto-resize)
-				$dlg.find('.ui-dialog-content').css({
-					height: '',
-					maxHeight: ''
-				});
 			}
 		</script>
 	</cfoutput>
