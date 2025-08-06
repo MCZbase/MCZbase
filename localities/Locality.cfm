@@ -676,13 +676,20 @@ limitations under the License.
 				</cfif>
 				$("##show-wiki").hide();
 				$("##hide-wiki").show();
+				setTimeout(resizeUIDialogForDrawer, 350);
 			});
 			$('##hide-wiki').on('click', function(e) {
 				e.preventDefault();
 				closeWikiDrawer();
+				setTimeout(resizeUIDialogForDrawer, 350);
 			});
 			$(document).ready(function() {
 				$("##hide-wiki").hide();
+				// Attach the dialogopen event on page load
+				$(document).on('dialogopen', '.ui-dialog', resizeUIDialogForDrawer);
+
+				// And watch for window resize too!
+				$(window).on('resize', resizeUIDialogForDrawer);
 			});
 			
 			function resizeUIDialogForDrawer() {
