@@ -709,7 +709,7 @@ limitations under the License.
 		// If open, push right. If closed, center as normal.
 		$(document).on('dialogopen', '.ui-dialog', function() {
 			setTimeout(function() {
-				if ($('#wikiDrawer').is(':visible')) {
+				if ($('##wikiDrawer').is(':visible')) {
 					pushDialogRightOfDrawer(drawerWidthPx, marginPx, dialogMaxWidth);
 				} else {
 					centerDialog();
@@ -719,21 +719,21 @@ limitations under the License.
 
 		// ... Also, if the drawer is shown/hidden *after* a dialog is already open,
 		// you want to update the dialog's position then too:
-		$('#show-wiki').on('click', function(e) {
+		$('##show-wiki').on('click', function(e) {
 			setTimeout(function() {
-				if ($('#wikiDrawer').is(':visible')) {
+				if ($('##wikiDrawer').is(':visible')) {
 					pushDialogRightOfDrawer(drawerWidthPx, marginPx, dialogMaxWidth);
 				}
 			}, 400);
 		});
 
-		$('#hide-wiki').on('click', function(e) {
+		$('##hide-wiki').on('click', function(e) {
 			setTimeout(centerDialog, 400);
 		});
 
 		// Also listen for window resizing (responsive):
 		$(window).on('resize', function() {
-			if ($('#wikiDrawer').is(':visible')) {
+			if ($('##wikiDrawer').is(':visible')) {
 				pushDialogRightOfDrawer(drawerWidthPx, marginPx, dialogMaxWidth);
 			} else {
 				centerDialog();
