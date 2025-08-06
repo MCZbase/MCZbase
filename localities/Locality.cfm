@@ -677,11 +677,13 @@ limitations under the License.
 				$("##show-wiki").hide();
 				$("##hide-wiki").show();
 				setTimeout(resizeUIDialogForDrawer, 350);
+				setTimeout(pushDialogForDrawer, 350); 
 			});
 			$('##hide-wiki').on('click', function(e) {
 				e.preventDefault();
 				closeWikiDrawer();
 				setTimeout(resizeUIDialogForDrawer, 350);
+				setTimeout(popDialogForDrawer, 350);
 			});
 			$(document).ready(function() {
 				$("##hide-wiki").hide();
@@ -727,10 +729,29 @@ limitations under the License.
 					maxHeight: contentHeight + 'px'
 				});
 			}
-			
-			
-			
-			
+			function popDialogForDrawer() {
+				var $dlg = $('.ui-dialog:visible');
+				if ($dlg.length === 0) return;
+
+				var orig = $dlg.data('original-dimensions');
+				if (orig) {
+					$dlg.css({
+						left: orig.left,
+						top: orig.top,
+						width: orig.width,
+						height: orig.height,
+						maxWidth: orig.width,
+						maxHeight: orig.height
+					});
+					$dlg.removeData('original-dimensions');
+				}
+
+				// Optionally, restore content pane height (or let it auto-resize)
+				$dlg.find('.ui-dialog-content').css({
+					height: '',
+					maxHeight: ''
+				});
+			}
 		</script>
 	</cfoutput>
 </cfif>
