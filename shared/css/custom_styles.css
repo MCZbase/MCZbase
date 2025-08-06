@@ -2801,7 +2801,7 @@ form.form-inline.logout-style {
 	margin-bottom: 0;
 	margin-top: 1px;
 }
-/*.wiki-drawer {
+.wiki-drawer {
 	position: fixed;
 	top: 0;
 	left: -400px;
@@ -2825,7 +2825,7 @@ form.form-inline.logout-style {
 #content.pushed {
 	margin-left: 400px;
 	width: calc(100% - 400px);
-}*/
+}
 /****************end all screen styles*********************/
 /**********************************************************/
 
