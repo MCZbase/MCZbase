@@ -685,6 +685,7 @@ limitations under the License.
 
 			function centerDialogProperly() {
 				var $dlg = $('.ui-dialog:visible');
+				
 				if (!$dlg.length) return;
 				$dlg.css({ left: '', top: '', width: '', height: '', maxWidth: '', maxHeight: '' });
 				$dlg.dialog('option', {
