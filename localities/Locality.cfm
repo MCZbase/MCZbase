@@ -677,8 +677,8 @@ limitations under the License.
 				var $dlg = $('.ui-dialog:visible');
 				if (!$dlg.length) return;
 				var winWidth = $(window).width(), winHeight = $(window).height();
-				var dlgLeft = drawerWidth + margin, dlgTop = margin;
-				var dlgWidth = Math.max(winWidth - drawerWidth - margin * 2, 320);
+				var dlgLeft = drawerWidth + margin, dlgTop = marginPx;
+				var dlgWidth = Math.max(winWidth - drawerWidth - marginPx * 2, 320);
 				//var dlgHeight = Math.max(winHeight - margin * 2, 200);
 				$dlg.css({
 					left: dlgLeft + 'px',
