@@ -7113,7 +7113,6 @@ limitations under the License.
 										Recent (no geological attributes) 
 									</li>
 								</ul>
-								<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Add</button>
 							<cfelse>
 								<ul>
 									<cfset valList = "">
