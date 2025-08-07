@@ -763,14 +763,18 @@ limitations under the License.
 
 				// On dialog open, position properly based on drawer state
 				$(document).on('dialogopen', '.ui-dialog', function() {
+					var $dlgContent = $(this).find('.dialog-special-content');
+					if ($dlgContent.length) {
+					
 					setTimeout(function() {
 						if ($('##wikiDrawer').is(':visible')) {
-							pushDialogForDrawer(marginPx, drawerWidthPx);
-						} else {
 							centerDialogProperly();
+						} else {
+							pushDialogForDrawer(marginPx, drawerWidthPx);
 						}
 					}, 0);
 				});
+			}
 			});
 		</script>
 	</cfoutput>
