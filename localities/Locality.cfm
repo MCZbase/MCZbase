@@ -769,7 +769,7 @@ limitations under the License.
 					var $widget = $dlg.find('.ui-dialog-content');
 					if (!$widget.length) return;
 					// Remove pushing/inline styles
-					$dlg.css({ left: '', top: '', width: '', height: '', maxWidth: '', position: 'fixed' });
+					$dlg.css({ left: '', top: '', width: '',  maxWidth: '', position: 'fixed' });
 					//$widget.css({ height: '', maxHeight: '' });
 
 					// Center each via the widget API if the widget is a dialog
