@@ -788,10 +788,6 @@ limitations under the License.
 				});
 				$('.ui-dialog-content').filter(':visible')
 			});
-			
-
-			
-		
 
 		</script>
 	</cfoutput>
