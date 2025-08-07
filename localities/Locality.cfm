@@ -709,12 +709,7 @@ limitations under the License.
 			}
 
 			function centerDialogProperly(marginPx, drawerWidthPx) {
-				var $widget = $(dialogClass);
-				if (!$widget.length) return;
-				$widget.dialog('option','left','auto')
-				setTimeout(function() {
-					$widget.dialog('option', 'position', { my: "center", at: "center", of: window });
-				}, 10);
+				$('.ui-dialog:visible').css('left', '');
 				
 			}
 
