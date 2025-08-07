@@ -709,7 +709,7 @@ limitations under the License.
 			}
 
 			function centerDialogProperly() {
-				var $widget = $('#addGeorefDialog');
+				var $widget = $('##addGeorefDialog');
 				if (!$widget.length) return;
 
 				// Remove problematic inline positioning from the wrapper
