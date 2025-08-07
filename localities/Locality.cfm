@@ -723,44 +723,27 @@ limitations under the License.
 					$widget.dialog('option', 'position', { my: "center", at: "center", of: window });
 				}, 10);
 			}
+			
+			
 			$(document).ready(function() {
-				// Show drawer, push dialog right if drawer will be visible
+				// On drawer open/close, call correct function after animation
 				$('##show-wiki').on('click', function(e) {
-					e.preventDefault();
-					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
-					<cfelse>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
-					</cfif>
-					$("##show-wiki").hide();
-					$("##hide-wiki").show();
 					setTimeout(function() {
-						if ($('##wikiDrawer').is(':visible')) {
+						if ($('##wikiDrawer').is(':visible') && $('#addGeorefDialog').dialog('isOpen')) {
 							pushDialogForDrawer(marginPx, drawerWidthPx);
+						}
+					}, 400); // adjust for your animation speed
+				});
+
+				$('##hide-wiki').on('click', function(e) {
+					setTimeout(function() {
+						if ($('#addGeorefDialog').dialog('isOpen')) {
+							centerDialogProperly();
 						}
 					}, 400);
 				});
 
-				// Hide drawer, recenter dialog
-				$('##hide-wiki').on('click', function(e) {
-					e.preventDefault();
-					closeWikiDrawer();
-					centerDialogProperly();
-					setTimeout(centerDialogProperly, 400);
-				});
-
-				$("##hide-wiki").hide();
-
-				// Window resize: always recalculate, forcibly center if no drawer
-				$(window).on('resize', function() {
-					if ($('##wikiDrawer').is(':visible')) {
-						pushDialogForDrawer(marginPx, drawerWidthPx);
-					} else {
-						centerDialogProperly();
-					}
-				});
-
-				// On dialog open, position properly based on drawer state
+				// On dialog open, position based on wiki drawer
 				$(document).on('dialogopen', '.ui-dialog', function() {
 					setTimeout(function() {
 						if ($('##wikiDrawer').is(':visible')) {
@@ -769,7 +752,14 @@ limitations under the License.
 							centerDialogProperly();
 						}
 					}, 0);
-					centerDialogProperly();
+				});
+
+				$(window).on('resize', function() {
+					if ($('##wikiDrawer').is(':visible')) {
+						pushDialogForDrawer(marginPx, drawerWidthPx);
+					} else {
+						centerDialogProperly();
+					}
 				});
 			});
 		</script>
