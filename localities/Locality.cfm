@@ -773,6 +773,7 @@ limitations under the License.
 							centerDialogProperly();
 						}
 					}, 0);
+					centerDialogProperly();
 				});
 			});
 		</script>
