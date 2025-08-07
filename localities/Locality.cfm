@@ -707,7 +707,7 @@ limitations under the License.
 				
 				var winWidth = $(window).width();
 				
-				var dlgLeft = drawerWidthPx + marginPx, 
+				var dlgLeft = drawerWidthPx - drawerWidthPx, 
 					dlgTop = marginPx;
 				var dlgWidth = Math.max(winWidth - 0 - marginPx * 2, 320);
 				
