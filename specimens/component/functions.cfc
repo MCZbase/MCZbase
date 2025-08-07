@@ -7486,7 +7486,7 @@ limitations under the License.
 											left join preferred_agent_name det_agent on lat_long.determined_by_agent_id = det_agent.agent_id
 											left join preferred_agent_name ver_agent on lat_long.verified_by_agent_id = ver_agent.agent_id
 										WHERE 
-											lat_long.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+											lat_long.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.locality_id#">
 										ORDER BY
 											accepted_lat_long_fg desc
 									</cfquery>
