@@ -708,27 +708,14 @@ limitations under the License.
 			}
 
 			function centerDialogProperly() {
-				var $dlg = $('.ui-dialog:visible');
-				if (!$dlg.length) return;
-
-				// Remove ALL inline styles—including left, width, top, etc!
-				$dlg.removeAttr('style');
-
-				// Set position fixed (you want dialog fixed on scroll)
-				$dlg.css('position', 'fixed');
-
-				// Now restore to centered with auto width/height
-				$dlg.dialog('option', 'width', 'auto');
-				$dlg.dialog('option', 'height', 'auto');
-				$dlg.dialog('option', 'position', { my: "center", at: "center", of: window });
-
-				// Optional: clear dialog-content size in case leftover from earlier
-				$dlg.find('.ui-dialog-content').css({ height: '', maxHeight: '' });
-
-				// Double "nudge" to fix centering bugs in some browsers
-				setTimeout(function() {
-					$dlg.dialog('option', 'position', { my: "center", at: "center", of: window });
-				}, 10);
+				// Always call on your widget, not .ui-dialog!
+				var $widget = $('##addGeologyDialog'); // your content DIV
+				if (!$widget.length) return;
+				$widget.dialog('option', 'width', 'auto');
+				$widget.dialog('option', 'height', 'auto');
+				$widget.dialog('option', 'position', {my: 'center', at: 'center', of: window});
+				// Then clear any style from the visible wrapper for good measure
+				$widget.closest('.ui-dialog').removeAttr('style').css('position','fixed');
 			}
 
 			$(document).ready(function() {
