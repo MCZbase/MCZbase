@@ -755,22 +755,19 @@ limitations under the License.
 				// Window resize: always recalculate, forcibly center if no drawer
 				$(window).on('resize', function() {
 					if ($('##wikiDrawer').is(':visible')) {
-						centerDialogProperly();
-					} else {
 						pushDialogForDrawer(marginPx, drawerWidthPx);
+					} else {
+						centerDialogProperly();
 					}
 				});
 
 				// On dialog open, position properly based on drawer state
 				$(document).on('dialogopen', '.ui-dialog', function() {
-					var $dlgContent = $(this).find('.dialog-special-content');
-					if ($dlgContent.length) {
-					
 					setTimeout(function() {
 						if ($('##wikiDrawer').is(':visible')) {
-							centerDialogProperly();
-						} else {
 							pushDialogForDrawer(marginPx, drawerWidthPx);
+						} else {
+							centerDialogProperly();
 						}
 					}, 0);
 				});
