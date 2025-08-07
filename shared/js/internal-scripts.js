@@ -137,7 +137,7 @@ function openlinkmediadialog(dialogid, related_value, related_id, relationship, 
 	.dialog({
 		title: title,
 		autoOpen: false,
-		dialogClass: 'dialog_fixed,ui-widget-header',
+		dialogClass: 'dialog-fixed ui-widget-header',
 		modal: true, 
 		stack: true, 
 		zindex: 2000,
@@ -205,7 +205,7 @@ function opencreatemediadialog(dialogid, related_value, related_id, relationship
 	.dialog({
 		title: title,
 		autoOpen: false,
-		dialogClass: 'dialog_fixed,ui-widget-header',
+		dialogClass: 'dialog-fixed ui-widget-header',
 		modal: true,
 		stack: true,
 		zindex: 2000,
@@ -837,7 +837,7 @@ function opencollectingeventpickerdialog(dialogid, header_text, collecting_event
 	.dialog({
 		title: title,
 		autoOpen: false,
-		dialogClass: 'dialog_fixed,ui-widget-header',
+		dialogClass: 'dialog-fixed ui-widget-header',
 		modal: true, 
 		stack: true, 
 		zindex: 2000,
