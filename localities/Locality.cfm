@@ -709,7 +709,7 @@ limitations under the License.
 			}
 
 			function centerDialogProperly(marginPx, drawerWidthPx) {
-				$('.ui-dialog:visible').css('left', '');
+				$('.ui-dialog:visible').css('left', '50');
 				
 			}
 
