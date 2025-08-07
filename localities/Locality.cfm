@@ -668,12 +668,10 @@ limitations under the License.
 		<!--- NOTE: wikiDrawer, show-wiki, hide-wiki are hard coded in openWikiDrawer and closeWikiDrawer functions. --->
 
 		<script>
-
+			var drawerWidthPx = 400;
+			var marginPx = 30;
 			// Move dialog to the right of the drawer, with margin
 			function pushDialogForDrawer(marginPx, drawerWidthPx) {
-				var drawerWidthPx = 400;
-				var marginPx = 30;
-			
 				var $dlg = $('.ui-dialog:visible');
 				if (!$dlg.length) return;
 				var winWidth = $(window).width(), winHeight = $(window).height();
