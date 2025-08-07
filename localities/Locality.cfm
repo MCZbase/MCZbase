@@ -767,23 +767,23 @@ limitations under the License.
 					var $dlg = $(this);
 					// Find the corresponding widget (the original content div)
 					var $widget = $dlg.find('.ui-dialog-content');
-					if (!$widget.length) return;
-					// Remove pushing/inline styles
-					$dlg.css({ left: '', top: '', width: '',  maxWidth: '', position: 'fixed' });
-					//$widget.css({ height: '', maxHeight: '' });
-
-					// Center each via the widget API if the widget is a dialog
-					var widgetId = $widget.attr('id');
-					if (widgetId && $('##' + widgetId).data('ui-dialog')) {
-						$('##' + widgetId).dialog('option', {
-							width: 'auto',
-							//height: 'auto',
-							position: { my: "center", at: "center", of: window }
-						});
-						setTimeout(function() {
-							$('##' + widgetId).dialog('option', 'position', { my: "center", at: "center", of: window });
-						}, 10);
-					}
+					//if (!$widget.length) return;
+//					// Remove pushing/inline styles
+//					$dlg.css({ left: '', top: '', width: '',  maxWidth: '', position: 'fixed' });
+//					//$widget.css({ height: '', maxHeight: '' });
+//
+//					// Center each via the widget API if the widget is a dialog
+//					var widgetId = $widget.attr('id');
+//					if (widgetId && $('##' + widgetId).data('ui-dialog')) {
+//						$('##' + widgetId).dialog('option', {
+//							width: 'auto',
+//							//height: 'auto',
+//							position: { my: "center", at: "center", of: window }
+//						});
+//						setTimeout(function() {
+//							$('##' + widgetId).dialog('option', 'position', { my: "center", at: "center", of: window });
+//						}, 10);
+//					}
 				});
 			}
 
