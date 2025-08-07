@@ -7072,14 +7072,6 @@ limitations under the License.
 
 					<div class="col-12 px-0">
 							<!--- TODO: Editable table with rows for each geology attribute, where new rows can be added, all changes saved at once with entire form --->
-							<h2 class="h3 mt-3">
-								Geological Attributes
-								<cfif getGeologicalAttributes.recordcount EQ 0>
-									<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Add</button>
-								<cfelse>
-									<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Edit</button>
-								</cfif>
-							</h2>
 							<cfquery name="getGeologicalAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 								SELECT
 									geology_attribute_id,
@@ -7107,6 +7099,14 @@ limitations under the License.
 								ORDER BY
 									ctgeology_attribute.ordinal
 							</cfquery>
+							<h2 class="h3 mt-3">
+								Geological Attributes
+								<cfif getGeologicalAttributes.recordcount EQ 0>
+									<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Add</button>
+								<cfelse>
+									<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Edit</button>
+								</cfif>
+							</h2>
 							<cfif getGeologicalAttributes.recordcount EQ 0>
 								<ul>
 									<li>
