@@ -710,14 +710,6 @@ limitations under the License.
 			function centerDialogProperly() {
 				// Always call on your widget, not .ui-dialog!
 				$('.ui-dialog:visible').css('left', '');
-				
-				var $widget = $('##addGeologyDialog'); // your content DIV
-				if (!$widget.length) return;
-				$widget.dialog('option', 'width', 'auto');
-				$widget.dialog('option', 'height', 'auto');
-				$widget.dialog('option', 'position', {my: 'center', at: 'center', of: window});
-				// Then clear any style from the visible wrapper for good measure
-				//$widget.closest('.ui-dialog').removeAttr('style').css('position','fixed');
 			}
 
 			$(document).ready(function() {
