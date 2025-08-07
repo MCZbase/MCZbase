@@ -670,7 +670,7 @@ limitations under the License.
 		<script>
 			var drawerWidthPx = 400;
 			var marginPx = 30;
-			var maxHeight = auto;
+			//var maxHeight = auto;
 
 			// Move dialog to the right of the drawer, with margin
 			function pushDialogForDrawer(margin, drawerWidth) {
