@@ -6449,6 +6449,12 @@ limitations under the License.
 					locality.maximum_elevation,
 					locality.orig_elev_units,
 					locality.spec_locality,
+					locality.section_part
+					locality.section
+					locality.township
+					locality.township_direction
+					locality.range
+					locality.range_direction
 					decode(accepted_lat_long.orig_lat_long_units,
 						'decimal degrees',to_char(accepted_lat_long.dec_lat) || '&deg; ',
 						'deg. min. sec.', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
@@ -6900,12 +6906,55 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-						
-							<div class="form-row mx-0 my-1">
-								<div class="col-12 py-1">
-									<label class="data-entry-label" for="locality_remarks">Locality Remarks</label>
-									<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input" value="#encodeForHTML(getLoc.locality_remarks)#">
+							<div class="col-12 form-row border rounded m-1 p-1">
+								<!--- PLSS coordinates --->
+								<div class="col-12 col-md-2 py-1">
+									<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
+									<label class="data-entry-label" for="section_part"><span class="font-weight-lessbold">PLSS: </span> Section Part</label>
+									<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(getLoc.section_part)#" placeholder="NE 1/4" >
 								</div>
+								<div class="col-12 col-md-2 py-1">
+									<cfif NOT isdefined("section")><cfset section=""></cfif>
+									<label class="data-entry-label" for="section">Section</label>
+									<input type="text" name="section" id="section" class="data-entry-input" value="#encodeForHTML(section)#" pattern="[0-3]{0,1}[0-9]{0,1}" >
+								</div>
+								<div class="col-12 col-md-2 py-1">
+									<cfif NOT isdefined("township")><cfset township=""></cfif>
+									<label class="data-entry-label" for="township">Township</label>
+									<input type="text" name="township" id="township" class="data-entry-input" value="#encodeForHTML(township)#" pattern="[0-9]+" >
+								</div>
+								<div class="col-12 col-md-2 py-1">
+									<cfif NOT isdefined("township_direction")><cfset township_direction=""></cfif>
+									<label class="data-entry-label" for="township_direction">Township Direction</label>
+									<input type="text" name="township_direction" id="township_direction" class="data-entry-input" value="#encodeForHTML(township_direction)#" >
+								</div>
+								<div class="col-12 col-md-2 py-1">
+									<cfif NOT isdefined("range")><cfset range=""></cfif>
+									<label class="data-entry-label" for="range">Range</label>
+									<input type="text" name="range" id="range" class="data-entry-input" value="#encodeForHTML(range)#" pattern="[0-9]+">
+								</div>
+								<div class="col-12 col-md-2 py-1">
+									<cfif NOT isdefined("range_direction")><cfset range_direction=""></cfif>
+									<label class="data-entry-label" for="range_direction">Range Direction</label>
+									<input type="text" name="range_direction" id="range_direction" class="data-entry-input" value="#encodeForHTML(range_direction)#" >
+								</div>
+							</div>
+							<div class="col-12 py-1">
+								<label class="data-entry-label" for="locality_remarks">
+									Locality Remarks 
+									(<span id="length_locality_remarks"></span>)
+								</label>
+								<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input" value="#encodeForHTML(getLoc.locality_remarks)#">
+								<textarea name="locality_remarks" id="locality_remarks" 
+									onkeyup="countCharsLeft('locality_remarks', 4000, 'length_locality_remarks');"
+									class="form-control form-control-sm w-100 autogrow mb-1" rows="2">#encodeForHtml(getLoc.locality_remarks)#</textarea>
+								<script>
+									// Bind input to autogrow function on key up, and trigger autogrow to fit text
+									$(document).ready(function() { 
+										$("##locality_remarks").keyup(autogrow);  
+										$('##locality_remarks').keyup();
+									});
+								</script>
 							</div>
 						</div>
 					</div>
@@ -7080,8 +7129,18 @@ limitations under the License.
 							<div class="col-12 py-1">
 								<label class="data-entry-label" for="coll_event_remarks">
 									Collecting Event Remarks
+									(<span id="length_coll_event_remarks"></span>)
 								</label>
-								<input type="text" name="coll_event_remarks" id="coll_event_remarks" class="data-entry-input" value="#encodeForHTML(getLoc.coll_event_remarks)#">
+								<textarea name="coll_event_remarks" id="coll_event_remarks" 
+									onkeyup="countCharsLeft('coll_event_remarks', 4000, 'length_coll_event_remarks');"
+									class="form-control form-control-sm w-100 autogrow mb-1" rows="2">#encodeForHtml(getLoc.coll_event_remarks)#</textarea>
+								<script>
+									// Bind input to autogrow function on key up, and trigger autogrow to fit text
+									$(document).ready(function() { 
+										$("##coll_event_remarks").keyup(autogrow);  
+										$('##coll_event_remarks').keyup();
+									});
+								</script>
 							</div>
 
 						</div>
