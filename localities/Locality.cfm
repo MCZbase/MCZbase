@@ -754,7 +754,7 @@ limitations under the License.
 						}
 					}, 400);
 				});
-				//$("##hide-wiki").hide();
+				$("##hide-wiki").hide();
 				
 					// On dialog open, position properly based on drawer state
 				$(document).on('dialogopen', '.ui-dialog', function() {
