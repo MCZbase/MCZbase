@@ -6472,6 +6472,10 @@ limitations under the License.
 					collecting_event.verbatimlongitude verblong,
 					collecting_event.verbatimcoordinatesystem,
 					collecting_event.verbatimSRS,
+					collecting_event.date_determined_by_agent_id,
+					collecting_event.verbatim_habitat,
+					collecting_event.verbatim_collectors,
+					collecting_event.verbatim_field_numbers,
 					accepted_lat_long.lat_long_id,
 					accepted_lat_long.orig_lat_long_units,
 					latLongAgnt.agent_name coordinate_determiner,
@@ -6938,12 +6942,12 @@ limitations under the License.
 							
 							<div class="col-12 col-md-3 mb-2 mt-0">
 								<label class="data-entry-label" for="began_date">Began Date/Time</label>
-								<input type="text" name="began_date" id="began_date" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.began_date)#">
+								<input type="text" name="began_date" id="began_date" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.began_date)#" required>
 							</div>
 							
 							<div class="col-12 col-md-3 mb-2 mt-0">
 								<label class="data-entry-label" for="ended_date">Ended Date/Time</label>
-								<input type="text" name="ended_date" id="ended_date" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.ended_date)#">
+								<input type="text" name="ended_date" id="ended_date" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.ended_date)#" required>
 							</div>
 							
 							<div class="col-12 col-md-3 mb-2 mt-0">
@@ -6962,8 +6966,31 @@ limitations under the License.
 							</div>
 							
 							<div class="col-12 col-md-2 py-1 mt-0">
-								<label class="data-entry-label" for="ich_field_number">Ich. Field Number</label>
-								<input type="text" name="ich_field_number" id="ich_field_number" class="data-entry-input" value="#encodeForHTML(getLoc.fish_field_number)#">
+								<label for="date_determined_by_agent_id" class="data-entry-label">Event Date Determined By</label>
+								<cfif not isDefined("getLoc.date_determined_by_agent_id") OR len(getLoc.date_determined_by_agent_id) EQ 0>
+									<cfset date_determined_by_agent_id = "">
+									<cfset agent = "">
+								<cfelse>
+									<cfset agent = "">
+									<cfquery name="determiner" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT
+											agent_name
+										FROM
+											preferred_agent_name
+										WHERE
+											agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.date_determined_by_agent_id#">
+									</cfquery>
+									<cfloop query="determiner">
+										<cfset agent = "#determiner.agent_name#">
+									</cfloop>
+								</cfif>
+								<input type="hidden" name="date_determined_by_agent_id" id="date_determined_by_agent_id" value="#encodeForHtml(getLoc.date_determined_by_agent_id)#">
+								<input type="text" name="date_determined_by_agent" id="date_determined_by_agent" class="data-entry-input" value="#agent#">
+								<script>
+									$(document).ready(function() { 
+										makeAgentAutocompleteMeta("date_determined_by_agent", "date_determined_by_agent_id");
+									});
+								</script>
 							</div>
 							
 							<div class="col-12 col-md-3 py-1 mt-0">
@@ -6980,6 +7007,11 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
+
+							<div class="col-12 col-md-3 py-1 mt-0">
+								<label class="data-entry-label" for="ich_field_number">Fish Field Number (Ich only)</label>
+								<input type="text" name="ich_field_number" id="ich_field_number" class="data-entry-input" value="#encodeForHTML(getLoc.fish_field_number)#">
+							</div>
 							
 							<div class="col-12 col-md-3 py-1 mt-0">
 								<label class="data-entry-label" for="collecting_method">Collecting Method</label>
@@ -6992,22 +7024,25 @@ limitations under the License.
 							</div>
 							
 							<div class="col-12 py-1">
-								<label class="data-entry-label" for="coll_event_remarks">Collecting Event Remarks</label>
+								<label class="data-entry-label" for="coll_event_remarks">
+									Collecting Event Remarks
+								</label>
 								<input type="text" name="coll_event_remarks" id="coll_event_remarks" class="data-entry-input" value="#encodeForHTML(getLoc.coll_event_remarks)#">
 							</div>
-						</div>
-					</div>
-					
 
-					<!--- more verbatim collecting event information --->
-					<div class="col-12 px-0">
-
-						<div class="bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
-							<div class="col-12 col-md-2 py-1 px-0">
+							<div class="col-12 col-md-3 py-1 px-0">
+								<label class="data-entry-label px-2 text-right" for="verbatimdepth">Verbatim Depth</label>
+								<input type="text" name="verbatimdepth" id="verbatimdepth" value="#getLoc.verbatimdepth#" class="data-entry-input">
+							</div>
+							<div class="col-12 col-md-3 py-1 px-0">
+								<label class="data-entry-label px-2 text-right" for="verbatimelevation">Verbatim Elevation</label>
+								<input type="text" name="verbatimelevation" id="verbatimelevation" value="#getLoc.verbatimelevation#" class="data-entry-input">
+							</div>
+							<div class="col-12 col-md-3 py-1 px-0">
 								<label class="data-entry-label px-2 text-right" for="verbatimLatitude">Verbatim Latitude</label>
 								<input type="text" name="verbatimLatitude" id="verbatimLatitude" value="#getLoc.verbatimLatitude#" class="data-entry-input">
 							</div>
-							<div class="col-12 col-md-2 py-1 px-0">
+							<div class="col-12 col-md-3 py-1 px-0">
 								<label class="data-entry-label px-2 text-right" for="verbatimLongitude">Verbatim Longitude</label>
 								<input type="text" name="verbatimLongitude" id="verbatimLongitude" value="#getLoc.verbatimLongitude#" class="data-entry-input">
 							</div>
@@ -7016,29 +7051,34 @@ limitations under the License.
 								<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" value="#getLoc.verbatimCoordinates#" class="data-entry-input">
 							</div>
 							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 text-right" for="verbatimCoordinateSystem">Coordinate System for Verbatim Coordinates</label>
+								<label class="data-entry-label px-2 text-right" for="verbatimCoordinateSystem">Verbatim Coordinate System</label>
 								<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" value="#getLoc.verbatimCoordinateSystem#" class="data-entry-input">
 							</div>
-							<div class="col-12 col-md-2 py-1 px-0">
-								<label class="data-entry-label px-2 text-right" for="verbatimSRS"">SRS (e.g. datum) for Verbatim Coordinates</label>
+							<div class="col-12 col-md-3 py-1 px-0">
+								<label class="data-entry-label px-2 text-right" for="verbatimSRS"">Verbatim SRS (ellipsoid model/datum)</label>
 								<input type="text" name="verbatimSRS" id="verbatimSRS" value="#getLoc.verbatimSRS#" class="data-entry-input">
 							</div>
 							<!--- Additional verbatim fields --->
 							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 text-right" for="verbatimelevation">Verbatim Elevation</label>
-								<input type="text" name="verbatimelevation" id="verbatimelevation" value="#getLoc.verbatimelevation#" class="data-entry-input">
+								<label class="data-entry-label px-2 text-right" for="verbatim_habitat"">Verbatim Habitat</label>
+								<input type="text" name="verbatim_habitat" id="verbatim_habitat" value="#getLoc.verbatim_habitat#" class="data-entry-input">
 							</div>
 							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 text-right" for="verbatimdepth">Verbatim Depth</label>
-								<input type="text" name="verbatimdepth" id="verbatimdepth" value="#getLoc.verbatimdepth#" class="data-entry-input">
+								<label class="data-entry-label px-2 text-right" for="verbatim_collectors"">Verbatim Collectors</label>
+								<input type="text" name="verbatim_collectors" id="verbatim_collectors" value="#getLoc.verbatim_collectors#" class="data-entry-input">
+							</div>
+							<div class="col-12 col-md-3 py-1 px-0">
+								<label class="data-entry-label px-2 text-right" for="verbatim_field_numbers"">Verbatim Field Numbers</label>
+								<input type="text" name="verbatim_field_numbers" id="verbatim_field_numbers" value="#getLoc.verbatim_field_numbers#" class="data-entry-input">
 							</div>
 						</div>
 					</div>
-
+					
 					<!--- TODO: Editing Collecting event numbers --->
 					<div class="col-12 px-0 mt-2">
 						<h3 class="h4">
 							Collecting Event Numbers
+							<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditCollectingEventNumbers">Edit</button>
 						</h3>
 						
 						<!--- Display existing collecting event numbers --->
