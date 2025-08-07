@@ -6435,87 +6435,36 @@ limitations under the License.
 					identification.made_date,
 					identification.nature_of_id,
 					collecting_event.collecting_event_id,
-					case when
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-						and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
-					then
-							replace(began_date,substr(began_date,1,4),'8888')
-					else
-						collecting_event.began_date
-					end began_date,
-					case when
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-						and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
-					then
-							replace(ended_date,substr(ended_date,1,4),'8888')
-					else
-						collecting_event.ended_date
-					end ended_date,
-					case when
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-						and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
-					then
-						'Masked'
-					else
-						collecting_event.verbatim_date
-					end verbatim_date,
+					collecting_event.began_date
+					collecting_event.ended_date
+					collecting_event.verbatim_date
 					collecting_event.startDayOfYear,
 					collecting_event.endDayOfYear,
 					collecting_event.habitat_desc,
-					case when
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-						and concatencumbrances(cataloged_item.collection_object_id) like '%mask locality%' 
-						and collecting_event.coll_event_remarks is not null
-					then 
-						'Masked'
-					else
-						collecting_event.coll_event_remarks
-					end COLL_EVENT_REMARKS,
+					collecting_event.coll_event_remarks
+					collecting_event.verbatimelevation,
+					collecting_event.verbatimdepth,
 					locality.locality_id,
 					locality.minimum_elevation,
 					locality.maximum_elevation,
 					locality.orig_elev_units,
-					case when
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
-						and concatencumbrances(cataloged_item.collection_object_id) like '%mask locality%'
-					and locality.spec_locality is not null
-					then 
-						'Masked'
-					else
-						locality.spec_locality
-					end spec_locality,
-					case when
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
-						and concatencumbrances(cataloged_item.collection_object_id) like '%mask locality%' 
-						and accepted_lat_long.orig_lat_long_units is not null
-					then 
-						'Masked'
-					else
-						decode(accepted_lat_long.orig_lat_long_units,
-							'decimal degrees',to_char(accepted_lat_long.dec_lat) || '&deg; ',
-							'deg. min. sec.', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
-							to_char(accepted_lat_long.lat_min) || '&acute; ' ||
-							decode(accepted_lat_long.lat_sec, null, '', to_char(accepted_lat_long.lat_sec) || '&acute;&acute; ') || accepted_lat_long.lat_dir,
-							'degrees dec. minutes', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
-							to_char(accepted_lat_long.dec_lat_min) || '&acute; ' || accepted_lat_long.lat_dir
-						)
-					end VerbatimLatitude,
-					case when
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-						and concatencumbrances(cataloged_item.collection_object_id) like '%mask locality%' 
-						and accepted_lat_long.orig_lat_long_units is not null
-					then 
-						'Masked'
-					else
-						decode(accepted_lat_long.orig_lat_long_units,
-							'decimal degrees',to_char(accepted_lat_long.dec_long) || '&deg;',
-							'deg. min. sec.', to_char(accepted_lat_long.long_deg) || '&deg; ' ||
-								to_char(accepted_lat_long.long_min) || '&acute; ' ||
-								decode(accepted_lat_long.long_sec, null, '', to_char(accepted_lat_long.long_sec) || '&acute;&acute; ') || accepted_lat_long.long_dir,
-							'degrees dec. minutes', to_char(accepted_lat_long.long_deg) || '&deg; ' ||
-								to_char(accepted_lat_long.dec_long_min) || '&acute; ' || accepted_lat_long.long_dir
-						)
-					end VerbatimLongitude,
+					locality.spec_locality
+					decode(accepted_lat_long.orig_lat_long_units,
+						'decimal degrees',to_char(accepted_lat_long.dec_lat) || '&deg; ',
+						'deg. min. sec.', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
+						to_char(accepted_lat_long.lat_min) || '&acute; ' ||
+						decode(accepted_lat_long.lat_sec, null, '', to_char(accepted_lat_long.lat_sec) || '&acute;&acute; ') || accepted_lat_long.lat_dir,
+						'degrees dec. minutes', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
+						to_char(accepted_lat_long.dec_lat_min) || '&acute; ' || accepted_lat_long.lat_dir
+					) VerbatimLatitude,
+					decode(accepted_lat_long.orig_lat_long_units,
+						'decimal degrees',to_char(accepted_lat_long.dec_long) || '&deg;',
+						'deg. min. sec.', to_char(accepted_lat_long.long_deg) || '&deg; ' ||
+							to_char(accepted_lat_long.long_min) || '&acute; ' ||
+							decode(accepted_lat_long.long_sec, null, '', to_char(accepted_lat_long.long_sec) || '&acute;&acute; ') || accepted_lat_long.long_dir,
+						'degrees dec. minutes', to_char(accepted_lat_long.long_deg) || '&deg; ' ||
+							to_char(accepted_lat_long.dec_long_min) || '&acute; ' || accepted_lat_long.long_dir
+					) VerbatimLongitude,
 					locality.sovereign_nation,
 					locality.nogeorefbecause,
 					collecting_event.verbatimcoordinates,
@@ -6539,24 +6488,8 @@ limitations under the License.
 					accn_number accession,
 					concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 					concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
-					case when
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-						and concatencumbrances(cataloged_item.collection_object_id) like '%mask locality%' 
-						and locality.locality_remarks is not null
-					then 
-						'Masked'
-					else
-							locality.locality_remarks
-					end locality_remarks,
-					case when
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
-						and concatencumbrances(cataloged_item.collection_object_id) like '%mask locality%' 
-						and verbatim_locality is not null
-					then 
-						'Masked'
-					else
-						verbatim_locality
-					end verbatim_locality,
+					locality.locality_remarks
+					verbatim_locality
 					collecting_time,
 					fish_field_number,
 					min_depth,
@@ -6586,7 +6519,7 @@ limitations under the License.
 				WHERE
 					cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
-			<cfquery name="getGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+			<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 				SELECT
 					lat_long_id,
 					locality_id,
@@ -6635,6 +6568,16 @@ limitations under the License.
 					extent_units 
 				FROM
 					lat_long
+				WHERE
+					locality_id = <cfqueryparam value="#getLoc.locality_id#" cfsqltype="CF_SQL_DECIMAL">
+				ORDER BY
+					accepted_lat_long_fg DESC,
+					determined_date DESC,
+					lat_long_id DESC
+			</cfquery>
+			<!--- obtain just the current georeference --->
+			<cfquery name="getGeoreference" dbtype="query">
+				SELECT * FROM getGeoreferences
 				WHERE
 					lat_long_id = <cfqueryparam value="#getLoc.lat_long_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
@@ -7055,9 +6998,48 @@ limitations under the License.
 						</div>
 					</div>
 					
+
+					<!--- more verbatim collecting event information --->
+					<div class="col-12 px-0">
+
+						<div class="bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
+							<div class="col-12 col-md-2 py-1 px-0">
+								<label class="data-entry-label px-2 text-right" for="verbatimLatitude">Verbatim Latitude</label>
+								<input type="text" name="verbatimLatitude" id="verbatimLatitude" value="#getLoc.verbatimLatitude#" class="data-entry-input">
+							</div>
+							<div class="col-12 col-md-2 py-1 px-0">
+								<label class="data-entry-label px-2 text-right" for="verbatimLongitude">Verbatim Longitude</label>
+								<input type="text" name="verbatimLongitude" id="verbatimLongitude" value="#getLoc.verbatimLongitude#" class="data-entry-input">
+							</div>
+							<div class="col-12 col-md-3 py-1 px-0">
+								<label class="data-entry-label px-2 text-right" for="verbatimCoordinates">Verbatim Coordinates</label>
+								<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" value="#getLoc.verbatimCoordinates#" class="data-entry-input">
+							</div>
+							<div class="col-12 col-md-3 py-1 px-0">
+								<label class="data-entry-label px-2 text-right" for="verbatimCoordinateSystem">Coordinate System for Verbatim Coordinates</label>
+								<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" value="#getLoc.verbatimCoordinateSystem#" class="data-entry-input">
+							</div>
+							<div class="col-12 col-md-2 py-1 px-0">
+								<label class="data-entry-label px-2 text-right" for="verbatimSRS"">SRS (e.g. datum) for Verbatim Coordinates</label>
+								<input type="text" name="verbatimSRS" id="verbatimSRS" value="#getLoc.verbatimSRS#" class="data-entry-input">
+							</div>
+							<!--- Additional verbatim fields --->
+							<div class="col-12 col-md-3 py-1 px-0">
+								<label class="data-entry-label px-2 text-right" for="verbatimelevation">Verbatim Elevation</label>
+								<input type="text" name="verbatimelevation" id="verbatimelevation" value="#getLoc.verbatimelevation#" class="data-entry-input">
+							</div>
+							<div class="col-12 col-md-3 py-1 px-0">
+								<label class="data-entry-label px-2 text-right" for="verbatimdepth">Verbatim Depth</label>
+								<input type="text" name="verbatimdepth" id="verbatimdepth" value="#getLoc.verbatimdepth#" class="data-entry-input">
+							</div>
+						</div>
+					</div>
+
 					<!--- TODO: Editing Collecting event numbers --->
 					<div class="col-12 px-0 mt-2">
-						<h3 class="h4">Collecting Event Numbers</h3>
+						<h3 class="h4">
+							Collecting Event Numbers
+						</h3>
 						
 						<!--- Display existing collecting event numbers --->
 						<div class="form-row mx-0 mb-2">
@@ -7090,7 +7072,14 @@ limitations under the License.
 
 					<div class="col-12 px-0">
 							<!--- TODO: Editable table with rows for each geology attribute, where new rows can be added, all changes saved at once with entire form --->
-							<h2 class="h3 mt-3">Geology</h2>
+							<h2 class="h3 mt-3">
+								Geological Attributes
+								<cfif getGeologicalAttributes.recordcount EQ 0>
+									<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Add</button>
+								<cfelse>
+									<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Edit</button>
+								</cfif>
+							</h2>
 							<cfquery name="getGeologicalAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 								SELECT
 									geology_attribute_id,
@@ -7119,7 +7108,6 @@ limitations under the License.
 									ctgeology_attribute.ordinal
 							</cfquery>
 							<cfif getGeologicalAttributes.recordcount EQ 0>
-								<h3 class="h4">Geological Attributes</h3>
 								<ul>
 									<li>
 										Recent (no geological attributes) 
@@ -7127,7 +7115,6 @@ limitations under the License.
 								</ul>
 								<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Add</button>
 							<cfelse>
-								<h3 class="h4">Geological Attributes</h3>
 								<ul>
 									<cfset valList = "">
 									<cfset shownParentsList = "">
@@ -7182,7 +7169,6 @@ limitations under the License.
 										</li>
 									</cfloop>
 								</ul>
-								<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Edit</button>
 							</cfif>
 							<script>
 								$(document).ready(function() {
@@ -7446,6 +7432,101 @@ limitations under the License.
 							<div class="col-12 px-0">
 								<h2 class="h3 mt-3">Georeference and Georeference Metadata</h2>
 								
+								<div class="form-row">
+									<cfquery name="getGeoreferences_2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT
+											lat_long_id,
+											georefmethod,
+											to_char(dec_lat, '99' || rpad('.',nvl(coordinate_precision,5) + 1, '0')) dec_lat,
+											dec_lat raw_dec_lat,
+											to_char(dec_long, '999' || rpad('.',nvl(coordinate_precision,5) + 1, '0')) dec_long,
+											dec_long raw_dec_long,
+											max_error_distance,
+											max_error_units,
+											round(to_meters(lat_long.max_error_distance, lat_long.max_error_units)) coordinateUncertaintyInMeters,
+											error_polygon,
+											datum,
+											extent,
+											spatialfit,
+											determined_by_agent_id,
+											det_agent.agent_name determined_by,
+											determined_date,
+											gpsaccuracy,
+											lat_long_ref_source,
+											nearest_named_place,
+											lat_long_for_nnp_fg,
+											verificationstatus,
+											field_verified_fg,
+											verified_by_agent_id,
+											ver_agent.agent_name verified_by,
+											orig_lat_long_units,
+											lat_deg, dec_lat_min, lat_min, lat_sec, lat_dir,
+											long_deg, dec_long_min, long_min, long_sec, long_dir,
+											utm_zone, utm_ew, utm_ns,
+											CASE orig_lat_long_units
+												WHEN 'decimal degrees' THEN dec_lat || '&##176;'
+												WHEN 'deg. min. sec.' THEN lat_deg || '&##176; ' || lat_min || '&apos; ' || lat_sec || '&quot; ' || lat_dir
+												WHEN 'degrees dec. minutes' THEN lat_deg || '&##176; ' || dec_lat_min || '&apos; ' || lat_dir
+											END as LatitudeString,
+											CASE orig_lat_long_units
+												WHEN 'decimal degrees' THEN dec_long || '&##176;'
+												WHEN'degrees dec. minutes' THEN long_deg || '&##176; ' || dec_long_min || '&apos; ' || long_dir
+												WHEN 'deg. min. sec.' THEN long_deg || '&##176; ' || long_min || '&apos; ' || long_sec || '&quot ' || long_dir
+											END as LongitudeString,
+											accepted_lat_long_fg,
+											decode(accepted_lat_long_fg,1,'Accepted','') accepted_lat_long,
+											geolocate_uncertaintypolygon,
+											geolocate_score,
+											geolocate_precision,
+											geolocate_numresults,
+											geolocate_parsepattern,
+											lat_long_remarks
+										FROM
+											lat_long
+											left join preferred_agent_name det_agent on lat_long.determined_by_agent_id = det_agent.agent_id
+											left join preferred_agent_name ver_agent on lat_long.verified_by_agent_id = ver_agent.agent_id
+										WHERE 
+											lat_long.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+										ORDER BY
+											accepted_lat_long_fg desc
+									</cfquery>
+									<cfloop query="getGeoreferences_2">
+										<cfset original="">
+										<cfset det = "">
+										<cfset ver = "">
+										<cfif len(determined_by) GT 0>
+											<cfset det = " Determiner: #determined_by#. ">
+										</cfif>
+										<cfif len(verified_by) GT 0>
+											<cfset ver = " Verified by: #verified_by#. ">
+										</cfif>
+										<cfif len(utm_zone) GT 0>
+											<cfset original = "(as: #utm_zone# #utm_ew# #utm_ns#)">
+										<cfelse>
+											<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
+										</cfif>
+										<cfset divClass="small90 my-1 w-100">
+										<cfif accepted_lat_long EQ "Accepted">
+											<cfset divClass="small90 font-weight-lessbold my-1 w-100">
+										</cfif>
+										<div class="#divClass# px-2">#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
+										<ul class="mb-2 pl-2 pl-xl-4 ml-xl-1 small95">
+											<li>
+												#original# <span class="#divClass#">#accepted_lat_long#</span>
+											</li>
+											<li>
+												Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
+											</li>
+											<cfif len(geolocate_score) GT 0>
+												<li>
+													GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
+												</li>
+											</cfif>
+										</ul>
+									</cfloop>
+								</div>
+
+								<cfif 0 EQ 1><!--- Temporarily disable editing of georeference --->
 								<div class="form-row">
 
 									<!--- Coordinate Format Selection --->
@@ -7947,6 +8028,7 @@ limitations under the License.
 									</cfif>
 		
 								</div>
+								</cfif><!--- end if 0 EQ 1 --->
 							</div>
 						
 							<script>
@@ -7977,41 +8059,14 @@ limitations under the License.
 									}
 									return true;
 								}
+
+								showLLFormat('#getLoc.ORIG_LAT_LONG_UNITS#');
 							</script>
 						</div>
 
-						<!--- more verbatim collecting event information --->
+
+
 						<div class="col-12 px-0">
-
-							<ul class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
-								<div class="col-12 col-md-2 py-1 px-0">
-									<label class="data-entry-label px-2 text-right">Verbatim Coordinates (summary)</label>
-									<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" value="#getLoc.verbatimCoordinates#" class="data-entry-input">
-								</div>
-								<div class="col-12 col-md-2 py-1 px-0">
-									<label class="data-entry-label px-2 text-right">Verbatim Latitude</label>
-									<input type="text" name="verbatimLatitude" id="verbatimLatitude" value="#getLoc.verbatimLatitude#" class="data-entry-input">
-								</div>
-								<div class="col-12 col-md-2 py-1 px-0">
-									<label class="data-entry-label px-2 text-right">Verbatim Longitude</label>
-									<input type="text" name="verbatimLongitude" id="verbatimLongitude" value="#getLoc.verbatimLongitude#" class="data-entry-input">
-								</div>
-								<div class="col-12 col-md-2 py-1 px-0">
-									<label class="data-entry-label px-2 text-right">Verbatim Coordinate System (e.g., decimal degrees)</label>
-									<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" value="#getLoc.verbatimCoordinateSystem#" class="data-entry-input">
-								</div>
-								<div class="col-12 col-md-2 py-1 px-0">
-									<label class="data-entry-label px-2 text-right">Verbatim SRS (e.g., datum)</label>
-									<input type="text" name="verbatimSRS" id="verbatimSRS" value="#getLoc.verbatimSRS#" class="data-entry-input">
-								</div>
-							</ul>
-
-							<script>
-								showLLFormat('#getLoc.ORIG_LAT_LONG_UNITS#');
-							</script> 
-
-							<!--- TODO: Additional verbatim fields --->
-
 							<div class="col-12">
 								<div class="mt-3 float-left">
 									<cfif loccount.ct eq 1 and cecount.ct eq 1>
