@@ -712,16 +712,20 @@ limitations under the License.
 				var $dlg = $('.ui-dialog:visible');
 				if (!$dlg.length) return;
 
-				// Set to auto width/height, clear manual sizing for next open
-				$dlg.dialog('option', {
-					width: 'auto',
-					height: 'auto',
-					position: { my: "center", at: "center", of: window }
-				});
-				$dlg.css({ left: '', top: '', width: '', height: '', maxWidth: '', maxHeight: '' });
+				// Remove manual styling
+				$dlg.removeAttr('style');  // Remove ALL inline styles including left/right/width/top/position
+				// If you need to ensure position:fixed remains, re-apply it only after removing everything:
+				$dlg.css('position', 'fixed');
+
+				// Set via dialog API to auto width/height and center
+				$dlg.dialog('option', 'width', 'auto');
+				$dlg.dialog('option', 'height', 'auto');
+				$dlg.dialog('option', 'position', { my: "center", at: "center", of: window });
+
+				// Clear manual content heights, too (leave autosize)
 				$dlg.find('.ui-dialog-content').css({ height: '', maxHeight: '' });
 
-				// Force jQuery UI to recalculate position after CSS reset
+				// A second center "nudge" for browsers that glitch
 				$dlg.dialog('option', 'position', { my: "center", at: "center", of: window });
 			}
 
