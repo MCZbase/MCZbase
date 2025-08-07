@@ -6449,12 +6449,12 @@ limitations under the License.
 					locality.maximum_elevation,
 					locality.orig_elev_units,
 					locality.spec_locality,
-					locality.section_part
-					locality.section
-					locality.township
-					locality.township_direction
-					locality.range
-					locality.range_direction
+					locality.section_part,
+					locality.section,
+					locality.township,
+					locality.township_direction,
+					locality.range,
+					locality.range_direction,
 					decode(accepted_lat_long.orig_lat_long_units,
 						'decimal degrees',to_char(accepted_lat_long.dec_lat) || '&deg; ',
 						'deg. min. sec.', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
