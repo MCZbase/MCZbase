@@ -729,7 +729,7 @@ limitations under the License.
 				// On drawer open/close, call correct function after animation
 				$('##show-wiki').on('click', function(e) {
 					setTimeout(function() {
-						if ($('##wikiDrawer').is(':visible') && $('#addGeorefDialog').dialog('isOpen')) {
+						if ($('##wikiDrawer').is(':visible') && $('##addGeorefDialog').dialog('isOpen')) {
 							pushDialogForDrawer(marginPx, drawerWidthPx);
 						}
 					}, 400); // adjust for your animation speed
