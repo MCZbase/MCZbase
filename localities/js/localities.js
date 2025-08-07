@@ -234,7 +234,7 @@ function openEditGeorefDialog(lat_long_id, dialogid, callback) {
 	.dialog({
 		title: title,
 		autoOpen: false,
-		dialogClass: 'dialog_fixed,ui-widget-header',
+		dialogClass: 'dialog-fixed ui-widget-header',
 		modal: true,
 		stack: true,
 		zindex: 2000,
@@ -293,7 +293,7 @@ function openAddGeoreferenceDialog(dialogid, locality_id, okcallback, geolocateI
 	.dialog({
 		title: title,
 		autoOpen: false,
-		dialogClass: 'dialog_fixed,ui-widget-header',
+		dialogClass: 'dialog-fixed ui-widget-header',
 		modal: true,
 		stack: true,
 		zindex: 2000,
@@ -351,7 +351,7 @@ function openAddGeologyDialog(locality_id, dialogid, callback) {
 	.dialog({
 		title: title,
 		autoOpen: false,
-		dialogClass: 'dialog_fixed,ui-widget-header',
+		dialogClass: 'dialog-fixed ui-widget-header',
 		modal: true,
 		stack: true,
 		zindex: 2000,
@@ -408,7 +408,7 @@ function openEditGeologyDialog(geology_attribute_id, locality_id, dialogid, call
 	.dialog({
 		title: title,
 		autoOpen: false,
-		dialogClass: 'dialog_fixed,ui-widget-header',
+		dialogClass: 'dialog-fixed ui-widget-header',
 		modal: true,
 		stack: true,
 		zindex: 2000,
@@ -544,7 +544,7 @@ function openAddCollEventNumberDialog(collecting_event_id, dialogid, callback) {
 	.dialog({
 		title: title,
 		autoOpen: false,
-		dialogClass: 'dialog_fixed,ui-widget-header',
+		dialogClass: 'dialog-fixed ui-widget-header',
 		modal: true,
 		stack: true,
 		zindex: 2000,
