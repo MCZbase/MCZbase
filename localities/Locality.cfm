@@ -685,6 +685,8 @@ limitations under the License.
 					maxWidth: '',
 					position: 'fixed'
 				});
+				
+				var $widget = $dlg;
 				$widget.dialog('option', {
 					width: dlgWidth,
 					height: 'auto',
@@ -697,8 +699,12 @@ limitations under the License.
 			function centerDialogProperly() {
 				// Find any visible dialog wrapper
 				var $dlg = $('.ui-dialog:visible');
+				if (!$dlg.length) return;
+
+				// Center horizontally with 50px offset from left
+				var $widget = $dlg;
 				$widget.dialog('option', {
-					position: { my: "left", at: "left:50px", of: window }
+					position: { my: "left top", at: "left+50 top+30", of: window }
 				});
 			}
 
