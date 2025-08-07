@@ -777,7 +777,7 @@ limitations under the License.
 					if (widgetId && $('##' + widgetId).data('ui-dialog')) {
 						$('##' + widgetId).dialog('option', {
 							width: 'auto',
-							height: 'auto',
+							//height: 'auto',
 							position: { my: "center", at: "center", of: window }
 						});
 						setTimeout(function() {
