@@ -700,17 +700,33 @@ limitations under the License.
 			}
 
 			
-			function centerDialogProperly() {
+			function centerDialogProperly(marginPx, drawerWidthPx) {
 				// Find any visible dialog wrapper
 				var $dlg = $('.ui-dialog:visible');
 				if (!$dlg.length) return;
-
-				// Center horizontally with 50px offset from left
-				var $widget = $dlg;
 				
-				$widget.dialog('option', {
-					position: { my: "left top", at: "left+50 top+30", of: window }
+				var winWidth = $(window).width();
+				
+				var dlgLeft = drawerWidthPx + marginPx, 
+					dlgTop = marginPx;
+				var dlgWidth = Math.max(winWidth - 0 - marginPx * 2, 320);
+				
+				$dlg.css({
+					left: dlgLeft + 'px',
+					top: dlgTop + 'px',
+					width: dlgWidth + 'px',
+					height: '',
+					maxWidth: '',
+					position: 'fixed'
 				});
+				
+				var $widget = $dlg;
+				$widget.dialog('option', {
+					width: dlgWidth,
+					height: 'auto',
+					position: { my: "left top", at: "left+"+dlgLeft+" top+"+dlgTop, of: window }
+				});
+				$dlg.find('.ui-dialog-content').css({ height: '', maxHeight: '' });
 			}
 
 			
@@ -748,7 +764,8 @@ limitations under the License.
 						if ($('##wikiDrawer').is(':visible')) {
 							pushDialogForDrawer(marginPx, drawerWidthPx);
 						} else {
-							centerDialogProperly();
+							centerDialogProperly(marginPx, drawerWidthPx);
+							
 						}
 					}, 0);
 				});
@@ -757,7 +774,7 @@ limitations under the License.
 					if ($('##wikiDrawer').is(':visible')) {
 						pushDialogForDrawer(marginPx, drawerWidthPx);
 					} else {
-						centerDialogProperly();
+						centerDialogProperly(marginPx, drawerWidthPx);
 					}
 				});
 				$('.ui-dialog-content').filter(':visible')
