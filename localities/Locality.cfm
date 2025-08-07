@@ -724,14 +724,14 @@ limitations under the License.
 				if ($widget.length) {
 					// .attr('id') gives you the dialog's widget id
 					var wid = $widget.attr('id');
-					if (wid && $('#' + wid).length) {
+					if (wid && $('##' + wid).length) {
 						// Set default centering position and autosize
-						$('#' + wid).dialog('option', 'width', 'auto');
-						$('#' + wid).dialog('option', 'height', 'auto');
-						$('#' + wid).dialog('option', 'position', { my: "center", at: "center", of: window });
+						$('##' + wid).dialog('option', 'width', 'auto');
+						$('##' + wid).dialog('option', 'height', 'auto');
+						$('##' + wid).dialog('option', 'position', { my: "center", at: "center", of: window });
 						// Double nudge, for some browsers or themes:
 						setTimeout(function() {
-							$('#' + wid).dialog('option', 'position', { my: "center", at: "center", of: window });
+							$('##' + wid).dialog('option', 'position', { my: "center", at: "center", of: window });
 						}, 10);
 					}
 				}
