@@ -706,17 +706,7 @@ limitations under the License.
 				// Always set back to fixed (if you want it to stay fixed during scroll)
 				$dlg.css('position', 'fixed');
 
-				// Now, recenter the dialog using the original widget (the modal content)
-				// Try to find the widget content inside this wrapper:
-				var $widget = $dlg.find('.ui-dialog-content');
-				if ($widget.length) {
-					// .attr('id') gives you the dialog's widget id
-					var wid = $widget.attr('id');
-					if (wid && $('##' + wid).length) {
-						// Set default centering position and autosize
-						$('##' + wid).dialog('option', 'width', 'auto');
-						$('##' + wid).dialog('option', 'height', 'auto');
-						$('##' + wid).dialog('option', 'position', { my: "center", at: "center", of: window });
+				
 						// Double nudge, for some browsers or themes:
 						setTimeout(function() {
 							$('##' + wid).dialog('option', 'position', { my: "center", at: "center", of: window });
