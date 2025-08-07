@@ -724,7 +724,7 @@ limitations under the License.
 				$widget.dialog('option', {
 					width: 'auto',
 					height: 'auto',
-					left: 0;
+					left: 0,
 					position: {my: "center", at: "center", of: window}
 				});
 			}
