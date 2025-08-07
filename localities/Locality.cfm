@@ -709,6 +709,8 @@ limitations under the License.
 
 			function centerDialogProperly() {
 				// Always call on your widget, not .ui-dialog!
+				$('.ui-dialog:visible').removeAttr('style').css('left','450');
+				
 				var $widget = $('##addGeologyDialog'); // your content DIV
 				if (!$widget.length) return;
 				$widget.dialog('option', 'width', 'auto');
