@@ -711,21 +711,17 @@ limitations under the License.
 			function centerDialogProperly() {
 				var $widget = $('##addGeorefDialog');
 				if (!$widget.length) return;
-
-				// Remove problematic inline positioning from the wrapper
-				$widget.closest('.ui-dialog').css({
-					left: '',
-					top: '',
-					width: '',
-					position: 'fixed'
-				});
-
-				// Restore widget position to center, auto size
+				var $dlg = $widget.closest('.ui-dialog');
+				$dlg.css({ left: '', top: '', width: '', position: 'fixed' });
+				$dlg.find('.ui-dialog-content').css({ height: '', maxHeight: '' });
 				$widget.dialog('option', {
 					width: 'auto',
 					height: 'auto',
-					position: {my: "left", at: "left", of: window}
+					position: { my: "center", at: "center", of: window }
 				});
+				setTimeout(function() {
+					$widget.dialog('option', 'position', { my: "center", at: "center", of: window });
+				}, 10);
 			}
 			$(document).ready(function() {
 				// Show drawer, push dialog right if drawer will be visible
