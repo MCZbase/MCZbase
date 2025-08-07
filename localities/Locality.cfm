@@ -674,12 +674,10 @@ limitations under the License.
 
 			// Move dialog to the right of the drawer, with margin
 			function pushDialogForDrawer(marginPx, drawerWidthPx) {
-				 var $widget = $('##addGeorefDialog');
-				if (!$widget.length) return;
-				var $dlg = $widget.closest('.ui-dialog');
-				var winWidth = $(window).width();
-				var dlgLeft = drawerWidthPx + marginPx;
-				var dlgTop = marginPx;
+				var $dlg = $('.ui-dialog:visible');
+				if (!$dlg.length) return;
+				var winWidth = $(window).width(), winHeight = $(window).height();
+				var dlgLeft = drawerWidthPx + marginPx, dlgTop = marginPx;
 				var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
 				$dlg.css({
 					left: dlgLeft + 'px',
@@ -697,21 +695,31 @@ limitations under the License.
 				$dlg.find('.ui-dialog-content').css({ height: '', maxHeight: '' });
 			}
 
+			
 			function centerDialogProperly() {
-				var $widget = $('##addGeorefDialog');
-				if (!$widget.length) return;
-				var $dlg = $widget.closest('.ui-dialog');
-				$dlg.css({ left: '', top: '', width: '', position: 'fixed' });
-				$dlg.find('.ui-dialog-content').css({ height: '', maxHeight: '' });
-				$widget.dialog('option', {
-					width: 'auto',
-					height: 'auto',
-					position: { my: "center", at: "center", of: window }
-				});
-				setTimeout(function() {
-					$widget.dialog('option', 'position', { my: "center", at: "center", of: window });
-				}, 10);
+				var $dlg = $('.ui-dialog:visible');
+				if (!$dlg.length) return;
+
+				// Remove the inline left property forcing it right
+				$dlg.css('left', '');
+
+				// Optionally remove other position-related properties if also pushed:
+				$dlg.css('top', '');
+				$dlg.css('width', '');
+
+				// Re-apply position: fixed if you want
+				$dlg.css('position', 'fixed');
+
+				// Now, call the dialog API on your dialog widget/content (not wrapper!)
+				$('#addGeorefDialog').dialog('option', 'width', 'auto');
+				$('#addGeorefDialog').dialog('option', 'height', 'auto');
+				$('#addGeorefDialog').dialog('option', 'position', {my: "center", at: "center", of: window});
+
+				// Optional: set content area back to auto
+				$dlg.find('.ui-dialog-content').css({height: '', maxHeight: ''});
 			}
+			
+			
 			$(document).ready(function() {
 				// Show drawer, push dialog right if drawer will be visible
 				$('##show-wiki').on('click', function(e) {
@@ -733,7 +741,7 @@ limitations under the License.
 				// Hide drawer, recenter dialog
 			 $('##hide-wiki').on('click', function(e) {
 					setTimeout(function() {
-						if ($('##wikiDrawer').is(':visible') && $('##addGeorefDialog').dialog('isOpen')) {
+						if ($('##wikiDrawer').is(':visible') && $('#addGeorefDialog').dialog('isOpen')) {
 							centerDialogProperly();
 						}
 					}, 400);
