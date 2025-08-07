@@ -850,7 +850,7 @@ limitations under the License.
 				// Show drawer: open drawer, push dialogs to the right
 				$('##show-wiki').on('click', function(e) {
 					e.preventDefault();
-					$('##wikiDrawer').show();
+				//	$('##wikiDrawer').show();
 					$('##show-wiki').hide();
 					$('##hide-wiki').show();
 
@@ -863,8 +863,8 @@ limitations under the License.
 
 				// Hide drawer: hide drawer, recenter dialogs
 				$('##hide-wiki').on('click', function(e) {
-					$('##wikiDrawer').hide();
-					$('##show-wiki').show();
+					//$('##wikiDrawer').hide();
+					//$('##show-wiki').show();
 					$('##hide-wiki').hide();
 
 					setTimeout(function() {
