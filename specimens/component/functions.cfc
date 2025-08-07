@@ -6944,7 +6944,6 @@ limitations under the License.
 									Locality Remarks 
 									(<span id="length_locality_remarks"></span>)
 								</label>
-								<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input" value="#encodeForHTML(getLoc.locality_remarks)#">
 								<textarea name="locality_remarks" id="locality_remarks" 
 									onkeyup="countCharsLeft('locality_remarks', 4000, 'length_locality_remarks');"
 									class="form-control form-control-sm w-100 autogrow mb-1" rows="2">#encodeForHtml(getLoc.locality_remarks)#</textarea>
