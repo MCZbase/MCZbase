@@ -733,7 +733,7 @@ limitations under the License.
 				// Hide drawer, recenter dialog
 			 $('##hide-wiki').on('click', function(e) {
 					setTimeout(function() {
-						if ($('##wikiDrawer').is(':visible') && $('#addGeorefDialog').dialog('isOpen')) {
+						if ($('##wikiDrawer').is(':visible') && $('##addGeorefDialog').dialog('isOpen')) {
 							centerDialogProperly();
 						}
 					}, 400);
