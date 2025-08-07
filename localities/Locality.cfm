@@ -668,13 +668,7 @@ limitations under the License.
 		<!--- NOTE: wikiDrawer, show-wiki, hide-wiki are hard coded in openWikiDrawer and closeWikiDrawer functions. --->
 
 		<script>
-			$(document).ready(function() {
-				// Initialize all dialogs!
-				$('##addGeorefDialog').dialog({
-					autoOpen: false,
-					width: auto,
-					modal: true
-				});
+	
 			
 			
 			var drawerWidthPx = 400;
@@ -709,32 +703,33 @@ limitations under the License.
 			}
 
 			
-			function centerDialogProperly() {
+			function centerDialogProperly(marginPx, drawerWidthPx) {
 				// Find any visible dialog wrapper
-				//var $dlg = $('.ui-dialog:visible');
-//				if (!$dlg.length) return;
-//				
-//				var winWidth = $(window).width();
-//				
-//				var dlgLeft = drawerWidthPx - drawerWidthPx, dlgTop = marginPx;
-//				var dlgWidth = Math.max(winWidth - 0 - marginPx * 2, 320);
-//				
-//				$dlg.css({
-//					left: dlgLeft + 'px',
-//					top: dlgTop + 'px',
-//					width: dlgWidth + 'px',
-//					height: '',
-//					maxWidth: '',
-//					position: 'fixed'
-//				});
-//				
-//				var $widget = $dlg;
-//				$widget.dialog('option', {
-//					width: dlgWidth,
-//					height: 'auto',
-//					position: { my: "left top", at: "left+"+dlgLeft+" top+"+dlgTop, of: window }
-//				});
-//				$dlg.find('.ui-dialog-content').css({ height: '', maxHeight: '' });
+				var $dlg = $('.ui-dialog:visible');
+				if (!$dlg.length) return;
+				
+				var winWidth = $(window).width();
+				
+				var dlgLeft = drawerWidthPx - drawerWidthPx, 
+					dlgTop = marginPx;
+				var dlgWidth = Math.max(winWidth - 0 - marginPx * 2, 320);
+				
+				$dlg.css({
+					left: dlgLeft + 'px',
+					top: dlgTop + 'px',
+					width: dlgWidth + 'px',
+					height: '',
+					maxWidth: '',
+					position: 'fixed'
+				});
+				
+				var $widget = $dlg;
+				$widget.dialog('option', {
+					width: dlgWidth,
+					height: 'auto',
+					position: { my: "left top", at: "left+"+dlgLeft+" top+"+dlgTop, of: window }
+				});
+				$dlg.find('.ui-dialog-content').css({ height: '', maxHeight: '' });
 			}
 
 			
