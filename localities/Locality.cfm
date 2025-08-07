@@ -755,9 +755,9 @@ limitations under the License.
 				// Window resize: always recalculate, forcibly center if no drawer
 				$(window).on('resize', function() {
 					if ($('##wikiDrawer').is(':visible')) {
-						pushDialogForDrawer(marginPx, drawerWidthPx);
-					} else {
 						centerDialogProperly();
+					} else {
+						pushDialogForDrawer(marginPx, drawerWidthPx);
 					}
 				});
 
