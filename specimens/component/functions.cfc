@@ -7013,7 +7013,7 @@ limitations under the License.
 								<input type="text" name="ich_field_number" id="ich_field_number" class="data-entry-input" value="#encodeForHTML(getLoc.fish_field_number)#">
 							</div>
 							
-							<div class="col-12 col-md-3 py-1 mt-0">
+							<div class="col-12 py-1 mt-0">
 								<label class="data-entry-label" for="collecting_method">Collecting Method</label>
 								<input type="text" name="collecting_method" id="collecting_method" class="data-entry-input" value="#encodeForHTML(getLoc.collecting_method)#">
 							</div>
@@ -7031,44 +7031,44 @@ limitations under the License.
 							</div>
 
 							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 text-right" for="verbatimdepth">Verbatim Depth</label>
+								<label class="data-entry-label px-2 " for="verbatimdepth">Verbatim Depth</label>
 								<input type="text" name="verbatimdepth" id="verbatimdepth" value="#getLoc.verbatimdepth#" class="data-entry-input">
 							</div>
 							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 text-right" for="verbatimelevation">Verbatim Elevation</label>
+								<label class="data-entry-label px-2 " for="verbatimelevation">Verbatim Elevation</label>
 								<input type="text" name="verbatimelevation" id="verbatimelevation" value="#getLoc.verbatimelevation#" class="data-entry-input">
 							</div>
 							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 text-right" for="verbatimLatitude">Verbatim Latitude</label>
+								<label class="data-entry-label px-2 " for="verbatimLatitude">Verbatim Latitude</label>
 								<input type="text" name="verbatimLatitude" id="verbatimLatitude" value="#getLoc.verbatimLatitude#" class="data-entry-input">
 							</div>
 							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 text-right" for="verbatimLongitude">Verbatim Longitude</label>
+								<label class="data-entry-label px-2 " for="verbatimLongitude">Verbatim Longitude</label>
 								<input type="text" name="verbatimLongitude" id="verbatimLongitude" value="#getLoc.verbatimLongitude#" class="data-entry-input">
 							</div>
 							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 text-right" for="verbatimCoordinates">Verbatim Coordinates</label>
+								<label class="data-entry-label px-2 " for="verbatimCoordinates">Verbatim Coordinates</label>
 								<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" value="#getLoc.verbatimCoordinates#" class="data-entry-input">
 							</div>
 							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 text-right" for="verbatimCoordinateSystem">Verbatim Coordinate System</label>
+								<label class="data-entry-label px-2 " for="verbatimCoordinateSystem">Verbatim Coordinate System</label>
 								<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" value="#getLoc.verbatimCoordinateSystem#" class="data-entry-input">
 							</div>
 							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 text-right" for="verbatimSRS"">Verbatim SRS (ellipsoid model/datum)</label>
+								<label class="data-entry-label px-2 " for="verbatimSRS"">Verbatim SRS (ellipsoid model/datum)</label>
 								<input type="text" name="verbatimSRS" id="verbatimSRS" value="#getLoc.verbatimSRS#" class="data-entry-input">
 							</div>
 							<!--- Additional verbatim fields --->
 							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 text-right" for="verbatim_habitat"">Verbatim Habitat</label>
+								<label class="data-entry-label px-2 " for="verbatim_habitat"">Verbatim Habitat</label>
 								<input type="text" name="verbatim_habitat" id="verbatim_habitat" value="#getLoc.verbatim_habitat#" class="data-entry-input">
 							</div>
 							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 text-right" for="verbatim_collectors"">Verbatim Collectors</label>
+								<label class="data-entry-label px-2 " for="verbatim_collectors"">Verbatim Collectors</label>
 								<input type="text" name="verbatim_collectors" id="verbatim_collectors" value="#getLoc.verbatim_collectors#" class="data-entry-input">
 							</div>
 							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 text-right" for="verbatim_field_numbers"">Verbatim Field Numbers</label>
+								<label class="data-entry-label px-2 " for="verbatim_field_numbers"">Verbatim Field Numbers</label>
 								<input type="text" name="verbatim_field_numbers" id="verbatim_field_numbers" value="#getLoc.verbatim_field_numbers#" class="data-entry-input">
 							</div>
 						</div>
