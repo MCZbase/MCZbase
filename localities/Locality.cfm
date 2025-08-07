@@ -686,7 +686,9 @@ limitations under the License.
 					width: dlgWidth + 'px',
 					//height: dlgHeight + 'px',
 					height: '',
-					maxWidth: '', maxHeight: ''
+					maxWidth: '', 
+					maxHeight: '',
+					position: 'fixed'
 				});
 				$dlg.dialog('option', {
 					width: dlgWidth,
