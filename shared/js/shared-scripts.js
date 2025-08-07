@@ -2441,7 +2441,7 @@ function openDownloadDialog(dialogid, result_id, filename) {
 	.dialog({
 		title: title,
 		autoOpen: false,
-		dialogClass: 'dialog_fixed ui-widget-header',
+		dialogClass: 'dialog-fixed ui-widget-header',
 		modal: true,
 		stack: true,
 		zindex: 2000,
