@@ -707,26 +707,28 @@ limitations under the License.
 				});
 			}
 
-			// Restore dialog to normal (default jQuery UI centered and auto-sized)
 			function centerDialogProperly() {
 				var $dlg = $('.ui-dialog:visible');
 				if (!$dlg.length) return;
 
-				// Remove manual styling
-				$dlg.removeAttr('style');  // Remove ALL inline styles including left/right/width/top/position
-				// If you need to ensure position:fixed remains, re-apply it only after removing everything:
+				// Remove ALL inline styles—including left, width, top, etc!
+				$dlg.removeAttr('style');
+
+				// Set position fixed (you want dialog fixed on scroll)
 				$dlg.css('position', 'fixed');
 
-				// Set via dialog API to auto width/height and center
+				// Now restore to centered with auto width/height
 				$dlg.dialog('option', 'width', 'auto');
 				$dlg.dialog('option', 'height', 'auto');
 				$dlg.dialog('option', 'position', { my: "center", at: "center", of: window });
 
-				// Clear manual content heights, too (leave autosize)
+				// Optional: clear dialog-content size in case leftover from earlier
 				$dlg.find('.ui-dialog-content').css({ height: '', maxHeight: '' });
 
-				// A second center "nudge" for browsers that glitch
-				$dlg.dialog('option', 'position', { my: "center", at: "center", of: window });
+				// Double "nudge" to fix centering bugs in some browsers
+				setTimeout(function() {
+					$dlg.dialog('option', 'position', { my: "center", at: "center", of: window });
+				}, 10);
 			}
 
 			$(document).ready(function() {
