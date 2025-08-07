@@ -733,7 +733,7 @@ limitations under the License.
 				});
 
 				// Hide drawer, recenter dialog
-			 $('##hide-wiki').on('click', function(e) {
+				$('##hide-wiki').on('click', function(e) {
 					setTimeout(function() {
 						if ($('##wikiDrawer').is(':hidden') && $('.ui-dialog').dialog('isOpen')) {
 							centerDialogProperly();
@@ -741,7 +741,7 @@ limitations under the License.
 					}, 400);
 				});
 				$("##hide-wiki").hide();
-				
+
 					// On dialog open, position properly based on drawer state
 				$(document).on('dialogopen', '.ui-dialog', function() {
 					setTimeout(function() {
@@ -760,8 +760,6 @@ limitations under the License.
 						centerDialogProperly();
 					}
 				});
-
-			
 			});
 			
 
