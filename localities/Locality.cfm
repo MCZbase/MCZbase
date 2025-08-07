@@ -674,9 +674,13 @@ limitations under the License.
 			function pushDialogForDrawer(marginPx, drawerWidthPx) {
 				var $dlg = $('.ui-dialog:visible');
 				if (!$dlg.length) return;
-				var winWidth = $(window).width(), winHeight = $(window).height();
-				var dlgLeft = drawerWidthPx + marginPx, dlgTop = marginPx;
+				
+				var winWidth = $(window).width();
+				
+				var dlgLeft = drawerWidthPx + marginPx, 
+					dlgTop = marginPx;
 				var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
+				
 				$dlg.css({
 					left: dlgLeft + 'px',
 					top: dlgTop + 'px',
@@ -703,6 +707,7 @@ limitations under the License.
 
 				// Center horizontally with 50px offset from left
 				var $widget = $dlg;
+				
 				$widget.dialog('option', {
 					position: { my: "left top", at: "left+50 top+30", of: window }
 				});
