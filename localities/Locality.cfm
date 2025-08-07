@@ -804,8 +804,8 @@ limitations under the License.
 					});
 					$widget.css({ height: '', maxHeight: '' });
 
-					if (widgetId && $('#' + widgetId).data('ui-dialog')) {
-						$('#' + widgetId).dialog('option', {
+					if (widgetId && $('##' + widgetId).data('ui-dialog')) {
+						$('##' + widgetId).dialog('option', {
 							width: dlgWidth,
 							height: 'auto',
 							position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
