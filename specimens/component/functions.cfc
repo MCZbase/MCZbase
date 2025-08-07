@@ -6441,7 +6441,7 @@ limitations under the License.
 					collecting_event.startDayOfYear,
 					collecting_event.endDayOfYear,
 					collecting_event.habitat_desc,
-					collecting_event.coll_event_remarks
+					collecting_event.coll_event_remarks,
 					collecting_event.verbatimelevation,
 					collecting_event.verbatimdepth,
 					locality.locality_id,
