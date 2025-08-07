@@ -7023,12 +7023,6 @@ limitations under the License.
 								<input type="text" name="habitat_desc" id="habitat_desc" class="data-entry-input" value="#encodeForHTML(getLoc.habitat_desc)#">
 							</div>
 							
-							<div class="col-12 py-1">
-								<label class="data-entry-label" for="coll_event_remarks">
-									Collecting Event Remarks
-								</label>
-								<input type="text" name="coll_event_remarks" id="coll_event_remarks" class="data-entry-input" value="#encodeForHTML(getLoc.coll_event_remarks)#">
-							</div>
 
 							<div class="col-12 col-md-3 py-1 px-0">
 								<label class="data-entry-label px-2 " for="verbatimdepth">Verbatim Depth</label>
@@ -7071,6 +7065,25 @@ limitations under the License.
 								<label class="data-entry-label px-2 " for="verbatim_field_numbers"">Verbatim Field Numbers</label>
 								<input type="text" name="verbatim_field_numbers" id="verbatim_field_numbers" value="#getLoc.verbatim_field_numbers#" class="data-entry-input">
 							</div>
+							<div class="col-12 col-md-6 mb-2">
+								<label for="valid_distribution_fg" class="data-entry-label">Valid Distribution</label>
+								<cfif not isDefined("variables.valid_distribution_fg")>
+									<cfset variables.valid_distribution_fg = "1">
+								</cfif>
+								<select name="valid_distribution_fg" id="valid_distribution_fg" class="data-entry-select reqdClr" required>
+									<cfif variables.valid_distribution_fg EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="1" #selected#>Yes, material from this event represents distribution in the wild</option>
+									<cfif variables.valid_distribution_fg EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="0" #selected#>No, material from this event does not represent distribution in the wild</option>
+								</select>
+							</div>
+							<div class="col-12 py-1">
+								<label class="data-entry-label" for="coll_event_remarks">
+									Collecting Event Remarks
+								</label>
+								<input type="text" name="coll_event_remarks" id="coll_event_remarks" class="data-entry-input" value="#encodeForHTML(getLoc.coll_event_remarks)#">
+							</div>
+
 						</div>
 					</div>
 					
