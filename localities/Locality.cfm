@@ -709,7 +709,7 @@ limitations under the License.
 			}
 
 			function centerDialogProperly(marginPx, drawerWidthPx) {
-				$('.ui-dialog:visible').removeAttr('style').css('left','430px');
+				$('.ui-dialog:visible').removeAttr('style').css('position','absolute');
 				
 			}
 
