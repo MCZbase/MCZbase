@@ -772,14 +772,14 @@ limitations under the License.
 
 					// Center each via the widget API if the widget is a dialog
 					var widgetId = $widget.attr('id');
-					if (widgetId && $('#' + widgetId).data('ui-dialog')) {
-						$('#' + widgetId).dialog('option', {
+					if (widgetId && $('##' + widgetId).data('ui-dialog')) {
+						$('##' + widgetId).dialog('option', {
 							width: 'auto',
 							height: 'auto',
 							position: { my: "center", at: "center", of: window }
 						});
 						setTimeout(function() {
-							$('#' + widgetId).dialog('option', 'position', { my: "center", at: "center", of: window });
+							$('##' + widgetId).dialog('option', 'position', { my: "center", at: "center", of: window });
 						}, 10);
 					}
 				});
