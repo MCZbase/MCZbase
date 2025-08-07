@@ -670,6 +670,7 @@ limitations under the License.
 		<script>
 			var drawerWidthPx = 400;
 			var marginPx = 30;
+			var noDrawer = 50;
 			//var maxHeight = auto;
 
 			// Move dialog to the right of the drawer, with margin
@@ -698,7 +699,10 @@ limitations under the License.
 			
 			function centerDialogProperly() {
 				// Find any visible dialog wrapper
-				
+				var $dlg = $('.ui-dialog:visible');
+				$widget.dialog('option', {
+					position: { my: "left", at: "left:50px", of: window }
+				});
 			}
 
 			
