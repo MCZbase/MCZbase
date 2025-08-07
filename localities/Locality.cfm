@@ -737,7 +737,7 @@ limitations under the License.
 
 				$('##hide-wiki').on('click', function(e) {
 					setTimeout(function() {
-						if ($('#addGeorefDialog').dialog('isOpen')) {
+						if ($('##addGeorefDialog').dialog('isOpen')) {
 							centerDialogProperly();
 						}
 					}, 400);
