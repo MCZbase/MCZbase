@@ -714,7 +714,7 @@ limitations under the License.
 					}
 				}
 				// Optionally, also clear height/maxHeight from content area
-				$dlg.find('.ui-dialog-content').css({ height: '', maxHeight: '' });
+			//	$dlg.find('.ui-dialog-content').css({ height: '', maxHeight: '' });
 			}
 
 			
