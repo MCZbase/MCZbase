@@ -760,6 +760,7 @@ limitations under the License.
 						centerDialogProperly();
 					}
 				});
+				$('.ui-dialog-content').filter(':visible')
 			});
 			
 
