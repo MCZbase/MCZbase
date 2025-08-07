@@ -6435,9 +6435,9 @@ limitations under the License.
 					identification.made_date,
 					identification.nature_of_id,
 					collecting_event.collecting_event_id,
-					collecting_event.began_date
-					collecting_event.ended_date
-					collecting_event.verbatim_date
+					collecting_event.began_date,
+					collecting_event.ended_date,
+					collecting_event.verbatim_date,
 					collecting_event.startDayOfYear,
 					collecting_event.endDayOfYear,
 					collecting_event.habitat_desc,
@@ -6448,7 +6448,7 @@ limitations under the License.
 					locality.minimum_elevation,
 					locality.maximum_elevation,
 					locality.orig_elev_units,
-					locality.spec_locality
+					locality.spec_locality,
 					decode(accepted_lat_long.orig_lat_long_units,
 						'decimal degrees',to_char(accepted_lat_long.dec_lat) || '&deg; ',
 						'deg. min. sec.', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
@@ -6488,8 +6488,8 @@ limitations under the License.
 					accn_number accession,
 					concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 					concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
-					locality.locality_remarks
-					verbatim_locality
+					locality.locality_remarks,
+					verbatim_locality,
 					collecting_time,
 					fish_field_number,
 					min_depth,
