@@ -758,7 +758,9 @@ limitations under the License.
 //			});
 			
 			
-			
+			var drawerWidthPx = 400;
+			var marginPx = 30;
+			var noDrawer = 50;
 			
 			function centerAllDialogs() {
 				$('.ui-dialog:visible').each(function() {
