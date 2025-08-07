@@ -708,11 +708,36 @@ limitations under the License.
 				});
 			}
 
-			function centerDialogProperly(marginPx, drawerWidthPx) {
-				$('.ui-dialog:visible').removeAttr('style').css('position','absolute');
-				
-			}
+			function centerDialogProperly() {
+				// Find any visible dialog wrapper
+				var $dlg = $('.ui-dialog:visible');
+				if (!$dlg.length) return;
 
+				// Remove ALL inline styles, including left/top/width/etc.
+				$dlg.removeAttr('style');
+				// Always set back to fixed (if you want it to stay fixed during scroll)
+				$dlg.css('position', 'fixed');
+
+				// Now, recenter the dialog using the original widget (the modal content)
+				// Try to find the widget content inside this wrapper:
+				var $widget = $dlg.find('.ui-dialog-content');
+				if ($widget.length) {
+					// .attr('id') gives you the dialog's widget id
+					var wid = $widget.attr('id');
+					if (wid && $('#' + wid).length) {
+						// Set default centering position and autosize
+						$('#' + wid).dialog('option', 'width', 'auto');
+						$('#' + wid).dialog('option', 'height', 'auto');
+						$('#' + wid).dialog('option', 'position', { my: "center", at: "center", of: window });
+						// Double nudge, for some browsers or themes:
+						setTimeout(function() {
+							$('#' + wid).dialog('option', 'position', { my: "center", at: "center", of: window });
+						}, 10);
+					}
+				}
+				// Optionally, also clear height/maxHeight from content area
+				$dlg.find('.ui-dialog-content').css({ height: '', maxHeight: '' });
+			}
 			$(document).ready(function() {
 				// Show drawer, push dialog right if drawer will be visible
 				$('##show-wiki').on('click', function(e) {
