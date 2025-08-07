@@ -6473,6 +6473,7 @@ limitations under the License.
 					) VerbatimLongitude,
 					locality.sovereign_nation,
 					locality.nogeorefbecause,
+					locality.curated_fg,
 					collecting_event.verbatimcoordinates,
 					collecting_event.verbatimlatitude verblat,
 					collecting_event.verbatimlongitude verblong,
@@ -6830,7 +6831,7 @@ limitations under the License.
 								<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.spec_locality)#" required>
 							</div>
 							
-							<div class="col-12 col-md-6 mb-2 mt-0">
+							<div class="col-12 col-md-5 mb-2 mt-0">
 								<label class="data-entry-label" for="sovereign_nation">Sovereign Nation</label>
 								<select name="sovereign_nation" id="sovereign_nation" size="1" class="data-entry-select reqdClr">
 									<cfloop query="ctSovereignNation">
@@ -6843,13 +6844,38 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
+
+							<div class="col-12 col-md-2 py-1 mt-0">
+								<label class="data-entry-label" for="curated_fg">Vetted</label>
+								<select name="curated_fg" id="curated_fg" size="1" class="data-entry-select reqdClr">
+									<cfif not isDefined("getLoc.curated_fg") OR (isdefined("getLoc.curated_fg") AND getLoc.curated_fg NEQ 1) >
+										<cfset selected="selected">
+									<cfelse>
+										<cfset selected="">
+									</cfif>
+									<option value="0" #selected#>No</option>
+									<cfif isdefined("getLoc.curated_fg") AND getLoc.curated_fg EQ 1 >
+										<cfset selected="selected">
+									<cfelse>
+										<cfset selected="">
+									</cfif>
+									<option value="1" #selected#>Yes (*)</option>
+								</select>
+							</div>
 							
-							<div class="col-12 col-md-6 mb-2 mt-0">
+							<div class="col-12 col-md-5 mb-2 mt-0">
 								<label class="data-entry-label" for="NoGeorefBecause">
 									Not Georeferenced Because
 									<i class="fas fa-info-circle" onClick="getMCZDocs('Not_Georeferenced_Because')" aria-label="help link with suggested entries for why no georeference was added"></i>
 								</label>
-								<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input" value="#encodeForHTML(getLoc.NoGeorefBecause)#">
+								<cfset disabled = "">
+								<cfif getGeoreference.recordcount GT 0>
+									<!--- If there is a georeference then NoGeorefBecause should not be editable if it has no value --->
+									<cfif len(getLoc.NoGeorefBecause) is 0>
+										<cfset disabled = "disabled">
+									</cfif>
+								</cfif>
+								<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input" value="#encodeForHTML(getLoc.NoGeorefBecause)#" #disabled#>
 								<cfif len(getLoc.orig_lat_long_units) gt 0 AND len(getLoc.NoGeorefBecause) gt 0>
 									<div class="text-danger small mt-1">NotGeorefBecause should be NULL for localities with georeferences. Please review this locality and update accordingly.</div>
 								<cfelseif len(getLoc.orig_lat_long_units) is 0 AND len(getLoc.NoGeorefBecause) is 0>
