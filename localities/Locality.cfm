@@ -770,7 +770,7 @@ limitations under the License.
 					if (!$widget.length) return;
 					// Remove pushing/inline styles
 					$dlg.css({ left: '', top: '', width: '', height: '', maxWidth: '', position: 'fixed' });
-					$widget.css({ height: '', maxHeight: '' });
+					//$widget.css({ height: '', maxHeight: '' });
 
 					// Center each via the widget API if the widget is a dialog
 					var widgetId = $widget.attr('id');
