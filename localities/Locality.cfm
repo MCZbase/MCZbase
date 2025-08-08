@@ -721,7 +721,8 @@ limitations under the License.
 				$w.css({
 				  left: dlgLeft + "px",
 				  top: dlgTop + "px",
-				  width: dlgWidth + "px"
+				  width: dlgWidth + "px",
+					position: 'fixed'
 				});
 			  });
 			}
