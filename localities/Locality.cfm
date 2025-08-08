@@ -787,26 +787,12 @@ limitations under the License.
 		</script>
 			
 		<script>
-		var drawerWidthPx = 400;
+			var drawerWidthPx = 400;
 			var marginPx = 30;
+			var originalDialogWidth = 500;
 
-			// Move all open dialogs to the right of the drawer
-//			function pushDialogForDrawer(marginPx, drawerWidthPx) {
-//				var winWidth = $(window).width();
-//				var dlgLeft = drawerWidthPx + marginPx;
-//				var dlgTop = marginPx;
-//				var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
-//
-//				$('.wikidialog:visible').each(function() {
-//					$(this).dialog('option', {
-//						width: dlgWidth,
-//						height: 'auto',
-//						position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
-//					});
-//					$(this).css({ height: '', maxHeight: '' });
-//				});
-//			}
-			function pushDialogForDrawer(marginPx, drawerWidthPx) {
+			// Move all open dialogs to the right of the drawer, sized to remaining space
+			function pushDialogForDrawer() {
 				var winWidth = $(window).width();
 				var dlgLeft = drawerWidthPx + marginPx;
 				var dlgTop = marginPx;
@@ -817,88 +803,86 @@ limitations under the License.
 					if ($dlg.dialog('isOpen')) {
 						$dlg.dialog('option', {
 							width: dlgWidth,
-							height: 'auto',
-							position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
+							position: {
+								my: "left top",
+								at: "left+" + dlgLeft + " top+" + dlgTop,
+								of: window
+							}
 						});
-						$dlg.css({ height: '', maxHeight: '' });
 					}
 				});
 			}
-			function centerAllOpenDialogs(marginPx) {
+
+			// Center all open dialogs in the window, restoring width
+			function centerAllOpenDialogs() {
 				var winWidth = $(window).width();
 				var dlgLeft = marginPx;
 				var dlgTop = marginPx;
-				var dlgWidth = Math.max(winWidth - marginPx * 2, 320);
+				var dlgWidth = Math.min(originalDialogWidth, winWidth - marginPx*2);
 
 				$('.wikidialog').each(function() {
 					var $dlg = $(this);
 					if ($dlg.dialog('isOpen')) {
 						$dlg.dialog('option', {
 							width: dlgWidth,
-							height: 'auto',
-							position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
+							position: {
+								my: "left top",
+								at: "left+" + dlgLeft + " top+" + dlgTop,
+								of: window
+							}
 						});
-						$dlg.css({ height: '', maxHeight: '' });
 					}
 				});
 			}
 
-			$(document).ready(function() {
-				// ---- CRITICAL: Initialize ALL dialog elements (do this ONCE) ----
+			// One function to adjust dialogs depending on drawer state
+			function adjustDialogsForDrawer() {
+				if ($('#wikiDrawer').is(':visible')) {
+					pushDialogForDrawer();
+				} else {
+					centerAllOpenDialogs();
+				}
+			}
+
+			$(function() {
+				// --- initialize dialogs exactly once ---
 				$('.wikidialog').dialog({
 					autoOpen: false,
-					width: 400,   // Or your default
-					modal: false  // Or true if you want
+					width: originalDialogWidth,
+					modal: true // you can set to false if you want non-modal
 				});
 
-				// Show drawer, push dialog right if drawer will be visible
-				$('##show-wiki').on('click', function(e) {
-					e.preventDefault();
-					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
-					<cfelse>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
-					</cfif>
-					$("##show-wiki").hide();
-					$("##hide-wiki").show();
-					setTimeout(function() {
-						if ($("##wikiDrawer").is(':visible')) {
-							pushDialogForDrawer(marginPx, drawerWidthPx);
-						}
-					}, 400);
+				// Show drawer, move dialogs aside and main content
+				$('#show-wiki').on('click', function() {
+					$('#wikiDrawer').show();
+					$('#show-wiki').hide();
+					$('#hide-wiki').show();
+					$('#main-content').css('margin-left', drawerWidthPx+'px'); // to slide main content over
+					setTimeout(adjustDialogsForDrawer, 300); // time for CSS/animation
 				});
 
-				// Hide drawer, recenter dialog
-				$('##hide-wiki').on('click', function(e) {
-					e.preventDefault();
-					closeWikiDrawer();
-					setTimeout(function() {
-						if ($("##wikiDrawer").is(':hidden')) {
-							centerAllOpenDialogs(marginPx);
-						} else {pushDialogForDrawer(marginPx, drawerWidthPx);}
-					}, 400);
-					$("##show-wiki").show();
-					$("##hide-wiki").hide();
+				// Hide drawer, recenter dialogs and main content
+				$('#hide-wiki').on('click', function() {
+					$('#wikiDrawer').hide();
+					$('#hide-wiki').hide();
+					$('#show-wiki').show();
+					$('#main-content').css('margin-left', '0');
+					setTimeout(adjustDialogsForDrawer, 300);
 				});
 
-				$("##hide-wiki").hide();
-
-				$(window).on('resize', function () {
-					if ($('##wikiDrawer').is(':visible')) {
-						pushDialogForDrawer(marginPx, drawerWidthPx);
-					} else {
-						centerAllOpenDialogs(marginPx);
-					}
+				// Open dialog button
+				$('#openDialog1').click(function() {
+					$('#dialog1').dialog('open');
+					adjustDialogsForDrawer(); // places it right when opened
 				});
 
-				// When any dialog opens, position it according to drawer state
-				$(document).on('dialogopen', '.wikidialog', function () {
-				if ($('##wikiDrawer').is(':visible')) {
-				  pushDialogForDrawer(marginPx, drawerWidthPx);
-				} else {
-				  centerAllOpenDialogs(marginPx);
-				}
-			  });
+				// Always calculate placement on window resize
+				$(window).on('resize', adjustDialogsForDrawer);
+
+				// On *any* dialog open, position accordingly (user might open with other means)
+				$(document).on('dialogopen', '.wikidialog', function() {
+					adjustDialogsForDrawer();
+				});
 			});
 		</script>
 	</cfoutput>
