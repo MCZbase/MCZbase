@@ -865,7 +865,7 @@ limitations under the License.
 				$("##hide-wiki").hide();
 
 				$(window).on('resize', function () {
-					if ($('#wikiDrawer').is(':visible')) {
+					if ($('##wikiDrawer').is(':visible')) {
 						pushDialogForDrawer(marginPx, drawerWidthPx);
 					} else {
 						centerAllOpenDialogs(marginPx);
@@ -874,7 +874,7 @@ limitations under the License.
 
 				// When any dialog opens, position it according to drawer state
 				$(document).on('dialogopen', '.wikidialog', function () {
-				if ($('#wikiDrawer').is(':visible')) {
+				if ($('##wikiDrawer').is(':visible')) {
 				  pushDialogForDrawer(marginPx, drawerWidthPx);
 				} else {
 				  centerAllOpenDialogs(marginPx);
