@@ -807,38 +807,29 @@ limitations under the License.
 //				});
 //			}
 			function pushDialogForDrawer(marginPx, drawerWidthPx) {
-				var $dlg = $('.ui-dialog:visible');
-				if (!$dlg.length) return;
-				var winWidth = $(window).width(), winHeight = $(window).height();
-				var dlgLeft = drawerWidthPx + marginPx, dlgTop = marginPx;
+				var winWidth = $(window).width();
+				var dlgLeft = drawerWidthPx + marginPx;
+				var dlgTop = marginPx;
 				var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
-				//var dlgHeight = Math.max(winHeight - margin * 2, 200);
-				$dlg.css({
-					left: dlgLeft + 'px',
-					top: dlgTop + 'px',
-					width: dlgWidth + 'px',
-					//height: dlgHeight + 'px',
-					height: '',
-					maxWidth: '', 
-					maxHeight: '',
-					position: 'fixed'
-				});
-				$dlg.dialog('option', {
-					width: dlgWidth,
-					height: 'auto',
-					position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
-				});
-				var $titlebar   = $dlg.find('.ui-dialog-titlebar');
-				var $buttonpane = $dlg.find('.ui-dialog-buttonpane');
-				var contentHeight = dlgHeight -
-					($titlebar.outerHeight() || 0) -
-					($buttonpane.outerHeight() || 0);
-				$dlg.find('.ui-dialog-content').css({
-					height: contentHeight + 'px',
-					maxHeight: contentHeight + 'px'
+
+				// Loop all open dialogs (by your content class) and reposition via the API:
+				$('.wikidialog').each(function() {
+					var $dlg = $(this);
+					if ($dlg.dialog('isOpen')) {
+						$dlg.dialog('option', {
+							width: dlgWidth,
+							height: 'auto',
+							position: {
+								my: "left top",
+								at: "left+" + dlgLeft + " top+" + dlgTop,
+								of: window
+							}
+						});
+						// Optionally, set heights/max-heights as needed (usually not needed unless you want to restrict)
+						$dlg.css({ height: '', maxHeight: '' });
+					}
 				});
 			}
-//
 			
 
 			// Center all open dialogs within the window (with margin)
