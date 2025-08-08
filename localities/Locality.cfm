@@ -825,8 +825,7 @@ limitations under the License.
 			}
 
 			$(document).ready(function() {
-				// Always use single # for ID selectors (not ##)
-				$('##show-wiki').on('click', function(e) {
+					$('##show-wiki').on('click', function(e) {
 					e.preventDefault();
 					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
