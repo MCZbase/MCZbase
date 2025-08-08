@@ -864,15 +864,16 @@ limitations under the License.
 				$('#main-content').css('margin-left', drawerWidthPx+'px');
 				setTimeout(adjustDialogsForDrawer, 300);
 			  });
-
-			  $('#hide-wiki').on('click', function() {
-				$('#wikiDrawer').hide();
-				$('#hide-wiki').hide();
-				$('#show-wiki').show();
-				$('#main-content').css('margin-left', '0');
+	
+			  $('#hide-wiki').on('click', function(e) {
+				e.preventDefault();
+				closeWikiDrawer();
+				centerDialogProperly();
+				setTimeout(centerDialogProperly, 400);
 				setTimeout(adjustDialogsForDrawer, 300);
 			  });
-
+			$("##hide-wiki").hide();
+		
 			  $(window).on('resize', adjustDialogsForDrawer);
 			  // When any dialog opens, adjust for drawer
 			  $(document).on('dialogopen', '.ui-dialog-content', adjustDialogsForDrawer);
