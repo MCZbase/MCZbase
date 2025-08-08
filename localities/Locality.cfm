@@ -867,7 +867,7 @@ limitations under the License.
 					$("#show-wiki").hide();
 					$("#hide-wiki").show();
 					setTimeout(function() {
-						if ($('##wikiDrawer').is(':visible')) {
+						if ($('#wikiDrawer').is(':visible')) {
 							pushDialogForDrawer(marginPx, drawerWidthPx);
 						}
 					}, 400);
