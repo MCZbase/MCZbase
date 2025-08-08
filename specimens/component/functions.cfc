@@ -6656,17 +6656,58 @@ limitations under the License.
 						$("##backToSpecimen2").html("Back to Specimen without saving changes");
 						$("##splitAndSaveButton").removeAttr("disabled")
 					}
+					function submitLocForm() {
+						// validate the form
+						if (!$('##locForm').valid()) {
+							$('##locFormOutput').text('Unable to save, fix the errors.');
+							// if the form is not valid, return
+							return;
+						}
+						// submit the form
+						// ajax submit the form to localities/component/functions.cfc
+						$('##locFormOutput').text('Saving...');
+						$('##locFormOutput').removeClass('text-danger');
+						$('##locFormOutput').addClass('text-success');
+						$.ajax({
+							url: '/localities/component/functions.cfc',
+							type: 'POST',
+							data: $('##locForm').serialize(),
+							dataType: 'json',
+							success: function(response) {
+								if (response[0].status === "saved") {
+									$('##locFormOutput').text('Locality saved successfully.');
+									$('##locFormOutput').removeClass('text-danger');
+									$('##locFormOutput').addClass('text-success');
+									closeLocalityInPage();
+									reloadLocality();
+								} else {
+									$('##locFormOutput').text('Error saving locality: ' + response[0].error);
+									$('##locFormOutput').removeClass('text-success');
+									$('##locFormOutput').addClass('text-danger');
+								}
+							},
+							error: function(xhr, status, error) {
+								handleFail(xhr,status,error,"saving locality.");
+							}
+						});
+					}
+					$(document).ready(function() {
+						// bind submit handler to the form
+						$('##locForm').submit(function(event) {
+							event.preventDefault();
+							submitLocForm();
+						});
+					});
 				</script>
 				<form id="locForm" name="locForm" method="post" class="row border p-1 m-1 bg-light">
-					<!--- TODO: Form submission handler --->
 					<cfif splitToSave>	
 						<input type="hidden" name="action" id="action" value="splitAndSave">
 					<cfelse>
 						<input type="hidden" name="action" id="action" value="saveCurrent">
 					</cfif>
-					<input type="hidden" name="action" value="saveChange">
-					<input type="hidden" name="nothing" id="nothing">
 					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+					<input type="hidden" name="returnformat" value="json">
+					<input type="hidden" name="method" value="handleCombinedEditForm">
 
 					<!--- higher geography --->
 					<div class="col-12 px-2 form-row">

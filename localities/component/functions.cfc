@@ -5496,4 +5496,45 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<cffunction name="handleCombinedEditForm" access="remote" returntype="any" returnformat="json">
+	<cfargument name="action" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="collecting_event_id" type="string" required="no">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfif arguments.action EQ "splitAndSave">
+				<!--- split the collecting event and locality into new records and assign the cataloged item to the new collecting event. --->
+
+			<cfelse if arguments.action EQ "saveCurrent">
+				<!--- save changes to the existing collecting event and locality, affecting all related cataloged items, which should be just one. --->
+
+			<cfelse>
+				<cfthrow message="Unknown action #encodeForHtml(arguments.action)#">
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#arguments.collection_object_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit"/>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing deleteCollEvent: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+				<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+				<cfabort>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>
