@@ -840,7 +840,7 @@ limitations under the License.
 				var n = $('.ui-dialog').length + 1;
 				var $dlg = $('<div>')
 				  .html('Random dialog #' + n)
-				  .attr('title', 'Dialog #' + n)
+				  .attr('title', 'Dialog ##' + n)
 				  .dialog({
 					width: origDialogWidth,
 					modal: true,
