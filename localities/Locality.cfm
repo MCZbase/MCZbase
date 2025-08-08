@@ -789,100 +789,93 @@ limitations under the License.
 		<script>
 			var drawerWidthPx = 400;
 			var marginPx = 30;
-			var originalDialogWidth = 500;
+			var origDialogWidth = 500; // fallback size
 
-			// Move all open dialogs to the right of the drawer, sized to remaining space
+			// Helper to push all dialogs aside for the drawer
 			function pushDialogForDrawer() {
-				var winWidth = $(window).width();
-				var dlgLeft = drawerWidthPx + marginPx;
-				var dlgTop = marginPx;
-				var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
-
-				$('.wikidialog').each(function() {
-					var $dlg = $(this);
-					if ($dlg.dialog('isOpen')) {
-						$dlg.dialog('option', {
-							width: dlgWidth,
-							position: {
-								my: "left top",
-								at: "left+" + dlgLeft + " top+" + dlgTop,
-								of: window
-							}
-						});
-					}
+			  var winWidth = $(window).width();
+			  var dlgLeft = drawerWidthPx + marginPx;
+			  var dlgTop = marginPx;
+			  var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
+			  $('.ui-dialog:visible').each(function() {
+				var $w = $(this);
+				// Store original width only if not already done
+				if ($w.data('origWidth') === undefined) $w.data('origWidth', $w.width());
+				$w.css({
+				  left: dlgLeft + "px",
+				  top: dlgTop + "px",
+				  width: dlgWidth + "px"
 				});
+			  });
 			}
 
-			// Center all open dialogs in the window, restoring width
+			// Center all dialogs and restore width
 			function centerAllOpenDialogs() {
-				var winWidth = $(window).width();
-				var dlgLeft = marginPx;
-				var dlgTop = marginPx;
-				var dlgWidth = Math.min(originalDialogWidth, winWidth - marginPx*2);
-
-				$('.wikidialog').each(function() {
-					var $dlg = $(this);
-					if ($dlg.dialog('isOpen')) {
-						$dlg.dialog('option', {
-							width: dlgWidth,
-							position: {
-								my: "left top",
-								at: "left+" + dlgLeft + " top+" + dlgTop,
-								of: window
-							}
-						});
-					}
+			  var winWidth = $(window).width();
+			  var dlgLeft = marginPx;
+			  var dlgTop = marginPx;
+			  $('.ui-dialog:visible').each(function() {
+				var $w = $(this);
+				var restoreWidth = $w.data('origWidth') || origDialogWidth;
+				var maxWidth = Math.min(restoreWidth, winWidth - marginPx*2);
+				$w.css({
+				  left: dlgLeft + "px",
+				  top: dlgTop + "px",
+				  width: maxWidth + "px"
 				});
+			  });
 			}
 
-			// One function to adjust dialogs depending on drawer state
 			function adjustDialogsForDrawer() {
-				if ($('#wikiDrawer').is(':visible')) {
-					pushDialogForDrawer();
-				} else {
-					centerAllOpenDialogs();
-				}
+			  if ($('#wikiDrawer').is(':visible')) {
+				pushDialogForDrawer();
+			  } else {
+				centerAllOpenDialogs();
+			  }
 			}
 
 			$(function() {
-				// --- initialize dialogs exactly once ---
-				$('.wikidialog').dialog({
-					autoOpen: false,
-					width: originalDialogWidth,
-					modal: true // you can set to false if you want non-modal
-				});
+			  // Dynamically create/open dialogs
+			  $('#openrnd').click(function() {
+				var n = $('.ui-dialog').length + 1;
+				var $dlg = $('<div>')
+				  .html('Random dialog #' + n)
+				  .attr('title', 'Dialog #' + n)
+				  .dialog({
+					width: origDialogWidth,
+					modal: true,
+					close: function() {
+					  // No memory leak
+					  var $w = $(this).closest('.ui-dialog');
+					  $w.removeData('origWidth');
+					  $(this).dialog('destroy').remove();
+					  adjustDialogsForDrawer();
+					},
+					open: function() {
+					  adjustDialogsForDrawer();
+					}
+				  });
+			  });
 
-				// Show drawer, move dialogs aside and main content
-				$('#show-wiki').on('click', function() {
-					$('#wikiDrawer').show();
-					$('#show-wiki').hide();
-					$('#hide-wiki').show();
-					$('#main-content').css('margin-left', drawerWidthPx+'px'); // to slide main content over
-					setTimeout(adjustDialogsForDrawer, 300); // time for CSS/animation
-				});
+			  $('#show-wiki').on('click', function() {
+				$('#wikiDrawer').show();
+				$('#show-wiki').hide();
+				$('#hide-wiki').show();
+				$('#main-content').css('margin-left', drawerWidthPx+'px');
+				setTimeout(adjustDialogsForDrawer, 300);
+			  });
 
-				// Hide drawer, recenter dialogs and main content
-				$('#hide-wiki').on('click', function() {
-					$('#wikiDrawer').hide();
-					$('#hide-wiki').hide();
-					$('#show-wiki').show();
-					$('#main-content').css('margin-left', '0');
-					setTimeout(adjustDialogsForDrawer, 300);
-				});
+			  $('#hide-wiki').on('click', function() {
+				$('#wikiDrawer').hide();
+				$('#hide-wiki').hide();
+				$('#show-wiki').show();
+				$('#main-content').css('margin-left', '0');
+				setTimeout(adjustDialogsForDrawer, 300);
+			  });
 
-				// Open dialog button
-				$('#openDialog1').click(function() {
-					$('#dialog1').dialog('open');
-					adjustDialogsForDrawer(); // places it right when opened
-				});
-
-				// Always calculate placement on window resize
-				$(window).on('resize', adjustDialogsForDrawer);
-
-				// On *any* dialog open, position accordingly (user might open with other means)
-				$(document).on('dialogopen', '.wikidialog', function() {
-					adjustDialogsForDrawer();
-				});
+			  $(window).on('resize', adjustDialogsForDrawer);
+			  // When any dialog opens, adjust for drawer
+			  $(document).on('dialogopen', '.ui-dialog-content', adjustDialogsForDrawer);
 			});
 		</script>
 
