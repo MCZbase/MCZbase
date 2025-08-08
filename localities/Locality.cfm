@@ -792,48 +792,18 @@ limitations under the License.
 
 			// Move all open dialogs to the right of the drawer
 			function pushDialogForDrawer(marginPx, drawerWidthPx) {
-		//		var winWidth = $(window).width();
-//				var dlgLeft = drawerWidthPx + marginPx;
-//				var dlgTop = marginPx;
-//				var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
-//
-//				$('.wikidialog:visible').each(function() {
-//					$(this).dialog('option', {
-//						width: dlgWidth,
-//						height: 'auto',
-//						position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
-//					});
-//					$(this).css({ height: '', maxHeight: '' });
-//				});
-				
-				
-				var winWidth = $(window).width(), winHeight = $(window).height();
-				var dlgLeft = drawerWidthPx + marginPx, dlgTop = marginPx;
+				var winWidth = $(window).width();
+				var dlgLeft = drawerWidthPx + marginPx;
+				var dlgTop = marginPx;
 				var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
-				//var dlgHeight = Math.max(winHeight - margin * 2, 200);
-				$dlg.css({
-					left: dlgLeft + 'px',
-					top: dlgTop + 'px',
-					width: dlgWidth + 'px',
-					//height: dlgHeight + 'px',
-					height: '',
-					maxWidth: '', 
-					maxHeight: '',
-					position: 'fixed'
-				});
-				$dlg.dialog('option', {
-					width: dlgWidth,
-					height: 'auto',
-					position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
-				});
-				var $titlebar   = $dlg.find('.ui-dialog-titlebar');
-				var $buttonpane = $dlg.find('.ui-dialog-buttonpane');
-				var contentHeight = dlgHeight -
-					($titlebar.outerHeight() || 0) -
-					($buttonpane.outerHeight() || 0);
-				$dlg.find('.ui-dialog-content').css({
-					height: contentHeight + 'px',
-					maxHeight: contentHeight + 'px'
+
+				$('.wikidialog:visible').each(function() {
+					$(this).dialog('option', {
+						width: dlgWidth,
+						height: 'auto',
+						position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
+					});
+					$(this).css({ height: '', maxHeight: '' });
 				});
 			}
 
@@ -886,7 +856,7 @@ limitations under the License.
 					setTimeout(function() {
 						if ($("##wikiDrawer").is(':hidden')) {
 							centerAllOpenDialogs(marginPx);
-						}
+						} else {pushDialogForDrawer(marginPx, drawerWidthPx);}
 					}, 400);
 					$("##show-wiki").show();
 					$("##hide-wiki").hide();
