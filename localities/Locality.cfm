@@ -737,6 +737,11 @@ limitations under the License.
 				$dlg.find('.ui-dialog-content').css({ height: '', maxHeight: '' });
 			}
 			$(document).ready(function() {
+				$('.mydialog').dialog({
+					autoOpen: false,
+					width: 500,
+					modal: false
+				});
 				// Show drawer, push dialog right if drawer will be visible
 				$('##show-wiki').on('click', function(e) {
 					e.preventDefault();
