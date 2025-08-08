@@ -6643,7 +6643,7 @@ limitations under the License.
 					<h2 class="h2 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
 					<button class="btn btn-xs btn-secondary float-right" onclick="closeLocalityInPage();">Back to Specimen without saving changes</button>
 				</div>
-				<form name="loc" method="post" class="row border p-1 m-1 bg-light">
+				<form name="locForm" method="post" class="row border p-1 m-1 bg-light">
 					<!--- TODO: Form submission handler --->
 					<input type="hidden" name="action" value="saveChange">
 					<input type="hidden" name="nothing" id="nothing">
@@ -8211,6 +8211,7 @@ limitations under the License.
 										<input type="submit" value="Split and Save Changes" class="btn btn-xs btn-primary">
 										<span class="ml-3">A new locality and collecting event will be created with these values and changes will apply to this record only. </span> 
 									</cfif>
+									<output id="locFormOutput"></output>
 								</div>
 								<div class="mt-3 float-right">
 									<button class="btn btn-xs btn-secondary" onclick="closeLocalityInPage();">Back to Specimen without saving changes</button>
@@ -8225,6 +8226,13 @@ limitations under the License.
 								dateFormat: "yy-mm-dd",
 								changeMonth: true,
 								changeYear: true
+							});
+							$('##locForm').on('input change', 'input, select, textarea', function(event) {
+							    // 'this' is the changed element
+							    var changedId = $(this).attr('id');
+							    var newValue = $(this).val();
+							    console.log('locForm field changed:', changedId, 'New value:', newValue);
+								 $('##locFormOutput').text('Unsaved changes');
 							});
 						});
 						function closeLocalityInPage() { 
