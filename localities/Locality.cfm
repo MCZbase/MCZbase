@@ -857,26 +857,34 @@ limitations under the License.
 				  });
 			  });
 
-			  $('#show-wiki').on('click', function() {
-				$('#wikiDrawer').show();
-				$('#show-wiki').hide();
-				$('#hide-wiki').show();
-				$('#main-content').css('margin-left', drawerWidthPx+'px');
-				setTimeout(adjustDialogsForDrawer, 300);
-			  });
+				$('#show-wiki').on('click', function(e) {
+					e.preventDefault();
+					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
+					<cfelse>
+						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
+					</cfif>
+					$("#show-wiki").hide();
+					$("#hide-wiki").show();
+					setTimeout(function() {
+						if ($('##wikiDrawer').is(':visible')) {
+							pushDialogForDrawer(marginPx, drawerWidthPx);
+						}
+					}, 400);
+				});
 	
-			  $('#hide-wiki').on('click', function(e) {
-				e.preventDefault();
-				closeWikiDrawer();
-				centerDialogProperly();
-				setTimeout(centerDialogProperly, 400);
-				setTimeout(adjustDialogsForDrawer, 300);
-			  });
-			$("##hide-wiki").hide();
+			 	$('#hide-wiki').on('click', function(e) {
+					e.preventDefault();
+					closeWikiDrawer();
+					centerDialogProperly();
+					setTimeout(centerDialogProperly, 400);
+					setTimeout(adjustDialogsForDrawer, 300);
+					});
+				$("#hide-wiki").hide();
 		
-			  $(window).on('resize', adjustDialogsForDrawer);
-			  // When any dialog opens, adjust for drawer
-			  $(document).on('dialogopen', '.ui-dialog-content', adjustDialogsForDrawer);
+				$(window).on('resize', adjustDialogsForDrawer);
+				// When any dialog opens, adjust for drawer
+				$(document).on('dialogopen', '.ui-dialog-content', adjustDialogsForDrawer);
 			});
 		</script>
 
