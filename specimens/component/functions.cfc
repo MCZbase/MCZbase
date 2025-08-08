@@ -8225,12 +8225,12 @@ limitations under the License.
 							<div class="col-12">
 								<div class="mt-3 float-left">
 									<cfif splitToSave>	
-										<input id="saveButton" type="submit" value="Save Changes" class="btn btn-xs btn-primary float-left">
-										<output id="locFormOutput"></output>
-									<cfelse>
 										<input id="splitAndSaveButton" type="submit" value="Split and Save Changes" class="btn btn-xs btn-primary" disabled>
 										<output id="locFormOutput"></output>
 										<span class="ml-3">A new locality and collecting event will be created with these values and changes will apply to this record only. </span> 
+									<cfelse>
+										<input id="saveButton" type="submit" value="Save Changes" class="btn btn-xs btn-primary float-left">
+										<output id="locFormOutput"></output>
 									</cfif>
 								</div>
 								<div class="mt-3 float-right">
