@@ -833,40 +833,40 @@ limitations under the License.
 				});
 
 				// Show drawer, push dialog right if drawer will be visible
-				$('#show-wiki').on('click', function(e) {
+				$('##show-wiki').on('click', function(e) {
 					e.preventDefault();
 					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
 					<cfelse>
 						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
 					</cfif>
-					$("#show-wiki").hide();
-					$("#hide-wiki").show();
+					$("##show-wiki").hide();
+					$("##hide-wiki").show();
 					setTimeout(function() {
-						if ($("#wikiDrawer").is(':visible')) {
+						if ($("##wikiDrawer").is(':visible')) {
 							pushDialogForDrawer(marginPx, drawerWidthPx);
 						}
 					}, 400);
 				});
 
 				// Hide drawer, recenter dialog
-				$('#hide-wiki').on('click', function(e) {
+				$('##hide-wiki').on('click', function(e) {
 					e.preventDefault();
 					closeWikiDrawer();
 					setTimeout(function() {
-						if ($("#wikiDrawer").is(':hidden')) {
+						if ($("##wikiDrawer").is(':hidden')) {
 							centerAllOpenDialogs(marginPx);
 						}
 					}, 400);
-					$("#show-wiki").show();
-					$("#hide-wiki").hide();
+					$("##show-wiki").show();
+					$("##hide-wiki").hide();
 				});
 
-				$("#hide-wiki").hide();
+				$("##hide-wiki").hide();
 
 				// Window resize: always recalculate, push or center
 				$(window).on('resize', function() {
-					if ($("#wikiDrawer").is(':visible')) {
+					if ($("##wikiDrawer").is(':visible')) {
 						pushDialogForDrawer(marginPx, drawerWidthPx);
 					} else {
 						centerAllOpenDialogs(marginPx);
@@ -877,7 +877,7 @@ limitations under the License.
 				$(document).on('dialogopen', '.wikidialog', function() {
 					var $dlg = $(this);
 					setTimeout(function() {
-						if ($("#wikiDrawer").is(':visible')) {
+						if ($("##wikiDrawer").is(':visible')) {
 							var winWidth = $(window).width();
 							var dlgLeft = drawerWidthPx + marginPx;
 							var dlgTop = marginPx;
