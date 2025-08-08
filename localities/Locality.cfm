@@ -839,7 +839,7 @@ limitations under the License.
 			  $('##addGeorefDialog').click(function() {
 				var n = $('.ui-dialog').length + 1;
 				var $dlg = $('<div>')
-				  .html('Random dialog #' + n)
+				  .html('Random dialog ##' + n)
 				  .attr('title', 'Dialog ##' + n)
 				  .dialog({
 					width: origDialogWidth,
