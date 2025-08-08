@@ -6641,8 +6641,17 @@ limitations under the License.
 				<cfset guid = "#getLoc.institution_acronym#:#getLoc.collection_cde#:#getLoc.cat_num#">
 				<div class="col-12 px-0 pt-1">
 					<h2 class="h2 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
-					<button class="btn btn-xs btn-secondary float-right" onclick="closeLocalityInPage();">Back to Specimen without saving changes</button>
+					<button id="backToSpecimen1" class="btn btn-xs btn-secondary float-right" onclick="closeLocalityInPage();">Back to Specimen</button>
 				</div>
+				<script>
+					function changeMadeInLocForm() { 
+						// indicate that a change has been made in the locality form
+						$('##locFormOutput').text('Unsaved changes');
+						$('##locFormOutput').addClass('text-danger');
+						$("##backToSpecimen1").html("Back to Specimen without saving changes");
+						$("##backToSpecimen2").html("Back to Specimen without saving changes");
+					}
+				</script>
 				<form id="locForm" name="locForm" method="post" class="row border p-1 m-1 bg-light">
 					<!--- TODO: Form submission handler --->
 					<input type="hidden" name="action" value="saveChange">
@@ -8207,14 +8216,15 @@ limitations under the License.
 								<div class="mt-3 float-left">
 									<cfif loccount.ct eq 1 and cecount.ct eq 1>
 										<input type="submit" value="Save Changes" class="btn btn-xs btn-primary float-left">
+										<output id="locFormOutput"></output>
 									<cfelse>
 										<input type="submit" value="Split and Save Changes" class="btn btn-xs btn-primary">
+										<output id="locFormOutput"></output>
 										<span class="ml-3">A new locality and collecting event will be created with these values and changes will apply to this record only. </span> 
 									</cfif>
-									<output id="locFormOutput"></output>
 								</div>
 								<div class="mt-3 float-right">
-									<button class="btn btn-xs btn-secondary" onclick="closeLocalityInPage();">Back to Specimen without saving changes</button>
+									<button id="backToSpecimen2" class="btn btn-xs btn-secondary" onclick="closeLocalityInPage();">Back to Specimen</button>
 								</div>
 							</div>
 						</div>
@@ -8228,11 +8238,12 @@ limitations under the License.
 								changeYear: true
 							});
 							$('##locForm').on('input change', 'input, select, textarea', function(event) {
-							    // 'this' is the changed element
-							    var changedId = $(this).attr('id');
-							    var newValue = $(this).val();
-							    console.log('locForm field changed:', changedId, 'New value:', newValue);
-								 $('##locFormOutput').text('Unsaved changes');
+								// 'this' is the changed element
+								var changedId = $(this).attr('id');
+								var newValue = $(this).val();
+								console.log('locForm field changed:', changedId, 'New value:', newValue);
+								// Indicate that there are unsaved changes
+								changeMadeInLocForm();
 							});
 						});
 						function closeLocalityInPage() { 
