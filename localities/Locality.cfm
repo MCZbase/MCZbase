@@ -864,9 +864,8 @@ limitations under the License.
 
 				$("##hide-wiki").hide();
 
-				// Window resize: always recalculate, push or center
-				$(window).on('resize', function() {
-					if ($("##wikiDrawer").is(':visible')) {
+				$(window).on('resize', function () {
+					if ($('#wikiDrawer').is(':visible')) {
 						pushDialogForDrawer(marginPx, drawerWidthPx);
 					} else {
 						centerAllOpenDialogs(marginPx);
@@ -874,36 +873,13 @@ limitations under the License.
 				});
 
 				// When any dialog opens, position it according to drawer state
-				$(document).on('dialogopen', '.wikidialog', function() {
-					var $dlg = $(this);
-					setTimeout(function() {
-						if ($("##wikiDrawer").is(':visible')) {
-							var winWidth = $(window).width();
-							var dlgLeft = drawerWidthPx + marginPx;
-							var dlgTop = marginPx;
-							var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
-
-							$dlg.dialog('option', {
-								width: dlgWidth,
-								height: 'auto',
-								position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
-							});
-							$dlg.css({ height: '', maxHeight: '' });
-						} else {
-							var winWidth = $(window).width();
-							var dlgLeft = marginPx;
-							var dlgTop = marginPx;
-							var dlgWidth = Math.max(winWidth - marginPx * 2, 320);
-
-							$dlg.dialog('option', {
-								width: dlgWidth,
-								height: 'auto',
-								position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
-							});
-							$dlg.css({ height: '', maxHeight: '' });
-						}
-					}, 0);
-				});
+				$(document).on('dialogopen', '.wikidialog', function () {
+				if ($('#wikiDrawer').is(':visible')) {
+				  pushDialogForDrawer(marginPx, drawerWidthPx);
+				} else {
+				  centerAllOpenDialogs(marginPx);
+				}
+			  });
 			});
 		</script>
 	</cfoutput>
