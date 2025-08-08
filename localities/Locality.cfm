@@ -839,13 +839,20 @@ limitations under the License.
 				var dlgTop = marginPx;
 				var dlgWidth = Math.max(winWidth - marginPx * 2, 320);
 
-				$('.wikidialog:visible').each(function() {
-					$(this).dialog('option', {
-						width: dlgWidth,
-						height: 'auto',
-						position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
-					});
-					$(this).css({ height: '', maxHeight: '' });
+				$('.wikidialog').each(function() {
+					var $dlg = $(this);
+					if ($dlg.dialog('isOpen')) {
+						$dlg.dialog('option', {
+							width: dlgWidth,
+							height: 'auto',
+							position: {
+								my: "left top",
+								at: "left+" + dlgLeft + " top+" + dlgTop,
+								of: window
+							}
+						});
+						$dlg.css({ height: '', maxHeight: '' });
+					}
 				});
 			}
 
