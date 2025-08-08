@@ -665,7 +665,11 @@ limitations under the License.
 			<div id="wiki-content" class="p-3"></div>
 		</div>
 
-		<!--- NOTE: wikiDrawer, show-wiki, hide-wiki are hard coded in openWikiDrawer and closeWikiDrawer functions. --->
+		<!--- NOTE: wikiDrawer, show-wiki, hide-wiki are hard coded in openWikiDrawer and closeWikiDrawer functions.
+
+		This code (commented out) works but it pulls an error due to uninitiated dialogs since I am working with the wrapper .ui-dialog
+
+		--->
 		<script>
 		//	var drawerWidthPx = 400;
 //			var marginPx = 30;
@@ -785,7 +789,9 @@ limitations under the License.
 //				});
 //			});
 		</script>
-		
+		<!---
+			This code fixes the error but doesn't do what it is supposed to do...yet.
+		--->
 		<script>
 			var drawerWidthPx = 400;
 			var marginPx = 30;
