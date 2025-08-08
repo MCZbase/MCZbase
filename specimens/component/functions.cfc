@@ -6643,7 +6643,7 @@ limitations under the License.
 					<h2 class="h2 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
 					<button class="btn btn-xs btn-secondary float-right" onclick="closeLocalityInPage();">Back to Specimen without saving changes</button>
 				</div>
-				<form name="locForm" method="post" class="row border p-1 m-1 bg-light">
+				<form id="locForm" name="locForm" method="post" class="row border p-1 m-1 bg-light">
 					<!--- TODO: Form submission handler --->
 					<input type="hidden" name="action" value="saveChange">
 					<input type="hidden" name="nothing" id="nothing">
