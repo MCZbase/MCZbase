@@ -836,7 +836,7 @@ limitations under the License.
 
 			$(function() {
 			  // Dynamically create/open dialogs
-			  $('#openrnd').click(function() {
+			  $('#addGeorefDialog').click(function() {
 				var n = $('.ui-dialog').length + 1;
 				var $dlg = $('<div>')
 				  .html('Random dialog #' + n)
