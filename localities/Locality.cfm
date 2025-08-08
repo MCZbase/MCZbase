@@ -828,7 +828,7 @@ limitations under the License.
 				// ---- CRITICAL: Initialize ALL dialog elements (do this ONCE) ----
 				$('.wikidialog').dialog({
 					autoOpen: false,
-					width: 500,   // Or your default
+					width: 1100,   // Or your default
 					modal: false  // Or true if you want
 				});
 
