@@ -692,7 +692,6 @@ limitations under the License.
 				});
 				$dlg.dialog('option', {
 					width: dlgWidth,
-					height: dlgHeight,
 					height: 'auto',
 					position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
 				});
