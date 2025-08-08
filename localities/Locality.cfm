@@ -674,74 +674,70 @@ limitations under the License.
 
 			// Move dialog to the right of the drawer, with margin
 			function pushDialogForDrawer(marginPx, drawerWidthPx) {
-				var $dlg = $('.ui-dialog:visible');
-				if (!$dlg.length) return;
-				var winWidth = $(window).width(), winHeight = $(window).height();
-				var dlgLeft = drawerWidthPx + marginPx, dlgTop = marginPx;
+//				var $dlg = $('.ui-dialog:visible');
+//				if (!$dlg.length) return;
+//				var winWidth = $(window).width(), winHeight = $(window).height();
+//				var dlgLeft = drawerWidthPx + marginPx, dlgTop = marginPx;
+//				var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
+//				//var dlgHeight = Math.max(winHeight - margin * 2, 200);
+//				$dlg.css({
+//					left: dlgLeft + 'px',
+//					top: dlgTop + 'px',
+//					width: dlgWidth + 'px',
+//					//height: dlgHeight + 'px',
+//					height: '',
+//					maxWidth: '', 
+//					maxHeight: '',
+//					position: 'fixed'
+//				});
+//				$dlg.dialog('option', {
+//					width: dlgWidth,
+//					height: 'auto',
+//					position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
+//				});
+//				var $titlebar   = $dlg.find('.ui-dialog-titlebar');
+//				var $buttonpane = $dlg.find('.ui-dialog-buttonpane');
+//				var contentHeight = dlgHeight -
+//					($titlebar.outerHeight() || 0) -
+//					($buttonpane.outerHeight() || 0);
+//				$dlg.find('.ui-dialog-content').css({
+//					height: contentHeight + 'px',
+//					maxHeight: contentHeight + 'px'
+//				});
+				var winWidth = $(window).width();
+				var dlgLeft = drawerWidthPx + marginPx;
+				var dlgTop = marginPx;
 				var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
-				//var dlgHeight = Math.max(winHeight - margin * 2, 200);
-				$dlg.css({
-					left: dlgLeft + 'px',
-					top: dlgTop + 'px',
-					width: dlgWidth + 'px',
-					//height: dlgHeight + 'px',
-					height: '',
-					maxWidth: '', 
-					maxHeight: '',
-					position: 'fixed'
-				});
-				$dlg.dialog('option', {
+
+				$('.ui-dialog-content:visible').each(function() {
+					$(this).dialog('option', {
 					width: dlgWidth,
 					height: 'auto',
-					position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
+					position: { my: "left top", at: "left+"+dlgLeft+" top+"+dlgTop, of: window }
 				});
-				var $titlebar   = $dlg.find('.ui-dialog-titlebar');
-				var $buttonpane = $dlg.find('.ui-dialog-buttonpane');
-				var contentHeight = dlgHeight -
-					($titlebar.outerHeight() || 0) -
-					($buttonpane.outerHeight() || 0);
-				$dlg.find('.ui-dialog-content').css({
-					height: contentHeight + 'px',
-					maxHeight: contentHeight + 'px'
+					$(this).css({ height: '', maxHeight: '' });
 				});
+				
 			}
 
-			function centerDialogProperly() {
-				// Find any visible dialog wrapper
-				var $dlg = $('.ui-dialog:visible');
-				if (!$dlg.length) return;
+			function centerAllOpenDialogs(marginPx) {
+				var winWidth = $(window).width();
+				var dlgLeft = marginPx;
+				var dlgTop = marginPx;
+				var dlgWidth = Math.max(winWidth - marginPx * 2, 320);
 
-				// Remove ALL inline styles, including left/top/width/etc.
-				$dlg.removeAttr('style');
-				// Always set back to fixed (if you want it to stay fixed during scroll)
-				$dlg.css('position', 'fixed');
-
-				// Now, recenter the dialog using the original widget (the modal content)
-				// Try to find the widget content inside this wrapper:
-				var $widget = $dlg.find('.ui-dialog-content');
-				if ($widget.length) {
-					// .attr('id') gives you the dialog's widget id
-					var wid = $widget.attr('id');
-					if (wid && $('##' + wid).length) {
-						// Set default centering position and autosize
-						$('##' + wid).dialog('option', 'width', 'auto');
-						$('##' + wid).dialog('option', 'height', 'auto');
-						$('##' + wid).dialog('option', 'position', { my: "center", at: "center", of: window });
-						// Double nudge, for some browsers or themes:
-						setTimeout(function() {
-							$('##' + wid).dialog('option', 'position', { my: "center", at: "center", of: window });
-						}, 10);
-					}
-				}
-				// Optionally, also clear height/maxHeight from content area
-				$dlg.find('.ui-dialog-content').css({ height: '', maxHeight: '' });
+				$('.ui-dialog-content:visible').each(function() {
+				$(this).dialog('option', {
+					width: dlgWidth,
+					height: 'auto',
+					position: { my: "left top", at: "left+"+dlgLeft+" top+"+dlgTop, of: window }
+				});
+					$(this).css({ height: '', maxHeight: '' });
+				});
 			}
+			
 			$(document).ready(function() {
-				$('.mydialog').dialog({
-					autoOpen: false,
-					width: 500,
-					modal: false
-				});
+	
 				// Show drawer, push dialog right if drawer will be visible
 				$('##show-wiki').on('click', function(e) {
 					e.preventDefault();
@@ -779,12 +775,16 @@ limitations under the License.
 				});
 
 				// On dialog open, position properly based on drawer state
-				$(document).on('dialogopen', '.ui-dialog', function() {
+				$(document).on('dialogopen', '.ui-dialog-content', function() {
 					setTimeout(function() {
 						if ($('##wikiDrawer').is(':visible')) {
-							pushDialogForDrawer(marginPx, drawerWidthPx);
+							$(this).dialog('option', {
+								pushDialogForDrawer(marginPx, drawerWidthPx);
+							});
 						} else {
-							centerDialogProperly();
+							$(this).dialog('option', {
+								centerDialogProperly();
+							});
 						}
 					}, 0);
 				});
