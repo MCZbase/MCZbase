@@ -785,7 +785,7 @@ limitations under the License.
 //				});
 //			});
 		</script>
-			
+		</cfoutput>		
 		<script>
 			var drawerWidthPx = 400;
 			var marginPx = 30;
@@ -885,7 +885,7 @@ limitations under the License.
 				});
 			});
 		</script>
-	</cfoutput>
+
 </cfif>
 
 <cfinclude template = "/shared/_footer.cfm">
