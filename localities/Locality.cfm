@@ -827,7 +827,7 @@ limitations under the License.
 			}
 
 			function adjustDialogsForDrawer() {
-			  if ($('#wikiDrawer').is(':visible')) {
+			  if ($('##wikiDrawer').is(':visible')) {
 				pushDialogForDrawer();
 			  } else {
 				centerAllOpenDialogs();
