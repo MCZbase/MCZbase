@@ -812,27 +812,18 @@ limitations under the License.
 				var dlgTop = marginPx;
 				var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
 
-				// Loop all open dialogs (by your content class) and reposition via the API:
 				$('.wikidialog').each(function() {
 					var $dlg = $(this);
 					if ($dlg.dialog('isOpen')) {
 						$dlg.dialog('option', {
 							width: dlgWidth,
 							height: 'auto',
-							position: {
-								my: "left top",
-								at: "left+" + dlgLeft + " top+" + dlgTop,
-								of: window
-							}
+							position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
 						});
-						// Optionally, set heights/max-heights as needed (usually not needed unless you want to restrict)
 						$dlg.css({ height: '', maxHeight: '' });
 					}
 				});
 			}
-			
-
-			// Center all open dialogs within the window (with margin)
 			function centerAllOpenDialogs(marginPx) {
 				var winWidth = $(window).width();
 				var dlgLeft = marginPx;
@@ -845,11 +836,7 @@ limitations under the License.
 						$dlg.dialog('option', {
 							width: dlgWidth,
 							height: 'auto',
-							position: {
-								my: "left top",
-								at: "left+" + dlgLeft + " top+" + dlgTop,
-								of: window
-							}
+							position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
 						});
 						$dlg.css({ height: '', maxHeight: '' });
 					}
