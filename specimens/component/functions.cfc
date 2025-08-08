@@ -6643,6 +6643,10 @@ limitations under the License.
 					<h2 class="h2 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
 					<button id="backToSpecimen1" class="btn btn-xs btn-secondary float-right" onclick="closeLocalityInPage();">Back to Specimen</button>
 				</div>
+				<cfset splitToSave = true>
+				<cfif loccount.ct eq 1 and cecount.ct eq 1>
+					<cfset splitToSave = false>
+				</cfif>
 				<script>
 					function changeMadeInLocForm() { 
 						// indicate that a change has been made in the locality form
@@ -6650,10 +6654,16 @@ limitations under the License.
 						$('##locFormOutput').addClass('text-danger');
 						$("##backToSpecimen1").html("Back to Specimen without saving changes");
 						$("##backToSpecimen2").html("Back to Specimen without saving changes");
+						$("##splitAndSaveButton").removeAttr("disabled")
 					}
 				</script>
 				<form id="locForm" name="locForm" method="post" class="row border p-1 m-1 bg-light">
 					<!--- TODO: Form submission handler --->
+					<cfif splitToSave>	
+						<input type="hidden" name="action" id="action" value="splitAndSave">
+					<cfelse>
+						<input type="hidden" name="action" id="action" value="saveCurrent">
+					</cfif>
 					<input type="hidden" name="action" value="saveChange">
 					<input type="hidden" name="nothing" id="nothing">
 					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
@@ -8214,11 +8224,11 @@ limitations under the License.
 						<div class="col-12 px-0">
 							<div class="col-12">
 								<div class="mt-3 float-left">
-									<cfif loccount.ct eq 1 and cecount.ct eq 1>
-										<input type="submit" value="Save Changes" class="btn btn-xs btn-primary float-left">
+									<cfif splitToSave>	
+										<input id="saveButton" type="submit" value="Save Changes" class="btn btn-xs btn-primary float-left">
 										<output id="locFormOutput"></output>
 									<cfelse>
-										<input type="submit" value="Split and Save Changes" class="btn btn-xs btn-primary">
+										<input id="splitAndSaveButton" type="submit" value="Split and Save Changes" class="btn btn-xs btn-primary" disabled>
 										<output id="locFormOutput"></output>
 										<span class="ml-3">A new locality and collecting event will be created with these values and changes will apply to this record only. </span> 
 									</cfif>
