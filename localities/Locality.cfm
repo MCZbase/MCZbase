@@ -787,7 +787,7 @@ limitations under the License.
 		</script>
 			
 		<script>
-			var drawerWidthPx = 400;
+		var drawerWidthPx = 400;
 			var marginPx = 30;
 
 			// Move all open dialogs to the right of the drawer
@@ -797,11 +797,11 @@ limitations under the License.
 				var dlgTop = marginPx;
 				var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
 
-				$('.ui-dialog-content:visible').each(function() {
+				$('.wikidialog:visible').each(function() {
 					$(this).dialog('option', {
 						width: dlgWidth,
 						height: 'auto',
-						position: { my: "left top", at: "left+"+dlgLeft+" top+"+dlgTop, of: window }
+						position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
 					});
 					$(this).css({ height: '', maxHeight: '' });
 				});
@@ -814,51 +814,59 @@ limitations under the License.
 				var dlgTop = marginPx;
 				var dlgWidth = Math.max(winWidth - marginPx * 2, 320);
 
-				$('.ui-dialog-content:visible').each(function() {
+				$('.wikidialog:visible').each(function() {
 					$(this).dialog('option', {
 						width: dlgWidth,
 						height: 'auto',
-						position: { my: "left top", at: "left+"+dlgLeft+" top+"+dlgTop, of: window }
+						position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
 					});
 					$(this).css({ height: '', maxHeight: '' });
 				});
 			}
 
 			$(document).ready(function() {
-					$('##show-wiki').on('click', function(e) {
+				// ---- CRITICAL: Initialize ALL dialog elements (do this ONCE) ----
+				$('.wikidialog').dialog({
+					autoOpen: false,
+					width: 500,   // Or your default
+					modal: false  // Or true if you want
+				});
+
+				// Show drawer, push dialog right if drawer will be visible
+				$('#show-wiki').on('click', function(e) {
 					e.preventDefault();
 					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
 					<cfelse>
 						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
 					</cfif>
-					$("##show-wiki").hide();
-					$("##hide-wiki").show();
+					$("#show-wiki").hide();
+					$("#hide-wiki").show();
 					setTimeout(function() {
-						if ($("##wikiDrawer").is(':visible')) {
+						if ($("#wikiDrawer").is(':visible')) {
 							pushDialogForDrawer(marginPx, drawerWidthPx);
 						}
 					}, 400);
 				});
 
 				// Hide drawer, recenter dialog
-				$('##hide-wiki').on('click', function(e) {
+				$('#hide-wiki').on('click', function(e) {
 					e.preventDefault();
 					closeWikiDrawer();
 					setTimeout(function() {
-						if ($("##wikiDrawer").is(':hidden')) {
+						if ($("#wikiDrawer").is(':hidden')) {
 							centerAllOpenDialogs(marginPx);
 						}
 					}, 400);
-					$("##show-wiki").show();
-					$("##hide-wiki").hide();
+					$("#show-wiki").show();
+					$("#hide-wiki").hide();
 				});
 
-				$("##hide-wiki").hide();
+				$("#hide-wiki").hide();
 
 				// Window resize: always recalculate, push or center
 				$(window).on('resize', function() {
-					if ($("##wikiDrawer").is(':visible')) {
+					if ($("#wikiDrawer").is(':visible')) {
 						pushDialogForDrawer(marginPx, drawerWidthPx);
 					} else {
 						centerAllOpenDialogs(marginPx);
@@ -866,11 +874,10 @@ limitations under the License.
 				});
 
 				// When any dialog opens, position it according to drawer state
-				$(document).on('dialogopen', '.ui-dialog-content', function() {
+				$(document).on('dialogopen', '.wikidialog', function() {
 					var $dlg = $(this);
 					setTimeout(function() {
-						if ($("##wikiDrawer").is(':visible')) {
-							// Only adjust that one dialog
+						if ($("#wikiDrawer").is(':visible')) {
 							var winWidth = $(window).width();
 							var dlgLeft = drawerWidthPx + marginPx;
 							var dlgTop = marginPx;
@@ -879,7 +886,7 @@ limitations under the License.
 							$dlg.dialog('option', {
 								width: dlgWidth,
 								height: 'auto',
-								position: { my: "left top", at: "left+"+dlgLeft+" top+"+dlgTop, of: window }
+								position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
 							});
 							$dlg.css({ height: '', maxHeight: '' });
 						} else {
@@ -891,7 +898,7 @@ limitations under the License.
 							$dlg.dialog('option', {
 								width: dlgWidth,
 								height: 'auto',
-								position: { my: "left top", at: "left+"+dlgLeft+" top+"+dlgTop, of: window }
+								position: { my: "left top", at: "left+" + dlgLeft + " top+" + dlgTop, of: window }
 							});
 							$dlg.css({ height: '', maxHeight: '' });
 						}
