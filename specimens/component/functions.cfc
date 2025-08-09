@@ -6654,20 +6654,19 @@ limitations under the License.
 						$('##locFormOutput').addClass('text-danger');
 						$("##backToSpecimen1").html("Back to Specimen without saving changes");
 						$("##backToSpecimen2").html("Back to Specimen without saving changes");
-						$("##splitAndSaveButton").removeAttr("disabled")
+						$("##splitAndSaveButton").removeAttr("disabled");
 					}
 					function submitLocForm() {
 						// validate the form
-						if (!$('##locForm').valid()) {
-							$('##locFormOutput').text('Unable to save, fix the errors.');
-							// if the form is not valid, return
+						if ($('##locForm')[0].checkValidity() === false) {
+							// If the form is invalid, show validation messages
+							$('##locForm')[0].reportValidity();
+							setFeedbackControlState("locFormOutput","error")
 							return;
 						}
 						// submit the form
 						// ajax submit the form to localities/component/functions.cfc
-						$('##locFormOutput').text('Saving...');
-						$('##locFormOutput').removeClass('text-danger');
-						$('##locFormOutput').addClass('text-success');
+						setFeedbackControlState("locFormOutput","saving")
 						$.ajax({
 							url: '/localities/component/functions.cfc',
 							type: 'POST',
@@ -6675,18 +6674,15 @@ limitations under the License.
 							dataType: 'json',
 							success: function(response) {
 								if (response[0].status === "saved") {
-									$('##locFormOutput').text('Locality saved successfully.');
-									$('##locFormOutput').removeClass('text-danger');
-									$('##locFormOutput').addClass('text-success');
+									setFeedbackControlState("locFormOutput","saved")
 									closeLocalityInPage();
 									reloadLocality();
 								} else {
-									$('##locFormOutput').text('Error saving locality: ' + response[0].error);
-									$('##locFormOutput').removeClass('text-success');
-									$('##locFormOutput').addClass('text-danger');
+									setFeedbackControlState("locFormOutput","error")
 								}
 							},
 							error: function(xhr, status, error) {
+								setFeedbackControlState("locFormOutput","error")
 								handleFail(xhr,status,error,"saving locality.");
 							}
 						});
