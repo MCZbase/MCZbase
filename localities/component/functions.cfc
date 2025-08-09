@@ -5507,7 +5507,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 			<cfif arguments.action EQ "splitAndSave">
 				<!--- split the collecting event and locality into new records and assign the cataloged item to the new collecting event. --->
 
-			<cfelse if arguments.action EQ "saveCurrent">
+			<cfelseif arguments.action EQ "saveCurrent">
 				<!--- save changes to the existing collecting event and locality, affecting all related cataloged items, which should be just one. --->
 
 			<cfelse>
