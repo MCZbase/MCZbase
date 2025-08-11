@@ -5864,9 +5864,25 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 						</cfif>
 					)
 				</cfquery>
+				<!--- obtain the new collecting event ID --->
 				<cfif newCollectingEvent_result.recordcount is 0>
 					<cfthrow message="Error creating new collecting event record.">
 				</cfif>
+				<cfquery name="getCollectingEventID" datasource="uam_god" result="getCollectingEventID_result">
+					SELECT collecting_event_id
+					FROM collecting_event
+					WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newCollectingEvent_result.GENERATEDKEY#">
+				</cfquery>
+				<cfset new_collecting_event_id = getCollectingEventID.collecting_event_id>
+				<cfif len(new_collecting_event_id) is 0>
+					<cfthrow message="Error obtaining new collecting event ID.">
+				</cfif>
+				<!--- update the cataloged item to point to the new collecting event --->
+				<cfquery name="updateCatalogedItem" datasource="uam_god" result="updateCatalogedItem_result">
+					UPDATE cataloged_item
+					SET collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_collecting_event_id#">
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+				</cfquery>
 
 			<cfelseif arguments.action EQ "saveCurrent">
 				<!--- save changes to the existing collecting event and locality, affecting all related cataloged items, which should be just one. --->
