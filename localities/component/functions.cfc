@@ -5584,6 +5584,21 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 	<cftransaction>
 		<!--- all datasources within a transaction must be the same, so as we need to temporarally disable a trigger, using uam_god for all queries --->
 		<cftry>
+			<!--- find what elements are shared with other specimens, confirming which actions to take --->
+			<cfquery name="cecount" datasource="uam_god">
+				SELECT count(collection_object_id) ct 
+				FROM cataloged_item
+				WHERE collecting_event_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value = "#getLoc.collecting_event_id#">
+			</cfquery>
+			<cfquery name="loccount" datasource="uam_god">
+				SELECT count(ci.collection_object_id) ct 
+				FROM cataloged_item ci
+					left join collecting_event on ci.collecting_event_id = collecting_event.collecting_event_id
+				WHERE collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value = "#getLoc.locality_id#">
+			</cfquery>
+			<cfif cecount.ct EQ 1 AND loccount.ct EQ 1 AND arguments.action EQ "splitAndSave">
+				<cfthrow message="Collecting Event and Locality are unique to this cataloged item, no need to split, split and save should not be enabled.">
+			</cfif>
 			<cfif arguments.action EQ "splitAndSave">
 				<!--- split the collecting event and locality into new records and assign the cataloged item to the new collecting event. --->
 				<!--- do this by creating a new locality, and then a new collecting event from the provided form data --->
@@ -5746,143 +5761,262 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 					</cfquery>
 				</cfif>
 
-				<!--- now create the new collecting event record --->
-				<cfquery name="newCollectingEvent" datasource="uam_god" result="newCollectingEvent_result">
-					INSERT INTO collecting_event 
-					(
-						collecting_event_id,
-						began_date, ended_date, verbatim_date, collecting_source, locality_id, verbatim_locality, verbatimdepth, verbatimelevation, verbatimCoordinates,
-						verbatimLatitude, verbatimLongitude, verbatimCoordinateSystem, verbatimSRS, verbatim_collectors, verbatim_field_numbers, verbatim_habitat,
-						coll_event_remarks, collecting_method, habitat_desc, collecting_time, fish_field_number, 
-						startDayOfYear, endDayOfYear, date_determined_by_agent_id, valid_distribution_fg
-					) VALUES (
-						sq_collecting_event_id.NEXTVAL,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_date#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collecting_source#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_locality_id#">,
-						<cfif len(#verbatim_locality#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_locality#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#verbatimdepth#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimdepth#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#verbatimelevation#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimelevation#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#verbatimCoordinates#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimCoordinates#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#verbatimLatitude#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimLatitude#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#verbatimLongitude#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimLongitude#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#verbatimCoordinateSystem#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimCoordinateSystem#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#verbatimSRS#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimSRS#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#verbatim_collectors#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_collectors#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#verbatim_field_numbers#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_field_numbers#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#verbatim_habitat#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_habitat#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#COLL_EVENT_REMARKS#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLL_EVENT_REMARKS#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#COLLECTING_METHOD#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_METHOD#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#HABITAT_DESC#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HABITAT_DESC#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#COLLECTING_TIME#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_TIME#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#fish_field_number#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fish_field_number#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#startDayOfYear#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#startDayOfYear#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#endDayOfYear#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#endDayOfYear#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#date_determined_by_agent_id#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#date_determined_by_agent_id#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#valid_distribution_fg#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_distribution_fg#">
-						<cfelse>
-							null
-						</cfif>
-					)
-				</cfquery>
-				<!--- obtain the new collecting event ID --->
-				<cfif newCollectingEvent_result.recordcount is 0>
-					<cfthrow message="Error creating new collecting event record.">
-				</cfif>
-				<cfquery name="getCollectingEventID" datasource="uam_god" result="getCollectingEventID_result">
-					SELECT collecting_event_id
-					FROM collecting_event
-					WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newCollectingEvent_result.GENERATEDKEY#">
-				</cfquery>
-				<cfset new_collecting_event_id = getCollectingEventID.collecting_event_id>
-				<cfif len(new_collecting_event_id) is 0>
-					<cfthrow message="Error obtaining new collecting event ID.">
-				</cfif>
-				<!--- update the cataloged item to point to the new collecting event --->
-				<cfquery name="updateCatalogedItem" datasource="uam_god" result="updateCatalogedItem_result">
-					UPDATE cataloged_item
-					SET collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_collecting_event_id#">
-					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
-				</cfquery>
+				<cfif cecount EQ 1 AND loccount.ct GT 1>
+					<!--- we can update the existing collecting event and point it at the new locality without leaving an orphan collecting event --->
+					<cfquery name="updateCollectingEvent" datasource="uam_god" result="updateCollectingEvent_result">
+						UPDATE collecting_event 
+						SET
+							locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_locality_id#">,
+							began_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">,
+							ended_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">,
+							verbatim_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_date#">,
+							collecting_source = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collecting_source#">,
+							<cfif len(#verbatim_locality#) gt 0>
+								,verbatim_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_locality#">
+							<cfelse>
+								,verbatim_locality = null
+							</cfif>
+							<cfif len(#verbatimdepth#) gt 0>
+								,verbatimdepth = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimdepth#">
+							<cfelse>
+								,verbatimdepth = null
+							</cfif>
+							<cfif len(#verbatimelevation#) gt 0>
+								,verbatimelevation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimelevation#">
+							<cfelse>
+								,verbatimelevation = null
+							</cfif>
+							<cfif len(#COLL_EVENT_REMARKS#) gt 0>
+								,COLL_EVENT_REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLL_EVENT_REMARKS#">
+							<cfelse>
+								,COLL_EVENT_REMARKS = null
+							</cfif>
+							<cfif len(#COLLECTING_METHOD#) gt 0>
+								,COLLECTING_METHOD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_METHOD#">
+							<cfelse>
+								,COLLECTING_METHOD = null
+							</cfif>
+							<cfif len(#HABITAT_DESC#) gt 0>
+								,HABITAT_DESC = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HABITAT_DESC#">
+							<cfelse>
+								,HABITAT_DESC = null
+							</cfif>
+							<cfif len(#COLLECTING_TIME#) gt 0>
+								,COLLECTING_TIME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_TIME#">
+							<cfelse>
+								,COLLECTING_TIME = null
+							</cfif>
+							<cfif len(#fish_field_number#) gt 0>
+								,FISH_FIELD_NUMBER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fish_field_number#">
+							<cfelse>
+								,FISH_FIELD_NUMBER = null
+							</cfif>
+							<cfif len(#verbatimCoordinates#) gt 0>
+								,verbatimCoordinates = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimCoordinates#">
+							<cfelse>
+								,verbatimCoordinates = null
+							</cfif>
+							<cfif len(#verbatimLatitude#) gt 0>
+								,verbatimLatitude = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimLatitude#">
+							<cfelse>
+								,verbatimLatitude = null
+							</cfif>
+							<cfif len(#verbatimLongitude#) gt 0>
+								,verbatimLongitude = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimLongitude#">
+							<cfelse>
+								,verbatimLongitude = null
+							</cfif>
+							<cfif len(#verbatimCoordinateSystem#) gt 0>
+								,verbatimCoordinateSystem = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimCoordinateSystem#">
+							<cfelse>
+								,verbatimCoordinateSystem = null
+							</cfif>
+							<cfif len(#verbatimSRS#) gt 0>
+								,verbatimSRS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimSRS#">
+							<cfelse>
+								,verbatimSRS = null
+							</cfif>
+							<cfif len(#startDayOfYear#) gt 0>
+								,startDayOfYear = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#startDayOfYear#">
+							<cfelse>
+								,startDayOfYear = null
+							</cfif>
+							<cfif len(#endDayOfYear#) gt 0>
+								,endDayOfYear = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDayOfYear#">
+							<cfelse>
+								,endDayOfYear = null
+							</cfif>
+							<cfif len(#date_determined_by_agent_id#) gt 0>
+								,date_determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#date_determined_by_agent_id#">
+							<cfelse>
+								,date_determined_by_agent_id = null
+							</cfif>
+							<cfif len(#valid_distribution_fg#) gt 0>
+								,valid_distribution_fg = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#valid_distribution_fg#">
+							<cfelse>
+								,valid_distribution_fg = null
+							</cfif>
+							<cfif len(#verbatim_collectors#) gt 0>
+								,verbatim_collectors = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_collectors#">
+							<cfelse>
+								,verbatim_collectors = null
+							</cfif>
+							<cfif len(#verbatim_field_numbers#) gt 0>
+								,verbatim_field_numbers = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_field_numbers#">
+							<cfelse>
+								,verbatim_field_numbers = null
+							</cfif>
+							<cfif len(#verbatim_habitat#) gt 0>
+								,verbatim_habitat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_habitat#">
+							<cfelse>
+								,verbatim_habitat = null
+							</cfif>
+			 			WHERE
+							collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+					</cfquery>
+					<cfif updateCollectingEvent_result.recordcount NEQ 1>
+						<cfthrow message="Error updating existing Collecting Event record #collecting_event_id#.">
+					</cfif>
+					<!--- we do not need to update the existing cataloged item record, it allready points at this collecting event --->
+				<cfelse>
+					<!--- create a the collecting event record to split it from the other shared ones --->
+					<cfquery name="newCollectingEvent" datasource="uam_god" result="newCollectingEvent_result">
+						INSERT INTO collecting_event 
+						(
+							collecting_event_id,
+							began_date, ended_date, verbatim_date, collecting_source, locality_id, verbatim_locality, verbatimdepth, verbatimelevation, verbatimCoordinates,
+							verbatimLatitude, verbatimLongitude, verbatimCoordinateSystem, verbatimSRS, verbatim_collectors, verbatim_field_numbers, verbatim_habitat,
+							coll_event_remarks, collecting_method, habitat_desc, collecting_time, fish_field_number, 
+							startDayOfYear, endDayOfYear, date_determined_by_agent_id, valid_distribution_fg
+						) VALUES (
+							sq_collecting_event_id.NEXTVAL,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_date#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collecting_source#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_locality_id#">,
+							<cfif len(#verbatim_locality#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_locality#">,
+							<cfelse>
+								null,
+							</cfif>
+							<cfif len(#verbatimdepth#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimdepth#">,
+							<cfelse>
+								null,
+							</cfif>
+							<cfif len(#verbatimelevation#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimelevation#">,
+							<cfelse>
+								null,
+							</cfif>
+							<cfif len(#verbatimCoordinates#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimCoordinates#">,
+							<cfelse>
+								null,
+							</cfif>
+							<cfif len(#verbatimLatitude#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimLatitude#">,
+							<cfelse>
+								null,
+							</cfif>
+							<cfif len(#verbatimLongitude#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimLongitude#">,
+							<cfelse>
+								null,
+							</cfif>
+							<cfif len(#verbatimCoordinateSystem#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimCoordinateSystem#">,
+							<cfelse>
+								null,
+							</cfif>
+							<cfif len(#verbatimSRS#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimSRS#">,
+							<cfelse>
+								null,
+							</cfif>
+							<cfif len(#verbatim_collectors#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_collectors#">,
+							<cfelse>
+								null,
+							</cfif>
+							<cfif len(#verbatim_field_numbers#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_field_numbers#">,
+							<cfelse>
+								null,
+							</cfif>
+							<cfif len(#verbatim_habitat#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_habitat#">,
+							<cfelse>
+								null,
+							</cfif>
+							<cfif len(#COLL_EVENT_REMARKS#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLL_EVENT_REMARKS#">,
+							<cfelse>
+								null,
+							</cfif>
+							<cfif len(#COLLECTING_METHOD#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_METHOD#">,
+							<cfelse>
+								null,
+							</cfif>
+							<cfif len(#HABITAT_DESC#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HABITAT_DESC#">,
+							<cfelse>
+								null,
+							</cfif>
+							<cfif len(#COLLECTING_TIME#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_TIME#">,
+							<cfelse>
+								null,
+							</cfif>
+							<cfif len(#fish_field_number#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fish_field_number#">,
+							<cfelse>
+								null,
+							</cfif>
+							<cfif len(#startDayOfYear#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#startDayOfYear#">,
+							<cfelse>
+								null,
+							</cfif>
+							<cfif len(#endDayOfYear#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#endDayOfYear#">,
+							<cfelse>
+								null,
+							</cfif>
+							<cfif len(#date_determined_by_agent_id#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#date_determined_by_agent_id#">,
+							<cfelse>
+								null,
+							</cfif>
+							<cfif len(#valid_distribution_fg#) gt 0>
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_distribution_fg#">
+							<cfelse>
+								null
+							</cfif>
+						)
+					</cfquery>
+					<!--- obtain the new collecting event ID --->
+					<cfif newCollectingEvent_result.recordcount is 0>
+						<cfthrow message="Error creating new collecting event record.">
+					</cfif>
+					<cfquery name="getCollectingEventID" datasource="uam_god" result="getCollectingEventID_result">
+						SELECT collecting_event_id
+						FROM collecting_event
+						WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newCollectingEvent_result.GENERATEDKEY#">
+					</cfquery>
+					<cfset new_collecting_event_id = getCollectingEventID.collecting_event_id>
+					<cfif len(new_collecting_event_id) is 0>
+						<cfthrow message="Error obtaining new collecting event ID.">
+					</cfif>
+					<!--- update the cataloged item to point to the new collecting event --->
+					<cfquery name="updateCatalogedItem" datasource="uam_god" result="updateCatalogedItem_result">
+						UPDATE cataloged_item
+						SET collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_collecting_event_id#">
+						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+					</cfquery>
+				</cfif><!--- end of update or split collecting event --->
 
 			<cfelseif arguments.action EQ "saveCurrent">
 				<!--- save changes to the existing collecting event and locality, affecting all related cataloged items, which should be just one. --->
