@@ -6367,9 +6367,10 @@ limitations under the License.
 </cffunction>
 
 <!---
- getEditLocalityHTML returns the HTML for the locality edit form.
- @param collection_object_id the collection object id to obtain the locality for
- @return a JSON object containing the HTML for the locality edit form
+ getEditLocalityHTML returns the HTML for the locality and collecting event edit form.
+ @param collection_object_id the collection object id to obtain the collecting event and 
+  locality for editing
+ @return a JSON object containing the HTML for the locality/collecting event edit form
 --->
 <cffunction name="getEditLocalityHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
@@ -6704,6 +6705,8 @@ limitations under the License.
 					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 					<input type="hidden" name="returnformat" value="json">
 					<input type="hidden" name="method" value="handleCombinedEditForm">
+					<input type="hidden" name="locality_id" value="#getLoc.locality_id#">
+					<input type="hidden" name="collecting_event_id" value="#getLoc.collecting_event_id#">
 
 					<!--- higher geography --->
 					<div class="col-12 px-2 form-row">
