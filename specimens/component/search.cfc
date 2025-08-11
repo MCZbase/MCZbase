@@ -2804,7 +2804,7 @@ Function getPartNameAutocompleteMeta.  Search for specimen_part.part_name values
 				<cfif isDefined("arguments.collection_cde") and len(arguments.collection_cde) GT 0>
 					, ctspecimen_part_name.description
 				<cfelse>
-					. '' as description
+					, '' as description
 				</cfif>
 			FROM
 				<cfif ucase(session.flatTableName) EQ "FLAT">#session.flatTableName#<cfelse>FILTERED_FLAT</cfif> f
