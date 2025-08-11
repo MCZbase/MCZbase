@@ -5528,13 +5528,41 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 	<cftry>
 		<!--- outside the transaction, confirm that the user has permissions to edit the locality and collecting event --->
 		<cfquery name="checkLocalityPriv" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkLocalityPriv_result">
-			SELECT count(*) ct FROM USER_TAB_PRIVS WHERE TABLE_NAME = 'LOCALITY' AND PRIVILEGE IN ('INSERT') AND OWNER = 'MCZBASE'
+			SELECT COUNT(*) ct
+			FROM (
+				SELECT 'DIRECT' AS source
+				FROM USER_TAB_PRIVS
+				WHERE TABLE_NAME = 'LOCALITY'
+					AND PRIVILEGE = 'INSERT'
+					AND OWNER = 'MCZBASE'
+			UNION
+				SELECT 'ROLE' AS source
+				FROM ROLE_TAB_PRIVS rtp
+				JOIN USER_ROLE_PRIVS urp ON rtp.ROLE = urp.GRANTED_ROLE
+				WHERE rtp.TABLE_NAME = 'LOCALITY'
+					AND rtp.PRIVILEGE = 'INSERT'
+					AND rtp.OWNER = 'MCZBASE'
+			)
 		</cfquery>
 		<cfif checkLocalityPriv.ct EQ 0>
 			<cfthrow message="You do not have permission to edit locality records.">
 		</cfif>
 		<cfquery name="getCollectingPriv" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCollectingPriv_result">
-			SELECT count(*) ct FROM USER_TAB_PRIVS WHERE TABLE_NAME = 'COLLECTING_EVENT' AND PRIVILEGE IN ('INSERT') AND OWNER = 'MCZBASE'
+			SELECT COUNT(*) ct
+			FROM (
+				SELECT 'DIRECT' AS source
+				FROM USER_TAB_PRIVS
+				WHERE TABLE_NAME = 'COLLECTING_EVENT'
+					AND PRIVILEGE = 'INSERT'
+					AND OWNER = 'MCZBASE'
+			UNION
+				SELECT 'ROLE' AS source
+				FROM ROLE_TAB_PRIVS rtp
+				JOIN USER_ROLE_PRIVS urp ON rtp.ROLE = urp.GRANTED_ROLE
+				WHERE rtp.TABLE_NAME = 'COLLECTING_EVENT'
+					AND rtp.PRIVILEGE = 'INSERT'
+					AND rtp.OWNER = 'MCZBASE'
+			)
 		</cfquery>
 		<cfif getCollectingPriv.ct EQ 0>
 			<cfthrow message="You do not have permission to edit collecting event records.">
