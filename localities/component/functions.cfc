@@ -5533,12 +5533,14 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 				<cfquery name="newLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newLocality_result">
 					INSERT INTO locality 
 					(
+						locality_id,
 						geog_auth_rec_id, spec_locality, curated_fg, 
 						MINIMUM_ELEVATION, MAXIMUM_ELEVATION, ORIG_ELEV_UNITS,
 						min_depth, max_depth, depth_units,
 						township, township_direction, range, range_direction, section, section_part,
 						locality_remarks, nogeorefbecause
 					) VALUES (
+						sq_locality_id.NEXTVAL,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec_locality#">,
 						<cfif isdefined("curated_fg") AND len(#curated_fg#) gt 0>
