@@ -5517,7 +5517,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 	<cfargument name="section" type="string" required="no">
 	<cfargument name="section_part" type="string" required="no">
 	<cfargument name="locality_remarks" type="string" required="no">
-	<cfargument name="nogeorefbecause" type="string" required="no">
+	<cfargument name="nogeorefbecause" type="string" required="no" default="">
 
 	<cfargument name="began_date" type="string" required="yes">
 	<cfargument name="ended_date" type="string" required="yes">
