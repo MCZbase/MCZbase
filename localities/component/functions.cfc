@@ -5750,9 +5750,13 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 				<cfquery name="newCollectingEvent" datasource="uam_god" result="newCollectingEvent_result">
 					INSERT INTO collecting_event 
 					(
+						collecting_event_id,
 						began_date, ended_date, verbatim_date, collecting_source, locality_id, verbatim_locality, verbatimdepth, verbatimelevation, verbatimCoordinates,
-						verbatimLatitude, verbatimLongitude, verbatimCoordinateSystem, verbatimSRS, verbatim_collectors, verbatim_field_numbers, verbatim_habitat
+						verbatimLatitude, verbatimLongitude, verbatimCoordinateSystem, verbatimSRS, verbatim_collectors, verbatim_field_numbers, verbatim_habitat,
+						coll_event_remarks, collecting_method, habitat_desc, collecting_time, fish_field_number, 
+						startDayOfYear, endDayOfYear, date_determined_by_agent_id, valid_distribution_fg
 					) VALUES (
+						sq_collecting_event_id.NEXTVAL,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_date#">,
@@ -5809,7 +5813,52 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 							null,
 						</cfif>
 						<cfif len(#verbatim_habitat#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_habitat#">
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_habitat#">,
+						<cfelse>
+							null,
+						</cfif>
+						<cfif len(#COLL_EVENT_REMARKS#) gt 0>
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLL_EVENT_REMARKS#">,
+						<cfelse>
+							null,
+						</cfif>
+						<cfif len(#COLLECTING_METHOD#) gt 0>
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_METHOD#">,
+						<cfelse>
+							null,
+						</cfif>
+						<cfif len(#HABITAT_DESC#) gt 0>
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HABITAT_DESC#">,
+						<cfelse>
+							null,
+						</cfif>
+						<cfif len(#COLLECTING_TIME#) gt 0>
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_TIME#">,
+						<cfelse>
+							null,
+						</cfif>
+						<cfif len(#fish_field_number#) gt 0>
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fish_field_number#">,
+						<cfelse>
+							null,
+						</cfif>
+						<cfif len(#startDayOfYear#) gt 0>
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#startDayOfYear#">,
+						<cfelse>
+							null,
+						</cfif>
+						<cfif len(#endDayOfYear#) gt 0>
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#endDayOfYear#">,
+						<cfelse>
+							null,
+						</cfif>
+						<cfif len(#date_determined_by_agent_id#) gt 0>
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#date_determined_by_agent_id#">,
+						<cfelse>
+							null,
+						</cfif>
+						<cfif len(#valid_distribution_fg#) gt 0>
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_distribution_fg#">
 						<cfelse>
 							null
 						</cfif>
