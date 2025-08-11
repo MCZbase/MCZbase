@@ -5591,13 +5591,13 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 			<cfquery name="cecount" datasource="uam_god">
 				SELECT count(collection_object_id) ct 
 				FROM cataloged_item
-				WHERE collecting_event_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value = "#getLoc.collecting_event_id#">
+				WHERE collecting_event_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value = "#arguments.collecting_event_id#">
 			</cfquery>
 			<cfquery name="loccount" datasource="uam_god">
 				SELECT count(ci.collection_object_id) ct 
 				FROM cataloged_item ci
 					left join collecting_event on ci.collecting_event_id = collecting_event.collecting_event_id
-				WHERE collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value = "#getLoc.locality_id#">
+				WHERE collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value = "#arguments.locality_id#">
 			</cfquery>
 			<cfif cecount.ct EQ 1 AND loccount.ct EQ 1 AND arguments.action EQ "splitAndSave">
 				<cfthrow message="Collecting Event and Locality are unique to this cataloged item, no need to split, split and save should not be enabled.">
