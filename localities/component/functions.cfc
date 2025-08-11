@@ -5634,34 +5634,51 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 				</cfif>
 				<!--- obtain the current georeference from the old locality and clone it to the new locality --->
 				<cfquery name="getCurrentGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCurrentGeoref_result">
-					SELECT * FROM lat_long
+					SELECT 
+						lat_long_id
+					FROM lat_long
 					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-					AND current_fg = 1
+					AND accepted_lat_long_fg = 1
 				</cfquery>
 				<cfif getCurrentGeoref.recordcount EQ 1>
 					<cfquery  name="cloneGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="cloneGeoref_result">
-						INSERT into LAT_LONG
-						(
-							locality_id, lat_long_source, lat_long_method, lat_long_datum, 
-							lat_long_units, latitude1, longitude1, latitude2, longitude2, 
-							lat_long_accuracy, lat_long_remarks, georef_by_agent_id, 
-							georef_date, current_fg
-						) VALUES (
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_locality_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCurrentGeoref.lat_long_source#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCurrentGeoref.lat_long_method#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCurrentGeoref.lat_long_datum#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCurrentGeoref.lat_long_units#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCurrentGeoref.latitude1#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCurrentGeoref.longitude1#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCurrentGeoref.latitude2#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCurrentGeoref.longitude2#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCurrentGeoref.lat_long_accuracy#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCurrentGeoref.lat_long_remarks#">,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCurrentGeoref.georef_by_agent_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_DATE" value="#getCurrentGeoref.georef_date#">,
-							1
+						INSERT INTO LAT_LONG (
+							lat_long_id,
+							locality_id, lat_deg, dec_lat_min, lat_min, lat_sec, lat_dir,
+							long_deg, dec_long_min, long_min, long_sec, long_dir,
+							dec_lat, dec_long, datum, utm_zone, utm_ew, utm_ns,
+							orig_lat_long_units, determined_by_agent_id, determined_date,
+							lat_long_ref_source, lat_long_remarks, max_error_distance,
+							max_error_units, nearest_named_place, lat_long_for_nnp_fg,
+							field_verified_fg, accepted_lat_long_fg, extent,
+							gpsaccuracy, georefmethod, verificationstatus,
+							spatialfit, geolocate_uncertaintypolygon,
+							geolocate_score, geolocate_precision,
+							geolocate_numresults, geolocate_parsepattern,
+							verified_by_agent_id, error_polygon,
+							coordinate_precision, footprint_spatialfit,
+							extent_unit
 						)
+						SELECT 
+							sq_lat_long_id.NEXTVAL lat_long_id,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_locality_id#"> locality_id,
+							lat_deg, dec_lat_min, lat_min, lat_sec, lat_dir,
+							long_deg, dec_long_min, long_min, long_sec, long_dir,
+							dec_lat, dec_long, datum, utm_zone, utm_ew, utm_ns,
+							orig_lat_long_units, determined_by_agent_id, determined_date,
+							lat_long_ref_source, lat_long_remarks, max_error_distance,
+							max_error_units, nearest_named_place, lat_long_for_nnp_fg,
+							field_verified_fg, accepted_lat_long_fg, extent,
+							gpsaccuracy, georefmethod, verificationstatus,
+							spatialfit, geolocate_uncertaintypolygon,
+							geolocate_score, geolocate_precision,
+							geolocate_numresults, geolocate_parsepattern,
+							verified_by_agent_id, error_polygon,
+							coordinate_precision, footprint_spatialfit,
+							extent_unit	
+						FROM lat_long
+						WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+						AND accepted_lat_long_fg = 1
 					</cfquery>
 				</cfif>
 
