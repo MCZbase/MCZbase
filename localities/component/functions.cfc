@@ -5657,7 +5657,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 							geolocate_numresults, geolocate_parsepattern,
 							verified_by_agent_id, error_polygon,
 							coordinate_precision, footprint_spatialfit,
-							extent_unit
+							extent_units
 						)
 						SELECT 
 							sq_lat_long_id.NEXTVAL lat_long_id,
@@ -5675,7 +5675,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 							geolocate_numresults, geolocate_parsepattern,
 							verified_by_agent_id, error_polygon,
 							coordinate_precision, footprint_spatialfit,
-							extent_unit	
+							extent_units
 						FROM lat_long
 						WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 						AND accepted_lat_long_fg = 1
