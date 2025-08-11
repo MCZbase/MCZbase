@@ -5525,12 +5525,41 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 	<cfargument name="collecting_source" type="string" required="yes">
 
 	<cfset data = ArrayNew(1)>
+	<cftry>
+		<!--- outside the transaction, confirm that the user has permissions to edit the locality and collecting event --->
+		<cfquery name="checkLocalityPriv" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkLocalityPriv_result">
+			SELECT count(*) ct FROM USER_TAB_PRIVS WHERE TABLE_NAME = 'LOCALITY' AND PRIVILEGE IN ('INSERT') AND OWNER = 'MCZBASE'
+		</cfquery>
+		<cfif checkLocalityPriv_result.ct EQ 0>
+			<cfthrow message="You do not have permission to edit locality records.">
+		</cfif>
+		<cfquery name="getCollectingPriv" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCollectingPriv_result">
+			SELECT count(*) ct FROM USER_TAB_PRIVS WHERE TABLE_NAME = 'COLLECTING_EVENT' AND PRIVILEGE IN ('INSERT') AND OWNER = 'MCZBASE'
+		</cfquery>
+		<cfif getCollectingPriv_result.ct EQ 0>
+			<cfthrow message="You do not have permission to edit collecting event records.">
+		</cfif>
+		<!--- if these checks pass, we can proceed with the transaction using a more privileged datasource --->
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error starting handleCombinedEditForm: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
 	<cftransaction>
+		<!--- all datasources within a transaction must be the same, so as we need to temporarally disable a trigger, using uam_god for all queries --->
 		<cftry>
 			<cfif arguments.action EQ "splitAndSave">
 				<!--- split the collecting event and locality into new records and assign the cataloged item to the new collecting event. --->
 				<!--- do this by creating a new locality, and then a new collecting event from the provided form data --->
-				<cfquery name="newLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newLocality_result">
+				<cfquery name="newLocality" datasource="uam_god">
 					INSERT INTO locality 
 					(
 						locality_id,
@@ -5623,7 +5652,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 				<cfif newLocality_result.recordcount is 0>
 					<cfthrow message="Error creating new locality record.">
 				</cfif>
-				<cfquery name="getLocalityID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="getLocalityID" datasource="uam_god">
 					SELECT locality_id
 					FROM locality
 					WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newLocality_result.GENERATEDKEY#">
@@ -5633,7 +5662,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 					<cfthrow message="Error obtaining new locality ID.">
 				</cfif>
 				<!--- obtain the current georeference from the old locality and clone it to the new locality --->
-				<cfquery name="getCurrentGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCurrentGeoref_result">
+				<cfquery name="getCurrentGeoref" datasource="uam_god">
 					SELECT 
 						lat_long_id
 					FROM lat_long
@@ -5645,7 +5674,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 					<cfquery name="disableTrigger" datasource="uam_god">
 						ALTER TRIGGER TR_LATLONG_ACCEPTED_BIUPA DISABLE
 					</cfquery>
-					<cfquery  name="cloneGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="cloneGeoref_result">
+					<cfquery  name="cloneGeoref" datasource="uam_god">
 						INSERT INTO LAT_LONG (
 							lat_long_id,
 							locality_id, lat_deg, dec_lat_min, lat_min, lat_sec, lat_dir,
@@ -5690,7 +5719,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 				</cfif>
 
 				<!--- now create the new collecting event record --->
-				<cfquery name="newCollectingEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newCollectingEvent_result">
+				<cfquery name="newCollectingEvent" datasource="uam_god">
 					INSERT INTO collecting_event 
 					(
 						began_date, ended_date, verbatim_date, collecting_source, locality_id, verbatim_locality, verbatimdepth, verbbatimelevation, verbatimCoordinates,
@@ -5798,7 +5827,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 					<cfset min_depth_scale = len(rereplace(min_depth,'^[0-9-]*[.]',''))>
 				</cfif>
 	
-				<cfquery name="updateLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateLocality_result">
+				<cfquery name="updateLocality" datasource="uam_god">
 					UPDATE locality SET
 					geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">,
 					<cfif len(#spec_locality#) GT 0>
@@ -5889,7 +5918,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 					<cfthrow message="Error updating Locality record #locality_id#.">
 				</cfif>
 				<!--- update collecting event --->
-				<cfquery name="updateCollectingEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateCollectingEvent_result">
+				<cfquery name="updateCollectingEvent" datasource="uam_god">
 					UPDATE collecting_event 
 					SET
 						began_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">,
