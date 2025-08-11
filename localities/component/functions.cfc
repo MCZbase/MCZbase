@@ -5765,7 +5765,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 					</cfquery>
 				</cfif>
 
-				<cfif cecount EQ 1 AND loccount.ct GT 1>
+				<cfif cecount.ct EQ 1 AND loccount.ct GT 1>
 					<!--- we can update the existing collecting event and point it at the new locality without leaving an orphan collecting event --->
 					<cfquery name="updateCollectingEvent" datasource="uam_god" result="updateCollectingEvent_result">
 						UPDATE collecting_event 
