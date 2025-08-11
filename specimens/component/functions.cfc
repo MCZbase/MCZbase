@@ -6712,7 +6712,7 @@ limitations under the License.
 					<div class="col-12 px-2 form-row">
 
 						<!--- describe action this form will take --->
-						<cfif cecount.ct GT 0 OR loccount.ct GT 0>
+						<cfif cecount.ct GT 1 OR loccount.ct GT 1>
 							<h3 class="h3">
 								<cfset separator = "">
 								<cfif cecount.ct GT 1>
