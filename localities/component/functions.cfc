@@ -5523,6 +5523,9 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 	<cfargument name="ended_date" type="string" required="yes">
 	<cfargument name="verbatim_date" type="string" required="yes">
 	<cfargument name="collecting_source" type="string" required="yes">
+	<cfargument name="verbatim_habitat" type="string" required="no">
+	<cfargument name="verbatim_locality" type="string" required="no">
+	<cfargument name="verbatimDepth" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -5598,6 +5601,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 			</cfquery>
 			<cfif cecount.ct EQ 1 AND loccount.ct EQ 1 AND arguments.action EQ "splitAndSave">
 				<cfthrow message="Collecting Event and Locality are unique to this cataloged item, no need to split, split and save should not be enabled.">
+				<!--- alternately we could change the behavior, throwing error is safer. --->
 			</cfif>
 			<cfif arguments.action EQ "splitAndSave">
 				<!--- split the collecting event and locality into new records and assign the cataloged item to the new collecting event. --->
@@ -6019,6 +6023,9 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 				</cfif><!--- end of update or split collecting event --->
 
 			<cfelseif arguments.action EQ "saveCurrent">
+				<cfif cecount.ct GT 1 OR loccount.ct GT 1>
+					<cfthrow message="Collecting Event or Locality are shared with other cataloged items, cannot save changes to shared records, use split and save instead.">
+				</cfif>
 				<!--- save changes to the existing collecting event and locality, affecting all related cataloged items, which should be just one. --->
 
 				<cfif len(MINIMUM_ELEVATION) gt 0 OR len(MAXIMUM_ELEVATION) gt 0>
