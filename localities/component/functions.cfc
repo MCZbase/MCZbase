@@ -5750,7 +5750,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 				<cfquery name="newCollectingEvent" datasource="uam_god" result="newCollectingEvent_result">
 					INSERT INTO collecting_event 
 					(
-						began_date, ended_date, verbatim_date, collecting_source, locality_id, verbatim_locality, verbatimdepth, verbbatimelevation, verbatimCoordinates,
+						began_date, ended_date, verbatim_date, collecting_source, locality_id, verbatim_locality, verbatimdepth, verbatimelevation, verbatimCoordinates,
 						verbatimLatitude, verbatimLongitude, verbatimCoordinateSystem, verbatimSRS, verbatim_collectors, verbatim_field_numbers, verbatim_habitat
 					) VALUES (
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">,
