@@ -5530,13 +5530,13 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 		<cfquery name="checkLocalityPriv" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkLocalityPriv_result">
 			SELECT count(*) ct FROM USER_TAB_PRIVS WHERE TABLE_NAME = 'LOCALITY' AND PRIVILEGE IN ('INSERT') AND OWNER = 'MCZBASE'
 		</cfquery>
-		<cfif checkLocalityPriv_result.ct EQ 0>
+		<cfif checkLocalityPriv.ct EQ 0>
 			<cfthrow message="You do not have permission to edit locality records.">
 		</cfif>
 		<cfquery name="getCollectingPriv" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCollectingPriv_result">
 			SELECT count(*) ct FROM USER_TAB_PRIVS WHERE TABLE_NAME = 'COLLECTING_EVENT' AND PRIVILEGE IN ('INSERT') AND OWNER = 'MCZBASE'
 		</cfquery>
-		<cfif getCollectingPriv_result.ct EQ 0>
+		<cfif getCollectingPriv.ct EQ 0>
 			<cfthrow message="You do not have permission to edit collecting event records.">
 		</cfif>
 		<!--- if these checks pass, we can proceed with the transaction using a more privileged datasource --->
