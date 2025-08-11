@@ -5587,7 +5587,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 			<cfif arguments.action EQ "splitAndSave">
 				<!--- split the collecting event and locality into new records and assign the cataloged item to the new collecting event. --->
 				<!--- do this by creating a new locality, and then a new collecting event from the provided form data --->
-				<cfquery name="newLocality" datasource="uam_god">
+				<cfquery name="newLocality" datasource="uam_god" result="newLocality_result">
 					INSERT INTO locality 
 					(
 						locality_id,
@@ -5680,7 +5680,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 				<cfif newLocality_result.recordcount is 0>
 					<cfthrow message="Error creating new locality record.">
 				</cfif>
-				<cfquery name="getLocalityID" datasource="uam_god">
+				<cfquery name="getLocalityID" datasource="uam_god" result="getLocalityID_result">
 					SELECT locality_id
 					FROM locality
 					WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newLocality_result.GENERATEDKEY#">
@@ -5690,7 +5690,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 					<cfthrow message="Error obtaining new locality ID.">
 				</cfif>
 				<!--- obtain the current georeference from the old locality and clone it to the new locality --->
-				<cfquery name="getCurrentGeoref" datasource="uam_god">
+				<cfquery name="getCurrentGeoref" datasource="uam_god" result="getCurrentGeoref_result">
 					SELECT 
 						lat_long_id
 					FROM lat_long
@@ -5699,10 +5699,10 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 				</cfquery>
 				<cfif getCurrentGeoref.recordcount EQ 1>
 					<!--- disable trigger to allow cloning of lat_long_id --->
-					<cfquery name="disableTrigger" datasource="uam_god">
+					<cfquery name="disableTrigger" datasource="uam_god" result="disableTrigger_result">
 						ALTER TRIGGER TR_LATLONG_ACCEPTED_BIUPA DISABLE
 					</cfquery>
-					<cfquery  name="cloneGeoref" datasource="uam_god">
+					<cfquery  name="cloneGeoref" datasource="uam_god" result="cloneGeoref_result">
 						INSERT INTO LAT_LONG (
 							lat_long_id,
 							locality_id, lat_deg, dec_lat_min, lat_min, lat_sec, lat_dir,
@@ -5741,13 +5741,13 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 						WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 						AND accepted_lat_long_fg = 1
 					</cfquery>
-					<cfquery name="disableTrigger" datasource="uam_god">
+					<cfquery name="enableTrigger" datasource="uam_god" result="enableTrigger_result">
 						ALTER TRIGGER TR_LATLONG_ACCEPTED_BIUPA ENABLE
 					</cfquery>
 				</cfif>
 
 				<!--- now create the new collecting event record --->
-				<cfquery name="newCollectingEvent" datasource="uam_god">
+				<cfquery name="newCollectingEvent" datasource="uam_god" result="newCollectingEvent_result">
 					INSERT INTO collecting_event 
 					(
 						began_date, ended_date, verbatim_date, collecting_source, locality_id, verbatim_locality, verbatimdepth, verbbatimelevation, verbatimCoordinates,
@@ -5855,7 +5855,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 					<cfset min_depth_scale = len(rereplace(min_depth,'^[0-9-]*[.]',''))>
 				</cfif>
 	
-				<cfquery name="updateLocality" datasource="uam_god">
+				<cfquery name="updateLocality" datasource="uam_god" result="updateLocality_result">
 					UPDATE locality SET
 					geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">,
 					<cfif len(#spec_locality#) GT 0>
@@ -5946,7 +5946,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 					<cfthrow message="Error updating Locality record #locality_id#.">
 				</cfif>
 				<!--- update collecting event --->
-				<cfquery name="updateCollectingEvent" datasource="uam_god">
+				<cfquery name="updateCollectingEvent" datasource="uam_god" result="updateCollectingEvent_result">
 					UPDATE collecting_event 
 					SET
 						began_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">,
@@ -6084,10 +6084,13 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 			<cfabort>
 		</cfcatch>
 		<cffinally>
-			<!--- ensure trigger is enabled --->
-			<cfquery name="disableTrigger" datasource="uam_god">
-				ALTER TRIGGER TR_LATLONG_ACCEPTED_BIUPA ENABLE
-			</cfquery>
+			<cftry>
+				<!--- ensure trigger is enabled --->
+				<cfquery name="enableTrigger" datasource="uam_god" result="enableTrigger_result">
+					ALTER TRIGGER TR_LATLONG_ACCEPTED_BIUPA ENABLE
+				</cfquery>
+			<cfcatch></cfcatch>
+			</cftry>
 		</cffinally>	
 		</cftry>
 	</cftransaction>
