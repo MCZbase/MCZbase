@@ -5641,6 +5641,10 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 					AND accepted_lat_long_fg = 1
 				</cfquery>
 				<cfif getCurrentGeoref.recordcount EQ 1>
+					<!--- disable trigger to allow cloning of lat_long_id --->
+					<cfquery name="disableTrigger" datasource="uam_god">
+						ALTER TRIGGER TR_LATLONG_ACCEPTED_BIUPA DISABLE
+					</cfquery>
 					<cfquery  name="cloneGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="cloneGeoref_result">
 						INSERT INTO LAT_LONG (
 							lat_long_id,
@@ -5679,6 +5683,9 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 						FROM lat_long
 						WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 						AND accepted_lat_long_fg = 1
+					</cfquery>
+					<cfquery name="disableTrigger" datasource="uam_god">
+						ALTER TRIGGER TR_LATLONG_ACCEPTED_BIUPA ENABLE
 					</cfquery>
 				</cfif>
 
@@ -6019,6 +6026,12 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 			</cfoutput>
 			<cfabort>
 		</cfcatch>
+		<cffinally>
+			<!--- ensure trigger is enabled --->
+			<cfquery name="disableTrigger" datasource="uam_god">
+				ALTER TRIGGER TR_LATLONG_ACCEPTED_BIUPA ENABLE
+			</cfquery>
+		</cffinally>	
 		</cftry>
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
