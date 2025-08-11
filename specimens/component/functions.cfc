@@ -7142,8 +7142,8 @@ limitations under the License.
 							</div>
 
 							<div class="col-12 col-md-3 py-1 mt-0">
-								<label class="data-entry-label" for="ich_field_number">Fish Field Number (Ich only)</label>
-								<input type="text" name="ich_field_number" id="ich_field_number" class="data-entry-input" value="#encodeForHTML(getLoc.fish_field_number)#">
+								<label class="data-entry-label" for="fish_field_number">Fish Field Number (Ich only)</label>
+								<input type="text" name="fish_field_number" id="fish_field_number" class="data-entry-input" value="#encodeForHTML(getLoc.fish_field_number)#">
 							</div>
 							
 							<div class="col-12 py-1 mt-0">
