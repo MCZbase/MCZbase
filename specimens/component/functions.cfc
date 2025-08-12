@@ -6614,6 +6614,10 @@ limitations under the License.
 							setFeedbackControlState("locFormOutput","error")
 							return;
 						}
+						var geologyData = aggregateGeologyTable();
+						console.log(geologyData);
+						// add geology data to the form
+						$('##locForm').append('<input type="hidden" name="geology_data" value="' + encodeURIComponent(JSON.stringify(geologyData)) + '">');
 						// submit the form
 						// ajax submit the form to localities/component/functions.cfc
 						setFeedbackControlState("locFormOutput","saving")
@@ -7527,7 +7531,36 @@ limitations under the License.
 											`);
 										}
 									}
-									
+									<!--- Aggregate geological attribute fields into a single data structure for submission --->
+									function aggregateGeologyTable() {
+										var geologyData = [];
+										$('##geologyTableBody tr').each(function() {
+											var row = $(this);
+											var rowIndex = row.data('row-index');
+											var geologyAttribute = row.find('select[name="geology_attribute_' + rowIndex + '"]').val();
+											if (geologyAttribute) { // Only include rows with a geology attribute selected
+												var geoAttValue = row.find('select[name="geo_att_value_' + rowIndex + '"]').val();
+												var geoAttDeterminer = row.find('input[name="geo_att_determiner_' + rowIndex + '"]').val();
+												var geoAttDeterminerId = row.find('input[name="geo_att_determiner_id_' + rowIndex + '"]').val();
+												var geoAttDeterminedDate = row.find('input[name="geo_att_determined_date_' + rowIndex + '"]').val();
+												var geoAttDeterminedMethod = row.find('input[name="geo_att_determined_method_' + rowIndex + '"]').val();
+												var geoAttRemark = row.find('input[name="geo_att_remark_' + rowIndex + '"]').val();
+												var geologyAttributeId = row.find('input[name="geology_attribute_id_' + rowIndex + '"]').val();
+	
+												geologyData.push({
+													geology_attribute: geologyAttribute,
+													geo_att_value: geoAttValue,
+													geo_att_determiner: geoAttDeterminer,
+													geo_att_determiner_id: geoAttDeterminerId,
+													geo_att_determined_date: geoAttDeterminedDate,
+													geo_att_determined_method: geoAttDeterminedMethod,
+													geo_att_remark: geoAttRemark,
+													geology_attribute_id: geologyAttributeId
+												});
+											}
+										});
+										return geologyData;
+									}
 								</script>
 							</div><!--- end geology table section --->
 
@@ -7678,12 +7711,6 @@ limitations under the License.
 
 							</div>
 						
-							<script>
-								$(document).ready(function() {
-									// Initialize character counter for remarks
-									countCharsLeft('lat_long_remarks', 4000, 'length_lat_long_remarks');
-								});
-							</script>
 						</div>
 
 
