@@ -6531,67 +6531,16 @@ limitations under the License.
 				WHERE
 					cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
-			<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-				SELECT
-					lat_long_id,
-					locality_id,
-					lat_deg,
-					dec_lat_min,
-					lat_min,
-					lat_sec,
-					lat_dir,
-					long_deg,
-					dec_long_min,
-					long_min,
-					long_sec,
-					long_dir,
-					dec_lat,
-					dec_long,
-					datum,
-					utm_zone,
-					utm_ew,
-					utm_ns,
-					orig_lat_long_units,
-					determined_by_agent_id,
-					determined_date,
-					lat_long_ref_source,
-					lat_long_remarks,
-					max_error_distance,
-					max_error_units,
-					nearest_named_place,
-					lat_long_for_nnp_fg,
-					field_verified_fg,
-					accepted_lat_long_fg,
-					extent,
-					gpsaccuracy,
-					georefmethod,
-					verificationstatus,
-					spatialfit,
-					geolocate_uncertaintypolygon,
-					geolocate_score,
-					geolocate_precision,
-					geolocate_numresults,
-					geolocate_parsepattern,
-					verified_by_agent_id,
-					MCZBASE.get_agentnameoftype(verified_by_agent_id) as verified_by,
-					error_polygon,
-					coordinate_precision,
-					footprint_spatialfit,
-					extent_units 
+			<!--- check for a current georeference --->
+			<cfquery name="getCurrentGeoreference" dbtype="query">
+				SELECT 
+					lat_long_id
 				FROM
 					lat_long
 				WHERE
 					locality_id = <cfqueryparam value="#getLoc.locality_id#" cfsqltype="CF_SQL_DECIMAL">
-				ORDER BY
-					accepted_lat_long_fg DESC,
-					determined_date DESC,
-					lat_long_id DESC
-			</cfquery>
-			<!--- obtain just the current georeference --->
-			<cfquery name="getGeoreference" dbtype="query">
-				SELECT * FROM getGeoreferences
-				WHERE
-					lat_long_id = <cfqueryparam value="#getLoc.lat_long_id#" cfsqltype="CF_SQL_DECIMAL">
+					AND
+					accepted_lat_long_fg = 1
 			</cfquery>
 			<cfquery name="getGeology" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
@@ -6928,7 +6877,7 @@ limitations under the License.
 									<i class="fas fa-info-circle" onClick="getMCZDocs('Not_Georeferenced_Because')" aria-label="help link with suggested entries for why no georeference was added"></i>
 								</label>
 								<cfset disabled = "">
-								<cfif getGeoreference.recordcount GT 0>
+								<cfif getCurrentGeoreference.recordcount GT 0>
 									<!--- If there is a georeference then NoGeorefBecause should not be editable if it has no value --->
 									<cfif len(getLoc.NoGeorefBecause) is 0>
 										<cfset disabled = "disabled">
@@ -7628,7 +7577,7 @@ limitations under the License.
 								<h2 class="h3 mt-3">Georeference and Georeference Metadata (edit from the locality)</h2>
 								
 								<div class="form-row">
-									<cfquery name="getGeoreferences_2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT
 											lat_long_id,
 											georefmethod,
@@ -7685,7 +7634,7 @@ limitations under the License.
 										ORDER BY
 											accepted_lat_long_fg desc
 									</cfquery>
-									<cfloop query="getGeoreferences_2">
+									<cfloop query="getGeoreferences">
 										<cfset original="">
 										<cfset det = "">
 										<cfset ver = "">
