@@ -5526,6 +5526,23 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 	<cfargument name="verbatim_habitat" type="string" required="no">
 	<cfargument name="verbatim_locality" type="string" required="no">
 	<cfargument name="verbatimDepth" type="string" required="no">
+	<cfargument name="verbatimeelvation" type="string" required="no">
+	<cfargument name="coll_event_remarks" type="string" required="no">
+	<cfargument name="collecting_method" type="string" required="no">
+	<cfargument name="habitat_desc" type="string" required="no">
+	<cfargument name="collecting_time" type="string" required="no">
+	<cfargument name="fish_field_number" type="string" required="no">
+	<cfargument name="verbatimcoordinates" type="string" required="no">
+	<cfargument name="verbatimlatitude" type="string" required="no">
+	<cfargument name="verbatimlongigude" type="string" required="no">
+	<cfargument name="verbatimcoordinatesystem" type="string" required="no">
+	<cfargument name="verbatimsrs" type="string" required="no">
+	<cfargument name="startdayofyear" type="string" required="no">
+	<cfargument name="enddayofyear" type="string" required="no">
+	<cfargument name="date_determined_by_agent_id" type="string" required="no">
+	<cfargument name="valid_distribution_fg" type="string" required="no">
+	<cfargument name="verbatim_collectors" type="string" required="no">
+	<cfargument name="verbatim_field_numbers" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -5858,7 +5875,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 							<cfif len(#valid_distribution_fg#) gt 0>
 								,valid_distribution_fg = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#valid_distribution_fg#">
 							<cfelse>
-								,valid_distribution_fg = null
+								,valid_distribution_fg = 1
 							</cfif>
 							<cfif len(#verbatim_collectors#) gt 0>
 								,verbatim_collectors = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_collectors#">
