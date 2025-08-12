@@ -7530,6 +7530,7 @@ limitations under the License.
 												</tr>
 											`);
 										}
+										<!--- TODO: Accumulate geology_atrribute_id values to delete if updating existing locality --->
 									}
 									<!--- Aggregate geological attribute fields into a single data structure for submission --->
 									function aggregateGeologyTable() {

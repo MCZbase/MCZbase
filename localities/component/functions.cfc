@@ -6301,6 +6301,9 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 						</cfloop>
 					</cfif>
 				</cfif>
+				<!--- TODO: Remove geology atribute rows from list of accumulated geology_attribute_id values to remove --->
+				
+
 				<!--- update collecting event --->
 				<cfquery name="updateCollectingEvent" datasource="uam_god" result="updateCollectingEvent_result">
 					UPDATE collecting_event 
