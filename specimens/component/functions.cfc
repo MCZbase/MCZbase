@@ -7625,7 +7625,7 @@ limitations under the License.
 						<div class="col-12 px-0">
 						
 							<div class="col-12 px-0">
-								<h2 class="h3 mt-3">Georeference and Georeference Metadata</h2>
+								<h2 class="h3 mt-3">Georeference and Georeference Metadata (edit from the locality)</h2>
 								
 								<div class="form-row">
 									<cfquery name="getGeoreferences_2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -7715,6 +7715,12 @@ limitations under the License.
 											<cfif len(geolocate_score) GT 0>
 												<li>
 													GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
+												</li>
+											</cfif>
+											<cfif len(coordinate_precision) EQ 0>
+												<li>
+													Coordinate Precision is not set.  Edit the georeference from the Locality to 
+													<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Fix This</a>.
 												</li>
 											</cfif>
 										</ul>
