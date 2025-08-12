@@ -5805,20 +5805,20 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 										null,
 									</cfif>
 									<cfif len(geoAtt.GEO_ATT_DETERMINED_DATE) GT 0>
-										<cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateFormat(geoAtt.GEO_ATT_DETERMINED_DATE,'yyyy-mm-dd')#">
+										<cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateFormat(geoAtt.GEO_ATT_DETERMINED_DATE,'yyyy-mm-dd')#">,
 									<cfelse>
-										null
-									</cfif>,
+										null,
+									</cfif>
 									<cfif len(geoAtt.GEO_ATT_DETERMINED_METHOD) GT 0>
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_DETERMINED_METHOD#">,
 									<cfelse>
-										null
-									</cfif>,
+										null,
+									</cfif>
 									<cfif len(geoAtt.GEO_ATT_REMARK) GT 0>
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_REMARK#">,
 									<cfelse>
-										null
-									</cfif>,
+										null,
+									</cfif>
 									null
 								)
 							</cfquery>
@@ -6211,6 +6211,95 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 				</cfquery>
 				<cfif updateLocality_result.recordcount NEQ 1>
 					<cfthrow message="Error updating Locality record #locality_id#.">
+				</cfif>
+				<!--- unpack geologyData and update existing, or append append rows to geology_attributes table --->
+				<cfif isDefined("attributes.geologyData") AND len(attributes.geologyData) GT 0>
+					<cfset geologyData = deserializeJSON(attributes.geologyData)>
+					<cfif isArray(geologyData)>
+						<cfloop array="#geologyData#" index="geoAtt">
+							<cfif len(geoAtt.geology_attribute_id) EQ 0>
+								<!--- insert --->
+								<cfset geoDo = 'insert'>
+							<cfelse>
+								<!--- lookup the geology attribute row, if it exists, update --->
+								<cfquery name="checkGeologyAttribute" datasource="uam_god" result="checkGeologyAttribute_result">
+									SELECT count(*) ct 
+									FROM geology_attributes
+									WHERE geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.geology_attribute_id#">,
+								</cfquery>
+								<cfif checkGeologyAttribute.ct EQ 1>
+									<cfset geoDo = "update">
+								<cfelse>
+									<cfset geoDo = "insert">
+								</cfif>
+							</cfif>
+							<cfif geoDo EQ "insert"> 
+								<cfquery name="insertGeologyAttribute" datasource="uam_god" result="insertGeologyAttribute_result">
+									INSERT INTO geology_attributes (
+										GEOLOGY_ATTRIBUTE_ID, 
+										GEOLOGY_ATTRIBUTE, GEO_ATT_VALUE,
+										GEO_ATT_DETERMINER_ID, GEO_ATT_DETERMINED_DATE, GEO_ATT_DETERMINED_METHOD,
+										GEO_ATT_REMARK,
+										LOCALITY_ID
+									) VALUES (
+										sq_geology_attribute_id.NEXTVAL,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEOLOGY_ATTRIBUTE#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_VALUE#">,
+										<cfif len(geoAtt.GEO_ATT_DETERMINER_ID) GT 0>
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.GEO_ATT_DETERMINER_ID#">,
+										<cfelse>
+											null,
+										</cfif>
+										<cfif len(geoAtt.GEO_ATT_DETERMINED_DATE) GT 0>
+											<cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateFormat(geoAtt.GEO_ATT_DETERMINED_DATE,'yyyy-mm-dd')#">,
+										<cfelse>
+											null,
+										</cfif>
+										<cfif len(geoAtt.GEO_ATT_DETERMINED_METHOD) GT 0>
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_DETERMINED_METHOD#">,
+										<cfelse>
+											null,
+										</cfif>
+										<cfif len(geoAtt.GEO_ATT_REMARK) GT 0>
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_REMARK#">,
+										<cfelse>
+											null,
+										</cfif>
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_locality_id#">
+									)
+								</cfquery>
+							<cfelse> 
+							<cfquery name="updateGeologyAttribute" datasource="uam_god" result="insertGeologyAttribute_result">
+								UPDATE geology_attributes 
+								SET
+								 	LOCALITY_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">,
+									GEOLOGY_ATTRIBUTE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEOLOGY_ATTRIBUTE#">,
+									<cfif len(geoAtt.GEO_ATT_DETERMINER_ID) GT 0>
+										GEO_ATT_DETERMINER_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.GEO_ATT_DETERMINER_ID#">,
+									<cfelse>
+										GEO_ATT_DETERMINER_ID = null,
+									</cfif>
+									<cfif len(geoAtt.GEO_ATT_DETERMINED_DATE) GT 0>
+										GEO_ATT_DETERMINED_DATE = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateFormat(geoAtt.GEO_ATT_DETERMINED_DATE,'yyyy-mm-dd')#">,
+									<cfelse>
+										GEO_ATT_DETERMINED_DATE = null,
+									</cfif>,
+									<cfif len(geoAtt.GEO_ATT_DETERMINED_METHOD) GT 0>
+										GEO_ATT_DETERMINED_METHOD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_DETERMINED_METHOD#">,
+									<cfelse>
+										GEO_ATT_DETERMINED_METHOD = null,
+									</cfif>
+									<cfif len(geoAtt.GEO_ATT_REMARK) GT 0>
+										GEO_ATT_REMARK = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_REMARK#">,
+									<cfelse>
+										GEO_ATT_REMARK = null,
+									</cfif>
+									GEO_ATT_VALUE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_VALUE#">
+								WHERE 
+									geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.geology_attribute_id#">,
+							</cfquery>
+						</cfloop>
+					</cfif>
 				</cfif>
 				<!--- update collecting event --->
 				<cfquery name="updateCollectingEvent" datasource="uam_god" result="updateCollectingEvent_result">
