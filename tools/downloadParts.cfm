@@ -276,7 +276,7 @@ limitations under the License.
 						</cfif>
 					</h1>
 					<p class= "col-12 mt-2">
-						Obtain a list of parts, including CSV downloads suitable for editing and reload into the <a href="/tools/BulkloadEditedParts.cfm" target="_blank">Bulkload Edited Parts</a> the <a href="/tools/BulkloadPartContainer.cfm" target="_blank">Bulkload Parts to Containers</a> and <a href="/tools/BulkloadLoanItems.cfm" target="_blank">Bulkload Loan Items</a> tools.
+						Obtain a list of parts, including CSV downloads suitable for editing and reload into the <a href="/tools/BulkloadEditedParts.cfm" target="_blank">Bulkload Edited Parts</a> the <a href="/tools/BulkloadPartContainer.cfm" target="_blank">Bulkload Parts to Containers</a> and <a href="/tools/BulkloadLoanItems.cfm" target="_blank">Bulkload Loan Items</a> tools, and with more editing, the <a href="/tools/BulkloadContEditParent.cfm" target="_blank">Container Parent Edit Bulkloader</a>.  
 					</p>
 					<form name="filterResults">
 						<div class="form-row mt-2 mb-3 mx-0">

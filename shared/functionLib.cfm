@@ -96,7 +96,7 @@ limitations under the License.
 <!------------------------------------------------------------------------------------->
 <cffunction name="checkSql" access="public" output="true" returntype="boolean">
     <cfargument name="sql" required="true" type="string">
-    <cfset nono="chr,char,update,insert,delete,drop,create,execute,exec,begin,declare,all_tables,session,cast(,sys,ascii,utl_,ctxsys,all_users">
+    <cfset nono="chr,char,update,insert,delete,drop,create,execute,exec,begin,declare,all_tables,session,cast(,sys,ascii,utl_,utl_inaddr,ctxsys,all_users">
     <cfset dels="';','|',">
     <cfset safe=0>
     <cfloop index="i" list="#sql#" delimiters=" .,?!;:%$&""'/|[]{}()#chr(10)##chr(13)##chr(9)#@">

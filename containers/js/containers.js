@@ -60,6 +60,7 @@ function makeContainerAutocompleteMeta(nameControl, idControl, clear=false) {
    };
 
 };
+
 /** Make a paired hidden container_id and text container control into an autocomplete container picker that displays meta 
  *  on picklist and value on selection, limiting matches to non-collection object containers.
  *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
@@ -106,4 +107,54 @@ function makeContainerAutocompleteMetaExcludeCO(nameControl, idControl, clear=fa
 		// override to display meta "matched name * (preferred name)" instead of value in picklist.
 		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
 	};
+};
+
+/** Make a paired hidden container_id and text container control with limits into an autocomplete container picker that displays meta 
+ *  on picklist and value on selection.
+ *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected container_id (without a leading # selector).
+ *  @param clear, optional, default false, set to true for data entry controls to clear both controls when change
+ *   is made other than selection from picklist.
+ */
+function makeContainerAutocompleteLimitedMeta(nameControl, idControl, typeControl, ancestorControl, clear=false) {
+	console.log("Element ["+nameControl+"] exists:", $('#'+nameControl).length > 0);
+	$('#'+nameControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/containers/component/search.cfc",
+				data: { 
+					term: request.term, 
+					type: $('#'+typeControl).val(),
+					ancestor_container_id: $('#'+ancestorControl).val(),
+					method: 'getContainerAutocompleteLimited' 
+				},
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up containers for an autocomplete");
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+		},
+		change: function(event,ui) { 
+			if(!ui.item && clear){
+				// handle a change that isn't a selection from the pick list, clear both controls.
+				$('#'+idControl).val("");
+				$('#'+nameControl).val("");
+			} else if(!ui.item && !clear){
+				// support use with searches
+				// handle a change that isn't a selection from the pick list, clear just the id control.
+				$('#'+idControl).val("");
+			}
+		},
+		minLength: 3
+	});
+	// Set the custom render item after autocomplete is initialized
+   $('#'+nameControl).autocomplete("instance")._renderItem = function(ul, item) {
+      // override to display meta "matched name * (preferred name)" instead of value in picklist.
+      return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+   };
+
 };

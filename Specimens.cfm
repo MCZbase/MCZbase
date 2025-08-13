@@ -1157,15 +1157,58 @@ limitations under the License.
 														</button>
 													<div id="SpecDetail" class="col-12 px-0" style="#SpecDetailStyle#">
 														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
-															<div class="col-12 mb-1 col-md-3">
+															<div class="col-12 mb-1 col-md-2">
 																<label for="coll_object_remarks" class="data-entry-label small">Collection Object Remarks</label>
 																<cfif not isdefined("coll_object_remarks")><cfset coll_object_remarks=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="coll_object_remarks" name="coll_object_remarks" value="#encodeForHtml(coll_object_remarks)#">
 															</div>
-															<div class="col-12 mb-1 col-md-3">
+															<div class="col-12 mb-1 col-md-2">
 																<label for="part_remarks" class="data-entry-label small">Part Remarks</label>
 																<cfif not isdefined("part_remarks")><cfset part_remarks=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="part_remarks" name="part_remarks" value="#encodeForHtml(part_remarks)#">
+															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="preparator" class="data-entry-label small">Preparator</label>
+																<cfif not isdefined("preparator")>
+																	<cfset preparator="">
+																</cfif>
+																<cfif not isdefined("preparator_agent_id") OR len(preparator_agent_id) EQ 0>
+																	<cfif len(preparator) EQ 0>
+																		<cfset preparator_agent_id ="">
+																	<cfelse>
+																		<cfset preparator_agent_id ="">
+																		<!--- lookup preparator's agent_id --->
+																		<cfquery name="preparatorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+																			SELECT agent_id 
+																			FROM preferred_agent_name 
+																			WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preparator#"> 
+																				AND rownum < 2
+																		</cfquery>
+																		<cfloop query="preparatorLookup">
+																			<cfset preparator_agent_id = preparatorLookup.agent_id>
+																		</cfloop>
+																	</cfif>
+																<cfelse>
+																	<!--- lookup preparator --->
+																	<cfquery name="preparatorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+																		SELECT agent_name 
+																		FROM preferred_agent_name 
+																		WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#preparator_agent_id#">
+																			AND rownum < 2
+																	</cfquery>
+																	<cfif preparatorLookup.recordcount GT 0>
+																		<cfloop query="preparatorLookup">
+																			<cfset preparator = preparatorLookup.agent_name>
+																		</cfloop>
+																	</cfif>
+																</cfif>
+																<input type="text" id="preparator" name="preparator" class="data-entry-input inputHeight" value="#encodeForHtml(preparator)#">
+																<input type="hidden" id="preparator_agent_id" name="preparator_agent_id" value="#encodeForHtml(preparator_agent_id)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeConstrainedAgentPicker('preparator','preparator_agent_id','preparator');
+																	});
+																</script>
 															</div>
 															<div class="col-12 mb-1 col-md-2">
 																<label for="lot_count" class="data-entry-label small">Lot Count</label>
