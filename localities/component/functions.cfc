@@ -6301,7 +6301,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 										</cfif>
 										GEO_ATT_VALUE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_VALUE#">
 									WHERE 
-										geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.geology_attribute_id#">,
+										geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.geology_attribute_id#">
 								</cfquery>
 							</cfif>
 						</cfloop>
