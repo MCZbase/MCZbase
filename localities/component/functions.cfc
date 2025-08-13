@@ -5785,8 +5785,8 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 				</cfif>
 
 				<!--- unpack geology_data and append rows to geology_attributes table --->
-				<cfif isDefined("attributes.geology_data") AND len(attributes.geology_data) GT 0>
-					<cfset geology_data = deserializeJSON(urlDecode(attributes.geology_data))>
+				<cfif isDefined("arguments.geology_data") AND len(arguments.geology_data) GT 0>
+					<cfset geology_data = deserializeJSON(urlDecode(arguments.geology_data))>
 					<cfif isArray(geology_data)>
 						<cfloop array="#geology_data#" index="geoAtt">
 							<cfquery name="insertGeologyAttribute" datasource="uam_god" result="insertGeologyAttribute_result">
@@ -6213,9 +6213,9 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 					<cfthrow message="Error updating Locality record #locality_id#.">
 				</cfif>
 				<!--- unpack geology_data and update existing, or append append rows to geology_attributes table --->
-				<cfif isDefined("attributes.geology_data") AND len(attributes.geology_data) GT 0>
-					<!--- attributes.geology_data is an url encoded JSON string, decode then deserialize it --->
-					<cfset geology_data = deserializeJSON(urlDecode(attributes.geology_data))>
+				<cfif isDefined("arguments.geology_data") AND len(arguments.geology_data) GT 0>
+					<!--- arguments.geology_data is an url encoded JSON string, decode then deserialize it --->
+					<cfset geology_data = deserializeJSON(urlDecode(arguments.geology_data))>
 					<cfif isArray(geology_data)>
 						<cfloop array="#geology_data#" index="geoAtt">
 							<cfif len(geoAtt.geology_attribute_id) EQ 0>
