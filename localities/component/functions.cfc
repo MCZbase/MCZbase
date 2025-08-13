@@ -6269,35 +6269,36 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 									)
 								</cfquery>
 							<cfelse> 
-							<cfquery name="updateGeologyAttribute" datasource="uam_god" result="insertGeologyAttribute_result">
-								UPDATE geology_attributes 
-								SET
-								 	LOCALITY_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">,
-									GEOLOGY_ATTRIBUTE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEOLOGY_ATTRIBUTE#">,
-									<cfif len(geoAtt.GEO_ATT_DETERMINER_ID) GT 0>
-										GEO_ATT_DETERMINER_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.GEO_ATT_DETERMINER_ID#">,
-									<cfelse>
-										GEO_ATT_DETERMINER_ID = null,
-									</cfif>
-									<cfif len(geoAtt.GEO_ATT_DETERMINED_DATE) GT 0>
-										GEO_ATT_DETERMINED_DATE = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateFormat(geoAtt.GEO_ATT_DETERMINED_DATE,'yyyy-mm-dd')#">,
-									<cfelse>
-										GEO_ATT_DETERMINED_DATE = null,
-									</cfif>,
-									<cfif len(geoAtt.GEO_ATT_DETERMINED_METHOD) GT 0>
-										GEO_ATT_DETERMINED_METHOD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_DETERMINED_METHOD#">,
-									<cfelse>
-										GEO_ATT_DETERMINED_METHOD = null,
-									</cfif>
-									<cfif len(geoAtt.GEO_ATT_REMARK) GT 0>
-										GEO_ATT_REMARK = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_REMARK#">,
-									<cfelse>
-										GEO_ATT_REMARK = null,
-									</cfif>
-									GEO_ATT_VALUE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_VALUE#">
-								WHERE 
-									geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.geology_attribute_id#">,
-							</cfquery>
+								<cfquery name="updateGeologyAttribute" datasource="uam_god" result="insertGeologyAttribute_result">
+									UPDATE geology_attributes 
+									SET
+									 	LOCALITY_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">,
+										GEOLOGY_ATTRIBUTE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEOLOGY_ATTRIBUTE#">,
+										<cfif len(geoAtt.GEO_ATT_DETERMINER_ID) GT 0>
+											GEO_ATT_DETERMINER_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.GEO_ATT_DETERMINER_ID#">,
+										<cfelse>
+											GEO_ATT_DETERMINER_ID = null,
+										</cfif>
+										<cfif len(geoAtt.GEO_ATT_DETERMINED_DATE) GT 0>
+											GEO_ATT_DETERMINED_DATE = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateFormat(geoAtt.GEO_ATT_DETERMINED_DATE,'yyyy-mm-dd')#">,
+										<cfelse>
+											GEO_ATT_DETERMINED_DATE = null,
+										</cfif>,
+										<cfif len(geoAtt.GEO_ATT_DETERMINED_METHOD) GT 0>
+											GEO_ATT_DETERMINED_METHOD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_DETERMINED_METHOD#">,
+										<cfelse>
+											GEO_ATT_DETERMINED_METHOD = null,
+										</cfif>
+										<cfif len(geoAtt.GEO_ATT_REMARK) GT 0>
+											GEO_ATT_REMARK = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_REMARK#">,
+										<cfelse>
+											GEO_ATT_REMARK = null,
+										</cfif>
+										GEO_ATT_VALUE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_VALUE#">
+									WHERE 
+										geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.geology_attribute_id#">,
+								</cfquery>
+							</cfif>
 						</cfloop>
 					</cfif>
 				</cfif>
