@@ -6223,13 +6223,17 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 								<cfset geoDo = 'insert'>
 							<cfelse>
 								<!--- lookup the geology attribute row, if it exists, update --->
-								<cfquery name="checkGeologyAttribute" datasource="uam_god" result="checkGeologyAttribute_result">
-									SELECT count(*) ct 
-									FROM geology_attributes
-									WHERE geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.geology_attribute_id#">,
-								</cfquery>
-								<cfif checkGeologyAttribute.ct EQ 1>
-									<cfset geoDo = "update">
+								<cfif len(geoAtt.geology_attribute_id) GT 0>
+									<cfquery name="checkGeologyAttribute" datasource="uam_god" result="checkGeologyAttribute_result">
+										SELECT count(*) ct 
+										FROM geology_attributes
+										WHERE geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.geology_attribute_id#">,
+									</cfquery>
+									<cfif checkGeologyAttribute.ct EQ 1>
+										<cfset geoDo = "update">
+									<cfelse>
+										<cfset geoDo = "insert">
+									</cfif>
 								<cfelse>
 									<cfset geoDo = "insert">
 								</cfif>
