@@ -6288,7 +6288,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 											GEO_ATT_DETERMINED_DATE = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateFormat(geoAtt.GEO_ATT_DETERMINED_DATE,'yyyy-mm-dd')#">,
 										<cfelse>
 											GEO_ATT_DETERMINED_DATE = null,
-										</cfif>,
+										</cfif>
 										<cfif len(geoAtt.GEO_ATT_DETERMINED_METHOD) GT 0>
 											GEO_ATT_DETERMINED_METHOD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_DETERMINED_METHOD#">,
 										<cfelse>
