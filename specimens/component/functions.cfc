@@ -6532,7 +6532,7 @@ limitations under the License.
 					cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
 			<!--- check for a current georeference --->
-			<cfquery name="getCurrentGeoreference" dbtype="query">
+			<cfquery name="getCurrentGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT 
 					lat_long_id
 				FROM
