@@ -7619,6 +7619,7 @@ limitations under the License.
 											dec_lat raw_dec_lat,
 											to_char(dec_long, '999' || rpad('.',nvl(coordinate_precision,5) + 1, '0')) dec_long,
 											dec_long raw_dec_long,
+											coordinate_precision,
 											max_error_distance,
 											max_error_units,
 											round(to_meters(lat_long.max_error_distance, lat_long.max_error_units)) coordinateUncertaintyInMeters,
