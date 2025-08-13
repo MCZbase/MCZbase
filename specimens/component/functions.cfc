@@ -7256,6 +7256,53 @@ limitations under the License.
 									<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Edit</button>
 								</cfif>
 							</h2>
+							<script>
+								function populateGeology(id) {
+									if (id.indexOf('__') > -1) {
+										var idNum=id.replace('geology_attribute__','');
+										var thisValue=$("#geology_attribute__" + idNum).val();;
+										var dataValue=$("#geo_att_value__" + idNum).val();
+										var theSelect="geo_att_value__";
+										if (thisValue == ''){
+											return false;
+										}
+									} else {
+										// new geol attribute
+										var idNum='';
+										var thisValue=$("#geology_attribute").val();
+										var dataValue=$("#geo_att_value").val();
+										var theSelect="geo_att_value";
+									}
+									jQuery.getJSON("/component/functions.cfc",
+										{
+											method : "getGeologyValues",
+											attribute : thisValue,
+											returnformat : "json",
+											queryformat : 'column'
+										},
+										function (r) {
+											var s='';
+											var exists = false;
+							
+											if (dataValue !==null)
+											{for (i=0; i<r.ROWCOUNT; ++i) {
+							
+												if (r.DATA.ATTRIBUTE_VALUE[i]==dataValue){exists=true;}
+												}
+											if (exists==false){s='<option value="' + dataValue + '" selected="selected" style="color:red;">' + dataValue + '</option>';}
+												}
+											for (i=0; i<r.ROWCOUNT; ++i) {
+												s+='<option value="' + r.DATA.ATTRIBUTE_VALUE[i] + '"';
+												if (r.DATA.ATTRIBUTE_VALUE[i]==dataValue) {
+													s+=' selected="selected"';
+												}
+												s+='>' + r.DATA.ATTRIBUTE_VALUE[i] + '</option>';
+											}
+											$("select#" + theSelect + idNum).html(s);
+										}
+									);
+								}
+							</script>
 							<cfif getGeologicalAttributes.recordcount EQ 0>
 								<ul>
 									<li>
