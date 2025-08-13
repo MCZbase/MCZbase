@@ -6214,7 +6214,8 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 				</cfif>
 				<!--- unpack geologyData and update existing, or append append rows to geology_attributes table --->
 				<cfif isDefined("attributes.geologyData") AND len(attributes.geologyData) GT 0>
-					<cfset geologyData = deserializeJSON(attributes.geologyData)>
+					<!--- attributes.geologyData is an url encoded JSON string, decode then deserialize it --->
+					<cfset geologyData = deserializeJSON(urlDecode(attributes.geologyData))>
 					<cfif isArray(geologyData)>
 						<cfloop array="#geologyData#" index="geoAtt">
 							<cfif len(geoAtt.geology_attribute_id) EQ 0>
