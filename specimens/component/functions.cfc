@@ -7258,49 +7258,70 @@ limitations under the License.
 							</h2>
 							<script>
 								function populateGeology(id) {
-									if (id.indexOf('__') > -1) {
-										var idNum=id.replace('geology_attribute__','');
-										var thisValue=$("##geology_attribute__" + idNum).val();;
-										var dataValue=$("##geo_att_value__" + idNum).val();
-										var theSelect="geo_att_value__";
-										if (thisValue == ''){
-											return false;
-										}
-									} else {
-										// new geol attribute
-										var idNum='';
-										var thisValue=$("##geology_attribute").val();
-										var dataValue=$("##geo_att_value").val();
-										var theSelect="geo_att_value";
-									}
-									jQuery.getJSON("/component/functions.cfc",
-										{
-											method : "getGeologyValues",
-											attribute : thisValue,
-											returnformat : "json",
-											queryformat : 'column'
-										},
-										function (r) {
-											var s='';
-											var exists = false;
-							
-											if (dataValue !==null)
-											{for (i=0; i<r.ROWCOUNT; ++i) {
-							
-												if (r.DATA.ATTRIBUTE_VALUE[i]==dataValue){exists=true;}
-												}
-											if (exists==false){s='<option value="' + dataValue + '" selected="selected" style="color:red;">' + dataValue + '</option>';}
-												}
-											for (i=0; i<r.ROWCOUNT; ++i) {
-												s+='<option value="' + r.DATA.ATTRIBUTE_VALUE[i] + '"';
-												if (r.DATA.ATTRIBUTE_VALUE[i]==dataValue) {
-													s+=' selected="selected"';
-												}
-												s+='>' + r.DATA.ATTRIBUTE_VALUE[i] + '</option>';
-											}
-											$("select##" + theSelect + idNum).html(s);
-										}
-									);
+								    // id will be something like "geology_attribute_1"
+								    // Get the row number by splitting on the last underscore
+								    var idParts = id.split('_');
+								    var rowNum = idParts[idParts.length - 1];
+								
+								    // Get the selected attribute value
+								    var attributeValue = $('#geology_attribute_' + rowNum).val();
+								    var dataValue = $('#geo_att_value_' + rowNum).val();
+								    var selectId = 'geo_att_value_' + rowNum;
+								
+								    if (!attributeValue) {
+								        // If no attribute selected, clear the value select
+								        $('#' + selectId).html('<option value="">Select attribute first</option>');
+								        return;
+								    }
+								    $.ajax({
+								        url: "/component/functions.cfc",
+								        type: "GET",
+								        dataType: "json",
+								        data: {
+								            method: "getGeologyValues",
+								            attribute: attributeValue,
+								            returnformat: "json",
+								            queryformat: "column"
+								        },
+								        success: function(r) {
+								            var options = '';
+								            var exists = false;
+								
+								            // Ensure r.DATA.ATTRIBUTE_VALUE exists
+								            if (r && r.DATA && Array.isArray(r.DATA.ATTRIBUTE_VALUE)) {
+								                // Does existing value exist in returned options?
+								                if (dataValue !== null && dataValue !== undefined && dataValue !== '') {
+								                    for (var i = 0; i < r.DATA.ATTRIBUTE_VALUE.length; i++) {
+								                        if (r.DATA.ATTRIBUTE_VALUE[i] == dataValue) {
+								                            exists = true;
+								                            break;
+								                        }
+								                    }
+								                    if (!exists) {
+								                        // Add the current value (e.g. from previous selection/database) as a red option
+								                        options += '<option value="' + dataValue + '" selected="selected" style="color:red;">' + dataValue + ' (not in list)</option>';
+								                    }
+								                }
+								                // Add all returned options
+								                for (var i = 0; i < r.DATA.ATTRIBUTE_VALUE.length; i++) {
+								                    options += '<option value="' + r.DATA.ATTRIBUTE_VALUE[i] + '"';
+								                    if (r.DATA.ATTRIBUTE_VALUE[i] == dataValue) {
+								                        options += ' selected="selected"';
+								                    }
+								                    options += '>' + r.DATA.ATTRIBUTE_VALUE[i] + '</option>';
+								                }
+								            } else {
+								                // Unexpected response, show error option
+								                options = '<option value="">No values found</option>';
+								            }
+								            $('#' + selectId).html(options);
+								        },
+								        error: function(xhr, status, error) {
+								            handleFail(xhr, status, error, "retrieving geology values.");
+								            // Show error in select
+								            $('#' + selectId).html('<option value="">Error loading values</option>');
+								        }
+								    });
 								}
 							</script>
 							<cfif getGeologicalAttributes.recordcount EQ 0>
