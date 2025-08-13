@@ -7264,13 +7264,13 @@ limitations under the License.
 								    var rowNum = idParts[idParts.length - 1];
 								
 								    // Get the selected attribute value
-								    var attributeValue = $('#geology_attribute_' + rowNum).val();
-								    var dataValue = $('#geo_att_value_' + rowNum).val();
+								    var attributeValue = $('##geology_attribute_' + rowNum).val();
+								    var dataValue = $('##geo_att_value_' + rowNum).val();
 								    var selectId = 'geo_att_value_' + rowNum;
 								
 								    if (!attributeValue) {
 								        // If no attribute selected, clear the value select
-								        $('#' + selectId).html('<option value="">Select attribute first</option>');
+								        $('##' + selectId).html('<option value="">Select attribute first</option>');
 								        return;
 								    }
 								    $.ajax({
@@ -7314,12 +7314,12 @@ limitations under the License.
 								                // Unexpected response, show error option
 								                options = '<option value="">No values found</option>';
 								            }
-								            $('#' + selectId).html(options);
+								            $('##' + selectId).html(options);
 								        },
 								        error: function(xhr, status, error) {
 								            handleFail(xhr, status, error, "retrieving geology values.");
 								            // Show error in select
-								            $('#' + selectId).html('<option value="">Error loading values</option>');
+								            $('##' + selectId).html('<option value="">Error loading values</option>');
 								        }
 								    });
 								}
