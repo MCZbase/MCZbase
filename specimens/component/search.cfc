@@ -1454,6 +1454,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="verificationstatus" type="string" required="no">
 	<cfargument name="collector" type="string" required="no">
 	<cfargument name="collector_agent_id" type="string" required="no">
+	<cfargument name="preparator" type="string" required="no">
+	<cfargument name="preparator_agent_id" type="string" required="no">
 	<cfargument name="verbatim_date" type="string" required="no">
 	<cfargument name="date_began_date" type="string" required="no">
 	<cfargument name="date_ended_date" type="string" required="no">
@@ -2205,6 +2207,21 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
+	</cfif>
+	<cfif isDefined("preparator_agent_id") AND len(preparator_agent_id) GT 0>
+		<cfset field = '"field": "PREPARATORS_AGENT_ID"'>
+		<cfset comparator = '"comparator": "="'>
+		<cfset value = encodeForJSON(preparator_agent_id)>
+		<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	<cfelse>
+		<cfif isDefined("preparator") AND len(preparator) GT 0>
+			<cfset field = '"field": "PREPARATORS_AGENT_NAME"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#preparator#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		</cfif>
 	</cfif>
 
 	<cfif isDefined("publication_id") AND len(publication_id) GT 0>
