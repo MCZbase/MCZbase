@@ -6660,7 +6660,7 @@ limitations under the License.
 					<input type="hidden" name="method" value="handleCombinedEditForm">
 					<input type="hidden" name="locality_id" value="#getLoc.locality_id#">
 					<input type="hidden" name="collecting_event_id" value="#getLoc.collecting_event_id#">
-					<input type="hidden" name="geology_data" value="">
+					<input type="hidden" name="geology_data" id="geology_data" value="">
 
 					<!--- higher geography --->
 					<div class="col-12 px-2 form-row">
