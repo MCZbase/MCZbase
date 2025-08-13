@@ -6616,8 +6616,8 @@ limitations under the License.
 						}
 						var geologyData = aggregateGeologyTable();
 						console.log(geologyData);
-						// add geology data to the form
-						$('##locForm').append('<input type="hidden" name="geology_data" value="' + encodeURIComponent(JSON.stringify(geologyData)) + '">');
+						// save the geology data to a single input submitted as a single known argument 
+						$("##geology_data").val(encodeURIComponent(JSON.stringify(geologyData)));
 						// submit the form
 						// ajax submit the form to localities/component/functions.cfc
 						setFeedbackControlState("locFormOutput","saving")
@@ -6660,6 +6660,7 @@ limitations under the License.
 					<input type="hidden" name="method" value="handleCombinedEditForm">
 					<input type="hidden" name="locality_id" value="#getLoc.locality_id#">
 					<input type="hidden" name="collecting_event_id" value="#getLoc.collecting_event_id#">
+					<input type="hidden" name="geology_data" value="">
 
 					<!--- higher geography --->
 					<div class="col-12 px-2 form-row">

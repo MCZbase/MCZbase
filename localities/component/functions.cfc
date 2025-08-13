@@ -6266,7 +6266,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 										<cfelse>
 											null,
 										</cfif>
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_locality_id#">
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 									)
 								</cfquery>
 							<cfelse> 
