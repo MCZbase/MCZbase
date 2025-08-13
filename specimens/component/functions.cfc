@@ -7260,8 +7260,8 @@ limitations under the License.
 								function populateGeology(id) {
 									if (id.indexOf('__') > -1) {
 										var idNum=id.replace('geology_attribute__','');
-										var thisValue=$("#geology_attribute__" + idNum).val();;
-										var dataValue=$("#geo_att_value__" + idNum).val();
+										var thisValue=$("##geology_attribute__" + idNum).val();;
+										var dataValue=$("##geo_att_value__" + idNum).val();
 										var theSelect="geo_att_value__";
 										if (thisValue == ''){
 											return false;
@@ -7269,8 +7269,8 @@ limitations under the License.
 									} else {
 										// new geol attribute
 										var idNum='';
-										var thisValue=$("#geology_attribute").val();
-										var dataValue=$("#geo_att_value").val();
+										var thisValue=$("##geology_attribute").val();
+										var dataValue=$("##geo_att_value").val();
 										var theSelect="geo_att_value";
 									}
 									jQuery.getJSON("/component/functions.cfc",
@@ -7298,7 +7298,7 @@ limitations under the License.
 												}
 												s+='>' + r.DATA.ATTRIBUTE_VALUE[i] + '</option>';
 											}
-											$("select#" + theSelect + idNum).html(s);
+											$("select##" + theSelect + idNum).html(s);
 										}
 									);
 								}
