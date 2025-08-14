@@ -7533,11 +7533,11 @@ limitations under the License.
 								function changeGeoAttType(rowIndex) {
 									$(`##geology_attribute_${rowIndex}`).val("");
 									$(`##geo_att_value_${rowIndex}`).val("");
-									makeGeologyAutocompleteMeta('geology_attribute_' + rowIndex, 'geo_att_value_' + rowIndex, null, 'entry', $(`##attribute_type_${rowIndex}`).val());
+									makeGeologyAutocompleteMeta('geology_attribute_' + rowIndex, 'geo_att_value_' + rowIndex, 'geology_attribute_hierarchy_id_' + rowIndex, 'entry', $(`##attribute_type_${rowIndex}`).val());
 								}
 					
 								function openGeoAttValueAutocomplete(rowIndex) {
-									makeGeologyAutocompleteMeta('geology_attribute_' + rowIndex, 'geo_att_value_' + rowIndex, null, 'entry', $(`##attribute_type_${rowIndex}`).val());
+									makeGeologyAutocompleteMeta('geology_attribute_' + rowIndex, 'geo_att_value_' + rowIndex, 'geology_attribute_hierarchy_id_' + RowIndex, 'entry', $(`##attribute_type_${rowIndex}`).val());
 									$(`##geo_att_value_${rowIndex}`).focus();
 								}
 					
