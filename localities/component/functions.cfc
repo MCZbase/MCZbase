@@ -6445,8 +6445,17 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 						</cfloop><!--- geology_data --->
 					</cfif>
 				</cfif>
-				<!--- TODO: Remove geology atribute rows from list of accumulated geology_attribute_id values to remove --->
-				
+				<!--- Remove geology atribute rows from list of accumulated geology_attribute_id values to remove --->
+				<cfif isDefined("arguments.geology_attributes_to_delete") AND len(arguments.geology_attributes_to_delete) GT 0>
+					<cfloop list="#arguments.geology_attributes_to_delete#" index="geoAttIDToDelete">
+						<cfif len(geoAttIDToDelete) GT 0>
+							<cfquery name="deleteGeologyAttribute" datasource="uam_god" result="deleteGeologyAttribute_result">
+								DELETE FROM geology_attributes
+								WHERE geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAttIDToDelete#">
+							</cfquery>
+						</cfif>
+					</cfloop>
+				</cfif>
 
 				<!--- update collecting event --->
 				<cfquery name="updateCollectingEvent" datasource="uam_god" result="updateCollectingEvent_result">

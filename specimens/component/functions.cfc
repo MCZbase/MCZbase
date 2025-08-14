@@ -7188,6 +7188,7 @@ limitations under the License.
 					<div class="col-12 px-0 mt-2">
 						<h3 class="h4">
 							Collecting Event Numbers
+							Collector/Field Numbers (identifying collecting events)
 							<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditCollectingEventNumbers">Edit</button>
 						</h3>
 						
@@ -7205,7 +7206,6 @@ limitations under the License.
 									WHERE
 										coll_event_number.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.collecting_event_id#">
 								</cfquery>
-								<h3 class="h4">Collector/Field Numbers (identifying collecting events)</h3>
 								<ul class="mb-1">
 									<cfloop query="colEventNumbers">
 										<li><span id="collEventNumber_#coll_event_number_id#">#coll_event_number# (#number_series#, #collector_agent#)</span></li>
@@ -7263,6 +7263,9 @@ limitations under the License.
 						</h2>
 						<!--- Display attributes summary list --->
 						<ul>
+							<cfif getGeologicalAttributes.recordcount EQ 0>
+								<li id="noAttributesLI"> No geological attributes for this locality.</li>
+							</cfif>
 							<cfset valList = "">
 							<cfset shownParentsList = "">
 							<cfset separator = "">
@@ -7408,23 +7411,23 @@ limitations under the License.
 													</td>
 												</tr>
 											</cfloop>
-										<cfelse>
-											<tr id="noGeologyRow">
-												<td colspan="9" class="text-muted text-center">No geological attributes for this locality.</td>
+											<tr id="addGeologyRow">
+												<td colspan="9" class="text-center">
+													<!--- Add new geology attribute button --->
+													<button type="button" class="btn btn-xs btn-primary" onclick="addGeologyRow()">
+														<i class="fas fa-plus"></i> Add Geological Attribute
+													</button>
+												</td>
 											</tr>
+										<cfelse>
 										</cfif>
 									</tbody>
 								</table>
 							</div>
 							<!--- Hidden field to track the number of geology rows --->
 							<input type="hidden" name="geology_row_count" id="geology_row_count" value="#rowIndex#">
-					
-							<!--- Add new geology attribute button --->
-							<div class="col-12 mt-2">
-								<button type="button" class="btn btn-xs btn-primary" onclick="addGeologyRow()">
-									<i class="fas fa-plus"></i> Add Geological Attribute
-								</button>
-							</div>
+							<!--- hidden field to accumulate geology attributes to delete --->
+							<input type="hidden" name="geology_attributes_to_delete" id="geology_attributes_to_delete" value="">
 					
 							<script>
 								$(document).ready(function() {
@@ -7509,6 +7512,16 @@ limitations under the License.
 								function removeGeologyRow(button) {
 									const row = $(button).closest('tr');
 									const rowIndex = row.data('row-index');
+									<!--- check if the row has a geology_attribute_id, if so, add it to the delete list --->
+									const geologyAttributeId = $(`##geology_attribute_id_${rowIndex}`).val();
+									if (geologyAttributeId) {
+										let deleteList = $(`##geology_attributes_to_delete`).val();
+										if (deleteList) {
+											deleteList += ",";
+										}
+										deleteList += geologyAttributeId;
+										$(`##geology_attributes_to_delete`).val(deleteList);
+									}
 									$(`##geology_attribute_${rowIndex}`).val('');
 									row.hide();
 									if ($('##geologyTableBody tr:visible').length === 0) {
