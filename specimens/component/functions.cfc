@@ -7551,7 +7551,7 @@ limitations under the License.
 											geologyData.push({
 												attribute_type: row.find('select[name="attribute_type_' + rowIndex + '"]').val(),
 												geology_attribute: geologyAttribute,
-												geo_att_value: row.find('select[name="geo_att_value_' + rowIndex + '"]').val(),
+												geo_att_value: row.find('input[name="geo_att_value_' + rowIndex + '"]').val(),
 												add_parents: row.find('select[name="add_parents_' + rowIndex + '"]').val(),
 												geo_att_determiner: row.find('input[name="geo_att_determiner_' + rowIndex + '"]').val(),
 												geo_att_determiner_id: row.find('input[name="geo_att_determiner_id_' + rowIndex + '"]').val(),
