@@ -7208,7 +7208,7 @@ limitations under the License.
 										MCZBASE.get_agentnameoftype(collector_agent_id) as collector_agent,
 										coll_event_number,
 										coll_event_number_id,
-										coll_event_num_series_id
+										coll_event_number.coll_event_num_series_id
 									FROM
 										coll_event_number
 										left join coll_event_num_series on coll_event_number.coll_event_num_series_id = coll_event_num_series.coll_event_num_series_id
