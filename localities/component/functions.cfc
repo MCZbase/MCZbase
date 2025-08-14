@@ -6649,7 +6649,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 					INSERT INTO coll_event_number (
 						coll_event_number_id, collecting_event_id, coll_event_num_series_id, coll_event_number
 					) VALUES (
-						sq_coll_event_number_id.NEXTVAL,
+						coll_event_number_seq.NEXTVAL,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.new_collecting_event_id#">,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collEventNum.coll_event_num_series_id#">,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collEventNum.coll_event_number#">
@@ -6695,7 +6695,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 						INSERT INTO coll_event_number (
 							coll_event_number_id, collecting_event_id, coll_event_num_series_id, coll_event_number
 						) VALUES (
-							sq_coll_event_number_id.NEXTVAL,
+							coll_event_number_seq.NEXTVAL,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collecting_event_id#">,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collEventNum.coll_event_num_series_id#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collEventNum.coll_event_number#">
