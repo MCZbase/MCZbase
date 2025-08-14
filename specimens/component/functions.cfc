@@ -7361,7 +7361,7 @@ limitations under the License.
 														<input type="hidden" name="geology_attribute_hierarchy_id_#rowIndex#" id="geology_attribute_hierarchy_id_#rowIndex#" value="#getGeologicalAttributes.geology_attribute_hierarchy_id#">
 													</td>
 													<td>
-														<input type="hidden" name="geology_attribute_id_#rowIndex#" value="#getGeologicalAttributes.geology_attribute_id#">
+														<input type="hidden" name="geology_attribute_id_#rowIndex#" id="geology_attribute_id_#rowIndex#" value="#getGeologicalAttributes.geology_attribute_id#">
 														<select name="geology_attribute_#rowIndex#" id="geology_attribute_#rowIndex#" class="data-entry-select reqdClr" onchange="populateGeology(this.id)">
 															<option value=""></option>
 															<cfloop query="ctgeology_attribute">
@@ -7452,7 +7452,7 @@ limitations under the License.
 												</select>
 											</td>
 											<td>
-												<input type="hidden" name="geology_attribute_id_${currentRowCount}" value="">
+												<input type="hidden" name="geology_attribute_id_${currentRowCount}" id="geology_attribute_id_${currentRowCount}" value="">
 												<select name="geology_attribute_${currentRowCount}" id="geology_attribute_${currentRowCount}" class="data-entry-select reqdClr" onchange="populateGeology(this.id)">
 													<option value=""></option>
 													<cfloop query="ctgeology_attribute">
