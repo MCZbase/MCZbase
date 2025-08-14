@@ -7184,14 +7184,22 @@ limitations under the License.
 						</div>
 					</div>
 					
-					<!--- TODO: Editing Collecting event numbers --->
+					<!--- Collecting event numbers --->
 					<div class="col-12 px-0 mt-2">
+						<!--- Query for available number series --->
+						<cfquery name="collEventNumberSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT coll_event_num_series_id, number_series, pattern, remarks, collector_agent_id,
+								CASE collector_agent_id WHEN null THEN '[No Agent]' ELSE mczbase.get_agentnameoftype(collector_agent_id) END as collector_agent
+							FROM coll_event_num_series
+							ORDER BY number_series, mczbase.get_agentnameoftype(collector_agent_id)
+						</cfquery>
+						
 						<h3 class="h4">
 							Collecting Event Numbers
 							Collector/Field Numbers (identifying collecting events)
 							<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditCollectingEventNumbers">Edit</button>
 						</h3>
-						
+					
 						<!--- Display existing collecting event numbers --->
 						<div class="form-row mx-0 mb-2">
 							<div class="col-12">
@@ -7199,7 +7207,8 @@ limitations under the License.
 									SELECT number_series,
 										MCZBASE.get_agentnameoftype(collector_agent_id) as collector_agent,
 										coll_event_number,
-										coll_event_number_id
+										coll_event_number_id,
+										coll_event_num_series_id
 									FROM
 										coll_event_number
 										left join coll_event_num_series on coll_event_number.coll_event_num_series_id = coll_event_num_series.coll_event_num_series_id
@@ -7216,7 +7225,192 @@ limitations under the License.
 								</ul>
 							</div>
 						</div>
-					</div>
+					
+						<script>
+							$(document).ready(function() {
+								$('#buttonOpenEditCollectingEventNumbers').on('click', function() {
+									$('#collectingEventNumbersTableSection').toggle();
+								});
+							});
+						</script>
+					
+						<div id="collectingEventNumbersTableSection" class="col-12" style="display: none;">
+							<!--- Editable Table --->
+							<div class="table-responsive">
+								<table class="table table-sm table-striped" id="collectingEventNumbersTable">
+									<thead>
+										<tr>
+											<th>Number Series</th>
+											<th>Collector/Agent</th>
+											<th>Number</th>
+											<th>Pattern</th>
+											<th>Actions</th>
+										</tr>
+									</thead>
+									<tbody id="collectingEventNumbersTableBody">
+										<!--- Existing collecting event numbers --->
+										<cfset rowIndex = 0>
+										<cfif colEventNumbers.recordcount GT 0>
+											<cfloop query="colEventNumbers">
+												<cfset rowIndex = rowIndex + 1>
+												<tr data-row-index="#rowIndex#">
+													<td>
+														<select name="coll_event_num_series_id_#rowIndex#" id="coll_event_num_series_id_#rowIndex#" class="data-entry-select reqdClr" onchange="changeCollEventNumberSeries(#rowIndex#)">
+															<option value=""></option>
+															<cfloop query="collEventNumberSeries">
+																<cfif collEventNumberSeries.coll_event_num_series_id EQ colEventNumbers.coll_event_num_series_id>
+																	<cfset selected="selected">
+																<cfelse>
+																	<cfset selected="">
+																</cfif>
+																<option value="#collEventNumberSeries.coll_event_num_series_id#" #selected#>#collEventNumberSeries.number_series#</option>
+															</cfloop>
+														</select>
+														<input type="hidden" name="coll_event_number_id_#rowIndex#" id="coll_event_number_id_#rowIndex#" value="#colEventNumbers.coll_event_number_id#">
+													</td>
+													<td>
+														<span id="collector_agent_#rowIndex#">#encodeForHTML(colEventNumbers.collector_agent)#</span>
+													</td>
+													<td>
+														<input type="text" id="coll_event_number_#rowIndex#" name="coll_event_number_#rowIndex#" 
+															class="data-entry-input reqdClr"
+															value="#encodeForHTML(colEventNumbers.coll_event_number)#">
+													</td>
+													<td>
+														<span id="pattern_#rowIndex#" class="text-muted small"></span>
+													</td>
+													<td>
+														<button type="button" class="btn btn-xs btn-danger" onclick="removeCollEventNumberRow(this)" title="Remove this collecting event number">
+															<i class="fas fa-times"></i>
+														</button>
+													</td>
+												</tr>
+											</cfloop>
+										</cfif>
+										<tr id="addCollEventNumberRow">
+											<td colspan="5" class="text-center">
+												<!--- Add new collecting event number button --->
+												<button type="button" class="btn btn-xs btn-primary" onclick="addCollEventNumberRow()">
+													<i class="fas fa-plus"></i> Add Collecting Event Number
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!--- Hidden field to track the number of collecting event number rows --->
+							<input type="hidden" name="coll_event_number_row_count" id="coll_event_number_row_count" value="#rowIndex#">
+							<!--- hidden field to accumulate collecting event numbers to delete --->
+							<input type="hidden" name="coll_event_numbers_to_delete" id="coll_event_numbers_to_delete" value="">
+					
+							<script>
+								$(document).ready(function() {
+									const initialRowCount = parseInt($('#coll_event_number_row_count').val());
+									for (let i = 1; i <= initialRowCount; i++) {
+										updateCollEventNumberSeriesInfo(i);
+									}
+								});
+					
+								function addCollEventNumberRow() {
+									$('#noCollEventNumberRow').remove();
+									let currentRowCount = parseInt($('#coll_event_number_row_count').val());
+									currentRowCount++;
+									$('#coll_event_number_row_count').val(currentRowCount);
+									const newRow = `
+										<tr data-row-index="${currentRowCount}">
+											<td>
+												<select name="coll_event_num_series_id_${currentRowCount}" id="coll_event_num_series_id_${currentRowCount}" class="data-entry-select reqdClr" onchange="changeCollEventNumberSeries(${currentRowCount})">
+													<option value=""></option>
+													<cfloop query="collEventNumberSeries">
+														<option value="#collEventNumberSeries.coll_event_num_series_id#">#collEventNumberSeries.number_series#</option>
+													</cfloop>
+												</select>
+												<input type="hidden" name="coll_event_number_id_${currentRowCount}" id="coll_event_number_id_${currentRowCount}" value="">
+											</td>
+											<td>
+												<span id="collector_agent_${currentRowCount}"></span>
+											</td>
+											<td>
+												<input type="text" id="coll_event_number_${currentRowCount}" name="coll_event_number_${currentRowCount}" class="data-entry-input reqdClr">
+											</td>
+											<td>
+												<span id="pattern_${currentRowCount}" class="text-muted small"></span>
+											</td>
+											<td>
+												<button type="button" class="btn btn-xs btn-danger" onclick="removeCollEventNumberRow(this)" title="Remove this collecting event number">
+													<i class="fas fa-times"></i>
+												</button>
+											</td>
+										</tr>
+									`;
+									<!--- " --->
+									$('#collectingEventNumbersTableBody').append(newRow);
+								}
+					
+								function removeCollEventNumberRow(button) {
+									const row = $(button).closest('tr');
+									const rowIndex = row.data('row-index');
+									<!--- check if the row has a coll_event_number_id, if so, add it to the delete list --->
+									const collEventNumberId = $(`#coll_event_number_id_${rowIndex}`).val();
+									if (collEventNumberId) {
+										let deleteList = $(`#coll_event_numbers_to_delete`).val();
+										if (deleteList) {
+											deleteList += ",";
+										}
+										deleteList += collEventNumberId;
+										$(`#coll_event_numbers_to_delete`).val(deleteList);
+									}
+									row.hide();
+									if ($('#collectingEventNumbersTableBody tr:visible').length === 0) {
+										$('#collectingEventNumbersTableBody').append(`
+											<tr id="noCollEventNumberRow">
+												<td colspan="5" class="text-muted text-center">No collecting event numbers for this collecting event.</td>
+											</tr>
+										`);
+									}
+								}
+					
+								function changeCollEventNumberSeries(rowIndex) {
+									updateCollEventNumberSeriesInfo(rowIndex);
+								}
+					
+								function updateCollEventNumberSeriesInfo(rowIndex) {
+									const selectedSeriesId = $(`#coll_event_num_series_id_${rowIndex}`).val();
+									let collectorAgent = '';
+									let pattern = '';
+									
+									<cfloop query="collEventNumberSeries">
+										if (selectedSeriesId == '#collEventNumberSeries.coll_event_num_series_id#') {
+											collectorAgent = '#encodeForJavaScript(collEventNumberSeries.collector_agent)#';
+											pattern = '#encodeForJavaScript(collEventNumberSeries.pattern)#';
+										}
+									</cfloop>
+									
+									$(`#collector_agent_${rowIndex}`).text(collectorAgent);
+									$(`#pattern_${rowIndex}`).text(pattern);
+								}
+					
+								function aggregateCollectingEventNumbersTable() {
+									var collectingEventNumbersData = [];
+									$('#collectingEventNumbersTableBody tr:visible').each(function() {
+										var row = $(this);
+										var rowIndex = row.data('row-index');
+										var collEventNumber = row.find('input[name="coll_event_number_' + rowIndex + '"]').val();
+										var seriesId = row.find('select[name="coll_event_num_series_id_' + rowIndex + '"]').val();
+										if (collEventNumber && seriesId) {
+											collectingEventNumbersData.push({
+												coll_event_num_series_id: seriesId,
+												coll_event_number: collEventNumber,
+												coll_event_number_id: row.find('input[name="coll_event_number_id_' + rowIndex + '"]').val()
+											});
+										}
+									});
+									return collectingEventNumbersData;
+								}
+					
+							</script>
+						</div><!--- end collecting event numbers table section --->
+					</div><!--- end collecting event numbers section --->
 
 					<!--- geology attributes (on locality) --->
 					<div class="col-12 px-0">
