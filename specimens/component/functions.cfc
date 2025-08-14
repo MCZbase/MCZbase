@@ -7375,10 +7375,9 @@ limitations under the License.
 														</select>
 													</td>
 													<td>
-														<select id="geo_att_value_#rowIndex#" name="geo_att_value_#rowIndex#" class="data-entry-select reqdClr">
-															<option value="#encodeForHTML(getGeologicalAttributes.geo_att_value)#">#encodeForHTML(getGeologicalAttributes.geo_att_value)#</option>
-														</select>
-														<button type="button" class="btn btn-xs btn-outline-info" onclick="openGeoAttValueAutocomplete(#rowIndex#)">...</button>
+														<input type="text" id="geo_att_value_#rowIndex#" name="geo_att_value_#rowIndex#" 
+															class="data-entry-input reqdClr"
+															value="#encodeForHTML(getGeologicalAttributes.geo_att_value)#">
 													</td>
 													<td>
 														<select id="add_parents_#rowIndex#" name="add_parents_#rowIndex#" class="data-entry-select" onchange="addParentsChange(#rowIndex#);">
@@ -7463,10 +7462,7 @@ limitations under the License.
 												<input type="hidden" name="geology_attribute_hierarchy_id_${currentRowCount}" id="geology_attribute_hierarchy_id_${currentRowCount}" value="">
 											</td>
 											<td>
-												<select id="geo_att_value_${currentRowCount}" name="geo_att_value_${currentRowCount}" class="data-entry-select reqdClr">
-													<option value="">Select attribute first</option>
-												</select>
-												<button type="button" class="btn btn-xs btn-outline-info" onclick="openGeoAttValueAutocomplete(${currentRowCount})">...</button>
+												<input type="text" id="geo_att_value_${currentRowCount}" name="geo_att_value_${currentRowCount}" class="data-entry-input reqdClr">
 											</td>
 											<td>
 												<select id="add_parents_${currentRowCount}" name="add_parents_${currentRowCount}" class="data-entry-select" onchange="addParentsChange(${currentRowCount});">
@@ -7534,11 +7530,6 @@ limitations under the License.
 									$(`##geology_attribute_${rowIndex}`).val("");
 									$(`##geo_att_value_${rowIndex}`).val("");
 									makeGeologyAutocompleteMeta('geology_attribute_' + rowIndex, 'geo_att_value_' + rowIndex, 'geology_attribute_hierarchy_id_' + rowIndex, 'entry', $(`##attribute_type_${rowIndex}`).val());
-								}
-					
-								function openGeoAttValueAutocomplete(rowIndex) {
-									makeGeologyAutocompleteMeta('geology_attribute_' + rowIndex, 'geo_att_value_' + rowIndex, 'geology_attribute_hierarchy_id_' + RowIndex, 'entry', $(`##attribute_type_${rowIndex}`).val());
-									$(`##geo_att_value_${rowIndex}`).focus();
 								}
 					
 								function addParentsChange(rowIndex) {
