@@ -7411,16 +7411,15 @@ limitations under the License.
 													</td>
 												</tr>
 											</cfloop>
-											<tr id="addGeologyRow">
-												<td colspan="9" class="text-center">
-													<!--- Add new geology attribute button --->
-													<button type="button" class="btn btn-xs btn-primary" onclick="addGeologyRow()">
-														<i class="fas fa-plus"></i> Add Geological Attribute
-													</button>
-												</td>
-											</tr>
-										<cfelse>
 										</cfif>
+										<tr id="addGeologyRow">
+											<td colspan="9" class="text-center">
+												<!--- Add new geology attribute button --->
+												<button type="button" class="btn btn-xs btn-primary" onclick="addGeologyRow()">
+													<i class="fas fa-plus"></i> Add Geological Attribute
+												</button>
+											</td>
+										</tr>
 									</tbody>
 								</table>
 							</div>
