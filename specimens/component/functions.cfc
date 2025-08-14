@@ -7228,8 +7228,8 @@ limitations under the License.
 					
 						<script>
 							$(document).ready(function() {
-								$('#buttonOpenEditCollectingEventNumbers').on('click', function() {
-									$('#collectingEventNumbersTableSection').toggle();
+								$('##buttonOpenEditCollectingEventNumbers').on('click', function() {
+									$('##collectingEventNumbersTableSection').toggle();
 								});
 							});
 						</script>
@@ -7305,17 +7305,17 @@ limitations under the License.
 					
 							<script>
 								$(document).ready(function() {
-									const initialRowCount = parseInt($('#coll_event_number_row_count').val());
+									const initialRowCount = parseInt($('##coll_event_number_row_count').val());
 									for (let i = 1; i <= initialRowCount; i++) {
 										updateCollEventNumberSeriesInfo(i);
 									}
 								});
 					
 								function addCollEventNumberRow() {
-									$('#noCollEventNumberRow').remove();
-									let currentRowCount = parseInt($('#coll_event_number_row_count').val());
+									$('##noCollEventNumberRow').remove();
+									let currentRowCount = parseInt($('##coll_event_number_row_count').val());
 									currentRowCount++;
-									$('#coll_event_number_row_count').val(currentRowCount);
+									$('##coll_event_number_row_count').val(currentRowCount);
 									const newRow = `
 										<tr data-row-index="${currentRowCount}">
 											<td>
@@ -7344,25 +7344,25 @@ limitations under the License.
 										</tr>
 									`;
 									<!--- " --->
-									$('#collectingEventNumbersTableBody').append(newRow);
+									$('##collectingEventNumbersTableBody').append(newRow);
 								}
 					
 								function removeCollEventNumberRow(button) {
 									const row = $(button).closest('tr');
 									const rowIndex = row.data('row-index');
 									<!--- check if the row has a coll_event_number_id, if so, add it to the delete list --->
-									const collEventNumberId = $(`#coll_event_number_id_${rowIndex}`).val();
+									const collEventNumberId = $(`##coll_event_number_id_${rowIndex}`).val();
 									if (collEventNumberId) {
-										let deleteList = $(`#coll_event_numbers_to_delete`).val();
+										let deleteList = $(`##coll_event_numbers_to_delete`).val();
 										if (deleteList) {
 											deleteList += ",";
 										}
 										deleteList += collEventNumberId;
-										$(`#coll_event_numbers_to_delete`).val(deleteList);
+										$(`##coll_event_numbers_to_delete`).val(deleteList);
 									}
 									row.hide();
-									if ($('#collectingEventNumbersTableBody tr:visible').length === 0) {
-										$('#collectingEventNumbersTableBody').append(`
+									if ($('##collectingEventNumbersTableBody tr:visible').length === 0) {
+										$('##collectingEventNumbersTableBody').append(`
 											<tr id="noCollEventNumberRow">
 												<td colspan="5" class="text-muted text-center">No collecting event numbers for this collecting event.</td>
 											</tr>
@@ -7375,7 +7375,7 @@ limitations under the License.
 								}
 					
 								function updateCollEventNumberSeriesInfo(rowIndex) {
-									const selectedSeriesId = $(`#coll_event_num_series_id_${rowIndex}`).val();
+									const selectedSeriesId = $(`##coll_event_num_series_id_${rowIndex}`).val();
 									let collectorAgent = '';
 									let pattern = '';
 									
@@ -7386,13 +7386,13 @@ limitations under the License.
 										}
 									</cfloop>
 									
-									$(`#collector_agent_${rowIndex}`).text(collectorAgent);
-									$(`#pattern_${rowIndex}`).text(pattern);
+									$(`##collector_agent_${rowIndex}`).text(collectorAgent);
+									$(`##pattern_${rowIndex}`).text(pattern);
 								}
 					
 								function aggregateCollectingEventNumbersTable() {
 									var collectingEventNumbersData = [];
-									$('#collectingEventNumbersTableBody tr:visible').each(function() {
+									$('##collectingEventNumbersTableBody tr:visible').each(function() {
 										var row = $(this);
 										var rowIndex = row.data('row-index');
 										var collEventNumber = row.find('input[name="coll_event_number_' + rowIndex + '"]').val();
