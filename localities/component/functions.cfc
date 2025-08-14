@@ -5822,7 +5822,76 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 									null
 								)
 							</cfquery>
-						</cfloop>
+							<cfif isDefined("geoAtt.add_parents") AND ucase(geoAtt.add_parents) EQ "YES">
+								<!--- find the hierarchy id of the inserted node --->
+								<cfquery name="getHierarchyID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT geology_attribute_hierarchy_id 
+									FROM geology_attribute_hierarchy
+									WHERE
+										attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEOLOGY_ATTRIBUTE#">
+										and attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_VALUE#">
+								</cfquery>
+								<!--- add any parents of the inserted node that aren't already present --->
+								<cfquery name="getParents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT * FROM (
+										SELECT 
+											level as parentagelevel,
+											connect_by_root attribute as geology_attribute,
+											connect_by_root attribute_value as geo_att_value,
+											connect_by_root geology_attribute_hierarchy_id as geology_attribute_hierarchy_id,
+											connect_by_root PARENT_ID as parent_id,
+											connect_by_root USABLE_VALUE_FG as USABLE_VALUE_FG,
+											connect_by_root DESCRIPTION as description
+										FROM geology_attribute_hierarchy 
+										WHERE
+											geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getHeirarchyID.geology_attribute_hierarchy_id#">
+										CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
+										ORDER BY level asc
+									) WHERE parentagelevel > 1
+								</cfquery>
+								<cfloop query="getParents">
+									<cfquery name="checkParents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT count(*) ct 
+										FROM geology_attributes
+										WHERE
+											locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_locality_id#">
+											and geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geology_attribute#">
+											and geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geo_att_value#">
+									</cfquery>
+									<cfif checkParents.ct EQ 0>
+										<cfquery name="addGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addGeoAttribute_result">
+											INSERT INTO geology_attributes
+												( locality_id,
+													geology_attribute,
+													geo_att_value,
+													geo_att_determiner_id,
+													geo_att_determined_date,
+													geo_att_determined_method
+												) VALUES (
+													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_locality_id#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geology_attribute#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geo_att_value#">,
+													<cfif isDefined("geoAtt.geo_att_determiner_id") and len(geoAtt.geo_att_determiner_id) GT 0>
+														<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.geo_att_determiner_id#">,
+													<cfelse>
+														NULL,
+													</cfif>
+													<cfif isDefined("geoAtt.geo_att_determined_date") and len(geoAtt.geo_att_determined_date) GT 0>
+														<cfqueryparam cfsqltype="CF_SQL_DATE" value="#geoAtt.geo_att_determined_date#">,
+													<cfelse>
+														NULL,
+													</cfif>
+													<cfif isDefined("geoAtt.geo_att_determined_method") and len(geoAtt.geo_att_determined_method) GT 0>
+														<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.geo_att_determined_method#">
+													<cfelse>
+														NULL
+													</cfif>
+												)
+										</cfquery>
+									</cfif>
+								</cfloop><!--- parents --->
+							</cfif><!--- add_parents --->
+						</cfloop><!--- geoAttributes --->
 					</cfif>
 				</cfif>
 
@@ -6304,7 +6373,76 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 										geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.geology_attribute_id#">
 								</cfquery>
 							</cfif>
-						</cfloop>
+							<cfif isDefined("geoAtt.add_parents") AND ucase(geoAtt.add_parents) EQ "YES">
+								<!--- find the hierarchy id of the inserted/updated node --->
+								<cfquery name="getHierarchyID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT geology_attribute_hierarchy_id 
+									FROM geology_attribute_hierarchy
+									WHERE
+										attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEOLOGY_ATTRIBUTE#">
+										and attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_VALUE#">
+								</cfquery>
+								<!--- add any parents of the inserted/updated node that aren't already present --->
+								<cfquery name="getParents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT * FROM (
+										SELECT 
+											level as parentagelevel,
+											connect_by_root attribute as geology_attribute,
+											connect_by_root attribute_value as geo_att_value,
+											connect_by_root geology_attribute_hierarchy_id as geology_attribute_hierarchy_id,
+											connect_by_root PARENT_ID as parent_id,
+											connect_by_root USABLE_VALUE_FG as USABLE_VALUE_FG,
+											connect_by_root DESCRIPTION as description
+										FROM geology_attribute_hierarchy 
+										WHERE
+											geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getHeirarchyID.geology_attribute_hierarchy_id#">
+										CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
+										ORDER BY level asc
+									) WHERE parentagelevel > 1
+								</cfquery>
+								<cfloop query="getParents">
+									<cfquery name="checkParents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT count(*) ct 
+										FROM geology_attributes
+										WHERE
+											locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+											and geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geology_attribute#">
+											and geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geo_att_value#">
+									</cfquery>
+									<cfif checkParents.ct EQ 0>
+										<cfquery name="addGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addGeoAttribute_result">
+											INSERT INTO geology_attributes
+												( locality_id,
+													geology_attribute,
+													geo_att_value,
+													geo_att_determiner_id,
+													geo_att_determined_date,
+													geo_att_determined_method
+												) VALUES (
+													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geology_attribute#">,
+													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geo_att_value#">,
+													<cfif isDefined("geoAtt.geo_att_determiner_id") and len(geoAtt.geo_att_determiner_id) GT 0>
+														<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.geo_att_determiner_id#">,
+													<cfelse>
+														NULL,
+													</cfif>
+													<cfif isDefined("geoAtt.geo_att_determined_date") and len(geoAtt.geo_att_determined_date) GT 0>
+														<cfqueryparam cfsqltype="CF_SQL_DATE" value="#geoAtt.geo_att_determined_date#">,
+													<cfelse>
+														NULL,
+													</cfif>
+													<cfif isDefined("geoAtt.geo_att_determined_method") and len(geoAtt.geo_att_determined_method) GT 0>
+														<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.geo_att_determined_method#">
+													<cfelse>
+														NULL
+													</cfif>
+												)
+										</cfquery>
+									</cfif>
+								</cfloop><!--- parents --->
+							</cfif><!--- add_parents --->
+						</cfloop><!--- geology_data --->
 					</cfif>
 				</cfif>
 				<!--- TODO: Remove geology atribute rows from list of accumulated geology_attribute_id values to remove --->
