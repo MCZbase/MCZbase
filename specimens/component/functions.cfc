@@ -6622,7 +6622,7 @@ limitations under the License.
 						$("##geology_data").val(encodeURIComponent(JSON.stringify(geologyData)));
 						// gather the collecting event numbers from the table
 						$('##collectingEventNumbersTableSection').show(); // ensure the table is open so data will be aggregated
-						var collEventNumberData = aggregateCollEventNumbers();
+						var collEventNumberData = aggregateCollectingEventNumbersTable();
 						console.log(collEventNumberData);
 						// save the collecting event numbers to a single input submitted as a single known argument
 						$("##coll_event_numbers_data").val(encodeURIComponent(JSON.stringify(collEventNumberData)));
