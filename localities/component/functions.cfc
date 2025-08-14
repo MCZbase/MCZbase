@@ -6641,10 +6641,10 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 	<cfargument name="coll_event_numbers_data" type="string" required="yes">
 	<cfargument name="new_collecting_event_id" type="string" required="yes">
 	
-	<cfif len(coll_event_numbers_data) GT 0>
-		<cfset var coll_event_numbers_data = deserializeJSON(urlDecode(coll_event_numbers_data))>
-		<cfif isArray(coll_event_numbers_data)>
-			<cfloop array="#coll_event_numbers_data#" index="collEventNum">
+	<cfif len(arguments.coll_event_numbers_data) GT 0>
+		<cfset var collEventNumbersArray = deserializeJSON(urlDecode(arguments.coll_event_numbers_data))>
+		<cfif isArray(collEventNumbersArray)>
+			<cfloop array="#collEventNumbersArray#" index="collEventNum">
 				<cfquery name="insertCollEventNumber" datasource="uam_god" result="insertCollEventNumber_result">
 					INSERT INTO coll_event_number (
 						coll_event_number_id, collecting_event_id, coll_event_num_series_id, coll_event_number
@@ -6667,10 +6667,10 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 	<cfargument name="collecting_event_id" type="string" required="yes">
 	
 	<!--- Handle updates/inserts --->
-	<cfif len(coll_event_numbers_data) GT 0>
-		<cfset var coll_event_numbers_data = deserializeJSON(urlDecode(coll_event_numbers_data))>
-		<cfif isArray(coll_event_numbers_data)>
-			<cfloop array="#coll_event_numbers_data#" index="collEventNum">
+	<cfif len(arguments.coll_event_numbers_data) GT 0>
+		<cfset var collEventNumbersArray = deserializeJSON(urlDecode(arguments.coll_event_numbers_data))>
+		<cfif isArray(collEventNumbersArray)>
+			<cfloop array="#collEventNumbersArray#" index="collEventNum">
 				<cfset var collEventNumDo = "">
 				<cfif len(collEventNum.coll_event_number_id) EQ 0>
 					<cfset collEventNumDo = 'insert'>
@@ -6717,8 +6717,8 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 	</cfif>
 	
 	<!--- Handle deletions --->
-	<cfif len(coll_event_numbers_to_delete) GT 0>
-		<cfloop list="#coll_event_numbers_to_delete#" index="collEventNumIDToDelete">
+	<cfif len(arguments.coll_event_numbers_to_delete) GT 0>
+		<cfloop list="#arguments.coll_event_numbers_to_delete#" index="collEventNumIDToDelete">
 			<cfif len(collEventNumIDToDelete) GT 0>
 				<cfquery name="deleteCollEventNumber" datasource="uam_god" result="deleteCollEventNumber_result">
 					DELETE FROM coll_event_number
