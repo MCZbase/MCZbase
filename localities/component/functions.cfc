@@ -5824,7 +5824,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 							</cfquery>
 							<cfif isDefined("geoAtt.add_parents") AND ucase(geoAtt.add_parents) EQ "YES">
 								<!--- find the hierarchy id of the inserted node --->
-								<cfquery name="getHierarchyID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								<cfquery name="getHierarchyID" datasource="uam_god">
 									SELECT geology_attribute_hierarchy_id 
 									FROM geology_attribute_hierarchy
 									WHERE
@@ -5832,7 +5832,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 										and attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_VALUE#">
 								</cfquery>
 								<!--- add any parents of the inserted node that aren't already present --->
-								<cfquery name="getParents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								<cfquery name="getParents" datasource="uam_god">
 									SELECT * FROM (
 										SELECT 
 											level as parentagelevel,
@@ -5850,7 +5850,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 									) WHERE parentagelevel > 1
 								</cfquery>
 								<cfloop query="getParents">
-									<cfquery name="checkParents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									<cfquery name="checkParents" datasource="uam_god">
 										SELECT count(*) ct 
 										FROM geology_attributes
 										WHERE
@@ -5859,7 +5859,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 											and geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geo_att_value#">
 									</cfquery>
 									<cfif checkParents.ct EQ 0>
-										<cfquery name="addGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addGeoAttribute_result">
+										<cfquery name="addGeoAttribute" datasource="uam_god" result="addGeoAttribute_result">
 											INSERT INTO geology_attributes
 												( locality_id,
 													geology_attribute,
@@ -6375,7 +6375,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 							</cfif>
 							<cfif isDefined("geoAtt.add_parents") AND ucase(geoAtt.add_parents) EQ "YES">
 								<!--- find the hierarchy id of the inserted/updated node --->
-								<cfquery name="getHierarchyID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								<cfquery name="getHierarchyID" datasource="uam_god">
 									SELECT geology_attribute_hierarchy_id 
 									FROM geology_attribute_hierarchy
 									WHERE
@@ -6383,7 +6383,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 										and attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_VALUE#">
 								</cfquery>
 								<!--- add any parents of the inserted/updated node that aren't already present --->
-								<cfquery name="getParents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								<cfquery name="getParents" datasource="uam_god">
 									SELECT * FROM (
 										SELECT 
 											level as parentagelevel,
@@ -6401,7 +6401,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 									) WHERE parentagelevel > 1
 								</cfquery>
 								<cfloop query="getParents">
-									<cfquery name="checkParents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									<cfquery name="checkParents" datasource="uam_god">
 										SELECT count(*) ct 
 										FROM geology_attributes
 										WHERE
@@ -6410,7 +6410,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 											and geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geo_att_value#">
 									</cfquery>
 									<cfif checkParents.ct EQ 0>
-										<cfquery name="addGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addGeoAttribute_result">
+										<cfquery name="addGeoAttribute" datasource="uam_god" result="addGeoAttribute_result">
 											INSERT INTO geology_attributes
 												( locality_id,
 													geology_attribute,
