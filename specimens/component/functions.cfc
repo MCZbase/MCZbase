@@ -6616,8 +6616,8 @@ limitations under the License.
 						}
 						var geologyData = aggregateGeologyTable();
 						console.log(geologyData);
-						// add geology data to the form
-						$('##locForm').append('<input type="hidden" name="geology_data" value="' + encodeURIComponent(JSON.stringify(geologyData)) + '">');
+						// save the geology data to a single input submitted as a single known argument 
+						$("##geology_data").val(encodeURIComponent(JSON.stringify(geologyData)));
 						// submit the form
 						// ajax submit the form to localities/component/functions.cfc
 						setFeedbackControlState("locFormOutput","saving")
@@ -6660,6 +6660,7 @@ limitations under the License.
 					<input type="hidden" name="method" value="handleCombinedEditForm">
 					<input type="hidden" name="locality_id" value="#getLoc.locality_id#">
 					<input type="hidden" name="collecting_event_id" value="#getLoc.collecting_event_id#">
+					<input type="hidden" name="geology_data" id="geology_data" value="">
 
 					<!--- higher geography --->
 					<div class="col-12 px-2 form-row">
@@ -7187,6 +7188,7 @@ limitations under the License.
 					<div class="col-12 px-0 mt-2">
 						<h3 class="h4">
 							Collecting Event Numbers
+							Collector/Field Numbers (identifying collecting events)
 							<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditCollectingEventNumbers">Edit</button>
 						</h3>
 						
@@ -7204,7 +7206,6 @@ limitations under the License.
 									WHERE
 										coll_event_number.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.collecting_event_id#">
 								</cfquery>
-								<h3 class="h4">Collector/Field Numbers (identifying collecting events)</h3>
 								<ul class="mb-1">
 									<cfloop query="colEventNumbers">
 										<li><span id="collEventNumber_#coll_event_number_id#">#coll_event_number# (#number_series#, #collector_agent#)</span></li>
@@ -7218,422 +7219,355 @@ limitations under the License.
 					</div>
 
 					<!--- geology attributes (on locality) --->
-
 					<div class="col-12 px-0">
-							<!--- TODO: Editable table with rows for each geology attribute, where new rows can be added, all changes saved at once with entire form --->
-							<cfquery name="getGeologicalAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-								SELECT
-									geology_attribute_id,
-									ctgeology_attribute.type,
-									geology_attributes.geology_attribute,
-									geology_attributes.geo_att_value,
-									geology_attributes.geo_att_determiner_id,
-									agent_name determined_by,
-									to_char(geology_attributes.geo_att_determined_date,'yyyy-mm-dd') determined_date,
-									geology_attributes.geo_att_determined_method determined_method,
-									geology_attributes.geo_att_remark,
-									geology_attributes.previous_values,
-									geology_attribute_hierarchy.usable_value_fg,
-									geology_attribute_hierarchy.geology_attribute_hierarchy_id
-								FROM
-									geology_attributes
-									join ctgeology_attribute on geology_attributes.geology_attribute = ctgeology_attribute.geology_attribute
-									left join preferred_agent_name on geo_att_determiner_id = agent_id
-									left join geology_attribute_hierarchy 
-										on geology_attributes.geo_att_value = geology_attribute_hierarchy.attribute_value 
-											and
-											geology_attributes.geology_attribute = geology_attribute_hierarchy.attribute
-								WHERE 
-									geology_attributes.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.locality_id#">
-								ORDER BY
-									ctgeology_attribute.ordinal
-							</cfquery>
-							<h2 class="h3 mt-3">
-								Geological Attributes
-								<cfif getGeologicalAttributes.recordcount EQ 0>
-									<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Add</button>
-								<cfelse>
-									<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Edit</button>
-								</cfif>
-							</h2>
-							<script>
-								function populateGeology(id) {
-								    // id will be something like "geology_attribute_1"
-								    // Get the row number by splitting on the last underscore
-								    var idParts = id.split('_');
-								    var rowNum = idParts[idParts.length - 1];
-								
-								    // Get the selected attribute value
-								    var attributeValue = $('##geology_attribute_' + rowNum).val();
-								    var dataValue = $('##geo_att_value_' + rowNum).val();
-								    var selectId = 'geo_att_value_' + rowNum;
-								
-								    if (!attributeValue) {
-								        // If no attribute selected, clear the value select
-								        $('##' + selectId).html('<option value="">Select attribute first</option>');
-								        return;
-								    }
-								    $.ajax({
-								        url: "/component/functions.cfc",
-								        type: "GET",
-								        dataType: "json",
-								        data: {
-								            method: "getGeologyValues",
-								            attribute: attributeValue,
-								            returnformat: "json",
-								            queryformat: "column"
-								        },
-								        success: function(r) {
-								            var options = '';
-								            var exists = false;
-								
-								            // Ensure r.DATA.ATTRIBUTE_VALUE exists
-								            if (r && r.DATA && Array.isArray(r.DATA.ATTRIBUTE_VALUE)) {
-								                // Does existing value exist in returned options?
-								                if (dataValue !== null && dataValue !== undefined && dataValue !== '') {
-								                    for (var i = 0; i < r.DATA.ATTRIBUTE_VALUE.length; i++) {
-								                        if (r.DATA.ATTRIBUTE_VALUE[i] == dataValue) {
-								                            exists = true;
-								                            break;
-								                        }
-								                    }
-								                    if (!exists) {
-								                        // Add the current value (e.g. from previous selection/database) as a red option
-								                        options += '<option value="' + dataValue + '" selected="selected" style="color:red;">' + dataValue + ' (not in list)</option>';
-								                    }
-								                }
-								                // Add all returned options
-								                for (var i = 0; i < r.DATA.ATTRIBUTE_VALUE.length; i++) {
-								                    options += '<option value="' + r.DATA.ATTRIBUTE_VALUE[i] + '"';
-								                    if (r.DATA.ATTRIBUTE_VALUE[i] == dataValue) {
-								                        options += ' selected="selected"';
-								                    }
-								                    options += '>' + r.DATA.ATTRIBUTE_VALUE[i] + '</option>';
-								                }
-								            } else {
-								                // Unexpected response, show error option
-								                options = '<option value="">No values found</option>';
-								            }
-								            $('##' + selectId).html(options);
-								        },
-								        error: function(xhr, status, error) {
-								            handleFail(xhr, status, error, "retrieving geology values.");
-								            // Show error in select
-								            $('##' + selectId).html('<option value="">Error loading values</option>');
-								        }
-								    });
-								}
-							</script>
+						<!--- Geological Attributes Query --->
+						<cfquery name="getGeologicalAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+							SELECT
+								geology_attribute_id,
+								ctgeology_attribute.type,
+								geology_attributes.geology_attribute,
+								geology_attributes.geo_att_value,
+								geology_attributes.geo_att_determiner_id,
+								agent_name determined_by,
+								to_char(geology_attributes.geo_att_determined_date,'yyyy-mm-dd') determined_date,
+								geology_attributes.geo_att_determined_method determined_method,
+								geology_attributes.geo_att_remark,
+								geology_attributes.previous_values,
+								geology_attribute_hierarchy.usable_value_fg,
+								geology_attribute_hierarchy.geology_attribute_hierarchy_id
+							FROM
+								geology_attributes
+								JOIN ctgeology_attribute ON geology_attributes.geology_attribute = ctgeology_attribute.geology_attribute
+								LEFT JOIN preferred_agent_name ON geo_att_determiner_id = agent_id
+								LEFT JOIN geology_attribute_hierarchy 
+									ON geology_attributes.geo_att_value = geology_attribute_hierarchy.attribute_value 
+									AND geology_attributes.geology_attribute = geology_attribute_hierarchy.attribute
+							WHERE 
+								geology_attributes.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.locality_id#">
+							ORDER BY
+								ctgeology_attribute.ordinal
+						</cfquery>
+						<cfquery name="ctGeologyTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT DISTINCT type FROM ctgeology_attribute ORDER BY type
+						</cfquery>
+						<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT geology_attribute, type FROM ctgeology_attribute ORDER BY ordinal
+						</cfquery>
+						<h2 class="h3 mt-3">
+							Geological Attributes
+							<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Edit</button>
+						</h2>
+						<!--- Display current attributes --->
+						<ul>
 							<cfif getGeologicalAttributes.recordcount EQ 0>
-								<ul>
-									<li>
-										Recent (no geological attributes) 
-									</li>
-								</ul>
-							<cfelse>
-								<ul>
-									<cfset valList = "">
-									<cfset shownParentsList = "">
-									<cfset separator = "">
-									<cfset separator2 = "">
-									<cfloop query="getGeologicalAttributes">
-										<cfset valList = "#valList##separator##getGeologicalAttributes.geo_att_value#">
-										<cfset separator = "|">
-									</cfloop>
-									<cfloop query="getGeologicalAttributes">
-										<cfquery name="getParentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-											SELECT distinct
-											  connect_by_root geology_attribute_hierarchy.attribute parent_attribute,
-											  connect_by_root attribute_value parent_attribute_value,
-											  connect_by_root usable_value_fg
-											FROM geology_attribute_hierarchy
-											  left join geology_attributes on
-											     geology_attribute_hierarchy.attribute = geology_attributes.geology_attribute
-											     and
-									   		  geology_attribute_hierarchy.attribute_value = geology_attributes.geo_att_value
-											WHERE geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getGeologicalAttributes.geology_attribute_hierarchy_id#">
-											CONNECT BY nocycle PRIOR geology_attribute_hierarchy_id = parent_id
-										</cfquery>
-										<cfset parentage="">
-										<cfloop query="getParentage">
-											<cfif ListContains(valList,getParentage.parent_attribute_value,"|") EQ 0 AND  ListContains(shownParentsList,getParentage.parent_attribute_value,"|") EQ 0 >
-												<cfset parentage="#parentage#<li><span class='text-secondary'>#getParentage.parent_attribute#:#getParentage.parent_attribute_value#</span></li>" > <!--- " --->
-												<cfset shownParentsList = "#shownParentsList##separator2##getParentage.parent_attribute_value#">
-												<cfset separator2 = "|">
-											</cfif>
-										</cfloop>
-										#parentage#
-										<li>
-											<cfif len(getGeologicalAttributes.determined_method) GT 0>
-												<cfset method = " Method: #getGeologicalAttributes.determined_method#">
-											<cfelse>
-												<cfset method = "">
-											</cfif>
-											<cfif len(getGeologicalAttributes.geo_att_remark) GT 0>
-												<cfset remarks = " <span class='smaller-text'>Remarks: #getGeologicalAttributes.geo_att_remark#</span>"><!--- " --->
-											<cfelse>
-												<cfset remarks="">
-											</cfif>
-											<cfif usable_value_fg EQ 1>
-												<cfset marker = "*">
-												<cfset spanClass = "">
-											<cfelse>
-												<cfset marker = "">
-												<cfset spanClass = "text-danger">
-											</cfif>
-											<span class="#spanClass#">#geo_att_value# #marker#</span> (#geology_attribute#) #determined_by# #determined_date##method##remarks#
-										</li>
-									</cfloop>
-								</ul>
+								<li id="noAttributesLI"> No geological attributes for this locality.</li>
 							</cfif>
+							<cfset valList = "">
+							<cfset shownParentsList = "">
+							<cfset separator = "">
+							<cfset separator2 = "">
+							<cfloop query="getGeologicalAttributes">
+								<cfset valList = "#valList##separator##getGeologicalAttributes.geo_att_value#">
+								<cfset separator = "|">
+							</cfloop>
+							<cfloop query="getGeologicalAttributes">
+								<cfquery name="getParentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+									SELECT DISTINCT
+									  connect_by_root geology_attribute_hierarchy.attribute parent_attribute,
+									  connect_by_root attribute_value parent_attribute_value,
+									  connect_by_root usable_value_fg
+									FROM geology_attribute_hierarchy
+										LEFT JOIN geology_attributes ON
+											geology_attribute_hierarchy.attribute = geology_attributes.geology_attribute
+											AND geology_attribute_hierarchy.attribute_value = geology_attributes.geo_att_value
+									WHERE geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getGeologicalAttributes.geology_attribute_hierarchy_id#">
+									CONNECT BY nocycle PRIOR geology_attribute_hierarchy_id = parent_id
+								</cfquery>
+								<cfset parentage="">
+								<cfloop query="getParentage">
+									<cfif ListContains(valList,getParentage.parent_attribute_value,"|") EQ 0 AND  ListContains(shownParentsList,getParentage.parent_attribute_value,"|") EQ 0 >
+										<cfset parentage="#parentage#<li><span class='text-secondary'>#getParentage.parent_attribute#:#getParentage.parent_attribute_value#</span></li>" >
+										<cfset shownParentsList = "#shownParentsList##separator2##getParentage.parent_attribute_value#">
+										<cfset separator2 = "|">
+									</cfif>
+								</cfloop>
+								#parentage#
+								<li>
+									<cfif len(getGeologicalAttributes.determined_method) GT 0>
+										<cfset method = " Method: #getGeologicalAttributes.determined_method#">
+									<cfelse>
+										<cfset method = "">
+									</cfif>
+									<cfif len(getGeologicalAttributes.geo_att_remark) GT 0>
+										<cfset remarks = " <span class='smaller-text'>Remarks: #getGeologicalAttributes.geo_att_remark#</span>">
+									<cfelse>
+										<cfset remarks="">
+									</cfif>
+									<cfif usable_value_fg EQ 1>
+										<cfset marker = "*">
+										<cfset spanClass = "">
+									<cfelse>
+										<cfset marker = "">
+										<cfset spanClass = "text-danger">
+									</cfif>
+									<span class="#spanClass#">#geo_att_value# #marker#</span> (#geology_attribute#) #determined_by# #determined_date##method##remarks#
+								</li>
+							</cfloop>
+						</ul>
+					
+						<script>
+							$(document).ready(function() {
+								$('##buttonOpenEditGeologyTable').on('click', function() {
+									$('##geologyTableSection').toggle();
+								});
+							});
+						</script>
+					
+						<div id="geologyTableSection" class="col-12" style="display: none;">
+							<!--- Editable Table --->
+							<div class="table-responsive">
+								<table class="table table-sm table-striped" id="geologyTable">
+									<thead>
+										<tr>
+											<th>Type</th>
+											<th>Geology Attribute</th>
+											<th>Value</th>
+											<th>Parents</th>
+											<th>Determiner</th>
+											<th>Date Determined</th>
+											<th>Method</th>
+											<th>Remarks<br><span class="smaller-text">(<span id="table_remark_limit">4000 max)</span></span></th>
+											<th>Actions</th>
+										</tr>
+									</thead>
+									<tbody id="geologyTableBody">
+										<!--- Existing geological attributes --->
+										<cfset rowIndex = 0>
+										<cfif getGeologicalAttributes.recordcount GT 0>
+											<cfloop query="getGeologicalAttributes">
+												<cfset rowIndex = rowIndex + 1>
+												<tr data-row-index="#rowIndex#">
+													<td>
+														<select name="attribute_type_#rowIndex#" id="attribute_type_#rowIndex#" class="data-entry-select reqdClr" onchange="changeGeoAttType(#rowIndex#)">
+															<cfloop query="ctGeologyTypes">
+																<cfif ctGeologyTypes.type EQ getGeologicalAttributes.type>
+																	<cfset selected="selected">
+																<cfelse>
+																	<cfset selected="">
+																</cfif>
+																<option value="#ctGeologyTypes.type#" #selected#>#ctGeologyTypes.type#</option>
+															</cfloop>
+														</select>
+														<input type="hidden" name="geology_attribute_hierarchy_id_#rowIndex#" id="geology_attribute_hierarchy_id_#rowIndex#" value="#getGeologicalAttributes.geology_attribute_hierarchy_id#">
+													</td>
+													<td>
+														<input type="hidden" name="geology_attribute_id_#rowIndex#" id="geology_attribute_id_#rowIndex#" value="#getGeologicalAttributes.geology_attribute_id#">
+														<select name="geology_attribute_#rowIndex#" id="geology_attribute_#rowIndex#" class="data-entry-select reqdClr" onchange="populateGeology(this.id)">
+															<option value=""></option>
+															<cfloop query="ctgeology_attribute">
+																<cfif getGeologicalAttributes.geology_attribute is ctgeology_attribute.geology_attribute>
+																	<cfset selected="selected">
+																<cfelse>
+																	<cfset selected="">
+																</cfif>
+																<option #selected# value="#ctgeology_attribute.geology_attribute#">#ctgeology_attribute.geology_attribute#</option>
+															</cfloop>
+														</select>
+													</td>
+													<td>
+														<input type="text" id="geo_att_value_#rowIndex#" name="geo_att_value_#rowIndex#" 
+															class="data-entry-input reqdClr"
+															value="#encodeForHTML(getGeologicalAttributes.geo_att_value)#">
+													</td>
+													<td>
+														<select id="add_parents_#rowIndex#" name="add_parents_#rowIndex#" class="data-entry-select" onchange="addParentsChange(#rowIndex#);">
+															<option value="no" selected>No</option>
+															<option value="yes">Yes</option>
+														</select>
+														<div id="parentsDiv_#rowIndex#"></div>
+													</td>
+													<td>
+														<input type="text" id="geo_att_determiner_#rowIndex#" name="geo_att_determiner_#rowIndex#" value="#encodeForHTML(getGeologicalAttributes.determined_by)#" class="data-entry-input">
+														<input type="hidden" name="geo_att_determiner_id_#rowIndex#" id="geo_att_determiner_id_#rowIndex#" value="#getGeologicalAttributes.geo_att_determiner_id#">
+													</td>
+													<td>
+														<input type="text" id="geo_att_determined_date_#rowIndex#" name="geo_att_determined_date_#rowIndex#" value="#dateformat(getGeologicalAttributes.determined_date,'yyyy-mm-dd')#" class="data-entry-input geology-date">
+													</td>
+													<td>
+														<input type="text" id="geo_att_determined_method_#rowIndex#" name="geo_att_determined_method_#rowIndex#" value="#encodeForHTML(getGeologicalAttributes.determined_method)#" class="data-entry-input">
+													</td>
+													<td>
+														<textarea name="geo_att_remark_#rowIndex#" id="geo_att_remark_#rowIndex#" class="form-control form-control-sm autogrow" rows="2" onkeyup="countCharsLeft('geo_att_remark_#rowIndex#', 4000, 'length_geo_att_remark_#rowIndex#');">#encodeForHTML(getGeologicalAttributes.geo_att_remark)#</textarea>
+														<br><span id="length_geo_att_remark_#rowIndex#" class="smaller-text">0 characters, 4000 left</span>
+													</td>
+													<td>
+														<button type="button" class="btn btn-xs btn-danger" onclick="removeGeologyRow(this)" title="Remove this geological attribute">
+															<i class="fas fa-times"></i>
+														</button>
+													</td>
+												</tr>
+											</cfloop>
+										</cfif>
+										<tr id="addGeologyRow">
+											<td colspan="9" class="text-center">
+												<!--- Add new geology attribute button --->
+												<button type="button" class="btn btn-xs btn-primary" onclick="addGeologyRow()">
+													<i class="fas fa-plus"></i> Add Geological Attribute
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!--- Hidden field to track the number of geology rows --->
+							<input type="hidden" name="geology_row_count" id="geology_row_count" value="#rowIndex#">
+							<!--- hidden field to accumulate geology attributes to delete --->
+							<input type="hidden" name="geology_attributes_to_delete" id="geology_attributes_to_delete" value="">
+					
 							<script>
 								$(document).ready(function() {
-									// bind an opener for the geologyTableSection to the edit button
-									$('##buttonOpenEditGeologyTable').on('click', function() {
-										$('##geologyTableSection').toggle();
-									});
+									const initialRowCount = parseInt($('##geology_row_count').val());
+									for (let i = 1; i <= initialRowCount; i++) {
+										makeAgentAutocompleteMeta('geo_att_determiner_' + i, 'geo_att_determiner_id_' + i, true);
+										$("##geo_att_determined_date_" + i).datepicker({ dateFormat: 'yy-mm-dd'});
+										$("##geo_att_remark_" + i).keyup(autogrow);
+										countCharsLeft('geo_att_remark_' + i, 4000, 'length_geo_att_remark_' + i);
+										makeGeologyAutocompleteMeta('geology_attribute_' + i, 'geo_att_value_' + i, 'geology_attribute_hierarchy_id' + i, 'entry', $("##attribute_type_" + i).val());
+										addParentsChange(i); // initialize parent display
+									}
 								});
-							</script>
-							<div id="geologyTableSection" class="col-12" style="display: none;">
-								<!--- Table for existing and new geological attributes --->
-								<div class="table-responsive">
-									<table class="table table-sm table-striped" id="geologyTable">
-										<thead>
-											<tr>
-												<th>Geology Attribute</th>
-												<th>Value</th>
-												<th>Determiner</th>
-												<th>Date Determined</th>
-												<th>Method</th>
-												<th>Remarks</th>
-												<th>Actions</th>
+					
+								function addGeologyRow() {
+									$('##noGeologyRow').remove();
+									let currentRowCount = parseInt($('##geology_row_count').val());
+									currentRowCount++;
+									$('##geology_row_count').val(currentRowCount);
+									const newRow = `
+										<tr data-row-index="${currentRowCount}">
+											<td>
+												<select name="attribute_type_${currentRowCount}" id="attribute_type_${currentRowCount}" class="data-entry-select reqdClr" onchange="changeGeoAttType(${currentRowCount})">
+													<cfloop query="ctGeologyTypes">
+														<option value="#ctGeologyTypes.type#">#ctGeologyTypes.type#</option>
+													</cfloop>
+												</select>
+											</td>
+											<td>
+												<input type="hidden" name="geology_attribute_id_${currentRowCount}" id="geology_attribute_id_${currentRowCount}" value="">
+												<select name="geology_attribute_${currentRowCount}" id="geology_attribute_${currentRowCount}" class="data-entry-select reqdClr" onchange="populateGeology(this.id)">
+													<option value=""></option>
+													<cfloop query="ctgeology_attribute">
+														<option value="#ctgeology_attribute.geology_attribute#">#ctgeology_attribute.geology_attribute#</option>
+													</cfloop>
+												</select>
+												<input type="hidden" name="geology_attribute_hierarchy_id_${currentRowCount}" id="geology_attribute_hierarchy_id_${currentRowCount}" value="">
+											</td>
+											<td>
+												<input type="text" id="geo_att_value_${currentRowCount}" name="geo_att_value_${currentRowCount}" class="data-entry-input reqdClr">
+											</td>
+											<td>
+												<select id="add_parents_${currentRowCount}" name="add_parents_${currentRowCount}" class="data-entry-select" onchange="addParentsChange(${currentRowCount});">
+													<option value="no" selected>No</option>
+													<option value="yes">Yes</option>
+												</select>
+												<div id="parentsDiv_${currentRowCount}"></div>
+											</td>
+											<td>
+												<input type="text" id="geo_att_determiner_${currentRowCount}" name="geo_att_determiner_${currentRowCount}" class="data-entry-input">
+												<input type="hidden" name="geo_att_determiner_id_${currentRowCount}" id="geo_att_determiner_id_${currentRowCount}">
+											</td>
+											<td>
+												<input type="text" id="geo_att_determined_date_${currentRowCount}" name="geo_att_determined_date_${currentRowCount}" class="data-entry-input geology-date">
+											</td>
+											<td>
+												<input type="text" id="geo_att_determined_method_${currentRowCount}" name="geo_att_determined_method_${currentRowCount}" class="data-entry-input">
+											</td>
+											<td>
+												<textarea name="geo_att_remark_${currentRowCount}" id="geo_att_remark_${currentRowCount}" class="form-control form-control-sm autogrow" rows="2" onkeyup="countCharsLeft('geo_att_remark_${currentRowCount}', 4000, 'length_geo_att_remark_${currentRowCount}');"></textarea>
+												<br><span id="length_geo_att_remark_${currentRowCount}" class="smaller-text">0 characters, 4000 left</span>
+											</td>
+											<td>
+												<button type="button" class="btn btn-xs btn-danger" onclick="removeGeologyRow(this)" title="Remove this geological attribute">
+													<i class="fas fa-times"></i>
+												</button>
+											</td>
+										</tr>
+									`;
+									<!--- " --->
+									$('##geologyTableBody').append(newRow);
+									makeAgentAutocompleteMeta('geo_att_determiner_' + currentRowCount, 'geo_att_determiner_id_' + currentRowCount, true);
+									$("##geo_att_determined_date_" + currentRowCount).datepicker({ dateFormat: 'yy-mm-dd'});
+									$("##geo_att_remark_" + currentRowCount).keyup(autogrow);
+									countCharsLeft('geo_att_remark_' + currentRowCount, 4000, 'length_geo_att_remark_' + currentRowCount);
+									makeGeologyAutocompleteMeta('geology_attribute_' + currentRowCount, 'geo_att_value_' + currentRowCount, null, 'entry', $("##attribute_type_" + currentRowCount).val());
+									addParentsChange(currentRowCount);
+								}
+					
+								function removeGeologyRow(button) {
+									const row = $(button).closest('tr');
+									const rowIndex = row.data('row-index');
+									<!--- check if the row has a geology_attribute_id, if so, add it to the delete list --->
+									const geologyAttributeId = $(`##geology_attribute_id_${rowIndex}`).val();
+									if (geologyAttributeId) {
+										let deleteList = $(`##geology_attributes_to_delete`).val();
+										if (deleteList) {
+											deleteList += ",";
+										}
+										deleteList += geologyAttributeId;
+										$(`##geology_attributes_to_delete`).val(deleteList);
+									}
+									$(`##geology_attribute_${rowIndex}`).val('');
+									row.hide();
+									if ($('##geologyTableBody tr:visible').length === 0) {
+										$('##geologyTableBody').append(`
+											<tr id="noGeologyRow">
+												<td colspan="9" class="text-muted text-center">No geological attributes for this locality.</td>
 											</tr>
-										</thead>
-										<tbody id="geologyTableBody">
-											<!--- Existing geological attributes --->
-											<cfset rowIndex = 0>
-											<cfif getGeology.recordcount GT 0>
-												<cfloop query="getGeology">
-													<cfset rowIndex = rowIndex + 1>
-													<tr data-row-index="#rowIndex#">
-														<td>
-															<!--- Hidden field to store existing geology_attribute_id --->
-															<input type="hidden" name="geology_attribute_id_#rowIndex#" value="#geology_attribute_id#">
-															<select name="geology_attribute_#rowIndex#" 
-																	id="geology_attribute_#rowIndex#" 
-																	class="data-entry-select reqdClr" 
-																	onchange="populateGeology(this.id)">
-																<option value="">DELETE THIS ROW</option>
-																<cfloop query="ctgeology_attribute">
-																	<cfif getGeology.geology_attribute is ctgeology_attribute.geology_attribute>
-																		<cfset selected="selected">
-																	<cfelse>
-																		<cfset selected="">
-																	</cfif>
-																	<option #selected# value="#ctgeology_attribute.geology_attribute#">#ctgeology_attribute.geology_attribute#</option>
-																</cfloop>
-															</select>
-														</td>
-														<td>
-															<select id="geo_att_value_#rowIndex#" 
-																	name="geo_att_value_#rowIndex#" 
-																	class="data-entry-select reqdClr">
-																<option value="#encodeForHTML(getGeology.geo_att_value)#">#encodeForHTML(getGeology.geo_att_value)#</option>
-															</select>
-														</td>
-														<td>
-															<!--- Get agent name for existing determiner --->
-															<cfset determinerName = "">
-															<cfif len(getGeology.geo_att_determiner_id) GT 0>
-																<cfquery name="getDeterminerName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-																	SELECT agent_name 
-																	FROM preferred_agent_name 
-																	WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getGeology.geo_att_determiner_id#">
-																	</cfquery>
-																<cfif getDeterminerName.recordcount GT 0>
-																	<cfset determinerName = getDeterminerName.agent_name>
-																</cfif>
-															</cfif>
-															<input type="text" id="geo_att_determiner_#rowIndex#" name="geo_att_determiner_#rowIndex#" 
-																   value="#encodeForHTML(determinerName)#" class="data-entry-input">
-															<input type="hidden" name="geo_att_determiner_id_#rowIndex#" id="geo_att_determiner_id_#rowIndex#" 
-																   value="#getGeology.geo_att_determiner_id#">
-															</td>
-														<td>
-															<input type="text" id="geo_att_determined_date_#rowIndex#" name="geo_att_determined_date_#rowIndex#"
-																   value="#dateformat(getGeology.geo_att_determined_date,'yyyy-mm-dd')#" class="data-entry-input">
-														</td>
-														<td>
-															<input type="text" id="geo_att_determined_method_#rowIndex#" name="geo_att_determined_method_#rowIndex#" 
-																   value="#encodeForHTML(getGeology.geo_att_determined_method)#" class="data-entry-input">
-														</td>
-														<td>
-															<input type="text" id="geo_att_remark_#rowIndex#" name="geo_att_remark_#rowIndex#" 
-																   value="#encodeForHTML(getGeology.geo_att_remark)#" class="data-entry-input">
-														</td>
-														<td>
-															<button type="button" class="btn btn-xs btn-danger" onclick="removeGeologyRow(this)" title="Remove this geological attribute">
-																<i class="fas fa-times"></i>
-															</button>
-														</td>
-													</tr>
-												</cfloop>
-											<cfelse>
-												<tr id="noGeologyRow">
-													<td colspan="7" class="text-muted text-center">No geological attributes for this locality.</td>
-												</tr>
-											</cfif>
-										</tbody>
-									</table>
-								</div>
-										
-								<!--- Hidden field to track the number of geology rows --->
-								<input type="hidden" name="geology_row_count" id="geology_row_count" value="#rowIndex#">
-								
-								<!--- Add new geology attribute button --->
-								<div class="col-12 mt-2">
-									<button type="button" class="btn btn-xs btn-primary" onclick="addGeologyRow()">
-										<i class="fas fa-plus"></i> Add Geological Attribute
-									</button>
-								</div>
-								
-								<script>
-									$(document).ready(function() {
-										// Bind agent autocomplete to existing geology determiner fields
-										const initialRowCount = parseInt($('##geology_row_count').val());
-										for (let i = 1; i <= initialRowCount; i++) {
-											makeAgentAutocompleteMeta('geo_att_determiner_' + i, 'geo_att_determiner_id_' + i);
+										`);
+									}
+								}
+					
+								function changeGeoAttType(rowIndex) {
+									$(`##geology_attribute_${rowIndex}`).val("");
+									$(`##geo_att_value_${rowIndex}`).val("");
+									makeGeologyAutocompleteMeta('geology_attribute_' + rowIndex, 'geo_att_value_' + rowIndex, 'geology_attribute_hierarchy_id_' + rowIndex, 'entry', $(`##attribute_type_${rowIndex}`).val());
+								}
+					
+								function addParentsChange(rowIndex) {
+									var selection = $(`##add_parents_${rowIndex}`).val();
+									if (selection === "yes") {
+										lookupGeoAttParents($(`##geology_attribute_${rowIndex}`).val(), `parentsDiv_${rowIndex}`);
+									} else {
+										$(`##parentsDiv_${rowIndex}`).html("");
+									}
+								}
+					
+								function aggregateGeologyTable() {
+									var geologyData = [];
+									$('##geologyTableBody tr:visible').each(function() {
+										var row = $(this);
+										var rowIndex = row.data('row-index');
+										var geologyAttribute = row.find('select[name="geology_attribute_' + rowIndex + '"]').val();
+										if (geologyAttribute) {
+											geologyData.push({
+												attribute_type: row.find('select[name="attribute_type_' + rowIndex + '"]').val(),
+												geology_attribute: geologyAttribute,
+												geo_att_value: row.find('input[name="geo_att_value_' + rowIndex + '"]').val(),
+												add_parents: row.find('select[name="add_parents_' + rowIndex + '"]').val(),
+												geo_att_determiner: row.find('input[name="geo_att_determiner_' + rowIndex + '"]').val(),
+												geo_att_determiner_id: row.find('input[name="geo_att_determiner_id_' + rowIndex + '"]').val(),
+												geo_att_determined_date: row.find('input[name="geo_att_determined_date_' + rowIndex + '"]').val(),
+												geo_att_determined_method: row.find('input[name="geo_att_determined_method_' + rowIndex + '"]').val(),
+												geo_att_remark: row.find('textarea[name="geo_att_remark_' + rowIndex + '"]').val(),
+												geology_attribute_id: row.find('input[name="geology_attribute_id_' + rowIndex + '"]').val()
+											});
 										}
 									});
-									
-									function addGeologyRow() {
-										// Remove "no geology" message if present
-										$('##noGeologyRow').remove();
-										
-										// Get current row count and increment
-										let currentRowCount = parseInt($('##geology_row_count').val());
-										currentRowCount++;
-										$('##geology_row_count').val(currentRowCount);
-										
-										// Build new row HTML
-										const newRow = `
-											<tr data-row-index="${currentRowCount}">
-												<td>
-													<!--- No geology_attribute_id for new rows, will be empty/null --->
-													<input type="hidden" name="geology_attribute_id_${currentRowCount}" value="">
-													<select name="geology_attribute_${currentRowCount}" 
-															id="geology_attribute_${currentRowCount}" 
-															class="data-entry-select reqdClr" 
-															onchange="populateGeology(this.id)">
-														<option value=""></option>
-														<cfloop query="ctgeology_attribute">
-															<option value="#ctgeology_attribute.geology_attribute#">#ctgeology_attribute.geology_attribute#</option>
-														</cfloop>
-													</select>
-												</td>
-												<td>
-													<select id="geo_att_value_${currentRowCount}" 
-															name="geo_att_value_${currentRowCount}" 
-															class="data-entry-select reqdClr">
-														<option value="">Select attribute first</option>
-													</select>
-												</td>
-												<td>
-													<input type="text" 
-														   id="geo_att_determiner_${currentRowCount}"
-														   name="geo_att_determiner_${currentRowCount}" 
-														   class="data-entry-input">
-													<input type="hidden" 
-														   name="geo_att_determiner_id_${currentRowCount}"
-														   id="geo_att_determiner_id_${currentRowCount}">
-												</td>
-												<td>
-													<input type="text" 
-														   id="geo_att_determined_date_${currentRowCount}"
-														   name="geo_att_determined_date_${currentRowCount}"
-														   class="data-entry-input">
-												</td>
-												<td>
-													<input type="text" 
-														   id="geo_att_determined_method_${currentRowCount}"
-														   name="geo_att_determined_method_${currentRowCount}" 
-														   class="data-entry-input">
-												</td>
-												<td>
-													<input type="text" 
-														   id="geo_att_remark_${currentRowCount}"
-														   name="geo_att_remark_${currentRowCount}" 
-														   class="data-entry-input">
-												</td>
-												<td>
-													<button type="button" class="btn btn-xs btn-danger" 
-															onclick="removeGeologyRow(this)" 
-															title="Remove this geological attribute">
-														<i class="fas fa-times"></i>
-													</button>
-												</td>
-											</tr>
-										`; <!--- " --->
-										
-										// Add new row to table
-										$('##geologyTableBody').append(newRow);
-										
-										// Bind agent autocomplete to the new row's determiner field
-										makeAgentAutocompleteMeta('geo_att_determiner_' + currentRowCount, 'geo_att_determiner_id_' + currentRowCount);
-									}
-									
-									function removeGeologyRow(button) {
-										const row = $(button).closest('tr');
-										const rowIndex = row.data('row-index');
-										
-										// Mark row for deletion by setting geology_attribute to empty string
-										$(`##geology_attribute_${rowIndex}`).val('');
-										row.hide();
-										
-										// Show "no geology" message if no visible rows remain
-										if ($('##geologyTableBody tr:visible').length === 0) {
-											$('##geologyTableBody').append(`
-												<tr id="noGeologyRow">
-													<td colspan="7" class="text-muted text-center">No geological attributes for this locality.</td>
-												</tr>
-											`);
-										}
-										<!--- TODO: Accumulate geology_atrribute_id values to delete if updating existing locality --->
-									}
-									<!--- Aggregate geological attribute fields into a single data structure for submission --->
-									function aggregateGeologyTable() {
-										var geologyData = [];
-										$('##geologyTableBody tr').each(function() {
-											var row = $(this);
-											var rowIndex = row.data('row-index');
-											var geologyAttribute = row.find('select[name="geology_attribute_' + rowIndex + '"]').val();
-											if (geologyAttribute) { // Only include rows with a geology attribute selected
-												var geoAttValue = row.find('select[name="geo_att_value_' + rowIndex + '"]').val();
-												var geoAttDeterminer = row.find('input[name="geo_att_determiner_' + rowIndex + '"]').val();
-												var geoAttDeterminerId = row.find('input[name="geo_att_determiner_id_' + rowIndex + '"]').val();
-												var geoAttDeterminedDate = row.find('input[name="geo_att_determined_date_' + rowIndex + '"]').val();
-												var geoAttDeterminedMethod = row.find('input[name="geo_att_determined_method_' + rowIndex + '"]').val();
-												var geoAttRemark = row.find('input[name="geo_att_remark_' + rowIndex + '"]').val();
-												var geologyAttributeId = row.find('input[name="geology_attribute_id_' + rowIndex + '"]').val();
-	
-												geologyData.push({
-													geology_attribute: geologyAttribute,
-													geo_att_value: geoAttValue,
-													geo_att_determiner: geoAttDeterminer,
-													geo_att_determiner_id: geoAttDeterminerId,
-													geo_att_determined_date: geoAttDeterminedDate,
-													geo_att_determined_method: geoAttDeterminedMethod,
-													geo_att_remark: geoAttRemark,
-													geology_attribute_id: geologyAttributeId
-												});
-											}
-										});
-										return geologyData;
-									}
-								</script>
-							</div><!--- end geology table section --->
-
-						</div><!--- end geology attributes section --->
+									return geologyData;
+								}
+					
+							</script>
+						</div><!--- end geology table section --->
+					</div><!--- end geology attributes section --->
 
 						<!--- current georeference (on locality) --->
 
