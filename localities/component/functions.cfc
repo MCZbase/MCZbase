@@ -5844,7 +5844,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 											connect_by_root DESCRIPTION as description
 										FROM geology_attribute_hierarchy 
 										WHERE
-											geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getHeirarchyID.geology_attribute_hierarchy_id#">
+											geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getHierarchyID.geology_attribute_hierarchy_id#">
 										CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
 										ORDER BY level asc
 									) WHERE parentagelevel > 1
@@ -6395,7 +6395,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 											connect_by_root DESCRIPTION as description
 										FROM geology_attribute_hierarchy 
 										WHERE
-											geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getHeirarchyID.geology_attribute_hierarchy_id#">
+											geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getHierarchyID.geology_attribute_hierarchy_id#">
 										CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
 										ORDER BY level asc
 									) WHERE parentagelevel > 1
