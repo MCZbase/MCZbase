@@ -7358,21 +7358,13 @@ limitations under the License.
 																<option value="#ctGeologyTypes.type#" #selected#>#ctGeologyTypes.type#</option>
 															</cfloop>
 														</select>
+														<input type="hidden" name="geology_attribute_id_#rowIndex#" id="geology_attribute_id_#rowIndex#" value="#getGeologicalAttributes.geology_attribute_id#">
 														<input type="hidden" name="geology_attribute_hierarchy_id_#rowIndex#" id="geology_attribute_hierarchy_id_#rowIndex#" value="#getGeologicalAttributes.geology_attribute_hierarchy_id#">
 													</td>
 													<td>
-														<input type="hidden" name="geology_attribute_id_#rowIndex#" id="geology_attribute_id_#rowIndex#" value="#getGeologicalAttributes.geology_attribute_id#">
-														<select name="geology_attribute_#rowIndex#" id="geology_attribute_#rowIndex#" class="data-entry-select reqdClr" onchange="populateGeology(this.id)">
-															<option value=""></option>
-															<cfloop query="ctgeology_attribute">
-																<cfif getGeologicalAttributes.geology_attribute is ctgeology_attribute.geology_attribute>
-																	<cfset selected="selected">
-																<cfelse>
-																	<cfset selected="">
-																</cfif>
-																<option #selected# value="#ctgeology_attribute.geology_attribute#">#ctgeology_attribute.geology_attribute#</option>
-															</cfloop>
-														</select>
+														<input type="text" name="geology_attribute_#rowIndex#" id="geology_attribute_#rowIndex#" 
+															class="data-entry-input" readonly
+															value="#getGeologicalAttributes.geology_attribute#">
 													</td>
 													<td>
 														<input type="text" id="geo_att_value_#rowIndex#" name="geo_att_value_#rowIndex#" 
@@ -7450,16 +7442,11 @@ limitations under the License.
 														<option value="#ctGeologyTypes.type#">#ctGeologyTypes.type#</option>
 													</cfloop>
 												</select>
+												<input type="hidden" name="geology_attribute_id_${currentRowCount}" id="geology_attribute_id_${currentRowCount}" value="">
+												<input type="hidden" name="geology_attribute_hierarchy_id_${currentRowCount}" id="geology_attribute_hierarchy_id_${currentRowCount}" value="">
 											</td>
 											<td>
-												<input type="hidden" name="geology_attribute_id_${currentRowCount}" id="geology_attribute_id_${currentRowCount}" value="">
-												<select name="geology_attribute_${currentRowCount}" id="geology_attribute_${currentRowCount}" class="data-entry-select reqdClr" onchange="populateGeology(this.id)">
-													<option value=""></option>
-													<cfloop query="ctgeology_attribute">
-														<option value="#ctgeology_attribute.geology_attribute#">#ctgeology_attribute.geology_attribute#</option>
-													</cfloop>
-												</select>
-												<input type="hidden" name="geology_attribute_hierarchy_id_${currentRowCount}" id="geology_attribute_hierarchy_id_${currentRowCount}" value="">
+												<input type="text" name="geology_attribute_${currentRowCount}" id="geology_attribute_${currentRowCount}" class="data-entry-input" value="" readonly>
 											</td>
 											<td>
 												<input type="text" id="geo_att_value_${currentRowCount}" name="geo_att_value_${currentRowCount}" class="data-entry-input reqdClr">
@@ -7546,7 +7533,7 @@ limitations under the License.
 									$('##geologyTableBody tr:visible').each(function() {
 										var row = $(this);
 										var rowIndex = row.data('row-index');
-										var geologyAttribute = row.find('select[name="geology_attribute_' + rowIndex + '"]').val();
+										var geologyAttribute = row.find('input[name="geology_attribute_' + rowIndex + '"]').val();
 										if (geologyAttribute) {
 											geologyData.push({
 												attribute_type: row.find('select[name="attribute_type_' + rowIndex + '"]').val(),
