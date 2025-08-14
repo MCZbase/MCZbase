@@ -5901,17 +5901,6 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 					</cfif><!--- geology_data is array --->
 				</cfif><!--- unpack geology_data --->
 
-				<!--- Handle collecting event numbers --->
-				<cfif isDefined("arguments.coll_event_numbers_data")>
-					<cfif cecount.ct EQ 1 AND loccount.ct GT 1>
-						<!--- Use existing collecting_event_id --->
-						<cfset handleCollEventNumbersSplitAndSave(arguments.coll_event_numbers_data, collecting_event_id)>
-					<cfelse>
-						<!--- Use new collecting event ID --->
-						<cfset handleCollEventNumbersSplitAndSave(arguments.coll_event_numbers_data, new_collecting_event_id)>
-					</cfif>
-				</cfif>
-
 				<cfif cecount.ct EQ 1 AND loccount.ct GT 1>
 					<!--- we can update the existing collecting event and point it at the new locality without leaving an orphan collecting event --->
 					<cfquery name="updateCollectingEvent" datasource="uam_god" result="updateCollectingEvent_result">
@@ -6162,6 +6151,17 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 					<cfif len(new_collecting_event_id) is 0>
 						<cfthrow message="Error obtaining new collecting event ID.">
 					</cfif>
+					<!--- Handle collecting event numbers --->
+					<cfif isDefined("arguments.coll_event_numbers_data")>
+						<cfif cecount.ct EQ 1 AND loccount.ct GT 1>
+							<!--- Use existing collecting_event_id --->
+							<cfset handleCollEventNumbersSplitAndSave(arguments.coll_event_numbers_data, collecting_event_id)>
+						<cfelse>
+							<!--- Use new collecting event ID --->
+							<cfset handleCollEventNumbersSplitAndSave(arguments.coll_event_numbers_data, new_collecting_event_id)>
+						</cfif>
+					</cfif>
+
 					<!--- update the cataloged item to point to the new collecting event --->
 					<cfquery name="updateCatalogedItem" datasource="uam_god" result="updateCatalogedItem_result">
 						UPDATE cataloged_item
