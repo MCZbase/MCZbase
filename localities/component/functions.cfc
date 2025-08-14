@@ -5520,6 +5520,12 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 	<cfargument name="nogeorefbecause" type="string" required="no" default="">
 
 	<cfargument name="geology_data" type="string" required="no" default="">
+	<cfargument name="geology_attributes_to_delete" type="string" required="no" default="">
+	<cfargument name="geology_row_count" type="string" required="no" default="">
+
+	<cfargument name="coll_event_numbers_data" type="string" required="no" default="">
+	<cfargument name="coll_event_numbers_to_delete" type="string" required="no" default="">
+	<cfargument name="coll_event_number_row_count" type="string" required="no" default="">
 
 	<cfargument name="began_date" type="string" required="yes">
 	<cfargument name="ended_date" type="string" required="yes">
@@ -5892,8 +5898,27 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 								</cfloop><!--- parents --->
 							</cfif><!--- add_parents --->
 						</cfloop><!--- geoAttributes --->
+					</cfif><!--- geology_data is array --->
+				</cfif><!--- unpack geology_data --->
+
+				<!--- unpack coll_event_numbers_data and append rows to coll_event_number table --->
+				<cfif isDefined("arguments.coll_event_numbers_data") AND len(arguments.coll_event_numbers_data) GT 0>
+					<cfset coll_event_numbers_data = deserializeJSON(urlDecode(arguments.coll_event_numbers_data))>
+					<cfif isArray(coll_event_numbers_data)>
+						<cfloop array="#coll_event_numbers_data#" index="collEventNum">
+							<cfquery name="insertCollEventNumber" datasource="uam_god" result="insertCollEventNumber_result">
+								INSERT INTO coll_event_number (
+									coll_event_number_id, collecting_event_id, coll_event_num_series_id, coll_event_number
+								) VALUES (
+									sq_coll_event_number_id.NEXTVAL,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_collecting_event_id#">,
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collEventNum.coll_event_num_series_id#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collEventNum.coll_event_number#">
+								)
+							</cfquery>
+						</cfloop><!--- coll_event_numbers_data --->
 					</cfif>
-				</cfif>
+				</cfif><!--- unpack coll_event_numbers_data --->
 
 				<cfif cecount.ct EQ 1 AND loccount.ct GT 1>
 					<!--- we can update the existing collecting event and point it at the new locality without leaving an orphan collecting event --->
@@ -6012,6 +6037,25 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 						<cfthrow message="Error updating existing Collecting Event record #collecting_event_id#.">
 					</cfif>
 					<!--- we do not need to update the existing cataloged item record, it allready points at this collecting event --->
+
+					<!--- Handle collecting event numbers for the updated collecting event --->
+					<cfif isDefined("arguments.coll_event_numbers_data") AND len(arguments.coll_event_numbers_data) GT 0>
+						<cfset coll_event_numbers_data = deserializeJSON(urlDecode(arguments.coll_event_numbers_data))>
+						<cfif isArray(coll_event_numbers_data)>
+							<cfloop array="#coll_event_numbers_data#" index="collEventNum">
+								<cfquery name="insertCollEventNumber" datasource="uam_god" result="insertCollEventNumber_result">
+									INSERT INTO coll_event_number (
+										coll_event_number_id, collecting_event_id, coll_event_num_series_id, coll_event_number
+									) VALUES (
+										sq_coll_event_number_id.NEXTVAL,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collEventNum.coll_event_num_series_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collEventNum.coll_event_number#">
+									)
+								</cfquery>
+							</cfloop>
+						</cfif>
+					</cfif>				
 				<cfelse>
 					<!--- create a the collecting event record to split it from the other shared ones --->
 					<cfquery name="newCollectingEvent" datasource="uam_god" result="newCollectingEvent_result">
@@ -6457,6 +6501,70 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 					</cfloop>
 				</cfif>
 
+				<!--- unpack coll_event_numbers_data and update existing, or append rows to coll_event_number table --->
+				<cfif isDefined("arguments.coll_event_numbers_data") AND len(arguments.coll_event_numbers_data) GT 0>
+					<!--- arguments.coll_event_numbers_data is an url encoded JSON string, decode then deserialize it --->
+					<cfset coll_event_numbers_data = deserializeJSON(urlDecode(arguments.coll_event_numbers_data))>
+					<cfif isArray(coll_event_numbers_data)>
+						<cfloop array="#coll_event_numbers_data#" index="collEventNum">
+							<cfif len(collEventNum.coll_event_number_id) EQ 0>
+								<!--- insert --->
+								<cfset collEventNumDo = 'insert'>
+							<cfelse>
+								<!--- lookup the coll_event_number row, if it exists, update --->
+								<cfif len(collEventNum.coll_event_number_id) GT 0>
+									<cfquery name="checkCollEventNumber" datasource="uam_god" result="checkCollEventNumber_result">
+										SELECT count(*) ct 
+										FROM coll_event_number
+										WHERE coll_event_number_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collEventNum.coll_event_number_id#">
+									</cfquery>
+									<cfif checkCollEventNumber.ct EQ 1>
+										<cfset collEventNumDo = "update">
+									<cfelse>
+										<cfset collEventNumDo = "insert">
+									</cfif>
+								<cfelse>
+									<cfset collEventNumDo = "insert">
+								</cfif>
+							</cfif>
+							<cfif collEventNumDo EQ "insert"> 
+								<cfquery name="insertCollEventNumber" datasource="uam_god" result="insertCollEventNumber_result">
+									INSERT INTO coll_event_number (
+										coll_event_number_id, collecting_event_id, coll_event_num_series_id, coll_event_number
+									) VALUES (
+										sq_coll_event_number_id.NEXTVAL,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collEventNum.coll_event_num_series_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collEventNum.coll_event_number#">
+									)
+								</cfquery>
+							<cfelse> 
+								<cfquery name="updateCollEventNumber" datasource="uam_god" result="updateCollEventNumber_result">
+									UPDATE coll_event_number 
+									SET
+										collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">,
+										coll_event_num_series_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collEventNum.coll_event_num_series_id#">,
+										coll_event_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collEventNum.coll_event_number#">
+									WHERE 
+										coll_event_number_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collEventNum.coll_event_number_id#">
+								</cfquery>
+							</cfif>
+						</cfloop><!--- coll_event_numbers_data --->
+					</cfif>
+				</cfif>
+				
+				<!--- Remove collecting event number rows from list of accumulated coll_event_number_id values to remove --->
+				<cfif isDefined("arguments.coll_event_numbers_to_delete") AND len(arguments.coll_event_numbers_to_delete) GT 0>
+					<cfloop list="#arguments.coll_event_numbers_to_delete#" index="collEventNumIDToDelete">
+						<cfif len(collEventNumIDToDelete) GT 0>
+							<cfquery name="deleteCollEventNumber" datasource="uam_god" result="deleteCollEventNumber_result">
+								DELETE FROM coll_event_number
+								WHERE coll_event_number_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collEventNumIDToDelete#">
+							</cfquery>
+						</cfif>
+					</cfloop>
+				</cfif>
+
 				<!--- update collecting event --->
 				<cfquery name="updateCollectingEvent" datasource="uam_god" result="updateCollectingEvent_result">
 					UPDATE collecting_event 
@@ -6572,7 +6680,7 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 				<cfif updateCollectingEvent_result.recordcount NEQ 1>
 					<cfthrow message="Error updating Collecting Event record #collecting_event_id#.">
 				</cfif>
-				
+
 			<cfelse>
 				<cfthrow message="Unknown action #encodeForHtml(arguments.action)#">
 			</cfif>
