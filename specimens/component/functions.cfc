@@ -7255,13 +7255,9 @@ limitations under the License.
 						</cfquery>
 						<h2 class="h3 mt-3">
 							Geological Attributes
-							<cfif getGeologicalAttributes.recordcount EQ 0>
-								<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Add</button>
-							<cfelse>
-								<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Edit</button>
-							</cfif>
+							<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Edit</button>
 						</h2>
-						<!--- Display attributes summary list --->
+						<!--- Display current attributes --->
 						<ul>
 							<cfif getGeologicalAttributes.recordcount EQ 0>
 								<li id="noAttributesLI"> No geological attributes for this locality.</li>
@@ -7362,6 +7358,7 @@ limitations under the License.
 																<option value="#ctGeologyTypes.type#" #selected#>#ctGeologyTypes.type#</option>
 															</cfloop>
 														</select>
+														<input type="hidden" name="geology_attribute_hierarchy_id_#rowIndex#" id="geology_attribute_hierarchy_id_#rowIndex#" value="#getGeologicalAttributes.geology_attribute_hierarchy_id#">
 													</td>
 													<td>
 														<input type="hidden" name="geology_attribute_id_#rowIndex#" value="#getGeologicalAttributes.geology_attribute_id#">
@@ -7436,7 +7433,7 @@ limitations under the License.
 										$("##geo_att_determined_date_" + i).datepicker({ dateFormat: 'yy-mm-dd'});
 										$("##geo_att_remark_" + i).keyup(autogrow);
 										countCharsLeft('geo_att_remark_' + i, 4000, 'length_geo_att_remark_' + i);
-										makeGeologyAutocompleteMeta('geology_attribute_' + i, 'geo_att_value_' + i, null, 'entry', $("##attribute_type_" + i).val());
+										makeGeologyAutocompleteMeta('geology_attribute_' + i, 'geo_att_value_' + i, 'geology_attribute_hierarchy_id' + i, 'entry', $("##attribute_type_" + i).val());
 										addParentsChange(i); // initialize parent display
 									}
 								});
@@ -7463,6 +7460,7 @@ limitations under the License.
 														<option value="#ctgeology_attribute.geology_attribute#">#ctgeology_attribute.geology_attribute#</option>
 													</cfloop>
 												</select>
+												<input type="hidden" name="geology_attribute_hierarchy_id_${currentRowCount}" id="geology_attribute_hierarchy_id_${currentRowCount}" value="">
 											</td>
 											<td>
 												<select id="geo_att_value_${currentRowCount}" name="geo_att_value_${currentRowCount}" class="data-entry-select reqdClr">
