@@ -6614,10 +6614,19 @@ limitations under the License.
 							setFeedbackControlState("locFormOutput","error")
 							return;
 						}
+						// gather the geology data from the table
+						$('##geologyTableSection').show(); // ensure the table is open so data will be aggregated
 						var geologyData = aggregateGeologyTable();
 						console.log(geologyData);
 						// save the geology data to a single input submitted as a single known argument 
 						$("##geology_data").val(encodeURIComponent(JSON.stringify(geologyData)));
+						// gather the collecting event numbers from the table
+						$('##collectingEventNumbersTableSection').show(); // ensure the table is open so data will be aggregated
+						var collEventNumberData = aggregateCollEventNumbers();
+						console.log(collEventNumberData);
+						// save the collecting event numbers to a single input submitted as a single known argument
+						$("##coll_event_numbers_data").val(encodeURIComponent(JSON.stringify(collEventNumberData)));
+
 						// submit the form
 						// ajax submit the form to localities/component/functions.cfc
 						setFeedbackControlState("locFormOutput","saving")
@@ -6661,6 +6670,7 @@ limitations under the License.
 					<input type="hidden" name="locality_id" value="#getLoc.locality_id#">
 					<input type="hidden" name="collecting_event_id" value="#getLoc.collecting_event_id#">
 					<input type="hidden" name="geology_data" id="geology_data" value="">
+					<input type="hidden" name="coll_event_numbers_data" id="coll_event_numbers_data" value="">
 
 					<!--- higher geography --->
 					<div class="col-12 px-2 form-row">
@@ -7229,7 +7239,8 @@ limitations under the License.
 						<script>
 							$(document).ready(function() {
 								$('##buttonOpenEditCollectingEventNumbers').on('click', function() {
-									$('##collectingEventNumbersTableSection').toggle();
+									$('##collectingEventNumbersTableSection').show();
+									$('##buttonOpenEditCollectingEventNumbers').hide();
 								});
 							});
 						</script>
@@ -7512,7 +7523,8 @@ limitations under the License.
 						<script>
 							$(document).ready(function() {
 								$('##buttonOpenEditGeologyTable').on('click', function() {
-									$('##geologyTableSection').toggle();
+									$('##geologyTableSection').show();
+									$('##buttonOpenEditGeologyTable').hide();
 								});
 							});
 						</script>
