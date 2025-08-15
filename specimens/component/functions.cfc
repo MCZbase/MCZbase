@@ -7021,7 +7021,7 @@ limitations under the License.
 										<cfset followText = "(shared with #cecount.ct# specimens)">
 									</cfif>
 									<a class="btn btn-xs btn-info" href="/localities/viewCollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">View #shared# Collecting Event</a>
-									<button type="button" id="btn_pane" class="btn btn-xs btn-warning" id="launchCollEventPickerButtonFromFormButton"
+									<button type="button" class="btn btn-xs btn-warning" id="launchCollEventPickerButtonFromFormButton"
 										onclick=" closeLocalityInPage();  launchCollectingEventDialog(); ">Pick Different Collecting Event</button>
 									<a class="btn btn-xs btn-warning" href="/localities/CollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">Edit #shared# Collecting Event</a>
 									#followText#
