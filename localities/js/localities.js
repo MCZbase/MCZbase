@@ -656,8 +656,9 @@ function openlinklocalitydialog(dialogid, related_value, spec_locality_control, 
  @param related_value the value to which the collecting event is related, used in the dialog title.
  @param collecting_event_id_control the id of a control in the dom that will be set to the selected collecting event's collecting_event_id, without a leading # selector.
  @param pickcallback a callback function to invoke on selecting a collecting event.
+ @param closecallback a callback function to invoke on closing the dialog.
 **/
-function openlinkcollectingeventdialog(dialogid, related_value, collecting_event_id_control, pickcallback) {
+function openlinkcollectingeventdialog(dialogid, related_value, collecting_event_id_control, pickcallback, closecallback) {
 	var title = "Link Collecting Event record to " + related_value;
 	// check if the dialogid is for a div that exists, if not create one.
 	if (!$("#"+dialogid).length) {
@@ -686,8 +687,8 @@ function openlinkcollectingeventdialog(dialogid, related_value, collecting_event
 			}
 		}, 
 		close: function(event,ui) {
-			if (pickcallback && jQuery.type(pickcallback)==='function') {
-				pickcallback();
+			if (closecallback && jQuery.type(closecallback)==='function') {
+				closecallback();
 			}
 			$("#"+dialogid+"_div").html("");
 	 		$("#"+dialogid).dialog('destroy');
