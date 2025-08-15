@@ -5040,7 +5040,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				</div>
 			<cfcatch>
 				<cfset function_called = "#GetFunctionCalledName()#">
-				<h2 class="h3 text-danger mt-0">Error: #cfcatch.type# #cfcatch.message# in #function_called#</h2> 
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<h2 class="h3 text-danger mt-0">Error: #cfcatch.type# #error_message# in #function_called#</h2> 
 				<div>#cfcatch.detail#</div>
 			</cfcatch>
 			</cftry>
