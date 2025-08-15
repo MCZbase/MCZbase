@@ -563,7 +563,7 @@ limitations under the License.
 						<script>
 							function changeCollectingEvent() {
 								// change the collecting event id from the value in the hidden input field
-								var new_collecting_event_id $("#collecting_event_id_control").val();
+								var new_collecting_event_id $("##collecting_event_id_control").val();
 								if (new_collecting_event_id.length == 0) {
 									// but not if empty
 									return;
