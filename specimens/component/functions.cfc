@@ -6605,6 +6605,7 @@ limitations under the License.
 						$("##backToSpecimen1").html("Back to Specimen without saving changes");
 						$("##backToSpecimen2").html("Back to Specimen without saving changes");
 						$("##splitAndSaveButton").removeAttr("disabled");
+						$("##launchCollEventPickerButtonFromFormButton").addAttr("disabled", "disabled");
 					}
 					function submitLocForm() {
 						// validate the form
@@ -7012,8 +7013,6 @@ limitations under the License.
 						<h2 class="h3 mt-3">
 							Collecting Event
 							<span class="pl-2">
-									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" 
-										onclick=" closeLocalityInPage();  launchCollectingEventDialog(); ">Pick Different Collecting Event</button>
 									<cfif cecount.ct eq 1>
 										<cfset shared= "">
 										<cfset followText = "(unique to this specimen)">
@@ -7022,6 +7021,8 @@ limitations under the License.
 										<cfset followText = "(shared with #cecount.ct# specimens)">
 									</cfif>
 									<a class="btn btn-xs btn-info" href="/localities/viewCollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">View #shared# Collecting Event</a>
+									<button type="button" id="btn_pane" class="btn btn-xs btn-warning" id="launchCollEventPickerButtonFromFormButton"
+										onclick=" closeLocalityInPage();  launchCollectingEventDialog(); ">Pick Different Collecting Event</button>
 									<a class="btn btn-xs btn-warning" href="/localities/CollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">Edit #shared# Collecting Event</a>
 									#followText#
 							</span>
