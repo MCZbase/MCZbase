@@ -4816,10 +4816,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<input type="hidden" id="reset_locality" value="#higher_geog#: #spec_locality# (#locality_id#)">
 							<input type="hidden" id="reset_state" value="0">
 						</div>
+						<cfif NOT isDefined("onelinesummary")><cfset onlinesummary = "Collecting Event (#collecting_event_id#)"></cfif>
 						<div class="col-2 mb-2">
 							<label class="data-entry-label">&nbsp;</label>
 							<button type="button" class="btn btn-xs btn-secondary" onclick="toggleChangeLocality();" id="editLocalityToggle">Change Locality</button>
-							<button type="button" class="btn btn-xs btn-secondary" onclick="openlinklocalitydialog('localityPickerDialog', 'locality_id', 'locality', 'locality_id', toggleChangeLocality);">Pick</button>
+							<button type="button" class="btn btn-xs btn-secondary" onclick="openlinklocalitydialog('localityPickerDialog', '#onelinesummary#', 'locality', 'locality_id', toggleChangeLocality);" id="pickLocalityButton">Pick</button>
 							<script>
 								function toggleChangeLocality() { 
 									if ($("##reset_state").val()=="0") { 
@@ -4837,12 +4838,17 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									makeLocalityAutocompleteMeta("locality", "locality_id");
 									$("##editLocalityToggle").html("Reset");
 									$("##locality").val("");
+									$("##pickLocalityButton").show();
 								}
 								function resetLocality() { 
 									$("##locality").val($("##reset_locality").val());
 									$("##locality_id").val($("##reset_locality_id").val());
 									$("##editLocalityToggle").html("Change Locality");
+									$("##pickLocalityButton").hide();
 								}
+								$(document).ready(function() { 
+									$("##pickLocalityButton").hide();
+								});
 							</script>
 						</div>
 					</cfif>
