@@ -136,7 +136,7 @@ function loadCollEventNumbersHTML(collecting_event_id,targetDivId) {
  @param closecallback a callback function to invoke on closing the dialog.
 **/
 function openlinkcollectingeventdialog(dialogid, related_value, collecting_event_id_control, pickcallback, closecallback) {
-	var title = "Link Collecting Event record to " + related_value;
+	var title = "Change Collecting Event for " + related_value;
    console.log("openlinkcollectingeventdialog for " + related_value + " setting " + collecting_event_id_control);
 	// check if the dialogid is for a div that exists, if not create one.
 	if (!$("#"+dialogid).length) {
