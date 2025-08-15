@@ -38,7 +38,7 @@ limitations under the License.
 --->
 <cffunction name="pickLocalitySearch" access="remote" returntype="any" returnformat="json">
 	<cfargument name="spec_locality" type="string" required="yes">
-	<cfargument name="geog_auth_rec_id" type="numeric" required="no" default="">
+	<cfargument name="geog_auth_rec_id" type="string" required="no" default="">
 	<cfargument name="higher_geog" type="string" required="no" default="">
 	<cfargument name="sovereign_nation" type="string" required="no" default="">
 
