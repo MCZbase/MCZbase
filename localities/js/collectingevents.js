@@ -126,3 +126,67 @@ function loadCollEventNumbersHTML(collecting_event_id,targetDivId) {
 		dataType: "html"
 	});
 };
+
+/** Create and open a dialog to pick a collecting event, setting the values of a collecting_event_id_control
+  from the selection. 
+ @param dialogid the id of a div in the dom that is to be populated with without a leading # selector.
+ @param related_value the value to which the collecting event is related, used in the dialog title.
+ @param collecting_event_id_control the id of a control in the dom that will be set to the selected collecting event's collecting_event_id, without a leading # selector.
+ @param pickcallback a callback function to invoke on selecting a collecting event.
+ @param closecallback a callback function to invoke on closing the dialog.
+**/
+function openlinkcollectingeventdialog(dialogid, related_value, collecting_event_id_control, pickcallback, closecallback) {
+	var title = "Link Collecting Event record to " + related_value;
+	// check if the dialogid is for a div that exists, if not create one.
+	if (!$("#"+dialogid).length) {
+		$("body").append('<div id="'+dialogid+'"></div>');
+	}
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.9);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true, 
+		stack: true, 
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 320,
+		minHeight: 450,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				$(this).dialog('close'); 
+			}
+		}, 
+		close: function(event,ui) {
+			if (closecallback && jQuery.type(closecallback)==='function') {
+				closecallback();
+			}
+			$("#"+dialogid+"_div").html("");
+	 		$("#"+dialogid).dialog('destroy');
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/localities/component/pick.cfc",
+		type: "post",
+		data: {
+			method: "getCollectingEventPickerHtml",
+			returnformat: "plain",
+			collecting_event_id_control: collecting_event_id_control,
+			enclosing_dialog_id: dialogid,
+			callback: pickcallback
+		},
+		success: function (data) {
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading collecting event picker dialog");
+		}
+	});
+}
