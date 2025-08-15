@@ -621,8 +621,8 @@ function openlinklocalitydialog(dialogid, related_value, spec_locality_control, 
 			}
 		}, 
 		close: function(event,ui) {
-			if (okcallback && jQuery.type(okcallback)==='function') {
-				okcallback();
+			if (pickcallback && jQuery.type(pickcallback)==='function') {
+				pickcallback();
 			}
 			$("#"+dialogid+"_div").html("");
 	 		$("#"+dialogid).dialog('destroy');
@@ -684,8 +684,8 @@ function openlinkcollectingeventdialog(dialogid, related_value, collecting_event
 			}
 		}, 
 		close: function(event,ui) {
-			if (okcallback && jQuery.type(okcallback)==='function') {
-				okcallback();
+			if (pickcallback && jQuery.type(pickcallback)==='function') {
+				pickcallback();
 			}
 			$("#"+dialogid+"_div").html("");
 	 		$("#"+dialogid).dialog('destroy');
