@@ -568,7 +568,7 @@ limitations under the License.
 								if (new_collecting_event_id.length == 0) {
 									// but not if empty
 									return;
-								} else if (new_collecting_event_id == "#collecting_event_id#") {
+								} else if (new_collecting_event_id == "#getCatalogedItem.collecting_event_id#") {
 									// but not if the same as the current one
 									return;
 								}
