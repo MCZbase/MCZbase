@@ -284,6 +284,7 @@ limitations under the License.
 										};
 									</script>
 								</div>
+								<div id="localityPickerDialog"></div>
 								<div class="border rounded p-2 my-1 ">
 									<a class="btn btn-xs btn-secondary" target="_blank" href="/localities/CollectingEvent.cfm?action=new&clone_from_collecting_event_id=#encodeForUrl(lookupEvent.collecting_event_id)#">Clone</a>
 								</div>
