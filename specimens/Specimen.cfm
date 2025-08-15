@@ -563,7 +563,7 @@ limitations under the License.
 							function launchCollectingEventDialog() {
 								console.log("launchCollectingEventDialog called");
 								// open the collecting event dialog to select a new collecting event
-								openlinkcollectingeventdialog('collEventPickerDialogDiv', '#guid#', 'collecting_event_id_control', pickcallback, null);
+								openlinkcollectingeventdialog('collEventPickerDialogDiv', '#guid#', 'collecting_event_id_control', changeCollectingEvent, null);
 							}
 							function changeCollectingEvent() {
 								console.log("changeCollectingEvent called");
