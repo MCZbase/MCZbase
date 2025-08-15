@@ -558,11 +558,15 @@ limitations under the License.
 						<div id="collEventPickerDialogDiv"></div>
 						<input type="hidden" id="collecting_event_id_control" name="collecting_event_id_control" value="#getCatalogedItem.collecting_event_id#">
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" 
-							onclick="
-							openlinkcollectingeventdialog('collEventPickerDialogDiv', '#guid#', 'collecting_event_id_control', pickcallback, null);
-							">Pick New Coll Event</button>
+							onclick=" launchCollectingEventDialog(); ">Coll&nbsp;Event</button>
 						<script>
+							function launchCollectingEventDialog() {
+								console.log("launchCollectingEventDialog called");
+								// open the collecting event dialog to select a new collecting event
+								openlinkcollectingeventdialog('collEventPickerDialogDiv', '#guid#', 'collecting_event_id_control', pickcallback, null);
+							}
 							function changeCollectingEvent() {
+								console.log("changeCollectingEvent called");
 								// change the collecting event id from the value in the hidden input field
 								var new_collecting_event_id $("##collecting_event_id_control").val();
 								if (new_collecting_event_id.length == 0) {
