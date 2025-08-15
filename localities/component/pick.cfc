@@ -279,7 +279,7 @@ limitations under the License.
 			FROM 
 				collecting_event ce
 				join locality l on ce.locality_id = l.locality_id
-				join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+				join geog_auth_rec on l.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 			WHERE
 				1=1
 				<cfif arguments.higher_geog NEQ "">
