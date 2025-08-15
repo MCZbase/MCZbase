@@ -6605,7 +6605,7 @@ limitations under the License.
 						$("##backToSpecimen1").html("Back to Specimen without saving changes");
 						$("##backToSpecimen2").html("Back to Specimen without saving changes");
 						$("##splitAndSaveButton").removeAttr("disabled");
-						$("##launchCollEventPickerButtonFromFormButton").addAttr("disabled", "disabled");
+						$("##launchCollEventPickerButtonFromFormButton").prop('disabled', true);
 					}
 					function submitLocForm() {
 						// validate the form
