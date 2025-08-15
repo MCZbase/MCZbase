@@ -4857,20 +4857,20 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<script>
 							function fillDatesFromVerbatim() { 
 								var verbatimDate = $("##verbatim_date").val()
- 								jQuery.getJSON("/dataquality/component/functions.cfc",
-      						{
-         						method : "interpretDate",
-						         verbatimDate : verbatimDate,
-						         returnformat : "json",
-							      },
-					   		   function (result) {
+ 								jQuery.getJSON(
+									"/dataquality/component/functions.cfc",
+									{
+										method : "interpretDate",
+										verbatimDate : verbatimDate,
+										returnformat : "json",
+									},
+									function (result) {
 										console.log(result);
 									}
-								}
-   						).fail(function(jqXHR,textStatus,error){
-   						   handleFail(jqXHR,textStatus,error,"looking up sovereign nation from higher geography");
-							   });
-							} 
+								).fail(function(jqXHR,textStatus,error){
+									handleFail(jqXHR,textStatus,error,"looking up sovereign nation from higher geography");
+								});
+							}
 						</script>
 					</div>
 					<div class="col-12 col-md-3 mb-2">
