@@ -142,8 +142,15 @@ function openlinkcollectingeventdialog(dialogid, related_value, collecting_event
 		$("body").append('<div id="'+dialogid+'"></div>');
 	}
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
-	var h = $(window).height();
-	var w = $(window).width();
+	var h = window.screen.height;
+	// limit height to half of the visible window height.
+	if (h > 450) {
+		h = window.screen.height * .5;
+		if (h < 450) {
+			h = 450;
+		}
+	}
+	var w = window.screen.width;
 	w = Math.floor(w *.9);
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
