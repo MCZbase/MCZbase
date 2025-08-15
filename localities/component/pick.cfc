@@ -220,6 +220,242 @@ limitations under the License.
 			</script>
 			<div id='localitySearchResults' class='container-fluid mt-1'></div>
 		<cfcatch> 
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<h2 class="h3 text-danger mt-0">Error: #cfcatch.type# #error_message# in #function_called#</h2> 
+			<div>#cfcatch.detail#</div>
+		</cfcatch>
+		</cftry>
+	</cfoutput>
+</cffunction>
+
+<!--- pickCollectingEventSearch backing method for a collecting event picker dialog, 
+ which returns a json list of up to 100 collecting events matching specified 
+ search criteria with optional additional filters.
+ @param spec_locality: the specific locality to search for, case insensitive substring match.
+ @param verbatim_date: the verbatim date to search for, case insensitive substring match.
+ @param collecting_method: the collecting method to search for, case insensitive substring match.
+ @param habitat_desc: the habitat description to search for, case insensitive substring match.
+ @param verbatimcoordinates: the verbatim coordinates to search for, case insensitive substring match.
+ @param verbatim_locality: the verbatim locality to search for, case insensitive substring match.
+ @param began_date: the began date to search for, exact match in yyyy-mm-dd format.
+ @param ended_date: the ended date to search for, exact match in yyyy-mm-dd format.
+ @return a json structure containing collecting_event_id, locality_id, spec_locality,
+   verbatim_date, verbatim_locality, collecting_method, habitat_desc, began_date,
+   ended_date, verbatimcoordinates, and coll_event_remarks, or on error an http 500
+   error response.
+--->
+<cffunction name="pickCollectingEventSearch" access="remote" returntype="any" returnformat="json">
+	<cfargument name="spec_locality" type="string" required="no" default="">
+	<cfargument name="verbatim_date" type="string" required="no" default="">
+	<cfargument name="collecting_method" type="string" required="no" default="">
+	<cfargument name="habitat_desc" type="string" required="no" default="">
+	<cfargument name="verbatimcoordinates" type="string" required="no" default="">
+	<cfargument name="verbatim_locality" type="string" required="no" default="">
+	<cfargument name="began_date" type="string" required="no" default="">
+	<cfargument name="ended_date" type="string" required="no" default="">
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
+			SELECT 
+				ce.collecting_event_id, ce.locality_id, l.spec_locality,
+				ce.verbatim_date, ce.verbatim_locality, ce.collecting_method,
+				ce.habitat_desc, ce.began_date, ce.ended_date,
+				ce.verbatimcoordinates, ce.coll_event_remarks,
+				ce.collecting_time, ce.verbatimelevation, ce.verbatimdepth
+			FROM 
+				collecting_event ce
+				join locality l on ce.locality_id = l.locality_id
+			WHERE
+				1=1
+				<cfif arguments.spec_locality NEQ "">
+					AND upper(l.spec_locality) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.spec_locality)#%">
+				</cfif>
+				<cfif arguments.verbatim_date NEQ "">
+					AND upper(ce.verbatim_date) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.verbatim_date)#%">
+				</cfif>
+				<cfif arguments.collecting_method NEQ "">
+					AND upper(ce.collecting_method) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.collecting_method)#%">
+				</cfif>
+				<cfif arguments.habitat_desc NEQ "">
+					AND upper(ce.habitat_desc) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.habitat_desc)#%">
+				</cfif>
+				<cfif arguments.verbatimcoordinates NEQ "">
+					AND upper(ce.verbatimcoordinates) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.verbatimcoordinates)#%">
+				</cfif>
+				<cfif arguments.verbatim_locality NEQ "">
+					AND upper(ce.verbatim_locality) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.verbatim_locality)#%">
+				</cfif>
+				<cfif arguments.began_date NEQ "">
+					AND ce.began_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.began_date#">
+				</cfif>
+				<cfif arguments.ended_date NEQ "">
+					AND ce.ended_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.ended_date#">
+				</cfif>
+			ORDER BY
+				l.spec_locality, ce.verbatim_date, ce.began_date
+			FETCH FIRST 100 ROWS ONLY
+		</cfquery>
+	<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["collecting_event_id"] = "#search.collecting_event_id#">
+			<cfset row["locality_id"] = "#search.locality_id#">
+			<cfset row["spec_locality"] = "#search.spec_locality#" >
+			<cfset row["verbatim_date"] = "#search.verbatim_date#">
+			<cfset row["verbatim_locality"] = "#search.verbatim_locality#">
+			<cfset row["collecting_method"] = "#search.collecting_method#">
+			<cfset row["habitat_desc"] = "#search.habitat_desc#">
+			<cfset row["began_date"] = "#search.began_date#">
+			<cfset row["ended_date"] = "#search.ended_date#">
+			<cfset row["verbatimcoordinates"] = "#search.verbatimcoordinates#">
+			<cfset row["coll_event_remarks"] = "#search.coll_event_remarks#">
+			<cfset row["collecting_time"] = "#search.collecting_time#">
+			<cfset row["verbatimelevation"] = "#search.verbatimelevation#">
+			<cfset row["verbatimdepth"] = "#search.verbatimdepth#">
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<cffunction name="getCollectingEventPickerHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collecting_event_id_control" type="string" required="yes">
+	<cfargument name="callback" type="string" required="no" default="">
+
+	<cfoutput>
+		<cftry> 
+			<div class='container-fluid'>
+				<div class='row'>
+					<div class='col-12'>
+						<div id='collectingEventPickForm' class='search-box px-3 py-2'>
+							<h1 class='h3 mt-2'>Search and Pick a Collecting Event</h1>
+								<form id='findCollectingEventForm' onsubmit='return searchforcollectingevent(event);' >
+									<input type='hidden' name='method' value='pickCollectingEventSearch'>
+									<input type='hidden' name='returnformat' value='json'>
+			
+									<div class='form-row'>
+										<div class='col-12 col-md-4 pb-2'>
+											<label for='spec_locality' class='data-entry-label'>Specific Locality</label>
+				 							<input type='text' name='spec_locality' id='spec_locality' value='' class='data-entry-input'>
+										</div>
+										<div class='col-12 col-md-4 pb-2'>
+											<label for='verbatim_date' class='data-entry-label'>Verbatim Date</label>
+				 							<input type='text' name='verbatim_date' id='verbatim_date' value='' class='data-entry-input'>
+										</div>
+										<div class='col-12 col-md-4 pb-2'>
+											<label for='collecting_method' class='data-entry-label'>Collecting Method</label>
+							 				<input type='text' name='collecting_method' id='collecting_method' value='' class='data-entry-input'>
+										</div>
+									</div>
+									<div class='form-row'>
+										<div class='col-12 col-md-4 pb-2'>
+											<label for='habitat_desc' class='data-entry-label'>Habitat Description</label>
+				 							<input type='text' name='habitat_desc' id='habitat_desc' value='' class='data-entry-input'>
+										</div>
+										<div class='col-12 col-md-4 pb-2'>
+											<label for='verbatimcoordinates' class='data-entry-label'>Verbatim Coordinates</label>
+				 							<input type='text' name='verbatimcoordinates' id='verbatimcoordinates' value='' class='data-entry-input'>
+										</div>
+										<div class='col-12 col-md-4 pb-2'>
+											<label for='verbatim_locality' class='data-entry-label'>Verbatim Locality</label>
+							 				<input type='text' name='verbatim_locality' id='verbatim_locality' value='' class='data-entry-input'>
+										</div>
+									</div>
+									<div class='form-row'>
+										<div class='col-12 col-md-6 pb-2'>
+											<label for='began_date' class='data-entry-label'>Began Date (yyyy-mm-dd)</label>
+				 							<input type='text' name='began_date' id='began_date' value='' class='data-entry-input' placeholder='yyyy-mm-dd'>
+										</div>
+										<div class='col-12 col-md-6 pb-2'>
+											<label for='ended_date' class='data-entry-label'>Ended Date (yyyy-mm-dd)</label>
+				 							<input type='text' name='ended_date' id='ended_date' value='' class='data-entry-input' placeholder='yyyy-mm-dd'>
+										</div>
+									</div>
+									<div class='form-row mt-2'>
+										<div class=''>
+											<input type='submit' value='Search' class='btn-primary px-3 mb-2'>
+										</div>
+										<div class='ml-5'>
+											<span ><input type='reset' value='Clear' class='btn-warning mb-2 mt-2 mt-sm-0 mr-1'></span>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<script>
+				function searchforcollectingevent(event) { 
+					event.preventDefault();
+					jQuery.ajax({
+						url: '/localities/component/pick.cfc',
+						type: 'post',
+						data: $('##findCollectingEventForm').serialize(),
+						success: function (data) {
+							var result = JSON.parse(data);
+							// create a table populated with the results
+							if (result.length == 0) {
+								$('##collectingEventSearchResults').html('<div class="alert alert-info">No collecting events found.</div>');
+								return;
+							} else { 
+								var table = '<table class="table table-striped table-bordered table-responsive"><thead><tr><th></th><th>Locality</th><th>Verbatim Date</th><th>Date Range</th><th>Method</th><th>Habitat</th><th>Coordinates</th><th>Verbatim Locality</th></tr></thead><tbody>';
+								for (var i = 0; i < result.length; i++) {
+									var dateRange = '';
+									if (result[i].began_date && result[i].ended_date) {
+										dateRange = result[i].began_date + ' to ' + result[i].ended_date;
+									} else if (result[i].began_date) {
+										dateRange = result[i].began_date;
+									} else if (result[i].ended_date) {
+										dateRange = result[i].ended_date;
+									}
+									
+									table += '<tr>';
+									table += '<td><button type="button" class="btn btn-primary btn-sm" onClick="doPickCollectingEvent('+ result[i].collecting_event_id  +','+i+')">Pick</button></td>';
+									table += '<td id="spec_locality_'+i+'">' + (result[i].spec_locality || '') + '</td>';
+									table += '<td id="verbatim_date_'+i+'">' + (result[i].verbatim_date || '') + '</td>';
+									table += '<td>' + dateRange + '</td>';
+									table += '<td>' + (result[i].collecting_method || '') + '</td>';
+									table += '<td>' + (result[i].habitat_desc || '') + '</td>';
+									table += '<td>' + (result[i].verbatimcoordinates || '') + '</td>';
+									table += '<td>' + (result[i].verbatim_locality || '') + '</td>';
+									table += '</tr>';
+								}
+								table += '</tbody></table>';
+								$('##collectingEventSearchResults').html(table);
+							}
+						},
+						error: function (jqXHR, textStatus, error) {
+							handleFail(jqXHR,textStatus,error,"searching for collecting events to pick");
+						}
+					});
+					return false; 
+				};
+				function doPickCollectingEvent(collecting_event_id, rowIndex) { 
+					$('###arguments.collecting_event_id_control#').val(collecting_event_id);
+					if (typeof window['#arguments.callback#'] === 'function') {
+						window['#arguments.callback#']();
+					}
+				};
+			</script>
+			<div id='collectingEventSearchResults' class='container-fluid mt-1'></div>
+		<cfcatch> 
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<h2 class="h3 text-danger mt-0">Error: #cfcatch.type# #error_message# in #function_called#</h2> 
+			<div>#cfcatch.detail#</div>
 		</cfcatch>
 		</cftry>
 	</cfoutput>
