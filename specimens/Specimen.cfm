@@ -579,30 +579,34 @@ limitations under the License.
 									console.log("Selected collecting event is the same as the current one, aborting change.");
 									return;
 								}
-								// otherwise make an ajax call to change the collecting event id on the cataloged item.
-								$.ajax({
-									url: '/specimens/component/functions.cfc',
-									data: {
-										method: 'changeCollectingEvent',
-										collection_object_id: #collection_object_id#,
-										collecting_event_id: new_collecting_event_id
-									},
-									success: function(response) {
-                              var response = JSON.parse(response);
-										if (response.success) {
-											alert("Collecting event changed successfully.");
-											reloadLocality();
-											reloadHeadingBar();
-										} else {
-											alert("Error changing collecting event: " + response.message);
+								// launch a confirm dialog, if the user confirms, proceed with the change
+								confirmDialog("Change the collecting event for this cataloged item?  This will unlink this cataloged item from the current collecting event and locality and switch it to the new collecting event and locality.", "Confirm change collecting event", 
+								function() { 
+									// otherwise make an ajax call to change the collecting event id on the cataloged item.
+									$.ajax({
+										url: '/specimens/component/functions.cfc',
+										data: {
+											method: 'changeCollectingEvent',
+											collection_object_id: #collection_object_id#,
+											collecting_event_id: new_collecting_event_id
+										},
+										success: function(response) {
+                        	      var response = JSON.parse(response);
+											if (response.success) {
+												console.log("Collecting event changed successfully.");
+												reloadLocality();
+												reloadHeadingBar();
+											} else {
+												alert("Error changing collecting event: " + response.message);
+											}
+										},
+										error: function(xhr, status, error) {
+											// handle error
+											console.error("Error changing collecting event:", error);
+											handleError(xhr, status, error);
 										}
-									},
-									error: function(xhr, status, error) {
-										// handle error
-										console.error("Error changing collecting event:", error);
-										handleError(xhr, status, error);
-									}
-								});
+									});
+								} );
 							}
 						</script>
 					</li>
