@@ -30,6 +30,7 @@ limitations under the License.
  @param geog_auth_rec_id: the geographic authority record id to filter by,
  @param higher_geog: the higher geographic locality to filter by, case insensitive
    substring match.
+ @param higher_geog_pick: ignored.
  @param sovereign_nation: the sovereign nation to filter by, exact match.
  @return a json structure containing locality_id, spec_locality, higher_geog,
    sovereign_nation, minimum_elevation, maximum_elevation, orig_elev_units,
@@ -40,6 +41,7 @@ limitations under the License.
 	<cfargument name="spec_locality" type="string" required="yes">
 	<cfargument name="geog_auth_rec_id" type="string" required="no" default="">
 	<cfargument name="higher_geog" type="string" required="no" default="">
+	<cfargument name="higher_geog_pick" type="string" required="no" default="">
 	<cfargument name="sovereign_nation" type="string" required="no" default="">
 
 	<cfset var specLocalityTerm = "%#arguments.spec_locality#%"> 
@@ -136,21 +138,26 @@ limitations under the License.
 									<input type='hidden' name='returnformat' value='json'>
 			
 									<div class='form-row'>
-										<div class='col-12 col-md-4 pb-2'>
+										<div class='col-12 col-md-3 pb-2'>
 											<label for='spec_locality' class='data-entry-label'>Specific Locality</label>
 				 							<input type='text' name='spec_locality' id='spec_locality' value='' class='data-entry-input reqdClr' required>
 										</div>
-										<div class='col-12 col-md-4 pb-2'>
-											<label for='higher_geog' class='data-entry-label'>Higher Geography</label>
+										<div class='col-12 col-md-2 pb-2'>
+											<label for='higher_geog' class='data-entry-label'>Any Part of Higher Geography</label>
 				 							<input type='text' name='higher_geog' id='higher_geog' value='' class='data-entry-input'>
-											<input type='hidden' name='geog_auth_rec_id' id='geog_auth_rec_id' value=''>
-											<script>
-												$(document).ready(function() {
-													makeHigherGeogAutocomplete("higher_geog","geog_auth_rec_id");
-												});
 											</script>
 										</div>
 										<div class='col-12 col-md-4 pb-2'>
+											<label for='higher_geog_pick' class='data-entry-label'>Higher Geography (pick)</label>
+				 							<input type='text' name='higher_geog_pick' id='higher_geog_pick' value='' class='data-entry-input'>
+											<input type='hidden' name='geog_auth_rec_id' id='geog_auth_rec_id' value=''>
+											<script>
+												$(document).ready(function() {
+													makeHigherGeogAutocomplete("higher_geog_pick","geog_auth_rec_id");
+												});
+											</script>
+										</div>
+										<div class='col-12 col-md-3 pb-2'>
 											<label for='sovereign_nation' class='data-entry-label'>Sovereign Nation</label>
 							 				<input type='text' name='sovereign_nation' id='sovereign_nation' value='' class='data-entry-input'>
 											<script>
@@ -257,6 +264,7 @@ limitations under the License.
 	<cfargument name="verbatim_locality" type="string" required="no" default="">
 	<cfargument name="began_date" type="string" required="no" default="">
 	<cfargument name="ended_date" type="string" required="no" default="">
+	<cfargument name="higher_geog" type="string" required="no" default="">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -271,8 +279,12 @@ limitations under the License.
 			FROM 
 				collecting_event ce
 				join locality l on ce.locality_id = l.locality_id
+				join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 			WHERE
 				1=1
+				<cfif arguments.higher_geog NEQ "">
+					AND upper(geog_auth_rec.higher_geog) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.higher_geog)#%">
+				</cfif>
 				<cfif arguments.spec_locality NEQ "">
 					AND upper(l.spec_locality) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.spec_locality)#%">
 				</cfif>
@@ -350,11 +362,15 @@ limitations under the License.
 									<input type='hidden' name='returnformat' value='json'>
 			
 									<div class='form-row'>
-										<div class='col-12 col-md-4 pb-2'>
+										<div class='col-12 col-md-3 pb-2'>
+											<label for='higher_geog' class='data-entry-label'>Higher Geography</label>
+				 							<input type='text' name='higher_geog' id='higher_geog' value='' class='data-entry-input'>
+										</div>
+										<div class='col-12 col-md-3 pb-2'>
 											<label for='spec_locality' class='data-entry-label'>Specific Locality</label>
 				 							<input type='text' name='spec_locality' id='spec_locality' value='' class='data-entry-input'>
 										</div>
-										<div class='col-12 col-md-4 pb-2'>
+										<div class='col-12 col-md-2 pb-2'>
 											<label for='verbatim_date' class='data-entry-label'>Verbatim Date</label>
 				 							<input type='text' name='verbatim_date' id='verbatim_date' value='' class='data-entry-input'>
 										</div>
