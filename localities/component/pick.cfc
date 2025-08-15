@@ -94,7 +94,7 @@ limitations under the License.
 			<cfset row["locality_id"] = "#search.locality_id#">
 			<cfset row["spec_locality"] = "#search.spec_locality#" >
 			<cfset row["higher_geog"] = "#search.higher_geog#">
-			<cfset row["sovereign_nation"] = "#search.sovereign_natioan#">
+			<cfset row["sovereign_nation"] = "#search.sovereign_nation#">
 			<cfset row["depth"] = "#depth#">
 			<cfset row["elevation"] = "#elevation#">
 			<cfset row["minimum_elevation"] = "#search.minimum_elevation#">
