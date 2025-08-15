@@ -4814,7 +4814,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<input type="hidden" name="locality_id" id="locality_id" value="#locality_id#">
 							<input type="hidden" id="reset_locality_id" value="#locality_id#">
 							<input type="hidden" id="reset_locality" value="#higher_geog#: #spec_locality# (#locality_id#)">
-							<input type="hidden" id="reset_state" value="0">
+							<input type="hidden" id="reset_state" value="0"><!--- 0 = not editing locality, 1 = editing locality --->
 						</div>
 						<cfif NOT isDefined("onelinesummary")><cfset onlinesummary = "Collecting Event (#collecting_event_id#)"></cfif>
 						<div class="col-2 mb-2">
@@ -4829,6 +4829,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									$("##pickLocalityButton").hide();
 									if ($("##reset_state").val()=="0") { 
 										$("##reset_state").val("1");
+									}
+									// if handleChange function exists, call it
+									if (typeof handleChange === "function") { 
+										handleChange();
 									}
 								}
 								function toggleChangeLocality() { 
