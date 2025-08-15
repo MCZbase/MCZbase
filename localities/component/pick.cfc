@@ -65,7 +65,7 @@ limitations under the License.
 					AND upper(higher_geog) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(arguments.higher_geog)#%">
 				</cfif>
 				<cfif arguments.sovereign_nation NEQ "">
-					AND sovereign_nation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="arguments.sovereign_nation#">
+					AND sovereign_nation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.sovereign_nation#">
 				</cfif>
 			ORDER BY
 				spec_locality, higher_geog
