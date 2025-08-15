@@ -4820,7 +4820,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<div class="col-2 mb-2">
 							<label class="data-entry-label">&nbsp;</label>
 							<button type="button" class="btn btn-xs btn-secondary" onclick="toggleChangeLocality();" id="editLocalityToggle">Change Locality</button>
-							<button type="button" class="btn btn-xs btn-secondary" onclick="openlinklocalitydialog('localityPickerDialog', '#onelinesummary#', 'locality', 'locality_id', localityPicked, toggleChangeLocality);" id="pickLocalityButton">Pick</button>
+							<button type="button" class="btn btn-xs btn-secondary" onclick="openlinklocalitydialog('localityPickerDialog', '#onelinesummary#', 'locality', 'locality_id', localityPicked, null);" id="pickLocalityButton">Pick</button>
 							<script>
 								function localityPicked() { 
 									console.log("locality picked");
