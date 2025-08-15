@@ -357,7 +357,7 @@ limitations under the License.
 					<div class='col-12'>
 						<div id='collectingEventPickForm' class='search-box px-3 py-2'>
 							<h1 class='h3 mt-2'>Search and Pick a Collecting Event</h1>
-							<p class='text-muted'>Search and then pick a collecting event.  The search will return up to 100 matches for your search criteria.</p>
+							<p class='text-muted'>Search and then pick a collecting event from the results.  The search will return up to 100 matches for your search criteria.</p>
 							<form id='findCollectingEventForm' onsubmit='return searchforcollectingevent(event);' >
 								<input type='hidden' name='method' value='pickCollectingEventSearch'>
 								<input type='hidden' name='returnformat' value='json'>
