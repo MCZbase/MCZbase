@@ -554,6 +554,50 @@ limitations under the License.
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)">Remarks</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
+						<div id="collEventPickerDialogDiv"></div>
+						<input type="hidden" id="collecting_event_id_control" name="collecting_event_id_control" value="#collecting_event_id#">
+						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" 
+							onclick="
+							openlinkcollectingeventdialog('collEventPickerDialogDiv', '#guid#', 'collecting_event_id_control', pickcallback, null);
+							">Pick New Coll Event</button>
+						<script>
+							function changeCollectingEvent() {
+								// change the collecting event id from the value in the hidden input field
+								var new_collecting_event_id $("#collecting_event_id_control").val();
+								if (new_collecting_event_id.length == 0) {
+									// but not if empty
+									return;
+								} else if (new_collecting_event_id == "#collecting_event_id#") {
+									// but not if the same as the current one
+									return;
+								}
+								// otherwise make an ajax call to change the collecting event id on the cataloged item.
+								$.ajax({
+									url: '/specimens/component/functions.cfc',
+									data: {
+										method: 'changeCollectingEvent',
+										collection_object_id: #collection_object_id#,
+										collecting_event_id: new_collecting_event_id
+									},
+									success: function(response) {
+										if (response.success) {
+											alert("Collecting event changed successfully.");
+											reloadLocality();
+											reloadHeadingBar();
+										} else {
+											alert("Error changing collecting event: " + response.message);
+										}
+									},
+									error: function(xhr, status, error) {
+										// handle error
+										console.error("Error changing collecting event:", error);
+										handleError(xhr, status, error);
+									}
+								});
+							}
+						</script>
+					</li>
+					<li class="list-group-item px-0 mx-1">
 						<!--- 
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Locality</button>
 						--->

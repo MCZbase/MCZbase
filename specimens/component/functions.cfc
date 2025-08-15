@@ -9803,4 +9803,40 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	<cfreturn retval>
 </cffunction>
 
+<!--- changeCollectingEvent backing function to change the collecting event for a cataloged item 
+  @param collection_object_id the collection_object_id of the specimen part whose collecting event is to be changed
+  @param collecting_event_id the new collecting_event_id to assign to the specimen part
+  @return JSON object with success = true if successful, or an http 500 response if an error occurs.
+--->
+<cffunction name="changeCollectingEvent" access="remote" returntype="any" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="collecting_event_id" type="string" required="yes">
+	
+	<cfset var result = StructNew()>
+	
+	<cftransaction>
+		<cftry>
+			<!--- Update the collecting_event_id for the specified cataloged item --->
+			<cfquery name="updateCE" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateCE_result">
+				UPDATE cataloged_item
+				SET collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collecting_event_id#">
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			</cfquery>
+			<cfif updateCE_result.recordcount NEQ 1>
+				<cfthrow message="Error updating collecting event for cataloged item. Expected one row affected, but got #updateCE_result.recordcount# with collection_object_id #encodeForHtml(arguments.collection_object_id)#">
+			</cfif>
+			<cftransaction action="commit">
+			<cfset result["success"] = true>
+			<cfset result["message"] = "Collecting event updated successfully.">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(result)>
+</cffunction>
+
 </cfcomponent>
