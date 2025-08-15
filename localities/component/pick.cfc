@@ -52,7 +52,7 @@ limitations under the License.
 				spec_locality, locality_id, higher_geog, sovereign_nation,
 				minimum_elevation, maximum_elevation, orig_elev_units,
 				depth_units, min_depth, max_depth,
-				decode(curated_fg, 1, 'Yes', 0, 'No', 'Unknown') as vetted
+				decode(locality.curated_fg, 1, 'Yes', 0, 'No', 'Unknown') as vetted
 			FROM 
 				locality
 				join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
@@ -69,7 +69,7 @@ limitations under the License.
 				</cfif>
 			ORDER BY
 				spec_locality, higher_geog
-			FECTH FIRST 100 ROWS ONLY
+			FETCH FIRST 100 ROWS ONLY
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
