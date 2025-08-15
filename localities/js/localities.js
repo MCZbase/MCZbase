@@ -638,6 +638,7 @@ function openlinklocalitydialog(dialogid, related_value, spec_locality_control, 
 			returnformat: "plain",
 			spec_locality_control: spec_locality_control,
 			locality_id_control: locality_id_control,
+			enclosing_dialog_id: dialogid,
 			callback: pickcallback
 		},
 		success: function (data) {
@@ -700,6 +701,7 @@ function openlinkcollectingeventdialog(dialogid, related_value, collecting_event
 			method: "getCollectingEventPickerHtml",
 			returnformat: "plain",
 			collecting_event_id_control: collecting_event_id_control,
+			enclosing_dialog_id: dialogid,
 			callback: pickcallback
 		},
 		success: function (data) {

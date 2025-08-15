@@ -121,6 +121,7 @@ limitations under the License.
 <cffunction name="getLocalityPickerHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="spec_locality_control" type="string" required="yes">
 	<cfargument name="locality_id_control" type="string" required="yes">
+	<cfargument name="enclosing_dialog_id" type="string" required="yes">
 	<cfargument name="callback" type="string" required="no" default="">
 
 	<cfoutput>
@@ -216,6 +217,8 @@ limitations under the License.
 					if (typeof window['#arguments.callback#'] === 'function') {
 						window['#arguments.callback#']();
 					}
+					// close the dialog
+					$("###arguments.enclosing_dialog_id#").dialog("close");
 				};
 			</script>
 			<div id='localitySearchResults' class='container-fluid mt-1'></div>
@@ -332,6 +335,7 @@ limitations under the License.
 
 <cffunction name="getCollectingEventPickerHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collecting_event_id_control" type="string" required="yes">
+	<cfargument name="enclosing_dialog_id" type="string" required="yes">
 	<cfargument name="callback" type="string" required="no" default="">
 
 	<cfoutput>
@@ -448,6 +452,8 @@ limitations under the License.
 					if (typeof window['#arguments.callback#'] === 'function') {
 						window['#arguments.callback#']();
 					}
+					// close the dialog
+					$("###arguments.enclosing_dialog_id#").dialog("close");
 				};
 			</script>
 			<div id='collectingEventSearchResults' class='container-fluid mt-1'></div>
