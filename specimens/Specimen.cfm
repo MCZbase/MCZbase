@@ -588,6 +588,7 @@ limitations under the License.
 										collecting_event_id: new_collecting_event_id
 									},
 									success: function(response) {
+                              var response = JSON.parse(response);
 										if (response.success) {
 											alert("Collecting event changed successfully.");
 											reloadLocality();
