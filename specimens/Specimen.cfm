@@ -205,6 +205,7 @@ limitations under the License.
 		cataloged_item.collection_object_id,
 		cataloged_item.collection_cde,
 		cataloged_item.cat_num,
+		cataloged_item.collecting_event_id,
 		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail
 	FROM
 		cataloged_item
@@ -555,7 +556,7 @@ limitations under the License.
 					</li>
 					<li class="list-group-item px-0 mx-1">
 						<div id="collEventPickerDialogDiv"></div>
-						<input type="hidden" id="collecting_event_id_control" name="collecting_event_id_control" value="#collecting_event_id#">
+						<input type="hidden" id="collecting_event_id_control" name="collecting_event_id_control" value="#getCatalogedItem.collecting_event_id#">
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" 
 							onclick="
 							openlinkcollectingeventdialog('collEventPickerDialogDiv', '#guid#', 'collecting_event_id_control', pickcallback, null);
