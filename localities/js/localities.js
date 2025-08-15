@@ -594,6 +594,10 @@ function openAddCollEventNumberDialog(collecting_event_id, dialogid, callback) {
 **/
 function openlinklocalitydialog(dialogid, related_value, spec_locality_control, locality_id_control, pickcallback) {
 	var title = "Link Locality record to " + related_value;
+	// check if the dialogid is for a div that exists, if not create one.
+	if (!$("#"+dialogid).length) {
+		$("body").append('<div id="'+dialogid+'"></div>');
+	}
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	var h = $(window).height();
 	var w = $(window).width();
@@ -617,7 +621,7 @@ function openlinklocalitydialog(dialogid, related_value, spec_locality_control, 
 			}
 		}, 
 		close: function(event,ui) {
-			if (jQuery.type(okcallback)==='function') {
+			if (okcallback && jQuery.type(okcallback)==='function') {
 				okcallback();
 			}
 			$("#"+dialogid+"_div").html("");
@@ -653,6 +657,10 @@ function openlinklocalitydialog(dialogid, related_value, spec_locality_control, 
 **/
 function openlinkcollectingeventdialog(dialogid, related_value, collecting_event_id_control, pickcallback) {
 	var title = "Link Collecting Event record to " + related_value;
+	// check if the dialogid is for a div that exists, if not create one.
+	if (!$("#"+dialogid).length) {
+		$("body").append('<div id="'+dialogid+'"></div>');
+	}
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	var h = $(window).height();
 	var w = $(window).width();
@@ -676,7 +684,7 @@ function openlinkcollectingeventdialog(dialogid, related_value, collecting_event
 			}
 		}, 
 		close: function(event,ui) {
-			if (jQuery.type(okcallback)==='function') {
+			if (okcallback && jQuery.type(okcallback)==='function') {
 				okcallback();
 			}
 			$("#"+dialogid+"_div").html("");
