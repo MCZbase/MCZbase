@@ -211,7 +211,7 @@ limitations under the License.
 					return false; 
 				};
 				function doPick(locality_id, rowIndex) { 
-					var spec_locality = $('#spec_locality_' + rowIndex).text();
+					var spec_locality = $('##spec_locality_' + rowIndex).text();
 					$('###arguments.spec_locality_control#').val(spec_locality);
 					$('###arguments.locality_id_control#').val(locality_id);
 					if (typeof window['#arguments.callback#'] === 'function') {
