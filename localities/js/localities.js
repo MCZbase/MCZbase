@@ -629,7 +629,7 @@ function openlinklocalitydialog(dialogid, related_value, spec_locality_control, 
 		url: "/localities/component/pick.cfc",
 		type: "post",
 		data: {
-			method: "getLinkLocalityDialogHtml",
+			method: "getLocalityPickerHtml",
 			returnformat: "plain",
 			spec_locality_control: spec_locality_control,
 			locality_id_control: locality_id_control,
