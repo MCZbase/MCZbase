@@ -569,11 +569,14 @@ limitations under the License.
 								console.log("changeCollectingEvent called");
 								// change the collecting event id from the value in the hidden input field
 								var new_collecting_event_id = $("##collecting_event_id_control").val();
+								console.log("New collecting_event_id: " + new_collecting_event_id);
 								if (new_collecting_event_id.length == 0) {
 									// but not if empty
+									console.log("No collecting event selected, aborting change.");
 									return;
 								} else if (new_collecting_event_id == "#getCatalogedItem.collecting_event_id#") {
 									// but not if the same as the current one
+									console.log("Selected collecting event is the same as the current one, aborting change.");
 									return;
 								}
 								// otherwise make an ajax call to change the collecting event id on the cataloged item.
