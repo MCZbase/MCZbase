@@ -137,20 +137,24 @@ function loadCollEventNumbersHTML(collecting_event_id,targetDivId) {
 **/
 function openlinkcollectingeventdialog(dialogid, related_value, collecting_event_id_control, pickcallback, closecallback) {
 	var title = "Link Collecting Event record to " + related_value;
+   console.log("openlinkcollectingeventdialog for " + related_value + " setting " + collecting_event_id_control);
 	// check if the dialogid is for a div that exists, if not create one.
 	if (!$("#"+dialogid).length) {
+		console.log("Creating dialog div " + dialogid);
 		$("body").append('<div id="'+dialogid+'"></div>');
 	}
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	var h = window.screen.height;
-	// limit height to half of the visible window height.
+	// limit height to three quarters of the visible window height.
 	if (h > 450) {
-		h = window.screen.height * .5;
+		h = window.screen.height * .75;
 		if (h < 450) {
 			h = 450;
 		}
+	} else {
+		h = 450;
 	}
-	var w = window.screen.width;
+	var w = $(window).width();
 	w = Math.floor(w *.9);
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
