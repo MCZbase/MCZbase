@@ -357,59 +357,59 @@ limitations under the License.
 					<div class='col-12'>
 						<div id='collectingEventPickForm' class='search-box px-3 py-2'>
 							<h1 class='h3 mt-2'>Search and Pick a Collecting Event</h1>
-								<form id='findCollectingEventForm' onsubmit='return searchforcollectingevent(event);' >
-									<input type='hidden' name='method' value='pickCollectingEventSearch'>
-									<input type='hidden' name='returnformat' value='json'>
+							<p class='text-muted'>Search and then pick a collecting event.  The search will return up to 100 matches for your search criteria.</p>
+							<form id='findCollectingEventForm' onsubmit='return searchforcollectingevent(event);' >
+								<input type='hidden' name='method' value='pickCollectingEventSearch'>
+								<input type='hidden' name='returnformat' value='json'>
 			
-									<div class='form-row'>
-										<div class='col-12 col-md-3 pb-2'>
-											<label for='higher_geog' class='data-entry-label'>Higher Geography</label>
-				 							<input type='text' name='higher_geog' id='higher_geog' value='' class='data-entry-input'>
-										</div>
-										<div class='col-12 col-md-3 pb-2'>
-											<label for='spec_locality' class='data-entry-label'>Specific Locality</label>
-				 							<input type='text' name='spec_locality' id='spec_locality' value='' class='data-entry-input'>
-										</div>
-										<div class='col-12 col-md-2 pb-2'>
-											<label for='verbatim_date' class='data-entry-label'>Verbatim Date</label>
-				 							<input type='text' name='verbatim_date' id='verbatim_date' value='' class='data-entry-input'>
-										</div>
-										<div class='col-12 col-md-4 pb-2'>
-											<label for='collecting_method' class='data-entry-label'>Collecting Method</label>
-							 				<input type='text' name='collecting_method' id='collecting_method' value='' class='data-entry-input'>
-										</div>
+								<div class='form-row'>
+									<div class='col-12 col-md-3 pb-2'>
+										<label for='higher_geog' class='data-entry-label'>Higher Geography</label>
+				 						<input type='text' name='higher_geog' id='higher_geog' value='' class='data-entry-input'>
 									</div>
-									<div class='form-row'>
-										<div class='col-12 col-md-4 pb-2'>
-											<label for='habitat_desc' class='data-entry-label'>Habitat Description</label>
-				 							<input type='text' name='habitat_desc' id='habitat_desc' value='' class='data-entry-input'>
-										</div>
-										<div class='col-12 col-md-4 pb-2'>
-											<label for='verbatimcoordinates' class='data-entry-label'>Verbatim Coordinates</label>
-				 							<input type='text' name='verbatimcoordinates' id='verbatimcoordinates' value='' class='data-entry-input'>
-										</div>
-										<div class='col-12 col-md-4 pb-2'>
-											<label for='verbatim_locality' class='data-entry-label'>Verbatim Locality</label>
-							 				<input type='text' name='verbatim_locality' id='verbatim_locality' value='' class='data-entry-input'>
-										</div>
+									<div class='col-12 col-md-3 pb-2'>
+										<label for='spec_locality' class='data-entry-label'>Specific Locality</label>
+				 						<input type='text' name='spec_locality' id='spec_locality' value='' class='data-entry-input'>
 									</div>
-									<div class='form-row'>
-										<div class='col-12 col-md-6 pb-2'>
-											<label for='began_date' class='data-entry-label'>Began Date (yyyy-mm-dd)</label>
-				 							<input type='text' name='began_date' id='began_date' value='' class='data-entry-input' placeholder='yyyy-mm-dd'>
-										</div>
-										<div class='col-12 col-md-6 pb-2'>
-											<label for='ended_date' class='data-entry-label'>Ended Date (yyyy-mm-dd)</label>
-				 							<input type='text' name='ended_date' id='ended_date' value='' class='data-entry-input' placeholder='yyyy-mm-dd'>
-										</div>
+									<div class='col-12 col-md-2 pb-2'>
+										<label for='verbatim_date' class='data-entry-label'>Verbatim Date</label>
+				 						<input type='text' name='verbatim_date' id='verbatim_date' value='' class='data-entry-input'>
 									</div>
-									<div class='form-row mt-2'>
-										<div class=''>
-											<input type='submit' value='Search' class='btn-primary px-3 mb-2'>
-										</div>
-										<div class='ml-5'>
-											<span ><input type='reset' value='Clear' class='btn-warning mb-2 mt-2 mt-sm-0 mr-1'></span>
-										</div>
+									<div class='col-12 col-md-4 pb-2'>
+										<label for='collecting_method' class='data-entry-label'>Collecting Method</label>
+						 				<input type='text' name='collecting_method' id='collecting_method' value='' class='data-entry-input'>
+									</div>
+								</div>
+								<div class='form-row'>
+									<div class='col-12 col-md-4 pb-2'>
+										<label for='habitat_desc' class='data-entry-label'>Habitat Description</label>
+				 						<input type='text' name='habitat_desc' id='habitat_desc' value='' class='data-entry-input'>
+									</div>
+									<div class='col-12 col-md-4 pb-2'>
+										<label for='verbatimcoordinates' class='data-entry-label'>Verbatim Coordinates</label>
+				 						<input type='text' name='verbatimcoordinates' id='verbatimcoordinates' value='' class='data-entry-input'>
+									</div>
+									<div class='col-12 col-md-4 pb-2'>
+										<label for='verbatim_locality' class='data-entry-label'>Verbatim Locality</label>
+						 				<input type='text' name='verbatim_locality' id='verbatim_locality' value='' class='data-entry-input'>
+									</div>
+								</div>
+								<div class='form-row'>
+									<div class='col-12 col-md-6 pb-2'>
+										<label for='began_date' class='data-entry-label'>Began Date (yyyy-mm-dd)</label>
+				 						<input type='text' name='began_date' id='began_date' value='' class='data-entry-input' placeholder='yyyy-mm-dd'>
+									</div>
+									<div class='col-12 col-md-6 pb-2'>
+										<label for='ended_date' class='data-entry-label'>Ended Date (yyyy-mm-dd)</label>
+				 						<input type='text' name='ended_date' id='ended_date' value='' class='data-entry-input' placeholder='yyyy-mm-dd'>
+									</div>
+								</div>
+								<div class='form-row mt-2'>
+									<div class=''>
+										<input type='submit' value='Search' class='btn-primary px-3 mb-2'>
+									</div>
+									<div class='ml-5'>
+										<span ><input type='reset' value='Clear' class='btn-warning mb-2 mt-2 mt-sm-0 mr-1'></span>
 									</div>
 								</div>
 							</form>
