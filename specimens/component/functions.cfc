@@ -7012,6 +7012,8 @@ limitations under the License.
 						<h2 class="h3 mt-3">
 							Collecting Event
 							<span class="pl-2">
+									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" 
+										onclick=" closeLocalityInPage();  launchCollectingEventDialog(); ">Pick Different Collecting Event</button>
 									<cfif cecount.ct eq 1>
 										<cfset shared= "">
 										<cfset followText = "(unique to this specimen)">
