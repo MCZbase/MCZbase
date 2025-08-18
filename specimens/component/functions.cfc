@@ -6609,6 +6609,7 @@ limitations under the License.
 							$("##launchCollEventPickerButtonFromFormButton").prop('disabled', true);
 						}
 						function submitLocForm() {
+							console.log("submitLocForm");
 							// validate the form
 							if ($('##locForm')[0].checkValidity() === false) {
 								// If the form is invalid, show validation messages

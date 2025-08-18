@@ -1180,7 +1180,6 @@ limitations under the License.
 					<!---  Temporal tests --->
 					<div id="EventDQDiv"></div>
 				</div>					
-				</div>					
 			</section><!-- end QCSection --->
 		</div>
 	</cfif>
