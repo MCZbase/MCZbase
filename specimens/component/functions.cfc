@@ -7953,27 +7953,27 @@ limitations under the License.
 											<cfset divClass="small90 font-weight-lessbold my-1 w-100">
 										</cfif>
 										<div class="#divClass# px-2">
-											#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
-											<ul class="mb-2 pl-2 pl-xl-4 ml-xl-1 small95">
-												<li>
-													#original# <span class="#divClass#">#accepted_lat_long#</span>
-												</li>
-												<li>
-													Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
-												</li>
-												<cfif len(geolocate_score) GT 0>
-													<li>
-														GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
-													</li>
-												</cfif>
-												<cfif len(coordinate_precision) EQ 0>
-													<li>
-														Coordinate Precision is not set.  Edit the georeference from the Locality to 
-														<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Fix This</a>.
-													</li>
-												</cfif>
-											</ul>
+											#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m
 										</div>
+										<ul class="mb-2 pl-2 pl-xl-4 ml-xl-1 small95">
+											<li>
+												#original# <span class="#divClass#">#accepted_lat_long#</span>
+											</li>
+											<li>
+												Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
+											</li>
+											<cfif len(geolocate_score) GT 0>
+												<li>
+													GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
+												</li>
+											</cfif>
+											<cfif len(coordinate_precision) EQ 0>
+												<li>
+													Coordinate Precision is not set.  Edit the georeference from the Locality to 
+													<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Fix This</a>.
+												</li>
+											</cfif>
+										</ul>
 									</cfloop>
 								</div>
 							</div>
