@@ -6375,1398 +6375,1399 @@ limitations under the License.
 <cffunction name="getEditLocalityHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
-	<cfthread name="getEditLocalityThread"> <cfoutput>
-		<cftry>
-			<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
-				<cfthrow message="No or uninterpretable collection_object_id was provided.">
-			</cfif>
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-				<cfset oneOfUs = 1>
-				<cfelse>
-				<cfset oneOfUs = 0>
-			</cfif>
-			<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select orig_elev_units from ctorig_elev_units
-			</cfquery>
-			<cfquery name="ctdepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select depth_units from ctdepth_units
-			</cfquery>
-			<cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select datum from ctdatum
-			</cfquery>
-			<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select georefMethod from ctgeorefmethod
-			</cfquery>
-			<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select VerificationStatus from ctVerificationStatus order by VerificationStatus
-			</cfquery>
-			<cfquery name="cterror" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select LAT_LONG_ERROR_UNITS from ctLAT_LONG_ERROR_UNITS
-			</cfquery>
-			<cfquery name="ctew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select e_or_w from ctew
-			</cfquery>
-			<cfquery name="ctns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select n_or_s from ctns
-			</cfquery>
-			<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select ORIG_LAT_LONG_UNITS from ctLAT_LONG_UNITS
-			</cfquery>
-			<cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select COLLECTING_SOURCE from ctcollecting_source
-			</cfquery>
-			<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select geology_attribute from ctgeology_attribute order by ordinal
-			</cfquery>
-			<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-				select sovereign_nation from ctsovereign_nation order by sovereign_nation
-			</cfquery>
-
-			<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT
-					cataloged_item.collection_object_id as collection_object_id,
-					cataloged_item.cat_num,
-					collection.collection_cde,
-					collection.institution_acronym,
-					cataloged_item.accn_id,
-					collection.collection,
-					identification.scientific_name,
-					identification.identification_remarks,
-					identification.identification_id,
-					identification.made_date,
-					identification.nature_of_id,
-					collecting_event.collecting_event_id,
-					collecting_event.began_date,
-					collecting_event.ended_date,
-					collecting_event.verbatim_date,
-					collecting_event.startDayOfYear,
-					collecting_event.endDayOfYear,
-					collecting_event.habitat_desc,
-					collecting_event.coll_event_remarks,
-					collecting_event.verbatimelevation,
-					collecting_event.verbatimdepth,
-					locality.locality_id,
-					locality.minimum_elevation,
-					locality.maximum_elevation,
-					locality.orig_elev_units,
-					locality.spec_locality,
-					locality.section_part,
-					locality.section,
-					locality.township,
-					locality.township_direction,
-					locality.range,
-					locality.range_direction,
-					decode(accepted_lat_long.orig_lat_long_units,
-						'decimal degrees',to_char(accepted_lat_long.dec_lat) || '&deg; ',
-						'deg. min. sec.', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
-						to_char(accepted_lat_long.lat_min) || '&acute; ' ||
-						decode(accepted_lat_long.lat_sec, null, '', to_char(accepted_lat_long.lat_sec) || '&acute;&acute; ') || accepted_lat_long.lat_dir,
-						'degrees dec. minutes', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
-						to_char(accepted_lat_long.dec_lat_min) || '&acute; ' || accepted_lat_long.lat_dir
-					) VerbatimLatitude,
-					decode(accepted_lat_long.orig_lat_long_units,
-						'decimal degrees',to_char(accepted_lat_long.dec_long) || '&deg;',
-						'deg. min. sec.', to_char(accepted_lat_long.long_deg) || '&deg; ' ||
-							to_char(accepted_lat_long.long_min) || '&acute; ' ||
-							decode(accepted_lat_long.long_sec, null, '', to_char(accepted_lat_long.long_sec) || '&acute;&acute; ') || accepted_lat_long.long_dir,
-						'degrees dec. minutes', to_char(accepted_lat_long.long_deg) || '&deg; ' ||
-							to_char(accepted_lat_long.dec_long_min) || '&acute; ' || accepted_lat_long.long_dir
-					) VerbatimLongitude,
-					locality.sovereign_nation,
-					locality.nogeorefbecause,
-					locality.curated_fg,
-					collecting_event.verbatimcoordinates,
-					collecting_event.verbatimlatitude verblat,
-					collecting_event.verbatimlongitude verblong,
-					collecting_event.verbatimcoordinatesystem,
-					collecting_event.verbatimSRS,
-					collecting_event.date_determined_by_agent_id,
-					collecting_event.verbatim_habitat,
-					collecting_event.verbatim_collectors,
-					collecting_event.verbatim_field_numbers,
-					accepted_lat_long.lat_long_id,
-					accepted_lat_long.orig_lat_long_units,
-					latLongAgnt.agent_name coordinate_determiner,
-					geog_auth_rec.geog_auth_rec_id,
-					coll_object.coll_object_entered_date,
-					coll_object.last_edit_date,
-					coll_object.flags,
-					coll_object_remark.coll_object_remarks,
-					coll_object_remark.disposition_remarks,
-					coll_object_remark.associated_species,
-					coll_object_remark.habitat,
-					enteredPerson.agent_name EnteredBy,
-					editedPerson.agent_name EditedBy,
-					accn_number accession,
-					concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
-					concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
-					locality.locality_remarks,
-					verbatim_locality,
-					collecting_time,
-					fish_field_number,
-					min_depth,
-					max_depth,
-					depth_units,
-					collecting_method,
-					geog_auth_rec.higher_geog,
-					collecting_source,
-					specimen_part.derived_from_cat_item,
-					decode(trans.transaction_id, null, 0, 1) vpdaccn
-				FROM
-					cataloged_item
-					join collection on cataloged_item.collection_id = collection.collection_id
-					join identification on cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
-					join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-					join locality on collecting_event.locality_id = locality.locality_id
-					left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
-					left join preferred_agent_name latLongAgnt on accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id
-					join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
-					join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
-					left join coll_object_remark on coll_object.collection_object_id = coll_object_remark.collection_object_id
-					join preferred_agent_name enteredPerson on coll_object.entered_person_id = enteredPerson.agent_id
-					left join preferred_agent_name editedPerson on coll_object.last_edited_person_id = editedPerson.agent_id
-					join accn on cataloged_item.accn_id = accn.transaction_id
-					left join trans on accn.transaction_id = trans.transaction_id
-					join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
-				WHERE
-					cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-			</cfquery>
-			<!--- check for a current georeference --->
-			<cfquery name="getCurrentGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT 
-					lat_long_id
-				FROM
-					lat_long
-				WHERE
-					locality_id = <cfqueryparam value="#getLoc.locality_id#" cfsqltype="CF_SQL_DECIMAL">
-					AND
-					accepted_lat_long_fg = 1
-			</cfquery>
-			<cfquery name="getGeology" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				SELECT
-					GEOLOGY_ATTRIBUTE_ID,
-					GEOLOGY_ATTRIBUTE,
-					GEO_ATT_VALUE,
-					GEO_ATT_DETERMINER_ID,
-					geo_att_determiner,
-					GEO_ATT_DETERMINED_DATE,
-					GEO_ATT_DETERMINED_METHOD,
-					GEO_ATT_REMARK
-				FROM
-					spec_with_loc
-				WHERE
-					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> and
-					GEOLOGY_ATTRIBUTE is not null
-				GROUP BY
-					GEOLOGY_ATTRIBUTE_ID,
-					GEOLOGY_ATTRIBUTE,
-					GEO_ATT_VALUE,
-					GEO_ATT_DETERMINER_ID,
-					geo_att_determiner,
-					GEO_ATT_DETERMINED_DATE,
-					GEO_ATT_DETERMINED_METHOD,
-					GEO_ATT_REMARK
-			</cfquery>
-
-			<!--- find what elements are shared with other specimens, use data source that spans VPNs to obtain correct counts despite visibility to user --->
-			<cfquery name="cecount" datasource="uam_god">
-				select count(collection_object_id) ct from cataloged_item
-				where collecting_event_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value = "#getLoc.collecting_event_id#">
-			</cfquery>
-			<cfquery name="loccount" datasource="uam_god">
-				select count(ci.collection_object_id) ct from cataloged_item ci
-				left join collecting_event on ci.collecting_event_id = collecting_event.collecting_event_id
-				where collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value = "#getLoc.locality_id#">
-			</cfquery>
-			<cfquery name="sharedHigherGeogCount" datasource="uam_god">
-				select count(cataloged_item.collection_object_id) as ct
-				FROM cataloged_item
-					JOIN collecting_event ON cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-					JOIN locality ON collecting_event.locality_id = locality.locality_id
-				WHERE
-					geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getLoc.geog_auth_rec_id#">
-			</cfquery>
-
-			<div class="row mx-0">
-				<cfset guid = "#getLoc.institution_acronym#:#getLoc.collection_cde#:#getLoc.cat_num#">
-				<div class="col-12 px-0 pt-1">
-					<h2 class="h2 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
-					<button id="backToSpecimen1" class="btn btn-xs btn-secondary float-right" onclick="closeLocalityInPage();">Back to Specimen</button>
-				</div>
-				<cfset splitToSave = true>
-				<cfif loccount.ct eq 1 and cecount.ct eq 1>
-					<cfset splitToSave = false>
+	<cfthread name="getEditLocalityThread"> 
+		<cfoutput>
+			<cftry>
+				<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
+					<cfthrow message="No or uninterpretable collection_object_id was provided.">
 				</cfif>
-				<script>
-					function changeMadeInLocForm() { 
-						// indicate that a change has been made in the locality form
-						$('##locFormOutput').text('Unsaved changes');
-						$('##locFormOutput').addClass('text-danger');
-						$("##backToSpecimen1").html("Back to Specimen without saving changes");
-						$("##backToSpecimen2").html("Back to Specimen without saving changes");
-						$("##splitAndSaveButton").removeAttr("disabled");
-						$("##launchCollEventPickerButtonFromFormButton").prop('disabled', true);
-					}
-					function submitLocForm() {
-						// validate the form
-						if ($('##locForm')[0].checkValidity() === false) {
-							// If the form is invalid, show validation messages
-							$('##locForm')[0].reportValidity();
-							setFeedbackControlState("locFormOutput","error")
-							return;
-						}
-						// gather the geology data from the table
-						$('##geologyTableSection').show(); // ensure the table is open so data will be aggregated
-						var geologyData = aggregateGeologyTable();
-						console.log(geologyData);
-						// save the geology data to a single input submitted as a single known argument 
-						$("##geology_data").val(encodeURIComponent(JSON.stringify(geologyData)));
-						// gather the collecting event numbers from the table
-						$('##collectingEventNumbersTableSection').show(); // ensure the table is open so data will be aggregated
-						var collEventNumberData = aggregateCollectingEventNumbersTable();
-						console.log(collEventNumberData);
-						// save the collecting event numbers to a single input submitted as a single known argument
-						$("##coll_event_numbers_data").val(encodeURIComponent(JSON.stringify(collEventNumberData)));
-
-						// submit the form
-						// ajax submit the form to localities/component/functions.cfc
-						setFeedbackControlState("locFormOutput","saving")
-						$.ajax({
-							url: '/localities/component/functions.cfc',
-							type: 'POST',
-							data: $('##locForm').serialize(),
-							dataType: 'json',
-							success: function(response) {
-								if (response[0].status === "saved") {
-									setFeedbackControlState("locFormOutput","saved")
-									closeLocalityInPage();
-									reloadLocality();
-								} else {
-									setFeedbackControlState("locFormOutput","error")
-								}
-							},
-							error: function(xhr, status, error) {
-								setFeedbackControlState("locFormOutput","error")
-								handleFail(xhr,status,error,"saving locality.");
-							}
-						});
-					}
-					$(document).ready(function() {
-						// bind submit handler to the form
-						$('##locForm').submit(function(event) {
-							event.preventDefault();
-							submitLocForm();
-						});
-					});
-				</script>
-				<form id="locForm" name="locForm" method="post" class="row border p-1 m-1 bg-light">
-					<cfif splitToSave>	
-						<input type="hidden" name="action" id="action" value="splitAndSave">
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
 					<cfelse>
-						<input type="hidden" name="action" id="action" value="saveCurrent">
+					<cfset oneOfUs = 0>
+				</cfif>
+				<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select orig_elev_units from ctorig_elev_units
+				</cfquery>
+				<cfquery name="ctdepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select depth_units from ctdepth_units
+				</cfquery>
+				<cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select datum from ctdatum
+				</cfquery>
+				<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select georefMethod from ctgeorefmethod
+				</cfquery>
+				<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select VerificationStatus from ctVerificationStatus order by VerificationStatus
+				</cfquery>
+				<cfquery name="cterror" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select LAT_LONG_ERROR_UNITS from ctLAT_LONG_ERROR_UNITS
+				</cfquery>
+				<cfquery name="ctew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select e_or_w from ctew
+				</cfquery>
+				<cfquery name="ctns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select n_or_s from ctns
+				</cfquery>
+				<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select ORIG_LAT_LONG_UNITS from ctLAT_LONG_UNITS
+				</cfquery>
+				<cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select COLLECTING_SOURCE from ctcollecting_source
+				</cfquery>
+				<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					select geology_attribute from ctgeology_attribute order by ordinal
+				</cfquery>
+				<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+					select sovereign_nation from ctsovereign_nation order by sovereign_nation
+				</cfquery>
+	
+				<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						cataloged_item.collection_object_id as collection_object_id,
+						cataloged_item.cat_num,
+						collection.collection_cde,
+						collection.institution_acronym,
+						cataloged_item.accn_id,
+						collection.collection,
+						identification.scientific_name,
+						identification.identification_remarks,
+						identification.identification_id,
+						identification.made_date,
+						identification.nature_of_id,
+						collecting_event.collecting_event_id,
+						collecting_event.began_date,
+						collecting_event.ended_date,
+						collecting_event.verbatim_date,
+						collecting_event.startDayOfYear,
+						collecting_event.endDayOfYear,
+						collecting_event.habitat_desc,
+						collecting_event.coll_event_remarks,
+						collecting_event.verbatimelevation,
+						collecting_event.verbatimdepth,
+						locality.locality_id,
+						locality.minimum_elevation,
+						locality.maximum_elevation,
+						locality.orig_elev_units,
+						locality.spec_locality,
+						locality.section_part,
+						locality.section,
+						locality.township,
+						locality.township_direction,
+						locality.range,
+						locality.range_direction,
+						decode(accepted_lat_long.orig_lat_long_units,
+							'decimal degrees',to_char(accepted_lat_long.dec_lat) || '&deg; ',
+							'deg. min. sec.', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
+							to_char(accepted_lat_long.lat_min) || '&acute; ' ||
+							decode(accepted_lat_long.lat_sec, null, '', to_char(accepted_lat_long.lat_sec) || '&acute;&acute; ') || accepted_lat_long.lat_dir,
+							'degrees dec. minutes', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
+							to_char(accepted_lat_long.dec_lat_min) || '&acute; ' || accepted_lat_long.lat_dir
+						) VerbatimLatitude,
+						decode(accepted_lat_long.orig_lat_long_units,
+							'decimal degrees',to_char(accepted_lat_long.dec_long) || '&deg;',
+							'deg. min. sec.', to_char(accepted_lat_long.long_deg) || '&deg; ' ||
+								to_char(accepted_lat_long.long_min) || '&acute; ' ||
+								decode(accepted_lat_long.long_sec, null, '', to_char(accepted_lat_long.long_sec) || '&acute;&acute; ') || accepted_lat_long.long_dir,
+							'degrees dec. minutes', to_char(accepted_lat_long.long_deg) || '&deg; ' ||
+								to_char(accepted_lat_long.dec_long_min) || '&acute; ' || accepted_lat_long.long_dir
+						) VerbatimLongitude,
+						locality.sovereign_nation,
+						locality.nogeorefbecause,
+						locality.curated_fg,
+						collecting_event.verbatimcoordinates,
+						collecting_event.verbatimlatitude verblat,
+						collecting_event.verbatimlongitude verblong,
+						collecting_event.verbatimcoordinatesystem,
+						collecting_event.verbatimSRS,
+						collecting_event.date_determined_by_agent_id,
+						collecting_event.verbatim_habitat,
+						collecting_event.verbatim_collectors,
+						collecting_event.verbatim_field_numbers,
+						accepted_lat_long.lat_long_id,
+						accepted_lat_long.orig_lat_long_units,
+						latLongAgnt.agent_name coordinate_determiner,
+						geog_auth_rec.geog_auth_rec_id,
+						coll_object.coll_object_entered_date,
+						coll_object.last_edit_date,
+						coll_object.flags,
+						coll_object_remark.coll_object_remarks,
+						coll_object_remark.disposition_remarks,
+						coll_object_remark.associated_species,
+						coll_object_remark.habitat,
+						enteredPerson.agent_name EnteredBy,
+						editedPerson.agent_name EditedBy,
+						accn_number accession,
+						concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
+						concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
+						locality.locality_remarks,
+						verbatim_locality,
+						collecting_time,
+						fish_field_number,
+						min_depth,
+						max_depth,
+						depth_units,
+						collecting_method,
+						geog_auth_rec.higher_geog,
+						collecting_source,
+						specimen_part.derived_from_cat_item,
+						decode(trans.transaction_id, null, 0, 1) vpdaccn
+					FROM
+						cataloged_item
+						join collection on cataloged_item.collection_id = collection.collection_id
+						join identification on cataloged_item.collection_object_id = identification.collection_object_id AND identification.accepted_id_fg = 1
+						join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+						join locality on collecting_event.locality_id = locality.locality_id
+						left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
+						left join preferred_agent_name latLongAgnt on accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id
+						join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+						join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
+						left join coll_object_remark on coll_object.collection_object_id = coll_object_remark.collection_object_id
+						join preferred_agent_name enteredPerson on coll_object.entered_person_id = enteredPerson.agent_id
+						left join preferred_agent_name editedPerson on coll_object.last_edited_person_id = editedPerson.agent_id
+						join accn on cataloged_item.accn_id = accn.transaction_id
+						left join trans on accn.transaction_id = trans.transaction_id
+						join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+					WHERE
+						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
+				<!--- check for a current georeference --->
+				<cfquery name="getCurrentGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						lat_long_id
+					FROM
+						lat_long
+					WHERE
+						locality_id = <cfqueryparam value="#getLoc.locality_id#" cfsqltype="CF_SQL_DECIMAL">
+						AND
+						accepted_lat_long_fg = 1
+				</cfquery>
+				<cfquery name="getGeology" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						GEOLOGY_ATTRIBUTE_ID,
+						GEOLOGY_ATTRIBUTE,
+						GEO_ATT_VALUE,
+						GEO_ATT_DETERMINER_ID,
+						geo_att_determiner,
+						GEO_ATT_DETERMINED_DATE,
+						GEO_ATT_DETERMINED_METHOD,
+						GEO_ATT_REMARK
+					FROM
+						spec_with_loc
+					WHERE
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> and
+						GEOLOGY_ATTRIBUTE is not null
+					GROUP BY
+						GEOLOGY_ATTRIBUTE_ID,
+						GEOLOGY_ATTRIBUTE,
+						GEO_ATT_VALUE,
+						GEO_ATT_DETERMINER_ID,
+						geo_att_determiner,
+						GEO_ATT_DETERMINED_DATE,
+						GEO_ATT_DETERMINED_METHOD,
+						GEO_ATT_REMARK
+				</cfquery>
+	
+				<!--- find what elements are shared with other specimens, use data source that spans VPNs to obtain correct counts despite visibility to user --->
+				<cfquery name="cecount" datasource="uam_god">
+					select count(collection_object_id) ct from cataloged_item
+					where collecting_event_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value = "#getLoc.collecting_event_id#">
+				</cfquery>
+				<cfquery name="loccount" datasource="uam_god">
+					select count(ci.collection_object_id) ct from cataloged_item ci
+					left join collecting_event on ci.collecting_event_id = collecting_event.collecting_event_id
+					where collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value = "#getLoc.locality_id#">
+				</cfquery>
+				<cfquery name="sharedHigherGeogCount" datasource="uam_god">
+					select count(cataloged_item.collection_object_id) as ct
+					FROM cataloged_item
+						JOIN collecting_event ON cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+						JOIN locality ON collecting_event.locality_id = locality.locality_id
+					WHERE
+						geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getLoc.geog_auth_rec_id#">
+				</cfquery>
+	
+				<div class="row mx-0">
+					<cfset guid = "#getLoc.institution_acronym#:#getLoc.collection_cde#:#getLoc.cat_num#">
+					<div class="col-12 px-0 pt-1">
+						<h2 class="h2 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
+						<button id="backToSpecimen1" class="btn btn-xs btn-secondary float-right" onclick="closeLocalityInPage();">Back to Specimen</button>
+					</div>
+					<cfset splitToSave = true>
+					<cfif loccount.ct eq 1 and cecount.ct eq 1>
+						<cfset splitToSave = false>
 					</cfif>
-					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-					<input type="hidden" name="returnformat" value="json">
-					<input type="hidden" name="method" value="handleCombinedEditForm">
-					<input type="hidden" name="locality_id" value="#getLoc.locality_id#">
-					<input type="hidden" name="collecting_event_id" value="#getLoc.collecting_event_id#">
-					<input type="hidden" name="geology_data" id="geology_data" value="">
-					<input type="hidden" name="coll_event_numbers_data" id="coll_event_numbers_data" value="">
-
-					<!--- higher geography --->
-					<div class="col-12 px-2 form-row">
-
-						<!--- describe action this form will take --->
-						<cfif cecount.ct GT 1 OR loccount.ct GT 1>
-							<h3 class="h3">
-								<cfset separator = "">
-								<cfif cecount.ct GT 1>
-									Collecting Event is <span class="text-danger">Shared with #cecount.ct# other specimens</span> 
-									<cfset separator = " ; ">
-								</cfif>
-								<cfif loccount.ct GT 1>
-									#separator#Locality is <span class="text-danger">Shared with #loccount.ct# other specimens</span>
-								</cfif>
-							</h3>
-							<p class="font-italic text-danger">Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.</p>
+					<script>
+						function changeMadeInLocForm() { 
+							// indicate that a change has been made in the locality form
+							$('##locFormOutput').text('Unsaved changes');
+							$('##locFormOutput').addClass('text-danger');
+							$("##backToSpecimen1").html("Back to Specimen without saving changes");
+							$("##backToSpecimen2").html("Back to Specimen without saving changes");
+							$("##splitAndSaveButton").removeAttr("disabled");
+							$("##launchCollEventPickerButtonFromFormButton").prop('disabled', true);
+						}
+						function submitLocForm() {
+							// validate the form
+							if ($('##locForm')[0].checkValidity() === false) {
+								// If the form is invalid, show validation messages
+								$('##locForm')[0].reportValidity();
+								setFeedbackControlState("locFormOutput","error")
+								return;
+							}
+							// gather the geology data from the table
+							$('##geologyTableSection').show(); // ensure the table is open so data will be aggregated
+							var geologyData = aggregateGeologyTable();
+							console.log(geologyData);
+							// save the geology data to a single input submitted as a single known argument 
+							$("##geology_data").val(encodeURIComponent(JSON.stringify(geologyData)));
+							// gather the collecting event numbers from the table
+							$('##collectingEventNumbersTableSection').show(); // ensure the table is open so data will be aggregated
+							var collEventNumberData = aggregateCollectingEventNumbersTable();
+							console.log(collEventNumberData);
+							// save the collecting event numbers to a single input submitted as a single known argument
+							$("##coll_event_numbers_data").val(encodeURIComponent(JSON.stringify(collEventNumberData)));
+	
+							// submit the form
+							// ajax submit the form to localities/component/functions.cfc
+							setFeedbackControlState("locFormOutput","saving")
+							$.ajax({
+								url: '/localities/component/functions.cfc',
+								type: 'POST',
+								data: $('##locForm').serialize(),
+								dataType: 'json',
+								success: function(response) {
+									if (response[0].status === "saved") {
+										setFeedbackControlState("locFormOutput","saved")
+										closeLocalityInPage();
+										reloadLocality();
+									} else {
+										setFeedbackControlState("locFormOutput","error")
+									}
+								},
+								error: function(xhr, status, error) {
+									setFeedbackControlState("locFormOutput","error")
+									handleFail(xhr,status,error,"saving locality.");
+								}
+							});
+						}
+						$(document).ready(function() {
+							// bind submit handler to the form
+							$('##locForm').submit(function(event) {
+								event.preventDefault();
+								submitLocForm();
+							});
+						});
+					</script>
+					<form id="locForm" name="locForm" method="post" class="row border p-1 m-1 bg-light">
+						<cfif splitToSave>	
+							<input type="hidden" name="action" id="action" value="splitAndSave">
 						<cfelse>
-							<p class="font-italic text-success">The collecting event and locality are used only by this specimen.</p>
+							<input type="hidden" name="action" id="action" value="saveCurrent">
 						</cfif>
-
-						<!--- Display of higher geography --->
-
-						<cfquery name="getGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT 
-								geog_auth_rec_id,
-								continent_ocean,
-								country,
-								state_prov,
-								county,
-								quad,
-								feature,
-								island,
-								island_group,
-								sea,
-								valid_catalog_term_fg,
-								source_authority,
-								higher_geog,
-								ocean_region,
-								ocean_subregion,
-								water_feature,
-								wkt_polygon,
-								highergeographyid_guid_type,
-								highergeographyid,
-								curated_fg, 
-								management_remarks
-							FROM 
-								geog_auth_rec
-							WHERE
-								geog_auth_rec.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getLoc.geog_auth_rec_id#">
-						</cfquery>
-						<cfset fieldLabels = [
-							{field: "continent_ocean", label: "Continent/Ocean"},
-							{field: "ocean_region", label: "Ocean Region"},
-							{field: "ocean_subregion", label: "Ocean Subregion"},
-							{field: "sea", label: "Sea"},
-							{field: "water_feature", label: "Water Feature"},
-							{field: "island_group", label: "Island Group"},
-							{field: "island", label: "Island"},
-							{field: "country", label: "Country"},
-							{field: "state_prov", label: "State/Province"},
-							{field: "county", label: "County"},
-							{field: "feature", label: "Feature"},
-							{field: "quad", label: "Quad"},
-							{field: "source_authority", label: "Source Authority"}
-						]>
-
-						<cfloop query="getGeography">
-							<div class="col-12 px-0 py-1">
+						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+						<input type="hidden" name="returnformat" value="json">
+						<input type="hidden" name="method" value="handleCombinedEditForm">
+						<input type="hidden" name="locality_id" value="#getLoc.locality_id#">
+						<input type="hidden" name="collecting_event_id" value="#getLoc.collecting_event_id#">
+						<input type="hidden" name="geology_data" id="geology_data" value="">
+						<input type="hidden" name="coll_event_numbers_data" id="coll_event_numbers_data" value="">
+	
+						<!--- higher geography --->
+						<div class="col-12 px-2 form-row">
+	
+							<!--- describe action this form will take --->
+							<cfif cecount.ct GT 1 OR loccount.ct GT 1>
 								<h3 class="h3">
-									Higher Geography
-									<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-										<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-warning" target="_blank"> Edit Higher Geography</a>
+									<cfset separator = "">
+									<cfif cecount.ct GT 1>
+										Collecting Event is <span class="text-danger">Shared with #cecount.ct# other specimens</span> 
+										<cfset separator = " ; ">
+									</cfif>
+									<cfif loccount.ct GT 1>
+										#separator#Locality is <span class="text-danger">Shared with #loccount.ct# other specimens</span>
 									</cfif>
 								</h3>
-								<span class="font-weight-lessbold" id="higherGeographySpan">#getGeography.higher_geog#</span>
-								<input type="text" class="data-entry-input reqdClr" id="higherGeographyInput" name="higher_geog" value="#getGeography.higher_geog#" style="display: none;">
-								<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#getGeography.geog_auth_rec_id#">
-								<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
-								<input type="button" value="Details" class="btn btn-xs btn-info mr-2" id="showGeogButton">
-								<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> View </a>
-							</div>
-							<script>
-								$("##changeGeogButton").click(function() {
-									// Hide the span and show the input field
-									$("##higherGeographySpan").hide();
-									$("##higherGeographyInput").show();
-									$("##changeGeogButton").hide();
-								});
-								$("##showGeogButton").click(function() {
-									// Toggle the visibility of the higher geography details
-									$("##higherGeographyDetailsDiv").toggle();
-									// Change button text based on visibility
-									if ($("##higherGeographyDetailsDiv").is(":visible")) {
-										$("##showGeogButton").val("Hide Details");
-									} else {
-										$("##showGeogButton").val("Details");
-									}
-								});
-								// make higher geography inputs into an autocomplete
-								$(document).ready(function() {
-									makeHigherGeogAutocomplete("higherGeographyInput","geog_auth_rec_id");
-								});
-							</script>
-							<div class="col-12 px-2 pb-1" id="higherGeographyDetailsDiv" style="display: none;">
- 							   <ul class="list-unstyled sd small95 row mx-0 px-0 py-1 mb-0">
-									<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Higher Geography:</li>
-									<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.higher_geog#</li>
-									<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Shared with:</li>
-									<li class="list-group-item col-7 col-xl-8 px-0">#sharedHigherGeogCount.ct# cataloged items</li>
-	 							   <cfif getGeography.valid_catalog_term_fg EQ "1">
-										<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Valid for Data Entry:</li>
-										<li class="list-group-item col-7 col-xl-8 px-0">Yes</li>
-									</cfif>
-									<cfif getGeography.curated_fg EQ "1">
-										<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Vetted:</li>
-										<li class="list-group-item col-7 col-xl-8 px-0">Yes</li>
-									</cfif>
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
-										<cfif len(getGeography.management_remarks) GT 0>
-											<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Management Remarks:</li>
-											<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.management_remarks#</li>
+								<p class="font-italic text-danger">Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.</p>
+							<cfelse>
+								<p class="font-italic text-success">The collecting event and locality are used only by this specimen.</p>
+							</cfif>
+	
+							<!--- Display of higher geography --->
+	
+							<cfquery name="getGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT 
+									geog_auth_rec_id,
+									continent_ocean,
+									country,
+									state_prov,
+									county,
+									quad,
+									feature,
+									island,
+									island_group,
+									sea,
+									valid_catalog_term_fg,
+									source_authority,
+									higher_geog,
+									ocean_region,
+									ocean_subregion,
+									water_feature,
+									wkt_polygon,
+									highergeographyid_guid_type,
+									highergeographyid,
+									curated_fg, 
+									management_remarks
+								FROM 
+									geog_auth_rec
+								WHERE
+									geog_auth_rec.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getLoc.geog_auth_rec_id#">
+							</cfquery>
+							<cfset fieldLabels = [
+								{field: "continent_ocean", label: "Continent/Ocean"},
+								{field: "ocean_region", label: "Ocean Region"},
+								{field: "ocean_subregion", label: "Ocean Subregion"},
+								{field: "sea", label: "Sea"},
+								{field: "water_feature", label: "Water Feature"},
+								{field: "island_group", label: "Island Group"},
+								{field: "island", label: "Island"},
+								{field: "country", label: "Country"},
+								{field: "state_prov", label: "State/Province"},
+								{field: "county", label: "County"},
+								{field: "feature", label: "Feature"},
+								{field: "quad", label: "Quad"},
+								{field: "source_authority", label: "Source Authority"}
+							]>
+	
+							<cfloop query="getGeography">
+								<div class="col-12 px-0 py-1">
+									<h3 class="h3">
+										Higher Geography
+										<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
+											<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-warning" target="_blank"> Edit Higher Geography</a>
 										</cfif>
-									</cfif>
-			
-									<!--- Loop through fields and display if they have values --->
-									<cfloop array="#fieldLabels#" index="fieldInfo">
-										<cfset fieldValue = getGeography[fieldInfo.field][currentRow]>
-	   								<cfif len(fieldValue) gt 0>
-											<!--- Special handling for continent_ocean label --->
-											<cfif fieldInfo.field EQ "continent_ocean">
-												<cfif find('Ocean', fieldValue) GT 0>
-													<cfset displayLabel = "Ocean">
-												<cfelse>
-													<cfset displayLabel = "Continent">
-												</cfif>
-											<cfelse>
-												<cfset displayLabel = fieldInfo.label>
-											</cfif>
-											<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">#displayLabel#:</li>
-											<li class="list-group-item col-7 col-xl-8 px-0">#fieldValue#</li>
-										</cfif>
-									</cfloop>
-									<cfif len(getGeography.wkt_polygon) gt 0>
-										<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Has Polygon to show on map:</li>
-										<li class="list-group-item col-7 col-xl-8 px-0">Yes</li>
-									</cfif>
-									<cfif len(getGeography.highergeographyid) GT 0>
-										<cfset geogLink = getGuidLink(guid=#getGeography.highergeographyid#,guid_type=#getGeography.highergeographyid_guid_type#)>
-										<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Higher Geography ID:</li>
-										<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.highergeographyid# #geogLink#</li>
-									</cfif>
-								</ul>
-							</div>
-						</cfloop>
-
-					</div>
-
-					<!--- locality --->
-					<div class="col-12 float-left px-0">
-						<h2 class="h3">
-							Locality
-							<span class="pl-2">
-								<cfif loccount.ct eq 1>
-									<cfset shared= "">
-									<cfset followText = "(unique to this specimen)">
-								<cfelse>
-									<cfset shared= "Shared">
-									<cfset followText = "(shared with #loccount.ct# specimens)">
-								</cfif>
-								<a class="btn btn-xs btn-info" href="/localities/viewLocality.cfm?locality_id=#getLoc.locality_id#" target="_blank">View #shared# Locality</a>
-								<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit #shared# Locality</a>
-								#followText#
-							</span>
-						</h2>
-						<div class="form-row mx-0 mb-0 border-bottom p-2">
-							<div class="col-12 mb-2 mt-0">
-								<label class="data-entry-label" for="spec_locality">
-									Specific Locality
-								</label>
-								<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.spec_locality)#" required>
-							</div>
-							
-							<div class="col-12 col-md-5 mb-2 mt-0">
-								<label class="data-entry-label" for="sovereign_nation">Sovereign Nation</label>
-								<select name="sovereign_nation" id="sovereign_nation" size="1" class="data-entry-select reqdClr">
-									<cfloop query="ctSovereignNation">
-										<cfif isdefined("getLoc.sovereign_nation") AND ctSovereignNation.sovereign_nation is getLoc.sovereign_nation>
-											<cfset selected="selected">
-										<cfelse>
-											<cfset selected="">
-										</cfif>
-										<option #selected# value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
-									</cfloop>
-								</select>
-							</div>
-
-							<div class="col-12 col-md-2 py-1 mt-0">
-								<label class="data-entry-label" for="curated_fg">Vetted</label>
-								<select name="curated_fg" id="curated_fg" size="1" class="data-entry-select reqdClr">
-									<cfif not isDefined("getLoc.curated_fg") OR (isdefined("getLoc.curated_fg") AND getLoc.curated_fg NEQ 1) >
-										<cfset selected="selected">
-									<cfelse>
-										<cfset selected="">
-									</cfif>
-									<option value="0" #selected#>No</option>
-									<cfif isdefined("getLoc.curated_fg") AND getLoc.curated_fg EQ 1 >
-										<cfset selected="selected">
-									<cfelse>
-										<cfset selected="">
-									</cfif>
-									<option value="1" #selected#>Yes (*)</option>
-								</select>
-							</div>
-							
-							<div class="col-12 col-md-5 mb-2 mt-0">
-								<label class="data-entry-label" for="NoGeorefBecause">
-									Not Georeferenced Because
-									<i class="fas fa-info-circle" onClick="getMCZDocs('Not_Georeferenced_Because')" aria-label="help link with suggested entries for why no georeference was added"></i>
-								</label>
-								<cfset disabled = "">
-								<cfif getCurrentGeoreference.recordcount GT 0>
-									<!--- If there is a georeference then NoGeorefBecause should not be editable if it has no value --->
-									<cfif len(getLoc.NoGeorefBecause) is 0>
-										<cfset disabled = "disabled">
-									</cfif>
-								</cfif>
-								<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input" value="#encodeForHTML(getLoc.NoGeorefBecause)#" #disabled#>
-								<cfif len(getLoc.orig_lat_long_units) gt 0 AND len(getLoc.NoGeorefBecause) gt 0>
-									<div class="text-danger small mt-1">NotGeorefBecause should be NULL for localities with georeferences. Please review this locality and update accordingly.</div>
-								<cfelseif len(getLoc.orig_lat_long_units) is 0 AND len(getLoc.NoGeorefBecause) is 0>
-									<div class="text-danger small mt-1">Please georeference this locality or enter a value for NoGeorefBecause.</div>
-								</cfif>
-							</div>
-						
-							<div class="col-12 col-md-2 py-1 mt-0">
-								<label class="data-entry-label" for="minimum_elevation"><span class="font-weight-lessbold">Elevation:</span> Minimum</label>
-								<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input" value="#encodeForHTML(getLoc.minimum_elevation)#">
-							</div>
-							
-							<div class="col-12 col-md-2 py-1 mt-0">
-								<label class="data-entry-label" for="maximum_elevation">Maximum Elevation</label>
-								<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input" value="#encodeForHTML(getLoc.maximum_elevation)#">
-							</div>
-							
-							<div class="col-12 col-md-2 py-1 mt-0">
-								<label class="data-entry-label" for="orig_elev_units">Elevation Units</label>
-								<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select">
-									<option value=""></option>
-									<cfloop query="ctElevUnit">
-										<cfif ctElevUnit.orig_elev_units is getLoc.orig_elev_units>
-											<cfset selected="selected">
-										<cfelse>
-											<cfset selected="">
-										</cfif>
-										<option #selected# value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
-									</cfloop>
-								</select>
-							</div>
-							
-							<div class="col-12 col-md-2 py-1 mt-0">
-								<label class="data-entry-label" for="min_depth"><span class="font-weight-lessbold">Depth:</span> Minimum</label>
-								<input type="text" name="min_depth" id="min_depth" class="data-entry-input" value="#encodeForHTML(getLoc.min_depth)#">
-							</div>
-							
-							<div class="col-12 col-md-2 py-1 mt-0">
-								<label class="data-entry-label" for="max_depth">Maximum Depth</label>
-								<input type="text" name="max_depth" id="max_depth" class="data-entry-input" value="#encodeForHTML(getLoc.max_depth)#">
-							</div>
-							
-							<div class="col-12 col-md-2 py-1 mt-0">
-								<label class="data-entry-label" for="depth_units">Depth Units</label>
-								<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
-									<option value=""></option>
-									<cfloop query="ctDepthUnit">
-										<cfif ctDepthUnit.depth_units is getLoc.depth_units>
-											<cfset selected="selected">
-										<cfelse>
-											<cfset selected="">
-										</cfif>
-										<option #selected# value="#ctDepthUnit.depth_units#">#ctDepthUnit.depth_units#</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12 form-row border rounded m-1 p-1">
-								<!--- PLSS coordinates --->
-								<div class="col-12 col-md-2 py-1">
-									<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
-									<label class="data-entry-label" for="section_part"><span class="font-weight-lessbold">PLSS: </span> Section Part</label>
-									<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(getLoc.section_part)#" placeholder="NE 1/4" >
+									</h3>
+									<span class="font-weight-lessbold" id="higherGeographySpan">#getGeography.higher_geog#</span>
+									<input type="text" class="data-entry-input reqdClr" id="higherGeographyInput" name="higher_geog" value="#getGeography.higher_geog#" style="display: none;">
+									<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#getGeography.geog_auth_rec_id#">
+									<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
+									<input type="button" value="Details" class="btn btn-xs btn-info mr-2" id="showGeogButton">
+									<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> View </a>
 								</div>
-								<div class="col-12 col-md-2 py-1">
-									<cfif NOT isdefined("section")><cfset section=""></cfif>
-									<label class="data-entry-label" for="section">Section</label>
-									<input type="text" name="section" id="section" class="data-entry-input" value="#encodeForHTML(section)#" pattern="[0-3]{0,1}[0-9]{0,1}" >
-								</div>
-								<div class="col-12 col-md-2 py-1">
-									<cfif NOT isdefined("township")><cfset township=""></cfif>
-									<label class="data-entry-label" for="township">Township</label>
-									<input type="text" name="township" id="township" class="data-entry-input" value="#encodeForHTML(township)#" pattern="[0-9]+" >
-								</div>
-								<div class="col-12 col-md-2 py-1">
-									<cfif NOT isdefined("township_direction")><cfset township_direction=""></cfif>
-									<label class="data-entry-label" for="township_direction">Township Direction</label>
-									<input type="text" name="township_direction" id="township_direction" class="data-entry-input" value="#encodeForHTML(township_direction)#" >
-								</div>
-								<div class="col-12 col-md-2 py-1">
-									<cfif NOT isdefined("range")><cfset range=""></cfif>
-									<label class="data-entry-label" for="range">Range</label>
-									<input type="text" name="range" id="range" class="data-entry-input" value="#encodeForHTML(range)#" pattern="[0-9]+">
-								</div>
-								<div class="col-12 col-md-2 py-1">
-									<cfif NOT isdefined("range_direction")><cfset range_direction=""></cfif>
-									<label class="data-entry-label" for="range_direction">Range Direction</label>
-									<input type="text" name="range_direction" id="range_direction" class="data-entry-input" value="#encodeForHTML(range_direction)#" >
-								</div>
-							</div>
-							<div class="col-12 py-1">
-								<label class="data-entry-label" for="locality_remarks">
-									Locality Remarks 
-									(<span id="length_locality_remarks"></span>)
-								</label>
-								<textarea name="locality_remarks" id="locality_remarks" 
-									onkeyup="countCharsLeft('locality_remarks', 4000, 'length_locality_remarks');"
-									class="form-control form-control-sm w-100 autogrow mb-1" rows="2">#encodeForHtml(getLoc.locality_remarks)#</textarea>
 								<script>
-									// Bind input to autogrow function on key up, and trigger autogrow to fit text
-									$(document).ready(function() { 
-										$("##locality_remarks").keyup(autogrow);  
-										$('##locality_remarks').keyup();
+									$("##changeGeogButton").click(function() {
+										// Hide the span and show the input field
+										$("##higherGeographySpan").hide();
+										$("##higherGeographyInput").show();
+										$("##changeGeogButton").hide();
+									});
+									$("##showGeogButton").click(function() {
+										// Toggle the visibility of the higher geography details
+										$("##higherGeographyDetailsDiv").toggle();
+										// Change button text based on visibility
+										if ($("##higherGeographyDetailsDiv").is(":visible")) {
+											$("##showGeogButton").val("Hide Details");
+										} else {
+											$("##showGeogButton").val("Details");
+										}
+									});
+									// make higher geography inputs into an autocomplete
+									$(document).ready(function() {
+										makeHigherGeogAutocomplete("higherGeographyInput","geog_auth_rec_id");
 									});
 								</script>
-							</div>
+								<div class="col-12 px-2 pb-1" id="higherGeographyDetailsDiv" style="display: none;">
+	 							   <ul class="list-unstyled sd small95 row mx-0 px-0 py-1 mb-0">
+										<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Higher Geography:</li>
+										<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.higher_geog#</li>
+										<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Shared with:</li>
+										<li class="list-group-item col-7 col-xl-8 px-0">#sharedHigherGeogCount.ct# cataloged items</li>
+		 							   <cfif getGeography.valid_catalog_term_fg EQ "1">
+											<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Valid for Data Entry:</li>
+											<li class="list-group-item col-7 col-xl-8 px-0">Yes</li>
+										</cfif>
+										<cfif getGeography.curated_fg EQ "1">
+											<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Vetted:</li>
+											<li class="list-group-item col-7 col-xl-8 px-0">Yes</li>
+										</cfif>
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
+											<cfif len(getGeography.management_remarks) GT 0>
+												<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Management Remarks:</li>
+												<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.management_remarks#</li>
+											</cfif>
+										</cfif>
+				
+										<!--- Loop through fields and display if they have values --->
+										<cfloop array="#fieldLabels#" index="fieldInfo">
+											<cfset fieldValue = getGeography[fieldInfo.field][currentRow]>
+		   								<cfif len(fieldValue) gt 0>
+												<!--- Special handling for continent_ocean label --->
+												<cfif fieldInfo.field EQ "continent_ocean">
+													<cfif find('Ocean', fieldValue) GT 0>
+														<cfset displayLabel = "Ocean">
+													<cfelse>
+														<cfset displayLabel = "Continent">
+													</cfif>
+												<cfelse>
+													<cfset displayLabel = fieldInfo.label>
+												</cfif>
+												<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">#displayLabel#:</li>
+												<li class="list-group-item col-7 col-xl-8 px-0">#fieldValue#</li>
+											</cfif>
+										</cfloop>
+										<cfif len(getGeography.wkt_polygon) gt 0>
+											<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Has Polygon to show on map:</li>
+											<li class="list-group-item col-7 col-xl-8 px-0">Yes</li>
+										</cfif>
+										<cfif len(getGeography.highergeographyid) GT 0>
+											<cfset geogLink = getGuidLink(guid=#getGeography.highergeographyid#,guid_type=#getGeography.highergeographyid_guid_type#)>
+											<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Higher Geography ID:</li>
+											<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.highergeographyid# #geogLink#</li>
+										</cfif>
+									</ul>
+								</div>
+							</cfloop>
+	
 						</div>
-					</div>
-
-					<!--- collecting event --->
-					<div class="col-12 px-0">
-						<h2 class="h3 mt-3">
-							Collecting Event
-							<span class="pl-2">
-									<cfif cecount.ct eq 1>
+	
+						<!--- locality --->
+						<div class="col-12 float-left px-0">
+							<h2 class="h3">
+								Locality
+								<span class="pl-2">
+									<cfif loccount.ct eq 1>
 										<cfset shared= "">
 										<cfset followText = "(unique to this specimen)">
 									<cfelse>
 										<cfset shared= "Shared">
-										<cfset followText = "(shared with #cecount.ct# specimens)">
+										<cfset followText = "(shared with #loccount.ct# specimens)">
 									</cfif>
-									<a class="btn btn-xs btn-info" href="/localities/viewCollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">View #shared# Collecting Event</a>
-									<button type="button" class="btn btn-xs btn-warning" id="launchCollEventPickerButtonFromFormButton"
-										onclick=" closeLocalityInPage();  launchCollectingEventDialog(); ">Pick Different Collecting Event</button>
-									<a class="btn btn-xs btn-warning" href="/localities/CollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">Edit #shared# Collecting Event</a>
+									<a class="btn btn-xs btn-info" href="/localities/viewLocality.cfm?locality_id=#getLoc.locality_id#" target="_blank">View #shared# Locality</a>
+									<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit #shared# Locality</a>
 									#followText#
-							</span>
-						</h2>
-						<div class="form-row mx-0 mb-0 border-bottom p-2">
-							<div class="col-12 mb-2 mt-0">
-								<label class="data-entry-label" for="verbatim_locality">
-									Verbatim Locality
-								</label>
-								<input type="text" name="verbatim_locality" id="verbatim_locality" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.verbatim_locality)#" required>
-							</div>
-							
-							<div class="col-12 col-md-3 mb-2 mt-0">
-								<label class="data-entry-label" for="verbatim_date">Verbatim Date</label>
-								<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.verbatim_date)#" required>
-							</div>
-							
-							<div class="col-12 col-md-3 mb-2 mt-0">
-								<label class="data-entry-label" for="began_date">Began Date/Time</label>
-								<input type="text" name="began_date" id="began_date" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.began_date)#" required>
-							</div>
-							
-							<div class="col-12 col-md-3 mb-2 mt-0">
-								<label class="data-entry-label" for="ended_date">Ended Date/Time</label>
-								<input type="text" name="ended_date" id="ended_date" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.ended_date)#" required>
-							</div>
-							
-							<div class="col-12 col-md-3 mb-2 mt-0">
-								<label class="data-entry-label" for="collecting_time">Collecting Time</label>
-								<input type="text" name="collecting_time" id="collecting_time" class="data-entry-input" value="#encodeForHTML(getLoc.collecting_time)#">
-							</div>
-						
-							<div class="col-12 col-md-2 py-1 mt-0">
-								<label class="data-entry-label" for="startDayofYear">Start Day of Year</label>
-								<input type="text" name="startDayofYear" id="startDayofYear" class="data-entry-input" value="#encodeForHTML(getLoc.startdayofyear)#">
-							</div>
-							
-							<div class="col-12 col-md-2 py-1 mt-0">
-								<label class="data-entry-label" for="endDayofYear">End Day of Year</label>
-								<input type="text" name="endDayofYear" id="endDayofYear" class="data-entry-input" value="#encodeForHTML(getLoc.enddayofyear)#">
-							</div>
-							
-							<div class="col-12 col-md-2 py-1 mt-0">
-								<label for="date_determined_by_agent_id" class="data-entry-label">Event Date Determined By</label>
-								<cfif not isDefined("getLoc.date_determined_by_agent_id") OR len(getLoc.date_determined_by_agent_id) EQ 0>
-									<cfset date_determined_by_agent_id = "">
-									<cfset agent = "">
-								<cfelse>
-									<cfset agent = "">
-									<cfquery name="determiner" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT
-											agent_name
-										FROM
-											preferred_agent_name
-										WHERE
-											agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.date_determined_by_agent_id#">
-									</cfquery>
-									<cfloop query="determiner">
-										<cfset agent = "#determiner.agent_name#">
-									</cfloop>
-								</cfif>
-								<input type="hidden" name="date_determined_by_agent_id" id="date_determined_by_agent_id" value="#encodeForHtml(getLoc.date_determined_by_agent_id)#">
-								<input type="text" name="date_determined_by_agent" id="date_determined_by_agent" class="data-entry-input" value="#agent#">
-								<script>
-									$(document).ready(function() { 
-										makeAgentAutocompleteMeta("date_determined_by_agent", "date_determined_by_agent_id");
-									});
-								</script>
-							</div>
-							
-							<div class="col-12 col-md-3 py-1 mt-0">
-								<label class="data-entry-label" for="collecting_source">Collecting Source</label>
-								<select name="collecting_source" id="collecting_source" size="1" class="data-entry-select reqdClr">
-									<option value=""></option>
-									<cfloop query="ctcollecting_source">
-										<cfif ctcollecting_source.collecting_source is getLoc.collecting_source>
+								</span>
+							</h2>
+							<div class="form-row mx-0 mb-0 border-bottom p-2">
+								<div class="col-12 mb-2 mt-0">
+									<label class="data-entry-label" for="spec_locality">
+										Specific Locality
+									</label>
+									<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.spec_locality)#" required>
+								</div>
+								
+								<div class="col-12 col-md-5 mb-2 mt-0">
+									<label class="data-entry-label" for="sovereign_nation">Sovereign Nation</label>
+									<select name="sovereign_nation" id="sovereign_nation" size="1" class="data-entry-select reqdClr">
+										<cfloop query="ctSovereignNation">
+											<cfif isdefined("getLoc.sovereign_nation") AND ctSovereignNation.sovereign_nation is getLoc.sovereign_nation>
+												<cfset selected="selected">
+											<cfelse>
+												<cfset selected="">
+											</cfif>
+											<option #selected# value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
+										</cfloop>
+									</select>
+								</div>
+	
+								<div class="col-12 col-md-2 py-1 mt-0">
+									<label class="data-entry-label" for="curated_fg">Vetted</label>
+									<select name="curated_fg" id="curated_fg" size="1" class="data-entry-select reqdClr">
+										<cfif not isDefined("getLoc.curated_fg") OR (isdefined("getLoc.curated_fg") AND getLoc.curated_fg NEQ 1) >
 											<cfset selected="selected">
 										<cfelse>
 											<cfset selected="">
 										</cfif>
-										<option #selected# value="#ctcollecting_source.collecting_source#">#ctcollecting_source.collecting_source#</option>
-									</cfloop>
-								</select>
-							</div>
-
-							<div class="col-12 col-md-3 py-1 mt-0">
-								<label class="data-entry-label" for="fish_field_number">Fish Field Number (Ich only)</label>
-								<input type="text" name="fish_field_number" id="fish_field_number" class="data-entry-input" value="#encodeForHTML(getLoc.fish_field_number)#">
-							</div>
+										<option value="0" #selected#>No</option>
+										<cfif isdefined("getLoc.curated_fg") AND getLoc.curated_fg EQ 1 >
+											<cfset selected="selected">
+										<cfelse>
+											<cfset selected="">
+										</cfif>
+										<option value="1" #selected#>Yes (*)</option>
+									</select>
+								</div>
+								
+								<div class="col-12 col-md-5 mb-2 mt-0">
+									<label class="data-entry-label" for="NoGeorefBecause">
+										Not Georeferenced Because
+										<i class="fas fa-info-circle" onClick="getMCZDocs('Not_Georeferenced_Because')" aria-label="help link with suggested entries for why no georeference was added"></i>
+									</label>
+									<cfset disabled = "">
+									<cfif getCurrentGeoreference.recordcount GT 0>
+										<!--- If there is a georeference then NoGeorefBecause should not be editable if it has no value --->
+										<cfif len(getLoc.NoGeorefBecause) is 0>
+											<cfset disabled = "disabled">
+										</cfif>
+									</cfif>
+									<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input" value="#encodeForHTML(getLoc.NoGeorefBecause)#" #disabled#>
+									<cfif len(getLoc.orig_lat_long_units) gt 0 AND len(getLoc.NoGeorefBecause) gt 0>
+										<div class="text-danger small mt-1">NotGeorefBecause should be NULL for localities with georeferences. Please review this locality and update accordingly.</div>
+									<cfelseif len(getLoc.orig_lat_long_units) is 0 AND len(getLoc.NoGeorefBecause) is 0>
+										<div class="text-danger small mt-1">Please georeference this locality or enter a value for NoGeorefBecause.</div>
+									</cfif>
+								</div>
 							
-							<div class="col-12 py-1 mt-0">
-								<label class="data-entry-label" for="collecting_method">Collecting Method</label>
-								<input type="text" name="collecting_method" id="collecting_method" class="data-entry-input" value="#encodeForHTML(getLoc.collecting_method)#">
+								<div class="col-12 col-md-2 py-1 mt-0">
+									<label class="data-entry-label" for="minimum_elevation"><span class="font-weight-lessbold">Elevation:</span> Minimum</label>
+									<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input" value="#encodeForHTML(getLoc.minimum_elevation)#">
+								</div>
+								
+								<div class="col-12 col-md-2 py-1 mt-0">
+									<label class="data-entry-label" for="maximum_elevation">Maximum Elevation</label>
+									<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input" value="#encodeForHTML(getLoc.maximum_elevation)#">
+								</div>
+								
+								<div class="col-12 col-md-2 py-1 mt-0">
+									<label class="data-entry-label" for="orig_elev_units">Elevation Units</label>
+									<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select">
+										<option value=""></option>
+										<cfloop query="ctElevUnit">
+											<cfif ctElevUnit.orig_elev_units is getLoc.orig_elev_units>
+												<cfset selected="selected">
+											<cfelse>
+												<cfset selected="">
+											</cfif>
+											<option #selected# value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
+										</cfloop>
+									</select>
+								</div>
+								
+								<div class="col-12 col-md-2 py-1 mt-0">
+									<label class="data-entry-label" for="min_depth"><span class="font-weight-lessbold">Depth:</span> Minimum</label>
+									<input type="text" name="min_depth" id="min_depth" class="data-entry-input" value="#encodeForHTML(getLoc.min_depth)#">
+								</div>
+								
+								<div class="col-12 col-md-2 py-1 mt-0">
+									<label class="data-entry-label" for="max_depth">Maximum Depth</label>
+									<input type="text" name="max_depth" id="max_depth" class="data-entry-input" value="#encodeForHTML(getLoc.max_depth)#">
+								</div>
+								
+								<div class="col-12 col-md-2 py-1 mt-0">
+									<label class="data-entry-label" for="depth_units">Depth Units</label>
+									<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
+										<option value=""></option>
+										<cfloop query="ctDepthUnit">
+											<cfif ctDepthUnit.depth_units is getLoc.depth_units>
+												<cfset selected="selected">
+											<cfelse>
+												<cfset selected="">
+											</cfif>
+											<option #selected# value="#ctDepthUnit.depth_units#">#ctDepthUnit.depth_units#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 form-row border rounded m-1 p-1">
+									<!--- PLSS coordinates --->
+									<div class="col-12 col-md-2 py-1">
+										<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
+										<label class="data-entry-label" for="section_part"><span class="font-weight-lessbold">PLSS: </span> Section Part</label>
+										<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(getLoc.section_part)#" placeholder="NE 1/4" >
+									</div>
+									<div class="col-12 col-md-2 py-1">
+										<cfif NOT isdefined("section")><cfset section=""></cfif>
+										<label class="data-entry-label" for="section">Section</label>
+										<input type="text" name="section" id="section" class="data-entry-input" value="#encodeForHTML(section)#" pattern="[0-3]{0,1}[0-9]{0,1}" >
+									</div>
+									<div class="col-12 col-md-2 py-1">
+										<cfif NOT isdefined("township")><cfset township=""></cfif>
+										<label class="data-entry-label" for="township">Township</label>
+										<input type="text" name="township" id="township" class="data-entry-input" value="#encodeForHTML(township)#" pattern="[0-9]+" >
+									</div>
+									<div class="col-12 col-md-2 py-1">
+										<cfif NOT isdefined("township_direction")><cfset township_direction=""></cfif>
+										<label class="data-entry-label" for="township_direction">Township Direction</label>
+										<input type="text" name="township_direction" id="township_direction" class="data-entry-input" value="#encodeForHTML(township_direction)#" >
+									</div>
+									<div class="col-12 col-md-2 py-1">
+										<cfif NOT isdefined("range")><cfset range=""></cfif>
+										<label class="data-entry-label" for="range">Range</label>
+										<input type="text" name="range" id="range" class="data-entry-input" value="#encodeForHTML(range)#" pattern="[0-9]+">
+									</div>
+									<div class="col-12 col-md-2 py-1">
+										<cfif NOT isdefined("range_direction")><cfset range_direction=""></cfif>
+										<label class="data-entry-label" for="range_direction">Range Direction</label>
+										<input type="text" name="range_direction" id="range_direction" class="data-entry-input" value="#encodeForHTML(range_direction)#" >
+									</div>
+								</div>
+								<div class="col-12 py-1">
+									<label class="data-entry-label" for="locality_remarks">
+										Locality Remarks 
+										(<span id="length_locality_remarks"></span>)
+									</label>
+									<textarea name="locality_remarks" id="locality_remarks" 
+										onkeyup="countCharsLeft('locality_remarks', 4000, 'length_locality_remarks');"
+										class="form-control form-control-sm w-100 autogrow mb-1" rows="2">#encodeForHtml(getLoc.locality_remarks)#</textarea>
+									<script>
+										// Bind input to autogrow function on key up, and trigger autogrow to fit text
+										$(document).ready(function() { 
+											$("##locality_remarks").keyup(autogrow);  
+											$('##locality_remarks').keyup();
+										});
+									</script>
+								</div>
+							</div>
+						</div>
+	
+						<!--- collecting event --->
+						<div class="col-12 px-0">
+							<h2 class="h3 mt-3">
+								Collecting Event
+								<span class="pl-2">
+										<cfif cecount.ct eq 1>
+											<cfset shared= "">
+											<cfset followText = "(unique to this specimen)">
+										<cfelse>
+											<cfset shared= "Shared">
+											<cfset followText = "(shared with #cecount.ct# specimens)">
+										</cfif>
+										<a class="btn btn-xs btn-info" href="/localities/viewCollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">View #shared# Collecting Event</a>
+										<button type="button" class="btn btn-xs btn-warning" id="launchCollEventPickerButtonFromFormButton"
+											onclick=" closeLocalityInPage();  launchCollectingEventDialog(); ">Pick Different Collecting Event</button>
+										<a class="btn btn-xs btn-warning" href="/localities/CollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">Edit #shared# Collecting Event</a>
+										#followText#
+								</span>
+							</h2>
+							<div class="form-row mx-0 mb-0 border-bottom p-2">
+								<div class="col-12 mb-2 mt-0">
+									<label class="data-entry-label" for="verbatim_locality">
+										Verbatim Locality
+									</label>
+									<input type="text" name="verbatim_locality" id="verbatim_locality" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.verbatim_locality)#" required>
+								</div>
+								
+								<div class="col-12 col-md-3 mb-2 mt-0">
+									<label class="data-entry-label" for="verbatim_date">Verbatim Date</label>
+									<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.verbatim_date)#" required>
+								</div>
+								
+								<div class="col-12 col-md-3 mb-2 mt-0">
+									<label class="data-entry-label" for="began_date">Began Date/Time</label>
+									<input type="text" name="began_date" id="began_date" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.began_date)#" required>
+								</div>
+								
+								<div class="col-12 col-md-3 mb-2 mt-0">
+									<label class="data-entry-label" for="ended_date">Ended Date/Time</label>
+									<input type="text" name="ended_date" id="ended_date" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.ended_date)#" required>
+								</div>
+								
+								<div class="col-12 col-md-3 mb-2 mt-0">
+									<label class="data-entry-label" for="collecting_time">Collecting Time</label>
+									<input type="text" name="collecting_time" id="collecting_time" class="data-entry-input" value="#encodeForHTML(getLoc.collecting_time)#">
+								</div>
+							
+								<div class="col-12 col-md-2 py-1 mt-0">
+									<label class="data-entry-label" for="startDayofYear">Start Day of Year</label>
+									<input type="text" name="startDayofYear" id="startDayofYear" class="data-entry-input" value="#encodeForHTML(getLoc.startdayofyear)#">
+								</div>
+								
+								<div class="col-12 col-md-2 py-1 mt-0">
+									<label class="data-entry-label" for="endDayofYear">End Day of Year</label>
+									<input type="text" name="endDayofYear" id="endDayofYear" class="data-entry-input" value="#encodeForHTML(getLoc.enddayofyear)#">
+								</div>
+								
+								<div class="col-12 col-md-2 py-1 mt-0">
+									<label for="date_determined_by_agent_id" class="data-entry-label">Event Date Determined By</label>
+									<cfif not isDefined("getLoc.date_determined_by_agent_id") OR len(getLoc.date_determined_by_agent_id) EQ 0>
+										<cfset date_determined_by_agent_id = "">
+										<cfset agent = "">
+									<cfelse>
+										<cfset agent = "">
+										<cfquery name="determiner" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT
+												agent_name
+											FROM
+												preferred_agent_name
+											WHERE
+												agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.date_determined_by_agent_id#">
+										</cfquery>
+										<cfloop query="determiner">
+											<cfset agent = "#determiner.agent_name#">
+										</cfloop>
+									</cfif>
+									<input type="hidden" name="date_determined_by_agent_id" id="date_determined_by_agent_id" value="#encodeForHtml(getLoc.date_determined_by_agent_id)#">
+									<input type="text" name="date_determined_by_agent" id="date_determined_by_agent" class="data-entry-input" value="#agent#">
+									<script>
+										$(document).ready(function() { 
+											makeAgentAutocompleteMeta("date_determined_by_agent", "date_determined_by_agent_id");
+										});
+									</script>
+								</div>
+								
+								<div class="col-12 col-md-3 py-1 mt-0">
+									<label class="data-entry-label" for="collecting_source">Collecting Source</label>
+									<select name="collecting_source" id="collecting_source" size="1" class="data-entry-select reqdClr">
+										<option value=""></option>
+										<cfloop query="ctcollecting_source">
+											<cfif ctcollecting_source.collecting_source is getLoc.collecting_source>
+												<cfset selected="selected">
+											<cfelse>
+												<cfset selected="">
+											</cfif>
+											<option #selected# value="#ctcollecting_source.collecting_source#">#ctcollecting_source.collecting_source#</option>
+										</cfloop>
+									</select>
+								</div>
+	
+								<div class="col-12 col-md-3 py-1 mt-0">
+									<label class="data-entry-label" for="fish_field_number">Fish Field Number (Ich only)</label>
+									<input type="text" name="fish_field_number" id="fish_field_number" class="data-entry-input" value="#encodeForHTML(getLoc.fish_field_number)#">
+								</div>
+								
+								<div class="col-12 py-1 mt-0">
+									<label class="data-entry-label" for="collecting_method">Collecting Method</label>
+									<input type="text" name="collecting_method" id="collecting_method" class="data-entry-input" value="#encodeForHTML(getLoc.collecting_method)#">
+								</div>
+							
+								<div class="col-12 py-1">
+									<label class="data-entry-label" for="habitat_desc">Habitat</label>
+									<input type="text" name="habitat_desc" id="habitat_desc" class="data-entry-input" value="#encodeForHTML(getLoc.habitat_desc)#">
+								</div>
+								
+	
+								<div class="col-12 col-md-3 py-1 px-0">
+									<label class="data-entry-label px-2 " for="verbatimdepth">Verbatim Depth</label>
+									<input type="text" name="verbatimdepth" id="verbatimdepth" value="#getLoc.verbatimdepth#" class="data-entry-input">
+								</div>
+								<div class="col-12 col-md-3 py-1 px-0">
+									<label class="data-entry-label px-2 " for="verbatimelevation">Verbatim Elevation</label>
+									<input type="text" name="verbatimelevation" id="verbatimelevation" value="#getLoc.verbatimelevation#" class="data-entry-input">
+								</div>
+								<div class="col-12 col-md-3 py-1 px-0">
+									<label class="data-entry-label px-2 " for="verbatimLatitude">Verbatim Latitude</label>
+									<input type="text" name="verbatimLatitude" id="verbatimLatitude" value="#getLoc.verbatimLatitude#" class="data-entry-input">
+								</div>
+								<div class="col-12 col-md-3 py-1 px-0">
+									<label class="data-entry-label px-2 " for="verbatimLongitude">Verbatim Longitude</label>
+									<input type="text" name="verbatimLongitude" id="verbatimLongitude" value="#getLoc.verbatimLongitude#" class="data-entry-input">
+								</div>
+								<div class="col-12 col-md-3 py-1 px-0">
+									<label class="data-entry-label px-2 " for="verbatimCoordinates">Verbatim Coordinates</label>
+									<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" value="#getLoc.verbatimCoordinates#" class="data-entry-input">
+								</div>
+								<div class="col-12 col-md-3 py-1 px-0">
+									<label class="data-entry-label px-2 " for="verbatimCoordinateSystem">Verbatim Coordinate System</label>
+									<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" value="#getLoc.verbatimCoordinateSystem#" class="data-entry-input">
+								</div>
+								<div class="col-12 col-md-3 py-1 px-0">
+									<label class="data-entry-label px-2 " for="verbatimSRS"">Verbatim SRS (ellipsoid model/datum)</label>
+									<input type="text" name="verbatimSRS" id="verbatimSRS" value="#getLoc.verbatimSRS#" class="data-entry-input">
+								</div>
+								<!--- Additional verbatim fields --->
+								<div class="col-12 col-md-3 py-1 px-0">
+									<label class="data-entry-label px-2 " for="verbatim_habitat"">Verbatim Habitat</label>
+									<input type="text" name="verbatim_habitat" id="verbatim_habitat" value="#getLoc.verbatim_habitat#" class="data-entry-input">
+								</div>
+								<div class="col-12 col-md-3 py-1 px-0">
+									<label class="data-entry-label px-2 " for="verbatim_collectors"">Verbatim Collectors</label>
+									<input type="text" name="verbatim_collectors" id="verbatim_collectors" value="#getLoc.verbatim_collectors#" class="data-entry-input">
+								</div>
+								<div class="col-12 col-md-3 py-1 px-0">
+									<label class="data-entry-label px-2 " for="verbatim_field_numbers"">Verbatim Field Numbers</label>
+									<input type="text" name="verbatim_field_numbers" id="verbatim_field_numbers" value="#getLoc.verbatim_field_numbers#" class="data-entry-input">
+								</div>
+								<div class="col-12 col-md-6 mb-2">
+									<label for="valid_distribution_fg" class="data-entry-label">Valid Distribution</label>
+									<cfif not isDefined("variables.valid_distribution_fg")>
+										<cfset variables.valid_distribution_fg = "1">
+									</cfif>
+									<select name="valid_distribution_fg" id="valid_distribution_fg" class="data-entry-select reqdClr" required>
+										<cfif variables.valid_distribution_fg EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="1" #selected#>Yes, material from this event represents distribution in the wild</option>
+										<cfif variables.valid_distribution_fg EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="0" #selected#>No, material from this event does not represent distribution in the wild</option>
+									</select>
+								</div>
+								<div class="col-12 py-1">
+									<label class="data-entry-label" for="coll_event_remarks">
+										Collecting Event Remarks
+										(<span id="length_coll_event_remarks"></span>)
+									</label>
+									<textarea name="coll_event_remarks" id="coll_event_remarks" 
+										onkeyup="countCharsLeft('coll_event_remarks', 4000, 'length_coll_event_remarks');"
+										class="form-control form-control-sm w-100 autogrow mb-1" rows="2">#encodeForHtml(getLoc.coll_event_remarks)#</textarea>
+									<script>
+										// Bind input to autogrow function on key up, and trigger autogrow to fit text
+										$(document).ready(function() { 
+											$("##coll_event_remarks").keyup(autogrow);  
+											$('##coll_event_remarks').keyup();
+										});
+									</script>
+								</div>
+	
+							</div>
+						</div>
+						
+						<!--- Collecting event numbers --->
+						<div class="col-12 px-0 mt-2">
+							<!--- Query for available number series --->
+							<cfquery name="collEventNumberSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT coll_event_num_series_id, number_series, pattern, remarks, collector_agent_id,
+									CASE collector_agent_id WHEN null THEN '[No Agent]' ELSE mczbase.get_agentnameoftype(collector_agent_id) END as collector_agent
+								FROM coll_event_num_series
+								ORDER BY number_series, mczbase.get_agentnameoftype(collector_agent_id)
+							</cfquery>
+							
+							<h3 class="h4">
+								Collecting Event Numbers
+								Collector/Field Numbers (identifying collecting events)
+								<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditCollectingEventNumbers">Edit</button>
+							</h3>
+						
+							<!--- Display existing collecting event numbers --->
+							<div class="form-row mx-0 mb-2">
+								<div class="col-12">
+									<cfquery name="colEventNumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT number_series,
+											MCZBASE.get_agentnameoftype(collector_agent_id) as collector_agent,
+											coll_event_number,
+											coll_event_number_id,
+											coll_event_number.coll_event_num_series_id
+										FROM
+											coll_event_number
+											left join coll_event_num_series on coll_event_number.coll_event_num_series_id = coll_event_num_series.coll_event_num_series_id
+										WHERE
+											coll_event_number.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.collecting_event_id#">
+									</cfquery>
+									<ul class="mb-1">
+										<cfloop query="colEventNumbers">
+											<li><span id="collEventNumber_#coll_event_number_id#">#coll_event_number# (#number_series#, #collector_agent#)</span></li>
+										</cfloop>
+										<cfif colEventNumbers.recordcount EQ 0>
+											<li class="text-muted">None.</li>
+										</cfif>
+									</ul>
+								</div>
 							</div>
 						
-							<div class="col-12 py-1">
-								<label class="data-entry-label" for="habitat_desc">Habitat</label>
-								<input type="text" name="habitat_desc" id="habitat_desc" class="data-entry-input" value="#encodeForHTML(getLoc.habitat_desc)#">
-							</div>
-							
-
-							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 " for="verbatimdepth">Verbatim Depth</label>
-								<input type="text" name="verbatimdepth" id="verbatimdepth" value="#getLoc.verbatimdepth#" class="data-entry-input">
-							</div>
-							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 " for="verbatimelevation">Verbatim Elevation</label>
-								<input type="text" name="verbatimelevation" id="verbatimelevation" value="#getLoc.verbatimelevation#" class="data-entry-input">
-							</div>
-							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 " for="verbatimLatitude">Verbatim Latitude</label>
-								<input type="text" name="verbatimLatitude" id="verbatimLatitude" value="#getLoc.verbatimLatitude#" class="data-entry-input">
-							</div>
-							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 " for="verbatimLongitude">Verbatim Longitude</label>
-								<input type="text" name="verbatimLongitude" id="verbatimLongitude" value="#getLoc.verbatimLongitude#" class="data-entry-input">
-							</div>
-							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 " for="verbatimCoordinates">Verbatim Coordinates</label>
-								<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" value="#getLoc.verbatimCoordinates#" class="data-entry-input">
-							</div>
-							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 " for="verbatimCoordinateSystem">Verbatim Coordinate System</label>
-								<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" value="#getLoc.verbatimCoordinateSystem#" class="data-entry-input">
-							</div>
-							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 " for="verbatimSRS"">Verbatim SRS (ellipsoid model/datum)</label>
-								<input type="text" name="verbatimSRS" id="verbatimSRS" value="#getLoc.verbatimSRS#" class="data-entry-input">
-							</div>
-							<!--- Additional verbatim fields --->
-							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 " for="verbatim_habitat"">Verbatim Habitat</label>
-								<input type="text" name="verbatim_habitat" id="verbatim_habitat" value="#getLoc.verbatim_habitat#" class="data-entry-input">
-							</div>
-							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 " for="verbatim_collectors"">Verbatim Collectors</label>
-								<input type="text" name="verbatim_collectors" id="verbatim_collectors" value="#getLoc.verbatim_collectors#" class="data-entry-input">
-							</div>
-							<div class="col-12 col-md-3 py-1 px-0">
-								<label class="data-entry-label px-2 " for="verbatim_field_numbers"">Verbatim Field Numbers</label>
-								<input type="text" name="verbatim_field_numbers" id="verbatim_field_numbers" value="#getLoc.verbatim_field_numbers#" class="data-entry-input">
-							</div>
-							<div class="col-12 col-md-6 mb-2">
-								<label for="valid_distribution_fg" class="data-entry-label">Valid Distribution</label>
-								<cfif not isDefined("variables.valid_distribution_fg")>
-									<cfset variables.valid_distribution_fg = "1">
-								</cfif>
-								<select name="valid_distribution_fg" id="valid_distribution_fg" class="data-entry-select reqdClr" required>
-									<cfif variables.valid_distribution_fg EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-									<option value="1" #selected#>Yes, material from this event represents distribution in the wild</option>
-									<cfif variables.valid_distribution_fg EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-									<option value="0" #selected#>No, material from this event does not represent distribution in the wild</option>
-								</select>
-							</div>
-							<div class="col-12 py-1">
-								<label class="data-entry-label" for="coll_event_remarks">
-									Collecting Event Remarks
-									(<span id="length_coll_event_remarks"></span>)
-								</label>
-								<textarea name="coll_event_remarks" id="coll_event_remarks" 
-									onkeyup="countCharsLeft('coll_event_remarks', 4000, 'length_coll_event_remarks');"
-									class="form-control form-control-sm w-100 autogrow mb-1" rows="2">#encodeForHtml(getLoc.coll_event_remarks)#</textarea>
+							<script>
+								$(document).ready(function() {
+									$('##buttonOpenEditCollectingEventNumbers').on('click', function() {
+										$('##collectingEventNumbersTableSection').show();
+										$('##buttonOpenEditCollectingEventNumbers').hide();
+									});
+								});
+							</script>
+						
+							<div id="collectingEventNumbersTableSection" class="col-12" style="display: none;">
+								<!--- Editable Table --->
+								<div class="table-responsive">
+									<table class="table table-sm table-striped" id="collectingEventNumbersTable">
+										<thead>
+											<tr>
+												<th>Number Series</th>
+												<th>Collector/Agent</th>
+												<th>Number</th>
+												<th>Pattern</th>
+												<th>Actions</th>
+											</tr>
+										</thead>
+										<tbody id="collectingEventNumbersTableBody">
+											<!--- Existing collecting event numbers --->
+											<cfset rowIndex = 0>
+											<cfif colEventNumbers.recordcount GT 0>
+												<cfloop query="colEventNumbers">
+													<cfset rowIndex = rowIndex + 1>
+													<tr data-row-index="#rowIndex#">
+														<td>
+															<select name="coll_event_num_series_id_#rowIndex#" id="coll_event_num_series_id_#rowIndex#" class="data-entry-select reqdClr" onchange="changeCollEventNumberSeries(#rowIndex#)">
+																<option value=""></option>
+																<cfloop query="collEventNumberSeries">
+																	<cfif collEventNumberSeries.coll_event_num_series_id EQ colEventNumbers.coll_event_num_series_id>
+																		<cfset selected="selected">
+																	<cfelse>
+																		<cfset selected="">
+																	</cfif>
+																	<option value="#collEventNumberSeries.coll_event_num_series_id#" #selected#>#collEventNumberSeries.number_series#</option>
+																</cfloop>
+															</select>
+															<input type="hidden" name="coll_event_number_id_#rowIndex#" id="coll_event_number_id_#rowIndex#" value="#colEventNumbers.coll_event_number_id#">
+														</td>
+														<td>
+															<span id="collector_agent_#rowIndex#">#encodeForHTML(colEventNumbers.collector_agent)#</span>
+														</td>
+														<td>
+															<input type="text" id="coll_event_number_#rowIndex#" name="coll_event_number_#rowIndex#" 
+																class="data-entry-input reqdClr"
+																value="#encodeForHTML(colEventNumbers.coll_event_number)#">
+														</td>
+														<td>
+															<span id="pattern_#rowIndex#" class="text-muted small"></span>
+														</td>
+														<td>
+															<button type="button" class="btn btn-xs btn-danger" onclick="removeCollEventNumberRow(this)" title="Remove this collecting event number">
+																<i class="fas fa-times"></i>
+															</button>
+														</td>
+													</tr>
+												</cfloop>
+											</cfif>
+											<tr id="addCollEventNumberRow">
+												<td colspan="5" class="text-center">
+													<!--- Add new collecting event number button --->
+													<button type="button" class="btn btn-xs btn-primary" onclick="addCollEventNumberRow()">
+														<i class="fas fa-plus"></i> Add Collecting Event Number
+													</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<!--- Hidden field to track the number of collecting event number rows --->
+								<input type="hidden" name="coll_event_number_row_count" id="coll_event_number_row_count" value="#rowIndex#">
+								<!--- hidden field to accumulate collecting event numbers to delete --->
+								<input type="hidden" name="coll_event_numbers_to_delete" id="coll_event_numbers_to_delete" value="">
+						
 								<script>
-									// Bind input to autogrow function on key up, and trigger autogrow to fit text
-									$(document).ready(function() { 
-										$("##coll_event_remarks").keyup(autogrow);  
-										$('##coll_event_remarks').keyup();
+									$(document).ready(function() {
+										const initialRowCount = parseInt($('##coll_event_number_row_count').val());
+										for (let i = 1; i <= initialRowCount; i++) {
+											updateCollEventNumberSeriesInfo(i);
+										}
 									});
-								</script>
-							</div>
-
-						</div>
-					</div>
-					
-					<!--- Collecting event numbers --->
-					<div class="col-12 px-0 mt-2">
-						<!--- Query for available number series --->
-						<cfquery name="collEventNumberSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT coll_event_num_series_id, number_series, pattern, remarks, collector_agent_id,
-								CASE collector_agent_id WHEN null THEN '[No Agent]' ELSE mczbase.get_agentnameoftype(collector_agent_id) END as collector_agent
-							FROM coll_event_num_series
-							ORDER BY number_series, mczbase.get_agentnameoftype(collector_agent_id)
-						</cfquery>
 						
-						<h3 class="h4">
-							Collecting Event Numbers
-							Collector/Field Numbers (identifying collecting events)
-							<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditCollectingEventNumbers">Edit</button>
-						</h3>
-					
-						<!--- Display existing collecting event numbers --->
-						<div class="form-row mx-0 mb-2">
-							<div class="col-12">
-								<cfquery name="colEventNumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT number_series,
-										MCZBASE.get_agentnameoftype(collector_agent_id) as collector_agent,
-										coll_event_number,
-										coll_event_number_id,
-										coll_event_number.coll_event_num_series_id
-									FROM
-										coll_event_number
-										left join coll_event_num_series on coll_event_number.coll_event_num_series_id = coll_event_num_series.coll_event_num_series_id
-									WHERE
-										coll_event_number.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.collecting_event_id#">
-								</cfquery>
-								<ul class="mb-1">
-									<cfloop query="colEventNumbers">
-										<li><span id="collEventNumber_#coll_event_number_id#">#coll_event_number# (#number_series#, #collector_agent#)</span></li>
-									</cfloop>
-									<cfif colEventNumbers.recordcount EQ 0>
-										<li class="text-muted">None.</li>
-									</cfif>
-								</ul>
-							</div>
-						</div>
-					
-						<script>
-							$(document).ready(function() {
-								$('##buttonOpenEditCollectingEventNumbers').on('click', function() {
-									$('##collectingEventNumbersTableSection').show();
-									$('##buttonOpenEditCollectingEventNumbers').hide();
-								});
-							});
-						</script>
-					
-						<div id="collectingEventNumbersTableSection" class="col-12" style="display: none;">
-							<!--- Editable Table --->
-							<div class="table-responsive">
-								<table class="table table-sm table-striped" id="collectingEventNumbersTable">
-									<thead>
-										<tr>
-											<th>Number Series</th>
-											<th>Collector/Agent</th>
-											<th>Number</th>
-											<th>Pattern</th>
-											<th>Actions</th>
-										</tr>
-									</thead>
-									<tbody id="collectingEventNumbersTableBody">
-										<!--- Existing collecting event numbers --->
-										<cfset rowIndex = 0>
-										<cfif colEventNumbers.recordcount GT 0>
-											<cfloop query="colEventNumbers">
-												<cfset rowIndex = rowIndex + 1>
-												<tr data-row-index="#rowIndex#">
-													<td>
-														<select name="coll_event_num_series_id_#rowIndex#" id="coll_event_num_series_id_#rowIndex#" class="data-entry-select reqdClr" onchange="changeCollEventNumberSeries(#rowIndex#)">
-															<option value=""></option>
-															<cfloop query="collEventNumberSeries">
-																<cfif collEventNumberSeries.coll_event_num_series_id EQ colEventNumbers.coll_event_num_series_id>
-																	<cfset selected="selected">
-																<cfelse>
-																	<cfset selected="">
-																</cfif>
-																<option value="#collEventNumberSeries.coll_event_num_series_id#" #selected#>#collEventNumberSeries.number_series#</option>
-															</cfloop>
-														</select>
-														<input type="hidden" name="coll_event_number_id_#rowIndex#" id="coll_event_number_id_#rowIndex#" value="#colEventNumbers.coll_event_number_id#">
-													</td>
-													<td>
-														<span id="collector_agent_#rowIndex#">#encodeForHTML(colEventNumbers.collector_agent)#</span>
-													</td>
-													<td>
-														<input type="text" id="coll_event_number_#rowIndex#" name="coll_event_number_#rowIndex#" 
-															class="data-entry-input reqdClr"
-															value="#encodeForHTML(colEventNumbers.coll_event_number)#">
-													</td>
-													<td>
-														<span id="pattern_#rowIndex#" class="text-muted small"></span>
-													</td>
-													<td>
-														<button type="button" class="btn btn-xs btn-danger" onclick="removeCollEventNumberRow(this)" title="Remove this collecting event number">
-															<i class="fas fa-times"></i>
-														</button>
-													</td>
-												</tr>
-											</cfloop>
-										</cfif>
-										<tr id="addCollEventNumberRow">
-											<td colspan="5" class="text-center">
-												<!--- Add new collecting event number button --->
-												<button type="button" class="btn btn-xs btn-primary" onclick="addCollEventNumberRow()">
-													<i class="fas fa-plus"></i> Add Collecting Event Number
-												</button>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							<!--- Hidden field to track the number of collecting event number rows --->
-							<input type="hidden" name="coll_event_number_row_count" id="coll_event_number_row_count" value="#rowIndex#">
-							<!--- hidden field to accumulate collecting event numbers to delete --->
-							<input type="hidden" name="coll_event_numbers_to_delete" id="coll_event_numbers_to_delete" value="">
-					
-							<script>
-								$(document).ready(function() {
-									const initialRowCount = parseInt($('##coll_event_number_row_count').val());
-									for (let i = 1; i <= initialRowCount; i++) {
-										updateCollEventNumberSeriesInfo(i);
-									}
-								});
-					
-								function addCollEventNumberRow() {
-									$('##noCollEventNumberRow').remove();
-									let currentRowCount = parseInt($('##coll_event_number_row_count').val());
-									currentRowCount++;
-									$('##coll_event_number_row_count').val(currentRowCount);
-									const newRow = `
-										<tr data-row-index="${currentRowCount}">
-											<td>
-												<select name="coll_event_num_series_id_${currentRowCount}" id="coll_event_num_series_id_${currentRowCount}" class="data-entry-select reqdClr" onchange="changeCollEventNumberSeries(${currentRowCount})">
-													<option value=""></option>
-													<cfloop query="collEventNumberSeries">
-														<option value="#collEventNumberSeries.coll_event_num_series_id#">#collEventNumberSeries.number_series#</option>
-													</cfloop>
-												</select>
-												<input type="hidden" name="coll_event_number_id_${currentRowCount}" id="coll_event_number_id_${currentRowCount}" value="">
-											</td>
-											<td>
-												<span id="collector_agent_${currentRowCount}"></span>
-											</td>
-											<td>
-												<input type="text" id="coll_event_number_${currentRowCount}" name="coll_event_number_${currentRowCount}" class="data-entry-input reqdClr">
-											</td>
-											<td>
-												<span id="pattern_${currentRowCount}" class="text-muted small"></span>
-											</td>
-											<td>
-												<button type="button" class="btn btn-xs btn-danger" onclick="removeCollEventNumberRow(this)" title="Remove this collecting event number">
-													<i class="fas fa-times"></i>
-												</button>
-											</td>
-										</tr>
-									`;
-									<!--- " --->
-									$('##collectingEventNumbersTableBody').append(newRow);
-								}
-					
-								function removeCollEventNumberRow(button) {
-									const row = $(button).closest('tr');
-									const rowIndex = row.data('row-index');
-									<!--- check if the row has a coll_event_number_id, if so, add it to the delete list --->
-									const collEventNumberId = $(`##coll_event_number_id_${rowIndex}`).val();
-									if (collEventNumberId) {
-										let deleteList = $(`##coll_event_numbers_to_delete`).val();
-										if (deleteList) {
-											deleteList += ",";
-										}
-										deleteList += collEventNumberId;
-										$(`##coll_event_numbers_to_delete`).val(deleteList);
-									}
-									row.hide();
-									if ($('##collectingEventNumbersTableBody tr:visible').length === 0) {
-										$('##collectingEventNumbersTableBody').append(`
-											<tr id="noCollEventNumberRow">
-												<td colspan="5" class="text-muted text-center">No collecting event numbers for this collecting event.</td>
+									function addCollEventNumberRow() {
+										$('##noCollEventNumberRow').remove();
+										let currentRowCount = parseInt($('##coll_event_number_row_count').val());
+										currentRowCount++;
+										$('##coll_event_number_row_count').val(currentRowCount);
+										const newRow = `
+											<tr data-row-index="${currentRowCount}">
+												<td>
+													<select name="coll_event_num_series_id_${currentRowCount}" id="coll_event_num_series_id_${currentRowCount}" class="data-entry-select reqdClr" onchange="changeCollEventNumberSeries(${currentRowCount})">
+														<option value=""></option>
+														<cfloop query="collEventNumberSeries">
+															<option value="#collEventNumberSeries.coll_event_num_series_id#">#collEventNumberSeries.number_series#</option>
+														</cfloop>
+													</select>
+													<input type="hidden" name="coll_event_number_id_${currentRowCount}" id="coll_event_number_id_${currentRowCount}" value="">
+												</td>
+												<td>
+													<span id="collector_agent_${currentRowCount}"></span>
+												</td>
+												<td>
+													<input type="text" id="coll_event_number_${currentRowCount}" name="coll_event_number_${currentRowCount}" class="data-entry-input reqdClr">
+												</td>
+												<td>
+													<span id="pattern_${currentRowCount}" class="text-muted small"></span>
+												</td>
+												<td>
+													<button type="button" class="btn btn-xs btn-danger" onclick="removeCollEventNumberRow(this)" title="Remove this collecting event number">
+														<i class="fas fa-times"></i>
+													</button>
+												</td>
 											</tr>
-										`);
+										`;
+										<!--- " --->
+										$('##collectingEventNumbersTableBody').append(newRow);
 									}
-								}
-					
-								function changeCollEventNumberSeries(rowIndex) {
-									updateCollEventNumberSeriesInfo(rowIndex);
-								}
-					
-								function updateCollEventNumberSeriesInfo(rowIndex) {
-									const selectedSeriesId = $(`##coll_event_num_series_id_${rowIndex}`).val();
-									let collectorAgent = '';
-									let pattern = '';
-									
-									<cfloop query="collEventNumberSeries">
-										if (selectedSeriesId == '#collEventNumberSeries.coll_event_num_series_id#') {
-											collectorAgent = '#encodeForJavaScript(collEventNumberSeries.collector_agent)#';
-											pattern = '#encodeForJavaScript(collEventNumberSeries.pattern)#';
+						
+									function removeCollEventNumberRow(button) {
+										const row = $(button).closest('tr');
+										const rowIndex = row.data('row-index');
+										<!--- check if the row has a coll_event_number_id, if so, add it to the delete list --->
+										const collEventNumberId = $(`##coll_event_number_id_${rowIndex}`).val();
+										if (collEventNumberId) {
+											let deleteList = $(`##coll_event_numbers_to_delete`).val();
+											if (deleteList) {
+												deleteList += ",";
+											}
+											deleteList += collEventNumberId;
+											$(`##coll_event_numbers_to_delete`).val(deleteList);
 										}
-									</cfloop>
-									
-									$(`##collector_agent_${rowIndex}`).text(collectorAgent);
-									$(`##pattern_${rowIndex}`).text(pattern);
-								}
-					
-								function aggregateCollectingEventNumbersTable() {
-									var collectingEventNumbersData = [];
-									$('##collectingEventNumbersTableBody tr:visible').each(function() {
-										var row = $(this);
-										var rowIndex = row.data('row-index');
-										var collEventNumber = row.find('input[name="coll_event_number_' + rowIndex + '"]').val();
-										var seriesId = row.find('select[name="coll_event_num_series_id_' + rowIndex + '"]').val();
-										if (collEventNumber && seriesId) {
-											collectingEventNumbersData.push({
-												coll_event_num_series_id: seriesId,
-												coll_event_number: collEventNumber,
-												coll_event_number_id: row.find('input[name="coll_event_number_id_' + rowIndex + '"]').val()
-											});
+										row.hide();
+										if ($('##collectingEventNumbersTableBody tr:visible').length === 0) {
+											$('##collectingEventNumbersTableBody').append(`
+												<tr id="noCollEventNumberRow">
+													<td colspan="5" class="text-muted text-center">No collecting event numbers for this collecting event.</td>
+												</tr>
+											`);
 										}
-									});
-									return collectingEventNumbersData;
-								}
-					
-							</script>
-						</div><!--- end collecting event numbers table section --->
-					</div><!--- end collecting event numbers section --->
-
-					<!--- geology attributes (on locality) --->
-					<div class="col-12 px-0">
-						<!--- Geological Attributes Query --->
-						<cfquery name="getGeologicalAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-							SELECT
-								geology_attribute_id,
-								ctgeology_attribute.type,
-								geology_attributes.geology_attribute,
-								geology_attributes.geo_att_value,
-								geology_attributes.geo_att_determiner_id,
-								agent_name determined_by,
-								to_char(geology_attributes.geo_att_determined_date,'yyyy-mm-dd') determined_date,
-								geology_attributes.geo_att_determined_method determined_method,
-								geology_attributes.geo_att_remark,
-								geology_attributes.previous_values,
-								geology_attribute_hierarchy.usable_value_fg,
-								geology_attribute_hierarchy.geology_attribute_hierarchy_id
-							FROM
-								geology_attributes
-								JOIN ctgeology_attribute ON geology_attributes.geology_attribute = ctgeology_attribute.geology_attribute
-								LEFT JOIN preferred_agent_name ON geo_att_determiner_id = agent_id
-								LEFT JOIN geology_attribute_hierarchy 
-									ON geology_attributes.geo_att_value = geology_attribute_hierarchy.attribute_value 
-									AND geology_attributes.geology_attribute = geology_attribute_hierarchy.attribute
-							WHERE 
-								geology_attributes.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.locality_id#">
-							ORDER BY
-								ctgeology_attribute.ordinal
-						</cfquery>
-						<cfquery name="ctGeologyTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT DISTINCT type FROM ctgeology_attribute ORDER BY type
-						</cfquery>
-						<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT geology_attribute, type FROM ctgeology_attribute ORDER BY ordinal
-						</cfquery>
-						<h2 class="h3 mt-3">
-							Geological Attributes
-							<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Edit</button>
-						</h2>
-						<!--- Display current attributes --->
-						<ul>
-							<cfif getGeologicalAttributes.recordcount EQ 0>
-								<li id="noAttributesLI"> No geological attributes for this locality.</li>
-							</cfif>
-							<cfset valList = "">
-							<cfset shownParentsList = "">
-							<cfset separator = "">
-							<cfset separator2 = "">
-							<cfloop query="getGeologicalAttributes">
-								<cfset valList = "#valList##separator##getGeologicalAttributes.geo_att_value#">
-								<cfset separator = "|">
-							</cfloop>
-							<cfloop query="getGeologicalAttributes">
-								<cfquery name="getParentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
-									SELECT DISTINCT
-									  connect_by_root geology_attribute_hierarchy.attribute parent_attribute,
-									  connect_by_root attribute_value parent_attribute_value,
-									  connect_by_root usable_value_fg
-									FROM geology_attribute_hierarchy
-										LEFT JOIN geology_attributes ON
-											geology_attribute_hierarchy.attribute = geology_attributes.geology_attribute
-											AND geology_attribute_hierarchy.attribute_value = geology_attributes.geo_att_value
-									WHERE geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getGeologicalAttributes.geology_attribute_hierarchy_id#">
-									CONNECT BY nocycle PRIOR geology_attribute_hierarchy_id = parent_id
-								</cfquery>
-								<cfset parentage="">
-								<cfloop query="getParentage">
-									<cfif ListContains(valList,getParentage.parent_attribute_value,"|") EQ 0 AND  ListContains(shownParentsList,getParentage.parent_attribute_value,"|") EQ 0 >
-										<cfset parentage="#parentage#<li><span class='text-secondary'>#getParentage.parent_attribute#:#getParentage.parent_attribute_value#</span></li>" >
-										<cfset shownParentsList = "#shownParentsList##separator2##getParentage.parent_attribute_value#">
-										<cfset separator2 = "|">
-									</cfif>
+									}
+						
+									function changeCollEventNumberSeries(rowIndex) {
+										updateCollEventNumberSeriesInfo(rowIndex);
+									}
+						
+									function updateCollEventNumberSeriesInfo(rowIndex) {
+										const selectedSeriesId = $(`##coll_event_num_series_id_${rowIndex}`).val();
+										let collectorAgent = '';
+										let pattern = '';
+										
+										<cfloop query="collEventNumberSeries">
+											if (selectedSeriesId == '#collEventNumberSeries.coll_event_num_series_id#') {
+												collectorAgent = '#encodeForJavaScript(collEventNumberSeries.collector_agent)#';
+												pattern = '#encodeForJavaScript(collEventNumberSeries.pattern)#';
+											}
+										</cfloop>
+										
+										$(`##collector_agent_${rowIndex}`).text(collectorAgent);
+										$(`##pattern_${rowIndex}`).text(pattern);
+									}
+						
+									function aggregateCollectingEventNumbersTable() {
+										var collectingEventNumbersData = [];
+										$('##collectingEventNumbersTableBody tr:visible').each(function() {
+											var row = $(this);
+											var rowIndex = row.data('row-index');
+											var collEventNumber = row.find('input[name="coll_event_number_' + rowIndex + '"]').val();
+											var seriesId = row.find('select[name="coll_event_num_series_id_' + rowIndex + '"]').val();
+											if (collEventNumber && seriesId) {
+												collectingEventNumbersData.push({
+													coll_event_num_series_id: seriesId,
+													coll_event_number: collEventNumber,
+													coll_event_number_id: row.find('input[name="coll_event_number_id_' + rowIndex + '"]').val()
+												});
+											}
+										});
+										return collectingEventNumbersData;
+									}
+						
+								</script>
+							</div><!--- end collecting event numbers table section --->
+						</div><!--- end collecting event numbers section --->
+	
+						<!--- geology attributes (on locality) --->
+						<div class="col-12 px-0">
+							<!--- Geological Attributes Query --->
+							<cfquery name="getGeologicalAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+								SELECT
+									geology_attribute_id,
+									ctgeology_attribute.type,
+									geology_attributes.geology_attribute,
+									geology_attributes.geo_att_value,
+									geology_attributes.geo_att_determiner_id,
+									agent_name determined_by,
+									to_char(geology_attributes.geo_att_determined_date,'yyyy-mm-dd') determined_date,
+									geology_attributes.geo_att_determined_method determined_method,
+									geology_attributes.geo_att_remark,
+									geology_attributes.previous_values,
+									geology_attribute_hierarchy.usable_value_fg,
+									geology_attribute_hierarchy.geology_attribute_hierarchy_id
+								FROM
+									geology_attributes
+									JOIN ctgeology_attribute ON geology_attributes.geology_attribute = ctgeology_attribute.geology_attribute
+									LEFT JOIN preferred_agent_name ON geo_att_determiner_id = agent_id
+									LEFT JOIN geology_attribute_hierarchy 
+										ON geology_attributes.geo_att_value = geology_attribute_hierarchy.attribute_value 
+										AND geology_attributes.geology_attribute = geology_attribute_hierarchy.attribute
+								WHERE 
+									geology_attributes.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.locality_id#">
+								ORDER BY
+									ctgeology_attribute.ordinal
+							</cfquery>
+							<cfquery name="ctGeologyTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT DISTINCT type FROM ctgeology_attribute ORDER BY type
+							</cfquery>
+							<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT geology_attribute, type FROM ctgeology_attribute ORDER BY ordinal
+							</cfquery>
+							<h2 class="h3 mt-3">
+								Geological Attributes
+								<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Edit</button>
+							</h2>
+							<!--- Display current attributes --->
+							<ul>
+								<cfif getGeologicalAttributes.recordcount EQ 0>
+									<li id="noAttributesLI"> No geological attributes for this locality.</li>
+								</cfif>
+								<cfset valList = "">
+								<cfset shownParentsList = "">
+								<cfset separator = "">
+								<cfset separator2 = "">
+								<cfloop query="getGeologicalAttributes">
+									<cfset valList = "#valList##separator##getGeologicalAttributes.geo_att_value#">
+									<cfset separator = "|">
 								</cfloop>
-								#parentage#
-								<li>
-									<cfif len(getGeologicalAttributes.determined_method) GT 0>
-										<cfset method = " Method: #getGeologicalAttributes.determined_method#">
-									<cfelse>
-										<cfset method = "">
-									</cfif>
-									<cfif len(getGeologicalAttributes.geo_att_remark) GT 0>
-										<cfset remarks = " <span class='smaller-text'>Remarks: #getGeologicalAttributes.geo_att_remark#</span>">
-									<cfelse>
-										<cfset remarks="">
-									</cfif>
-									<cfif usable_value_fg EQ 1>
-										<cfset marker = "*">
-										<cfset spanClass = "">
-									<cfelse>
-										<cfset marker = "">
-										<cfset spanClass = "text-danger">
-									</cfif>
-									<span class="#spanClass#">#geo_att_value# #marker#</span> (#geology_attribute#) #determined_by# #determined_date##method##remarks#
-								</li>
-							</cfloop>
-						</ul>
-					
-						<script>
-							$(document).ready(function() {
-								$('##buttonOpenEditGeologyTable').on('click', function() {
-									$('##geologyTableSection').show();
-									$('##buttonOpenEditGeologyTable').hide();
-								});
-							});
-						</script>
-					
-						<div id="geologyTableSection" class="col-12" style="display: none;">
-							<!--- Editable Table --->
-							<div class="table-responsive">
-								<table class="table table-sm table-striped" id="geologyTable">
-									<thead>
-										<tr>
-											<th>Type</th>
-											<th>Geology Attribute</th>
-											<th>Value</th>
-											<th>Parents</th>
-											<th>Determiner</th>
-											<th>Date Determined</th>
-											<th>Method</th>
-											<th>Remarks<br><span class="smaller-text">(<span id="table_remark_limit">4000 max)</span></span></th>
-											<th>Actions</th>
-										</tr>
-									</thead>
-									<tbody id="geologyTableBody">
-										<!--- Existing geological attributes --->
-										<cfset rowIndex = 0>
-										<cfif getGeologicalAttributes.recordcount GT 0>
-											<cfloop query="getGeologicalAttributes">
-												<cfset rowIndex = rowIndex + 1>
-												<tr data-row-index="#rowIndex#">
-													<td>
-														<select name="attribute_type_#rowIndex#" id="attribute_type_#rowIndex#" class="data-entry-select reqdClr" onchange="changeGeoAttType(#rowIndex#)">
-															<cfloop query="ctGeologyTypes">
-																<cfif ctGeologyTypes.type EQ getGeologicalAttributes.type>
-																	<cfset selected="selected">
-																<cfelse>
-																	<cfset selected="">
-																</cfif>
-																<option value="#ctGeologyTypes.type#" #selected#>#ctGeologyTypes.type#</option>
-															</cfloop>
-														</select>
-														<input type="hidden" name="geology_attribute_id_#rowIndex#" id="geology_attribute_id_#rowIndex#" value="#getGeologicalAttributes.geology_attribute_id#">
-														<input type="hidden" name="geology_attribute_hierarchy_id_#rowIndex#" id="geology_attribute_hierarchy_id_#rowIndex#" value="#getGeologicalAttributes.geology_attribute_hierarchy_id#">
-													</td>
-													<td>
-														<input type="text" name="geology_attribute_#rowIndex#" id="geology_attribute_#rowIndex#" 
-															class="data-entry-input" readonly
-															value="#getGeologicalAttributes.geology_attribute#">
-													</td>
-													<td>
-														<input type="text" id="geo_att_value_#rowIndex#" name="geo_att_value_#rowIndex#" 
-															class="data-entry-input reqdClr"
-															value="#encodeForHTML(getGeologicalAttributes.geo_att_value)#">
-													</td>
-													<td>
-														<select id="add_parents_#rowIndex#" name="add_parents_#rowIndex#" class="data-entry-select" onchange="addParentsChange(#rowIndex#);">
-															<option value="no" selected>No</option>
-															<option value="yes">Yes</option>
-														</select>
-														<div id="parentsDiv_#rowIndex#"></div>
-													</td>
-													<td>
-														<input type="text" id="geo_att_determiner_#rowIndex#" name="geo_att_determiner_#rowIndex#" value="#encodeForHTML(getGeologicalAttributes.determined_by)#" class="data-entry-input">
-														<input type="hidden" name="geo_att_determiner_id_#rowIndex#" id="geo_att_determiner_id_#rowIndex#" value="#getGeologicalAttributes.geo_att_determiner_id#">
-													</td>
-													<td>
-														<input type="text" id="geo_att_determined_date_#rowIndex#" name="geo_att_determined_date_#rowIndex#" value="#dateformat(getGeologicalAttributes.determined_date,'yyyy-mm-dd')#" class="data-entry-input geology-date">
-													</td>
-													<td>
-														<input type="text" id="geo_att_determined_method_#rowIndex#" name="geo_att_determined_method_#rowIndex#" value="#encodeForHTML(getGeologicalAttributes.determined_method)#" class="data-entry-input">
-													</td>
-													<td>
-														<textarea name="geo_att_remark_#rowIndex#" id="geo_att_remark_#rowIndex#" class="form-control form-control-sm autogrow" rows="2" onkeyup="countCharsLeft('geo_att_remark_#rowIndex#', 4000, 'length_geo_att_remark_#rowIndex#');">#encodeForHTML(getGeologicalAttributes.geo_att_remark)#</textarea>
-														<br><span id="length_geo_att_remark_#rowIndex#" class="smaller-text">0 characters, 4000 left</span>
-													</td>
-													<td>
-														<button type="button" class="btn btn-xs btn-danger" onclick="removeGeologyRow(this)" title="Remove this geological attribute">
-															<i class="fas fa-times"></i>
-														</button>
-													</td>
-												</tr>
-											</cfloop>
+								<cfloop query="getGeologicalAttributes">
+									<cfquery name="getParentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
+										SELECT DISTINCT
+										  connect_by_root geology_attribute_hierarchy.attribute parent_attribute,
+										  connect_by_root attribute_value parent_attribute_value,
+										  connect_by_root usable_value_fg
+										FROM geology_attribute_hierarchy
+											LEFT JOIN geology_attributes ON
+												geology_attribute_hierarchy.attribute = geology_attributes.geology_attribute
+												AND geology_attribute_hierarchy.attribute_value = geology_attributes.geo_att_value
+										WHERE geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getGeologicalAttributes.geology_attribute_hierarchy_id#">
+										CONNECT BY nocycle PRIOR geology_attribute_hierarchy_id = parent_id
+									</cfquery>
+									<cfset parentage="">
+									<cfloop query="getParentage">
+										<cfif ListContains(valList,getParentage.parent_attribute_value,"|") EQ 0 AND  ListContains(shownParentsList,getParentage.parent_attribute_value,"|") EQ 0 >
+											<cfset parentage="#parentage#<li><span class='text-secondary'>#getParentage.parent_attribute#:#getParentage.parent_attribute_value#</span></li>" >
+											<cfset shownParentsList = "#shownParentsList##separator2##getParentage.parent_attribute_value#">
+											<cfset separator2 = "|">
 										</cfif>
-										<tr id="addGeologyRow">
-											<td colspan="9" class="text-center">
-												<!--- Add new geology attribute button --->
-												<button type="button" class="btn btn-xs btn-primary" onclick="addGeologyRow()">
-													<i class="fas fa-plus"></i> Add Geological Attribute
-												</button>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							<!--- Hidden field to track the number of geology rows --->
-							<input type="hidden" name="geology_row_count" id="geology_row_count" value="#rowIndex#">
-							<!--- hidden field to accumulate geology attributes to delete --->
-							<input type="hidden" name="geology_attributes_to_delete" id="geology_attributes_to_delete" value="">
-					
+									</cfloop>
+									#parentage#
+									<li>
+										<cfif len(getGeologicalAttributes.determined_method) GT 0>
+											<cfset method = " Method: #getGeologicalAttributes.determined_method#">
+										<cfelse>
+											<cfset method = "">
+										</cfif>
+										<cfif len(getGeologicalAttributes.geo_att_remark) GT 0>
+											<cfset remarks = " <span class='smaller-text'>Remarks: #getGeologicalAttributes.geo_att_remark#</span>">
+										<cfelse>
+											<cfset remarks="">
+										</cfif>
+										<cfif usable_value_fg EQ 1>
+											<cfset marker = "*">
+											<cfset spanClass = "">
+										<cfelse>
+											<cfset marker = "">
+											<cfset spanClass = "text-danger">
+										</cfif>
+										<span class="#spanClass#">#geo_att_value# #marker#</span> (#geology_attribute#) #determined_by# #determined_date##method##remarks#
+									</li>
+								</cfloop>
+							</ul>
+						
 							<script>
 								$(document).ready(function() {
-									const initialRowCount = parseInt($('##geology_row_count').val());
-									for (let i = 1; i <= initialRowCount; i++) {
-										makeAgentAutocompleteMeta('geo_att_determiner_' + i, 'geo_att_determiner_id_' + i, true);
-										$("##geo_att_determined_date_" + i).datepicker({ dateFormat: 'yy-mm-dd'});
-										$("##geo_att_remark_" + i).keyup(autogrow);
-										countCharsLeft('geo_att_remark_' + i, 4000, 'length_geo_att_remark_' + i);
-										makeGeologyAutocompleteMeta('geology_attribute_' + i, 'geo_att_value_' + i, 'geology_attribute_hierarchy_id' + i, 'entry', $("##attribute_type_" + i).val());
-										addParentsChange(i); // initialize parent display
-									}
+									$('##buttonOpenEditGeologyTable').on('click', function() {
+										$('##geologyTableSection').show();
+										$('##buttonOpenEditGeologyTable').hide();
+									});
 								});
-					
-								function addGeologyRow() {
-									$('##noGeologyRow').remove();
-									let currentRowCount = parseInt($('##geology_row_count').val());
-									currentRowCount++;
-									$('##geology_row_count').val(currentRowCount);
-									const newRow = `
-										<tr data-row-index="${currentRowCount}">
-											<td>
-												<select name="attribute_type_${currentRowCount}" id="attribute_type_${currentRowCount}" class="data-entry-select reqdClr" onchange="changeGeoAttType(${currentRowCount})">
-													<cfloop query="ctGeologyTypes">
-														<option value="#ctGeologyTypes.type#">#ctGeologyTypes.type#</option>
-													</cfloop>
-												</select>
-												<input type="hidden" name="geology_attribute_id_${currentRowCount}" id="geology_attribute_id_${currentRowCount}" value="">
-												<input type="hidden" name="geology_attribute_hierarchy_id_${currentRowCount}" id="geology_attribute_hierarchy_id_${currentRowCount}" value="">
-											</td>
-											<td>
-												<input type="text" name="geology_attribute_${currentRowCount}" id="geology_attribute_${currentRowCount}" class="data-entry-input" value="" readonly>
-											</td>
-											<td>
-												<input type="text" id="geo_att_value_${currentRowCount}" name="geo_att_value_${currentRowCount}" class="data-entry-input reqdClr">
-											</td>
-											<td>
-												<select id="add_parents_${currentRowCount}" name="add_parents_${currentRowCount}" class="data-entry-select" onchange="addParentsChange(${currentRowCount});">
-													<option value="no" selected>No</option>
-													<option value="yes">Yes</option>
-												</select>
-												<div id="parentsDiv_${currentRowCount}"></div>
-											</td>
-											<td>
-												<input type="text" id="geo_att_determiner_${currentRowCount}" name="geo_att_determiner_${currentRowCount}" class="data-entry-input">
-												<input type="hidden" name="geo_att_determiner_id_${currentRowCount}" id="geo_att_determiner_id_${currentRowCount}">
-											</td>
-											<td>
-												<input type="text" id="geo_att_determined_date_${currentRowCount}" name="geo_att_determined_date_${currentRowCount}" class="data-entry-input geology-date">
-											</td>
-											<td>
-												<input type="text" id="geo_att_determined_method_${currentRowCount}" name="geo_att_determined_method_${currentRowCount}" class="data-entry-input">
-											</td>
-											<td>
-												<textarea name="geo_att_remark_${currentRowCount}" id="geo_att_remark_${currentRowCount}" class="form-control form-control-sm autogrow" rows="2" onkeyup="countCharsLeft('geo_att_remark_${currentRowCount}', 4000, 'length_geo_att_remark_${currentRowCount}');"></textarea>
-												<br><span id="length_geo_att_remark_${currentRowCount}" class="smaller-text">0 characters, 4000 left</span>
-											</td>
-											<td>
-												<button type="button" class="btn btn-xs btn-danger" onclick="removeGeologyRow(this)" title="Remove this geological attribute">
-													<i class="fas fa-times"></i>
-												</button>
-											</td>
-										</tr>
-									`;
-									<!--- " --->
-									$('##geologyTableBody').append(newRow);
-									makeAgentAutocompleteMeta('geo_att_determiner_' + currentRowCount, 'geo_att_determiner_id_' + currentRowCount, true);
-									$("##geo_att_determined_date_" + currentRowCount).datepicker({ dateFormat: 'yy-mm-dd'});
-									$("##geo_att_remark_" + currentRowCount).keyup(autogrow);
-									countCharsLeft('geo_att_remark_' + currentRowCount, 4000, 'length_geo_att_remark_' + currentRowCount);
-									makeGeologyAutocompleteMeta('geology_attribute_' + currentRowCount, 'geo_att_value_' + currentRowCount, null, 'entry', $("##attribute_type_" + currentRowCount).val());
-									addParentsChange(currentRowCount);
-								}
-					
-								function removeGeologyRow(button) {
-									const row = $(button).closest('tr');
-									const rowIndex = row.data('row-index');
-									<!--- check if the row has a geology_attribute_id, if so, add it to the delete list --->
-									const geologyAttributeId = $(`##geology_attribute_id_${rowIndex}`).val();
-									if (geologyAttributeId) {
-										let deleteList = $(`##geology_attributes_to_delete`).val();
-										if (deleteList) {
-											deleteList += ",";
-										}
-										deleteList += geologyAttributeId;
-										$(`##geology_attributes_to_delete`).val(deleteList);
-									}
-									$(`##geology_attribute_${rowIndex}`).val('');
-									row.hide();
-									if ($('##geologyTableBody tr:visible').length === 0) {
-										$('##geologyTableBody').append(`
-											<tr id="noGeologyRow">
-												<td colspan="9" class="text-muted text-center">No geological attributes for this locality.</td>
+							</script>
+						
+							<div id="geologyTableSection" class="col-12" style="display: none;">
+								<!--- Editable Table --->
+								<div class="table-responsive">
+									<table class="table table-sm table-striped" id="geologyTable">
+										<thead>
+											<tr>
+												<th>Type</th>
+												<th>Geology Attribute</th>
+												<th>Value</th>
+												<th>Parents</th>
+												<th>Determiner</th>
+												<th>Date Determined</th>
+												<th>Method</th>
+												<th>Remarks<br><span class="smaller-text">(<span id="table_remark_limit">4000 max)</span></span></th>
+												<th>Actions</th>
 											</tr>
-										`);
-									}
-								}
-					
-								function changeGeoAttType(rowIndex) {
-									$(`##geology_attribute_${rowIndex}`).val("");
-									$(`##geo_att_value_${rowIndex}`).val("");
-									makeGeologyAutocompleteMeta('geology_attribute_' + rowIndex, 'geo_att_value_' + rowIndex, 'geology_attribute_hierarchy_id_' + rowIndex, 'entry', $(`##attribute_type_${rowIndex}`).val());
-								}
-					
-								function addParentsChange(rowIndex) {
-									var selection = $(`##add_parents_${rowIndex}`).val();
-									if (selection === "yes") {
-										lookupGeoAttParents($(`##geology_attribute_${rowIndex}`).val(), `parentsDiv_${rowIndex}`);
-									} else {
-										$(`##parentsDiv_${rowIndex}`).html("");
-									}
-								}
-					
-								function aggregateGeologyTable() {
-									var geologyData = [];
-									$('##geologyTableBody tr:visible').each(function() {
-										var row = $(this);
-										var rowIndex = row.data('row-index');
-										var geologyAttribute = row.find('input[name="geology_attribute_' + rowIndex + '"]').val();
-										if (geologyAttribute) {
-											geologyData.push({
-												attribute_type: row.find('select[name="attribute_type_' + rowIndex + '"]').val(),
-												geology_attribute: geologyAttribute,
-												geo_att_value: row.find('input[name="geo_att_value_' + rowIndex + '"]').val(),
-												add_parents: row.find('select[name="add_parents_' + rowIndex + '"]').val(),
-												geo_att_determiner: row.find('input[name="geo_att_determiner_' + rowIndex + '"]').val(),
-												geo_att_determiner_id: row.find('input[name="geo_att_determiner_id_' + rowIndex + '"]').val(),
-												geo_att_determined_date: row.find('input[name="geo_att_determined_date_' + rowIndex + '"]').val(),
-												geo_att_determined_method: row.find('input[name="geo_att_determined_method_' + rowIndex + '"]').val(),
-												geo_att_remark: row.find('textarea[name="geo_att_remark_' + rowIndex + '"]').val(),
-												geology_attribute_id: row.find('input[name="geology_attribute_id_' + rowIndex + '"]').val()
-											});
+										</thead>
+										<tbody id="geologyTableBody">
+											<!--- Existing geological attributes --->
+											<cfset rowIndex = 0>
+											<cfif getGeologicalAttributes.recordcount GT 0>
+												<cfloop query="getGeologicalAttributes">
+													<cfset rowIndex = rowIndex + 1>
+													<tr data-row-index="#rowIndex#">
+														<td>
+															<select name="attribute_type_#rowIndex#" id="attribute_type_#rowIndex#" class="data-entry-select reqdClr" onchange="changeGeoAttType(#rowIndex#)">
+																<cfloop query="ctGeologyTypes">
+																	<cfif ctGeologyTypes.type EQ getGeologicalAttributes.type>
+																		<cfset selected="selected">
+																	<cfelse>
+																		<cfset selected="">
+																	</cfif>
+																	<option value="#ctGeologyTypes.type#" #selected#>#ctGeologyTypes.type#</option>
+																</cfloop>
+															</select>
+															<input type="hidden" name="geology_attribute_id_#rowIndex#" id="geology_attribute_id_#rowIndex#" value="#getGeologicalAttributes.geology_attribute_id#">
+															<input type="hidden" name="geology_attribute_hierarchy_id_#rowIndex#" id="geology_attribute_hierarchy_id_#rowIndex#" value="#getGeologicalAttributes.geology_attribute_hierarchy_id#">
+														</td>
+														<td>
+															<input type="text" name="geology_attribute_#rowIndex#" id="geology_attribute_#rowIndex#" 
+																class="data-entry-input" readonly
+																value="#getGeologicalAttributes.geology_attribute#">
+														</td>
+														<td>
+															<input type="text" id="geo_att_value_#rowIndex#" name="geo_att_value_#rowIndex#" 
+																class="data-entry-input reqdClr"
+																value="#encodeForHTML(getGeologicalAttributes.geo_att_value)#">
+														</td>
+														<td>
+															<select id="add_parents_#rowIndex#" name="add_parents_#rowIndex#" class="data-entry-select" onchange="addParentsChange(#rowIndex#);">
+																<option value="no" selected>No</option>
+																<option value="yes">Yes</option>
+															</select>
+															<div id="parentsDiv_#rowIndex#"></div>
+														</td>
+														<td>
+															<input type="text" id="geo_att_determiner_#rowIndex#" name="geo_att_determiner_#rowIndex#" value="#encodeForHTML(getGeologicalAttributes.determined_by)#" class="data-entry-input">
+															<input type="hidden" name="geo_att_determiner_id_#rowIndex#" id="geo_att_determiner_id_#rowIndex#" value="#getGeologicalAttributes.geo_att_determiner_id#">
+														</td>
+														<td>
+															<input type="text" id="geo_att_determined_date_#rowIndex#" name="geo_att_determined_date_#rowIndex#" value="#dateformat(getGeologicalAttributes.determined_date,'yyyy-mm-dd')#" class="data-entry-input geology-date">
+														</td>
+														<td>
+															<input type="text" id="geo_att_determined_method_#rowIndex#" name="geo_att_determined_method_#rowIndex#" value="#encodeForHTML(getGeologicalAttributes.determined_method)#" class="data-entry-input">
+														</td>
+														<td>
+															<textarea name="geo_att_remark_#rowIndex#" id="geo_att_remark_#rowIndex#" class="form-control form-control-sm autogrow" rows="2" onkeyup="countCharsLeft('geo_att_remark_#rowIndex#', 4000, 'length_geo_att_remark_#rowIndex#');">#encodeForHTML(getGeologicalAttributes.geo_att_remark)#</textarea>
+															<br><span id="length_geo_att_remark_#rowIndex#" class="smaller-text">0 characters, 4000 left</span>
+														</td>
+														<td>
+															<button type="button" class="btn btn-xs btn-danger" onclick="removeGeologyRow(this)" title="Remove this geological attribute">
+																<i class="fas fa-times"></i>
+															</button>
+														</td>
+													</tr>
+												</cfloop>
+											</cfif>
+											<tr id="addGeologyRow">
+												<td colspan="9" class="text-center">
+													<!--- Add new geology attribute button --->
+													<button type="button" class="btn btn-xs btn-primary" onclick="addGeologyRow()">
+														<i class="fas fa-plus"></i> Add Geological Attribute
+													</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<!--- Hidden field to track the number of geology rows --->
+								<input type="hidden" name="geology_row_count" id="geology_row_count" value="#rowIndex#">
+								<!--- hidden field to accumulate geology attributes to delete --->
+								<input type="hidden" name="geology_attributes_to_delete" id="geology_attributes_to_delete" value="">
+						
+								<script>
+									$(document).ready(function() {
+										const initialRowCount = parseInt($('##geology_row_count').val());
+										for (let i = 1; i <= initialRowCount; i++) {
+											makeAgentAutocompleteMeta('geo_att_determiner_' + i, 'geo_att_determiner_id_' + i, true);
+											$("##geo_att_determined_date_" + i).datepicker({ dateFormat: 'yy-mm-dd'});
+											$("##geo_att_remark_" + i).keyup(autogrow);
+											countCharsLeft('geo_att_remark_' + i, 4000, 'length_geo_att_remark_' + i);
+											makeGeologyAutocompleteMeta('geology_attribute_' + i, 'geo_att_value_' + i, 'geology_attribute_hierarchy_id' + i, 'entry', $("##attribute_type_" + i).val());
+											addParentsChange(i); // initialize parent display
 										}
 									});
-									return geologyData;
-								}
-					
-							</script>
-						</div><!--- end geology table section --->
-					</div><!--- end geology attributes section --->
-
+						
+									function addGeologyRow() {
+										$('##noGeologyRow').remove();
+										let currentRowCount = parseInt($('##geology_row_count').val());
+										currentRowCount++;
+										$('##geology_row_count').val(currentRowCount);
+										const newRow = `
+											<tr data-row-index="${currentRowCount}">
+												<td>
+													<select name="attribute_type_${currentRowCount}" id="attribute_type_${currentRowCount}" class="data-entry-select reqdClr" onchange="changeGeoAttType(${currentRowCount})">
+														<cfloop query="ctGeologyTypes">
+															<option value="#ctGeologyTypes.type#">#ctGeologyTypes.type#</option>
+														</cfloop>
+													</select>
+													<input type="hidden" name="geology_attribute_id_${currentRowCount}" id="geology_attribute_id_${currentRowCount}" value="">
+													<input type="hidden" name="geology_attribute_hierarchy_id_${currentRowCount}" id="geology_attribute_hierarchy_id_${currentRowCount}" value="">
+												</td>
+												<td>
+													<input type="text" name="geology_attribute_${currentRowCount}" id="geology_attribute_${currentRowCount}" class="data-entry-input" value="" readonly>
+												</td>
+												<td>
+													<input type="text" id="geo_att_value_${currentRowCount}" name="geo_att_value_${currentRowCount}" class="data-entry-input reqdClr">
+												</td>
+												<td>
+													<select id="add_parents_${currentRowCount}" name="add_parents_${currentRowCount}" class="data-entry-select" onchange="addParentsChange(${currentRowCount});">
+														<option value="no" selected>No</option>
+														<option value="yes">Yes</option>
+													</select>
+													<div id="parentsDiv_${currentRowCount}"></div>
+												</td>
+												<td>
+													<input type="text" id="geo_att_determiner_${currentRowCount}" name="geo_att_determiner_${currentRowCount}" class="data-entry-input">
+													<input type="hidden" name="geo_att_determiner_id_${currentRowCount}" id="geo_att_determiner_id_${currentRowCount}">
+												</td>
+												<td>
+													<input type="text" id="geo_att_determined_date_${currentRowCount}" name="geo_att_determined_date_${currentRowCount}" class="data-entry-input geology-date">
+												</td>
+												<td>
+													<input type="text" id="geo_att_determined_method_${currentRowCount}" name="geo_att_determined_method_${currentRowCount}" class="data-entry-input">
+												</td>
+												<td>
+													<textarea name="geo_att_remark_${currentRowCount}" id="geo_att_remark_${currentRowCount}" class="form-control form-control-sm autogrow" rows="2" onkeyup="countCharsLeft('geo_att_remark_${currentRowCount}', 4000, 'length_geo_att_remark_${currentRowCount}');"></textarea>
+													<br><span id="length_geo_att_remark_${currentRowCount}" class="smaller-text">0 characters, 4000 left</span>
+												</td>
+												<td>
+													<button type="button" class="btn btn-xs btn-danger" onclick="removeGeologyRow(this)" title="Remove this geological attribute">
+														<i class="fas fa-times"></i>
+													</button>
+												</td>
+											</tr>
+										`;
+										<!--- " --->
+										$('##geologyTableBody').append(newRow);
+										makeAgentAutocompleteMeta('geo_att_determiner_' + currentRowCount, 'geo_att_determiner_id_' + currentRowCount, true);
+										$("##geo_att_determined_date_" + currentRowCount).datepicker({ dateFormat: 'yy-mm-dd'});
+										$("##geo_att_remark_" + currentRowCount).keyup(autogrow);
+										countCharsLeft('geo_att_remark_' + currentRowCount, 4000, 'length_geo_att_remark_' + currentRowCount);
+										makeGeologyAutocompleteMeta('geology_attribute_' + currentRowCount, 'geo_att_value_' + currentRowCount, null, 'entry', $("##attribute_type_" + currentRowCount).val());
+										addParentsChange(currentRowCount);
+									}
+						
+									function removeGeologyRow(button) {
+										const row = $(button).closest('tr');
+										const rowIndex = row.data('row-index');
+										<!--- check if the row has a geology_attribute_id, if so, add it to the delete list --->
+										const geologyAttributeId = $(`##geology_attribute_id_${rowIndex}`).val();
+										if (geologyAttributeId) {
+											let deleteList = $(`##geology_attributes_to_delete`).val();
+											if (deleteList) {
+												deleteList += ",";
+											}
+											deleteList += geologyAttributeId;
+											$(`##geology_attributes_to_delete`).val(deleteList);
+										}
+										$(`##geology_attribute_${rowIndex}`).val('');
+										row.hide();
+										if ($('##geologyTableBody tr:visible').length === 0) {
+											$('##geologyTableBody').append(`
+												<tr id="noGeologyRow">
+													<td colspan="9" class="text-muted text-center">No geological attributes for this locality.</td>
+												</tr>
+											`);
+										}
+									}
+						
+									function changeGeoAttType(rowIndex) {
+										$(`##geology_attribute_${rowIndex}`).val("");
+										$(`##geo_att_value_${rowIndex}`).val("");
+										makeGeologyAutocompleteMeta('geology_attribute_' + rowIndex, 'geo_att_value_' + rowIndex, 'geology_attribute_hierarchy_id_' + rowIndex, 'entry', $(`##attribute_type_${rowIndex}`).val());
+									}
+						
+									function addParentsChange(rowIndex) {
+										var selection = $(`##add_parents_${rowIndex}`).val();
+										if (selection === "yes") {
+											lookupGeoAttParents($(`##geology_attribute_${rowIndex}`).val(), `parentsDiv_${rowIndex}`);
+										} else {
+											$(`##parentsDiv_${rowIndex}`).html("");
+										}
+									}
+						
+									function aggregateGeologyTable() {
+										var geologyData = [];
+										$('##geologyTableBody tr:visible').each(function() {
+											var row = $(this);
+											var rowIndex = row.data('row-index');
+											var geologyAttribute = row.find('input[name="geology_attribute_' + rowIndex + '"]').val();
+											if (geologyAttribute) {
+												geologyData.push({
+													attribute_type: row.find('select[name="attribute_type_' + rowIndex + '"]').val(),
+													geology_attribute: geologyAttribute,
+													geo_att_value: row.find('input[name="geo_att_value_' + rowIndex + '"]').val(),
+													add_parents: row.find('select[name="add_parents_' + rowIndex + '"]').val(),
+													geo_att_determiner: row.find('input[name="geo_att_determiner_' + rowIndex + '"]').val(),
+													geo_att_determiner_id: row.find('input[name="geo_att_determiner_id_' + rowIndex + '"]').val(),
+													geo_att_determined_date: row.find('input[name="geo_att_determined_date_' + rowIndex + '"]').val(),
+													geo_att_determined_method: row.find('input[name="geo_att_determined_method_' + rowIndex + '"]').val(),
+													geo_att_remark: row.find('textarea[name="geo_att_remark_' + rowIndex + '"]').val(),
+													geology_attribute_id: row.find('input[name="geology_attribute_id_' + rowIndex + '"]').val()
+												});
+											}
+										});
+										return geologyData;
+									}
+						
+								</script>
+							</div><!--- end geology table section --->
+						</div><!--- end geology attributes section --->
+	
 						<!--- current georeference (on locality) --->
-
+	
 						<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT ORIG_LAT_LONG_UNITS 
 							FROM ctlat_long_units
@@ -7804,10 +7805,8 @@ limitations under the License.
 								)
 						</cfquery>
 						<div class="col-12 px-0">
-						
 							<div class="col-12 px-0">
 								<h2 class="h3 mt-3">Georeference and Georeference Metadata (edit from the locality)</h2>
-								
 								<div class="form-row">
 									<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT
@@ -7886,34 +7885,34 @@ limitations under the License.
 										<cfif accepted_lat_long EQ "Accepted">
 											<cfset divClass="small90 font-weight-lessbold my-1 w-100">
 										</cfif>
-										<div class="#divClass# px-2">#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
-										<ul class="mb-2 pl-2 pl-xl-4 ml-xl-1 small95">
-											<li>
-												#original# <span class="#divClass#">#accepted_lat_long#</span>
-											</li>
-											<li>
-												Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
-											</li>
-											<cfif len(geolocate_score) GT 0>
+										<div class="#divClass# px-2">
+											#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
+											<ul class="mb-2 pl-2 pl-xl-4 ml-xl-1 small95">
 												<li>
-													GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
+													#original# <span class="#divClass#">#accepted_lat_long#</span>
 												</li>
-											</cfif>
-											<cfif len(coordinate_precision) EQ 0>
 												<li>
-													Coordinate Precision is not set.  Edit the georeference from the Locality to 
-													<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Fix This</a>.
+													Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
 												</li>
-											</cfif>
-										</ul>
+												<cfif len(geolocate_score) GT 0>
+													<li>
+														GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
+													</li>
+												</cfif>
+												<cfif len(coordinate_precision) EQ 0>
+													<li>
+														Coordinate Precision is not set.  Edit the georeference from the Locality to 
+														<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Fix This</a>.
+													</li>
+												</cfif>
+											</ul>
+										</div>
 									</cfloop>
 								</div>
-
 							</div>
-						
 						</div>
-
-
+	
+	
 						<div class="col-12 px-0">
 							<div class="col-12">
 								<div class="mt-3 float-left">
