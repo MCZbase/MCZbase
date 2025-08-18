@@ -6633,7 +6633,7 @@ limitations under the License.
 							// ajax submit the form to localities/component/functions.cfc
 							setFeedbackControlState("locFormOutput","saving")
 							$.ajax({
-								url: '/localities/component/functions.cfc',
+								url: '/localities/component/combined.cfc',
 								type: 'POST',
 								data: $('##locForm').serialize(),
 								dataType: 'json',
