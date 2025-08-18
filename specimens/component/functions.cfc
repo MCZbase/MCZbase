@@ -7982,6 +7982,7 @@ limitations under the License.
 									$('##buttonOpenEditGeoreference').on('click', function() {
 										$('##georeferenceEditSection').show();
 										$('##buttonOpenEditGeoreference').hide();
+										changeLatLongUnits();
 									});
 								});
 							</script>
