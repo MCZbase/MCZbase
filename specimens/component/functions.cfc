@@ -7767,7 +7767,6 @@ limitations under the License.
 						</div><!--- end geology attributes section --->
 	
 						<!--- current georeference (on locality) --->
-	
 						<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT ORIG_LAT_LONG_UNITS 
 							FROM ctlat_long_units
@@ -7804,9 +7803,76 @@ limitations under the License.
 										and agent_name_type = 'login'
 								)
 						</cfquery>
+						
 						<div class="col-12 px-0">
 							<div class="col-12 px-0">
-								<h2 class="h3 mt-3">Georeference and Georeference Metadata (edit from the locality)</h2>
+								<h2 class="h3 mt-3">
+									Georeference and Georeference Metadata
+									<cfquery name="getCurrentGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT
+											lat_long_id,
+											accepted_lat_long_fg,
+											decode(accepted_lat_long_fg,1,'Accepted','') accepted_lat_long,
+											orig_lat_long_units,
+											lat_deg, dec_lat_min, lat_min, lat_sec, lat_dir,
+											long_deg, dec_long_min, long_min, long_sec, long_dir,
+											utm_zone, utm_ew, utm_ns,
+											georefmethod,
+											coordinate_precision,
+											nvl2(coordinate_precision, round(dec_lat,coordinate_precision), round(dec_lat,5)) dec_lat,
+											dec_lat raw_dec_lat,
+											nvl2(coordinate_precision, round(dec_long,coordinate_precision), round(dec_long,5)) dec_long,
+											dec_long raw_dec_long,
+											max_error_distance,
+											max_error_units,
+											round(to_meters(lat_long.max_error_distance, lat_long.max_error_units)) coordinateUncertaintyInMeters,
+											spatialfit,
+											error_polygon,
+											footprint_spatialfit,
+											datum,
+											extent,
+											extent_units,
+											determined_by_agent_id,
+											det_agent.agent_name determined_by,
+											to_char(determined_date,'yyyy-mm-dd') determined_date,
+											gpsaccuracy,
+											lat_long_ref_source,
+											nearest_named_place,
+											lat_long_for_nnp_fg,
+											verificationstatus,
+											field_verified_fg,
+											verified_by_agent_id,
+											ver_agent.agent_name verified_by,
+											CASE orig_lat_long_units
+												WHEN 'decimal degrees' THEN dec_lat || '&##176;'
+												WHEN 'deg. min. sec.' THEN lat_deg || '&##176; ' || lat_min || '&apos; ' || lat_sec || '&quot; ' || lat_dir
+												WHEN 'degrees dec. minutes' THEN lat_deg || '&##176; ' || dec_lat_min || '&apos; ' || lat_dir
+											END as LatitudeString,
+											CASE orig_lat_long_units
+												WHEN 'decimal degrees' THEN dec_long || '&##176;'
+												WHEN'degrees dec. minutes' THEN long_deg || '&##176; ' || dec_long_min || '&apos; ' || long_dir
+												WHEN 'deg. min. sec.' THEN long_deg || '&##176; ' || long_min || '&apos; ' || long_sec || '&quot ' || long_dir
+											END as LongitudeString,
+											geolocate_uncertaintypolygon,
+											geolocate_score,
+											geolocate_precision,
+											geolocate_numresults,
+											geolocate_parsepattern,
+											lat_long_remarks
+										FROM
+											lat_long
+											left join preferred_agent_name det_agent on lat_long.determined_by_agent_id = det_agent.agent_id
+											left join preferred_agent_name ver_agent on lat_long.verified_by_agent_id = ver_agent.agent_id
+										WHERE 
+											lat_long.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.locality_id#">
+											AND accepted_lat_long_fg = 1
+									</cfquery>
+									<cfif getCurrentGeoreference.recordcount GT 0>
+										<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeoreference">Edit Current Here</button>
+									</cfif>
+									<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit from the Locality</a>.
+								</h2>
+								
 								<div class="form-row">
 									<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT
@@ -7910,7 +7976,468 @@ limitations under the License.
 									</cfloop>
 								</div>
 							</div>
-						</div>
+						
+							<script>
+								$(document).ready(function() {
+									$('##buttonOpenEditGeoreference').on('click', function() {
+										$('##georeferenceEditSection').show();
+										$('##buttonOpenEditGeoreference').hide();
+									});
+								});
+							</script>
+						
+							<!--- Edit georeference form section --->
+							<cfif getCurrentGeoreference.recordcount GT 0>
+								<cfloop query="getCurrentGeoreference">
+									<div id="georeferenceEditSection" class="col-12" style="display: none;">
+										<h3 class="h4 mt-3">
+											Edit Current Georeference
+											<cfif splitToSave>
+												(editing here will split off the collecting event and locality)
+											</cfif>
+										</h3>
+										
+										<!--- Hidden fields for georeference --->
+										<input type="hidden" name="lat_long_id" value="#lat_long_id#">
+										
+										<div class="form-row">
+											<div class="col-12 col-md-3 mb-2">
+												<label for="orig_lat_long_units" class="data-entry-label">Coordinate Format</label>
+												<select id="orig_lat_long_units" name="orig_lat_long_units" class="data-entry-select reqdClr" onChange="changeLatLongUnits();">
+													<cfif orig_lat_long_units EQ "decimal degrees"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="decimal degrees" #selected#>decimal degrees</option>
+													<cfif orig_lat_long_units EQ "degrees dec. minutes"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="degrees dec. minutes" #selected#>degrees decimal minutes</option>
+													<cfif orig_lat_long_units EQ "deg. min. sec."><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="deg. min. sec." #selected#>deg. min. sec.</option>
+													<cfif orig_lat_long_units EQ "UTM"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="UTM" #selected#>UTM (Universal Transverse Mercator)</option>
+												</select>
+											</div>
+											<div class="col-12 col-md-3 mb-2">
+												<label for="accepted_lat_long_fg" class="data-entry-label">Accepted</label>
+												<select name="accepted_lat_long_fg" size="1" id="accepted_lat_long_fg" class="data-entry-select reqdClr">
+													<cfif accepted_lat_long_fg EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="1" #selected#>Yes</option>
+													<cfif accepted_lat_long_fg EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="0" #selected#>No</option>
+												</select>
+											</div>
+											<div class="col-12 col-md-3 mb-2">
+												<label for="determined_by_agent" class="data-entry-label">Determiner</label>
+												<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id" value="#determined_by_agent_id#">
+												<input type="text" name="determined_by_agent" id="determined_by_agent" class="data-entry-input reqdClr" value="#encodeForHtml(determined_by)#">
+											</div>
+											<div class="col-12 col-md-3">
+												<label for="determined_date" class="data-entry-label">Date Determined</label>
+												<input type="text" name="determined_date" id="determined_date" class="data-entry-input reqdClr" placeholder="yyyy-mm-dd" value="#determined_date#">
+											</div>
+											
+											<!--- Latitude fields --->
+											<div class="col-12 col-md-3 mb-2">
+												<cfif orig_lat_long_units EQ "decimal degrees"><cfset deg="#dec_lat#"><cfelse><cfset deg="#lat_deg#"></cfif>
+												<label for="lat_deg" class="data-entry-label">Latitude Degrees &##176;</label>
+												<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input latlong" value="#deg#">
+											</div>
+											<div class="col-12 col-md-3 mb-2">
+												<label for="lat_min" class="data-entry-label">Minutes &apos;</label>
+												<cfif orig_lat_long_units EQ "degrees dec. minutes"><cfset min="#dec_lat_min#"><cfelse><cfset min="#lat_min#"></cfif>
+												<input type="text" name="lat_min" id="lat_min" class="data-entry-input latlong" value="#min#">
+											</div>
+											<div class="col-12 col-md-3 mb-2">
+												<label for="lat_sec" class="data-entry-label">Seconds &quot;</label>
+												<input type="text" name="lat_sec" id="lat_sec" class="data-entry-input latlong" value="#lat_sec#">
+											</div>
+											<div class="col-12 col-md-3 mb-2">
+												<label for="lat_dir" class="data-entry-label">Direction</label>
+												<select name="lat_dir" size="1" id="lat_dir" class="data-entry-select latlong">
+													<cfif lat_dir EQ ""><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="" #selected#></option>
+													<cfif lat_dir EQ "N"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="N" #selected#>N</option>
+													<cfif lat_dir EQ "S"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="S" #selected#>S</option>
+												</select>
+											</div>
+											
+											<!--- Longitude fields --->
+											<div class="col-12 col-md-3 mb-2">
+												<cfif orig_lat_long_units EQ "decimal degrees"><cfset deg="#dec_long#"><cfelse><cfset deg="#long_deg#"></cfif>
+												<label for="long_deg" class="data-entry-label">Longitude Degrees &##176;</label>
+												<input type="text" name="long_deg" size="4" id="long_deg" class="data-entry-input latlong" value="#deg#">
+											</div>
+											<div class="col-12 col-md-3 mb-2">
+												<cfif orig_lat_long_units EQ "degrees dec. minutes"><cfset min="#dec_long_min#"><cfelse><cfset min="#long_min#"></cfif>
+												<label for="long_min" class="data-entry-label">Minutes &apos;</label>
+												<input type="text" name="long_min" size="4" id="long_min" class="data-entry-input latlong" value="#min#">
+											</div>
+											<div class="col-12 col-md-3 mb-2">
+												<label for="long_sec" class="data-entry-label">Seconds &quot;</label>
+												<input type="text" name="long_sec" size="4" id="long_sec" class="data-entry-input latlong" value="#long_sec#">
+											</div>
+											<div class="col-12 col-md-3 mb-2">
+												<label for="long_dir" class="data-entry-label">Direction</label>
+												<select name="long_dir" size="1" id="long_dir" class="data-entry-select latlong">
+													<cfif long_dir EQ ""><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="" #selected#></option>
+													<cfif long_dir EQ "E"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="E" #selected#>E</option>
+													<cfif long_dir EQ "W"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="W" #selected#>W</option>
+												</select>
+											</div>
+											
+											<!--- UTM fields --->
+											<div class="col-12 col-md-4 mb-2">
+												<label for="utm_zone" class="data-entry-label">UTM Zone/Letter</label>
+												<input type="text" name="utm_zone" size="4" id="utm_zone" class="data-entry-input utm" value="#encodeForHtml(utm_zone)#">
+											</div>
+											<div class="col-12 col-md-4 mb-2">
+												<label for="utm_ew" class="data-entry-label">Easting</label>
+												<input type="text" name="utm_ew" size="4" id="utm_ew" class="data-entry-input utm" value="#encodeForHtml(utm_ew)#">
+											</div>
+											<div class="col-12 col-md-4 mb-2">
+												<label for="utm_ns" class="data-entry-label">Northing</label>
+												<input type="text" name="utm_ns" size="4" id="utm_ns" class="data-entry-input utm" value="#encodeForHtml(utm_ns)#">
+											</div>
+											
+											<!--- Datum and error fields --->
+											<div class="col-12 col-md-3 mb-2">
+												<label for="datum" class="data-entry-label">
+													Geodetic Datum
+													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##datum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open geodetic datum pick list</span></a>
+												</label>
+												<input type="text" name="datum" id="datum" class="data-entry-input reqdClr" value="#encodeForHtml(datum)#" required>
+											</div>
+											<div class="col-12 col-md-2 mb-2">
+												<label for="max_error_distance" class="data-entry-label">Error Radius</label>
+												<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input reqdClr" value="#max_error_distance#" required>
+											</div>
+											<div class="col-12 col-md-1 mb-2">
+												<label for="max_error_units" class="data-entry-label">
+													Units
+													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##max_error_units').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list for error radius units</span></a>
+												</label>
+												<input type="text" name="max_error_units" id="max_error_units" class="data-entry-input reqdClr" value="#encodeForHtml(max_error_units)#" required>
+											</div>
+											<div class="col-12 col-md-3 mb-2">
+												<label for="spatialfit" class="data-entry-label">Point Radius Spatial Fit</label>
+												<input type="text" name="spatialfit" id="spatialfit" class="data-entry-input" value="#spatialfit#" pattern="^(0|1(\.[0-9]+)|[1-9][0-9.]{0,5}){0,1}$" >
+											</div>
+											<div class="col-12 col-md-2 mb-2">
+												<label for="extent" class="data-entry-label">Radial of Feature [Extent]</label>
+												<input type="text" name="extent" id="extent" class="data-entry-input" value="#extent#" pattern="^[0-9.]*$" >
+											</div>
+											<div class="col-12 col-md-1 mb-2">
+												<cfif len(extent) GT 0 AND len(extent_units) EQ 0>
+													<cfset reqExtentUnits="required">
+													<cfset reqdClrEU="reqdClr">
+												<cfelse>
+													<cfset reqExtentUnits="">
+													<cfset reqdClrEU="">
+												</cfif>
+												<label for="extent_units" class="data-entry-label">
+													Units
+													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##extent_units').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list for radial of feature (extent) units</span></a>
+												</label>
+												<input type="text" name="extent_units" id="extent_units" class="data-entry-input #reqdClrEU#" value="#encodeForHtml(extent_units)#" #reqExtentUnits#>
+											</div>
+											
+											<!--- Precision and other fields --->
+											<div class="col-12 col-md-3 mb-2">
+												<label for="coordinate_precision" class="data-entry-label">Precision</label>
+												<select name="coordinate_precision" id="coordinate_precision" class="data-entry-select reqdClr" required>
+													<cfif len(coordinate_precision) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="" #selected#></option>
+													<cfif coordinate_precision EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="0" #selected#>Specified to 1&##176;</option>
+													<cfif coordinate_precision EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="1" #selected#>Specified to 0.1&##176;. latitude known to 11 km.</option>
+													<cfif coordinate_precision EQ "2"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="2" #selected#>Specified to 0.01&##176;, use if known to 1&apos;, latitude known to 1,111 meters.</option>
+													<cfif coordinate_precision EQ "3"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="3" #selected#>Specified to 0.001&##176;, latitude known to 111 meters.</option>
+													<cfif coordinate_precision EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="4" #selected#>Specified to 0.0001&##176;, use if known to 1&quot;, latitude known to 11 meters.</option>
+													<cfif coordinate_precision EQ "5"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="5" #selected#>Specified to 0.00001&##176;, latitude known to 1 meter.</option>
+													<cfif coordinate_precision EQ "6"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="6" #selected#>Specified to 0.000001&##176;, latitude known to 11 cm.</option>
+												</select>
+											</div>
+											<div class="col-12 col-md-3 mb-2">
+												<label for="gpsaccuracy" class="data-entry-label">GPS Accuracy</label>
+												<input type="text" name="gpsaccuracy" id="gpsaccuracy" class="data-entry-input" value="#encodeForHtml(gpsaccuracy)#">
+											</div>
+											<div class="col-12 col-md-3 mb-2">
+												<label for="nearest_named_place" class="data-entry-label">Nearest Named Place</label>
+												<input type="text" name="nearest_named_place" id="nearest_named_place" class="data-entry-input" value="#encodeForHtml(nearest_named_place)#">
+											</div>
+											<div class="col-12 col-md-3 mb-2">
+												<label for="lat_long_for_nnp_fg" class="data-entry-label">Georeference is of Nearest Named Place</label>
+												<select name="lat_long_for_nnp_fg" id="lat_long_for_nnp_fg" class="data-entry-select reqdClr" required>
+													<cfif lat_long_for_nnp_fg EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="0" #selected#>No</option>
+													<cfif lat_long_for_nnp_fg EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="1" #selected#>Yes</option>
+												</select>
+											</div>
+											<div class="col-12 col-md-3">
+												<label for="lat_long_ref_source" class="data-entry-label">Reference</label>
+												<input type="text" name="lat_long_ref_source" id="lat_long_ref_source" class="data-entry-input reqdClr" value="#encodeForHtml(lat_long_ref_source)#" required>
+											</div>
+											<div class="col-12 col-md-3 mb-2">
+												<label for="georefmethod" class="data-entry-label">
+													Method
+													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##georefmethod').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open georeference method pick list</span></a>
+												</label>
+												<input type="text" name="georefmethod" id="georefmethod" class="data-entry-input reqdClr" value="#encodeForHtml(georefmethod)#" required>
+											</div>
+											<div class="col-12 col-md-3 mb-2">
+												<label for="verificationstatus" class="data-entry-label">
+													Verification Status
+													<cfif verificationstatus NEQ "unverified">
+														<span id="oldverifstatus" class="text-danger" onClick="setVerificationStatus('#verificationstatus#');">Was: #encodeForHtml(verificationstatus)# (&##8595;)<span/>
+													</cfif>
+												</label>
+												<select name="verificationstatus" size="1" id="verificationstatus" class="data-entry-select reqdClr" onChange="changeVerificationStatus();">
+													<cfloop query="ctVerificationStatus">
+														<!--- user needs to explicitly address the verification status or it reverts to unverified --->
+														<cfif ctVerificationStatus.verificationstatus EQ "unverified"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+														<option value="#ctVerificationStatus.verificationStatus#" #selected#>#ctVerificationStatus.verificationStatus#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-3 mb-2">
+												<label for="verified_by_agent" class="data-entry-label" id="verified_by_agent_label" >
+													Verified by
+													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##verified_by_agent_id').val('#getCurrentUser.agent_id#');  $('##verified_by_agent').val('#encodeForHtml(getCurrentUser.agent_name)#'); return false;" > (me) <span class="sr-only">Fill in verified by with #encodeForHtml(getCurrentUser.agent_name)#</span></a>
+												</label>
+												<input type="hidden" name="verified_by_agent_id" id="verified_by_agent_id" value="#verified_by_agent_id#">
+												<input type="text" name="verified_by_agent" id="verified_by_agent" class="data-entry-input reqdClr" value="#verified_by#">
+											</div>
+											<div class="col-12 mb-2">
+												<label class="data-entry-label" for="lat_long_remarks">Georeference Remarks (<span id="length_lat_long_remarks">0 of 4000 characters</span>)</label>
+												<textarea name="lat_long_remarks" id="lat_long_remarks" 
+													onkeyup="countCharsLeft('lat_long_remarks', 4000, 'length_lat_long_remarks');"
+													class="form-control form-control-sm w-100 autogrow mb-1" style="min-height: 30px;" rows="2">#encodeForHtml(lat_long_remarks)#</textarea>
+											</div>
+											<div class="col-12 col-md-9 mb-2">
+												<label for="error_polygon" class="data-entry-label" id="error_polygon_label">Footprint Polygon (WKT)</label>
+												<input type="text" name="error_polygon" id="error_polygon" class="data-entry-input" value="#encodeForHtml(error_polygon)#">
+											</div>
+											<div class="col-12 col-md-3 mb-2">
+												<label for="footprint_spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
+												<input type="text" name="footprint_spatialfit" id="footprint_spatialfit" class="data-entry-input" value="#footprint_spatialfit#" pattern="^(0|1(\.[0-9]+)|[1-9][0-9.]{0,5}){0,1}$" >
+											</div>
+											<div class="col-12 col-md-6 col-xl-3 mb-2">
+												<label for="wktFile" class="data-entry-label">Load Footprint Polygon from WKT file</label>
+												<input type="file" id="wktFile" name="wktFile" accept=".wkt" class="w-100 p-0">
+											</div>
+											<div class="col-12 col-md-6 col-xl-2 mt-3 text-danger mb-2">
+												<output id="wktReplaceFeedback"></output>
+											</div>
+											<div class="col-12 col-md-6 col-xl-3 mb-2">
+												<label for="copyFootprintFrom" class="data-entry-label" >Copy Polygon from locality_id</label>
+												<input type="hidden" name="copyFootprintFrom_id" id="copyFootprintFrom_id" value="">
+												<input type="text" name="copyFootprintFrom" id="copyFootprintFrom" value="" class="data-entry-input">
+											</div>
+											<div class="col-2 col-md-2 col-xl-1 mb-2">
+												<label class="data-entry-label">&nbsp;</label>
+												<input type="button" value="Copy" class="btn btn-xs btn-secondary" onClick=" confirmCopyWKTFromLocality(); ">
+											</div>
+											<div class="col-12 col-md-4 col-xl-3 mb-2">
+												<output id="wktLocReplaceFeedback"></output>
+											</div>
+											
+											<cfif len(geolocate_score) GT 0>
+												<div class="geolocateMetadata col-12 mb-1">
+													<h3 class="h4 my-1 px-1">Batch GeoLocate Georeference Metadata</h3>
+												</div>
+												<div class="geolocateMetadata col-12 col-md-3 mb-0">
+													<label for="geolocate_uncertaintypolygon" class="data-entry-label" id="geolocate_uncertaintypolygon_label">GeoLocate Uncertainty Polygon</label>
+													<input type="text" name="geolocate_uncertaintypolygon" id="geolocate_uncertaintypolygon" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_uncertaintypolygon)#"  readonly>
+												</div>
+												<div class="geolocateMetadata col-12 col-md-2 mb-0">
+													<label for="geolocate_score" class="data-entry-label" id="geolocate_score_label">GeoLocate Score</label>
+													<input type="text" name="geolocate_score" id="geolocate_score" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_score)#" readonly>
+												</div>
+												<div class="geolocateMetadata col-12 col-md-2 mb-0">
+													<label for="geolocate_precision" class="data-entry-label" id="geolocate_precision_label">GeoLocate Precision</label>
+													<input type="text" name="geolocate_precision" id="geolocate_precision" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_precision)#" readonly>
+												</div>
+												<div class="geolocateMetadata col-12 col-md-2 mb-0">
+													<label for="geolocate_numresults" class="data-entry-label" id="geolocate_numresults_label">Number of Matches</label>
+													<input type="text" name="geolocate_numresults" id="geolocate_numresults" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_numresults)#" readonly>
+												</div>
+												<div class="geolocateMetadata col-12 col-md-3 mb-0">
+													<label for="geolocate_parsepattern" class="data-entry-label" id="geolocate_parsepattern_label">Parse Pattern</label>
+													<input type="text" name="geolocate_parsepattern" id="geolocate_parsepattern" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_parsepattern)#" readonly>
+												</div>
+											</cfif>
+										</div>
+										
+										<script>
+											$(document).ready(function() {
+												makeAgentAutocompleteMeta("determined_by_agent", "determined_by_agent_id");
+												$("##determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
+												makeAgentAutocompleteMeta("verified_by_agent", "verified_by_agent_id");
+												makeCTAutocomplete('datum','datum');
+												makeCTAutocomplete('max_error_units','lat_long_error_units');
+												makeCTAutocomplete('extent_units','lat_long_error_units');
+												makeCTAutocomplete('georefmethod','georefmethod');
+												makeLocalityAutocompleteMetaLimited("copyFootprintFrom", "copyFootprintFrom_id","has_footprint");
+												$("##wktFile").change(confirmLoadWKTFromFile);
+												$("##lat_long_remarks").keyup(autogrow);
+												$('##lat_long_remarks').keyup();
+												countCharsLeft('lat_long_remarks', 4000, 'length_lat_long_remarks');
+												
+												<cfif verificationstatus EQ "unverified" OR verificationstatus EQ "migration" OR verificationstatus EQ "unknown" >
+													$('##verified_by_agent').hide();
+													$('##verified_by_agent_label').hide();
+												</cfif>
+												<cfif verificationstatus NEQ "unverified">
+													<!--- setup appearance when user needs to explicitly address the verification status or it reverts to unverified --->
+													$('##verificationstatus').addClass("bg-verylightred");
+													$('##verified_by_agent').addClass("bg-verylightred");
+													$('##verificationstatus').removeClass("reqdClr");
+													$('##verified_by_agent').removeClass("reqdClr");
+												</cfif>
+											});
+						
+											function changeLatLongUnits(){ 
+												$(".latlong").prop('disabled', true);
+												$(".latlong").prop('required', false);
+												$(".latlong").removeClass('reqdClr');
+												$(".latlong").addClass('bg-lt-gray');
+												$(".utm").removeClass('reqdClr');
+												$(".utm").addClass('bg-lt-gray');
+												$(".utm").prop('disabled', true);
+												$(".utm").prop('required', false);
+												var units = $("##orig_lat_long_units").val();
+												if (!units) { 
+													$(".latlong").prop('disabled', true);
+													$(".utm").prop('disabled', true);
+												} else if (units == 'decimal degrees') {
+													$("##lat_deg").prop('disabled', false);
+													$("##lat_deg").prop('required', true);
+													$("##lat_deg").addClass('reqdClr');
+													$("##lat_deg").removeClass('bg-lt-grey');
+													$("##long_deg").prop('disabled', false);
+													$("##long_deg").prop('required', true);
+													$("##long_deg").addClass('reqdClr');
+													$("##long_deg").removeClass('bg-lt-grey');
+												} else if (units == 'degrees dec. minutes') {
+													$("##lat_deg").prop('disabled', false);
+													$("##lat_deg").prop('required', true);
+													$("##lat_deg").addClass('reqdClr');
+													$("##lat_deg").removeClass('bg-lt-grey');
+													$("##lat_min").prop('disabled', false);
+													$("##lat_min").prop('required', true);
+													$("##lat_min").addClass('reqdClr');
+													$("##lat_min").removeClass('bg-lt-grey');
+													$("##lat_dir").prop('disabled', false);
+													$("##lat_dir").prop('required', true);
+													$("##lat_dir").addClass('reqdClr');
+													$("##long_deg").prop('disabled', false);
+													$("##long_deg").prop('required', true);
+													$("##long_deg").addClass('reqdClr');
+													$("##long_deg").removeClass('bg-lt-grey');
+													$("##long_min").prop('disabled', false);
+													$("##long_min").prop('required', true);
+													$("##long_min").addClass('reqdClr');
+													$("##long_min").removeClass('bg-lt-grey');
+													$("##long_dir").prop('disabled', false);
+													$("##long_dir").prop('required', true);
+													$("##long_dir").addClass('reqdClr');
+													$("##long_dir").removeClass('bg-lt-grey');
+												} else if (units == 'deg. min. sec.') {
+													$(".latlong").prop('disabled', false);
+													$(".latlong").addClass('reqdClr');
+													$(".latlong").removeClass('bg-lt-grey');
+													$(".latlong").prop('required', true);
+												} else if (units == 'UTM') {
+													$(".utm").prop('disabled', false);
+													$(".utm").prop('required', true);
+													$(".utm").addClass('reqdClr');
+													$(".utm").removeClass('bg-lt-grey');
+												}
+											} 
+						
+											/* show/hide verified by agent controls depending on verification status */
+											function changeVerificationStatus() { 
+												var status = $('##verificationstatus').val();
+												if (status=='verified by MCZ collection' || status=='rejected by MCZ collection' || status=='verified by collector') {
+													$('##verified_by_agent').show();
+													$('##verified_by_agent_label').show();
+												} else { 
+													$('##verified_by_agent').hide();
+													$('##verified_by_agent_label').hide();
+													$('##verified_by_agent').val("");
+													$('##verified_by_agent_id').val("");
+												}
+												$('##verificationstatus').removeClass("bg-verylightred");
+												$('##verified_by_agent').removeClass("bg-verylightred");
+												$('##verificationstatus').addClass("reqdClr");
+												$('##verified_by_agent').addClass("reqdClr");
+											};
+											
+											function setVerificationStatus(value) { 
+												$('##verificationstatus').val(value);
+												changeVerificationStatus();
+												$('##oldverifstatus').removeClass("text-danger");
+											} 
+						
+											function confirmLoadWKTFromFile(){
+												if ($("##error_polygon").val().length > 1) {
+													confirmDialog('This Georeference has a Footprint Polygon, do you wish to overwrite it?','Confirm overwrite Footprint WKT', loadWKTFromFile);
+												} else {
+													loadWKTFromFile();
+												}
+											}
+											
+											function loadWKTFromFile() { 
+												loadPolygonWKTFromFile('wktFile', 'error_polygon', 'wktReplaceFeedback');
+											}
+						
+											function copyWKTFromLocality() { 
+												var lookup_locality_id = $("##copyFootprintFrom_id").val();
+												if (lookup_locality_id=="") {
+													$("##wktLocReplaceFeedback").html("No locality selected to look up.");
+												} else {  
+													$("##wktLocReplaceFeedback").html("Loading...");
+													jQuery.ajax({
+														url: "/localities/component/georefUtilities.cfc",
+														type: "get",
+														data: {
+															method: "getGeoreferenceErrorWKT",
+															returnformat: "plain",
+															locality_id: lookup_locality_id
+														}, 
+														success: function (data) { 
+															$("##error_polygon").val(data);
+															$("##wktLocReplaceFeedback").html("Loaded.");
+														}, 
+														error: function (jqXHR, textStatus, error) {
+															$("##wktLocReplaceFeedback").html("Error looking up polygon WKT.");
+															handleFail(jqXHR,textStatus,error,"looking up wkt for accepted lat_long for locality");
+														}
+													});
+												} 
+											} 
+											
+											function confirmCopyWKTFromLocality(){
+												if ($("##error_polygon").val().length > 1) {
+													confirmDialog('This Georeference has a Footprint Polygon, do you wish to overwrite it?','Confirm overwrite Footprint WKT', copyWKTFromLocality);
+												} else {
+													copyWKTFromLocality();
+												}
+											}
+										</script>
+									</div><!--- end georeference edit section --->
+								</cfloop>
+							</cfif>
+						</div><!--- end georeference section --->	
 	
 	
 						<div class="col-12 px-0">
