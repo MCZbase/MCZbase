@@ -7804,7 +7804,7 @@ limitations under the License.
 								)
 						</cfquery>
 						
-						<div class="col-12 row px-0">
+						<div class="col-12 form-row mx-1 px-0">
 							<div class="col-12 px-0">
 								<h2 class="h3 mt-3">
 									Georeference and Georeference Metadata
@@ -8440,7 +8440,7 @@ limitations under the License.
 							</cfif>
 						</div><!--- end georeference section --->	
 	
-						<div class="col-12 px-0">
+						<div class="col-12 row px-0">
 							<div class="col-12">
 								<div class="mt-3 float-left">
 									<cfif splitToSave>	
