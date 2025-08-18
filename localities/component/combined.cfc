@@ -128,9 +128,117 @@ limitations under the License.
 			</cfif>
 
 			<cfif arguments.action EQ "splitAndSave">
-				<cfset handleSplitAndSave(argumentCollection=arguments, cecount=cecount, loccount=loccount)>
+				<cfset handleSplitAndSave(
+				    action=arguments.action,
+				    collection_object_id=arguments.collection_object_id,
+				    collecting_event_id=arguments.collecting_event_id,
+				    locality_id=arguments.locality_id,
+				    geog_auth_rec_id=arguments.geog_auth_rec_id,
+				    spec_locality=arguments.spec_locality,
+				    curated_fg=arguments.curated_fg,
+				    MINIMUM_ELEVATION=arguments.MINIMUM_ELEVATION,
+				    MAXIMUM_ELEVATION=arguments.MAXIMUM_ELEVATION,
+				    ORIG_ELEV_UNITS=arguments.ORIG_ELEV_UNITS,
+				    MIN_DEPTH=arguments.MIN_DEPTH,
+				    MAX_DEPTH=arguments.MAX_DEPTH,
+				    DEPTH_UNITS=arguments.DEPTH_UNITS,
+				    township=arguments.township,
+				    township_direction=arguments.township_direction,
+				    range=arguments.range,
+				    range_direction=arguments.range_direction,
+				    section=arguments.section,
+				    section_part=arguments.section_part,
+				    locality_remarks=arguments.locality_remarks,
+				    nogeorefbecause=arguments.nogeorefbecause,
+				    geology_data=arguments.geology_data,
+				    geology_attributes_to_delete=arguments.geology_attributes_to_delete,
+				    geology_row_count=arguments.geology_row_count,
+				    coll_event_numbers_data=arguments.coll_event_numbers_data,
+				    coll_event_numbers_to_delete=arguments.coll_event_numbers_to_delete,
+				    coll_event_number_row_count=arguments.coll_event_number_row_count,
+				    began_date=arguments.began_date,
+				    ended_date=arguments.ended_date,
+				    verbatim_date=arguments.verbatim_date,
+				    collecting_source=arguments.collecting_source,
+				    verbatim_habitat=arguments.verbatim_habitat,
+				    verbatim_locality=arguments.verbatim_locality,
+				    verbatimDepth=arguments.verbatimDepth,
+				    verbatimeelvation=arguments.verbatimeelvation,
+				    coll_event_remarks=arguments.coll_event_remarks,
+				    collecting_method=arguments.collecting_method,
+				    habitat_desc=arguments.habitat_desc,
+				    collecting_time=arguments.collecting_time,
+				    fish_field_number=arguments.fish_field_number,
+				    verbatimcoordinates=arguments.verbatimcoordinates,
+				    verbatimlatitude=arguments.verbatimlatitude,
+				    verbatimlongigude=arguments.verbatimlongigude,
+				    verbatimcoordinatesystem=arguments.verbatimcoordinatesystem,
+				    verbatimsrs=arguments.verbatimsrs,
+				    startdayofyear=arguments.startdayofyear,
+				    enddayofyear=arguments.enddayofyear,
+				    date_determined_by_agent_id=arguments.date_determined_by_agent_id,
+				    valid_distribution_fg=arguments.valid_distribution_fg,
+				    verbatim_collectors=arguments.verbatim_collectors,
+				    verbatim_field_numbers=arguments.verbatim_field_numbers,
+				    cecount=cecount,
+				    loccount=loccount
+				)>
 			<cfelseif arguments.action EQ "saveCurrent">
-				<cfset handleSaveCurrent(argumentCollection=arguments, cecount=cecount, loccount=loccount)>
+				<cfset handleSaveCurrent(
+				    action=arguments.action,
+				    collection_object_id=arguments.collection_object_id,
+				    collecting_event_id=arguments.collecting_event_id,
+				    locality_id=arguments.locality_id,
+				    geog_auth_rec_id=arguments.geog_auth_rec_id,
+				    spec_locality=arguments.spec_locality,
+				    curated_fg=arguments.curated_fg,
+				    MINIMUM_ELEVATION=arguments.MINIMUM_ELEVATION,
+				    MAXIMUM_ELEVATION=arguments.MAXIMUM_ELEVATION,
+				    ORIG_ELEV_UNITS=arguments.ORIG_ELEV_UNITS,
+				    MIN_DEPTH=arguments.MIN_DEPTH,
+				    MAX_DEPTH=arguments.MAX_DEPTH,
+				    DEPTH_UNITS=arguments.DEPTH_UNITS,
+				    township=arguments.township,
+				    township_direction=arguments.township_direction,
+				    range=arguments.range,
+				    range_direction=arguments.range_direction,
+				    section=arguments.section,
+				    section_part=arguments.section_part,
+				    locality_remarks=arguments.locality_remarks,
+				    nogeorefbecause=arguments.nogeorefbecause,
+				    geology_data=arguments.geology_data,
+				    geology_attributes_to_delete=arguments.geology_attributes_to_delete,
+				    geology_row_count=arguments.geology_row_count,
+				    coll_event_numbers_data=arguments.coll_event_numbers_data,
+				    coll_event_numbers_to_delete=arguments.coll_event_numbers_to_delete,
+				    coll_event_number_row_count=arguments.coll_event_number_row_count,
+				    began_date=arguments.began_date,
+				    ended_date=arguments.ended_date,
+				    verbatim_date=arguments.verbatim_date,
+				    collecting_source=arguments.collecting_source,
+				    verbatim_habitat=arguments.verbatim_habitat,
+				    verbatim_locality=arguments.verbatim_locality,
+				    verbatimDepth=arguments.verbatimDepth,
+				    verbatimeelvation=arguments.verbatimeelvation,
+				    coll_event_remarks=arguments.coll_event_remarks,
+				    collecting_method=arguments.collecting_method,
+				    habitat_desc=arguments.habitat_desc,
+				    collecting_time=arguments.collecting_time,
+				    fish_field_number=arguments.fish_field_number,
+				    verbatimcoordinates=arguments.verbatimcoordinates,
+				    verbatimlatitude=arguments.verbatimlatitude,
+				    verbatimlongigude=arguments.verbatimlongigude,
+				    verbatimcoordinatesystem=arguments.verbatimcoordinatesystem,
+				    verbatimsrs=arguments.verbatimsrs,
+				    startdayofyear=arguments.startdayofyear,
+				    enddayofyear=arguments.enddayofyear,
+				    date_determined_by_agent_id=arguments.date_determined_by_agent_id,
+				    valid_distribution_fg=arguments.valid_distribution_fg,
+				    verbatim_collectors=arguments.verbatim_collectors,
+				    verbatim_field_numbers=arguments.verbatim_field_numbers,
+				    cecount=cecount,
+				    loccount=loccount
+				)>
 			<cfelse>
 				<cfthrow message="Unknown action #encodeForHtml(arguments.action)#">
 			</cfif>
@@ -222,15 +330,80 @@ limitations under the License.
 
 <!--- Helper function to handle splitAndSave action --->
 <cffunction name="handleSplitAndSave" access="private" returntype="void">
+	<cfargument name="action" type="string" required="yes">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="collecting_event_id" type="string" required="yes">
 	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="geog_auth_rec_id" type="string" required="yes">
+	<cfargument name="spec_locality" type="string" required="yes">
+	<cfargument name="curated_fg" type="string" required="no">
+	<cfargument name="MINIMUM_ELEVATION" type="string" required="no">
+	<cfargument name="MAXIMUM_ELEVATION" type="string" required="no">
+	<cfargument name="ORIG_ELEV_UNITS" type="string" required="no">
+	<cfargument name="MIN_DEPTH" type="string" required="no">
+	<cfargument name="MAX_DEPTH" type="string" required="no">
+	<cfargument name="DEPTH_UNITS" type="string" required="no">
+	<cfargument name="township" type="string" required="no">
+	<cfargument name="township_direction" type="string" required="no">
+	<cfargument name="range" type="string" required="no">
+	<cfargument name="range_direction" type="string" required="no">
+	<cfargument name="section" type="string" required="no">
+	<cfargument name="section_part" type="string" required="no">
+	<cfargument name="locality_remarks" type="string" required="no">
+	<cfargument name="nogeorefbecause" type="string" required="no">
+	<cfargument name="geology_data" type="string" required="no">
+	<cfargument name="geology_attributes_to_delete" type="string" required="no">
+	<cfargument name="geology_row_count" type="string" required="no">
+	<cfargument name="coll_event_numbers_data" type="string" required="no">
+	<cfargument name="coll_event_numbers_to_delete" type="string" required="no">
+	<cfargument name="coll_event_number_row_count" type="string" required="no">
+	<cfargument name="began_date" type="string" required="yes">
+	<cfargument name="ended_date" type="string" required="yes">
+	<cfargument name="verbatim_date" type="string" required="yes">
+	<cfargument name="collecting_source" type="string" required="yes">
+	<cfargument name="verbatim_habitat" type="string" required="no">
+	<cfargument name="verbatim_locality" type="string" required="no">
+	<cfargument name="verbatimDepth" type="string" required="no">
+	<cfargument name="verbatimeelvation" type="string" required="no">
+	<cfargument name="coll_event_remarks" type="string" required="no">
+	<cfargument name="collecting_method" type="string" required="no">
+	<cfargument name="habitat_desc" type="string" required="no">
+	<cfargument name="collecting_time" type="string" required="no">
+	<cfargument name="fish_field_number" type="string" required="no">
+	<cfargument name="verbatimcoordinates" type="string" required="no">
+	<cfargument name="verbatimlatitude" type="string" required="no">
+	<cfargument name="verbatimlongigude" type="string" required="no">
+	<cfargument name="verbatimcoordinatesystem" type="string" required="no">
+	<cfargument name="verbatimsrs" type="string" required="no">
+	<cfargument name="startdayofyear" type="string" required="no">
+	<cfargument name="enddayofyear" type="string" required="no">
+	<cfargument name="date_determined_by_agent_id" type="string" required="no">
+	<cfargument name="valid_distribution_fg" type="string" required="no">
+	<cfargument name="verbatim_collectors" type="string" required="no">
+	<cfargument name="verbatim_field_numbers" type="string" required="no">
 	<cfargument name="cecount" type="query" required="yes">
 	<cfargument name="loccount" type="query" required="yes">
-	<!--- Include all other arguments from main function --->
 	
 	<!--- Create new locality --->
-	<cfset new_locality_id = createNewLocality(argumentCollection=arguments)>
+	<cfset new_locality_id = createNewLocality(
+		geog_auth_rec_id=arguments.geog_auth_rec_id,
+		spec_locality=arguments.spec_locality,
+		curated_fg=arguments.curated_fg,
+		MINIMUM_ELEVATION=arguments.MINIMUM_ELEVATION,
+		MAXIMUM_ELEVATION=arguments.MAXIMUM_ELEVATION,
+		ORIG_ELEV_UNITS=arguments.ORIG_ELEV_UNITS,
+		MIN_DEPTH=arguments.MIN_DEPTH,
+		MAX_DEPTH=arguments.MAX_DEPTH,
+		DEPTH_UNITS=arguments.DEPTH_UNITS,
+		township=arguments.township,
+		township_direction=arguments.township_direction,
+		range=arguments.range,
+		range_direction=arguments.range_direction,
+		section=arguments.section,
+		section_part=arguments.section_part,
+		locality_remarks=arguments.locality_remarks,
+		nogeorefbecause=arguments.nogeorefbecause
+	)>
 	
 	<!--- Clone georeference if exists --->
 	<cfset cloneGeoreference(arguments.locality_id, new_locality_id)>
@@ -240,10 +413,63 @@ limitations under the License.
 	
 	<cfif arguments.cecount.ct EQ 1 AND arguments.loccount.ct GT 1>
 		<!--- Update existing collecting event to point to new locality --->
-		<cfset updateCollectingEventLocality(arguments.collecting_event_id, new_locality_id, argumentCollection=arguments)>
+		<cfset updateCollectingEventLocality(
+			collecting_event_id=arguments.collecting_event_id, 
+			new_locality_id=new_locality_id,
+			began_date=arguments.began_date,
+			ended_date=arguments.ended_date,
+			verbatim_date=arguments.verbatim_date,
+			collecting_source=arguments.collecting_source,
+			verbatim_habitat=arguments.verbatim_habitat,
+			verbatim_locality=arguments.verbatim_locality,
+			verbatimDepth=arguments.verbatimDepth,
+			verbatimeelvation=arguments.verbatimeelvation,
+			coll_event_remarks=arguments.coll_event_remarks,
+			collecting_method=arguments.collecting_method,
+			habitat_desc=arguments.habitat_desc,
+			collecting_time=arguments.collecting_time,
+			fish_field_number=arguments.fish_field_number,
+			verbatimcoordinates=arguments.verbatimcoordinates,
+			verbatimlatitude=arguments.verbatimlatitude,
+			verbatimlongigude=arguments.verbatimlongigude,
+			verbatimcoordinatesystem=arguments.verbatimcoordinatesystem,
+			verbatimsrs=arguments.verbatimsrs,
+			startdayofyear=arguments.startdayofyear,
+			enddayofyear=arguments.enddayofyear,
+			date_determined_by_agent_id=arguments.date_determined_by_agent_id,
+			valid_distribution_fg=arguments.valid_distribution_fg,
+			verbatim_collectors=arguments.verbatim_collectors,
+			verbatim_field_numbers=arguments.verbatim_field_numbers
+		)>
 	<cfelse>
 		<!--- Create new collecting event --->
-		<cfset new_collecting_event_id = createNewCollectingEvent(new_locality_id, argumentCollection=arguments)>
+		<cfset new_collecting_event_id = createNewCollectingEvent(
+			new_locality_id=new_locality_id,
+			began_date=arguments.began_date,
+			ended_date=arguments.ended_date,
+			verbatim_date=arguments.verbatim_date,
+			collecting_source=arguments.collecting_source,
+			verbatim_habitat=arguments.verbatim_habitat,
+			verbatim_locality=arguments.verbatim_locality,
+			verbatimDepth=arguments.verbatimDepth,
+			verbatimeelvation=arguments.verbatimeelvation,
+			coll_event_remarks=arguments.coll_event_remarks,
+			collecting_method=arguments.collecting_method,
+			habitat_desc=arguments.habitat_desc,
+			collecting_time=arguments.collecting_time,
+			fish_field_number=arguments.fish_field_number,
+			verbatimcoordinates=arguments.verbatimcoordinates,
+			verbatimlatitude=arguments.verbatimlatitude,
+			verbatimlongigude=arguments.verbatimlongigude,
+			verbatimcoordinatesystem=arguments.verbatimcoordinatesystem,
+			verbatimsrs=arguments.verbatimsrs,
+			startdayofyear=arguments.startdayofyear,
+			enddayofyear=arguments.enddayofyear,
+			date_determined_by_agent_id=arguments.date_determined_by_agent_id,
+			valid_distribution_fg=arguments.valid_distribution_fg,
+			verbatim_collectors=arguments.verbatim_collectors,
+			verbatim_field_numbers=arguments.verbatim_field_numbers
+		)>
 		
 		<!--- Handle collecting event numbers --->
 		<cfif isDefined("arguments.coll_event_numbers_data")>
@@ -257,19 +483,95 @@ limitations under the License.
 
 <!--- Helper function to handle saveCurrent action --->
 <cffunction name="handleSaveCurrent" access="private" returntype="void">
+	<cfargument name="action" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="collecting_event_id" type="string" required="yes">
+	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="geog_auth_rec_id" type="string" required="yes">
+	<cfargument name="spec_locality" type="string" required="yes">
+	<cfargument name="curated_fg" type="string" required="no">
+	<cfargument name="MINIMUM_ELEVATION" type="string" required="no">
+	<cfargument name="MAXIMUM_ELEVATION" type="string" required="no">
+	<cfargument name="ORIG_ELEV_UNITS" type="string" required="no">
+	<cfargument name="MIN_DEPTH" type="string" required="no">
+	<cfargument name="MAX_DEPTH" type="string" required="no">
+	<cfargument name="DEPTH_UNITS" type="string" required="no">
+	<cfargument name="township" type="string" required="no">
+	<cfargument name="township_direction" type="string" required="no">
+	<cfargument name="range" type="string" required="no">
+	<cfargument name="range_direction" type="string" required="no">
+	<cfargument name="section" type="string" required="no">
+	<cfargument name="section_part" type="string" required="no">
+	<cfargument name="locality_remarks" type="string" required="no">
+	<cfargument name="nogeorefbecause" type="string" required="no">
+	<cfargument name="geology_data" type="string" required="no">
+	<cfargument name="geology_attributes_to_delete" type="string" required="no">
+	<cfargument name="geology_row_count" type="string" required="no">
+	<cfargument name="coll_event_numbers_data" type="string" required="no">
+	<cfargument name="coll_event_numbers_to_delete" type="string" required="no">
+	<cfargument name="coll_event_number_row_count" type="string" required="no">
+	<cfargument name="began_date" type="string" required="yes">
+	<cfargument name="ended_date" type="string" required="yes">
+	<cfargument name="verbatim_date" type="string" required="yes">
+	<cfargument name="collecting_source" type="string" required="yes">
+	<cfargument name="verbatim_habitat" type="string" required="no">
+	<cfargument name="verbatim_locality" type="string" required="no">
+	<cfargument name="verbatimDepth" type="string" required="no">
+	<cfargument name="verbatimeelvation" type="string" required="no">
+	<cfargument name="coll_event_remarks" type="string" required="no">
+	<cfargument name="collecting_method" type="string" required="no">
+	<cfargument name="habitat_desc" type="string" required="no">
+	<cfargument name="collecting_time" type="string" required="no">
+	<cfargument name="fish_field_number" type="string" required="no">
+	<cfargument name="verbatimcoordinates" type="string" required="no">
+	<cfargument name="verbatimlatitude" type="string" required="no">
+	<cfargument name="verbatimlongigude" type="string" required="no">
+	<cfargument name="verbatimcoordinatesystem" type="string" required="no">
+	<cfargument name="verbatimsrs" type="string" required="no">
+	<cfargument name="startdayofyear" type="string" required="no">
+	<cfargument name="enddayofyear" type="string" required="no">
+	<cfargument name="date_determined_by_agent_id" type="string" required="no">
+	<cfargument name="valid_distribution_fg" type="string" required="no">
+	<cfargument name="verbatim_collectors" type="string" required="no">
+	<cfargument name="verbatim_field_numbers" type="string" required="no">
 	<cfargument name="cecount" type="query" required="yes">
 	<cfargument name="loccount" type="query" required="yes">
-	<!--- Include all other arguments from main function --->
 	
 	<cfif arguments.cecount.ct GT 1 OR arguments.loccount.ct GT 1>
 		<cfthrow message="Collecting Event or Locality are shared with other cataloged items, cannot save changes to shared records, use split and save instead.">
 	</cfif>
 	
 	<!--- Validate elevation and depth data --->
-	<cfset validateElevationDepthData(argumentCollection=arguments)>
+	<cfset validateElevationDepthData(
+		MINIMUM_ELEVATION=arguments.MINIMUM_ELEVATION,
+		MAXIMUM_ELEVATION=arguments.MAXIMUM_ELEVATION,
+		ORIG_ELEV_UNITS=arguments.ORIG_ELEV_UNITS,
+		MIN_DEPTH=arguments.MIN_DEPTH,
+		MAX_DEPTH=arguments.MAX_DEPTH,
+		DEPTH_UNITS=arguments.DEPTH_UNITS
+	)>
 	
 	<!--- Update existing locality --->
-	<cfset updateExistingLocality(argumentCollection=arguments)>
+	<cfset updateExistingLocality(
+		locality_id=arguments.locality_id,
+		geog_auth_rec_id=arguments.geog_auth_rec_id,
+		spec_locality=arguments.spec_locality,
+		curated_fg=arguments.curated_fg,
+		MINIMUM_ELEVATION=arguments.MINIMUM_ELEVATION,
+		MAXIMUM_ELEVATION=arguments.MAXIMUM_ELEVATION,
+		ORIG_ELEV_UNITS=arguments.ORIG_ELEV_UNITS,
+		MIN_DEPTH=arguments.MIN_DEPTH,
+		MAX_DEPTH=arguments.MAX_DEPTH,
+		DEPTH_UNITS=arguments.DEPTH_UNITS,
+		township=arguments.township,
+		township_direction=arguments.township_direction,
+		range=arguments.range,
+		range_direction=arguments.range_direction,
+		section=arguments.section,
+		section_part=arguments.section_part,
+		locality_remarks=arguments.locality_remarks,
+		nogeorefbecause=arguments.nogeorefbecause
+	)>
 	
 	<!--- Handle geology attributes --->
 	<cfset handleGeologyAttributes(arguments.geology_data, arguments.locality_id, "update")>
@@ -285,7 +587,34 @@ limitations under the License.
 	</cfif>
 	
 	<!--- Update existing collecting event --->
-	<cfset updateExistingCollectingEvent(argumentCollection=arguments)>
+	<cfset updateExistingCollectingEvent(
+		collecting_event_id=arguments.collecting_event_id,
+		locality_id=arguments.locality_id,
+		began_date=arguments.began_date,
+		ended_date=arguments.ended_date,
+		verbatim_date=arguments.verbatim_date,
+		collecting_source=arguments.collecting_source,
+		verbatim_habitat=arguments.verbatim_habitat,
+		verbatim_locality=arguments.verbatim_locality,
+		verbatimDepth=arguments.verbatimDepth,
+		verbatimeelvation=arguments.verbatimeelvation,
+		coll_event_remarks=arguments.coll_event_remarks,
+		collecting_method=arguments.collecting_method,
+		habitat_desc=arguments.habitat_desc,
+		collecting_time=arguments.collecting_time,
+		fish_field_number=arguments.fish_field_number,
+		verbatimcoordinates=arguments.verbatimcoordinates,
+		verbatimlatitude=arguments.verbatimlatitude,
+		verbatimlongigude=arguments.verbatimlongigude,
+		verbatimcoordinatesystem=arguments.verbatimcoordinatesystem,
+		verbatimsrs=arguments.verbatimsrs,
+		startdayofyear=arguments.startdayofyear,
+		enddayofyear=arguments.enddayofyear,
+		date_determined_by_agent_id=arguments.date_determined_by_agent_id,
+		valid_distribution_fg=arguments.valid_distribution_fg,
+		verbatim_collectors=arguments.verbatim_collectors,
+		verbatim_field_numbers=arguments.verbatim_field_numbers
+	)>
 </cffunction>
 
 <!--- Helper function to validate elevation and depth data --->
@@ -311,24 +640,36 @@ limitations under the License.
 
 <!--- Helper function to create new locality --->
 <cffunction name="createNewLocality" access="private" returntype="string">
-	<!--- Include all locality-related arguments --->
 	<cfargument name="geog_auth_rec_id" type="string" required="yes">
 	<cfargument name="spec_locality" type="string" required="yes">
 	<cfargument name="curated_fg" type="string" required="no">
-	<!--- ... include all other locality arguments ... --->
+	<cfargument name="MINIMUM_ELEVATION" type="string" required="no">
+	<cfargument name="MAXIMUM_ELEVATION" type="string" required="no">
+	<cfargument name="ORIG_ELEV_UNITS" type="string" required="no">
+	<cfargument name="MIN_DEPTH" type="string" required="no">
+	<cfargument name="MAX_DEPTH" type="string" required="no">
+	<cfargument name="DEPTH_UNITS" type="string" required="no">
+	<cfargument name="township" type="string" required="no">
+	<cfargument name="township_direction" type="string" required="no">
+	<cfargument name="range" type="string" required="no">
+	<cfargument name="range_direction" type="string" required="no">
+	<cfargument name="section" type="string" required="no">
+	<cfargument name="section_part" type="string" required="no">
+	<cfargument name="locality_remarks" type="string" required="no">
+	<cfargument name="nogeorefbecause" type="string" required="no">
 	
 	<!--- Calculate scales for decimal precision --->
-	<cfif len(arguments.maximum_elevation) GT 0>
-		<cfset max_elev_scale = len(rereplace(arguments.maximum_elevation,'^[0-9-]*[.]',''))>
+	<cfif len(arguments.MAXIMUM_ELEVATION) GT 0>
+		<cfset max_elev_scale = len(rereplace(arguments.MAXIMUM_ELEVATION,'^[0-9-]*[.]',''))>
 	</cfif>
-	<cfif len(arguments.minimum_elevation) GT 0>
-		<cfset min_elev_scale = len(rereplace(arguments.minimum_elevation,'^[0-9-]*[.]',''))>
+	<cfif len(arguments.MINIMUM_ELEVATION) GT 0>
+		<cfset min_elev_scale = len(rereplace(arguments.MINIMUM_ELEVATION,'^[0-9-]*[.]',''))>
 	</cfif>
-	<cfif len(arguments.max_depth) GT 0>
-		<cfset max_depth_scale = len(rereplace(arguments.max_depth,'^[0-9-]*[.]',''))>
+	<cfif len(arguments.MAX_DEPTH) GT 0>
+		<cfset max_depth_scale = len(rereplace(arguments.MAX_DEPTH,'^[0-9-]*[.]',''))>
 	</cfif>
-	<cfif len(arguments.min_depth) GT 0>
-		<cfset min_depth_scale = len(rereplace(arguments.min_depth,'^[0-9-]*[.]',''))>
+	<cfif len(arguments.MIN_DEPTH) GT 0>
+		<cfset min_depth_scale = len(rereplace(arguments.MIN_DEPTH,'^[0-9-]*[.]',''))>
 	</cfif>
 
 	<cfquery name="newLocality" datasource="uam_god" result="newLocality_result">
@@ -349,7 +690,76 @@ limitations under the License.
 			<cfelse>
 				null,
 			</cfif>
-			<!--- Continue with all other locality fields... --->
+			<cfif len(arguments.MINIMUM_ELEVATION) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#min_elev_scale#" value="#arguments.MINIMUM_ELEVATION#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.MAXIMUM_ELEVATION) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#max_elev_scale#" value="#arguments.MAXIMUM_ELEVATION#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.ORIG_ELEV_UNITS) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.ORIG_ELEV_UNITS#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.MIN_DEPTH) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#min_depth_scale#" value="#arguments.MIN_DEPTH#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.MAX_DEPTH) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#max_depth_scale#" value="#arguments.MAX_DEPTH#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.DEPTH_UNITS) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.DEPTH_UNITS#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.township) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.township#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.township_direction) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.township_direction#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.range) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.range#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.range_direction) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.range_direction#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.section) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.section#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.section_part) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.section_part#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.locality_remarks) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.locality_remarks#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.nogeorefbecause) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.nogeorefbecause#">
+			<cfelse>
+				null
+			</cfif>
 		)
 	</cfquery>
 	
@@ -757,11 +1167,30 @@ limitations under the License.
 <!--- Helper function to create new collecting event --->
 <cffunction name="createNewCollectingEvent" access="private" returntype="string">
 	<cfargument name="new_locality_id" type="string" required="yes">
-	<!--- Include all collecting event arguments --->
 	<cfargument name="began_date" type="string" required="yes">
 	<cfargument name="ended_date" type="string" required="yes">
 	<cfargument name="verbatim_date" type="string" required="yes">
-	<!--- ... and all other collecting event arguments ... --->
+	<cfargument name="collecting_source" type="string" required="yes">
+	<cfargument name="verbatim_habitat" type="string" required="no">
+	<cfargument name="verbatim_locality" type="string" required="no">
+	<cfargument name="verbatimDepth" type="string" required="no">
+	<cfargument name="verbatimeelvation" type="string" required="no">
+	<cfargument name="coll_event_remarks" type="string" required="no">
+	<cfargument name="collecting_method" type="string" required="no">
+	<cfargument name="habitat_desc" type="string" required="no">
+	<cfargument name="collecting_time" type="string" required="no">
+	<cfargument name="fish_field_number" type="string" required="no">
+	<cfargument name="verbatimcoordinates" type="string" required="no">
+	<cfargument name="verbatimlatitude" type="string" required="no">
+	<cfargument name="verbatimlongigude" type="string" required="no">
+	<cfargument name="verbatimcoordinatesystem" type="string" required="no">
+	<cfargument name="verbatimsrs" type="string" required="no">
+	<cfargument name="startdayofyear" type="string" required="no">
+	<cfargument name="enddayofyear" type="string" required="no">
+	<cfargument name="date_determined_by_agent_id" type="string" required="no">
+	<cfargument name="valid_distribution_fg" type="string" required="no">
+	<cfargument name="verbatim_collectors" type="string" required="no">
+	<cfargument name="verbatim_field_numbers" type="string" required="no">
 	
 	<cfquery name="newCollectingEvent" datasource="uam_god" result="newCollectingEvent_result">
 		INSERT INTO collecting_event 
@@ -778,7 +1207,106 @@ limitations under the License.
 			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatim_date#">,
 			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collecting_source#">,
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.new_locality_id#">,
-			<!--- Continue with all other collecting event fields... --->
+			<cfif len(arguments.verbatim_locality) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatim_locality#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.verbatimdepth) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimdepth#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.verbatimelevation) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimelevation#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.verbatimCoordinates) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimCoordinates#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.verbatimLatitude) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimLatitude#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.verbatimLongitude) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimLongitude#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.verbatimCoordinateSystem) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimCoordinateSystem#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.verbatimSRS) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimSRS#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.verbatim_collectors) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatim_collectors#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.verbatim_field_numbers) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatim_field_numbers#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.verbatim_habitat) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatim_habitat#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.COLL_EVENT_REMARKS) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.COLL_EVENT_REMARKS#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.COLLECTING_METHOD) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.COLLECTING_METHOD#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.HABITAT_DESC) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.HABITAT_DESC#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.COLLECTING_TIME) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.COLLECTING_TIME#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.fish_field_number) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.fish_field_number#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.startDayOfYear) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.startDayOfYear#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.endDayOfYear) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.endDayOfYear#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.date_determined_by_agent_id) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.date_determined_by_agent_id#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.valid_distribution_fg) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.valid_distribution_fg#">
+			<cfelse>
+				null
+			</cfif>
 		)
 	</cfquery>
 	
@@ -801,23 +1329,49 @@ limitations under the License.
 
 <!--- Helper function to update existing locality --->
 <cffunction name="updateExistingLocality" access="private" returntype="void">
-	<!--- Include all locality arguments --->
 	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="geog_auth_rec_id" type="string" required="yes">
-	<!--- ... and all other locality arguments ... --->
+	<cfargument name="spec_locality" type="string" required="yes">
+	<cfargument name="curated_fg" type="string" required="no">
+	<cfargument name="MINIMUM_ELEVATION" type="string" required="no">
+	<cfargument name="MAXIMUM_ELEVATION" type="string" required="no">
+	<cfargument name="ORIG_ELEV_UNITS" type="string" required="no">
+	<cfargument name="MIN_DEPTH" type="string" required="no">
+	<cfargument name="MAX_DEPTH" type="string" required="no">
+	<cfargument name="DEPTH_UNITS" type="string" required="no">
+	<cfargument name="township" type="string" required="no">
+	<cfargument name="township_direction" type="string" required="no">
+	<cfargument name="range" type="string" required="no">
+	<cfargument name="range_direction" type="string" required="no">
+	<cfargument name="section" type="string" required="no">
+	<cfargument name="section_part" type="string" required="no">
+	<cfargument name="locality_remarks" type="string" required="no">
+	<cfargument name="nogeorefbecause" type="string" required="no">
 	
 	<!--- Calculate scales for decimal precision --->
-	<cfif len(arguments.maximum_elevation) GT 0>
-		<cfset max_elev_scale = len(rereplace(arguments.maximum_elevation,'^[0-9-]*[.]',''))>
+	<cfif len(arguments.MAXIMUM_ELEVATION) GT 0>
+		<cfset max_elev_scale = len(rereplace(arguments.MAXIMUM_ELEVATION,'^[0-9-]*[.]',''))>
 	</cfif>
-	<cfif len(arguments.minimum_elevation) GT 0>
-		<cfset min_elev_scale = len(rereplace(arguments.minimum_elevation,'^[0-9-]*[.]',''))>
+	<cfif len(arguments.MINIMUM_ELEVATION) GT 0>
+		<cfset min_elev_scale = len(rereplace(arguments.MINIMUM_ELEVATION,'^[0-9-]*[.]',''))>
 	</cfif>
-	<cfif len(arguments.max_depth) GT 0>
-		<cfset max_depth_scale = len(rereplace(arguments.max_depth,'^[0-9-]*[.]',''))>
+	<cfif len(arguments.MAX_DEPTH) GT 0>
+		<cfset max_depth_scale = len(rereplace(arguments.MAX_DEPTH,'^[0-9-]*[.]',''))>
 	</cfif>
-	<cfif len(arguments.min_depth) GT 0>
-		<cfset min_depth_scale = len(rereplace(arguments.min_depth,'^[0-9-]*[.]',''))>
+	<cfif len(arguments.MIN_DEPTH) GT 0>
+		<cfset min_depth_scale = len(rereplace(arguments.MIN_DEPTH,'^[0-9-]*[.]',''))>
+	</cfif>
+
+	<!--- Clean up units if no elevation/depth values --->
+	<cfif len(arguments.ORIG_ELEV_UNITS) gt 0>
+		<cfif len(arguments.MINIMUM_ELEVATION) is 0 AND len(arguments.MAXIMUM_ELEVATION) is 0>
+			<cfset arguments.ORIG_ELEV_UNITS = "">
+		</cfif>
+	</cfif>
+	<cfif len(arguments.DEPTH_UNITS) gt 0>
+		<cfif len(arguments.MIN_DEPTH) is 0 AND len(arguments.MAX_DEPTH) is 0>
+			<cfset arguments.DEPTH_UNITS = "">
+		</cfif>
 	</cfif>
 
 	<cfquery name="updateLocality" datasource="uam_god" result="updateLocality_result">
@@ -825,10 +1379,80 @@ limitations under the License.
 		geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.geog_auth_rec_id#">,
 		<cfif len(arguments.spec_locality) GT 0>
 			spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.spec_locality#">,
-	  <cfelse>
+		<cfelse>
 			spec_locality = null,
 		</cfif>
-		<!--- Continue with all other locality fields... --->
+		<cfif isdefined("arguments.curated_fg") AND len(arguments.curated_fg) gt 0>
+			curated_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.curated_fg#">,
+		<cfelse>
+			curated_fg = null,
+		</cfif>
+		<cfif len(arguments.MINIMUM_ELEVATION) gt 0>
+			MINIMUM_ELEVATION = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#min_elev_scale#" value="#arguments.MINIMUM_ELEVATION#">,
+		<cfelse>
+			MINIMUM_ELEVATION = null,
+		</cfif>
+		<cfif len(arguments.MAXIMUM_ELEVATION) gt 0>
+			MAXIMUM_ELEVATION = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#max_elev_scale#" value="#arguments.MAXIMUM_ELEVATION#">,
+		<cfelse>
+			MAXIMUM_ELEVATION = null,
+		</cfif>
+		<cfif len(arguments.ORIG_ELEV_UNITS) gt 0>
+			ORIG_ELEV_UNITS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.ORIG_ELEV_UNITS#">,
+		<cfelse>
+			ORIG_ELEV_UNITS = null,
+		</cfif>
+		<cfif len(arguments.MIN_DEPTH) gt 0>
+			min_depth = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#min_depth_scale#" value="#arguments.MIN_DEPTH#">,
+		<cfelse>
+			min_depth = null,
+		</cfif>
+		<cfif len(arguments.MAX_DEPTH) gt 0>
+			max_depth = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#max_depth_scale#" value="#arguments.MAX_DEPTH#">,
+		<cfelse>
+			max_depth = null,
+		</cfif>
+		<cfif len(arguments.DEPTH_UNITS) gt 0>
+			depth_units = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.DEPTH_UNITS#">,
+		<cfelse>
+			depth_units = null,
+		</cfif>
+		<cfif len(arguments.section_part) gt 0>
+			section_part = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.section_part#">,
+		<cfelse>
+			section_part = null,
+		</cfif>
+		<cfif len(arguments.section) gt 0>
+			section = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.section#">,
+		<cfelse>
+			section = null,
+		</cfif>
+		<cfif len(arguments.township_direction) gt 0>
+			township_direction = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.township_direction#">,
+		<cfelse>
+			township_direction = null,
+		</cfif>
+		<cfif len(arguments.township) gt 0>
+			township = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.township#">,
+		<cfelse>
+			township = null,
+		</cfif>
+		<cfif len(arguments.range_direction) gt 0>
+			range_direction = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.range_direction#">,
+		<cfelse>
+			range_direction = null,
+		</cfif>
+		<cfif len(arguments.range) gt 0>
+			range = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.range#">,
+		<cfelse>
+			range = null,
+		</cfif>
+		<cfif len(arguments.locality_remarks) gt 0>
+			LOCALITY_REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.locality_remarks#">,
+		<cfelse>
+			LOCALITY_REMARKS = null,
+		</cfif>
+		<!--- last field in set clause, no commas at end --->
 		<cfif len(arguments.nogeorefbecause) gt 0>
 			nogeorefbecause = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.nogeorefbecause#">
 		<cfelse>
@@ -843,10 +1467,32 @@ limitations under the License.
 
 <!--- Helper function to update existing collecting event --->
 <cffunction name="updateExistingCollectingEvent" access="private" returntype="void">
-	<!--- Include all collecting event arguments --->
 	<cfargument name="collecting_event_id" type="string" required="yes">
+	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="began_date" type="string" required="yes">
-	<!--- ... and all other collecting event arguments ... --->
+	<cfargument name="ended_date" type="string" required="yes">
+	<cfargument name="verbatim_date" type="string" required="yes">
+	<cfargument name="collecting_source" type="string" required="yes">
+	<cfargument name="verbatim_habitat" type="string" required="no">
+	<cfargument name="verbatim_locality" type="string" required="no">
+	<cfargument name="verbatimDepth" type="string" required="no">
+	<cfargument name="verbatimeelvation" type="string" required="no">
+	<cfargument name="coll_event_remarks" type="string" required="no">
+	<cfargument name="collecting_method" type="string" required="no">
+	<cfargument name="habitat_desc" type="string" required="no">
+	<cfargument name="collecting_time" type="string" required="no">
+	<cfargument name="fish_field_number" type="string" required="no">
+	<cfargument name="verbatimcoordinates" type="string" required="no">
+	<cfargument name="verbatimlatitude" type="string" required="no">
+	<cfargument name="verbatimlongigude" type="string" required="no">
+	<cfargument name="verbatimcoordinatesystem" type="string" required="no">
+	<cfargument name="verbatimsrs" type="string" required="no">
+	<cfargument name="startdayofyear" type="string" required="no">
+	<cfargument name="enddayofyear" type="string" required="no">
+	<cfargument name="date_determined_by_agent_id" type="string" required="no">
+	<cfargument name="valid_distribution_fg" type="string" required="no">
+	<cfargument name="verbatim_collectors" type="string" required="no">
+	<cfargument name="verbatim_field_numbers" type="string" required="no">
 	
 	<cfquery name="updateCollectingEvent" datasource="uam_god" result="updateCollectingEvent_result">
 		UPDATE collecting_event 
@@ -856,7 +1502,106 @@ limitations under the License.
 			verbatim_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatim_date#">,
 			collecting_source = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collecting_source#">,
 			locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.locality_id#">
-			<!--- Continue with all other collecting event fields... --->
+			<cfif len(arguments.verbatim_locality) gt 0>
+				,verbatim_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatim_locality#">
+			<cfelse>
+				,verbatim_locality = null
+			</cfif>
+			<cfif len(arguments.verbatimdepth) gt 0>
+				,verbatimdepth = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimdepth#">
+			<cfelse>
+				,verbatimdepth = null
+			</cfif>
+			<cfif len(arguments.verbatimelevation) gt 0>
+				,verbatimelevation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimelevation#">
+			<cfelse>
+				,verbatimelevation = null
+			</cfif>
+			<cfif len(arguments.COLL_EVENT_REMARKS) gt 0>
+				,COLL_EVENT_REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.COLL_EVENT_REMARKS#">
+			<cfelse>
+				,COLL_EVENT_REMARKS = null
+			</cfif>
+			<cfif len(arguments.COLLECTING_METHOD) gt 0>
+				,COLLECTING_METHOD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.COLLECTING_METHOD#">
+			<cfelse>
+				,COLLECTING_METHOD = null
+			</cfif>
+			<cfif len(arguments.HABITAT_DESC) gt 0>
+				,HABITAT_DESC = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.HABITAT_DESC#">
+			<cfelse>
+				,HABITAT_DESC = null
+			</cfif>
+			<cfif len(arguments.COLLECTING_TIME) gt 0>
+				,COLLECTING_TIME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.COLLECTING_TIME#">
+			<cfelse>
+				,COLLECTING_TIME = null
+			</cfif>
+			<cfif len(arguments.fish_field_number) gt 0>
+				,FISH_FIELD_NUMBER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.fish_field_number#">
+			<cfelse>
+				,FISH_FIELD_NUMBER = null
+			</cfif>
+			<cfif len(arguments.verbatimCoordinates) gt 0>
+				,verbatimCoordinates = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimCoordinates#">
+			<cfelse>
+				,verbatimCoordinates = null
+			</cfif>
+			<cfif len(arguments.verbatimLatitude) gt 0>
+				,verbatimLatitude = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimLatitude#">
+			<cfelse>
+				,verbatimLatitude = null
+			</cfif>
+			<cfif len(arguments.verbatimLongitude) gt 0>
+				,verbatimLongitude = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimLongitude#">
+			<cfelse>
+				,verbatimLongitude = null
+			</cfif>
+			<cfif len(arguments.verbatimCoordinateSystem) gt 0>
+				,verbatimCoordinateSystem = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimCoordinateSystem#">
+			<cfelse>
+				,verbatimCoordinateSystem = null
+			</cfif>
+			<cfif len(arguments.verbatimSRS) gt 0>
+				,verbatimSRS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimSRS#">
+			<cfelse>
+				,verbatimSRS = null
+			</cfif>
+			<cfif len(arguments.startDayOfYear) gt 0>
+				,startDayOfYear = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.startDayOfYear#">
+			<cfelse>
+				,startDayOfYear = null
+			</cfif>
+			<cfif len(arguments.endDayOfYear) gt 0>
+				,endDayOfYear = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.endDayOfYear#">
+			<cfelse>
+				,endDayOfYear = null
+			</cfif>
+			<cfif len(arguments.date_determined_by_agent_id) gt 0>
+				,date_determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.date_determined_by_agent_id#">
+			<cfelse>
+				,date_determined_by_agent_id = null
+			</cfif>
+			<cfif len(arguments.valid_distribution_fg) gt 0>
+				,valid_distribution_fg = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.valid_distribution_fg#">
+			<cfelse>
+				,valid_distribution_fg = null
+			</cfif>
+			<cfif len(arguments.verbatim_collectors) gt 0>
+				,verbatim_collectors = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatim_collectors#">
+			<cfelse>
+				,verbatim_collectors = null
+			</cfif>
+			<cfif len(arguments.verbatim_field_numbers) gt 0>
+				,verbatim_field_numbers = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatim_field_numbers#">
+			<cfelse>
+				,verbatim_field_numbers = null
+			</cfif>
+			<cfif len(arguments.verbatim_habitat) gt 0>
+				,verbatim_habitat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatim_habitat#">
+			<cfelse>
+				,verbatim_habitat = null
+			</cfif>
  		WHERE
 			 collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collecting_event_id#">
 	</cfquery>
@@ -865,11 +1610,35 @@ limitations under the License.
 	</cfif>
 </cffunction>
 
+
 <!--- Helper function to update collecting event locality --->
 <cffunction name="updateCollectingEventLocality" access="private" returntype="void">
 	<cfargument name="collecting_event_id" type="string" required="yes">
 	<cfargument name="new_locality_id" type="string" required="yes">
-	<!--- Include all collecting event arguments --->
+	<cfargument name="began_date" type="string" required="yes">
+	<cfargument name="ended_date" type="string" required="yes">
+	<cfargument name="verbatim_date" type="string" required="yes">
+	<cfargument name="collecting_source" type="string" required="yes">
+	<cfargument name="verbatim_habitat" type="string" required="no">
+	<cfargument name="verbatim_locality" type="string" required="no">
+	<cfargument name="verbatimDepth" type="string" required="no">
+	<cfargument name="verbatimeelvation" type="string" required="no">
+	<cfargument name="coll_event_remarks" type="string" required="no">
+	<cfargument name="collecting_method" type="string" required="no">
+	<cfargument name="habitat_desc" type="string" required="no">
+	<cfargument name="collecting_time" type="string" required="no">
+	<cfargument name="fish_field_number" type="string" required="no">
+	<cfargument name="verbatimcoordinates" type="string" required="no">
+	<cfargument name="verbatimlatitude" type="string" required="no">
+	<cfargument name="verbatimlongigude" type="string" required="no">
+	<cfargument name="verbatimcoordinatesystem" type="string" required="no">
+	<cfargument name="verbatimsrs" type="string" required="no">
+	<cfargument name="startdayofyear" type="string" required="no">
+	<cfargument name="enddayofyear" type="string" required="no">
+	<cfargument name="date_determined_by_agent_id" type="string" required="no">
+	<cfargument name="valid_distribution_fg" type="string" required="no">
+	<cfargument name="verbatim_collectors" type="string" required="no">
+	<cfargument name="verbatim_field_numbers" type="string" required="no">
 	
 	<cfquery name="updateCollectingEvent" datasource="uam_god" result="updateCollectingEvent_result">
 		UPDATE collecting_event 
@@ -877,7 +1646,108 @@ limitations under the License.
 			locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.new_locality_id#">,
 			began_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.began_date#">,
 			ended_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.ended_date#">,
-			<!--- Continue with all other collecting event fields... --->
+			verbatim_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatim_date#">,
+			collecting_source = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collecting_source#">
+			<cfif len(arguments.verbatim_locality) gt 0>
+				,verbatim_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatim_locality#">
+			<cfelse>
+				,verbatim_locality = null
+			</cfif>
+			<cfif len(arguments.verbatimdepth) gt 0>
+				,verbatimdepth = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimdepth#">
+			<cfelse>
+				,verbatimdepth = null
+			</cfif>
+			<cfif len(arguments.verbatimelevation) gt 0>
+				,verbatimelevation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimelevation#">
+			<cfelse>
+				,verbatimelevation = null
+			</cfif>
+			<cfif len(arguments.COLL_EVENT_REMARKS) gt 0>
+				,COLL_EVENT_REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.COLL_EVENT_REMARKS#">
+			<cfelse>
+				,COLL_EVENT_REMARKS = null
+			</cfif>
+			<cfif len(arguments.COLLECTING_METHOD) gt 0>
+				,COLLECTING_METHOD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.COLLECTING_METHOD#">
+			<cfelse>
+				,COLLECTING_METHOD = null
+			</cfif>
+			<cfif len(arguments.HABITAT_DESC) gt 0>
+				,HABITAT_DESC = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.HABITAT_DESC#">
+			<cfelse>
+				,HABITAT_DESC = null
+			</cfif>
+			<cfif len(arguments.COLLECTING_TIME) gt 0>
+				,COLLECTING_TIME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.COLLECTING_TIME#">
+			<cfelse>
+				,COLLECTING_TIME = null
+			</cfif>
+			<cfif len(arguments.fish_field_number) gt 0>
+				,FISH_FIELD_NUMBER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.fish_field_number#">
+			<cfelse>
+				,FISH_FIELD_NUMBER = null
+			</cfif>
+			<cfif len(arguments.verbatimCoordinates) gt 0>
+				,verbatimCoordinates = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimCoordinates#">
+			<cfelse>
+				,verbatimCoordinates = null
+			</cfif>
+			<cfif len(arguments.verbatimLatitude) gt 0>
+				,verbatimLatitude = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimLatitude#">
+			<cfelse>
+				,verbatimLatitude = null
+			</cfif>
+			<cfif len(arguments.verbatimLongitude) gt 0>
+				,verbatimLongitude = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimLongitude#">
+			<cfelse>
+				,verbatimLongitude = null
+			</cfif>
+			<cfif len(arguments.verbatimCoordinateSystem) gt 0>
+				,verbatimCoordinateSystem = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimCoordinateSystem#">
+			<cfelse>
+				,verbatimCoordinateSystem = null
+			</cfif>
+			<cfif len(arguments.verbatimSRS) gt 0>
+				,verbatimSRS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatimSRS#">
+			<cfelse>
+				,verbatimSRS = null
+			</cfif>
+			<cfif len(arguments.startDayOfYear) gt 0>
+				,startDayOfYear = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.startDayOfYear#">
+			<cfelse>
+				,startDayOfYear = null
+			</cfif>
+			<cfif len(arguments.endDayOfYear) gt 0>
+				,endDayOfYear = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.endDayOfYear#">
+			<cfelse>
+				,endDayOfYear = null
+			</cfif>
+			<cfif len(arguments.date_determined_by_agent_id) gt 0>
+				,date_determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.date_determined_by_agent_id#">
+			<cfelse>
+				,date_determined_by_agent_id = null
+			</cfif>
+			<cfif len(arguments.valid_distribution_fg) gt 0>
+				,valid_distribution_fg = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.valid_distribution_fg#">
+			<cfelse>
+				,valid_distribution_fg = 1
+			</cfif>
+			<cfif len(arguments.verbatim_collectors) gt 0>
+				,verbatim_collectors = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatim_collectors#">
+			<cfelse>
+				,verbatim_collectors = null
+			</cfif>
+			<cfif len(arguments.verbatim_field_numbers) gt 0>
+				,verbatim_field_numbers = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatim_field_numbers#">
+			<cfelse>
+				,verbatim_field_numbers = null
+			</cfif>
+			<cfif len(arguments.verbatim_habitat) gt 0>
+				,verbatim_habitat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.verbatim_habitat#">
+			<cfelse>
+				,verbatim_habitat = null
+			</cfif>
  		WHERE
 			collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collecting_event_id#">
 	</cfquery>
