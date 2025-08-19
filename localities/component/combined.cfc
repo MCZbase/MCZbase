@@ -58,7 +58,7 @@ limitations under the License.
 	<cfargument name="verbatim_habitat" type="string" required="no">
 	<cfargument name="verbatim_locality" type="string" required="no">
 	<cfargument name="verbatimDepth" type="string" required="no">
-	<cfargument name="verbatimeelvation" type="string" required="no">
+	<cfargument name="verbatimelevation" type="string" required="no">
 	<cfargument name="coll_event_remarks" type="string" required="no">
 	<cfargument name="collecting_method" type="string" required="no">
 	<cfargument name="habitat_desc" type="string" required="no">
@@ -165,7 +165,7 @@ limitations under the License.
 				    verbatim_habitat=arguments.verbatim_habitat,
 				    verbatim_locality=arguments.verbatim_locality,
 				    verbatimDepth=arguments.verbatimDepth,
-				    verbatimeelvation=arguments.verbatimeelvation,
+				    verbatimelevation=arguments.verbatimelevation,
 				    coll_event_remarks=arguments.coll_event_remarks,
 				    collecting_method=arguments.collecting_method,
 				    habitat_desc=arguments.habitat_desc,
@@ -221,7 +221,7 @@ limitations under the License.
 				    verbatim_habitat=arguments.verbatim_habitat,
 				    verbatim_locality=arguments.verbatim_locality,
 				    verbatimDepth=arguments.verbatimDepth,
-				    verbatimeelvation=arguments.verbatimeelvation,
+				    verbatimelevation=arguments.verbatimelevation,
 				    coll_event_remarks=arguments.coll_event_remarks,
 				    collecting_method=arguments.collecting_method,
 				    habitat_desc=arguments.habitat_desc,
@@ -368,7 +368,7 @@ limitations under the License.
 	<cfargument name="verbatim_habitat" type="string" required="no">
 	<cfargument name="verbatim_locality" type="string" required="no">
 	<cfargument name="verbatimDepth" type="string" required="no">
-	<cfargument name="verbatimeelvation" type="string" required="no">
+	<cfargument name="verbatimelevation" type="string" required="no">
 	<cfargument name="coll_event_remarks" type="string" required="no">
 	<cfargument name="collecting_method" type="string" required="no">
 	<cfargument name="habitat_desc" type="string" required="no">
@@ -427,7 +427,7 @@ limitations under the License.
 			verbatim_habitat=arguments.verbatim_habitat,
 			verbatim_locality=arguments.verbatim_locality,
 			verbatimDepth=arguments.verbatimDepth,
-			verbatimeelvation=arguments.verbatimeelvation,
+			verbatimelevation=arguments.verbatimelevation,
 			coll_event_remarks=arguments.coll_event_remarks,
 			collecting_method=arguments.collecting_method,
 			habitat_desc=arguments.habitat_desc,
@@ -456,7 +456,7 @@ limitations under the License.
 			verbatim_habitat=arguments.verbatim_habitat,
 			verbatim_locality=arguments.verbatim_locality,
 			verbatimDepth=arguments.verbatimDepth,
-			verbatimeelvation=arguments.verbatimeelvation,
+			verbatimelevation=arguments.verbatimelevation,
 			coll_event_remarks=arguments.coll_event_remarks,
 			collecting_method=arguments.collecting_method,
 			habitat_desc=arguments.habitat_desc,
@@ -521,7 +521,7 @@ limitations under the License.
 	<cfargument name="verbatim_habitat" type="string" required="no">
 	<cfargument name="verbatim_locality" type="string" required="no">
 	<cfargument name="verbatimDepth" type="string" required="no">
-	<cfargument name="verbatimeelvation" type="string" required="no">
+	<cfargument name="verbatimelevation" type="string" required="no">
 	<cfargument name="coll_event_remarks" type="string" required="no">
 	<cfargument name="collecting_method" type="string" required="no">
 	<cfargument name="habitat_desc" type="string" required="no">
@@ -601,7 +601,7 @@ limitations under the License.
 		verbatim_habitat=arguments.verbatim_habitat,
 		verbatim_locality=arguments.verbatim_locality,
 		verbatimDepth=arguments.verbatimDepth,
-		verbatimeelvation=arguments.verbatimeelvation,
+		verbatimelevation=arguments.verbatimelevation,
 		coll_event_remarks=arguments.coll_event_remarks,
 		collecting_method=arguments.collecting_method,
 		habitat_desc=arguments.habitat_desc,
@@ -1166,7 +1166,7 @@ limitations under the License.
 	<cfargument name="verbatim_habitat" type="string" required="no">
 	<cfargument name="verbatim_locality" type="string" required="no">
 	<cfargument name="verbatimDepth" type="string" required="no">
-	<cfargument name="verbatimeelvation" type="string" required="no">
+	<cfargument name="verbatimelevation" type="string" required="no">
 	<cfargument name="coll_event_remarks" type="string" required="no">
 	<cfargument name="collecting_method" type="string" required="no">
 	<cfargument name="habitat_desc" type="string" required="no">
@@ -1468,7 +1468,7 @@ limitations under the License.
 	<cfargument name="verbatim_habitat" type="string" required="no">
 	<cfargument name="verbatim_locality" type="string" required="no">
 	<cfargument name="verbatimDepth" type="string" required="no">
-	<cfargument name="verbatimeelvation" type="string" required="no">
+	<cfargument name="verbatimelevation" type="string" required="no">
 	<cfargument name="coll_event_remarks" type="string" required="no">
 	<cfargument name="collecting_method" type="string" required="no">
 	<cfargument name="habitat_desc" type="string" required="no">
@@ -1614,7 +1614,7 @@ limitations under the License.
 	<cfargument name="verbatim_habitat" type="string" required="no">
 	<cfargument name="verbatim_locality" type="string" required="no">
 	<cfargument name="verbatimDepth" type="string" required="no">
-	<cfargument name="verbatimeelvation" type="string" required="no">
+	<cfargument name="verbatimelevation" type="string" required="no">
 	<cfargument name="coll_event_remarks" type="string" required="no">
 	<cfargument name="collecting_method" type="string" required="no">
 	<cfargument name="habitat_desc" type="string" required="no">
