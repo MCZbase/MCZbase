@@ -30,6 +30,7 @@ limitations under the License.
 	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="geog_auth_rec_id" type="string" required="yes">
 	<cfargument name="spec_locality" type="string" required="yes">
+	<cfargument name="sovereign_nation" type="string" required="no">
 	<cfargument name="curated_fg" type="string" required="no">
 	<cfargument name="MINIMUM_ELEVATION" type="string" required="no">
 	<cfargument name="MAXIMUM_ELEVATION" type="string" required="no">
@@ -137,6 +138,7 @@ limitations under the License.
 				    locality_id=arguments.locality_id,
 				    geog_auth_rec_id=arguments.geog_auth_rec_id,
 				    spec_locality=arguments.spec_locality,
+				    sovereign_nation=arguments.sovereign_nation,
 				    curated_fg=arguments.curated_fg,
 				    MINIMUM_ELEVATION=arguments.MINIMUM_ELEVATION,
 				    MAXIMUM_ELEVATION=arguments.MAXIMUM_ELEVATION,
@@ -193,6 +195,7 @@ limitations under the License.
 				    locality_id=arguments.locality_id,
 				    geog_auth_rec_id=arguments.geog_auth_rec_id,
 				    spec_locality=arguments.spec_locality,
+				    sovereign_nation=arguments.sovereign_nation,
 				    curated_fg=arguments.curated_fg,
 				    MINIMUM_ELEVATION=arguments.MINIMUM_ELEVATION,
 				    MAXIMUM_ELEVATION=arguments.MAXIMUM_ELEVATION,
@@ -340,6 +343,7 @@ limitations under the License.
 	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="geog_auth_rec_id" type="string" required="yes">
 	<cfargument name="spec_locality" type="string" required="yes">
+	<cfargument name="sovereign_nation" type="string" required="no">
 	<cfargument name="curated_fg" type="string" required="no">
 	<cfargument name="MINIMUM_ELEVATION" type="string" required="no">
 	<cfargument name="MAXIMUM_ELEVATION" type="string" required="no">
@@ -392,6 +396,7 @@ limitations under the License.
 	<cfset new_locality_id = createNewLocality(
 		geog_auth_rec_id=arguments.geog_auth_rec_id,
 		spec_locality=arguments.spec_locality,
+		sovereign_nation=arguments.sovereign_nation,
 		curated_fg=arguments.curated_fg,
 		MINIMUM_ELEVATION=arguments.MINIMUM_ELEVATION,
 		MAXIMUM_ELEVATION=arguments.MAXIMUM_ELEVATION,
@@ -493,6 +498,7 @@ limitations under the License.
 	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="geog_auth_rec_id" type="string" required="yes">
 	<cfargument name="spec_locality" type="string" required="yes">
+	<cfargument name="sovereign_nation" type="string" required="no">
 	<cfargument name="curated_fg" type="string" required="no">
 	<cfargument name="MINIMUM_ELEVATION" type="string" required="no">
 	<cfargument name="MAXIMUM_ELEVATION" type="string" required="no">
@@ -560,6 +566,7 @@ limitations under the License.
 		locality_id=arguments.locality_id,
 		geog_auth_rec_id=arguments.geog_auth_rec_id,
 		spec_locality=arguments.spec_locality,
+		sovereign_nation=arguments.sovereign_nation,
 		curated_fg=arguments.curated_fg,
 		MINIMUM_ELEVATION=arguments.MINIMUM_ELEVATION,
 		MAXIMUM_ELEVATION=arguments.MAXIMUM_ELEVATION,
@@ -646,6 +653,7 @@ limitations under the License.
 <cffunction name="createNewLocality" access="private" returntype="string">
 	<cfargument name="geog_auth_rec_id" type="string" required="yes">
 	<cfargument name="spec_locality" type="string" required="yes">
+	<cfargument name="sovereign_nation" type="string" required="no">
 	<cfargument name="curated_fg" type="string" required="no">
 	<cfargument name="MINIMUM_ELEVATION" type="string" required="no">
 	<cfargument name="MAXIMUM_ELEVATION" type="string" required="no">
@@ -684,7 +692,7 @@ limitations under the License.
 			MINIMUM_ELEVATION, MAXIMUM_ELEVATION, ORIG_ELEV_UNITS,
 			min_depth, max_depth, depth_units,
 			township, township_direction, range, range_direction, section, section_part,
-			locality_remarks, nogeorefbecause
+			locality_remarks, nogeorefbecause, sovereign_nation
 		) VALUES (
 			sq_locality_id.NEXTVAL,
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.geog_auth_rec_id#">,
@@ -760,7 +768,12 @@ limitations under the License.
 				null,
 			</cfif>
 			<cfif len(arguments.nogeorefbecause) gt 0>
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.nogeorefbecause#">
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.nogeorefbecause#">,
+			<cfelse>
+				null,
+			</cfif>
+			<cfif len(arguments.sovereign_nation) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.sovereign_nation#">
 			<cfelse>
 				null
 			</cfif>
@@ -1324,6 +1337,7 @@ limitations under the License.
 	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="geog_auth_rec_id" type="string" required="yes">
 	<cfargument name="spec_locality" type="string" required="yes">
+	<cfargument name="sovereign_nation" type="string" required="no">
 	<cfargument name="curated_fg" type="string" required="no">
 	<cfargument name="MINIMUM_ELEVATION" type="string" required="no">
 	<cfargument name="MAXIMUM_ELEVATION" type="string" required="no">
@@ -1369,10 +1383,11 @@ limitations under the License.
 	<cfquery name="updateLocality" datasource="uam_god" result="updateLocality_result">
 		UPDATE locality SET
 		geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.geog_auth_rec_id#">,
-		<cfif len(arguments.spec_locality) GT 0>
-			spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.spec_locality#">,
+		spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.spec_locality#">,
+		<cfif len(arguments.sovereign_nation) GT 0>
+			sovereign_nation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.sovereign_nation#">,
 		<cfelse>
-			spec_locality = null,
+			sovereign_nation = null,
 		</cfif>
 		<cfif isdefined("arguments.curated_fg") AND len(arguments.curated_fg) gt 0>
 			curated_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.curated_fg#">,
