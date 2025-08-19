@@ -60,7 +60,7 @@ limitations under the License.
 					AND mask_fg = 0
 				<cfelse>
 					<cfif isDefined("mask_fg") AND len(mask_fg) gt 0>
-						AND mask_fg = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#mask_fg#">
+						AND mask_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
 					</cfif>
 				</cfif>
 				<cfif isDefined("underscore_collection_id") and len(underscore_collection_id) gt 0>
