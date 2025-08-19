@@ -6635,7 +6635,7 @@ limitations under the License.
 							// then make sure the form is correctly setup so that it submits, or so that empty
 							// precision will show invalid message forcing user to correct it before saving.
 							if ($("##georeferenceEditSection").is(":hidden")) { 
-								$("##georeferenceEditSection");
+								$("##georeferenceEditSection").show();
 								changeLatLongUnits();
 							}
 	
