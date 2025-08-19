@@ -1013,7 +1013,8 @@ limitations under the License.
 			GEOLOGY_ATTRIBUTE, GEO_ATT_VALUE,
 			GEO_ATT_DETERMINER_ID, GEO_ATT_DETERMINED_DATE, GEO_ATT_DETERMINED_METHOD,
 			GEO_ATT_REMARK,
-			LOCALITY_ID
+			LOCALITY_ID,
+			previous_values
 		) VALUES (
 			sq_geology_attribute_id.NEXTVAL,
 			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.geoAtt.GEOLOGY_ATTRIBUTE#">,
@@ -1038,7 +1039,8 @@ limitations under the License.
 			<cfelse>
 				null,
 			</cfif>
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.locality_id#">
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.locality_id#">,
+			null
 		)
 	</cfquery>
 </cffunction>
@@ -1123,6 +1125,7 @@ limitations under the License.
 			<cfquery name="addGeoAttribute" datasource="uam_god" result="addGeoAttribute_result">
 				INSERT INTO geology_attributes
 					( locality_id,
+						previous_values,
 						geology_attribute,
 						geo_att_value,
 						geo_att_determiner_id,
@@ -1130,6 +1133,7 @@ limitations under the License.
 						geo_att_determined_method
 					) VALUES (
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.locality_id#">,
+						NULL,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geology_attribute#">,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geo_att_value#">,
 						<cfif isDefined("arguments.geoAtt.geo_att_determiner_id") and len(arguments.geoAtt.geo_att_determiner_id) GT 0>
