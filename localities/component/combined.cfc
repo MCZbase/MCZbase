@@ -111,7 +111,9 @@ limitations under the License.
 		<!--- Check user permissions first --->
 		<cfset checkUserPermissions()>
 	<cfcatch>
-		<cfset handleError("Error starting handleCombinedEditForm", cfcatch)>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfabort>
 	</cfcatch>
 	</cftry>
@@ -250,7 +252,9 @@ limitations under the License.
 			<cftransaction action="commit"/>
 		<cfcatch>
 			<cftransaction action="rollback"/>
-			<cfset handleError("Error processing handleCombinedEditForm", cfcatch)>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
 		</cfcatch>
 		<cffinally>
@@ -901,7 +905,6 @@ limitations under the License.
 <!--- - updateExistingCollectingEvent() --->
 <!--- - updateCollectingEventLocality() --->
 <!--- - updateCatalogedItemCollectingEvent() --->
-<!--- - handleError() --->
 <!--- - ensureTriggerEnabled() --->
 
 <!--- Helper function to handle collecting event numbers for splitAndSave action --->
@@ -1766,24 +1769,6 @@ limitations under the License.
 		SET collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.new_collecting_event_id#">
 		WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 	</cfquery>
-</cffunction>
-
-<!--- Helper function to handle errors --->
-<cffunction name="handleError" access="private" returntype="void">
-	<cfargument name="message" type="string" required="yes">
-	<cfargument name="cfcatch" type="struct" required="yes">
-	
-	<cfif isDefined("arguments.cfcatch.queryError")>
-		<cfset queryError = arguments.cfcatch.queryError>
-	<cfelse>
-		<cfset queryError = ''>
-	</cfif>
-	<cfset error_message = trim(arguments.message & ": " & arguments.cfcatch.message & " " & arguments.cfcatch.detail & " " & queryError)>
-	<cfheader statusCode="500" statusText="#error_message#">
-	<cfoutput>
-		<cfset function_called = "#GetFunctionCalledName()#">
-		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-	</cfoutput>
 </cffunction>
 
 <!--- Helper function to ensure trigger is enabled --->
