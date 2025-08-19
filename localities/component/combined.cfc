@@ -75,13 +75,13 @@ limitations under the License.
 	<cfargument name="valid_distribution_fg" type="string" required="no">
 	<cfargument name="verbatim_collectors" type="string" required="no">
 	<cfargument name="verbatim_field_numbers" type="string" required="no">
-	<cfargument name="lat_long_id" type="string" required="yes">
-	<cfargument name="field_mapping" type="string" required="yes">
-	<cfargument name="accepted_lat_long_fg" type="string" required="yes">
-	<cfargument name="orig_lat_long_units" type="string" required="yes">
-	<cfargument name="datum" type="string" required="yes">
+	<cfargument name="lat_long_id" type="string" required="no">
+	<cfargument name="field_mapping" type="string" required="no">
+	<cfargument name="accepted_lat_long_fg" type="string" required="no">
+	<cfargument name="orig_lat_long_units" type="string" required="no">
+	<cfargument name="datum" type="string" required=no">
 	<cfargument name="lat_long_ref_source" type="string" required="no">
-	<cfargument name="determined_by_agent_id" type="string" required="yes">
+	<cfargument name="determined_by_agent_id" type="string" required="no">
 	<cfargument name="verified_by_agent_id" type="string" required="no">
 	<cfargument name="determined_date" type="string" required="no">
 	<cfargument name="georefmethod" type="string" required="no">
@@ -90,8 +90,8 @@ limitations under the License.
 	<cfargument name="extent_units" type="string" required="no">
 	<cfargument name="spatialfit" type="string" required="no">
 	<cfargument name="gpsaccuracy" type="string" required="no">
-	<cfargument name="max_error_distance" type="string" required="yes">
-	<cfargument name="max_error_units" type="string" required="yes">
+	<cfargument name="max_error_distance" type="string" required="no">
+	<cfargument name="max_error_units" type="string" required="no">
 	<cfargument name="lat_long_remarks" type="string" required="no">
 	<cfargument name="dec_lat" type="string" required="no">
 	<cfargument name="dec_long" type="string" required="no">
