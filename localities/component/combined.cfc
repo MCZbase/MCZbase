@@ -85,7 +85,7 @@ limitations under the License.
 	<cfargument name="verified_by_agent_id" type="string" required="no">
 	<cfargument name="determined_date" type="string" required="no">
 	<cfargument name="georefmethod" type="string" required="no">
-	<cfargument name="verificationstatus" type="string" required="yes">
+	<cfargument name="verificationstatus" type="string" required="no">
 	<cfargument name="extent" type="string" required="no">
 	<cfargument name="extent_units" type="string" required="no">
 	<cfargument name="spatialfit" type="string" required="no">
@@ -120,7 +120,7 @@ limitations under the License.
 
 	<cftransaction>
 		<cftry>
-			<!--- Get record counts to determine action --->
+			<!--- Get record counts to evaluate action --->
 			<cfset recordCounts = getRecordCounts(arguments.collecting_event_id, arguments.locality_id)>
 			<cfset cecount = recordCounts.cecount>
 			<cfset loccount = recordCounts.loccount>
@@ -895,17 +895,6 @@ limitations under the License.
 	</cfif>
 </cffunction>
 
-<!--- Additional helper functions would continue here for: --->
-<!--- - insertGeologyAttribute() --->
-<!--- - updateGeologyAttribute() --->
-<!--- - addGeologyAttributeParents() --->
-<!--- - deleteGeologyAttributes() --->
-<!--- - createNewCollectingEvent() --->
-<!--- - updateExistingLocality() --->
-<!--- - updateExistingCollectingEvent() --->
-<!--- - updateCollectingEventLocality() --->
-<!--- - updateCatalogedItemCollectingEvent() --->
-<!--- - ensureTriggerEnabled() --->
 
 <!--- Helper function to handle collecting event numbers for splitAndSave action --->
 <cffunction name="handleCollEventNumbersSplitAndSave" access="private" returntype="void">

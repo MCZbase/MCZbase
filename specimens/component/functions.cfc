@@ -6623,12 +6623,21 @@ limitations under the License.
 							console.log(geologyData);
 							// save the geology data to a single input submitted as a single known argument 
 							$("##geology_data").val(encodeURIComponent(JSON.stringify(geologyData)));
+
 							// gather the collecting event numbers from the table
 							$('##collectingEventNumbersTableSection').show(); // ensure the table is open so data will be aggregated
 							var collEventNumberData = aggregateCollectingEventNumbersTable();
 							console.log(collEventNumberData);
 							// save the collecting event numbers to a single input submitted as a single known argument
 							$("##coll_event_numbers_data").val(encodeURIComponent(JSON.stringify(collEventNumberData)));
+
+							// make the georeference form visible (inital state is display: none) if it isn't 
+							// then make sure the form is correctly setup so that it submits, or so that empty
+							// precision will show invalid message forcing user to correct it before saving.
+							if ($("##georeferenceEditSection").is(":hidden")) { 
+								$("##georeferenceEditSection");
+								changeLatLongUnits();
+							}
 	
 							// submit the form
 							// ajax submit the form to localities/component/functions.cfc
@@ -8001,6 +8010,7 @@ limitations under the License.
 										
 										<!--- Hidden fields for georeference --->
 										<input type="hidden" name="lat_long_id" value="#lat_long_id#">
+										<input type="hidden" name="field_mapping" value="generic"><!--- dec_lat reused for degrees in degrees minutes seconds and degrees decimal minutes --->
 										
 										<div class="form-row">
 											<div class="col-12 col-md-3 mb-2">
