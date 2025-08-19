@@ -79,7 +79,7 @@ limitations under the License.
 	<cfargument name="field_mapping" type="string" required="no">
 	<cfargument name="accepted_lat_long_fg" type="string" required="no">
 	<cfargument name="orig_lat_long_units" type="string" required="no">
-	<cfargument name="datum" type="string" required=no">
+	<cfargument name="datum" type="string" required="no">
 	<cfargument name="lat_long_ref_source" type="string" required="no">
 	<cfargument name="determined_by_agent_id" type="string" required="no">
 	<cfargument name="verified_by_agent_id" type="string" required="no">
