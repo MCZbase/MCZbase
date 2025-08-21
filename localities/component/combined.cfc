@@ -67,7 +67,7 @@ limitations under the License.
 	<cfargument name="fish_field_number" type="string" required="no">
 	<cfargument name="verbatimcoordinates" type="string" required="no">
 	<cfargument name="verbatimlatitude" type="string" required="no">
-	<cfargument name="verbatimlongigude" type="string" required="no">
+	<cfargument name="verbatimlongitude" type="string" required="no">
 	<cfargument name="verbatimcoordinatesystem" type="string" required="no">
 	<cfargument name="verbatimsrs" type="string" required="no">
 	<cfargument name="startdayofyear" type="string" required="no">
@@ -175,7 +175,7 @@ limitations under the License.
 				    fish_field_number=arguments.fish_field_number,
 				    verbatimcoordinates=arguments.verbatimcoordinates,
 				    verbatimlatitude=arguments.verbatimlatitude,
-				    verbatimlongigude=arguments.verbatimlongigude,
+				    verbatimlongitude=arguments.verbatimlongitude,
 				    verbatimcoordinatesystem=arguments.verbatimcoordinatesystem,
 				    verbatimsrs=arguments.verbatimsrs,
 				    startdayofyear=arguments.startdayofyear,
@@ -232,7 +232,7 @@ limitations under the License.
 				    fish_field_number=arguments.fish_field_number,
 				    verbatimcoordinates=arguments.verbatimcoordinates,
 				    verbatimlatitude=arguments.verbatimlatitude,
-				    verbatimlongigude=arguments.verbatimlongigude,
+				    verbatimlongitude=arguments.verbatimlongitude,
 				    verbatimcoordinatesystem=arguments.verbatimcoordinatesystem,
 				    verbatimsrs=arguments.verbatimsrs,
 				    startdayofyear=arguments.startdayofyear,
@@ -380,7 +380,7 @@ limitations under the License.
 	<cfargument name="fish_field_number" type="string" required="no">
 	<cfargument name="verbatimcoordinates" type="string" required="no">
 	<cfargument name="verbatimlatitude" type="string" required="no">
-	<cfargument name="verbatimlongigude" type="string" required="no">
+	<cfargument name="verbatimlongitude" type="string" required="no">
 	<cfargument name="verbatimcoordinatesystem" type="string" required="no">
 	<cfargument name="verbatimsrs" type="string" required="no">
 	<cfargument name="startdayofyear" type="string" required="no">
@@ -440,7 +440,7 @@ limitations under the License.
 			fish_field_number=arguments.fish_field_number,
 			verbatimcoordinates=arguments.verbatimcoordinates,
 			verbatimlatitude=arguments.verbatimlatitude,
-			verbatimlongigude=arguments.verbatimlongigude,
+			verbatimlongitude=arguments.verbatimlongitude,
 			verbatimcoordinatesystem=arguments.verbatimcoordinatesystem,
 			verbatimsrs=arguments.verbatimsrs,
 			startdayofyear=arguments.startdayofyear,
@@ -469,7 +469,7 @@ limitations under the License.
 			fish_field_number=arguments.fish_field_number,
 			verbatimcoordinates=arguments.verbatimcoordinates,
 			verbatimlatitude=arguments.verbatimlatitude,
-			verbatimlongigude=arguments.verbatimlongigude,
+			verbatimlongitude=arguments.verbatimlongitude,
 			verbatimcoordinatesystem=arguments.verbatimcoordinatesystem,
 			verbatimsrs=arguments.verbatimsrs,
 			startdayofyear=arguments.startdayofyear,
@@ -535,7 +535,7 @@ limitations under the License.
 	<cfargument name="fish_field_number" type="string" required="no">
 	<cfargument name="verbatimcoordinates" type="string" required="no">
 	<cfargument name="verbatimlatitude" type="string" required="no">
-	<cfargument name="verbatimlongigude" type="string" required="no">
+	<cfargument name="verbatimlongitude" type="string" required="no">
 	<cfargument name="verbatimcoordinatesystem" type="string" required="no">
 	<cfargument name="verbatimsrs" type="string" required="no">
 	<cfargument name="startdayofyear" type="string" required="no">
@@ -616,7 +616,7 @@ limitations under the License.
 		fish_field_number=arguments.fish_field_number,
 		verbatimcoordinates=arguments.verbatimcoordinates,
 		verbatimlatitude=arguments.verbatimlatitude,
-		verbatimlongigude=arguments.verbatimlongigude,
+		verbatimlongitude=arguments.verbatimlongitude,
 		verbatimcoordinatesystem=arguments.verbatimcoordinatesystem,
 		verbatimsrs=arguments.verbatimsrs,
 		startdayofyear=arguments.startdayofyear,
@@ -1191,7 +1191,7 @@ limitations under the License.
 	<cfargument name="fish_field_number" type="string" required="no">
 	<cfargument name="verbatimcoordinates" type="string" required="no">
 	<cfargument name="verbatimlatitude" type="string" required="no">
-	<cfargument name="verbatimlongigude" type="string" required="no">
+	<cfargument name="verbatimlongitude" type="string" required="no">
 	<cfargument name="verbatimcoordinatesystem" type="string" required="no">
 	<cfargument name="verbatimsrs" type="string" required="no">
 	<cfargument name="startdayofyear" type="string" required="no">
@@ -1495,7 +1495,7 @@ limitations under the License.
 	<cfargument name="fish_field_number" type="string" required="no">
 	<cfargument name="verbatimcoordinates" type="string" required="no">
 	<cfargument name="verbatimlatitude" type="string" required="no">
-	<cfargument name="verbatimlongigude" type="string" required="no">
+	<cfargument name="verbatimlongitude" type="string" required="no">
 	<cfargument name="verbatimcoordinatesystem" type="string" required="no">
 	<cfargument name="verbatimsrs" type="string" required="no">
 	<cfargument name="startdayofyear" type="string" required="no">
@@ -1641,7 +1641,7 @@ limitations under the License.
 	<cfargument name="fish_field_number" type="string" required="no">
 	<cfargument name="verbatimcoordinates" type="string" required="no">
 	<cfargument name="verbatimlatitude" type="string" required="no">
-	<cfargument name="verbatimlongigude" type="string" required="no">
+	<cfargument name="verbatimlongitude" type="string" required="no">
 	<cfargument name="verbatimcoordinatesystem" type="string" required="no">
 	<cfargument name="verbatimsrs" type="string" required="no">
 	<cfargument name="startdayofyear" type="string" required="no">
