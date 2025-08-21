@@ -3360,7 +3360,7 @@ limitations under the License.
 												</div>
 											</div>
 											<cfquery name="fromCollEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												SELECT verbatimcollectors
+												SELECT verbatim_collectors
 												FROM collecting_event
 													join cataloged_item on collecting_event.collecting_event_id = cataloged_item.collecting_event_id
 												WHERE
@@ -3369,7 +3369,7 @@ limitations under the License.
 											<cfif fromCollEvent.recordcount GT 0>
 												<h3 class="h5 mt-3">Verbatim Collectors from collecting event</h3>
 												<cfloop query="fromCollEvent">
-													<p class="mb-0">#verbatimcollectors#</p>
+													<p class="mb-0">#fromCollEvent.verbatim_collectors#</p>
 												</cfloop>
 											</cfif>
 										</form>
