@@ -6610,6 +6610,15 @@ limitations under the License.
 						}
 						function submitLocForm() {
 							console.log("submitLocForm");
+
+							// make the georeference form visible (inital state is display: none) if it isn't 
+							// then make sure the form is correctly setup so that it submits, or so that empty
+							// precision will show invalid message forcing user to correct it before saving.
+							if ($("##georeferenceEditSection").is(":hidden")) { 
+								$("##georeferenceEditSection").show();
+								changeLatLongUnits();
+							}
+
 							// validate the form
 							if ($('##locForm')[0].checkValidity() === false) {
 								// If the form is invalid, show validation messages
@@ -6631,13 +6640,6 @@ limitations under the License.
 							// save the collecting event numbers to a single input submitted as a single known argument
 							$("##coll_event_numbers_data").val(encodeURIComponent(JSON.stringify(collEventNumberData)));
 
-							// make the georeference form visible (inital state is display: none) if it isn't 
-							// then make sure the form is correctly setup so that it submits, or so that empty
-							// precision will show invalid message forcing user to correct it before saving.
-							if ($("##georeferenceEditSection").is(":hidden")) { 
-								$("##georeferenceEditSection").show();
-								changeLatLongUnits();
-							}
 	
 							// submit the form
 							// ajax submit the form to localities/component/functions.cfc
