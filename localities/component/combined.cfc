@@ -216,11 +216,6 @@ limitations under the License.
 					 long_min = arguments.long_min,
 					 long_sec = arguments.long_sec,
 					 long_dir = arguments.long_dir,
-					 geolocate_uncertaintypolygon = arguments.geolocate_uncertaintypolygon,
-					 geolocate_score = arguments.geolocate_score,
-					 geolocate_precision = arguments.geolocate_precision,
-					 geolocate_num_results = arguments.geolocate_num_results,
-					 geolocate_parsepattern = arguments.geolocate_parsepattern,
 					 nearest_named_place = arguments.nearest_named_place,
 					 lat_long_for_nnp_fg = arguments.lat_long_for_nnp_fg,
 					 footprint_spatialfit = arguments.footprint_spatialfit
@@ -309,11 +304,6 @@ limitations under the License.
 					 long_min = arguments.long_min,
 					 long_sec = arguments.long_sec,
 					 long_dir = arguments.long_dir,
-					 geolocate_uncertaintypolygon = arguments.geolocate_uncertaintypolygon,
-					 geolocate_score = arguments.geolocate_score,
-					 geolocate_precision = arguments.geolocate_precision,
-					 geolocate_num_results = arguments.geolocate_num_results,
-					 geolocate_parsepattern = arguments.geolocate_parsepattern,
 					 nearest_named_place = arguments.nearest_named_place,
 					 lat_long_for_nnp_fg = arguments.lat_long_for_nnp_fg,
 					 footprint_spatialfit = arguments.footprint_spatialfit
