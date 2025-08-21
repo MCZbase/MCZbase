@@ -6861,7 +6861,7 @@ limitations under the License.
 									<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.spec_locality)#" required>
 								</div>
 								
-								<div class="col-12 col-md-5 mb-2 mt-0">
+								<div class="col-12 col-md-5 py-1 mt-0">
 									<label class="data-entry-label" for="sovereign_nation">Sovereign Nation</label>
 									<select name="sovereign_nation" id="sovereign_nation" size="1" class="data-entry-select reqdClr">
 										<cfloop query="ctSovereignNation">
@@ -6893,7 +6893,7 @@ limitations under the License.
 									</select>
 								</div>
 								
-								<div class="col-12 col-md-5 mb-2 mt-0">
+								<div class="col-12 col-md-5 py-1 mt-0">
 									<label class="data-entry-label" for="NoGeorefBecause">
 										Not Georeferenced Because
 										<i class="fas fa-info-circle" onClick="getMCZDocs('Not_Georeferenced_Because')" aria-label="help link with suggested entries for why no georeference was added"></i>
