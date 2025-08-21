@@ -6842,14 +6842,14 @@ limitations under the License.
 								Locality
 								<span class="pl-2">
 									<cfif loccount.ct eq 1>
-										<cfset shared= "">
+										<cfset shared_loc= "">
 										<cfset followText = "(unique to this specimen)">
 									<cfelse>
-										<cfset shared= "Shared">
-										<cfset followText = "(shared with #loccount.ct# specimens)">
+										<cfset shared_loc= "Shared">
+										<cfset followText = "(shared_loc with #loccount.ct# specimens)">
 									</cfif>
-									<a class="btn btn-xs btn-info" href="/localities/viewLocality.cfm?locality_id=#getLoc.locality_id#" target="_blank">View #shared# Locality</a>
-									<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit #shared# Locality</a>
+									<a class="btn btn-xs btn-info" href="/localities/viewLocality.cfm?locality_id=#getLoc.locality_id#" target="_blank">View #shared_loc# Locality</a>
+									<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit #shared_loc# Locality</a>
 									#followText#
 								</span>
 							</h2>
@@ -7884,7 +7884,7 @@ limitations under the License.
 											<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeoreference">Edit Current Here</button>
 										</cfif>
 									</cfif>
-									<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#&launchEditCurrentGeorefDialog=true" target="_blank">Edit from the Locality</a>.
+									<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#&launchEditCurrentGeorefDialog=true" target="_blank">Edit from the #shared_loc# Locality</a>.
 								</h2>
 								
 								<div class="form-row">
@@ -7982,7 +7982,7 @@ limitations under the License.
 											</cfif>
 											<cfif len(coordinate_precision) EQ 0>
 												<li>
-													Coordinate Precision is not set.  Edit the georeference from the Locality to 
+													Coordinate Precision is not set.  Edit the georeference from the #shared_loc# Locality to 
 													<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#&launchEditCurrentGeorefDialog=true" target="_blank">Fix This</a>.
 												</li>
 											</cfif>
@@ -8019,9 +8019,7 @@ limitations under the License.
 										</h3>
 										<cfif georefSectionWarningMessage>
 											<div class='text-danger fw-bold'>
-												One or More required elements of the current georeference are missing, you probably want to
-												<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#&launchEditCurrentGeorefDialog=true" target="_blank">Edit this from the Locality</a>
-												record to fix this condition.
+												One or More required elements of the current georeference are missing, you probably want to edit this from the locality record to fix this condition.
 											</div>
 										</cfif>
 										
