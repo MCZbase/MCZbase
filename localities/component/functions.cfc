@@ -2078,11 +2078,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<button type="button" class="btn btn-xs btn-secondary mb-1" 
 								onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog',#callback_name#);"
 								aria-label = "Edit this georeference"
+								#editButtonID#
 							>Edit</button>
 							<button type="button" class="btn btn-xs btn-warning mb-1" 
 								onClick=" confirmDialog('Delete this georeference?  Georeferences should not normally be deleted.  In most cases, a new accepted georeference should be added instead.','Confirm Delete Georeference', doDeleteGeoref ); "
 								aria-label = "Delete this georeference from this locality"
-								#editButtonID#
 							>Delete</button>
 							<script>
 								function doDeleteGeoref() { 
