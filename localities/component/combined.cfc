@@ -1000,7 +1000,7 @@ limitations under the License.
   @param target_locality_id: ID of the locality to clone to
   @return lat_long_id of the newly cloned georeference, or an empty string if there is no georeference to clone.
  --->
-<cffunction name="cloneGeoreference" access="private" returntype="void">
+<cffunction name="cloneGeoreference" access="private" returntype="string" returnformat="plain">
 	<cfargument name="source_locality_id" type="string" required="yes">
 	<cfargument name="target_locality_id" type="string" required="yes">
 	
