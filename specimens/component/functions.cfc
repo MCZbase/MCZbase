@@ -8006,7 +8006,7 @@ limitations under the License.
 									<cfset warningMessage="">
 									<cfif len(datum) EQ 0 OR len(max_error_distance) EQ 0 OR len(max_error_units) EQ 0 OR len(coordinate_precision) EQ 0 OR len(lat_long_for_nnp_fg) EQ 0 OR len(lat_long_ref_source) EQ 0 OR len(georefmethod) EQ 0 OR (len(extent) GT 0 AND len(extent_units) EQ 0) >
 										<cfset styleValue="">
-										<cfset warningMessage="<div class='text-warning'>One or More required elements of the current georeference are missing, you probably want to edit this from the locality record to fix this condition.</div>"><!--- " --->
+										<cfset warningMessage="<div class='text-danger fw-bold'>One or More required elements of the current georeference are missing, you probably want to edit this from the locality record to fix this condition.</div>"><!--- " --->
 									</cfif>
 									<div id="georeferenceEditSection" class="col-12" #styleValue#>
 										<h3 class="h4 mt-3">
