@@ -6611,13 +6611,6 @@ limitations under the License.
 						function submitLocForm() {
 							console.log("submitLocForm");
 
-							// make the georeference form visible (inital state is display: none) if it isn't 
-							// then make sure the form is correctly setup so that it submits, or so that empty
-							// precision will show invalid message forcing user to correct it before saving.
-							if ($("##georeferenceEditSection").is(":hidden")) { 
-								$("##georeferenceEditSection").show();
-								changeLatLongUnits();
-							}
 
 							// validate the form
 							if ($('##locForm')[0].checkValidity() === false) {
@@ -8494,6 +8487,10 @@ limitations under the License.
 								// Indicate that there are unsaved changes
 								changeMadeInLocForm();
 							});
+							if ($("##georeferenceEditSection").is(":visible")) {
+								// Initialize the georeference units based on the original units
+								changeLatLongUnits();
+							};
 						});
 						function closeLocalityInPage() { 
 							// Close the in-page modal editor, and invoke the reloadLocality function
