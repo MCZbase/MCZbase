@@ -516,6 +516,7 @@ limitations under the License.
 		<!--- Update the cloned georeference from the submitted form fields related to the georeference --->
 		<cfset updateGeoreference(		
 			lat_long_id=new_lat_long_id,
+			locality_id=new_locality_id,
 			field_mapping="generic",
 			accepted_lat_long_fg=arguments.accepted_lat_long_fg,
 			orig_lat_long_units=arguments.orig_lat_long_units,
@@ -749,6 +750,7 @@ limitations under the License.
 	<cfif len(arguments.lat_long_id) GT 0>
 		<cfset updateGeoreference(		
 			lat_long_id=arguments.lat_long_id,
+			locality_id=arguments.locality_id,
 			field_mapping="generic",
 			accepted_lat_long_fg=arguments.accepted_lat_long_fg,
 			orig_lat_long_units=arguments.orig_lat_long_units,
