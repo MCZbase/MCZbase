@@ -7884,7 +7884,7 @@ limitations under the License.
 											<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeoreference">Edit Current Here</button>
 										</cfif>
 									</cfif>
-									<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#&launchEditCurrentGeorefDialog=true" target="_blank">Edit from the #shared_loc# Locality</a>.
+									<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit from the #shared_loc# Locality</a>.
 								</h2>
 								
 								<div class="form-row">
