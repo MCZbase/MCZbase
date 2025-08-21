@@ -99,12 +99,12 @@ limitations under the License.
 	<cfargument name="long_deg" type="string" required="no">
 	<cfargument name="dec_lat_min" type="string" required="no" default="">
 	<cfargument name="dec_long_min" type="string" required="no" default="">
-	<cfargument name="lat_min" type="string" required="no">
-	<cfargument name="lat_sec" type="string" required="no">
-	<cfargument name="lat_dir" type="string" required="no">
-	<cfargument name="long_min" type="string" required="no">
-	<cfargument name="long_sec" type="string" required="no">
-	<cfargument name="long_dir" type="string" required="no">
+	<cfargument name="lat_min" type="string" required="no" default="">
+	<cfargument name="lat_sec" type="string" required="no" default="">
+	<cfargument name="lat_dir" type="string" required="no" default="">
+	<cfargument name="long_min" type="string" required="no" default="">
+	<cfargument name="long_sec" type="string" required="no" default="">
+	<cfargument name="long_dir" type="string" required="no" default="">
 	<cfargument name="nearest_named_place" type="string" required="no">
 	<cfargument name="lat_long_for_nnp_fg" type="string" required="no">
 	<cfargument name="footprint_spatialfit" type="string" required="no">
