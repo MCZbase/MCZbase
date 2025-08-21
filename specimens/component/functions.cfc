@@ -8009,7 +8009,7 @@ limitations under the License.
 										<cfif len(extent) GT 0 AND len(extent_units) EQ 0>
 											<cfset styleValue="">
 											<cfset warningMessage="<div class='text-warning'>One or More required elements of the current georeference are missing, you probably want to edit this from the locality record to fix this condition.</div>"><!--- " --->
-										<cfelse if len(extent) GT 0 AND len(extent_units) GT 0>
+										<cfelseif len(extent) GT 0 AND len(extent_units) GT 0>
 											<cfset styleValue="">
 										</cfif>
 									</cfif>
