@@ -97,8 +97,8 @@ limitations under the License.
 	<cfargument name="lat_long_remarks" type="string" required="no">
 	<cfargument name="lat_deg" type="string" required="no">
 	<cfargument name="long_deg" type="string" required="no">
-	<cfargument name="dec_lat_min" type="string" required="no">
-	<cfargument name="dec_long_min" type="string" required="no">
+	<cfargument name="dec_lat_min" type="string" required="no" default="">
+	<cfargument name="dec_long_min" type="string" required="no" default="">
 	<cfargument name="lat_min" type="string" required="no">
 	<cfargument name="lat_sec" type="string" required="no">
 	<cfargument name="lat_dir" type="string" required="no">
