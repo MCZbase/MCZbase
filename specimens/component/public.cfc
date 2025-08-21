@@ -2874,6 +2874,10 @@ limitations under the License.
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Coordinates: </li>
 							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.verbatimcoordinates#</li>
 						</cfif>
+						<cfif len(loc_collevent.verbatimlatitude) gt 0>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Lat/Long: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0">Lat: #loc_collevent.verbatimlatitude# Long: #loc_collevent.verbatimlongitude#</li>
+						</cfif>
 						<cfif len(loc_collevent.township) gt 0>
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">PLSS: </li>
 							<cfif REFind("^[0-9]+$",loc_collevent.section)><cfset sec="S"><cfelse><cfset sec=""></cfif>
