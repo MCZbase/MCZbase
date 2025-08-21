@@ -7882,7 +7882,7 @@ limitations under the License.
 										</cfloop>
 										<cfif NOT missingFields>
 											<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeoreference">Edit Current Here</button>
-										<cfif>
+										</cfif>
 									</cfif>
 									<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit from the Locality</a>.
 								</h2>
