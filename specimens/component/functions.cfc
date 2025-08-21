@@ -7873,7 +7873,16 @@ limitations under the License.
 											AND accepted_lat_long_fg = 1
 									</cfquery>
 									<cfif getCurrentGeoreference.recordcount GT 0>
-										<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeoreference">Edit Current Here</button>
+										<cfloop query="getCurrentGeoreference">
+											<cfif len(datum) EQ 0 OR len(max_error_distance) EQ 0 OR len(max_error_units) EQ 0 OR len(coordinate_precision) EQ 0 OR len(lat_long_for_nnp_fg) EQ 0 OR len(lat_long_ref_source) EQ 0 OR len(georefmethod) EQ 0 OR (len(extent) GT 0 AND len(extent_units) EQ 0) >
+												<cfset missingFields = true>
+											<cfelse>
+												<cfset missingFields = false>
+											</cfif>
+										</cfloop>
+										<cfif NOT missingFields>
+											<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeoreference">Edit Current Here</button>
+										<cfif>
 									</cfif>
 									<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit from the Locality</a>.
 								</h2>
@@ -7995,20 +8004,26 @@ limitations under the License.
 							<!--- Edit georeference form section --->
 							<cfif getCurrentGeoreference.recordcount GT 0>
 								<cfloop query="getCurrentGeoreference">
-									<cfset styleValue="style='display: none;'"><!--- this part of form is hiddent by default --->
-									<cfset warningMessage="">
+									<cfset georefSectionStyleValue="style='display: none;'"><!--- this part of form is hidden by default --->
+									<cfset georefSectionWarningMessage=false>
 									<cfif len(datum) EQ 0 OR len(max_error_distance) EQ 0 OR len(max_error_units) EQ 0 OR len(coordinate_precision) EQ 0 OR len(lat_long_for_nnp_fg) EQ 0 OR len(lat_long_ref_source) EQ 0 OR len(georefmethod) EQ 0 OR (len(extent) GT 0 AND len(extent_units) EQ 0) >
-										<cfset styleValue="">
-										<cfset warningMessage="<div class='text-danger fw-bold'>One or More required elements of the current georeference are missing, you probably want to edit this from the locality record to fix this condition.</div>"><!--- " --->
+										<cfset georefSectionStyleValue=""><!--- but if a required element is missing, show this part of the form and display a warning message --->
+										<cfset georefSectionWarningMessage=true>
 									</cfif>
-									<div id="georeferenceEditSection" class="col-12" #styleValue#>
+									<div id="georeferenceEditSection" class="col-12" #georefSectionStyleValue#>
 										<h3 class="h4 mt-3">
 											Edit Current Georeference
 											<cfif splitToSave>
 												(editing here will split off the collecting event and locality)
 											</cfif>
 										</h3>
-										#warningMessage#
+										<cfif georefSectionWarningMessage>
+											<div class='text-danger fw-bold'>
+												One or More required elements of the current georeference are missing, you probably want to
+												<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit this from the Locality</a>
+												record to fix this condition.
+											</div>
+										</cfif>
 										
 										<!--- Hidden fields for georeference --->
 										<input type="hidden" name="lat_long_id" value="#lat_long_id#">
