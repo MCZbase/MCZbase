@@ -2054,6 +2054,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										#label##nearest_named_place#
 									</li>
 								</cfif>
+								<cfif len(precision) EQ 0>
+									<li class="text-danger">
+										<strong>Warning:</strong> No precision set for this georeference.
+									</li>
+								</cfif>
 							</ul>
 							<script>
 								var bouncing#lat_long_id# = false;
