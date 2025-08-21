@@ -21,6 +21,7 @@ limitations under the License.
 <cfcomponent>
 <cfinclude template="/shared/component/functions.cfc" runOnce="true"><!--- For getCommentForField, reportError --->
 <cfinclude template="/dataquality/component/functions.cfc" runOnce="true"><!--- For interpretDate --->
+<cfinclude template="/localities/component/functions.cfc" runOnce="true"><!--- For updateGeoreference --->
 <cf_rolecheck>
 
 <cffunction name="handleCombinedEditForm" access="remote" returntype="any" returnformat="json">
@@ -98,11 +99,6 @@ limitations under the License.
 	<cfargument name="dec_long" type="string" required="no">
 	<cfargument name="lat_deg" type="string" required="no">
 	<cfargument name="long_deg" type="string" required="no">
-	<cfargument name="geolocate_uncertaintypolygon" type="string" required="no">
-	<cfargument name="geolocate_score" type="string" required="no">
-	<cfargument name="geolocate_precision" type="string" required="no">
-	<cfargument name="geolocate_num_results" type="string" required="no">
-	<cfargument name="geolocate_parsepattern" type="string" required="no">
 	<cfargument name="nearest_named_place" type="string" required="no">
 	<cfargument name="lat_long_for_nnp_fg" type="string" required="no">
 	<cfargument name="footprint_spatialfit" type="string" required="no">
@@ -185,7 +181,37 @@ limitations under the License.
 				    verbatim_collectors=arguments.verbatim_collectors,
 				    verbatim_field_numbers=arguments.verbatim_field_numbers,
 				    cecount=cecount,
-				    loccount=loccount
+				    loccount=loccount,
+					 lat_long_id=arguments.lat_long_id,
+					 field_mapping=arguments.field_mapping,
+					 accepted_lat_long_fg=arguments.accepted_lat_long_fg,
+					 orig_lat_long_units=arguments.orig_lat_long_units,
+					 datum=arguments.datum,
+					 lat_long_ref_source = arguments.lat_long_ref_source,
+					 determined_by_agent_id = arguments.determined_by_agent_id,
+					 verified_by_agent_id = arguments.verified_by_agent_id,
+					 determined_date = arguments.determined_date,
+					 georefmethod = arguments.georefmethod,
+					 verificationstatus = arguments.verificationstatus,
+					 extent = arguments.extent,
+					 extent_units = arguments.extent_units,
+					 spatialfit = arguments.spatialfit,
+					 gpsaccuracy = arguments.gpsaccuracy,
+					 max_error_distance = arguments.max_error_distance,
+					 max_error_units = arguments.max_error_units,
+					 lat_long_remarks = arguments.lat_long_remarks,
+					 dec_lat = arguments.dec_lat,
+					 dec_long = arguments.dec_long,
+					 lat_deg = arguments.lat_deg,
+					 long_deg = arguments.long_deg,
+					 geolocate_uncertaintypolygon = arguments.geolocate_uncertaintypolygon,
+					 geolocate_score = arguments.geolocate_score,
+					 geolocate_precision = arguments.geolocate_precision,
+					 geolocate_num_results = arguments.geolocate_num_results,
+					 geolocate_parsepattern = arguments.geolocate_parsepattern,
+					 nearest_named_place = arguments.nearest_named_place,
+					 lat_long_for_nnp_fg = arguments.lat_long_for_nnp_fg,
+					 footprint_spatialfit = arguments.footprint_spatialfit
 				)>
 			<cfelseif arguments.action EQ "saveCurrent">
 				<cfset handleSaveCurrent(
@@ -242,7 +268,37 @@ limitations under the License.
 				    verbatim_collectors=arguments.verbatim_collectors,
 				    verbatim_field_numbers=arguments.verbatim_field_numbers,
 				    cecount=cecount,
-				    loccount=loccount
+				    loccount=loccount,
+					 lat_long_id=arguments.lat_long_id,
+					 field_mapping=arguments.field_mapping,
+					 accepted_lat_long_fg=arguments.accepted_lat_long_fg,
+					 orig_lat_long_units=arguments.orig_lat_long_units,
+					 datum=arguments.datum,
+					 lat_long_ref_source = arguments.lat_long_ref_source,
+					 determined_by_agent_id = arguments.determined_by_agent_id,
+					 verified_by_agent_id = arguments.verified_by_agent_id,
+					 determined_date = arguments.determined_date,
+					 georefmethod = arguments.georefmethod,
+					 verificationstatus = arguments.verificationstatus,
+					 extent = arguments.extent,
+					 extent_units = arguments.extent_units,
+					 spatialfit = arguments.spatialfit,
+					 gpsaccuracy = arguments.gpsaccuracy,
+					 max_error_distance = arguments.max_error_distance,
+					 max_error_units = arguments.max_error_units,
+					 lat_long_remarks = arguments.lat_long_remarks,
+					 dec_lat = arguments.dec_lat,
+					 dec_long = arguments.dec_long,
+					 lat_deg = arguments.lat_deg,
+					 long_deg = arguments.long_deg,
+					 geolocate_uncertaintypolygon = arguments.geolocate_uncertaintypolygon,
+					 geolocate_score = arguments.geolocate_score,
+					 geolocate_precision = arguments.geolocate_precision,
+					 geolocate_num_results = arguments.geolocate_num_results,
+					 geolocate_parsepattern = arguments.geolocate_parsepattern,
+					 nearest_named_place = arguments.nearest_named_place,
+					 lat_long_for_nnp_fg = arguments.lat_long_for_nnp_fg,
+					 footprint_spatialfit = arguments.footprint_spatialfit
 				)>
 			<cfelse>
 				<cfthrow message="Unknown action #encodeForHtml(arguments.action)#">
@@ -391,6 +447,36 @@ limitations under the License.
 	<cfargument name="verbatim_field_numbers" type="string" required="no">
 	<cfargument name="cecount" type="query" required="yes">
 	<cfargument name="loccount" type="query" required="yes">
+	<cfargument name="lat_long_id" type="string" required="yes">
+	<cfargument name="field_mapping" type="string" required="yes">
+	<cfargument name="accepted_lat_long_fg" type="string" required="yes">
+	<cfargument name="orig_lat_long_units" type="string" required="yes">
+	<cfargument name="datum" type="string" required="yes">
+	<cfargument name="lat_long_ref_source" type="string" required="no">
+	<cfargument name="determined_by_agent_id" type="string" required="yes">
+	<cfargument name="verified_by_agent_id" type="string" required="no">
+	<cfargument name="determined_date" type="string" required="no">
+	<cfargument name="georefmethod" type="string" required="no">
+	<cfargument name="verificationstatus" type="string" required="yes">
+	<cfargument name="extent" type="string" required="no">
+	<cfargument name="extent_units" type="string" required="no">
+	<cfargument name="spatialfit" type="string" required="no">
+	<cfargument name="gpsaccuracy" type="string" required="no">
+	<cfargument name="max_error_distance" type="string" required="yes">
+	<cfargument name="max_error_units" type="string" required="yes">
+	<cfargument name="lat_long_remarks" type="string" required="no">
+	<cfargument name="dec_lat" type="string" required="no">
+	<cfargument name="dec_long" type="string" required="no">
+	<cfargument name="lat_deg" type="string" required="no">
+	<cfargument name="long_deg" type="string" required="no">
+	<cfargument name="geolocate_uncertaintypolygon" type="string" required="no">
+	<cfargument name="geolocate_score" type="string" required="no">
+	<cfargument name="geolocate_precision" type="string" required="no">
+	<cfargument name="geolocate_num_results" type="string" required="no">
+	<cfargument name="geolocate_parsepattern" type="string" required="no">
+	<cfargument name="nearest_named_place" type="string" required="no">
+	<cfargument name="lat_long_for_nnp_fg" type="string" required="no">
+	<cfargument name="footprint_spatialfit" type="string" required="no">
 	
 	<!--- Create new locality --->
 	<cfset new_locality_id = createNewLocality(
@@ -415,7 +501,38 @@ limitations under the License.
 	)>
 	
 	<!--- Clone georeference if exists --->
-	<cfset cloneGeoreference(arguments.locality_id, new_locality_id)>
+	<cfset new_lat_long_id = cloneGeoreference(arguments.locality_id, new_locality_id)>
+	
+	<cfif len(new_lat_long_id) GT 0>
+		<!--- Update the cloned georeference from the submitted form fields related to the georeference --->
+		<cfset updateGeoreference(		
+			lat_long_id=new_lat_long_id,
+			field_mapping=arguments.field_mapping,
+			accepted_lat_long_fg=arguments.accepted_lat_long_fg,
+			orig_lat_long_units=arguments.orig_lat_long_units,
+			datum=arguments.datum,
+			lat_long_ref_source=arguments.lat_long_ref_source,
+			determined_by_agent_id=arguments.determined_by_agent_id,
+			verified_by_agent_id=arguments.verified_by_agent_id,
+			determined_date=arguments.determined_date,
+			georefmethod=arguments.georefmethod,
+			verificationstatus=arguments.verificationstatus,
+			extent=arguments.extent,
+			extent_units=arguments.extent_units,
+			spatialfit=arguments.spatialfit,
+			gpsaccuracy=arguments.gpsaccuracy,
+			max_error_distance=arguments.max_error_distance,
+			max_error_units=arguments.max_error_units,
+			lat_long_remarks=arguments.lat_long_remarks,
+			dec_lat=arguments.dec_lat,
+			dec_long=arguments.dec_long,
+			lat_deg=arguments.lat_deg,
+			long_deg=arguments.long_deg,
+			nearest_named_place=arguments.nearest_named_place,
+			lat_long_for_nnp_fg=arguments.lat_long_for_nnp_fg,
+			footprint_spatialfit=arguments.footprint_spatialfit
+		)>
+	</cfif>
 	
 	<!--- Handle geology attributes --->
 	<cfset handleGeologyAttributes(arguments.geology_data, new_locality_id, "insert")>
@@ -546,6 +663,36 @@ limitations under the License.
 	<cfargument name="verbatim_field_numbers" type="string" required="no">
 	<cfargument name="cecount" type="query" required="yes">
 	<cfargument name="loccount" type="query" required="yes">
+	<cfargument name="lat_long_id" type="string" required="yes">
+	<cfargument name="field_mapping" type="string" required="yes">
+	<cfargument name="accepted_lat_long_fg" type="string" required="yes">
+	<cfargument name="orig_lat_long_units" type="string" required="yes">
+	<cfargument name="datum" type="string" required="yes">
+	<cfargument name="lat_long_ref_source" type="string" required="no">
+	<cfargument name="determined_by_agent_id" type="string" required="yes">
+	<cfargument name="verified_by_agent_id" type="string" required="no">
+	<cfargument name="determined_date" type="string" required="no">
+	<cfargument name="georefmethod" type="string" required="no">
+	<cfargument name="verificationstatus" type="string" required="yes">
+	<cfargument name="extent" type="string" required="no">
+	<cfargument name="extent_units" type="string" required="no">
+	<cfargument name="spatialfit" type="string" required="no">
+	<cfargument name="gpsaccuracy" type="string" required="no">
+	<cfargument name="max_error_distance" type="string" required="yes">
+	<cfargument name="max_error_units" type="string" required="yes">
+	<cfargument name="lat_long_remarks" type="string" required="no">
+	<cfargument name="dec_lat" type="string" required="no">
+	<cfargument name="dec_long" type="string" required="no">
+	<cfargument name="lat_deg" type="string" required="no">
+	<cfargument name="long_deg" type="string" required="no">
+	<cfargument name="geolocate_uncertaintypolygon" type="string" required="no">
+	<cfargument name="geolocate_score" type="string" required="no">
+	<cfargument name="geolocate_precision" type="string" required="no">
+	<cfargument name="geolocate_num_results" type="string" required="no">
+	<cfargument name="geolocate_parsepattern" type="string" required="no">
+	<cfargument name="nearest_named_place" type="string" required="no">
+	<cfargument name="lat_long_for_nnp_fg" type="string" required="no">
+	<cfargument name="footprint_spatialfit" type="string" required="no">
 	
 	<cfif arguments.cecount.ct GT 1 OR arguments.loccount.ct GT 1>
 		<cfthrow message="Collecting Event or Locality are shared with other cataloged items, cannot save changes to shared records, use split and save instead.">
@@ -588,6 +735,37 @@ limitations under the License.
 	<cfset handleGeologyAttributes(arguments.geology_data, arguments.locality_id, "update")>
 	<cfset deleteGeologyAttributes(arguments.geology_attributes_to_delete)>
 	
+	<!--- update existing georeference if exists --->
+	<cfif len(arguments.lat_long_id) GT 0>
+		<cfset updateGeoreference(		
+			lat_long_id=arguments.lat_long_id,
+			field_mapping=arguments.field_mapping,
+			accepted_lat_long_fg=arguments.accepted_lat_long_fg,
+			orig_lat_long_units=arguments.orig_lat_long_units,
+			datum=arguments.datum,
+			lat_long_ref_source=arguments.lat_long_ref_source,
+			determined_by_agent_id=arguments.determined_by_agent_id,
+			verified_by_agent_id=arguments.verified_by_agent_id,
+			determined_date=arguments.determined_date,
+			georefmethod=arguments.georefmethod,
+			verificationstatus=arguments.verificationstatus,
+			extent=arguments.extent,
+			extent_units=arguments.extent_units,
+			spatialfit=arguments.spatialfit,
+			gpsaccuracy=arguments.gpsaccuracy,
+			max_error_distance=arguments.max_error_distance,
+			max_error_units=arguments.max_error_units,
+			lat_long_remarks=arguments.lat_long_remarks,
+			dec_lat=arguments.dec_lat,
+			dec_long=arguments.dec_long,
+			lat_deg=arguments.lat_deg,
+			long_deg=arguments.long_deg,
+			nearest_named_place=arguments.nearest_named_place,
+			lat_long_for_nnp_fg=arguments.lat_long_for_nnp_fg,
+			footprint_spatialfit=arguments.footprint_spatialfit
+		)>
+	</cfif>
+
 	<!--- Handle collecting event numbers --->
 	<cfif isDefined("arguments.coll_event_numbers_data") OR isDefined("arguments.coll_event_numbers_to_delete")>
 		<cfset handleCollEventNumbersSaveCurrent(
@@ -797,11 +975,16 @@ limitations under the License.
 	<cfreturn getLocalityID.locality_id>
 </cffunction>
 
-<!--- Helper function to clone georeference --->
+<!--- Helper function to clone a georeference for a locality.
+  @param source_locality_id: ID of the locality to clone from
+  @param target_locality_id: ID of the locality to clone to
+  @return lat_long_id of the newly cloned georeference, or an empty string if there is no georeference to clone.
+ --->
 <cffunction name="cloneGeoreference" access="private" returntype="void">
 	<cfargument name="source_locality_id" type="string" required="yes">
 	<cfargument name="target_locality_id" type="string" required="yes">
 	
+	<cfset retval = ""><!--- default return value --->
 	<cfquery name="getCurrentGeoref" datasource="uam_god" result="getCurrentGeoref_result">
 		SELECT lat_long_id
 		FROM lat_long
@@ -814,6 +997,16 @@ limitations under the License.
 		<cfquery name="disableTrigger" datasource="uam_god" result="disableTrigger_result">
 			ALTER TRIGGER TR_LATLONG_ACCEPTED_BIUPA DISABLE
 		</cfquery>
+		<!--- obtain id of next lat_long_id --->
+		<cfquery name="getNextLatLongID" datasource="uam_god" result="getNextLatLongID_result">
+			SELECT sq_lat_long_id.NEXTVAL AS next_lat_long_id
+			FROM dual
+		</cfquery>
+		<cfif getNextLatLongID_result.recordcount NEQ 1>
+			<cfthrow message="Error obtaining next lat_long_id.">
+		</cfif>
+		<cfset next_lat_long_id = getNextLatLongID.next_lat_long_id>
+		<!--- Clone georeference from source locality to target locality --->
 		<cfquery name="cloneGeoref" datasource="uam_god" result="cloneGeoref_result">
 			INSERT INTO LAT_LONG (
 				lat_long_id, locality_id, lat_deg, dec_lat_min, lat_min, lat_sec, lat_dir,
@@ -832,7 +1025,7 @@ limitations under the License.
 				extent_units
 			)
 			SELECT 
-				sq_lat_long_id.NEXTVAL lat_long_id,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#next_lat_long_id#"> lat_long_id,
 				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.target_locality_id#"> locality_id,
 				lat_deg, dec_lat_min, lat_min, lat_sec, lat_dir,
 				long_deg, dec_long_min, long_min, long_sec, long_dir,
@@ -855,7 +1048,12 @@ limitations under the License.
 		<cfquery name="enableTrigger" datasource="uam_god" result="enableTrigger_result">
 			ALTER TRIGGER TR_LATLONG_ACCEPTED_BIUPA ENABLE
 		</cfquery>
+		<cfset retval = next_lat_long_id>
 	</cfif>
+	<cfif cloneGeoref_result.recordcount EQ 0>
+		<cfthrow message="Error cloning georeference for locality ID #arguments.source_locality_id#.">
+	</cfif>
+	<cfreturn retval>
 </cffunction>
 
 <!--- Helper function to handle geology attributes --->
@@ -899,7 +1097,7 @@ limitations under the License.
 	<cfif geoDo EQ "insert"> 
 		<cfset insertGeologyAttribute(arguments.geoAtt, arguments.locality_id)>
 	<cfelse> 
-		<cfset updateGeologyAttribute(arguments.geoAtt, arguments.locality_id)>
+		<cfset updateOnlyGeologyAttribute(arguments.geoAtt, arguments.locality_id)>
 	</cfif>
 	
 	<!--- Handle parent hierarchy if requested --->
@@ -1046,7 +1244,7 @@ limitations under the License.
 </cffunction>
 
 <!--- Helper function to update geology attribute --->
-<cffunction name="updateGeologyAttribute" access="private" returntype="void">
+<cffunction name="updateOnlyGeologyAttribute" access="private" returntype="void">
 	<cfargument name="geoAtt" type="struct" required="yes">
 	<cfargument name="locality_id" type="string" required="yes">
 	
