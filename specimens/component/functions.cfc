@@ -7884,7 +7884,7 @@ limitations under the License.
 											<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeoreference">Edit Current Here</button>
 										</cfif>
 									</cfif>
-									<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit from the Locality</a>.
+									<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#&launchEditCurrentGeorefDialog=true" target="_blank">Edit from the Locality</a>.
 								</h2>
 								
 								<div class="form-row">
@@ -7983,7 +7983,7 @@ limitations under the License.
 											<cfif len(coordinate_precision) EQ 0>
 												<li>
 													Coordinate Precision is not set.  Edit the georeference from the Locality to 
-													<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Fix This</a>.
+													<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#&launchEditCurrentGeorefDialog=true" target="_blank">Fix This</a>.
 												</li>
 											</cfif>
 										</ul>
@@ -8020,7 +8020,7 @@ limitations under the License.
 										<cfif georefSectionWarningMessage>
 											<div class='text-danger fw-bold'>
 												One or More required elements of the current georeference are missing, you probably want to
-												<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit this from the Locality</a>
+												<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#&launchEditCurrentGeorefDialog=true" target="_blank">Edit this from the Locality</a>
 												record to fix this condition.
 											</div>
 										</cfif>

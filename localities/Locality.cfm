@@ -169,6 +169,14 @@ limitations under the License.
 								<div id="georeferencesDiv">#georeferences#</div>
 							</div>
 						</div>
+						<cfif isDefined("url.launchEditCurrentGeorefDialog") AND url.launchEditCurrentGeorefDialog EQ "true">
+							<!--- if requested in the url, launch the edit georeference dialog for the accepted georeference--->
+							<script>
+								$(document).ready(function() {
+									$("##editAcceptedGeorefButton").trigger('click');
+								});
+							</script>
+						</cfif>
 					</div>
 					<div class="col-12 px-0 pr-md-3 pl-md-0 ">
 						<div class="border bg-light rounded p-3 my-2">

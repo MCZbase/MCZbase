@@ -1984,106 +1984,112 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<cfelse>
 					<div class="w-100">
 						<cfloop query="getGeoreferences">
-								<cfset original="">
-								<cfset det = "">
-								<cfset ver = "">
-								<cfif len(determined_by) GT 0>
-									<cfset det = " Determiner: #determined_by#. ">
-								</cfif>
-								<cfif len(verified_by) GT 0>
-									<cfset ver = " Verified by: #verified_by#. ">
-								</cfif>
-								<cfif len(utm_zone) GT 0>
-									<cfset original = "(as: #utm_zone# #utm_ew# #utm_ns#)">
-								<cfelse>
-									<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
-								</cfif>
-								<cfset divClass="small90 my-1 w-100">
-								<cfif accepted_lat_long EQ "Accepted">
-									<cfset divClass="small90 font-weight-lessbold my-1 w-100">
-								</cfif>
-								<div class="#divClass#">#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
-								<ul class="mb-2">
+							<cfset original="">
+							<cfset det = "">
+							<cfset ver = "">
+							<cfif len(determined_by) GT 0>
+								<cfset det = " Determiner: #determined_by#. ">
+							</cfif>
+							<cfif len(verified_by) GT 0>
+								<cfset ver = " Verified by: #verified_by#. ">
+							</cfif>
+							<cfif len(utm_zone) GT 0>
+								<cfset original = "(as: #utm_zone# #utm_ew# #utm_ns#)">
+							<cfelse>
+								<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
+							</cfif>
+							<cfset divClass="small90 my-1 w-100">
+							<cfif accepted_lat_long EQ "Accepted">
+								<cfset divClass="small90 font-weight-lessbold my-1 w-100">
+							</cfif>
+							<div class="#divClass#">#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
+							<ul class="mb-2">
+								<li>
+									#original# <span class="#divClass#">#accepted_lat_long#</span>
+								</li>
+								<li>
+									Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
+								</li>
+								<cfif len(spatialfit) GT 0>
 									<li>
-										#original# <span class="#divClass#">#accepted_lat_long#</span>
-									</li>
-									<li>
-										Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
-									</li>
-									<cfif len(spatialfit) GT 0>
-										<li>
-											<cfif spatialfit EQ 0>
-												<cfset spatialfit_interp = " Actual locality larger than point-radius.">
-											<cfelseif spatialfit EQ 1>
-												<cfset spatialfit_interp = " Actual locality is the same as the point-radius">
-											<cfelse>
-												<cfset spatialfit_interp = ":1 (ratio of point-radius to actual locality)">
-											</cfif>
-											Point Radius Spatial Fit: #spatialfit##spatialfit_interp#
-										</li>
-									</cfif>
-									<cfif len(error_polygon) GT 0>
-										<li>Has Footprint.
-											<cfif footprint_spatialfit EQ 0>
-												<cfset spatialfit_interp = " Actual locality larger than footprint.">
-											<cfelseif spatialfit EQ 1>
-												<cfset spatialfit_interp = " Actual locality is the same as the footprint">
-											<cfelse>
-												<cfset spatialfit_interp = ":1 (ratio of footprint to actual locality)">
-											</cfif>
-											Footprint Spatial Fit: #footprint_spatialfit##spatialfit_interp#
-										</li>
-									</cfif>
-									<cfif len(geolocate_score) GT 0>
-										<li>
-											GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
-										</li>
-									</cfif>
-									<cfif len(extent) GT 0>
-										<li>
-											Radial of feature: #extentInMeters# m
-										</li>
-									</cfif>
-									<cfif len(nearest_named_place) GT 0>
-										<cfif lat_long_for_nnp_fg EQ 1>
-											<cfset label = "Georefrence is for Nearest Named Place: ">
+										<cfif spatialfit EQ 0>
+											<cfset spatialfit_interp = " Actual locality larger than point-radius.">
+										<cfelseif spatialfit EQ 1>
+											<cfset spatialfit_interp = " Actual locality is the same as the point-radius">
 										<cfelse>
-											<cfset label = "Nearest Named Place is ">
+											<cfset spatialfit_interp = ":1 (ratio of point-radius to actual locality)">
 										</cfif>
-										<li>
-											#label##nearest_named_place#
-										</li>
+										Point Radius Spatial Fit: #spatialfit##spatialfit_interp#
+									</li>
+								</cfif>
+								<cfif len(error_polygon) GT 0>
+									<li>Has Footprint.
+										<cfif footprint_spatialfit EQ 0>
+											<cfset spatialfit_interp = " Actual locality larger than footprint.">
+										<cfelseif spatialfit EQ 1>
+											<cfset spatialfit_interp = " Actual locality is the same as the footprint">
+										<cfelse>
+											<cfset spatialfit_interp = ":1 (ratio of footprint to actual locality)">
+										</cfif>
+										Footprint Spatial Fit: #footprint_spatialfit##spatialfit_interp#
+									</li>
+								</cfif>
+								<cfif len(geolocate_score) GT 0>
+									<li>
+										GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
+									</li>
+								</cfif>
+								<cfif len(extent) GT 0>
+									<li>
+										Radial of feature: #extentInMeters# m
+									</li>
+								</cfif>
+								<cfif len(nearest_named_place) GT 0>
+									<cfif lat_long_for_nnp_fg EQ 1>
+										<cfset label = "Georefrence is for Nearest Named Place: ">
+									<cfelse>
+										<cfset label = "Nearest Named Place is ">
 									</cfif>
-								</ul>
-								<script>
-									var bouncing#lat_long_id# = false;
-									function toggleBounce#lat_long_id#() { 
-										if (bouncing#lat_long_id#==true) { 
-											bouncing#lat_long_id# = false;
-											map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: null });  } }); 
-											$('##toggleButton#lat_long_id#').html("Highlight on map");
-										} else { 
-											bouncing#lat_long_id# = true;
-											map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: google.maps.Animation.BOUNCE});  } }); 
-											$('##toggleButton#lat_long_id#').html("Stop bouncing");
-										}
-									};
-								</script>
-								<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info mb-1" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
-								<button type="button" class="btn btn-xs btn-secondary mb-1" 
-									onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog',#callback_name#);"
-									aria-label = "Edit this georeference"
-								>Edit</button>
-								<button type="button" class="btn btn-xs btn-warning mb-1" 
-									onClick=" confirmDialog('Delete this georeference?  Georeferences should not normally be deleted.  In most cases, a new accepted georeference should be added instead.','Confirm Delete Georeference', doDeleteGeoref ); "
-									aria-label = "Delete this georeference from this locality"
-								>Delete</button>
-								<script>
-									function doDeleteGeoref() { 
-										deleteGeoreference('#locality_id#','#lat_long_id#',#callback_name#);
-									};
-								</script>
-							</cfloop>
+									<li>
+										#label##nearest_named_place#
+									</li>
+								</cfif>
+							</ul>
+							<script>
+								var bouncing#lat_long_id# = false;
+								function toggleBounce#lat_long_id#() { 
+									if (bouncing#lat_long_id#==true) { 
+										bouncing#lat_long_id# = false;
+										map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: null });  } }); 
+										$('##toggleButton#lat_long_id#').html("Highlight on map");
+									} else { 
+										bouncing#lat_long_id# = true;
+										map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: google.maps.Animation.BOUNCE});  } }); 
+										$('##toggleButton#lat_long_id#').html("Stop bouncing");
+									}
+								};
+							</script>
+							<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info mb-1" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
+							<cfif accepted_lat_long_fg EQ "1">
+								<cfset editButtonID = "id='editAcceptedGeorefButton'">
+							<cfelse>
+								<cfset editButtonID = "">
+							</cfif>
+							<button type="button" class="btn btn-xs btn-secondary mb-1" 
+								onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog',#callback_name#);"
+								aria-label = "Edit this georeference"
+							>Edit</button>
+							<button type="button" class="btn btn-xs btn-warning mb-1" 
+								onClick=" confirmDialog('Delete this georeference?  Georeferences should not normally be deleted.  In most cases, a new accepted georeference should be added instead.','Confirm Delete Georeference', doDeleteGeoref ); "
+								aria-label = "Delete this georeference from this locality"
+								#editButtonID#
+							>Delete</button>
+							<script>
+								function doDeleteGeoref() { 
+									deleteGeoreference('#locality_id#','#lat_long_id#',#callback_name#);
+								};
+							</script>
+						</cfloop>
 					</div>
 						<button type="button" class="btn btn-xs btn-secondary mt-2" 
 							onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', #callback_name#) " 
