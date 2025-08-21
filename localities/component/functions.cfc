@@ -1908,6 +1908,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						round(to_meters(lat_long.max_error_distance, lat_long.max_error_units)) coordinateUncertaintyInMeters,
 						error_polygon,
 						datum,
+						coordinate_precision,
 						extent,
 						extent_units,
 						to_meters(lat_long.extent, lat_long.extent_units) extentInMeters,
@@ -2054,7 +2055,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										#label##nearest_named_place#
 									</li>
 								</cfif>
-								<cfif len(precision) EQ 0>
+								<cfif len(coordinate_precision) EQ 0>
 									<li class="text-danger">
 										<strong>Warning:</strong> No precision set for this georeference.
 									</li>
