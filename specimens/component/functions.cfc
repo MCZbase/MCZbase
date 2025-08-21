@@ -6965,34 +6965,28 @@ limitations under the License.
 								<div class="col-12 form-row border rounded m-1 p-1">
 									<!--- PLSS coordinates --->
 									<div class="col-12 col-md-2 py-1">
-										<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
 										<label class="data-entry-label" for="section_part"><span class="font-weight-lessbold">PLSS: </span> Section Part</label>
 										<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(getLoc.section_part)#" placeholder="NE 1/4" >
 									</div>
 									<div class="col-12 col-md-2 py-1">
-										<cfif NOT isdefined("section")><cfset section=""></cfif>
 										<label class="data-entry-label" for="section">Section</label>
-										<input type="text" name="section" id="section" class="data-entry-input" value="#encodeForHTML(section)#" pattern="[0-3]{0,1}[0-9]{0,1}" >
+										<input type="text" name="section" id="section" class="data-entry-input" value="#encodeForHTML(getLoc.section)#" pattern="[0-3]{0,1}[0-9]{0,1}" >
 									</div>
 									<div class="col-12 col-md-2 py-1">
-										<cfif NOT isdefined("township")><cfset township=""></cfif>
 										<label class="data-entry-label" for="township">Township</label>
-										<input type="text" name="township" id="township" class="data-entry-input" value="#encodeForHTML(township)#" pattern="[0-9]+" >
+										<input type="text" name="township" id="township" class="data-entry-input" value="#encodeForHTML(getLoc.township)#" pattern="[0-9]+" >
 									</div>
 									<div class="col-12 col-md-2 py-1">
-										<cfif NOT isdefined("township_direction")><cfset township_direction=""></cfif>
 										<label class="data-entry-label" for="township_direction">Township Direction</label>
-										<input type="text" name="township_direction" id="township_direction" class="data-entry-input" value="#encodeForHTML(township_direction)#" >
+										<input type="text" name="township_direction" id="township_direction" class="data-entry-input" value="#encodeForHTML(getLoc.township_direction)#" >
 									</div>
 									<div class="col-12 col-md-2 py-1">
-										<cfif NOT isdefined("range")><cfset range=""></cfif>
 										<label class="data-entry-label" for="range">Range</label>
-										<input type="text" name="range" id="range" class="data-entry-input" value="#encodeForHTML(range)#" pattern="[0-9]+">
+										<input type="text" name="range" id="range" class="data-entry-input" value="#encodeForHTML(getLoc.range)#" pattern="[0-9]+">
 									</div>
 									<div class="col-12 col-md-2 py-1">
-										<cfif NOT isdefined("range_direction")><cfset range_direction=""></cfif>
 										<label class="data-entry-label" for="range_direction">Range Direction</label>
-										<input type="text" name="range_direction" id="range_direction" class="data-entry-input" value="#encodeForHTML(range_direction)#" >
+										<input type="text" name="range_direction" id="range_direction" class="data-entry-input" value="#encodeForHTML(getLoc.range_direction)#" >
 									</div>
 								</div>
 								<div class="col-12 py-1">
