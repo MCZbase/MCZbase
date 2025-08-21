@@ -8015,6 +8015,7 @@ limitations under the License.
 											<cfif splitToSave>
 												(editing here will split off the collecting event and locality)
 											</cfif>
+											<i class="fas fa-info-circle" onClick="getMCZDocs('Georeferencing')" aria-label="georeferencing help link"></i>
 										</h3>
 										<cfif georefSectionWarningMessage>
 											<div class='text-danger fw-bold'>
@@ -8193,7 +8194,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-3 mb-2">
 												<label for="gpsaccuracy" class="data-entry-label">GPS Accuracy</label>
-												<input type="text" name="gpsaccuracy" id="gpsaccuracy" class="data-entry-input" value="#encodeForHtml(gpsaccuracy)#">
+												<input type="text" name="gpsaccuracy" id="gpsaccuracy" class="data-entry-input" value="#encodeForHtml(gpsaccuracy)#" pattern="^$|^[0-9.]+$" >
 											</div>
 											<div class="col-12 col-md-3 mb-2">
 												<label for="nearest_named_place" class="data-entry-label">Nearest Named Place</label>
