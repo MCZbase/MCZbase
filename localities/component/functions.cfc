@@ -1,7 +1,7 @@
 <!---
 localities/component/functions.cfc
 
-Copyright 2020-2023 President and Fellows of Harvard College
+Copyright 2020-2025 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -1908,6 +1908,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						round(to_meters(lat_long.max_error_distance, lat_long.max_error_units)) coordinateUncertaintyInMeters,
 						error_polygon,
 						datum,
+						coordinate_precision,
 						extent,
 						extent_units,
 						to_meters(lat_long.extent, lat_long.extent_units) extentInMeters,
@@ -1984,106 +1985,117 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<cfelse>
 					<div class="w-100">
 						<cfloop query="getGeoreferences">
-								<cfset original="">
-								<cfset det = "">
-								<cfset ver = "">
-								<cfif len(determined_by) GT 0>
-									<cfset det = " Determiner: #determined_by#. ">
-								</cfif>
-								<cfif len(verified_by) GT 0>
-									<cfset ver = " Verified by: #verified_by#. ">
-								</cfif>
-								<cfif len(utm_zone) GT 0>
-									<cfset original = "(as: #utm_zone# #utm_ew# #utm_ns#)">
-								<cfelse>
-									<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
-								</cfif>
-								<cfset divClass="small90 my-1 w-100">
-								<cfif accepted_lat_long EQ "Accepted">
-									<cfset divClass="small90 font-weight-lessbold my-1 w-100">
-								</cfif>
-								<div class="#divClass#">#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
-								<ul class="mb-2">
+							<cfset original="">
+							<cfset det = "">
+							<cfset ver = "">
+							<cfif len(determined_by) GT 0>
+								<cfset det = " Determiner: #determined_by#. ">
+							</cfif>
+							<cfif len(verified_by) GT 0>
+								<cfset ver = " Verified by: #verified_by#. ">
+							</cfif>
+							<cfif len(utm_zone) GT 0>
+								<cfset original = "(as: #utm_zone# #utm_ew# #utm_ns#)">
+							<cfelse>
+								<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
+							</cfif>
+							<cfset divClass="small90 my-1 w-100">
+							<cfif accepted_lat_long EQ "Accepted">
+								<cfset divClass="small90 font-weight-lessbold my-1 w-100">
+							</cfif>
+							<div class="#divClass#">#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
+							<ul class="mb-2">
+								<li>
+									#original# <span class="#divClass#">#accepted_lat_long#</span>
+								</li>
+								<li>
+									Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
+								</li>
+								<cfif len(spatialfit) GT 0>
 									<li>
-										#original# <span class="#divClass#">#accepted_lat_long#</span>
-									</li>
-									<li>
-										Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
-									</li>
-									<cfif len(spatialfit) GT 0>
-										<li>
-											<cfif spatialfit EQ 0>
-												<cfset spatialfit_interp = " Actual locality larger than point-radius.">
-											<cfelseif spatialfit EQ 1>
-												<cfset spatialfit_interp = " Actual locality is the same as the point-radius">
-											<cfelse>
-												<cfset spatialfit_interp = ":1 (ratio of point-radius to actual locality)">
-											</cfif>
-											Point Radius Spatial Fit: #spatialfit##spatialfit_interp#
-										</li>
-									</cfif>
-									<cfif len(error_polygon) GT 0>
-										<li>Has Footprint.
-											<cfif footprint_spatialfit EQ 0>
-												<cfset spatialfit_interp = " Actual locality larger than footprint.">
-											<cfelseif spatialfit EQ 1>
-												<cfset spatialfit_interp = " Actual locality is the same as the footprint">
-											<cfelse>
-												<cfset spatialfit_interp = ":1 (ratio of footprint to actual locality)">
-											</cfif>
-											Footprint Spatial Fit: #footprint_spatialfit##spatialfit_interp#
-										</li>
-									</cfif>
-									<cfif len(geolocate_score) GT 0>
-										<li>
-											GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
-										</li>
-									</cfif>
-									<cfif len(extent) GT 0>
-										<li>
-											Radial of feature: #extentInMeters# m
-										</li>
-									</cfif>
-									<cfif len(nearest_named_place) GT 0>
-										<cfif lat_long_for_nnp_fg EQ 1>
-											<cfset label = "Georefrence is for Nearest Named Place: ">
+										<cfif spatialfit EQ 0>
+											<cfset spatialfit_interp = " Actual locality larger than point-radius.">
+										<cfelseif spatialfit EQ 1>
+											<cfset spatialfit_interp = " Actual locality is the same as the point-radius">
 										<cfelse>
-											<cfset label = "Nearest Named Place is ">
+											<cfset spatialfit_interp = ":1 (ratio of point-radius to actual locality)">
 										</cfif>
-										<li>
-											#label##nearest_named_place#
-										</li>
+										Point Radius Spatial Fit: #spatialfit##spatialfit_interp#
+									</li>
+								</cfif>
+								<cfif len(error_polygon) GT 0>
+									<li>Has Footprint.
+										<cfif footprint_spatialfit EQ 0>
+											<cfset spatialfit_interp = " Actual locality larger than footprint.">
+										<cfelseif spatialfit EQ 1>
+											<cfset spatialfit_interp = " Actual locality is the same as the footprint">
+										<cfelse>
+											<cfset spatialfit_interp = ":1 (ratio of footprint to actual locality)">
+										</cfif>
+										Footprint Spatial Fit: #footprint_spatialfit##spatialfit_interp#
+									</li>
+								</cfif>
+								<cfif len(geolocate_score) GT 0>
+									<li>
+										GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
+									</li>
+								</cfif>
+								<cfif len(extent) GT 0>
+									<li>
+										Radial of feature: #extentInMeters# m
+									</li>
+								</cfif>
+								<cfif len(nearest_named_place) GT 0>
+									<cfif lat_long_for_nnp_fg EQ 1>
+										<cfset label = "Georefrence is for Nearest Named Place: ">
+									<cfelse>
+										<cfset label = "Nearest Named Place is ">
 									</cfif>
-								</ul>
-								<script>
-									var bouncing#lat_long_id# = false;
-									function toggleBounce#lat_long_id#() { 
-										if (bouncing#lat_long_id#==true) { 
-											bouncing#lat_long_id# = false;
-											map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: null });  } }); 
-											$('##toggleButton#lat_long_id#').html("Highlight on map");
-										} else { 
-											bouncing#lat_long_id# = true;
-											map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: google.maps.Animation.BOUNCE});  } }); 
-											$('##toggleButton#lat_long_id#').html("Stop bouncing");
-										}
-									};
-								</script>
-								<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info mb-1" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
-								<button type="button" class="btn btn-xs btn-secondary mb-1" 
-									onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog',#callback_name#);"
-									aria-label = "Edit this georeference"
-								>Edit</button>
-								<button type="button" class="btn btn-xs btn-warning mb-1" 
-									onClick=" confirmDialog('Delete this georeference?  Georeferences should not normally be deleted.  In most cases, a new accepted georeference should be added instead.','Confirm Delete Georeference', doDeleteGeoref ); "
-									aria-label = "Delete this georeference from this locality"
-								>Delete</button>
-								<script>
-									function doDeleteGeoref() { 
-										deleteGeoreference('#locality_id#','#lat_long_id#',#callback_name#);
-									};
-								</script>
-							</cfloop>
+									<li>
+										#label##nearest_named_place#
+									</li>
+								</cfif>
+								<cfif len(coordinate_precision) EQ 0>
+									<li class="text-danger">
+										<strong>Warning:</strong> No precision set for this georeference.
+									</li>
+								</cfif>
+							</ul>
+							<script>
+								var bouncing#lat_long_id# = false;
+								function toggleBounce#lat_long_id#() { 
+									if (bouncing#lat_long_id#==true) { 
+										bouncing#lat_long_id# = false;
+										map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: null });  } }); 
+										$('##toggleButton#lat_long_id#').html("Highlight on map");
+									} else { 
+										bouncing#lat_long_id# = true;
+										map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: google.maps.Animation.BOUNCE});  } }); 
+										$('##toggleButton#lat_long_id#').html("Stop bouncing");
+									}
+								};
+							</script>
+							<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info mb-1" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
+							<cfif accepted_lat_long_fg EQ "1">
+								<cfset editButtonID = "id='editAcceptedGeorefButton'">
+							<cfelse>
+								<cfset editButtonID = "">
+							</cfif>
+							<button type="button" class="btn btn-xs btn-secondary mb-1" 
+								onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog',#callback_name#);"
+								aria-label = "Edit this georeference"
+								#editButtonID#
+							>Edit</button>
+							<button type="button" class="btn btn-xs btn-warning mb-1" 
+								onClick=" confirmDialog('Delete this georeference?  Georeferences should not normally be deleted.  In most cases, a new accepted georeference should be added instead.','Confirm Delete Georeference', doDeleteGeoref ); "
+								aria-label = "Delete this georeference from this locality"
+							>Delete</button>
+							<script>
+								function doDeleteGeoref() { 
+									deleteGeoreference('#locality_id#','#lat_long_id#',#callback_name#);
+								};
+							</script>
+						</cfloop>
 					</div>
 						<button type="button" class="btn btn-xs btn-secondary mt-2" 
 							onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', #callback_name#) " 
@@ -4341,6 +4353,14 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="dec_long" type="string" required="no">
 	<cfargument name="lat_deg" type="string" required="no">
 	<cfargument name="long_deg" type="string" required="no">
+	<cfargument name="dec_lat_min" type="string" required="no">
+	<cfargument name="dec_long_min" type="string" required="no">
+	<cfargument name="lat_min" type="string" required="no">
+	<cfargument name="lat_sec" type="string" required="no">
+	<cfargument name="lat_dir" type="string" required="no">
+	<cfargument name="long_min" type="string" required="no">
+	<cfargument name="long_sec" type="string" required="no">
+	<cfargument name="long_dir" type="string" required="no">
 	<cfargument name="geolocate_uncertaintypolygon" type="string" required="no">
 	<cfargument name="geolocate_score" type="string" required="no">
 	<cfargument name="geolocate_precision" type="string" required="no">
@@ -4927,12 +4947,27 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<input type="hidden" name="locality_id" id="locality_id" value="#locality_id#">
 							<input type="hidden" id="reset_locality_id" value="#locality_id#">
 							<input type="hidden" id="reset_locality" value="#higher_geog#: #spec_locality# (#locality_id#)">
-							<input type="hidden" id="reset_state" value="0">
+							<input type="hidden" id="reset_state" value="0"><!--- 0 = not editing locality, 1 = editing locality --->
 						</div>
+						<cfif NOT isDefined("onelinesummary")><cfset onlinesummary = "Collecting Event (#collecting_event_id#)"></cfif>
 						<div class="col-2 mb-2">
 							<label class="data-entry-label">&nbsp;</label>
 							<button type="button" class="btn btn-xs btn-secondary" onclick="toggleChangeLocality();" id="editLocalityToggle">Change Locality</button>
+							<button type="button" class="btn btn-xs btn-secondary" onclick="openlinklocalitydialog('localityPickerDialog', '#onelinesummary#', 'locality', 'locality_id', localityPicked, null);" id="pickLocalityButton">Pick</button>
 							<script>
+								function localityPicked() { 
+									console.log("locality picked");
+									console.log($("##locality_id").val());
+									$("##editLocalityToggle").html("Change Locality");
+									$("##pickLocalityButton").hide();
+									if ($("##reset_state").val()=="0") { 
+										$("##reset_state").val("1");
+									}
+									// if handleChange function exists, call it
+									if (typeof handleChange === "function") { 
+										handleChange();
+									}
+								}
 								function toggleChangeLocality() { 
 									if ($("##reset_state").val()=="0") { 
 										$("##reset_state").val("1");
@@ -4949,12 +4984,17 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									makeLocalityAutocompleteMeta("locality", "locality_id");
 									$("##editLocalityToggle").html("Reset");
 									$("##locality").val("");
+									$("##pickLocalityButton").show();
 								}
 								function resetLocality() { 
 									$("##locality").val($("##reset_locality").val());
 									$("##locality_id").val($("##reset_locality_id").val());
 									$("##editLocalityToggle").html("Change Locality");
+									$("##pickLocalityButton").hide();
 								}
+								$(document).ready(function() { 
+									$("##pickLocalityButton").hide();
+								});
 							</script>
 						</div>
 					</cfif>
@@ -4969,20 +5009,20 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<script>
 							function fillDatesFromVerbatim() { 
 								var verbatimDate = $("##verbatim_date").val()
- 								jQuery.getJSON("/dataquality/component/functions.cfc",
-      						{
-         						method : "interpretDate",
-						         verbatimDate : verbatimDate,
-						         returnformat : "json",
-							      },
-					   		   function (result) {
+ 								jQuery.getJSON(
+									"/dataquality/component/functions.cfc",
+									{
+										method : "interpretDate",
+										verbatimDate : verbatimDate,
+										returnformat : "json",
+									},
+									function (result) {
 										console.log(result);
 									}
-								}
-   						).fail(function(jqXHR,textStatus,error){
-   						   handleFail(jqXHR,textStatus,error,"looking up sovereign nation from higher geography");
-							   });
-							} 
+								).fail(function(jqXHR,textStatus,error){
+									handleFail(jqXHR,textStatus,error,"looking up sovereign nation from higher geography");
+								});
+							}
 						</script>
 					</div>
 					<div class="col-12 col-md-3 mb-2">
@@ -5152,7 +5192,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				</div>
 			<cfcatch>
 				<cfset function_called = "#GetFunctionCalledName()#">
-				<h2 class="h3 text-danger mt-0">Error: #cfcatch.type# #cfcatch.message# in #function_called#</h2> 
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<h2 class="h3 text-danger mt-0">Error: #cfcatch.type# #error_message# in #function_called#</h2> 
 				<div>#cfcatch.detail#</div>
 			</cfcatch>
 			</cftry>
@@ -5607,1239 +5648,6 @@ Probably won't be used, delete is action on localities/CollectingEvent.cfm
 		</cftry>
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
-</cffunction>
-
-<cffunction name="handleCombinedEditForm" access="remote" returntype="any" returnformat="json">
-	<cfargument name="action" type="string" required="yes">
-	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfargument name="collecting_event_id" type="string" required="no">
-	<cfargument name="locality_id" type="string" required="yes">
-	<cfargument name="geog_auth_rec_id" type="string" required="yes">
-	<cfargument name="spec_locality" type="string" required="yes">
-	<cfargument name="curated_fg" type="string" required="no">
-	<cfargument name="MINIMUM_ELEVATION" type="string" required="no">
-	<cfargument name="MAXIMUM_ELEVATION" type="string" required="no">
-	<cfargument name="ORIG_ELEV_UNITS" type="string" required="no">
-	<cfargument name="MIN_DEPTH" type="string" required="no">
-	<cfargument name="MAX_DEPTH" type="string" required="no">
-	<cfargument name="DEPTH_UNITS" type="string" required="no">
-	<cfargument name="township" type="string" required="no">
-	<cfargument name="township_direction" type="string" required="no">
-	<cfargument name="range" type="string" required="no">
-	<cfargument name="range_direction" type="string" required="no">
-	<cfargument name="section" type="string" required="no">
-	<cfargument name="section_part" type="string" required="no">
-	<cfargument name="locality_remarks" type="string" required="no">
-	<cfargument name="nogeorefbecause" type="string" required="no" default="">
-
-	<cfargument name="geology_data" type="string" required="no" default="">
-	<cfargument name="geology_attributes_to_delete" type="string" required="no" default="">
-	<cfargument name="geology_row_count" type="string" required="no" default="">
-
-	<cfargument name="coll_event_numbers_data" type="string" required="no" default="">
-	<cfargument name="coll_event_numbers_to_delete" type="string" required="no" default="">
-	<cfargument name="coll_event_number_row_count" type="string" required="no" default="">
-
-	<cfargument name="began_date" type="string" required="yes">
-	<cfargument name="ended_date" type="string" required="yes">
-	<cfargument name="verbatim_date" type="string" required="yes">
-	<cfargument name="collecting_source" type="string" required="yes">
-	<cfargument name="verbatim_habitat" type="string" required="no">
-	<cfargument name="verbatim_locality" type="string" required="no">
-	<cfargument name="verbatimDepth" type="string" required="no">
-	<cfargument name="verbatimeelvation" type="string" required="no">
-	<cfargument name="coll_event_remarks" type="string" required="no">
-	<cfargument name="collecting_method" type="string" required="no">
-	<cfargument name="habitat_desc" type="string" required="no">
-	<cfargument name="collecting_time" type="string" required="no">
-	<cfargument name="fish_field_number" type="string" required="no">
-	<cfargument name="verbatimcoordinates" type="string" required="no">
-	<cfargument name="verbatimlatitude" type="string" required="no">
-	<cfargument name="verbatimlongigude" type="string" required="no">
-	<cfargument name="verbatimcoordinatesystem" type="string" required="no">
-	<cfargument name="verbatimsrs" type="string" required="no">
-	<cfargument name="startdayofyear" type="string" required="no">
-	<cfargument name="enddayofyear" type="string" required="no">
-	<cfargument name="date_determined_by_agent_id" type="string" required="no">
-	<cfargument name="valid_distribution_fg" type="string" required="no">
-	<cfargument name="verbatim_collectors" type="string" required="no">
-	<cfargument name="verbatim_field_numbers" type="string" required="no">
-
-	<cfset data = ArrayNew(1)>
-	<cftry>
-		<!--- outside the transaction, confirm that the user has permissions to edit the locality and collecting event --->
-		<cfquery name="checkLocalityPriv" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkLocalityPriv_result">
-			SELECT COUNT(*) ct
-			FROM (
-				SELECT 'DIRECT' AS source
-				FROM USER_TAB_PRIVS
-				WHERE TABLE_NAME = 'LOCALITY'
-					AND PRIVILEGE = 'INSERT'
-					AND OWNER = 'MCZBASE'
-			UNION
-				SELECT 'ROLE' AS source
-				FROM ROLE_TAB_PRIVS rtp
-				JOIN USER_ROLE_PRIVS urp ON rtp.ROLE = urp.GRANTED_ROLE
-				WHERE rtp.TABLE_NAME = 'LOCALITY'
-					AND rtp.PRIVILEGE = 'INSERT'
-					AND rtp.OWNER = 'MCZBASE'
-			)
-		</cfquery>
-		<cfif checkLocalityPriv.ct EQ 0>
-			<cfthrow message="You do not have permission to edit locality records.">
-		</cfif>
-		<cfquery name="getCollectingPriv" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCollectingPriv_result">
-			SELECT COUNT(*) ct
-			FROM (
-				SELECT 'DIRECT' AS source
-				FROM USER_TAB_PRIVS
-				WHERE TABLE_NAME = 'COLLECTING_EVENT'
-					AND PRIVILEGE = 'INSERT'
-					AND OWNER = 'MCZBASE'
-			UNION
-				SELECT 'ROLE' AS source
-				FROM ROLE_TAB_PRIVS rtp
-				JOIN USER_ROLE_PRIVS urp ON rtp.ROLE = urp.GRANTED_ROLE
-				WHERE rtp.TABLE_NAME = 'COLLECTING_EVENT'
-					AND rtp.PRIVILEGE = 'INSERT'
-					AND rtp.OWNER = 'MCZBASE'
-			)
-		</cfquery>
-		<cfif getCollectingPriv.ct EQ 0>
-			<cfthrow message="You do not have permission to edit collecting event records.">
-		</cfif>
-		<!--- if these checks pass, we can proceed with the transaction using a more privileged datasource --->
-	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error starting handleCombinedEditForm: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfheader statusCode="500" statusText="#message#">
-		<cfoutput>
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-			<cfset function_called = "#GetFunctionCalledName()#">
-			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-		</cfoutput>
-		<cfabort>
-	</cfcatch>
-	</cftry>
-	<cftransaction>
-		<!--- all datasources within a transaction must be the same, so as we need to temporarally disable a trigger, using uam_god for all queries --->
-		<cftry>
-			<!--- find what elements are shared with other specimens, confirming which actions to take --->
-			<cfquery name="cecount" datasource="uam_god">
-				SELECT count(collection_object_id) ct 
-				FROM cataloged_item
-				WHERE collecting_event_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value = "#arguments.collecting_event_id#">
-			</cfquery>
-			<cfquery name="loccount" datasource="uam_god">
-				SELECT count(ci.collection_object_id) ct 
-				FROM cataloged_item ci
-					left join collecting_event on ci.collecting_event_id = collecting_event.collecting_event_id
-				WHERE collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value = "#arguments.locality_id#">
-			</cfquery>
-			<cfif cecount.ct EQ 1 AND loccount.ct EQ 1 AND arguments.action EQ "splitAndSave">
-				<cfthrow message="Collecting Event and Locality are unique to this cataloged item, no need to split, split and save should not be enabled.">
-				<!--- alternately we could change the behavior, throwing error is safer. --->
-			</cfif>
-			<cfif arguments.action EQ "splitAndSave">
-				<!--- split the collecting event and locality into new records and assign the cataloged item to the new collecting event. --->
-				<!--- do this by creating a new locality, and then a new collecting event from the provided form data --->
-				<cfquery name="newLocality" datasource="uam_god" result="newLocality_result">
-					INSERT INTO locality 
-					(
-						locality_id,
-						geog_auth_rec_id, spec_locality, curated_fg, 
-						MINIMUM_ELEVATION, MAXIMUM_ELEVATION, ORIG_ELEV_UNITS,
-						min_depth, max_depth, depth_units,
-						township, township_direction, range, range_direction, section, section_part,
-						locality_remarks, nogeorefbecause
-					) VALUES (
-						sq_locality_id.NEXTVAL,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec_locality#">,
-						<cfif isdefined("curated_fg") AND len(#curated_fg#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#curated_fg#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#MINIMUM_ELEVATION#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#min_elev_scale#" value="#MINIMUM_ELEVATION#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#MAXIMUM_ELEVATION#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#max_elev_scale#" value="#MAXIMUM_ELEVATION#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#ORIG_ELEV_UNITS#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ORIG_ELEV_UNITS#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#min_depth#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#min_depth_scale#" value="#min_depth#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#max_depth#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#max_depth_scale#" value="#max_depth#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#depth_units#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#depth_units#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#township#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#township#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#township_direction#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#township_direction#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#range#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#range#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#range_direction#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#range_direction#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#section#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#section#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#section_part#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#section_part#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#locality_remarks#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#locality_remarks#">,
-						<cfelse>
-							null,
-						</cfif>
-						<cfif len(#nogeorefbecause#) gt 0>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nogeorefbecause#">
-						<cfelse>
-							null
-						</cfif>
-					)
-				</cfquery>
-				<cfif newLocality_result.recordcount is 0>
-					<cfthrow message="Error creating new locality record.">
-				</cfif>
-				<cfquery name="getLocalityID" datasource="uam_god" result="getLocalityID_result">
-					SELECT locality_id
-					FROM locality
-					WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newLocality_result.GENERATEDKEY#">
-				</cfquery>
-				<cfset new_locality_id = getLocalityID.locality_id>
-				<cfif len(new_locality_id) is 0>
-					<cfthrow message="Error obtaining new locality ID.">
-				</cfif>
-				<!--- obtain the current georeference from the old locality and clone it to the new locality --->
-				<cfquery name="getCurrentGeoref" datasource="uam_god" result="getCurrentGeoref_result">
-					SELECT 
-						lat_long_id
-					FROM lat_long
-					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-					AND accepted_lat_long_fg = 1
-				</cfquery>
-				<cfif getCurrentGeoref.recordcount EQ 1>
-					<!--- disable trigger to allow cloning of lat_long_id --->
-					<cfquery name="disableTrigger" datasource="uam_god" result="disableTrigger_result">
-						ALTER TRIGGER TR_LATLONG_ACCEPTED_BIUPA DISABLE
-					</cfquery>
-					<cfquery  name="cloneGeoref" datasource="uam_god" result="cloneGeoref_result">
-						INSERT INTO LAT_LONG (
-							lat_long_id,
-							locality_id, lat_deg, dec_lat_min, lat_min, lat_sec, lat_dir,
-							long_deg, dec_long_min, long_min, long_sec, long_dir,
-							dec_lat, dec_long, datum, utm_zone, utm_ew, utm_ns,
-							orig_lat_long_units, determined_by_agent_id, determined_date,
-							lat_long_ref_source, lat_long_remarks, max_error_distance,
-							max_error_units, nearest_named_place, lat_long_for_nnp_fg,
-							field_verified_fg, accepted_lat_long_fg, extent,
-							gpsaccuracy, georefmethod, verificationstatus,
-							spatialfit, geolocate_uncertaintypolygon,
-							geolocate_score, geolocate_precision,
-							geolocate_numresults, geolocate_parsepattern,
-							verified_by_agent_id, error_polygon,
-							coordinate_precision, footprint_spatialfit,
-							extent_units
-						)
-						SELECT 
-							sq_lat_long_id.NEXTVAL lat_long_id,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_locality_id#"> locality_id,
-							lat_deg, dec_lat_min, lat_min, lat_sec, lat_dir,
-							long_deg, dec_long_min, long_min, long_sec, long_dir,
-							dec_lat, dec_long, datum, utm_zone, utm_ew, utm_ns,
-							orig_lat_long_units, determined_by_agent_id, determined_date,
-							lat_long_ref_source, lat_long_remarks, max_error_distance,
-							max_error_units, nearest_named_place, lat_long_for_nnp_fg,
-							field_verified_fg, accepted_lat_long_fg, extent,
-							gpsaccuracy, georefmethod, verificationstatus,
-							spatialfit, geolocate_uncertaintypolygon,
-							geolocate_score, geolocate_precision,
-							geolocate_numresults, geolocate_parsepattern,
-							verified_by_agent_id, error_polygon,
-							coordinate_precision, footprint_spatialfit,
-							extent_units
-						FROM lat_long
-						WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-						AND accepted_lat_long_fg = 1
-					</cfquery>
-					<cfquery name="enableTrigger" datasource="uam_god" result="enableTrigger_result">
-						ALTER TRIGGER TR_LATLONG_ACCEPTED_BIUPA ENABLE
-					</cfquery>
-				</cfif>
-
-				<!--- unpack geology_data and append rows to geology_attributes table --->
-				<cfif isDefined("arguments.geology_data") AND len(arguments.geology_data) GT 0>
-					<cfset geology_data = deserializeJSON(urlDecode(arguments.geology_data))>
-					<cfif isArray(geology_data)>
-						<cfloop array="#geology_data#" index="geoAtt">
-							<cfquery name="insertGeologyAttribute" datasource="uam_god" result="insertGeologyAttribute_result">
-								INSERT INTO geology_attributes (
-									GEOLOGY_ATTRIBUTE_ID, LOCALITY_ID, GEOLOGY_ATTRIBUTE, GEO_ATT_VALUE,
-									GEO_ATT_DETERMINER_ID, GEO_ATT_DETERMINED_DATE, GEO_ATT_DETERMINED_METHOD,
-									GEO_ATT_REMARK, PREVIOUS_VALUES
-								) VALUES (
-									sq_geology_attribute_id.NEXTVAL,
-									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_locality_id#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEOLOGY_ATTRIBUTE#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_VALUE#">,
-									<cfif len(geoAtt.GEO_ATT_DETERMINER_ID) GT 0>
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.GEO_ATT_DETERMINER_ID#">,
-									<cfelse>
-										null,
-									</cfif>
-									<cfif len(geoAtt.GEO_ATT_DETERMINED_DATE) GT 0>
-										<cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateFormat(geoAtt.GEO_ATT_DETERMINED_DATE,'yyyy-mm-dd')#">,
-									<cfelse>
-										null,
-									</cfif>
-									<cfif len(geoAtt.GEO_ATT_DETERMINED_METHOD) GT 0>
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_DETERMINED_METHOD#">,
-									<cfelse>
-										null,
-									</cfif>
-									<cfif len(geoAtt.GEO_ATT_REMARK) GT 0>
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_REMARK#">,
-									<cfelse>
-										null,
-									</cfif>
-									null
-								)
-							</cfquery>
-							<cfif isDefined("geoAtt.add_parents") AND ucase(geoAtt.add_parents) EQ "YES">
-								<!--- find the hierarchy id of the inserted node --->
-								<cfquery name="getHierarchyID" datasource="uam_god">
-									SELECT geology_attribute_hierarchy_id 
-									FROM geology_attribute_hierarchy
-									WHERE
-										attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEOLOGY_ATTRIBUTE#">
-										and attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_VALUE#">
-								</cfquery>
-								<!--- add any parents of the inserted node that aren't already present --->
-								<cfquery name="getParents" datasource="uam_god">
-									SELECT * FROM (
-										SELECT 
-											level as parentagelevel,
-											connect_by_root attribute as geology_attribute,
-											connect_by_root attribute_value as geo_att_value,
-											connect_by_root geology_attribute_hierarchy_id as geology_attribute_hierarchy_id,
-											connect_by_root PARENT_ID as parent_id,
-											connect_by_root USABLE_VALUE_FG as USABLE_VALUE_FG,
-											connect_by_root DESCRIPTION as description
-										FROM geology_attribute_hierarchy 
-										WHERE
-											geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getHierarchyID.geology_attribute_hierarchy_id#">
-										CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
-										ORDER BY level asc
-									) WHERE parentagelevel > 1
-								</cfquery>
-								<cfloop query="getParents">
-									<cfquery name="checkParents" datasource="uam_god">
-										SELECT count(*) ct 
-										FROM geology_attributes
-										WHERE
-											locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_locality_id#">
-											and geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geology_attribute#">
-											and geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geo_att_value#">
-									</cfquery>
-									<cfif checkParents.ct EQ 0>
-										<cfquery name="addGeoAttribute" datasource="uam_god" result="addGeoAttribute_result">
-											INSERT INTO geology_attributes
-												( locality_id,
-													geology_attribute,
-													geo_att_value,
-													geo_att_determiner_id,
-													geo_att_determined_date,
-													geo_att_determined_method
-												) VALUES (
-													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_locality_id#">,
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geology_attribute#">,
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geo_att_value#">,
-													<cfif isDefined("geoAtt.geo_att_determiner_id") and len(geoAtt.geo_att_determiner_id) GT 0>
-														<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.geo_att_determiner_id#">,
-													<cfelse>
-														NULL,
-													</cfif>
-													<cfif isDefined("geoAtt.geo_att_determined_date") and len(geoAtt.geo_att_determined_date) GT 0>
-														<cfqueryparam cfsqltype="CF_SQL_DATE" value="#geoAtt.geo_att_determined_date#">,
-													<cfelse>
-														NULL,
-													</cfif>
-													<cfif isDefined("geoAtt.geo_att_determined_method") and len(geoAtt.geo_att_determined_method) GT 0>
-														<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.geo_att_determined_method#">
-													<cfelse>
-														NULL
-													</cfif>
-												)
-										</cfquery>
-									</cfif>
-								</cfloop><!--- parents --->
-							</cfif><!--- add_parents --->
-						</cfloop><!--- geoAttributes --->
-					</cfif><!--- geology_data is array --->
-				</cfif><!--- unpack geology_data --->
-
-				<cfif cecount.ct EQ 1 AND loccount.ct GT 1>
-					<!--- we can update the existing collecting event and point it at the new locality without leaving an orphan collecting event --->
-					<cfquery name="updateCollectingEvent" datasource="uam_god" result="updateCollectingEvent_result">
-						UPDATE collecting_event 
-						SET
-							locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_locality_id#">,
-							began_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">,
-							ended_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">,
-							verbatim_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_date#">,
-							collecting_source = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collecting_source#">,
-							<cfif len(#verbatim_locality#) gt 0>
-								,verbatim_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_locality#">
-							<cfelse>
-								,verbatim_locality = null
-							</cfif>
-							<cfif len(#verbatimdepth#) gt 0>
-								,verbatimdepth = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimdepth#">
-							<cfelse>
-								,verbatimdepth = null
-							</cfif>
-							<cfif len(#verbatimelevation#) gt 0>
-								,verbatimelevation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimelevation#">
-							<cfelse>
-								,verbatimelevation = null
-							</cfif>
-							<cfif len(#COLL_EVENT_REMARKS#) gt 0>
-								,COLL_EVENT_REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLL_EVENT_REMARKS#">
-							<cfelse>
-								,COLL_EVENT_REMARKS = null
-							</cfif>
-							<cfif len(#COLLECTING_METHOD#) gt 0>
-								,COLLECTING_METHOD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_METHOD#">
-							<cfelse>
-								,COLLECTING_METHOD = null
-							</cfif>
-							<cfif len(#HABITAT_DESC#) gt 0>
-								,HABITAT_DESC = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HABITAT_DESC#">
-							<cfelse>
-								,HABITAT_DESC = null
-							</cfif>
-							<cfif len(#COLLECTING_TIME#) gt 0>
-								,COLLECTING_TIME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_TIME#">
-							<cfelse>
-								,COLLECTING_TIME = null
-							</cfif>
-							<cfif len(#fish_field_number#) gt 0>
-								,FISH_FIELD_NUMBER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fish_field_number#">
-							<cfelse>
-								,FISH_FIELD_NUMBER = null
-							</cfif>
-							<cfif len(#verbatimCoordinates#) gt 0>
-								,verbatimCoordinates = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimCoordinates#">
-							<cfelse>
-								,verbatimCoordinates = null
-							</cfif>
-							<cfif len(#verbatimLatitude#) gt 0>
-								,verbatimLatitude = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimLatitude#">
-							<cfelse>
-								,verbatimLatitude = null
-							</cfif>
-							<cfif len(#verbatimLongitude#) gt 0>
-								,verbatimLongitude = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimLongitude#">
-							<cfelse>
-								,verbatimLongitude = null
-							</cfif>
-							<cfif len(#verbatimCoordinateSystem#) gt 0>
-								,verbatimCoordinateSystem = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimCoordinateSystem#">
-							<cfelse>
-								,verbatimCoordinateSystem = null
-							</cfif>
-							<cfif len(#verbatimSRS#) gt 0>
-								,verbatimSRS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimSRS#">
-							<cfelse>
-								,verbatimSRS = null
-							</cfif>
-							<cfif len(#startDayOfYear#) gt 0>
-								,startDayOfYear = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#startDayOfYear#">
-							<cfelse>
-								,startDayOfYear = null
-							</cfif>
-							<cfif len(#endDayOfYear#) gt 0>
-								,endDayOfYear = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDayOfYear#">
-							<cfelse>
-								,endDayOfYear = null
-							</cfif>
-							<cfif len(#date_determined_by_agent_id#) gt 0>
-								,date_determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#date_determined_by_agent_id#">
-							<cfelse>
-								,date_determined_by_agent_id = null
-							</cfif>
-							<cfif len(#valid_distribution_fg#) gt 0>
-								,valid_distribution_fg = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#valid_distribution_fg#">
-							<cfelse>
-								,valid_distribution_fg = 1
-							</cfif>
-							<cfif len(#verbatim_collectors#) gt 0>
-								,verbatim_collectors = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_collectors#">
-							<cfelse>
-								,verbatim_collectors = null
-							</cfif>
-							<cfif len(#verbatim_field_numbers#) gt 0>
-								,verbatim_field_numbers = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_field_numbers#">
-							<cfelse>
-								,verbatim_field_numbers = null
-							</cfif>
-							<cfif len(#verbatim_habitat#) gt 0>
-								,verbatim_habitat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_habitat#">
-							<cfelse>
-								,verbatim_habitat = null
-							</cfif>
-			 			WHERE
-							collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
-					</cfquery>
-					<cfif updateCollectingEvent_result.recordcount NEQ 1>
-						<cfthrow message="Error updating existing Collecting Event record #collecting_event_id#.">
-					</cfif>
-					<!--- we do not need to update the existing cataloged item record, it allready points at this collecting event --->
-
-				<cfelse>
-					<!--- create a the collecting event record to split it from the other shared ones --->
-					<cfquery name="newCollectingEvent" datasource="uam_god" result="newCollectingEvent_result">
-						INSERT INTO collecting_event 
-						(
-							collecting_event_id,
-							began_date, ended_date, verbatim_date, collecting_source, locality_id, verbatim_locality, verbatimdepth, verbatimelevation, verbatimCoordinates,
-							verbatimLatitude, verbatimLongitude, verbatimCoordinateSystem, verbatimSRS, verbatim_collectors, verbatim_field_numbers, verbatim_habitat,
-							coll_event_remarks, collecting_method, habitat_desc, collecting_time, fish_field_number, 
-							startDayOfYear, endDayOfYear, date_determined_by_agent_id, valid_distribution_fg
-						) VALUES (
-							sq_collecting_event_id.NEXTVAL,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_date#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collecting_source#">,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_locality_id#">,
-							<cfif len(#verbatim_locality#) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_locality#">,
-							<cfelse>
-								null,
-							</cfif>
-							<cfif len(#verbatimdepth#) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimdepth#">,
-							<cfelse>
-								null,
-							</cfif>
-							<cfif len(#verbatimelevation#) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimelevation#">,
-							<cfelse>
-								null,
-							</cfif>
-							<cfif len(#verbatimCoordinates#) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimCoordinates#">,
-							<cfelse>
-								null,
-							</cfif>
-							<cfif len(#verbatimLatitude#) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimLatitude#">,
-							<cfelse>
-								null,
-							</cfif>
-							<cfif len(#verbatimLongitude#) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimLongitude#">,
-							<cfelse>
-								null,
-							</cfif>
-							<cfif len(#verbatimCoordinateSystem#) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimCoordinateSystem#">,
-							<cfelse>
-								null,
-							</cfif>
-							<cfif len(#verbatimSRS#) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimSRS#">,
-							<cfelse>
-								null,
-							</cfif>
-							<cfif len(#verbatim_collectors#) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_collectors#">,
-							<cfelse>
-								null,
-							</cfif>
-							<cfif len(#verbatim_field_numbers#) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_field_numbers#">,
-							<cfelse>
-								null,
-							</cfif>
-							<cfif len(#verbatim_habitat#) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_habitat#">,
-							<cfelse>
-								null,
-							</cfif>
-							<cfif len(#COLL_EVENT_REMARKS#) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLL_EVENT_REMARKS#">,
-							<cfelse>
-								null,
-							</cfif>
-							<cfif len(#COLLECTING_METHOD#) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_METHOD#">,
-							<cfelse>
-								null,
-							</cfif>
-							<cfif len(#HABITAT_DESC#) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HABITAT_DESC#">,
-							<cfelse>
-								null,
-							</cfif>
-							<cfif len(#COLLECTING_TIME#) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_TIME#">,
-							<cfelse>
-								null,
-							</cfif>
-							<cfif len(#fish_field_number#) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fish_field_number#">,
-							<cfelse>
-								null,
-							</cfif>
-							<cfif len(#startDayOfYear#) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#startDayOfYear#">,
-							<cfelse>
-								null,
-							</cfif>
-							<cfif len(#endDayOfYear#) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#endDayOfYear#">,
-							<cfelse>
-								null,
-							</cfif>
-							<cfif len(#date_determined_by_agent_id#) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#date_determined_by_agent_id#">,
-							<cfelse>
-								null,
-							</cfif>
-							<cfif len(#valid_distribution_fg#) gt 0>
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_distribution_fg#">
-							<cfelse>
-								null
-							</cfif>
-						)
-					</cfquery>
-					<!--- obtain the new collecting event ID --->
-					<cfif newCollectingEvent_result.recordcount is 0>
-						<cfthrow message="Error creating new collecting event record.">
-					</cfif>
-					<cfquery name="getCollectingEventID" datasource="uam_god" result="getCollectingEventID_result">
-						SELECT collecting_event_id
-						FROM collecting_event
-						WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newCollectingEvent_result.GENERATEDKEY#">
-					</cfquery>
-					<cfset new_collecting_event_id = getCollectingEventID.collecting_event_id>
-					<cfif len(new_collecting_event_id) is 0>
-						<cfthrow message="Error obtaining new collecting event ID.">
-					</cfif>
-					<!--- Handle collecting event numbers --->
-					<cfif isDefined("arguments.coll_event_numbers_data")>
-						<cfif cecount.ct EQ 1 AND loccount.ct GT 1>
-							<!--- Use existing collecting_event_id --->
-							<cfset handleCollEventNumbersSplitAndSave(arguments.coll_event_numbers_data, collecting_event_id)>
-						<cfelse>
-							<!--- Use new collecting event ID --->
-							<cfset handleCollEventNumbersSplitAndSave(arguments.coll_event_numbers_data, new_collecting_event_id)>
-						</cfif>
-					</cfif>
-
-					<!--- update the cataloged item to point to the new collecting event --->
-					<cfquery name="updateCatalogedItem" datasource="uam_god" result="updateCatalogedItem_result">
-						UPDATE cataloged_item
-						SET collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_collecting_event_id#">
-						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
-					</cfquery>
-				</cfif><!--- end of update or split collecting event --->
-
-			<cfelseif arguments.action EQ "saveCurrent">
-				<cfif cecount.ct GT 1 OR loccount.ct GT 1>
-					<cfthrow message="Collecting Event or Locality are shared with other cataloged items, cannot save changes to shared records, use split and save instead.">
-				</cfif>
-				<!--- save changes to the existing collecting event and locality, affecting all related cataloged items, which should be just one. --->
-
-				<cfif len(MINIMUM_ELEVATION) gt 0 OR len(MAXIMUM_ELEVATION) gt 0>
-					<cfif not isDefined("orig_elev_units") OR len(ORIG_ELEV_UNITS) is 0>
-						<cfthrow message="You must provide elevation units if you provide elevation data.">
-					</cfif>
-				</cfif>
-				<cfif len(MIN_DEPTH) gt 0 OR len(MAX_DEPTH) gt 0>
-					<cfif not isDefined("depth_units") OR len(depth_units) is 0>
-						<cfthrow message="You must provide depth units if you provide depth data.">
-					</cfif>
-				</cfif>
-				<cfif len(ORIG_ELEV_UNITS) gt 0>
-					<cfif len(MINIMUM_ELEVATION) is 0 AND len(MAXIMUM_ELEVATION) is 0>
-							<cfset orig_elev_units = "">
-					</cfif>
-				</cfif>
-				<cfif len(DEPTH_UNITS) gt 0>
-					<cfif len(MIN_DEPTH) is 0 AND len(MAX_DEPTH) is 0>
-							<cfset depth_units = "">
-					</cfif>
-				</cfif>
-				<cfif len(maximum_elevation) GT 0>
-					<cfset max_elev_scale = len(rereplace(maximum_elevation,'^[0-9-]*[.]',''))>
-				</cfif>
-				<cfif len(minimum_elevation) GT 0>
-					<cfset min_elev_scale = len(rereplace(minimum_elevation,'^[0-9-]*[.]',''))>
-				</cfif>
-				<cfif len(max_depth) GT 0>
-					<cfset max_depth_scale = len(rereplace(max_depth,'^[0-9-]*[.]',''))>
-				</cfif>
-				<cfif len(min_depth) GT 0>
-					<cfset min_depth_scale = len(rereplace(min_depth,'^[0-9-]*[.]',''))>
-				</cfif>
-	
-				<cfquery name="updateLocality" datasource="uam_god" result="updateLocality_result">
-					UPDATE locality SET
-					geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">,
-					<cfif len(#spec_locality#) GT 0>
-						spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec_locality#">,
-				  <cfelse>
-						spec_locality = null,
-					</cfif>
-					<cfif isdefined("curated_fg") AND len(#curated_fg#) gt 0>
-						curated_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#curated_fg#">,
-					</cfif>
-					<cfif len(#MINIMUM_ELEVATION#) gt 0>
-						MINIMUM_ELEVATION = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#min_elev_scale#" value="#MINIMUM_ELEVATION#">,
-					<cfelse>
-						MINIMUM_ELEVATION = null,
-					</cfif>
-					<cfif len(#MAXIMUM_ELEVATION#) gt 0>
-						MAXIMUM_ELEVATION = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#max_elev_scale#" value="#MAXIMUM_ELEVATION#">,
-					<cfelse>
-						MAXIMUM_ELEVATION = null,
-					</cfif>
-					<cfif len(#ORIG_ELEV_UNITS#) gt 0>
-						ORIG_ELEV_UNITS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ORIG_ELEV_UNITS#">,
-					<cfelse>
-						ORIG_ELEV_UNITS = null,
-					</cfif>
-					<cfif len(#min_depth#) gt 0>
-						min_depth = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#min_depth_scale#" value="#min_depth#">,
-					<cfelse>
-						min_depth = null,
-					</cfif>
-					<cfif len(#max_depth#) gt 0>
-						max_depth = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#max_depth_scale#" value="#max_depth#">,
-					<cfelse>
-						max_depth = null,
-					</cfif>
-					<cfif len(#depth_units#) gt 0>
-						depth_units = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#depth_units#">,
-					<cfelse>
-						depth_units = null,
-					</cfif>
-					<cfif len(#section_part#) gt 0>
-						section_part = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#section_part#">,
-					<cfelse>
-						section_part = null,
-					</cfif>
-					<cfif len(#section#) gt 0>
-						section = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#section#">,
-					<cfelse>
-						section = null,
-					</cfif>
-					<cfif len(#township_direction#) gt 0>
-						township_direction = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#township_direction#">,
-					<cfelse>
-						township_direction = null,
-					</cfif>
-					<cfif len(#township#) gt 0>
-						township = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#township#">,
-					<cfelse>
-						township = null,
-					</cfif>
-					<cfif len(#range_direction#) gt 0>
-						range_direction = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#range_direction#">,
-					<cfelse>
-						range_direction = null,
-					</cfif>
-					<cfif len(#range#) gt 0>
-						range = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#range#">,
-					<cfelse>
-						range = null,
-					</cfif>
-					<cfif len(#sovereign_nation#) gt 0>
-						SOVEREIGN_NATION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sovereign_nation#">,
-					</cfif>
-					<cfif len(#LOCALITY_REMARKS#) gt 0>
-						LOCALITY_REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOCALITY_REMARKS#">,
-					<cfelse>
-						LOCALITY_REMARKS = null,
-					</cfif>
-					<!--- last field in set clause, no commas at end --->
-					<cfif len(#nogeorefbecause#) gt 0>
-						nogeorefbecause = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nogeorefbecause#">
-					<cfelse>
-						nogeorefbecause = null
-					</cfif>
-					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-				</cfquery>
-				<cfif updateLocality_result.recordcount NEQ 1>
-					<cfthrow message="Error updating Locality record #locality_id#.">
-				</cfif>
-				<!--- unpack geology_data and update existing, or append append rows to geology_attributes table --->
-				<cfif isDefined("arguments.geology_data") AND len(arguments.geology_data) GT 0>
-					<!--- arguments.geology_data is an url encoded JSON string, decode then deserialize it --->
-					<cfset geology_data = deserializeJSON(urlDecode(arguments.geology_data))>
-					<cfif isArray(geology_data)>
-						<cfloop array="#geology_data#" index="geoAtt">
-							<cfif len(geoAtt.geology_attribute_id) EQ 0>
-								<!--- insert --->
-								<cfset geoDo = 'insert'>
-							<cfelse>
-								<!--- lookup the geology attribute row, if it exists, update --->
-								<cfif len(geoAtt.geology_attribute_id) GT 0>
-									<cfquery name="checkGeologyAttribute" datasource="uam_god" result="checkGeologyAttribute_result">
-										SELECT count(*) ct 
-										FROM geology_attributes
-										WHERE geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.geology_attribute_id#">
-									</cfquery>
-									<cfif checkGeologyAttribute.ct EQ 1>
-										<cfset geoDo = "update">
-									<cfelse>
-										<cfset geoDo = "insert">
-									</cfif>
-								<cfelse>
-									<cfset geoDo = "insert">
-								</cfif>
-							</cfif>
-							<cfif geoDo EQ "insert"> 
-								<cfquery name="insertGeologyAttribute" datasource="uam_god" result="insertGeologyAttribute_result">
-									INSERT INTO geology_attributes (
-										GEOLOGY_ATTRIBUTE_ID, 
-										GEOLOGY_ATTRIBUTE, GEO_ATT_VALUE,
-										GEO_ATT_DETERMINER_ID, GEO_ATT_DETERMINED_DATE, GEO_ATT_DETERMINED_METHOD,
-										GEO_ATT_REMARK,
-										LOCALITY_ID
-									) VALUES (
-										sq_geology_attribute_id.NEXTVAL,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEOLOGY_ATTRIBUTE#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_VALUE#">,
-										<cfif len(geoAtt.GEO_ATT_DETERMINER_ID) GT 0>
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.GEO_ATT_DETERMINER_ID#">,
-										<cfelse>
-											null,
-										</cfif>
-										<cfif len(geoAtt.GEO_ATT_DETERMINED_DATE) GT 0>
-											<cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateFormat(geoAtt.GEO_ATT_DETERMINED_DATE,'yyyy-mm-dd')#">,
-										<cfelse>
-											null,
-										</cfif>
-										<cfif len(geoAtt.GEO_ATT_DETERMINED_METHOD) GT 0>
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_DETERMINED_METHOD#">,
-										<cfelse>
-											null,
-										</cfif>
-										<cfif len(geoAtt.GEO_ATT_REMARK) GT 0>
-											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_REMARK#">,
-										<cfelse>
-											null,
-										</cfif>
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-									)
-								</cfquery>
-							<cfelse> 
-								<cfquery name="updateGeologyAttribute" datasource="uam_god" result="insertGeologyAttribute_result">
-									UPDATE geology_attributes 
-									SET
-									 	LOCALITY_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">,
-										GEOLOGY_ATTRIBUTE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEOLOGY_ATTRIBUTE#">,
-										<cfif len(geoAtt.GEO_ATT_DETERMINER_ID) GT 0>
-											GEO_ATT_DETERMINER_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.GEO_ATT_DETERMINER_ID#">,
-										<cfelse>
-											GEO_ATT_DETERMINER_ID = null,
-										</cfif>
-										<cfif len(geoAtt.GEO_ATT_DETERMINED_DATE) GT 0>
-											GEO_ATT_DETERMINED_DATE = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateFormat(geoAtt.GEO_ATT_DETERMINED_DATE,'yyyy-mm-dd')#">,
-										<cfelse>
-											GEO_ATT_DETERMINED_DATE = null,
-										</cfif>
-										<cfif len(geoAtt.GEO_ATT_DETERMINED_METHOD) GT 0>
-											GEO_ATT_DETERMINED_METHOD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_DETERMINED_METHOD#">,
-										<cfelse>
-											GEO_ATT_DETERMINED_METHOD = null,
-										</cfif>
-										<cfif len(geoAtt.GEO_ATT_REMARK) GT 0>
-											GEO_ATT_REMARK = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_REMARK#">,
-										<cfelse>
-											GEO_ATT_REMARK = null,
-										</cfif>
-										GEO_ATT_VALUE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_VALUE#">
-									WHERE 
-										geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.geology_attribute_id#">
-								</cfquery>
-							</cfif>
-							<cfif isDefined("geoAtt.add_parents") AND ucase(geoAtt.add_parents) EQ "YES">
-								<!--- find the hierarchy id of the inserted/updated node --->
-								<cfquery name="getHierarchyID" datasource="uam_god">
-									SELECT geology_attribute_hierarchy_id 
-									FROM geology_attribute_hierarchy
-									WHERE
-										attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEOLOGY_ATTRIBUTE#">
-										and attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.GEO_ATT_VALUE#">
-								</cfquery>
-								<!--- add any parents of the inserted/updated node that aren't already present --->
-								<cfquery name="getParents" datasource="uam_god">
-									SELECT * FROM (
-										SELECT 
-											level as parentagelevel,
-											connect_by_root attribute as geology_attribute,
-											connect_by_root attribute_value as geo_att_value,
-											connect_by_root geology_attribute_hierarchy_id as geology_attribute_hierarchy_id,
-											connect_by_root PARENT_ID as parent_id,
-											connect_by_root USABLE_VALUE_FG as USABLE_VALUE_FG,
-											connect_by_root DESCRIPTION as description
-										FROM geology_attribute_hierarchy 
-										WHERE
-											geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getHierarchyID.geology_attribute_hierarchy_id#">
-										CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
-										ORDER BY level asc
-									) WHERE parentagelevel > 1
-								</cfquery>
-								<cfloop query="getParents">
-									<cfquery name="checkParents" datasource="uam_god">
-										SELECT count(*) ct 
-										FROM geology_attributes
-										WHERE
-											locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-											and geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geology_attribute#">
-											and geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geo_att_value#">
-									</cfquery>
-									<cfif checkParents.ct EQ 0>
-										<cfquery name="addGeoAttribute" datasource="uam_god" result="addGeoAttribute_result">
-											INSERT INTO geology_attributes
-												( locality_id,
-													geology_attribute,
-													geo_att_value,
-													geo_att_determiner_id,
-													geo_att_determined_date,
-													geo_att_determined_method
-												) VALUES (
-													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">,
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geology_attribute#">,
-													<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geo_att_value#">,
-													<cfif isDefined("geoAtt.geo_att_determiner_id") and len(geoAtt.geo_att_determiner_id) GT 0>
-														<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAtt.geo_att_determiner_id#">,
-													<cfelse>
-														NULL,
-													</cfif>
-													<cfif isDefined("geoAtt.geo_att_determined_date") and len(geoAtt.geo_att_determined_date) GT 0>
-														<cfqueryparam cfsqltype="CF_SQL_DATE" value="#geoAtt.geo_att_determined_date#">,
-													<cfelse>
-														NULL,
-													</cfif>
-													<cfif isDefined("geoAtt.geo_att_determined_method") and len(geoAtt.geo_att_determined_method) GT 0>
-														<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geoAtt.geo_att_determined_method#">
-													<cfelse>
-														NULL
-													</cfif>
-												)
-										</cfquery>
-									</cfif>
-								</cfloop><!--- parents --->
-							</cfif><!--- add_parents --->
-						</cfloop><!--- geology_data --->
-					</cfif>
-				</cfif>
-				<!--- Remove geology atribute rows from list of accumulated geology_attribute_id values to remove --->
-				<cfif isDefined("arguments.geology_attributes_to_delete") AND len(arguments.geology_attributes_to_delete) GT 0>
-					<cfloop list="#arguments.geology_attributes_to_delete#" index="geoAttIDToDelete">
-						<cfif len(geoAttIDToDelete) GT 0>
-							<cfquery name="deleteGeologyAttribute" datasource="uam_god" result="deleteGeologyAttribute_result">
-								DELETE FROM geology_attributes
-								WHERE geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geoAttIDToDelete#">
-							</cfquery>
-						</cfif>
-					</cfloop>
-				</cfif>
-
-				<!--- Handle collecting event numbers --->
-				<cfif isDefined("arguments.coll_event_numbers_data") OR isDefined("arguments.coll_event_numbers_to_delete")>
-					<cfset handleCollEventNumbersSaveCurrent(
-						isDefined("arguments.coll_event_numbers_data") ? arguments.coll_event_numbers_data : "",
-						isDefined("arguments.coll_event_numbers_to_delete") ? arguments.coll_event_numbers_to_delete : "",
-						collecting_event_id
-						)>
-				</cfif>
-
-				<!--- update collecting event --->
-				<cfquery name="updateCollectingEvent" datasource="uam_god" result="updateCollectingEvent_result">
-					UPDATE collecting_event 
-					SET
-						began_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">,
-						ended_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">,
-						verbatim_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_date#">,
-						collecting_source = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collecting_source#">,
-						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-						<cfif len(#verbatim_locality#) gt 0>
-							,verbatim_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_locality#">
-						<cfelse>
-							,verbatim_locality = null
-						</cfif>
-						<cfif len(#verbatimdepth#) gt 0>
-							,verbatimdepth = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimdepth#">
-						<cfelse>
-							,verbatimdepth = null
-						</cfif>
-						<cfif len(#verbatimelevation#) gt 0>
-							,verbatimelevation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimelevation#">
-						<cfelse>
-							,verbatimelevation = null
-						</cfif>
-						<cfif len(#COLL_EVENT_REMARKS#) gt 0>
-							,COLL_EVENT_REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLL_EVENT_REMARKS#">
-						<cfelse>
-							,COLL_EVENT_REMARKS = null
-						</cfif>
-						<cfif len(#COLLECTING_METHOD#) gt 0>
-							,COLLECTING_METHOD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_METHOD#">
-						<cfelse>
-							,COLLECTING_METHOD = null
-						</cfif>
-						<cfif len(#HABITAT_DESC#) gt 0>
-							,HABITAT_DESC = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HABITAT_DESC#">
-						<cfelse>
-							,HABITAT_DESC = null
-						</cfif>
-						<cfif len(#COLLECTING_TIME#) gt 0>
-							,COLLECTING_TIME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_TIME#">
-						<cfelse>
-							,COLLECTING_TIME = null
-						</cfif>
-						<cfif len(#fish_field_number#) gt 0>
-							,FISH_FIELD_NUMBER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fish_field_number#">
-						<cfelse>
-							,FISH_FIELD_NUMBER = null
-						</cfif>
-						<cfif len(#verbatimCoordinates#) gt 0>
-							,verbatimCoordinates = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimCoordinates#">
-						<cfelse>
-							,verbatimCoordinates = null
-						</cfif>
-						<cfif len(#verbatimLatitude#) gt 0>
-							,verbatimLatitude = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimLatitude#">
-						<cfelse>
-							,verbatimLatitude = null
-						</cfif>
-						<cfif len(#verbatimLongitude#) gt 0>
-							,verbatimLongitude = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimLongitude#">
-						<cfelse>
-							,verbatimLongitude = null
-						</cfif>
-						<cfif len(#verbatimCoordinateSystem#) gt 0>
-							,verbatimCoordinateSystem = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimCoordinateSystem#">
-						<cfelse>
-							,verbatimCoordinateSystem = null
-						</cfif>
-						<cfif len(#verbatimSRS#) gt 0>
-							,verbatimSRS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimSRS#">
-						<cfelse>
-							,verbatimSRS = null
-						</cfif>
-						<cfif len(#startDayOfYear#) gt 0>
-							,startDayOfYear = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#startDayOfYear#">
-						<cfelse>
-							,startDayOfYear = null
-						</cfif>
-						<cfif len(#endDayOfYear#) gt 0>
-							,endDayOfYear = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDayOfYear#">
-						<cfelse>
-							,endDayOfYear = null
-						</cfif>
-						<cfif len(#date_determined_by_agent_id#) gt 0>
-							,date_determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#date_determined_by_agent_id#">
-						<cfelse>
-							,date_determined_by_agent_id = null
-						</cfif>
-						<cfif len(#valid_distribution_fg#) gt 0>
-							,valid_distribution_fg = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#valid_distribution_fg#">
-						<cfelse>
-							,valid_distribution_fg = null
-						</cfif>
-						<cfif len(#verbatim_collectors#) gt 0>
-							,verbatim_collectors = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_collectors#">
-						<cfelse>
-							,verbatim_collectors = null
-						</cfif>
-						<cfif len(#verbatim_field_numbers#) gt 0>
-							,verbatim_field_numbers = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_field_numbers#">
-						<cfelse>
-							,verbatim_field_numbers = null
-						</cfif>
-						<cfif len(#verbatim_habitat#) gt 0>
-							,verbatim_habitat = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_habitat#">
-						<cfelse>
-							,verbatim_habitat = null
-						</cfif>
-		 			WHERE
-						 collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
-				</cfquery>
-				<cfif updateCollectingEvent_result.recordcount NEQ 1>
-					<cfthrow message="Error updating Collecting Event record #collecting_event_id#.">
-				</cfif>
-
-			<cfelse>
-				<cfthrow message="Unknown action #encodeForHtml(arguments.action)#">
-			</cfif>
-			<cfset row = StructNew()>
-			<cfset row["status"] = "saved">
-			<cfset row["id"] = "#arguments.collection_object_id#">
-			<cfset data[1] = row>
-			<cftransaction action="commit"/>
-		<cfcatch>
-			<cftransaction action="rollback"/>
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset message = trim("Error processing deleteCollEvent: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-			<cfheader statusCode="500" statusText="#message#">
-			<cfoutput>
-				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-				<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfset function_called = "#GetFunctionCalledName()#">
-				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-				<cfabort>
-			</cfoutput>
-			<cfabort>
-		</cfcatch>
-		<cffinally>
-			<cftry>
-				<!--- ensure trigger is enabled --->
-				<cfquery name="enableTrigger" datasource="uam_god" result="enableTrigger_result">
-					ALTER TRIGGER TR_LATLONG_ACCEPTED_BIUPA ENABLE
-				</cfquery>
-			<cfcatch></cfcatch>
-			</cftry>
-		</cffinally>	
-		</cftry>
-	</cftransaction>
-	<cfreturn #serializeJSON(data)#>
-</cffunction>
-
-<!--- Helper function to handle collecting event numbers for splitAndSave action --->
-<cffunction name="handleCollEventNumbersSplitAndSave" access="private" returntype="void">
-	<cfargument name="coll_event_numbers_data" type="string" required="yes">
-	<cfargument name="new_collecting_event_id" type="string" required="yes">
-	
-	<cfif len(arguments.coll_event_numbers_data) GT 0>
-		<cfset var collEventNumbersArray = deserializeJSON(urlDecode(arguments.coll_event_numbers_data))>
-		<cfif isArray(collEventNumbersArray)>
-			<cfloop array="#collEventNumbersArray#" index="collEventNum">
-				<cfquery name="insertCollEventNumber" datasource="uam_god" result="insertCollEventNumber_result">
-					INSERT INTO coll_event_number (
-						coll_event_number_id, collecting_event_id, coll_event_num_series_id, coll_event_number
-					) VALUES (
-						coll_event_number_seq.NEXTVAL,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.new_collecting_event_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collEventNum.coll_event_num_series_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collEventNum.coll_event_number#">
-					)
-				</cfquery>
-			</cfloop>
-		</cfif>
-	</cfif>
-</cffunction>
-
-<!--- Helper function to handle collecting event numbers for saveCurrent action --->
-<cffunction name="handleCollEventNumbersSaveCurrent" access="private" returntype="void">
-	<cfargument name="coll_event_numbers_data" type="string" required="yes">
-	<cfargument name="coll_event_numbers_to_delete" type="string" required="yes">
-	<cfargument name="collecting_event_id" type="string" required="yes">
-	
-	<!--- Handle updates/inserts --->
-	<cfif len(arguments.coll_event_numbers_data) GT 0>
-		<cfset var collEventNumbersArray = deserializeJSON(urlDecode(arguments.coll_event_numbers_data))>
-		<cfif isArray(collEventNumbersArray)>
-			<cfloop array="#collEventNumbersArray#" index="collEventNum">
-				<cfset var collEventNumDo = "">
-				<cfif len(collEventNum.coll_event_number_id) EQ 0>
-					<cfset collEventNumDo = 'insert'>
-				<cfelse>
-					<cfif len(collEventNum.coll_event_number_id) GT 0>
-						<cfquery name="checkCollEventNumber" datasource="uam_god" result="checkCollEventNumber_result">
-							SELECT count(*) ct 
-							FROM coll_event_number
-							WHERE coll_event_number_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collEventNum.coll_event_number_id#">
-						</cfquery>
-						<cfif checkCollEventNumber.ct EQ 1>
-							<cfset collEventNumDo = "update">
-						<cfelse>
-							<cfset collEventNumDo = "insert">
-						</cfif>
-					<cfelse>
-						<cfset collEventNumDo = "insert">
-					</cfif>
-				</cfif>
-				<cfif collEventNumDo EQ "insert"> 
-					<cfquery name="insertCollEventNumber" datasource="uam_god" result="insertCollEventNumber_result">
-						INSERT INTO coll_event_number (
-							coll_event_number_id, collecting_event_id, coll_event_num_series_id, coll_event_number
-						) VALUES (
-							coll_event_number_seq.NEXTVAL,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collecting_event_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collEventNum.coll_event_num_series_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collEventNum.coll_event_number#">
-						)
-					</cfquery>
-				<cfelse> 
-					<cfquery name="updateCollEventNumber" datasource="uam_god" result="updateCollEventNumber_result">
-						UPDATE coll_event_number 
-						SET
-							collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collecting_event_id#">,
-							coll_event_num_series_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collEventNum.coll_event_num_series_id#">,
-							coll_event_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collEventNum.coll_event_number#">
-						WHERE 
-							coll_event_number_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collEventNum.coll_event_number_id#">
-					</cfquery>
-				</cfif>
-			</cfloop>
-		</cfif>
-	</cfif>
-	
-	<!--- Handle deletions --->
-	<cfif len(arguments.coll_event_numbers_to_delete) GT 0>
-		<cfloop list="#arguments.coll_event_numbers_to_delete#" index="collEventNumIDToDelete">
-			<cfif len(collEventNumIDToDelete) GT 0>
-				<cfquery name="deleteCollEventNumber" datasource="uam_god" result="deleteCollEventNumber_result">
-					DELETE FROM coll_event_number
-					WHERE coll_event_number_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collEventNumIDToDelete#">
-				</cfquery>
-			</cfif>
-		</cfloop>
-	</cfif>
 </cffunction>
 
 </cfcomponent>
