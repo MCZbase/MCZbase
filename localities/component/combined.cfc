@@ -95,10 +95,16 @@ limitations under the License.
 	<cfargument name="max_error_distance" type="string" required="no">
 	<cfargument name="max_error_units" type="string" required="no">
 	<cfargument name="lat_long_remarks" type="string" required="no">
-	<cfargument name="dec_lat" type="string" required="no">
-	<cfargument name="dec_long" type="string" required="no">
 	<cfargument name="lat_deg" type="string" required="no">
 	<cfargument name="long_deg" type="string" required="no">
+	<cfargument name="dec_lat_min" type="string" required="no">
+	<cfargument name="dec_long_min" type="string" required="no">
+	<cfargument name="lat_min" type="string" required="no">
+	<cfargument name="lat_sec" type="string" required="no">
+	<cfargument name="lat_dir" type="string" required="no">
+	<cfargument name="long_min" type="string" required="no">
+	<cfargument name="long_sec" type="string" required="no">
+	<cfargument name="long_dir" type="string" required="no">
 	<cfargument name="nearest_named_place" type="string" required="no">
 	<cfargument name="lat_long_for_nnp_fg" type="string" required="no">
 	<cfargument name="footprint_spatialfit" type="string" required="no">
@@ -200,10 +206,16 @@ limitations under the License.
 					 max_error_distance = arguments.max_error_distance,
 					 max_error_units = arguments.max_error_units,
 					 lat_long_remarks = arguments.lat_long_remarks,
-					 dec_lat = arguments.dec_lat,
-					 dec_long = arguments.dec_long,
 					 lat_deg = arguments.lat_deg,
 					 long_deg = arguments.long_deg,
+					 dec_lat_min = arguments.dec_lat_min,
+					 dec_long_min = arguments.dec_long_min,
+					 lat_min = arguments.lat_min,
+					 lat_sec = arguments.lat_sec,
+					 lat_dir = arguments.lat_dir,
+					 long_min = arguments.long_min,
+					 long_sec = arguments.long_sec,
+					 long_dir = arguments.long_dir,
 					 geolocate_uncertaintypolygon = arguments.geolocate_uncertaintypolygon,
 					 geolocate_score = arguments.geolocate_score,
 					 geolocate_precision = arguments.geolocate_precision,
@@ -287,10 +299,16 @@ limitations under the License.
 					 max_error_distance = arguments.max_error_distance,
 					 max_error_units = arguments.max_error_units,
 					 lat_long_remarks = arguments.lat_long_remarks,
-					 dec_lat = arguments.dec_lat,
-					 dec_long = arguments.dec_long,
 					 lat_deg = arguments.lat_deg,
 					 long_deg = arguments.long_deg,
+					 dec_lat_min = arguments.dec_lat_min,
+					 dec_long_min = arguments.dec_long_min,
+					 lat_min = arguments.lat_min,
+					 lat_sec = arguments.lat_sec,
+					 lat_dir = arguments.lat_dir,
+					 long_min = arguments.long_min,
+					 long_sec = arguments.long_sec,
+					 long_dir = arguments.long_dir,
 					 geolocate_uncertaintypolygon = arguments.geolocate_uncertaintypolygon,
 					 geolocate_score = arguments.geolocate_score,
 					 geolocate_precision = arguments.geolocate_precision,
@@ -465,15 +483,16 @@ limitations under the License.
 	<cfargument name="max_error_distance" type="string" required="yes">
 	<cfargument name="max_error_units" type="string" required="yes">
 	<cfargument name="lat_long_remarks" type="string" required="no">
-	<cfargument name="dec_lat" type="string" required="no">
-	<cfargument name="dec_long" type="string" required="no">
 	<cfargument name="lat_deg" type="string" required="no">
 	<cfargument name="long_deg" type="string" required="no">
-	<cfargument name="geolocate_uncertaintypolygon" type="string" required="no">
-	<cfargument name="geolocate_score" type="string" required="no">
-	<cfargument name="geolocate_precision" type="string" required="no">
-	<cfargument name="geolocate_num_results" type="string" required="no">
-	<cfargument name="geolocate_parsepattern" type="string" required="no">
+	<cfargument name="dec_lat_min" type="string" required="no">
+	<cfargument name="dec_long_min" type="string" required="no">
+	<cfargument name="lat_min" type="string" required="no">
+	<cfargument name="lat_sec" type="string" required="no">
+	<cfargument name="lat_dir" type="string" required="no">
+	<cfargument name="long_min" type="string" required="no">
+	<cfargument name="long_sec" type="string" required="no">
+	<cfargument name="long_dir" type="string" required="no">
 	<cfargument name="nearest_named_place" type="string" required="no">
 	<cfargument name="lat_long_for_nnp_fg" type="string" required="no">
 	<cfargument name="footprint_spatialfit" type="string" required="no">
@@ -507,7 +526,7 @@ limitations under the License.
 		<!--- Update the cloned georeference from the submitted form fields related to the georeference --->
 		<cfset updateGeoreference(		
 			lat_long_id=new_lat_long_id,
-			field_mapping=arguments.field_mapping,
+			field_mapping="generic",
 			accepted_lat_long_fg=arguments.accepted_lat_long_fg,
 			orig_lat_long_units=arguments.orig_lat_long_units,
 			datum=arguments.datum,
@@ -524,8 +543,8 @@ limitations under the License.
 			max_error_distance=arguments.max_error_distance,
 			max_error_units=arguments.max_error_units,
 			lat_long_remarks=arguments.lat_long_remarks,
-			dec_lat=arguments.dec_lat,
-			dec_long=arguments.dec_long,
+			dec_lat="",
+			dec_long="",
 			lat_deg=arguments.lat_deg,
 			long_deg=arguments.long_deg,
 			nearest_named_place=arguments.nearest_named_place,
@@ -681,15 +700,16 @@ limitations under the License.
 	<cfargument name="max_error_distance" type="string" required="yes">
 	<cfargument name="max_error_units" type="string" required="yes">
 	<cfargument name="lat_long_remarks" type="string" required="no">
-	<cfargument name="dec_lat" type="string" required="no">
-	<cfargument name="dec_long" type="string" required="no">
 	<cfargument name="lat_deg" type="string" required="no">
 	<cfargument name="long_deg" type="string" required="no">
-	<cfargument name="geolocate_uncertaintypolygon" type="string" required="no">
-	<cfargument name="geolocate_score" type="string" required="no">
-	<cfargument name="geolocate_precision" type="string" required="no">
-	<cfargument name="geolocate_num_results" type="string" required="no">
-	<cfargument name="geolocate_parsepattern" type="string" required="no">
+	<cfargument name="dec_lat_min" type="string" required="no">
+	<cfargument name="dec_long_min" type="string" required="no">
+	<cfargument name="lat_min" type="string" required="no">
+	<cfargument name="lat_sec" type="string" required="no">
+	<cfargument name="lat_dir" type="string" required="no">
+	<cfargument name="long_min" type="string" required="no">
+	<cfargument name="long_sec" type="string" required="no">
+	<cfargument name="long_dir" type="string" required="no">
 	<cfargument name="nearest_named_place" type="string" required="no">
 	<cfargument name="lat_long_for_nnp_fg" type="string" required="no">
 	<cfargument name="footprint_spatialfit" type="string" required="no">
@@ -739,7 +759,7 @@ limitations under the License.
 	<cfif len(arguments.lat_long_id) GT 0>
 		<cfset updateGeoreference(		
 			lat_long_id=arguments.lat_long_id,
-			field_mapping=arguments.field_mapping,
+			field_mapping="generic",
 			accepted_lat_long_fg=arguments.accepted_lat_long_fg,
 			orig_lat_long_units=arguments.orig_lat_long_units,
 			datum=arguments.datum,
@@ -756,10 +776,18 @@ limitations under the License.
 			max_error_distance=arguments.max_error_distance,
 			max_error_units=arguments.max_error_units,
 			lat_long_remarks=arguments.lat_long_remarks,
-			dec_lat=arguments.dec_lat,
-			dec_long=arguments.dec_long,
+			dec_lat="",
+			dec_long="",
+			dec_lat_min=arguments.dec_lat_min,	
+			dec_long_min=arguments.dec_long_min,
 			lat_deg=arguments.lat_deg,
 			long_deg=arguments.long_deg,
+			lat_min=arguments.dec_lat_min,
+			long_min=arguments.dec_long_min,
+			lat_sec=arguments.lat_sec,
+			long_sec=arguments.long_sec,
+			lat_dir=arguments.lat_dir,
+			long_dir=arguments.long_dir,
 			nearest_named_place=arguments.nearest_named_place,
 			lat_long_for_nnp_fg=arguments.lat_long_for_nnp_fg,
 			footprint_spatialfit=arguments.footprint_spatialfit

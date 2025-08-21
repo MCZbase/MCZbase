@@ -4240,6 +4240,14 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="dec_long" type="string" required="no">
 	<cfargument name="lat_deg" type="string" required="no">
 	<cfargument name="long_deg" type="string" required="no">
+	<cfargument name="dec_lat_min" type="string" required="no">
+	<cfargument name="dec_long_min" type="string" required="no">
+	<cfargument name="lat_min" type="string" required="no">
+	<cfargument name="lat_sec" type="string" required="no">
+	<cfargument name="lat_dir" type="string" required="no">
+	<cfargument name="long_min" type="string" required="no">
+	<cfargument name="long_sec" type="string" required="no">
+	<cfargument name="long_dir" type="string" required="no">
 	<cfargument name="geolocate_uncertaintypolygon" type="string" required="no">
 	<cfargument name="geolocate_score" type="string" required="no">
 	<cfargument name="geolocate_precision" type="string" required="no">
