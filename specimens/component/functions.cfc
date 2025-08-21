@@ -7982,8 +7982,13 @@ limitations under the License.
 											</cfif>
 											<cfif len(coordinate_precision) EQ 0>
 												<li>
-													Coordinate Precision is not set.  Edit the georeference from the #shared_loc# Locality to 
-													<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#&launchEditCurrentGeorefDialog=true" target="_blank">Fix This</a>.
+													Coordinate Precision is not set.  
+													<cfif cecount.ct EQ 1 AND loccount.ct EQ 1>
+														Set an appropriate value of coordinate precision to fix this.
+													<cfelse>
+														Edit the georeference from the #shared_loc# Locality to 
+														<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#&launchEditCurrentGeorefDialog=true" target="_blank">Fix This</a>.
+													</cfif>
 												</li>
 											</cfif>
 										</ul>
