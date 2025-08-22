@@ -3359,6 +3359,20 @@ limitations under the License.
 													<output id="addButtonResultDiv"></output>
 												</div>
 											</div>
+											<cfquery name="fromCollEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT verbatim_collectors
+												FROM collecting_event
+													join cataloged_item on collecting_event.collecting_event_id = cataloged_item.collecting_event_id
+												WHERE
+													cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+													AND collecting_event.verbatim_collectors IS NOT NULL
+											</cfquery>
+											<cfif fromCollEvent.recordcount GT 0>
+												<h3 class="h5 mt-3">Verbatim Collectors from collecting event</h3>
+												<cfloop query="fromCollEvent">
+													<p class="mb-0">#fromCollEvent.verbatim_collectors#</p>
+												</cfloop>
+											</cfif>
 										</form>
 										<script>
 											jQuery(document).ready(function() {
