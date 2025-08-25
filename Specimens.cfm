@@ -3329,11 +3329,11 @@ Target JSON:
 									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 								},
 								error : function (jqXHR, textStatus, error) {
-									handleFail(jqXHR,textStatus,error,"removing row from result set");
+								handleFail(jqXHR,textStatus,error,"removing row from result set");
 									commit(false);
 								}
 							});
-						} 
+						}
 					};
 				} else { 
 					search = 
@@ -3388,7 +3388,7 @@ Target JSON:
 									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 								},
 								error : function (jqXHR, textStatus, error) {
-									handleFail(jqXHR,textStatus,error,"removing row from result set");
+								handleFail(jqXHR,textStatus,error,"removing row from result set");
 									commit(false);
 								}
 							});
@@ -3396,7 +3396,6 @@ Target JSON:
 					};
 				};
 	
-
 				var dataAdapter = new $.jqx.dataAdapter(search);
 				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
@@ -3474,6 +3473,7 @@ Target JSON:
 					],
 					
 					rowdetails: true,
+					showrowdetailscolumn: false,
 					rowdetailstemplate: {
 						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
 						rowdetailsheight:  1 // row details will be placed in popup dialog
@@ -3489,23 +3489,30 @@ Target JSON:
 				
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					
-					var $grid = $('##fixedsearchResultsGrid');
-					// Make grid focusable and focus it now
-					$grid.attr('tabindex', 0);
-					$grid.focus();
-
-					// Set all interactive descendants to non-tabbable
-					$grid.find('a, button, input').attr('tabindex', -1);
 					
-					// Auto-select the first cell, then force focus
-					var columns = $grid.jqxGrid('columns').records;
-					if (columns && columns.length > 0) {
-						$grid.jqxGrid('selectcell', 0, columns[0].datafield);
-						$grid.focus();
-					}
+						$("##fixedsearchResultsGrid").attr('tabindex', 0);
 
+						// Set all interactive descendants to non-tabbable
+						$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
 
+						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+						if (columns && columns.length > 0) {
+							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+						}
+						$("##fixedsearchResultsGrid").focus();
 
+						// The rest of your existing logic...
+						$("##fixedsearchResultsGrid").on('focusin', function(event) {
+							// Check if any cell is already selected
+							var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
+								var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+								if (columns && columns.length > 0) {
+									$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+								}
+							}
+						});
+					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
 							$(document).scrollTop(200);
@@ -3569,33 +3576,9 @@ Target JSON:
 				$("##fixedsearchResultsGrid").on('rowunselect', function (event) {
 					$("##fixedunselectrowindex").text(event.args.rowindex);
 				});
-		
-				// Accessibility: skip arrow details cell on keyboard selection!
-				$('##fixedsearchResultsGrid').on('cellselect', function(event){
-					var args = event.args;
-					if(args.datafield === null){
-						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
-						var firstDataField = null;
-						for(var i=0;i<columns.length;i++){
-							if(!columns[i].hidden && columns[i].datafield && columns[i].datafield !== ""){
-								firstDataField = columns[i].datafield;
-								break;
-							}
-						}
-						if(firstDataField){
-							$('##fixedsearchResultsGrid').jqxGrid('selectcell', args.rowindex, firstDataField);
-						}
-					}
-				});
 			});
-				
-
-		
-		
 			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
 	 
-
-
 			
 			/* Setup jqxgrid for keyword Search */
 			$('##keywordSearchForm').bind('submit', function(evt){ 
@@ -3931,7 +3914,6 @@ Target JSON:
 					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 				}
 		
-				
 				$("##buildersearchResultsGrid").jqxGrid({
 					width: '100%',
 					autoheight: 'true',
@@ -4000,8 +3982,6 @@ Target JSON:
 					},
 					initrowdetails: initRowDetails
 				});
-	
-
 		
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##buildersearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
