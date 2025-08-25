@@ -3512,41 +3512,49 @@ Target JSON:
 						}
 						$("##fixedsearchResultsGrid").focus();
 
-	
-						$("##fixedsearchResultsGrid").on('focusin', function(event) {
-							var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+	// works but breaks row select
+//						$("##fixedsearchResultsGrid").on('focusin', function(event) {
+//							var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+//							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
+//								var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+//								if (columns && columns.length > 0) {
+//									for (var i = 0; i < columns.length; i++) {
+//										if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+//											$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[i].datafield);
+//											break;
+//										}
+//									}
+//								}
+//							}
+//						});
+					
+					$("##fixedsearchResultsGrid").on('focusin', function(event) {
+						var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
+						var grid = $("##fixedsearchResultsGrid");
+						var selection = grid.jqxGrid('getselectedcell');
+
+						// If in cell selection mode, select a cell
+						if (
+						  selectionMode === 'singlecell' ||
+						  selectionMode === 'multiplecellsextended' ||
+						  selectionMode === 'multiplecellsadvanced'
+						) {
 							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
-								var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+								var columns = grid.jqxGrid('columns').records;
 								if (columns && columns.length > 0) {
 									for (var i = 0; i < columns.length; i++) {
 										if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-											$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[i].datafield);
+											grid.jqxGrid('selectcell', 0, columns[i].datafield);
 											break;
 										}
 									}
 								}
 							}
-						});
-					
-					$('##fixedsearchResultsGrid').on('cellselect', function(event) {
-						var grid = $('##fixedsearchResultsGrid');
-						var selectionMode = grid.jqxGrid('selectionmode');
-						if (
-						  selectionMode !== 'singlecell' &&
-						  selectionMode !== 'multiplecellsextended' &&
-						  selectionMode !== 'multiplecellsadvanced'
-						) {
-							return; // Only process in cell selection modes
-						}
-
-						var args = event.args;
-						if (args.datafield === null) {
-							var columns = grid.jqxGrid('columns').records;
-							for (var i = 0; i < columns.length; i++) {
-								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-									grid.jqxGrid('selectcell', args.rowindex, columns[i].datafield);
-									break;
-								}
+						} else {
+							// For row selection modes
+							var selectedRows = grid.jqxGrid('getselectedrowindexes');
+							if (!selectedRows || selectedRows.length === 0) {
+								grid.jqxGrid('selectrow', 0);
 							}
 						}
 					});
