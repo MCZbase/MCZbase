@@ -3540,6 +3540,7 @@ Target JSON:
 							selectionMode === 'multiplerowsadvanced'
 						) {
 							grid.jqxGrid('selectrow', 0);
+							$grid.focus();
 						}
 					}, 10); // Delay may be unnecessary, but helps in virtualmode
 				});
