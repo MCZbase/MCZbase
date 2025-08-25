@@ -3515,6 +3515,34 @@ Target JSON:
 						}
 					}
 				});
+				$("##fixedsearchResultsGrid").on('pagechanged', function(event) {
+					// Wait a bit to ensure page is rendered (sometimes necessary)
+					setTimeout(function() {
+						var grid = $("##fixedsearchResultsGrid");
+						var selectionMode = grid.jqxGrid('selectionmode');
+						var columns = grid.jqxGrid('columns').records;
+
+						if (
+							selectionMode === 'singlecell' ||
+							selectionMode === 'multiplecellsadvanced' ||
+							selectionMode === 'multiplecellsextended'
+						) {
+							// Select the first visible cell
+							for (var i = 0; i < columns.length; i++) {
+								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+									grid.jqxGrid('selectcell', 0, columns[i].datafield);
+									break;
+								}
+							}
+						} else if (
+							selectionMode === 'singlerow' ||
+							selectionMode === 'multiplerowsextended' ||
+							selectionMode === 'multiplerowsadvanced'
+						) {
+							grid.jqxGrid('selectrow', 0);
+						}
+					}, 10); // Delay may be unnecessary, but helps in virtualmode
+				});
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					
 						$("##fixedsearchResultsGrid").attr('tabindex', 0);
