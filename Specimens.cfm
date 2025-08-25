@@ -3657,7 +3657,7 @@ Target JSON:
 					//				$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
 					//			}
 					//		}
-						});
+					//	});
 					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
