@@ -142,7 +142,7 @@
 				<cfif lookupUUID.disposition IS "exists" AND lookupUUID.target_table IS "coll_object" AND lookupUUID.guid_is_a IS "occurrenceID">
 					<!--- lookup the cataloged item for the occurrence and redirect to it with /guid/{institution_code}:{collection_code}:{catalog_number} --->
 					<!--- type of coll_object should be "SP", check this and lookup from parent cataloged item --->
-					<cfquery name="getCatItem" datasource="cf_dbuser" timeout="#Application.short_timeout#" result="getCatItem.result">
+					<cfquery name="getCatItem" datasource="uam_god" timeout="#Application.short_timeout#" result="getCatItem.result">
 						SELECT coll_object.coll_object_type, 
 							coll.institution_acronym institution_code, 
 							coll.collection_cde collection_code, 
