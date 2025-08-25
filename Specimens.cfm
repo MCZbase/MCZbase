@@ -3520,7 +3520,7 @@ Target JSON:
 						$("##fixedsearchResultsGrid").attr('tabindex', 0);
 
 						// Set all interactive descendants to non-tabbable
-						$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
+						$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', 0);
 
 						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
 						if (columns && columns.length > 0) {
