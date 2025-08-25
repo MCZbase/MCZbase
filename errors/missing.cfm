@@ -167,6 +167,7 @@
 		<cfcatch>
 			<cfinclude template="/errors/404.cfm">
 		</cfcatch>
+		</cftry>
 	<cfelseif listfindnocase(rdurl,'document',"/")>
 		<cfoutput>
 		<cftry>
