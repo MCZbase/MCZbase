@@ -3486,7 +3486,18 @@ Target JSON:
 						columnOrderChanged('fixedsearchResultsGrid'); 
 					}); 
 				</cfif>
-				
+				$('##fixedsearchResultsGrid').on('cellselect', function (event) {
+					var args = event.args;
+					if (args.datafield === null) {
+						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+						for (var i = 0; i < columns.length; i++) {
+							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+								$('##fixedsearchResultsGrid').jqxGrid('selectcell', args.rowindex, columns[i].datafield);
+								break;
+							}
+						}
+					}
+				});
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					
 					
@@ -3501,14 +3512,18 @@ Target JSON:
 						}
 						$("##fixedsearchResultsGrid").focus();
 
-						// The rest of your existing logic...
+				
 						$("##fixedsearchResultsGrid").on('focusin', function(event) {
-							// Check if any cell is already selected
 							var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
 							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
 								var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
 								if (columns && columns.length > 0) {
-									$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+									for (var i = 0; i < columns.length; i++) {
+										if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+											$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[i].datafield);
+											break;
+										}
+									}
 								}
 							}
 						});
