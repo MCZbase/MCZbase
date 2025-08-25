@@ -3503,38 +3503,25 @@ Target JSON:
 						$grid.jqxGrid('selectcell', 0, columns[0].datafield);
 						$grid.focus();
 					}
-				
-					// Remove old handlers and add new ones (namespaced for safety)	
-					// Accessibility: Keyboard (Enter/Space) opens details
-					$grid.off('keydown.rowdetails').on('keydown.rowdetails', function (event) {
-						// Only run if grid has focus!
-						if (event.target === $grid[0] || $grid.has(event.target).length) {
-							if (event.key === " " || event.key === "Enter") {
-								var cell = $grid.jqxGrid('getselectedcell');
-								if (cell && cell.rowindex >= 0) {
-									$grid.jqxGrid('showrowdetails', cell.rowindex);
-									// Prevent page scrolling if spacebar (default)
-									event.preventDefault();
+					// Accessibility: skip arrow details cell on keyboard selection!
+					$('##fixedsearchResultsGrid').on('cellselect', function(event){
+						var args = event.args;
+						if(args.datafield === null){
+							var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+							var firstDataField = null;
+							for(var i=0;i<columns.length;i++){
+								if(!columns[i].hidden && columns[i].datafield && columns[i].datafield !== ""){
+									firstDataField = columns[i].datafield;
+									break;
 								}
 							}
-						}
-					});
-					// Accessibility: Double click opens details
-					$grid.off('rowdoubleclick.rowdetails').on('rowdoubleclick.rowdetails', function (event) {
-						$grid.jqxGrid('showrowdetails', event.args.rowindex);
-					});
-				
-					$grid.on('focusin', function(event) {
-						// Check if any cell is already selected
-						var selection = $grid.jqxGrid('getselectedcell');
-						if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
-							var columns = $grid.jqxGrid('columns').records;
-							if (columns && columns.length > 0) {
-								$grid.jqxGrid('selectcell', 0, columns[0].datafield);
+							if(firstDataField){
+								$('##fixedsearchResultsGrid').jqxGrid('selectcell', args.rowindex, firstDataField);
 							}
 						}
 					});
 					
+
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
 							$(document).scrollTop(200);
