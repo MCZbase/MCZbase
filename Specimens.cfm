@@ -3552,6 +3552,17 @@ Target JSON:
 //							}
 //						});
 					
+						var $grid = $("##fixedsearchResultsGrid");
+
+						// Remove any previous handler, then add Escape key handler
+						$grid.off('keydown.escapeNav').on('keydown.escapeNav', function(event){
+							if (event.key === "Escape") {
+								$("##fixedselectMode").focus();
+								$grid.jqxGrid('clearselection');
+								event.preventDefault(); // prevent grid's own Escape behavior if any
+								return false;
+							}
+						});
 						$('##fixedsearchResultsGrid').on('focusin', function(event) {
 							var grid = $('##fixedsearchResultsGrid');
 							var selectionMode = grid.jqxGrid('selectionmode');
