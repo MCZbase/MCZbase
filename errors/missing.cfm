@@ -143,7 +143,7 @@
 					<!--- lookup the cataloged item for the occurrence and redirect to it with /guid/{institution_code}:{collection_code}:{catalog_number} --->
 					<!--- type of coll_object should be "SP", check this and lookup from parent cataloged item --->
 					<cfquery name="getCatItem" datasource="cf_dbuser" timeout="#Application.short_timeout#">
-						SELECT coll_object.coll_object_type, coll.institution_code, coll.collection_code, ci.catalog_number
+						SELECT coll_object.coll_object_type, coll.institution_code, coll.collection_code, ci.cat_num catalog_number
 						FROM coll_object 
 						left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id
 						left join cataloged_item ci on specimen_part.derived_from_cat_item = ci.collection_object_id
