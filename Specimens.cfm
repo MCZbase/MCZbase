@@ -3561,11 +3561,7 @@ Target JSON:
 								}
 							}
 						} else {
-							// For row selection modes
-							var selectedRows = grid.jqxGrid('##fixedselectrowindex');
-							if (!selectedRows || selectedRows.length === 0) {
-								grid.jqxGrid('selectrow', 0);
-							}
+							
 						}
 					});
 					
