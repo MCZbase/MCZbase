@@ -3538,30 +3538,30 @@ Target JSON:
 //							}
 //						});
 					
-					$("##fixedsearchResultsGrid").on('focusin', function(event) {
-						var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
-						var grid = $("##fixedsearchResultsGrid");
-						var selection = grid.jqxGrid('getselectedcell');
-
-						// If in cell selection mode, select a cell
-						if (
-							selectionMode === 'singlecell' 
-						) {
-							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
-								var columns = grid.jqxGrid('columns').records;
-								if (columns && columns.length > 0) {
-									for (var i = 0; i < columns.length; i++) {
-										if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-											grid.jqxGrid('selectcell', 0, columns[i].datafield);
-											break;
-										}
-									}
-								}
-							}
-						} else {
-							
-						}
-					});
+				//	$("##fixedsearchResultsGrid").on('focusin', function(event) {
+//						var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
+//						var grid = $("##fixedsearchResultsGrid");
+//						var selection = grid.jqxGrid('getselectedcell');
+//
+//						// If in cell selection mode, select a cell
+//						if (
+//							selectionMode === 'singlecell' 
+//						) {
+//							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
+//								var columns = grid.jqxGrid('columns').records;
+//								if (columns && columns.length > 0) {
+//									for (var i = 0; i < columns.length; i++) {
+//										if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+//											grid.jqxGrid('selectcell', 0, columns[i].datafield);
+//											break;
+//										}
+//									}
+//								}
+//							}
+//						} else {
+//							
+//						}
+//					});
 					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
