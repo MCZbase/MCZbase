@@ -294,8 +294,8 @@ limitations under the License.
 														join guid_our_thing on specimen_part.collection_object_id = guid_our_thing.co_collection_object_id
 													WHERE 
 														specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#summary.collection_object_id#">
-														AND coll_object.coll_object_type = 'SP'
 														AND guid_our_thing.assembled_resolvable IS NOT NULL
+														AND upper(guid_our_thing.target_table) = 'COLL_OBJECT'
 												</cfquery>
 												<cfloop query="getOccurrences">
 													<li>
