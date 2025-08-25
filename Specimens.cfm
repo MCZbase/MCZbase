@@ -3530,6 +3530,7 @@ Target JSON:
 					
 						// Remove any previous handler, then add Escape key handler
 						$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
+							var grid = $('##fixedsearchResultsGrid');
 							if (event.key === "Escape") {
 								$("##fixedselectMode").focus();
 								$grid.jqxGrid('clearselection');
