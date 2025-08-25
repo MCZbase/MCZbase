@@ -3489,41 +3489,51 @@ Target JSON:
 				
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					
-					$("##fixedsearchResultsGrid").attr('tabindex', 0);
+					var $grid = $('##fixedsearchResultsGrid');
+					// Make grid focusable and focus it now
+					$grid.attr('tabindex', 0);
+					$grid.focus();
 
 					// Set all interactive descendants to non-tabbable
-					$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
-
-					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+					$grid.find('a, button, input').attr('tabindex', -1);
+					
+					// Auto-select the first cell, then force focus
+					var columns = $grid.jqxGrid('columns').records;
 					if (columns && columns.length > 0) {
-						$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+						$grid.jqxGrid('selectcell', 0, columns[0].datafield);
+						$grid.focus();
 					}
-					$("##fixedsearchResultsGrid").focus();
-						
+				
+					// Remove old handlers and add new ones (namespaced for safety)	
 					// Accessibility: Keyboard (Enter/Space) opens details
-					$('##fixedsearchResultsGrid').off('keydown.rowdetails').on('keydown.rowdetails', function (event) {
-						if (event.key === " " || event.key === "Enter") {
-							var cell = $('##fixedsearchResultsGrid').jqxGrid('getselectedcell');
-							if (cell && cell.rowindex >= 0) {
-								$('##fixedsearchResultsGrid').jqxGrid('showrowdetails', cell.rowindex);
+					$grid.off('keydown.rowdetails').on('keydown.rowdetails', function (event) {
+						// Only run if grid has focus!
+						if (event.target === $grid[0] || $grid.has(event.target).length) {
+							if (event.key === " " || event.key === "Enter") {
+								var cell = $grid.jqxGrid('getselectedcell');
+								if (cell && cell.rowindex >= 0) {
+									$grid.jqxGrid('showrowdetails', cell.rowindex);
+									// Prevent page scrolling if spacebar (default)
+									event.preventDefault();
+								}
 							}
 						}
 					});
 					// Accessibility: Double click opens details
-					$('##fixedsearchResultsGrid').off('rowdoubleclick.rowdetails').on('rowdoubleclick.rowdetails', function (event) {
-						$('##fixedsearchResultsGrid').jqxGrid('showrowdetails', event.args.rowindex);
+					$grid.off('rowdoubleclick.rowdetails').on('rowdoubleclick.rowdetails', function (event) {
+						$grid.jqxGrid('showrowdetails', event.args.rowindex);
 					});
-						// The rest of your existing logic...
-						$("##fixedsearchResultsGrid").on('focusin', function(event) {
-							// Check if any cell is already selected
-							var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
-							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
-								var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-								if (columns && columns.length > 0) {
-									$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
-								}
+				
+					$grid.on('focusin', function(event) {
+						// Check if any cell is already selected
+						var selection = $grid.jqxGrid('getselectedcell');
+						if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
+							var columns = $grid.jqxGrid('columns').records;
+							if (columns && columns.length > 0) {
+								$grid.jqxGrid('selectcell', 0, columns[0].datafield);
 							}
-						});
+						}
+					});
 					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
