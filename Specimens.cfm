@@ -3503,23 +3503,7 @@ Target JSON:
 						$grid.jqxGrid('selectcell', 0, columns[0].datafield);
 						$grid.focus();
 					}
-					// Accessibility: skip arrow details cell on keyboard selection!
-					$('##fixedsearchResultsGrid').on('cellselect', function(event){
-						var args = event.args;
-						if(args.datafield === null){
-							var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
-							var firstDataField = null;
-							for(var i=0;i<columns.length;i++){
-								if(!columns[i].hidden && columns[i].datafield && columns[i].datafield !== ""){
-									firstDataField = columns[i].datafield;
-									break;
-								}
-							}
-							if(firstDataField){
-								$('##fixedsearchResultsGrid').jqxGrid('selectcell', args.rowindex, firstDataField);
-							}
-						}
-					});
+
 					
 
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
@@ -3587,7 +3571,23 @@ Target JSON:
 				});
 			});
 				
-
+			// Accessibility: skip arrow details cell on keyboard selection!
+			$('##fixedsearchResultsGrid').on('cellselect', function(event){
+				var args = event.args;
+				if(args.datafield === null){
+					var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+					var firstDataField = null;
+					for(var i=0;i<columns.length;i++){
+						if(!columns[i].hidden && columns[i].datafield && columns[i].datafield !== ""){
+							firstDataField = columns[i].datafield;
+							break;
+						}
+					}
+					if(firstDataField){
+						$('##fixedsearchResultsGrid').jqxGrid('selectcell', args.rowindex, firstDataField);
+					}
+				}
+			});
 		
 		
 			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
