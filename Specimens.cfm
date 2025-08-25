@@ -3512,21 +3512,21 @@ Target JSON:
 						}
 						$("##fixedsearchResultsGrid").focus();
 
-				// works but breaks row select, etc.
-						//$("##fixedsearchResultsGrid").on('focusin', function(event) {
-//							var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
-//							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
-//								var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-//								if (columns && columns.length > 0) {
-//									for (var i = 0; i < columns.length; i++) {
-//										if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-//											$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[i].datafield);
-//											break;
-//										}
-//									}
-//								}
-//							}
-//						});
+	
+						$("##fixedsearchResultsGrid").on('focusin', function(event) {
+							var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
+								var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+								if (columns && columns.length > 0) {
+									for (var i = 0; i < columns.length; i++) {
+										if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+											$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[i].datafield);
+											break;
+										}
+									}
+								}
+							}
+						});
 					
 					$('##fixedsearchResultsGrid').on('cellselect', function(event) {
 						var grid = $('##fixedsearchResultsGrid');
