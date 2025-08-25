@@ -1536,23 +1536,37 @@ limitations under the License.
 													<span id="fixedmanageButton" class=""></span>
 													<span id="fixedremoveButtonDiv" class=""></span>
 													<div id="fixedresultBMMapLinkContainer"></div>
-													<div id="fixedselectModeContainer" class="ml-3" style="display: none;" >
+													<div id="fixedselectModeContainer" class="ml-3" style="display: none;">
 														<script>
 															function fixedchangeSelectMode(){
-																var selmode = $("singlecell").val();
-																$("##fixedsearchResultsGrid").jqxGrid({selectionmode: selmode});
-																if (selmode=="singlecell") { 
-																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
+																var selmode = $("##fixedselectMode").val(); // Use correct selector!
+																var $grid = $("##fixedsearchResultsGrid");
+																$grid.jqxGrid({selectionmode: selmode});
+																$grid.jqxGrid('clearselection');
+																if (
+																	selmode === 'singlecell' ||
+																	selmode === 'multiplecellsadvanced' ||
+																	selmode === 'multiplecellsextended'
+																) {
+																	var columns = $grid.jqxGrid('columns').records;
+																	for (var i = 0; i < columns.length; i++) {
+																		if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+																			$grid.jqxGrid('selectcell', 0, columns[i].datafield);
+																			break;
+																		}
+																	}
 																} else {
-																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
+																	$grid.jqxGrid('selectrow', 0);
 																}
-															};
+																$grid.jqxGrid({enableBrowserSelection: (selmode === "singlecell")});
+																$grid.focus();
+															}
 														</script>
 
 														<label class="data-entry-label d-inline w-auto mt-1" for="fixedselectMode">Grid Select:</label>
 														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="fixedchangeSelectMode();">
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-															<option selected value="singlecell">Single Cell</option>
+															<option #selected# value="singlecell">Single Cell</option>
 															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="singlerow">Single Row</option>
 															<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
