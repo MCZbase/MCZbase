@@ -3474,7 +3474,6 @@ Target JSON:
 					],
 					
 					rowdetails: true,
-					showrowdetailscolumn: false,
 					rowdetailstemplate: {
 						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
 						rowdetailsheight:  1 // row details will be placed in popup dialog
@@ -3580,22 +3579,21 @@ Target JSON:
 			});
 			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
 	 
-			$("##fixedsearchResultsGrid").on('cellselect', function (event) {
-				var args = event.args;
-				if (args.datafield === null) {
-					// Find the first actual data cell (not the arrow)
-					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-					var firstField = null;
-					for (var i = 0; i < columns.length; i++) {
-						if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-							firstField = columns[i].datafield;
-							break;
-						}
-					}
-					if (firstField) {
-						$("##fixedsearchResultsGrid").jqxGrid('selectcell', args.rowindex, firstField);
+
+
+			// Allow keyboard users to open details with space or enter
+			$('##fixedsearchResultsGrid').on('keydown', function(event){
+				if(event.key === " " || event.key === "Enter") {
+					var cell = $('##fixedsearchResultsGrid').jqxGrid('getselectedcell');
+					// Only open row details if it's not already open (optional)
+					if(cell && cell.rowindex >= 0){
+						$('##fixedsearchResultsGrid').jqxGrid('showrowdetails', cell.rowindex);
 					}
 				}
+			});
+			// Mouse double-click opens details
+			$('##fixedsearchResultsGrid').on('rowdoubleclick', function (event) {
+				$('##fixedsearchResultsGrid').jqxGrid('showrowdetails', event.args.rowindex);
 			});
 			/* Setup jqxgrid for keyword Search */
 			$('##keywordSearchForm').bind('submit', function(evt){ 
