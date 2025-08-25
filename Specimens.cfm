@@ -3481,11 +3481,11 @@ Target JSON:
 					initrowdetails: initRowDetails
 				});
 
-				<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
-						columnOrderChanged('fixedsearchResultsGrid'); 
-					}); 
-				</cfif>
+//				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+//					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+//						columnOrderChanged('fixedsearchResultsGrid'); 
+//					}); 
+//				</cfif>
 				
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					
