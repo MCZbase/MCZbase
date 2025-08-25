@@ -3410,7 +3410,6 @@ Target JSON:
 					};
 				};
 	
-
 				var dataAdapter = new $.jqx.dataAdapter(search);
 				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
@@ -3423,7 +3422,6 @@ Target JSON:
 					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 				}
 
-	
 				$("##fixedsearchResultsGrid").jqxGrid({
 					width: '100%',
 					autoheight: 'true',
@@ -3445,13 +3443,8 @@ Target JSON:
 					columnsreorder: true,
 					groupable: true,
 					selectionmode: 'singlecell',
-					//enablebrowserselection: #defaultenablebrowserselection#,
 					altrows: true,
 					showtoolbar: false,
-//					ready: function () {
-//						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
-//						$("##fixedsearchResultsGrid").jqxGrid('focus');
-//					},
 					rendergridrows: function () {
 						return dataAdapter.records;
 					},
@@ -3504,9 +3497,9 @@ Target JSON:
 					var grid = $('##fixedsearchResultsGrid');
 					var selectionMode = grid.jqxGrid('selectionmode');
 					if (
-					  selectionMode !== 'singlecell' &&
-					  selectionMode !== 'multiplecellsextended' &&
-					  selectionMode !== 'multiplecellsadvanced'
+						selectionMode !== 'singlecell' &&
+						selectionMode !== 'multiplecellsextended' &&
+						selectionMode !== 'multiplecellsadvanced'
 					) {
 						return; // Only process in cell selection modes
 					}
@@ -3524,7 +3517,6 @@ Target JSON:
 				});
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					
-					
 						$("##fixedsearchResultsGrid").attr('tabindex', 0);
 
 						// Set all interactive descendants to non-tabbable
@@ -3536,7 +3528,6 @@ Target JSON:
 						}
 						$("##fixedsearchResultsGrid").focus();
 					
-						//var $grid = ;
 						// Remove any previous handler, then add Escape key handler
 						$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
 							if (event.key === "Escape") {
