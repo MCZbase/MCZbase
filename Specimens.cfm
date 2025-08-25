@@ -3545,9 +3545,7 @@ Target JSON:
 
 						// If in cell selection mode, select a cell
 						if (
-						  selectionMode === 'singlecell' ||
-						  selectionMode === 'multiplecellsextended' ||
-						  selectionMode === 'multiplecellsadvanced'
+							selectionMode === 'singlecell' 
 						) {
 							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
 								var columns = grid.jqxGrid('columns').records;
