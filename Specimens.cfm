@@ -3580,7 +3580,23 @@ Target JSON:
 			});
 			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
 	 
-			
+			$("##fixedsearchResultsGrid").on('cellselect', function (event) {
+				var args = event.args;
+				if (args.datafield === null) {
+					// Find the first actual data cell (not the arrow)
+					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+					var firstField = null;
+					for (var i = 0; i < columns.length; i++) {
+						if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+							firstField = columns[i].datafield;
+							break;
+						}
+					}
+					if (firstField) {
+						$("##fixedsearchResultsGrid").jqxGrid('selectcell', args.rowindex, firstField);
+					}
+				}
+			});
 			/* Setup jqxgrid for keyword Search */
 			$('##keywordSearchForm').bind('submit', function(evt){ 
 				evt.preventDefault();
