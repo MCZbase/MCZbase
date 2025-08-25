@@ -3504,9 +3504,9 @@ Target JSON:
 					var grid = $('##fixedsearchResultsGrid');
 					var selectionMode = grid.jqxGrid('selectionmode');
 					if (
-						selectionMode !== 'singlecell' &&
-						selectionMode !== 'multiplecellsextended' &&
-						selectionMode !== 'multiplecellsadvanced'
+					  selectionMode !== 'singlecell' &&
+					  selectionMode !== 'multiplecellsextended' &&
+					  selectionMode !== 'multiplecellsadvanced'
 					) {
 						return; // Only process in cell selection modes
 					}
@@ -3523,7 +3523,10 @@ Target JSON:
 					}
 				});
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
+					
+					
 						$("##fixedsearchResultsGrid").attr('tabindex', 0);
+
 						// Set all interactive descendants to non-tabbable
 						$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
 
@@ -3531,10 +3534,14 @@ Target JSON:
 						if (columns && columns.length > 0) {
 							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
 						}
+						$("##fixedsearchResultsGrid").focus();
+					
+						//var $grid = ;
 						// Remove any previous handler, then add Escape key handler
 						$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
 							if (event.key === "Escape") {
-								$("##fixedsearchResultsGrid").jqxGrid('clearselection');
+								$("##fixedselectMode").focus();
+								$grid.jqxGrid('clearselection');
 								event.preventDefault(); // prevent grid's own Escape behavior if any
 								return false;
 							}
@@ -3705,24 +3712,24 @@ Target JSON:
 						console.log($('##keywordsearchResultsGrid').jqxGrid('getRowData',rowid));
 						var collobjtoremove = $('##keywordsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
 						console.log(collobjtoremove);
-						$.ajax({
-							url: "/specimens/component/search.cfc",
-							data: { 
+	        			$.ajax({
+            				url: "/specimens/component/search.cfc",
+            				data: { 
 								method: 'removeItemFromResult', 
 								result_id: $('##result_id_keywordSearch').val(),
 								collection_object_id: collobjtoremove
 							},
 							dataType: 'json',
-							success : function (data) { 
+           					success : function (data) { 
 								console.log(data);
 								commit(true);
 								$('##keywordsearchResultsGrid').jqxGrid('updatebounddata');
 							},
-							error : function (jqXHR, textStatus, error) {
-								handleFail(jqXHR,textStatus,error,"removing row from result set");
+            				error : function (jqXHR, textStatus, error) {
+          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
 								commit(false);
-							}
-						});
+            				}
+         			});
 					} 
 				};	
 	
