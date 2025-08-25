@@ -3541,7 +3541,7 @@ Target JSON:
 						$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
 							if (event.key === "Escape") {
 								$("##fixedselectMode").focus();
-								$grid.jqxGrid('clearselection');
+								$("##fixedsearchResultsGrid").jqxGrid('clearselection');
 								event.preventDefault(); // prevent grid's own Escape behavior if any
 								return false;
 							}
