@@ -157,7 +157,7 @@
 						<cfif getCatItem.coll_object_type IS NOT "SP">
 							<cfthrow message="UUID found but target coll_object is not a specimen part" detail="Record found in guid_our_thing table but target coll_object #q.co_collection_object_id# is type #getCatItem.coll_object_type#, expected type 'SP'">
 						</cfif>
-						<cfset guid = getCatItem.institution_code & ":" & getCatItem.collection_code & ":" & getCatItem.catalog_number>
+						<cfset guid = "#getCatItem.institution_code#:#getCatItem.collection_code#:#getCatItem.catalog_number#">
 						<cfheader statuscode="301" statustext="Moved permanently">
 						<cfheader name="Location" value="/guid/#guid#">
 					<cfelse>
