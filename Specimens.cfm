@@ -3489,18 +3489,30 @@ Target JSON:
 				
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					
-					
-						$("##fixedsearchResultsGrid").attr('tabindex', 0);
+					$("##fixedsearchResultsGrid").attr('tabindex', 0);
 
-						// Set all interactive descendants to non-tabbable
-						$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
+					// Set all interactive descendants to non-tabbable
+					$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
 
-						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-						if (columns && columns.length > 0) {
-							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+					if (columns && columns.length > 0) {
+						$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+					}
+					$("##fixedsearchResultsGrid").focus();
+						
+					// Accessibility: Keyboard (Enter/Space) opens details
+					$('##fixedsearchResultsGrid').off('keydown.rowdetails').on('keydown.rowdetails', function (event) {
+						if (event.key === " " || event.key === "Enter") {
+							var cell = $('##fixedsearchResultsGrid').jqxGrid('getselectedcell');
+							if (cell && cell.rowindex >= 0) {
+								$('##fixedsearchResultsGrid').jqxGrid('showrowdetails', cell.rowindex);
+							}
 						}
-						$("##fixedsearchResultsGrid").focus();
-
+					});
+					// Accessibility: Double click opens details
+					$('##fixedsearchResultsGrid').off('rowdoubleclick.rowdetails').on('rowdoubleclick.rowdetails', function (event) {
+						$('##fixedsearchResultsGrid').jqxGrid('showrowdetails', event.args.rowindex);
+					});
 						// The rest of your existing logic...
 						$("##fixedsearchResultsGrid").on('focusin', function(event) {
 							// Check if any cell is already selected
@@ -3575,30 +3587,6 @@ Target JSON:
 				// display unselected row index.
 				$("##fixedsearchResultsGrid").on('rowunselect', function (event) {
 					$("##fixedunselectrowindex").text(event.args.rowindex);
-				});
-		
-				$('##fixedsearchResultsGrid').on('bindingcomplete', function (event) {
-				$('##fixedsearchResultsGrid').attr('tabindex', 0);
-				$('##fixedsearchResultsGrid').find('a, button, input').attr('tabindex', -1);
-
-				var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
-				if (columns && columns.length > 0) {
-					$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[0].datafield);
-				}
-				$('##fixedsearchResultsGrid').focus();
-
-				// Accessibility: Keyboard (Enter/Space) opens details
-				$('##fixedsearchResultsGrid').off('keydown.rowdetails').on('keydown.rowdetails', function (event) {
-					if (event.key === " " || event.key === "Enter") {
-						var cell = $('##fixedsearchResultsGrid').jqxGrid('getselectedcell');
-						if (cell && cell.rowindex >= 0) {
-							$('##fixedsearchResultsGrid').jqxGrid('showrowdetails', cell.rowindex);
-						}
-					}
-				});
-				// Accessibility: Double click opens details
-				$('##fixedsearchResultsGrid').off('rowdoubleclick.rowdetails').on('rowdoubleclick.rowdetails', function (event) {
-					$('##fixedsearchResultsGrid').jqxGrid('showrowdetails', event.args.rowindex);
 				});
 			});
 				
