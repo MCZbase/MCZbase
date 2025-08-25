@@ -148,7 +148,7 @@
 						left join specimen_part on colo.coll_object_id = specimen_part.coll_object_id
 						left join cataloged_item ci on specimen_part.derived_from_cat_item = ci.collection_object_id
 						LEFT JOIN collection coll ON ci.collection_id = coll.collection_id
-						WHERE co.coll_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#q.co_collection_object_id#">
+						WHERE co.coll_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#lookupUUID.co_collection_object_id#">
 					</cfquery>
 					<cfif getCatItem.recordcount EQ 1>
 						<cfif getCatItem.coll_object_type IS NOT "SP">
