@@ -3535,27 +3535,10 @@ Target JSON:
 							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
 						}
 						$("##fixedsearchResultsGrid").focus();
-
-	// works but breaks row select
-//						$("##fixedsearchResultsGrid").on('focusin', function(event) {
-//							var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
-//							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
-//								var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-//								if (columns && columns.length > 0) {
-//									for (var i = 0; i < columns.length; i++) {
-//										if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-//											$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[i].datafield);
-//											break;
-//										}
-//									}
-//								}
-//							}
-//						});
 					
-						var $grid = $("##fixedsearchResultsGrid");
-
+						//var $grid = ;
 						// Remove any previous handler, then add Escape key handler
-						$grid.off('keydown.escapeNav').on('keydown.escapeNav', function(event){
+						$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
 							if (event.key === "Escape") {
 								$("##fixedselectMode").focus();
 								$grid.jqxGrid('clearselection');
