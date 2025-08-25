@@ -142,7 +142,7 @@
 				<cfif lookupUUID.disposition IS "exists" AND lookupUUID.target_table IS "coll_object" AND lookupUUID.guid_is_a IS "occurrenceID">
 					<!--- lookup the cataloged item for the occurrence and redirect to it with /guid/{institution_code}:{collection_code}:{catalog_number} --->
 					<!--- type of coll_object should be "SP", check this and lookup from parent cataloged item --->
-					<cfquery name="getCatItem" datasource="cf_dbuser" timeout="#Application.short_timeout#">
+					<cfquery name="getCatItem" datasource="cf_dbuser" timeout="#Application.short_timeout#" result="getCatItem.result">
 						SELECT coll_object.coll_object_type, 
 							coll.institution_acronym institution_code, 
 							coll.collection_cde collection_code, 
@@ -151,7 +151,7 @@
 						left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id
 						left join cataloged_item ci on specimen_part.derived_from_cat_item = ci.collection_object_id
 						LEFT JOIN collection coll ON ci.collection_id = coll.collection_id
-						WHERE coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_INTEGER" value="#lookupUUID.co_collection_object_id#">
+						WHERE coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.co_collection_object_id#">
 					</cfquery>
 					<cfif getCatItem.recordcount EQ 1>
 						<cfif getCatItem.coll_object_type IS NOT "SP">
