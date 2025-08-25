@@ -3497,10 +3497,12 @@ Target JSON:
 
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+						$("##fixedsearchResultsGrid").focus();
 						columnOrderChanged('fixedsearchResultsGrid'); 
 					}); 
 				</cfif>
 				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
+					$("##fixedsearchResultsGrid").focus();
 					var grid = $('##fixedsearchResultsGrid');
 					var selectionMode = grid.jqxGrid('selectionmode');
 					if (
@@ -3524,8 +3526,8 @@ Target JSON:
 				});
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					
-					
 						$("##fixedsearchResultsGrid").attr('tabindex', 0);
+						$("##fixedsearchResultsGrid").focus();
 
 						// Set all interactive descendants to non-tabbable
 						$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
