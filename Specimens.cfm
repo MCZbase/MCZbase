@@ -3315,24 +3315,24 @@ Target JSON:
 							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
 							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
 							console.log(collobjtoremove);
-		        			$.ajax({
-            				url: "/specimens/component/search.cfc",
-            				data: { 
+							$.ajax({
+								url: "/specimens/component/search.cfc",
+								data: { 
 									method: 'removeItemFromResult', 
 									result_id: $('##result_id_fixedSearch').val(),
 									collection_object_id: collobjtoremove
 								},
 								dataType: 'json',
-           					success : function (data) { 
+								success : function (data) { 
 									console.log(data);
 									commit(true);
 									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 								},
-            				error : function (jqXHR, textStatus, error) {
-          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
+								error : function (jqXHR, textStatus, error) {
+									handleFail(jqXHR,textStatus,error,"removing row from result set");
 									commit(false);
-            				}
-         				});
+								}
+							});
 						} 
 					};
 				} else { 
@@ -3374,24 +3374,24 @@ Target JSON:
 							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
 							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
 							console.log(collobjtoremove);
-		        			$.ajax({
-            				url: "/specimens/component/search.cfc",
-            				data: { 
+							$.ajax({
+								url: "/specimens/component/search.cfc",
+								data: { 
 									method: 'removeItemFromResult', 
 									result_id: $('##result_id_fixedSearch').val(),
 									collection_object_id: collobjtoremove
 								},
 								dataType: 'json',
-           					success : function (data) { 
+								success : function (data) { 
 									console.log(data);
 									commit(true);
 									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 								},
-            				error : function (jqXHR, textStatus, error) {
-          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
+								error : function (jqXHR, textStatus, error) {
+									handleFail(jqXHR,textStatus,error,"removing row from result set");
 									commit(false);
-            				}
-         				});
+								}
+							});
 						} 
 					};
 				};
@@ -3576,25 +3576,40 @@ Target JSON:
 				$("##fixedsearchResultsGrid").on('rowunselect', function (event) {
 					$("##fixedunselectrowindex").text(event.args.rowindex);
 				});
+		
+				$('##fixedsearchResultsGrid').on('bindingcomplete', function (event) {
+				$('##fixedsearchResultsGrid').attr('tabindex', 0);
+				$('##fixedsearchResultsGrid').find('a, button, input').attr('tabindex', -1);
+
+				var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+				if (columns && columns.length > 0) {
+					$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[0].datafield);
+				}
+				$('##fixedsearchResultsGrid').focus();
+
+				// Accessibility: Keyboard (Enter/Space) opens details
+				$('##fixedsearchResultsGrid').off('keydown.rowdetails').on('keydown.rowdetails', function (event) {
+					if (event.key === " " || event.key === "Enter") {
+						var cell = $('##fixedsearchResultsGrid').jqxGrid('getselectedcell');
+						if (cell && cell.rowindex >= 0) {
+							$('##fixedsearchResultsGrid').jqxGrid('showrowdetails', cell.rowindex);
+						}
+					}
+				});
+				// Accessibility: Double click opens details
+				$('##fixedsearchResultsGrid').off('rowdoubleclick.rowdetails').on('rowdoubleclick.rowdetails', function (event) {
+					$('##fixedsearchResultsGrid').jqxGrid('showrowdetails', event.args.rowindex);
+				});
 			});
+				
+
+		
+		
 			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
 	 
 
 
-			// Allow keyboard users to open details with space or enter
-			$('##fixedsearchResultsGrid').on('keydown', function(event){
-				if(event.key === " " || event.key === "Enter") {
-					var cell = $('##fixedsearchResultsGrid').jqxGrid('getselectedcell');
-					// Only open row details if it's not already open (optional)
-					if(cell && cell.rowindex >= 0){
-						$('##fixedsearchResultsGrid').jqxGrid('showrowdetails', cell.rowindex);
-					}
-				}
-			});
-			// Mouse double-click opens details
-			$('##fixedsearchResultsGrid').on('rowdoubleclick', function (event) {
-				$('##fixedsearchResultsGrid').jqxGrid('showrowdetails', event.args.rowindex);
-			});
+			
 			/* Setup jqxgrid for keyword Search */
 			$('##keywordSearchForm').bind('submit', function(evt){ 
 				evt.preventDefault();
@@ -3929,6 +3944,7 @@ Target JSON:
 					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 				}
 		
+				
 				$("##buildersearchResultsGrid").jqxGrid({
 					width: '100%',
 					autoheight: 'true',
@@ -3997,6 +4013,8 @@ Target JSON:
 					},
 					initrowdetails: initRowDetails
 				});
+	
+
 		
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##buildersearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
