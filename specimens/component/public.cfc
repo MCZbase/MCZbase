@@ -184,15 +184,18 @@ limitations under the License.
 											<cfif isMixed>
 												<cfquery name="mixedCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 													SELECT 
-														distinct identification.scientific_name
+														distinct identification.scientific_name,
+														guid_our_thing.assembled_resolvable, guid_our_thing.assembled_identifier
 													FROM 
 														specimen_part
+														join guid_our_thing on specimen_part.collection_object_id = guid_our_thing.co_collection_object_id
 														join identification on specimen_part.collection_object_id = identification.collection_object_id
 														join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 													WHERE 
 														specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#summary.collection_object_id#">
 														AND coll_object.coll_object_type = 'SP'
 														AND identification.accepted_id_fg = 1
+														AND upper(guid_our_thing.target_table) = 'COLL_OBJECT'
 												</cfquery>
 												<cfif mixedCollection.recordcount EQ 1> 
 													<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
@@ -280,28 +283,23 @@ limitations under the License.
 											<cfif len(summary.spec_locality) GT 0> | #summary.spec_locality#<cfelse></cfif></h2>
 										</div>
 										<div class="col-12 px-xl-0 small">
-											<ul>
-												<li>
-											occurrenceID: <a class="h5 mb-1" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
-											<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
-												</li>
-											<cfif mixedCollection.recordcount GT 0> 
-												<cfquery name="getOccurrences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-													SELECT 
-														guid_our_thing.assembled_resolvable, guid_our_thing.assembled_identifier
-													FROM 
-														specimen_part
-														join guid_our_thing on specimen_part.collection_object_id = guid_our_thing.co_collection_object_id
-													WHERE 
-														specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#summary.collection_object_id#">
-														AND guid_our_thing.assembled_resolvable IS NOT NULL
-														AND upper(guid_our_thing.target_table) = 'COLL_OBJECT'
-												</cfquery>
-												<cfloop query="getOccurrences">
+											<cfif isMixed> 
+												<ul>
 													<li>
-														occurrenceID: <a class="h5 mb-1" href="#getOccurrences.assembled_resolvable#">#getOccurrences.assembled_identifier#</a>
+											</cfif>
+											occurrenceID: <a class="h5 mb-1" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
+											<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a> 
+											<cfif isMixed>
+													#summary.sci_name#
+												</li>
+											</cfif>
+											<cfif isMixed>
+												<cfloop query="mixedCollection">
+													<li>
+														occurrenceID: <a class="h5 mb-1" href="#mixedCollection.assembled_resolvable#">#mixedCollection.assembled_identifier#</a>
 														<!--- TODO: Implement JSON-LD for occurrences by uuid --->
 														<a href="/uuid/#assembled_identifier#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+														#mixedCollection.scientific_name#
 													</li>
 												</cfloop>
 											</cfif>
