@@ -3496,8 +3496,8 @@ Target JSON:
 					}); 
 				</cfif>
 				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
-					
-					var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
+					var grid = $('##fixedsearchResultsGrid');
+					var selectionMode = grid.jqxGrid('selectionmode');
 					if (
 						selectionMode !== 'singlecell' &&
 						selectionMode !== 'multiplecellsextended' &&
@@ -3508,46 +3508,18 @@ Target JSON:
 
 					var args = event.args;
 					if (args.datafield === null) {
-						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+						var columns = grid.jqxGrid('columns').records;
 						for (var i = 0; i < columns.length; i++) {
 							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-								$('##fixedsearchResultsGrid').jqxGrid('selectcell', args.rowindex, columns[i].datafield);
+								grid.jqxGrid('selectcell', args.rowindex, columns[i].datafield);
 								break;
 							}
 						}
 					}
 				});
-				
-		
-				
-				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-					$("##fixedsearchResultsGrid").attr('tabindex', 0);
-					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-					if (columns && columns.length > 0) {
-						$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
-					}
-					$("##fixedsearchResultsGrid").focus();
-
-					// Only the grid is tabbable — not the cell links/buttons!
-					$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
-
-					// Escape key, fix:
-					$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
-					
-						if (event.key === "Escape") {
-							$("##fixedselectMode").focus();
-							$('##fixedsearchResultsGrid').jqxGrid('clearselection');
-							event.preventDefault();
-							return false;
-						}
-					});
-				});
-			
 				$('##fixedsearchResultsGrid').on('focusin', function(event) {
 					var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
-					if (selectionMode === 'singlecell' ||
-						selectionMode === 'multiplecellsextended' ||
-						selectionMode === 'multiplecellsadvanced') {
+					if (selectionMode === 'singlecell' || selectionMode === 'multiplecellsextended' || selectionMode === 'multiplecellsadvanced') {
 						var selection = $('##fixedsearchResultsGrid').jqxGrid('getselectedcell');
 						if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
 							var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
@@ -3560,11 +3532,7 @@ Target JSON:
 								}
 							}
 						}
-					} else if (
-						selectionMode === 'singlerow' ||
-						selectionMode === 'multiplerowsextended' ||
-						selectionMode === 'multiplerowsadvanced'
-					) {
+					} else if (selectionMode === 'singlerow' || selectionMode === 'multiplerowsextended' || selectionMode === 'multiplerowsadvanced') {
 						var selectedRows = $('##fixedsearchResultsGrid').jqxGrid('getselectedrowindexes');
 						if (!selectedRows || selectedRows.length === 0) {
 							$('##fixedsearchResultsGrid').jqxGrid('clearselection');
@@ -3572,20 +3540,25 @@ Target JSON:
 						}
 					}
 				});
+			
+
 				$("##fixedsearchResultsGrid").on('pagechanged', function(event) {
+					// Wait a bit to ensure page is rendered (sometimes necessary)
 					setTimeout(function() {
-					
-						var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
-						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+						var grid = $("##fixedsearchResultsGrid");
+						var selectionMode = grid.jqxGrid('selectionmode');
+						var columns = grid.jqxGrid('columns').records;
 
 						if (
 							selectionMode === 'singlecell' ||
 							selectionMode === 'multiplecellsadvanced' ||
 							selectionMode === 'multiplecellsextended'
 						) {
+							// Select the first visible cell
 							for (var i = 0; i < columns.length; i++) {
 								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-									$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[i].datafield);
+									grid.jqxGrid('selectcell', 0, columns[i].datafield);
+									grid.focus();
 									break;
 								}
 							}
@@ -3594,15 +3567,17 @@ Target JSON:
 							selectionMode === 'multiplerowsextended' ||
 							selectionMode === 'multiplerowsadvanced'
 						) {
-							$('##fixedsearchResultsGrid').jqxGrid('selectrow', 0);
+							grid.jqxGrid('selectrow', 0);
+							$grid.focus();
 						}
-					}, 50);
+					}, 50); // Delay may be unnecessary, but helps in virtualmode
 				});
+		
 				$("##fixedsearchResultsGrid").off('pagesizechanged.a11y').on('pagesizechanged.a11y', function(event) {
 					setTimeout(function() {
-						
-						var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
-						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+						var $grid = $("##fixedsearchResultsGrid");
+						var selectionMode = $grid.jqxGrid('selectionmode');
+						var columns = $grid.jqxGrid('columns').records;
 						if (
 							selectionMode === 'singlecell' ||
 							selectionMode === 'multiplecellsadvanced' ||
@@ -3610,8 +3585,9 @@ Target JSON:
 						) {
 							for (var i = 0; i < columns.length; i++) {
 								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-									$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[i].datafield);
-									break; // Removed $grid.focus() here!
+									$grid.jqxGrid('selectcell', 0, columns[i].datafield);
+									$grid.focus();
+									break;
 								}
 							}
 						} else if (
@@ -3619,77 +3595,23 @@ Target JSON:
 							selectionMode === 'multiplerowsextended' ||
 							selectionMode === 'multiplerowsadvanced'
 						) {
-							$('##fixedsearchResultsGrid').jqxGrid('selectrow', 0);
+							$grid.jqxGrid('selectrow', 0);
+							$grid.focus();
 						}
 					}, 50);
 				});
-					
-					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
-						if (document <= 900){
-							$(document).scrollTop(200);
-						} else {
-							$(document).scrollTop(480);
-						}
-					</cfif>
-			
-					// add a link out to this search, serializing the form as http get parameters
-					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
-					$('##fixedshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'fixed\'); "><i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
-					if (fixedSearchLoaded==0) { 
-						try { 
-							gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
-						} catch (e) { 
-							console.log(e);
-							messageDialog("Error in gridLoaded handler:" + e.message,"Error in gridLoaded");
-						}
-						fixedSearchLoaded = 1;
-						loadColumnOrder('fixedsearchResultsGrid');
+				// Remove any previous handler, then add Escape key handler
+				$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
+					var grid = $('##fixedsearchResultsGrid');
+					if (event.key === "Escape") {
+						$("##fixedselectMode").focus();
+						$grid.jqxGrid('clearselection');
+						event.preventDefault(); // prevent grid's own Escape behavior if any
+						return false;
 					}
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
-					<cfelse>
-						$('##fixedmanageButton').html('');
-					</cfif>
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						<cfif isdefined("session.killRow") AND session.killRow EQ 2>
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-								$('##fixedremoveButtonDiv').html('<button id="fixedremoveButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" disabled onclick="removeFixedSelectedRows(); " >Remove Checked</a>');
-							<cfelse>
-								$('##fixedremoveButtonDiv').html('');
-							</cfif>
-						</cfif>
-					</cfif>
-					pageLoaded('fixedsearchResultsGrid','occurrence record','fixed');
-					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
-						console.log(#session.specimens_pin_guid#);
-						setPinColumnState('fixedsearchResultsGrid','GUID',true);
-					</cfif>
 				});
-				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
-					//  Create a content div, add it to the detail row, and make it into a dialog.
-					var args = event.args;
-					var rowIndex = args.rowindex;
-					var datarecord = args.owner.source.records[rowIndex];
-					console.log(rowIndex);
-					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
-				});
-				$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
-					// remove the dialog holding the row details
-					var args = event.args;
-					var rowIndex = args.rowindex;
-					$("##fixedsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
-				});
-				// display selected row index.
-				$("##fixedsearchResultsGrid").on('rowselect', function (event) {
-					$("##fixedselectrowindex").text(event.args.rowindex);
-				});
-				// display unselected row index.
-				$("##fixedsearchResultsGrid").on('rowunselect', function (event) {
-					$("##fixedunselectrowindex").text(event.args.rowindex);
-				});
-			});
 		
-////***
+//***
 
 			
 			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
