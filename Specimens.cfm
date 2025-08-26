@@ -3623,13 +3623,13 @@ Target JSON:
 				// Set correct tabindex only in bindingcomplete, never on links/buttons in cells!
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					
-					$("#fixedsearchResultsGrid")
+					$("##fixedsearchResultsGrid")
 						.attr("role", "grid")
 						.attr("aria-label", "Specimen Search Results")
 						.attr("tabindex", 0)
 						.focus();
 					// Set all inner a, button, input NOT TABBABLE
-					$("#fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
+					$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
 					$("##fixedsearchResultsGrid").attr('tabindex', 0);
 
 
