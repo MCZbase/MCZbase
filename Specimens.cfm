@@ -3491,11 +3491,7 @@ Target JSON:
 		
 				//start of handlers
 		
-				<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					$("##fixedsearchResultsGrid").jqxGrid().on("columnreordered", function (event) { 
-						columnOrderChanged('fixedsearchResultsGrid'); 
-					}); 
-				</cfif>
+		
 
 				// Cell select (skip arrow cell for keyboard)
 				$("##fixedsearchResultsGrid").on('cellselect', function(event) {
@@ -3630,7 +3626,11 @@ Target JSON:
 					// Focus only on initial load
 					$("##fixedsearchResultsGrid").focus();
 				});
-		
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					$("##fixedsearchResultsGrid").jqxGrid().on("columnreordered", function (event) { 
+						columnOrderChanged('fixedsearchResultsGrid'); 
+					}); 
+				</cfif>
 		
 		
 		
