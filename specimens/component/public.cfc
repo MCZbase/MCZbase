@@ -1446,7 +1446,8 @@ limitations under the License.
 								</cfquery>
 								<tr class="">
 									<td colspan="5">
-										This Part is a separate Occurence (different organism), <span class="small">occurrenceID: #getOccurrenceID.assembled_identifier#</span>.
+										<span class="font-weight-lessbold">This Part is a separate Occurence</span>
+										<span class="small">occurrenceID: #getOccurrenceID.assembled_identifier#</span>
 									</td>
 								</tr>
 								<tr class="small">
