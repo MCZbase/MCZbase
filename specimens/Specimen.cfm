@@ -246,7 +246,7 @@ limitations under the License.
    <cfif isdefined("session.username") AND len(session.username) gt 0>
 		<script>
 			function reloadAnnotations() { 
-				loadAnnotations(#collection_object_id#,'annotationsCardBody');
+				loadAnnotations(#getCatalogedItem.collection_object_id#,'annotationsCardBody');
 			}
 
 		</script>
@@ -262,7 +262,7 @@ limitations under the License.
 			function reloadHeadingBar() { 
 				// invoke specimen/component/public function to reload summary header section.
 				// called from several other sections where data shown in summary may be changed.
-				loadSummaryHeaderHTML(#collection_object_id#,"specimenSummaryHeaderDiv");
+				loadSummaryHeaderHTML(#getCatalogedItem.collection_object_id#,"specimenSummaryHeaderDiv");
 			} 
 			function reloadCatalog() { 
 				reloadHeadingBar();
@@ -272,9 +272,9 @@ limitations under the License.
 				// if accordionMedia exists, reload its content, if it does not, reload the page.
 				if ($("##accordionMedia").length) {
 					// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type shows  and repopulate the specimen media block.
-					loadMedia(#collection_object_id#,'specimenMediaCardBody');
+					loadMedia(#getCatalogedItem.collection_object_id#,'specimenMediaCardBody');
 					// Update media count
-					updateMediaCounts(#collection_object_id#,'specimenMediaCount');
+					updateMediaCounts(#getCatalogedItem.collection_object_id#,'specimenMediaCount');
 				} else {
 					$("##editControlsBlock").html("<h2 class=h3>Reloading page...</h2>");
 					reloadPage();
@@ -282,63 +282,63 @@ limitations under the License.
 			}
 			function reloadIdentifiers() { 
 				// invoke specimen/component/public.cfc function getIdentifiersHTML via ajax and repopulate the identifiers block.
-				loadIdentifiers(#collection_object_id#,'identifiersCardBody');
+				loadIdentifiers(#getCatalogedItem.collection_object_id#,'identifiersCardBody');
 			}
 			function reloadIdentifications() { 
 				// invoke specimen/component/public.cfc function getIdentificationsHTML via ajax and repopulate the identification block.
-				loadIdentifications(#collection_object_id#,'identificationsCardBody');
+				loadIdentifications(#getCatalogedItem.collection_object_id#,'identificationsCardBody');
 				reloadHeadingBar();
 			}
 			function reloadCitations() { 
 				// replace the citations block via ajax.
-				loadCitations(#collection_object_id#,'citationsCardBody');
+				loadCitations(#getCatalogedItem.collection_object_id#,'citationsCardBody');
 				// replace the citation media block via ajax.
-				loadCitationMedia(#collection_object_id#,'citationMediaBlock');
+				loadCitationMedia(#getCatalogedItem.collection_object_id#,'citationMediaBlock');
 				reloadHeadingBar();
 			}
 			function reloadOtherIDs() { 
 				// invoke specimen/component/public.cfc function getOtherIDsHTML via ajax and repopulate the Other Identifiers block.
-				loadOtherIDs(#collection_object_id#,'otherIDsCardBody');
+				loadOtherIDs(#getCatalogedItem.collection_object_id#,'otherIDsCardBody');
 			}
 			function reloadParts() { 
 				// reload the parts html block
-				loadParts(#collection_object_id#,'partsCardBody');
+				loadParts(#getCatalogedItem.collection_object_id#,'partsCardBody');
 				// Update part count
-				loadPartCount(#collection_object_id#,'partCountSpan');
+				loadPartCount(#getCatalogedItem.collection_object_id#,'partCountSpan');
 			}
 			function reloadAttributes() { 
 				// invoke specimen/component/public.cfc function getAttributesHTML via ajax and repopulate the attributes block.
-				loadAttributes(#collection_object_id#,'attributesCardBody');
+				loadAttributes(#getCatalogedItem.collection_object_id#,'attributesCardBody');
 			}
 			function reloadRelations() { 
-				loadRelations(#collection_object_id#,'relationsCardBody');
+				loadRelations(#getCatalogedItem.collection_object_id#,'relationsCardBody');
 			}
 			function reloadRemarks() { 
-				loadRemarks(#collection_object_id#,'remarksCardBody');
+				loadRemarks(#getCatalogedItem.collection_object_id#,'remarksCardBody');
 				// also reload microhabitat 
-				loadLocality(#collection_object_id#,'localityCardBody');
+				loadLocality(#getCatalogedItem.collection_object_id#,'localityCardBody');
 			}
 			function reloadMeta() { 
-				loadMeta(#collection_object_id#,'metaCardBody');
+				loadMeta(#getCatalogedItem.collection_object_id#,'metaCardBody');
 			}
 
 			function reloadLocality() { 
-				loadLocality(#collection_object_id#,'localityCardBody');
+				loadLocality(#getCatalogedItem.collection_object_id#,'localityCardBody');
 				reloadHeadingBar();
 			}
 			function reloadPreparators() { 
-				loadPreparators(#collection_object_id#,'collectorsCardBody');
+				loadPreparators(#getCatalogedItem.collection_object_id#,'collectorsCardBody');
 			}
 			function reloadLedger() { 
 				// replace the ledger/field notes block via ajax.
 				// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type documents.
-				loadLedger(#collection_object_id#,'ledgerCardBody');
+				loadLedger(#getCatalogedItem.collection_object_id#,'ledgerCardBody');
 			}
 			function reloadTransactions() { 
-				loadTransactions(#collection_object_id#,'transactionsCardBody');
+				loadTransactions(#getCatalogedItem.collection_object_id#,'transactionsCardBody');
 			}
 			function reloadNamedGroups() { 
-				loadNamedGroups(#collection_object_id#,'namedGroupsCardBody');
+				loadNamedGroups(#getCatalogedItem.collection_object_id#,'namedGroupsCardBody');
 			}
 		</script>
 		<!--- setup for navigation between specimen records within a result set. --->
@@ -352,7 +352,7 @@ limitations under the License.
 			<cfquery name="positionInResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT pagesort  
 				FROM user_search_table
-				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatalogedItem.collection_object_id#">
 					AND result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
 			<cfif positionInResult.recordcount GT 0>
