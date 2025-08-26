@@ -3494,8 +3494,8 @@ Target JSON:
 					}); 
 				</cfif>
 				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
-					
-					var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
+					var grid = $('##fixedsearchResultsGrid');
+					var selectionMode = grid.jqxGrid('selectionmode');
 					if (
 						selectionMode !== 'singlecell' &&
 						selectionMode !== 'multiplecellsextended' &&
@@ -3506,54 +3506,32 @@ Target JSON:
 
 					var args = event.args;
 					if (args.datafield === null) {
-						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+						var columns = grid.jqxGrid('columns').records;
 						for (var i = 0; i < columns.length; i++) {
 							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-								$('##fixedsearchResultsGrid').jqxGrid('selectcell', args.rowindex, columns[i].datafield);
+								grid.jqxGrid('selectcell', args.rowindex, columns[i].datafield);
 								break;
 							}
 						}
 					}
 				});
-				
-		
-				
-				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-					$("##fixedsearchResultsGrid").attr('tabindex', 0);
-					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-					if (columns && columns.length > 0) {
-						$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
-					}
-					$("##fixedsearchResultsGrid").focus();
-
-					// Only the grid is tabbable — not the cell links/buttons!
-					$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
-
-					// Escape key, fix:
-					$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
-					
-						if (event.key === "Escape") {
-							$("##fixedselectMode").focus();
-							$('##fixedsearchResultsGrid').jqxGrid('clearselection');
-							event.preventDefault();
-							return false;
-						}
-					});
-				});
 				$("##fixedsearchResultsGrid").on('pagechanged', function(event) {
+					// Wait a bit to ensure page is rendered (sometimes necessary)
 					setTimeout(function() {
-					
-						var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
-						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+						var grid = $("##fixedsearchResultsGrid");
+						var selectionMode = grid.jqxGrid('selectionmode');
+						var columns = grid.jqxGrid('columns').records;
 
 						if (
 							selectionMode === 'singlecell' ||
 							selectionMode === 'multiplecellsadvanced' ||
 							selectionMode === 'multiplecellsextended'
 						) {
+							// Select the first visible cell
 							for (var i = 0; i < columns.length; i++) {
 								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-									$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[i].datafield);
+									grid.jqxGrid('selectcell', 0, columns[i].datafield);
+									grid.focus();
 									break;
 								}
 							}
@@ -3562,15 +3540,17 @@ Target JSON:
 							selectionMode === 'multiplerowsextended' ||
 							selectionMode === 'multiplerowsadvanced'
 						) {
-							$('##fixedsearchResultsGrid').jqxGrid('selectrow', 0);
+							grid.jqxGrid('selectrow', 0);
+							$grid.focus();
 						}
-					}, 50);
+					}, 50); // Delay may be unnecessary, but helps in virtualmode
 				});
+		
 				$("##fixedsearchResultsGrid").off('pagesizechanged.a11y').on('pagesizechanged.a11y', function(event) {
 					setTimeout(function() {
-						
-						var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
-						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+						var $grid = $("##fixedsearchResultsGrid");
+						var selectionMode = $grid.jqxGrid('selectionmode');
+						var columns = $grid.jqxGrid('columns').records;
 						if (
 							selectionMode === 'singlecell' ||
 							selectionMode === 'multiplecellsadvanced' ||
@@ -3578,8 +3558,9 @@ Target JSON:
 						) {
 							for (var i = 0; i < columns.length; i++) {
 								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-									$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[i].datafield);
-									break; // Removed $grid.focus() here!
+									$grid.jqxGrid('selectcell', 0, columns[i].datafield);
+									$grid.focus();
+									break;
 								}
 							}
 						} else if (
@@ -3587,39 +3568,63 @@ Target JSON:
 							selectionMode === 'multiplerowsextended' ||
 							selectionMode === 'multiplerowsadvanced'
 						) {
-							$('##fixedsearchResultsGrid').jqxGrid('selectrow', 0);
+							$grid.jqxGrid('selectrow', 0);
+							$grid.focus();
 						}
 					}, 50);
 				});
-				$('##fixedsearchResultsGrid').on('focusin', function(event) {
-					var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
-					if (selectionMode === 'singlecell' ||
-						selectionMode === 'multiplecellsextended' ||
-						selectionMode === 'multiplecellsadvanced') {
-						var selection = $('##fixedsearchResultsGrid').jqxGrid('getselectedcell');
-						if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
-							var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
-							if (columns && columns.length > 0) {
-								for (var i = 0; i < columns.length; i++) {
-									if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-										$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[i].datafield);
-										break;
+				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
+					
+						$("##fixedsearchResultsGrid").attr('tabindex', 0);
+
+						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+						if (columns && columns.length > 0) {
+							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+						}
+						$("##fixedsearchResultsGrid").focus();
+						// Set all interactive descendants to non-tabbable
+						$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', 0);
+
+						// Remove any previous handler, then add Escape key handler
+						$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
+							var grid = $('##fixedsearchResultsGrid');
+							if (event.key === "Escape") {
+								$("##fixedselectMode").focus();
+								$grid.jqxGrid('clearselection');
+								event.preventDefault(); // prevent grid's own Escape behavior if any
+								return false;
+							}
+						});
+						$('##fixedsearchResultsGrid').on('focusin', function(event) {
+							var grid = $('##fixedsearchResultsGrid');
+							var selectionMode = grid.jqxGrid('selectionmode');
+							if (selectionMode === 'singlecell' ||
+								selectionMode === 'multiplecellsextended' ||
+								selectionMode === 'multiplecellsadvanced') {
+								var selection = grid.jqxGrid('getselectedcell');
+								if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
+									var columns = grid.jqxGrid('columns').records;
+									if (columns && columns.length > 0) {
+										for (var i = 0; i < columns.length; i++) {
+											if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+												grid.jqxGrid('selectcell', 0, columns[i].datafield);
+												break;
+											}
+										}
 									}
 								}
+							} else if (
+								selectionMode === 'singlerow' ||
+								selectionMode === 'multiplerowsextended' ||
+								selectionMode === 'multiplerowsadvanced'
+							) {
+								var selectedRows = grid.jqxGrid('getselectedrowindexes');
+								if (!selectedRows || selectedRows.length === 0) {
+									grid.jqxGrid('clearselection');
+									grid.jqxGrid('selectrow', 0);
+								}
 							}
-						}
-					} else if (
-						selectionMode === 'singlerow' ||
-						selectionMode === 'multiplerowsextended' ||
-						selectionMode === 'multiplerowsadvanced'
-					) {
-						var selectedRows = $('##fixedsearchResultsGrid').jqxGrid('getselectedrowindexes');
-						if (!selectedRows || selectedRows.length === 0) {
-							$('##fixedsearchResultsGrid').jqxGrid('clearselection');
-							$('##fixedsearchResultsGrid').jqxGrid('selectrow', 0);
-						}
-					}
-				});
+						});
 					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
