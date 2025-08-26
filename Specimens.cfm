@@ -3574,7 +3574,7 @@ Target JSON:
 					}, 50);
 				});
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-					
+					console.log("bindingcomplete!")
 						$("##fixedsearchResultsGrid").attr('tabindex', 0);
 
 						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
