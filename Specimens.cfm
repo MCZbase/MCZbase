@@ -3531,6 +3531,7 @@ Target JSON:
 							for (var i = 0; i < columns.length; i++) {
 								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
 									grid.jqxGrid('selectcell', 0, columns[i].datafield);
+									grid.focus();
 									break;
 								}
 							}
@@ -3542,21 +3543,49 @@ Target JSON:
 							grid.jqxGrid('selectrow', 0);
 							$grid.focus();
 						}
-					}, 10); // Delay may be unnecessary, but helps in virtualmode
+					}, 50); // Delay may be unnecessary, but helps in virtualmode
+				});
+		
+				$("##fixedsearchResultsGrid").off('pagesizechanged.a11y').on('pagesizechanged.a11y', function(event) {
+					setTimeout(function() {
+						var $grid = $("##fixedsearchResultsGrid");
+						var selectionMode = $grid.jqxGrid('selectionmode');
+						var columns = $grid.jqxGrid('columns').records;
+						if (
+							selectionMode === 'singlecell' ||
+							selectionMode === 'multiplecellsadvanced' ||
+							selectionMode === 'multiplecellsextended'
+						) {
+							for (var i = 0; i < columns.length; i++) {
+								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+									$grid.jqxGrid('selectcell', 0, columns[i].datafield);
+									$grid.focus();
+									break;
+								}
+							}
+						} else if (
+							selectionMode === 'singlerow' ||
+							selectionMode === 'multiplerowsextended' ||
+							selectionMode === 'multiplerowsadvanced'
+						) {
+							$grid.jqxGrid('selectrow', 0);
+							$grid.focus();
+						}
+					}, 50);
 				});
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					
 						$("##fixedsearchResultsGrid").attr('tabindex', 0);
-
-						// Set all interactive descendants to non-tabbable
-						$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', 0);
 
 						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
 						if (columns && columns.length > 0) {
 							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
 						}
 						$("##fixedsearchResultsGrid").focus();
-					
+						// Set all interactive descendants to non-tabbable
+						$("##fixedsearchResultsGrid").attr('tabindex', 0);
+						$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
+
 						// Remove any previous handler, then add Escape key handler
 						$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
 							var grid = $('##fixedsearchResultsGrid');
