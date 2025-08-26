@@ -3596,7 +3596,7 @@ Target JSON:
 					if (selectionMode === 'singlecell' ||
 						selectionMode === 'multiplecellsextended' ||
 						selectionMode === 'multiplecellsadvanced') {
-						var selection = grid.jqxGrid('getselectedcell');
+						var selection = $('##fixedsearchResultsGrid').jqxGrid('getselectedcell');
 						if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
 							var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
 							if (columns && columns.length > 0) {
