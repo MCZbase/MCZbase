@@ -1444,9 +1444,9 @@ limitations under the License.
 									WHERE
 										co_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
 								</cfquery>
-								<tr class="small">
+								<tr class="">
 									<td colspan="5">
-										Occurrence: #getOccurrenceID.assembled_identifier#
+										This Part is a separate Occurence (different organism), <span class="small">occurrenceID: #getOccurrenceID.assembled_identifier#</span>.
 									</td>
 								</tr>
 								<tr class="small">
