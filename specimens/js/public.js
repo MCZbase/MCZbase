@@ -120,22 +120,6 @@ function loadLedger(collection_object_id,targetDivId) {
 	});
 };
 
-function loadSummaryHeader(collection_object_id,targetDivId) { 
-	jQuery.ajax({
-		url: "/specimens/component/public.cfc",
-		data : {
-			method : "getSummaryHeaderHTML",
-			collection_object_id: collection_object_id,
-		},
-		success: function (result) {
-			$("#" + targetDivId ).html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"loading specimen summary header");
-		},
-		dataType: "html"
-	});
-};
 function loadIdentifiers(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
