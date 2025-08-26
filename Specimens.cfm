@@ -3575,46 +3575,46 @@ Target JSON:
 				});
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					
-						$("##fixedsearchResultsGrid").attr('tabindex', 0);
+					$("##fixedsearchResultsGrid").attr('tabindex', 0);
 
-						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-						if (columns && columns.length > 0) {
-							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+					if (columns && columns.length > 0) {
+						$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+					}
+					$("##fixedsearchResultsGrid").focus();
+					// Set all interactive descendants to non-tabbable
+					$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', 0);
+
+					// Remove any previous handler, then add Escape key handler
+					$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
+						var grid = $('##fixedsearchResultsGrid');
+						if (event.key === "Escape") {
+							$("##fixedselectMode").focus();
+							$grid.jqxGrid('clearselection');
+							event.preventDefault(); // prevent grid's own Escape behavior if any
+							return false;
 						}
-						$("##fixedsearchResultsGrid").focus();
-						// Set all interactive descendants to non-tabbable
-						$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', 0);
-
-						// Remove any previous handler, then add Escape key handler
-						$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
-							var grid = $('##fixedsearchResultsGrid');
-							if (event.key === "Escape") {
-								$("##fixedselectMode").focus();
-								$grid.jqxGrid('clearselection');
-								event.preventDefault(); // prevent grid's own Escape behavior if any
-								return false;
-							}
-						});
-					$('#fixedsearchResultsGrid').on('focusin', function(event) {
-						var selectionMode = $('#fixedsearchResultsGrid').jqxGrid('selectionmode');
+					});
+					$('##fixedsearchResultsGrid').on('focusin', function(event) {
+						var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
 						if (selectionMode === 'singlecell' || selectionMode === 'multiplecellsextended' || selectionMode === 'multiplecellsadvanced') {
-							var selection = $('#fixedsearchResultsGrid').jqxGrid('getselectedcell');
+							var selection = $('##fixedsearchResultsGrid').jqxGrid('getselectedcell');
 							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
-								var columns = $('#fixedsearchResultsGrid').jqxGrid('columns').records;
+								var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
 								if (columns && columns.length > 0) {
 									for (var i = 0; i < columns.length; i++) {
 										if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-											$('#fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[i].datafield);
+											$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[i].datafield);
 											break;
 										}
 									}
 								}
 							}
 						} else if (selectionMode === 'singlerow' || selectionMode === 'multiplerowsextended' || selectionMode === 'multiplerowsadvanced') {
-							var selectedRows = $('#fixedsearchResultsGrid').jqxGrid('getselectedrowindexes');
+							var selectedRows = $('##fixedsearchResultsGrid').jqxGrid('getselectedrowindexes');
 							if (!selectedRows || selectedRows.length === 0) {
-								$('#fixedsearchResultsGrid').jqxGrid('clearselection');
-								$('#fixedsearchResultsGrid').jqxGrid('selectrow', 0);
+								$('##fixedsearchResultsGrid').jqxGrid('clearselection');
+								$('##fixedsearchResultsGrid').jqxGrid('selectrow', 0);
 							}
 						}
 					});
