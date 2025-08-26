@@ -3495,6 +3495,12 @@ Target JSON:
 
 				// Cell select (skip arrow cell for keyboard)
 				$("##fixedsearchResultsGrid").on('cellselect', function(event) {
+					// Remove aria-selected from all grid cells
+					$("##fixedsearchResultsGrid").find('.jqx-grid-cell').attr("aria-selected", "false");
+					// Add aria-selected to the currently selected cell
+					var selectedCell = $("##fixedsearchResultsGrid").find('.jqx-grid-cell-selected');
+					selectedCell.attr("aria-selected", "true");
+
 					var grid = $("##fixedsearchResultsGrid");
 					var selectionMode = grid.jqxGrid('selectionmode');
 					if (
@@ -3515,34 +3521,49 @@ Target JSON:
 						}
 					}
 				});
+				$("##fixedsearchResultsGrid").on('rowselect', function(event) {
+					$("##fixedsearchResultsGrid").find('.jqx-grid-row').attr("aria-selected", "false");
+					var selectedRow = $("##fixedsearchResultsGrid").find('.jqx-grid-row-selected');
+					selectedRow.attr("aria-selected", "true");
+				});
 
 				// Focusin handler (auto select if none selected)
 				$("##fixedsearchResultsGrid").on('focusin', function(event) {
-					var grid = $("##fixedsearchResultsGrid");
-					var selectionMode = grid.jqxGrid('selectionmode');
+					var fixedgrid = $("##fixedsearchResultsGrid");
+					var selectionMode = fixedgrid.jqxGrid('selectionmode');
 					if (selectionMode === 'singlecell' ||
 						selectionMode === 'multiplecellsextended' ||
 						selectionMode === 'multiplecellsadvanced') {
-						var selection = grid.jqxGrid('getselectedcell');
+						var selection = fixedgrid.jqxGrid('getselectedcell');
 						if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
-							var columns = grid.jqxGrid('columns').records;
+							var columns = fixedgrid.jqxGrid('columns').records;
 							if (columns && columns.length > 0) {
 								for (var i = 0; i < columns.length; i++) {
 									if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-										grid.jqxGrid('selectcell', 0, columns[i].datafield);
+										fixedgridgrid.jqxGrid('selectcell', 0, columns[i].datafield);
 										break;
 									}
 								}
 							}
 						}
 					} else if (selectionMode === 'singlerow' ||
-							   selectionMode === 'multiplerowsextended' ||
-							   selectionMode === 'multiplerowsadvanced') {
-						var selectedRows = grid.jqxGrid('getselectedrowindexes');
+							selectionMode === 'multiplerowsextended' ||
+							selectionMode === 'multiplerowsadvanced') {
+						var selectedRows = fixedgridgrid.jqxGrid('getselectedrowindexes');
 						if (!selectedRows || selectedRows.length === 0) {
-							grid.jqxGrid('clearselection');
-							grid.jqxGrid('selectrow', 0);
+							fixedgridgrid.jqxGrid('clearselection');
+							fixedgridgrid.jqxGrid('selectrow', 0);
 						}
+					}
+				});
+				// Escape key handler
+				$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
+					var grid = $("##fixedsearchResultsGrid");
+					if (event.key === "Escape") {
+						$("##fixedselectMode").focus();
+						grid.jqxGrid('clearselection');
+						event.preventDefault();
+						return false;
 					}
 				});
 
@@ -3600,23 +3621,19 @@ Target JSON:
 					}, 50);
 				});
 
-				// Escape key handler
-				$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
-					var grid = $("##fixedsearchResultsGrid");
-					if (event.key === "Escape") {
-						$("##fixedselectMode").focus();
-						grid.jqxGrid('clearselection');
-						event.preventDefault();
-						return false;
-					}
-				});
-
+				
 				// Set correct tabindex only in bindingcomplete, never on links/buttons in cells!
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
+					
+					$("#fixedsearchResultsGrid")
+						.attr("role", "grid")
+						.attr("aria-label", "Specimen Search Results")
+						.attr("tabindex", 0)
+						.focus();
+					// Set all inner a, button, input NOT TABBABLE
+					$("#fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
 					$("##fixedsearchResultsGrid").attr('tabindex', 0);
 
-					// Set all inner a, button, input NOT TABBABLE
-					$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
 
 					// Select the first cell for keyboard nav
 					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
