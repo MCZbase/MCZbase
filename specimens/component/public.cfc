@@ -1435,6 +1435,20 @@ limitations under the License.
 									collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
 							</cfquery>
 							<cfif getIdentifications.recordcount GT 0>
+								<!--- This is a separate occurrence  look up the occurrenceID --->
+								<cfquery name="getOccurrenceID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT
+										guid_our_thing.assembled_resolvable, guid_our_thing.assembled_identifier
+									FROM
+										guid_our_thing
+									WHERE
+										co_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+								</cfquery>
+								<tr class="small">
+									<td colspan="5">
+										Occurrence: #getOccurrenceID.assembled_identifier#
+									</td>
+								</tr>
 								<tr class="small">
 									<td colspan="5">
 										<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=part_id)>
