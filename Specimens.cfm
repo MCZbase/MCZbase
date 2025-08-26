@@ -3494,8 +3494,8 @@ Target JSON:
 					}); 
 				</cfif>
 				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
-					var grid = $('##fixedsearchResultsGrid');
-					var selectionMode = grid.jqxGrid('selectionmode');
+					
+					var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
 					if (
 						selectionMode !== 'singlecell' &&
 						selectionMode !== 'multiplecellsextended' &&
@@ -3506,10 +3506,10 @@ Target JSON:
 
 					var args = event.args;
 					if (args.datafield === null) {
-						var columns = grid.jqxGrid('columns').records;
+						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
 						for (var i = 0; i < columns.length; i++) {
 							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-								grid.jqxGrid('selectcell', args.rowindex, columns[i].datafield);
+								$('##fixedsearchResultsGrid').jqxGrid('selectcell', args.rowindex, columns[i].datafield);
 								break;
 							}
 						}
