@@ -3490,7 +3490,98 @@ Target JSON:
 				//end of fixed grid creation
 		
 				//start of handlers
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+						columnOrderChanged('fixedsearchResultsGrid'); 
+					}); 
+				</cfif>
 
+				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
+
+					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
+						if (document <= 900){
+							$(document).scrollTop(200);
+						} else {
+							$(document).scrollTop(480);
+						}
+					</cfif>
+			
+					// add a link out to this search, serializing the form as http get parameters
+					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
+					$('##fixedshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'fixed\'); "><i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
+					if (fixedSearchLoaded==0) { 
+						try { 
+							gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+						} catch (e) { 
+							console.log(e);
+							messageDialog("Error in gridLoaded handler:" + e.message,"Error in gridLoaded");
+						}
+						fixedSearchLoaded = 1;
+						loadColumnOrder('fixedsearchResultsGrid');
+					}
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
+					<cfelse>
+						$('##fixedmanageButton').html('');
+					</cfif>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+						<cfif isdefined("session.killRow") AND session.killRow EQ 2>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+								$('##fixedremoveButtonDiv').html('<button id="fixedremoveButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" disabled onclick="removeFixedSelectedRows(); " >Remove Checked</a>');
+							<cfelse>
+								$('##fixedremoveButtonDiv').html('');
+							</cfif>
+						</cfif>
+					</cfif>
+					pageLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
+						console.log(#session.specimens_pin_guid#);
+						setPinColumnState('fixedsearchResultsGrid','GUID',true);
+					</cfif>
+					// Set correct tabindex only in bindingcomplete, never on links/buttons in cells!					
+					$("##fixedsearchResultsGrid")
+						.attr("role", "grid")
+						.attr("aria-label", "Specimen Search Results")
+						.attr("tabindex", 0)
+						.focus();
+					// Set all inner a, button, input NOT TABBABLE
+					$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
+
+
+					// Select the first cell for keyboard nav
+					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+					if (columns && columns.length > 0) {
+						$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+					}
+					
+				});
+				// Focus only on initial load
+				$("##fixedsearchResultsGrid").focus();
+		
+		//end binding complete
+				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
+					//  Create a content div, add it to the detail row, and make it into a dialog.
+					var args = event.args;
+					var rowIndex = args.rowindex;
+					var datarecord = args.owner.source.records[rowIndex];
+					console.log(rowIndex);
+					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
+				});
+				$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
+					// remove the dialog holding the row details
+					var args = event.args;
+					var rowIndex = args.rowindex;
+					$("##fixedsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+				});
+				// display selected row index.
+				$("##fixedsearchResultsGrid").on('rowselect', function (event) {
+					$("##fixedselectrowindex").text(event.args.rowindex);
+				});
+				// display unselected row index.
+				$("##fixedsearchResultsGrid").on('rowunselect', function (event) {
+					$("##fixedunselectrowindex").text(event.args.rowindex);
+				});
+			});
 				// Cell select (skip arrow cell for keyboard)
 				$("##fixedsearchResultsGrid").on('cellselect', function(event) {
 					// Remove aria-selected from all grid cells
@@ -3619,117 +3710,9 @@ Target JSON:
 					}, 50);
 				});
 
-				
-				// Set correct tabindex only in bindingcomplete, never on links/buttons in cells!
-				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-					
-					$("##fixedsearchResultsGrid")
-						.attr("role", "grid")
-						.attr("aria-label", "Specimen Search Results")
-						.attr("tabindex", 0)
-						.focus();
-					// Set all inner a, button, input NOT TABBABLE
-					$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
-					$("##fixedsearchResultsGrid").attr('tabindex', 0);
-
-
-					// Select the first cell for keyboard nav
-					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-					if (columns && columns.length > 0) {
-						$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
-					}
-					// Focus only on initial load
-					$("##fixedsearchResultsGrid").focus();
-				});
-				<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					$("##fixedsearchResultsGrid").jqxGrid().on("columnreordered", function (event) { 
-						columnOrderChanged('fixedsearchResultsGrid'); 
-					}); 
-				</cfif>
-		
 		
 ////***
-		
 
-
-				
-					
-				<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
-					if (document <= 900){
-						$(document).scrollTop(200);
-					} else {
-						$(document).scrollTop(480);
-					}
-				</cfif>
-
-				// add a link out to this search, serializing the form as http get parameters
-				$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
-				$('##fixedshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'fixed\'); "><i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
-				if (fixedSearchLoaded==0) { 
-					try { 
-						gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
-					} catch (e) { 
-						console.log(e);
-						messageDialog("Error in gridLoaded handler:" + e.message,"Error in gridLoaded");
-					}
-					fixedSearchLoaded = 1;
-					loadColumnOrder('fixedsearchResultsGrid');
-				}
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-					$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
-				<cfelse>
-					$('##fixedmanageButton').html('');
-				</cfif>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-					<cfif isdefined("session.killRow") AND session.killRow EQ 2>
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							$('##fixedremoveButtonDiv').html('<button id="fixedremoveButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" disabled onclick="removeFixedSelectedRows(); " >Remove Checked</a>');
-						<cfelse>
-							$('##fixedremoveButtonDiv').html('');
-						</cfif>
-					</cfif>
-				</cfif>
-				pageLoaded('fixedsearchResultsGrid','occurrence record','fixed');
-				<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
-					console.log(#session.specimens_pin_guid#);
-					setPinColumnState('fixedsearchResultsGrid','GUID',true);
-				</cfif>
-			});
-			$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
-				//  Create a content div, add it to the detail row, and make it into a dialog.
-				var args = event.args;
-				var rowIndex = args.rowindex;
-				var datarecord = args.owner.source.records[rowIndex];
-				console.log(rowIndex);
-				createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
-			});
-			$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
-				// remove the dialog holding the row details
-				var args = event.args;
-				var rowIndex = args.rowindex;
-				$("##fixedsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
-			});
-			// display selected row index.
-			$("##fixedsearchResultsGrid").on('rowselect', function (event) {
-				$("##fixedselectrowindex").text(event.args.rowindex);
-			});
-			// display unselected row index.
-			$("##fixedsearchResultsGrid").on('rowunselect', function (event) {
-				$("##fixedunselectrowindex").text(event.args.rowindex);
-			});
-		
-			$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-					
-				$("##fixedsearchResultsGrid").attr('tabindex', 0);
-
-				var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-				if (columns && columns.length > 0) {
-					$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
-				}
-				$("##fixedsearchResultsGrid").focus();
-				// Set all interactive descendants to non-tabbable
-				$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', 0);
-				
 			
 			});
 			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
