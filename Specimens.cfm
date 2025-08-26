@@ -3595,37 +3595,29 @@ Target JSON:
 								return false;
 							}
 						});
-						$('##fixedsearchResultsGrid').on('focusin', function(event) {
-							var grid = $('##fixedsearchResultsGrid');
-							var selectionMode = grid.jqxGrid('selectionmode');
-							if (selectionMode === 'singlecell' ||
-								selectionMode === 'multiplecellsextended' ||
-								selectionMode === 'multiplecellsadvanced') {
-								var selection = grid.jqxGrid('getselectedcell');
-								if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
-									var columns = grid.jqxGrid('columns').records;
-									if (columns && columns.length > 0) {
-										for (var i = 0; i < columns.length; i++) {
-											if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-												grid.jqxGrid('selectcell', 0, columns[i].datafield);
-												break;
-											}
+					$('#fixedsearchResultsGrid').on('focusin', function(event) {
+						var selectionMode = $('#fixedsearchResultsGrid').jqxGrid('selectionmode');
+						if (selectionMode === 'singlecell' || selectionMode === 'multiplecellsextended' || selectionMode === 'multiplecellsadvanced') {
+							var selection = $('#fixedsearchResultsGrid').jqxGrid('getselectedcell');
+							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
+								var columns = $('#fixedsearchResultsGrid').jqxGrid('columns').records;
+								if (columns && columns.length > 0) {
+									for (var i = 0; i < columns.length; i++) {
+										if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+											$('#fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[i].datafield);
+											break;
 										}
 									}
 								}
-							} else if (
-								selectionMode === 'singlerow' ||
-								selectionMode === 'multiplerowsextended' ||
-								selectionMode === 'multiplerowsadvanced'
-							) {
-								var selectedRows = grid.jqxGrid('getselectedrowindexes');
-								if (!selectedRows || selectedRows.length === 0) {
-									grid.jqxGrid('clearselection');
-									grid.jqxGrid('selectrow', 0);
-								}
 							}
-						});
-					
+						} else if (selectionMode === 'singlerow' || selectionMode === 'multiplerowsextended' || selectionMode === 'multiplerowsadvanced') {
+							var selectedRows = $('#fixedsearchResultsGrid').jqxGrid('getselectedrowindexes');
+							if (!selectedRows || selectedRows.length === 0) {
+								$('#fixedsearchResultsGrid').jqxGrid('clearselection');
+								$('#fixedsearchResultsGrid').jqxGrid('selectrow', 0);
+							}
+						}
+					});
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
 							$(document).scrollTop(200);
