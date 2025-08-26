@@ -49,7 +49,7 @@
 				LEFT JOIN collection coll ON ci.collection_id = coll.collection_id
 				WHERE coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.co_collection_object_id#">
 			</cfquery>
-			<cfset guid = getCatItem.guid
+			<cfset guid = getCatItem.guid>
 		<cfelse>
 			<cfthrow message = "unsupported dispostion or other condition">
 		</cfif>
