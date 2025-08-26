@@ -3487,15 +3487,36 @@ Target JSON:
 					},
 					initrowdetails: initRowDetails
 				});
+				//end of fixed grid creation
 		
-		//end of fixed grid creation
-		
-		//start of handlers
+				//start of handlers
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
 						columnOrderChanged('fixedsearchResultsGrid'); 
 					}); 
 				</cfif>
+				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
+					var grid = $('##fixedsearchResultsGrid');
+					var selectionMode = grid.jqxGrid('selectionmode');
+					if (
+						selectionMode !== 'singlecell' &&
+						selectionMode !== 'multiplecellsextended' &&
+						selectionMode !== 'multiplecellsadvanced'
+					) {
+						return; // Only process in cell selection modes
+					}
+
+					var args = event.args;
+					if (args.datafield === null) {
+						var columns = grid.jqxGrid('columns').records;
+						for (var i = 0; i < columns.length; i++) {
+							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+								grid.jqxGrid('selectcell', args.rowindex, columns[i].datafield);
+								break;
+							}
+						}
+					}
+				});
 				$('##fixedsearchResultsGrid').on('focusin', function(event) {
 					var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
 					if (selectionMode === 'singlecell' || selectionMode === 'multiplecellsextended' || selectionMode === 'multiplecellsadvanced') {
@@ -3669,28 +3690,7 @@ Target JSON:
 				// Set all interactive descendants to non-tabbable
 				$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', 0);
 				
-				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
-					var grid = $('##fixedsearchResultsGrid');
-					var selectionMode = grid.jqxGrid('selectionmode');
-					if (
-						selectionMode !== 'singlecell' &&
-						selectionMode !== 'multiplecellsextended' &&
-						selectionMode !== 'multiplecellsadvanced'
-					) {
-						return; // Only process in cell selection modes
-					}
-
-					var args = event.args;
-					if (args.datafield === null) {
-						var columns = grid.jqxGrid('columns').records;
-						for (var i = 0; i < columns.length; i++) {
-							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-								grid.jqxGrid('selectcell', args.rowindex, columns[i].datafield);
-								break;
-							}
-						}
-					}
-				});
+			
 			});
 			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
 	 
