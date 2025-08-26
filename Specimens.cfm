@@ -3553,10 +3553,9 @@ Target JSON:
 					if (columns && columns.length > 0) {
 						$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
 					}
-					
-				});
+			});
 				// Focus only on initial load
-				$("##fixedsearchResultsGrid").focus();
+			$("##fixedsearchResultsGrid").focus();
 		
 		//end binding complete
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
@@ -3714,7 +3713,6 @@ Target JSON:
 ////***
 
 			
-			});
 			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
 	 
 		
