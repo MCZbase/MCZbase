@@ -3490,22 +3490,24 @@ Target JSON:
 				//end of fixed grid creation
 		
 				//start of handlers
+		
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+					$("##fixedsearchResultsGrid").jqxGrid().on("columnreordered", function (event) { 
 						columnOrderChanged('fixedsearchResultsGrid'); 
 					}); 
 				</cfif>
-				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
-					var grid = $('##fixedsearchResultsGrid');
+
+				// Cell select (skip arrow cell for keyboard)
+				$("##fixedsearchResultsGrid").on('cellselect', function(event) {
+					var grid = $("##fixedsearchResultsGrid");
 					var selectionMode = grid.jqxGrid('selectionmode');
 					if (
 						selectionMode !== 'singlecell' &&
 						selectionMode !== 'multiplecellsextended' &&
 						selectionMode !== 'multiplecellsadvanced'
 					) {
-						return; // Only process in cell selection modes
+						return;
 					}
-
 					var args = event.args;
 					if (args.datafield === null) {
 						var columns = grid.jqxGrid('columns').records;
@@ -3517,48 +3519,51 @@ Target JSON:
 						}
 					}
 				});
-				$('##fixedsearchResultsGrid').on('focusin', function(event) {
-					var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
-					if (selectionMode === 'singlecell' || selectionMode === 'multiplecellsextended' || selectionMode === 'multiplecellsadvanced') {
-						var selection = $('##fixedsearchResultsGrid').jqxGrid('getselectedcell');
+
+				// Focusin handler (auto select if none selected)
+				$("##fixedsearchResultsGrid").on('focusin', function(event) {
+					var grid = $("##fixedsearchResultsGrid");
+					var selectionMode = grid.jqxGrid('selectionmode');
+					if (selectionMode === 'singlecell' ||
+						selectionMode === 'multiplecellsextended' ||
+						selectionMode === 'multiplecellsadvanced') {
+						var selection = grid.jqxGrid('getselectedcell');
 						if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
-							var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+							var columns = grid.jqxGrid('columns').records;
 							if (columns && columns.length > 0) {
 								for (var i = 0; i < columns.length; i++) {
 									if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-										$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[i].datafield);
+										grid.jqxGrid('selectcell', 0, columns[i].datafield);
 										break;
 									}
 								}
 							}
 						}
-					} else if (selectionMode === 'singlerow' || selectionMode === 'multiplerowsextended' || selectionMode === 'multiplerowsadvanced') {
-						var selectedRows = $('##fixedsearchResultsGrid').jqxGrid('getselectedrowindexes');
+					} else if (selectionMode === 'singlerow' ||
+							   selectionMode === 'multiplerowsextended' ||
+							   selectionMode === 'multiplerowsadvanced') {
+						var selectedRows = grid.jqxGrid('getselectedrowindexes');
 						if (!selectedRows || selectedRows.length === 0) {
-							$('##fixedsearchResultsGrid').jqxGrid('clearselection');
-							$('##fixedsearchResultsGrid').jqxGrid('selectrow', 0);
+							grid.jqxGrid('clearselection');
+							grid.jqxGrid('selectrow', 0);
 						}
 					}
 				});
-			
 
+				// Paging handler: always select first cell/row but do NOT focus
 				$("##fixedsearchResultsGrid").on('pagechanged', function(event) {
-					// Wait a bit to ensure page is rendered (sometimes necessary)
 					setTimeout(function() {
 						var grid = $("##fixedsearchResultsGrid");
 						var selectionMode = grid.jqxGrid('selectionmode');
 						var columns = grid.jqxGrid('columns').records;
-
 						if (
 							selectionMode === 'singlecell' ||
 							selectionMode === 'multiplecellsadvanced' ||
 							selectionMode === 'multiplecellsextended'
 						) {
-							// Select the first visible cell
 							for (var i = 0; i < columns.length; i++) {
 								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
 									grid.jqxGrid('selectcell', 0, columns[i].datafield);
-									grid.focus();
 									break;
 								}
 							}
@@ -3568,16 +3573,16 @@ Target JSON:
 							selectionMode === 'multiplerowsadvanced'
 						) {
 							grid.jqxGrid('selectrow', 0);
-							$grid.focus();
 						}
-					}, 50); // Delay may be unnecessary, but helps in virtualmode
+					}, 50);
 				});
-		
+
+				// Page size changed handler (same pattern, no .focus())
 				$("##fixedsearchResultsGrid").off('pagesizechanged.a11y').on('pagesizechanged.a11y', function(event) {
 					setTimeout(function() {
-						var $grid = $("##fixedsearchResultsGrid");
-						var selectionMode = $grid.jqxGrid('selectionmode');
-						var columns = $grid.jqxGrid('columns').records;
+						var grid = $("##fixedsearchResultsGrid");
+						var selectionMode = grid.jqxGrid('selectionmode');
+						var columns = grid.jqxGrid('columns').records;
 						if (
 							selectionMode === 'singlecell' ||
 							selectionMode === 'multiplecellsadvanced' ||
@@ -3585,8 +3590,7 @@ Target JSON:
 						) {
 							for (var i = 0; i < columns.length; i++) {
 								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-									$grid.jqxGrid('selectcell', 0, columns[i].datafield);
-									$grid.focus();
+									grid.jqxGrid('selectcell', 0, columns[i].datafield);
 									break;
 								}
 							}
@@ -3595,22 +3599,165 @@ Target JSON:
 							selectionMode === 'multiplerowsextended' ||
 							selectionMode === 'multiplerowsadvanced'
 						) {
-							$grid.jqxGrid('selectrow', 0);
-							$grid.focus();
+							grid.jqxGrid('selectrow', 0);
 						}
 					}, 50);
 				});
-				// Remove any previous handler, then add Escape key handler
+
+				// Escape key handler
 				$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
-					var grid = $('##fixedsearchResultsGrid');
+					var grid = $("##fixedsearchResultsGrid");
 					if (event.key === "Escape") {
 						$("##fixedselectMode").focus();
-						$grid.jqxGrid('clearselection');
-						event.preventDefault(); // prevent grid's own Escape behavior if any
+						grid.jqxGrid('clearselection');
+						event.preventDefault();
 						return false;
 					}
 				});
-				
+
+				// Set correct tabindex only in bindingcomplete, never on links/buttons in cells!
+				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
+					$("##fixedsearchResultsGrid").attr('tabindex', 0);
+
+					// Set all inner a, button, input NOT TABBABLE
+					$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
+
+					// Select the first cell for keyboard nav
+					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+					if (columns && columns.length > 0) {
+						$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+					}
+					// Focus only on initial load
+					$("##fixedsearchResultsGrid").focus();
+				});
+		
+		
+		
+		
+		
+		
+		///////old below
+			//	<cfif isdefined("session.username") and len(#session.username#) gt 0>
+//					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+//						columnOrderChanged('fixedsearchResultsGrid'); 
+//					}); 
+//				</cfif>
+//				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
+//					var grid = $('##fixedsearchResultsGrid');
+//					var selectionMode = grid.jqxGrid('selectionmode');
+//					if (
+//						selectionMode !== 'singlecell' &&
+//						selectionMode !== 'multiplecellsextended' &&
+//						selectionMode !== 'multiplecellsadvanced'
+//					) {
+//						return; // Only process in cell selection modes
+//					}
+//
+//					var args = event.args;
+//					if (args.datafield === null) {
+//						var columns = grid.jqxGrid('columns').records;
+//						for (var i = 0; i < columns.length; i++) {
+//							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+//								grid.jqxGrid('selectcell', args.rowindex, columns[i].datafield);
+//								break;
+//							}
+//						}
+//					}
+//				});
+//				$('##fixedsearchResultsGrid').on('focusin', function(event) {
+//					var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
+//					if (selectionMode === 'singlecell' || selectionMode === 'multiplecellsextended' || selectionMode === 'multiplecellsadvanced') {
+//						var selection = $('##fixedsearchResultsGrid').jqxGrid('getselectedcell');
+//						if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
+//							var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+//							if (columns && columns.length > 0) {
+//								for (var i = 0; i < columns.length; i++) {
+//									if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+//										$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[i].datafield);
+//										break;
+//									}
+//								}
+//							}
+//						}
+//					} else if (selectionMode === 'singlerow' || selectionMode === 'multiplerowsextended' || selectionMode === 'multiplerowsadvanced') {
+//						var selectedRows = $('##fixedsearchResultsGrid').jqxGrid('getselectedrowindexes');
+//						if (!selectedRows || selectedRows.length === 0) {
+//							$('##fixedsearchResultsGrid').jqxGrid('clearselection');
+//							$('##fixedsearchResultsGrid').jqxGrid('selectrow', 0);
+//						}
+//					}
+//				});
+//			
+//
+//				$("##fixedsearchResultsGrid").on('pagechanged', function(event) {
+//					// Wait a bit to ensure page is rendered (sometimes necessary)
+//					setTimeout(function() {
+//						var grid = $("##fixedsearchResultsGrid");
+//						var selectionMode = grid.jqxGrid('selectionmode');
+//						var columns = grid.jqxGrid('columns').records;
+//
+//						if (
+//							selectionMode === 'singlecell' ||
+//							selectionMode === 'multiplecellsadvanced' ||
+//							selectionMode === 'multiplecellsextended'
+//						) {
+//							// Select the first visible cell
+//							for (var i = 0; i < columns.length; i++) {
+//								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+//									grid.jqxGrid('selectcell', 0, columns[i].datafield);
+//									grid.focus();
+//									break;
+//								}
+//							}
+//						} else if (
+//							selectionMode === 'singlerow' ||
+//							selectionMode === 'multiplerowsextended' ||
+//							selectionMode === 'multiplerowsadvanced'
+//						) {
+//							grid.jqxGrid('selectrow', 0);
+//							$grid.focus();
+//						}
+//					}, 50); // Delay may be unnecessary, but helps in virtualmode
+//				});
+//		
+//				$("##fixedsearchResultsGrid").off('pagesizechanged.a11y').on('pagesizechanged.a11y', function(event) {
+//					setTimeout(function() {
+//						var $grid = $("##fixedsearchResultsGrid");
+//						var selectionMode = $grid.jqxGrid('selectionmode');
+//						var columns = $grid.jqxGrid('columns').records;
+//						if (
+//							selectionMode === 'singlecell' ||
+//							selectionMode === 'multiplecellsadvanced' ||
+//							selectionMode === 'multiplecellsextended'
+//						) {
+//							for (var i = 0; i < columns.length; i++) {
+//								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+//									$grid.jqxGrid('selectcell', 0, columns[i].datafield);
+//									$grid.focus();
+//									break;
+//								}
+//							}
+//						} else if (
+//							selectionMode === 'singlerow' ||
+//							selectionMode === 'multiplerowsextended' ||
+//							selectionMode === 'multiplerowsadvanced'
+//						) {
+//							$grid.jqxGrid('selectrow', 0);
+//							$grid.focus();
+//						}
+//					}, 50);
+//				});
+//				// Remove any previous handler, then add Escape key handler
+//				$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
+//					var grid = $('##fixedsearchResultsGrid');
+//					if (event.key === "Escape") {
+//						$("##fixedselectMode").focus();
+//						$grid.jqxGrid('clearselection');
+//						event.preventDefault(); // prevent grid's own Escape behavior if any
+//						return false;
+//					}
+//				});
+//				
 
 				
 					
