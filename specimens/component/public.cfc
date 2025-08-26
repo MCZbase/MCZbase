@@ -3289,6 +3289,12 @@ limitations under the License.
 								<li class="list-group-item col-7 col-xl-8 px-0 font-weight-lessbold">#collectors#</li>
 							</cfif>
 						</cfif>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"data_entry")>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">[Internal] locality_id: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.locality_id#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">[Internal] collecting_event_id: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.collecting_event_id#</li>
+						</cfif>
 						</ul>
 				</div>
 				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
