@@ -3538,7 +3538,7 @@ Target JSON:
 							if (columns && columns.length > 0) {
 								for (var i = 0; i < columns.length; i++) {
 									if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-										fixedgridgrid.jqxGrid('selectcell', 0, columns[i].datafield);
+										fixedgrid.jqxGrid('selectcell', 0, columns[i].datafield);
 										break;
 									}
 								}
@@ -3547,10 +3547,10 @@ Target JSON:
 					} else if (selectionMode === 'singlerow' ||
 							selectionMode === 'multiplerowsextended' ||
 							selectionMode === 'multiplerowsadvanced') {
-						var selectedRows = fixedgridgrid.jqxGrid('getselectedrowindexes');
+						var selectedRows = fixedgrid.jqxGrid('getselectedrowindexes');
 						if (!selectedRows || selectedRows.length === 0) {
-							fixedgridgrid.jqxGrid('clearselection');
-							fixedgridgrid.jqxGrid('selectrow', 0);
+							fixedgrid.jqxGrid('clearselection');
+							fixedgrid.jqxGrid('selectrow', 0);
 						}
 					}
 				});
