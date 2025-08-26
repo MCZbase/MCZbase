@@ -24,7 +24,8 @@ limitations under the License.
 
 <cffunction name="getSummaryHeaderHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getSummaryHeaderThread">
+	
+	<cfthread name="getSummaryHeaderThread" collection_object_id = "#arguments.collection_object_id#">
 		<cfoutput>
 			<cftry>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
