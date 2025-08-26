@@ -3490,7 +3490,7 @@ Target JSON:
 				//end of fixed grid creation
 		
 				//start of handlers
-				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
 						columnOrderChanged('fixedsearchResultsGrid'); 
 					}); 
@@ -3518,9 +3518,111 @@ Target JSON:
 					}
 				});
 				
-
+		
+				
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
+					$("##fixedsearchResultsGrid").attr('tabindex', 0);
+					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+					if (columns && columns.length > 0) {
+						$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+					}
+					$("##fixedsearchResultsGrid").focus();
 
+					// Only the grid is tabbable — not the cell links/buttons!
+					$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
+
+					// Escape key, fix:
+					$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
+					
+						if (event.key === "Escape") {
+							$("##fixedselectMode").focus();
+							$('##fixedsearchResultsGrid').jqxGrid('clearselection');
+							event.preventDefault();
+							return false;
+						}
+					});
+				});
+				$("##fixedsearchResultsGrid").on('pagechanged', function(event) {
+					setTimeout(function() {
+					
+						var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
+						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+
+						if (
+							selectionMode === 'singlecell' ||
+							selectionMode === 'multiplecellsadvanced' ||
+							selectionMode === 'multiplecellsextended'
+						) {
+							for (var i = 0; i < columns.length; i++) {
+								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+									$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[i].datafield);
+									break;
+								}
+							}
+						} else if (
+							selectionMode === 'singlerow' ||
+							selectionMode === 'multiplerowsextended' ||
+							selectionMode === 'multiplerowsadvanced'
+						) {
+							$('##fixedsearchResultsGrid').jqxGrid('selectrow', 0);
+						}
+					}, 50);
+				});
+				$("##fixedsearchResultsGrid").off('pagesizechanged.a11y').on('pagesizechanged.a11y', function(event) {
+					setTimeout(function() {
+						
+						var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
+						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+						if (
+							selectionMode === 'singlecell' ||
+							selectionMode === 'multiplecellsadvanced' ||
+							selectionMode === 'multiplecellsextended'
+						) {
+							for (var i = 0; i < columns.length; i++) {
+								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+									$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[i].datafield);
+									break; // Removed $grid.focus() here!
+								}
+							}
+						} else if (
+							selectionMode === 'singlerow' ||
+							selectionMode === 'multiplerowsextended' ||
+							selectionMode === 'multiplerowsadvanced'
+						) {
+							$('##fixedsearchResultsGrid').jqxGrid('selectrow', 0);
+						}
+					}, 50);
+				});
+				$('##fixedsearchResultsGrid').on('focusin', function(event) {
+					var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
+					if (selectionMode === 'singlecell' ||
+						selectionMode === 'multiplecellsextended' ||
+						selectionMode === 'multiplecellsadvanced') {
+						var selection = $('##fixedsearchResultsGrid').jqxGrid('getselectedcell');
+						if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
+							var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+							if (columns && columns.length > 0) {
+								for (var i = 0; i < columns.length; i++) {
+									if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+										$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[i].datafield);
+										break;
+									}
+								}
+							}
+						}
+					} else if (
+						selectionMode === 'singlerow' ||
+						selectionMode === 'multiplerowsextended' ||
+						selectionMode === 'multiplerowsadvanced'
+					) {
+						var selectedRows = $('##fixedsearchResultsGrid').jqxGrid('getselectedrowindexes');
+						if (!selectedRows || selectedRows.length === 0) {
+							$('##fixedsearchResultsGrid').jqxGrid('clearselection');
+							$('##fixedsearchResultsGrid').jqxGrid('selectrow', 0);
+						}
+					}
+				});
+					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
 							$(document).scrollTop(200);
@@ -3561,26 +3663,7 @@ Target JSON:
 						console.log(#session.specimens_pin_guid#);
 						setPinColumnState('fixedsearchResultsGrid','GUID',true);
 					</cfif>
-					// Set correct tabindex only in bindingcomplete, never on links/buttons in cells!					
-					$("##fixedsearchResultsGrid")
-						.attr("role", "grid")
-						.attr("aria-label", "Specimen Search Results")
-						.attr("tabindex", 0)
-						.focus();
-					// Set all inner a, button, input NOT TABBABLE
-					$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
-
-
-					// Select the first cell for keyboard nav
-					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-					if (columns && columns.length > 0) {
-						$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
-					}
-			});
-				// Focus only on initial load
-			$("##fixedsearchResultsGrid").focus();
-		
-		//end binding complete
+				});
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
 					var args = event.args;
@@ -3604,134 +3687,6 @@ Target JSON:
 					$("##fixedunselectrowindex").text(event.args.rowindex);
 				});
 			});
-				// Cell select (skip arrow cell for keyboard)
-				$("##fixedsearchResultsGrid").on('cellselect', function(event) {
-					// Remove aria-selected from all grid cells
-					$("##fixedsearchResultsGrid").find('.jqx-grid-cell').attr("aria-selected", "false");
-					// Add aria-selected to the currently selected cell
-					var selectedCell = $("##fixedsearchResultsGrid").find('.jqx-grid-cell-selected');
-					selectedCell.attr("aria-selected", "true");
-
-					var grid = $("##fixedsearchResultsGrid");
-					var selectionMode = grid.jqxGrid('selectionmode');
-					if (
-						selectionMode !== 'singlecell' &&
-						selectionMode !== 'multiplecellsextended' &&
-						selectionMode !== 'multiplecellsadvanced'
-					) {
-						return;
-					}
-					var args = event.args;
-					if (args.datafield === null) {
-						var columns = grid.jqxGrid('columns').records;
-						for (var i = 0; i < columns.length; i++) {
-							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-								grid.jqxGrid('selectcell', args.rowindex, columns[i].datafield);
-								break;
-							}
-						}
-					}
-				});
-				$("##fixedsearchResultsGrid").on('rowselect', function(event) {
-					$("##fixedsearchResultsGrid").find('.jqx-grid-row').attr("aria-selected", "false");
-					var selectedRow = $("##fixedsearchResultsGrid").find('.jqx-grid-row-selected');
-					selectedRow.attr("aria-selected", "true");
-				});
-
-				// Focusin handler (auto select if none selected)
-				$("##fixedsearchResultsGrid").on('focusin', function(event) {
-					var fixedgrid = $("##fixedsearchResultsGrid");
-					var selectionMode = fixedgrid.jqxGrid('selectionmode');
-					if (selectionMode === 'singlecell' ||
-						selectionMode === 'multiplecellsextended' ||
-						selectionMode === 'multiplecellsadvanced') {
-						var selection = fixedgrid.jqxGrid('getselectedcell');
-						if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
-							var columns = fixedgrid.jqxGrid('columns').records;
-							if (columns && columns.length > 0) {
-								for (var i = 0; i < columns.length; i++) {
-									if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-										fixedgrid.jqxGrid('selectcell', 0, columns[i].datafield);
-										break;
-									}
-								}
-							}
-						}
-					} else if (selectionMode === 'singlerow' ||
-							selectionMode === 'multiplerowsextended' ||
-							selectionMode === 'multiplerowsadvanced') {
-						var selectedRows = fixedgrid.jqxGrid('getselectedrowindexes');
-						if (!selectedRows || selectedRows.length === 0) {
-							fixedgrid.jqxGrid('clearselection');
-							fixedgrid.jqxGrid('selectrow', 0);
-						}
-					}
-				});
-				// Escape key handler
-				$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
-					var grid = $("##fixedsearchResultsGrid");
-					if (event.key === "Escape") {
-						$("##fixedselectMode").focus();
-						grid.jqxGrid('clearselection');
-						event.preventDefault();
-						return false;
-					}
-				});
-
-				// Paging handler: always select first cell/row but do NOT focus
-				$("##fixedsearchResultsGrid").on('pagechanged', function(event) {
-					setTimeout(function() {
-						var grid = $("##fixedsearchResultsGrid");
-						var selectionMode = grid.jqxGrid('selectionmode');
-						var columns = grid.jqxGrid('columns').records;
-						if (
-							selectionMode === 'singlecell' ||
-							selectionMode === 'multiplecellsadvanced' ||
-							selectionMode === 'multiplecellsextended'
-						) {
-							for (var i = 0; i < columns.length; i++) {
-								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-									grid.jqxGrid('selectcell', 0, columns[i].datafield);
-									break;
-								}
-							}
-						} else if (
-							selectionMode === 'singlerow' ||
-							selectionMode === 'multiplerowsextended' ||
-							selectionMode === 'multiplerowsadvanced'
-						) {
-							grid.jqxGrid('selectrow', 0);
-						}
-					}, 50);
-				});
-
-				// Page size changed handler (same pattern, no .focus())
-				$("##fixedsearchResultsGrid").off('pagesizechanged.a11y').on('pagesizechanged.a11y', function(event) {
-					setTimeout(function() {
-						var grid = $("##fixedsearchResultsGrid");
-						var selectionMode = grid.jqxGrid('selectionmode');
-						var columns = grid.jqxGrid('columns').records;
-						if (
-							selectionMode === 'singlecell' ||
-							selectionMode === 'multiplecellsadvanced' ||
-							selectionMode === 'multiplecellsextended'
-						) {
-							for (var i = 0; i < columns.length; i++) {
-								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-									grid.jqxGrid('selectcell', 0, columns[i].datafield);
-									break;
-								}
-							}
-						} else if (
-							selectionMode === 'singlerow' ||
-							selectionMode === 'multiplerowsextended' ||
-							selectionMode === 'multiplerowsadvanced'
-						) {
-							grid.jqxGrid('selectrow', 0);
-						}
-					}, 50);
-				});
-
 		
 ////***
 
