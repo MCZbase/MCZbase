@@ -3905,31 +3905,6 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>			
 </cffunction>
 
-<!--- TODO: Incomplete add determiner function --->
-<cffunction name="getAgentIdentifiers" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collection_object_id" type="string" required="yes">
-
-	<cfset variables.collection_object_id = arguments.collection_object_id>
-
-	<cfthread name="getAgentIdentsThread">
-		<cfoutput>
-			<cftry>
-				<cfthrow message = "TODO: getAgentIdentifiers needs implementation">
-			<cfcatch>
-				<cftransaction action="rollback">
-				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-				<cfset function_called = "#GetFunctionCalledName()#">
-				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-				<cfabort>
-			</cfcatch>
-			</cftry>
-		</cfoutput> 
-	</cfthread>
-	<cfthread action="join" name="getAgentIdentsThread" />
-	<cfreturn getAgentIdentsThread.output>
-</cffunction>
-
-
 
 <!--- getEditPartsHTML returns the HTML for the edit parts dialog.
  @param collection_object_id the collection_object_id for the cataloged item to edit parts for.
