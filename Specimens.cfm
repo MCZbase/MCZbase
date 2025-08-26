@@ -3531,10 +3531,10 @@ Target JSON:
 
 					// Escape key, fix:
 					$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
-						var grid = $('##fixedsearchResultsGrid');
+					
 						if (event.key === "Escape") {
 							$("##fixedselectMode").focus();
-							grid.jqxGrid('clearselection');
+							$('##fixedsearchResultsGrid').jqxGrid('clearselection');
 							event.preventDefault();
 							return false;
 						}
@@ -3542,9 +3542,9 @@ Target JSON:
 				});
 				$("##fixedsearchResultsGrid").on('pagechanged', function(event) {
 					setTimeout(function() {
-						var grid = $("##fixedsearchResultsGrid");
-						var selectionMode = grid.jqxGrid('selectionmode');
-						var columns = grid.jqxGrid('columns').records;
+					
+						var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
+						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
 
 						if (
 							selectionMode === 'singlecell' ||
@@ -3553,7 +3553,7 @@ Target JSON:
 						) {
 							for (var i = 0; i < columns.length; i++) {
 								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-									grid.jqxGrid('selectcell', 0, columns[i].datafield);
+									$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[i].datafield);
 									break;
 								}
 							}
@@ -3562,15 +3562,15 @@ Target JSON:
 							selectionMode === 'multiplerowsextended' ||
 							selectionMode === 'multiplerowsadvanced'
 						) {
-							grid.jqxGrid('selectrow', 0);
+							$('##fixedsearchResultsGrid').jqxGrid('selectrow', 0);
 						}
 					}, 50);
 				});
 				$("##fixedsearchResultsGrid").off('pagesizechanged.a11y').on('pagesizechanged.a11y', function(event) {
 					setTimeout(function() {
-						var $grid = $("##fixedsearchResultsGrid");
-						var selectionMode = $grid.jqxGrid('selectionmode');
-						var columns = $grid.jqxGrid('columns').records;
+						
+						var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
+						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
 						if (
 							selectionMode === 'singlecell' ||
 							selectionMode === 'multiplecellsadvanced' ||
@@ -3578,7 +3578,7 @@ Target JSON:
 						) {
 							for (var i = 0; i < columns.length; i++) {
 								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-									$grid.jqxGrid('selectcell', 0, columns[i].datafield);
+									$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[i].datafield);
 									break; // Removed $grid.focus() here!
 								}
 							}
@@ -3587,8 +3587,7 @@ Target JSON:
 							selectionMode === 'multiplerowsextended' ||
 							selectionMode === 'multiplerowsadvanced'
 						) {
-							$grid.jqxGrid('selectrow', 0);
-							// Removed $grid.focus() here!
+							$('##fixedsearchResultsGrid').jqxGrid('selectrow', 0);
 						}
 					}, 50);
 				});
