@@ -3515,8 +3515,32 @@ Target JSON:
 						}
 					}
 				});
+				
+		
+				
+				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
+					$("##fixedsearchResultsGrid").attr('tabindex', 0);
+					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+					if (columns && columns.length > 0) {
+						$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+					}
+					$("##fixedsearchResultsGrid").focus();
+
+					// Only the grid is tabbable — not the cell links/buttons!
+					$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
+
+					// Escape key, fix:
+					$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
+						var grid = $('##fixedsearchResultsGrid');
+						if (event.key === "Escape") {
+							$("##fixedselectMode").focus();
+							grid.jqxGrid('clearselection');
+							event.preventDefault();
+							return false;
+						}
+					});
+				});
 				$("##fixedsearchResultsGrid").on('pagechanged', function(event) {
-					// Wait a bit to ensure page is rendered (sometimes necessary)
 					setTimeout(function() {
 						var grid = $("##fixedsearchResultsGrid");
 						var selectionMode = grid.jqxGrid('selectionmode');
@@ -3527,11 +3551,9 @@ Target JSON:
 							selectionMode === 'multiplecellsadvanced' ||
 							selectionMode === 'multiplecellsextended'
 						) {
-							// Select the first visible cell
 							for (var i = 0; i < columns.length; i++) {
 								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
 									grid.jqxGrid('selectcell', 0, columns[i].datafield);
-									grid.focus();
 									break;
 								}
 							}
@@ -3541,11 +3563,9 @@ Target JSON:
 							selectionMode === 'multiplerowsadvanced'
 						) {
 							grid.jqxGrid('selectrow', 0);
-							$grid.focus();
 						}
-					}, 50); // Delay may be unnecessary, but helps in virtualmode
+					}, 50);
 				});
-		
 				$("##fixedsearchResultsGrid").off('pagesizechanged.a11y').on('pagesizechanged.a11y', function(event) {
 					setTimeout(function() {
 						var $grid = $("##fixedsearchResultsGrid");
@@ -3559,8 +3579,7 @@ Target JSON:
 							for (var i = 0; i < columns.length; i++) {
 								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
 									$grid.jqxGrid('selectcell', 0, columns[i].datafield);
-									$grid.focus();
-									break;
+									break; // Removed $grid.focus() here!
 								}
 							}
 						} else if (
@@ -3569,63 +3588,39 @@ Target JSON:
 							selectionMode === 'multiplerowsadvanced'
 						) {
 							$grid.jqxGrid('selectrow', 0);
-							$grid.focus();
+							// Removed $grid.focus() here!
 						}
 					}, 50);
 				});
-				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-					console.log("bindingcomplete!")
-						$("##fixedsearchResultsGrid").attr('tabindex', 0);
-
-						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-						if (columns && columns.length > 0) {
-							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
-						}
-						$("##fixedsearchResultsGrid").focus();
-						// Set all interactive descendants to non-tabbable
-						$("##fixedsearchResultsGrid").attr('tabindex', 0);
-						$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
-
-						// Remove any previous handler, then add Escape key handler
-						$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
-							var grid = $('##fixedsearchResultsGrid');
-							if (event.key === "Escape") {
-								$("##fixedselectMode").focus();
-								$grid.jqxGrid('clearselection');
-								event.preventDefault(); // prevent grid's own Escape behavior if any
-								return false;
-							}
-						});
-						$('##fixedsearchResultsGrid').on('focusin', function(event) {
-							var grid = $('##fixedsearchResultsGrid');
-							var selectionMode = grid.jqxGrid('selectionmode');
-							if (selectionMode === 'singlecell' ||
-								selectionMode === 'multiplecellsextended' ||
-								selectionMode === 'multiplecellsadvanced') {
-								var selection = grid.jqxGrid('getselectedcell');
-								if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
-									var columns = grid.jqxGrid('columns').records;
-									if (columns && columns.length > 0) {
-										for (var i = 0; i < columns.length; i++) {
-											if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-												grid.jqxGrid('selectcell', 0, columns[i].datafield);
-												break;
-											}
-										}
+				$('##fixedsearchResultsGrid').on('focusin', function(event) {
+					var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
+					if (selectionMode === 'singlecell' ||
+						selectionMode === 'multiplecellsextended' ||
+						selectionMode === 'multiplecellsadvanced') {
+						var selection = grid.jqxGrid('getselectedcell');
+						if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
+							var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+							if (columns && columns.length > 0) {
+								for (var i = 0; i < columns.length; i++) {
+									if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+										$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[i].datafield);
+										break;
 									}
 								}
-							} else if (
-								selectionMode === 'singlerow' ||
-								selectionMode === 'multiplerowsextended' ||
-								selectionMode === 'multiplerowsadvanced'
-							) {
-								var selectedRows = grid.jqxGrid('getselectedrowindexes');
-								if (!selectedRows || selectedRows.length === 0) {
-									grid.jqxGrid('clearselection');
-									grid.jqxGrid('selectrow', 0);
-								}
 							}
-						});
+						}
+					} else if (
+						selectionMode === 'singlerow' ||
+						selectionMode === 'multiplerowsextended' ||
+						selectionMode === 'multiplerowsadvanced'
+					) {
+						var selectedRows = $('##fixedsearchResultsGrid').jqxGrid('getselectedrowindexes');
+						if (!selectedRows || selectedRows.length === 0) {
+							$('##fixedsearchResultsGrid').jqxGrid('clearselection');
+							$('##fixedsearchResultsGrid').jqxGrid('selectrow', 0);
+						}
+					}
+				});
 					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
