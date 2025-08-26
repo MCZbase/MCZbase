@@ -14,8 +14,48 @@
    	<cfset accept = "text/turtle">
 	</cfif>
 </cfif>
-<cfif NOT isdefined("guid")>
-   <cfset guid="MCZ:IP:100000">
+<!--- support direct request for page without paramters for testing, returns as if lookup=guid, guid=MCZ:IP:100000 --->
+<cfif NOT isDefined("lookup")>
+	<cfset lookup = "guid">
+</cfif>
+<cfif lookup EQ "guid">
+	<cfif NOT isdefined("guid")>
+   	<cfset guid="MCZ:IP:100000">
+	</cfif>
+<cfelseif lookup EQ "uuid">
+	<cfif NOT isDefined("uuid")>
+		<cfset uuid = "">
+	</cfif>
+	<cfquery name="lookupUUID" datasource="cf_dbuser" timeout="#Application.short_timeout#">
+		SELECT target_table, guid_our_thing_id, co_collection_object_id,  guid_is_a, disposition
+		FROM guid_our_thing
+		WHERE local_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#uuid#">
+			AND scheme = 'urn' 
+			AND type = 'uuid'
+	</cfquery>
+	<!--- if target table is coll_object and guid_is_a is occurrenceID then lookup institution code, collection code, cat num and redirect to /guid/ --->
+	<cfif lookupUUID.recordcount EQ 0>
+		<cfthrow message="UUID not found" detail="No record found in guid_our_thing table for UUID #uuid#">
+	<cfelseif lookupUUID.recordcount GT 0>
+		<cfif lookupUUID.disposition IS "exists" AND lookupUUID.target_table IS "coll_object" AND lookupUUID.guid_is_a IS "occurrenceID">
+			<!--- lookup the cataloged item for the occurrence and redirect to it with /guid/{institution_code}:{collection_code}:{catalog_number} --->
+			<!--- type of coll_object should be "SP", check this and lookup from parent cataloged item --->
+			<cfquery name="getCatItem" datasource="uam_god" timeout="#Application.short_timeout#" result="getCatItem.result">
+				SELECT coll_object.coll_object_type, 
+					coll.institution_acronym || ':' || coll.collection_cde || ':' || ci.cat_num guid
+				FROM coll_object 
+				left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id
+				left join cataloged_item ci on specimen_part.derived_from_cat_item = ci.collection_object_id
+				LEFT JOIN collection coll ON ci.collection_id = coll.collection_id
+				WHERE coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.co_collection_object_id#">
+			</cfquery>
+			<cfset guid = getCatItem.guid
+		<cfelse>
+			<cfthrow message = "unsupported dispostion or other condition">
+		</cfif>
+	</cfif>
+<cfelse>
+	<cfthrow message="Unknown Lookup Type"> 
 </cfif>
 <cfset done = false>
 <cfloop list='#accept#' delimiters=',' index='a'>
