@@ -3517,48 +3517,37 @@ Target JSON:
 				});
 		
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-					// Remove old handlers to avoid stacking
-					$("##fixedsearchResultsGrid").off('.keyboardNav customTabNav rowexpand rowcollapse rowselect rowunselect pagechanged');
+					// Remove all previous handlers to prevent stacking
+					//$("##fixedsearchResultsGrid").off('.keyboardNav customTabNav rowexpand rowcollapse rowselect rowunselect');
 
-					// Select and focus the first visible data cell after any grid load (initial or after page change)
-					function selectAndFocusFirstCell() {
-						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-						var firstDataField = null;
-						for (var i = 0; i < columns.length; i++) {
-							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-								firstDataField = columns[i].datafield;
-								break;
-							}
-						}
-						if (firstDataField) {
-							$("##fixedsearchResultsGrid").jqxGrid('clearselection');
-							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, firstDataField);
-							setTimeout(function() {
-								$("##fixedsearchResultsGrid .jqx-grid-cell-selected").attr("tabindex", 0).focus();
-							}, 20);
-						}
+					// Select first visible data cell on load (sets selection AND internal focus for jqxGrid)
+					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+					var firstDataField = null;
+					for (var i = 0; i < columns.length; i++) {
+					  if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+						firstDataField = columns[i].datafield;
+						break;
+					  }
 					}
-					// On grid load
-					selectAndFocusFirstCell();
-
-					// On page change: re-focus and select the first cell
-					$("##fixedsearchResultsGrid").on('pagechanged.keyboardNav', function(event) {
-						selectAndFocusFirstCell();
-					});
-
-					// Custom Tab/Shift+Tab from a cell: exits grid, but removes cell highlight since focus leaves grid
+					if (firstDataField) {
+					  $("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, firstDataField);
+					}
+					setTimeout(function() {
+        				$("##fixedsearchResultsGrid .jqx-grid-cell-selected").attr("tabindex", 0).focus();
+					}, 20);
+					
+					// Custom Tab/Shift+Tab: always jump out of grid
 					$("##fixedsearchResultsGrid").on('keydown.customTabNav', function(event) {
-						var $cell = $("##fixedsearchResultsGrid .jqx-grid-cell-selected");
-						if ($cell.is(":focus") && event.key === "Tab") {
+						// Only act within the grid when a cell is selected!
+						if (event.key === 'Tab') {
 							event.preventDefault();
-							$("##fixedsearchResultsGrid").jqxGrid('clearselection'); // Visually unselect cells
 							if (event.shiftKey) {
+								// Shift+Tab: focus selectmode dropdown
 								$('##fixedSelectMode').focus();
 							} else {
-								// Make sure pager buttons are tabbable
+								// Tab: focus the first pager button below grid
 								var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
 								var $pagerTargets = $pager.find('button, [tabindex]:not([tabindex="-1"])').filter(':visible');
-								$pagerTargets.attr('tabindex', 0);
 								if ($pagerTargets.length > 0) {
 									$pagerTargets.first().focus();
 								} else {
@@ -3566,12 +3555,10 @@ Target JSON:
 								}
 							}
 						}
+						// All other keys: fall through, let jqxGrid handle them (arrows, enter, etc)
 					});
 
-					// Ensure you can move among pager buttons with Tab naturally (this is usually default, but just in case)
-					// No need to trap Tab inside the pager—let browser handle this.
-
-					// Rest of your handlers (cellselect, showdetails, rowexpand, etc) as before
+					// Guard: If a non-data cell gets selected (such as details expander), move to first data cell in that row
 					$("##fixedsearchResultsGrid").on('cellselect.keyboardNav', function(event) {
 						var args = event.args;
 						if (args.datafield === null) {
@@ -3584,6 +3571,8 @@ Target JSON:
 							}
 						}
 					});
+
+					// Open row details on Enter/Spacebar for accessibility
 					$("##fixedsearchResultsGrid").on('keydown.keyboardNav', function(event){
 						var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
 						if(event.key === " " || event.key === "Enter") {
@@ -3602,9 +3591,13 @@ Target JSON:
 							}
 						}
 					});
+
+					// Show details on double-click row
 					$("##fixedsearchResultsGrid").on('rowdoubleclick.keyboardNav', function(event) {
 						$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', event.args.rowindex);
 					});
+
+					// Row expand/collapse and row select/unselect handlers (note: always re-attach INSIDE bindingcomplete)
 					$("##fixedsearchResultsGrid").on('rowexpand', function (event) {
 						var args = event.args;
 						var rowIndex = args.rowindex;
@@ -3622,11 +3615,10 @@ Target JSON:
 					$("##fixedsearchResultsGrid").on('rowunselect', function (event) {
 						$("##fixedunselectrowindex").text(event.args.rowindex);
 					});
-
+					
 					gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 					$('##overlay').hide();
 				});
-				
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
 							$(document).scrollTop(200);
