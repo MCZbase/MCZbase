@@ -3518,7 +3518,7 @@ Target JSON:
 		
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					// Remove all previous handlers to prevent stacking
-					$("##fixedsearchResultsGrid").off('.keyboardNav customTabNav rowexpand rowcollapse rowselect rowunselect');
+					//$("##fixedsearchResultsGrid").off('.keyboardNav customTabNav rowexpand rowcollapse rowselect rowunselect');
 
 					// Select first visible data cell on load (sets selection AND internal focus for jqxGrid)
 					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
@@ -3532,8 +3532,10 @@ Target JSON:
 					if (firstDataField) {
 					  $("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, firstDataField);
 					}
-					// Do NOT add .focus() on the grid container!
-
+					setTimeout(function() {
+        				$("##fixedsearchResultsGrid .jqx-grid-cell-selected").attr("tabindex", 0).focus();
+					}, 20);
+					
 					// Custom Tab/Shift+Tab: always jump out of grid
 					$("##fixedsearchResultsGrid").on('keydown.customTabNav', function(event) {
 						// Only act within the grid when a cell is selected!
