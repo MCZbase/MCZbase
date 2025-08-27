@@ -3840,46 +3840,46 @@ Target JSON:
 //					  }
 //					}
 //
-//					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
-//						if (document <= 900){
-//							$(document).scrollTop(200);
-//						} else {
-//							$(document).scrollTop(480);
-//						}
-//					</cfif>
+					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
+						if (document <= 900){
+							$(document).scrollTop(200);
+						} else {
+							$(document).scrollTop(480);
+						}
+					</cfif>
 //			
-//					// add a link out to this search, serializing the form as http get parameters
-//					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
-//					$('##fixedshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'fixed\'); "><i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
-//					if (fixedSearchLoaded==0) { 
-//						try { 
-//							gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
-//						} catch (e) { 
-//							console.log(e);
-//							messageDialog("Error in gridLoaded handler:" + e.message,"Error in gridLoaded");
-//						}
-//						fixedSearchLoaded = 1;
-//						loadColumnOrder('fixedsearchResultsGrid');
-//					}
-//					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-//						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
-//					<cfelse>
-//						$('##fixedmanageButton').html('');
-//					</cfif>
-//					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-//						<cfif isdefined("session.killRow") AND session.killRow EQ 2>
-//							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-//								$('##fixedremoveButtonDiv').html('<button id="fixedremoveButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" disabled onclick="removeFixedSelectedRows(); " >Remove Checked</a>');
-//							<cfelse>
-//								$('##fixedremoveButtonDiv').html('');
-//							</cfif>
-//						</cfif>
-//					</cfif>
-//					pageLoaded('fixedsearchResultsGrid','occurrence record','fixed');
-//					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
-//						console.log(#session.specimens_pin_guid#);
-//						setPinColumnState('fixedsearchResultsGrid','GUID',true);
-//					</cfif>
+					// add a link out to this search, serializing the form as http get parameters
+					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
+					$('##fixedshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'fixed\'); "><i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
+					if (fixedSearchLoaded==0) { 
+						try { 
+							gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+						} catch (e) { 
+							console.log(e);
+							messageDialog("Error in gridLoaded handler:" + e.message,"Error in gridLoaded");
+						}
+						fixedSearchLoaded = 1;
+						loadColumnOrder('fixedsearchResultsGrid');
+					}
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
+					<cfelse>
+						$('##fixedmanageButton').html('');
+					</cfif>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+						<cfif isdefined("session.killRow") AND session.killRow EQ 2>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+								$('##fixedremoveButtonDiv').html('<button id="fixedremoveButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" disabled onclick="removeFixedSelectedRows(); " >Remove Checked</a>');
+							<cfelse>
+								$('##fixedremoveButtonDiv').html('');
+							</cfif>
+						</cfif>
+					</cfif>
+					pageLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
+						console.log(#session.specimens_pin_guid#);
+						setPinColumnState('fixedsearchResultsGrid','GUID',true);
+					</cfif>
 //
 //
 //					$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
