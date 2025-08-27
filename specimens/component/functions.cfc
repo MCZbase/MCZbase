@@ -798,7 +798,7 @@ limitations under the License.
 									<div class="add-form float-left">
 										<div class="add-form-header pt-1 px-2 col-12 float-left">
 											<h2 class="h3 my-0 px-1 pb-1">Add Identification#target#</h2>
-											<cfif thread.in_page>
+											<cfif attributes.in_page>
 												<script>
 													function closeIdentificationInPage() { 
 														// Close the in-page modal editor, and invoke the reloadIdentifications function
@@ -1035,7 +1035,7 @@ limitations under the License.
 								<div id="identificationDialogList" class="col-12 float-left mt-4 mb-4 px-0">
 									<cfset idList = getIdentificationsUnthreadedHTML(collection_object_id = attributes.collection_object_id, editable=true)>
 								</div>
-								<cfif thread.in_page>
+								<cfif attributes.in_page>
 									<!--- if in_page, provide button to return to specimen details page --->
 									<div class="col-12 mt-3 float-right">
 										<button id="backToSpecimen2" class="btn btn-xs btn-secondary" onclick="closeIdentificationInPage();">Back to Specimen</button>
