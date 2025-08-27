@@ -120,22 +120,6 @@ function loadLedger(collection_object_id,targetDivId) {
 	});
 };
 
-function loadSummaryHeader(collection_object_id,targetDivId) { 
-	jQuery.ajax({
-		url: "/specimens/component/public.cfc",
-		data : {
-			method : "getSummaryHeaderHTML",
-			collection_object_id: collection_object_id,
-		},
-		success: function (result) {
-			$("#" + targetDivId ).html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"loading specimen summary header");
-		},
-		dataType: "html"
-	});
-};
 function loadIdentifiers(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
@@ -463,96 +447,34 @@ function loadRelations(collection_object_id,targetDivId) {
 }
 
 function showLLFormat(orig_units) {
-		//alert(orig_units);
-		var llMeta = document.getElementById('llMeta');
-		var decdeg = document.getElementById('decdeg');
-		var utm = document.getElementById('utm');
-		var ddm = document.getElementById('ddm');
-		var dms = document.getElementById('dms');
-		llMeta.style.display='none';
-		decdeg.style.display='none';
-		utm.style.display='none';
-		ddm.style.display='none';
-		dms.style.display='none';
-		//alert('everything off');
-		if (orig_units.length > 0) {
-			//alert('got soemthing');
-			llMeta.style.display='';
-			if (orig_units == 'decimal degrees') {
-				decdeg.style.display='';
-			}
-			else if (orig_units == 'UTM') {
-				//alert(utm.style.display);
-				utm.style.display='';
-				//alert(utm.style.display);
-			}
-			else if (orig_units == 'degrees dec. minutes') {
-				ddm.style.display='';
-			}
-			else if (orig_units == 'deg. min. sec.') {
-				dms.style.display='';
-			}
-			else {
-				alert('I have no idea what to do with ' + orig_units);
-			}
+	console.log(orig_units);
+	var llMeta = document.getElementById('llMeta');
+	var decdeg = document.getElementById('decdeg');
+	var utm = document.getElementById('utm');
+	var ddm = document.getElementById('ddm');
+	var dms = document.getElementById('dms');
+	llMeta.style.display='none';
+	decdeg.style.display='none';
+	utm.style.display='none';
+	ddm.style.display='none';
+	dms.style.display='none';
+	if (orig_units.length > 0) {
+		//alert('got soemthing');
+		llMeta.style.display='';
+		if (orig_units == 'decimal degrees') {
+			decdeg.style.display='';
+		} else if (orig_units == 'UTM') {
+			//alert(utm.style.display);
+			utm.style.display='';
+			//alert(utm.style.display);
+		} else if (orig_units == 'degrees dec. minutes') {
+			ddm.style.display='';
+		} else if (orig_units == 'deg. min. sec.') {
+			dms.style.display='';
+		} else {
+			alert('I have no idea what to do with ' + orig_units);
 		}
 	}
-
-function addIdentAgentToForm (id,name,formid) {
-	if (typeof id == "undefined") {
-		id = "";
-	 }
-	if (typeof name == "undefined") {
-		name = "";
-	 }
-	jQuery.getJSON("/specimens/component/functions.cfc",
-		{
-			method : "getAgentIdentifiers",
-			id : id,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		function (data) {
-			var i=parseInt($('#numAgents').val())+1;
-			var d= '';
-			d+='<div id="IdTr_#i#_#idnum#">';
-			d+='<div class="col-12">';
-			d+='<label for="IdBy_#i#_#idnum#">Identified By hi';
-			d+='<h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5>';
-			d+='</label>';
-			d+='<div class="col-6 px-0">';
-			d+='<div class="input-group">';
-			d+='<div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon">';
-			d+='<i class="fa fa-user" aria-hidden="true"></i></span> </div>';
-			d+='<input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(agent_name)#" class="reqdClr data-entry-input form-control" >';
-			d+='</div><input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >';
-			d+='<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">';
-			d+='</div></div>';
-			d+='<div class="col-12 col-md-3">';
-			d+='<button type="button" class="btn btn-xs btn-warning float-left"';
-			d+='onClick=\' confirmDialog("Remove not-yet saved new agent from this transaction?", "Confirm Unlink Agent", function()$("#new_trans_agent_div_'+i+'").remove(); } ); \'>Remove</button>';
-			d+='</div>';
-			d+='<script>';
-			d+='$(document).ready(function() {';
-			d+='$(makeRichTransAgentPicker("trans_agent_'+i+'","agent_id_'+i+'","agent_icon_'+i+'","agentViewLink_'+i+'",'+id+'));';
-			d+='});';
-			d+='</script>';
-			d+='</div>';
-			$('#numAgents').val(i);
-			jQuery('#newID').append(d);
-		}
-	).fail(function(jqXHR,textStatus,error){
-		var message = "";
-		if (error == 'timeout') {
-			message = ' Server took too long to respond.';
-		} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-			message = ' Backing method did not return JSON.';
-		} else {
-			message = jqXHR.responseText;
-		}
-		if (!error) { error = ""; } 
-		messageDialog('Error adding agents to transaction record: '+message, 'Error: '+error.substring(0,50));
-	});
 }
 
 function loadAttributes(collection_object_id,targetDivId) { 

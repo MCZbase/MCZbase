@@ -239,8 +239,19 @@ function loadPreservationsSummaryHTML (result_id,targetDivId) {
   */
 function openPartContainersDialog(collection_object_id, dialogid) { 
 	var title = "Part Container Placement";
+	console.log(dialogid);
+	var dialogElement = $("#" + dialogid);
+
+	// Check if dialog already exists and close it first if it does
+	if (dialogElement.hasClass('ui-dialog-content')) {
+		try {
+			dialogElement.dialog('close');
+			dialogElement.dialog('destroy');
+		} catch (e) {}
+	}
+
 	var content = '<div id="'+dialogid+'_div" class="col-12 px-1 px-xl-2">Loading....</div>';
-	var thedialog = $("#"+dialogid).html(content)
+	var thedialog = dialogElement.html(content)
 	.dialog({
 		title: title,
 		autoOpen: false,
@@ -254,10 +265,19 @@ function openPartContainersDialog(collection_object_id, dialogid) {
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
-				$("#"+dialogid).dialog('close');
+				$(this).dialog('close');
 			}
 		},
 		open: function (event, ui) {
+			// center the dialog in the viewport
+			var dialog = $(this).dialog('widget');
+			dialog.css({
+				'position': 'fixed',
+				'top': '50%',
+				'left': '50%',
+				'transform': 'translate(-50%, -50%)'
+			});
+
 			if (typeof(getMaxZIndex) === "function") { 
 				// force the dialog to lay above any other elements in the page.
 				var maxZindex = getMaxZIndex();
@@ -266,8 +286,9 @@ function openPartContainersDialog(collection_object_id, dialogid) {
 			}; 
 		},
 		close: function(event,ui) {
-			$("#"+dialogid+"_div").html("");
-			$("#"+dialogid).dialog('destroy');
+			setTimeout(function() { 
+				$("#"+dialogid+"_div").remove();
+			}, 100);
 		}
 	});
 	thedialog.dialog('open');
@@ -280,6 +301,9 @@ function openPartContainersDialog(collection_object_id, dialogid) {
 			collection_object_id: collection_object_id
 		},
 		success: function(data) {
+			console.log("data loaded");
+			console.log($("#"+dialogid+"_div").length);
+			console.log($("#"+dialogid).length);
 			$("#"+dialogid+"_div").html(data);
 		},
 		error: function (jqXHR, status, error) {
