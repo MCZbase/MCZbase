@@ -3517,19 +3517,33 @@ Target JSON:
 				});
 		
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-					// Remove old handlers, namespaced so ONLY removes keyboard handlers
-					$("##fixedsearchResultsGrid").off('.keyboardNav');
-					$("##fixedsearchResultsGrid").off('keydown.customTabNav');
+					// Remove all previous handlers to prevent stacking
+					$("##fixedsearchResultsGrid").off('.keyboardNav customTabNav rowexpand rowcollapse rowselect rowunselect');
 
-					// Custom Tab/Shift+Tab: immediately move out of grid, not to cells
+					// Select first visible data cell on load (sets selection AND internal focus for jqxGrid)
+					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+					var firstDataField = null;
+					for (var i = 0; i < columns.length; i++) {
+					  if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+						firstDataField = columns[i].datafield;
+						break;
+					  }
+					}
+					if (firstDataField) {
+					  $("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, firstDataField);
+					}
+					// Do NOT add .focus() on the grid container!
+
+					// Custom Tab/Shift+Tab: always jump out of grid
 					$("##fixedsearchResultsGrid").on('keydown.customTabNav', function(event) {
+						// Only act within the grid when a cell is selected!
 						if (event.key === 'Tab') {
 							event.preventDefault();
 							if (event.shiftKey) {
-								// Shift+Tab: Move focus to selectmode dropdown above grid
+								// Shift+Tab: focus selectmode dropdown
 								$('##fixedSelectMode').focus();
 							} else {
-								// Tab: Move focus to first visible pager button below grid
+								// Tab: focus the first pager button below grid
 								var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
 								var $pagerTargets = $pager.find('button, [tabindex]:not([tabindex="-1"])').filter(':visible');
 								if ($pagerTargets.length > 0) {
@@ -3539,16 +3553,10 @@ Target JSON:
 								}
 							}
 						}
+						// All other keys: fall through, let jqxGrid handle them (arrows, enter, etc)
 					});
 
-					// Restore first cell selection after reload (this auto-focuses the jqxGrid cell for arrow keys)
-					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-					if (columns && columns.length > 0) {
-						$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
-						// DON'T call .focus() on the container!
-					}
-
-					// Cell select guard: if focus somehow lands on a non-data cell, move to first data cell in that row
+					// Guard: If a non-data cell gets selected (such as details expander), move to first data cell in that row
 					$("##fixedsearchResultsGrid").on('cellselect.keyboardNav', function(event) {
 						var args = event.args;
 						if (args.datafield === null) {
@@ -3562,7 +3570,7 @@ Target JSON:
 						}
 					});
 
-					// (Optional) Enter/Space: open row details as before
+					// Open row details on Enter/Spacebar for accessibility
 					$("##fixedsearchResultsGrid").on('keydown.keyboardNav', function(event){
 						var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
 						if(event.key === " " || event.key === "Enter") {
@@ -3582,13 +3590,12 @@ Target JSON:
 						}
 					});
 
-					// (Optional) Double click row: show details
+					// Show details on double-click row
 					$("##fixedsearchResultsGrid").on('rowdoubleclick.keyboardNav', function(event) {
 						$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', event.args.rowindex);
 					});
 
-					// Row expand/collapse and row select/unselect handlers
-					$("##fixedsearchResultsGrid").off('rowexpand rowcollapse rowselect rowunselect');
+					// Row expand/collapse and row select/unselect handlers (note: always re-attach INSIDE bindingcomplete)
 					$("##fixedsearchResultsGrid").on('rowexpand', function (event) {
 						var args = event.args;
 						var rowIndex = args.rowindex;
@@ -3607,9 +3614,8 @@ Target JSON:
 						$("##fixedunselectrowindex").text(event.args.rowindex);
 					});
 
-					// Hide the overlay when finished loading
+					// Hide the overlay when loading is complete
 					$('##overlay').hide();
-
 				});
 				//$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 //					$("##fixedsearchResultsGrid").attr('tabindex', 0);
