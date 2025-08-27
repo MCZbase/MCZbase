@@ -280,9 +280,6 @@ function openPartContainersDialog(collection_object_id, dialogid) {
 			setTimeout(function() { 
 				$("#"+dialogid+"_div").html("");
 			}, 100);
-			try {  
-				$("#"+dialogid).html("");
-			} catch (e) {} 
 		}
 	});
 	thedialog.dialog('open');
