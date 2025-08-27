@@ -244,15 +244,23 @@ function openPartContainersDialog(collection_object_id, dialogid) {
     var contentDivId = dialogid + "_div";
     var content = '<div id="' + contentDivId + '" class="col-12 px-1 px-xl-2">Loading....</div>';
 
-    // Always destroy any previous dialog widget to ensure a fresh instance
-    if ($(divSelector).hasClass('ui-dialog-content')) {
-        $(divSelector).dialog('destroy');
+    // Ensure the div exists before proceeding
+    if (!$(divSelector).length) {
+        // If not present in DOM, create it (optionally append to body)
+        $('body').append('<div id="' + dialogid + '"></div>');
     }
 
-    // Set default content
+    // Always set the content
     $(divSelector).html(content);
 
-    // Initialize dialog
+    // Always destroy previous dialog instance (if any)
+    try {
+        $(divSelector).dialog('destroy');
+    } catch (e) {
+        // ignore if not initialized
+    }
+
+    // Now initialize the dialog fresh
     $(divSelector).dialog({
         title: title,
         autoOpen: false,
@@ -277,12 +285,11 @@ function openPartContainersDialog(collection_object_id, dialogid) {
             }
         },
         close: function(event, ui) {
-            // Just clear content; no need to destroy yet
             $("#" + contentDivId).html("");
         }
     });
 
-    // Now it is safe to open the dialog
+    // Now it is always safe to open the dialog
     $(divSelector).dialog('open');
 
     // Fetch content via AJAX
