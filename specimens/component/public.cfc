@@ -290,7 +290,7 @@ limitations under the License.
 													<li>
 											</cfif>
 											occurrenceID: <a class="h5 mb-1" href="https://mczbase.mcz.harvard.edu/guid/#summary.GUID#">https://mczbase.mcz.harvard.edu/guid/#summary.GUID#</a>
-											<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a> 
+											<a href="/guid/#summary.GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a> 
 											<cfif isMixed>
 													#summary.sci_name#
 												</li>
