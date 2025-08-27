@@ -4438,8 +4438,10 @@ Target JSON:
 		}
 		function populateColumnPicker(gridId,whichGrid) {
 			// add a control to show/hide columns organized by category
+			//var columns = $('##' + gridId).jqxGrid('columns').records;
+			//var columnCount = columns.length;
 			var columns = $('##' + gridId).jqxGrid('columns').records;
-			var columnCount = columns.length;
+			var columnCount = (Array.isArray(columns) || typeof columns === 'string') ? columns.length : 0;
 			// clear out the datafield arrays for each columnSection category
 			for (let [key,value] of columnSections) { value.length = 0; };
 			// repopulate the datafield arrays for each columnSection category with the current values.
