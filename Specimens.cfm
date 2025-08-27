@@ -3736,7 +3736,50 @@ Target JSON:
 						}
 					}
 				});
-
+				$("##fixedsearchResultsGrid").off('keydown.tabHandler');
+				$("##fixedsearchResultsGrid").on('keydown.tabHandler', function(event) {
+					 if (event.key === 'Tab') {
+						var $grid = $('#fixedsearchResultsGrid');
+						var selectionMode = $grid.jqxGrid('selectionmode');
+						var isShift = event.shiftKey;
+						var columns = $grid.jqxGrid('columns').records;
+						var rows = $grid.jqxGrid('getrows');
+						if (selectionMode.indexOf('cell') !== -1) {
+							var cell = $grid.jqxGrid('getselectedcell');
+							if (!cell) return; // Should never happen
+							var colIndexes = [];
+							for (var i = 0; i < columns.length; i++) {
+								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+									colIndexes.push(i);
+								}
+							}
+							var currCol = cell.datafield;
+							var colIdx = columns.findIndex(col => col.datafield === currCol);
+							var atFirstCell = (cell.rowindex === 0 && colIdx === colIndexes[0]);
+							var atLastCell = (cell.rowindex === rows.length - 1 && colIdx === colIndexes[colIndexes.length-1]);
+							// leaving the grid!
+							if ((isShift && atFirstCell) || (!isShift && atLastCell)) {
+								event.preventDefault();
+								// Find all focusable controls (not inside the grid), get the grid's index.
+								var $focusable = $('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+									.filter(':visible:not(#fixedsearchResultsGrid *)'); // not inside the grid
+								var $gridElem = $('#fixedsearchResultsGrid');
+								var gridIndex = $focusable.index($gridElem);
+								if (!isShift) {
+									// Forward: To next control after grid
+									$focusable.eq(gridIndex + 1).focus();
+								} else {
+									// Backward: To previous control before grid
+									$focusable.eq(gridIndex - 1).focus();
+								}
+							}
+							// else: let jqxGrid process the tab
+						}
+						// else: row selection mode; you can enhance for this case similarly!
+					}
+				});
+					
+					
 				// (If you use double-click to open row details)
 				$('##fixedsearchResultsGrid').on('rowdoubleclick.keyboardNav', function(event) {
 					$('##fixedsearchResultsGrid').jqxGrid('showrowdetails', event.args.rowindex);
