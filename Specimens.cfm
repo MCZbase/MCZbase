@@ -3739,7 +3739,7 @@ Target JSON:
 				$("##fixedsearchResultsGrid").off('keydown.tabHandler');
 				$("##fixedsearchResultsGrid").on('keydown.tabHandler', function(event) {
 					 if (event.key === 'Tab') {
-						//var $grid = $('#fixedsearchResultsGrid');
+			
 						var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
 						var isShift = event.shiftKey;
 						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
