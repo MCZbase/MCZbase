@@ -3514,29 +3514,23 @@ Target JSON:
 						}
 					}
 					// You might need to re-focus!
-					$('##fixedsearchResultsGrid').focus();
+				//	$('##fixedsearchResultsGrid').focus();
 				});
 		
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-					// Make grid container focusable and remove focus from children to prevent tabbing within grid
-					$("##fixedsearchResultsGrid").attr('tabindex', 0);
-					$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
-
-					// Clear any previous .keyboardNav and .customTabNav handlers to avoid stacking
+					// Remove old handlers, namespaced so ONLY removes keyboard handlers
 					$("##fixedsearchResultsGrid").off('.keyboardNav');
 					$("##fixedsearchResultsGrid").off('keydown.customTabNav');
 
-					// Arrow key navigation and Enter: let jqxGrid default manage these!
-
-					// Tab key override: Tab goes to pager, Shift+Tab goes to selectmode dropdown
+					// Custom Tab/Shift+Tab: immediately move out of grid, not to cells
 					$("##fixedsearchResultsGrid").on('keydown.customTabNav', function(event) {
 						if (event.key === 'Tab') {
 							event.preventDefault();
 							if (event.shiftKey) {
-								// Shift+Tab: move focus to select mode dropdown above grid (change this selector if needed)
+								// Shift+Tab: Move focus to selectmode dropdown above grid
 								$('##fixedSelectMode').focus();
 							} else {
-								// Tab: focus first tabbable pager button below grid
+								// Tab: Move focus to first visible pager button below grid
 								var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
 								var $pagerTargets = $pager.find('button, [tabindex]:not([tabindex="-1"])').filter(':visible');
 								if ($pagerTargets.length > 0) {
@@ -3548,39 +3542,12 @@ Target JSON:
 						}
 					});
 
-					// When grid loads or reloads, always select the top-left cell for better accessibility (optional)
+					// Restore first cell selection after reload (this auto-focuses the jqxGrid cell for arrow keys)
 					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
 					if (columns && columns.length > 0) {
 						$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+						// DON'T call .focus() on the container!
 					}
-					$("##fixedsearchResultsGrid").focus();
-
-					// Optional: Focus correction for keyboard users entering by click or arrow key
-					$("##fixedsearchResultsGrid").on('focusin.keyboardNav', function(event) {
-						var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
-						if (
-							selectionMode === 'singlecell' || selectionMode === 'multiplecellsextended' || selectionMode === 'multiplecellsadvanced'
-						) {
-							var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
-							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
-								var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-								for (var i = 0; i < columns.length; i++) {
-									if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-										$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[i].datafield);
-										break;
-									}
-								}
-							}
-						} else if (
-							selectionMode === 'singlerow' || selectionMode === 'multiplerowsextended' || selectionMode === 'multiplerowsadvanced'
-						) {
-							var selectedRows = $("##fixedsearchResultsGrid").jqxGrid('getselectedrowindexes');
-							if (!selectedRows || selectedRows.length === 0) {
-								$("##fixedsearchResultsGrid").jqxGrid('clearselection');
-								$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
-							}
-						}
-					});
 
 					// Cell select guard: if focus somehow lands on a non-data cell, move to first data cell in that row
 					$("##fixedsearchResultsGrid").on('cellselect.keyboardNav', function(event) {
@@ -3621,7 +3588,7 @@ Target JSON:
 						$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', event.args.rowindex);
 					});
 
-					// Row expand/collapse and row select/unselect handlers (move them here if your grid's DOM is replaced/recreated every search)
+					// Row expand/collapse and row select/unselect handlers
 					$("##fixedsearchResultsGrid").off('rowexpand rowcollapse rowselect rowunselect');
 					$("##fixedsearchResultsGrid").on('rowexpand', function (event) {
 						var args = event.args;
@@ -3640,11 +3607,11 @@ Target JSON:
 					$("##fixedsearchResultsGrid").on('rowunselect', function (event) {
 						$("##fixedunselectrowindex").text(event.args.rowindex);
 					});
-					
+
+					// Hide the overlay when finished loading
 					$('##overlay').hide();
 
 				});
-		
 				//$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 //					$("##fixedsearchResultsGrid").attr('tabindex', 0);
 //					// Set all interactive descendants to non-tabbable
