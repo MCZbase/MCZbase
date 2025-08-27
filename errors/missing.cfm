@@ -4,9 +4,10 @@
 	<cfif rdurl contains chr(195) & chr(151)>
 		<cfset rdurl=replace(rdurl,chr(195) & chr(151),chr(215))>
 	</cfif>
-	<cfset gPos=listfindnocase(rdurl,"guid","/")>
-	<cfif gPos >
-		<!--- Request for GUID --->
+
+	<!--- Content negotiation, pick highest priority content type that we can deliver from the http accept header list --->
+	<!--- default to human readable web page --->
+	<cfif NOT isDefined("deliver")>
 		<cftry>
 			<cfset accept = GetHttpRequestData().Headers['accept'] >
 		<cfcatch>
@@ -14,53 +15,55 @@
 		</cfcatch>
 		</cftry>
 
-		<!--- Content negotiation, pick highest priority content type that we can deliver from the http accept header list --->
-		<!--- default to human readable web page --->
-		<cfif NOT isDefined("deliver")>
-			<cfset deliver = "text/html">
-			<cfset done = false>
-			<cfloop list='#accept#' delimiters=',' index='a'>
-				<cfif NOT done>
-					<cfif a IS 'text/turtle' OR a IS 'application/rdf+xml' OR a IS 'application/ld+json'>
-						<cfset deliver = a>
-						<cfset done = true>
-					<cfelseif a IS 'text/html' OR a IS 'text/xml' OR a IS 'application/xml' OR a IS 'application/xhtml+xml'> 
-						<!--- use text/html for human readable delivery, actual is xhtml --->
-						<cfset deliver = 'text/html'>
-						<cfset done = true>
-					</cfif>
+		<cfset deliver = "text/html">
+		<cfset done = false>
+		<cfloop list='#accept#' delimiters=',' index='a'>
+			<cfif NOT done>
+				<cfif a IS 'text/turtle' OR a IS 'application/rdf+xml' OR a IS 'application/ld+json'>
+					<cfset deliver = a>
+					<cfset done = true>
+				<cfelseif a IS 'text/html' OR a IS 'text/xml' OR a IS 'application/xml' OR a IS 'application/xhtml+xml'> 
+					<!--- use text/html for human readable delivery, actual is xhtml --->
+					<cfset deliver = 'text/html'>
+					<cfset done = true>
 				</cfif>
-			</cfloop>
-			<!--- allow path terminator /{json|json-ld|turtle|rdf} to override accept header. --->
-			<cfif refind('/json$',rdurl) GT 0>
-				<cfset rdurl = rereplace(rdurl,"/json$","")>
-	   		<cfset deliver = "application/ld+json">
-			<cfelseif refind('/json-ld$',rdurl) GT 0>
-				<cfset rdurl = rereplace(rdurl,"/json-ld$","")>
-	   		<cfset deliver = "application/ld+json">
-			<cfelseif refind('/turtle$',rdurl) GT 0>
-				<cfset rdurl = rereplace(rdurl,"/turtle$","")>
-	   		<cfset deliver = "text/turtle">
-			<cfelseif refind('/rdf$',rdurl) GT 0>
-				<cfset rdurl = rereplace(rdurl,"/rdf$","")>
-	   		<cfset deliver = "application/xhtml+xml">
 			</cfif>
-		<cfelse>
-			<!--- NOTE: apache 404 redirect is not passing parameters or cgi.redirect_query_string, so this block is not entered --->
-			<!--- allow url parameter deliver={json/json-ld/turtle/rdf} to override accept header. --->
-			<cfif deliver IS "json" OR deliver IS "json-ld">
-	   		<cfset deliver = "application/ld+json">
-			<cfelseif deliver IS "turtle">
- 			  	<cfset deliver = "text/turtle">
-			<cfelseif deliver IS "rdf">
-	   		<cfset deliver = "application/xhtml+xml">
-			<cfelse>
-				<cfset deliver = "text/html">
-			</cfif>
+		</cfloop>
+		<!--- allow path terminator /{json|json-ld|turtle|rdf} to override accept header. --->
+		<cfif refind('/json$',rdurl) GT 0>
+			<cfset rdurl = rereplace(rdurl,"/json$","")>
+	  		<cfset deliver = "application/ld+json">
+		<cfelseif refind('/json-ld$',rdurl) GT 0>
+			<cfset rdurl = rereplace(rdurl,"/json-ld$","")>
+	  		<cfset deliver = "application/ld+json">
+		<cfelseif refind('/turtle$',rdurl) GT 0>
+			<cfset rdurl = rereplace(rdurl,"/turtle$","")>
+	  		<cfset deliver = "text/turtle">
+		<cfelseif refind('/rdf$',rdurl) GT 0>
+			<cfset rdurl = rereplace(rdurl,"/rdf$","")>
+	  		<cfset deliver = "application/xhtml+xml">
 		</cfif>
+	<cfelse>
+		<!--- NOTE: apache 404 redirect is not passing parameters or cgi.redirect_query_string, so this block is not entered --->
+		<!--- allow url parameter deliver={json/json-ld/turtle/rdf} to override accept header. --->
+		<cfif deliver IS "json" OR deliver IS "json-ld">
+   		<cfset deliver = "application/ld+json">
+		<cfelseif deliver IS "turtle">
+ 		  	<cfset deliver = "text/turtle">
+		<cfelseif deliver IS "rdf">
+   		<cfset deliver = "application/xhtml+xml">
+		<cfelse>
+			<cfset deliver = "text/html">
+		</cfif>
+	</cfif>
 
+	<cfset gPos=listfindnocase(rdurl,"guid","/")>
+	<cfif gPos >
+		<!--- Request for GUID --->
 		<cfif deliver NEQ "text/html">
 			<cftry>
+				<cfset lookup = "guid">
+				<cfset uuid = "">
 				<cfset guid = listgetat(rdurl,gPos+1,"/")>
 				<cfinclude template="/rdf/Occurrence.cfm">
 			<cfcatch>
@@ -113,6 +116,70 @@
 			</cfcatch>
 			</cftry>
 		</cfif>
+	<cfelseif listfindnocase(rdurl,'uuid',"/")>
+		<!--- UUID resolver service --->
+		<cftry>
+			<cfset gPos=listfindnocase(rdurl,"uuid","/")>
+			<!--- expected form is /uuid/{urn:uuid:local_identifier} or uuid/{local_identifier} --->
+			<cfset uuid = listgetat(rdurl,gPos+1,"/")>
+			<cfif left(uuid,9) IS "urn:uuid:">
+				<cfset uuid = mid(uuid,10,len(uuid)-9)>
+			</cfif>
+			<!--- check that local_identifier is a valid UUID, with or without dashes --->
+			<cfif NOT REFindNoCase("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",uuid) GT 0 AND
+					NOT REFindNoCase("^[0-9a-f]{32}$",uuid) GT 0>
+				<cfthrow message="Invalid UUID format" detail="Provided value is is not in valid format for a UUID">
+			</cfif>
+			<cfif deliver NEQ "text/html">
+				<cfset lookup = "uuid">
+				<cfset guid = "">
+				<cfinclude template="/rdf/Occurrence.cfm">
+			<cfelse>
+				<!--- lookup what this UUID resolves to in guid_our_thing table, match on local_identifer, check what target_table and guid_is_a values are and disposition --->
+				<cfquery name="lookupUUID" datasource="cf_dbuser" timeout="#Application.short_timeout#">
+					SELECT target_table, guid_our_thing_id, co_collection_object_id,  guid_is_a, disposition
+					FROM guid_our_thing
+					WHERE local_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#uuid#">
+						AND scheme = 'urn' 
+						AND type = 'uuid'
+				</cfquery>
+				<!--- if target table is coll_object and guid_is_a is occurrenceID then lookup institution code, collection code, cat num and redirect to /guid/ --->
+				<cfif lookupUUID.recordcount EQ 0>
+					<cfthrow message="UUID not found" detail="No record found in guid_our_thing table for UUID #uuid#">
+				<cfelseif lookupUUID.recordcount GT 0>
+					<cfif lookupUUID.disposition IS "exists" AND lookupUUID.target_table IS "coll_object" AND lookupUUID.guid_is_a IS "occurrenceID">
+						<!--- lookup the cataloged item for the occurrence and redirect to it with /guid/{institution_code}:{collection_code}:{catalog_number} --->
+						<!--- type of coll_object should be "SP", check this and lookup from parent cataloged item --->
+						<cfquery name="getCatItem" datasource="uam_god" timeout="#Application.short_timeout#" result="getCatItem.result">
+							SELECT coll_object.coll_object_type, 
+								coll.institution_acronym institution_code, 
+								coll.collection_cde collection_code, 
+								ci.cat_num catalog_number
+							FROM coll_object 
+							left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id
+							left join cataloged_item ci on specimen_part.derived_from_cat_item = ci.collection_object_id
+							LEFT JOIN collection coll ON ci.collection_id = coll.collection_id
+							WHERE coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.co_collection_object_id#">
+						</cfquery>
+						<cfif getCatItem.recordcount EQ 1>
+							<cfif getCatItem.coll_object_type IS NOT "SP">
+								<cfthrow message="UUID found but target coll_object is not a specimen part" detail="Record found in guid_our_thing table but target coll_object #q.co_collection_object_id# is type #getCatItem.coll_object_type#, expected type 'SP'">
+							</cfif>
+							<cfset guid = "#getCatItem.institution_code#:#getCatItem.collection_code#:#getCatItem.catalog_number#">
+							<cfheader statuscode="301" statustext="Moved permanently">
+							<cfheader name="Location" value="/guid/#guid#">
+						<cfelse>
+							<cfthrow message="UUID found but target coll_object not found" detail="Record found in guid_our_thing table but target coll_object #q.co_collection_object_id# not found in coll_object table.">
+						</cfif>
+					<cfelse>
+						<cfthrow message="UUID found but cannot be resolved" detail="Record found in guid_our_thing table but target_table #q.target_table#, guid_is_a #q.guid_is_a# or disposition #q.disposition# not handled.">
+					</cfif>
+				</cfif>
+			</cfif>
+		<cfcatch>
+			<cfinclude template="/errors/404.cfm">
+		</cfcatch>
+		</cftry>
 	<cfelseif listfindnocase(rdurl,'document',"/")>
 		<cfoutput>
 		<cftry>

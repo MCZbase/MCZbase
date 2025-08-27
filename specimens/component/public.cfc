@@ -24,7 +24,8 @@ limitations under the License.
 
 <cffunction name="getSummaryHeaderHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getSummaryHeaderThread">
+	
+	<cfthread name="getSummaryHeaderThread" collection_object_id = "#arguments.collection_object_id#">
 		<cfoutput>
 			<cftry>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -66,6 +67,7 @@ limitations under the License.
 						<cfelse>
 							locality.spec_locality,
 						</cfif>
+						collection.institution_acronym || ':' || collection.collection_cde || ':' || cataloged_item.cat_num guid,
 						MCZBASE.GET_TOP_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
 						MCZBASE.concattypestatus_plain_s(cataloged_item.collection_object_id,1,1,0) as typestatusplain,
 						MCZBASE.concatcitedas(cataloged_item.collection_object_id) as cited_as,
@@ -184,15 +186,18 @@ limitations under the License.
 											<cfif isMixed>
 												<cfquery name="mixedCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 													SELECT 
-														distinct identification.scientific_name
+														distinct identification.scientific_name,
+														guid_our_thing.assembled_resolvable, guid_our_thing.assembled_identifier
 													FROM 
 														specimen_part
+														join guid_our_thing on specimen_part.collection_object_id = guid_our_thing.co_collection_object_id
 														join identification on specimen_part.collection_object_id = identification.collection_object_id
 														join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 													WHERE 
 														specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#summary.collection_object_id#">
 														AND coll_object.coll_object_type = 'SP'
 														AND identification.accepted_id_fg = 1
+														AND upper(guid_our_thing.target_table) = 'COLL_OBJECT'
 												</cfquery>
 												<cfif mixedCollection.recordcount EQ 1> 
 													<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
@@ -280,8 +285,26 @@ limitations under the License.
 											<cfif len(summary.spec_locality) GT 0> | #summary.spec_locality#<cfelse></cfif></h2>
 										</div>
 										<div class="col-12 px-xl-0 small">
-											occurrenceID: <a class="h5 mb-1" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
-											<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+											<cfif isMixed> 
+												<ul>
+													<li>
+											</cfif>
+											occurrenceID: <a class="h5 mb-1" href="https://mczbase.mcz.harvard.edu/guid/#summary.GUID#">https://mczbase.mcz.harvard.edu/guid/#summary.GUID#</a>
+											<a href="/guid/#summary.GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a> 
+											<cfif isMixed>
+													#summary.sci_name#
+												</li>
+											</cfif>
+											<cfif isMixed>
+												<cfloop query="mixedCollection">
+													<li>
+														occurrenceID: <a class="h5 mb-1" href="#mixedCollection.assembled_resolvable#">#mixedCollection.assembled_identifier#</a>
+														<!--- TODO: Implement JSON-LD for occurrences by uuid --->
+														<a href="/uuid/#assembled_identifier#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+														#mixedCollection.scientific_name#
+													</li>
+												</cfloop>
+											</cfif>
 										</div>
 									</div>
 								</div>
@@ -1414,6 +1437,21 @@ limitations under the License.
 									collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
 							</cfquery>
 							<cfif getIdentifications.recordcount GT 0>
+								<!--- This is a separate occurrence  look up the occurrenceID --->
+								<cfquery name="getOccurrenceID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT
+										guid_our_thing.assembled_resolvable, guid_our_thing.assembled_identifier
+									FROM
+										guid_our_thing
+									WHERE
+										co_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+								</cfquery>
+								<tr class="">
+									<td colspan="5">
+										<span class="font-weight-lessbold">This Part is a separate Occurence</span>
+										<span class="small">occurrenceID: #getOccurrenceID.assembled_identifier#</span>
+									</td>
+								</tr>
 								<tr class="small">
 									<td colspan="5">
 										<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=part_id)>
@@ -3252,6 +3290,12 @@ limitations under the License.
 								</cfloop>
 								<li class="list-group-item col-7 col-xl-8 px-0 font-weight-lessbold">#collectors#</li>
 							</cfif>
+						</cfif>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"data_entry")>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">[Internal] locality_id: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.locality_id#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">[Internal] collecting_event_id: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.collecting_event_id#</li>
 						</cfif>
 						</ul>
 				</div>

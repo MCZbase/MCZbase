@@ -740,9 +740,9 @@ limitations under the License.
 --->
 <cffunction name="getEditIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfargument name="in_page" type="boolean" required="yes">
 
-	<cfthread name="getIdentificationsThread">
+	<cfthread name="getIdentificationsThread" collection_object_id="#arguments.collection_object_id#" in_page="#arguments.in_page#">
 		<cftry>
 			<!--- Load available formulas --->
 			<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -760,20 +760,48 @@ limitations under the License.
 				SELECT coll_object_type
 				FROM coll_object
 				WHERE 
-					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
 			</cfquery>
 			<cfif getDetermined.recordcount EQ 0>
 				<cfthrow message="No such collection_object_id.">
 			</cfif>
 			<cfset target = "">
+			<cfset hasMissingCitations = false>
 			<cfif getDetermined.coll_object_type EQ "CI">
 				<cfquery name="getTarget" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 					SELECT guid
 					FROM FLAT
 					WHERE 
-						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
 				</cfquery>
 				<cfset target = getTarget.guid>
+				<!--- find any citations of this specimen for which there aren't identifications --->
+				<cfquery name="getMissingCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
+					SELECT distinct
+						taxonomy.scientific_name,
+						citation.type_status,
+						citation.publication_id,
+						formatted_publication.formatted_publication
+					FROM 
+						citation
+						join taxonomy on citation.cited_taxon_name_id = taxonomy.taxon_name_id
+						join formatted_publication on citation.publication_id = formatted_publication.publication_id
+					WHERE 
+						citation.cited_taxon_name_id not in (
+							SELECT distinct identification_taxonomy.taxon_name_id
+							FROM identification
+								join identification_taxonomy on identification.identification_id = identification_taxonomy.identification_id
+							WHERE 
+								identification.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
+						)
+						AND citation.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
+						AND formatted_publication.format_style = 'short'
+					ORDER BY 
+						taxonomy.scientific_name
+				</cfquery>
+				<cfif getMissingCitations.recordcount GT 0>
+					<cfset hasMissingCitations = true>
+				</cfif>
 			<cfelseif getDetermined.coll_object_type EQ "SP">
 				<cfquery name="getTarget" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 					SELECT guid, specimen_part.part_name, specimen_part.preserve_method
@@ -781,9 +809,11 @@ limitations under the License.
 						specimen_part
 						join FLAT on specimen_part.derived_from_cat_item = flat.collection_object_id 
 					WHERE 
-						specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+						specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
 				</cfquery>
 				<cfset target = "#getTarget.guid# #getTarget.part_name# (#getTarget.preserve_method#)">
+			<cfelse>
+				<cfthrow message="This collection object type (#getDetermined.coll_object_type#) is not supported.">
 			</cfif>
 			<cfif len(target) GT 0>
 				<cfset target = " to #target#">
@@ -797,11 +827,21 @@ limitations under the License.
 									<!--- identifiable, thus allow add identifications --->
 									<div class="add-form float-left">
 										<div class="add-form-header pt-1 px-2 col-12 float-left">
-											<h2 class="h3 my-0 px-1 pb-1">Add Identification#target#</h2>
+											<h2 class="h3 my-0 px-1 pb-1 float-left">Add Identification#target#</h2>
+											<cfif attributes.in_page>
+												<script>
+													function closeIdentificationInPage() { 
+														// Close the in-page modal editor, and invoke the reloadIdentifications function
+														closeInPage(reloadIdentifications);
+													}
+												</script>
+												<!--- if in_page, provide button to return to specimen details page --->
+												<button id="backToSpecimen1" class="btn btn-xs btn-secondary float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
+											</cfif>
 										</div>
 										<div class="card-body">
 											<form name="addIdentificationForm" id="addIdentificationForm">
-												<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
+												<input type="hidden" name="collection_object_id" value="#attributes.collection_object_id#">
 												<input type="hidden" name="method" value="addIdentification">
 												<input type="hidden" name="returnformat" value="json">
 												<div class="form-row">
@@ -982,7 +1022,7 @@ limitations under the License.
 	
 												function reloadIdentificationsDialogAndPage() {
 													reloadIdentifications();
-													loadIdentificationsList("#variables.collection_object_id#", "identificationDialogList","true");
+													loadIdentificationsList("#attributes.collection_object_id#", "identificationDialogList","true");
 												}
 												function handleAddIdentification() {
 													// Validate required fields
@@ -1022,9 +1062,34 @@ limitations under the License.
 										</div>
 									</div>
 								</cfif>
+								<cfif hasMissingCitations>
+									<div id="missingCitationList" class="col-12 float-left mt-4 mb-4 px-0 border border-rounded">
+										<h3 class="h3">
+											There are citations for taxa that do not have corresponding identifications.
+										</h3>
+										<cfif isDefined("getMissingCitations") >
+											<p class="mb-1">Please consider adding identifications for the following taxa:</p>
+											<ul>
+												<cfloop query="getMissingCitations">
+													<li>
+														#getMissingCitations.scientific_name#
+														#getMissingCitations.type_status#
+														<a href="/publications/showPublication.cfm?publication_id=#getMissingCitations.publication_id#" target="_blank">#getMissingCitations.formatted_publication#</a>
+													</li>
+												</cfloop>
+											</ul>
+										</cfif>
+									</div>
+								</cfif>
 								<div id="identificationDialogList" class="col-12 float-left mt-4 mb-4 px-0">
-									<cfset idList = getIdentificationsUnthreadedHTML(collection_object_id = variables.collection_object_id, editable=true)>
+									<cfset idList = getIdentificationsUnthreadedHTML(collection_object_id = attributes.collection_object_id, editable=true)>
 								</div>
+								<cfif attributes.in_page>
+									<!--- if in_page, provide button to return to specimen details page --->
+									<div class="col-12 mt-0">
+										<button id="backToSpecimen2" class="btn btn-xs btn-secondary float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
+									</div>
+								</cfif>
 							</div>
 						</div>
 					</div>
@@ -1103,6 +1168,9 @@ limitations under the License.
 			<cfset scientific_name = REReplace(scientific_name, "\bB\b", "TAXON_B", "all")>
 			<!--- replace the placeholder for A in the formula with the taxon A name --->
 			<!--- lookup the taxon A name in the taxon name table to not include the authorship --->
+			<cfif variables.taxona_id EQ "">
+				<cfthrow message="Taxon A taxon_name_id is required, you must select a taxon from the autocomplete list.">
+			</cfif>
 			<cfquery name="getTaxonA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT scientific_name
 				FROM taxonomy
@@ -3904,31 +3972,6 @@ limitations under the License.
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>			
 </cffunction>
-
-<!--- TODO: Incomplete add determiner function --->
-<cffunction name="getAgentIdentifiers" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collection_object_id" type="string" required="yes">
-
-	<cfset variables.collection_object_id = arguments.collection_object_id>
-
-	<cfthread name="getAgentIdentsThread">
-		<cfoutput>
-			<cftry>
-				<cfthrow message = "TODO: getAgentIdentifiers needs implementation">
-			<cfcatch>
-				<cftransaction action="rollback">
-				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-				<cfset function_called = "#GetFunctionCalledName()#">
-				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-				<cfabort>
-			</cfcatch>
-			</cftry>
-		</cfoutput> 
-	</cfthread>
-	<cfthread action="join" name="getAgentIdentsThread" />
-	<cfreturn getAgentIdentsThread.output>
-</cffunction>
-
 
 
 <!--- getEditPartsHTML returns the HTML for the edit parts dialog.
