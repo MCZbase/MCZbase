@@ -3490,45 +3490,45 @@ Target JSON:
 				//end of fixed grid creation
 		
 				//start of handlers -- cellselect should go first
-				$("##fixedsearchResultsGrid").on('cellselect', function (event) {
-					var args = event.args;
-					if (args.datafield === null) {
-						// Find the first actual data cell (not the arrow)
-						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-						var firstField = null;
-						for (var i = 0; i < columns.length; i++) {
-							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-								firstField = columns[i].datafield;
-								break;
-							}
-						}
-						if (firstField) {
-							$("##fixedsearchResultsGrid").jqxGrid('selectcell', args.rowindex, firstField);
-						}
-					}
-				});
-//				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
-//					
-//					var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
-//					if (
-//						selectionMode !== 'singlecell' &&
-//						selectionMode !== 'multiplecellsextended' &&
-//						selectionMode !== 'multiplecellsadvanced'
-//					) {
-//						return; // Only process in cell selection modes
-//					}
-//
+//				$("##fixedsearchResultsGrid").on('cellselect', function (event) {
 //					var args = event.args;
 //					if (args.datafield === null) {
-//						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+//						// Find the first actual data cell (not the arrow)
+//						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+//						var firstField = null;
 //						for (var i = 0; i < columns.length; i++) {
 //							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-//								$('##fixedsearchResultsGrid').jqxGrid('selectcell', args.rowindex, columns[i].datafield);
+//								firstField = columns[i].datafield;
 //								break;
 //							}
 //						}
+//						if (firstField) {
+//							$("##fixedsearchResultsGrid").jqxGrid('selectcell', args.rowindex, firstField);
+//						}
 //					}
-//				});
+//				});					
+				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
+					
+					var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
+					if (
+						selectionMode !== 'singlecell' &&
+						selectionMode !== 'multiplecellsextended' &&
+						selectionMode !== 'multiplecellsadvanced'
+					) {
+						return; // Only process in cell selection modes
+					}
+
+					var args = event.args;
+					if (args.datafield === null) {
+						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+						for (var i = 0; i < columns.length; i++) {
+							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+								$('##fixedsearchResultsGrid').jqxGrid('selectcell', args.rowindex, columns[i].datafield);
+								break;
+							}
+						}
+					}
+				});
 		
 		
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
