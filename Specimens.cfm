@@ -3656,7 +3656,7 @@ Target JSON:
 						setPinColumnState('fixedsearchResultsGrid','GUID',true);
 					</cfif>
 		
-				
+		});
 	
 				//$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 //					$("##fixedsearchResultsGrid").attr('tabindex', 0);
