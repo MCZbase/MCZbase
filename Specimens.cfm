@@ -1540,26 +1540,26 @@ limitations under the License.
 														<script>
 															function fixedchangeSelectMode(){
 																var selmode = $("##fixedselectMode").val(); // Use correct selector!
-																var $grid = $("##fixedsearchResultsGrid");
-																$grid.jqxGrid({selectionmode: selmode});
-																$grid.jqxGrid('clearselection');
+																
+																$("##fixedsearchResultsGrid").jqxGrid({selectionmode: selmode});
+																$("##fixedsearchResultsGrid").jqxGrid('clearselection');
 																if (
 																	selmode === 'singlecell' ||
 																	selmode === 'multiplecellsadvanced' ||
 																	selmode === 'multiplecellsextended'
 																) {
-																	var columns = $grid.jqxGrid('columns').records;
+																	var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
 																	for (var i = 0; i < columns.length; i++) {
 																		if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-																			$grid.jqxGrid('selectcell', 0, columns[i].datafield);
+																			$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[i].datafield);
 																			break;
 																		}
 																	}
 																} else {
-																	$grid.jqxGrid('selectrow', 0);
+																	$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
 																}
-																$grid.jqxGrid({enableBrowserSelection: (selmode === "singlecell")});
-																$grid.focus();
+																$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: (selmode === "singlecell")});
+																$("##fixedsearchResultsGrid").focus();
 															}
 														</script>
 
