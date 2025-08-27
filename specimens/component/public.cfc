@@ -67,6 +67,7 @@ limitations under the License.
 						<cfelse>
 							locality.spec_locality,
 						</cfif>
+						collection.institution_acronym || ':' || collection.collection_cde || ':' || cataloged_item.cat_num guid,
 						MCZBASE.GET_TOP_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
 						MCZBASE.concattypestatus_plain_s(cataloged_item.collection_object_id,1,1,0) as typestatusplain,
 						MCZBASE.concatcitedas(cataloged_item.collection_object_id) as cited_as,
@@ -288,7 +289,7 @@ limitations under the License.
 												<ul>
 													<li>
 											</cfif>
-											occurrenceID: <a class="h5 mb-1" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
+											occurrenceID: <a class="h5 mb-1" href="https://mczbase.mcz.harvard.edu/guid/#summary.GUID#">https://mczbase.mcz.harvard.edu/guid/#summary.GUID#</a>
 											<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a> 
 											<cfif isMixed>
 													#summary.sci_name#
