@@ -3496,6 +3496,7 @@ Target JSON:
 						columnOrderChanged('fixedsearchResultsGrid'); 
 					}); 
 				</cfif>
+		
 				$('##fixedSelectMode').on('change', function() {
 					var mode = $(this).val();
 					$('##fixedsearchResultsGrid').jqxGrid({ selectionmode: mode });
@@ -3516,7 +3517,7 @@ Target JSON:
 					$('##fixedsearchResultsGrid').focus();
 				});
 		
-						$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
+				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					// Make grid container focusable and remove focus from children to prevent tabbing within grid
 					$("##fixedsearchResultsGrid").attr('tabindex', 0);
 					$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
@@ -3639,6 +3640,8 @@ Target JSON:
 					$("##fixedsearchResultsGrid").on('rowunselect', function (event) {
 						$("##fixedunselectrowindex").text(event.args.rowindex);
 					});
+					
+					$('##overlay').hide();
 
 				});
 		
