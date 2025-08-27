@@ -265,7 +265,7 @@ function openPartContainersDialog(collection_object_id, dialogid) {
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
-				$("#"+dialogid).dialog('close');
+				$(this).dialog('close');
 			}
 		},
 		open: function (event, ui) {
