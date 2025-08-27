@@ -3613,7 +3613,8 @@ Target JSON:
 					$("##fixedsearchResultsGrid").on('rowunselect', function (event) {
 						$("##fixedunselectrowindex").text(event.args.rowindex);
 					});
-				
+					$('##overlay').hide();
+				});
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
 							$(document).scrollTop(200);
@@ -3654,9 +3655,9 @@ Target JSON:
 						console.log(#session.specimens_pin_guid#);
 						setPinColumnState('fixedsearchResultsGrid','GUID',true);
 					</cfif>
-					// Hide the overlay when loading is complete
-					$('##overlay').hide();
-			
+		
+				
+	
 				//$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 //					$("##fixedsearchResultsGrid").attr('tabindex', 0);
 //					// Set all interactive descendants to non-tabbable
