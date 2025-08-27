@@ -3613,6 +3613,8 @@ Target JSON:
 					$("##fixedsearchResultsGrid").on('rowunselect', function (event) {
 						$("##fixedunselectrowindex").text(event.args.rowindex);
 					});
+					
+					gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 					$('##overlay').hide();
 				});
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
@@ -3626,16 +3628,16 @@ Target JSON:
 					// add a link out to this search, serializing the form as http get parameters
 					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 					$('##fixedshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'fixed\'); "><i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
-					if (fixedSearchLoaded==0) { 
-						try { 
-							gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
-						} catch (e) { 
-							console.log(e);
-							messageDialog("Error in gridLoaded handler:" + e.message,"Error in gridLoaded");
-						}
-						fixedSearchLoaded = 1;
-						loadColumnOrder('fixedsearchResultsGrid');
-					}
+					//if (fixedSearchLoaded==0) { 
+//						try { 
+//							gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+//						} catch (e) { 
+//							console.log(e);
+//							messageDialog("Error in gridLoaded handler:" + e.message,"Error in gridLoaded");
+//						}
+//						fixedSearchLoaded = 1;
+//						loadColumnOrder('fixedsearchResultsGrid');
+//					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
 					<cfelse>
@@ -4438,10 +4440,8 @@ Target JSON:
 		}
 		function populateColumnPicker(gridId,whichGrid) {
 			// add a control to show/hide columns organized by category
-			//var columns = $('##' + gridId).jqxGrid('columns').records;
-			//var columnCount = columns.length;
 			var columns = $('##' + gridId).jqxGrid('columns').records;
-			var columnCount = (Array.isArray(columns) || typeof columns === 'string') ? columns.length : 0;
+			var columnCount = columns.length;
 			// clear out the datafield arrays for each columnSection category
 			for (let [key,value] of columnSections) { value.length = 0; };
 			// repopulate the datafield arrays for each columnSection category with the current values.
