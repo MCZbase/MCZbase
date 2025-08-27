@@ -1086,8 +1086,8 @@ limitations under the License.
 								</div>
 								<cfif attributes.in_page>
 									<!--- if in_page, provide button to return to specimen details page --->
-									<div class="col-12 mt-3 float-right">
-										<button id="backToSpecimen2" class="btn btn-xs btn-secondary" onclick="closeIdentificationInPage();">Back to Specimen</button>
+									<div class="col-12 mt-0">
+										<button id="backToSpecimen2" class="btn btn-xs btn-secondary float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
 									</div>
 								</cfif>
 							</div>
