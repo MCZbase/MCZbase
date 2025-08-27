@@ -531,7 +531,7 @@ limitations under the License.
 						</cfif>
 					</li>
 					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane2" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
+						<button type="button" id="btn_pane2" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditIdentificationsInPage(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
 						<button type="button" id="btn_pane3" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Citations</button>
@@ -747,7 +747,7 @@ limitations under the License.
 									</button>
 									<cfif len(#blockident#) gt 10> 
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a role="button" href="javascript:void(0)" id="btn_openEditIdentDialog" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
+											<a role="button" href="javascript:void(0)" id="btn_openEditIdentDialog" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsInPage(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
 												Edit
 											</a>
 										</cfif>
