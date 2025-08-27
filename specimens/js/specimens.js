@@ -239,7 +239,7 @@ function loadPreservationsSummaryHTML (result_id,targetDivId) {
   */
 function openPartContainersDialog(collection_object_id, dialogid) { 
 	var title = "Part Container Placement";
-	console.log(dialog_id);
+	console.log(dialogid);
 	var dialogElement = $("#" + dialogid);
 
 	// Check if dialog already exists and close it first if it does
