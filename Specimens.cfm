@@ -3762,7 +3762,7 @@ Target JSON:
 								event.preventDefault();
 								// Find all focusable controls (not inside the grid), get the grid's index.
 								var $focusable = $('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
-									.filter(':visible:not(#fixedsearchResultsGrid *)'); // not inside the grid
+									.filter(':visible:not(##fixedsearchResultsGrid *)'); // not inside the grid
 								var $gridElem = $('##fixedsearchResultsGrid');
 								var gridIndex = $focusable.index($gridElem);
 								if (!isShift) {
