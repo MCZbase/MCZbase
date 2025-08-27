@@ -3806,13 +3806,13 @@ Target JSON:
 						$("##fixedunselectrowindex").text(event.args.rowindex);
 					});
 
+			
+		
 			});
 
-
-
-	
+	});	
 		
-			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
+	/* End Setup jqxgrid for fixed Search ****************************************************************************************/
 		
 		
 		
@@ -4053,7 +4053,6 @@ Target JSON:
 					$("##keywordunselectrowindex").text(event.args.rowindex);
 				});
 			});
-		});
 	
 			/* Setup jqxgrid for builder Search */
 			$('##builderSearchForm').bind('submit', function(evt){
@@ -4302,10 +4301,7 @@ Target JSON:
 					</cfcase>
 				</cfswitch>
 			</cfif>
-		}); 
-		
-		
-		});/* End document.ready */
+		}); /* End document.ready */
 	
 		var columnCategoryPlacements = new Map(); // fieldname and category placement
 		var columnCategories = new Map();   // category and count 
