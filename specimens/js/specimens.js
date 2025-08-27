@@ -270,13 +270,26 @@ function openPartContainersDialog(collection_object_id, dialogid) {
 		},
 		open: function (event, ui) {
 			// center the dialog in the viewport
-			var dialog = $(this).dialog('widget');
-			dialog.css({
-				'position': 'fixed',
-				'top': '50%',
-				'left': '50%',
-				'transform': 'translate(-50%, -50%)'
-			});
+			var self = this;
+			// Use a short delay to ensure dialog is fully rendered
+			setTimeout(function() {
+				var dialog = $(self).dialog('widget');
+				var windowWidth = $(window).width();
+				var windowHeight = $(window).height();
+				var dialogWidth = dialog.outerWidth();
+				var dialogHeight = dialog.outerHeight();
+				
+				var left = Math.max(0, (windowWidth - dialogWidth) / 2);
+				var top = Math.max(0, (windowHeight - dialogHeight) / 2);
+				
+				dialog.css({
+					'position': 'fixed',
+					'left': left + 'px',
+					'top': top + 'px',
+					'margin': '0',
+					'transform': 'none'
+				});
+			}, 50);
 
 			if (typeof(getMaxZIndex) === "function") { 
 				// force the dialog to lay above any other elements in the page.
