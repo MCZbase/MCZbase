@@ -3519,9 +3519,9 @@ Target JSON:
 				$('##fixedsearchResultsGrid').on('cellselect', function (event) {
 				  if (event.args.datafield === null) {
 					  // move to first data cell in this row
-					  var cols = $('#yourGrid').jqxGrid('columns').records;
+					  var cols = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
 					  var firstField = cols.filter(c => !c.hidden && c.datafield)[0].datafield;
-					  $('#yourGrid').jqxGrid('selectcell', event.args.rowindex, firstField);
+					  $('##fixedsearchResultsGrid').jqxGrid('selectcell', event.args.rowindex, firstField);
 				  }
 				});
 //				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
