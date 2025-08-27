@@ -3506,7 +3506,12 @@ Target JSON:
 //							$("##fixedsearchResultsGrid").jqxGrid('selectcell', args.rowindex, firstField);
 //						}
 //					}
-//				});					
+//				});		
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+						columnOrderChanged('fixedsearchResultsGrid'); 
+					}); 
+				</cfif>
 				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
 					
 					var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
@@ -3531,11 +3536,7 @@ Target JSON:
 				});
 		
 		
-				<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
-						columnOrderChanged('fixedsearchResultsGrid'); 
-					}); 
-				</cfif>
+			
 
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 
