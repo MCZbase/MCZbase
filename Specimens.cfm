@@ -3739,13 +3739,13 @@ Target JSON:
 				$("##fixedsearchResultsGrid").off('keydown.tabHandler');
 				$("##fixedsearchResultsGrid").on('keydown.tabHandler', function(event) {
 					 if (event.key === 'Tab') {
-						var $grid = $('#fixedsearchResultsGrid');
-						var selectionMode = $grid.jqxGrid('selectionmode');
+						//var $grid = $('#fixedsearchResultsGrid');
+						var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
 						var isShift = event.shiftKey;
-						var columns = $grid.jqxGrid('columns').records;
-						var rows = $grid.jqxGrid('getrows');
+						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+						var rows = $("##fixedsearchResultsGrid").jqxGrid('getrows');
 						if (selectionMode.indexOf('cell') !== -1) {
-							var cell = $grid.jqxGrid('getselectedcell');
+							var cell = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
 							if (!cell) return; // Should never happen
 							var colIndexes = [];
 							for (var i = 0; i < columns.length; i++) {
