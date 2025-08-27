@@ -3498,7 +3498,25 @@ Target JSON:
 				</cfif>
 
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-
+					$("##fixedsearchResultsGrid").attr('tabindex', 0);
+					// Set all interactive descendants to non-tabbable
+					$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
+					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+						if (columns && columns.length > 0) {
+							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+						}
+						$("##fixedsearchResultsGrid").focus();
+					
+					$("##fixedsearchResultsGrid").on('focusin', function(event) {
+						// Check if any cell is already selected
+						var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+						if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
+							var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+							if (columns && columns.length > 0) {
+								$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+							}
+						}
+					});
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
 							$(document).scrollTop(200);
