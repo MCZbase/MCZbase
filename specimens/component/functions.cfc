@@ -766,6 +766,7 @@ limitations under the License.
 				<cfthrow message="No such collection_object_id.">
 			</cfif>
 			<cfset target = "">
+			<cfset hasMissingCitations = false>
 			<cfif getDetermined.coll_object_type EQ "CI">
 				<cfquery name="getTarget" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 					SELECT guid
@@ -774,6 +775,27 @@ limitations under the License.
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
 				</cfquery>
 				<cfset target = getTarget.guid>
+				<!--- find any citations for which there aren't identifications --->
+				<cfquery name="getMissingCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
+					SELECT distinct
+						taxonomy.scientific_name
+					FROM 
+						citation
+						join taxonomy on citation.cited_taxon_name_id = taxonomy.taxon_name_id
+					WHERE 
+						citation.cited_taxon_name_id not in (
+							SELECT distinct identification_taxonomy.taxon_name_id
+							FROM identification
+								join identification_taxonomy on identification.identification_id = identification_taxonomy.identification_id
+							WHERE 
+								identification.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
+						)
+					ORDER BY 
+						taxonomy.scientific_name
+				</cfquery>
+				<cfif getMissingCitations.recordcount GT 0>
+					<cfset hasMissingCitations = true>
+				</cfif>
 			<cfelseif getDetermined.coll_object_type EQ "SP">
 				<cfquery name="getTarget" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 					SELECT guid, specimen_part.part_name, specimen_part.preserve_method
@@ -784,6 +806,8 @@ limitations under the License.
 						specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
 				</cfquery>
 				<cfset target = "#getTarget.guid# #getTarget.part_name# (#getTarget.preserve_method#)">
+			<cfelse>
+				<cfthrow message="This collection object type (#getDetermined.coll_object_type#) is not supported.">
 			</cfif>
 			<cfif len(target) GT 0>
 				<cfset target = " to #target#">
@@ -797,7 +821,7 @@ limitations under the License.
 									<!--- identifiable, thus allow add identifications --->
 									<div class="add-form float-left">
 										<div class="add-form-header pt-1 px-2 col-12 float-left">
-											<h2 class="h3 my-0 px-1 pb-1">Add Identification#target#</h2>
+											<h2 class="h3 my-0 px-1 pb-1 float-left">Add Identification#target#</h2>
 											<cfif attributes.in_page>
 												<script>
 													function closeIdentificationInPage() { 
@@ -1030,6 +1054,21 @@ limitations under the License.
 												}
 											</script>
 										</div>
+									</div>
+								</cfif>
+								<cfif hasMissingCitations>
+									<div id="missingCitationList" class="col-12 float-left mt-4 mb-4 px-0 border border-rounded">
+										<h3 class="h3">
+											There are citations for taxa that do not have corresponding identifications.
+										</h3>
+										<cfif isDefined("getMissingCitations") >
+											<p class="mb-1">Please consider adding identifications for the following taxa:</p>
+											<ul>
+												<cfloop query="getMissingCitations">
+													<li>#getMissingCitations.scientific_name#</li>
+												</cfloop>
+											</ul>
+										</cfif>
 									</div>
 								</cfif>
 								<div id="identificationDialogList" class="col-12 float-left mt-4 mb-4 px-0">
