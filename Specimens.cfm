@@ -1559,7 +1559,6 @@ limitations under the License.
 																	$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
 																}
 																$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: (selmode === "singlecell")});
-																$("##fixedsearchResultsGrid").focus();
 															}
 														</script>
 
