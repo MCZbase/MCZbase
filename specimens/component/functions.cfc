@@ -760,7 +760,7 @@ limitations under the License.
 				SELECT coll_object_type
 				FROM coll_object
 				WHERE 
-					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thread.collection_object_id#">
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
 			</cfquery>
 			<cfif getDetermined.recordcount EQ 0>
 				<cfthrow message="No such collection_object_id.">
@@ -771,7 +771,7 @@ limitations under the License.
 					SELECT guid
 					FROM FLAT
 					WHERE 
-						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thread.collection_object_id#">
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
 				</cfquery>
 				<cfset target = getTarget.guid>
 			<cfelseif getDetermined.coll_object_type EQ "SP">
@@ -781,7 +781,7 @@ limitations under the License.
 						specimen_part
 						join FLAT on specimen_part.derived_from_cat_item = flat.collection_object_id 
 					WHERE 
-						specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thread.collection_object_id#">
+						specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
 				</cfquery>
 				<cfset target = "#getTarget.guid# #getTarget.part_name# (#getTarget.preserve_method#)">
 			</cfif>
@@ -811,7 +811,7 @@ limitations under the License.
 										</div>
 										<div class="card-body">
 											<form name="addIdentificationForm" id="addIdentificationForm">
-												<input type="hidden" name="collection_object_id" value="#thread.collection_object_id#">
+												<input type="hidden" name="collection_object_id" value="#attributes.collection_object_id#">
 												<input type="hidden" name="method" value="addIdentification">
 												<input type="hidden" name="returnformat" value="json">
 												<div class="form-row">
@@ -992,7 +992,7 @@ limitations under the License.
 	
 												function reloadIdentificationsDialogAndPage() {
 													reloadIdentifications();
-													loadIdentificationsList("#thread.collection_object_id#", "identificationDialogList","true");
+													loadIdentificationsList("#attributes.collection_object_id#", "identificationDialogList","true");
 												}
 												function handleAddIdentification() {
 													// Validate required fields
@@ -1033,7 +1033,7 @@ limitations under the License.
 									</div>
 								</cfif>
 								<div id="identificationDialogList" class="col-12 float-left mt-4 mb-4 px-0">
-									<cfset idList = getIdentificationsUnthreadedHTML(collection_object_id = thread.collection_object_id, editable=true)>
+									<cfset idList = getIdentificationsUnthreadedHTML(collection_object_id = attributes.collection_object_id, editable=true)>
 								</div>
 								<cfif thread.in_page>
 									<!--- if in_page, provide button to return to specimen details page --->
