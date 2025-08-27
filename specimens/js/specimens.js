@@ -239,8 +239,19 @@ function loadPreservationsSummaryHTML (result_id,targetDivId) {
   */
 function openPartContainersDialog(collection_object_id, dialogid) { 
 	var title = "Part Container Placement";
+	console.log(dialog_id);
+	var dialogElement = $("#" + dialogid);
+
+	// Check if dialog already exists and close it first if it does
+	if (dialogElement.hasClass('ui-dialog-content')) {
+		try {
+			dialogElement.dialog('close');
+			dialogElement.dialog('destroy');
+		} catch (e) {}
+	}
+
 	var content = '<div id="'+dialogid+'_div" class="col-12 px-1 px-xl-2">Loading....</div>';
-	var thedialog = $("#"+dialogid).html(content)
+	var thedialog = dialogElement.html(content)
 	.dialog({
 		title: title,
 		autoOpen: false,
@@ -266,8 +277,12 @@ function openPartContainersDialog(collection_object_id, dialogid) {
 			}; 
 		},
 		close: function(event,ui) {
-			$("#"+dialogid+"_div").html("");
-			$("#"+dialogid).dialog('destroy');
+			setTimeout(function() { 
+				$("#"+dialogid+"_div").html("");
+			}, 100);
+			try {  
+				$("#"+dialogid).dialog('destroy');
+			} catch (e) {} 
 		}
 	});
 	thedialog.dialog('open');
