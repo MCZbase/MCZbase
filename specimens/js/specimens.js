@@ -278,7 +278,7 @@ function openPartContainersDialog(collection_object_id, dialogid) {
 		},
 		close: function(event,ui) {
 			setTimeout(function() { 
-				$("#"+dialogid+"_div").html("");
+				$("#"+dialogid+"_div").remove();
 			}, 100);
 		}
 	});
