@@ -3496,7 +3496,25 @@ Target JSON:
 						columnOrderChanged('fixedsearchResultsGrid'); 
 					}); 
 				</cfif>
-
+				$('##fixedSelectMode').on('change', function() {
+					var mode = $(this).val();
+					$('##fixedsearchResultsGrid').jqxGrid({ selectionmode: mode });
+					$('##fixedsearchResultsGrid').jqxGrid('clearselection');
+					// Optionally select appropriate first cell/row
+					if(mode.indexOf('row') !== -1) {
+						$('##fixedsearchResultsGrid').jqxGrid('selectrow', 0);
+					} else {
+						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+						for (var i = 0; i < columns.length; i++) {
+							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+								$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[i].datafield);
+								break;
+							}
+						}
+					}
+					// You might need to re-focus!
+					$('##fixedsearchResultsGrid').focus();
+				});
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					$("##fixedsearchResultsGrid").attr('tabindex', 0);
 					// Set all interactive descendants to non-tabbable
@@ -3571,7 +3589,7 @@ Target JSON:
 						if (columns && columns.length > 0) {
 							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
 						}
-						$("##fixedsearchResultsGrid").focus();
+					$("##fixedsearchResultsGrid").focus();
 					
 					//$("##fixedsearchResultsGrid").on('focusin', function(event) {
 //						// Check if any cell is already selected
