@@ -3481,7 +3481,7 @@ Target JSON:
 					],
 					
 					rowdetails: true,
-					showrowdetailscolumn: false,
+					//showrowdetailscolumn: false,
 					rowdetailstemplate: {
 						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
 						rowdetailsheight:  1 // row details will be placed in popup dialog
@@ -3515,6 +3515,14 @@ Target JSON:
 				</cfif>
 				$('##fixedsearchResultsGrid').on('rowdoubleclick', function (event){
 					$('##fixedsearchResultsGrid').jqxGrid('showrowdetails', event.args.rowindex);
+				});
+				$('##fixedsearchResultsGrid').on('cellselect', function (event) {
+				  if (event.args.datafield === null) {
+					  // move to first data cell in this row
+					  var cols = $('#yourGrid').jqxGrid('columns').records;
+					  var firstField = cols.filter(c => !c.hidden && c.datafield)[0].datafield;
+					  $('#yourGrid').jqxGrid('selectcell', event.args.rowindex, firstField);
+				  }
 				});
 //				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
 //					
