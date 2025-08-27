@@ -3522,6 +3522,7 @@ Target JSON:
 					$("##fixedsearchResultsGrid").off('.keyboardNav');
 					
 					$("##fixedsearchResultsGrid").on('cellselect.keyboardNav', function (event) {
+						console.log("cellselect triggered");
 						var args = event.args;
 						if (args.datafield === null) {
 							var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
@@ -3534,53 +3535,33 @@ Target JSON:
 							}
 						}
 					});
-				//	 // Focusin - always selectable cell or row
-//					$("##fixedsearchResultsGrid").on('focusin.keyboardNav', function(event) {
-//						var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
-//						if (
-//						  selectionMode === 'singlecell' || selectionMode === 'multiplecellsextended' || selectionMode === 'multiplecellsadvanced'
-//						) {
-//							var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
-//							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
-//								var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-//								for (var i = 0; i < columns.length; i++) {
-//									if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-//										$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[i].datafield);
-//										break;
-//									}
-//								}
-//							}
-//						} else if (
-//						  selectionMode === 'singlerow' || selectionMode === 'multiplerowsextended' || selectionMode === 'multiplerowsadvanced'
-//						) {
-//							var selectedRows = $("##fixedsearchResultsGrid").jqxGrid('getselectedrowindexes');
-//							if (!selectedRows || selectedRows.length === 0) {
-//								$("##fixedsearchResultsGrid").jqxGrid('clearselection');
-//								$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
-//							}
-//						}
-//					});
+					$("##fixedsearchResultsGrid").on('focusin.keyboardNav', function(event) {
+						var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
+						if (
+						  selectionMode === 'singlecell' || selectionMode === 'multiplecellsextended' || selectionMode === 'multiplecellsadvanced'
+						) {
+							var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
+								var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+								for (var i = 0; i < columns.length; i++) {
+									if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+										$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[i].datafield);
+										break;
+									}
+								}
+							}
+						} else if (
+						  selectionMode === 'singlerow' || selectionMode === 'multiplerowsextended' || selectionMode === 'multiplerowsadvanced'
+						) {
+							var selectedRows = $("##fixedsearchResultsGrid").jqxGrid('getselectedrowindexes');
+							if (!selectedRows || selectedRows.length === 0) {
+								$("##fixedsearchResultsGrid").jqxGrid('clearselection');
+								$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
+							}
+						}
+					});
 
-					// Optionally, keyboard shortcuts...
-//					$("##fixedsearchResultsGrid").on('keydown.keyboardNav', function(event){
-//						var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
-//						if(event.key === " " || event.key === "Enter") {
-//							if (
-//							  selectionMode === 'singlecell' || selectionMode === 'multiplecellsextended' || selectionMode === 'multiplecellsadvanced'
-//							) {
-//								var cell = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
-//								if(cell && cell.rowindex >= 0){
-//									$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', cell.rowindex);
-//								}
-//							} else {
-//								var rows = $("##fixedsearchResultsGrid").jqxGrid('getselectedrowindexes');
-//								if(rows && rows[0] >= 0){
-//									$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', rows[0]);
-//								}
-//							}
-//						}
-//					});
-
+					
 					// (If you use double-click to open row details)
 //					$("##fixedsearchResultsGrid").on('rowdoubleclick.keyboardNav', function(event) {
 //						$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', event.args.rowindex);
