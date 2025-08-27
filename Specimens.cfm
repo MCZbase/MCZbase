@@ -3517,7 +3517,7 @@ Target JSON:
 				});
 		
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-					  // Remove old handlers to avoid stacking
+					// Remove old handlers to avoid stacking
 					$("##fixedsearchResultsGrid").off('.keyboardNav customTabNav rowexpand rowcollapse rowselect rowunselect pagechanged');
 
 					// Select and focus the first visible data cell after any grid load (initial or after page change)
@@ -3567,30 +3567,11 @@ Target JSON:
 							}
 						}
 					});
-					
-					// Custom Tab/Shift+Tab: always jump out of grid
-					$("##fixedsearchResultsGrid").on('keydown.customTabNav', function(event) {
-						// Only act within the grid when a cell is selected!
-						if (event.key === 'Tab') {
-							event.preventDefault();
-							if (event.shiftKey) {
-								// Shift+Tab: focus selectmode dropdown
-								$('##fixedSelectMode').focus();
-							} else {
-								// Tab: focus the first pager button below grid
-								var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
-								var $pagerTargets = $pager.find('button, [tabindex]:not([tabindex="-1"])').filter(':visible');
-								if ($pagerTargets.length > 0) {
-									$pagerTargets.first().focus();
-								} else {
-									$pager.attr('tabindex', 0).focus();
-								}
-							}
-						}
-						// All other keys: fall through, let jqxGrid handle them (arrows, enter, etc)
-					});
 
-					// Guard: If a non-data cell gets selected (such as details expander), move to first data cell in that row
+					// Ensure you can move among pager buttons with Tab naturally (this is usually default, but just in case)
+					// No need to trap Tab inside the pager—let browser handle this.
+
+					// Rest of your handlers (cellselect, showdetails, rowexpand, etc) as before
 					$("##fixedsearchResultsGrid").on('cellselect.keyboardNav', function(event) {
 						var args = event.args;
 						if (args.datafield === null) {
@@ -3603,8 +3584,6 @@ Target JSON:
 							}
 						}
 					});
-
-					// Open row details on Enter/Spacebar for accessibility
 					$("##fixedsearchResultsGrid").on('keydown.keyboardNav', function(event){
 						var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
 						if(event.key === " " || event.key === "Enter") {
@@ -3623,13 +3602,9 @@ Target JSON:
 							}
 						}
 					});
-
-					// Show details on double-click row
 					$("##fixedsearchResultsGrid").on('rowdoubleclick.keyboardNav', function(event) {
 						$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', event.args.rowindex);
 					});
-
-					// Row expand/collapse and row select/unselect handlers (note: always re-attach INSIDE bindingcomplete)
 					$("##fixedsearchResultsGrid").on('rowexpand', function (event) {
 						var args = event.args;
 						var rowIndex = args.rowindex;
@@ -3647,10 +3622,11 @@ Target JSON:
 					$("##fixedsearchResultsGrid").on('rowunselect', function (event) {
 						$("##fixedunselectrowindex").text(event.args.rowindex);
 					});
-					
+
 					gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 					$('##overlay').hide();
 				});
+				
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
 							$(document).scrollTop(200);
