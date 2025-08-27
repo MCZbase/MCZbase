@@ -3481,6 +3481,7 @@ Target JSON:
 					],
 					
 					rowdetails: true,
+					showrowdetailscolumn: false,
 					rowdetailstemplate: {
 						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
 						rowdetailsheight:  1 // row details will be placed in popup dialog
@@ -3512,28 +3513,31 @@ Target JSON:
 						columnOrderChanged('fixedsearchResultsGrid'); 
 					}); 
 				</cfif>
-				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
-					
-					var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
-					if (
-						selectionMode !== 'singlecell' &&
-						selectionMode !== 'multiplecellsextended' &&
-						selectionMode !== 'multiplecellsadvanced'
-					) {
-						return; // Only process in cell selection modes
-					}
-
-					var args = event.args;
-					if (args.datafield === null) {
-						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
-						for (var i = 0; i < columns.length; i++) {
-							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-								$('##fixedsearchResultsGrid').jqxGrid('selectcell', args.rowindex, columns[i].datafield);
-								break;
-							}
-						}
-					}
+				$('##fixedsearchResultsGrid').on('rowdoubleclick', function (event){
+					$('##fixedsearchResultsGrid').jqxGrid('showrowdetails', event.args.rowindex);
 				});
+//				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
+//					
+//					var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
+//					if (
+//						selectionMode !== 'singlecell' &&
+//						selectionMode !== 'multiplecellsextended' &&
+//						selectionMode !== 'multiplecellsadvanced'
+//					) {
+//						return; // Only process in cell selection modes
+//					}
+//
+//					var args = event.args;
+//					if (args.datafield === null) {
+//						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+//						for (var i = 0; i < columns.length; i++) {
+//							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+//								$('##fixedsearchResultsGrid').jqxGrid('selectcell', args.rowindex, columns[i].datafield);
+//								break;
+//							}
+//						}
+//					}
+//				});
 		
 		
 			
