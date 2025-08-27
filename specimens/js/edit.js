@@ -193,6 +193,7 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
 		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getEditIdentificationsHTML",
+			in_page : false,
 			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
@@ -200,6 +201,39 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"opening edit identifications dialog");
+		},
+		dataType: "html"
+	});
+}
+
+/** openEditIdentificationsInPage loads a form for editing identifications 
+ * for a cataloged item into the editControlsBlock of a page hiding the SpecimenDetailsDiv.
+ * Invokes closeInPage() on an error.
+ * @param collection_object_id for the cataloged_item for which to edit identifications.
+ * @param callback a callback function, not currently used.
+ */
+function openEditIdentificationsInPage(collection_object_id,callback) { 
+	$('#SpecimenDetailsDiv').hide();
+	$('#editControlsBlock').hide();
+	$("#InPageEditorDiv").addClass("border");
+	$("#InPageEditorDiv").addClass("border-secondary");
+	$("#InPageEditorDiv").addClass("rounded");
+	$("#InPageEditorDiv").addClass("py-2");
+	$("#InPageEditorDiv").addClass("border-3");
+	$("#InPageEditorDiv").html("Loading...");
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditIdentificationsHTML",
+			in_page : true,
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#InPageEditorDiv").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Identifications form");
+			closeInPage();
 		},
 		dataType: "html"
 	});
