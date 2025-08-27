@@ -3613,7 +3613,7 @@ Target JSON:
 					$("##fixedsearchResultsGrid").on('rowunselect', function (event) {
 						$("##fixedunselectrowindex").text(event.args.rowindex);
 					});
-				});
+				
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
 							$(document).scrollTop(200);
