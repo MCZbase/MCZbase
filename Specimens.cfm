@@ -3501,22 +3501,88 @@ Target JSON:
 					$("##fixedsearchResultsGrid").attr('tabindex', 0);
 					// Set all interactive descendants to non-tabbable
 					$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', -1);
+					$("##fixedsearchResultsGrid").off('.keyboardNav');
+					$("##fixedsearchResultsGrid").on('cellselect.keyboardNav', function (event) {
+						var args = event.args;
+						if (args.datafield === null) {
+							var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+							for (var i = 0; i < columns.length; i++) {
+								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "")
+								{
+									$("##fixedsearchResultsGrid").jqxGrid('selectcell', args.rowindex, columns[i].datafield);
+									break;
+								}
+							}
+						}
+					});
+					 // Focusin - always selectable cell or row
+					$("##fixedsearchResultsGrid").on('focusin.keyboardNav', function(event) {
+						var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
+						if (
+						  selectionMode === 'singlecell' || selectionMode === 'multiplecellsextended' || selectionMode === 'multiplecellsadvanced'
+						) {
+							var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+							if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
+								var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+								for (var i = 0; i < columns.length; i++) {
+									if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+										$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[i].datafield);
+										break;
+									}
+								}
+							}
+						} else if (
+						  selectionMode === 'singlerow' || selectionMode === 'multiplerowsextended' || selectionMode === 'multiplerowsadvanced'
+						) {
+							var selectedRows = $("##fixedsearchResultsGrid").jqxGrid('getselectedrowindexes');
+							if (!selectedRows || selectedRows.length === 0) {
+								$("##fixedsearchResultsGrid").jqxGrid('clearselection');
+								$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
+							}
+						}
+					});
+
+					// Optionally, keyboard shortcuts...
+					$("##fixedsearchResultsGrid").on('keydown.keyboardNav', function(event){
+						var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
+						if(event.key === " " || event.key === "Enter") {
+							if (
+							  selectionMode === 'singlecell' || selectionMode === 'multiplecellsextended' || selectionMode === 'multiplecellsadvanced'
+							) {
+								var cell = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+								if(cell && cell.rowindex >= 0){
+									$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', cell.rowindex);
+								}
+							} else {
+								var rows = $("##fixedsearchResultsGrid").jqxGrid('getselectedrowindexes');
+								if(rows && rows[0] >= 0){
+									$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', rows[0]);
+								}
+							}
+						}
+					});
+
+					// (If you use double-click to open row details)
+					$("##fixedsearchResultsGrid").on('rowdoubleclick.keyboardNav', function(event) {
+						$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', event.args.rowindex);
+					});
+
 					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
 						if (columns && columns.length > 0) {
 							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
 						}
 						$("##fixedsearchResultsGrid").focus();
 					
-					$("##fixedsearchResultsGrid").on('focusin', function(event) {
-						// Check if any cell is already selected
-						var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
-						if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
-							var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-							if (columns && columns.length > 0) {
-								$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
-							}
-						}
-					});
+					//$("##fixedsearchResultsGrid").on('focusin', function(event) {
+//						// Check if any cell is already selected
+//						var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+//						if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
+//							var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+//							if (columns && columns.length > 0) {
+//								$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+//							}
+//						}
+//					});
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
 							$(document).scrollTop(200);
