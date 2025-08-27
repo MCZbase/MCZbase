@@ -3481,7 +3481,7 @@ Target JSON:
 					],
 					
 					rowdetails: true,
-					//showrowdetailscolumn: false,
+					showrowdetailscolumn: true,
 					rowdetailstemplate: {
 						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
 						rowdetailsheight:  1 // row details will be placed in popup dialog
@@ -3490,24 +3490,7 @@ Target JSON:
 				});
 				//end of fixed grid creation
 		
-				//start of handlers -- cellselect should go first
-//				$("##fixedsearchResultsGrid").on('cellselect', function (event) {
-//					var args = event.args;
-//					if (args.datafield === null) {
-//						// Find the first actual data cell (not the arrow)
-//						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-//						var firstField = null;
-//						for (var i = 0; i < columns.length; i++) {
-//							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-//								firstField = columns[i].datafield;
-//								break;
-//							}
-//						}
-//						if (firstField) {
-//							$("##fixedsearchResultsGrid").jqxGrid('selectcell', args.rowindex, firstField);
-//						}
-//					}
-//				});		
+
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
 						columnOrderChanged('fixedsearchResultsGrid'); 
@@ -3524,34 +3507,27 @@ Target JSON:
 					  $('##fixedsearchResultsGrid').jqxGrid('selectcell', event.args.rowindex, firstField);
 				  }
 				});
-//				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
-//					
-//					var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
-//					if (
-//						selectionMode !== 'singlecell' &&
-//						selectionMode !== 'multiplecellsextended' &&
-//						selectionMode !== 'multiplecellsadvanced'
-//					) {
-//						return; // Only process in cell selection modes
-//					}
-//
-//					var args = event.args;
-//					if (args.datafield === null) {
-//						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
-//						for (var i = 0; i < columns.length; i++) {
-//							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-//								$('##fixedsearchResultsGrid').jqxGrid('selectcell', args.rowindex, columns[i].datafield);
-//								break;
-//							}
-//						}
-//					}
-//				});
+
 		
 		
 			
 
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
+					var $grid = $('##fixedsearchResultsGrid');
 
+					// Make grid focusable and focus it now
+					$('##fixedsearchResultsGrid').attr('tabindex', 0);
+					$('##fixedsearchResultsGrid').focus();
+
+					// Set all interactive descendants to non-tabbable
+					$('##fixedsearchResultsGrid').find('a, button, input').attr('tabindex', -1);
+
+					// Auto-select the first cell, then force focus
+					var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+					if (columns && columns.length > 0) {
+						$('##fixedsearchResultsGrid').jqxGrid('selectcell', 0, columns[0].datafield);
+						$('##fixedsearchResultsGrid').focus();
+					}
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
 							$(document).scrollTop(200);
@@ -3559,7 +3535,33 @@ Target JSON:
 							$(document).scrollTop(480);
 						}
 					</cfif>
-			
+					
+					// Add keyboard handler for row details
+					$("##fixedsearchResultsGrid").on('keydown', function(event){
+						if (event.key === " " || event.key === "Enter") {
+							var cell = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+							if (cell && cell.rowindex >= 0) {
+								$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', cell.rowindex);
+							}
+						}
+					});
+					// Add double-click to open details
+					$("##fixedsearchResultsGrid").on('rowdoubleclick', function (event) {
+						$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', event.args.rowindex);
+					});
+					
+					// Safety: on focusin, ensure always have a cell selected
+					$("##fixedsearchResultsGrid").off('focusin.ensureCell').on('focusin.ensureCell', function(event) {
+						var selection = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+						if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
+							var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
+							if (columns && columns.length > 0) {
+								$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
+							}
+						}
+					});
+					
+					
 					// add a link out to this search, serializing the form as http get parameters
 					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 					$('##fixedshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'fixed\'); "><i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
