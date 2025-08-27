@@ -269,6 +269,8 @@ function openPartContainersDialog(collection_object_id, dialogid) {
 			}
 		},
 		open: function (event, ui) {
+			// center the dialog in the viewport
+			$(this).dialog('option', 'position', { my: "center", at: "center", of: window });
 			if (typeof(getMaxZIndex) === "function") { 
 				// force the dialog to lay above any other elements in the page.
 				var maxZindex = getMaxZIndex();
