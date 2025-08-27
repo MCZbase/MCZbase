@@ -1168,6 +1168,9 @@ limitations under the License.
 			<cfset scientific_name = REReplace(scientific_name, "\bB\b", "TAXON_B", "all")>
 			<!--- replace the placeholder for A in the formula with the taxon A name --->
 			<!--- lookup the taxon A name in the taxon name table to not include the authorship --->
+			<cfif variables.taxona_id EQ "">
+				<cfthrow message="Taxon A taxon_name_id is required, you must select a taxon from the autocomplete list.">
+			</cfif>
 			<cfquery name="getTaxonA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT scientific_name
 				FROM taxonomy
