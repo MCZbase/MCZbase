@@ -296,6 +296,8 @@ function openPartContainersDialog(collection_object_id, dialogid) {
 		},
 		success: function(data) {
 			console.log("data loaded");
+			console.log($("#"+dialogid+"_div").length);
+			console.log($("#"+dialogid).length);
 			$("#"+dialogid+"_div").html(data);
 		},
 		error: function (jqXHR, status, error) {
