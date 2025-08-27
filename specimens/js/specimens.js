@@ -281,7 +281,7 @@ function openPartContainersDialog(collection_object_id, dialogid) {
 				$("#"+dialogid+"_div").html("");
 			}, 100);
 			try {  
-				$("#"+dialogid).dialog('destroy');
+				$("#"+dialogid).html("");
 			} catch (e) {} 
 		}
 	});
@@ -295,6 +295,7 @@ function openPartContainersDialog(collection_object_id, dialogid) {
 			collection_object_id: collection_object_id
 		},
 		success: function(data) {
+			console.log("data loaded");
 			$("#"+dialogid+"_div").html(data);
 		},
 		error: function (jqXHR, status, error) {
