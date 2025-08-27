@@ -775,13 +775,17 @@ limitations under the License.
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
 				</cfquery>
 				<cfset target = getTarget.guid>
-				<!--- find any citations for which there aren't identifications --->
+				<!--- find any citations of this specimen for which there aren't identifications --->
 				<cfquery name="getMissingCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 					SELECT distinct
-						taxonomy.scientific_name
+						taxonomy.scientific_name,
+						citation.type_status,
+						citation.publication_id,
+						formatted_publication.formatted_publication
 					FROM 
 						citation
 						join taxonomy on citation.cited_taxon_name_id = taxonomy.taxon_name_id
+						join formatted_publication on citation.publication_id = formatted_publication.publication_id
 					WHERE 
 						citation.cited_taxon_name_id not in (
 							SELECT distinct identification_taxonomy.taxon_name_id
@@ -790,6 +794,8 @@ limitations under the License.
 							WHERE 
 								identification.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
 						)
+						AND citation.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
+						AND formatted_publication.format_style = 'short'
 					ORDER BY 
 						taxonomy.scientific_name
 				</cfquery>
@@ -1065,7 +1071,11 @@ limitations under the License.
 											<p class="mb-1">Please consider adding identifications for the following taxa:</p>
 											<ul>
 												<cfloop query="getMissingCitations">
-													<li>#getMissingCitations.scientific_name#</li>
+													<li>
+														#getMissingCitations.scientific_name#
+														#getMissingCitations.type_status#
+														<a href="/publications/showPublication.cfm?publication_id=#getMissingCitations.publication_id#" target="_blank">#getMissingCitations.formatted_publication#</a>
+													</li>
 												</cfloop>
 											</ul>
 										</cfif>
