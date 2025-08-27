@@ -3489,24 +3489,29 @@ Target JSON:
 					initrowdetails: initRowDetails
 				});
 				//end of fixed grid creation
-		
+				$('##fixedsearchResultsGrid').on('cellselect', function(event){
+					var args = event.args;
+					if(args.datafield === null){
+						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+						var firstDataField = null;
+						for(var i=0;i<columns.length;i++){
+							if(!columns[i].hidden && columns[i].datafield && columns[i].datafield !== ""){
+								firstDataField = columns[i].datafield;
+								break;
+							}
+						}
+						if(firstDataField){
+							$('##fixedsearchResultsGrid').jqxGrid('selectcell', args.rowindex, firstDataField);
+						}
+					}
+				});
 
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
 						columnOrderChanged('fixedsearchResultsGrid'); 
 					}); 
 				</cfif>
-				$('##fixedsearchResultsGrid').on('rowdoubleclick', function (event){
-					$('##fixedsearchResultsGrid').jqxGrid('showrowdetails', event.args.rowindex);
-				});
-				$('##fixedsearchResultsGrid').on('cellselect', function (event) {
-				  if (event.args.datafield === null) {
-					  // move to first data cell in this row
-					  var cols = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
-					  var firstField = cols.filter(c => !c.hidden && c.datafield)[0].datafield;
-					  $('##fixedsearchResultsGrid').jqxGrid('selectcell', event.args.rowindex, firstField);
-				  }
-				});
+	
 
 		
 		
