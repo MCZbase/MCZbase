@@ -244,47 +244,48 @@ function openPartContainersDialog(collection_object_id, dialogid) {
     var contentDivId = dialogid + "_div";
     var content = '<div id="' + contentDivId + '" class="col-12 px-1 px-xl-2">Loading....</div>';
 
-    // Reset and initialize dialog content before each open
-    $(divSelector).html(content);
-
-    // Initialize dialog only if not already initialized
-    if (!$(divSelector).hasClass('ui-dialog-content')) {
-        $(divSelector).dialog({
-            title: title,
-            autoOpen: false,
-            dialogClass: 'ui-widget-header left-3',
-            modal: false,
-            stack: true,
-            height: 'auto',
-            width: 'auto',
-            maxWidth: 600,
-            minHeight: 500,
-            draggable: true,
-            buttons: {
-                "Close Dialog": function() {
-                    $(divSelector).dialog('close');
-                }
-            },
-            open: function (event, ui) {
-                if (typeof(getMaxZIndex) === "function") { 
-                    // force the dialog to lay above any other elements in the page.
-                    var maxZindex = getMaxZIndex();
-                    $('.ui-dialog').css({'z-index': maxZindex + 6 });
-                    $('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
-                }
-            },
-            close: function(event, ui) {
-                // Clear dialog content on close
-                $("#" + contentDivId).html("");
-                // Do NOT destroy the dialog widget here
-            }
-        });
+    // Always destroy any previous dialog widget to ensure a fresh instance
+    if ($(divSelector).hasClass('ui-dialog-content')) {
+        $(divSelector).dialog('destroy');
     }
 
-    // Open the dialog
+    // Set default content
+    $(divSelector).html(content);
+
+    // Initialize dialog
+    $(divSelector).dialog({
+        title: title,
+        autoOpen: false,
+        dialogClass: 'ui-widget-header left-3',
+        modal: false,
+        stack: true,
+        height: 'auto',
+        width: 'auto',
+        maxWidth: 600,
+        minHeight: 500,
+        draggable: true,
+        buttons: {
+            "Close Dialog": function() {
+                $(divSelector).dialog('close');
+            }
+        },
+        open: function (event, ui) {
+            if (typeof(getMaxZIndex) === "function") { 
+                var maxZindex = getMaxZIndex();
+                $('.ui-dialog').css({'z-index': maxZindex + 6 });
+                $('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+            }
+        },
+        close: function(event, ui) {
+            // Just clear content; no need to destroy yet
+            $("#" + contentDivId).html("");
+        }
+    });
+
+    // Now it is safe to open the dialog
     $(divSelector).dialog('open');
 
-    // Fetch the content via AJAX
+    // Fetch content via AJAX
     jQuery.ajax({
         url: "/specimens/component/functions.cfc",
         type: "get",
