@@ -3723,242 +3723,191 @@ Target JSON:
 //	
 //////// code test from ChatGPT
 				// === Your jqxGrid Initialization ===
-$("##fixedsearchResultsGrid").jqxGrid({
-    width: '100%',
-    autoheight: 'true',
-    source: dataAdapter,
-    filterable: false,
-    sortable: true,
-    pageable: true,
-    editable: false,
-    virtualmode: true,
-    enablemousewheel: #session.gridenablemousewheel#,
-    keyboardnavigation: true,
-    pagesize: '#session.specimens_pagesize#',
-    pagesizeoptions: ['5','10','25','50','100','500'],
-    showaggregates: true,
-    columnsresize: true,
-    autoshowfiltericon: true,
-    autoshowcolumnsmenubutton: false,
-    autoshowloadelement: false,
-    columnsreorder: true,
-    groupable: true,
-    selectionmode: 'singlecell',
-    altrows: true,
-    showtoolbar: false,
-    rendergridrows: function () {
-        return dataAdapter.records;
-    },
-    columns: [
-        <cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-            <cfif isdefined("session.killRow") AND session.killRow GT 0>
-                <cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
-                #removerow#
-            </cfif>
-        </cfif>
-        <cfset lastrow ="">
-        <cfloop query="getFieldMetadata">
-            <cfset cellrenderer = "">
-            <cfif len(getFieldMetadata.cellsrenderer) GT 0>
-                <cfif left(getFieldMetadata.cellsrenderer,1) EQ "_"> 
-                    <cfset cellrenderer = " cellsrenderer:fixed#getFieldMetadata.cellsrenderer#,">
-                <cfelse>
-                    <cfset cellrenderer = " cellsrenderer:#getFieldMetadata.cellsrenderer#,">
-                </cfif>
-            </cfif> 
-            <cfif ucase(data_type) EQ 'DATE'>
-                <cfset filtertype = " filtertype: 'date',">
-            <cfelse>
-                <cfset filtertype = "">
-            </cfif>
-            <cfif ucase(column_name) EQ lastcolumn>
-                <cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: fixedcellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#), editable: false }">
-            <cfelse> 
-                {text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: fixedcellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
-            </cfif>
-        </cfloop>
-        #lastrow#
-    ],
-    rowdetails: true,
-    rowdetailstemplate: {
-        rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-        rowdetailsheight: 1
-    },
-    initrowdetails: initRowDetails
-});
+				$("##fixedsearchResultsGrid").jqxGrid({
+					width: '100%',
+					autoheight: 'true',
+					source: dataAdapter,
+					filterable: false,
+					sortable: true,
+					pageable: true,
+					editable: false,
+					virtualmode: true,
+					enablemousewheel: #session.gridenablemousewheel#,
+					keyboardnavigation: true,
+					pagesize: '#session.specimens_pagesize#',
+					pagesizeoptions: ['5','10','25','50','100','500'],
+					showaggregates: true,
+					columnsresize: true,
+					autoshowfiltericon: true,
+					autoshowcolumnsmenubutton: false,
+					autoshowloadelement: false,
+					columnsreorder: true,
+					groupable: true,
+					selectionmode: 'singlecell',
+					altrows: true,
+					showtoolbar: false,
+					rendergridrows: function () {
+						return dataAdapter.records;
+					},
+					columns: [
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+							<cfif isdefined("session.killRow") AND session.killRow GT 0>
+								<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
+								#removerow#
+							</cfif>
+						</cfif>
+						<cfset lastrow ="">
+						<cfloop query="getFieldMetadata">
+							<cfset cellrenderer = "">
+							<cfif len(getFieldMetadata.cellsrenderer) GT 0>
+								<cfif left(getFieldMetadata.cellsrenderer,1) EQ "_"> 
+									<cfset cellrenderer = " cellsrenderer:fixed#getFieldMetadata.cellsrenderer#,">
+								<cfelse>
+									<cfset cellrenderer = " cellsrenderer:#getFieldMetadata.cellsrenderer#,">
+								</cfif>
+							</cfif> 
+							<cfif ucase(data_type) EQ 'DATE'>
+								<cfset filtertype = " filtertype: 'date',">
+							<cfelse>
+								<cfset filtertype = "">
+							</cfif>
+							<cfif ucase(column_name) EQ lastcolumn>
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: fixedcellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#), editable: false }">
+							<cfelse> 
+								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: fixedcellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
+							</cfif>
+						</cfloop>
+						#lastrow#
+					],
+					rowdetails: true,
+					rowdetailstemplate: {
+						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+						rowdetailsheight: 1
+					},
+					initrowdetails: initRowDetails
+				});
 
-// === Accessibility & Keyboard Enhancement ===
+				// === Accessibility & Keyboard Enhancement ===
 
-function focusFirstVisibleCell_fixed() {
-    var $grid = $('##fixedsearchResultsGrid');
-    var columns = $grid.jqxGrid('columns').records;
-    var firstDataField = null;
-    for (var i = 0; i < columns.length; i++) {
-        if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-            firstDataField = columns[i].datafield;
-            break;
-        }
-    }
-    if (firstDataField) {
-        $grid.jqxGrid('selectcell', 0, firstDataField);
-        setTimeout(function () {
-            $grid.find('.jqx-grid-cell').attr('tabindex', -1);
-            $grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
-        }, 10);
-    }
-}
 
-// Keep focus & tabindex always in sync with jqxGrid selection:
-$('##fixedsearchResultsGrid').on('cellselect.rowaccess', function () {
-    var $grid = $(this);
-    setTimeout(function () {
-        $grid.find('.jqx-grid-cell').attr('tabindex', -1);
-        $grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
-    }, 10);
-});
-$('##fixedsearchResultsGrid').on('rowselect.rowaccess', function () {
-    var $grid = $(this);
-    setTimeout(function () {
-        $grid.find('.jqx-grid-cell').attr('tabindex', -1);
-        $grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
-    }, 10);
-});
+					// Accessibility and navigation code INSIDE bindingcomplete:
+					$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 
-// After data loads/new page, always focus the first visible cell:
-$('##fixedsearchResultsGrid').on('bindingcomplete.pagechanged', function () {
-    focusFirstVisibleCell_fixed();
-});
+				   function focusFirstVisibleCell_fixed() {
+						var $grid = $('##fixedsearchResultsGrid');
+						var columns = $grid.jqxGrid('columns').records;
+						var firstDataField = null;
+						for (var i = 0; i < columns.length; i++) {
+					   if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+							firstDataField = columns[i].datafield;
+							break;
+					   }
+						}
+						if (firstDataField) {
+					   $grid.jqxGrid('selectcell', 0, firstDataField);
+					   setTimeout(function () {
+							$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+							$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+					   }, 10);
+						}
+				   }
 
-// If using jqxGrid's pager, also focus first cell after page change
-$('##fixedsearchResultsGrid').on('pagechanged', function () {
-    focusFirstVisibleCell_fixed();
-});
+				   // Keyboard navigation and focus management setup
+				   // Remove potential previously attached handlers to prevent stacking
+				   $('##fixedsearchResultsGrid').off('.gridaccessibility');
 
-// Handle select mode change (singlecell, singlerow, etc.)
-$('##fixedSelectMode').on('change', function () {
-    var mode = $(this).val();
-    var $grid = $('##fixedsearchResultsGrid');
-    $grid.jqxGrid({ selectionmode: mode });
-    $grid.jqxGrid('clearselection');
-    if (mode.indexOf('row') !== -1) {
-        $grid.jqxGrid('selectrow', 0);
-        setTimeout(function () {
-            $grid.find('.jqx-grid-cell').attr('tabindex', -1);
-            $grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
-        }, 10);
-    } else {
-        focusFirstVisibleCell_fixed();
-    }
-});
+				   // Re-attach handlers with a .gridaccessibility namespace
+				   $('##fixedsearchResultsGrid').on('cellselect.gridaccessibility rowselect.gridaccessibility', function () {
+						var $grid = $(this);
+						setTimeout(function () {
+					   $grid.find('.jqx-grid-cell').attr('tabindex', -1);
+					   $grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+						}, 10);
+				   });
 
-// Trap Tab/Shift+Tab in grid and move focus to appropriate control
-$('##fixedsearchResultsGrid').on('keydown.gridTabNav', function (event) {
-    if (event.key === 'Tab') {
-        event.preventDefault();
-        if (event.shiftKey) {
-            // Shift+Tab: focus mode select
-            $('##fixedSelectMode').focus();
-        } else {
-            // Tab: focus first pager control
-            var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
-            var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
-            if ($pagerTargets.length > 0) {
-                $pagerTargets.first().focus();
-            } else {
-                $pager.attr('tabindex', 0).focus();
-            }
-        }
-    }
-});
+				   // Tabbing out of grid
+				   $('##fixedsearchResultsGrid').on('keydown.gridaccessibility', function (event) {
+						if (event.key === 'Tab') {
+					   event.preventDefault();
+					   if (event.shiftKey) {
+							$('##fixedSelectMode').focus();
+					   } else {
+							var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
+							var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
+							if ($pagerTargets.length > 0) {
+						   $pagerTargets.first().focus();
+							} else {
+						   $pager.attr('tabindex', 0).focus();
+							}
+					   }
+						}
+				   });
 
-// Handle Shift+Tab backwards from the first pager item back into the grid
-$('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager').each(function () {
-    var $pager = $(this);
-    var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
-    if ($pagerTargets.length) {
-        $pagerTargets.first().on('keydown', function (e) {
-            if (e.key === 'Tab' && e.shiftKey) {
-                e.preventDefault();
-                focusFirstVisibleCell_fixed();
-            }
-        });
-        // Optionally: Tab from last pager item could move to another control
-    }
-});
+				   // Focus first cell on load and per-page
+				   focusFirstVisibleCell_fixed();
 
-// Focus grid from select mode on Tab
-$('##fixedSelectMode').on('keydown', function (event) {
-    if (event.key === 'Tab' && !event.shiftKey) {
-        event.preventDefault();
-        focusFirstVisibleCell_fixed();
-    }
-});
+				   $('##fixedsearchResultsGrid').on('pagechanged.gridaccessibility', function () {
+						focusFirstVisibleCell_fixed();
+				   });
 
-// Fixes so selection can't "escape" grid: always force focus to valid cell
-$('##fixedsearchResultsGrid').on('cellselect.escapeGuard', function (event) {
-    var args = event.args;
-    if (args.datafield === null) {
-        var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
-        for (var i = 0; i < columns.length; i++) {
-            if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-                $('##fixedsearchResultsGrid').jqxGrid('selectcell', args.rowindex, columns[i].datafield);
-                break;
-            }
-        }
-    }
-});
+				   // Select mode change
+				   $('##fixedSelectMode').on('change.gridaccessibility', function () {
+						var mode = $(this).val();
+						var $grid = $('##fixedsearchResultsGrid');
+						$grid.jqxGrid({ selectionmode: mode });
+						$grid.jqxGrid('clearselection');
+						if (mode.indexOf('row') !== -1) {
+					   $grid.jqxGrid('selectrow', 0);
+					   setTimeout(function () {
+							$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+							$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+					   }, 10);
+						} else {
+					   focusFirstVisibleCell_fixed();
+						}
+				   });
 
-// Accessible detail opening (Enter/Space)
-$("##fixedsearchResultsGrid").on('keydown.showdetails', function(event){
-    var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
-    if(event.key === " " || event.key === "Enter") {
-        if (
-            selectionMode === 'singlecell' || selectionMode === 'multiplecellsextended' || selectionMode === 'multiplecellsadvanced'
-        ) {
-            var cell = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
-            if(cell && cell.rowindex >= 0){
-                $("##fixedsearchResultsGrid").jqxGrid('showrowdetails', cell.rowindex);
-            }
-        } else {
-            var rows = $("##fixedsearchResultsGrid").jqxGrid('getselectedrowindexes');
-            if(rows && rows[0] >= 0){
-                $("##fixedsearchResultsGrid").jqxGrid('showrowdetails', rows[0]);
-            }
-        }
-    }
-});
+				   // Pager navigation (optional: add Shift+Tab as in previous code)
+				   var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
+				   var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
+				   if ($pagerTargets.length) {
+						$pagerTargets.first().off('keydown').on('keydown', function (e) {
+					   if (e.key === 'Tab' && e.shiftKey) {
+							e.preventDefault();
+							focusFirstVisibleCell_fixed();
+					   }
+						});
+				   }
 
-// Double-click row opens details
-$("##fixedsearchResultsGrid").on('rowdoubleclick.openDetails', function(event) {
-    $("##fixedsearchResultsGrid").jqxGrid('showrowdetails', event.args.rowindex);
-});
+				   // Accessible row details: Enter/Space
+				   $("##fixedsearchResultsGrid").on('keydown.gridaccessibility', function(event){
+						var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
+						if(event.key === " " || event.key === "Enter") {
+					   if (selectionMode.indexOf('cell') !== -1) {
+							var cell = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+							if(cell && cell.rowindex >= 0){
+						   $("##fixedsearchResultsGrid").jqxGrid('showrowdetails', cell.rowindex);
+							}
+					   } else {
+							var rows = $("##fixedsearchResultsGrid").jqxGrid('getselectedrowindexes');
+							if(rows && rows[0] >= 0){
+						   $("##fixedsearchResultsGrid").jqxGrid('showrowdetails', rows[0]);
+							}
+					   }
+						}
+				   });
 
-// Row expand/collapse hooks (as in your original)
-$("##fixedsearchResultsGrid").on('rowexpand', function (event) {
-    var args = event.args;
-    var rowIndex = args.rowindex;
-    var datarecord = args.owner.source.records[rowIndex];
-    createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
-});
-$("##fixedsearchResultsGrid").on('rowcollapse', function (event) {
-    var args = event.args;
-    var rowIndex = args.rowindex;
-    $("##fixedsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
-});
-$("##fixedsearchResultsGrid").on('rowselect', function (event) {
-    $("##fixedselectrowindex").text(event.args.rowindex);
-});
-$("##fixedsearchResultsGrid").on('rowunselect', function (event) {
-    $("##fixedunselectrowindex").text(event.args.rowindex);
-});
+				   // Add other row detail expand/collapse, double-click, etc. handlers here...
 
-// Role for screen readers
-$('##fixedsearchResultsGrid').attr('role', 'grid');
+				   // === END of accessibility/event/block ===
 
-gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+				   // REMOVE overlay and show grid -- must be at END of bindingcomplete
+				   gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+				   $('##overlay').hide();
 
-		});
-		$('##overlay').hide();
+					});
+		
+	
 	/* End Setup jqxgrid for fixed Search ****************************************************************************************/
 		
 		
