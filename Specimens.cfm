@@ -3957,6 +3957,7 @@ $('##fixedsearchResultsGrid').attr('role', 'grid');
 
 gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 $('##overlay').hide();
+		});
 		
 	/* End Setup jqxgrid for fixed Search ****************************************************************************************/
 		
