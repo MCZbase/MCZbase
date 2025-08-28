@@ -3494,8 +3494,8 @@ Target JSON:
 				});
 
 		
-				$('#fixedsearchResultsGrid').on('cellselect', function(event) {
-					var $grid = $('#fixedsearchResultsGrid');
+				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
+					var $grid = $('##fixedsearchResultsGrid');
 					var selectionMode = $grid.jqxGrid('selectionmode');
 					if (
 						selectionMode !== 'singlecell' &&
@@ -3518,15 +3518,15 @@ Target JSON:
 
 				// Column order change (if user is logged in)
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
-				$('#fixedsearchResultsGrid').on("columnreordered", function (event) { 
+				$('##fixedsearchResultsGrid').on("columnreordered", function (event) { 
 					columnOrderChanged('fixedsearchResultsGrid'); 
 				}); 
 				</cfif>
 
 				// Re-select first visible cell after page change
-				$("#fixedsearchResultsGrid").on('pagechanged', function() {
+				$("##fixedsearchResultsGrid").on('pagechanged', function() {
 					setTimeout(function() {
-						var $grid = $("#fixedsearchResultsGrid");
+						var $grid = $("##fixedsearchResultsGrid");
 						var selectionMode = $grid.jqxGrid('selectionmode');
 						var columns = $grid.jqxGrid('columns').records;
 
