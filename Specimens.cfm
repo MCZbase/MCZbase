@@ -3605,7 +3605,7 @@ Target JSON:
 						$('##fixedsearchResultsGrid').on('keydown.a11y', '.jqx-grid-cell', function (event) {
 							var $grid = $('##fixedsearchResultsGrid');
 							if (event.key === 'Escape') {
-								// Adjust '#outOfGridFocusBtn' to whatever element should get focus after exiting grid
+								// Adjust '##outOfGridFocusBtn' to whatever element should get focus after exiting grid
 								event.preventDefault();
 								$('##outOfGridFocusBtn').focus();
 							} else if (["ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp"].includes(event.key)) {
