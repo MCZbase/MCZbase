@@ -1271,8 +1271,8 @@ limitations under the License.
 						agentguid,
 						agentguid_guid_type,
     					CASE
-    					    WHEN identification.collection_object_id IS NOT NULL THEN 'Yes'
-       					 ELSE 'No'
+    					    WHEN identification.collection_object_id IS NOT NULL THEN 1
+       					 ELSE 0
     					END AS has_identification
 					from
 						specimen_part
