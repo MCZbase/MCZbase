@@ -3493,11 +3493,7 @@ Target JSON:
 					initrowdetails: initRowDetails
 				});
 
-				<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
-						columnOrderChanged('fixedsearchResultsGrid'); 
-					}); 
-				</cfif>
+		
 				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
 					var grid = $('##fixedsearchResultsGrid');
 					var selectionMode = grid.jqxGrid('selectionmode');
@@ -3520,6 +3516,11 @@ Target JSON:
 						}
 					}
 				});
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+						columnOrderChanged('fixedsearchResultsGrid'); 
+					}); 
+				</cfif>
 				$("##fixedsearchResultsGrid").on('pagechanged', function(event) {
 					// Wait a bit to ensure page is rendered (sometimes necessary)
 					setTimeout(function() {
@@ -3550,7 +3551,11 @@ Target JSON:
 					}, 10); // Delay may be unnecessary, but helps in virtualmode
 				});
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function (event) {
-
+					<cfif isdefined("session.username") and len(#session.username#) gt 0>
+						$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+							columnOrderChanged('fixedsearchResultsGrid'); 
+						}); 
+					</cfif>
 					// Remove all old handlers in this namespace to avoid stacking
 					$('##fixedsearchResultsGrid').off('.a11y');
 					$('##fixedSelectMode').off('.a11y');
@@ -3560,7 +3565,7 @@ Target JSON:
 						var $grid = $('##fixedsearchResultsGrid');
 						var columns = $grid.jqxGrid('columns').records;
 						var firstDataField = null;
-						for (var i = 1; i < columns.length; i++) {
+						for (var i = 0; i < columns.length; i++) {
 							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
 								firstDataField = columns[i].datafield;
 								break;
@@ -3932,13 +3937,10 @@ Target JSON:
 					initrowdetails: initRowDetails
 				});
 		
-				<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					$('##keywordsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
-						columnOrderChanged('keywordsearchResultsGrid'); 
-					}); 
-				</cfif>
+	
 
 				$("##keywordsearchResultsGrid").on("bindingcomplete", function(event) {
+					
 					console.log("bindingcomlete: keywordsearchResultsGrid");
 					// add a link out to this search, serializing the form as http get parameters
 					$('##keywordresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##keywordSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
