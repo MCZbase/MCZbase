@@ -1269,7 +1269,11 @@ limitations under the License.
 						agent_name,
 						agent.agent_id,
 						agentguid,
-						agentguid_guid_type
+						agentguid_guid_type,
+    					CASE
+    					    WHEN identification.collection_object_id IS NOT NULL THEN 'Yes'
+       					 ELSE 'No'
+    					END AS has_identification
 					from
 						specimen_part
 						left join coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
@@ -1280,6 +1284,7 @@ limitations under the License.
 						left join specimen_part_attribute on specimen_part.collection_object_id=specimen_part_attribute.collection_object_id
 						left join preferred_agent_name on specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id
 						left join agent on specimen_part_attribute.determined_by_agent_id = agent.agent_id
+    					LEFT JOIN identification ON specimen_part.collection_object_id = identification.collection_object_id
 					where
 						specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
@@ -1306,6 +1311,7 @@ limitations under the License.
 						lot_count,
 						part_remarks
 					order by
+						has_identification asc, 
 						part_name, part_id
 				</cfquery>
 				<table class="table px-1 table-responsive-md w-100 tablesection my-1">
@@ -1464,6 +1470,25 @@ limitations under the License.
 										<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
 									</td>
 								</tr>
+							</cfif>
+							<!--- lookup material sample id from guid_our_thing table --->
+							<cfquery name="getMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable
+								FROM guid_our_thing
+								WHERE guid_is_a = 'materialSampleID'
+								  AND sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+							</cfquery>
+							<cfif getMaterialSampleID.recordcount GT 0>
+								<cfloop query="getMaterialSampleID">
+									<tr class="small90">
+										<td colspan="6" class="mb-0 pb-1 pt-0">
+											<span class="pl-3 d-block">
+												<span class="font-italic">materialSample_id:</span> 
+												<a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
+											</span>
+										</td>
+									</tr>
+								</cfloop>
 							</cfif>
 							<!--- for each part list the part attributes --->
 							<cfquery name="partAttributes" dbtype="query">
@@ -1633,6 +1658,25 @@ limitations under the License.
 											</span>
 										</td>
 									</tr>
+								</cfif>
+								<!--- lookup material sample id from guid_our_thing table --->
+								<cfquery name="getMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable
+									FROM guid_our_thing
+									WHERE guid_is_a = 'materialSampleID'
+									  AND sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
+								</cfquery>
+								<cfif getMaterialSampleID.recordcount GT 0>
+									<cfloop query="getMaterialSampleID">
+										<tr class="small90">
+											<td colspan="6" class="mb-0 pb-1 pt-0">
+												<span class="pl-3 d-block">
+													<span class="font-italic">materialSample_id:</span> 
+													<a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
+												</span>
+											</td>
+										</tr>
+									</cfloop>
 								</cfif>
 								<!--- for each subsample part list any part attributes --->
 								<cfquery name="partAttributes" dbtype="query">
