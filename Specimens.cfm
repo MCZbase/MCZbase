@@ -3557,7 +3557,7 @@ Target JSON:
 
 					// --- Focus the first visible data cell ---
 					function focusFirstVisibleCell_fixed() {
-						var $grid = $('##fixedsearchResultsGrid');
+						var $grid = $('#fixedsearchResultsGrid');
 						var columns = $grid.jqxGrid('columns').records;
 						var firstDataField = null;
 						for (var i = 0; i < columns.length; i++) {
