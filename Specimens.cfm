@@ -3602,7 +3602,7 @@ Target JSON:
 						if (event.key === 'Escape') {
 							event.preventDefault();
 							var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
-							var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
+							var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="0"])').filter(':visible');
 							if ($pagerTargets.length > 0) {
 								$pagerTargets.first().focus();
 							} else {
