@@ -3633,6 +3633,8 @@ Target JSON:
 							}
 						}
 					});
+					// Remove old handlers to avoid stacking with every pagination/bindingcomplete
+					$('##fixedsearchResultsGrid').off('keydown.a11yDetails rowdoubleclick.a11yDetails');
 					
 					// Add keyboard handler for row details
 					$("##fixedsearchResultsGrid").on('keydown', function(event){
