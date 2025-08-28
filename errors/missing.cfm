@@ -137,7 +137,7 @@
 			<cfelse>
 				<!--- lookup what this UUID resolves to in guid_our_thing table, match on local_identifer, check what target_table and guid_is_a values are and disposition --->
 				<cfquery name="lookupUUID" datasource="cf_dbuser" timeout="#Application.short_timeout#">
-					SELECT target_table, guid_our_thing_id, co_collection_object_id,  guid_is_a, disposition
+					SELECT target_table, guid_our_thing_id, co_collection_object_id, sp_collection_object_id  guid_is_a, disposition
 					FROM guid_our_thing
 					WHERE local_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#uuid#">
 						AND scheme = 'urn' 
@@ -147,7 +147,7 @@
 				<cfif lookupUUID.recordcount EQ 0>
 					<cfthrow message="UUID not found" detail="No record found in guid_our_thing table for UUID #uuid#">
 				<cfelseif lookupUUID.recordcount GT 0>
-					<cfif lookupUUID.disposition IS "exists" AND lookupUUID.target_table IS "coll_object" AND lookupUUID.guid_is_a IS "occurrenceID">
+					<cfif lookupUUID.disposition IS "exists" AND lookupUUID.target_table IS "COLL_OBJECT" AND lookupUUID.guid_is_a IS "occurrenceID">
 						<!--- lookup the cataloged item for the occurrence and redirect to it with /guid/{institution_code}:{collection_code}:{catalog_number} --->
 						<!--- type of coll_object should be "SP", check this and lookup from parent cataloged item --->
 						<cfquery name="getCatItem" datasource="uam_god" timeout="#Application.short_timeout#" result="getCatItem.result">
@@ -171,6 +171,31 @@
 						<cfelse>
 							<cfthrow message="UUID found but target coll_object not found" detail="Record found in guid_our_thing table but target coll_object #q.co_collection_object_id# not found in coll_object table.">
 						</cfif>
+					<cfelseif lookupUUID.disposition IS "exists" AND lookupUUID.target_table IS "SPECIMEN_PART" AND lookupUUID.guid_is_a IS "materialSampleID">
+						<!--- lookup the cataloged item for the material sample and redirect to it with /guid/{institution_code}:{collection_code}:{catalog_number} --->
+						<!--- type of coll_object should be "SP", check this and lookup from parent cataloged item --->
+						<cfquery name="getCatItem" datasource="uam_god" timeout="#Application.short_timeout#" result="getCatItem.result">
+							SELECT coll_object.coll_object_type, 
+								coll.institution_acronym institution_code, 
+								coll.collection_cde collection_code, 
+								ci.cat_num catalog_number
+							FROM coll_object 
+							left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id
+							left join cataloged_item ci on specimen_part.derived_from_cat_item = ci.collection_object_id
+							LEFT JOIN collection coll ON ci.collection_id = coll.collection_id
+							WHERE specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.sp_collection_object_id#">
+						</cfquery>
+						<cfif getCatItem.recordcount EQ 1>
+							<cfif getCatItem.coll_object_type IS NOT "SP">
+								<cfthrow message="UUID found but target coll_object is not a specimen part" detail="Record found in guid_our_thing table but target coll_object #q.sp_collection_object_id# is type #getCatItem.coll_object_type#, expected type 'SP'">
+							</cfif>
+							<cfset guid = "#getCatItem.institution_code#:#getCatItem.collection_code#:#getCatItem.catalog_number#">
+							<cfheader statuscode="301" statustext="Moved permanently">
+							<cfheader name="Location" value="/guid/#guid#">
+						<cfelse>
+							<cfthrow message="UUID found but target coll_object not found" detail="Record found in guid_our_thing table but target specimen_part #q.sp_collection_object_id# not found in coll_object table.">
+						</cfif>
+
 					<cfelse>
 						<cfthrow message="UUID found but cannot be resolved" detail="Record found in guid_our_thing table but target_table #q.target_table#, guid_is_a #q.guid_is_a# or disposition #q.disposition# not handled.">
 					</cfif>
