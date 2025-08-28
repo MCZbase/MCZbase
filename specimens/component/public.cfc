@@ -1464,7 +1464,7 @@ limitations under the License.
 									collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
 							</cfquery>
 							<cfif mainParts.has_identification EQ "1">
-								<cfset addedClass = "part_occurrence_head">
+								<cfset addedClass = "part_occurrence">
 							<cfelse>
 								<cfset addedClass = "">
 							</cfif>
