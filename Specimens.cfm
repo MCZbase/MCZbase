@@ -3651,22 +3651,34 @@ Target JSON:
 					});
 					// *** DO NOT CAPTURE TAB or Shift+Tab on pager controls or inputs ***
 					// Let pager inputs/buttons/next/prev/page-input work natively!
-					// If you want Shift+Tab from the *first* button *only* to go back to grid:
-					var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
+					var $pager = $('#fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
+					console.log('Pager found:', $pager.length);
+
 					var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
+					console.log('Pager targets:', $pagerTargets.length, $pagerTargets);
+
 					if ($pagerTargets.length) {
 						$pagerTargets.first().off('keydown.a11y').on('keydown.a11y', function (event) {
-							if (event.key === 'Tab' && event.shiftKey) {
-								// ONLY trap Shift+Tab on the first item in pager,
-								// all other keys for all other controls (inputs, buttons) are not blocked or captured, so paging and Go to Page input work!
+							console.log('Keydown event:', event.key, event);
+							if ((event.key === 'Tab' || event.keyCode === 9) && event.shiftKey) {
 								event.preventDefault();
-								focusFirstVisibleCell_fixed();
+								console.log('SHIFT+TAB trapped');
+								if (typeof focusFirstVisibleCell_fixed === 'function') {
+									focusFirstVisibleCell_fixed();
+								} else {
+									console.log('focusFirstVisibleCell_fixed is not defined');
+								}
 							}
 						});
+						$pagerTargets.first().on('focus', function() { console.log('First pager control focused'); });
+					} else {
+						console.log('No visible pager controls found.');
 					}
 					 // ARIA role for screen readers
 					$('##fixedsearchResultsGrid').attr('role', 'grid');
 				
+					
+					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
 							$(document).scrollTop(200);
