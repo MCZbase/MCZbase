@@ -4246,6 +4246,10 @@ limitations under the License.
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					specimen_part.collection_object_id part_id,
+    				CASE
+    				    WHEN identification.collection_object_id IS NOT NULL THEN 1
+       				 ELSE 0
+    				END AS has_identification,
 					pc.label label,
 					pc.container_id container_id,
 					nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
@@ -4265,22 +4269,16 @@ limitations under the License.
 					attribute_remark,
 					agent_name
 				FROM
-					specimen_part,
-					coll_object,
-					coll_object_remark,
-					coll_obj_cont_hist,
-					container oc,
-					container pc,
-					specimen_part_attribute,
-					preferred_agent_name
+					specimen_part
+					LEFT JOIN specimen_part_attribute on specimen_part.collection_object_id=specimen_part_attribute.collection_object_id
+					JOIN coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
+					LEFT JOIN coll_object_remark on coll_object.collection_object_id=coll_object_remark.collection_object_id
+					LEFT JOIN coll_obj_cont_hist on coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id
+					left join container oc on coll_obj_cont_hist.container_id=oc.container_id
+					left join container pc on oc.parent_container_id=pc.container_id
+					left join preferred_agent_name on specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id
+    				LEFT JOIN identification ON specimen_part.collection_object_id = identification.collection_object_id
 				WHERE
-					specimen_part.collection_object_id=specimen_part_attribute.collection_object_id (+) and
-					specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id (+) and
-					specimen_part.collection_object_id=coll_object.collection_object_id and
-					coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id and
-					coll_object.collection_object_id=coll_object_remark.collection_object_id (+) and
-					coll_obj_cont_hist.container_id=oc.container_id and
-					oc.parent_container_id=pc.container_id (+) and
 					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 			</cfquery>
 			
@@ -4298,7 +4296,8 @@ limitations under the License.
 					lot_count_modifier,
 					lot_count,
 					display_lot_count,
-					part_remarks
+					part_remarks,
+					has_identification
 				FROM
 					rparts
 				GROUP BY
@@ -4315,12 +4314,16 @@ limitations under the License.
 					lot_count,
 					display_lot_count,
 					part_remarks
+					has_identification
 				ORDER BY
-					part_name
+					has_identification asc, part_name
 			</cfquery>
 			
 			<cfquery name="mPart" dbtype="query">
-				SELECT * FROM parts WHERE sampled_from_obj_id IS NULL ORDER BY part_name
+				SELECT * 
+				FROM parts 
+				WHERE sampled_from_obj_id IS NULL 
+				ORDER BY has_identification asc, part_name
 			</cfquery>
 			
 			<div class="row mx-0">
@@ -4340,7 +4343,12 @@ limitations under the License.
 									WHERE guid_is_a = 'materialSampleID'
 									  AND sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mPart.part_id#">
 								</cfquery>
-								<div class="row mx-0 border py-1 mb-0">
+								<cfif mPart.has_identification EQ "1">
+									<cfset addedClass = "part_occurrence">
+								<cfelse>
+									<cfset addedClass = "">
+								</cfif>
+								<div class="row mx-0 border py-1 mb-0 #addedClass#">
 									<cfif getMaterialSampleID.recordcount GT 0>
 										<div class="col-12">
 											<ul>
