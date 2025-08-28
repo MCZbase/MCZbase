@@ -1298,7 +1298,8 @@ limitations under the License.
 						part_disposition,
 						part_condition,
 						lot_count,
-						part_remarks
+						part_remarks,
+						has_identification
 					from
 						getParts
 					group by
@@ -1309,7 +1310,8 @@ limitations under the License.
 						part_disposition,
 						part_condition,
 						lot_count,
-						part_remarks
+						part_remarks,
+						has_identification
 					order by
 						has_identification asc, 
 						part_name, part_id
