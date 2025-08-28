@@ -3637,7 +3637,7 @@ Target JSON:
 					// ARIA role for screen readers (optional but good practice)
 					$('##fixedsearchResultsGrid').attr('role', 'grid');
 					
-				});
+				
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
 							$(document).scrollTop(200);
