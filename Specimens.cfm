@@ -3672,14 +3672,7 @@ Target JSON:
 				
 					
 					
-					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
-						if (document <= 900){
-							$(document).scrollTop(200);
-						} else {
-							$(document).scrollTop(480);
-						}
-					</cfif>
-			
+				});
 				
 		
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
