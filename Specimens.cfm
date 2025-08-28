@@ -3578,6 +3578,7 @@ Target JSON:
 					// --- Call once on grid load ---
 					focusFirstVisibleCell_fixed();
 					
+		
 					  // --- .focusin: Always update tabindex when focus moves in or within the grid ---
 					$('##fixedsearchResultsGrid').on('focusin.a11y', function (e) {
 						var $cell = $(e.target).closest('.jqx-grid-cell');
@@ -3650,15 +3651,21 @@ Target JSON:
 							$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
 						}, 10);
 					});
+					// After page changed or grid re-bind: return focus to top-left cell
+					$('##fixedsearchResultsGrid').off('pagechanged.a11y').on('pagechanged.a11y', function () {
+						focusFirstVisibleCell_fixed();
+					});
 					// --- Custom tabbing out of the grid ---
-					$('##fixedsearchResultsGrid').on('keydown.a11y', function (event) {
-						if (event.key === 'Tab') {
+					// Trap Tab/Shift+Tab ONLY on actual jqx-grid-cell elements:
+					// This guarantees no cell-to-cell tabbing, but allows exiting as desired.
+					$('##fixedsearchResultsGrid').off('keydown.a11y').on('keydown.a11y', '.jqx-grid-cell', function(event) {
+						if (event.key === 'Tab' && !event.ctrlKey && !event.altKey) {
 							event.preventDefault();
 							if (event.shiftKey) {
-								// Focus selection mode dropdown above grid
+								// Go to selection mode dropdown
 								$('##fixedSelectMode').focus();
 							} else {
-								// Focus first pager button/input if available
+								// Go to pager
 								var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
 								var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
 								if ($pagerTargets.length > 0) {
@@ -3669,6 +3676,8 @@ Target JSON:
 							}
 						}
 					});
+
+
 
 					// --- Shift+Tab from first pager button goes back to grid ---
 					var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
@@ -3691,40 +3700,52 @@ Target JSON:
 					});
 
 					// --- Respond to selection mode change (e.g., singlecell to singlerow, etc.) ---
-					$('##fixedSelectMode').on('change.a11y', function () {
-						var mode = $(this).val();
-						var $grid = $('##fixedsearchResultsGrid');
-						$grid.jqxGrid({ selectionmode: mode });
-						$grid.jqxGrid('clearselection');
-						if (mode.indexOf('row') !== -1) {
-							$grid.jqxGrid('selectrow', 0);
-							setTimeout(function () {
-								$grid.find('.jqx-grid-cell').attr('tabindex', -1);
-								$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
-							}, 10);
-						} else {
-							focusFirstVisibleCell_fixed();
-						}
+				//	$('##fixedSelectMode').on('change.a11y', function () {
+//						var mode = $(this).val();
+//						var $grid = $('##fixedsearchResultsGrid');
+//						$grid.jqxGrid({ selectionmode: mode });
+//						$grid.jqxGrid('clearselection');
+//						if (mode.indexOf('row') !== -1) {
+//							$grid.jqxGrid('selectrow', 0);
+//							setTimeout(function () {
+//								$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+//								$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+//							}, 10);
+//						} else {
+//							focusFirstVisibleCell_fixed();
+//						}
+//					});
+//
+//					// --- Accessible details popup: open on Enter or Space ---
+//					$("##fixedsearchResultsGrid").on('keydown.a11y', function (event) {
+//						var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
+//						if (event.key === " " || event.key === "Enter") {
+//							if (selectionMode.indexOf('cell') !== -1) {
+//								var cell = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+//								if (cell && cell.rowindex >= 0) {
+//									$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', cell.rowindex);
+//								}
+//							} else {
+//								var rows = $("##fixedsearchResultsGrid").jqxGrid('getselectedrowindexes');
+//								if (rows && rows[0] >= 0) {
+//									$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', rows[0]);
+//								}
+//							}
+//						}
+//					});
+					// Ensure robust focus sync when cell is selected (arrow keys, programmatically, etc)
+					$('##fixedsearchResultsGrid').off('cellselect.a11y').on('cellselect.a11y', function() {
+						var $grid = $(this);
+						setTimeout(function () {
+							$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+							$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+						}, 10);
 					});
 
-					// --- Accessible details popup: open on Enter or Space ---
-					$("##fixedsearchResultsGrid").on('keydown.a11y', function (event) {
-						var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
-						if (event.key === " " || event.key === "Enter") {
-							if (selectionMode.indexOf('cell') !== -1) {
-								var cell = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
-								if (cell && cell.rowindex >= 0) {
-									$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', cell.rowindex);
-								}
-							} else {
-								var rows = $("##fixedsearchResultsGrid").jqxGrid('getselectedrowindexes');
-								if (rows && rows[0] >= 0) {
-									$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', rows[0]);
-								}
-							}
-						}
-					});
-
+					// ARIA role for screen readers (optional but good practice)
+					$('##fixedsearchResultsGrid').attr('role', 'grid');
+					
+					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if (document <= 900){
 							$(document).scrollTop(200);
