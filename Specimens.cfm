@@ -3490,11 +3490,7 @@ Target JSON:
 					initrowdetails: initRowDetails
 				});
 
-				<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
-						columnOrderChanged('fixedsearchResultsGrid'); 
-					}); 
-				</cfif>
+
 		
 		
 		//////  Bindingcomplete
@@ -3802,7 +3798,11 @@ Target JSON:
 					</cfif>
 				});
 		
-				
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+						columnOrderChanged('fixedsearchResultsGrid'); 
+					}); 
+				</cfif>
 		
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
