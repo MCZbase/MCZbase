@@ -3246,6 +3246,389 @@ Target JSON:
 		$(document).ready(function() {
 			/* Setup jqxgrid for fixed Search */
 
+		//	$('##fixedSearchForm').bind('submit', function(evt){
+//				evt.preventDefault();
+//			
+//				var uuid = getVersion4UUID();
+//				$("##result_id_fixedSearch").val(uuid);
+//	
+//				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+//					if (Object.keys(window.columnHiddenSettings).length == 0) {
+//						lookupColumnVisibilities ('#cgi.script_name#','Default');
+//					}
+//				</cfif>
+//
+//				fixedSearchLoaded = 0;
+//
+//				$("##overlay").show();
+//				$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="fixedResults jqxGrid focus" style="z-index: 1;"></div>');
+//				$('##fixedresultCount').html('');
+//				$('##fixedresultLink').html('');
+//				$("##fixedshowhide").html("");
+//				$('##fixedmanageButton').html('');
+//				$('##fixedremoveButtonDiv').html('');
+//				$('##fixedsaveDialogButton').html('');
+//				$('##fixedactionFeedback').html('');
+//				$('##fixedselectModeContainer').hide();
+//				$('##fixedPostGridControls').hide();
+//				debug = $('##fixedSearchForm').serialize();
+//				console.log(debug);
+//				/*var datafieldlist = [ ];//add synchronous call to cf component*/
+//	
+//				var search = null;
+//
+//				if ($('##fixedSearchForm').serialize().length > 7900) { 
+//					// POST to accomodate long catalog number lists
+//					search = 
+//					{
+//						datatype: "json",
+//						
+//						datafields:
+//						[
+//							<cfset separator = "">
+//							<cfloop query="getFieldMetadata">
+//								<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
+//									#separator#{name: '#ucase(column_name)#', type: 'string' }
+//								<cfelseif data_type EQ 'NUMBER' >
+//									#separator#{name: '#ucase(column_name)#', type: 'number' }
+//								<cfelse>
+//									#separator#{name: '#ucase(column_name)#', type: 'string' }
+//								</cfif>
+//								<cfset separator = ",">
+//							</cfloop>
+//						],
+//						beforeprocessing: function (data) {
+//							if (data != null && data.length > 0) {
+//								search.totalrecords = data[0].recordcount;
+//							}
+//						},
+//						sort: function () {
+//							$("##fixedsearchResultsGrid").jqxGrid('updatebounddata','sort');
+//						},
+//						root: 'specimenRecord',
+//						id: 'collection_object_id',
+//						url: '/specimens/component/search.cfc',
+//						type: 'POST',
+//						data: serializeFormAsJSON('fixedSearchForm'),
+//						timeout: #Application.ajax_timeout*2#000,  // units not specified, miliseconds?  Fixed
+//						loadError: function(jqXHR, textStatus, error) {
+//							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
+//						},
+//						async: true,
+//						deleterow: function (rowid, commit) {
+//							console.log(rowid);
+//							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
+//							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
+//							console.log(collobjtoremove);
+//							$.ajax({
+//								url: "/specimens/component/search.cfc",
+//								data: { 
+//									method: 'removeItemFromResult', 
+//									result_id: $('##result_id_fixedSearch').val(),
+//									collection_object_id: collobjtoremove
+//								},
+//								dataType: 'json',
+//								success : function (data) { 
+//									console.log(data);
+//									commit(true);
+//									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+//								},
+//								error : function (jqXHR, textStatus, error) {
+//								handleFail(jqXHR,textStatus,error,"removing row from result set");
+//									commit(false);
+//								}
+//							});
+//						}
+//					};
+//				} else { 
+//					search = 
+//					{
+//						datatype: "json",
+//						datafields:
+//						[
+//							<cfset separator = "">
+//							<cfloop query="getFieldMetadata">
+//								<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
+//									#separator#{name: '#ucase(column_name)#', type: 'string' }
+//								<cfelseif data_type EQ 'NUMBER' >
+//									#separator#{name: '#ucase(column_name)#', type: 'number' }
+//								<cfelse>
+//									#separator#{name: '#ucase(column_name)#', type: 'string' }
+//								</cfif>
+//								<cfset separator = ",">
+//
+//							</cfloop>
+//						],
+//						beforeprocessing: function (data) {
+//							if (data != null && data.length > 0) {
+//								search.totalrecords = data[0].recordcount;
+//							}
+//						},
+//						sort: function () {
+//							$("##fixedsearchResultsGrid").jqxGrid('updatebounddata','sort');
+//						},
+//						root: 'specimenRecord',
+//						id: 'collection_object_id',
+//						url: '/specimens/component/search.cfc?' + $('##fixedSearchForm').serialize(),
+//						timeout: #Application.ajax_timeout*2#000,  // units not specified, miliseconds?  Fixed
+//						loadError: function(jqXHR, textStatus, error) {
+//							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
+//						},
+//						async: true,
+//						deleterow: function (rowid, commit) {
+//							console.log(rowid);
+//							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
+//							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
+//							console.log(collobjtoremove);
+//							$.ajax({
+//								url: "/specimens/component/search.cfc",
+//								data: { 
+//									method: 'removeItemFromResult', 
+//									result_id: $('##result_id_fixedSearch').val(),
+//									collection_object_id: collobjtoremove
+//								},
+//								dataType: 'json',
+//								success : function (data) { 
+//									console.log(data);
+//									commit(true);
+//									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+//								},
+//								error : function (jqXHR, textStatus, error) {
+//								handleFail(jqXHR,textStatus,error,"removing row from result set");
+//									commit(false);
+//								}
+//							});
+//						} 
+//					};
+//				};
+//	
+//				var dataAdapter = new $.jqx.dataAdapter(search);
+//				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+//					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+//					var details = $($(parentElement).children()[0]);
+//					console.log(index);
+//					details.html("<div id='fixedrowDetailsTarget" + index + "'></div>");
+//					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
+//					// Workaround, expansion sits below row in zindex.
+//					var maxZIndex = getMaxZIndex();
+//					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+//				}
+//
+//				$("##fixedsearchResultsGrid").jqxGrid({
+//					width: '100%',
+//					autoheight: 'true',
+//					source: dataAdapter,
+//					filterable: false,
+//					sortable: true,
+//					pageable: true,
+//					editable: false,
+//					virtualmode: true,
+//					enablemousewheel: #session.gridenablemousewheel#,
+//					keyboardnavigation: true,
+//					pagesize: '#session.specimens_pagesize#',
+//					pagesizeoptions: ['5','10','25','50','100','500'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
+//					showaggregates: true,
+//					columnsresize: true,
+//					autoshowfiltericon: true,
+//					autoshowcolumnsmenubutton: false,
+//					autoshowloadelement: false,  // overlay acts as load element for form+results
+//					columnsreorder: true,
+//					groupable: true,
+//					selectionmode: 'singlecell',
+//					altrows: true,
+//					showtoolbar: false,
+//					rendergridrows: function () {
+//						return dataAdapter.records;
+//					},
+//					columns: [
+//						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+//							<cfif isdefined("session.killRow") AND session.killRow GT 0>
+//								<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
+//								#removerow#
+//							</cfif>
+//						</cfif>
+//						<cfset lastrow ="">
+//						<cfloop query="getFieldMetadata">
+//							<cfset cellrenderer = "">
+//							<cfif len(getFieldMetadata.cellsrenderer) GT 0>
+//								<cfif left(getFieldMetadata.cellsrenderer,1) EQ "_"> 
+//									<cfset cellrenderer = " cellsrenderer:fixed#getFieldMetadata.cellsrenderer#,">
+//								<cfelse>
+//									<cfset cellrenderer = " cellsrenderer:#getFieldMetadata.cellsrenderer#,">
+//								</cfif>
+//							</cfif> 
+//							<cfif ucase(data_type) EQ 'DATE'>
+//								<cfset filtertype = " filtertype: 'date',">
+//							<cfelse>
+//								<cfset filtertype = "">
+//							</cfif>
+//							<cfif ucase(column_name) EQ lastcolumn>
+//								<!--- last column, no trailing comma --->
+//								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: fixedcellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#), editable: false }">
+//							<cfelse> 
+//								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: fixedcellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
+//							</cfif>
+//						</cfloop>
+//						#lastrow#
+//					],
+//					
+//					rowdetails: true,
+//					rowdetailstemplate: {
+//						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+//						rowdetailsheight:  1 // row details will be placed in popup dialog
+//					},
+//					initrowdetails: initRowDetails
+//				});
+//
+//				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+//					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+//						columnOrderChanged('fixedsearchResultsGrid'); 
+//					}); 
+//				</cfif>
+//				
+//				$("##fixedsearchResultsGrid").on("bindingcomplete", function (event) {
+//					//function focusGuidCell() {
+////						var $grid = $('##fixedsearchResultsGrid');
+////						var GUID_FIELD = 'guid'; // <-- Make sure this matches your real GUID field!
+////						$grid.jqxGrid('selectcell', 0, GUID_FIELD);
+////						setTimeout(function () {
+////							$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+////							$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+////						}, 10);
+////					}
+//					// Remove all old handlers in this namespace to avoid stacking
+//					$('##fixedsearchResultsGrid').off('.a11y');
+//					$('##fixedSelectMode').off('.a11y');
+//					// --- Call once on grid load ---
+//					focusGuidCell();
+//					// --- Always focus first visible cell after page change ---
+//					$('##fixedsearchResultsGrid').off('pagechanged.a11y').on('pagechanged.a11y', focusGuidCell);
+//					
+//					// --- Keep tabindex/focus in sync when user changes selection with arrows etc ---
+//					$('##fixedsearchResultsGrid').off('cellselect.a11y').on('cellselect.a11y', function () {
+//						var $grid = $(this);
+//						setTimeout(function () {
+//							$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+//							$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+//						}, 10);
+//					});
+//					// .focusin: keep tabindex on whichever cell gains focus
+//					$('##fixedsearchResultsGrid').on('focusin.a11y', function (e) {
+//						var $cell = $(e.target).closest('.jqx-grid-cell');
+//						if ($cell.length) {
+//							var $grid = $('##fixedsearchResultsGrid');
+//							$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+//							$cell.attr('tabindex', 0);
+//						}
+//					});
+//					// Escape: exit grid cells to pager
+//					$('##fixedsearchResultsGrid').off('keydown.a11y').on('keydown.a11y', '.jqx-grid-cell', function(event) {
+//						if (event.key === 'Escape') {
+//							event.preventDefault();
+//							var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
+//							var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
+//							if ($pagerTargets.length > 0) {
+//								$pagerTargets.first().focus();
+//							} else {
+//								$pager.attr('tabindex', 0).focus();
+//							}
+//						}
+//					});
+//
+//					// Guard: if a non-data cell is selected, move to GUID cell in row
+//					$('##fixedsearchResultsGrid').on('cellselect.a11y', function (event) {
+//						var grid = $('##fixedsearchResultsGrid');
+//						var selectionMode = grid.jqxGrid('selectionmode');
+//						if (
+//							selectionMode !== 'singlecell' &&
+//							selectionMode !== 'multiplecellsextended' &&
+//							selectionMode !== 'multiplecellsadvanced'
+//						) {
+//							return; // Only process in cell selection modes
+//						}
+//						var args = event.args;
+//						if (args.datafield === null || args.datafield === "") {
+//							grid.jqxGrid('selectcell', args.rowindex, 'guid'); // use GUID field
+//						}
+//					});
+//		
+//					// ARIA role for screen readers (optional but good practice)
+//					$('##fixedsearchResultsGrid').attr('role', 'grid');
+//					
+//				
+//					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
+//						if (document <= 900){
+//							$(document).scrollTop(200);
+//						} else {
+//							$(document).scrollTop(480);
+//						}
+//					</cfif>
+//			
+//					// add a link out to this search, serializing the form as http get parameters
+//					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
+//					$('##fixedshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'fixed\'); "><i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
+//					if (fixedSearchLoaded==0) { 
+//						try { 
+//							gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+//						} catch (e) { 
+//							console.log(e);
+//							messageDialog("Error in gridLoaded handler:" + e.message,"Error in gridLoaded");
+//						}
+//						fixedSearchLoaded = 1;
+//						loadColumnOrder('fixedsearchResultsGrid');
+//					}
+//					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+//						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
+//					<cfelse>
+//						$('##fixedmanageButton').html('');
+//					</cfif>
+//					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+//						<cfif isdefined("session.killRow") AND session.killRow EQ 2>
+//							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+//								$('##fixedremoveButtonDiv').html('<button id="fixedremoveButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" disabled onclick="removeFixedSelectedRows(); " >Remove Checked</a>');
+//							<cfelse>
+//								$('##fixedremoveButtonDiv').html('');
+//							</cfif>
+//						</cfif>
+//					</cfif>
+//					pageLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+//					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
+//						console.log(#session.specimens_pin_guid#);
+//						setPinColumnState('fixedsearchResultsGrid','GUID',true);
+//					</cfif>
+//				});
+//				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
+//					//  Create a content div, add it to the detail row, and make it into a dialog.
+//					var args = event.args;
+//					var rowIndex = args.rowindex;
+//					var datarecord = args.owner.source.records[rowIndex];
+//					console.log(rowIndex);
+//					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
+//				});
+//				$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
+//					// remove the dialog holding the row details
+//					var args = event.args;
+//					var rowIndex = args.rowindex;
+//					$("##fixedsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+//				});
+//				// display selected row index.
+//				$("##fixedsearchResultsGrid").on('rowselect', function (event) {
+//					$("##fixedselectrowindex").text(event.args.rowindex);
+//				});
+//				// display unselected row index.
+//				$("##fixedsearchResultsGrid").on('rowunselect', function (event) {
+//					$("##fixedunselectrowindex").text(event.args.rowindex);
+//				});
+//			});
+//		
+//		});
+			
+			
+			
+			
+			
+			
+			
 			$('##fixedSearchForm').bind('submit', function(evt){
 				evt.preventDefault();
 			
@@ -3480,29 +3863,95 @@ Target JSON:
 					initrowdetails: initRowDetails
 				});
 
+		
+		
+		
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
 						columnOrderChanged('fixedsearchResultsGrid'); 
 					}); 
 				</cfif>
-				
-				$("##fixedsearchResultsGrid").on("bindingcomplete", function (event) {
-					//function focusGuidCell() {
-//						var $grid = $('##fixedsearchResultsGrid');
-//						var GUID_FIELD = 'guid'; // <-- Make sure this matches your real GUID field!
-//						$grid.jqxGrid('selectcell', 0, GUID_FIELD);
-//						setTimeout(function () {
-//							$grid.find('.jqx-grid-cell').attr('tabindex', -1);
-//							$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
-//						}, 10);
+			//	$('##fixedsearchResultsGrid').on('cellselect', function(event) {
+//					var grid = $('##fixedsearchResultsGrid');
+//					var selectionMode = grid.jqxGrid('selectionmode');
+//					if (
+//						selectionMode !== 'singlecell' &&
+//						selectionMode !== 'multiplecellsextended' &&
+//						selectionMode !== 'multiplecellsadvanced'
+//					) {
+//						return; // Only process in cell selection modes
 //					}
+//
+//					var args = event.args;
+//					if (args.datafield === null) {
+//						var columns = grid.jqxGrid('columns').records;
+//						for (var i = 0; i < columns.length; i++) {
+//							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+//								grid.jqxGrid('selectcell', args.rowindex, columns[i].datafield);
+//								break;
+//							}
+//						}
+//					}
+//				});
+//				$("##fixedsearchResultsGrid").on('pagechanged', function(event) {
+//					// Wait a bit to ensure page is rendered (sometimes necessary)
+//					setTimeout(function() {
+//						var grid = $("##fixedsearchResultsGrid");
+//						var selectionMode = grid.jqxGrid('selectionmode');
+//						var columns = grid.jqxGrid('columns').records;
+//
+//						if (
+//							selectionMode === 'singlecell' ||
+//							selectionMode === 'multiplecellsadvanced' ||
+//							selectionMode === 'multiplecellsextended'
+//						) {
+//							// Select the first visible cell
+//							for (var i = 0; i < columns.length; i++) {
+//								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+//									grid.jqxGrid('selectcell', 0, columns[i].datafield);
+//									break;
+//								}
+//							}
+//						} else if (
+//							selectionMode === 'singlerow' ||
+//							selectionMode === 'multiplerowsextended' ||
+//							selectionMode === 'multiplerowsadvanced'
+//						) {
+//							grid.jqxGrid('selectrow', 0);
+//							$grid.focus();
+//						}
+//					}, 10); // Delay may be unnecessary, but helps in virtualmode
+//				});
+				$("##fixedsearchResultsGrid").on("bindingcomplete", function (event) {
+
 					// Remove all old handlers in this namespace to avoid stacking
 					$('##fixedsearchResultsGrid').off('.a11y');
 					$('##fixedSelectMode').off('.a11y');
+
+					// --- Focus the first visible data cell ---
+					function focusFirstVisibleCell_fixed() {
+						var $grid = $('##fixedsearchResultsGrid');
+						var columns = $grid.jqxGrid('columns').records;
+						var firstDataField = null;
+						for (var i = 0; i < columns.length; i++) {
+							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+								firstDataField = columns[i].datafield;
+								break;
+							}
+						}
+						if (firstDataField) {
+							$grid.jqxGrid('selectcell', 0, firstDataField);
+							setTimeout(function () {
+								$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+								$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+							}, 10);
+						}
+					}
+
 					// --- Call once on grid load ---
-					focusGuidCell();
+					focusFirstVisibleCell_fixed();
 					// --- Always focus first visible cell after page change ---
-					$('##fixedsearchResultsGrid').off('pagechanged.a11y').on('pagechanged.a11y', focusGuidCell);
+					$('##fixedsearchResultsGrid').off('pagechanged.a11y').on('pagechanged.a11y', focusFirstVisibleCell_fixed);
 					
 					// --- Keep tabindex/focus in sync when user changes selection with arrows etc ---
 					$('##fixedsearchResultsGrid').off('cellselect.a11y').on('cellselect.a11y', function () {
@@ -3535,7 +3984,7 @@ Target JSON:
 						}
 					});
 
-					// Guard: if a non-data cell is selected, move to GUID cell in row
+					// Guard: if a non-data cell is selected, move to first data cell in row
 					$('##fixedsearchResultsGrid').on('cellselect.a11y', function (event) {
 						var grid = $('##fixedsearchResultsGrid');
 						var selectionMode = grid.jqxGrid('selectionmode');
@@ -3547,8 +3996,14 @@ Target JSON:
 							return; // Only process in cell selection modes
 						}
 						var args = event.args;
-						if (args.datafield === null || args.datafield === "") {
-							grid.jqxGrid('selectcell', args.rowindex, 'guid'); // use GUID field
+						if (args.datafield === null) {
+							var columns = grid.jqxGrid('columns').records;
+							for (var i = 0; i < columns.length; i++) {
+								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+									grid.jqxGrid('selectcell', args.rowindex, columns[i].datafield);
+									break;
+								}
+							}
 						}
 					});
 		
@@ -3597,6 +4052,8 @@ Target JSON:
 						setPinColumnState('fixedsearchResultsGrid','GUID',true);
 					</cfif>
 				});
+		
+		
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
 					var args = event.args;
@@ -3621,7 +4078,19 @@ Target JSON:
 				});
 			});
 		
-		});
+		
+			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
+	 
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
 		
 		
