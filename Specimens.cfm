@@ -3560,7 +3560,7 @@ Target JSON:
 						var $grid = $('##fixedsearchResultsGrid');
 						var columns = $grid.jqxGrid('columns').records;
 						var firstDataField = null;
-						for (var i = 0; i < columns.length; i++) {
+						for (var i = 1; i < columns.length; i++) {
 							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
 								firstDataField = columns[i].datafield;
 								break;
@@ -3726,7 +3726,6 @@ Target JSON:
 						console.log(#session.specimens_pin_guid#);
 						setPinColumnState('fixedsearchResultsGrid','GUID',true);
 					</cfif>
-					
 					
 					
 					
