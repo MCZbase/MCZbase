@@ -197,7 +197,7 @@
 						</cfif>
 
 					<cfelse>
-						<cfthrow message="UUID found but cannot be resolved" detail="Record found in guid_our_thing table but target_table #q.target_table#, guid_is_a #q.guid_is_a# or disposition #q.disposition# not handled.">
+						<cfthrow message="UUID found but cannot be resolved" detail="Record found in guid_our_thing table but target_table #lookupUUID.target_table#, guid_is_a #lookupUUID.guid_is_a# or disposition #lookupUUID.disposition# not handled.">
 					</cfif>
 				</cfif>
 			</cfif>
