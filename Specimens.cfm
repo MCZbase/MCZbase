@@ -4053,7 +4053,7 @@ Target JSON:
 					columnsreorder: true,
 					groupable: true,
 					selectionmode: '#defaultSelectionMode#',
-					enablebrowserselection: #defaultenablebrowserselection#,
+				//	enablebrowserselection: #defaultenablebrowserselection#,
 					altrows: true,
 					showtoolbar: false,
 					ready: function () {
