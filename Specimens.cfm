@@ -676,6 +676,7 @@ limitations under the License.
 																<!--- lookup agent name --->
 																<cfif len(determiner) EQ 0 AND len(determiner_id) GT 0>
 																	<cfquery name="lookupDeterminer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupDeterminer_result">
+
 																		SELECT agent_name
 																		FROM preferred_agent_name
 																		WHERE
@@ -982,6 +983,7 @@ limitations under the License.
 													<div class="col-12 mb-1 col-md-3">
 														<label for="collector" class="data-entry-label small">Collector</label>
 														<cfif not isdefined("collector")>
+
 															<cfset collector="">
 														</cfif>
 														<cfif not isdefined("collector_agent_id") OR len(collector_agent_id) EQ 0>
@@ -1536,23 +1538,35 @@ limitations under the License.
 													<span id="fixedmanageButton" class=""></span>
 													<span id="fixedremoveButtonDiv" class=""></span>
 													<div id="fixedresultBMMapLinkContainer"></div>
-													<div id="fixedselectModeContainer" class="ml-3" style="display: none;" >
+																			<div id="fixedselectModeContainer" class="ml-3" style="display: none;">
 														<script>
 															function fixedchangeSelectMode(){
-																var selmode = $("##fixedselectMode").val();
-																$("##fixedsearchResultsGrid").jqxGrid({selectionmode: selmode});
-																if (selmode=="none") { 
-																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
+																var selmode = $("##fixedselectMode").val(); // Use correct selector!
+																var $grid = $("##fixedsearchResultsGrid");
+																$grid.jqxGrid({selectionmode: selmode});
+																$grid.jqxGrid('clearselection');
+																if (
+																	selmode === 'singlecell' ||
+																	selmode === 'multiplecellsadvanced' ||
+																	selmode === 'multiplecellsextended'
+																) {
+																	var columns = $grid.jqxGrid('columns').records;
+																	for (var i = 0; i < columns.length; i++) {
+																		if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+																			$grid.jqxGrid('selectcell', 0, columns[i].datafield);
+																			break;
+																		}
+																	}
 																} else {
-																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
+																	$grid.jqxGrid('selectrow', 0);
 																}
-															};
+																$grid.jqxGrid({enableBrowserSelection: (selmode === "singlecell")});
+																$grid.focus();
+															}
 														</script>
 
 														<label class="data-entry-label d-inline w-auto mt-1" for="fixedselectMode">Grid Select:</label>
 														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="fixedchangeSelectMode();">
-															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-															<option #selected# value="none">Text</option>
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="singlecell">Single Cell</option>
 															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -1566,8 +1580,6 @@ limitations under the License.
 												
 													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
 												</div>
-													
-													
 												<!--- TODO: Figure out how to make this sticky row work on the column header row --->
 												<div class="row mx-0 mt-0"> 
 													
@@ -3277,7 +3289,7 @@ Target JSON:
 	
 				var search = null;
 
-					if ($('##fixedSearchForm').serialize().length > 7900) { 
+				if ($('##fixedSearchForm').serialize().length > 7900) { 
 					// POST to accomodate long catalog number lists
 					search = 
 					{
@@ -3365,6 +3377,7 @@ Target JSON:
 							}
 						},
 						sort: function () {
+
 							$("##fixedsearchResultsGrid").jqxGrid('updatebounddata','sort');
 						},
 						root: 'specimenRecord',
@@ -3697,7 +3710,6 @@ Target JSON:
 			});
 			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
 	 
-			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
 		
 		
 		
@@ -4037,7 +4049,138 @@ Target JSON:
 					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 				}
 		
-				$("##buildersearchResultsGrid").jqxGrid();
+				$("##buildersearchResultsGrid").jqxGrid({
+					width: '100%',
+					autoheight: 'true',
+					source: dataAdapter,
+					filterable: false,
+					sortable: true,
+					pageable: true,
+					editable: false,
+					virtualmode: true,
+					enablemousewheel: #session.gridenablemousewheel#,
+					pagesize: '#session.specimens_pagesize#',
+					pagesizeoptions: ['5','10','25','50','100','500'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
+					showaggregates: true,
+					columnsresize: true,
+					autoshowfiltericon: true,
+					autoshowcolumnsmenubutton: false,
+					autoshowloadelement: false,  // overlay acts as load element for form+results
+					columnsreorder: true,
+					groupable: true,
+					selectionmode: '#defaultSelectionMode#',
+					enablebrowserselection: #defaultenablebrowserselection#,
+					altrows: true,
+					showtoolbar: false,
+					ready: function () {
+						$("##buildersearchResultsGrid").jqxGrid('selectrow', 0);
+						$("##buildersearchResultsGrid").jqxGrid('focus');
+					},
+					rendergridrows: function () {
+						return dataAdapter.records;
+					},
+					columns: [
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+							<cfif isdefined("session.killRow") AND session.killRow GT 0>
+								<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeBuilderCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
+								#removerow#
+							</cfif>
+						</cfif>
+						<cfset lastrow ="">
+						<cfloop query="getFieldMetadata">
+							<cfset cellrenderer = "">
+							<cfif len(getFieldMetadata.cellsrenderer) GT 0>
+								<cfif left(getFieldMetadata.cellsrenderer,1) EQ "_"> 
+									<cfset cellrenderer = " cellsrenderer:builder#getFieldMetadata.cellsrenderer#,">
+								<cfelse>
+									<cfset cellrenderer = " cellsrenderer:#getFieldMetadata.cellsrenderer#,">
+								</cfif>
+							</cfif> 
+							<cfif ucase(data_type) EQ 'DATE'>
+								<cfset filtertype = " filtertype: 'date',">
+							<cfelse>
+								<cfset filtertype = "">
+							</cfif>
+							<cfif ucase(column_name) EQ lastcolumn>
+								<!--- last column, no trailing comma --->
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width:#width#, cellclassname: buildercellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+							<cfelse> 
+								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: buildercellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
+							</cfif>
+						</cfloop>
+						#lastrow#
+					],
+					rowdetails: true,
+					rowdetailstemplate: {
+						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+						rowdetailsheight:  1 // row details will be placed in popup dialog
+					},
+					initrowdetails: initRowDetails
+				});
+		
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					$('##buildersearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+						columnOrderChanged('buildersearchResultsGrid'); 
+					}); 
+				</cfif>
+
+				$("##buildersearchResultsGrid").on("bindingcomplete", function(event) {
+					// add a link out to this search, serializing the form as http get parameters
+					$('##builderresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##builderSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
+					$('##buildershowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'builder\'); "><i id="builderSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
+					if (builderSearchLoaded==0) { 
+						try { 
+							gridLoaded('buildersearchResultsGrid','occurrence record','builder');
+						} catch (e) { 
+							console.log(e);
+							messageDialog("Error in gridLoaded handler:" + e.message,"Error in gridLoaded");
+						}
+						builderSearchLoaded = 1;
+						loadColumnOrder('buildersearchResultsGrid');
+					}
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+						$('##buildermanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_builderSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
+					<cfelse>
+						$('##buildermanageButton').html('');
+					</cfif>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+						<cfif isdefined("session.killRow") AND session.killRow EQ 2>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+								$('##builderremoveButtonDiv').html('<button id="builderremoveButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" disabled onclick="removeBuilderSelectedRows(); " >Remove Checked</a>');
+							<cfelse>
+								$('##builderremoveButtonDiv').html('');
+							</cfif>
+						</cfif>
+					</cfif>
+					pageLoaded('buildersearchResultsGrid','occurrence record','builder');
+					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
+						console.log(#session.specimens_pin_guid#);
+						setPinColumnState('buildersearchResultsGrid','GUID',true);
+					</cfif>
+				});
+				$('##buildersearchResultsGrid').on('rowexpand', function (event) {
+					//  Create a content div, add it to the detail row, and make it into a dialog.
+					var args = event.args;
+					var rowIndex = args.rowindex;
+					var datarecord = args.owner.source.records[rowIndex];
+					console.log(rowIndex);
+					createSpecimenRowDetailsDialog('buildersearchResultsGrid','builderrowDetailsTarget',datarecord,rowIndex);
+				});
+				$('##buildersearchResultsGrid').on('rowcollapse', function (event) {
+					// remove the dialog holding the row details
+					var args = event.args;
+					var rowIndex = args.rowindex;
+					$("##buildersearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+				});
+				// display selected row index.
+				$("##buildersearchResultsGrid").on('rowselect', function (event) {
+					$("##builderselectrowindex").text(event.args.rowindex);
+				});
+				// display unselected row index.
+				$("##buildersearchResultsGrid").on('rowunselect', function (event) {
+					$("##builderunselectrowindex").text(event.args.rowindex);
+				});
+			});
 	
 
 			// If requested in uri, execute search immediately.
