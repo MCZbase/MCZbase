@@ -3633,7 +3633,20 @@ Target JSON:
 							}
 						}
 					});
-		
+					
+					// Add keyboard handler for row details
+					$("##fixedsearchResultsGrid").on('keydown', function(event){
+						if (event.key === " " || event.key === "Enter") {
+							var cell = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+							if (cell && cell.rowindex >= 0) {
+								$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', cell.rowindex);
+							}
+						}
+					});
+					// Add double-click to open details
+					$("##fixedsearchResultsGrid").on('rowdoubleclick', function (event) {
+						$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', event.args.rowindex);
+					});
 					// *** DO NOT CAPTURE TAB or Shift+Tab on pager controls or inputs ***
 					// Let pager inputs/buttons/next/prev/page-input work natively!
 					// If you want Shift+Tab from the *first* button *only* to go back to grid:
