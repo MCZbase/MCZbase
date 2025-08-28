@@ -202,6 +202,7 @@
 				</cfif>
 			</cfif>
 		<cfcatch>
+			#cfcatch.message#
 			<cfinclude template="/errors/404.cfm">
 		</cfcatch>
 		</cftry>
