@@ -3546,100 +3546,141 @@ Target JSON:
 						}
 					}, 10); // Delay may be unnecessary, but helps in virtualmode
 				});
-				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-					
-						$("##fixedsearchResultsGrid").attr('tabindex', 0);
+				$("##fixedsearchResultsGrid").on("bindingcomplete", function (event) {
 
-						// Set all interactive descendants to non-tabbable
-						$("##fixedsearchResultsGrid").find('a, button, input').attr('tabindex', 0);
+					// Remove all old handlers in this namespace to avoid stacking
+					$('##fixedsearchResultsGrid').off('.a11y');
+					$('##fixedSelectMode').off('.a11y');
 
-						var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
-						if (columns && columns.length > 0) {
-							$("##fixedsearchResultsGrid").jqxGrid('selectcell', 0, columns[0].datafield);
-						}
-						$("##fixedsearchResultsGrid").focus();
-					
-						// Remove any previous handler, then add Escape key handler
-						$("##fixedsearchResultsGrid").off('keydown.escapeNav').on('keydown.escapeNav', function(event){
-							var grid = $('##fixedsearchResultsGrid');
-							if (event.key === "Escape") {
-								$("##fixedselectMode").focus();
-								$grid.jqxGrid('clearselection');
-								event.preventDefault(); // prevent grid's own Escape behavior if any
-								return false;
+					// --- Focus the first visible data cell ---
+					function focusFirstVisibleCell_fixed() {
+						var $grid = $('##fixedsearchResultsGrid');
+						var columns = $grid.jqxGrid('columns').records;
+						var firstDataField = null;
+						for (var i = 0; i < columns.length; i++) {
+							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+								firstDataField = columns[i].datafield;
+								break;
 							}
-						});
-						$('##fixedsearchResultsGrid').on('focusin', function(event) {
-							var grid = $('##fixedsearchResultsGrid');
-							var selectionMode = grid.jqxGrid('selectionmode');
-							if (selectionMode === 'singlecell' ||
-								selectionMode === 'multiplecellsextended' ||
-								selectionMode === 'multiplecellsadvanced') {
-								var selection = grid.jqxGrid('getselectedcell');
-								if (!selection || typeof selection.rowindex === "undefined" || !selection.datafield) {
-									var columns = grid.jqxGrid('columns').records;
-									if (columns && columns.length > 0) {
-										for (var i = 0; i < columns.length; i++) {
-											if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-												grid.jqxGrid('selectcell', 0, columns[i].datafield);
-												break;
-											}
-										}
-									}
-								}
-							} else if (
-								selectionMode === 'singlerow' ||
-								selectionMode === 'multiplerowsextended' ||
-								selectionMode === 'multiplerowsadvanced'
-							) {
-								var selectedRows = grid.jqxGrid('getselectedrowindexes');
-								if (!selectedRows || selectedRows.length === 0) {
-									grid.jqxGrid('clearselection');
-									grid.jqxGrid('selectrow', 0);
-								}
-							}
-						});
-					
-					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
-						if (document <= 900){
-							$(document).scrollTop(200);
-						} else {
-							$(document).scrollTop(480);
 						}
-					</cfif>
-			
-					// add a link out to this search, serializing the form as http get parameters
-					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
-					$('##fixedshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'fixed\'); "><i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
-					if (fixedSearchLoaded==0) { 
-						try { 
-							gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
-						} catch (e) { 
-							console.log(e);
-							messageDialog("Error in gridLoaded handler:" + e.message,"Error in gridLoaded");
+						if (firstDataField) {
+							$grid.jqxGrid('selectcell', 0, firstDataField);
+							setTimeout(function () {
+								$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+								$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+							}, 10);
 						}
-						fixedSearchLoaded = 1;
-						loadColumnOrder('fixedsearchResultsGrid');
 					}
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
-					<cfelse>
-						$('##fixedmanageButton').html('');
-					</cfif>
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						<cfif isdefined("session.killRow") AND session.killRow EQ 2>
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-								$('##fixedremoveButtonDiv').html('<button id="fixedremoveButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" disabled onclick="removeFixedSelectedRows(); " >Remove Checked</a>');
-							<cfelse>
-								$('##fixedremoveButtonDiv').html('');
-							</cfif>
-						</cfif>
-					</cfif>
-					pageLoaded('fixedsearchResultsGrid','occurrence record','fixed');
-					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
-						console.log(#session.specimens_pin_guid#);
-						setPinColumnState('fixedsearchResultsGrid','GUID',true);
-					</cfif>
+
+					// --- Call once on grid load ---
+					focusFirstVisibleCell_fixed();
+
+					// --- Re-focus after page change ---
+					$('##fixedsearchResultsGrid').on('pagechanged.a11y', function () {
+						focusFirstVisibleCell_fixed();
+					});
+
+					// --- Keep tabindex/focus in sync on cell/row select ---
+					$('##fixedsearchResultsGrid').on('cellselect.a11y rowselect.a11y', function () {
+						var $grid = $(this);
+						setTimeout(function () {
+							$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+							$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+						}, 10);
+					});
+
+					// --- Custom tabbing out of the grid ---
+					$('##fixedsearchResultsGrid').on('keydown.a11y', function (event) {
+						if (event.key === 'Tab') {
+							event.preventDefault();
+							if (event.shiftKey) {
+								// Focus selection mode dropdown above grid
+								$('##fixedSelectMode').focus();
+							} else {
+								// Focus first pager button/input if available
+								var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
+								var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
+								if ($pagerTargets.length > 0) {
+									$pagerTargets.first().focus();
+								} else {
+									$pager.attr('tabindex', 0).focus();
+								}
+							}
+						}
+					});
+
+					// --- Shift+Tab from first pager button goes back to grid ---
+					var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
+					var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
+					if ($pagerTargets.length) {
+						$pagerTargets.first().off('keydown.a11y').on('keydown.a11y', function (e) {
+							if (e.key === 'Tab' && e.shiftKey) {
+								e.preventDefault();
+								focusFirstVisibleCell_fixed();
+							}
+						});
+					}
+
+					// --- Tab from selection mode goes to grid ---
+					$('##fixedSelectMode').on('keydown.a11y', function (event) {
+						if (event.key === 'Tab' && !event.shiftKey) {
+							event.preventDefault();
+							focusFirstVisibleCell_fixed();
+						}
+					});
+
+					// --- Respond to selection mode change (e.g., singlecell to singlerow, etc.) ---
+					$('##fixedSelectMode').on('change.a11y', function () {
+						var mode = $(this).val();
+						var $grid = $('##fixedsearchResultsGrid');
+						$grid.jqxGrid({ selectionmode: mode });
+						$grid.jqxGrid('clearselection');
+						if (mode.indexOf('row') !== -1) {
+							$grid.jqxGrid('selectrow', 0);
+							setTimeout(function () {
+								$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+								$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+							}, 10);
+						} else {
+							focusFirstVisibleCell_fixed();
+						}
+					});
+
+					// --- Guard: force selection to valid cell (not null datafield) ---
+					$('##fixedsearchResultsGrid').on('cellselect.a11y', function (event) {
+						var args = event.args;
+						if (args.datafield === null) {
+							var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+							for (var i = 0; i < columns.length; i++) {
+								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+									$('##fixedsearchResultsGrid').jqxGrid('selectcell', args.rowindex, columns[i].datafield);
+									break;
+								}
+							}
+						}
+					});
+
+					// --- Accessible details popup: open on Enter or Space ---
+					$("##fixedsearchResultsGrid").on('keydown.a11y', function (event) {
+						var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
+						if (event.key === " " || event.key === "Enter") {
+							if (selectionMode.indexOf('cell') !== -1) {
+								var cell = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+								if (cell && cell.rowindex >= 0) {
+									$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', cell.rowindex);
+								}
+							} else {
+								var rows = $("##fixedsearchResultsGrid").jqxGrid('getselectedrowindexes');
+								if (rows && rows[0] >= 0) {
+									$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', rows[0]);
+								}
+							}
+						}
+					});
+
+					// --- Finalize: show grid, hide overlay/spinner ---
+					gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+					$('##overlay').hide();
 				});
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
