@@ -3651,7 +3651,7 @@ Target JSON:
 					});
 					// *** DO NOT CAPTURE TAB or Shift+Tab on pager controls or inputs ***
 					// Let pager inputs/buttons/next/prev/page-input work natively!
-					var $pager = $('#fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
+					var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
 					console.log('Pager found:', $pager.length);
 
 					var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
