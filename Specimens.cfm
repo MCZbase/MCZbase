@@ -3499,27 +3499,6 @@ Target JSON:
 					// Remove all old handlers in this namespace to avoid stacking
 					$('##fixedsearchResultsGrid').off('.a11y');
 					$('##fixedSelectMode').off('.a11y');
-
-					// --- Focus the first visible data cell ---
-					function focusFirstVisibleCell_fixed() {
-						var $grid = $('##fixedsearchResultsGrid');
-						var columns = $grid.jqxGrid('columns').records;
-						var firstDataField = null;
-						for (var i = 0; i < columns.length; i++) {
-							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-								firstDataField = columns[i].datafield;
-								break;
-							}
-						}
-						if (firstDataField) {
-							$grid.jqxGrid('selectcell', 0, firstDataField);
-							setTimeout(function () {
-								$grid.find('.jqx-grid-cell').attr('tabindex', -1);
-								$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
-							}, 10);
-						}
-					}
-
 					// --- Call once on grid load ---
 					focusGuidCell();
 					// --- Always focus first visible cell after page change ---
@@ -3556,7 +3535,7 @@ Target JSON:
 						}
 					});
 
-					// Guard: if a non-data cell is selected, move to first data cell in row
+					// Guard: if a non-data cell is selected, move to GUID cell in row
 					$('##fixedsearchResultsGrid').on('cellselect.a11y', function (event) {
 						var grid = $('##fixedsearchResultsGrid');
 						var selectionMode = grid.jqxGrid('selectionmode');
@@ -3568,14 +3547,8 @@ Target JSON:
 							return; // Only process in cell selection modes
 						}
 						var args = event.args;
-						if (args.datafield === null) {
-							var columns = grid.jqxGrid('columns').records;
-							for (var i = 0; i < columns.length; i++) {
-								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-									grid.jqxGrid('selectcell', args.rowindex, columns[i].datafield);
-									break;
-								}
-							}
+						if (args.datafield === null || args.datafield === "") {
+							grid.jqxGrid('selectcell', args.rowindex, 'guid'); // use GUID field
 						}
 					});
 		
