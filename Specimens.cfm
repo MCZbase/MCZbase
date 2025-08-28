@@ -3494,27 +3494,6 @@ Target JSON:
 		
 		
 
-				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
-					var grid = $('##fixedsearchResultsGrid');
-					var selectionMode = grid.jqxGrid('selectionmode');
-					if (
-						selectionMode !== 'singlecell' &&
-						selectionMode !== 'multiplecellsextended' &&
-						selectionMode !== 'multiplecellsadvanced'
-					) {
-						return; // Only process in cell selection modes
-					}
-
-					var args = event.args;
-					if (args.datafield === null) {
-						var columns = grid.jqxGrid('columns').records;
-						for (var i = 0; i < columns.length; i++) {
-							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-								grid.jqxGrid('selectcell', args.rowindex, columns[i].datafield);
-								break;
-							}
-						}
-					}
 				});
 
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function (event) {
@@ -3549,35 +3528,7 @@ Target JSON:
 
 					// --- Call once on grid load ---
 					focusFirstVisibleCell_fixed();
-					$("##fixedsearchResultsGrid").on('pagechanged', function(event) {
-					// Wait a bit to ensure page is rendered (sometimes necessary)
-					setTimeout(function() {
-						var grid = $("##fixedsearchResultsGrid");
-						var selectionMode = grid.jqxGrid('selectionmode');
-						var columns = grid.jqxGrid('columns').records;
-
-						if (
-							selectionMode === 'singlecell' ||
-							selectionMode === 'multiplecellsadvanced' ||
-							selectionMode === 'multiplecellsextended'
-						) {
-							// Select the first visible cell
-							for (var i = 0; i < columns.length; i++) {
-								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-									grid.jqxGrid('selectcell', 0, columns[i].datafield);
-									break;
-								}
-							}
-						} else if (
-							selectionMode === 'singlerow' ||
-							selectionMode === 'multiplerowsextended' ||
-							selectionMode === 'multiplerowsadvanced'
-						) {
-							grid.jqxGrid('selectrow', 0);
-							$grid.focus();
-						}
-					}, 10); // Delay may be unnecessary, but helps in virtualmode
-				});
+					
 					// --- Always focus first visible cell after page change ---
 					$('##fixedsearchResultsGrid').off('pagechanged.a11y').on('pagechanged.a11y', focusFirstVisibleCell_fixed);
 					
