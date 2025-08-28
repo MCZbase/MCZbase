@@ -4349,15 +4349,6 @@ limitations under the License.
 									<cfset addedClass = "">
 								</cfif>
 								<div class="row mx-0 border py-1 mb-0 #addedClass#">
-									<cfif getMaterialSampleID.recordcount GT 0>
-										<div class="col-12">
-											<ul>
-												<cfloop query="getMaterialSampleID">
-													<li>materialSampleID: <a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a></li>
-												</cfloop>
-											</ul>
-										</div>
-									</cfif>
 									<!--- find identifications of the part to see if this is a mixed collection --->
 									<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT identification_id
@@ -4501,6 +4492,15 @@ limitations under the License.
 											</div>
 										</cfif>
 									</div>
+									<cfif getMaterialSampleID.recordcount GT 0>
+										<div class="col-12">
+											<ul>
+												<cfloop query="getMaterialSampleID">
+													<li>materialSampleID: <a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a></li>
+												</cfloop>
+											</ul>
+										</div>
+									</cfif>
 								</div>
 
 								<!--- Show subsamples --->
