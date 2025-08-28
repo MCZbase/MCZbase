@@ -3550,26 +3550,15 @@ Target JSON:
 //					}, 10); // Delay may be unnecessary, but helps in virtualmode
 //				});
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function (event) {
-					 setTimeout(function() {
-						 try {
-							console.log('Trying focusFirstVisibleCell_fixed');
-							focusFirstVisibleCell_fixed();
-						  } catch (e) {
-							console.log('Error in focusFirstVisibleCell_fixed:', e);
-						  }
+
 					// Remove all old handlers in this namespace to avoid stacking
 					$('##fixedsearchResultsGrid').off('.a11y');
 					$('##fixedSelectMode').off('.a11y');
 
 					// --- Focus the first visible data cell ---
-
 					function focusFirstVisibleCell_fixed() {
 						var $grid = $('##fixedsearchResultsGrid');
-						// Defensive: is grid widget initialized?
-						if (!$grid.length || !$grid.jqxGrid) return;
-						var gridInstance = $grid.data('jqxGrid');
-						if (!gridInstance || !gridInstance.columns) return;
-						var columns = gridInstance.columns.records;
+						var columns = $grid.jqxGrid('columns').records;
 						var firstDataField = null;
 						for (var i = 0; i < columns.length; i++) {
 							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
@@ -3578,15 +3567,11 @@ Target JSON:
 							}
 						}
 						if (firstDataField) {
-							try {
-								$grid.jqxGrid('selectcell', 0, firstDataField);
-								setTimeout(function () {
-									$grid.find('.jqx-grid-cell').attr('tabindex', -1);
-									$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
-								}, 10);
-							} catch (e) {
-								console.log('Grid not ready for selectcell:', e);
-							}
+							$grid.jqxGrid('selectcell', 0, firstDataField);
+							setTimeout(function () {
+								$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+								$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+							}, 10);
 						}
 					}
 
@@ -3734,9 +3719,7 @@ Target JSON:
 						console.log(#session.specimens_pin_guid#);
 						setPinColumnState('fixedsearchResultsGrid','GUID',true);
 					</cfif>
-					}, 20);	 
-					
-				});  /// end binding complete
+				});
 		
 		
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
