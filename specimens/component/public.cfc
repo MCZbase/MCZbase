@@ -1362,9 +1362,17 @@ limitations under the License.
 							<cfelse>
 								<cfset addedClass = "">
 							</cfif>
-							<cfif historyCount.ct GT 2><cfset histCount = " (#historyCount.ct#)"><cfelse><cfset histCount = ""></cfif>
+							<cfif mainParts.recordcount gt 1>
+								<cfset lineClass="line-top-sd">
+							<cfelse>
+								<cfset lineClass="">
+							</cfif>
+							<cfif historyCount.ct GT 2>
+								<cfset histCount = " (#historyCount.ct#)">
+							<cfelse>
+								<cfset histCount = "">
+							</cfif>
 							<div id="historyDialog#mainParts.part_id#"></div>
-							<cfif mainParts.recordcount gt 1><cfset lineClass="line-top-sd"><cfelse><cfset lineClass=""></cfif>>
 							<tr class="#lineClass# #addedClass#">
 								<td class="py-1"><span class="font-weight-lessbold">#part_name#</span></td>
 								<td class="py-1">
