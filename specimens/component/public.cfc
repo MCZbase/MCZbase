@@ -1357,9 +1357,15 @@ limitations under the License.
 										collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
 								)
 							</cfquery>
+							<cfif mainParts.has_identification EQ "1">
+								<cfset addedClass = "part_occurrence_head">
+							<cfelse>
+								<cfset addedClass = "">
+							</cfif>
 							<cfif historyCount.ct GT 2><cfset histCount = " (#historyCount.ct#)"><cfelse><cfset histCount = ""></cfif>
 							<div id="historyDialog#mainParts.part_id#"></div>
-							<tr <cfif mainParts.recordcount gt 1>class="line-top-sd"<cfelse></cfif>>
+							<cfif mainParts.recordcount gt 1><cfset lineClass="line-top-sd"><cfelse><cfset lineClass=""></cfif>>
+							<tr class="#lineClass# #addedClass#">
 								<td class="py-1"><span class="font-weight-lessbold">#part_name#</span></td>
 								<td class="py-1">
 									#part_condition#
@@ -1449,6 +1455,11 @@ limitations under the License.
 								WHERE
 									collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
 							</cfquery>
+							<cfif mainParts.has_identification EQ "1">
+								<cfset addedClass = "part_occurrence_head">
+							<cfelse>
+								<cfset addedClass = "">
+							</cfif>
 							<cfif getIdentifications.recordcount GT 0>
 								<!--- This is a separate occurrence  look up the occurrenceID --->
 								<cfquery name="getOccurrenceID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1459,20 +1470,20 @@ limitations under the License.
 									WHERE
 										co_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
 								</cfquery>
-								<tr class="">
+								<tr class="#addedClass#">
 									<td colspan="5">
 										<span class="font-weight-lessbold">This Part is a separate Occurence</span>
 										<span class="small">occurrenceID: #getOccurrenceID.assembled_identifier#</span>
 									</td>
 								</tr>
-								<tr class="small">
+								<tr class="small #addedClass#">
 									<td colspan="5">
 										<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=part_id)>
 									</td>
 								</tr>
 							</cfif>
 							<cfif len(part_remarks) gt 0>
-								<tr class="small90">
+								<tr class="small90 #addedClass#">
 									<td colspan="6" class="mb-0 pb-1 pt-0">
 										<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
 									</td>
@@ -1487,7 +1498,7 @@ limitations under the License.
 							</cfquery>
 							<cfif getMaterialSampleID.recordcount GT 0>
 								<cfloop query="getMaterialSampleID">
-									<tr class="small90">
+									<tr class="small90 #addedClass#">
 										<td colspan="6" class="mb-0 pb-1 pt-0">
 											<span class="pl-3 d-block">
 												<span class="font-italic">materialSample_id:</span> 
@@ -1526,7 +1537,7 @@ limitations under the License.
 									agentguid_guid_type
 							</cfquery>
 							<cfif partAttributes.recordcount gt 0>
-								<tr class="border-top-0">
+								<tr class="border-top-0 #addedClass#">
 									<td colspan="6" class="border-top-0 mt-0 py-0">
 										<cfloop query="partAttributes">
 											<div class="small90 pl-3 line-height-sm">
@@ -1577,7 +1588,7 @@ limitations under the License.
 								</cfquery>
 								<cfif historyCount.ct GT 2><cfset histCount = " (#historyCount.ct#)"><cfelse><cfset histCount = ""></cfif>
 								<div id="historyDialog#subsampleParts.part_id#"></div>
-								<tr>
+								<tr class="#addedClass#">
 									<td class="py-1">
 										<span class="d-inline-block pl-3">
 										<span class="font-weight-bold " style="font-size: 17px;">&##172;</span> 
@@ -1658,7 +1669,7 @@ limitations under the License.
 									</td>
 								</tr>
 								<cfif len(part_remarks) gt 0>
-									<tr class="small90">
+									<tr class="small90 #addedClass#">
 										<td colspan="6" class="pt-1">
 											<span class="pl-3 d-block pb-1">
 												<span class="font-italic">Remarks:</span> #part_remarks#
@@ -1675,7 +1686,7 @@ limitations under the License.
 								</cfquery>
 								<cfif getMaterialSampleID.recordcount GT 0>
 									<cfloop query="getMaterialSampleID">
-										<tr class="small90">
+										<tr class="small90 #addedClass#">
 											<td colspan="6" class="mb-0 pb-1 pt-0">
 												<span class="pl-3 d-block">
 													<span class="font-italic">materialSample_id:</span> 
@@ -1714,7 +1725,7 @@ limitations under the License.
 										agentguid_guid_type
 								</cfquery>
 								<cfif partAttributes.recordcount gt 0>
-									<tr class="border-top-0">
+									<tr class="border-top-0 #addedClass#">
 										<td colspan="6" class="border-top-0 mt-0 pb-2 pt-1">
 											<cfloop query="partAttributes">
 												<div class="small90 pl-3 pb-2 line-height-sm">
