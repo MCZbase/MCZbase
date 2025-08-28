@@ -3671,7 +3671,7 @@ Target JSON:
 //					$('##fixedsearchResultsGrid').attr('role', 'grid');
 					
 					
-				$("##fixedsearchResultsGrid").on("bindingcomplete", function (event) {
+			//	$("##fixedsearchResultsGrid").on("bindingcomplete", function (event) {
 
 					// Remove all old handlers in this namespace to avoid stacking
 					$('##fixedsearchResultsGrid').off('.a11y');
