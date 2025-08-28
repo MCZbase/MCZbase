@@ -3487,15 +3487,15 @@ Target JSON:
 				</cfif>
 				
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function (event) {
-					function focusGuidCell() {
-						var $grid = $('##fixedsearchResultsGrid');
-						var GUID_FIELD = 'guid'; // <-- Make sure this matches your real GUID field!
-						$grid.jqxGrid('selectcell', 0, GUID_FIELD);
-						setTimeout(function () {
-							$grid.find('.jqx-grid-cell').attr('tabindex', -1);
-							$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
-						}, 10);
-					}
+					//function focusGuidCell() {
+//						var $grid = $('##fixedsearchResultsGrid');
+//						var GUID_FIELD = 'guid'; // <-- Make sure this matches your real GUID field!
+//						$grid.jqxGrid('selectcell', 0, GUID_FIELD);
+//						setTimeout(function () {
+//							$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+//							$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+//						}, 10);
+//					}
 					// Remove all old handlers in this namespace to avoid stacking
 					$('##fixedsearchResultsGrid').off('.a11y');
 					$('##fixedSelectMode').off('.a11y');
