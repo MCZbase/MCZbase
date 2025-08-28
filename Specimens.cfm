@@ -1536,35 +1536,23 @@ limitations under the License.
 													<span id="fixedmanageButton" class=""></span>
 													<span id="fixedremoveButtonDiv" class=""></span>
 													<div id="fixedresultBMMapLinkContainer"></div>
-																			<div id="fixedselectModeContainer" class="ml-3" style="display: none;">
+													<div id="fixedselectModeContainer" class="ml-3" style="display: none;" >
 														<script>
 															function fixedchangeSelectMode(){
-																var selmode = $("##fixedselectMode").val(); // Use correct selector!
-																var $grid = $("##fixedsearchResultsGrid");
-																$grid.jqxGrid({selectionmode: selmode});
-																$grid.jqxGrid('clearselection');
-																if (
-																	selmode === 'singlecell' ||
-																	selmode === 'multiplecellsadvanced' ||
-																	selmode === 'multiplecellsextended'
-																) {
-																	var columns = $grid.jqxGrid('columns').records;
-																	for (var i = 0; i < columns.length; i++) {
-																		if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-																			$grid.jqxGrid('selectcell', 0, columns[i].datafield);
-																			break;
-																		}
-																	}
+																var selmode = $("##fixedselectMode").val();
+																$("##fixedsearchResultsGrid").jqxGrid({selectionmode: selmode});
+																if (selmode=="none") { 
+																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
 																} else {
-																	$grid.jqxGrid('selectrow', 0);
+																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
 																}
-																$grid.jqxGrid({enableBrowserSelection: (selmode === "singlecell")});
-																$grid.focus();
-															}
+															};
 														</script>
 
 														<label class="data-entry-label d-inline w-auto mt-1" for="fixedselectMode">Grid Select:</label>
 														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="fixedchangeSelectMode();">
+															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="none">Text</option>
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="singlecell">Single Cell</option>
 															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -1578,6 +1566,8 @@ limitations under the License.
 												
 													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
 												</div>
+													
+													
 												<!--- TODO: Figure out how to make this sticky row work on the column header row --->
 												<div class="row mx-0 mt-0"> 
 													
