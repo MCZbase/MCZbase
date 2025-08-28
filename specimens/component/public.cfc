@@ -1335,7 +1335,12 @@ limitations under the License.
 					<tbody class="bg-white">
 						<!--- iterate through the main (not subsampled) parts --->
 						<cfquery name="mainParts" dbtype="query">
-							select * from distinctParts where sampled_from_obj_id is null order by part_name
+							SELECT * 
+							FROM distinctParts 
+							WHERE sampled_from_obj_id is null 
+							ORDER BY
+								has_identification asc,
+								part_name
 						</cfquery>
 						<cfset i=1>
 						<cfloop query="mainParts">
