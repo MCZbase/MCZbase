@@ -4494,9 +4494,9 @@ limitations under the License.
 									</div>
 									<cfif getMaterialSampleID.recordcount GT 0>
 										<div class="col-12">
-											<ul>
+											<ul class="list-unstyled pl-1">
 												<cfloop query="getMaterialSampleID">
-													<li>materialSampleID: <a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a></li>
+													<li><strong>materialSampleID:</strong> <a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a></li>
 												</cfloop>
 											</ul>
 										</div>
