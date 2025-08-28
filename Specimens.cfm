@@ -3493,11 +3493,7 @@ Target JSON:
 		
 		
 		
-				<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
-						columnOrderChanged('fixedsearchResultsGrid'); 
-					}); 
-				</cfif>
+
 			//	$('##fixedsearchResultsGrid').on('cellselect', function(event) {
 //					var grid = $('##fixedsearchResultsGrid');
 //					var selectionMode = grid.jqxGrid('selectionmode');
@@ -3522,7 +3518,11 @@ Target JSON:
 //				});
 
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function (event) {
-
+					<cfif isdefined("session.username") and len(#session.username#) gt 0>
+						$('##fixedsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
+							columnOrderChanged('fixedsearchResultsGrid'); 
+						}); 
+					</cfif>
 					// Remove all old handlers in this namespace to avoid stacking
 					$('##fixedsearchResultsGrid').off('.a11y');
 					$('##fixedSelectMode').off('.a11y');
