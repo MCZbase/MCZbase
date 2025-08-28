@@ -3515,11 +3515,70 @@ Target JSON:
 					// You might need to re-focus!
 				//	$('##fixedsearchResultsGrid').focus();
 				});
+				function focusFirstVisibleCell_fixed() {
+				  	var $grid = $('##fixedsearchResultsGrid');
+					var columns = $grid.jqxGrid('columns').records;
+				  	var firstDataField = null;
+				  	for(var i=0; i<columns.length; i++) {
+						if(!columns[i].hidden && columns[i].datafield && columns[i].datafield != '') {
+					  	firstDataField = columns[i].datafield;
+					  	break;
+						}
+					}
+				  	if(firstDataField) {
+						$grid.jqxGrid('selectcell', 0, firstDataField);
+						setTimeout(function(){
+					  	// Remove old tabindex
+					  	$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+					  	// Set tabindex=0 and focus to selected
+					  	$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+						}, 20); // Wait for rendering
+				  	}
+				}
 		
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					// Remove all previous handlers to prevent stacking
 					//$("##fixedsearchResultsGrid").off('.keyboardNav customTabNav rowexpand rowcollapse rowselect rowunselect');
-
+					focusFirstVisibleCell_fixed();
+					// On page change, also focus first cell
+					$('##fixedsearchResultsGrid').on('pagechanged', function(e) {
+					  focusFirstVisibleCell_fixed();
+					});
+					$('##fixedSelectMode').on('change', function() {
+					  	var mode = $(this).val();
+					  	var $grid = $('##fixedsearchResultsGrid');
+					  	$grid.jqxGrid({ selectionmode: mode });
+					  	$grid.jqxGrid('clearselection');
+					  	if(mode.indexOf('row') !== -1) {
+							$grid.jqxGrid('selectrow', 0);
+							setTimeout(function(){
+						  	$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+						  // Assuming first visible cell will be selected in first row
+						  	$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+							}, 20);
+					  	} else {
+							focusFirstVisibleCell_fixed();
+					  	}
+					});
+					$('##fixedsearchResultsGrid').on('keydown', function(event) {
+					  	if(event.key === 'Tab') {
+							event.preventDefault();
+							if(event.shiftKey) {
+						  	// Shift+Tab: Go to selection mode dropdown
+						  	$('##fixedSelectMode').focus();
+						} else {
+						  	// Tab: find pager, focus first pager element (change selectors as needed)
+						  		var $pager = $(this).find('.jqx-grid-pager');
+						  		var $targets = $pager.find('button, [tabindex]:not([tabindex="-1"])').filter(':visible');
+						  		if($targets.length > 0) {
+								$targets.first().focus();
+						  		} else {
+									$pager.attr('tabindex', 0).focus();
+								}
+							}
+					  	}
+					});
+					$('##fixedsearchResultsGrid').attr('role', 'grid');
 					// Select first visible data cell on load (sets selection AND internal focus for jqxGrid)
 					var columns = $("##fixedsearchResultsGrid").jqxGrid('columns').records;
 					var firstDataField = null;
