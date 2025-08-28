@@ -3704,6 +3704,8 @@ Target JSON:
 					$("##fixedunselectrowindex").text(event.args.rowindex);
 				});
 			});
+		
+		
 			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
 	 
 		
