@@ -1479,13 +1479,13 @@ limitations under the License.
 										co_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
 								</cfquery>
 								<tr class="#addedClass#">
-									<td colspan="5">
+									<td colspan="6">
 										<span class="font-weight-lessbold">This Part is a separate Occurence</span>
 										<span class="small">occurrenceID: #getOccurrenceID.assembled_identifier#</span>
 									</td>
 								</tr>
 								<tr class="small #addedClass#">
-									<td colspan="5">
+									<td colspan="6">
 										<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=part_id)>
 									</td>
 								</tr>
