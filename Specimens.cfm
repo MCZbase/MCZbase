@@ -3543,7 +3543,7 @@ Target JSON:
 					</cfif>
 					
 					
-					// Remove all old handlers in this namespace to avoid stacking
+						// Remove all old handlers in this namespace to avoid stacking
 					$('##fixedsearchResultsGrid').off('.a11y');
 					$('##fixedSelectMode').off('.a11y');
 
@@ -3626,22 +3626,7 @@ Target JSON:
 							}
 						}
 					});
-					// Remove old handlers to avoid stacking with every pagination/bindingcomplete
-					$('##fixedsearchResultsGrid').off('keydown.a11yDetails rowdoubleclick.a11yDetails');
-					
-					// Add keyboard handler for row details
-					$("##fixedsearchResultsGrid").on('keydown', function(event){
-						if (event.key === " " || event.key === "Enter") {
-							var cell = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
-							if (cell && cell.rowindex >= 0) {
-								$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', cell.rowindex);
-							}
-						}
-					});
-					// Add double-click to open details
-					$("##fixedsearchResultsGrid").on('rowdoubleclick', function (event) {
-						$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', event.args.rowindex);
-					});
+				
 					// *** DO NOT CAPTURE TAB or Shift+Tab on pager controls or inputs ***
 					// Let pager inputs/buttons/next/prev/page-input work natively!
 					var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
@@ -3670,7 +3655,22 @@ Target JSON:
 					 // ARIA role for screen readers
 					$('##fixedsearchResultsGrid').attr('role', 'grid');
 
-
+						// Remove old handlers to avoid stacking with every pagination/bindingcomplete
+					$('##fixedsearchResultsGrid').off('keydown.a11yDetails rowdoubleclick.a11yDetails');
+					
+					// Add keyboard handler for row details
+					$("##fixedsearchResultsGrid").on('keydown', function(event){
+						if (event.key === " " || event.key === "Enter") {
+							var cell = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+							if (cell && cell.rowindex >= 0) {
+								$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', cell.rowindex);
+							}
+						}
+					});
+					// Add double-click to open details
+					$("##fixedsearchResultsGrid").on('rowdoubleclick', function (event) {
+						$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', event.args.rowindex);
+					});
 			
 					// Your code to select the leftmost cell, set tabindex/focus, set up key handlers, etc.
 					var $grid = $('##fixedsearchResultsGrid');
