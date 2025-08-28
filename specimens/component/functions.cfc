@@ -4313,7 +4313,7 @@ limitations under the License.
 					lot_count_modifier,
 					lot_count,
 					display_lot_count,
-					part_remarks
+					part_remarks,
 					has_identification
 				ORDER BY
 					has_identification asc, part_name
