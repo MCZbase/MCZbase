@@ -130,26 +130,34 @@
 					NOT REFindNoCase("^[0-9a-f]{32}$",uuid) GT 0>
 				<cfthrow message="Invalid UUID format" detail="Provided value is is not in valid format for a UUID">
 			</cfif>
-			<cfif deliver NEQ "text/html">
-				<cfset lookup = "uuid">
-				<cfset guid = "">
-				<cfinclude template="/rdf/Occurrence.cfm">
-			<cfelse>
-				<!--- lookup what this UUID resolves to in guid_our_thing table, match on local_identifer, check what target_table and guid_is_a values are and disposition --->
-				<cfquery name="lookupUUID" datasource="cf_dbuser" timeout="#Application.short_timeout#">
-					SELECT target_table, guid_our_thing_id, co_collection_object_id, sp_collection_object_id,  guid_is_a, disposition
-					FROM guid_our_thing
-					WHERE local_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#uuid#">
-						AND scheme = 'urn' 
-						AND type = 'uuid'
-				</cfquery>
-				<!--- if target table is coll_object and guid_is_a is occurrenceID then lookup institution code, collection code, cat num and redirect to /guid/ --->
-				<cfif lookupUUID.recordcount EQ 0>
-					<cfthrow message="UUID not found" detail="No record found in guid_our_thing table for UUID #uuid#">
-				<cfelseif lookupUUID.recordcount GT 0>
+			<!--- lookup what this UUID resolves to in guid_our_thing table, match on local_identifer, check what target_table and guid_is_a values are and disposition --->
+			<cfquery name="lookupUUID" datasource="cf_dbuser" timeout="#Application.short_timeout#">
+				SELECT target_table, guid_our_thing_id, co_collection_object_id, sp_collection_object_id, taxon_name_id  guid_is_a, disposition
+				FROM guid_our_thing
+				WHERE local_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#uuid#">
+					AND scheme = 'urn' 
+					AND type = 'uuid'
+			</cfquery>
+			<!--- if target table is coll_object and guid_is_a is occurrenceID then lookup institution code, collection code, cat num and redirect to /guid/ --->
+			<cfif lookupUUID.recordcount EQ 0>
+				<cfthrow message="UUID not found" detail="No record found in guid_our_thing table for UUID #uuid#">
+			<cfelseif lookupUUID.recordcount GT 0>
+				<cfif deliver NEQ "text/html">
+					<cfset lookup = "uuid">
+					<cfset guid = "">
+					<cfif lookupUUID.guid_is_a IS "occurrenceID">
+						<cfinclude template="/rdf/Occurrence.cfm">
+					<cfelseif lookupUUID.guid_is_a IS "materialSampleID">
+						<cfinclude template="/rdf/MaterialSample.cfm">
+					<cfelseif lookupUUID.guid_is_a IS "taxonID">
+						<cfinclude template="/rdf/Taxon.cfm">
+					<cfelse>
+						<cfthrow message="UUID found but cannot be resolved" detail="Record found in guid_our_thing table but guid_is_a #lookupUUID.guid_is_a# not handled.">
+					</cfif>
+				<cfelse>
 					<cfif lookupUUID.disposition IS "exists" AND lookupUUID.target_table IS "COLL_OBJECT" AND lookupUUID.guid_is_a IS "occurrenceID">
 						<!--- lookup the cataloged item for the occurrence and redirect to it with /guid/{institution_code}:{collection_code}:{catalog_number} --->
-						<!--- type of coll_object should be "SP", check this and lookup from parent cataloged item --->
+						<!--- type of coll_object should be "SP" (we are not using uuid based guids for CI), check this and lookup from parent cataloged item  --->
 						<cfquery name="getCatItem" datasource="uam_god" timeout="#Application.short_timeout#" result="getCatItem.result">
 							SELECT coll_object.coll_object_type, 
 								coll.institution_acronym institution_code, 
