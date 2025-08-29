@@ -33,6 +33,7 @@ limitations under the License.
 <cfif NOT isDefined("lookup")>
 	<cfset lookup = "guid">
 </cfif>
+<cfset lookupDetermination = false>
 <cfif lookup EQ "guid">
 	<cfif NOT isdefined("guid")>
    	<cfset guid="MCZ:IP:100000">
@@ -65,9 +66,11 @@ limitations under the License.
 				WHERE coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.co_collection_object_id#">
 			</cfquery>
 			<cfset guid = getCatItem.guid>
+			<cfset lookupDetermination = true>
 		<cfelseif lookupUUID.disposition IS "exists" AND lookupUUID.target_table IS "SPECIMEN_PART" AND lookupUUID.guid_is_a IS "materialSampleID">
 			<!--- use materialSampleID RDF handler --->
-			<!--- TODO: MaterialSample.cfm --->
+			<cfinclude template="/rdf/MaterialSample.cfm">
+			<cfabort>
 		<cfelse>
 			<cfthrow message = "unsupported dispostion or other condition">
 		</cfif>
