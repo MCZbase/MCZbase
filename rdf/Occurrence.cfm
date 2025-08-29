@@ -251,7 +251,6 @@ limitations under the License.
    dwc:catalogNumber "#cat_num#";
    dwc:basisOfRecord "#basisofrecord#";
    dcterms:rightsHolder "President and Fellows of Harvard College";
-   dcterms:modified "#last_edit_date#"^^xsd:date ;
    dwc:scientificName "#scientific_name#";
    dwc:scientificNameAuthorship "#author_text#";
 <cfif len(taxonid) GT 0>   dwc:taxonID "#taxonid#";
@@ -289,7 +288,7 @@ limitations under the License.
    dwc:latestageorhigheststage "#latestageorhigheststage#";
 </cfif>
 <cfif parts.recordcount GT 0>   dwciri:materialSampleID <cfloop query="parts">#parts.materialSampleID# </cfloop>;
-</cfif>   dwc:recordedBy "#collectors#".
+</cfif>   dcterms:modified "#last_edit_date#"^^xsd:date .
 <cfif parts.recordcount GT 0><cfloop query="parts">
 <#parts.materialSampleID#>
    a dwc:MaterialSample;
