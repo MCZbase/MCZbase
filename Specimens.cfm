@@ -3489,27 +3489,27 @@ Target JSON:
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function (event) {
 	
 					// --- Focus the first visible data cell ---
-					function focusFirstVisibleCell_fixed() {
-						var $grid = $('##fixedsearchResultsGrid');
-						var columns = $grid.jqxGrid('columns').records;
-						var firstDataField = null;
-						for (var i = 0; i < columns.length; i++) {
-							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-								firstDataField = columns[i].datafield;
-								break;
-							}
-						}
-						if (firstDataField) {
-							$grid.jqxGrid('selectcell', 0, firstDataField);
-							setTimeout(function () {
-								$grid.find('.jqx-grid-cell').attr('tabindex', -1);
-								$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
-							}, 10);
-						}
-					}
-
-					// --- Call once on grid load ---
-					focusFirstVisibleCell_fixed();
+					//function focusFirstVisibleCell_fixed() {
+//						var $grid = $('##fixedsearchResultsGrid');
+//						var columns = $grid.jqxGrid('columns').records;
+//						var firstDataField = null;
+//						for (var i = 0; i < columns.length; i++) {
+//							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+//								firstDataField = columns[i].datafield;
+//								break;
+//							}
+//						}
+//						if (firstDataField) {
+//							$grid.jqxGrid('selectcell', 0, firstDataField);
+//							setTimeout(function () {
+//								$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+//								$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+//							}, 10);
+//						}
+//					}
+//
+//					// --- Call once on grid load ---
+//					focusFirstVisibleCell_fixed();
 					
 					//This code makes Shift+Tab from the first pager button in the grid return keyboard focus to the grid (good accessibility!).
 					//It should be placed inside bindingcomplete, so every time the pager is re-rendered as data/pages change, the handler is attached to the currently existing button.
