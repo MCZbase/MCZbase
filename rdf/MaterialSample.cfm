@@ -73,7 +73,11 @@ limitations under the License.
 						cataloged_item.COLLECTION_CDE COLLECTION_CDE,
 						cataloged_item.CATALOGED_ITEM_TYPE CATALOGED_ITEM_TYPE,
 						collection.institution_acronym institution_acronym,
-						flat.guid
+						flat.guid,
+						flat.country,
+						flat.state_province,
+						flat.county,
+						flat.spec_locality
 					FROM specimen_part 
 						join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 						join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
@@ -133,6 +137,11 @@ limitations under the License.
 	<dwc:institutionCode>#institution_acronym#</dwc:institutionCode>
 	<dwc:collectionCode>#COLLECTION_CDE#</dwc:collectionCode>
 	<dwc:catalogNumber>#CAT_NUM#</dwc:catalogNumber>
+   <dcterms:rightsHolder>President and Fellows of Harvard College</dcterms:rightsHolder>
+	<dwc:locality>#spec_locality#</dwc:locality>
+<cfif len(country) GT 0>	<dwc:country>#country#</dwc:country></cfif>
+<cfif len(state_province) GT 0>	<dwc:stateProvince>#state_province#</dwc:stateProvince></cfif>
+<cfif len(county) GT 0>	<dwc:county>#county#</dwc:county></cfif>
 </dwc:MaterialSample>
 </rdf:RDF> </cfoutput>
 </cfif><!--- end RDF/XML --->
@@ -148,7 +157,12 @@ limitations under the License.
 	dwc:preparations "#PART_NAME# (#preserve_method#)";
 	dwc:institutionCode "#institution_acronym#";
 	dwc:collectionCode "#COLLECTION_CDE#";
-	dwc:catalogNumber "#CAT_NUM#".
+	dwc:catalogNumber "#CAT_NUM#";
+	dwc:locality "#spec_locality#";
+<cfif len(country) GT 0>	dwc:country "#country#";
+</cfif><cfif len(state_province) GT 0>	dwc:stateProvince "#state_province#";
+</cfif><cfif len(county) GT 0>	dwc:county "#county#";
+</cfif>	dcterms:rightsHolder "President and Fellows of Harvard College".
 </cfoutput>
 </cfif><!--- end Turtle --->
 <cfif deliver IS 'application/ld+json'>
@@ -164,7 +178,12 @@ limitations under the License.
   "dwc:preparations": "#PART_NAME# (#preserve_method#)",
   "dwc:institutionCode": "#institution_acronym#",
   "dwc:collectionCode": "#COLLECTION_CDE#",
-  "dwc:catalogNumber": "#CAT_NUM#"
+  "dwc:catalogNumber": "#CAT_NUM#",
+  "dwc:locality": "#spec_locality#",
+<cfif len(country) GT 0>  "dwc:country": "#country#",
+</cfif><cfif len(state_province) GT 0>  "dwc:stateProvince": "#state_province#",
+</cfif><cfif len(county) GT 0>  "dwc:county": "#county#",
+</cfif>  "dcterms:rightsHolder": "President and Fellows of Harvard College"
 }
 </cfoutput>
 </cfif><!--- end JSON-LD --->
