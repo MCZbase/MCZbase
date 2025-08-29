@@ -172,7 +172,7 @@ limitations under the License.
 		assembled_resolvable materialSampleID
 	FROM
 		specimen_part
-		left join guid_our_thing on specimen_part.collection_object_id = guid_our_thing.sp_collection_object_id
+		join guid_our_thing on specimen_part.collection_object_id = guid_our_thing.sp_collection_object_id
 	WHERE
 		derived_from_cat_item = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#occur.collection_object_id#">
 </cfquery>
