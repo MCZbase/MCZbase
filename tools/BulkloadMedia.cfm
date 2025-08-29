@@ -26,7 +26,7 @@ limitations under the License.
 
 <!--- Set configuration for lists of fields --->  
 <cfset NUMBER_OF_LABEL_VALUE_PAIRS = 8>
-<cfset NUMBER_OF_RELATIONSHIP_PAIRS = 12>
+<cfset NUMBER_OF_RELATIONSHIP_PAIRS =8>
 <cfset fieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,SUBJECT,MADE_DATE,DESCRIPTION,PREVIEW_URI,MEDIA_LICENSE_ID,MASK_MEDIA">
 <cfloop from="1" to="#NUMBER_OF_RELATIONSHIP_PAIRS#" index="i">
 	<cfset fieldlist = "#fieldlist#,MEDIA_RELATIONSHIP_#i#,MEDIA_RELATED_TO_#i#">
