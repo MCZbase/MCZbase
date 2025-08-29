@@ -139,10 +139,10 @@ limitations under the License.
 	<dwc:catalogNumber>#CAT_NUM#</dwc:catalogNumber>
    <dcterms:rightsHolder>President and Fellows of Harvard College</dcterms:rightsHolder>
 	<dwc:locality>#spec_locality#</dwc:locality>
-<cfif len(country) GT 0>	<dwc:country>#country#</dwc:country></cfif>
-<cfif len(state_province) GT 0>	<dwc:stateProvince>#state_province#</dwc:stateProvince></cfif>
-<cfif len(county) GT 0>	<dwc:county>#county#</dwc:county></cfif>
-</dwc:MaterialSample>
+<cfif len(country) GT 0>	<dwc:country>#country#</dwc:country>
+</cfif><cfif len(state_province) GT 0>	<dwc:stateProvince>#state_province#</dwc:stateProvince>
+</cfif><cfif len(county) GT 0>	<dwc:county>#county#</dwc:county>
+</cfif></dwc:MaterialSample>
 </rdf:RDF> </cfoutput>
 </cfif><!--- end RDF/XML --->
 <cfif deliver IS 'text/turtle'>
