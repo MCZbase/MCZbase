@@ -61,7 +61,7 @@ limitations under the License.
 					<cfquery name="lookupOccurrenceID" datasource="cf_dbuser" timeout="#Application.short_timeout#">
 						SELECT target_table, guid_our_thing_id, co_collection_object_id,  guid_is_a, disposition, local_identifier, assembled_identifier
 						FROM guid_our_thing
-						WHERE local_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupUUID.sp_collection_object_id#">
+						WHERE co_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupUUID.sp_collection_object_id#">
 							AND guid_is_a = 'occurrenceID'
 					</cfquery>
 					<cfif lookupOccurrenceID.recordCount GT 0 AND lookupOccurrenceID.disposition NEQ 'deleted'>
