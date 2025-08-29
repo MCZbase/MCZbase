@@ -3534,7 +3534,7 @@ Target JSON:
 				$('##fixedsearchResultsGrid').on('bindingcomplete.a11y', function () {
 					focusFirstVisibleCell_fixed();
 				function focusFirstVisibleCell_fixed() {
-					var $grid = $('#fixedsearchResultsGrid');
+					var $grid = $('##fixedsearchResultsGrid');
 					var rowsCount = $grid.jqxGrid('getrows').length;
 					if (!rowsCount) return;
 					var selectionMode = $grid.jqxGrid('selectionmode');
