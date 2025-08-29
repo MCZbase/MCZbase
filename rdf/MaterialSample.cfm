@@ -49,7 +49,7 @@ limitations under the License.
 			<cfif lookupUUID.disposition EQ 'deleted'>
 				<cfthrow message="Record has been deleted">
 			<cfelse>
-				<cfquery name="getMaterialSample" datasource="cf_dbuser" timeout="#Application.short_timeout#">
+				<cfquery name="getMaterialSample" datasource="cf_dbuser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 					SELECT specimen_part.COLLECTION_OBJECT_ID COLLECTION_OBJECT_ID,
 						specimen_part.PART_NAME PART_NAME,
 						specimen_part.PART_MODIFIER PART_MODIFIER,
