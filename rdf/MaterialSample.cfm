@@ -130,7 +130,7 @@ limitations under the License.
 <dwc:MaterialSample rdf:about="https://mczbase.mcz.harvard.edu/uuid/#uuid#">
 	<dwc:materialSampleID>#uuid#</dwc:materialSampleID>
 	<dwc:preparations>#PART_NAME# (#preserve_method#)</dwc:preparations>
-.	<dwc:institutionCode>#institution_acronym#</dwc:institutionCode>
+	<dwc:institutionCode>#institution_acronym#</dwc:institutionCode>
 	<dwc:collectionCode>#COLLECTION_CDE#</dwc:collectionCode>
 	<dwc:catalogNumber>#CAT_NUM#</dwc:catalogNumber>
 </dwc:MaterialSample>
