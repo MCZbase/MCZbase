@@ -146,11 +146,11 @@ limitations under the License.
 </rdf:RDF> </cfoutput>
 </cfif><!--- end RDF/XML --->
 <cfif deliver IS 'text/turtle'>
-<cfoutput>@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns##>.  
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema##>.  
-@prefix dwc: <http://rs.tdwg.org/dwc/terms/>.
-@prefix dwciri: <http://rs.tdwg.org/dwc/iri/>.
-@prefix dcterms: <http://purl.org/dc/terms/>. 
+<cfoutput>@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns##> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema##> .
+@prefix dwc: <http://rs.tdwg.org/dwc/terms/> .
+@prefix dwciri: <http://rs.tdwg.org/dwc/iri/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
 <https://mczbase.mcz.harvard.edu/uuid/#uuid#>
    a dwc:MaterialSample;
 	dwc:materialSampleID "#uuid#";
