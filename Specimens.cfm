@@ -3735,9 +3735,14 @@ Target JSON:
 					$("##fixedunselectrowindex").text(event.args.rowindex);
 				});
 			});
-			/* End Setup jqxgrid for keyword Search ****************************************************************************************/
+			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
 	 
 			
+		
+		
+		
+		
+		
 			/* Setup jqxgrid for keyword Search */
 			$('##keywordSearchForm').bind('submit', function(evt){ 
 				evt.preventDefault();
