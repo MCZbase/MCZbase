@@ -208,7 +208,7 @@ limitations under the License.
   "dwc:collectionCode": "#COLLECTION_CDE#",
   "dwc:catalogNumber": "#CAT_NUM#",
   "dwc:scientificName": "#scientific_name#",
-  "dwciri:occurrenceID": "#occurrenceID#",
+  "dwciri:occurrenceID": { "@id": "#occurrenceID#" },
   "dwc:locality": "#spec_locality#",
 <cfif len(country) GT 0>  "dwc:country": "#country#",
 </cfif><cfif len(state_province) GT 0>  "dwc:stateProvince": "#state_province#",
