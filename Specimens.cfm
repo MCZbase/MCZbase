@@ -3645,7 +3645,17 @@ Target JSON:
 							$(document).scrollTop(480);
 						}
 					</cfif>
-			
+				
+					var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
+					var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
+					if ($pagerTargets.length) {
+						$pagerTargets.first().off('keydown.a11y').on('keydown.a11y', function (e) {
+							if (e.key === 'Tab' && e.shiftKey) {
+								e.preventDefault();
+								focusFirstVisibleCell_fixed();
+							}
+						});
+					}
 					// add a link out to this search, serializing the form as http get parameters
 					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 					$('##fixedshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'fixed\'); "><i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
