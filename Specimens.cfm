@@ -1534,20 +1534,18 @@ limitations under the License.
 													<div id="fixedselectModeContainer" class="ml-3" style="display: none;" >
 														<script>
 															function fixedchangeSelectMode(){
-																var selmode = $("##fixedselectMode").val();
-																$("##fixedsearchResultsGrid").jqxGrid({selectionmode: selmode});
-														//		if (selmode=="none") { 
-//																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
-//																} else {
-//																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
-//																}
-															};
+																var selmode = $("#fixedselectMode").val();
+																var $grid = $("#fixedsearchResultsGrid");
+																$grid.jqxGrid({selectionmode: selmode});
+																$grid.jqxGrid('clearselection');
+																focusFirstVisibleCell_fixed(); // Let your shared function handle re-selecting
+																$grid.jqxGrid({enableBrowserSelection: (selmode === "singlecell")});
+																$grid.focus();
+															}
 														</script>
-
+														
 														<label class="data-entry-label d-inline w-auto mt-1" for="fixedselectMode">Grid Select:</label>
 														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="fixedchangeSelectMode();">
-															<cfif defaultSelectionMode EQ 'text'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-															<option #selected# value="text">Text</option>
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="singlecell">Single Cell</option>
 															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -1556,6 +1554,8 @@ limitations under the License.
 															<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
 															<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
+															<cfif defaultSelectionMode EQ 'text'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="text">Text</option>
 														</select>
 													</div>
 												
@@ -3430,7 +3430,7 @@ Target JSON:
 					columnsreorder: true,
 					groupable: true,
 					selectionmode: 'singlecell',
-					//enablebrowserselection: #defaultenablebrowserselection#,
+					enablebrowserselection: #defaultenablebrowserselection#,
 					altrows: true,
 					showtoolbar: false,
 					ready: function () {
