@@ -104,6 +104,8 @@ limitations under the License.
 <cfheader name="Content-type" value=#deliver# >
 
 <!--- TODO: lookup the guid from the guid_our_thing table --->
+<!--- TODO: Fix: If given the /guid/ of a specimen with multiple occurrences, return only the material samples belonging to that occurrence --->
+<!--- TODO: Fix: If given the /uuid/ of an additional occurrance in a mixed collection, return the correct occurrence including identification and material sample --->
 <cfquery name="occur" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT distinct 
 		collection_object_id,
