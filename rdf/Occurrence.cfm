@@ -243,7 +243,7 @@ limitations under the License.
 @prefix dwc: <http://rs.tdwg.org/dwc/terms/> #chr(46)#
 @prefix dwciri: <http://rs.tdwg.org/dwc/iri/> #chr(46)#
 @prefix dcterms: <http://purl.org/dc/terms/> #chr(46)#
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> #chr(46)#
+@prefix xsd: <http://www.w3.org/2001/XMLSchema##> #chr(46)#
 <https://mczbase.mcz.harvard.edu/guid/#guid#>
    a dwc:Occurrence;
    dwc:institutionCode "MCZ";
