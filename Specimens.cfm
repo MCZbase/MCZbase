@@ -3729,7 +3729,29 @@ Target JSON:
 						columnOrderChanged('keywordsearchResultsGrid'); 
 					}); 
 				</cfif>
+				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
+					var grid = $('##fixedsearchResultsGrid');
+					var selectionMode = grid.jqxGrid('selectionmode');
+					if (
+						selectionMode !== 'singlecell' &&
+						selectionMode !== 'multiplecellsextended' &&
+						selectionMode !== 'multiplecellsadvanced'
+						) 
+					{
+						return; // Only process in cell selection modes
+					}
 
+					var args = event.args;
+					if (args.datafield === null) {
+						var columns = grid.jqxGrid('columns').records;
+						for (var i = 0; i < columns.length; i++) {
+							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+								grid.jqxGrid('selectcell', args.rowindex, columns[i].datafield);
+								break;
+							}
+						}
+					}
+				});
 				$("##keywordsearchResultsGrid").on("bindingcomplete", function(event) {
 					console.log("bindingcomlete: keywordsearchResultsGrid");
 					// add a link out to this search, serializing the form as http get parameters
