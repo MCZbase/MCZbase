@@ -163,7 +163,7 @@ limitations under the License.
 	<dwc:catalogNumber>#CAT_NUM#</dwc:catalogNumber>
 	<dwc:scientificName>#scientific_name#</dwc:scientificName>
 	<dcterms:rightsHolder>President and Fellows of Harvard College</dcterms:rightsHolder>
-	<dwciri:occurrenceID>#occurrenceID#</dwc:occurrenceID>
+	<dwciri:occurrenceID>#occurrenceID#</dwciri:occurrenceID>
 	<dwc:locality>#spec_locality#</dwc:locality>
 <cfif len(country) GT 0>	<dwc:country>#country#</dwc:country>
 </cfif><cfif len(state_province) GT 0>	<dwc:stateProvince>#state_province#</dwc:stateProvince>
