@@ -75,7 +75,7 @@ limitations under the License.
 						collection.institution_acronym institution_acronym,
 						flat.guid,
 						flat.country,
-						flat.state_province,
+						flat.state_prov state_province,
 						flat.county,
 						flat.spec_locality
 					FROM specimen_part 
