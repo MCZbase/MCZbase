@@ -3639,12 +3639,12 @@ Target JSON:
 					focusFirstVisibleCell_fixed();
 					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
-						if (document <= 900){
-							$(document).scrollTop(200);
-						} else {
-							$(document).scrollTop(480);
-						}
-					</cfif>
+						if ($(document).height() <= 900) {
+								$(document).scrollTop(200);
+							} else {
+								$(document).scrollTop(480);
+							}
+					</cfif>	
 				
 					var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
 					var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
