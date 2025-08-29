@@ -52,7 +52,7 @@ limitations under the License.
 			REGEXP_REPLACE( status, '\s*</?\w+((\s+\w+(\s*=\s*(".*?"|''.*?''|[^''">\s]+))?)+\s*|\s*)/?>\s*', NULL, 1, 0, 'im') AS STATUS, 
 			MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,SUBJECT,MADE_DATE,DESCRIPTION,MEDIA_LICENSE_ID,MASK_MEDIA,
 			<cfloop from="1" to="#NUMBER_OF_RELATIONSHIP_PAIRS#" index="rpi">
-				MEDIA_RELATIONSHIP_#rpi#,MEDIA_RELATED_TO_#rpi#
+				#separator#MEDIA_RELATIONSHIP_#rpi#,MEDIA_RELATED_TO_#rpi#
 					<cfset separator = ",">
 			</cfloop>
 			<cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" index="lpi">
