@@ -65,7 +65,7 @@ limitations under the License.
 				WHERE coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.co_collection_object_id#">
 			</cfquery>
 			<cfset guid = getCatItem.guid>
-		<cfif lookupUUID.disposition IS "exists" AND lookupUUID.target_table IS "SPECIMEN_PART" AND lookupUUID.guid_is_a IS "materialSampleID">
+		<cfelseif lookupUUID.disposition IS "exists" AND lookupUUID.target_table IS "SPECIMEN_PART" AND lookupUUID.guid_is_a IS "materialSampleID">
 			<!--- use materialSampleID RDF handler --->
 			<!--- TODO: MaterialSample.cfm --->
 		<cfelse>
