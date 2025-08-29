@@ -3509,7 +3509,7 @@ Target JSON:
 				});
 				// Define this function once, *outside* event handlers
 				function focusFirstVisibleCell_fixed() {
-					var $grid = $('##fixedsearchResultsGrid'); // One # (not ##)
+					var $grid = $('##fixedsearchResultsGrid'); 
 					var rowsCount = $grid.jqxGrid('getrows').length;
 					if (!rowsCount) return;
 
