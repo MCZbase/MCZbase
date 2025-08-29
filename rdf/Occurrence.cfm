@@ -287,7 +287,7 @@ limitations under the License.
    dwc:earliestageorloweststage "#earliestageorloweststage#";
    dwc:latestageorhigheststage "#latestageorhigheststage#";
 </cfif>
-<cfif parts.recordcount GT 0> dwciri:materialSampleID <cfloop query="parts">#parts.materialSampleID#</cfloop>;
+<cfif parts.recordcount GT 0>   dwciri:materialSampleID <cfloop query="parts">#parts.materialSampleID#</cfloop>;
 </cfif>   dwc:recordedBy "#collectors#".
 <cfif parts.recordcount GT 0><cfloop query="parts">
 <#parts.materialSampleID#>
