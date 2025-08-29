@@ -146,6 +146,7 @@ limitations under the License.
      "dcterms": "http://purl.org/dc/terms/"
   },
   "@id": "https://mczbase.mcz.harvard.edu/uuid/#uuid#",
+  "@type":"dwc:MaterialSample"
 }
 </cfoutput>
 </cfif><!--- end JSON-LD --->
