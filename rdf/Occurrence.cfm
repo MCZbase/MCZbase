@@ -313,13 +313,13 @@ limitations under the License.
   "dcterms:modified":"#last_edit_date#",
   "dwc:scientificName":"#scientific_name#",
   "dwc:scientificNameAuthorship":"#author_text#",
-  "dwc:taxonID":"#taxonid#",
-  "dwc:scientificNameID":"#scientificnameid#",
+<cfif len(taxonid) GT 0>  "dwc:taxonID":"#taxonid#",</cfif>
+<cfif len(scientificnameid) GT 0>  "dwc:scientificNameID":"#scientificnameid#",</cfif>
   "dwc:identifiedBy":"#identifiedby#",
   "dwciri:identifiedBy":"#identifiedbyid#",
 <cfif len(typestatus) GT 0>  "dwc:typeStatus":"#typestatus#",
-</cfif> "dwc:country":"#country#",
-  "dwc:stateProvince":"#state_prov#",
+</cfif>   "dwc:country":"#country#",
+<cfif len(state_prov) GT 0>  "dwc:stateProvince":"#state_prov#",</cfif>
   "dwc:locality":"#spec_locality#",
   "dwc:recordedBy":"#collectors#",<cfif colls.recordcount GT 0><cfloop query="colls">
   "dwciri:recordedBy":"#colls.agentguid#",
