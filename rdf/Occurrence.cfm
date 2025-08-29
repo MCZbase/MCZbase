@@ -347,15 +347,15 @@ limitations under the License.
   "dwc:latestageorhigheststage":"#latestageorhigheststage#",
 </cfif>
 <cfif parts.recordcount GT 0>
-	"dwciri:materialSampleID:" [ 
-<cfloop query="parts">    {
+	"dwciri:materialSampleID" [ 
+<cfset separator=""><cfloop query="parts">    #separator#{
 	"@id": "#parts.materialSampleID#",
 		"@type": "dwc:MaterialSample",
 		"dwc:materialSampleID": "#parts.materialSampleID#",
-		"dwc:preparations": "#parts.part_name# (#parts.preserve_method#)".
+		"dwc:preparations": "#parts.part_name# (#parts.preserve_method#)"
    }
-</cfloop>]
-</cfif> "dwc:recordedBy":"#collectors#"
+<cfset separator=","></cfloop>]
+</cfif>
 }
 </cfoutput>
 </cfif><!--- JSON-LD --->
