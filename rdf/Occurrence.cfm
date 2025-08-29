@@ -37,7 +37,7 @@
 	<cfif lookupUUID.recordcount EQ 0>
 		<cfthrow message="UUID not found" detail="No record found in guid_our_thing table for UUID #uuid#">
 	<cfelseif lookupUUID.recordcount GT 0>
-		<cfif lookupUUID.disposition IS "exists" AND lookupUUID.target_table IS "coll_object" AND lookupUUID.guid_is_a IS "occurrenceID">
+		<cfif lookupUUID.disposition IS "exists" AND lookupUUID.target_table IS "COLL_OBJECT" AND lookupUUID.guid_is_a IS "occurrenceID">
 			<!--- lookup the cataloged item for the occurrence and redirect to it with /guid/{institution_code}:{collection_code}:{catalog_number} --->
 			<!--- type of coll_object should be "SP", check this and lookup from parent cataloged item --->
 			<cfquery name="getCatItem" datasource="uam_god" timeout="#Application.short_timeout#" result="getCatItem.result">
@@ -50,6 +50,9 @@
 				WHERE coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.co_collection_object_id#">
 			</cfquery>
 			<cfset guid = getCatItem.guid>
+		<cfif lookupUUID.disposition IS "exists" AND lookupUUID.target_table IS "SPECIMEN_PART" AND lookupUUID.guid_is_a IS "materialSampleID">
+			<!--- use materialSampleID RDF handler --->
+			<!--- TODO: MaterialSample.cfm --->
 		<cfelse>
 			<cfthrow message = "unsupported dispostion or other condition">
 		</cfif>
@@ -82,6 +85,7 @@
 
 <cfheader name="Content-type" value=#deliver# >
 
+<!--- TODO: lookup the guid from the guid_our_thing table --->
 <cfquery name="occur" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT distinct 
 		collection_object_id,
