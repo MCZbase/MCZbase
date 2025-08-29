@@ -3396,7 +3396,6 @@ Target JSON:
 					} 
 				};	
 			};
-			
 				var dataAdapter = new $.jqx.dataAdapter(search);
 				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
@@ -3408,7 +3407,6 @@ Target JSON:
 					var maxZIndex = getMaxZIndex();
 					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 				}
-
 				$("##fixedsearchResultsGrid").jqxGrid({
 					width: '100%',
 					autoheight: 'true',
@@ -3419,7 +3417,7 @@ Target JSON:
 					editable: false,
 					virtualmode: true,
 					enablemousewheel: #session.gridenablemousewheel#,
-					keyboardnavigation: true,
+					keyboardnavigation: true,  //added 8/2025
 					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','500'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
@@ -3432,6 +3430,11 @@ Target JSON:
 					selectionmode: 'singlecell',
 					altrows: true,
 					showtoolbar: false,
+					//not needed? 8/2025
+				//	ready: function () {   
+//						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
+//						$("##fixedsearchResultsGrid").jqxGrid('focus');
+//					},
 					rendergridrows: function () {
 						return dataAdapter.records;
 					},
@@ -3480,7 +3483,116 @@ Target JSON:
 						columnOrderChanged('fixedsearchResultsGrid'); 
 					}); 
 				</cfif>
-		
+					///BEGIN binding complete
+		///begin binding complete
+		///begin binding complete  put pagers specific and link/share parameters inside
+				$("##fixedsearchResultsGrid").on("bindingcomplete", function (event) {
+	
+					// --- Focus the first visible data cell ---
+					function focusFirstVisibleCell_fixed() {
+						var $grid = $('##fixedsearchResultsGrid');
+						var columns = $grid.jqxGrid('columns').records;
+						var firstDataField = null;
+						for (var i = 0; i < columns.length; i++) {
+							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+								firstDataField = columns[i].datafield;
+								break;
+							}
+						}
+						if (firstDataField) {
+							$grid.jqxGrid('selectcell', 0, firstDataField);
+							setTimeout(function () {
+								$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+								$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+							}, 10);
+						}
+					}
+
+					// --- Call once on grid load ---
+					focusFirstVisibleCell_fixed();
+					
+					//This code makes Shift+Tab from the first pager button in the grid return keyboard focus to the grid (good accessibility!).
+					//It should be placed inside bindingcomplete, so every time the pager is re-rendered as data/pages change, the handler is attached to the currently existing button.
+					//This ensures robust, reliable accessibility behavior.
+					// --- Shift+Tab from first pager button goes back to grid ---
+					var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
+					var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
+					if ($pagerTargets.length) {
+						$pagerTargets.first().off('keydown.a11y').on('keydown.a11y', function (e) {
+							if (e.key === 'Tab' && e.shiftKey) {
+								e.preventDefault();
+								focusFirstVisibleCell_fixed();
+							}
+						});
+					}
+
+					// --- Finalize: show grid, hide overlay/spinner ---
+					gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+					$('##overlay').hide();
+					
+					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
+						if ($(document).height() <= 900) {
+								$(document).scrollTop(200);
+							} else {
+								$(document).scrollTop(480);
+							}
+					</cfif>	
+
+					// add a link out to this search, serializing the form as http get parameters
+					$('##fixedresultLink').html(
+						'<a href="/Specimens.cfm?execute=true&' + 
+						$('##fixedSearchForm :input')
+						.filter(function(index,element){ return $(element).val()!='';})
+						.not(".excludeFromLink")
+						.serialize() + 
+						'">Link to this search</a>'
+					);
+					
+					$('##fixedshowhide').html(
+						'<button class="my-2 border rounded" title="hide search form" 
+						onclick=" toggleSearchForm(\'fixed\'); ">
+						<i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i>
+						</button>'
+					);
+					
+					if (fixedSearchLoaded==0) { 
+						try { 
+							gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+						} catch (e) { 
+							console.log(e);
+							messageDialog("Error in gridLoaded handler:" + e.message,"Error in gridLoaded");
+						}
+						fixedSearchLoaded = 1;
+						loadColumnOrder('fixedsearchResultsGrid');
+					}
+					
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+						$('##fixedmanageButton').html(
+							'<a href="specimens/manageSpecimens.cfm?result_id='+
+							$('##result_id_fixedSearch').val()+
+							'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>'
+						);
+					<cfelse>
+						$('##fixedmanageButton').html('');
+					</cfif>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+						<cfif isdefined("session.killRow") AND session.killRow EQ 2>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+								$('##fixedremoveButtonDiv').html('<button id="fixedremoveButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" disabled onclick="removeFixedSelectedRows(); " >Remove Checked</a>');
+							<cfelse>
+								$('##fixedremoveButtonDiv').html('');
+							</cfif>
+						</cfif>
+					</cfif>
+					pageLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
+						console.log(#session.specimens_pin_guid#);
+						setPinColumnState('fixedsearchResultsGrid','GUID',true);
+					</cfif>
+
+				});	///end binding complete
+					///end binding complete
+					///end binding complete
 				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
 					var grid = $('##fixedsearchResultsGrid');
 					var selectionMode = grid.jqxGrid('selectionmode');
@@ -3639,116 +3751,7 @@ Target JSON:
 					}
 				});
 		
-		///BEGIN binding complete
-		///begin binding complete
-		///begin binding complete  put pagers specific and link/share parameters inside
-				$("##fixedsearchResultsGrid").on("bindingcomplete", function (event) {
 	
-					// --- Focus the first visible data cell ---
-					function focusFirstVisibleCell_fixed() {
-						var $grid = $('##fixedsearchResultsGrid');
-						var columns = $grid.jqxGrid('columns').records;
-						var firstDataField = null;
-						for (var i = 0; i < columns.length; i++) {
-							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-								firstDataField = columns[i].datafield;
-								break;
-							}
-						}
-						if (firstDataField) {
-							$grid.jqxGrid('selectcell', 0, firstDataField);
-							setTimeout(function () {
-								$grid.find('.jqx-grid-cell').attr('tabindex', -1);
-								$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
-							}, 10);
-						}
-					}
-
-					// --- Call once on grid load ---
-					focusFirstVisibleCell_fixed();
-					
-					//This code makes Shift+Tab from the first pager button in the grid return keyboard focus to the grid (good accessibility!).
-					//It should be placed inside bindingcomplete, so every time the pager is re-rendered as data/pages change, the handler is attached to the currently existing button.
-					//This ensures robust, reliable accessibility behavior.
-					// --- Shift+Tab from first pager button goes back to grid ---
-					var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
-					var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
-					if ($pagerTargets.length) {
-						$pagerTargets.first().off('keydown.a11y').on('keydown.a11y', function (e) {
-							if (e.key === 'Tab' && e.shiftKey) {
-								e.preventDefault();
-								focusFirstVisibleCell_fixed();
-							}
-						});
-					}
-
-					// --- Finalize: show grid, hide overlay/spinner ---
-					gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
-					$('##overlay').hide();
-					
-					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
-						if ($(document).height() <= 900) {
-								$(document).scrollTop(200);
-							} else {
-								$(document).scrollTop(480);
-							}
-					</cfif>	
-
-					// add a link out to this search, serializing the form as http get parameters
-					$('##fixedresultLink').html(
-						'<a href="/Specimens.cfm?execute=true&' + 
-						$('##fixedSearchForm :input')
-						.filter(function(index,element){ return $(element).val()!='';})
-						.not(".excludeFromLink")
-						.serialize() + 
-						'">Link to this search</a>'
-					);
-					
-					$('##fixedshowhide').html(
-						'<button class="my-2 border rounded" title="hide search form" 
-						onclick=" toggleSearchForm(\'fixed\'); ">
-						<i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i>
-						</button>'
-					);
-					
-					if (fixedSearchLoaded==0) { 
-						try { 
-							gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
-						} catch (e) { 
-							console.log(e);
-							messageDialog("Error in gridLoaded handler:" + e.message,"Error in gridLoaded");
-						}
-						fixedSearchLoaded = 1;
-						loadColumnOrder('fixedsearchResultsGrid');
-					}
-					
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						$('##fixedmanageButton').html(
-							'<a href="specimens/manageSpecimens.cfm?result_id='+
-							$('##result_id_fixedSearch').val()+
-							'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>'
-						);
-					<cfelse>
-						$('##fixedmanageButton').html('');
-					</cfif>
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						<cfif isdefined("session.killRow") AND session.killRow EQ 2>
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-								$('##fixedremoveButtonDiv').html('<button id="fixedremoveButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" disabled onclick="removeFixedSelectedRows(); " >Remove Checked</a>');
-							<cfelse>
-								$('##fixedremoveButtonDiv').html('');
-							</cfif>
-						</cfif>
-					</cfif>
-					pageLoaded('fixedsearchResultsGrid','occurrence record','fixed');
-					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
-						console.log(#session.specimens_pin_guid#);
-						setPinColumnState('fixedsearchResultsGrid','GUID',true);
-					</cfif>
-
-				});	///end binding complete
-					///end binding complete
-					///end binding complete
 		
 				//  Create a content div, add it to the detail row, and make it into a dialog.
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
