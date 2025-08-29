@@ -49,6 +49,7 @@ limitations under the License.
 			<cfif lookupUUID.disposition EQ 'deleted'>
 				<cfthrow message="Record has been deleted">
 			<cfelse>
+				<!--- TODO: Assumes cataloged item is the occurrence, not true for all material samples, need support for occurrence for  --->
 				<cfquery name="getMaterialSample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 					SELECT specimen_part.COLLECTION_OBJECT_ID COLLECTION_OBJECT_ID,
 						specimen_part.PART_NAME PART_NAME,
@@ -71,11 +72,13 @@ limitations under the License.
 						cataloged_item.COLLECTING_EVENT_ID COLLECTING_EVENT_ID,
 						cataloged_item.COLLECTION_CDE COLLECTION_CDE,
 						cataloged_item.CATALOGED_ITEM_TYPE CATALOGED_ITEM_TYPE,
-						collection.institution_acronym institution_acronym
+						collection.institution_acronym institution_acronym,
+						flat.guid
 					FROM specimen_part 
 						join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 						join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
 						join collection on cataloged_item.collection_id = collection.collection_id
+						join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on cataloged_item.collection_object_id = flat.collection_object_id
 					WHERE specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.sp_collection_object_id#">
 				</cfquery>
 				<cfif getMaterialSample.recordCount EQ 0>
@@ -127,6 +130,9 @@ limitations under the License.
 <dwc:MaterialSample rdf:about="https://mczbase.mcz.harvard.edu/uuid/#uuid#">
 	<dwc:materialSampleID>#uuid#</dwc:materialSampleID>
 	<dwc:preparations>#PART_NAME# (#preserve_method#)</dwc:preparations>
+.	<dwc:institutionCode>#institution_acronym#</dwc:institutionCode>
+	<dwc:collectionCode>#COLLECTION_CDE#</dwc:collectionCode>
+	<dwc:catalogNumber>#CAT_NUM#</dwc:catalogNumber>
 </dwc:MaterialSample>
 </rdf:RDF> </cfoutput>
 </cfif><!--- end RDF/XML --->
@@ -139,7 +145,10 @@ limitations under the License.
 <https://mczbase.mcz.harvard.edu/uuid/#uuid#>
    a dwc:MaterialSample;
 	dwc:materialSampleID "#uuid#";
-	dwc:preparations "#PART_NAME# (#preserve_method#)".
+	dwc:preparations "#PART_NAME# (#preserve_method#)";
+.	dwc:institutionCode "#institution_acronym#";
+	dwc:collectionCode "#COLLECTION_CDE#";
+	dwc:catalogNumber "#CAT_NUM#".
 </cfoutput>
 </cfif><!--- end Turtle --->
 <cfif deliver IS 'application/ld+json'>
@@ -152,7 +161,10 @@ limitations under the License.
   "@id": "https://mczbase.mcz.harvard.edu/uuid/#uuid#",
   "@type":"dwc:MaterialSample",
   "dwc:materialSampleID": "#uuid#",
-  "dwc:preparations": "#PART_NAME# (#preserve_method#)"
+  "dwc:preparations": "#PART_NAME# (#preserve_method#)",
+.	"dwc:institutionCode": "#institution_acronym#",
+	"dwc:collectionCode": "#COLLECTION_CDE#",
+	"dwc:catalogNumber": "#CAT_NUM#"
 }
 </cfoutput>
 </cfif><!--- end JSON-LD --->
