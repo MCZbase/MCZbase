@@ -1534,8 +1534,8 @@ limitations under the License.
 													<div id="fixedselectModeContainer" class="ml-3" style="display: none;" >
 														<script>
 															function fixedchangeSelectMode(){
-																var selmode = $("#fixedselectMode").val();
-																var $grid = $("#fixedsearchResultsGrid");
+																var selmode = $("##fixedselectMode").val();
+																var $grid = $("##fixedsearchResultsGrid");
 																$grid.jqxGrid({selectionmode: selmode});
 																$grid.jqxGrid('clearselection');
 																focusFirstVisibleCell_fixed(); // Let your shared function handle re-selecting
