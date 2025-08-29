@@ -601,7 +601,6 @@ limitations under the License.
 														</script>
 													</div>
 													<button type="button" id="TaxaDetailCtl1" class="d-block d-xl-none border m-1 d-xl-none py-1 btn-link w-100 text-center btn small" onclick="toggleTaxaDetail(1)"><span class="btn-link">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
-														
 													<div id="TaxaDetail" class="col-12 px-0" style="#TaxaDetailStyle#">
 														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
 															<div class="col-12 mb-1 col-md-2">
@@ -676,7 +675,6 @@ limitations under the License.
 																<!--- lookup agent name --->
 																<cfif len(determiner) EQ 0 AND len(determiner_id) GT 0>
 																	<cfquery name="lookupDeterminer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupDeterminer_result">
-
 																		SELECT agent_name
 																		FROM preferred_agent_name
 																		WHERE
@@ -983,7 +981,6 @@ limitations under the License.
 													<div class="col-12 mb-1 col-md-3">
 														<label for="collector" class="data-entry-label small">Collector</label>
 														<cfif not isdefined("collector")>
-
 															<cfset collector="">
 														</cfif>
 														<cfif not isdefined("collector_agent_id") OR len(collector_agent_id) EQ 0>
@@ -1104,7 +1101,6 @@ limitations under the License.
 														</button>
 													</div>
 												</div>
-													
 												<div class="form-row col-12 col-xxl-eleven col-xxl-11 pt-1 px-1 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
@@ -1240,7 +1236,7 @@ limitations under the License.
 																	Part Attribute Type
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with any part attribute</span></a>
 																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##part_attribute_type').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-</label>
+																</label>
 																<cfif not isdefined("part_attribute_type")><cfset part_attribute_type=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="part_attribute_type" name="part_attribute_type" value="#encodeForHtml(part_attribute_type)#">
 																<script>
@@ -1496,11 +1492,6 @@ limitations under the License.
 										<div class="menu_results"> </div>
 									</form>
 								</div>
-															
-															
-															
-															
-															
 								<!--- results for fixed search --->
 								<div class="container-fluid" id="fixedSearchResultsSection">
 									<div class="row">
@@ -1538,7 +1529,7 @@ limitations under the License.
 													<span id="fixedmanageButton" class=""></span>
 													<span id="fixedremoveButtonDiv" class=""></span>
 													<div id="fixedresultBMMapLinkContainer"></div>
-																			<div id="fixedselectModeContainer" class="ml-3" style="display: none;">
+													<div id="fixedselectModeContainer" class="ml-3" style="display: none;">
 														<script>
 															function fixedchangeSelectMode(){
 																var selmode = $("##fixedselectMode").val(); // Use correct selector!
@@ -1564,7 +1555,6 @@ limitations under the License.
 																$grid.focus();
 															}
 														</script>
-
 														<label class="data-entry-label d-inline w-auto mt-1" for="fixedselectMode">Grid Select:</label>
 														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="fixedchangeSelectMode();">
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -1577,7 +1567,6 @@ limitations under the License.
 															<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
 														</select>
 													</div>
-												
 													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
 												</div>
 												<!--- TODO: Figure out how to make this sticky row work on the column header row --->
@@ -2459,7 +2448,7 @@ Target JSON:
 													});
 												});
 											</script>
-										</div>
+											</div>
 										<div class="form-row mb-3">
 											<div class="col-12">
 												<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 mr-md-5 my-1" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
@@ -2471,6 +2460,7 @@ Target JSON:
 									</form>
 
 
+																			
 								</div>
 								<!--- results for search builder search --->
 								<div class="container-fluid" id="builderSearchResultsSection" aria-live="polite">
@@ -3160,15 +3150,12 @@ Target JSON:
 				}
 			}
 		};
-	
 		// bindingcomplete is fired on each page load of the grid, we need to distinguish the first page load from subsequent loads.
 		var fixedSearchLoaded = 0;
 		var keywordSearchLoaded = 0;
 		var builderSearchLoaded = 0;
-
 		// prevent on columnreordered event from causing save of grid column order when loading order from persistance store
 		var columnOrderLoading = 0
-	
 		function serializeFormAsJSON(formID) {
 		  const array = $('##'+formID).serializeArray();
 		  const json = {};
@@ -3177,10 +3164,8 @@ Target JSON:
 		  });
 		  return json;
 		}
-
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 			<!--- Enable communication between search and manage pages when modifying search results --->
-
 			var fixedreloadlistenerbound = false;
 			var keywordreloadlistenerbound = false;
 			var builderreloadlistenerbound = false;
@@ -3218,7 +3203,6 @@ Target JSON:
 					builderreloadlistenerbound = true;
 				}
 			}
-	
 			bc.onmessage = function (message) { 
 				console.log(message);
 				if (message.data.source == "manage" &&  message.data.result_id == $("##result_id_fixedSearch").val()) { 
@@ -3253,11 +3237,9 @@ Target JSON:
 				} 
 			}
 		</cfif> 
-
 		/* End Setup jqxgrids for search ****************************************************************************************/
 		$(document).ready(function() {
 			/* Setup jqxgrid for fixed Search */
-
 			$('##fixedSearchForm').bind('submit', function(evt){
 				evt.preventDefault();
 			
@@ -3353,68 +3335,68 @@ Target JSON:
 						}
 					};
 				} else { 
-					search = 
-					{
-						datatype: "json",
-						datafields:
-						[
-							<cfset separator = "">
-							<cfloop query="getFieldMetadata">
-								<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
-									#separator#{name: '#ucase(column_name)#', type: 'string' }
-								<cfelseif data_type EQ 'NUMBER' >
-									#separator#{name: '#ucase(column_name)#', type: 'number' }
-								<cfelse>
-									#separator#{name: '#ucase(column_name)#', type: 'string' }
-								</cfif>
-								<cfset separator = ",">
+				search = 
+				{
+					datatype: "json",
+					datafields:
+					[
+						<cfset separator = "">
+						<cfloop query="getFieldMetadata">
+							<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
+								#separator#{name: '#ucase(column_name)#', type: 'string' }
+							<cfelseif data_type EQ 'NUMBER' >
+								#separator#{name: '#ucase(column_name)#', type: 'number' }
+							<cfelse>
+								#separator#{name: '#ucase(column_name)#', type: 'string' }
+							</cfif>
+							<cfset separator = ",">
 
-							</cfloop>
-						],
-						beforeprocessing: function (data) {
-							if (data != null && data.length > 0) {
-								search.totalrecords = data[0].recordcount;
+						</cfloop>
+					],
+					beforeprocessing: function (data) {
+						if (data != null && data.length > 0) {
+							search.totalrecords = data[0].recordcount;
+						}
+					},
+					sort: function () {
+
+						$("##fixedsearchResultsGrid").jqxGrid('updatebounddata','sort');
+					},
+					root: 'specimenRecord',
+					id: 'collection_object_id',
+					url: '/specimens/component/search.cfc?' + $('##fixedSearchForm').serialize(),
+					timeout: #Application.ajax_timeout*2#000,  // units not specified, miliseconds?  Fixed
+					loadError: function(jqXHR, textStatus, error) {
+						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
+					},
+					async: true,
+					deleterow: function (rowid, commit) {
+						console.log(rowid);
+						console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
+						var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
+						console.log(collobjtoremove);
+						$.ajax({
+							url: "/specimens/component/search.cfc",
+							data: { 
+								method: 'removeItemFromResult', 
+								result_id: $('##result_id_fixedSearch').val(),
+								collection_object_id: collobjtoremove
+							},
+							dataType: 'json',
+							success : function (data) { 
+								console.log(data);
+								commit(true);
+								$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+							},
+							error : function (jqXHR, textStatus, error) {
+							handleFail(jqXHR,textStatus,error,"removing row from result set");
+								commit(false);
 							}
-						},
-						sort: function () {
-
-							$("##fixedsearchResultsGrid").jqxGrid('updatebounddata','sort');
-						},
-						root: 'specimenRecord',
-						id: 'collection_object_id',
-						url: '/specimens/component/search.cfc?' + $('##fixedSearchForm').serialize(),
-						timeout: #Application.ajax_timeout*2#000,  // units not specified, miliseconds?  Fixed
-						loadError: function(jqXHR, textStatus, error) {
-							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
-						},
-						async: true,
-						deleterow: function (rowid, commit) {
-							console.log(rowid);
-							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
-							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
-							console.log(collobjtoremove);
-							$.ajax({
-								url: "/specimens/component/search.cfc",
-								data: { 
-									method: 'removeItemFromResult', 
-									result_id: $('##result_id_fixedSearch').val(),
-									collection_object_id: collobjtoremove
-								},
-								dataType: 'json',
-								success : function (data) { 
-									console.log(data);
-									commit(true);
-									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
-								},
-								error : function (jqXHR, textStatus, error) {
-								handleFail(jqXHR,textStatus,error,"removing row from result set");
-									commit(false);
-								}
-							});
-						} 
-					};
-				};
-	
+						});
+					} 
+				};	
+			};
+			
 				var dataAdapter = new $.jqx.dataAdapter(search);
 				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
@@ -3791,7 +3773,8 @@ Target JSON:
 					$("##fixedunselectrowindex").text(event.args.rowindex);
 				});
 			});
-		});
+	
+		
 			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
 	 
 
