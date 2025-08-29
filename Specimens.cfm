@@ -3619,136 +3619,136 @@ Target JSON:
 
 				//But never bind the pagechanged event inside the bindingcomplete handler.
 				//Put your pagechanged handler outside of bindingcomplete!			
-				$("##fixedsearchResultsGrid").on('pagechanged', function(event) {
-					setTimeout(function() {
-						var grid = $("##fixedsearchResultsGrid");
-						var rowsCount = grid.jqxGrid('getrows').length;
-						if (!rowsCount) return; // <-- Guard clause!
-
-						var selectionMode = grid.jqxGrid('selectionmode');
-						var columns = grid.jqxGrid('columns').records;
-
-						if (
-							selectionMode === 'singlecell' ||
-							selectionMode === 'multiplecellsadvanced' ||
-							selectionMode === 'multiplecellsextended'
-						) {
-							// Select the first visible cell
-							for (var i = 0; i < columns.length; i++) {
-								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-									grid.jqxGrid('selectcell', 0, columns[i].datafield);
-									break;
-								}
-							}
-							if (firstDataField) {
-								grid.jqxGrid('selectcell', 0, firstDataField);
-								setTimeout(function () {
-									grid.find('.jqx-grid-cell').attr('tabindex', -1);
-									grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
-								},10);
-							}
-						} else if (
-							selectionMode === 'singlerow' ||
-							selectionMode === 'multiplerowsextended' ||
-							selectionMode === 'multiplerowsadvanced'
-						) {
-							grid.jqxGrid('selectrow', 0);
-							$grid.focus();
-						}
-					}, 10); // Delay may be unnecessary, but helps in virtualmode
-				});		
-		
-				$('##fixedsearchResultsGrid').off('.a11y');
-				$('##fixedSelectMode').off('.a11y');
-		
-				$('##fixedsearchResultsGrid').on('pagechanged.a11y', function () {
-						focusFirstVisibleCell_fixed();
-				});
-
-				// --- Keep tabindex/focus in sync on cell/row select ---
-				$('##fixedsearchResultsGrid').on('cellselect.a11y rowselect.a11y', function () {
-					var $grid = $(this);
-					setTimeout(function () {
-						$grid.find('.jqx-grid-cell').attr('tabindex', -1);
-						$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
-					}, 10);
-				});
-
-				// --- Custom tabbing out of the grid ---
-				$('##fixedsearchResultsGrid').on('keydown.a11y', function (event) {
-					if (event.key === 'Tab') {
-						event.preventDefault();
-						if (event.shiftKey) {
-							// Focus selection mode dropdown above grid
-							$('##fixedSelectMode').focus();
-						} else {
-							// Focus first pager button/input if available
-							var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
-							var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
-							if ($pagerTargets.length > 0) {
-								$pagerTargets.first().focus();
-							} else {
-								$pager.attr('tabindex', 0).focus();
-							}
-						}
-					}
-				});
-				// --- Tab from selection mode goes to grid ---
-				$('##fixedSelectMode').on('keydown.a11y', function (event) {
-					if (event.key === 'Tab' && !event.shiftKey) {
-						event.preventDefault();
-						focusFirstVisibleCell_fixed();
-					}
-				});
-
-				// --- Respond to selection mode change (e.g., singlecell to singlerow, etc.) ---
-				$('##fixedSelectMode').on('change.a11y', function () {
-					var mode = $(this).val();
-					var $grid = $('##fixedsearchResultsGrid');
-					$grid.jqxGrid({ selectionmode: mode });
-					$grid.jqxGrid('clearselection');
-					if (mode.indexOf('row') !== -1) {
-						$grid.jqxGrid('selectrow', 0);
-						setTimeout(function () {
-							$grid.find('.jqx-grid-cell').attr('tabindex', -1);
-							$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
-						}, 10);
-					} else {
-						focusFirstVisibleCell_fixed();
-					}
-				});
-
-				// --- Guard: force selection to valid cell (not null datafield) ---
-				$('##fixedsearchResultsGrid').on('cellselect.a11y', function (event) {
-					var args = event.args;
-					if (args.datafield === null) {
-						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
-						for (var i = 0; i < columns.length; i++) {
-							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-								$('##fixedsearchResultsGrid').jqxGrid('selectcell', args.rowindex, columns[i].datafield);
-								break;
-							}
-						}
-					}
-				});
-
-				// --- Accessible details popup: open on Enter or Space ---
-				$("##fixedsearchResultsGrid").on('keydown.a11y', function (event) {
-					var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
-					if (event.key === " " || event.key === "Enter") {
-						if (selectionMode.indexOf('cell') !== -1) {
-							var cell = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
-							if (cell && cell.rowindex >= 0) {
-								$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', cell.rowindex);
-							}
-						} else {
-							var rows = $("##fixedsearchResultsGrid").jqxGrid('getselectedrowindexes');
-							if (rows && rows[0] >= 0) {
-								$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', rows[0]);
-							}
-						}
-					}
-				});
+			//	$("##fixedsearchResultsGrid").on('pagechanged', function(event) {
+//					setTimeout(function() {
+//						var grid = $("##fixedsearchResultsGrid");
+//						var rowsCount = grid.jqxGrid('getrows').length;
+//						if (!rowsCount) return; // <-- Guard clause!
+//
+//						var selectionMode = grid.jqxGrid('selectionmode');
+//						var columns = grid.jqxGrid('columns').records;
+//
+//						if (
+//							selectionMode === 'singlecell' ||
+//							selectionMode === 'multiplecellsadvanced' ||
+//							selectionMode === 'multiplecellsextended'
+//						) {
+//							// Select the first visible cell
+//							for (var i = 0; i < columns.length; i++) {
+//								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+//									grid.jqxGrid('selectcell', 0, columns[i].datafield);
+//									break;
+//								}
+//							}
+//							if (firstDataField) {
+//								grid.jqxGrid('selectcell', 0, firstDataField);
+//								setTimeout(function () {
+//									grid.find('.jqx-grid-cell').attr('tabindex', -1);
+//									grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+//								},10);
+//							}
+//						} else if (
+//							selectionMode === 'singlerow' ||
+//							selectionMode === 'multiplerowsextended' ||
+//							selectionMode === 'multiplerowsadvanced'
+//						) {
+//							grid.jqxGrid('selectrow', 0);
+//							$grid.focus();
+//						}
+//					}, 10); // Delay may be unnecessary, but helps in virtualmode
+//				});		
+//		
+//				$('##fixedsearchResultsGrid').off('.a11y');
+//				$('##fixedSelectMode').off('.a11y');
+//		
+//				$('##fixedsearchResultsGrid').on('pagechanged.a11y', function () {
+//						focusFirstVisibleCell_fixed();
+//				});
+//
+//				// --- Keep tabindex/focus in sync on cell/row select ---
+//				$('##fixedsearchResultsGrid').on('cellselect.a11y rowselect.a11y', function () {
+//					var $grid = $(this);
+//					setTimeout(function () {
+//						$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+//						$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+//					}, 10);
+//				});
+//
+//				// --- Custom tabbing out of the grid ---
+//				$('##fixedsearchResultsGrid').on('keydown.a11y', function (event) {
+//					if (event.key === 'Tab') {
+//						event.preventDefault();
+//						if (event.shiftKey) {
+//							// Focus selection mode dropdown above grid
+//							$('##fixedSelectMode').focus();
+//						} else {
+//							// Focus first pager button/input if available
+//							var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
+//							var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
+//							if ($pagerTargets.length > 0) {
+//								$pagerTargets.first().focus();
+//							} else {
+//								$pager.attr('tabindex', 0).focus();
+//							}
+//						}
+//					}
+//				});
+//				// --- Tab from selection mode goes to grid ---
+//				$('##fixedSelectMode').on('keydown.a11y', function (event) {
+//					if (event.key === 'Tab' && !event.shiftKey) {
+//						event.preventDefault();
+//						focusFirstVisibleCell_fixed();
+//					}
+//				});
+//
+//				// --- Respond to selection mode change (e.g., singlecell to singlerow, etc.) ---
+//				$('##fixedSelectMode').on('change.a11y', function () {
+//					var mode = $(this).val();
+//					var $grid = $('##fixedsearchResultsGrid');
+//					$grid.jqxGrid({ selectionmode: mode });
+//					$grid.jqxGrid('clearselection');
+//					if (mode.indexOf('row') !== -1) {
+//						$grid.jqxGrid('selectrow', 0);
+//						setTimeout(function () {
+//							$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+//							$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+//						}, 10);
+//					} else {
+//						focusFirstVisibleCell_fixed();
+//					}
+//				});
+//
+//				// --- Guard: force selection to valid cell (not null datafield) ---
+//				$('##fixedsearchResultsGrid').on('cellselect.a11y', function (event) {
+//					var args = event.args;
+//					if (args.datafield === null) {
+//						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+//						for (var i = 0; i < columns.length; i++) {
+//							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+//								$('##fixedsearchResultsGrid').jqxGrid('selectcell', args.rowindex, columns[i].datafield);
+//								break;
+//							}
+//						}
+//					}
+//				});
+//
+//				// --- Accessible details popup: open on Enter or Space ---
+//				$("##fixedsearchResultsGrid").on('keydown.a11y', function (event) {
+//					var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
+//					if (event.key === " " || event.key === "Enter") {
+//						if (selectionMode.indexOf('cell') !== -1) {
+//							var cell = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+//							if (cell && cell.rowindex >= 0) {
+//								$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', cell.rowindex);
+//							}
+//						} else {
+//							var rows = $("##fixedsearchResultsGrid").jqxGrid('getselectedrowindexes');
+//							if (rows && rows[0] >= 0) {
+//								$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', rows[0]);
+//							}
+//						}
+//					}
+//				});
 		
 	
 		
