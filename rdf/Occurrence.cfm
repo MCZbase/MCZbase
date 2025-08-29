@@ -288,12 +288,12 @@ limitations under the License.
    dwc:latestageorhigheststage "#latestageorhigheststage#";
 </cfif>
 <cfif parts.recordcount GT 0>
-	dwciri:materialSampleID <cfloop query="parts">#parts.materialSampleID#</cfloop>;
-</cfif>	dwc:recordedBy "#collectors#".
+   dwciri:materialSampleID <cfloop query="parts">#parts.materialSampleID#</cfloop>;
+</cfif>   dwc:recordedBy "#collectors#".
 <cfif parts.recordcount GT 0><cfloop query="parts">
 <#parts.materialSampleID#>
-	a dwc:MaterialSample;
-	dwc:preparations "#parts.part_name# (#parts.preserve_method#)".
+   a dwc:MaterialSample;
+   dwc:preparations "#parts.part_name# (#parts.preserve_method#)".
 </cfloop></cfif>
 </cfoutput>
 </cfif><!--- Turtle --->
