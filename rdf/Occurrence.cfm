@@ -166,6 +166,16 @@ limitations under the License.
 	ORDER BY 
 		collector.coll_order
 </cfquery>
+<cfquery name="parts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	SELECT 
+		part_name, preserve_method, 
+		assembled_resolvable materialSampleID
+	FROM
+		specimen_part
+		left join guid_our_thing on specimen_part.collection_object_id = guid_our_thing.sp_collection_object_id
+	WHERE
+		derived_from_cat_item = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#occur.collection_object_id#">
+</cfquery>
 <cfif deliver IS 'application/rdf+xml'>
 <cfoutput><rdf:RDF
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns##"
@@ -214,8 +224,17 @@ limitations under the License.
    <dwc:latestepochorhighestseries>#latestepochorhighestseries#</dwc:latestepochorhighestseries>
    <dwc:earliestageorloweststage>#earliestageorloweststage#</dwc:earliestageorloweststage>
    <dwc:latestageorhigheststage>#latestageorhigheststage#</dwc:latestageorhigheststage>
-</cfif>   <dcterms:modified>#last_edit_date#</dcterms:modified>
+</cfif>
+<cfif parts.recordcount GT 0><cfloop query="parts">
+	<dwciri:materialSampleID>#parts.materialSampleID#</dwciri:materialSampleID>
+</cfloop></cfif>
+   <dcterms:modified>#last_edit_date#</dcterms:modified>
 </dwc:Occurrence>
+<cfif parts.recordcount GT 0><cfloop query="parts">
+<dwc:MaterialSample rdf:about="#parts.materialSampleID#">
+	<dwc:preparations>#parts.part_name# (#parts.preserve_method#)</dwc:preparations>
+</dwc:MaterialSample>
+</cfloop></cfif>
 </rdf:RDF> </cfoutput>
 </cfif><!--- RDF/XML --->
 <cfif deliver IS 'text/turtle'>
@@ -267,7 +286,15 @@ limitations under the License.
    dwc:latestepochorhighestseries "#latestepochorhighestseries#";
    dwc:earliestageorloweststage "#earliestageorloweststage#";
    dwc:latestageorhigheststage "#latestageorhigheststage#";
-</cfif>   dwc:recordedBy "#collectors#".
+</cfif>
+<cfif parts.recordcount GT 0>
+	dwciri:materialSampleID <cfloop query="parts">#parts.materialSampleID#</cfloop>;
+</cfif> dwc:recordedBy "#collectors#".
+<cfif parts.recordcount GT 0><cfloop query="parts">
+<#parts.materialSampleID#>
+	a dwc:MaterialSample;
+	dwc:preparations "#parts.part_name# (#parts.preserve_method#)".
+</cfloop></cfif>
 </cfoutput>
 </cfif><!--- Turtle --->
 <cfif deliver IS 'application/ld+json'>
@@ -319,7 +346,17 @@ limitations under the License.
   "dwc:latestepochorhighestseries":"#latestepochorhighestseries#",
   "dwc:earliestageorloweststage":"#earliestageorloweststage#",
   "dwc:latestageorhigheststage":"#latestageorhigheststage#",
-</cfif>  "dwc:recordedBy":"#collectors#"
+</cfif>
+<cfif parts.recordcount GT 0>
+	dwciri:materialSampleID: [ 
+<cfloop query="parts">    {
+	"@id": "#parts.materialSampleID#",
+		"@type": "dwc:MaterialSample",
+		"dwc:materialSampleID": "#parts.materialSampleID#",
+		"dwc:preparations": "#parts.part_name# (#parts.preserve_method#)".
+   }
+</cfloop>]
+</cfif> "dwc:recordedBy":"#collectors#"
 }
 </cfoutput>
 </cfif><!--- JSON-LD --->

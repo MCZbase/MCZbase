@@ -125,6 +125,8 @@ limitations under the License.
   xmlns:dcterms="http://purl.org/dc/terms/"
   >
 <dwc:MaterialSample rdf:about="https://mczbase.mcz.harvard.edu/uuid/#uuid#">
+	<dwc:materialSampleID>#uuid#</dwc:materialSampleID>
+	<dwc:preparations>#PART_NAME# (#preserve_method#)</dwc:preparations>
 </dwc:MaterialSample>
 </rdf:RDF> </cfoutput>
 </cfif><!--- end RDF/XML --->
@@ -136,6 +138,8 @@ limitations under the License.
 @prefix dcterms: <http://purl.org/dc/terms/>. 
 <https://mczbase.mcz.harvard.edu/uuid/#uuid#>
    a dwc:MaterialSample;
+	dwc:materialSampleID "#uuid#";
+	dwc:preparations "#PART_NAME# (#preserve_method#)".
 </cfoutput>
 </cfif><!--- end Turtle --->
 <cfif deliver IS 'application/ld+json'>
@@ -146,7 +150,9 @@ limitations under the License.
      "dcterms": "http://purl.org/dc/terms/"
   },
   "@id": "https://mczbase.mcz.harvard.edu/uuid/#uuid#",
-  "@type":"dwc:MaterialSample"
+  "@type":"dwc:MaterialSample",
+  "dwc:materialSampleID": "#uuid#",
+  "dwc:preparations": "#PART_NAME# (#preserve_method#)"
 }
 </cfoutput>
 </cfif><!--- end JSON-LD --->
