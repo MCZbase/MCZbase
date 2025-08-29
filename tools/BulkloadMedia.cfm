@@ -26,7 +26,7 @@ limitations under the License.
 
 <!--- Set configuration for lists of fields --->  
 <cfset NUMBER_OF_LABEL_VALUE_PAIRS = 8>
-<cfset NUMBER_OF_RELATIONSHIP_PAIRS = 4>
+<cfset NUMBER_OF_RELATIONSHIP_PAIRS = 12>
 <cfset fieldlist = "MEDIA_URI,MIME_TYPE,MEDIA_TYPE,SUBJECT,MADE_DATE,DESCRIPTION,PREVIEW_URI,MEDIA_LICENSE_ID,MASK_MEDIA">
 <cfloop from="1" to="#NUMBER_OF_RELATIONSHIP_PAIRS#" index="i">
 	<cfset fieldlist = "#fieldlist#,MEDIA_RELATIONSHIP_#i#,MEDIA_RELATED_TO_#i#">
@@ -52,7 +52,8 @@ limitations under the License.
 			REGEXP_REPLACE( status, '\s*</?\w+((\s+\w+(\s*=\s*(".*?"|''.*?''|[^''">\s]+))?)+\s*|\s*)/?>\s*', NULL, 1, 0, 'im') AS STATUS, 
 			MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,SUBJECT,MADE_DATE,DESCRIPTION,MEDIA_LICENSE_ID,MASK_MEDIA,
 			<cfloop from="1" to="#NUMBER_OF_RELATIONSHIP_PAIRS#" index="rpi">
-				MEDIA_RELATIONSHIP_#rpi#,MEDIA_RELATED_TO_#rpi#,
+				MEDIA_RELATIONSHIP_#rpi#,MEDIA_RELATED_TO_#rpi#
+					<cfset separator = ",">
 			</cfloop>
 			<cfloop from="1" to="#NUMBER_OF_LABEL_VALUE_PAIRS#" index="lpi">
 				#separator#MEDIA_LABEL_#lpi#,LABEL_VALUE_#lpi#
