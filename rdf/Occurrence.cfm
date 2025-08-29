@@ -287,7 +287,8 @@ limitations under the License.
    dwc:earliestageorloweststage "#earliestageorloweststage#";
    dwc:latestageorhigheststage "#latestageorhigheststage#";
 </cfif>
-<cfif parts.recordcount GT 0>   dwciri:materialSampleID <cfloop query="parts">#parts.materialSampleID# </cfloop>;
+<cfif parts.recordcount GT 0>   dwciri:materialSampleID <cfloop query="parts">#chr(60)##parts.materialSampleID##chr(62)# <cfif parts.currentRow LT parts.recordcount>,
+      </cfif></cfloop>;
 </cfif>   dcterms:modified "#dateformat(last_edit_date, "yyyy-mm-dd")#T#timeformat(last_edit_date, "HH:mm:ss")#"^^xsd:dateTime .
 <cfif parts.recordcount GT 0><cfloop query="parts">
 <#parts.materialSampleID#>
