@@ -3509,7 +3509,7 @@ Target JSON:
 				});
 				// Define this function once, *outside* event handlers
 				function focusFirstVisibleCell_fixed() {
-					var $grid = $('#fixedsearchResultsGrid'); // One # (not ##)
+					var $grid = $('##fixedsearchResultsGrid'); // One # (not ##)
 					var rowsCount = $grid.jqxGrid('getrows').length;
 					if (!rowsCount) return;
 
@@ -3546,7 +3546,7 @@ Target JSON:
 				}
 
 				// Only one handler for pagechanged, and it's namespaced for a11y:
-				$('#fixedsearchResultsGrid').off('pagechanged.a11y').on('pagechanged.a11y', function () {
+				$('##fixedsearchResultsGrid').off('pagechanged.a11y').on('pagechanged.a11y', function () {
 					focusFirstVisibleCell_fixed();
 				});
 				$('##fixedsearchResultsGrid').off('.a11y');
