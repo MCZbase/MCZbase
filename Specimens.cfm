@@ -3752,6 +3752,41 @@ Target JSON:
 						}
 					}
 				});
+				// Define this function once, *outside* event handlers
+				function focusFirstVisibleCell_fixed() {
+					var $grid = $('##fixedsearchResultsGrid'); 
+					var rowsCount = $grid.jqxGrid('getrows').length;
+					if (!rowsCount) return;
+					var selectionMode = $grid.jqxGrid('selectionmode');
+					var columns = $grid.jqxGrid('columns').records;
+					if (
+						selectionMode === 'singlecell' ||
+						selectionMode === 'multiplecellsadvanced' ||
+						selectionMode === 'multiplecellsextended'
+					) {
+						var firstDataField = null;
+						for (var i = 0; i < columns.length; i++) {
+							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+								firstDataField = columns[i].datafield;
+								break;
+							}
+						}
+						if (firstDataField) {
+							$grid.jqxGrid('selectcell', 0, firstDataField);
+							setTimeout(function () {
+								$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+								$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+							}, 10);
+						}
+					} else if (
+						selectionMode === 'singlerow' ||
+						selectionMode === 'multiplerowsextended' ||
+						selectionMode === 'multiplerowsadvanced'
+					) {
+						$grid.jqxGrid('selectrow', 0);
+						$grid.focus();
+					}
+				}
 				$("##keywordsearchResultsGrid").on("bindingcomplete", function(event) {
 					console.log("bindingcomlete: keywordsearchResultsGrid");
 					// add a link out to this search, serializing the form as http get parameters
