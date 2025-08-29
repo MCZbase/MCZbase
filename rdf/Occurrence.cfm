@@ -238,7 +238,7 @@ limitations under the License.
 </rdf:RDF> </cfoutput>
 </cfif><!--- RDF/XML --->
 <cfif deliver IS 'text/turtle'>
-<cfoutput>@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns##> .  
+<cfoutput>@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns##> #chr(46)#
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema##> .  
 @prefix dwc: <http://rs.tdwg.org/dwc/terms/> .
 @prefix dwciri: <http://rs.tdwg.org/dwc/iri/> .
