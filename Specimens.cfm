@@ -3512,10 +3512,8 @@ Target JSON:
 					var $grid = $('##fixedsearchResultsGrid'); 
 					var rowsCount = $grid.jqxGrid('getrows').length;
 					if (!rowsCount) return;
-
 					var selectionMode = $grid.jqxGrid('selectionmode');
 					var columns = $grid.jqxGrid('columns').records;
-
 					if (
 						selectionMode === 'singlecell' ||
 						selectionMode === 'multiplecellsadvanced' ||
@@ -3551,7 +3549,6 @@ Target JSON:
 				});
 				$('##fixedsearchResultsGrid').off('.a11y');
 				$('##fixedSelectMode').off('.a11y');
-		
 				$('##fixedsearchResultsGrid').on('pagechanged.a11y', function () {
 						focusFirstVisibleCell_fixed();
 				});
@@ -3563,7 +3560,6 @@ Target JSON:
 						$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
 					}, 10);
 				});
-
 				// --- Custom tabbing out of the grid ---
 				$('##fixedsearchResultsGrid').on('keydown.a11y', function (event) {
 					if (event.key === 'Tab') {
@@ -3641,7 +3637,6 @@ Target JSON:
 		///begin binding complete
 		///begin binding complete  put pagers specific and link/share parameters inside
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function (event) {
-
 					// --- Call once on grid load ---
 					focusFirstVisibleCell_fixed();
 					//This code makes Shift+Tab from the first pager button in the grid return keyboard focus to the grid (good accessibility!).
@@ -4572,40 +4567,40 @@ Target JSON:
 
 	</script>
 	
-	<!---  script>
-	TODO: indentation is broken, and this references ids not present on the page, so it breaks this block.  Remove or add back in if left/right blocks for faceted search are added back in.
-	TODO: Fix the indentation and nesting, this looks like one function, but isn't.
-	
-	var	menuRight = document.getElementById( 'cbp-spmenu-s2' ),
-		showRightPush = document.getElementById( 'showRightPush' ),
-		menuLeft = document.getElementById( 'cbp-spmenu-s3' ),
-		showLeftPush = document.getElementById( 'showLeftPush' ),
-		body = document.body;
-	
-	    showRightPush.onclick = function() {
-		classie.toggle( this, 'active' );
-		classie.toggle( body, 'cbp-spmenu-push-toleft' );
-		classie.toggle( menuRight, 'cbp-spmenu-open' );
-	
-		disableOther( 'showRightPush' );
-	    };
-	
-		showLeftPush.onclick = function() {
-			classie.toggle( this, 'active' );
-			classie.toggle( body, 'cbp-spmenu-push-toright');
-			classie.toggle( menuLeft, 'cbp-spmenu-open' );
-			disableOther( 'showLeftPush' );
-		};
-	
-		function disableOther( button ) {
-		if( button !== 'showLeftPush' ) {
-			classie.toggle( showLeftPush, 'disabled' );
-		}
-		if( button !== 'showRightPush' ) {
-			classie.toggle( showRightPush, 'disabled' );
-		}
-	}
-	</script --->
+//	<!---  script>
+//	TODO: indentation is broken, and this references ids not present on the page, so it breaks this block.  Remove or add back in if left/right blocks for faceted search are added back in.
+//	TODO: Fix the indentation and nesting, this looks like one function, but isn't.
+//	
+//	var	menuRight = document.getElementById( 'cbp-spmenu-s2' ),
+//		showRightPush = document.getElementById( 'showRightPush' ),
+//		menuLeft = document.getElementById( 'cbp-spmenu-s3' ),
+//		showLeftPush = document.getElementById( 'showLeftPush' ),
+//		body = document.body;
+//	
+//	    showRightPush.onclick = function() {
+//		classie.toggle( this, 'active' );
+//		classie.toggle( body, 'cbp-spmenu-push-toleft' );
+//		classie.toggle( menuRight, 'cbp-spmenu-open' );
+//	
+//		disableOther( 'showRightPush' );
+//	    };
+//	
+//		showLeftPush.onclick = function() {
+//			classie.toggle( this, 'active' );
+//			classie.toggle( body, 'cbp-spmenu-push-toright');
+//			classie.toggle( menuLeft, 'cbp-spmenu-open' );
+//			disableOther( 'showLeftPush' );
+//		};
+//	
+//		function disableOther( button ) {
+//		if( button !== 'showLeftPush' ) {
+//			classie.toggle( showLeftPush, 'disabled' );
+//		}
+//		if( button !== 'showRightPush' ) {
+//			classie.toggle( showRightPush, 'disabled' );
+//		}
+//	}
+//	</script --->
 	
 	<script>
 	/*!
