@@ -3689,6 +3689,29 @@ Target JSON:
 						setPinColumnState('fixedsearchResultsGrid','GUID',true);
 					</cfif>
 				});
+				$("##fixedsearchResultsGrid").on('keydown.keyboardNav', function(event){
+					var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
+					if(event.key === " " || event.key === "Enter") {
+						if (
+							selectionMode === 'singlecell' || selectionMode === 'multiplecellsextended' || selectionMode === 'multiplecellsadvanced'
+						) {
+							var cell = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+							if(cell && cell.rowindex >= 0){
+								$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', cell.rowindex);
+							}
+						} else {
+							var rows = $("##fixedsearchResultsGrid").jqxGrid('getselectedrowindexes');
+							if(rows && rows[0] >= 0){
+								$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', rows[0]);
+							}
+						}
+					}
+				});
+
+					// (Optional) Double click row: show details
+					$("##fixedsearchResultsGrid").on('rowdoubleclick.keyboardNav', function(event) {
+						$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', event.args.rowindex);
+					});
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
 					var args = event.args;
