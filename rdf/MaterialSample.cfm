@@ -49,6 +49,28 @@ limitations under the License.
 			<cfif lookupUUID.disposition EQ 'deleted'>
 				<cfthrow message="Record has been deleted">
 			<cfelse>
+				<!--- check if the material sample itself has an identification, and thus is an occurrence --->
+				<cfquery name="getCurrentIdentificationSP" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+					SELECT scientific_name
+					FROM identification
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.sp_collection_object_id#">
+					   AND accepted_id_fg = 1
+				</cfquery>
+				<cfif getCurrentIdentificationSP.recordCount GT 0>
+					<cfset scientificName = getCurrentIdentificationSP.scientific_name>
+					<cfquery name="lookupOccurrenceID" datasource="cf_dbuser" timeout="#Application.short_timeout#">
+						SELECT target_table, guid_our_thing_id, co_collection_object_id,  guid_is_a, disposition, local_identifier, assembled_identifier
+						FROM guid_our_thing
+						WHERE local_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookupUUID.sp_collection_object_id#">
+							AND guid_is_a = 'occurrenceID'
+					</cfquery>
+					<cfif lookupOccurrenceID.recordCount GT 0 AND lookupOccurrenceID.disposition NEQ 'deleted'>
+						<cfset occurrenceID = lookupOccurrenceID.assembled_identifier>
+					</cfif>
+				<cfelse>
+					<cfset scientificName = "">
+					<cfset occurrenceID = "">
+				</cfif>
 				<!--- TODO: Assumes cataloged item is the occurrence, not true for all material samples, need support for occurrence for  --->
 				<cfquery name="getMaterialSample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 					SELECT specimen_part.COLLECTION_OBJECT_ID COLLECTION_OBJECT_ID,
@@ -73,11 +95,13 @@ limitations under the License.
 						cataloged_item.COLLECTION_CDE COLLECTION_CDE,
 						cataloged_item.CATALOGED_ITEM_TYPE CATALOGED_ITEM_TYPE,
 						collection.institution_acronym institution_acronym,
+						<cfif len(occurrenceID) GT 0> '#occurrenceID#' <cfelse> 'https://mczbase.mcz.harvard.edu/guid/' || flat.guid </cfif> as occurrenceID,
 						flat.guid,
 						flat.country,
 						flat.state_prov state_province,
 						flat.county,
-						flat.spec_locality
+						flat.spec_locality,
+						<cfif len(scientificName) GT 0> '#scientificName#' <cfelse> flat.scientific_name </cfif> as scientific_name
 					FROM specimen_part 
 						join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 						join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
@@ -137,7 +161,9 @@ limitations under the License.
 	<dwc:institutionCode>#institution_acronym#</dwc:institutionCode>
 	<dwc:collectionCode>#COLLECTION_CDE#</dwc:collectionCode>
 	<dwc:catalogNumber>#CAT_NUM#</dwc:catalogNumber>
+	<dwc:scientificName>#scientific_name#</dwc:scientificName>
 	<dcterms:rightsHolder>President and Fellows of Harvard College</dcterms:rightsHolder>
+	<dwciri:occurrenceID>#occurrenceID#</dwc:occurrenceID>
 	<dwc:locality>#spec_locality#</dwc:locality>
 <cfif len(country) GT 0>	<dwc:country>#country#</dwc:country>
 </cfif><cfif len(state_province) GT 0>	<dwc:stateProvince>#state_province#</dwc:stateProvince>
@@ -158,6 +184,8 @@ limitations under the License.
 	dwc:institutionCode "#institution_acronym#";
 	dwc:collectionCode "#COLLECTION_CDE#";
 	dwc:catalogNumber "#CAT_NUM#";
+	dwc:scientificName "#scientific_name#";
+	dwciri:occurrenceID <#occurrenceID#>;
 	dwc:locality "#spec_locality#";
 <cfif len(country) GT 0>	dwc:country "#country#";
 </cfif><cfif len(state_province) GT 0>	dwc:stateProvince "#state_province#";
@@ -179,6 +207,8 @@ limitations under the License.
   "dwc:institutionCode": "#institution_acronym#",
   "dwc:collectionCode": "#COLLECTION_CDE#",
   "dwc:catalogNumber": "#CAT_NUM#",
+  "dwc:scientificName": "#scientific_name#",
+  "dwciri:occurrenceID": "#occurrenceID#",
   "dwc:locality": "#spec_locality#",
 <cfif len(country) GT 0>  "dwc:country": "#country#",
 </cfif><cfif len(state_province) GT 0>  "dwc:stateProvince": "#state_province#",
