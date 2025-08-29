@@ -347,7 +347,7 @@ limitations under the License.
   "dwc:latestageorhigheststage":"#latestageorhigheststage#",
 </cfif>
 <cfif parts.recordcount GT 0>
-	"dwciri:materialSampleID" [ 
+	"dwciri:materialSampleID": [ 
 <cfset separator=""><cfloop query="parts">    #separator#{
 	"@id": "#parts.materialSampleID#",
 		"@type": "dwc:MaterialSample",
