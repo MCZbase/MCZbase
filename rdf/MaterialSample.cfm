@@ -137,7 +137,7 @@ limitations under the License.
 	<dwc:institutionCode>#institution_acronym#</dwc:institutionCode>
 	<dwc:collectionCode>#COLLECTION_CDE#</dwc:collectionCode>
 	<dwc:catalogNumber>#CAT_NUM#</dwc:catalogNumber>
-   <dcterms:rightsHolder>President and Fellows of Harvard College</dcterms:rightsHolder>
+	<dcterms:rightsHolder>President and Fellows of Harvard College</dcterms:rightsHolder>
 	<dwc:locality>#spec_locality#</dwc:locality>
 <cfif len(country) GT 0>	<dwc:country>#country#</dwc:country>
 </cfif><cfif len(state_province) GT 0>	<dwc:stateProvince>#state_province#</dwc:stateProvince>
