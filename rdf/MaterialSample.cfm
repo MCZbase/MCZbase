@@ -146,7 +146,7 @@ limitations under the License.
    a dwc:MaterialSample;
 	dwc:materialSampleID "#uuid#";
 	dwc:preparations "#PART_NAME# (#preserve_method#)";
-.	dwc:institutionCode "#institution_acronym#";
+	dwc:institutionCode "#institution_acronym#";
 	dwc:collectionCode "#COLLECTION_CDE#";
 	dwc:catalogNumber "#CAT_NUM#".
 </cfoutput>
@@ -162,9 +162,9 @@ limitations under the License.
   "@type":"dwc:MaterialSample",
   "dwc:materialSampleID": "#uuid#",
   "dwc:preparations": "#PART_NAME# (#preserve_method#)",
-.	"dwc:institutionCode": "#institution_acronym#",
-	"dwc:collectionCode": "#COLLECTION_CDE#",
-	"dwc:catalogNumber": "#CAT_NUM#"
+  "dwc:institutionCode": "#institution_acronym#",
+  "dwc:collectionCode": "#COLLECTION_CDE#",
+  "dwc:catalogNumber": "#CAT_NUM#"
 }
 </cfoutput>
 </cfif><!--- end JSON-LD --->
