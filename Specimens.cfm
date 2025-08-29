@@ -3637,39 +3637,43 @@ Target JSON:
 					}
 				});
 				// --- Accessible details popup: open on Enter or Space ---
-				$('##fixedsearchResultsGrid').on('keydown.a11y', function (event) {
-					var selectionMode = $('##fixedsearchResultsGrid').jqxGrid('selectionmode');
+					$('#fixedsearchResultsGrid').on('keydown.a11y', function (event) {
+					var $grid = $('#fixedsearchResultsGrid');
+					var selectionMode = $grid.jqxGrid('selectionmode');
+					// --- Open Row Details on Space or Enter ---
 					if (event.key === " " || event.key === "Enter") {
 						if (selectionMode.indexOf('cell') !== -1) {
-							var cell = $('##fixedsearchResultsGrid').jqxGrid('getselectedcell');
+						var cell = $grid.jqxGrid('getselectedcell');
 							if (cell && cell.rowindex >= 0) {
-								$('##fixedsearchResultsGrid').jqxGrid('showrowdetails', cell.rowindex);
+								$grid.jqxGrid('showrowdetails', cell.rowindex);
 							}
 						} else {
-							var rows = $('##fixedsearchResultsGrid').jqxGrid('getselectedrowindexes');
+							var rows = $grid.jqxGrid('getselectedrowindexes');
 							if (rows && rows[0] >= 0) {
-								$('##fixedsearchResultsGrid').jqxGrid('showrowdetails', rows[0]);
+								grid.jqxGrid('showrowdetails', rows[0]);
 							}
 						}
+						// You might want to "return" or stop propagation, depending on your app:
+						// event.preventDefault();
+						// return;
 					}
-				});
-				// --- Custom tabbing out of the grid (to select mode or pager) ---
-				$('##fixedsearchResultsGrid').on('keydown.a11y', function (event) {
+
+					// --- Tab/Shift+Tab: Custom focus movement ---
 					if (event.key === 'Tab') {
 						event.preventDefault();
 						if (event.shiftKey) {
-							// Focus selection mode dropdown above grid
-							$('##fixedSelectMode').focus();
+							$('#fixedSelectMode').focus(); // focus the select mode dropdown
 						} else {
-							// Focus first pager button/input if available
-							var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
+							var $pager = $grid.closest('.jqx-grid').find('.jqx-grid-pager');
 							var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
-							if ($pagerTargets.length > 0) {
-								$pagerTargets.first().focus();
+						if ($pagerTargets.length > 0) {
+							$pagerTargets.first().focus();
 							} else {
 								$pager.attr('tabindex', 0).focus();
 							}
 						}
+						// And "return" here if you don't want other logic to run for Tab:
+						// return;
 					}
 				});
 
