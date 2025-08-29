@@ -289,7 +289,7 @@ limitations under the License.
 </cfif>
 <cfif parts.recordcount GT 0>
 	dwciri:materialSampleID <cfloop query="parts">#parts.materialSampleID#</cfloop>;
-</cfif> dwc:recordedBy "#collectors#".
+</cfif>	dwc:recordedBy "#collectors#".
 <cfif parts.recordcount GT 0><cfloop query="parts">
 <#parts.materialSampleID#>
 	a dwc:MaterialSample;
