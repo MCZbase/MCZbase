@@ -345,16 +345,15 @@ limitations under the License.
   "dwc:latestepochorhighestseries":"#latestepochorhighestseries#",
   "dwc:earliestageorloweststage":"#earliestageorloweststage#",
   "dwc:latestageorhigheststage":"#latestageorhigheststage#",
-</cfif>
-<cfif parts.recordcount GT 0>
-	"dwciri:materialSampleID": [ 
+</cfif><cfif parts.recordcount GT 0>
+  "dwciri:materialSampleID": [ 
 <cfset separator=""><cfloop query="parts">    #separator#{
-	"@id": "#parts.materialSampleID#",
-		"@type": "dwc:MaterialSample",
-		"dwc:materialSampleID": "#parts.materialSampleID#",
-		"dwc:preparations": "#parts.part_name# (#parts.preserve_method#)"
-   }
-<cfset separator=","></cfloop>]
+    "@id": "#parts.materialSampleID#",
+      "@type": "dwc:MaterialSample",
+      "dwc:materialSampleID": "#parts.materialSampleID#",
+      "dwc:preparations": "#parts.part_name# (#parts.preserve_method#)"
+    }
+<cfset separator=","></cfloop>  ]
 </cfif>
 }
 </cfoutput>
