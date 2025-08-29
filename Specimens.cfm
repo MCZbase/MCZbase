@@ -3655,12 +3655,11 @@ Target JSON:
 					}
 				});
 		
-		
+				///begin binding complete
+				///begin binding complete
+				///begin binding complete
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function (event) {
 	
-					// Remove all old handlers in this namespace to avoid stacking
-				
-
 					// --- Focus the first visible data cell ---
 					function focusFirstVisibleCell_fixed() {
 						var $grid = $('##fixedsearchResultsGrid');
@@ -3721,7 +3720,12 @@ Target JSON:
 						'">Link to this search</a>'
 					);
 					
-					$('##fixedshowhide').html('<button class="my-2 border rounded" title="hide search form" onclick=" toggleSearchForm(\'fixed\'); "><i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i></button>');
+					$('##fixedshowhide').html(
+						'<button class="my-2 border rounded" title="hide search form" 
+						onclick=" toggleSearchForm(\'fixed\'); ">
+						<i id="fixedSearchFormToggleIcon" class="fas fa-eye-slash"></i>
+						</button>'
+					);
 					
 					if (fixedSearchLoaded==0) { 
 						try { 
@@ -3733,8 +3737,13 @@ Target JSON:
 						fixedSearchLoaded = 1;
 						loadColumnOrder('fixedsearchResultsGrid');
 					}
+					
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
+						$('##fixedmanageButton').html(
+							'<a href="specimens/manageSpecimens.cfm?result_id='+
+							$('##result_id_fixedSearch').val()+
+							'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>'
+						);
 					<cfelse>
 						$('##fixedmanageButton').html('');
 					</cfif>
@@ -3756,8 +3765,9 @@ Target JSON:
 					
 					
 					
-				});///end binding complete
-		
+				});	///end binding complete
+					///end binding complete
+					///end binding complete
 		
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
