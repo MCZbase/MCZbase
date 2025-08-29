@@ -132,7 +132,7 @@
 			</cfif>
 			<!--- lookup what this UUID resolves to in guid_our_thing table, match on local_identifer, check what target_table and guid_is_a values are and disposition --->
 			<cfquery name="lookupUUID" datasource="cf_dbuser" timeout="#Application.short_timeout#">
-				SELECT target_table, guid_our_thing_id, co_collection_object_id, sp_collection_object_id, taxon_name_id  guid_is_a, disposition
+				SELECT target_table, guid_our_thing_id, co_collection_object_id, sp_collection_object_id, taxon_name_id, guid_is_a, disposition
 				FROM guid_our_thing
 				WHERE local_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#uuid#">
 					AND scheme = 'urn' 
