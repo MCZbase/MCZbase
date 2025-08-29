@@ -3533,50 +3533,7 @@ Target JSON:
 				// --- Focus first cell/row after grid data loads ---
 				$('##fixedsearchResultsGrid').on('bindingcomplete.a11y', function () {
 					focusFirstVisibleCell_fixed();
-				function focusFirstVisibleCell_fixed() {
-					var $grid = $('##fixedsearchResultsGrid');
-					var rowsCount = $grid.jqxGrid('getrows').length;
-					if (!rowsCount) return;
-					var selectionMode = $grid.jqxGrid('selectionmode');
-					var columns = $grid.jqxGrid('columns').records;
-
-					if (
-						selectionMode === 'singlecell' ||
-						selectionMode === 'multiplecellsadvanced' ||
-						selectionMode === 'multiplecellsextended'
-					) {
-						var firstDataField = null;
-						for (var i = 0; i < columns.length; i++) {
-							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-								firstDataField = columns[i].datafield;
-								break;
-							}
-						}
-						if (firstDataField) {
-							$grid.jqxGrid('selectcell', 0, firstDataField);
-							setTimeout(function () {
-								$grid.find('.jqx-grid-cell').attr('tabindex', -1);
-								$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
-							}, 10);
-						}
-					} else if (
-						selectionMode === 'singlerow' ||
-						selectionMode === 'multiplerowsextended' ||
-						selectionMode === 'multiplerowsadvanced'
-					) {
-						$grid.jqxGrid('selectrow', 0);
-						$grid.focus();
-					}
-				}
-
-				// --- Remove previous .a11y event handlers to avoid duplicates ---
-				$('##fixedsearchResultsGrid').off('.a11y');
-				$('##fixedSelectMode').off('.a11y');
-
-				// --- Focus first cell/row after grid data loads ---
-				$('##fixedsearchResultsGrid').on('bindingcomplete.a11y', function () {
-					focusFirstVisibleCell_fixed();
-				  // Pager shift+tab accessibility (rebind on every load, as pager is dynamic)
+					// Pager shift+tab accessibility (rebind on every load, as pager is dynamic)
 					var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
 					var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
 					if ($pagerTargets.length) {
@@ -3588,7 +3545,6 @@ Target JSON:
 						});
 					}
 				});
-	
 
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
@@ -3631,9 +3587,8 @@ Target JSON:
 						setPinColumnState('fixedsearchResultsGrid','GUID',true);
 					</cfif>
 				});
-	
+
 				// Only one handler for pagechanged, and it's namespaced for a11y:
-			
 				$('##fixedsearchResultsGrid').on('pagechanged.a11y', function () {
 					focusFirstVisibleCell_fixed();
 				});
