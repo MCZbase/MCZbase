@@ -3498,6 +3498,7 @@ Target JSON:
 						columnOrderChanged('fixedsearchResultsGrid'); 
 					}); 
 				</cfif>
+		
 				$('##fixedsearchResultsGrid').on('cellselect', function(event) {
 					var grid = $('##fixedsearchResultsGrid');
 					var selectionMode = grid.jqxGrid('selectionmode');
@@ -3505,7 +3506,8 @@ Target JSON:
 						selectionMode !== 'singlecell' &&
 						selectionMode !== 'multiplecellsextended' &&
 						selectionMode !== 'multiplecellsadvanced'
-					) {
+						) 
+					{
 						return; // Only process in cell selection modes
 					}
 
@@ -3655,9 +3657,9 @@ Target JSON:
 					}
 				});
 		
-				///begin binding complete
-				///begin binding complete
-				///begin binding complete
+		///BEGIN binding complete
+		///begin binding complete
+		///begin binding complete  put pagers specific and link/share parameters inside
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function (event) {
 	
 					// --- Focus the first visible data cell ---
@@ -3761,24 +3763,21 @@ Target JSON:
 						console.log(#session.specimens_pin_guid#);
 						setPinColumnState('fixedsearchResultsGrid','GUID',true);
 					</cfif>
-					
-					
-					
-					
+
 				});	///end binding complete
 					///end binding complete
 					///end binding complete
 		
+				//  Create a content div, add it to the detail row, and make it into a dialog.
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
-					//  Create a content div, add it to the detail row, and make it into a dialog.
 					var args = event.args;
 					var rowIndex = args.rowindex;
 					var datarecord = args.owner.source.records[rowIndex];
 					console.log(rowIndex);
 					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
 				});
+				// remove the dialog holding the row details
 				$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
-					// remove the dialog holding the row details
 					var args = event.args;
 					var rowIndex = args.rowindex;
 					$("##fixedsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
@@ -3792,12 +3791,10 @@ Target JSON:
 					$("##fixedunselectrowindex").text(event.args.rowindex);
 				});
 			});
+		});
 			/* End Setup jqxgrid for fixed Search ****************************************************************************************/
 	 
-		
-		
-		
-		
+
 			
 			/* Setup jqxgrid for keyword Search */
 			$('##keywordSearchForm').bind('submit', function(evt){ 
