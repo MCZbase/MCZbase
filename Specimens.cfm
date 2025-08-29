@@ -3637,8 +3637,8 @@ Target JSON:
 					}
 				});
 				// --- Accessible details popup: open on Enter or Space ---
-					$('#fixedsearchResultsGrid').on('keydown.a11y', function (event) {
-					var $grid = $('#fixedsearchResultsGrid');
+					$('##fixedsearchResultsGrid').on('keydown.a11y', function (event) {
+					var $grid = $('##fixedsearchResultsGrid');
 					var selectionMode = $grid.jqxGrid('selectionmode');
 					// --- Open Row Details on Space or Enter ---
 					if (event.key === " " || event.key === "Enter") {
@@ -3662,7 +3662,7 @@ Target JSON:
 					if (event.key === 'Tab') {
 						event.preventDefault();
 						if (event.shiftKey) {
-							$('#fixedSelectMode').focus(); // focus the select mode dropdown
+							$('##fixedSelectMode').focus(); // focus the select mode dropdown
 						} else {
 							var $pager = $grid.closest('.jqx-grid').find('.jqx-grid-pager');
 							var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
