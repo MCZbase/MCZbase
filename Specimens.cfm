@@ -3577,7 +3577,7 @@ Target JSON:
 				$('##fixedsearchResultsGrid').on('bindingcomplete.a11y', function () {
 					focusFirstVisibleCell_fixed();
 				  // Pager shift+tab accessibility (rebind on every load, as pager is dynamic)
-					var $pager = $('#fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
+					var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
 					var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
 					if ($pagerTargets.length) {
 						$pagerTargets.first().off('keydown.a11y').on('keydown.a11y', function (e) {
