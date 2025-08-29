@@ -238,11 +238,12 @@ limitations under the License.
 </rdf:RDF> </cfoutput>
 </cfif><!--- RDF/XML --->
 <cfif deliver IS 'text/turtle'>
-<cfoutput>@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns##>.  
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema##>.  
-@prefix dwc: <http://rs.tdwg.org/dwc/terms/>.
-@prefix dwciri: <http://rs.tdwg.org/dwc/iri/>.
-@prefix dcterms: <http://purl.org/dc/terms/>. 
+<cfoutput>@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns##> .  
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema##> .  
+@prefix dwc: <http://rs.tdwg.org/dwc/terms/> .
+@prefix dwciri: <http://rs.tdwg.org/dwc/iri/> .
+@prefix dcterms: <http://purl.org/dc/terms/> . 
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 <https://mczbase.mcz.harvard.edu/guid/#guid#>
    a dwc:Occurrence;
    dwc:institutionCode "MCZ";
@@ -287,7 +288,7 @@ limitations under the License.
    dwc:latestageorhigheststage "#latestageorhigheststage#";
 </cfif>
 <cfif parts.recordcount GT 0>   dwciri:materialSampleID <cfloop query="parts">#parts.materialSampleID# </cfloop>;
-</cfif>   dcterms:modified "#last_edit_date#"^^xsd:date .
+</cfif>   dcterms:modified "#last_edit_date#"^^xsd:dateTime .
 <cfif parts.recordcount GT 0><cfloop query="parts">
 <#parts.materialSampleID#>
    a dwc:MaterialSample;
