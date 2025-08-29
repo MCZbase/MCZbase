@@ -3724,6 +3724,12 @@ Target JSON:
 					initrowdetails: initRowDetails
 				});
 		
+		////
+		////
+		////  Accessibility and Handlers start
+		////
+		////
+		
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					$('##keywordsearchResultsGrid').jqxGrid().on("columnreordered", function (event) { 
 						columnOrderChanged('keywordsearchResultsGrid'); 
@@ -3787,6 +3793,96 @@ Target JSON:
 						$grid.focus();
 					}
 				}
+				// Only one handler for pagechanged, and it's namespaced for a11y:
+				$('##fixedsearchResultsGrid').off('pagechanged.a11y').on('pagechanged.a11y', function () {
+					focusFirstVisibleCell_fixed();
+				});
+				$('##fixedsearchResultsGrid').off('.a11y');
+				$('##fixedSelectMode').off('.a11y');
+				$('##fixedsearchResultsGrid').on('pagechanged.a11y', function () {
+						focusFirstVisibleCell_fixed();
+				});
+				// --- Keep tabindex/focus in sync on cell/row select ---
+				$('##fixedsearchResultsGrid').on('cellselect.a11y rowselect.a11y', function () {
+					var $grid = $(this);
+					setTimeout(function () {
+						$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+						$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+					}, 10);
+				});
+				// --- Custom tabbing out of the grid ---
+				$('##fixedsearchResultsGrid').on('keydown.a11y', function (event) {
+					if (event.key === 'Tab') {
+						event.preventDefault();
+						if (event.shiftKey) {
+							// Focus selection mode dropdown above grid
+							$('##fixedSelectMode').focus();
+						} else {
+							// Focus first pager button/input if available
+							var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
+							var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
+							if ($pagerTargets.length > 0) {
+								$pagerTargets.first().focus();
+							} else {
+								$pager.attr('tabindex', 0).focus();
+							}
+						}
+					}
+				});
+				// --- Tab from selection mode goes to grid ---
+				$('##fixedSelectMode').on('keydown.a11y', function (event) {
+					if (event.key === 'Tab' && !event.shiftKey) {
+						event.preventDefault();
+						focusFirstVisibleCell_fixed();
+					}
+				});
+				// --- Respond to selection mode change (e.g., singlecell to singlerow, etc.) ---
+				$('##fixedSelectMode').on('change.a11y', function () {
+					var mode = $(this).val();
+					var $grid = $('##fixedsearchResultsGrid');
+					$grid.jqxGrid({ selectionmode: mode });
+					$grid.jqxGrid('clearselection');
+					if (mode.indexOf('row') !== -1) {
+						$grid.jqxGrid('selectrow', 0);
+						setTimeout(function () {
+							$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+							$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+						}, 10);
+					} else {
+						focusFirstVisibleCell_fixed();
+					}
+				});
+				// --- Guard: force selection to valid cell (not null datafield) ---
+				$('##fixedsearchResultsGrid').on('cellselect.a11y', function (event) {
+					var args = event.args;
+					if (args.datafield === null) {
+						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
+						for (var i = 0; i < columns.length; i++) {
+							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+								$('##fixedsearchResultsGrid').jqxGrid('selectcell', args.rowindex, columns[i].datafield);
+								break;
+							}
+						}
+					}
+				});
+				// --- Accessible details popup: open on Enter or Space ---
+				$("##fixedsearchResultsGrid").on('keydown.a11y', function (event) {
+					var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
+					if (event.key === " " || event.key === "Enter") {
+						if (selectionMode.indexOf('cell') !== -1) {
+							var cell = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+							if (cell && cell.rowindex >= 0) {
+								$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', cell.rowindex);
+							}
+						} else {
+							var rows = $("##fixedsearchResultsGrid").jqxGrid('getselectedrowindexes');
+							if (rows && rows[0] >= 0) {
+								$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', rows[0]);
+							}
+						}
+					}
+				});
+		
 				$("##keywordsearchResultsGrid").on("bindingcomplete", function(event) {
 					console.log("bindingcomlete: keywordsearchResultsGrid");
 					// add a link out to this search, serializing the form as http get parameters
