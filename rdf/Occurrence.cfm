@@ -247,7 +247,6 @@ limitations under the License.
    a dwc:Occurrence;
    dwc:institutionCode "MCZ";
    dwc:collectionCode "#collection_cde#";
-   dwc:collectionCode "#collection_cde#";
    dwc:catalogNumber "#cat_num#";
    dwc:basisOfRecord "#basisofrecord#";
    dcterms:rightsHolder "President and Fellows of Harvard College";
