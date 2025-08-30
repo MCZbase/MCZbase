@@ -156,6 +156,14 @@ limitations under the License.
 			flat.identifiedbyid,
 			REPLACE(REPLACE(flat.typestatusplain,'<i>'),'</i>') AS typestatus,
 			flat.author_text,
+		<cfelse>
+			'TODO' as scientific_name,
+			'TODO' as taxonid,
+			'TODO' as scientificnameid,
+			'TODO' as identifiedby,
+			'TODO' as identifiedbyid,
+			'TODO' AS typestatus,
+			'TODO' as author_text,
 		</cfif>
 		flat.collectors,
 		flat.recordedbyid,
