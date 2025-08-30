@@ -3672,7 +3672,62 @@ Target JSON:
 						return false;
 					}
 				});
-				
+		
+				$('.fixed-grid-top-control').on('keydown.a11y', function(event){
+					var $controls = $('.fixed-grid-top-control:visible');
+					if (event.key === 'Tab') {
+						var $next;
+						if (!event.shiftKey) {
+							$next = getNextControl($controls, $(this), true);
+							if ($next && $next.length) {
+								event.preventDefault();
+								$next.focus();
+							} else {
+								event.preventDefault();
+								focusFirstVisibleCell_fixed();
+							}
+						} else {
+							$next = getNextControl($controls, $(this), false);
+							if ($next && $next.length) {
+								event.preventDefault();
+								$next.focus();
+							} else {
+								event.preventDefault();
+								$('#siteLogoLink').focus();
+							}
+						}
+					}
+					// ...Escape logic as before
+					$('.fixed-grid-top-control').on('keydown.a11y', function(event){
+						// ... Tab/Shift+Tab logic ...
+						if (event.key === 'Escape') {
+							event.preventDefault();
+							$('#siteLogoLink').focus();
+						}
+					});
+				});
+				$('##fixedsearchResultsGrid').on('keydown.a11y', '.jqx-grid-cell', function(event) {
+					if (event.key === 'Tab') {
+						event.preventDefault();
+						if (event.shiftKey) {
+							// Focus last visible top control
+							var $controls = $('.fixed-grid-top-control:visible');
+							if ($controls.length) $controls.last().focus();
+						} else {
+							var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
+							var $pagerTargets = $pager.find(pagerControlSelector).filter(':visible');
+							if ($pagerTargets.length > 0) $pagerTargets.first().focus();
+						}
+						return false;
+					}
+					$('#fixedsearchResultsGrid').on('keydown.a11y', '.jqx-grid-cell', function(event) {
+						// ... Tab/Shift+Tab logic ...
+						if (event.key === 'Escape') {
+							event.preventDefault();
+							$('#siteLogoLink').focus();
+						}
+					});
+				});
 				// Do this inside your grid's bindingcomplete handler!
 				$('##fixedsearchResultsGrid').on('bindingcomplete.a11y', function () {
 					var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
@@ -3689,6 +3744,20 @@ Target JSON:
 							// For plain Tab, let the browser do its job!
 						});
 					}
+					$pagerTargets.first().off('keydown.a11y').on('keydown.a11y', function(e) {
+						if (e.key === 'Tab' && e.shiftKey) {
+							e.preventDefault();
+							focusFirstVisibleCell_fixed();
+							return false;
+						}
+						$pagerTargets.first().off('keydown.a11y').on('keydown.a11y', function(e) {
+							// ... Shift+Tab logic ...
+							if (e.key === 'Escape') {
+								e.preventDefault();
+								$('#header a').focus();
+							}
+						});
+					});
 				});
 				$('##fixedselectMode').on('keydown.a11y', function(event){
 					if(event.key === 'Tab' && !event.shiftKey){
