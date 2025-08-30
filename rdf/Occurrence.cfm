@@ -130,8 +130,8 @@ limitations under the License.
 		<cfset singleOccurrence = false>
 	</cfif>
 </cfif>
-<!--- TODO: Fix: If given the /guid/ of a specimen with multiple occurrences, return only the material samples belonging to that occurrence --->
-<!--- TODO: Fix: If given the /uuid/ of an additional occurrance in a mixed collection, return the correct identification and material sample --->
+<!--- TODO: Fix: If given the /guid/ of a specimen with multiple occurrences, return only the material samples and identification belonging to that occurrence --->
+<!--- TODO: Fix: If given the /uuid/ of an additional occurrance in a mixed collection, return the correct identification and material samples--->
 <cfquery name="occur" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT distinct 
 		flat.collection_object_id,
@@ -224,6 +224,7 @@ limitations under the License.
 	ORDER BY 
 		collector.coll_order
 </cfquery>
+<!--- TODO: Only get the parts that belong to the occurrence if multiple occurrences on specimen --->
 <cfquery name="parts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT 
 		part_name, preserve_method, 
