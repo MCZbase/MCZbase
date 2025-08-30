@@ -3649,6 +3649,20 @@ Target JSON:
 						// Focus the first data cell/row
 						focusFirstVisibleCell_fixed();
 					}
+					var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
+					if (event.key === " " || event.key === "Enter") {
+						if (selectionMode.indexOf('cell') !== -1) {
+							var cell = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+							if (cell && cell.rowindex >= 0) {
+								$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', cell.rowindex);
+							}
+						} else {
+							var rows = $("##fixedsearchResultsGrid").jqxGrid('getselectedrowindexes');
+							if (rows && rows[0] >= 0) {
+								$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', rows[0]);
+							}
+						}
+					}
 				});
 
 		//		// (Optional) Double click row: show details
