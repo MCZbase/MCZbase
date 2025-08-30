@@ -3693,7 +3693,7 @@ Target JSON:
 								$next.focus();
 							} else {
 								event.preventDefault();
-								$('#siteLogoLink').focus();
+								$('##header a').focus();
 							}
 						}
 					}
@@ -3702,7 +3702,7 @@ Target JSON:
 						// ... Tab/Shift+Tab logic ...
 						if (event.key === 'Escape') {
 							event.preventDefault();
-							$('#siteLogoLink').focus();
+							$('##header a').focus();
 						}
 					});
 				});
@@ -3720,11 +3720,11 @@ Target JSON:
 						}
 						return false;
 					}
-					$('#fixedsearchResultsGrid').on('keydown.a11y', '.jqx-grid-cell', function(event) {
+					$('##fixedsearchResultsGrid').on('keydown.a11y', '.jqx-grid-cell', function(event) {
 						// ... Tab/Shift+Tab logic ...
 						if (event.key === 'Escape') {
 							event.preventDefault();
-							$('#siteLogoLink').focus();
+							$('##header a').focus();
 						}
 					});
 				});
@@ -3754,7 +3754,7 @@ Target JSON:
 							// ... Shift+Tab logic ...
 							if (e.key === 'Escape') {
 								e.preventDefault();
-								$('#header a').focus();
+								$('##header a').focus();
 							}
 						});
 					});
