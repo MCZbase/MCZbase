@@ -3611,7 +3611,7 @@ Target JSON:
 				});
 				
 				// --- Keep tabindex/focus in sync on cell or row selection ---
-				$('#fixedsearchResultsGrid').on('cellselect.a11y rowselect.a11y', function (event) {
+				$('##fixedsearchResultsGrid').on('cellselect.a11y rowselect.a11y', function (event) {
 					var $grid = $(this);
 
 					// Guard: If a non-data cell is selected, move to the first data cell and stop further handling in this call.
