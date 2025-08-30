@@ -3492,9 +3492,9 @@ Target JSON:
 
 		
 				function focusFirstVisibleCell_fixed() {
-					var $grid = $('##fixedsearchResultsGrid');
+					 var $grid = $('#fixedsearchResultsGrid');
 					var rows = $grid.jqxGrid('getrows');
-					if (!rows || rows.length === 0) return;
+					if (!rows || rows.length === 1) return;
 					var columns = $grid.jqxGrid('columns').records;
 
 					var firstDataField = null;
