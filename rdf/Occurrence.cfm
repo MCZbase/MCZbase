@@ -107,7 +107,7 @@ limitations under the License.
 	<cfquery name="checkMultiple" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT count(distinct identification.collection_object_id) ct
 		FROM specimen_part 
-			join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on specimen_part.derived_from_cat_item = ci.collection_object_id
+			join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on specimen_part.derived_from_cat_item = flat.collection_object_id
 			join identification on specimen_part.collection_object_id = identification.collection_object_id
 		WHERE
 			flat.guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid#">
