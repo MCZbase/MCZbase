@@ -3697,10 +3697,14 @@ Target JSON:
 							}
 						}
 					}
-					if (event.key === 'Escape') {
-						event.preventDefault();
-						$('##header a').focus();
-					}
+					// ...Escape logic as before
+					$('.fixed-grid-top-control').on('keydown.a11y', function(event){
+						// ... Tab/Shift+Tab logic ...
+						if (event.key === 'Escape') {
+							event.preventDefault();
+							$('##header a').focus();
+						}
+					});
 				});
 				$('##fixedsearchResultsGrid').on('keydown.a11y', '.jqx-grid-cell', function(event) {
 					if (event.key === 'Tab') {
@@ -3747,20 +3751,13 @@ Target JSON:
 							focusFirstVisibleCell_fixed();
 							return false;
 						}
-						if (e.key === 'Escape') {
-							e.preventDefault();
-							$('##header a').focus();
-							return false;
-						}
-						// DO NOT block any other keys!
-					});
-					$pagerTargets.not($pagerTargets.first()).off('keydown.a11y').on('keydown.a11y', function(e){
-						if (e.key === 'Escape') {
-							e.preventDefault();
-							$('##header a').focus();
-							return false;
-						}
-						// Otherwise, browser default!
+						$pagerTargets.first().off('keydown.a11y').on('keydown.a11y', function(e) {
+							// ... Shift+Tab logic ...
+							if (e.key === 'Escape') {
+								e.preventDefault();
+								$('##header a').focus();
+							}
+						});
 					});
 				});
 				$('##fixedselectMode').on('keydown.a11y', function(event){
