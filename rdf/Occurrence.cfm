@@ -139,7 +139,7 @@ limitations under the License.
 			SELECT scientific_name, taxa_formula, identification_id, toChar(made_date,'YYYY-MM-DD') as date_identified,
 				concatidagent(identification_id) as identified_by, get_sole_determiner_guid(identification.collection_object_id) as identified_by_id
 			FROM identification
-			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.sp_collection_object_id#">
+			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.co_collection_object_id#">
 			   AND accepted_id_fg = 1
 		</cfquery>
 		<cfif getCurrentIdentificationSP.recordCount GT 0>
