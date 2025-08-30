@@ -103,6 +103,13 @@ limitations under the License.
 
 <cfheader name="Content-type" value=#deliver# >
 <cfset singleOccurrence = true>
+<cfset scientificName = "">
+<cfset dateIdentified = "">
+<cfset identifiedby = "">
+<cfset identifiedByID = "">
+<cfset taxonid = "">
+<cfset scientificnameid = "">
+<cfset author_text = "">
 <cfif lookup EQ "guid">
 	<cfquery name="checkMultiple" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT count(distinct identification.collection_object_id) ct
@@ -128,10 +135,38 @@ limitations under the License.
 	</cfquery>
 	<cfif checkMultiple.ct GT 0>
 		<cfset singleOccurrence = false>
+		<cfquery name="getCurrentIdentificationSP" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+			SELECT scientific_name, taxa_formula, identification_id, toChar(made_date,'YYYY-MM-DD') as date_identified,
+				concatidagent(identification_id) as identified_by, get_sole_determiner_guid(identification.collection_object_id) as identified_by_id
+			FROM identification
+			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.sp_collection_object_id#">
+			   AND accepted_id_fg = 1
+		</cfquery>
+		<cfif getCurrentIdentificationSP.recordCount GT 0>
+			<cfset scientificName = getCurrentIdentificationSP.scientific_name>
+			<cfset dateIdentified = getCurrentIdentificationSP.date_identified>
+			<cfset identifiedBy = getCurrentIdentificationSP.identified_by>
+			<cfset identifiedByID = getCurrentIdentificationSP.identified_by_id>
+			<cfif NOT getCurrentIdentificationSP.taxa_formula CONTAINS 'B'>
+				<!--- lookup taxonomy from the sole taxon in the identification --->
+				<cfquery name="getTaxonomy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
+					SELECT taxon_name_id, taxonid, scientificnameid, author_text
+					FROM
+						identication_taxonomy
+						join taxonomy on identication_taxonomy.taxon_name_id = taxonomy.taxon_name_id
+					WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCurrentIdentificationSP.identification_id#">
+				</cfquery>
+				<cfif getTaxonomy.recordcount EQ 1>
+					<cfset taxonid = getTaxonomy.taxonid>
+					<cfset scientificnameid = getTaxonomy.scientificnameid>
+					<cfset author_text = getTaxonomy.author_text>
+				<cfelse>
+			</cfif>
+		</cfif>
 	</cfif>
 </cfif>
-<!--- TODO: Fix: If given the /guid/ of a specimen with multiple occurrences, return only the material samples and identification belonging to that occurrence --->
-<!--- TODO: Fix: If given the /uuid/ of an additional occurrance in a mixed collection, return the correct identification and material samples--->
+<!--- TODO: Fix: If given the /guid/ of a specimen with multiple occurrences, return only the material samples belonging to that occurrence --->
+<!--- TODO: Fix: If given the /uuid/ of an additional occurrence in a mixed collection, return the correct i material samples--->
 <cfquery name="occur" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT distinct 
 		flat.collection_object_id,
@@ -154,16 +189,18 @@ limitations under the License.
 			flat.scientificnameid,
 			flat.identifiedby,
 			flat.identifiedbyid,
+			to_char(flat.date_made_date, 'YYYY-MM-DD') as date_identified,
 			REPLACE(REPLACE(flat.typestatusplain,'<i>'),'</i>') AS typestatus,
 			flat.author_text,
 		<cfelse>
-			'TODO' as scientific_name,
-			'TODO' as taxonid,
-			'TODO' as scientificnameid,
-			'TODO' as identifiedby,
-			'TODO' as identifiedbyid,
-			'TODO' AS typestatus,
-			'TODO' as author_text,
+			'#scientificName#' as scientific_name,
+			'#taxonId#' as taxonid,
+			'#scientificNameId#' as scientificnameid,
+			'#identifiedBy#' as identifiedby,
+			'#identifiedByID#' as identifiedbyid,
+			'#dateIdentified#' as date_identified,
+			'' AS typestatus,
+			'#author_text#' as author_text,
 		</cfif>
 		flat.collectors,
 		flat.recordedbyid,
@@ -234,6 +271,8 @@ limitations under the License.
 		join guid_our_thing on specimen_part.collection_object_id = guid_our_thing.sp_collection_object_id
 	WHERE
 		derived_from_cat_item = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#occur.collection_object_id#">
+		<cfif NOT singleOccurrence>
+		</cfif>
 </cfquery>
 <cfif deliver IS 'application/rdf+xml'>
 <cfoutput><rdf:RDF
@@ -255,7 +294,8 @@ limitations under the License.
    <dwc:scientificNameID>#scientificnameid#</dwc:scientificNameID>
    <dwc:identifiedBy>#identifiedby#</dwc:identifiedBy>
    <dwciri:identifiedBy>#identifiedbyid#</dwciri:identifiedBy>
-<cfif len(typestatus) GT 0>   <dwc:typeStatus>#typestatus#</dwc:typeStatus>
+<cfif len(dateIdentified) GT 0>   <dwc:dateIdentified>#dateIdentified#</dwc:dateIdentified>
+</cfif><cfif len(typestatus) GT 0>   <dwc:typeStatus>#typestatus#</dwc:typeStatus>
 </cfif>   <dwc:country>#country#</dwc:country>
    <dwc:stateProvince>#state_prov#</dwc:stateProvince>
    <dwc:locality>#spec_locality#</dwc:locality>
@@ -316,6 +356,7 @@ limitations under the License.
 </cfif><cfif len(scientificnameid) GT 0>   dwc:scientificNameID "#scientificnameid#";
 </cfif>   dwc:identifiedBy "#identifiedby#";
 <cfif len(identifiedbyid) GT 0>   dwciri:identifiedBy "#identifiedbyid#";
+</cfif><cfif len(dateIdentified) GT 0>   dwc:dateIdentified "#dateIdentified#";
 </cfif><cfif len(typestatus) GT 0>   dwc:typeStatus "#typeStatus#";
 </cfif>   dwc:country "#country#";
 <cfif len(state_prov) GT 0>   dwc:stateProvince "#state_prov#";
@@ -377,7 +418,8 @@ limitations under the License.
 </cfif><cfif len(scientificnameid) GT 0>  "dwc:scientificNameID":"#scientificnameid#",
 </cfif>  "dwc:identifiedBy":"#identifiedby#",
   "dwciri:identifiedBy":"#identifiedbyid#",
-<cfif len(typestatus) GT 0>  "dwc:typeStatus":"#typestatus#",
+<cfif len(dateIdentified) GT 0>  "dwc:dateIdentified":"#dateIdentified#",
+</cfif><cfif len(typestatus) GT 0>  "dwc:typeStatus":"#typestatus#",
 </cfif>  "dwc:country":"#country#",
 <cfif len(state_prov) GT 0>  "dwc:stateProvince":"#state_prov#",
 </cfif> "dwc:locality":"#spec_locality#",
