@@ -3646,27 +3646,9 @@ Target JSON:
 					}
 				});
 				
-				$('##fixedsearchResultsGrid').off('keydown.a11y', '.jqx-grid-cell');
-				$('##fixedsearchResultsGrid').on('keydown.a11y', '.jqx-grid-cell', function(event) {
-					if (event.key === 'Tab') {
-						event.preventDefault();
-						if (event.shiftKey) {
-							// Shift+Tab: move focus to select mode at the top of the grid
-							$('##fixedSelectMode').focus();
-						} else {
-							// Tab: move to first visible pagination control/button
-							var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
-							var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
-							if ($pagerTargets.length > 0) {
-								$pagerTargets.first().focus();
-							} else {
-								$pager.attr('tabindex', 0).focus();
-							}
-						}
-						return false; // Extra insurance—stop event for jqxGrid internals
-					}
-				});
-		
+				
+				
+				// 1. Tab from select to grid
 				$('##fixedSelectMode').off('keydown.a11y');
 				$('##fixedSelectMode').on('keydown.a11y', function(event){
 					if(event.key === 'Tab' && !event.shiftKey){
@@ -3676,10 +3658,28 @@ Target JSON:
 					}
 					// (Let Shift+Tab act normally for accessibility)
 				});
+				// 2. Tab and Shift+Tab inside the grid
+				$('##fixedsearchResultsGrid').off('keydown.a11y', '.jqx-grid-cell');
+				$('##fixedsearchResultsGrid').on('keydown.a11y', '.jqx-grid-cell', function(event) {
+					if (event.key === 'Tab') {
+						event.preventDefault();
+						if (event.shiftKey) {
+							$('##fixedSelectMode').focus();
+						} else {
+							var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
+							var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
+							if ($pagerTargets.length > 0) {
+								$pagerTargets.first().focus();
+							}
+						}
+						return false;
+					}
+				});
+				
 				// Do this inside your grid's bindingcomplete handler!
 				$('##fixedsearchResultsGrid').on('bindingcomplete.a11y', function () {
 					var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
-					var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
+					var $pagerTargets = $pager.find('button, input, select, a[role="button"], [role="button"], [tabindex]:not([tabindex="-1"])').filter(':visible');
 					// Remove prior handler first
 					if ($pagerTargets.length) {
 						$pagerTargets.first().off('keydown.a11y').on('keydown.a11y', function(e) {
