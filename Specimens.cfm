@@ -3525,11 +3525,11 @@ Target JSON:
 						$grid.focus();
 					}
 				}
-
+				focusFirstVisibleCell_fixed();
 				// --- Remove previous .a11y event handlers to avoid duplicates ---
 				$('##fixedsearchResultsGrid').off('.a11y');
 				$('##fixedSelectMode').off('.a11y');
-
+				
 				// --- Focus first cell/row after grid data loads ---
 				$('##fixedsearchResultsGrid').on('bindingcomplete.a11y', function () {
 					// Pager shift+tab accessibility (rebind on every load, as pager is dynamic)
@@ -3587,7 +3587,7 @@ Target JSON:
 						setPinColumnState('fixedsearchResultsGrid','GUID',true);
 					</cfif>
 				});
-
+				
 				// Only one handler for pagechanged, and it's namespaced for a11y:
 				$('##fixedsearchResultsGrid').on('pagechanged.a11y', function () {
 					focusFirstVisibleCell_fixed();
@@ -3666,9 +3666,9 @@ Target JSON:
 				});
 
 		//		// (Optional) Double click row: show details
-//				$("##fixedsearchResultsGrid").on('rowdoubleclick.keyboardNav', function(event) {
-//					$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', event.args.rowindex);
-//				});
+				$("##fixedsearchResultsGrid").on('rowdoubleclick.keyboardNav', function(event) {
+					$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', event.args.rowindex);
+				});
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
 					var args = event.args;
