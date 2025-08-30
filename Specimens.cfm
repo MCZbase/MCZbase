@@ -3571,14 +3571,9 @@ Target JSON:
 				
 				// Only one handler for pagechanged, and it's namespaced for a11y:
 				$('##fixedsearchResultsGrid').on('pagechanged.a11y', function () {
-					focusFirstVisibleCell_fixed();
+					//focusFirstVisibleCell_fixed();
 				});
-				// --- Keep tabindex/focus in sync on cell/row select ---
-				// --- Focus first cell/row when grid receives keyboard focus (tabbing in) ---
-		//		$('##fixedsearchResultsGrid').on('focusin.a11y', function () {
-//					focusFirstVisibleCell_fixed();
-//				});
-				// --- Custom tabbing out of the grid ---
+	
 				// --- Focus first cell/row when user tabs into grid from selection mode dropdown ---
 				var pagerControlSelector = '.jqx-grid-pager-button, .jqx-grid-page-size, .jqx-grid-page-input, div[role="button"][tabindex]';
 	
@@ -3588,7 +3583,7 @@ Target JSON:
 					var $grid = $('##fixedsearchResultsGrid');
 					$grid.jqxGrid({ selectionmode: mode });
 					$grid.jqxGrid('clearselection');
-					focusFirstVisibleCell_fixed();
+					//focusFirstVisibleCell_fixed();
 				});
 				
 				// --- Keep tabindex/focus in sync on cell or row selection ---
@@ -3647,7 +3642,7 @@ Target JSON:
 					if(event.key === 'Tab' && !event.shiftKey){
 						event.preventDefault();
 						// Focus and select the first cell/row in the grid
-						focusFirstVisibleCell_fixed();
+						//focusFirstVisibleCell_fixed();
 					}
 					// (Let Shift+Tab act normally for accessibility)
 				});
@@ -3684,7 +3679,7 @@ Target JSON:
 								$next.focus();
 							} else {
 								event.preventDefault();
-								focusFirstVisibleCell_fixed();
+								//focusFirstVisibleCell_fixed();
 							}
 						} else {
 							$next = getNextControl($controls, $(this), false);
@@ -3730,7 +3725,7 @@ Target JSON:
 				});
 				// Do this inside your grid's bindingcomplete handler!
 				$('##fixedsearchResultsGrid').on('bindingcomplete.a11y', function () {
-					
+					focusFirstVisibleCell_fixed();
 					var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
 					var $pagerTargets = $pager.find(
 						'.jqx-grid-pager-button, .jqx-grid-page-size, .jqx-grid-page-input, div[role="button"][tabindex]'
@@ -3748,7 +3743,7 @@ Target JSON:
 					$pagerTargets.first().off('keydown.a11y').on('keydown.a11y', function(e) {
 						if (e.key === 'Tab' && e.shiftKey) {
 							e.preventDefault();
-							focusFirstVisibleCell_fixed();
+							//
 							return false;
 						}
 						$pagerTargets.first().off('keydown.a11y').on('keydown.a11y', function(e) {
@@ -3763,7 +3758,7 @@ Target JSON:
 				$('##fixedselectMode').on('keydown.a11y', function(event){
 					if(event.key === 'Tab' && !event.shiftKey){
 						event.preventDefault();
-						focusFirstVisibleCell_fixed();
+						//focusFirstVisibleCell_fixed();
 					}
 				});
 		//		// (Optional) Double click row: show details
