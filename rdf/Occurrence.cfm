@@ -183,7 +183,7 @@ limitations under the License.
 		flat.county, 
 		flat.spec_locality,
 		flat.highergeographyid,
-		<cfif singleOccurrence>
+		<cfif singleOccurrence or lookup EQ 'guid'>
 			trim(flat.scientific_name || ' ' || flat.author_text) as scientific_name,
 			flat.taxonid,
 			flat.scientificnameid,
@@ -294,7 +294,7 @@ limitations under the License.
    <dwc:scientificNameID>#scientificnameid#</dwc:scientificNameID>
    <dwc:identifiedBy>#identifiedby#</dwc:identifiedBy>
    <dwciri:identifiedBy>#identifiedbyid#</dwciri:identifiedBy>
-<cfif len(dateIdentified) GT 0>   <dwc:dateIdentified>#dateIdentified#</dwc:dateIdentified>
+<cfif len(date_identified) GT 0>   <dwc:dateIdentified>#date_identified#</dwc:dateIdentified>
 </cfif><cfif len(typestatus) GT 0>   <dwc:typeStatus>#typestatus#</dwc:typeStatus>
 </cfif>   <dwc:country>#country#</dwc:country>
    <dwc:stateProvince>#state_prov#</dwc:stateProvince>
@@ -356,7 +356,7 @@ limitations under the License.
 </cfif><cfif len(scientificnameid) GT 0>   dwc:scientificNameID "#scientificnameid#";
 </cfif>   dwc:identifiedBy "#identifiedby#";
 <cfif len(identifiedbyid) GT 0>   dwciri:identifiedBy "#identifiedbyid#";
-</cfif><cfif len(dateIdentified) GT 0>   dwc:dateIdentified "#dateIdentified#";
+</cfif><cfif len(date_identified) GT 0>   dwc:dateIdentified "#date_identified#";
 </cfif><cfif len(typestatus) GT 0>   dwc:typeStatus "#typeStatus#";
 </cfif>   dwc:country "#country#";
 <cfif len(state_prov) GT 0>   dwc:stateProvince "#state_prov#";
@@ -456,7 +456,7 @@ limitations under the License.
       "dwc:preparations": "#parts.part_name# (#parts.preserve_method#)"
     }
 <cfset separator=","></cfloop>  ]
-</cfif>
+</cfif>  "dcterms:modified": "#dateformat(last_edit_date, "yyyy-mm-dd")#T#timeformat(last_edit_date, "HH:mm:ss")#"
 }
 </cfoutput>
 </cfif><!--- JSON-LD --->
