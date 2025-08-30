@@ -3547,6 +3547,7 @@ Target JSON:
 				});
 
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
+					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if ($(document).height() <= 900) {
 								$(document).scrollTop(200);
@@ -3594,9 +3595,9 @@ Target JSON:
 				});
 				// --- Keep tabindex/focus in sync on cell/row select ---
 				// --- Focus first cell/row when grid receives keyboard focus (tabbing in) ---
-				$('##fixedsearchResultsGrid').on('focusin.a11y', function () {
-					focusFirstVisibleCell_fixed();
-				});
+		//		$('##fixedsearchResultsGrid').on('focusin.a11y', function () {
+//					focusFirstVisibleCell_fixed();
+//				});
 				// --- Custom tabbing out of the grid ---
 				// --- Focus first cell/row when user tabs into grid from selection mode dropdown ---
 
@@ -3642,25 +3643,31 @@ Target JSON:
 					}
 				});
 				// --- Accessible details popup: open on Enter or Space ---
-				$('##fixedsearchResultsGrid').on('keydown.a11y', function (event) {
-					var $grid = $('##fixedsearchResultsGrid');
+				$('#fixedsearchResultsGrid').on('keydown.a11y', function (event) {
+					var $grid = $('#fixedsearchResultsGrid');
 					var selectionMode = $grid.jqxGrid('selectionmode');
-					// --- Open Row Details on Space or Enter ---
 					if (event.key === " " || event.key === "Enter") {
+						var rowIndex = null;
 						if (selectionMode.indexOf('cell') !== -1) {
-						var cell = $grid.jqxGrid('getselectedcell');
-							if (cell && cell.rowindex >= 0) {
-								$grid.jqxGrid('showrowdetails', cell.rowindex);
-							}
+							var cell = $grid.jqxGrid('getselectedcell');
+							if (cell && cell.rowindex >= 0) rowIndex = cell.rowindex;
 						} else {
 							var rows = $grid.jqxGrid('getselectedrowindexes');
-							if (rows && rows[0] >= 0) {
-								grid.jqxGrid('showrowdetails', rows[0]);
+							if (rows && rows[0] >= 0) rowIndex = rows[0];
+						}
+
+						if (rowIndex !== null) {
+							// Check if already open
+							var isOpen = $grid.jqxGrid('rowdetails', rowIndex);
+							if (!isOpen) {
+								$grid.jqxGrid('showrowdetails', rowIndex);
+							} else {
+								// Optional: maybe close details if already open
+								//$grid.jqxGrid('hiderowdetails', rowIndex);
 							}
 						}
-						// You might want to "return" or stop propagation, depending on your app:
-						// event.preventDefault();
-						// return;
+						event.preventDefault();
+						return;
 					}
 					// --- Tab/Shift+Tab: Custom focus movement ---	
 					if (event.key === 'Tab') {
