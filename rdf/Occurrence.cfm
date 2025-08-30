@@ -130,7 +130,7 @@ limitations under the License.
 		REPLACE(REPLACE(flat.typestatusplain,'<i>'),'</i>') AS typestatus,
 		flat.author_text,
 		flat.collectors,
-		fllat.recordedbyid,
+		flat.recordedbyid,
     	(case when began_date > '1700-01-01' then began_date else '' end) as began_date,
     	(case when began_date > '1700-01-01' then ended_date else '' end) as ended_date,
 		(case when began_date > '1700-01-01' then regexp_substr(began_date, '([0-9]{4})',1,1,'i',1) else '' end) as year,
