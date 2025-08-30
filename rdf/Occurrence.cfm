@@ -160,7 +160,7 @@ limitations under the License.
 					<cfset taxonid = getTaxonomy.taxonid>
 					<cfset scientificnameid = getTaxonomy.scientificnameid>
 					<cfset author_text = getTaxonomy.author_text>
-				<cfelse>
+				</cfif>
 			</cfif>
 		</cfif>
 	</cfif>
