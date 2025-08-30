@@ -3636,33 +3636,49 @@ Target JSON:
 						$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
 					}, 10);
 				});
-				$('##fixedSelectMode').on('keydown.a11y', function (event) {
-					if (event.key === 'Tab' && !event.shiftKey) {
-						event.preventDefault();
-						focusFirstVisibleCell_fixed();
+//				$('##fixedSelectMode').on('keydown.a11y', function (event) {
+//					if (event.key === 'Tab' && !event.shiftKey) {
+//						event.preventDefault();
+//						focusFirstVisibleCell_fixed();
+//					}
+//				});
+				$("##fixedsearchResultsGrid").on('keydown.a11y', function (event) {
+					var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
+					if (event.key === " " || event.key === "Enter") {
+						if (selectionMode.indexOf('cell') !== -1) {
+							var cell = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+							if (cell && cell.rowindex >= 0) {
+								$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', cell.rowindex);
+							}
+						} else {
+							var rows = $("##fixedsearchResultsGrid").jqxGrid('getselectedrowindexes');
+							if (rows && rows[0] >= 0) {
+								$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', rows[0]);
+							}
+						}
 					}
 				});
 				// --- Accessible details popup: open on Enter or Space ---
-				('##fixedsearchResultsGrid').on('keydown.a11y', '.jqx-grid-cell', function(event){
-					var $grid = $('##fixedsearchResultsGrid');
-					var selectionMode = $grid.jqxGrid('selectionmode');
-					if (event.key === " " || event.key === "Enter") {
-						if (selectionMode.indexOf('cell') !== -1) {
-							var cell = $grid.jqxGrid('getselectedcell');
-							if (cell && cell.rowindex >= 0) {
-								$grid.jqxGrid('showrowdetails', cell.rowindex);
-							}
-						} else {
-							var rows = $grid.jqxGrid('getselectedrowindexes');
-							if (rows && rows[0] >= 0) {
-								$grid.jqxGrid('showrowdetails', rows[0]);
-							}
-						}
-						event.preventDefault();
-						return false; // Prevent double-action
-					}
-					// Other key handlers as desired
-				});
+//				('##fixedsearchResultsGrid').on('keydown.a11y', '.jqx-grid-cell', function(event){
+//					var $grid = $('##fixedsearchResultsGrid');
+//					var selectionMode = $grid.jqxGrid('selectionmode');
+//					if (event.key === " " || event.key === "Enter") {
+//						if (selectionMode.indexOf('cell') !== -1) {
+//							var cell = $grid.jqxGrid('getselectedcell');
+//							if (cell && cell.rowindex >= 0) {
+//								$grid.jqxGrid('showrowdetails', cell.rowindex);
+//							}
+//						} else {
+//							var rows = $grid.jqxGrid('getselectedrowindexes');
+//							if (rows && rows[0] >= 0) {
+//								$grid.jqxGrid('showrowdetails', rows[0]);
+//							}
+//						}
+//						event.preventDefault();
+//						return false; // Prevent double-action
+//					}
+//					// Other key handlers as desired
+//				});
 
 		//		// (Optional) Double click row: show details
 				$("##fixedsearchResultsGrid").on('rowdoubleclick.keyboardNav', function(event) {
