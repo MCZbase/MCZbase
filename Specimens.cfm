@@ -3492,38 +3492,30 @@ Target JSON:
 
 		
 				function focusFirstVisibleCell_fixed() {
-					var $grid = $('##fixedsearchResultsGrid');
-					var rowsCount = $grid.jqxGrid('getrows').length;
-					if (!rowsCount) return;
-					var selectionMode = $grid.jqxGrid('selectionmode');
+					var $grid = $('#fixedsearchResultsGrid');
+					var rows = $grid.jqxGrid('getrows');
+					if (!rows || rows.length === 0) return;
 					var columns = $grid.jqxGrid('columns').records;
 
-					if (
-						selectionMode === 'singlecell' ||
-						selectionMode === 'multiplecellsadvanced' ||
-						selectionMode === 'multiplecellsextended'
-					) {
-						var firstDataField = null;
-						for (var i = 0; i < columns.length; i++) {
-							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-								firstDataField = columns[i].datafield;
-								break;
-							}
+					var firstDataField = null;
+					for (var i = 0; i < columns.length; i++) {
+						if (
+							!columns[i].hidden &&
+							columns[i].datafield &&
+							columns[i].datafield !== "" &&
+							columns[i].datafield !== "jqxcheckbox"
+						) {
+							firstDataField = columns[i].datafield;
+							break;
 						}
-						if (firstDataField) {
-							$grid.jqxGrid('selectcell', 0, firstDataField);
-							setTimeout(function () {
-								$grid.find('.jqx-grid-cell').attr('tabindex', -1);
-								$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
-							}, 10);
-						}
-					} else if (
-						selectionMode === 'singlerow' ||
-						selectionMode === 'multiplerowsextended' ||
-						selectionMode === 'multiplerowsadvanced'
-					) {
-						$grid.jqxGrid('selectrow', 0);
-						$grid.focus();
+					}
+
+					if (firstDataField) {
+						$grid.jqxGrid('selectcell', 0, firstDataField);
+						setTimeout(function () {
+							$grid.find('.jqx-grid-cell').attr('tabindex', -1);
+							$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
+						}, 10);
 					}
 				}
 			
