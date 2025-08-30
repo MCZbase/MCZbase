@@ -110,6 +110,7 @@ limitations under the License.
 <cfset taxonid = "">
 <cfset scientificnameid = "">
 <cfset author_text = "">
+<cfset identification_id = "">
 <cfif lookup EQ "guid">
 	<cfquery name="checkMultiple" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT count(distinct identification.collection_object_id) ct
@@ -147,6 +148,7 @@ limitations under the License.
 			<cfset dateIdentified = dateFormat(getCurrentIdentificationSP.made_date, "yyyy-mm-dd")>
 			<cfset identifiedBy = getCurrentIdentificationSP.identified_by>
 			<cfset identifiedByID = getCurrentIdentificationSP.identified_by_id>
+			<cfset identification_id = getCurrentIdentificationSP.identification_id>
 			<cfif NOT getCurrentIdentificationSP.taxa_formula CONTAINS 'B'>
 				<!--- lookup taxonomy from the sole taxon in the identification --->
 				<cfquery name="getTaxonomy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
@@ -165,8 +167,6 @@ limitations under the License.
 		</cfif>
 	</cfif>
 </cfif>
-<!--- TODO: Fix: If given the /guid/ of a specimen with multiple occurrences, return only the material samples belonging to that occurrence --->
-<!--- TODO: Fix: If given the /uuid/ of an additional occurrence in a mixed collection, return the correct i material samples--->
 <cfquery name="occur" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT distinct 
 		flat.collection_object_id,
@@ -261,7 +261,7 @@ limitations under the License.
 	ORDER BY 
 		collector.coll_order
 </cfquery>
-<!--- TODO: Only get the parts that belong to the occurrence if multiple occurrences on specimen --->
+<!--- Get the parts that are material samples, but only get the parts that belong to the occurrence if multiple occurrences on specimen --->
 <cfquery name="parts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT 
 		part_name, preserve_method, 
@@ -272,6 +272,11 @@ limitations under the License.
 	WHERE
 		derived_from_cat_item = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#occur.collection_object_id#">
 		<cfif NOT singleOccurrence>
+			<cfif lookup EQ "guid">
+				AND specimen_part.collection_object_id not in (SELECT collection_object_id FROM identification)
+			<cfelse>
+				AND specimen_part.collection_object_id in (SELECT collection_object_id FROM identification where identification_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#identification_id#">)
+			</cfif>
 		</cfif>
 </cfquery>
 <cfif deliver IS 'application/rdf+xml'>
