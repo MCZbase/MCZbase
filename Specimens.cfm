@@ -3643,26 +3643,25 @@ Target JSON:
 					}
 				});
 				// --- Accessible details popup: open on Enter or Space ---
-				$('##fixedSelectMode').on('keydown.a11y', function(event){
-					if(event.key === 'Tab' && !event.shiftKey){
-						event.preventDefault();
-						// Focus the first data cell/row
-						focusFirstVisibleCell_fixed();
-					}
-					var selectionMode = $("##fixedsearchResultsGrid").jqxGrid('selectionmode');
+				('##fixedsearchResultsGrid').on('keydown.a11y', '.jqx-grid-cell', function(event){
+					var $grid = $('##fixedsearchResultsGrid');
+					var selectionMode = $grid.jqxGrid('selectionmode');
 					if (event.key === " " || event.key === "Enter") {
 						if (selectionMode.indexOf('cell') !== -1) {
-							var cell = $("##fixedsearchResultsGrid").jqxGrid('getselectedcell');
+							var cell = $grid.jqxGrid('getselectedcell');
 							if (cell && cell.rowindex >= 0) {
-								$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', cell.rowindex);
+								$grid.jqxGrid('showrowdetails', cell.rowindex);
 							}
 						} else {
-							var rows = $("##fixedsearchResultsGrid").jqxGrid('getselectedrowindexes');
+							var rows = $grid.jqxGrid('getselectedrowindexes');
 							if (rows && rows[0] >= 0) {
-								$("##fixedsearchResultsGrid").jqxGrid('showrowdetails', rows[0]);
+								$grid.jqxGrid('showrowdetails', rows[0]);
 							}
 						}
+						event.preventDefault();
+						return false; // Prevent double-action
 					}
+					// Other key handlers as desired
 				});
 
 		//		// (Optional) Double click row: show details
