@@ -3532,7 +3532,6 @@ Target JSON:
 
 				// --- Focus first cell/row after grid data loads ---
 				$('##fixedsearchResultsGrid').on('bindingcomplete.a11y', function () {
-					focusFirstVisibleCell_fixed();
 					// Pager shift+tab accessibility (rebind on every load, as pager is dynamic)
 					var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
 					var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
