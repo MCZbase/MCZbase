@@ -473,7 +473,7 @@ limitations under the License.
 		<div id="InPageEditorDiv" class="container-fluid"></div>
 
 		<!--- controls for editing record --->
-		<div class="container-lg d-none d-lg-block" id="editControlsDiv">
+		<div class="container-fluid d-none d-lg-block" id="editControlsDiv">
 			<div class="row mt-2" id="editControlsBlock">
 				<ul class="list-group list-inline list-group-horizontal-md py-0 mx-auto">
 					<cfset resultBit = "">
