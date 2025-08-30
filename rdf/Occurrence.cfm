@@ -102,10 +102,36 @@ limitations under the License.
 </cfif>
 
 <cfheader name="Content-type" value=#deliver# >
-
-<!--- TODO: lookup the guid from the guid_our_thing table --->
+<cfset singleOccurrence = true>
+<cfif lookup EQ "guid">
+	<cfquery name="checkMultiple" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT count(distinct identification.collection_object_id) ct
+		FROM specimen_part 
+			join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on specimen_part.derived_from_cat_item = ci.collection_object_id
+			join identification on specimen_part.collection_object_id = identification.collection_object_id
+		WHERE
+			flat.guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid#">
+	</cfquery>
+	<cfif checkMultiple.ct GT 1>
+		<cfset singleOccurrence = false>
+	</cfif>
+<cfelse>
+	<cfquery name="checkMultiple" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT count(distinct identification.collection_object_id) ct
+		FROM coll_object 
+			left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id
+			left join cataloged_item ci on specimen_part.derived_from_cat_item = ci.collection_object_id
+			left join specimen_part sp2 on ci.collection_object_id = sp2.derived_from_cat_item
+			join identification on sp2.collection_object_id = identification.collection_object_id
+		WHERE
+			coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.co_collection_object_id#">
+	</cfquery>
+	<cfif checkMultiple.ct GT 1>
+		<cfset singleOccurrence = false>
+	</cfif>
+</cfif>
 <!--- TODO: Fix: If given the /guid/ of a specimen with multiple occurrences, return only the material samples belonging to that occurrence --->
-<!--- TODO: Fix: If given the /uuid/ of an additional occurrance in a mixed collection, return the correct occurrence including identification and material sample --->
+<!--- TODO: Fix: If given the /uuid/ of an additional occurrance in a mixed collection, return the correct identification and material sample --->
 <cfquery name="occur" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT distinct 
 		flat.collection_object_id,
@@ -122,13 +148,15 @@ limitations under the License.
 		flat.county, 
 		flat.spec_locality,
 		flat.highergeographyid,
-		trim(flat.scientific_name || ' ' || flat.author_text) as scientific_name,
-		flat.taxonid,
-		flat.scientificnameid,
-		flat.identifiedby,
-		flat.identifiedbyid,
-		REPLACE(REPLACE(flat.typestatusplain,'<i>'),'</i>') AS typestatus,
-		flat.author_text,
+		<cfif singleOccurrence>
+			trim(flat.scientific_name || ' ' || flat.author_text) as scientific_name,
+			flat.taxonid,
+			flat.scientificnameid,
+			flat.identifiedby,
+			flat.identifiedbyid,
+			REPLACE(REPLACE(flat.typestatusplain,'<i>'),'</i>') AS typestatus,
+			flat.author_text,
+		</cfif>
 		flat.collectors,
 		flat.recordedbyid,
     	(case when began_date > '1700-01-01' then began_date else '' end) as began_date,
