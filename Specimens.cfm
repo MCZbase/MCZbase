@@ -3642,49 +3642,27 @@ Target JSON:
 					}
 				});
 				// --- Accessible details popup: open on Enter or Space ---
-				$('##fixedsearchResultsGrid').on('keydown.a11y', function (event) {
-					var $grid = $('##fixedsearchResultsGrid');
-					var selectionMode = $grid.jqxGrid('selectionmode');
-					if (event.key === " " || event.key === "Enter") {
-						var rowIndex = null;
-						if (selectionMode.indexOf('cell') !== -1) {
-							var cell = $grid.jqxGrid('getselectedcell');
-							if (cell && cell.rowindex >= 0) rowIndex = cell.rowindex;
-						} else {
-							var rows = $grid.jqxGrid('getselectedrowindexes');
-							if (rows && rows[0] >= 0) rowIndex = rows[0];
-						}
-
-						if (rowIndex !== null) {
-							// Check if already open
-							var isOpen = $grid.jqxGrid('rowdetails', rowIndex);
-							if (!isOpen) {
-								$grid.jqxGrid('showrowdetails', rowIndex);
-							} else {
-								// Optional: maybe close details if already open
-								//$grid.jqxGrid('hiderowdetails', rowIndex);
-							}
-						}
-						event.preventDefault();
-						return;
-					}
-					// --- Tab/Shift+Tab: Custom focus movement ---	
+				$('#fixedsearchResultsGrid').on('keydown.a11y', function(event) {
+					// Only process Tab key when not in edit mode
 					if (event.key === 'Tab') {
 						event.preventDefault();
 						if (event.shiftKey) {
-							$('##fixedSelectMode').focus(); // focus the select mode dropdown
+							// Shift+Tab: move focus to select control above
+							$('#fixedSelectMode').focus();
 						} else {
-							var $pager = $grid.closest('.jqx-grid').find('.jqx-grid-pager');
+							// Tab: move to first visible pager control
+							var $pager = $('#fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
 							var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
-						if ($pagerTargets.length > 0) {
-							$pagerTargets.first().focus();
+							if ($pagerTargets.length > 0) {
+								$pagerTargets.first().focus();
 							} else {
+								// fallback pager
 								$pager.attr('tabindex', 0).focus();
 							}
 						}
-						// And "return" here if you don't want other logic to run for Tab:
-						// return;
 					}
+					// Do nothing with Tab--don't let jqxGrid's default tab navigation happen.
+					// All other keys (arrows, home/end, etc.) will work normally.
 				});
 
 		//		// (Optional) Double click row: show details
