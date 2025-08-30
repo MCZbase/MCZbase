@@ -150,7 +150,7 @@ limitations under the License.
 			<cfif NOT getCurrentIdentificationSP.taxa_formula CONTAINS 'B'>
 				<!--- lookup taxonomy from the sole taxon in the identification --->
 				<cfquery name="getTaxonomy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-					SELECT taxon_name_id, taxonid, scientificnameid, author_text
+					SELECT taxonomy.taxon_name_id, taxonid, scientificnameid, author_text
 					FROM
 						identification_taxonomy	
 						join taxonomy on identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id
