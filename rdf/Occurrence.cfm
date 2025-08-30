@@ -418,7 +418,7 @@ limitations under the License.
 </cfif><cfif len(scientificnameid) GT 0>  "dwc:scientificNameID":"#scientificnameid#",
 </cfif>  "dwc:identifiedBy":"#identifiedby#",
   "dwciri:identifiedBy":"#identifiedbyid#",
-<cfif len(dateIdentified) GT 0>  "dwc:dateIdentified":"#dateIdentified#",
+<cfif len(date_identified) GT 0>  "dwc:dateIdentified":"#date_identified#",
 </cfif><cfif len(typestatus) GT 0>  "dwc:typeStatus":"#typestatus#",
 </cfif>  "dwc:country":"#country#",
 <cfif len(state_prov) GT 0>  "dwc:stateProvince":"#state_prov#",
@@ -455,7 +455,7 @@ limitations under the License.
       "dwc:materialSampleID": "#parts.materialSampleID#",
       "dwc:preparations": "#parts.part_name# (#parts.preserve_method#)"
     }
-<cfset separator=","></cfloop>  ]
+<cfset separator=","></cfloop>  ],
 </cfif>  "dcterms:modified": "#dateformat(last_edit_date, "yyyy-mm-dd")#T#timeformat(last_edit_date, "HH:mm:ss")#"
 }
 </cfoutput>
