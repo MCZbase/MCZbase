@@ -3531,23 +3531,22 @@ Target JSON:
 				$('##fixedSelectMode').off('.a11y');
 				
 				// --- Focus first cell/row after grid data loads ---
-				$('##fixedsearchResultsGrid').on('bindingcomplete.a11y', function () {
-					
-						focusFirstVisibleCell_fixed();
-					// Pager shift+tab accessibility (rebind on every load, as pager is dynamic)
+				$('##fixedsearchResultsGrid').on('bindingcomplete.a11y', function() {
 					var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
 					var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
 					if ($pagerTargets.length) {
-						$pagerTargets.first().off('keydown.a11y').on('keydown.a11y', function (e) {
+						$pagerTargets.first().off('keydown.a11y').on('keydown.a11y', function(e) {
 							if (e.key === 'Tab' && e.shiftKey) {
 								e.preventDefault();
 								focusFirstVisibleCell_fixed();
+								return false;
 							}
 						});
 					}
 				});
 
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
+					focusFirstVisibleCell_fixed();
 					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
 						if ($(document).height() <= 900) {
@@ -3644,27 +3643,12 @@ Target JSON:
 					}
 				});
 				// --- Accessible details popup: open on Enter or Space ---
-				$('##fixedsearchResultsGrid').on('keydown.a11y', function(event) {
-					// Only process Tab key when not in edit mode
-					if (event.key === 'Tab') {
+				$('##fixedSelectMode').on('keydown.a11y', function(event){
+					if(event.key === 'Tab' && !event.shiftKey){
 						event.preventDefault();
-						if (event.shiftKey) {
-							// Shift+Tab: move focus to select control above
-							$('##fixedSelectMode').focus();
-						} else {
-							// Tab: move to first visible pager control
-							var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
-							var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
-							if ($pagerTargets.length > 0) {
-								$pagerTargets.first().focus();
-							} else {
-								// fallback pager
-								$pager.attr('tabindex', 0).focus();
-							}
-						}
+						// Focus the first data cell/row
+						focusFirstVisibleCell_fixed();
 					}
-					// Do nothing with Tab--don't let jqxGrid's default tab navigation happen.
-					// All other keys (arrows, home/end, etc.) will work normally.
 				});
 
 		//		// (Optional) Double click row: show details
