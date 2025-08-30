@@ -152,8 +152,8 @@ limitations under the License.
 				<cfquery name="getTaxonomy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 					SELECT taxon_name_id, taxonid, scientificnameid, author_text
 					FROM
-						identication_taxonomy
-						join taxonomy on identication_taxonomy.taxon_name_id = taxonomy.taxon_name_id
+						identifcation_taxonomy
+						join taxonomy on identifcation_taxonomy.taxon_name_id = taxonomy.taxon_name_id
 					WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCurrentIdentificationSP.identification_id#">
 				</cfquery>
 				<cfif getTaxonomy.recordcount EQ 1>
