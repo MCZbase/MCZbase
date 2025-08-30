@@ -112,7 +112,7 @@ limitations under the License.
 		WHERE
 			flat.guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid#">
 	</cfquery>
-	<cfif checkMultiple.ct GT 1>
+	<cfif checkMultiple.ct GT 0>
 		<cfset singleOccurrence = false>
 	</cfif>
 <cfelse>
@@ -126,7 +126,7 @@ limitations under the License.
 		WHERE
 			coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.co_collection_object_id#">
 	</cfquery>
-	<cfif checkMultiple.ct GT 1>
+	<cfif checkMultiple.ct GT 0>
 		<cfset singleOccurrence = false>
 	</cfif>
 </cfif>
