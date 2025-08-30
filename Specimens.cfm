@@ -3643,8 +3643,8 @@ Target JSON:
 					}
 				});
 				// --- Accessible details popup: open on Enter or Space ---
-				$('#fixedsearchResultsGrid').on('keydown.a11y', function (event) {
-					var $grid = $('#fixedsearchResultsGrid');
+				$('##fixedsearchResultsGrid').on('keydown.a11y', function (event) {
+					var $grid = $('#@fixedsearchResultsGrid');
 					var selectionMode = $grid.jqxGrid('selectionmode');
 					if (event.key === " " || event.key === "Enter") {
 						var rowIndex = null;
