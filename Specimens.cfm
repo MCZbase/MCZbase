@@ -3693,13 +3693,13 @@ Target JSON:
 								$next.focus();
 							} else {
 								event.preventDefault();
-								$('#siteLogoLink').focus();
+								$('##header a').focus();
 							}
 						}
 					}
 					if (event.key === 'Escape') {
 						event.preventDefault();
-						$('#siteLogoLink').focus();
+						$('##header a').focus();
 					}
 				});
 				$('##fixedsearchResultsGrid').on('keydown.a11y', '.jqx-grid-cell', function(event) {
