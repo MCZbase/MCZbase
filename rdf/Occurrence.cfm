@@ -189,7 +189,7 @@ limitations under the License.
 			flat.scientificnameid,
 			flat.identifiedby,
 			flat.identifiedbyid,
-			to_char(flat.date_made_date, 'YYYY-MM-DD') as date_identified,
+			flat.made_date as date_identified,
 			REPLACE(REPLACE(flat.typestatusplain,'<i>'),'</i>') AS typestatus,
 			flat.author_text,
 		<cfelse>
