@@ -3639,7 +3639,7 @@ Target JSON:
 					}
 				});
 				
-				
+
 				
 				// 1. Tab from select to grid
 				$('##fixedSelectMode').off('keydown.a11y');
@@ -3657,10 +3657,14 @@ Target JSON:
 					if (event.key === 'Tab') {
 						event.preventDefault();
 						if (event.shiftKey) {
-							$('##fixedSelectMode').focus();
+							// Move focus to select mode at the top
+							$('##fixedselectMode').focus();
 						} else {
+							// Move focus to first visible pager control at the bottom
 							var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
-							var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
+							var $pagerTargets = $pager.find(
+								'.jqx-grid-pager-button, .jqx-grid-page-size, .jqx-grid-page-input, div[role="button"][tabindex]'
+							).filter(':visible');
 							if ($pagerTargets.length > 0) {
 								$pagerTargets.first().focus();
 							}
@@ -3672,8 +3676,9 @@ Target JSON:
 				// Do this inside your grid's bindingcomplete handler!
 				$('##fixedsearchResultsGrid').on('bindingcomplete.a11y', function () {
 					var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
-					var $pagerTargets = $pager.find('button, input, select, a[role="button"], [role="button"], [tabindex]:not([tabindex="-1"])').filter(':visible');
-					// Remove prior handler first
+					var $pagerTargets = $pager.find(
+						'.jqx-grid-pager-button, .jqx-grid-page-size, .jqx-grid-page-input, div[role="button"][tabindex]'
+					).filter(':visible');
 					if ($pagerTargets.length) {
 						$pagerTargets.first().off('keydown.a11y').on('keydown.a11y', function(e) {
 							if (e.key === 'Tab' && e.shiftKey) {
@@ -3681,7 +3686,14 @@ Target JSON:
 								focusFirstVisibleCell_fixed();
 								return false;
 							}
+							// For plain Tab, let the browser do its job!
 						});
+					}
+				});
+				$('##fixedselectMode').on('keydown.a11y', function(event){
+					if(event.key === 'Tab' && !event.shiftKey){
+						event.preventDefault();
+						focusFirstVisibleCell_fixed();
 					}
 				});
 		//		// (Optional) Double click row: show details
