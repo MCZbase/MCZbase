@@ -43,7 +43,7 @@ limitations under the License.
 		<cfset uuid = "">
 	</cfif>
 	<cfquery name="lookupUUID" datasource="cf_dbuser" timeout="#Application.short_timeout#">
-		SELECT target_table, guid_our_thing_id, co_collection_object_id,  guid_is_a, disposition
+		SELECT target_table, guid_our_thing_id, co_collection_object_id,  guid_is_a, disposition, assembled_resolvable
 		FROM guid_our_thing
 		WHERE local_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#uuid#">
 			AND scheme = 'urn' 
@@ -108,46 +108,58 @@ limitations under the License.
 <!--- TODO: Fix: If given the /uuid/ of an additional occurrance in a mixed collection, return the correct occurrence including identification and material sample --->
 <cfquery name="occur" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	SELECT distinct 
-		collection_object_id,
-		cat_num, collection_cde, guid, 
-		basisofrecord,	
-		country, state_prov, county, spec_locality,
-		highergeographyid,
-		trim(scientific_name || ' ' || author_text) as scientific_name,
-		taxonid,
-		scientificnameid,
-		identifiedby,
-		identifiedbyid,
-		REPLACE(REPLACE(typestatusplain,'<i>'),'</i>') AS typestatus,
-		author_text,
-		collectors,
-		recordedbyid,
+		flat.collection_object_id,
+		flat.cat_num, 
+		flat.collection_cde, 
+		<cfif lookup EQ "guid">
+			'https://mczbase.mcz.harvard.edu/guid/' || flat.guid resolvable_guid, 
+		<cfelse>
+			'#lookupUUID.assembled_resolvable#' as resolvable_guid,
+		</cfif>
+		flat.basisofrecord,	
+		flat.country, 
+		flat.state_prov, 
+		flat.county, 
+		flat.spec_locality,
+		flat.highergeographyid,
+		trim(flat.scientific_name || ' ' || flat.author_text) as scientific_name,
+		flat.taxonid,
+		flat.scientificnameid,
+		flat.identifiedby,
+		flat.identifiedbyid,
+		REPLACE(REPLACE(flat.typestatusplain,'<i>'),'</i>') AS typestatus,
+		flat.author_text,
+		flat.collectors,
+		fllat.recordedbyid,
     	(case when began_date > '1700-01-01' then began_date else '' end) as began_date,
     	(case when began_date > '1700-01-01' then ended_date else '' end) as ended_date,
 		(case when began_date > '1700-01-01' then regexp_substr(began_date, '([0-9]{4})',1,1,'i',1) else '' end) as year,
 		(case when began_date > '1700-01-01' then regexp_substr(began_date, '([0-9]{4})-([0-9]{2})',1,1,'i',2) else'' end) as month,
 		(case when began_date > '1700-01-01' then regexp_substr(began_date, '([0-9]{4})-([0-9]{2})-([0-9]{2})',1,1,'i',3) else '' end) as day,
-		geol_group,
-		formation,
-		member,
-		bed,
-		EARLIESTERAORLOWESTERATHEM,
-		LATESTERAORHIGHESTERATHEM,
-		EARLIESTPERIODORLOWESTSYSTEM,
-		LATESTPERIODORHIGHESTSYSTEM,
-		EARLIESTEPOCHORLOWESTSERIES,
-		LATESTEPOCHORHIGHESTSERIES,
-		EARLIESTAGEORLOWESTSTAGE,
-		LATESTAGEORHIGHESTSTAGE,
-		LITHOSTRATIGRAPHICTERMS,
-		dec_lat,
-		dec_long,
-		datum as geodeticdatum,
-		coordinateuncertaintyinmeters,
-		georeferencedbyid,
-		last_edit_date
-	FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif>
-	WHERE guid = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#guid#">
+		flat.geol_group,
+		flat.formation,
+		flat.member,
+		flat.bed,
+		flat.EARLIESTERAORLOWESTERATHEM,
+		flat.LATESTERAORHIGHESTERATHEM,
+		flat.EARLIESTPERIODORLOWESTSYSTEM,
+		flat.LATESTPERIODORHIGHESTSYSTEM,
+		flat.EARLIESTEPOCHORLOWESTSERIES,
+		flat.LATESTEPOCHORHIGHESTSERIES,
+		flat.EARLIESTAGEORLOWESTSTAGE,
+		flat.LATESTAGEORHIGHESTSTAGE,
+		flat.LITHOSTRATIGRAPHICTERMS,
+		flat.dec_lat,
+		flat.dec_long,
+		flat.datum as geodeticdatum,
+		flat.coordinateuncertaintyinmeters,
+		flat.georeferencedbyid,
+		flat.last_edit_date
+	FROM coll_object 
+		left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id
+		left join cataloged_item ci on specimen_part.derived_from_cat_item = ci.collection_object_id
+		left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on ci.collection_object_id = flat.collection_object_id
+	WHERE coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.co_collection_object_id#">
 		and rownum < 2
 </cfquery>
 
@@ -189,7 +201,7 @@ limitations under the License.
   xmlns:dwciri="http://rs.tdwg.org/dwc/iri/"
   xmlns:dcterms="http://purl.org/dc/terms/"
   >
-<dwc:Occurrence rdf:about="https://mczbase.mcz.harvard.edu/guid/#guid#">
+<dwc:Occurrence rdf:about="#resolvable_guid#">
    <dwc:institutionCode>MCZ</dwc:institutionCode>
    <dwc:collectionCode>#collection_cde#</dwc:collectionCode>
    <dwc:catalogNumber>#cat_num#</dwc:catalogNumber>
@@ -249,7 +261,7 @@ limitations under the License.
 @prefix dwciri: <http://rs.tdwg.org/dwc/iri/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema##> .
-<https://mczbase.mcz.harvard.edu/guid/#guid#>
+<#resolvable_guid#>
    a dwc:Occurrence;
    dwc:institutionCode "MCZ";
    dwc:collectionCode "#collection_cde#";
@@ -309,7 +321,7 @@ limitations under the License.
      "dwciri": "http://rs.tdwg.org/dwc/iri/",
      "dcterms": "http://purl.org/dc/terms/"
   },
-  "@id": "https://mczbase.mcz.harvard.edu/guid/#guid#",
+  "@id": "#resolvable_guid#",
   "@type":"dwc:Occurrence",
   "dwc:institutionCode":"MCZ",
   "dwc:collectionCode":"#collection_cde#",
