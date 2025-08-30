@@ -16,17 +16,17 @@ limitations under the License.
 <cfif NOT isDefined("deliver")>
 	<cfset deliver = 'application/rdf+xml'>
 	<cftry>
-   	<cfset accept = GetHttpRequestData().Headers['accept'] >
+		<cfset accept = GetHttpRequestData().Headers['accept'] >
 	<cfcatch>
-   	<cfset accept = "application/rdf+xml">
+		<cfset accept = "application/rdf+xml">
 	</cfcatch>
 	</cftry>
 <cfelse>
 	<cfset accept = deliver>
 	<cfif accept IS "json" OR accept IS "json-ld">
-   	<cfset accept = "application/ld+json">
+		<cfset accept = "application/ld+json">
 	<cfelseif accept IS "turtle">
-   	<cfset accept = "text/turtle">
+		<cfset accept = "text/turtle">
 	</cfif>
 </cfif>
 <!--- support direct request for page without paramters for testing, returns as if lookup=guid, guid=MCZ:IP:100000 --->
@@ -36,14 +36,14 @@ limitations under the License.
 <cfset lookupDetermination = false>
 <cfif lookup EQ "guid">
 	<cfif NOT isdefined("guid")>
-   	<cfset guid="MCZ:IP:100000">
+		<cfset guid="MCZ:IP:100000">
 	</cfif>
 <cfelseif lookup EQ "uuid">
 	<cfif NOT isDefined("uuid")>
 		<cfset uuid = "">
 	</cfif>
 	<cfquery name="lookupUUID" datasource="cf_dbuser" timeout="#Application.short_timeout#">
-		SELECT target_table, guid_our_thing_id, co_collection_object_id,  guid_is_a, disposition, assembled_resolvable
+		SELECT target_table, guid_our_thing_id, co_collection_object_id, guid_is_a, disposition, assembled_resolvable
 		FROM guid_our_thing
 		WHERE local_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#uuid#">
 			AND scheme = 'urn' 
@@ -80,25 +80,25 @@ limitations under the License.
 </cfif>
 <cfset done = false>
 <cfloop list='#accept#' delimiters=',' index='a'>
-   <cfif NOT done>
-       <cfif a IS 'text/turtle' OR a IS 'application/rdf+xml' OR a IS 'application/ld+json'>
-          <cfset deliver = a>
-          <cfset done = true>
-       </cfif>
-   </cfif>
+	<cfif NOT done>
+		<cfif a IS 'text/turtle' OR a IS 'application/rdf+xml' OR a IS 'application/ld+json'>
+			<cfset deliver = a>
+			<cfset done = true>
+		</cfif>
+	</cfif>
 </cfloop>
 <cfif left(accept,11) IS 'text/turtle'>
-   <cfset deliver = "text/turtle">
+	<cfset deliver = "text/turtle">
 <cfelseif left(accept,19) IS 'application/rdf+xml'>
-   <cfset deliver = "application/rdf+xml">
+	<cfset deliver = "application/rdf+xml">
 <cfelseif left(accept,19) IS 'application/ld+json'>
-   <cfset deliver = "application/ld+json">
+	<cfset deliver = "application/ld+json">
 <cfelseif findNoCase("text/turtle", accept) >
-   <cfset deliver = "text/turtle">
+	<cfset deliver = "text/turtle">
 <cfelseif findNoCase("application/ld+json", accept) >
-   <cfset deliver = "application/ld+json">
+	<cfset deliver = "application/ld+json">
 <cfelse>
-   <cfset deliver = 'application/rdf+xml'>
+	<cfset deliver = 'application/rdf+xml'>
 </cfif>
 
 <cfheader name="Content-type" value=#deliver# >
@@ -159,8 +159,8 @@ limitations under the License.
 		</cfif>
 		flat.collectors,
 		flat.recordedbyid,
-    	(case when began_date > '1700-01-01' then began_date else '' end) as began_date,
-    	(case when began_date > '1700-01-01' then ended_date else '' end) as ended_date,
+		(case when began_date > '1700-01-01' then began_date else '' end) as began_date,
+		(case when began_date > '1700-01-01' then ended_date else '' end) as ended_date,
 		(case when began_date > '1700-01-01' then regexp_substr(began_date, '([0-9]{4})',1,1,'i',1) else '' end) as year,
 		(case when began_date > '1700-01-01' then regexp_substr(began_date, '([0-9]{4})-([0-9]{2})',1,1,'i',2) else'' end) as month,
 		(case when began_date > '1700-01-01' then regexp_substr(began_date, '([0-9]{4})-([0-9]{2})-([0-9]{2})',1,1,'i',3) else '' end) as day,
