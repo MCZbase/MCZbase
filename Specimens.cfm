@@ -3642,16 +3642,16 @@ Target JSON:
 					}
 				});
 				// --- Accessible details popup: open on Enter or Space ---
-				$('#fixedsearchResultsGrid').on('keydown.a11y', function(event) {
+				$('##fixedsearchResultsGrid').on('keydown.a11y', function(event) {
 					// Only process Tab key when not in edit mode
 					if (event.key === 'Tab') {
 						event.preventDefault();
 						if (event.shiftKey) {
 							// Shift+Tab: move focus to select control above
-							$('#fixedSelectMode').focus();
+							$('##fixedSelectMode').focus();
 						} else {
 							// Tab: move to first visible pager control
-							var $pager = $('#fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
+							var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
 							var $pagerTargets = $pager.find('button, input, select, [tabindex]:not([tabindex="-1"])').filter(':visible');
 							if ($pagerTargets.length > 0) {
 								$pagerTargets.first().focus();
