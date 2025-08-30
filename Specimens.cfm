@@ -3580,7 +3580,7 @@ Target JSON:
 //				});
 				// --- Custom tabbing out of the grid ---
 				// --- Focus first cell/row when user tabs into grid from selection mode dropdown ---
-
+				var pagerControlSelector = '.jqx-grid-pager-button, .jqx-grid-page-size, .jqx-grid-page-input, div[role="button"][tabindex]';
 	
 				// --- When the selection mode changes (by user) ---
 				$('##fixedSelectMode').on('change.a11y', function () {
@@ -3730,8 +3730,7 @@ Target JSON:
 				});
 				// Do this inside your grid's bindingcomplete handler!
 				$('##fixedsearchResultsGrid').on('bindingcomplete.a11y', function () {
-					console.log('binding complete!');
-					focusFirstVisibleCell_fixed();
+					
 					var $pager = $('##fixedsearchResultsGrid').closest('.jqx-grid').find('.jqx-grid-pager');
 					var $pagerTargets = $pager.find(
 						'.jqx-grid-pager-button, .jqx-grid-page-size, .jqx-grid-page-input, div[role="button"][tabindex]'
