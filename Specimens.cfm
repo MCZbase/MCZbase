@@ -3599,12 +3599,7 @@ Target JSON:
 				});
 				// --- Custom tabbing out of the grid ---
 				// --- Focus first cell/row when user tabs into grid from selection mode dropdown ---
-				$('##fixedSelectMode').on('keydown.a11y', function (event) {
-					if (event.key === 'Tab' && !event.shiftKey) {
-						event.preventDefault();
-						focusFirstVisibleCell_fixed();
-					}
-				});
+
 	
 				// --- When the selection mode changes (by user) ---
 				$('##fixedSelectMode').on('change.a11y', function () {
@@ -3616,28 +3611,38 @@ Target JSON:
 				});
 				
 				// --- Keep tabindex/focus in sync on cell or row selection ---
-				$('##fixedsearchResultsGrid').on('cellselect.a11y rowselect.a11y', function () {
+				$('#fixedsearchResultsGrid').on('cellselect.a11y rowselect.a11y', function (event) {
 					var $grid = $(this);
+
+					// Guard: If a non-data cell is selected, move to the first data cell and stop further handling in this call.
+					if (event.type === 'cellselect') {
+						var args = event.args;
+						if (args.datafield === null) {
+							var columns = $grid.jqxGrid('columns').records;
+							for (var i = 0; i < columns.length; i++) {
+								if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
+									// Move to the first real data cell and stop; tabindex/focus will run in the next fired event.
+									$grid.jqxGrid('selectcell', args.rowindex, columns[i].datafield);
+									return; // Don't continue with tabindex/focus (it will run on the "real" cell event)
+								}
+							}
+						}
+					}
+
+					// Set tabindex/focus on selected cell (after selection finalized)
 					setTimeout(function () {
 						$grid.find('.jqx-grid-cell').attr('tabindex', -1);
 						$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
 					}, 10);
 				});
-				// --- Guard: Force selection back to first data cell if a non-data cell is selected (cell selection modes) ---
-				$('##fixedsearchResultsGrid').on('cellselect.a11y', function (event) {
-					var args = event.args;
-					if (args.datafield === null) {
-						var columns = $('##fixedsearchResultsGrid').jqxGrid('columns').records;
-						for (var i = 0; i < columns.length; i++) {
-							if (!columns[i].hidden && columns[i].datafield && columns[i].datafield !== "") {
-								$('##fixedsearchResultsGrid').jqxGrid('selectcell', args.rowindex, columns[i].datafield);
-								break;
-							}
-						}
+				$('##fixedSelectMode').on('keydown.a11y', function (event) {
+					if (event.key === 'Tab' && !event.shiftKey) {
+						event.preventDefault();
+						focusFirstVisibleCell_fixed();
 					}
 				});
 				// --- Accessible details popup: open on Enter or Space ---
-					$('##fixedsearchResultsGrid').on('keydown.a11y', function (event) {
+				$('##fixedsearchResultsGrid').on('keydown.a11y', function (event) {
 					var $grid = $('##fixedsearchResultsGrid');
 					var selectionMode = $grid.jqxGrid('selectionmode');
 					// --- Open Row Details on Space or Enter ---
@@ -3657,8 +3662,7 @@ Target JSON:
 						// event.preventDefault();
 						// return;
 					}
-
-					// --- Tab/Shift+Tab: Custom focus movement ---
+					// --- Tab/Shift+Tab: Custom focus movement ---	
 					if (event.key === 'Tab') {
 						event.preventDefault();
 						if (event.shiftKey) {
