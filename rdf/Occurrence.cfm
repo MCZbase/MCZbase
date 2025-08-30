@@ -136,7 +136,7 @@ limitations under the License.
 	<cfif checkMultiple.ct GT 0>
 		<cfset singleOccurrence = false>
 		<cfquery name="getCurrentIdentificationSP" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
-			SELECT scientific_name, taxa_formula, identification_id, toChar(made_date,'YYYY-MM-DD') as date_identified,
+			SELECT scientific_name, taxa_formula, identification_id, to_char(made_date,'YYYY-MM-DD') as date_identified,
 				concatidagent(identification_id) as identified_by, get_sole_determiner_guid(identification.collection_object_id) as identified_by_id
 			FROM identification
 			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.co_collection_object_id#">
