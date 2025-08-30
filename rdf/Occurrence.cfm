@@ -159,7 +159,12 @@ limitations under the License.
 		left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id
 		left join cataloged_item ci on specimen_part.derived_from_cat_item = ci.collection_object_id
 		left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on ci.collection_object_id = flat.collection_object_id
-	WHERE coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.co_collection_object_id#">
+	WHERE
+		<cfif lookup EQ 'guid'>
+			flat.guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid#"> 
+		<cfelse> 
+			coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupUUID.co_collection_object_id#">
+		</cfif>
 		and rownum < 2
 </cfquery>
 
