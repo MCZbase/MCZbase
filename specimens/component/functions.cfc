@@ -4493,12 +4493,20 @@ limitations under the License.
 										</cfif>
 									</div>
 									<cfif getMaterialSampleID.recordcount GT 0>
+										<div id="materialSampleIDEditDialog"></div>
 										<div class="col-12">
 											<ul class="list-unstyled pl-1">
 												<cfloop query="getMaterialSampleID">
 													<li><strong>materialSampleID:</strong> <a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a></li>
 												</cfloop>
 											</ul>
+											<button type="button" id="btn_pane1" class="btn btn-xs btn-secondary py-0 small" onclick="openEditMaterialSampleIDDialog(#part_id#,'materialSampleIDEditDialog','#guid# #part_name# (#preserve_method#)',reloadParts)">
+												<cfif getMaterialSampleID.recordcount EQ 1>
+													Add
+												<cfelse>
+													Edit
+												</cfif>
+											</button>
 										</div>
 									</cfif>
 								</div>

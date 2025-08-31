@@ -1025,6 +1025,35 @@ function handlePartAttributeTypeChange(suffix, partID) {
     });
 }
 
+/** openEditMaterialSampleIDDialog open a dialog for adding materialSampleIDs to 
+ * a specimen part.
+ *
+ * @param collection_object_id for the specimen_part for which to edit materialSampleIDs.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param partlabel text, (such as guid plus part name plus preservation type) describing the part
+ * the material sample ids apply to, to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openEditMaterialSampleIDDialog(collection_object_id,dialogId,partlabel,callback) {
+	var title = "Edit dwc:materialSampleIDs for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditMaterialSampleIDsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit materialSampleIDs dialog");
+		},
+		dataType: "html"
+	});
+};
+
 /** parseGuid takes a GUID string and parses it into its components suitable for 
  * persistence in guid_our_thing. 
  * The function recognizes the following forms for guids:
