@@ -10651,7 +10651,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 										<h1 class="h3">Existing dwc:MaterialSampleIDs</h1>
 										<cfset i=1>
 										<ul>
-											<cfloop query="getIDs">
+											<cfloop query="getGuids">
 												<cfif resolver_prefix EQ "http://mczbase.mcz.harvard.edu" AND scheme EQ "urn" AND type EQ "uuid">
 													<cfset internal = true>
 												<cfelse>
@@ -10659,15 +10659,15 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												</cfif>
 												<li>
 													<cfif internal>
-														<strong>Internally assigned:</strong> #getIDs.assembled_identifier# 
-														<span class="small90">(created #dateFormat(getIDs.timestamp_created,"mm/dd/yyyy")# by #getIDs.created_by#)</span>
+														<strong>Internally assigned:</strong> #getGuids.assembled_identifier# 
+														<span class="small90">(created #dateFormat(getGuids.timestamp_created,"mm/dd/yyyy")# by #getGuids.created_by#)</span>
 													<cfelse>
-														<strong>Externally assigned:</strong> #getIDs.assembled_identifier# 
-														<span class="small90">(created #dateFormat(getIDs.timestamp_created,"mm/dd/yyyy")# by #getIDs.created_by#)</span>
+														<strong>Externally assigned:</strong> #getGuids.assembled_identifier# 
+														<span class="small90">(created #dateFormat(getGuids.timestamp_created,"mm/dd/yyyy")# by #getGuids.created_by#)</span>
 														<!--- allow deletion of user assigned materialSampleIDs --->
-														<button type="button" class="btn btn-sm btn-outline-danger ml-2" title="Delete this materialSampleID" onclick="deleteOtherID('#getIDs.guid_our_thing_id#','#getCatalog.part_id#');">Delete</button>
+														<button type="button" class="btn btn-sm btn-outline-danger ml-2" title="Delete this materialSampleID" onclick="deleteMaterialSampleID('#getGuids.guid_our_thing_id#','#getCatalog.part_id#');">Delete</button>
 														<!--- allow edit of user assigned materialSampleIDs --->
-														<button type="button" class="btn btn-sm btn-outline-primary ml-2" title="Edit this materialSampleID" onclick="editOtherID('#getIDs.guid_our_thing_id#','#getCatalog.part_id#');"> Edit</button>
+														<button type="button" class="btn btn-sm btn-outline-primary ml-2" title="Edit this materialSampleID" onclick="editMaterialSampleID('#getGuids.guid_our_thing_id#','#getCatalog.part_id#');"> Edit</button>
 													</cfif>
 											</cfloop>
 										</ul>
