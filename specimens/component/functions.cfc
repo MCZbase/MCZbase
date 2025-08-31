@@ -10479,4 +10479,202 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	<cfreturn serializeJSON(result)>
 </cffunction>
 
+<!---getEditMaterialSampleIDsHTML obtain a block of html to populate a materialSampleID editor dialog for a specified specimen part,
+ Does not allow editing of an existing internally assigned materialSampleID, only adding new ones or deleting user assigned ones.
+
+ @param collection_object_id the collection_object_id for the specimen part for which to obtain the materialSampleId editor dialog.
+ @return html for editing materialSampleIDs for the specified specimen part.
+--->
+<cffunction name="getEditMaterialSampleIDsHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfthread name="getEditMaterialSampleIDsThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getCatalog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						collection.institution_acronym,
+						cataloged_item.collection_cde,
+						cataloged_item.cat_num,
+						specimen_part.part_name,
+						specimen_part.preserve_method,
+						specimen_part.collection_object_id AS part_id
+					FROM 
+						specimen_part
+						join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+						join collection on cataloged_item.collection_id = collection.collection_id
+					WHERE 
+						specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+				<cfquery name="getGuids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						GUID_OUR_THING_ID,
+						TIMESTAMP_CREATED,
+						TARGET_TABLE,
+						CO_COLLECTION_OBJECT_ID,
+						SP_COLLECTION_OBJECT_ID,
+						TAXON_NAME_ID,
+						RESOLVER_PREFIX,
+						SCHEME,
+						TYPE,
+						AUTHORITY,
+						LOCAL_IDENTIFIER,
+						ASSEMBLED_IDENTIFIER,
+						ASSEMBLED_RESOLVABLE,
+						ASSIGNED_BY,
+						CREATED_BY,
+						LAST_MODIFIED,
+						DISPOSITION,
+						GUID_IS_A  
+					FROM guid_our_thing; 
+					WHERE
+						sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+
+							<!--- Add form --->
+							<div class="add-form">
+								<div class="add-form-header pt-1 px-2 col-12 float-left">
+									<h2 class="h3 my-0 px-1 pb-1">Add dwc:materialSampleID for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num# #getCatalog.part_name# (#getCatalog.preserve_method#)</h2>
+								</div>
+								<div class="card-body mt-2">
+									<form name="addMaterialSampleIDForm" id="addMaterialSampleIDForm" class="row mb-0 pt-1">
+										<div class="form-row ml-3" style="display: flex;">
+											<div class="col-3 pl-0 pr-2">
+												<input type="hidden" name="sp_collection_object_id" value="#getCatalog.part_id#">
+												<input type="hidden" name="method" value="addNewMaterialSampleID">
+												<input type="hidden" name="returnformat" value="json">
+												<input type="hidden" name="queryformat" value="column">
+												<input type="hidden" name="target_table" value="SPECIMEN_PART">
+												<input type="hidden" name="disposition" value="exists">
+												<input type="hidden" name="guid_is_a" value="materialSampleID">
+												<input type="hidden" name="assigned_by" value="#session.agent_id#">
+												<label class="data-entry-label" for="input_text">dwc:materialSampleID assigned externally to this part</label>
+												<input type="text" name="input_text" id="input_text" size="1" class="reqdClr data-entry-input">
+												<!--- on entry of a value, parse it into the guid fields with parseGuid() --->
+												<script>
+													$(document).ready(function() {
+														$("#input_text").on('change', function() { 
+															var bits = parseGuid($(this).val());
+															if (bits !== null) { 
+																$("input[name='resolver_prefix']").val(bits.resolver_prefix);
+																$("input[name='scheme']").val(bits.scheme);
+																$("input[name='authority']").val(bits.authority);
+																$("input[name='local_identifier']").val(bits.local_identifier);
+																$("input[name='assembled_identifier']").val(bits.assembled_identifier);
+																$("input[name='assembled_resolvable']").val(bits.assembled_resolvable);
+															} else {
+																// clear all fields if parse failed
+																$("input[name='resolver_prefix']").val("");
+																$("input[name='scheme']").val("");
+																$("input[name='authority']").val("");
+																$("input[name='local_identifier']").val("");
+																$("input[name='assembled_identifier']").val("");
+																$("input[name='assembled_resolvable']").val("");
+															}
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-3 px-1">
+												<label class="data-entry-label" for="resolver_prefix">Resolver Prefix</label>
+												<input type="text" class="data-entry-input" name="resolver_prefix" id="resolver_prefix">
+											</div>
+											<div class="col-12 col-md-3 px-1">
+												<label class="data-entry-label" for="scheme">Scheme</label>
+												<input type="text" class="data-entry-input" name="scheme" id="scheme">
+											</div>
+											<div class="col-12 col-md-3 px-1">
+												<label class="data-entry-label" for="authority">Authority</label>
+												<input type="text" class="data-entry-input" name="authority" id="authority">
+											</div>
+											<div class="col-12 col-md-3 px-1">
+												<label class="data-entry-label" for="local_identifier">Local Identifier</label>
+												<input type="text" class="data-entry-input" name="local_identifier" id="local_identifier">
+											</div>
+											<div class="col-12 col-md-6 px-1">
+												<label class="data-entry-label" for="assembled_identifier">Full Identifier</label>
+												<input type="text" class="data-entry-input" name="assembled_identifier" id="assembled_identifier">
+											</div>
+											<div class="col-12 col-md-6 px-1">
+												<label class="data-entry-label" for="assembled_resolvable">Resolvable Identifier</label>
+												<input type="text" class="data-entry-input" name="assembled_resolvable" id="assembled_resolvable">
+											</div>
+										</div>
+									</form>
+									<script>
+										function addOtherIDSubmit() { 
+											setFeedbackControlState("addOtherIDResultDiv","saving")
+											$.ajax({
+												url : "/specimens/component/functions.cfc",
+												type : "post",
+												dataType : "json",
+												data: $("##addMaterialSampleIDForm").serialize(),
+												success: function (result) {
+													if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+														setFeedbackControlState("addOtherIDResultDiv","saved")
+														reloadOtherIDDialog("#getCatalog.collection_object_id#");
+													} else {
+														// we shouldn't be able to reach this block, backing error should return an http 500 status
+														setFeedbackControlState("addOtherIDResultDiv","error")
+														messageDialog('Error adding Other IDs: '+result.DATA.MESSAGE[0], 'Error saving Other ID.');
+													}
+												},
+												error: function(jqXHR,textStatus,error){
+													setFeedbackControlState("addOtherIDResultDiv","error")
+													handleFail(jqXHR,textStatus,error,"adding new Other ID");
+												}
+											});
+										};
+									</script>
+								</div>
+							</div>
+
+							<!--- List/Edit existing --->
+							<div class="container-fluid">
+								<div class="row">
+									<div class="col-12 mt-0 bg-light border rounded pt-1 pb-0 px-3">
+										<h1 class="h3">Existing dwc:MaterialSampleIDs</h1>
+										<cfset i=1>
+										<ul>
+											<cfloop query="getIDs">
+												<cfif resolver_prefix EQ 'http://mczbase.mcz.harvard.edu' AND scheme EQ 'urn' and type="uuid">
+													<cfset internal = true>
+												<cfelse>
+													<cfset internal = false>
+												</cfif>
+												<li>
+													<cfif internal>
+														<strong>Internally assigned:</strong> #getIDs.assembled_identifier# 
+														<span class="small90">(created #dateFormat(getIDs.timestamp_created,"mm/dd/yyyy")# by #getIDs.created_by#)</span>
+													<cfelse>
+														<strong>Externally assigned:</strong> #getIDs.assembled_identifier# 
+														<span class="small90">(created #dateFormat(getIDs.timestamp_created,"mm/dd/yyyy")# by #getIDs.created_by#)</span>
+														<!--- allow deletion of user assigned materialSampleIDs --->
+														<button type="button" class="btn btn-sm btn-outline-danger ml-2" title="Delete this materialSampleID" onclick="deleteOtherID('#getIDs.guid_our_thing_id#','#getCatalog.part_id#');">Delete</button>
+														<!--- allow edit of user assigned materialSampleIDs --->
+														<button type="button" class="btn btn-sm btn-outline-primary ml-2" title="Edit this materialSampleID" onclick="editOtherID('#getIDs.guid_our_thing_id#','#getCatalog.part_id#');"> Edit</button>
+													</cfif>
+											</cfloop>
+										</ul>
+									</div>
+								</div>
+							</div><!--- End of List/Edit existing --->
+
+						</div>
+					</div>
+				</div>
+			<cfcatch>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getEditMaterialSampleIDsThread"/>
+	<cfreturn getEditMaterialSampleIDsThread.output>
+</cffunction>
+
 </cfcomponent>
