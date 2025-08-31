@@ -10514,6 +10514,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						join collection on cataloged_item.collection_id = collection.collection_id
 					WHERE 
 						specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+				</cfquery>
 				<cfquery name="getGuids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT 
 						GUID_OUR_THING_ID,
@@ -10534,7 +10535,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						LAST_MODIFIED,
 						DISPOSITION,
 						GUID_IS_A  
-					FROM guid_our_thing; 
+					FROM guid_our_thing
 					WHERE
 						sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
