@@ -10553,7 +10553,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 								</div>
 								<div class="card-body mt-2">
 									<form name="addMaterialSampleIDForm" id="addMaterialSampleIDForm" class="row mb-0 pt-1">
-										<div class="form-row ml-3" style="display: flex;">
+										<div class="form-row ml-3 mr-4">
 											<div class="col-12 pl-0 pr-2">
 												<input type="hidden" name="sp_collection_object_id" value="#getCatalog.part_id#">
 												<input type="hidden" name="method" value="addNewMaterialSampleID">
