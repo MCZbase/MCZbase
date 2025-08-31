@@ -10564,7 +10564,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												<!--- on entry of a value, parse it into the guid fields with parseGuid() --->
 												<script>
 													$(document).ready(function() {
-														$("#input_text").on('change', function() { 
+														$("##input_text").on('change', function() { 
 															var bits = parseGuid($(this).val());
 															if (bits !== null) { 
 																$("input[name='resolver_prefix']").val(bits.resolver_prefix);
