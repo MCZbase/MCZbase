@@ -10584,7 +10584,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 																$("input[name='assembled_resolvable']").val("");
 															}
 														});
-													}
+													});
 												</script>
 											</div>
 											<div class="col-12 col-md-3 px-1">
