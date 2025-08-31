@@ -10559,7 +10559,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												<input type="hidden" name="target_table" value="SPECIMEN_PART">
 												<input type="hidden" name="disposition" value="exists">
 												<input type="hidden" name="guid_is_a" value="materialSampleID">
-												<input type="hidden" name="assigned_by" value="#session.agent_id#">
+												<input type="hidden" name="assigned_by" value="#session.myAgentId#">
 												<label class="data-entry-label" for="input_text">dwc:materialSampleID assigned externally to this part</label>
 												<input type="text" name="input_text" id="input_text" size="1" class="reqdClr data-entry-input">
 												<!--- on entry of a value, parse it into the guid fields with parseGuid() --->
