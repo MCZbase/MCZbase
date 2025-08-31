@@ -4500,7 +4500,7 @@ limitations under the License.
 													<li><strong>materialSampleID:</strong> <a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a></li>
 												</cfloop>
 											</ul>
-											<button type="button" id="btn_pane1" class="btn btn-xs btn-secondary py-0 small" onclick="openEditMaterialSampleIDDialog(#part_id#,'materialSampleIDEditDialog','#guid# #part_name# (#preserve_method#)',reloadParts)">
+											<button type="button" id="btn_pane1" class="btn btn-xs btn-secondary py-0 small" onclick="openEditMaterialSampleIDDialog(#part_id#,'materialSampleIDEditDialog','#guid# #part_name#',reloadParts)">
 												<cfif getMaterialSampleID.recordcount EQ 1>
 													Add
 												<cfelse>
@@ -10583,7 +10583,8 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 																$("input[name='assembled_identifier']").val("");
 																$("input[name='assembled_resolvable']").val("");
 															}
-													});
+														});
+													}
 												</script>
 											</div>
 											<div class="col-12 col-md-3 px-1">
