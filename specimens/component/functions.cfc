@@ -4499,14 +4499,17 @@ limitations under the License.
 												<cfloop query="getMaterialSampleID">
 													<li><strong>materialSampleID:</strong> <a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a></li>
 												</cfloop>
+												<li>
+													<button type="button" id="btn_pane1" class="btn btn-xs btn-secondary py-0 small" onclick="openEditMaterialSampleIDDialog(#part_id#,'materialSampleIDEditDialog','#guid# #part_name#',reloadParts)">
+														<cfif getMaterialSampleID.recordcount EQ 1>
+															Add 
+														<cfelse>
+															Edit
+														</cfif>
+														externally assigned dwc:MaterialSampleID
+													</button>
+												</li>
 											</ul>
-											<button type="button" id="btn_pane1" class="btn btn-xs btn-secondary py-0 small" onclick="openEditMaterialSampleIDDialog(#part_id#,'materialSampleIDEditDialog','#guid# #part_name#',reloadParts)">
-												<cfif getMaterialSampleID.recordcount EQ 1>
-													Add
-												<cfelse>
-													Edit
-												</cfif>
-											</button>
 										</div>
 									</cfif>
 								</div>
