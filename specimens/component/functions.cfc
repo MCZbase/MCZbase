@@ -10647,7 +10647,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 										<cfset i=1>
 										<ul>
 											<cfloop query="getIDs">
-												<cfif resolver_prefix EQ 'http://mczbase.mcz.harvard.edu' AND scheme EQ 'urn' and type="uuid">
+												<cfif resolver_prefix EQ "http://mczbase.mcz.harvard.edu" AND scheme EQ "urn" AND type EQ "uuid">
 													<cfset internal = true>
 												<cfelse>
 													<cfset internal = false>
