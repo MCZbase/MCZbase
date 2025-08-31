@@ -1036,7 +1036,7 @@ function handlePartAttributeTypeChange(suffix, partID) {
  * @param callback a callback function to invoke on closing the dialog.
  */
 function openEditMaterialSampleIDDialog(collection_object_id,dialogId,partlabel,callback) {
-	var title = "Edit dwc:materialSampleIDs for " + guid;
+	var title = "Edit dwc:materialSampleIDs for " + partlabel;
 	createSpecimenEditDialog(dialogId,title,callback);
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
