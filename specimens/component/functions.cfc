@@ -10551,7 +10551,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 								<div class="card-body mt-2">
 									<form name="addMaterialSampleIDForm" id="addMaterialSampleIDForm" class="row mb-0 pt-1">
 										<div class="form-row ml-3" style="display: flex;">
-											<div class="col-3 pl-0 pr-2">
+											<div class="col-12 pl-0 pr-2">
 												<input type="hidden" name="sp_collection_object_id" value="#getCatalog.part_id#">
 												<input type="hidden" name="method" value="addNewMaterialSampleID">
 												<input type="hidden" name="returnformat" value="json">
@@ -10561,7 +10561,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												<input type="hidden" name="guid_is_a" value="materialSampleID">
 												<input type="hidden" name="assigned_by" value="#session.myAgentId#">
 												<label class="data-entry-label" for="input_text">dwc:materialSampleID assigned externally to this part</label>
-												<input type="text" name="input_text" id="input_text" size="1" class="reqdClr data-entry-input">
+												<input type="text" name="input_text" id="input_text" class="reqdClr data-entry-input">
 												<!--- on entry of a value, parse it into the guid fields with parseGuid() --->
 												<script>
 													$(document).ready(function() {
@@ -10610,11 +10610,15 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												<label class="data-entry-label" for="assembled_resolvable">Resolvable Identifier</label>
 												<input type="text" class="data-entry-input" name="assembled_resolvable" id="assembled_resolvable">
 											</div>
+											<div class="col-12 col-md-6 px-1">
+												<button type="button" class="btn btn-primary mt-2" onclick="addOtherIDSubmit();">Add materialSampleID</button>
+												<output id="addMaterialSampleIDResultDiv"></output>
+											</div>
 										</div>
 									</form>
 									<script>
 										function addOtherIDSubmit() { 
-											setFeedbackControlState("addOtherIDResultDiv","saving")
+											setFeedbackControlState("addMaterialSampleIDResultDiv","saving")
 											$.ajax({
 												url : "/specimens/component/functions.cfc",
 												type : "post",
@@ -10622,17 +10626,17 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												data: $("##addMaterialSampleIDForm").serialize(),
 												success: function (result) {
 													if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-														setFeedbackControlState("addOtherIDResultDiv","saved")
-														reloadOtherIDDialog("#getCatalog.collection_object_id#");
+														setFeedbackControlState("addMaterialSampleIDResultDiv","saved")
+														reloadParts();
 													} else {
 														// we shouldn't be able to reach this block, backing error should return an http 500 status
-														setFeedbackControlState("addOtherIDResultDiv","error")
-														messageDialog('Error adding Other IDs: '+result.DATA.MESSAGE[0], 'Error saving Other ID.');
+														setFeedbackControlState("addMaterialSampleIDResultDiv","error")
+														messageDialog('Error adding materialSamleID: '+result.DATA.MESSAGE[0], 'Error saving materialSampleID.');
 													}
 												},
 												error: function(jqXHR,textStatus,error){
-													setFeedbackControlState("addOtherIDResultDiv","error")
-													handleFail(jqXHR,textStatus,error,"adding new Other ID");
+													setFeedbackControlState("addMaterialSampleIDResultDiv","error")
+													handleFail(jqXHR,textStatus,error,"adding new materialSampleID");
 												}
 											});
 										};
