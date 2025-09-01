@@ -1089,131 +1089,138 @@ function parseGuid(input) {
   let ASSEMBLED_IDENTIFIER = "";
   let ASSEMBLED_RESOLVABLE = "";
 
-  // Pattern to find resolver prefix (http/https) and identifier
-  const resolverSplit = input.match(/^(https?:\/\/[^\s\/]+(?:\/[^\s]+)*)[\/\s]+(.+)$/);
+  // DOI handling first, fixed resolver
+  // Match both https://doi.org/10.1234/abcd1234 and doi:10.1234/abcd1234
+  let doiMatch = input.match(/^(?:https?:\/\/doi\.org\/|doi:)([^\/:]+)\/([^\/]+)$/);
+  if (doiMatch) {
+    RESOLVER_PREFIX = "https://doi.org/";
+    SCHEME = "doi";
+    TYPE = "doi";
+    AUTHORITY = doiMatch[1];
+    LOCAL_IDENTIFIER = doiMatch[2];
+    ASSEMBLED_IDENTIFIER = `doi:${AUTHORITY}/${LOCAL_IDENTIFIER}`;
+    ASSEMBLED_RESOLVABLE = `${RESOLVER_PREFIX}${AUTHORITY}/${LOCAL_IDENTIFIER}`;
+    return { RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE };
+  }
 
-  let guidStr = input;
-  // If a resolver is present, split it out
-  if (resolverSplit) {
-    RESOLVER_PREFIX = resolverSplit[1].endsWith('/') ? resolverSplit[1] : resolverSplit[1] + '/';
-    guidStr = resolverSplit[2];
+  // 1. Split resolver prefix from identifier (if present)
+  // Supported schemes
+  const schemes = [
+    "urn:uuid:",
+    "urn:catalog:",
+    "urn:lsid:",
+    "ark:/",
+    "hdl:",
+    "https://purl.org/"
+  ];
+  let schemeIdx = -1;
+  let foundScheme = "";
+  for (let s of schemes) {
+    let idx = input.indexOf(s);
+    if (idx !== -1 && (schemeIdx === -1 || idx < schemeIdx)) {
+      schemeIdx = idx;
+      foundScheme = s;
+    }
+  }
+
+  if (schemeIdx > 0) {
+    RESOLVER_PREFIX = input.substring(0, schemeIdx);
+    if (!RESOLVER_PREFIX.match(/\/$/)) RESOLVER_PREFIX += "/";
+    input = input.substring(schemeIdx);
+  }
+
+  // Special case: purl resolver prefix, e.g. https://purl.org/...
+  if (input.startsWith("https://purl.org/")) {
+    RESOLVER_PREFIX = "https://purl.org/";
+    input = input.substring(17); // length of 'https://purl.org/'
   }
 
   // urn:uuid:{local_identifier}
-  const uuidMatch = guidStr.match(/^urn:uuid:([a-fA-F0-9\-]+)$/);
+  const uuidMatch = input.match(/^urn:uuid:([a-fA-F0-9\-]+)$/);
   if (uuidMatch) {
     SCHEME = "urn";
     TYPE = "uuid";
     LOCAL_IDENTIFIER = uuidMatch[1];
-    ASSEMBLED_IDENTIFIER = guidStr;
-    if (RESOLVER_PREFIX) {
-      ASSEMBLED_RESOLVABLE = RESOLVER_PREFIX + LOCAL_IDENTIFIER;
+    ASSEMBLED_IDENTIFIER = `urn:uuid:${LOCAL_IDENTIFIER}`;
+    if (RESOLVER_PREFIX === "") {
+		 ASSEMBLED_RESOLVABLE = "";
+	 } else {
+       ASSEMBLED_RESOLVABLE = RESOLVER_PREFIX + ASSEMBLED_IDENTIFIER;
     }
-    return {RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE};
+    return { RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE };
   }
 
   // urn:catalog:{authority}:{local_identifier}
-  const catalogMatch = guidStr.match(/^urn:catalog:([^:]+):(.+)$/);
+  const catalogMatch = input.match(/^urn:catalog:([^:]+):(.+)$/);
   if (catalogMatch) {
     SCHEME = "urn";
     TYPE = "catalog";
     AUTHORITY = catalogMatch[1];
     LOCAL_IDENTIFIER = catalogMatch[2];
-    ASSEMBLED_IDENTIFIER = guidStr;
-    if (RESOLVER_PREFIX) {
-      ASSEMBLED_RESOLVABLE = RESOLVER_PREFIX + AUTHORITY + ":" + LOCAL_IDENTIFIER;
+    ASSEMBLED_IDENTIFIER = `urn:catalog:${AUTHORITY}:${LOCAL_IDENTIFIER}`;
+    if (RESOLVER_PREFIX === "") {
+        ASSEMBLED_RESOLVABLE = "";
+    } else {
+        ASSEMBLED_RESOLVABLE = RESOLVER_PREFIX + ASSEMBLED_IDENTIFIER;
     }
-    return {RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE};
+    return { RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE };
   }
 
   // urn:lsid:{authority}:{local_identifier}
-  const lsidMatch = guidStr.match(/^urn:lsid:([^:]+):(.+)$/);
+  const lsidMatch = input.match(/^urn:lsid:([^:]+):(.+)$/);
   if (lsidMatch) {
     SCHEME = "urn";
     TYPE = "lsid";
     AUTHORITY = lsidMatch[1];
     LOCAL_IDENTIFIER = lsidMatch[2];
-    ASSEMBLED_IDENTIFIER = guidStr;
-    if (RESOLVER_PREFIX) {
-      ASSEMBLED_RESOLVABLE = RESOLVER_PREFIX + AUTHORITY + ":" + LOCAL_IDENTIFIER;
+    ASSEMBLED_IDENTIFIER = `urn:lsid:${AUTHORITY}:${LOCAL_IDENTIFIER}`;
+    if (RESOLVER_PREFIX === "") {
+		  ASSEMBLED_RESOLVABLE = "";
+	 } else {
+       ASSEMBLED_RESOLVABLE = RESOLVER_PREFIX + ASSEMBLED_IDENTIFIER;
     }
-    return {RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE};
-  }
-
-  // doi:{authority}/{local_identifier}
-  const doiMatch = guidStr.match(/^doi:([^\/]+)\/(.+)$/);
-  if (doiMatch) {
-    SCHEME = "doi";
-    TYPE = "doi";
-    AUTHORITY = doiMatch[1];
-    LOCAL_IDENTIFIER = doiMatch[2];
-    ASSEMBLED_IDENTIFIER = guidStr;
-    if (!RESOLVER_PREFIX) {
-      RESOLVER_PREFIX = "https://doi.org/";
-    }
-    ASSEMBLED_RESOLVABLE = RESOLVER_PREFIX + AUTHORITY + "/" + LOCAL_IDENTIFIER;
-    return {RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE};
+    return { RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE };
   }
 
   // ark:/{authority}/{local_identifier}
-  const arkMatch = guidStr.match(/^ark:\/([^\/]+)\/(.+)$/);
+  const arkMatch = input.match(/^ark:\/([^\/]+)\/(.+)$/);
   if (arkMatch) {
     SCHEME = "ark";
     TYPE = "ark";
     AUTHORITY = arkMatch[1];
     LOCAL_IDENTIFIER = arkMatch[2];
-    ASSEMBLED_IDENTIFIER = guidStr;
-    if (RESOLVER_PREFIX) {
-      ASSEMBLED_RESOLVABLE = RESOLVER_PREFIX + AUTHORITY + "/" + LOCAL_IDENTIFIER;
-    }
-    return {RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE};
+    ASSEMBLED_IDENTIFIER = `ark:/${AUTHORITY}/${LOCAL_IDENTIFIER}`;
+    ASSEMBLED_RESOLVABLE = RESOLVER_PREFIX + ASSEMBLED_IDENTIFIER;
+    return { RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE };
   }
 
   // hdl:{authority}/{local_identifier}
-  const hdlMatch = guidStr.match(/^hdl:([^\/]+)\/(.+)$/);
+  const hdlMatch = input.match(/^hdl:([^\/]+)\/(.+)$/);
   if (hdlMatch) {
     SCHEME = "hdl";
     TYPE = "handle";
     AUTHORITY = hdlMatch[1];
     LOCAL_IDENTIFIER = hdlMatch[2];
-    ASSEMBLED_IDENTIFIER = guidStr;
-    if (RESOLVER_PREFIX) {
-      ASSEMBLED_RESOLVABLE = RESOLVER_PREFIX + AUTHORITY + "/" + LOCAL_IDENTIFIER;
-    }
-    return {RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE};
+    ASSEMBLED_IDENTIFIER = `hdl:${AUTHORITY}/${LOCAL_IDENTIFIER}`;
+    if (RESOLVER_PREFIX === "") {
+        ASSEMBLED_RESOLVABLE = "";
+    }	 else {
+		  ASSEMBLED_RESOLVABLE = RESOLVER_PREFIX + ASSEMBLED_IDENTIFIER;
+	 }
+    return { RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE };
   }
 
-  // purl: or https://purl.org/{authority}/{local_identifier}
-  const purlMatch = guidStr.match(/^https?:\/\/purl\.org\/([^\/]+)\/(.+)$/);
-  if (purlMatch) {
+  // purl: (without resolver, fallback)
+  const purlMatch = input.match(/^([^\/]+)\/(.+)$/);
+  if (foundScheme === "https://purl.org/" && purlMatch) {
     SCHEME = "purl";
     TYPE = "purl";
     AUTHORITY = purlMatch[1];
     LOCAL_IDENTIFIER = purlMatch[2];
-    RESOLVER_PREFIX = "https://purl.org/";
-    ASSEMBLED_IDENTIFIER = guidStr;
-    ASSEMBLED_RESOLVABLE = RESOLVER_PREFIX + AUTHORITY + "/" + LOCAL_IDENTIFIER;
-    return {RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE};
+    ASSEMBLED_IDENTIFIER = RESOLVER_PREFIX + AUTHORITY + "/" + LOCAL_IDENTIFIER;
+    ASSEMBLED_RESOLVABLE = ASSEMBLED_IDENTIFIER;
+    return { RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE };
   }
 
-  // Fallback: scheme:type:authority:local_identifier
-  const fallbackMatch = guidStr.match(/^([a-zA-Z]+):([a-zA-Z]+):([^:]+):(.+)$/);
-  if (fallbackMatch) {
-    SCHEME = fallbackMatch[1];
-    TYPE = fallbackMatch[2];
-    AUTHORITY = fallbackMatch[3];
-    LOCAL_IDENTIFIER = fallbackMatch[4];
-    ASSEMBLED_IDENTIFIER = guidStr;
-    if (RESOLVER_PREFIX) {
-      ASSEMBLED_RESOLVABLE = RESOLVER_PREFIX + AUTHORITY + ":" + LOCAL_IDENTIFIER;
-    }
-    return {RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE};
-  }
-
-  // If nothing matches, treat whole input as local_identifier
-  LOCAL_IDENTIFIER = guidStr;
-  ASSEMBLED_IDENTIFIER = guidStr;
-
-  return {RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE};
+  return { RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE };
 }
-

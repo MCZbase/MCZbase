@@ -10571,8 +10571,8 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 															var bits = parseGuid($(this).val());
 															console.log(bits);
 															if (bits !== null) { 
-																$("##resolver_prefix").val(bits.RESOLVER_PREFIX);
-																$("##scheme").val(bits.SCHEME);
+																$("input[name='resolver_prefix']").val(bits.RESOLVER_PREFIX);
+																$("input[name='scheme']").val(bits.SCHEME);
 																$("input[name='authority']").val(bits.AUTHORITY);
 																$("input[name='local_identifier']").val(bits.LOCAL_IDENTIFIER);
 																$("input[name='assembled_identifier']").val(bits.ASSEMBLED_IDENTIFIER);
