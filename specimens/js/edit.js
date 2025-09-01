@@ -1135,18 +1135,24 @@ function parseGuid(input) {
     input = input.substring(17); // length of 'https://purl.org/'
   }
 
-  // urn:uuid:{local_identifier}
-  const uuidMatch = input.match(/^urn:uuid:([a-fA-F0-9\-]+)$/);
+  // UUID: urn:uuid:{local_identifier} or {resolver_prefix}{uuid} or bare uuid
+  let uuidPattern = /([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[1-5][a-fA-F0-9]{3}-[89abAB][a-fA-F0-9]{3}-[a-fA-F0-9]{12})$/;
+  let uuidMatch = input.match(uuidPattern);
+
   if (uuidMatch) {
+    LOCAL_IDENTIFIER = uuidMatch[1];
     SCHEME = "urn";
     TYPE = "uuid";
-    LOCAL_IDENTIFIER = uuidMatch[1];
-    ASSEMBLED_IDENTIFIER = `urn:uuid:${LOCAL_IDENTIFIER}`;
-    if (RESOLVER_PREFIX === "") {
-		 ASSEMBLED_RESOLVABLE = "";
-	 } else {
-       ASSEMBLED_RESOLVABLE = RESOLVER_PREFIX + ASSEMBLED_IDENTIFIER;
+    AUTHORITY = "";
+    // Find resolver prefix (everything before the uuid)
+    let idx = input.lastIndexOf(LOCAL_IDENTIFIER);
+    RESOLVER_PREFIX = input.substring(0, idx);
+    // If the input was urn:uuid:{uuid}, don't add a resolver prefix
+    if (input.startsWith("urn:uuid:")) {
+      RESOLVER_PREFIX = "";
     }
+    ASSEMBLED_IDENTIFIER = `urn:uuid:${LOCAL_IDENTIFIER}`;
+    ASSEMBLED_RESOLVABLE = input;
     return { RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE };
   }
 
