@@ -10553,7 +10553,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 								<div class="card-body mt-2">
 									<form name="addMaterialSampleIDForm" id="addMaterialSampleIDForm" class="row mb-0 pt-1">
 										<div class="form-row ml-3 mr-4">
-											<div class="col-12 pl-0 pr-2">
+											<div class="col-12 col-md-9 pl-0 pr-2">
 												<input type="hidden" name="sp_collection_object_id" value="#getCatalog.part_id#">
 												<input type="hidden" name="method" value="addNewMaterialSampleID">
 												<input type="hidden" name="returnformat" value="json">
@@ -10573,6 +10573,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 															if (bits !== null) { 
 																$("input[name='resolver_prefix']").val(bits.RESOLVER_PREFIX);
 																$("input[name='scheme']").val(bits.SCHEME);
+																$("input[name='type']").val(bits.TYPE);
 																$("input[name='authority']").val(bits.AUTHORITY);
 																$("input[name='local_identifier']").val(bits.LOCAL_IDENTIFIER);
 																$("input[name='assembled_identifier']").val(bits.ASSEMBLED_IDENTIFIER);
@@ -10581,6 +10582,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 																// clear all fields if parse failed
 																$("input[name='resolver_prefix']").val("");
 																$("input[name='scheme']").val("");
+																$("input[name='type']").val("");
 																$("input[name='authority']").val("");
 																$("input[name='local_identifier']").val("");
 																$("input[name='assembled_identifier']").val("");
@@ -10597,6 +10599,10 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											<div class="col-12 col-md-3 px-1">
 												<label class="data-entry-label" for="scheme">Scheme</label>
 												<input type="text" class="data-entry-input" name="scheme" id="scheme">
+											</div>
+											<div class="col-12 col-md-3 px-1">
+												<label class="data-entry-label" for="type">Type</label>
+												<input type="text" class="data-entry-input" name="type" id="type">
 											</div>
 											<div class="col-12 col-md-3 px-1">
 												<label class="data-entry-label" for="authority">Authority</label>
