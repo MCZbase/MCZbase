@@ -10567,12 +10567,12 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												<!--- on entry of a value, parse it into the guid fields with parseGuid() --->
 												<script>
 													$(document).ready(function() {
-														$("##input_text").on('change paste', function() { 
+														$("##input_text").on('change', function() { 
 															var bits = parseGuid($(this).val());
 															console.log(bits);
 															if (bits !== null) { 
-																$("##resolver_prefix'").val(bits.resolver_prefix);
-																$("input[name='scheme']").val(bits.scheme);
+																$("##resolver_prefix").val(bits.resolver_prefix);
+																$("##scheme").val(bits.scheme);
 																$("input[name='authority']").val(bits.authority);
 																$("input[name='local_identifier']").val(bits.local_identifier);
 																$("input[name='assembled_identifier']").val(bits.assembled_identifier);
