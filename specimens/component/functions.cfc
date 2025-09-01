@@ -10571,12 +10571,12 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 															var bits = parseGuid($(this).val());
 															console.log(bits);
 															if (bits !== null) { 
-																$("##resolver_prefix").val(bits.resolver_prefix);
-																$("##scheme").val(bits.scheme);
-																$("input[name='authority']").val(bits.authority);
-																$("input[name='local_identifier']").val(bits.local_identifier);
-																$("input[name='assembled_identifier']").val(bits.assembled_identifier);
-																$("input[name='assembled_resolvable']").val(bits.assembled_resolvable);
+																$("##resolver_prefix").val(bits.RESOLVER_PREFIX);
+																$("##scheme").val(bits.SCHEME);
+																$("input[name='authority']").val(bits.AUTHORITY);
+																$("input[name='local_identifier']").val(bits.LOCAL_IDENTIFIER);
+																$("input[name='assembled_identifier']").val(bits.ASSEMBLED_IDENTIFIER);
+																$("input[name='assembled_resolvable']").val(bits.ASSEMBLED_RESOLVABLE);
 															} else {
 																// clear all fields if parse failed
 																$("input[name='resolver_prefix']").val("");
