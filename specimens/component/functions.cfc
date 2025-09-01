@@ -4493,7 +4493,6 @@ limitations under the License.
 										</cfif>
 									</div>
 									<cfif getMaterialSampleID.recordcount GT 0>
-										<div id="materialSampleIDEditDialog"></div>
 										<div class="col-12">
 											<ul class="list-unstyled pl-1">
 												<cfloop query="getMaterialSampleID">

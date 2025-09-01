@@ -471,6 +471,8 @@ limitations under the License.
 		
 		<!--- Div to hold full page editing dialog --->
 		<div id="InPageEditorDiv" class="container-fluid"></div>
+		<!--- Divs to hold modal edit dialog launched from within above --->
+		<div id="materialSampleIDEditDialog"></div>
 
 		<!--- controls for editing record --->
 		<div class="container-fluid d-none d-lg-block" id="editControlsDiv">
