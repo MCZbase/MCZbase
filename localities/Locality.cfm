@@ -837,21 +837,24 @@ var drawerWidthPx = 400;
 				});
 			}
 			
-		function centerAllOpenDialogs() {
-		var winWidth = $(window).width();
-		var dlgLeft = marginPx;
-		var dlgTop = marginPx;
-		$('.ui-dialog:visible').each(function() {
-			var $w = $(this);
-			var restoreWidth = $w.data('origWidth') || origDialogWidth;
-			var maxWidth = Math.min(restoreWidth, winWidth - marginPx*2);
-				$w.css({
-				left: dlgLeft + "px",
-				top: dlgTop + "px",
-				width: maxWidth + "px"
-				});
-			});
-		}
+function centerDialogProperly(marginPx, topPx) {
+    var winWidth = $(window).width();
+    var dlgTop = typeof topPx !== "undefined" ? topPx : marginPx;
+    $('.ui-dialog:visible').each(function() {
+        var $w = $(this);
+        // Restore to original width or fallback
+        var origWidth = $w.data('origWidth') || 500;
+        // Don't exceed window (allow for margins)
+        var width = Math.min(origWidth, winWidth - marginPx * 2);
+        var left = Math.max(Math.round((winWidth - width) / 2), marginPx);
+        $w.css({
+            width: width + "px",
+            left: left + "px",
+            top: dlgTop + "px",
+            position: 'fixed'
+        });
+    });
+}
 			$(document).ready(function() {
 				// Show drawer, push dialog right if drawer will be visible
 				$('##show-wiki').on('click', function(e) {
@@ -879,9 +882,15 @@ var drawerWidthPx = 400;
 				});
 
 				$("##hide-wiki").hide();
-// this 
+// this is not working need to fix
 				// Window resize: always recalculate, forcibly center if no drawer
-			
+				$(window).on('resize', function() {
+					if ($('##wikiDrawer').is(':visible')) {
+						pushDialogForDrawer(marginPx, drawerWidthPx);
+					} else {
+						centerDialogProperly(marginPx, 0);
+					}
+				});
 // This is what pushes the dialog to the right (left: 430px;) / removing it makes the dialog fill the window with margins and go over the wiki drawer.
 				// On dialog open, position properly based on drawer state
 				$(document).on('dialogopen', '.ui-dialog', function() {
@@ -892,17 +901,7 @@ var drawerWidthPx = 400;
 							centerDialogProperly();
 						}
 					}, 0);
-					
-					$(window).on('resize', function() {
-					if ($('##wikiDrawer').is('!:visible')) {
-						pushDialogForDrawer(marginPx, 0);
-					} else {
-						centerDialogProperly(marginPx, 0);
-					}
-					});
 				});
-				
-				
 			});
 		</script>
 		
