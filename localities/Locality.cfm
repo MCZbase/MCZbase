@@ -723,39 +723,41 @@ limitations under the License.
 //			}
 			  // Helper to push all dialogs aside for the drawer
 			function pushDialogForDrawer() {
-			  var winWidth = $(window).width();
-			  var dlgLeft = drawerWidthPx + marginPx;
-			  var dlgTop = marginPx;
-			  var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
-			  $('.ui-dialog:visible').each(function() {
-				var $w = $(this);
-				// Store original width only if not already done
-				if ($w.data('origWidth') === undefined) $w.data('origWidth', $w.width());
-				$w.css({
-				  left: dlgLeft + "px",
-				  top: dlgTop + "px",
-				  width: dlgWidth + "px",
-					position: 'fixed'
+				var winWidth = $(window).width();
+				var dlgLeft = drawerWidthPx + marginPx;
+				var dlgCnt = drawerWidthPx/2;
+				var dlgTop = marginPx;
+				var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
+				$('.ui-dialog:visible').each(function() {
+					var $w = $(this);
+					// Store original width only if not already done
+					if ($w.data('origWidth') === undefined) $w.data('origWidth', $w.width());
+					$w.css({
+						left: dlgLeft + "px",
+						top: dlgTop + "px",
+						width: dlgWidth + "px",
+						position: 'fixed'
+					});
 				});
-			  });
 			}
 			
 
 			
-			 function centerAllOpenDialogs() {
-			  var winWidth = $(window).width();
-			  var dlgLeft = marginPx;
-			  var dlgTop = marginPx;
-			  $('.ui-dialog:visible').each(function() {
+			function centerAllOpenDialogs() {
+				var winWidth = $(window).width();
+				var dlgLeft = marginPx;
+				var dlgCnt = drawerWidthPx/2;
+				var dlgTop = marginPx;
+				$('.ui-dialog:visible').each(function() {
 				var $w = $(this);
 				var restoreWidth = $w.data('origWidth') || origDialogWidth;
 				var maxWidth = Math.min(restoreWidth, winWidth - marginPx*2);
 				$w.css({
-				  left: dlgLeft + "px",
-				  top: dlgTop + "px",
-				  width: maxWidth + "px"
+				left: dlgLeft + "px",
+				top: dlgTop + "px",
+				width: maxWidth + "px"
 				});
-			  });
+				});
 			}
 
 			
@@ -772,7 +774,7 @@ limitations under the License.
 					$("##hide-wiki").show();
 					setTimeout(function() {
 						if ($('##wikiDrawer').is(':visible')) {
-							pushDialogForDrawer(marginPx, drawerWidthPx);
+							pushDialogForDrawer(dlgCnt, drawerWidthPx);
 						}
 					}, 400);
 				});
@@ -802,7 +804,7 @@ limitations under the License.
 						if ($('##wikiDrawer').is(':visible')) {
 							pushDialogForDrawer(marginPx, drawerWidthPx);
 						} else {
-							pushDialogForDrawer(260);
+							pushDialogForDrawer(dlgCnt, drawerWidthPx);
 							
 						}
 					}, 0);
