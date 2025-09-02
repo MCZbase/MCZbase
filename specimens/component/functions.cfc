@@ -10737,7 +10737,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="addMatSample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addMatSampe_result">
+			<cfquery name="addMatSample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addMatSample_result">
 				INSERT INTO guid_our_thing
 				(
 						GUID_IS_A,
