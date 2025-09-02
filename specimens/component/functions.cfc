@@ -10625,7 +10625,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												<input type="text" class="data-entry-input" name="assigned_by" id="assigned_by">
 												<script>
 													$(document).ready(function() {
-														makeAgentAutoCompleteMeta("assigned_by","assigned_by_agent_id",true);
+														makeAgentAutocompleteMeta("assigned_by","assigned_by_agent_id",true);
 													});
 												</script>
 											</div>
@@ -10925,7 +10925,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												<input type="text" class="data-entry-input" name="assigned_by" id="assigned_by" value="#getGuid.assigned_by#">
 												<script>
 													$(document).ready(function() {
-														makeAgentAutoCompleteMeta("assigned_by","assigned_by_agent_id",true);
+														makeAgentAutocompleteMeta("assigned_by","assigned_by_agent_id",true);
 													});
 												</script>
 											</div>
