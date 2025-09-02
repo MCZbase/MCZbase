@@ -849,7 +849,7 @@ function centerDialogProperly(marginPx, topPx) {
         var left = Math.max(Math.round((winWidth - width) / 2), marginPx);
         $w.css({
             width: width + "px",
-            left: left + "px",
+            left: 0 + "px",
             top: dlgTop + "px",
             position: 'fixed'
         });
