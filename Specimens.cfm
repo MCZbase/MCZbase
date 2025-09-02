@@ -3511,12 +3511,10 @@ Target JSON:
 					}
 
 					if (firstDataField) {
-						$('##overlay').hide();
-						 // Scroll to the cell FIRST:
-						$grid.jqxGrid('ensurowvisible', 0, firstDataField);
+						
 						// Now select it:
 						$grid.jqxGrid('selectcell', 0, firstDataField);
-						// Ensure keyboard and accessibility focus
+						
 						setTimeout(function () {
 							$grid.find('.jqx-grid-cell').attr('tabindex', -1);
 							$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
@@ -3531,7 +3529,6 @@ Target JSON:
 				// --- Focus first cell/row after grid data loads ---
 
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-					$('##overlay').hide();
 					focusFirstVisibleCell_fixed();
 					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
