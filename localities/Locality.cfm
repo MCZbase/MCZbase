@@ -724,6 +724,16 @@ limitations under the License.
 				});
 			}
 
+			function handleDialogPosition() {
+				// Use class-based method for reliable detection:
+				if ($('##wikiDrawer').hasClass('open')) {
+					pushDialogForDrawer();
+				} else {
+					centerAllOpenDialogs();
+				}
+			}
+			
+			
 			$(document).ready(function() {
 				// Show drawer, push dialog right if drawer will be visible
 				$('##show-wiki').on('click', function(e) {
@@ -733,52 +743,72 @@ limitations under the License.
 					<cfelse>
 						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
 					</cfif>
+					$('##wikiDrawer').addClass('open');
+					setTimeout(handleDialogPosition,400)
 					$("##show-wiki").hide();
 					$("##hide-wiki").show();
-					setTimeout(function() {
-						if ($('##wikiDrawer').is(':visible')) {
-							pushDialogForDrawer();
-						}
-					}, 400);
 				});
+				
+				$('##hide-wiki').on('click', function(e){
+					e.preventDefault();
+					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
+					<cfelse>
+						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
+					</cfif>
+					$('##wikiDrawer').removeClass(open);
+					setTimeout(handleDialogPosition, 400);
+					$('##hide-wiki').hide();
+					$('##show-wiki').show();
+				})
+				$('##hide-wiki').hide();
+				
+				$(window).on('resize', handleDialogPosition);
+
+				$(document).on('dialogopen', '.ui-dialog', function() {
+					setTimeout(handleDialogPosition, 0);
+				});
+				
+
+			});
 
 				// Hide drawer, recenter dialog
-				$('##hide-wiki').on('click', function(e) {
-					e.preventDefault();
-					closeWikiDrawer();
-					setTimeout(function() {
-						centerAllOpenDialogs();
-						alert('Drawer closed: centering dialog');
-					}, 400);
-					$("##hide-wiki").hide();
-					$("##show-wiki").show();
-				});
+				//$('##hide-wiki').on('click', function(e) {
+//					e.preventDefault();
+//					closeWikiDrawer();
+//					setTimeout(function() {
+//						centerAllOpenDialogs();
+//						alert('Drawer closed: centering dialog');
+//					}, 400);
+//					$("##hide-wiki").hide();
+//					$("##show-wiki").show();
+//				});
 
-				$("##hide-wiki").hide();
+			//	$("##hide-wiki").hide();
 
 				// Window resize: always recalculate, forcibly center if no drawer
-				$(window).on('resize', function() {
-					if ($('##wikiDrawer').is(':visible')) {
-						alert('Drawer visible: pushing dialog');
-						pushDialogForDrawer();
-					} else {
-						alert('Drawer closed: centering dialog');
-						centerAllOpenDialogs();
-					}
-				});
+				//$(window).on('resize', function() {
+//					if ($('##wikiDrawer').is(':visible')) {
+//						alert('Drawer visible: pushing dialog');
+//						pushDialogForDrawer();
+//					} else {
+//						alert('Drawer closed: centering dialog');
+//						centerAllOpenDialogs();
+//					}
+//				});
 
 				// On dialog open, position properly based on drawer state
-				$(document).on('dialogopen', '.ui-dialog', function() {
-					setTimeout(function() {
-						if ($('##wikiDrawer').is(':visible')) {
-							alert('Drawer visible on dialogopen: pushing dialog');
-							pushDialogForDrawer();
-						} else {
-							alert('Drawer closed on dialogopen: centering dialog');
-							centerAllOpenDialogs();
-						}
-					}, 0);
-				});
+				//$(document).on('dialogopen', '.ui-dialog', function() {
+//					setTimeout(function() {
+//						if ($('##wikiDrawer').is(':visible')) {
+//							alert('Drawer visible on dialogopen: pushing dialog');
+//							pushDialogForDrawer();
+//						} else {
+//							alert('Drawer closed on dialogopen: centering dialog');
+//							centerAllOpenDialogs();
+//						}
+//					}, 0);
+//				});
 			});
 		</script>
 		
