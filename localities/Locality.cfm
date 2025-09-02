@@ -693,7 +693,7 @@ limitations under the License.
 				var winWidth = $(window).width();
 				var dlgLeft = drawerWidthPx + marginPx;
 				var dlgTop = marginPx;
-				//var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
+				var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
 				$('.ui-dialog:visible').each(function() {
 					var $w = $(this);
 				// Store original width only if not already done
@@ -701,7 +701,7 @@ limitations under the License.
 					$w.css({
 						left: dlgLeft + "px",
 						top: dlgTop + "px",
-						//width: dlgWidth + "px",
+						width: dlgWidth + "px",
 						position: 'fixed'
 					});
 				});
