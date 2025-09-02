@@ -1531,10 +1531,10 @@ limitations under the License.
 													<span id="fixedmanageButton" class=""></span>
 													<span id="fixedremoveButtonDiv" class=""></span>
 													<div id="fixedresultBMMapLinkContainer"></div>
-													<div id="fixedSelectModeContainer" class="ml-3" style="display: none;" >
+													<div id="fixedselectModeContainer" class="ml-3" style="display: none;" >
 														<script>
 															function fixedchangeSelectMode(){
-																var selmode = $("##fixedSelectMode").val();
+																var selmode = $("##fixedselectMode").val();
 																var $grid = $("##fixedsearchResultsGrid");
 																$grid.jqxGrid({selectionmode: selmode});
 																$grid.jqxGrid('clearselection');
@@ -1544,8 +1544,8 @@ limitations under the License.
 															}
 														</script>
 														
-														<label class="data-entry-label d-inline w-auto mt-1" for="fixedSelectMode">Grid Select:</label>
-														<select class="data-entry-select d-inline w-auto mt-1" id="fixedSelectMode" onChange="fixedchangeSelectMode();">
+														<label class="data-entry-label d-inline w-auto mt-1" for="fixedselectMode">Grid Select:</label>
+														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="fixedchangeSelectMode();">
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="singlecell">Single Cell</option>
 															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -3521,7 +3521,7 @@ Target JSON:
 			
 				// --- Remove previous .a11y event handlers to avoid duplicates ---
 				$('##fixedsearchResultsGrid').off('.a11y');
-				$('##fixedSelectMode').off('.a11y');
+				$('##fixedselectMode').off('.a11y');
 				
 				// --- Focus first cell/row after grid data loads ---
 
@@ -3578,7 +3578,7 @@ Target JSON:
 				var pagerControlSelector = '.jqx-grid-pager-button, .jqx-grid-page-size, .jqx-grid-page-input, div[role="button"][tabindex]';
 	
 				// --- When the selection mode changes (by user) ---
-				$('##fixedSelectMode').on('change.a11y', function () {
+				$('##fixedselectMode').on('change.a11y', function () {
 					var mode = $(this).val();
 					var $grid = $('##fixedsearchResultsGrid');
 					$grid.jqxGrid({ selectionmode: mode });
@@ -3611,7 +3611,7 @@ Target JSON:
 						$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
 					}, 10);
 				});
-//				$('##fixedSelectMode').on('keydown.a11y', function (event) {
+//				$('##fixedselectMode').on('keydown.a11y', function (event) {
 //					if (event.key === 'Tab' && !event.shiftKey) {
 //						event.preventDefault();
 //						focusFirstVisibleCell_fixed();
@@ -3637,8 +3637,8 @@ Target JSON:
 
 				
 				// 1. Tab from select to grid
-				$('##fixedSelectMode').off('keydown.a11y');
-				$('##fixedSelectMode').on('keydown.a11y', function(event){
+				$('##fixedselectMode').off('keydown.a11y');
+				$('##fixedselectMode').on('keydown.a11y', function(event){
 					if(event.key === 'Tab' && !event.shiftKey){
 						event.preventDefault();
 						// Focus and select the first cell/row in the grid
@@ -3755,7 +3755,7 @@ Target JSON:
 						});
 					});
 				});
-				$('##fixedSelectMode').on('keydown.a11y', function(event){
+				$('##fixedselectMode').on('keydown.a11y', function(event){
 					if(event.key === 'Tab' && !event.shiftKey){
 						event.preventDefault();
 						//focusFirstVisibleCell_fixed();
