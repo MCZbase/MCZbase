@@ -3571,7 +3571,7 @@ Target JSON:
 				
 				// Only one handler for pagechanged, and it's namespaced for a11y:
 				$('##fixedsearchResultsGrid').on('pagechanged.a11y', function () {
-					setTimeout(focusFirstVisibleCell_fixed, 10);
+					focusFirstVisibleCell_fixed();
 				});
 	
 				// --- Focus first cell/row when user tabs into grid from selection mode dropdown ---
