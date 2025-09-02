@@ -722,6 +722,7 @@ limitations under the License.
 //		}
 		var drawerWidthPx = 400;
 		var marginPx = 0; // or use your desired spacing from drawer edge
+		var origDialogWidth = 500;
 
 		function pushDialogForDrawer() {
 			var winWidth = $(window).width();
