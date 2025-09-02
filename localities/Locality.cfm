@@ -689,7 +689,7 @@ limitations under the License.
 			var winWidth = $(window).width();
 			var dlgLeft = drawerWidthPx + marginPx;
 			var dlgTop = marginPx;
-			var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
+			//var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
 			$('.ui-dialog:visible').each(function() {
 				var $w = $(this);
 				if ($w.data('origWidth') === undefined) $w.data('origWidth', $w.width());
@@ -706,11 +706,10 @@ limitations under the License.
 			var winWidth = $(window).width();
 			var dlgTop = marginPx;
 			$('.ui-dialog:visible').each(function() {
-				var $w = $(this);
-				var restoreWidth = $w.data('origWidth') || origDialogWidth;
+				var restoreWidth = $(this).data('origWidth') || origDialogWidth;
 				var maxWidth = Math.min(restoreWidth, winWidth - marginPx * 2);
 				var dlgLeft = Math.max(Math.round((winWidth - maxWidth) / 2), marginPx);
-				$w.css({
+				$(this).css({
 					left: dlgLeft + "px",
 					top: dlgTop + "px",
 					width: maxWidth + "px",
@@ -720,9 +719,12 @@ limitations under the License.
 		}
 
 		function handleDialogPosition() {
+			// DEBUG: see which branch fires
 			if ($('##wikiDrawer').hasClass('open')) {
+				alert('Drawer open -- push!');
 				pushDialogForDrawer();
 			} else {
+				alert('Drawer closed -- center!');
 				centerAllOpenDialogs();
 			}
 		}
@@ -758,7 +760,7 @@ limitations under the License.
 				$('##wikiDrawer').removeClass('open').hide();
 
 				// Your app logic (if needed):
-				// closeWikiDrawer();
+				 closeWikiDrawer();
 
 				$("##hide-wiki").hide();
 				$("##show-wiki").show();
@@ -776,7 +778,7 @@ limitations under the License.
 			});
 
 			// In case they're mismatched at load, ensure correct state:
-			handleDialogPosition();
+			//handleDialogPosition();
 		});
 		</script>
 		
