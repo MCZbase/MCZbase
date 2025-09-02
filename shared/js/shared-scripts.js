@@ -56,23 +56,16 @@ function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, clo
 // Shared wiki drawer open/close functions, assume wiki drawer is a div with id wikiDrawer, and
 // that there are show-wiki and hide-wiki buttons to toggle with the drawer.
 function openWikiDrawer() {
-    $('##wikiDrawer').addClass('open');
-    $('##content').addClass('pushed');
-    $("##show-wiki").hide();
-    $("##hide-wiki").show();
-    setTimeout(function() {
-        positionDialogsForDrawer(true);
-    }, 400); // adjust 400 if you have a drawer animation
+	$('#wikiDrawer').addClass('open');
+	$('#content').addClass('pushed');
+	$("#show-wiki").hide();
+	$("#hide-wiki").show();
 }
-
 function closeWikiDrawer() {
-    $('##wikiDrawer').removeClass('open');
-    $('##content').removeClass('pushed');
-    $("##show-wiki").show();
-    $("##hide-wiki").hide();
-    setTimeout(function() {
-        positionDialogsForDrawer(false);
-    }, 400);
+	$('#wikiDrawer').removeClass('open');
+	$('#content').removeClass('pushed');
+	$("#show-wiki").show();
+	$("#hide-wiki").hide();
 }
 
 // Shared process/cleanup wiki content
