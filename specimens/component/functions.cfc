@@ -10866,7 +10866,23 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					<div class="row">
 						<div class="pt-1 px-2 col-12 float-left">
 							<div class="col-12 mt-0 bg-light border rounded pt-1 pb-0 px-3">
-								<h2 class="h3">Existing dwc:MaterialSampleIDs</h2>
+								<h2 classs="h3">Existing dwc:MaterialSampleID</h2>
+								<ul>
+									<li>
+										For: #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num# #getCatalog.part_name# (#getCatalog.preserve_method#)
+									</li>
+									<li>
+										#getGuid.guid_is_a#: #get_guid.assembled_identifier#
+									</li>
+									<li>
+										Created: #timestamp_created# by #created_by#
+									</li>
+									<cfif len(last_modified) GT 0>
+										<li>
+											Last Modified: #last_modified# 
+										</li>
+									</cfif>
+								</ul>
 								<cfloop query="getGuid">
 									<form name="editMaterialSampleIDForm" id="addMaterialSampleIDForm" class="row mb-0 pt-1">
 										<input type="hidden" name="sp_collection_object_id" value="#getCatalog.part_id#">
