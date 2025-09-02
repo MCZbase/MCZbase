@@ -732,7 +732,7 @@ limitations under the License.
 				$('##show-wiki').show();
 			  });
 
-			  $('#hide-wiki').hide();
+			  $('##hide-wiki').hide();
 
 			  $(window).on('resize', function() {
 				if ($('##wikiDrawer').is(':visible')) {
