@@ -687,7 +687,7 @@ limitations under the License.
 			var drawerWidthPx = 400;
 			var marginPx = 30;
 			var origDialogWidth = 500; // fallback size
-			var dlgCnt = drawerWidthPx/2;
+			var dlgCntr = 260;
 
 			  // Helper to push all dialogs aside for the drawer
 			function pushDialogForDrawer() {
@@ -696,15 +696,28 @@ limitations under the License.
 				var dlgCnt = drawerWidthPx/2;
 				var dlgTop = marginPx;
 				var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
+			}
+			function positionDialogs(drawerWidthPx) {
+				var winWidth = $window.width();
+				var dlgLeft;
+				var dlgTop = marginPx;
+				var dlgWidth;
+			}
+			if(drawerWidthPx > 0) {
+				dlgLeft = drawerWidthPx + marginPx;
+				dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
+			} else {
+				dlgLeft = 260 + "px";
+				dlgWidth = Math.max(winWidth -marginPx * 2, 320);
+			}
 				$('.ui-dialog:visible').each(function() {
 					var $w = $(this);
 					// Store original width only if not already done
 					if ($w.data('origWidth') === undefined) $w.data('origWidth', $w.width());
 					$w.css({
-						left: dlgLeft + "px",
+						left: dlgLeft,
 						top: dlgTop + "px",
 						width: dlgWidth + "px",
-						left: dlgLeft + "px",
 						position: 'fixed'
 					});
 				});
@@ -713,17 +726,17 @@ limitations under the License.
 			function centerAllOpenDialogs() {
 				var winWidth = $(window).width();
 				var dlgLeft = marginPx;
-				var dlgCnt = drawerWidthPx/2;
+				var dlgCnt = dlgCntr;
 				var dlgTop = marginPx;
 				$('.ui-dialog:visible').each(function() {
-				var $w = $(this);
-				var restoreWidth = $w.data('origWidth') || origDialogWidth;
-				var maxWidth = Math.min(restoreWidth, winWidth - marginPx*2);
-				$w.css({
-				left: dlgLeft + "px",
-				top: dlgTop + "px",
-				width: maxWidth + "px"
-				});
+					var $w = $(this);
+					var restoreWidth = $w.data('origWidth') || origDialogWidth;
+					var maxWidth = Math.min(restoreWidth, winWidth - marginPx*2);
+					$w.css({
+						left: dlgLeft + "px",
+						top: dlgTop + "px",
+						width: maxWidth + "px"
+					});
 				});
 			}
 
