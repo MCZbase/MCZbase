@@ -711,7 +711,7 @@ limitations under the License.
 				var winWidth = $(window).width();
 				var dlgLeft = drawerWidthPx + marginPx;
 				var dlgTop = marginPx;
-				var dlgWidth = Math.max(winWidth - 0 - marginPx * 2, 320);
+				var dlgWidth = Math.max(winWidth - 0 - marginPx * 2, 120);
 				$('.ui-dialog:visible').each(function() {
 					var $w = $(this);
 				// Store original width only if not already done
