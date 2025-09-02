@@ -47,7 +47,7 @@ limitations under the License.
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
 <style>
-	.thumb img {width: 300px;}
+	.thumb a {width: 300px;}
 </style>
 <cfswitch expression="#action#">
 	<cfcase value="edit">
