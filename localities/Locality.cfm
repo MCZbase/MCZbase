@@ -687,6 +687,7 @@ limitations under the License.
 			var drawerWidthPx = 400;
 			var marginPx = 30;
 			var origDialogWidth = 500; // fallback size
+			var dlgCnt = drawerWidthPx/2;
 
 			  // Helper to push all dialogs aside for the drawer
 			function pushDialogForDrawer() {
@@ -703,6 +704,7 @@ limitations under the License.
 						left: dlgLeft + "px",
 						top: dlgTop + "px",
 						width: dlgWidth + "px",
+						left: dlgLeft + "px",
 						position: 'fixed'
 					});
 				});
