@@ -746,7 +746,10 @@ limitations under the License.
 				$('##hide-wiki').on('click', function(e) {
 					e.preventDefault();
 					closeWikiDrawer();
-					setTimeout(centerAllOpenDialogs, 400);
+					setTimeout(function() {
+						centerAllOpenDialogs();
+						alert('Drawer closed: centering dialog');
+					}, 400);
 					$("##hide-wiki").hide();
 					$("##show-wiki").show();
 				});
