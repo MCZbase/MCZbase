@@ -709,17 +709,18 @@ limitations under the License.
 			
 			function centerAllOpenDialogs() {
 				var winWidth = $(window).width();
-				var dlgLeft = marginPx;
+				var dlgLeft = drawerWidthPx + marginPx;
 				var dlgTop = marginPx;
+				var dlgWidth = Math.max(winWidth - 0 - marginPx * 2, 320);
 				$('.ui-dialog:visible').each(function() {
 					var $w = $(this);
-					var restoreWidth = $w.data('origWidth') || origDialogWidth;
-					var maxWidth = Math.min(restoreWidth, winWidth - marginPx*2);
-					var dlgLeft = Math.max(Math.round((winWidth - maxWidth) / 2), marginPx);
+				// Store original width only if not already done
+					if ($w.data('origWidth') === undefined) $w.data('origWidth', $w.width());
 					$w.css({
 						left: dlgLeft + "px",
 						top: dlgTop + "px",
-						width: maxWidth + "px"
+						width: dlgWidth + "px",
+						position: 'fixed'
 					});
 				});
 			}
