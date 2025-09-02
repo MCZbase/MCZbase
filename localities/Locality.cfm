@@ -895,8 +895,8 @@ var drawerWidthPx = 400;
 				});
 				
 				$(window).on('resize', function() {
-					if ($('##wikiDrawer').is(':visible')) {
-						pushDialogForDrawer(marginPx, drawerWidthPx);
+					if ($('##wikiDrawer').is('!:visible')) {
+						pushDialogForDrawer(marginPx, 0);
 					} else {
 						centerDialogProperly(marginPx, 0);
 					}
