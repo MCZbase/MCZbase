@@ -46,7 +46,9 @@ limitations under the License.
 </cfswitch>
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
-
+<style>
+	.thumb img {width: 300px;}
+</style>
 <cfswitch expression="#action#">
 	<cfcase value="edit">
 		<cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
