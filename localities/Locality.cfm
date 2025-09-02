@@ -760,6 +760,7 @@ limitations under the License.
 						pushDialogForDrawer();
 					} else {
 						centerAllOpenDialogs();
+						alert(Hello);
 					}
 				});
 
