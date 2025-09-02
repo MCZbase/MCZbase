@@ -48,6 +48,7 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <style>
 	div.thumb div {display:none;}
+	div.mw-parser-output p {display:none;}
 </style>
 <cfswitch expression="#action#">
 	<cfcase value="edit">
