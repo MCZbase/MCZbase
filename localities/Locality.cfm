@@ -802,7 +802,8 @@ limitations under the License.
 						if ($('##wikiDrawer').is(':visible')) {
 							pushDialogForDrawer(marginPx, drawerWidthPx);
 						} else {
-							centerDialogProperly();
+							pushDialogForDrawer(260);
+							
 						}
 					}, 0);
 				});
