@@ -10556,7 +10556,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 										<input type="hidden" name="method" value="addMaterialSampleID">
 										<input type="hidden" name="returnformat" value="json">
 										<input type="hidden" name="queryformat" value="column">
-										<div class="form-row ml-3 mr-4">
+										<div class="form-row ml-3 mr-4 w-100">
 											<div class="col-12 col-md-9 pl-0 pr-2">
 												<label class="data-entry-label" for="input_text">dwc:materialSampleID assigned externally to this part</label>
 												<input type="text" name="input_text" id="input_text" class="reqdClr data-entry-input">
