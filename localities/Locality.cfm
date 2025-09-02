@@ -684,54 +684,152 @@ limitations under the License.
 
 		--->
 		<script>
-			var drawerWidthPx = 400;
+		//	var drawerWidthPx = 400;
+//			var marginPx = 30;
+//			var origDialogWidth = 500; // fallback size
+//			var dlgCntr = 260;
+//
+//			  // Helper to push all dialogs aside for the drawer
+//			function pushDialogForDrawer() {
+//				var winWidth = $(window).width();
+//				var dlgLeft = drawerWidthPx + marginPx;
+//				var dlgCnt = drawerWidthPx/2;
+//				var dlgTop = marginPx;
+//				var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
+//			}
+//			function positionDialogs(drawerWidthPx) {
+//				var winWidth = $window.width();
+//				var dlgLeft;
+//				var dlgTop = marginPx;
+//				var dlgWidth;
+//			}
+//			if(drawerWidthPx > 0) {
+//				dlgLeft = drawerWidthPx + marginPx;
+//				dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
+//			} else {
+//				dlgLeft = 260 + "px";
+//				dlgWidth = Math.max(winWidth -marginPx * 2, 320);
+//			}
+//				$('.ui-dialog:visible').each(function() {
+//					var $w = $(this);
+//					// Store original width only if not already done
+//					if ($w.data('origWidth') === undefined) $w.data('origWidth', $w.width());
+//					$w.css({
+//						left: dlgLeft,
+//						top: dlgTop + "px",
+//						width: dlgWidth + "px",
+//						position: 'fixed'
+//					});
+//				});
+//			}
+//			
+//			function centerAllOpenDialogs() {
+//				var winWidth = $(window).width();
+//				var dlgLeft = marginPx;
+//				var dlgCnt = dlgCntr;
+//				var dlgTop = marginPx;
+//				$('.ui-dialog:visible').each(function() {
+//					var $w = $(this);
+//					var restoreWidth = $w.data('origWidth') || origDialogWidth;
+//					var maxWidth = Math.min(restoreWidth, winWidth - marginPx*2);
+//					$w.css({
+//						left: dlgLeft + "px",
+//						top: dlgTop + "px",
+//						width: maxWidth + "px"
+//					});
+//				});
+//			}
+//
+//			
+//			$(document).ready(function() {
+//				// Show drawer, push dialog right if drawer will be visible
+//				$('##show-wiki').on('click', function(e) {
+//					e.preventDefault();
+//					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+//						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
+//					<cfelse>
+//						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
+//					</cfif>
+//					$("##show-wiki").hide();
+//					$("##hide-wiki").show();
+//					setTimeout(function() {
+//						if ($('##wikiDrawer').is(':visible')) {
+//							pushDialogForDrawer(dlgCnt, drawerWidthPx);
+//						}
+//					}, 400);
+//				});
+//
+//				// Hide drawer, recenter dialog
+//				$('##hide-wiki').on('click', function(e) {
+//					e.preventDefault();
+//					closeWikiDrawer();
+//					centerDialogProperly();
+//					setTimeout(centerDialogProperly, 400);
+//				});
+//
+//				$("##hide-wiki").hide();
+//
+//				// Window resize: always recalculate, forcibly center if no drawer
+//				$(window).on('resize', function() {
+//					if ($('##wikiDrawer').is(':visible')) {
+//						pushDialogForDrawer(marginPx, drawerWidthPx);
+//					} else {
+//						centerDialogProperly();
+//					}
+//				});
+//
+//				// On dialog open, position properly based on drawer state
+//				$(document).on('dialogopen', '.ui-dialog', function() {
+//					setTimeout(function() {
+//						if ($('##wikiDrawer').is(':visible')) {
+//							pushDialogForDrawer(marginPx, drawerWidthPx);
+//						} else {
+//							pushDialogForDrawer(dlgCnt, drawerWidthPx);
+//							
+//						}
+//					}, 0);
+//				});
+//			});
+//			
+//		
+		</script>
+		<script>
 			var marginPx = 30;
 			var origDialogWidth = 500; // fallback size
-			var dlgCntr = 260;
 
-			  // Helper to push all dialogs aside for the drawer
-			function pushDialogForDrawer() {
-				var winWidth = $(window).width();
-				var dlgLeft = drawerWidthPx + marginPx;
-				var dlgCnt = drawerWidthPx/2;
-				var dlgTop = marginPx;
-				var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
-			}
 			function positionDialogs(drawerWidthPx) {
-				var winWidth = $window.width();
-				var dlgLeft;
+				var winWidth = $(window).width();
 				var dlgTop = marginPx;
-				var dlgWidth;
-			}
-			if(drawerWidthPx > 0) {
-				dlgLeft = drawerWidthPx + marginPx;
-				dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
-			} else {
-				dlgLeft = 260 + "px";
-				dlgWidth = Math.max(winWidth -marginPx * 2, 320);
-			}
+				var dlgLeft, dlgWidth;
+
+				if (drawerWidthPx > 0) {
+					dlgLeft = drawerWidthPx + marginPx;
+					dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
+				} else {
+					dlgLeft = 230 + marginPx; // use 230 or whatever you want for closed-drawer offset
+					dlgWidth = Math.max(winWidth - 230 - marginPx * 2, 320); // You can adjust this
+				}
+
 				$('.ui-dialog:visible').each(function() {
 					var $w = $(this);
-					// Store original width only if not already done
 					if ($w.data('origWidth') === undefined) $w.data('origWidth', $w.width());
 					$w.css({
-						left: dlgLeft,
+						left: dlgLeft + "px",
 						top: dlgTop + "px",
 						width: dlgWidth + "px",
 						position: 'fixed'
 					});
 				});
 			}
-			
+
 			function centerAllOpenDialogs() {
 				var winWidth = $(window).width();
 				var dlgLeft = marginPx;
-				var dlgCnt = dlgCntr;
 				var dlgTop = marginPx;
 				$('.ui-dialog:visible').each(function() {
 					var $w = $(this);
 					var restoreWidth = $w.data('origWidth') || origDialogWidth;
-					var maxWidth = Math.min(restoreWidth, winWidth - marginPx*2);
+					var maxWidth = Math.min(restoreWidth, winWidth - marginPx * 2);
 					$w.css({
 						left: dlgLeft + "px",
 						top: dlgTop + "px",
@@ -740,58 +838,57 @@ limitations under the License.
 				});
 			}
 
-			
 			$(document).ready(function() {
 				// Show drawer, push dialog right if drawer will be visible
-				$('##show-wiki').on('click', function(e) {
+				$('#show-wiki').on('click', function(e) {
 					e.preventDefault();
 					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
 					<cfelse>
 						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
 					</cfif>
-					$("##show-wiki").hide();
-					$("##hide-wiki").show();
+					$("#show-wiki").hide();
+					$("#hide-wiki").show();
 					setTimeout(function() {
-						if ($('##wikiDrawer').is(':visible')) {
-							pushDialogForDrawer(dlgCnt, drawerWidthPx);
+						if ($('#wikiDrawer').is(':visible')) {
+							positionDialogs(400); // Drawer open: 400 px
 						}
 					}, 400);
 				});
 
 				// Hide drawer, recenter dialog
-				$('##hide-wiki').on('click', function(e) {
+				$('#hide-wiki').on('click', function(e) {
 					e.preventDefault();
 					closeWikiDrawer();
-					centerDialogProperly();
-					setTimeout(centerDialogProperly, 400);
+					setTimeout(function() {
+						positionDialogs(230); // Drawer closed: 230 px (or use 0 if you want true centering)
+					}, 400);
+					$("#hide-wiki").hide();
+					$("#show-wiki").show();
 				});
 
-				$("##hide-wiki").hide();
+				$("#hide-wiki").hide();
 
-				// Window resize: always recalculate, forcibly center if no drawer
+				// Window resize: always recalculate
 				$(window).on('resize', function() {
-					if ($('##wikiDrawer').is(':visible')) {
-						pushDialogForDrawer(marginPx, drawerWidthPx);
+					if ($('#wikiDrawer').is(':visible')) {
+						positionDialogs(400);
 					} else {
-						centerDialogProperly();
+						positionDialogs(230);
 					}
 				});
 
 				// On dialog open, position properly based on drawer state
 				$(document).on('dialogopen', '.ui-dialog', function() {
 					setTimeout(function() {
-						if ($('##wikiDrawer').is(':visible')) {
-							pushDialogForDrawer(marginPx, drawerWidthPx);
+						if ($('#wikiDrawer').is(':visible')) {
+							positionDialogs(400);
 						} else {
-							pushDialogForDrawer(dlgCnt, drawerWidthPx);
-							
+							positionDialogs(230);
 						}
 					}, 0);
 				});
 			});
-			
-		
 		</script>
 		
 	</cfoutput>	
