@@ -844,31 +844,31 @@ function positionDialogsForDrawer(drawerIsOpen) {
 }
 
 function openWikiDrawer() {
-    $('#wikiDrawer').addClass('open');
-    $('#content').addClass('pushed');
-    $("#show-wiki").hide();
-    $("#hide-wiki").show();
+    $('##wikiDrawer').addClass('open');
+    $('##content').addClass('pushed');
+    $("##show-wiki").hide();
+    $("##hide-wiki").show();
     setTimeout(function() {
         positionDialogsForDrawer(true);
     }, 400);
 }
 function closeWikiDrawer() {
-    $('#wikiDrawer').removeClass('open');
-    $('#content').removeClass('pushed');
-    $("#show-wiki").show();
-    $("#hide-wiki").hide();
+    $('##wikiDrawer').removeClass('open');
+    $('##content').removeClass('pushed');
+    $("##show-wiki").show();
+    $("##hide-wiki").hide();
     setTimeout(function() {
         positionDialogsForDrawer(false);
     }, 400);
 }
 
 $(window).on('resize', function() {
-    var drawerIsOpen = $('#wikiDrawer').hasClass('open');
+    var drawerIsOpen = $('##wikiDrawer').hasClass('open');
     positionDialogsForDrawer(drawerIsOpen);
 });
 
 $(document).on('dialogopen', '.ui-dialog', function() {
-    var drawerIsOpen = $('#wikiDrawer').hasClass('open');
+    var drawerIsOpen = $('##wikiDrawer').hasClass('open');
     setTimeout(function() {
         positionDialogsForDrawer(drawerIsOpen);
     }, 0);
