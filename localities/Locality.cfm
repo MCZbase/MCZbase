@@ -735,47 +735,18 @@ limitations under the License.
 			// Show drawer
 			$('##show-wiki').on('click', function(e) {
 				e.preventDefault();
-
-				// Actual drawer open logic (use your ColdFusion logic here!)
-				// This example toggles class 'open' and shows the drawer
-				$('##wikiDrawer').addClass('open').show();
-
-				// Your app logic (if needed), for example:
-				/*
-				<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-					showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
-				<cfelse>
-					showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
-				</cfif>
-				*/
-				$("##show-wiki").hide();
-				$("##hide-wiki").show();
-
-				setTimeout(handleDialogPosition, 400); // Position dialogs after open anim
+				openWikiDrawer();
 			});
 
 			// Hide drawer
 			$('##hide-wiki').on('click', function(e) {
 				e.preventDefault();
-
-				// Actual drawer close logic (remove class, hide drawer)
-				$('##wikiDrawer').removeClass('open').hide();
-
-				// Your app logic (if needed):
-				 closeWikiDrawer();
-
-				$("##hide-wiki").hide();
-				$("##show-wiki").show();
-
-				$('##wikiDrawer').removeClass('open').hide();
-				setTimeout(handleDialogPosition, 400); // Recenter dialogs after anim
+				closeWikiDrawer();
 			});
 
 			// Initialize buttons
 			$("##hide-wiki").hide();
-
 			$(window).on('resize', handleDialogPosition);
-
 			$(document).on('dialogopen', '.ui-dialog', function() {
 				setTimeout(handleDialogPosition, 0);
 			});
