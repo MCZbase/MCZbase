@@ -840,38 +840,38 @@ limitations under the License.
 
 			$(document).ready(function() {
 				// Show drawer, push dialog right if drawer will be visible
-				$('#show-wiki').on('click', function(e) {
+				$('##show-wiki').on('click', function(e) {
 					e.preventDefault();
 					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
+						showWiki("##targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
 					<cfelse>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
+						showWiki("##targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
 					</cfif>
-					$("#show-wiki").hide();
-					$("#hide-wiki").show();
+					$("##show-wiki").hide();
+					$("##hide-wiki").show();
 					setTimeout(function() {
-						if ($('#wikiDrawer').is(':visible')) {
+						if ($('##wikiDrawer').is(':visible')) {
 							positionDialogs(400); // Drawer open: 400 px
 						}
 					}, 400);
 				});
 
 				// Hide drawer, recenter dialog
-				$('#hide-wiki').on('click', function(e) {
+				$('##hide-wiki').on('click', function(e) {
 					e.preventDefault();
 					closeWikiDrawer();
 					setTimeout(function() {
 						positionDialogs(230); // Drawer closed: 230 px (or use 0 if you want true centering)
 					}, 400);
-					$("#hide-wiki").hide();
-					$("#show-wiki").show();
+					$("##hide-wiki").hide();
+					$("##show-wiki").show();
 				});
 
-				$("#hide-wiki").hide();
+				$("##hide-wiki").hide();
 
 				// Window resize: always recalculate
 				$(window).on('resize', function() {
-					if ($('#wikiDrawer').is(':visible')) {
+					if ($('##wikiDrawer').is(':visible')) {
 						positionDialogs(400);
 					} else {
 						positionDialogs(230);
@@ -881,7 +881,7 @@ limitations under the License.
 				// On dialog open, position properly based on drawer state
 				$(document).on('dialogopen', '.ui-dialog', function() {
 					setTimeout(function() {
-						if ($('#wikiDrawer').is(':visible')) {
+						if ($('##wikiDrawer').is(':visible')) {
 							positionDialogs(400);
 						} else {
 							positionDialogs(230);
