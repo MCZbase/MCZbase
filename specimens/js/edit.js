@@ -1025,6 +1025,38 @@ function handlePartAttributeTypeChange(suffix, partID) {
     });
 }
 
+/** deleteGuidOurThing delete a guid_our_thing record.
+ *
+ * @param guid_our_thing_id the id of the guid_our_thing record to delete.
+ * @param feedbackDiv the id of the div in which to display feedback messages without a leading # selector.
+ * @param callback a callback function to invoke on success.
+ **/
+function removeFromNamedGroup(underscore_collection_id, feedbackDiv,callback) {
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "deleteGuidOurThing",
+			guid_our_thing_id: guid_our_thing_id
+		},
+		success: function (result) {
+			if (result[0].status=="deleted") {
+				if (callback instanceof Function) {
+					callback();
+				}
+				var message  = "Deleted guid record";
+				console.log(message);
+			}
+			else {
+				messageDialog("Error deleting guid_our_thing_id: " + result.DATA.MESSAGE[0],'Error');
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing from named group");
+		},
+		dataType: "json"
+	});
+}
+
 /** openEditMaterialSampleIDDialog open a dialog for adding materialSampleIDs to 
  * a specimen part.
  *

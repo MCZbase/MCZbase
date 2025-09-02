@@ -10681,9 +10681,15 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 														<strong>Externally assigned:</strong> #getGuids.assembled_identifier# 
 														<span class="small90">(created #dateFormat(getGuids.timestamp_created,"mm/dd/yyyy")# by #getGuids.created_by#)</span>
 														<!--- allow deletion of user assigned materialSampleIDs --->
-														<button type="button" class="btn btn-sm btn-outline-danger ml-2" title="Delete this materialSampleID" onclick="deleteMaterialSampleID('#getGuids.guid_our_thing_id#','#getCatalog.part_id#');">Delete</button>
+														<button type="button" class="btn btn-sm btn-warning ml-2" title="Delete this materialSampleID" onclick="deleteGuidOurThing('#getGuids.guid_our_thing_id#','editMaterialSampleIDstatus_#getGuids.guid_our_thing_id#');">Delete</button>
 														<!--- allow edit of user assigned materialSampleIDs --->
-														<button type="button" class="btn btn-sm btn-outline-primary ml-2" title="Edit this materialSampleID" onclick="editMaterialSampleID('#getGuids.guid_our_thing_id#','#getCatalog.part_id#');"> Edit</button>
+														<button type="button" class="btn btn-sm btn-secondary ml-2" title="Edit this materialSampleID" onclick="editMaterialSampleID('#getGuids.guid_our_thing_id#','#getCatalog.part_id#');"> Edit</button>
+														<script>
+															$(document).ready(function() {
+																// on click handler for delete button
+															});
+														</script>
+														<output id="editMaterialSampleIDstatus_#getGuids.guid_our_thing_id#"></output>
 													</cfif>
 											</cfloop>
 										</ul>
@@ -10880,7 +10886,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
  *
  * @return a json structure with status=deleted, or an http 500 response.
 --->
-<cffunction name="deleteMaterialSampleID" returntype="any" access="remote" returnformat="json">
+<cffunction name="deleteGuidOurThing" returntype="any" access="remote" returnformat="json">
 	<cfargument name="guid_our_thing_id" type="string" required="yes">
 
 	<cfset data = ArrayNew(1)>
