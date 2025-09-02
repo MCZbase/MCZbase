@@ -889,6 +889,16 @@ var drawerWidthPx = 400;
 					}
 				});
 
+				// On dialog open, position properly based on drawer state
+				$(document).on('dialogopen', '.ui-dialog', function() {
+					setTimeout(function() {
+						if ($('##wikiDrawer').is(':visible')) {
+							pushDialogForDrawer(marginPx, drawerWidthPx);
+						} else {
+							centerDialogProperly();
+						}
+					}, 0);
+				});
 			});
 		</script>
 		
