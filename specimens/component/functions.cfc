@@ -10681,7 +10681,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 														<strong>Externally assigned:</strong> #getGuids.assembled_identifier# 
 														<span class="small90">(created #dateFormat(getGuids.timestamp_created,"mm/dd/yyyy")# by #getGuids.created_by#)</span>
 														<!--- allow deletion of user assigned materialSampleIDs --->
-														<button type="button" class="btn btn-sm btn-warning ml-2" title="Delete this materialSampleID" onclick="deleteGuidOurThing('#getGuids.guid_our_thing_id#','editMaterialSampleIDstatus_#getGuids.guid_our_thing_id#');">Delete</button>
+														<button type="button" class="btn btn-sm btn-warning ml-2" title="Delete this materialSampleID" onclick="deleteGuidOurThing('#getGuids.guid_our_thing_id#','editMaterialSampleIDstatus_#getGuids.guid_our_thing_id#',reloadParts);">Delete</button>
 														<!--- allow edit of user assigned materialSampleIDs --->
 														<button type="button" class="btn btn-sm btn-secondary ml-2" title="Edit this materialSampleID" onclick="editMaterialSampleID('#getGuids.guid_our_thing_id#','#getCatalog.part_id#');"> Edit</button>
 														<script>

@@ -1031,7 +1031,7 @@ function handlePartAttributeTypeChange(suffix, partID) {
  * @param feedbackDiv the id of the div in which to display feedback messages without a leading # selector.
  * @param callback a callback function to invoke on success.
  **/
-function deleteGuidOurThing(underscore_collection_id, feedbackDiv,callback) {
+function deleteGuidOurThing(guid_our_thing_id, feedbackDiv, callback) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
