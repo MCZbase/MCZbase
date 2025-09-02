@@ -678,139 +678,108 @@ limitations under the License.
 			<div id="wiki-content" class="p-3"></div>
 		</div>
 
-		<!--- NOTE: wikiDrawer, show-wiki, hide-wiki are hard coded in openWikiDrawer and closeWikiDrawer functions.
-
-		This code (commented out) works but it pulls an error due to uninitiated dialogs since I am working with the wrapper .ui-dialog
-
-		--->
+		
+		
 		<script>
-			var drawerWidthPx = 400;
-			var marginPx = 30;
-			var origDialogWidth = 500; // fallback size
+		var drawerWidthPx = 400;
+		var marginPx = 30;
+		var origDialogWidth = 500; // fallback size
 
-			  // Helper to push all dialogs aside for the drawer
-			function pushDialogForDrawer() {
-				var winWidth = $(window).width();
-				var dlgLeft = drawerWidthPx + marginPx;
-				var dlgTop = marginPx;
-				var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
-				$('.ui-dialog:visible').each(function() {
-					var $w = $(this);
-				// Store original width only if not already done
-					if ($w.data('origWidth') === undefined) $w.data('origWidth', $w.width());
-					$w.css({
-						left: dlgLeft + "px",
-						top: dlgTop + "px",
-						width: dlgWidth + "px",
-						position: 'fixed'
-					});
+		function pushDialogForDrawer() {
+			var winWidth = $(window).width();
+			var dlgLeft = drawerWidthPx + marginPx;
+			var dlgTop = marginPx;
+			var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
+			$('.ui-dialog:visible').each(function() {
+				var $w = $(this);
+				if ($w.data('origWidth') === undefined) $w.data('origWidth', $w.width());
+				$w.css({
+					left: dlgLeft + "px",
+					top: dlgTop + "px",
+					width: dlgWidth + "px",
+					position: 'fixed'
 				});
+			});
+		}
+
+		function centerAllOpenDialogs() {
+			var winWidth = $(window).width();
+			var dlgTop = marginPx;
+			$('.ui-dialog:visible').each(function() {
+				var $w = $(this);
+				var restoreWidth = $w.data('origWidth') || origDialogWidth;
+				var maxWidth = Math.min(restoreWidth, winWidth - marginPx * 2);
+				var dlgLeft = Math.max(Math.round((winWidth - maxWidth) / 2), marginPx);
+				$w.css({
+					left: dlgLeft + "px",
+					top: dlgTop + "px",
+					width: maxWidth + "px",
+					position: 'fixed'
+				});
+			});
+		}
+
+		function handleDialogPosition() {
+			if ($('##wikiDrawer').hasClass('open')) {
+				pushDialogForDrawer();
+			} else {
+				centerAllOpenDialogs();
 			}
-			
-			function centerAllOpenDialogs() {
-				var winWidth = $(window).width();
-				var dlgTop = marginPx;
-				$('.ui-dialog:visible').each(function() {
-					var $w = $(this);
-					var restoreWidth = $w.data('origWidth') || origDialogWidth;
-					var maxWidth = Math.min(restoreWidth, winWidth - marginPx * 2);
-					var dlgLeft = Math.max(Math.round((winWidth - maxWidth) / 2), marginPx);
-					$w.css({
-						left: dlgLeft + "px",
-						top: dlgTop + "px",
-						width: maxWidth + "px",
-						position: 'fixed'
-					});
-				});
-			}
+		}
 
-			function handleDialogPosition() {
-				// Use class-based method for reliable detection:
-				if ($('##wikiDrawer').hasClass('open')) {
-					pushDialogForDrawer();
-				} else {
-					centerAllOpenDialogs();
-				}
-			}
-			
-			
-			$(document).ready(function() {
-				// Show drawer, push dialog right if drawer will be visible
-				$('##show-wiki').on('click', function(e) {
-					e.preventDefault();
-					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
-					<cfelse>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
-					</cfif>
-					$('##wikiDrawer').addClass('open');
-					setTimeout(handleDialogPosition,400)
-					$("##show-wiki").hide();
-					$("##hide-wiki").show();
-				});
-				
-				$('##hide-wiki').on('click', function(e){
-					e.preventDefault();
-					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
-					<cfelse>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
-					</cfif>
-					$('##wikiDrawer').removeClass(open);
-					setTimeout(handleDialogPosition, 400);
-					$('##hide-wiki').hide();
-					$('##show-wiki').show();
-				})
-				$('##hide-wiki').hide();
-				
-				$(window).on('resize', handleDialogPosition);
+		$(document).ready(function() {
+			// Show drawer
+			$('##show-wiki').on('click', function(e) {
+				e.preventDefault();
 
-				$(document).on('dialogopen', '.ui-dialog', function() {
-					setTimeout(handleDialogPosition, 0);
-				});
-				
+				// Actual drawer open logic (use your ColdFusion logic here!)
+				// This example toggles class 'open' and shows the drawer
+				$('##wikiDrawer').addClass('open').show();
 
+				// Your app logic (if needed), for example:
+				/*
+				<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+					showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
+				<cfelse>
+					showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
+				</cfif>
+				*/
+				$("##show-wiki").hide();
+				$("##hide-wiki").show();
+
+				setTimeout(handleDialogPosition, 400); // Position dialogs after open anim
 			});
 
-				// Hide drawer, recenter dialog
-				//$('##hide-wiki').on('click', function(e) {
-//					e.preventDefault();
-//					closeWikiDrawer();
-//					setTimeout(function() {
-//						centerAllOpenDialogs();
-//						alert('Drawer closed: centering dialog');
-//					}, 400);
-//					$("##hide-wiki").hide();
-//					$("##show-wiki").show();
-//				});
+			// Hide drawer
+			$('##hide-wiki').on('click', function(e) {
+				e.preventDefault();
 
-			//	$("##hide-wiki").hide();
+				// Actual drawer close logic (remove class, hide drawer)
+				$('##wikiDrawer').removeClass('open').hide();
 
-				// Window resize: always recalculate, forcibly center if no drawer
-				//$(window).on('resize', function() {
-//					if ($('##wikiDrawer').is(':visible')) {
-//						alert('Drawer visible: pushing dialog');
-//						pushDialogForDrawer();
-//					} else {
-//						alert('Drawer closed: centering dialog');
-//						centerAllOpenDialogs();
-//					}
-//				});
+				// Your app logic (if needed):
+				// closeWikiDrawer();
 
-				// On dialog open, position properly based on drawer state
-				//$(document).on('dialogopen', '.ui-dialog', function() {
-//					setTimeout(function() {
-//						if ($('##wikiDrawer').is(':visible')) {
-//							alert('Drawer visible on dialogopen: pushing dialog');
-//							pushDialogForDrawer();
-//						} else {
-//							alert('Drawer closed on dialogopen: centering dialog');
-//							centerAllOpenDialogs();
-//						}
-//					}, 0);
-//				});
+				$("##hide-wiki").hide();
+				$("##show-wiki").show();
+
+				setTimeout(handleDialogPosition, 400); // Recenter dialogs after anim
 			});
+
+			// Initialize buttons
+			$("##hide-wiki").hide();
+
+			$(window).on('resize', handleDialogPosition);
+
+			$(document).on('dialogopen', '.ui-dialog', function() {
+				setTimeout(handleDialogPosition, 0);
+			});
+
+			// In case they're mismatched at load, ensure correct state:
+			handleDialogPosition();
+		});
 		</script>
+		
 		
 	</cfoutput>	
 </cfif>
