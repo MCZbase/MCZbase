@@ -50,6 +50,8 @@ limitations under the License.
 	div.mw-parser-output h1 {font-size: 20px;font-weight:bold;border-top:1px solid black; padding-top:36px;}
 	div.mw-parser-output h2 {font-size: 16px;}
 	div.thumb div {display:none;}
+	.ui-dialog { z-index: 10000 !important; }
+	#wikiDrawer { z-index: 2000 !important; }
 	
 </style>
 <cfswitch expression="#action#">
@@ -721,10 +723,10 @@ limitations under the License.
 		function handleDialogPosition() {
 			// DEBUG: see which branch fires
 			if ($('##wikiDrawer').hasClass('open')) {
-				alert('Drawer open -- push!');
+				alert('Drawer open -- push!'); //appears--does not push the main content to the side and the wiki content is missing.
 				pushDialogForDrawer();
 			} else {
-				alert('Drawer closed -- center!');
+				alert('Drawer closed -- center!');//appears--opens initially as desired and then goes to 500px wide. When the Wiki is open if goes to original size with the dialog under the wiki drawer on the left
 				centerAllOpenDialogs();
 			}
 		}
@@ -765,6 +767,7 @@ limitations under the License.
 				$("##hide-wiki").hide();
 				$("##show-wiki").show();
 
+				$('##wikiDrawer').removeClass('open').hide();
 				setTimeout(handleDialogPosition, 400); // Recenter dialogs after anim
 			});
 
