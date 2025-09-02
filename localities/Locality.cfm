@@ -47,7 +47,7 @@ limitations under the License.
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
 <style>
-	.wiki-content h1 {font-size: 18px;}
+	div.wiki-content h1, div.mw-parser-output h1 {font-size: 18px;}
 	div.thumb div {display:none;}
 	div.mw-parser-output p {display:none;}
 </style>
