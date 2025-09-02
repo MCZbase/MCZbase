@@ -1531,10 +1531,10 @@ limitations under the License.
 													<span id="fixedmanageButton" class=""></span>
 													<span id="fixedremoveButtonDiv" class=""></span>
 													<div id="fixedresultBMMapLinkContainer"></div>
-													<div id="fixedselectModeContainer" class="ml-3" style="display: none;" >
+													<div id="fixedSelectModeContainer" class="ml-3" style="display: none;" >
 														<script>
 															function fixedchangeSelectMode(){
-																var selmode = $("##fixedselectMode").val();
+																var selmode = $("##fixedSelectMode").val();
 																var $grid = $("##fixedsearchResultsGrid");
 																$grid.jqxGrid({selectionmode: selmode});
 																$grid.jqxGrid('clearselection');
@@ -1544,8 +1544,8 @@ limitations under the License.
 															}
 														</script>
 														
-														<label class="data-entry-label d-inline w-auto mt-1" for="fixedselectMode">Grid Select:</label>
-														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="fixedchangeSelectMode();">
+														<label class="data-entry-label d-inline w-auto mt-1" for="fixedSelectMode">Grid Select:</label>
+														<select class="data-entry-select d-inline w-auto mt-1" id="fixedSelectMode" onChange="fixedchangeSelectMode();">
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="singlecell">Single Cell</option>
 															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -3755,7 +3755,7 @@ Target JSON:
 						});
 					});
 				});
-				$('##fixedselectMode').on('keydown.a11y', function(event){
+				$('##fixedSelectMode').on('keydown.a11y', function(event){
 					if(event.key === 'Tab' && !event.shiftKey){
 						event.preventDefault();
 						//focusFirstVisibleCell_fixed();
