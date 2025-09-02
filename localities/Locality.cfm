@@ -770,12 +770,12 @@ limitations under the License.
 			}, 400);
 		}
 		$(window).on('resize', function() {
-			var drawerIsOpen = $('#wikiDrawer').hasClass('open');
+			var drawerIsOpen = $('##wikiDrawer').hasClass('open');
 			positionDialogsForDrawer(drawerIsOpen);
 		});
 
 		$(document).on('dialogopen', '.ui-dialog', function() {
-			var drawerIsOpen = $('#wikiDrawer').hasClass('open');
+			var drawerIsOpen = $('##wikiDrawer').hasClass('open');
 			// Use a tiny timeout to ensure dialog is fully created and visible
 			setTimeout(function() {
 				positionDialogsForDrawer(drawerIsOpen);
