@@ -10552,16 +10552,12 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 								</div>
 								<div class="card-body mt-2">
 									<form name="addMaterialSampleIDForm" id="addMaterialSampleIDForm" class="row mb-0 pt-1">
+										<input type="hidden" name="sp_collection_object_id" value="#getCatalog.part_id#">
+										<input type="hidden" name="method" value="addMaterialSampleID">
+										<input type="hidden" name="returnformat" value="json">
+										<input type="hidden" name="queryformat" value="column">
 										<div class="form-row ml-3 mr-4">
 											<div class="col-12 col-md-9 pl-0 pr-2">
-												<input type="hidden" name="sp_collection_object_id" value="#getCatalog.part_id#">
-												<input type="hidden" name="method" value="addNewMaterialSampleID">
-												<input type="hidden" name="returnformat" value="json">
-												<input type="hidden" name="queryformat" value="column">
-												<input type="hidden" name="target_table" value="SPECIMEN_PART">
-												<input type="hidden" name="disposition" value="exists">
-												<input type="hidden" name="guid_is_a" value="materialSampleID">
-												<input type="hidden" name="assigned_by" value="#session.myAgentId#">
 												<label class="data-entry-label" for="input_text">dwc:materialSampleID assigned externally to this part</label>
 												<input type="text" name="input_text" id="input_text" class="reqdClr data-entry-input">
 												<!--- on entry of a value, parse it into the guid fields with parseGuid() --->
@@ -10619,6 +10615,16 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											<div class="col-12 col-md-6 px-1">
 												<label class="data-entry-label" for="assembled_resolvable">Resolvable Identifier</label>
 												<input type="text" class="data-entry-input" name="assembled_resolvable" id="assembled_resolvable">
+											</div>
+											<div class="col-12 col-md-6 px-1">
+												<label class="data-entry-label" for="assigned_by">Assigned By</label>
+												<input type="hidden" name="assigned_by_agent_id" value="">
+												<input type="text" class="data-entry-input" name="assigned_by" id="assigned_by">
+												<script>
+													$(document).ready(function() {
+														makeAgentAutoCompleteMeta("assigned_by","assigned_by_agent_id",true);
+													});
+												</script>
 											</div>
 											<div class="col-12 col-md-6 px-1">
 												<button type="button" class="btn btn-primary mt-2" onclick="addOtherIDSubmit();">Add materialSampleID</button>
@@ -10698,6 +10704,422 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	</cfthread>
 	<cfthread action="join" name="getEditMaterialSampleIDsThread"/>
 	<cfreturn getEditMaterialSampleIDsThread.output>
+</cffunction>
+
+<!---
+ * addMaterialSampleID insert a guid_our_thing record for a new materialSampleID
+ *
+ * @param collection_object_id the collection_object_id of the specimen part to which the new materialSampleID applies.
+ * @param resolver_prefix the resolver prefix for the new guid
+ * @param scheme the scheme for the new guid, e.g. urn
+ * @param type the type for the new guid, e.g. uuuid
+ * @param authority the authority part of the new guid
+ * @param local_identifier the local identifier part of the new guid
+ * @param assembled_identifier the full assembled identifier 
+ * @param assembled_resolvable the resolvable uri form of the new guid
+ * @param assigned_by source who assigned the materialSampleID
+ * @param assigned_by_agent_id the agent_id of the source who assigned the materialSampleID
+ *
+ * @return a json structure with status=saved, or an http 500 response.
+--->
+<cffunction name="addMaterialSampleID" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="resolver_prefix" type="string" required="no" default=''>
+	<cfargument name="scheme" type="string" required="no" default="">
+	<cfargument name="type" type="string" required="no" default="">
+	<cfargument name="authority" type="string" required="no" default="">
+	<cfargument name="local_identifier" type="string" required="no" default="">
+	<cfargument name="assembled_identifier" type="string" required="no" default="">
+	<cfargument name="assembled_resolvable" type="string" required="no" default="">
+	<cfargument name="assigned_by" type="string" required="no" default="">
+	<cfargument name="assigned_by_agent_id" type="string" required="no" default="">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="addMatSample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addMatSampe_result">
+				INSERT INTO guid_our_thing
+				(
+						GUID_IS_A,
+						TARGET_TABLE,
+						CO_COLLECTION_OBJECT_ID,
+						SP_COLLECTION_OBJECT_ID,
+						TAXON_NAME_ID,
+						RESOLVER_PREFIX,
+						SCHEME,
+						TYPE,
+						AUTHORITY,
+						LOCAL_IDENTIFIER,
+						ASSEMBLED_IDENTIFIER,
+						ASSEMBLED_RESOLVABLE,
+						ASSIGNED_BY,
+						disposition,
+						CREATED_BY
+				) VALUES (
+					'materialSampleID',
+					'SPECIMEN_PART',
+					null,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">,
+					null,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.resolver_prefix#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.scheme#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.authority#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.local_identifier#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_identifier#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_resolvable#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assigned_by#">,
+					'exists',
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentID#">
+				) 
+			</cfquery>
+			<cfif addMatSample_result.recordcount EQ 1>
+				<!--- get new guid pk value --->
+				<cfquery name="getPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPK_result">
+					SELECT guid_our_thing_id
+					FROM guid_our_thing
+					WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#addMatSample_result.GENERATEDKEY#">
+				</cfquery>
+				<cftransaction action="commit"/>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "saved">
+				<cfset row["id"] = "#getPK.guid_our_thing_id#">
+				<cfset data[1] = row>
+			<cfelse>
+				<cfthrow message="Error other than one row affected.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---
+ * updateMaterialSampleID update a guid_our_thing record for a materialSampleID
+ *
+ * @param collection_object_id the collection_object_id of the specimen part to which the materialSampleID applies.
+ * @param guid_our_thing_id the primary key value of the record to update
+ * @param resolver_prefix new the resolver prefix for the guid
+ * @param scheme the new scheme for the guid, e.g. urn
+ * @param type the new type for the guid, e.g. uuuid
+ * @param authority the new authority part of the guid
+ * @param local_identifier the new local identifier part of the guid
+ * @param assembled_identifier the new full assembled identifier 
+ * @param assembled_resolvable the new resolvable uri form of the guid
+ * @param assigned_by source who assigned the materialSampleID
+ * @param assigned_by_agent_id the agent_id of the source who assigned the materialSampleID
+ *
+ * @return a json structure with status=saved, or an http 500 response.
+--->
+<cffunction name="updateMaterialSampleID" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="guid_our_thing_id" type="string" required="yes">
+	<cfargument name="resolver_prefix" type="string" required="no" default=''>
+	<cfargument name="scheme" type="string" required="no" default="">
+	<cfargument name="type" type="string" required="no" default="">
+	<cfargument name="authority" type="string" required="no" default="">
+	<cfargument name="local_identifier" type="string" required="no" default="">
+	<cfargument name="assembled_identifier" type="string" required="no" default="">
+	<cfargument name="assembled_resolvable" type="string" required="no" default="">
+	<cfargument name="assigned_by" type="string" required="no" default="">
+	<cfargument name="assigned_by_agent_id" type="string" required="no" default="">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="updateMatSample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateMatSampe_result">
+				UPDATE guid_our_thing
+				SET
+					GUID_IS_A = 'materialSampleID',
+					TARGET_TABLE = 'SPECIMEN_PART',
+					TAXON_NAME_ID = null,
+					SP_COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">,
+					CO_COLLECTION_OBJECT_ID = null,
+					resolver_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.resolver_prefix#">,
+					scheme = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.scheme#">,
+					type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.type#">,
+					authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.authority#">,
+					local_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.local_identifier#">,
+					assembled_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_identifier#">,
+					assembled_resolvable = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_resolvable#">,
+					assigned_by = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assigned_by#">,
+				WHERE 
+					guid_our_thing_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.guid_our_thing_id#">
+			</cfquery>
+			<cfif updateMatSample_result.recordcount EQ 1>
+				<cftransaction action="commit"/>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "saved">
+				<cfset row["id"] = "#guid_our_thing_id#">
+				<cfset data[1] = row>
+			<cfelse>
+				<cfthrow message="Error other than one row affected.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- 
+ * deleteGuidOurThing delete a guid_our_thing record.
+ *
+ * @param guid_our_thing_id the primary key value of the record to remove.
+ *
+ * @return a json structure with status=deleted, or an http 500 response.
+--->
+<cffunction name="deleteMaterialSampleID" returntype="any" access="remote" returnformat="json">
+	<cfargument name="guid_our_thing_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>	
+			<cfquery name="deleteGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addMatSampe_result">
+				DELETE FROM guid_our_thing
+				WHERE guid_our_thing_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.guid_our_thing_id#">
+			</cfquery>
+			<cfif deleteGuid_result.recordcount EQ 1>
+				<cftransaction action="commit"/>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "deleted">
+				<cfset data[1] = row>
+			<cfelse>
+				<cfthrow message="Error other than one row affected.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---
+ * addGuidOurThing insert a guid_our_thing record for any supported guid type
+ *
+ * @param co_collection_object_id the collection_object_id of the specimen part to which the guid applies as an occurrenceID.
+ * @param sp_collection_object_id the collection_object_id of the specimen part to which the guid applies as a materialSampleID.
+ * @param taxon_name_id the taxon_name_id of the taxon to which the guid applies as a taxonID.
+ * @param guid_is_a the type of guid, e.g. occurrenceID, materialSampleID, taxonID
+ * @param target_table the target table for the guid, e.g. SPECIMEN_PART, TAXON_NAME	
+ * @param resolver_prefix the resolver prefix for the new guid
+ * @param scheme the scheme for the new guid, e.g. urn
+ * @param type the type for the new guid, e.g. uuuid
+ * @param authority the authority part of the new guid
+ * @param local_identifier the local identifier part of the new guid
+ * @param assembled_identifier the full assembled identifier 
+ * @param assembled_resolvable the resolvable uri form of the new guid
+ * @param assigned_by source who assigned the materialSampleID
+ * @param assigned_by_agent_id the agent_id of the source who assigned the materialSampleID
+ *
+ * @return a json structure with status=saved, or an http 500 response.
+--->
+<cffunction name="addGuidOurThing" returntype="any" access="remote" returnformat="json">
+	<cfargument name="co_collection_object_id" type="string" required="no">
+	<cfargument name="sp_collection_object_id" type="string" required="no">
+	<cfargument name="taxon_name_id" type="string" required="no">
+   <cfargument name="guid_is_a" type="string" required="yes">
+   <cfargument name="target_table" type="string" required="yes">
+	<cfargument name="resolver_prefix" type="string" required="no" default=''>
+	<cfargument name="scheme" type="string" required="no" default="">
+	<cfargument name="type" type="string" required="no" default="">
+	<cfargument name="authority" type="string" required="no" default="">
+	<cfargument name="local_identifier" type="string" required="no" default="">
+	<cfargument name="assembled_identifier" type="string" required="no" default="">
+	<cfargument name="assembled_resolvable" type="string" required="no" default="">
+	<cfargument name="assigned_by" type="string" required="no" default="">
+	<cfargument name="assigned_by_agent_id" type="string" required="no" default="">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfset validParams = false>
+			<!--- check that guid_is_a and target_table are a supported combination and have expected key --->
+			<cfif (arguments.guid_is_a EQ "materialSampleID" AND arguments.target_table EQ "SPECIMEN_PART" AND StructKeyExists(arguments,"sp_collection_object_id") AND IsNumeric(arguments.sp_collection_object_id))>
+				<cfset validParams = true>
+				<cfif len(co_collection_object_id) GT 0>
+					<cfthrow message="co_collection_object_id should not be provided when guid_is_a is materialSampleID">
+				</cfif>
+				<cfif len(taxon_name_id) GT 0>
+					<cfthrow message="taxon_name_id should not be provided when guid_is_a is materialSampleID">
+				</cfif>
+			<cfelseif (arguments.guid_is_a EQ "occurrenceID" AND arguments.target_table EQ "SPECIMEN_PART" AND StructKeyExists(arguments,"co_collection_object_id") AND IsNumeric(arguments.co_collection_object_id))>
+				<cfset validParams = true>
+				<cfif len(sp_collection_object_id) GT 0>
+					<cfthrow message="sp_collection_object_id should not be provided when guid_is_a is occurrenceID">
+				</cfif>
+				<cfif len(taxon_name_id) GT 0>
+					<cfthrow message="taxon_name_id should not be provided when guid_is_a is occurrenceID">
+				</cfif>
+			<cfelseif (arguments.guid_is_a EQ "taxonID" AND arguments.target_table EQ "TAXONOMY" AND StructKeyExists(arguments,"taxon_name_id") AND IsNumeric(arguments.taxon_name_id))>
+				<cfset validParams = true>
+				<cfif len(sp_collection_object_id) GT 0>
+					<cfthrow message="sp_collection_object_id should not be provided when guid_is_a is taxonID">
+				</cfif>
+				<cfif len(co_collection_object_id) GT 0>
+					<cfthrow message="co_collection_object_id should not be provided when guid_is_a is taxonID">
+				</cfif>
+			</cfif>
+			<cfif NOT validParams>
+				<cfthrow message="Invalid combination or missing parameters for the specified guid_is_a and target_table combination.">
+			</cfif>
+			<cfquery name="addGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addMatSampe_result">
+				INSERT INTO guid_our_thing
+				(
+						GUID_IS_A,
+						TARGET_TABLE,
+						CO_COLLECTION_OBJECT_ID,
+						SP_COLLECTION_OBJECT_ID,
+						TAXON_NAME_ID,
+						RESOLVER_PREFIX,
+						SCHEME,
+						TYPE,
+						AUTHORITY,
+						LOCAL_IDENTIFIER,
+						ASSEMBLED_IDENTIFIER,
+						ASSEMBLED_RESOLVABLE,
+						ASSIGNED_BY,
+						disposition,
+						CREATED_BY
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.guid_is_a#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.target_table#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.co_collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sp_collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxon_name_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.resolver_prefix#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.scheme#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.authority#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.local_identifier#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_identifier#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_resolvable#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assigned_by#">,
+					'exists',
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentID#">
+				) 
+			</cfquery>
+			<cfif addGuid_result.recordcount EQ 1>
+				<!--- get new guid pk value --->
+				<cfquery name="getPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPK_result">
+					SELECT guid_our_thing_id
+					FROM guid_our_thing
+					WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#addGuid_result.GENERATEDKEY#">
+				</cfquery>
+				<cftransaction action="commit"/>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "saved">
+				<cfset row["id"] = "#getPK.guid_our_thing_id#">
+				<cfset data[1] = row>
+			<cfelse>
+				<cfthrow message="Error other than one row affected.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---
+ * updateGuidOurThing update a guid_our_thing record
+ * @param co_collection_object_id the collection_object_id of the specimen part to which the guid applies as an occurrenceID.
+ * @param sp_collection_object_id the collection_object_id of the specimen part to which the guid applies as a materialSampleID.
+ * @param taxon_name_id the taxon_name_id of the taxon to which the guid applies as a taxonID.
+ * @param guid_is_a the type of guid, e.g. occurrenceID, materialSampleID, taxonID
+ * @param target_table the target table for the guid, e.g. SPECIMEN_PART, TAXON_NAME
+ * @param guid_our_thing_id the primary key value of the record to update
+ * @param resolver_prefix new the resolver prefix for the guid
+ * @param scheme the new scheme for the guid, e.g. urn
+ * @param type the new type for the guid, e.g. uuuid
+ * @param authority the new authority part of the guid
+ * @param local_identifier the new local identifier part of the guid
+ * @param assembled_identifier the new full assembled identifier 
+ * @param assembled_resolvable the new resolvable uri form of the guid
+ * @param assigned_by source who assigned the materialSampleID
+ * @param assigned_by_agent_id the agent_id of the source who assigned the materialSampleID
+ *
+ * @return a json structure with status=saved, or an http 500 response.
+--->
+<cffunction name="updateGuidOurThing" returntype="any" access="remote" returnformat="json">
+	<cfargument name="sp_collection_object_id" type="string" required="no">
+	<cfargument name="co_collection_object_id" type="string" required="no">
+   <cfargument name="taxon_name_id" type="string" required="no">
+   <cfargument name="guid_is_a" type="string" required="yes">
+   <cfargument name="target_table" type="string" required="yes">
+	<cfargument name="guid_our_thing_id" type="string" required="yes">
+	<cfargument name="resolver_prefix" type="string" required="no" default=''>
+	<cfargument name="scheme" type="string" required="no" default="">
+	<cfargument name="type" type="string" required="no" default="">
+	<cfargument name="authority" type="string" required="no" default="">
+	<cfargument name="local_identifier" type="string" required="no" default="">
+	<cfargument name="assembled_identifier" type="string" required="no" default="">
+	<cfargument name="assembled_resolvable" type="string" required="no" default="">
+	<cfargument name="assigned_by" type="string" required="no" default="">
+	<cfargument name="assigned_by_agent_id" type="string" required="no" default="">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="updateGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateMatSampe_result">
+				UPDATE guid_our_thing
+				SET
+					GUID_IS_A = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.guid_is_a#">,
+					TARGET_TABLE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.target_table#">,
+					TAXON_NAME_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxon_name_id#">,
+					SP_COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sp_collection_object_id#">,
+					CO_COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.co_collection_object_id#">,
+					resolver_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.resolver_prefix#">,
+					scheme = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.scheme#">,
+					type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.type#">,
+					authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.authority#">,
+					local_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.local_identifier#">,
+					assembled_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_identifier#">,
+					assembled_resolvable = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_resolvable#">,
+					assigned_by = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assigned_by#">,
+				WHERE 
+					guid_our_thing_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.guid_our_thing_id#">
+			</cfquery>
+			<cfif updateGuid_result.recordcount EQ 1>
+				<cftransaction action="commit"/>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "saved">
+				<cfset row["id"] = "#guid_our_thing_id#">
+				<cfset data[1] = row>
+			<cfelse>
+				<cfthrow message="Error other than one row affected.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
 </cfcomponent>
