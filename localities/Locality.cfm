@@ -684,7 +684,7 @@ limitations under the License.
 		
 		<script>
 		var drawerWidthPx = 400;
-		var marginPx = 30;
+		var marginPx = 60;
 		var maxWidth = Math.min(restoreWidth, winWidth - marginPx * 2);
 		var origDialogWidth = maxWidth; // fallback size
 
