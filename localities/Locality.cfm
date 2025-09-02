@@ -879,16 +879,10 @@ var drawerWidthPx = 400;
 				});
 
 				$("##hide-wiki").hide();
-
+// this 
 				// Window resize: always recalculate, forcibly center if no drawer
-				$(window).on('resize', function() {
-					if ($('##wikiDrawer').is(':visible')) {
-						pushDialogForDrawer(marginPx, drawerWidthPx);
-					} else {
-						centerDialogProperly(marginPx, 0);
-					}
-				});
-
+			
+// This is what pushes the dialog to the right (left: 430px;) / removing it makes the dialog fill the window with margins and go over the wiki drawer.
 				// On dialog open, position properly based on drawer state
 				$(document).on('dialogopen', '.ui-dialog', function() {
 					setTimeout(function() {
@@ -898,6 +892,14 @@ var drawerWidthPx = 400;
 							centerDialogProperly();
 						}
 					}, 0);
+				});
+				
+				$(window).on('resize', function() {
+					if ($('##wikiDrawer').is(':visible')) {
+						pushDialogForDrawer(marginPx, drawerWidthPx);
+					} else {
+						centerDialogProperly(marginPx, 0);
+					}
 				});
 			});
 		</script>
