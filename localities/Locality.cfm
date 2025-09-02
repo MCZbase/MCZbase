@@ -892,15 +892,17 @@ var drawerWidthPx = 400;
 							centerDialogProperly();
 						}
 					}, 0);
-				});
-				
-				$(window).on('resize', function() {
+					
+					$(window).on('resize', function() {
 					if ($('##wikiDrawer').is('!:visible')) {
 						pushDialogForDrawer(marginPx, 0);
 					} else {
 						centerDialogProperly(marginPx, 0);
 					}
+					});
 				});
+				
+				
 			});
 		</script>
 		
