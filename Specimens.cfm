@@ -3511,6 +3511,7 @@ Target JSON:
 					}
 
 					if (firstDataField) {
+						$('##overlay').hide();
 						 // Scroll to the cell FIRST:
 						$grid.jqxGrid('ensurowvisible', 0, firstDataField);
 						// Now select it:
@@ -3530,6 +3531,7 @@ Target JSON:
 				// --- Focus first cell/row after grid data loads ---
 
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
+					$('##overlay').hide();
 					focusFirstVisibleCell_fixed();
 					
 					<cfif NOT isDefined("session.gridscrolltotop") OR session.gridscrolltotop EQ "true">
