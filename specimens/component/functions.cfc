@@ -10564,6 +10564,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												<script>
 													$(document).ready(function() {
 														$("##input_text").on('change', function() { 
+															$(".guidparsefield").show(); // show the parsed fields when a value is entered
 															var bits = parseGuid($(this).val());
 															console.log(bits);
 															if (bits !== null) { 
@@ -10586,37 +10587,38 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 															}
 														});
 													});
+													$(".guidparsefield").hide(); // hide the parsed fields by default
 												</script>
 											</div>
-											<div class="col-12 col-md-3 px-1">
+											<div class="col-12 col-md-3 px-1 guidparsefield">
 												<label class="data-entry-label" for="resolver_prefix">Resolver Prefix</label>
 												<input type="text" class="data-entry-input" name="resolver_prefix" id="resolver_prefix">
 											</div>
-											<div class="col-12 col-md-3 px-1">
+											<div class="col-12 col-md-3 px-1 guidparsefield">
 												<label class="data-entry-label" for="scheme">Scheme</label>
 												<input type="text" class="data-entry-input" name="scheme" id="scheme">
 											</div>
-											<div class="col-12 col-md-3 px-1">
+											<div class="col-12 col-md-3 px-1 guidparsefield">
 												<label class="data-entry-label" for="type">Type</label>
 												<input type="text" class="data-entry-input" name="type" id="type">
 											</div>
-											<div class="col-12 col-md-3 px-1">
+											<div class="col-12 col-md-3 px-1 guidparsefield">
 												<label class="data-entry-label" for="authority">Authority</label>
 												<input type="text" class="data-entry-input" name="authority" id="authority">
 											</div>
-											<div class="col-12 col-md-3 px-1">
+											<div class="col-12 col-md-3 px-1 guidparsefield">
 												<label class="data-entry-label" for="local_identifier">Local Identifier</label>
 												<input type="text" class="data-entry-input" name="local_identifier" id="local_identifier">
 											</div>
-											<div class="col-12 col-md-6 px-1">
+											<div class="col-12 col-md-6 px-1 guidparsefield">
 												<label class="data-entry-label" for="assembled_identifier">Full Identifier</label>
 												<input type="text" class="data-entry-input" name="assembled_identifier" id="assembled_identifier">
 											</div>
-											<div class="col-12 col-md-6 px-1">
+											<div class="col-12 col-md-6 px-1 guidparsefield">
 												<label class="data-entry-label" for="assembled_resolvable">Resolvable Identifier</label>
 												<input type="text" class="data-entry-input" name="assembled_resolvable" id="assembled_resolvable">
 											</div>
-											<div class="col-12 col-md-6 px-1">
+											<div class="col-12 col-md-6 px-1 guidparsefield">
 												<label class="data-entry-label" for="assigned_by">Assigned By</label>
 												<input type="hidden" name="assigned_by_agent_id" value="">
 												<input type="text" class="data-entry-input" name="assigned_by" id="assigned_by">
@@ -10626,7 +10628,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 													});
 												</script>
 											</div>
-											<div class="col-12 col-md-6 px-1">
+											<div class="col-12 col-md-6 px-1 guidparsefield">
 												<button type="button" class="btn btn-primary mt-2" onclick="addOtherIDSubmit();">Add materialSampleID</button>
 												<output id="addMaterialSampleIDResultDiv"></output>
 											</div>
