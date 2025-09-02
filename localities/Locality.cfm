@@ -884,7 +884,7 @@ function centerDialogProperly(marginPx, topPx) {
 				$("##hide-wiki").hide();
 // this is not working need to fix
 				// Window resize: always recalculate, forcibly center if no drawer
-				$(window).on('resize', function() {
+				$(document).on('resize', function() {
 					if ($('##wikiDrawer').is(':visible')) {
 						pushDialogForDrawer(marginPx, drawerWidthPx);
 					} else {
@@ -898,7 +898,7 @@ function centerDialogProperly(marginPx, topPx) {
 						if ($('##wikiDrawer').is(':visible')) {
 							pushDialogForDrawer(marginPx, drawerWidthPx);
 						} else {
-							centerDialogProperly();
+							centerDialogProperly(0, 0);
 						}
 					}, 0);
 				});
