@@ -683,43 +683,7 @@ limitations under the License.
 		
 		
 		<script>
-		var drawerWidthPx = 400;
-		var marginPx = 60;
-		//var maxWidth = Math.min(restoreWidth, winWidth - marginPx * 2);
-		var origDialogWidth = 1248; // fallback size
 
-//		function pushDialogForDrawer() {
-//			var winWidth = $(window).width();
-//			var dlgLeft = drawerWidthPx + marginPx;
-//			var dlgTop = marginPx;
-//			//var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
-//			$('.ui-dialog:visible').each(function() {
-//				var $w = $(this);
-//				if ($w.data('origWidth') === undefined) $w.data('origWidth', $w.width());
-//				$w.css({
-//					left: dlgLeft + "px",
-//					top: dlgTop + "px",
-//					width: dlgWidth + "px",
-//					position: 'fixed'
-//				});
-//			});
-//		}
-
-//		function centerAllOpenDialogs() {
-//			var winWidth = $(window).width();
-//			var dlgTop = marginPx;
-//			$('.ui-dialog:visible').each(function() {
-//				var restoreWidth = $(this).data('origWidth') || origDialogWidth;
-//				var maxWidth = Math.min(restoreWidth, winWidth - marginPx * 2);
-//				var dlgLeft = Math.max(Math.round((winWidth - maxWidth) / 2), marginPx);
-//				$(this).css({
-//					left: dlgLeft + "px",
-//					top: dlgTop + "px",
-//					width: maxWidth + "px",
-//					position: 'fixed'
-//				});
-//			});
-//		}
 		var drawerWidthPx = 400;
 		var marginPx = 30; // or use your desired spacing from drawer edge
 		var origDialogWidth = 500;
