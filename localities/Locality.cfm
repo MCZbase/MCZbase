@@ -816,7 +816,7 @@ limitations under the License.
 			
 			
 		var drawerWidthPx = 400;
-		var marginPx = 30; // or use your desired spacing from drawer edge
+		var marginPx = 30; 
 		var origDialogWidth = 500;
 
 		function pushDialogForDrawer() {
@@ -861,7 +861,7 @@ limitations under the License.
 					}
 				});
 			}
-		$(document).ready(function() {
+			$(document).ready(function() {
 			// Show drawer, push dialog right if drawer will be visible
 			$('##show-wiki').on('click', function(e) {
 				e.preventDefault();
@@ -908,17 +908,48 @@ limitations under the License.
 				}, 0);
 			});
 		});
-			$(window).on('resize', function() {
-				var drawerIsOpen = $('##wikiDrawer').hasClass('open');
-				positionDialogsForDrawer(drawerIsOpen);
-			});
 
-			$(document).on('dialogopen', '.ui-dialog', function() {
-				var drawerIsOpen = $('##wikiDrawer').hasClass('open');
-				setTimeout(function() {
-					positionDialogsForDrawer(drawerIsOpen);
-				}, 0);
+		function positionDialogsForDrawer(drawerIsOpen) {
+			var leftPx = drawerIsOpen ? (drawerWidthPx + marginPx) : null;
+
+			$('.ui-dialog:visible').each(function() {
+				var $w = $(this);
+
+				if (drawerIsOpen) {
+					// Place dialog right of drawer, over main content
+					$w.css({
+						left: leftPx + "px",
+						position: 'fixed',
+						// optionally ensure above drawer:
+						'z-index': 10000
+					});
+				} else {
+					// Center dialog in window
+					var winWidth = $(window).width();
+					var dlgWidth = $w.outerWidth();
+					var dlgLeft = Math.max(Math.round((winWidth - dlgWidth) / 2), marginPx);
+					$w.css({
+						left: dlgLeft + "px",
+						position: 'fixed',
+						'z-index': 10000
+					});
+				}
 			});
+		}
+
+		$(window).on('resize', function() {
+			var drawerIsOpen = $('##wikiDrawer').hasClass('open');
+			positionDialogsForDrawer(drawerIsOpen);
+		});
+
+		$(document).on('dialogopen', '.ui-dialog', function() {
+			var drawerIsOpen = $('##wikiDrawer').hasClass('open');
+			// Use a tiny timeout to ensure dialog is fully created and visible
+			setTimeout(function() {
+				positionDialogsForDrawer(drawerIsOpen);
+			}, 0);
+
+		});
 		</script>
 		
 		
