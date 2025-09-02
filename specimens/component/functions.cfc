@@ -10808,6 +10808,162 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!---getEditAMaterialSampleIDHTML obtain a block of html to populate a materialSampleID editor dialog for a specified specimen part,
+ Does not allow editing of an existing internally assigned materialSampleID, only adding new ones or deleting user assigned ones.
+
+ @param collection_object_id the collection_object_id for the specimen part for which to obtain the materialSampleId editor dialog.
+ @return html for editing materialSampleIDs for the specified specimen part.
+--->
+<cffunction name="getEditAMaterialSampleIDHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="guid_our_thing_id" type="string" required="yes">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfthread name="getEditMaterialSampleIDThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getCatalog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						collection.institution_acronym,
+						cataloged_item.collection_cde,
+						cataloged_item.cat_num,
+						specimen_part.part_name,
+						specimen_part.preserve_method,
+						specimen_part.collection_object_id AS part_id
+					FROM 
+						specimen_part
+						join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+						join collection on cataloged_item.collection_id = collection.collection_id
+						join guid_our_thing on guid_our_thing.sp_collection_object_id = specimen_part.collection_object_id
+					WHERE 
+						guid_our_thing.guid_our_thing_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.guid_our_thing_id#">
+				</cfquery>
+				<cfif getCatalog.recordcount EQ 0>
+					<cfthrow message="No guid_our_thing record found with guid_our_thing_id #encodeForHtml(arguments.guid_our_thing_id)#">
+				</cfif>
+				<cfquery name="getGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						GUID_OUR_THING_ID,
+						TIMESTAMP_CREATED,
+						TARGET_TABLE,
+						CO_COLLECTION_OBJECT_ID,
+						SP_COLLECTION_OBJECT_ID,
+						TAXON_NAME_ID,
+						RESOLVER_PREFIX,
+						SCHEME,
+						TYPE,
+						AUTHORITY,
+						LOCAL_IDENTIFIER,
+						ASSEMBLED_IDENTIFIER,
+						ASSEMBLED_RESOLVABLE,
+						assigning_agent.agent_name ASSIGNED_BY,
+						CREATED_BY,
+						LAST_MODIFIED,
+						DISPOSITION,
+						GUID_IS_A  
+					FROM guid_our_thing
+						join preferred_agent_name assigning_agent on guid_our_thing.assigned_by_agent_id = prefix_agent.agent_id
+					WHERE
+						guid_our_thing_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#guid_our_thing_id#">
+				</cfquery>
+				<!--- Edit existing --->
+				<div class="container-fluid">
+					<div class="row">
+						<div class="pt-1 px-2 col-12 float-left">
+							<div class="col-12 mt-0 bg-light border rounded pt-1 pb-0 px-3">
+								<h2 class="h3">Existing dwc:MaterialSampleIDs</h2>
+								<cfloop query="getGuid">
+									<form name="editMaterialSampleIDForm" id="addMaterialSampleIDForm" class="row mb-0 pt-1">
+										<input type="hidden" name="sp_collection_object_id" value="#getCatalog.part_id#">
+										<input type="hidden" name="method" value="updateMaterialSampleID">
+										<input type="hidden" name="returnformat" value="json">
+										<input type="hidden" name="queryformat" value="column">
+										<div class="form-row ml-3 mr-4 w-100">
+											<div class="col-12 col-md-3 px-1">
+												<label class="data-entry-label" for="resolver_prefix">Resolver Prefix</label>
+												<input type="text" class="data-entry-input" name="resolver_prefix" id="resolver_prefix" value="#getGuid.resolver_prefix#">
+											</div>
+											<div class="col-12 col-md-3 px-1">
+												<label class="data-entry-label" for="scheme">Scheme</label>
+												<input type="text" class="data-entry-input" name="scheme" id="scheme" value="#getGuid.scheme#">
+											</div>
+											<div class="col-12 col-md-3 px-1">
+												<label class="data-entry-label" for="type">Type</label>
+												<input type="text" class="data-entry-input" name="type" id="type" value="#getGuid.type#">
+											</div>
+											<div class="col-12 col-md-3 px-1">
+												<label class="data-entry-label" for="authority">Authority</label>
+												<input type="text" class="data-entry-input" name="authority" id="authority" value="#getGuid.authority#">
+											</div>
+											<div class="col-12 col-md-3 px-1">
+												<label class="data-entry-label" for="local_identifier">Local Identifier</label>
+												<input type="text" class="data-entry-input" name="local_identifier" id="local_identifier" value="#getGuid.local_identifier#">
+											</div>
+											<div class="col-12 col-md-6 px-1">
+												<label class="data-entry-label" for="assembled_identifier">Full Identifier</label>
+												<input type="text" class="data-entry-input" name="assembled_identifier" id="assembled_identifier" value="#getGuid.assembled_identifier#">
+											</div>
+											<div class="col-12 col-md-6 px-1">
+												<label class="data-entry-label" for="assembled_resolvable">Resolvable Identifier</label>
+												<input type="text" class="data-entry-input" name="assembled_resolvable" id="assembled_resolvable" value="#getGuid.assembled_resolvable#">
+											</div>
+											<div class="col-12 col-md-6 px-1">
+												<label class="data-entry-label" for="assigned_by">Assigned By</label>
+												<input type="hidden" name="assigned_by_agent_id" value="#getGuid.assigned_by_agent_id#">
+												<input type="text" class="data-entry-input" name="assigned_by" id="assigned_by" value="#getGuid.assigned_by#">
+												<script>
+													$(document).ready(function() {
+														makeAgentAutoCompleteMeta("assigned_by","assigned_by_agent_id",true);
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-6 px-1">
+												<button type="button" class="btn btn-primary mt-2" onclick="editOtherIDSubmit();">Save</button>
+												<output id="editMaterialSampleIDResultDiv"></output>
+											</div>
+										</div>
+									</form>
+									<script>
+										function editOtherIDSubmit() { 
+											setFeedbackControlState("editMaterialSampleIDResultDiv","saving")
+											$.ajax({
+												url : "/specimens/component/functions.cfc",
+												type : "post",
+												dataType : "json",
+												data: $("##editMaterialSampleIDForm").serialize(),
+												success: function (result) {
+													if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+														setFeedbackControlState("editMaterialSampleIDResultDiv","saved")
+														reloadParts();
+													} else {
+														// we shouldn't be able to reach this block, backing error should return an http 500 status
+														setFeedbackControlState("editMaterialSampleIDResultDiv","error")
+														messageDialog('Error saving materialSamleID: '+result.DATA.MESSAGE[0], 'Error saving materialSampleID.');
+													}
+												},
+												error: function(jqXHR,textStatus,error){
+													setFeedbackControlState("editMaterialSampleIDResultDiv","error")
+													handleFail(jqXHR,textStatus,error,"saving materialSampleID");
+												}
+											});
+										};
+									</script>
+								</cfloop>
+							</div>
+						</div>
+					</div>
+				</div>
+			<cfcatch>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getEditMaterialSampleIDThread"/>
+	<cfreturn getEditMaterialSampleIDThread.output>
+</cffunction>
+
 <!---
  * updateMaterialSampleID update a guid_our_thing record for a materialSampleID
  *
