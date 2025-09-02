@@ -710,32 +710,32 @@ limitations under the License.
 			}
 
 			$(document).ready(function() {
-			  $('#show-wiki').on('click', function(e) {
+			  $('##show-wiki').on('click', function(e) {
 				e.preventDefault();
 				// showWiki ... your code here
-				$('#show-wiki').hide();
-				$('#hide-wiki').show();
+				$('##show-wiki').hide();
+				$('##hide-wiki').show();
 				setTimeout(function() {
-				  if ($('#wikiDrawer').is(':visible')) {
+				  if ($('##wikiDrawer').is(':visible')) {
 					pushDialogForDrawer(400);
 				  }
 				}, 400);
 			  });
 
-			  $('#hide-wiki').on('click', function(e) {
+			  $('##hide-wiki').on('click', function(e) {
 				e.preventDefault();
 				closeWikiDrawer();
 				setTimeout(function() {
 				  pushDialogForDrawer(230);
 				}, 400);
-				$('#hide-wiki').hide();
-				$('#show-wiki').show();
+				$('##hide-wiki').hide();
+				$('##show-wiki').show();
 			  });
 
 			  $('#hide-wiki').hide();
 
 			  $(window).on('resize', function() {
-				if ($('#wikiDrawer').is(':visible')) {
+				if ($('##wikiDrawer').is(':visible')) {
 				  pushDialogForDrawer(400);
 				} else {
 				  pushDialogForDrawer(230);
@@ -744,7 +744,7 @@ limitations under the License.
 
 			  $(document).on('dialogopen', '.ui-dialog', function() {
 				setTimeout(function() {
-				  if ($('#wikiDrawer').is(':visible')) {
+				  if ($('##wikiDrawer').is(':visible')) {
 					pushDialogForDrawer(400);
 				  } else {
 					pushDialogForDrawer(230);
