@@ -3511,7 +3511,11 @@ Target JSON:
 					}
 
 					if (firstDataField) {
+						 // Scroll to the cell FIRST:
+						$grid.jqxGrid('ensurowvisible', 0, firstDataField);
+						// Now select it:
 						$grid.jqxGrid('selectcell', 0, firstDataField);
+						// Ensure keyboard and accessibility focus
 						setTimeout(function () {
 							$grid.find('.jqx-grid-cell').attr('tabindex', -1);
 							$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
@@ -3571,7 +3575,7 @@ Target JSON:
 				
 				// Only one handler for pagechanged, and it's namespaced for a11y:
 				$('##fixedsearchResultsGrid').on('pagechanged.a11y', function () {
-					focusFirstVisibleCell_fixed();
+					setTimeout(focusFirstVisibleCell_fixed, 10);
 				});
 	
 				// --- Focus first cell/row when user tabs into grid from selection mode dropdown ---
