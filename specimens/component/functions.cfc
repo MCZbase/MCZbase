@@ -10892,7 +10892,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>	
-			<cfquery name="deleteGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addMatSampe_result">
+			<cfquery name="deleteGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteGuid_result">
 				DELETE FROM guid_our_thing
 				WHERE guid_our_thing_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.guid_our_thing_id#">
 			</cfquery>
