@@ -3511,10 +3511,7 @@ Target JSON:
 					}
 
 					if (firstDataField) {
-						
-						// Now select it:
 						$grid.jqxGrid('selectcell', 0, firstDataField);
-						
 						setTimeout(function () {
 							$grid.find('.jqx-grid-cell').attr('tabindex', -1);
 							$grid.find('.jqx-grid-cell-selected').attr('tabindex', 0).focus();
