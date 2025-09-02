@@ -47,7 +47,7 @@ limitations under the License.
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
 <style>
-	div.mw-parser-output h1 {font-size: 20px;font-weight:bold;}
+	div.mw-parser-output h1 {font-size: 20px;font-weight:bold;border-top:1px solid black; padding-top:36px;}
 	div.mw-parser-output h2 {font-size: 16px;}
 	div.thumb div {display:none;}
 	div.mw-parser-output p {display:none;}
