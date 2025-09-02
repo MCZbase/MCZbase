@@ -756,10 +756,11 @@ limitations under the License.
 				// Window resize: always recalculate, forcibly center if no drawer
 				$(window).on('resize', function() {
 					if ($('##wikiDrawer').is(':visible')) {
+						alert('Drawer visible: pushing dialog');
 						pushDialogForDrawer();
 					} else {
+						alert('Drawer closed: centering dialog');
 						centerAllOpenDialogs();
-						alert(Hello);
 					}
 				});
 
@@ -767,10 +768,11 @@ limitations under the License.
 				$(document).on('dialogopen', '.ui-dialog', function() {
 					setTimeout(function() {
 						if ($('##wikiDrawer').is(':visible')) {
+							alert('Drawer visible on dialogopen: pushing dialog');
 							pushDialogForDrawer();
 						} else {
+							alert('Drawer closed on dialogopen: centering dialog');
 							centerAllOpenDialogs();
-							alert(Hello2);
 						}
 					}, 0);
 				});
