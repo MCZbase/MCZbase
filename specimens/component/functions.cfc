@@ -10709,7 +10709,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 <!---
  * addMaterialSampleID insert a guid_our_thing record for a new materialSampleID
  *
- * @param collection_object_id the collection_object_id of the specimen part to which the new materialSampleID applies.
+ * @param sp_collection_object_id the collection_object_id of the specimen part to which the new materialSampleID applies.
  * @param resolver_prefix the resolver prefix for the new guid
  * @param scheme the scheme for the new guid, e.g. urn
  * @param type the type for the new guid, e.g. uuuid
@@ -10723,7 +10723,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
  * @return a json structure with status=saved, or an http 500 response.
 --->
 <cffunction name="addMaterialSampleID" returntype="any" access="remote" returnformat="json">
-	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="sp_collection_object_id" type="string" required="yes">
 	<cfargument name="resolver_prefix" type="string" required="no" default=''>
 	<cfargument name="scheme" type="string" required="no" default="">
 	<cfargument name="type" type="string" required="no" default="">
@@ -10759,7 +10759,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					'materialSampleID',
 					'SPECIMEN_PART',
 					null,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sp_collection_object_id#">,
 					null,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.resolver_prefix#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.scheme#">,
