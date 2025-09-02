@@ -60,14 +60,12 @@ function openWikiDrawer() {
 	$('#content').addClass('pushed');
 	$("#show-wiki").hide();
 	$("#hide-wiki").show();
-	setTimeout(handleDialogPosition, 400);
 }
 function closeWikiDrawer() {
 	$('#wikiDrawer').removeClass('open');
 	$('#content').removeClass('pushed');
 	$("#show-wiki").show();
 	$("#hide-wiki").hide();
-	setTimeout(handleDialogPosition, 400);
 }
 
 // Shared process/cleanup wiki content
