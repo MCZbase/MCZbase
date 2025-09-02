@@ -878,7 +878,7 @@ function centerDialogProperly(marginPx, topPx) {
 					e.preventDefault();
 					closeWikiDrawer();
 					centerDialogProperly();
-					setTimeout(centerDialogProperly, 400);
+					setTimeout(centerDialogProperly,0);
 				});
 
 				$("##hide-wiki").hide();
