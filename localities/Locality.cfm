@@ -818,6 +818,24 @@ limitations under the License.
 var drawerWidthPx = 400;
 var marginPx = 0;
 
+function pushDialogForDrawer() {
+	var winWidth = $(window).width();
+	var dlgLeft = drawerWidthPx + marginPx;
+	var dlgTop = marginPx;
+	var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
+	$('.ui-dialog:visible').each(function() {
+	var $w = $(this);
+		// Store original width only if not already done
+		if ($w.data('origWidth') === undefined) $w.data('origWidth', $w.width());
+			$w.css({
+				left: dlgLeft + "px",
+				top: dlgTop + "px",
+				width: dlgWidth + "px",
+				position: 'fixed'
+			});
+		});
+	}
+			
 function positionDialogsForDrawer(drawerIsOpen) {
     var leftPx = drawerIsOpen ? (drawerWidthPx + marginPx) : null;
 
