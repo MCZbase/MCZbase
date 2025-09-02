@@ -750,25 +750,7 @@ limitations under the License.
 				}
 			});
 		}
-		function openWikiDrawer() {
-			$('##wikiDrawer').addClass('open');
-			$('##content').addClass('pushed');
-			$("##show-wiki").hide();
-			$("##hide-wiki").show();
-			setTimeout(function() {
-				positionDialogsForDrawer(true);
-			}, 400); // adjust 400 if you have a drawer animation
-		}
 
-		function closeWikiDrawer() {
-			$('##wikiDrawer').removeClass('open');
-			$('##content').removeClass('pushed');
-			$("##show-wiki").show();
-			$("##hide-wiki").hide();
-			setTimeout(function() {
-				positionDialogsForDrawer(false);
-			}, 400);
-		}
 		$(window).on('resize', function() {
 			var drawerIsOpen = $('##wikiDrawer').hasClass('open');
 			positionDialogsForDrawer(drawerIsOpen);
