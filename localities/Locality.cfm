@@ -793,57 +793,102 @@ limitations under the License.
 //			
 //		
 		</script>
-
 		<script>
-		var marginPx = 30;
-		var drawerLeftOpen = 400 + marginPx;  // 430px
-		var drawerLeftClosed = 230 + marginPx; // 260px
+			var marginPx = 30;
+			var origDialogWidth = 500; // fallback size
 
-		function moveDialogs(drawerIsOpen) {
-			var leftPx = drawerIsOpen ? drawerLeftOpen : drawerLeftClosed;
-			$('.ui-dialog:visible').css({
-				left: leftPx + "px",
-				position: 'fixed'
+			function positionDialogs(drawerWidthPx) {
+				var winWidth = $(window).width();
+				var dlgTop = marginPx;
+				var dlgLeft, dlgWidth;
+
+				if (drawerWidthPx > 0) {
+					dlgLeft = drawerWidthPx + marginPx;
+					dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
+				} else {
+					dlgLeft = 230 + marginPx; // use 230 or whatever you want for closed-drawer offset
+					dlgWidth = Math.max(winWidth - 230 - marginPx * 2, 320); // You can adjust this
+				}
+
+				$('.ui-dialog:visible').each(function() {
+					var $w = $(this);
+					if ($w.data('origWidth') === undefined) $w.data('origWidth', $w.width());
+					$w.css({
+						left: dlgLeft + "px",
+						top: dlgTop + "px",
+						width: dlgWidth + "px",
+						position: 'fixed'
+					});
+				});
+			}
+
+			function centerAllOpenDialogs() {
+				var winWidth = $(window).width();
+				var dlgLeft = marginPx;
+				var dlgTop = marginPx;
+				$('.ui-dialog:visible').each(function() {
+					var $w = $(this);
+					var restoreWidth = $w.data('origWidth') || origDialogWidth;
+					var maxWidth = Math.min(restoreWidth, winWidth - marginPx * 2);
+					$w.css({
+						left: dlgLeft + "px",
+						top: dlgTop + "px",
+						width: maxWidth + "px"
+					});
+				});
+			}
+
+			$(document).ready(function() {
+				// Show drawer, push dialog right if drawer will be visible
+				$('#show-wiki').on('click', function(e) {
+					e.preventDefault();
+					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
+					<cfelse>
+						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
+					</cfif>
+					$("#show-wiki").hide();
+					$("#hide-wiki").show();
+					setTimeout(function() {
+						if ($('#wikiDrawer').is(':visible')) {
+							positionDialogs(400); // Drawer open: 400 px
+						}
+					}, 400);
+				});
+
+				// Hide drawer, recenter dialog
+				$('#hide-wiki').on('click', function(e) {
+					e.preventDefault();
+					closeWikiDrawer();
+					setTimeout(function() {
+						positionDialogs(230); // Drawer closed: 230 px (or use 0 if you want true centering)
+					}, 400);
+					$("#hide-wiki").hide();
+					$("#show-wiki").show();
+				});
+
+				$("#hide-wiki").hide();
+
+				// Window resize: always recalculate
+				$(window).on('resize', function() {
+					if ($('#wikiDrawer').is(':visible')) {
+						positionDialogs(400);
+					} else {
+						positionDialogs(230);
+					}
+				});
+
+				// On dialog open, position properly based on drawer state
+				$(document).on('dialogopen', '.ui-dialog', function() {
+					setTimeout(function() {
+						if ($('#wikiDrawer').is(':visible')) {
+							positionDialogs(400);
+						} else {
+							positionDialogs(230);
+						}
+					}, 0);
+				});
 			});
-		}
-
-		$(document).ready(function() {
-			// When showing the drawer
-			$('##show-wiki').on('click', function(e) {
-				e.preventDefault();
-				// ...your showWiki code here...
-				$('##show-wiki').hide();
-				$('##hide-wiki').show();
-				setTimeout(function() {
-					moveDialogs(true); // Drawer open: move dialogs to 430px
-				}, 400);
-			});
-
-			// When hiding the drawer
-			$('##hide-wiki').on('click', function(e) {
-				e.preventDefault();
-				// ...your closeWikiDrawer code here...
-				$('##hide-wiki').hide();
-				$('##show-wiki').show();
-				setTimeout(function() {
-					moveDialogs(false); // Drawer closed: move dialogs to 260px
-				}, 400);
-			});
-
-			$('##hide-wiki').hide(); // Start with hide link hidden
-
-			// Keep dialogs in position on window resize
-			$(window).on('resize', function() {
-				moveDialogs($('##wikiDrawer').is(':visible'));
-			});
-
-			// When a dialog opens, position it appropriately
-			$(document).on('dialogopen', '.ui-dialog', function() {
-				setTimeout(function() {
-					moveDialogs($('##wikiDrawer').is(':visible'));
-				}, 0);
-			});
-		});
 		</script>
 		
 	</cfoutput>	
