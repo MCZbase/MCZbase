@@ -1057,6 +1057,34 @@ function deleteGuidOurThing(guid_our_thing_id, feedbackDiv, callback) {
 	});
 }
 
+/** openEditMaterialSampleIDDialog open a dialog for editing a materialSampleID
+ *
+ * @param guid_our_thing_id primary key value for the guid record to edit, expected
+ *   to be a materialSampleID.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param description text describing the specimen part the guid is for to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openEditMaterialSampleIDDialog(guid_our_thing_id,dialogId,description,callback) {
+	var title = "Edit materialSampleID for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditAMaterialSampleIDHTML",
+			guid_our_thing_id: guid_our_thing_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit a materialSampleID dialog");
+		},
+		dataType: "html"
+	});
+};
+
 /** openEditMaterialSampleIDDialog open a dialog for adding materialSampleIDs to 
  * a specimen part.
  *

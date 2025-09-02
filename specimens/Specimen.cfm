@@ -473,6 +473,8 @@ limitations under the License.
 		<div id="InPageEditorDiv" class="container-fluid"></div>
 		<!--- Divs to hold modal edit dialog launched from within above --->
 		<div id="materialSampleIDEditDialog"></div>
+		<!--- Divs to hold modal edit dialog launched from within above --->
+		<div id="materialSampleIDEditDialog1"></div>
 
 		<!--- controls for editing record --->
 		<div class="container-fluid d-none d-lg-block" id="editControlsDiv">

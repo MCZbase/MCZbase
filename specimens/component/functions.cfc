@@ -10663,6 +10663,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							</div>
 
 							<!--- List/Edit existing --->
+							<cfset description="#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num# #getCatalog.part_name# (#getCatalog.preserve_method#)">
 							<div class="container-fluid">
 								<div class="row">
 									<div class="col-12 mt-0 bg-light border rounded pt-1 pb-0 px-3">
@@ -10685,12 +10686,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 														<!--- allow deletion of user assigned materialSampleIDs --->
 														<button type="button" class="btn btn-sm btn-warning ml-2" title="Delete this materialSampleID" onclick="deleteGuidOurThing('#getGuids.guid_our_thing_id#','editMaterialSampleIDstatus_#getGuids.guid_our_thing_id#',reloadParts);">Delete</button>
 														<!--- allow edit of user assigned materialSampleIDs --->
-														<button type="button" class="btn btn-sm btn-secondary ml-2" title="Edit this materialSampleID" onclick="editMaterialSampleID('#getGuids.guid_our_thing_id#','#getCatalog.part_id#');"> Edit</button>
-														<script>
-															$(document).ready(function() {
-																// on click handler for delete button
-															});
-														</script>
+														<button type="button" class="btn btn-sm btn-secondary ml-2" title="Edit this materialSampleID" onclick="openEditMaterialSampleIDDialog'#getGuids.guid_our_thing_id#','materialSampleIDEditDialog1','#description#',reloadParts);"> Edit</button>
 														<output id="editMaterialSampleIDstatus_#getGuids.guid_our_thing_id#"></output>
 													</cfif>
 											</cfloop>
