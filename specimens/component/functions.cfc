@@ -4493,6 +4493,7 @@ limitations under the License.
 										</cfif>
 									</div>
 									<cfif getMaterialSampleID.recordcount GT 0>
+										<!--- only show, and only allow addition of, materialSampleID values if there are any assigned to this part --->
 										<div class="col-12">
 											<ul class="list-unstyled pl-1">
 												<cfloop query="getMaterialSampleID">
