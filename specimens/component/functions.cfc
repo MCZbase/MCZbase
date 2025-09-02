@@ -10944,6 +10944,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												dataType : "json",
 												data: $("##editMaterialSampleIDForm").serialize(),
 												success: function (result) {
+													console.log(result);
 													if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
 														setFeedbackControlState("editMaterialSampleIDResultDiv","saved")
 														reloadParts();
