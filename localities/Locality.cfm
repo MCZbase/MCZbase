@@ -821,7 +821,7 @@ limitations under the License.
 			var topMarginPx = 20;
 			var pushedDialogWidth = 1050;
 			var normalDialogWidth = 1540;
-			var dialogWidthPercent = 0.7;
+			var dialogWidthPercent = 0.8;
 
 			function updateDialogPositionForDrawer() {
 				var winWidth = $(window).width();
@@ -843,7 +843,7 @@ limitations under the License.
 						});
 					} else {
 						// Dialog centered at normal size
-						 var widthPx = Math.min(1200, winWidth - marginPx * 2); // 500px max or adjust as needed
+						var widthPx = Math.min(1500, winWidth - marginPx * 2); // 500px max or adjust as needed
 						var dlgLeft = Math.max(Math.round((winWidth - widthPx) / 2), marginPx);
 						$dlg.css({
 							left: dlgLeft + "px",
