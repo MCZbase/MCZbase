@@ -110,7 +110,7 @@ function closeWikiDrawer() {
 // Shared process/cleanup wiki content
 function processWikiContent($container) {
 	$container.find('.mw-editsection').remove(); // remove edit controls
-	$container.find('#toc').remove(); // remove table of contents
+//	$container.find('#toc').remove(); // remove table of contents
 
 	$container.find('a').filter(function() {
 		return $(this).text().trim().toLowerCase() === "edit";
