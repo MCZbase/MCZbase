@@ -10815,7 +10815,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 <cffunction name="getEditAMaterialSampleIDHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="guid_our_thing_id" type="string" required="yes">
 
-	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.guid_our_thing_id = arguments.guid_our_thing_id>
 	<cfthread name="getEditMaterialSampleIDThread">
 		<cfoutput>
 			<cftry>
