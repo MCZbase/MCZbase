@@ -666,9 +666,9 @@ limitations under the License.
 			<cfset targetWikiPage = "Edit_Locality">
 		</cfif>--->
 		<cfif isDefined("action") AND ( action EQ "new" )>
-		<cfset targetWikiPage = "CreateLocality">
+		<cfset targetWikiPage = "Locality">
 		<cfelseif isDefined("action") AND ( action EQ "edit" )>
-			<cfset targetWikiPage = "EditLocality">
+			<cfset targetWikiPage = "Edit_Locality">
 		<cfelse>
 			<cfset targetWikiPage = "Locality">
 		</cfif>
