@@ -10698,7 +10698,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 													<script>
 														function doOpenEdit_#getGuids.guid_our_thing_id#() { 
 															openEditAMaterialSampleIDDialog('#getGuids.guid_our_thing_id#','materialSampleIDEditDialog1','#description#',reloadParts);
-															$("#materialSampleIDEditDialog").dialog("close"); 
+															$("##materialSampleIDEditDialog").dialog("close"); 
 														};
 													</script>
 											</cfloop>
