@@ -10863,7 +10863,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						DISPOSITION,
 						GUID_IS_A  
 					FROM guid_our_thing
-						left join preferred_agent_name assigning_agent on guid_our_thing.assigned_by_agent_id = prefix_agent.agent_id
+						left join preferred_agent_name assigning_agent on guid_our_thing.assigned_by_agent_id = assigning_agent.agent_id
 						left join preferred_agent_name creating_agent on guid_our_thing.created_by_agent_id = creating_agent.agent_id
 					WHERE
 						guid_our_thing_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#guid_our_thing_id#">
