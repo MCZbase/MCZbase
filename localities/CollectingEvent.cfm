@@ -719,7 +719,7 @@ limitations under the License.
 	<cfoutput>
 		<cfset targetWikiPage = "Collecting_Event">
 		<cfif action EQ "edit">
-			<cfset targetWikiPage = "Edit_Collection">
+			<cfset targetWikiPage = "Collecting_Event">
 		</cfif>
 		<div id="wikiDrawer" class="wiki-drawer border">
 			<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
