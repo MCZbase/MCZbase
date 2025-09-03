@@ -2850,10 +2850,6 @@ div.mw-parser-output dt {
 	font-weight:650;
 }
 div.toctitle {margin-bottom:0;}
-div.mw-parser-output.thumb.thumbinner {
-	display:none;
-	width:0;
-}
 .thumbinner {display:none;}
 .ui-dialog {
 	z-index: 9997 !important;
