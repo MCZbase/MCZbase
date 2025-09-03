@@ -10899,31 +10899,31 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 										<div class="form-row ml-3 mr-4 w-100">
 											<div class="col-12 col-md-3 px-1">
 												<label class="data-entry-label" for="resolver_prefix">Resolver Prefix</label>
-												<input type="text" class="data-entry-input" name="resolver_prefix" id="resolver_prefix" value="#getGuid.resolver_prefix#">
+												<input type="text" class="data-entry-input" name="resolver_prefix" id="resolver_prefix_edit" value="#getGuid.resolver_prefix#">
 											</div>
 											<div class="col-12 col-md-3 px-1">
 												<label class="data-entry-label" for="scheme">Scheme</label>
-												<input type="text" class="data-entry-input" name="scheme" id="scheme" value="#getGuid.scheme#">
+												<input type="text" class="data-entry-input" name="scheme" id="scheme_edit" value="#getGuid.scheme#">
 											</div>
 											<div class="col-12 col-md-3 px-1">
 												<label class="data-entry-label" for="type">Type</label>
-												<input type="text" class="data-entry-input" name="type" id="type" value="#getGuid.type#">
+												<input type="text" class="data-entry-input" name="type" id="type_edit" value="#getGuid.type#">
 											</div>
 											<div class="col-12 col-md-3 px-1">
 												<label class="data-entry-label" for="authority">Authority</label>
-												<input type="text" class="data-entry-input" name="authority" id="authority" value="#getGuid.authority#">
+												<input type="text" class="data-entry-input" name="authority" id="authority_edit" value="#getGuid.authority#">
 											</div>
 											<div class="col-12 col-md-3 px-1">
 												<label class="data-entry-label" for="local_identifier">Local Identifier</label>
-												<input type="text" class="data-entry-input" name="local_identifier" id="local_identifier" value="#getGuid.local_identifier#">
+												<input type="text" class="data-entry-input" name="local_identifier" id="local_identifier_edit" value="#getGuid.local_identifier#">
 											</div>
 											<div class="col-12 col-md-6 px-1">
 												<label class="data-entry-label" for="assembled_identifier">Full Identifier</label>
-												<input type="text" class="data-entry-input" name="assembled_identifier" id="assembled_identifier" value="#getGuid.assembled_identifier#">
+												<input type="text" class="data-entry-input" name="assembled_identifier" id="assembled_identifier_edit" value="#getGuid.assembled_identifier#">
 											</div>
 											<div class="col-12 col-md-6 px-1">
 												<label class="data-entry-label" for="assembled_resolvable">Resolvable Identifier</label>
-												<input type="text" class="data-entry-input" name="assembled_resolvable" id="assembled_resolvable" value="#getGuid.assembled_resolvable#">
+												<input type="text" class="data-entry-input" name="assembled_resolvable" id="assembled_resolvable_edit" value="#getGuid.assembled_resolvable#">
 											</div>
 											<div class="col-12 col-md-6 px-1">
 												<label class="data-entry-label" for="assigned_by">Assigned By</label>
