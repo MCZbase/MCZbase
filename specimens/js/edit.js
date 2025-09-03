@@ -1067,7 +1067,7 @@ function deleteGuidOurThing(guid_our_thing_id, feedbackDiv, callback) {
  * @param callback a callback function to invoke on closing the dialog.
  */
 function openEditAMaterialSampleIDDialog(guid_our_thing_id,dialogId,description,callback) {
-	var title = "Edit materialSampleID for " + guid;
+	var title = "Edit materialSampleID for " + description;
 	createSpecimenEditDialog(dialogId,title,callback);
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
