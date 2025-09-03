@@ -796,33 +796,33 @@ limitations under the License.
 			$(document).ready(function() {
 				// Show drawer, push dialog right if drawer will be visible
 				 $('##show-wiki').on('click', function(e) {
-					e.preventDefault();
-					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
-					<cfelse>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
-					</cfif>
-					$("##show-wiki").hide();
-					$("##hide-wiki").show();
-					setTimeout(updateDialogPositionForDrawer, 400); // after wiki tray is visible
-				});
+        e.preventDefault();
+        <cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+            showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
+        <cfelse>
+            showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
+        </cfif>
+        $("##show-wiki").hide();
+        $("##hide-wiki").show();
+        setTimeout(updateDialogPositionForDrawer, 400); // after wiki tray is visible
+    });
 
-				$('##hide-wiki').on('click', function(e) {
-					e.preventDefault();
-					closeWikiDrawer();
-					setTimeout(updateDialogPositionForDrawer, 400); // after wiki tray is hidden
-					$("##hide-wiki").hide();
-					$("##show-wiki").show();
-				});
+    $('##hide-wiki').on('click', function(e) {
+        e.preventDefault();
+        closeWikiDrawer();
+        setTimeout(updateDialogPositionForDrawer, 400); // after wiki tray is hidden
+        $("##hide-wiki").hide();
+        $("##show-wiki").show();
+    });
 
-				$("##hide-wiki").hide();
+    $("##hide-wiki").hide();
 
-				$(window).on('resize', updateDialogPositionForDrawer);
+    $(window).on('resize', updateDialogPositionForDrawer);
 
-				// Whenever a dialog opens, update its position *after* it appears:
-				$(document).on('dialogopen', '.ui-dialog', function() {
-					setTimeout(updateDialogPositionForDrawer, 0);
-				});
+    // Whenever a dialog opens, update its position *after* it appears:
+    $(document).on('dialogopen', '.ui-dialog', function() {
+        setTimeout(updateDialogPositionForDrawer, 0);
+    });
 			});
 		</script>
 		
