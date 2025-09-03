@@ -10645,14 +10645,14 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												data: $("##addMaterialSampleIDForm").serialize(),
 												success: function (result) {
 													console.log(result);
-													// result is Object { status: "saved", id: 22 } no DATA key.
-													if (typeof result.status !== 'undefined' && result.status=='saved') { 
+													// result is array: [ { status: "saved", id: 22 } ]
+													if (result && result[0] && result[0].status EQ "saved") {
 														setFeedbackControlState("addMaterialSampleIDResultDiv","saved")
 														reloadParts();
 													} else {
 														// we shouldn't be able to reach this block, backing error should return an http 500 status
 														setFeedbackControlState("addMaterialSampleIDResultDiv","error")
-														messageDialog('Error adding materialSamleID: '+result.DATA.MESSAGE[0], 'Error saving materialSampleID.');
+														messageDialog('Error adding materialSamleID: '+result.MESSAGE[0], 'Error saving materialSampleID.');
 													}
 												},
 												error: function(jqXHR,textStatus,error){
