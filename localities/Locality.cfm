@@ -892,42 +892,42 @@ limitations under the License.
 				// Initial call in case dialog is already open and drawer state matters
 				setTimeout(updateDialogPositionForDrawer, 0);
 			});
-		function pushDialogForDrawer() {
-			var winWidth = $(window).width();
-			var dlgLeft = drawerWidthPx + marginPx;
-			var dlgTop = marginPx;
-			var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
-			$('.ui-dialog:visible').each(function() {
-			var $w = $(this);
-				// Store original width only if not already done
-				if ($w.data('origWidth') === undefined) $w.data('origWidth', $w.width());
-					$w.css({
-						left: dlgLeft + "px",
-						top: dlgTop + "px",
-						width: dlgWidth + "px",
-						position: 'fixed'
-					});
-				});
-			}
-			
-			function centerDialogProperly(marginPx, topPx) {
-				var winWidth = $(window).width();
-				var dlgTop = typeof topPx !== "undefined" ? topPx : marginPx;
-				$('.ui-dialog:visible').each(function() {
-					var $w = $(this);
-					// Restore to original width or fallback
-					var origWidth = $w.data('origWidth') || 500;
-					// Don't exceed window (allow for margins)
-					var width = Math.min(origWidth, winWidth - marginPx * 2);
-					var left = Math.max(Math.round((winWidth - width) / 2), marginPx);
-					$w.css({
-						width: width + "px",
-						left: 0 + "px",
-						top: dlgTop + "px",
-						position: 'fixed'
-					});
-				});
-			}
+//		function pushDialogForDrawer() {
+//			var winWidth = $(window).width();
+//			var dlgLeft = drawerWidthPx + marginPx;
+//			var dlgTop = marginPx;
+//			var dlgWidth = Math.max(winWidth - drawerWidthPx - marginPx * 2, 320);
+//			$('.ui-dialog:visible').each(function() {
+//			var $w = $(this);
+//				// Store original width only if not already done
+//				if ($w.data('origWidth') === undefined) $w.data('origWidth', $w.width());
+//					$w.css({
+//						left: dlgLeft + "px",
+//						top: dlgTop + "px",
+//						width: dlgWidth + "px",
+//						position: 'fixed'
+//					});
+//				});
+//			}
+//			
+//			function centerDialogProperly(marginPx, topPx) {
+//				var winWidth = $(window).width();
+//				var dlgTop = typeof topPx !== "undefined" ? topPx : marginPx;
+//				$('.ui-dialog:visible').each(function() {
+//					var $w = $(this);
+//					// Restore to original width or fallback
+//					var origWidth = $w.data('origWidth') || 500;
+//					// Don't exceed window (allow for margins)
+//					var width = Math.min(origWidth, winWidth - marginPx * 2);
+//					var left = Math.max(Math.round((winWidth - width) / 2), marginPx);
+//					$w.css({
+//						width: width + "px",
+//						left: 0 + "px",
+//						top: dlgTop + "px",
+//						position: 'fixed'
+//					});
+//				});
+//			}
 			$(document).ready(function() {
 				// Show drawer, push dialog right if drawer will be visible
 				 $('##show-wiki').on('click', function(e) {
