@@ -817,7 +817,8 @@ limitations under the License.
 			
 			var drawerWidthPx = 400;
 			var marginPx = 30; // or use your desired spacing from drawer edge
-			var origDialogWidth = 500;
+			//var origDialogWidth = 500;
+			var topMarginPx = 20;
 			var pushedDialogWidth = 1050;
 			var normalDialogWidth = 1540;
 
@@ -833,6 +834,7 @@ limitations under the License.
 						$dlg.css({
 							left: leftPx + "px",
 							width: widthPx + "px",
+							top: topMarginPx + "px", 
 							position: 'fixed',
 							'z-index': 10000
 						});
@@ -843,6 +845,7 @@ limitations under the License.
 						$dlg.css({
 							left: dlgLeft + "px",
 							width: widthPx + "px",
+							top: topMarginPx + "px", 
 							position: 'fixed',
 							'z-index': 10000
 						});
