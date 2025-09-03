@@ -159,12 +159,13 @@ limitations under the License.
 
 	<!--- Select wiki API endpoint based on section argument --->
 	<cfif isDefined("arguments.section") AND len(arguments.section) GT 0 AND arguments.section NEQ "0">
+		<!--- Section fetch (already correct) --->
 		<cfset var url = "#wikiIRI#api.php?action=parse&page=" & URLEncodedFormat(arguments.page) & "&section=" & URLEncodedFormat(arguments.section) & "&prop=text&format=json">
 		<cfhttp url="#url#" method="get" result="wikiContent" />
 		<cfset var parsed = deserializeJson(wikiContent.fileContent)>
 		<cfset returnContent = (structKeyExists(parsed, "parse") and structKeyExists(parsed.parse, "text") and (structKeyExists(parsed.parse.text, "*") ? parsed.parse.text["*"] : parsed.parse.text))>
 	<cfelse>
-		<!-- Full page fallback -->
+		<!--- Full page fetch using API (NOT render) --->
 		<cfset var url = "#wikiIRI#api.php?action=parse&page=" & URLEncodedFormat(arguments.page) & "&prop=text&format=json">
 		<cfhttp url="#url#" method="get" result="wikiContent" />
 		<cfset var parsed = deserializeJson(wikiContent.fileContent)>
