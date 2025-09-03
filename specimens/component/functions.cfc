@@ -10652,7 +10652,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 													} else {
 														// we shouldn't be able to reach this block, backing error should return an http 500 status
 														setFeedbackControlState("addMaterialSampleIDResultDiv","error")
-														messageDialog('Error adding materialSamleID: '+result.MESSAGE[0], 'Error saving materialSampleID.');
+														messageDialog('Error adding materialSamleID ', 'Error saving materialSampleID.');
 													}
 												},
 												error: function(jqXHR,textStatus,error){
