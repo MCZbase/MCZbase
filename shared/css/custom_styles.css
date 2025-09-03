@@ -2826,6 +2826,27 @@ form.form-inline.logout-style {
 	margin-left: 400px;
 	width: calc(100% - 400px);
 }
+
+div.mw-parser-output h1 {
+	font-size: 20px;
+	font-weight:bold;
+	border-top:1px solid black;
+	padding-top:36px;
+}
+div.mw-parser-output h2 {
+	font-size: 16px;
+}
+div.thumb div {
+	display:none;
+}
+.ui-dialog {
+	z-index: 9997 !important;
+}
+#wikiDrawer {
+	z-index: 9997 !important;
+}
+
+
 /****************end all screen styles*********************/
 /**********************************************************/
 

@@ -46,14 +46,7 @@ limitations under the License.
 </cfswitch>
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
-<style>
-	div.mw-parser-output h1 {font-size: 20px;font-weight:bold;border-top:1px solid black; padding-top:36px;}
-	div.mw-parser-output h2 {font-size: 16px;}
-	div.thumb div {display:none;}
-	.ui-dialog { z-index: 9997 !important; }
-	#wikiDrawer { z-index: 9997 !important; }
-	
-</style>
+
 <cfswitch expression="#action#">
 	<cfcase value="edit">
 		<cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
