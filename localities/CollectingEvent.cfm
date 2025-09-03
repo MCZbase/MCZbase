@@ -434,7 +434,7 @@ limitations under the License.
 							<form name="createCollectingEvent" id="createCollectingEventForm" method="post" action="/localities/CollectingEvent.cfm">
 								<input type="hidden" name="Action" value="makenewCollectingEvent">
 								#blockform#
-								<div class="col-12 col-md-3 pt-2">
+								<div class="col-12 col-md-3 px-0  pt-2">
 					
 									<input type="button" value="Save" class="btn btn-xs btn-primary mr-2" onClick="saveCollectingEvent();" id="submitButton" >
 									<output id="createFeedback" class="text-danger">&nbsp;</output>	
