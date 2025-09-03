@@ -2843,6 +2843,9 @@ div.mw-parser-output h4 {
 	font-size: 12px;
 	text-decoration: underline;
 }
+div.mw-parser-output dt {
+	font-weight:600;
+}
 div.toctitle {margin-bottom:0;}
 div.thumb div {
 	display:none;
