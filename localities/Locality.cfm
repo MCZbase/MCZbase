@@ -683,40 +683,64 @@ limitations under the License.
 		
 		
 		<script>
-			// Setup for your page (could live anywhere)
-var drawerOpts = {
-    drawerSelector: '##wikiDrawer',
-    drawerOpenClass: 'open',
-    drawerWidthPx: 400,
-    marginPx: 30,
-    topMarginPx: 20,
-    dialogWidthPercent: 0.7, // 70% of space when pushed
-    dialogSelector: '.ui-dialog:visible'
-};
+			
+			var drawerWidthPx = 400;
+			var marginPx = 30; // or use your desired spacing from drawer edge
+			var margin2Px = 200
+			var topMarginPx = 20;
+			var dialogWidthPercent = 1;
 
-// Listen for dialog open
-$(document).on('dialogopen', '.ui-dialog', function() {
-    setTimeout(function() { positionDialogsForDrawer(drawerOpts); }, 0);
-});
-
-// Listen for window resize
-$(window).on('resize', function() {
-    positionDialogsForDrawer(drawerOpts);
-});
-
-setTimeout(function() { positionDialogsForDrawer(drawerOpts); }, 400);
-			
-			
-			
-			
-			
-//			var drawerWidthPx = 400;
-//			var marginPx = 30; // or use your desired spacing from drawer edge
-//			var margin2Px = 200
-//			var topMarginPx = 20;
-//			var dialogWidthPercent = 1;
-
-			
+			function updateDialogPositionForDrawer() {
+				var winWidth = $(window).width();
+				var drawerIsOpen = $('##wikiDrawer').hasClass('open'); // or .hasClass('open') if that's more robust
+				
+				$('.ui-dialog:visible').each(function() {
+					var $dlg = $(this);
+					if ($dlg.data('origWidth') === undefined) $dlg.data('origWidth', $dlg.width());
+					if (drawerIsOpen) {
+						// Dialog pushed over to main content area
+						var availableSpace = winWidth - drawerWidthPx - (2 * marginPx);
+						var widthPx = Math.round(dialogWidthPercent * availableSpace);
+						var leftPx = drawerWidthPx + marginPx;
+						$dlg.css({
+							left: leftPx + "px",
+							width: widthPx + "px",
+							top: topMarginPx + "px", 
+							position: 'fixed',
+							'z-index': 9999
+						});
+					} else {
+						console.log('Drawer is open? ', $('##wikiDrawer').is(':visible'));
+						// Make dialog normal size, truly centered
+						var origWidth = $dlg.data('origWidth') || 500;
+						var widthPx = Math.min(origWidth, winWidth - marginPx * 2); // 500px or your default desired width
+						var dlgLeft = Math.max(Math.round((winWidth - widthPx) / 2), marginPx);
+						$dlg.css({
+							left: dlgLeft + "px",
+							width: widthPx + "px",
+							top: topMarginPx + "px", 
+							position: 'fixed',
+							'z-index': 9999
+						});
+					}
+				});
+			}
+			///use this one
+			// When the wiki drawer is opened/closed
+			function openWikiDrawer() {
+				$('##wikiDrawer').addClass('open').show();
+				$('##content').addClass('pushed');
+				$('##show-wiki').hide();
+				$('##hide-wiki').show();
+				setTimeout(updateDialogPositionForDrawer, 400);
+			}
+			function closeWikiDrawer() {
+				$('##wikiDrawer').removeClass('open').hide();
+				$('##content').removeClass('pushed');
+				$('##show-wiki').show();
+				$('##hide-wiki').hide();
+				setTimeout(updateDialogPositionForDrawer, 0);
+			}
 			$(document).ready(function() {
 				// Show/hide button events
 				$('##show-wiki').on('click', function(e) { e.preventDefault(); openWikiDrawer(); });
@@ -760,12 +784,12 @@ setTimeout(function() { positionDialogsForDrawer(drawerOpts); }, 400);
 
 				$("##hide-wiki").hide();
 
-		//		$(window).on('resize', updateDialogPositionForDrawer);
-//
-//				// Whenever a dialog opens, update its position *after* it appears:
-//				$(document).on('dialogopen', '.ui-dialog', function() {
-//					setTimeout(updateDialogPositionForDrawer, 0);
-//				});
+				$(window).on('resize', updateDialogPositionForDrawer);
+
+				// Whenever a dialog opens, update its position *after* it appears:
+				$(document).on('dialogopen', '.ui-dialog', function() {
+					setTimeout(updateDialogPositionForDrawer, 0);
+				});
 			});
 		</script>
 		
