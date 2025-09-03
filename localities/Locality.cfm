@@ -731,14 +731,14 @@ limitations under the License.
 				$('##content').addClass('pushed');
 				$('##show-wiki').hide();
 				$('##hide-wiki').show();
-				//setTimeout(updateDialogPositionForDrawer, 400);
+				setTimeout(updateDialogPositionForDrawer, 400);
 			}
 			function closeWikiDrawer() {
 				$('##wikiDrawer').removeClass('open').hide();
 				$('##content').removeClass('pushed');
 				$('##show-wiki').show();
 				$('##hide-wiki').hide();
-				//setTimeout(updateDialogPositionForDrawer, 400);
+				setTimeout(updateDialogPositionForDrawer, 0);
 			}
 			$(document).ready(function() {
 				// Show/hide button events
