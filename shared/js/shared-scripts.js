@@ -132,7 +132,7 @@ function processWikiContent($container) {
 	});
 	$container.find('img').removeAttr('width').removeAttr('height');
 
-	$container.find('a').contents().unwrap(); // remove all <a> tags around text, leaving just the text.
+	//$container.find('a').contents().unwrap(); // remove all <a> tags around text, leaving just the text.
 
    // alternately, correct links to point to the wiki, uncomment the following lines to do so:
 	// TODO: Put this into the backing method, only allowed for coldfusion_user roles
@@ -143,6 +143,7 @@ function processWikiContent($container) {
 	//	}
 	//	$a.attr('target', '_blank');
 	//});
+	
 }
 
 /**** End wiki content loading and processing functions ****/
