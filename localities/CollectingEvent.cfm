@@ -440,10 +440,7 @@ limitations under the License.
 									<output id="createFeedback" class="text-danger">&nbsp;</output>	
 								</div>
 							</form>
-							<cfif findNoCase('redesign',Session.gitBranch) GT 0>
-								<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
-								<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
-							</cfif>
+					
 							<script>
 								function saveCollectingEvent() { 
 									if (checkFormValidity($('##createCollectingEventForm')[0])) { 
@@ -452,36 +449,12 @@ limitations under the License.
 								} 
 							</script>
 						</div>
-						<!-- Accordion at the bottom: -->
-					<!---	<div id="wikiAccordionWrapper" class="mt-1">
-							<div class="accordion" id="wikiAccordion">
-								<div class="card">
-									<div class="card-header" id="wikiHeading">
-										<h2 class="mb-0">
-											<button class="btn btn-link collapsed w-100 text-left" type="button"
-												data-toggle="collapse"
-												data-target="##wikiAccordionBody"
-												aria-expanded="false"
-												aria-controls="wikiAccordionBody">
-											Wiki Article
-											</button>
-										</h2>
-									</div>
-									<div id="wikiAccordionBody" class="collapse"
-											aria-labelledby="wikiHeading"
-											data-parent="##wikiAccordion">
-										<div class="card-body p-4" id="wiki-content">
-								
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>--->
+						<cfif findNoCase('redesign',Session.gitBranch) GT 0>
+							<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
+							<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
+						</cfif>
 					</div>
 				</section>
-
-
-
 			</main>
 		</cfoutput>
 	</cfcase>
