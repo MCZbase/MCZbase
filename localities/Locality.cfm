@@ -759,7 +759,7 @@ limitations under the License.
 				// Initial call in case dialog is already open and drawer state matters
 				setTimeout(updateDialogPositionForDrawer, 0);
 			});
-
+			updateDialogPositionForDrawer(console.log('Drawer is open? ', $('##wikiDrawer').is(':visible'));)
 			$(document).ready(function() {
 				// Show drawer, push dialog right if drawer will be visible
 				 $('##show-wiki').on('click', function(e) {
