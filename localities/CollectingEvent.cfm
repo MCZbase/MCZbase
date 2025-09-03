@@ -737,14 +737,14 @@ limitations under the License.
 			var marginPx = 30;
 			var topMarginPx = 20;
 			var dialogWidthPercent = 1;
-			var section=2;
 
 			$(document).ready(function() {
 				// Show drawer, push dialog right if drawer will be visible
 				 $('##show-wiki').on('click', function(e) {
 					e.preventDefault();
 					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,2);
+						// Choose 0 to include the table of contents and all sections on the wiki page--OR--designate a section number of the page header if you only want 1 section with its content in the wiki page showing.
+						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
 					<cfelse>
 						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
 					</cfif>

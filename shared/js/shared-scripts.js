@@ -110,7 +110,9 @@ function closeWikiDrawer() {
 // Shared process/cleanup wiki content
 function processWikiContent($container) {
 	$container.find('.mw-editsection').remove(); // remove edit controls
-//	$container.find('#toc').remove(); // remove table of contents
+	
+	//To ensure that the wiki table of contents is not seen uncomment this and change section variable to zero on the share wiki call on the page (e.g., CollectingEvent.cfm)
+	//	$container.find('#toc').remove(); // remove table of contents
 
 	$container.find('a').filter(function() {
 		return $(this).text().trim().toLowerCase() === "edit";
