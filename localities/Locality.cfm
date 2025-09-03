@@ -709,8 +709,8 @@ limitations under the License.
 							'z-index': 9999
 						});
 					} else {
-	            var origWidth = $dlg.data('origWidth') || 500;
-            var widthPx = Math.min(origWidth, winWidth - marginPx * 2);
+ // Make dialog normal size, truly centered
+            var widthPx = Math.min(500, winWidth - marginPx * 2); // 500px or your default desired width
             var dlgLeft = Math.max(Math.round((winWidth - widthPx) / 2), marginPx);
             $dlg.css({
                 left: dlgLeft + "px",
