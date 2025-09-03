@@ -843,7 +843,9 @@ limitations under the License.
 						});
 					} else {
 						// Dialog centered at normal size
-						var widthPx = Math.min(1500, winWidth - marginPx * 2); // 500px max or adjust as needed
+						var availableSpace = winWidth - (2 * marginPx);
+						var widthPx = Math.round(dialogWidthPercent * availableSpace);
+						//var widthPx = Math.min(1500, winWidth - marginPx * 2); // 500px max or adjust as needed
 						var dlgLeft = Math.max(Math.round((winWidth - widthPx) / 2), marginPx);
 						$dlg.css({
 							left: dlgLeft + "px",
