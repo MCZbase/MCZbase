@@ -10645,7 +10645,8 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												data: $("##addMaterialSampleIDForm").serialize(),
 												success: function (result) {
 													console.log(result);
-													if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+													// result is Object { status: "saved", id: 22 } no DATA key.
+													if (typeof result.status !== 'undefined' && result.status=='saved') { 
 														setFeedbackControlState("addMaterialSampleIDResultDiv","saved")
 														reloadParts();
 													} else {
@@ -10946,7 +10947,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												data: $("##editMaterialSampleIDForm").serialize(),
 												success: function (result) {
 													console.log(result);
-													if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+													if (typeof result.status !== 'undefined' && result.status=='saved') { 
 														setFeedbackControlState("editMaterialSampleIDResultDiv","saved")
 														reloadParts();
 													} else {
