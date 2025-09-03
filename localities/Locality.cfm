@@ -821,7 +821,7 @@ limitations under the License.
 			var topMarginPx = 20;
 			var pushedDialogWidth = 1050;
 			var normalDialogWidth = 1540;
-			var dialogWidthPercent = 0.8;
+			var dialogWidthPercent = 1;
 
 			function updateDialogPositionForDrawer() {
 				var winWidth = $(window).width();
