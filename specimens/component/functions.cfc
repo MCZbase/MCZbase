@@ -10952,12 +10952,12 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												success: function (result) {
 													console.log(result);
 													if (result && result[0] && result[0].status == "saved") {
-														setFeedbackControlState("editMaterialSampleIDResultDiv","saved")
+														setFeedbackControlState("editMaterialSampleIDResultDiv","saved");
 														reloadParts();
 													} else {
 														// we shouldn't be able to reach this block, backing error should return an http 500 status
-														setFeedbackControlState("editMaterialSampleIDResultDiv","error")
-														messageDialog('Error saving materialSamleID, 'Error saving materialSampleID.');
+														setFeedbackControlState("editMaterialSampleIDResultDiv","error");
+														messageDialog('Error saving materialSamleID', 'Error saving materialSampleID.');
 													}
 												},
 												error: function(jqXHR,textStatus,error){
