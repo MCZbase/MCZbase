@@ -31,7 +31,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collections")>
+			<cfif isdefined("session.roles") AND listfindnocase(session.roles,"MANAGE_COLLECTION")>
 				<cfquery name="updateCatNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateCatNum_result">
 					UPDATE cataloged_item 
 					SET
