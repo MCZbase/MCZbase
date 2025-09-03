@@ -15,8 +15,8 @@
  * @param titleLink boolean indicating whether to create a link to the wiki page in the title div, true to create a link, false to just show the title.
  * @param section optional, the section number to load from the wiki page, default 0 for the entire wiki article.
  */
-var section = 0;
-function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, closeFunction, titleLink, section=null) {
+
+function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, closeFunction, titleLink, section=0) {
 	$('#'+targetDiv).html('Loading...');
 	if (titleLink) {
 		$('#'+titleTargetDiv).html('Wiki Article: <a href="https://code.mcz.harvard.edu/wiki/index.php?title=' + page + '" target="_blank">' + page + '</a>');
