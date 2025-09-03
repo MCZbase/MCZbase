@@ -692,7 +692,7 @@ limitations under the License.
 
 			function updateDialogPositionForDrawer() {
 				var winWidth = $(window).width();
-				var drawerIsOpen = $('##wikiDrawer').is(':visible'); // or .hasClass('open') if that's more robust
+				var drawerIsOpen = $('##wikiDrawer').hasClass('open'); // or .hasClass('open') if that's more robust
 				
 				$('.ui-dialog:visible').each(function() {
 					var $dlg = $(this);
