@@ -57,7 +57,7 @@ function showWiki(page, showImages, targetDiv, titleTargetDiv, openFunction, clo
 // that there are show-wiki and hide-wiki buttons to toggle with the drawer.
 function updateDialogPositionForDrawer() {
 	var winWidth = $(window).width();
-	var drawerIsOpen = $('##wikiDrawer').hasClass('open'); // or .hasClass('open') if that's more robust
+	var drawerIsOpen = $('#wikiDrawer').hasClass('open'); // or .hasClass('open') if that's more robust
 
 	$('.ui-dialog:visible').each(function() {
 		var $dlg = $(this);
@@ -75,7 +75,7 @@ function updateDialogPositionForDrawer() {
 				'z-index': 9997
 			});
 		} else {
-			console.log('Drawer is open? ', $('##wikiDrawer').is(':visible'));
+			console.log('Drawer is open? ', $('#wikiDrawer').is(':visible'));
 			// Make dialog normal size, truly centered
 			var origWidth = $dlg.data('origWidth') || 500;
 			var widthPx = Math.min(origWidth, winWidth - marginPx * 2); // 500px or your default desired width
