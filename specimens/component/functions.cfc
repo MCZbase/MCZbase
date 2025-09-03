@@ -10854,12 +10854,13 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						ASSEMBLED_IDENTIFIER,
 						ASSEMBLED_RESOLVABLE,
 						assigning_agent.agent_name ASSIGNED_BY,
-						CREATED_BY,
+						creating_agent.agent_name CREATED_BY,
 						LAST_MODIFIED,
 						DISPOSITION,
 						GUID_IS_A  
 					FROM guid_our_thing
-						join preferred_agent_name assigning_agent on guid_our_thing.assigned_by_agent_id = prefix_agent.agent_id
+						left join preferred_agent_name assigning_agent on guid_our_thing.assigned_by_agent_id = prefix_agent.agent_id
+						left join preferred_agent_name creating_agent on guid_our_thing.created_by_agent_id = creating_agent.agent_id
 					WHERE
 						guid_our_thing_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#guid_our_thing_id#">
 				</cfquery>
@@ -11027,7 +11028,8 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					local_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.local_identifier#">,
 					assembled_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_identifier#">,
 					assembled_resolvable = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_resolvable#">,
-					assigned_by = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assigned_by#">,
+					assigned_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assigned_by_agent_id#">,
+					last_modified = CURRENT_DATE
 				WHERE 
 					guid_our_thing_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.guid_our_thing_id#">
 			</cfquery>
@@ -11173,9 +11175,9 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						LOCAL_IDENTIFIER,
 						ASSEMBLED_IDENTIFIER,
 						ASSEMBLED_RESOLVABLE,
-						ASSIGNED_BY,
+						ASSIGNED_BY_agent_id,
 						disposition,
-						CREATED_BY
+						CREATED_BY_agent_id
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.guid_is_a#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.target_table#">,
@@ -11189,7 +11191,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.local_identifier#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_identifier#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_resolvable#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assigned_by#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assigned_by_agent_id#">,
 					'exists',
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentID#">
 				) 
@@ -11276,7 +11278,8 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					local_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.local_identifier#">,
 					assembled_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_identifier#">,
 					assembled_resolvable = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_resolvable#">,
-					assigned_by = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assigned_by#">,
+					assigned_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assigned_by_agent_id#">,
+					last_modified = CURRENT_DATE
 				WHERE 
 					guid_our_thing_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.guid_our_thing_id#">
 			</cfquery>
