@@ -839,7 +839,7 @@ limitations under the License.
 							width: widthPx + "px",
 							top: topMarginPx + "px", 
 							position: 'fixed',
-							'z-index': 10000
+							'z-index': 9999
 						});
 					} else {
 						// Dialog centered at normal size
@@ -850,7 +850,7 @@ limitations under the License.
 							width: widthPx + "px",
 							top: topMarginPx + "px", 
 							position: 'fixed',
-							'z-index': 10000
+							'z-index': 9999
 						});
 					}
 				});
