@@ -10927,11 +10927,11 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											</div>
 											<div class="col-12 col-md-6 px-1">
 												<label class="data-entry-label" for="assigned_by">Assigned By</label>
-												<input type="hidden" name="assigned_by_agent_id" value="#getGuid.assigned_by_agent_id#">
-												<input type="text" class="data-entry-input" name="assigned_by" id="assigned_by" value="#getGuid.assigned_by#">
+												<input type="hidden" name="assigned_by_agent_id" value="#getGuid.assigned_by_agent_id#" id="assigned_by_agent_id_edit">
+												<input type="text" class="data-entry-input" name="assigned_by" id="assigned_by_edit" value="#getGuid.assigned_by#">
 												<script>
 													$(document).ready(function() {
-														makeAgentAutocompleteMeta("assigned_by","assigned_by_agent_id",true);
+														makeAgentAutocompleteMeta("assigned_by_edit","assigned_by_agent_id_edit",true);
 													});
 												</script>
 											</div>
