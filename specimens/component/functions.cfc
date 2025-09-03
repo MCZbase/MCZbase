@@ -10882,11 +10882,11 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 										#getGuid.guid_is_a#: #getGuid.assembled_identifier#
 									</li>
 									<li>
-										Created: #timestamp_created# by #created_by#
+										Created: #getGuid.timestamp_created# by #getGuid.created_by#
 									</li>
-									<cfif len(last_modified) GT 0>
+									<cfif len(getGuid.last_modified) GT 0>
 										<li>
-											Last Modified: #last_modified# 
+											Last Modified: #getGuid.last_modified# 
 										</li>
 									</cfif>
 								</ul>
