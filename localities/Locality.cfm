@@ -818,7 +818,71 @@ limitations under the License.
 			var drawerWidthPx = 400;
 			var marginPx = 30; // or use your desired spacing from drawer edge
 			var origDialogWidth = 500;
+			var pushedDialogWidth = 650;
+			var normalDialogWidth = 1040;
 
+			function updateDialogPositionForDrawer() {
+				var winWidth = $(window).width();
+				var drawerIsOpen = $('##wikiDrawer').is(':visible'); // or .hasClass('open') if that's more robust
+				$('.ui-dialog:visible').each(function() {
+					var $dlg = $(this);
+					if (drawerIsOpen) {
+						// Dialog pushed over to main content area
+						var leftPx = drawerWidthPx + marginPx; // e.g. 430px
+						var widthPx = Math.min(pushedDialogWidth, winWidth - leftPx - marginPx); // don't overflow right edge
+						$dlg.css({
+							left: leftPx + "px",
+							width: widthPx + "px",
+							position: 'fixed',
+							'z-index': 10000
+						});
+					} else {
+						// Dialog centered at normal size
+						var widthPx = Math.min(normalDialogWidth, winWidth - marginPx * 2);
+						var dlgLeft = Math.max(Math.round((winWidth - widthPx) / 2), marginPx);
+						$dlg.css({
+							left: dlgLeft + "px",
+							width: widthPx + "px",
+							position: 'fixed',
+							'z-index': 10000
+						});
+					}
+				});
+			}
+			
+			// When the wiki drawer is opened/closed
+function openWikiDrawer() {
+    $('##wikiDrawer').addClass('open').show();
+    $('##content').addClass('pushed');
+    $('##show-wiki').hide();
+    $('##hide-wiki').show();
+    setTimeout(updateDialogPositionForDrawer, 400);
+}
+function closeWikiDrawer() {
+    $('##wikiDrawer').removeClass('open').hide();
+    $('##content').removeClass('pushed');
+    $('##show-wiki').show();
+    $('##hide-wiki').hide();
+    setTimeout(updateDialogPositionForDrawer, 400);
+}
+			$(document).ready(function() {
+    // Show/hide button events
+    $('##show-wiki').on('click', function(e) { e.preventDefault(); openWikiDrawer(); });
+    $('##hide-wiki').on('click', function(e) { e.preventDefault(); closeWikiDrawer(); });
+
+    $('##hide-wiki').hide();
+
+    // Maintains dialog position on window resize
+    $(window).on('resize', updateDialogPositionForDrawer);
+
+    // Keeps new dialogs correctly positioned
+    $(document).on('dialogopen', '.ui-dialog', function() {
+        setTimeout(updateDialogPositionForDrawer, 0);
+    });
+
+    // Initial call in case dialog is already open and drawer state matters
+    setTimeout(updateDialogPositionForDrawer, 0);
+});
 		function pushDialogForDrawer() {
 			var winWidth = $(window).width();
 			var dlgLeft = drawerWidthPx + marginPx;
