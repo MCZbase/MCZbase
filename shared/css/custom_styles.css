@@ -2838,6 +2838,8 @@ div.mw-parser-output h2 {
 }
 div.mw-parser-output h3 {
 	font-size: 14px;
+	font-weight: 850;
+	text-decoration: underline;
 }
 div.mw-parser-output h4 {
 	font-size: 12px;
