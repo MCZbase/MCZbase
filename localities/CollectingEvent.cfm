@@ -435,14 +435,15 @@ limitations under the License.
 								<input type="hidden" name="Action" value="makenewCollectingEvent">
 								#blockform#
 								<div class="col-12 col-md-3 pt-2">
-								<cfif findNoCase('redesign',Session.gitBranch) GT 0>
-									<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
-									<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
-								</cfif>
+					
 									<input type="button" value="Save" class="btn btn-xs btn-primary mr-2" onClick="saveCollectingEvent();" id="submitButton" >
 									<output id="createFeedback" class="text-danger">&nbsp;</output>	
 								</div>
 							</form>
+							<cfif findNoCase('redesign',Session.gitBranch) GT 0>
+								<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
+								<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
+							</cfif>
 							<script>
 								function saveCollectingEvent() { 
 									if (checkFormValidity($('##createCollectingEventForm')[0])) { 
