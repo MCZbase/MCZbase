@@ -2854,6 +2854,7 @@ div.mw-parser-output.thumb.thumbinner {
 	display:none;
 	width:0;
 }
+.thumbinner {display:none;}
 .ui-dialog {
 	z-index: 9997 !important;
 }
