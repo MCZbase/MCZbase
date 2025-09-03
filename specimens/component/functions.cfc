@@ -10691,9 +10691,16 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 														<!--- allow deletion of user assigned materialSampleIDs --->
 														<button type="button" class="btn btn-sm btn-warning ml-2" title="Delete this materialSampleID" onclick="deleteGuidOurThing('#getGuids.guid_our_thing_id#','editMaterialSampleIDstatus_#getGuids.guid_our_thing_id#',reloadParts);">Delete</button>
 														<!--- allow edit of user assigned materialSampleIDs --->
-														<button type="button" class="btn btn-sm btn-secondary ml-2" title="Edit this materialSampleID" onclick="openEditAMaterialSampleIDDialog('#getGuids.guid_our_thing_id#','materialSampleIDEditDialog1','#description#',reloadParts);"> Edit</button>
+														<button type="button" class="btn btn-sm btn-secondary ml-2" title="Edit this materialSampleID" onclick=" doOpenEdit_#getGuids.guid_our_thing_id#(); "
+> Edit</button>
 														<output id="editMaterialSampleIDstatus_#getGuids.guid_our_thing_id#"></output>
 													</cfif>
+													<script>
+														function doOpenEdit_#getGuids.guid_our_thing_id#() { 
+															openEditAMaterialSampleIDDialog('#getGuids.guid_our_thing_id#','materialSampleIDEditDialog1','#description#',reloadParts);
+															$("#materialSampleIDEditDialog").dialog("close"); 
+														};
+													</script>
 											</cfloop>
 										</ul>
 									</div>
