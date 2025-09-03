@@ -732,4 +732,65 @@ limitations under the License.
 	$('#content').addClass('pushed');
 });
 </script>
+						
+<cfif isDefined("action") AND ( action EQ "new" OR action EQ "edit" )>
+	<cfoutput>
+		<cfset targetWikiPage = "Collecting_Event">
+		<cfif action EQ "edit">
+			<cfset targetWikiPage = "Edit_Collection">
+		</cfif>
+		<div id="wikiDrawer" class="wiki-drawer border">
+			<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+				<h5 class="mb-0" id="wiki-content-title">Wiki Article</h5>
+				<button type="button" class="close" id="closeWikiDrawer" aria-label="Close" onClick="closeWikiDrawer();">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div id="wiki-content" class="p-3"></div>
+		</div>
+
+		<script>
+			///the rest of the code for this is on /shared/js/shared-scripts.js
+			var drawerWidthPx = 400;
+			var marginPx = 30;
+			var topMarginPx = 20;
+			var dialogWidthPercent = 1;
+
+			$(document).ready(function() {
+				// Show drawer, push dialog right if drawer will be visible
+				 $('##show-wiki').on('click', function(e) {
+					e.preventDefault();
+					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
+					<cfelse>
+						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
+					</cfif>
+					$("##show-wiki").hide();
+					$("##hide-wiki").show();
+					setTimeout(updateDialogPositionForDrawer, 400); // after wiki tray is visible
+				});
+
+				$('##hide-wiki').on('click', function(e) {
+					e.preventDefault();
+					closeWikiDrawer();
+					setTimeout(updateDialogPositionForDrawer, 400); // after wiki tray is hidden
+					$("##hide-wiki").hide();
+					$("##show-wiki").show();
+				});
+				$("##hide-wiki").hide();
+
+				$(window).on('resize', updateDialogPositionForDrawer);
+
+				// Whenever a dialog opens, update its position *after* it appears:
+				$(document).on('dialogopen', '.ui-dialog', function() {
+					setTimeout(updateDialogPositionForDrawer, 0);
+				});
+				// Initial call in case dialog is already open and drawer state matters
+				setTimeout(updateDialogPositionForDrawer, 0);
+			});
+		</script>
+		
+	</cfoutput>	
+</cfif>
+
 <cfinclude template = "/shared/_footer.cfm">
