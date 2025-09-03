@@ -165,9 +165,13 @@ limitations under the License.
 		<cfset returnContent = (structKeyExists(parsed, "parse") and structKeyExists(parsed.parse, "text") and (structKeyExists(parsed.parse.text, "*") ? parsed.parse.text["*"] : parsed.parse.text))>
 	<cfelse>
 		<!-- Full page fallback -->
-		<cfset var url = "#wikiIRI#/index.php?action=render&title=" & URLEncodedFormat(arguments.page)>
+		<!---<cfset var url = "#wikiIRI#/index.php?action=render&title=" & URLEncodedFormat(arguments.page)>
 		<cfhttp url="#url#" method="get" result="wikiContent" />
-		<cfset returnContent = wikiContent.fileContent>
+		<cfset returnContent = wikiContent.fileContent>--->
+		<cfset var url = "#wikiIRI#api.php?action=parse&page=" & URLEncodedFormat(arguments.page) & "&prop=text&format=json">
+		<cfhttp url="#url#" method="get" result="wikiContent" />
+		<cfset var parsed = deserializeJson(wikiContent.fileContent)>
+		<cfset returnContent = (structKeyExists(parsed, "parse") and structKeyExists(parsed.parse, "text") and (structKeyExists(parsed.parse.text, "*") ? parsed.parse.text["*"] : parsed.parse.text))>
 	</cfif>
 	<cfif NOT isDefined("returnContent") OR len(returnContent) EQ 0>
 		<cfset returnContent = "No content found for the specified page or section.">
