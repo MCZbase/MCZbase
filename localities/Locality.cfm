@@ -815,9 +815,9 @@ limitations under the License.
 			
 			
 			
-var drawerWidthPx = 400;
-		var marginPx = 30; // or use your desired spacing from drawer edge
-		var origDialogWidth = 500;
+			var drawerWidthPx = 400;
+			var marginPx = 30; // or use your desired spacing from drawer edge
+			var origDialogWidth = 500;
 
 		function pushDialogForDrawer() {
 			var winWidth = $(window).width();
@@ -837,24 +837,24 @@ var drawerWidthPx = 400;
 				});
 			}
 			
-function centerDialogProperly(marginPx, topPx) {
-    var winWidth = $(window).width();
-    var dlgTop = typeof topPx !== "undefined" ? topPx : marginPx;
-    $('.ui-dialog:visible').each(function() {
-        var $w = $(this);
-        // Restore to original width or fallback
-        var origWidth = $w.data('origWidth') || 500;
-        // Don't exceed window (allow for margins)
-        var width = Math.min(origWidth, winWidth - marginPx * 2);
-        var left = Math.max(Math.round((winWidth - width) / 2), marginPx);
-        $w.css({
-            width: width + "px",
-            left: 0 + "px",
-            top: dlgTop + "px",
-            position: 'fixed'
-        });
-    });
-}
+			function centerDialogProperly(marginPx, topPx) {
+				var winWidth = $(window).width();
+				var dlgTop = typeof topPx !== "undefined" ? topPx : marginPx;
+				$('.ui-dialog:visible').each(function() {
+					var $w = $(this);
+					// Restore to original width or fallback
+					var origWidth = $w.data('origWidth') || 500;
+					// Don't exceed window (allow for margins)
+					var width = Math.min(origWidth, winWidth - marginPx * 2);
+					var left = Math.max(Math.round((winWidth - width) / 2), marginPx);
+					$w.css({
+						width: width + "px",
+						left: 0 + "px",
+						top: dlgTop + "px",
+						position: 'fixed'
+					});
+				});
+			}
 			$(document).ready(function() {
 				// Show drawer, push dialog right if drawer will be visible
 				$('##show-wiki').on('click', function(e) {
