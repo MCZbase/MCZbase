@@ -10893,6 +10893,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 								<cfloop query="getGuid">
 									<form name="editMaterialSampleIDForm" id="editMaterialSampleIDForm" class="row mb-0 pt-1">
 										<input type="hidden" name="sp_collection_object_id" value="#getCatalog.part_id#">
+										<input type="hidden" name="guid_our_thing_id" value="#getGuid.guid_our_thing_id#">
 										<input type="hidden" name="method" value="updateMaterialSampleID">
 										<input type="hidden" name="returnformat" value="json">
 										<input type="hidden" name="queryformat" value="column">
