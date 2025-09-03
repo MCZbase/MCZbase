@@ -710,6 +710,7 @@ limitations under the License.
 							'z-index': 9999
 						});
 					} else {
+						console.log('Drawer is open? ', $('##wikiDrawer').is(':visible'));
 						// Make dialog normal size, truly centered
 						var origWidth = $dlg.data('origWidth') || 500;
 						var widthPx = Math.min(origWidth, winWidth - marginPx * 2); // 500px or your default desired width
