@@ -306,6 +306,13 @@ limitations under the License.
 				// Update part count
 				loadPartCount(#getCatalogedItem.collection_object_id#,'partCountSpan');
 			}
+			function reloadPartsAndSection() {
+				reloadParts();
+				// if it is a function, execture reloadPartsSection, it should be defined if invoked, but check to avoid js error.
+				if (typeof reloadPartsSection === "function") {
+					reloadPartsSection();
+				}
+			}
 			function reloadAttributes() { 
 				// invoke specimen/component/public.cfc function getAttributesHTML via ajax and repopulate the attributes block.
 				loadAttributes(#getCatalogedItem.collection_object_id#,'attributesCardBody');

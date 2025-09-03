@@ -4475,11 +4475,11 @@ limitations under the License.
 									<div class="col-12 row mx-0 border-left border-right border-bottom px-2 py-1">
 										<cfif patt.recordcount EQ 0>
 											<strong>No Part Attributes:</strong>
-											<button class="btn btn-xs btn-secondary py-0" onclick="editPartAttributes('#part_id#',reloadParts)">Edit</button>
+											<button class="btn btn-xs btn-secondary py-0" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
 										<cfelse>
 											<div class="col-12 small">
 												<strong>Part Attributes (#patt.recordcount#):</strong>
-												<button class="btn btn-xs btn-secondary py-0" onclick="editPartAttributes('#part_id#',reloadParts)">Edit</button>
+												<button class="btn btn-xs btn-secondary py-0" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
 												<cfloop query="patt">
 													<div class="ml-2">
 														#attribute_type# = #attribute_value#
@@ -4500,7 +4500,7 @@ limitations under the License.
 													<li><strong>materialSampleID:</strong> <a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a></li>
 												</cfloop>
 												<li>
-													<button type="button" id="btn_pane1" class="btn btn-xs btn-secondary py-0 small" onclick="openEditMaterialSampleIDDialog(#part_id#,'materialSampleIDEditDialog','#guid# #part_name#',reloadParts)">
+													<button type="button" id="btn_pane1" class="btn btn-xs btn-secondary py-0 small" onclick="openEditMaterialSampleIDDialog(#part_id#,'materialSampleIDEditDialog','#guid# #part_name#',reloadPartsAndSection)">
 														<cfif getMaterialSampleID.recordcount EQ 1>
 															Add 
 														<cfelse>
@@ -4563,7 +4563,7 @@ limitations under the License.
 											data: $("##editPart" + id).serialize(),
 											success: function(response) {
 												setFeedbackControlState(feedbackOutput,"saved");
-												reloadParts();
+												reloadPartsAndSection();
 											},
 											error: function(xhr, status, error) {
 												setFeedbackControlState(feedbackOutput,"error")
@@ -4590,7 +4590,7 @@ limitations under the License.
 												},
 												success: function(response) {
 													setFeedbackControlState(feedbackOutput,"deleted");
-													reloadParts();
+													reloadPartsAndSection();
 												},
 												error: function(xhr, status, error) {
 													setFeedbackControlState(feedbackOutput,"error")
@@ -4609,7 +4609,7 @@ limitations under the License.
 											var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
 											var guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num# " + $('##editPart' + id + ' input[name="part_name"]').val() + ' (' + $('##editPart' + id + ' select[name="preserve_method"]').val() + ')';
 											openEditIdentificationsDialog(partId,'identificationsDialog',guid,function(){
-												reloadParts();
+												reloadPartsAndSection();
 											});
 										});
 									});
@@ -4625,14 +4625,14 @@ limitations under the License.
 													var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
 													var guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num# " + $('##editPart' + id + ' input[name="part_name"]').val() + ' (' + $('##editPart' + id + ' select[name="preserve_method"]').val() + ')';
 													openEditIdentificationsDialog(partId,'identificationsDialog',guid,function(){
-														reloadParts();
+														reloadPartsAndSection();
 													});
 												}
 											);
 										});
 									});
 								</cfif>
-								function reloadParts() {
+								function reloadPartsSection() {
 									// reload the edit existing parts section
 									$.ajax({
 										url: '/specimens/component/functions.cfc',
@@ -10651,7 +10651,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 													console.log(result);
 													if (result && result[0] && result[0].status == "saved") {
 														setFeedbackControlState("addMaterialSampleIDResultDiv","saved")
-														reloadParts();
+														reloadPartsAndSection();
 													} else {
 														// we shouldn't be able to reach this block, backing error should return an http 500 status
 														setFeedbackControlState("addMaterialSampleIDResultDiv","error")
@@ -10696,7 +10696,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 														<strong>Externally assigned:</strong> #getGuids.assembled_identifier# 
 														<span class="small90">(created #dateFormat(getGuids.timestamp_created,"mm/dd/yyyy")# by #getGuids.created_by#)</span>
 														<!--- allow deletion of user assigned materialSampleIDs --->
-														<button type="button" class="btn btn-sm btn-warning ml-2" title="Delete this materialSampleID" onclick="deleteGuidOurThing('#getGuids.guid_our_thing_id#','editMaterialSampleIDstatus_#getGuids.guid_our_thing_id#',reloadParts);">Delete</button>
+														<button type="button" class="btn btn-sm btn-warning ml-2" title="Delete this materialSampleID" onclick="deleteGuidOurThing('#getGuids.guid_our_thing_id#','editMaterialSampleIDstatus_#getGuids.guid_our_thing_id#',reloadPartsAndSection);">Delete</button>
 														<!--- allow edit of user assigned materialSampleIDs --->
 														<button type="button" class="btn btn-sm btn-secondary ml-2" title="Edit this materialSampleID" onclick=" doOpenEdit_#getGuids.guid_our_thing_id#(); "
 > Edit</button>
@@ -10704,7 +10704,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 													</cfif>
 													<script>
 														function doOpenEdit_#getGuids.guid_our_thing_id#() { 
-															openEditAMaterialSampleIDDialog('#getGuids.guid_our_thing_id#','materialSampleIDEditDialog1','#description#',reloadParts);
+															openEditAMaterialSampleIDDialog('#getGuids.guid_our_thing_id#','materialSampleIDEditDialog1','#description#',reloadPartsAndSection);
 															$("##materialSampleIDEditDialog").dialog("close"); 
 														};
 													</script>
@@ -10971,7 +10971,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 													console.log(result);
 													if (result && result[0] && result[0].status == "saved") {
 														setFeedbackControlState("editMaterialSampleIDResultDiv","saved");
-														reloadParts();
+														reloadPartsAndSection();
 													} else {
 														// we shouldn't be able to reach this block, backing error should return an http 500 status
 														setFeedbackControlState("editMaterialSampleIDResultDiv","error");
