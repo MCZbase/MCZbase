@@ -2847,7 +2847,7 @@ div.mw-parser-output dt {
 	font-weight:720;
 }
 div.toctitle {margin-bottom:0;}
-div.thumb div {
+div.mw-parser-output.thumb {
 	display:none;
 }
 .ui-dialog {
