@@ -10537,6 +10537,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						assigned_by_agent_id,
 						creating_agent.agent_name CREATED_BY,
 						LAST_MODIFIED,
+						internal_fg,
 						DISPOSITION,
 						GUID_IS_A  
 					FROM guid_our_thing
@@ -10677,7 +10678,13 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 										<ul>
 											<cfloop query="getGuids">
 												<cfif resolver_prefix EQ "https://mczbase.mcz.harvard.edu/uuid/" AND scheme EQ "urn" AND type EQ "uuid">
-													<cfset internal = true>
+													<cfif getGuids.internal_fg EQ 1>
+														<!--- this is an internally assigned MCZbase UUID, not editable --->
+														<cfset internal = true>
+													<cfelse>
+														<!--- this is an externally assigned UUID (which we can resolve), editable --->
+														<cfset internal = false>
+													<cfif>
 												<cfelse>
 													<cfset internal = false>
 												</cfif>
@@ -10723,7 +10730,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 </cffunction>
 
 <!---
- * addMaterialSampleID insert a guid_our_thing record for a new materialSampleID
+ * addMaterialSampleID insert a guid_our_thing record for a new materialSampleID, assumes this is an externally assigned ID.
  *
  * @param sp_collection_object_id the collection_object_id of the specimen part to which the new materialSampleID applies.
  * @param resolver_prefix the resolver prefix for the new guid
@@ -10770,6 +10777,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						ASSEMBLED_RESOLVABLE,
 						assigned_by_agent_id,
 						disposition,
+						internal_fg,
 						created_by_agent_id
 				) VALUES (
 					'materialSampleID',
@@ -10786,6 +10794,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_resolvable#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assigned_by_agent_id#">,
 					'exists',
+					0,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentID#">
 				) 
 			</cfquery>
@@ -10867,6 +10876,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						assigned_by_agent_id,
 						creating_agent.agent_name CREATED_BY,
 						LAST_MODIFIED,
+						internal_fg,
 						DISPOSITION,
 						GUID_IS_A  
 					FROM guid_our_thing
@@ -11104,7 +11114,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 </cffunction>
 
 <!---
- * addGuidOurThing insert a guid_our_thing record for any supported guid type
+ * addGuidOurThing insert a guid_our_thing record for any supported guid type, assumes this is an externally assigned ID.
  *
  * @param co_collection_object_id the collection_object_id of the specimen part to which the guid applies as an occurrenceID.
  * @param sp_collection_object_id the collection_object_id of the specimen part to which the guid applies as a materialSampleID.
@@ -11189,7 +11199,8 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						ASSEMBLED_RESOLVABLE,
 						ASSIGNED_BY_agent_id,
 						disposition,
-						CREATED_BY_agent_id
+						CREATED_BY_agent_id,
+						internal_fg
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.guid_is_a#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.target_table#">,
@@ -11205,7 +11216,8 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_resolvable#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assigned_by_agent_id#">,
 					'exists',
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentID#">
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentID#">,
+					0
 				) 
 			</cfquery>
 			<cfif addGuid_result.recordcount EQ 1>
@@ -11236,7 +11248,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 </cffunction>
 
 <!---
- * updateGuidOurThing update a guid_our_thing record
+ * updateGuidOurThing update a guid_our_thing record.
  * @param co_collection_object_id the collection_object_id of the specimen part to which the guid applies as an occurrenceID.
  * @param sp_collection_object_id the collection_object_id of the specimen part to which the guid applies as a materialSampleID.
  * @param taxon_name_id the taxon_name_id of the taxon to which the guid applies as a taxonID.
