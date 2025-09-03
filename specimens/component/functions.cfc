@@ -10645,7 +10645,6 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												data: $("##addMaterialSampleIDForm").serialize(),
 												success: function (result) {
 													console.log(result);
-													// result is array: [ { status: "saved", id: 22 } ]
 													if (result && result[0] && result[0].status == "saved") {
 														setFeedbackControlState("addMaterialSampleIDResultDiv","saved")
 														reloadParts();
@@ -10947,13 +10946,13 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												data: $("##editMaterialSampleIDForm").serialize(),
 												success: function (result) {
 													console.log(result);
-													if (typeof result.status !== 'undefined' && result.status=='saved') { 
+													if (result && result[0] && result[0].status == "saved") {
 														setFeedbackControlState("editMaterialSampleIDResultDiv","saved")
 														reloadParts();
 													} else {
 														// we shouldn't be able to reach this block, backing error should return an http 500 status
 														setFeedbackControlState("editMaterialSampleIDResultDiv","error")
-														messageDialog('Error saving materialSamleID: '+result.DATA.MESSAGE[0], 'Error saving materialSampleID.');
+														messageDialog('Error saving materialSamleID, 'Error saving materialSampleID.');
 													}
 												},
 												error: function(jqXHR,textStatus,error){
