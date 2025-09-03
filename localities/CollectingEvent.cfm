@@ -739,6 +739,7 @@ limitations under the License.
 			var dialogWidthPercent = 1;
 
 			$(document).ready(function() {
+				var section=2;
 				// Show drawer, push dialog right if drawer will be visible
 				 $('##show-wiki').on('click', function(e) {
 					e.preventDefault();
