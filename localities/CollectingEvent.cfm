@@ -705,32 +705,32 @@ limitations under the License.
 </cfswitch>
 
 <script>
-	var wikiLoaded = false;
-	$('#wikiAccordionBody').on('show.bs.collapse', function () {
-		if(wikiLoaded) return;
-		wikiLoaded = true;
-		$('#wiki-content').html('Loading...');
-		// Open the accordion
-		$('#wikiAccordionBody').collapse('show');
-
-		$.ajax({
-		url: '/shared/component/functions.cfc?method=getWikiSection&returnFormat=json',
-		data: {
-		page: "Locality_-_Data_Entry",// Collecting event section (3) on the locality page 
-		section: 3
-		},
-		dataType: 'json',
-		success: function(response) {
-			$('#wiki-content').html(response.result || "<div>Section not found.</div>");
-		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			$('#wiki-content').html('<div class="alert alert-danger">AJAX error: '+textStatus+'<br>'+errorThrown+'</div>');
-			console.log("AJAX ERROR", jqXHR, textStatus, errorThrown);
-		}
-	});
-	$('#wikiDrawer').addClass('open');
-	$('#content').addClass('pushed');
-});
+//	var wikiLoaded = false;
+//	$('#wikiAccordionBody').on('show.bs.collapse', function () {
+//		if(wikiLoaded) return;
+//		wikiLoaded = true;
+//		$('#wiki-content').html('Loading...');
+//		// Open the accordion
+//		$('#wikiAccordionBody').collapse('show');
+//
+//		$.ajax({
+//		url: '/shared/component/functions.cfc?method=getWikiSection&returnFormat=json',
+//		data: {
+//		page: "Locality_-_Data_Entry",// Collecting event section (3) on the locality page 
+//		section: 3
+//		},
+//		dataType: 'json',
+//		success: function(response) {
+//			$('#wiki-content').html(response.result || "<div>Section not found.</div>");
+//		},
+//		error: function(jqXHR, textStatus, errorThrown) {
+//			$('#wiki-content').html('<div class="alert alert-danger">AJAX error: '+textStatus+'<br>'+errorThrown+'</div>');
+//			console.log("AJAX ERROR", jqXHR, textStatus, errorThrown);
+//		}
+//	});
+//	$('#wikiDrawer').addClass('open');
+//	$('#content').addClass('pushed');
+//});
 </script>
 						
 <cfif isDefined("action") AND ( action EQ "new" OR action EQ "edit" )>
