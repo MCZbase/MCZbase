@@ -431,7 +431,7 @@ limitations under the License.
 					<div class="col-12 mt-2 mb-5">
 						<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Collecting Event#extra#</h1>
 						<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
-							<form name="createCollectingEvent" id="createCollectingEventForm" method="post" action="/localities/CollectingEvent.cfm" class="mb-0">
+							<form name="createCollectingEvent" id="createCollectingEventForm" method="post" action="/localities/CollectingEvent.cfm" class="mb-2">
 								<input type="hidden" name="Action" value="makenewCollectingEvent">
 								#blockform#
 								<div class="col-12 col-md-3 px-0  pt-2">
