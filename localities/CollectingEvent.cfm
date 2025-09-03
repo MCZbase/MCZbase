@@ -740,7 +740,7 @@ limitations under the License.
 			var section=2;
 
 			$(document).ready(function() {
-				
+				function showWiki("Collecting_Event",false, targetDiv, titleTargetDiv, openFunction, closeFunction, titleLink, 2);
 				// Show drawer, push dialog right if drawer will be visible
 				 $('##show-wiki').on('click', function(e) {
 					e.preventDefault();
