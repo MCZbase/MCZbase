@@ -265,6 +265,7 @@ limitations under the License.
 									#blockform#
 								</form>
 							</div>
+							
 							<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
 							<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
 						</div>
@@ -657,11 +658,19 @@ limitations under the License.
 </cfswitch>
 
 <!--- wiki drawer outside of main --->
+
 <cfif isDefined("action") AND ( action EQ "new" OR action EQ "edit" )>
 	<cfoutput>
-		<cfset targetWikiPage = "Locality">
+<!---		<cfset targetWikiPage = "Locality">
 		<cfif action EQ "edit">
 			<cfset targetWikiPage = "Edit_Locality">
+		</cfif>--->
+		<cfif isDefined("action") AND ( action EQ "new" )>
+		<cfset targetWikiPage = "CreateLocality">
+		<cfelseif isDefined("action") AND ( action EQ "edit" )>
+			<cfset targetWikiPage = "EditLocality">
+		<cfelse>
+			<cfset targetWikiPage = "Locality">
 		</cfif>
 		<div id="wikiDrawer" class="wiki-drawer border">
 			<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
