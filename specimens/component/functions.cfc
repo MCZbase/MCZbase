@@ -10879,7 +10879,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 										For: #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num# #getCatalog.part_name# (#getCatalog.preserve_method#)
 									</li>
 									<li>
-										#getGuid.guid_is_a#: #get_guid.assembled_identifier#
+										#getGuid.guid_is_a#: #getGuid.assembled_identifier#
 									</li>
 									<li>
 										Created: #timestamp_created# by #created_by#
