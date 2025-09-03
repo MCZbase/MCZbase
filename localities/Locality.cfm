@@ -50,8 +50,8 @@ limitations under the License.
 	div.mw-parser-output h1 {font-size: 20px;font-weight:bold;border-top:1px solid black; padding-top:36px;}
 	div.mw-parser-output h2 {font-size: 16px;}
 	div.thumb div {display:none;}
-	.ui-dialog { z-index: 9999 !important; }
-	#wikiDrawer { z-index: 9999 !important; }
+	.ui-dialog { z-index: 9997 !important; }
+	#wikiDrawer { z-index: 9997 !important; }
 	
 </style>
 <cfswitch expression="#action#">
@@ -706,7 +706,7 @@ limitations under the License.
 							width: widthPx + "px",
 							top: topMarginPx + "px", 
 							position: 'fixed',
-							'z-index': 9999
+							'z-index': 9997
 						});
 					} else {
 						console.log('Drawer is open? ', $('##wikiDrawer').is(':visible'));
@@ -719,7 +719,7 @@ limitations under the License.
 							width: widthPx + "px",
 							top: topMarginPx + "px", 
 							position: 'fixed',
-							'z-index': 9999
+							'z-index': 9997
 						});
 					}
 				});
