@@ -10533,12 +10533,15 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						LOCAL_IDENTIFIER,
 						ASSEMBLED_IDENTIFIER,
 						ASSEMBLED_RESOLVABLE,
-						ASSIGNED_BY,
-						CREATED_BY,
+						assigning_agent.agent_name ASSIGNED_BY,
+						assigned_by_agent_id,
+						creating_agent.agent_name CREATED_BY,
 						LAST_MODIFIED,
 						DISPOSITION,
 						GUID_IS_A  
 					FROM guid_our_thing
+						left join preferred_agent_name assigning_agent on guid_our_thing.assigned_by_agent_id = assigning_agent.agent_id
+						left join preferred_agent_name creating_agent on guid_our_thing.created_by_agent_id = creating_agent.agent_id
 					WHERE
 						sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
@@ -10758,9 +10761,9 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						LOCAL_IDENTIFIER,
 						ASSEMBLED_IDENTIFIER,
 						ASSEMBLED_RESOLVABLE,
-						ASSIGNED_BY,
+						assigned_by_agent_id,
 						disposition,
-						CREATED_BY
+						created_by_agent_id
 				) VALUES (
 					'materialSampleID',
 					'SPECIMEN_PART',
@@ -10774,7 +10777,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.local_identifier#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_identifier#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_resolvable#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assigned_by#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assigned_by_agent_id#">,
 					'exists',
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentID#">
 				) 
@@ -10854,6 +10857,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						ASSEMBLED_IDENTIFIER,
 						ASSEMBLED_RESOLVABLE,
 						assigning_agent.agent_name ASSIGNED_BY,
+						assigned_by_agent_id,
 						creating_agent.agent_name CREATED_BY,
 						LAST_MODIFIED,
 						DISPOSITION,
