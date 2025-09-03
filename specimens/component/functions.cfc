@@ -10684,7 +10684,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 													<cfelse>
 														<!--- this is an externally assigned UUID (which we can resolve), editable --->
 														<cfset internal = false>
-													<cfif>
+													</cfif>
 												<cfelse>
 													<cfset internal = false>
 												</cfif>
