@@ -685,8 +685,7 @@ limitations under the License.
 		<script>
 			
 			var drawerWidthPx = 400;
-			var marginPx = 30; // or use your desired spacing from drawer edge
-			var margin2Px = 200
+			var marginPx = 30;
 			var topMarginPx = 20;
 			var dialogWidthPercent = 1;
 
@@ -725,7 +724,6 @@ limitations under the License.
 					}
 				});
 			}
-			///use this one
 			// When the wiki drawer is opened/closed
 			function openWikiDrawer() {
 				$('##wikiDrawer').addClass('open').show();
@@ -741,24 +739,24 @@ limitations under the License.
 				$('##hide-wiki').hide();
 				setTimeout(updateDialogPositionForDrawer, 0);
 			}
-			$(document).ready(function() {
-				// Show/hide button events
-				$('##show-wiki').on('click', function(e) { e.preventDefault(); openWikiDrawer(); });
-				$('##hide-wiki').on('click', function(e) { e.preventDefault(); closeWikiDrawer(); });
-
-				$('##hide-wiki').hide();
-
-				// Maintains dialog position on window resize
-				$(window).on('resize', updateDialogPositionForDrawer);
-
-				// Keeps new dialogs correctly positioned
-				$(document).on('dialogopen', '.ui-dialog', function() {
-					setTimeout(updateDialogPositionForDrawer, 0);
-				});
-
-				// Initial call in case dialog is already open and drawer state matters
-				setTimeout(updateDialogPositionForDrawer, 0);
-			});
+//			$(document).ready(function() {
+//				// Show/hide button events
+//				$('##show-wiki').on('click', function(e) { e.preventDefault(); openWikiDrawer(); });
+//				$('##hide-wiki').on('click', function(e) { e.preventDefault(); closeWikiDrawer(); });
+//
+//				$('##hide-wiki').hide();
+//
+//				// Maintains dialog position on window resize
+//				$(window).on('resize', updateDialogPositionForDrawer);
+//
+//				// Keeps new dialogs correctly positioned
+//				$(document).on('dialogopen', '.ui-dialog', function() {
+//					setTimeout(updateDialogPositionForDrawer, 0);
+//				});
+//
+//				// Initial call in case dialog is already open and drawer state matters
+//				setTimeout(updateDialogPositionForDrawer, 0);
+//			});
 			
 			$(document).ready(function() {
 				// Show drawer, push dialog right if drawer will be visible
@@ -790,6 +788,9 @@ limitations under the License.
 				$(document).on('dialogopen', '.ui-dialog', function() {
 					setTimeout(updateDialogPositionForDrawer, 0);
 				});
+				
+				// Initial call in case dialog is already open and drawer state matters
+				setTimeout(updateDialogPositionForDrawer, 0);
 			});
 		</script>
 		
