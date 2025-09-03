@@ -821,6 +821,7 @@ limitations under the License.
 			var topMarginPx = 20;
 			var pushedDialogWidth = 1050;
 			var normalDialogWidth = 1540;
+			var dialogWidthPercent = 0.7;
 
 			function updateDialogPositionForDrawer() {
 				var winWidth = $(window).width();
@@ -829,8 +830,10 @@ limitations under the License.
 					var $dlg = $(this);
 					if (drawerIsOpen) {
 						// Dialog pushed over to main content area
-						var leftPx = drawerWidthPx + marginPx; // e.g. 430px
-						var widthPx = Math.min(pushedDialogWidth, winWidth - leftPx - marginPx); // don't overflow right edge
+						var availableSpace = winWidth - drawerWidthPx - (2 * marginPx);
+						var widthPx = Math.round(dialogWidthPercent * availableSpace);
+						var leftPx = drawerWidthPx + marginPx;
+						//var widthPx = Math.min(pushedDialogWidth, winWidth - leftPx - marginPx); // don't overflow right edge
 						$dlg.css({
 							left: leftPx + "px",
 							width: widthPx + "px",
@@ -840,7 +843,7 @@ limitations under the License.
 						});
 					} else {
 						// Dialog centered at normal size
-						var widthPx = Math.min(normalDialogWidth, winWidth - marginPx * 2);
+						 var widthPx = Math.min(1200, winWidth - marginPx * 2); // 500px max or adjust as needed
 						var dlgLeft = Math.max(Math.round((winWidth - widthPx) / 2), marginPx);
 						$dlg.css({
 							left: dlgLeft + "px",
