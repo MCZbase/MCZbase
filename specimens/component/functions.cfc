@@ -10646,7 +10646,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												success: function (result) {
 													console.log(result);
 													// result is array: [ { status: "saved", id: 22 } ]
-													if (result && result[0] && result[0].status EQ "saved") {
+													if (result && result[0] && result[0].status == "saved") {
 														setFeedbackControlState("addMaterialSampleIDResultDiv","saved")
 														reloadParts();
 													} else {
