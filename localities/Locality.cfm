@@ -673,16 +673,11 @@ limitations under the License.
 			<div id="wiki-content" class="p-3"></div>
 		</div>
 
-		
-		
 		<script>
-			
 			var drawerWidthPx = 400;
 			var marginPx = 30;
 			var topMarginPx = 20;
 			var dialogWidthPercent = 1;
-
-		
 
 			$(document).ready(function() {
 				// Show drawer, push dialog right if drawer will be visible
@@ -717,7 +712,6 @@ limitations under the License.
 				setTimeout(updateDialogPositionForDrawer, 0);
 			});
 		</script>
-		
 		
 	</cfoutput>	
 </cfif>

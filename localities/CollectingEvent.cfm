@@ -435,6 +435,10 @@ limitations under the License.
 								<input type="hidden" name="Action" value="makenewCollectingEvent">
 								#blockform#
 								<div class="col-12 col-md-3 pt-2">
+								<cfif findNoCase('redesign',Session.gitBranch) GT 0>
+									<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
+									<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
+								</cfif>
 									<input type="button" value="Save" class="btn btn-xs btn-primary mr-2" onClick="saveCollectingEvent();" id="submitButton" >
 									<output id="createFeedback" class="text-danger">&nbsp;</output>	
 								</div>
@@ -448,7 +452,7 @@ limitations under the License.
 							</script>
 						</div>
 						<!-- Accordion at the bottom: -->
-						<div id="wikiAccordionWrapper" class="mt-1">
+					<!---	<div id="wikiAccordionWrapper" class="mt-1">
 							<div class="accordion" id="wikiAccordion">
 								<div class="card">
 									<div class="card-header" id="wikiHeading">
@@ -466,12 +470,12 @@ limitations under the License.
 											aria-labelledby="wikiHeading"
 											data-parent="##wikiAccordion">
 										<div class="card-body p-4" id="wiki-content">
-										<!-- Wiki content loaded here -->
+								
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
+						</div>--->
 					</div>
 				</section>
 
