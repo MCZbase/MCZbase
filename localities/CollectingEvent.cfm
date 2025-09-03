@@ -740,12 +740,11 @@ limitations under the License.
 			var section=2;
 
 			$(document).ready(function() {
-				function showWiki("Collecting_Event",false, targetDiv, titleTargetDiv, openFunction, closeFunction, titleLink, 2);
 				// Show drawer, push dialog right if drawer will be visible
 				 $('##show-wiki').on('click', function(e) {
 					e.preventDefault();
 					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
+						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,2);
 					<cfelse>
 						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
 					</cfif>
