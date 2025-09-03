@@ -817,7 +817,7 @@ limitations under the License.
 			
 			var drawerWidthPx = 400;
 			var marginPx = 30; // or use your desired spacing from drawer edge
-			var margin2Px = 60;
+			var margin2Px = 160;
 			//var origDialogWidth = 500;
 			var topMarginPx = 20;
 			var pushedDialogWidth = 1050;
