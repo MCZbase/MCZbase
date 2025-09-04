@@ -4917,6 +4917,19 @@ limitations under the License.
 			<cfif checkAttributes.recordcount GT 0>
 				<cfthrow message="Error: Cannot delete part with attributes. Please remove attributes first.">
 			</cfif>
+			<!--- if there is a materialSampleID, set its foreign key to null --->
+			<cfquery name="nullMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE guid_our_thing
+				SET sp_collection_object_id = NULL
+				WHERE sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			</cfquery>
+
+			<!--- if there is an occurrenceID, set its foreign key to null --->
+			<cfquery name="nullOccurrenceID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE guid_our_thing
+				SET co_collection_object_id = NULL
+				WHERE co_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			</cfquery>
 
 			<!--- delete the specimen part record --->
 			<cfquery name="deletePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deletePart_result">
