@@ -140,7 +140,7 @@ limitations under the License.
     prov:endedAtTime "#lookupUUID.xsd_modified#"^^xsd:dateTime ;
     prov:type "deletion" .
 </cfoutput>
-</cfabort>
+<cfabort>
 <cfelseif deliver IS 'application/ld+json'>
 <cfoutput>{
   "@context": { 
@@ -168,7 +168,7 @@ limitations under the License.
   "prov:type":"deletion"
 }
 </cfoutput>
-</cfabort>
+<cfabort>
 </cfif><!--- end deliver choices --->
 </cfif><!--- end referencedRecordDeleted --->
 
