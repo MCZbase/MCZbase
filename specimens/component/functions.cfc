@@ -10467,7 +10467,12 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					</cfif>
 					<cfoutput>
 						<label for="attribute_units_#arguments.paid#" class="data-entry-label">Units#current#</label>
-						<input type="text" name="attribute_units" id="attribute_units_#arguments.paid#" value="#arguments.val#" class="data-entry-input">
+						<cfif len(arguments.val) GT 0>
+							<cfset disabled="">
+						<cfelse>
+							<cfset disabled="disabled">
+						</cfif>
+						<input type="text" name="attribute_units" id="attribute_units_#arguments.paid#" value="#arguments.val#" class="data-entry-input" #disabled#>
 					</cfoutput>
 				</cfsavecontent>
 			</cfif>
