@@ -181,6 +181,7 @@ limitations under the License.
 					<div class="col-12 px-0 pr-md-3 pl-md-0 ">
 						<div class="border bg-light rounded p-3 my-2">
 							<cfif findNoCase('redesign',Session.gitBranch) GT 0>
+									<script>var section = 2</script>
 								<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
 								<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
 							</cfif>
@@ -265,7 +266,7 @@ limitations under the License.
 									#blockform#
 								</form>
 							</div>
-							
+							<script>var section = 0</script>
 							<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
 							<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
 						</div>
@@ -687,15 +688,16 @@ limitations under the License.
 			var marginPx = 30;
 			var topMarginPx = 20;
 			var dialogWidthPercent = 1;
+			
 
 			$(document).ready(function() {
 				// Show drawer, push dialog right if drawer will be visible
 				 $('##show-wiki').on('click', function(e) {
 					e.preventDefault();
-					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
+					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"manage_specimens")>
+						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,section);
 					<cfelse>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
+						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,section);
 					</cfif>
 					$("##show-wiki").hide();
 					$("##hide-wiki").show();
