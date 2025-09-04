@@ -988,13 +988,13 @@ function handlePartAttributeTypeChange(suffix, partID) {
                 selectHtml += '</select>';
                 
                 // Replace the element content
-                $('#' + valueFieldId).html(selectHtml);
+                $('#' + valueFieldId).replaceWith(selectHtml);
             } else {
                 // Create text input with label
                 var inputHtml = '<input type="text" class="data-entry-input reqdClr" id="' + valueFieldId + '" name="attribute_value" value="" required>';
                 
                 // Replace the element content
-                $('#' + valueFieldId).html(inputHtml);
+                $('#' + valueFieldId).replaceWith(inputHtml);
             }
             
             // Handle units field
@@ -1010,13 +1010,13 @@ function handlePartAttributeTypeChange(suffix, partID) {
                 selectHtml += '</select>';
                 
                 // Replace the element content
-                $('#' + unitsFieldId).html(selectHtml);
+                $('#' + unitsFieldId).replaceWith(selectHtml);
             } else {
                 // Create text input with label (disabled for units when no code table)
                 var inputHtml = '<input type="text" class="data-entry-input" id="' + unitsFieldId + '" name="attribute_units" value="" disabled>';
                 
                 // Replace the element content
-                $('#' + unitsFieldId).html(inputHtml);
+                $('#' + unitsFieldId).replaceWith(inputHtml);
             }
         },
         error: function(xhr, status, error) {
