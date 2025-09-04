@@ -13,6 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --->
 <!--- RDF delivery of dwc:Occurrence records (both cataloged items and specimen parts with identification histories) from MCZbase --->
+<cfset referencedRecordDeleted = false>
 <cfif NOT isDefined("deliver")>
 	<cfset deliver = 'application/rdf+xml'>
 	<cftry>
@@ -44,6 +45,7 @@ limitations under the License.
 	</cfif>
 	<cfquery name="lookupUUID" datasource="cf_dbuser" timeout="#Application.short_timeout#">
 		SELECT target_table, guid_our_thing_id, co_collection_object_id, guid_is_a, disposition, assembled_resolvable
+			TO_CHAR(last_modified, 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS xsd_modified
 		FROM guid_our_thing
 		WHERE local_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#uuid#">
 			AND scheme = 'urn' 
@@ -71,6 +73,8 @@ limitations under the License.
 			<!--- use materialSampleID RDF handler --->
 			<cfinclude template="/rdf/MaterialSample.cfm">
 			<cfabort>
+		<cfif lookupUUID.disposition IS "deleted">
+			<cfset referencedRecordDeleted = true>
 		<cfelse>
 			<cfthrow message = "unsupported dispostion or other condition">
 		</cfif>
@@ -102,6 +106,72 @@ limitations under the License.
 </cfif>
 
 <cfheader name="Content-type" value=#deliver# >
+
+<cfif referencedRecordDeleted>
+<cfif deliver IS 'application/rdf+xml'>
+<cfoutput><rdf:RDF
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:dwc="http://rs.tdwg.org/dwc/terms/"
+  xmlns:prov="http://www.w3.org/ns/prov#"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+>
+  <dwc:Occurrence rdf:about="#lookupUUID.assembled_resolvable#">
+    <prov:invalidatedAtTime rdf:datatype="xsd:dateTime">#lookupUUID.xsd_modified#</prov:invalidatedAtTime>
+    <prov:wasInvalidatedBy rdf:resource="#deleteActivity"/>
+  </dwc:Occurrence>
+
+  <prov:Activity rdf:about="#deleteActivity">
+    <prov:endedAtTime rdf:datatype="xsd:dateTime">#lookupUUID.xsd_modified#</prov:endedAtTime>
+    <prov:type>deletion</prov:type>
+  </prov:Activity>
+</rdf:RDF>
+</cfoutput>
+<cfabort>
+<cfelseif deliver IS 'text/turtle'>
+<cfoutput>@prefix dwc: <http://rs.tdwg.org/dwc/terms/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<#lookupUUID.assembled_resolvable#> a dwc:Occurrence ;
+    prov:invalidatedAtTime "#lookupUUID.xsd_modified#"^^xsd:dateTime ;
+    prov:wasInvalidatedBy <##deleteActivity> .
+
+<##deleteActivity> a prov:Activity ;
+    prov:endedAtTime "#lookupUUID.xsd_modified#"^^xsd:dateTime ;
+    prov:type "deletion" .
+</cfoutput>
+</cfabort>
+<cfelseif deliver IS 'application/ld+json'>
+<cfoutput>{
+  "@context": { 
+	  "dwc": "http://rs.tdwg.org/dwc/terms/",
+	  "prov": "http://www.w3.org/ns/prov#",
+	  "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@id": "#lookupUUID.assembled_resolvable#",
+  "@type":"dwc:Occurrence",
+  "prov:invalidatedAtTime": {
+	 "@value": "#lookupUUID.xsd_modified#",
+	 "@type": "xsd:dateTime"
+  },
+  "prov:wasInvalidatedBy": {
+	 "@id": "##deleteActivity"
+  }
+},
+{
+  "@id": "##deleteActivity",
+  "@type":"prov:Activity",
+  "prov:endedAtTime": {
+	 "@value": "#lookupUUID.xsd_modified#",
+	 "@type": "xsd:dateTime"
+  },
+  "prov:type":"deletion"
+}
+</cfoutput>
+</cfabort>
+</cfif><!--- end deliver choices --->
+</cfif><!--- end referencedRecordDeleted --->
+
 <cfset singleOccurrence = true>
 <cfset scientificName = "">
 <cfset dateIdentified = "">
