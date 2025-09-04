@@ -73,7 +73,7 @@ limitations under the License.
 			<!--- use materialSampleID RDF handler --->
 			<cfinclude template="/rdf/MaterialSample.cfm">
 			<cfabort>
-		<cfif lookupUUID.disposition IS "deleted">
+		<cfelseif lookupUUID.disposition IS "deleted">
 			<cfset referencedRecordDeleted = true>
 		<cfelse>
 			<cfthrow message = "unsupported dispostion or other condition">
