@@ -255,6 +255,7 @@ limitations under the License.
 		<!--- user can edit the specimen record --->
 		<!--- scripts for reloading sections of pages after edits, use as callabcks on edit dialogs --->
 		<script>
+			var triggerHeadingReload = false;
 			function reloadPage() { 
 				$("##specimenDetailsPageContent").html("<h2 class=h3>Reloading page...</h2>");
 				window.location.reload();
@@ -305,6 +306,9 @@ limitations under the License.
 				loadParts(#getCatalogedItem.collection_object_id#,'partsCardBody');
 				// Update part count
 				loadPartCount(#getCatalogedItem.collection_object_id#,'partCountSpan');
+				if (triggerHeadingReload) {
+					reloadHeadingBar();
+				}
 			}
 			function reloadPartsAndSection() {
 				reloadParts();

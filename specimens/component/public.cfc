@@ -658,6 +658,7 @@ limitations under the License.
 									if ($("##identificationDialogList").length) {
 										loadIdentificationsList("#identification.collection_object_id#", "identificationDialogList","true");
 									}
+									reloadParts();
 								} else {
 									setFeedbackControlState(feedbackDiv,"error")
 								}

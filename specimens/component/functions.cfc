@@ -767,6 +767,7 @@ limitations under the License.
 			</cfif>
 			<cfset target = "">
 			<cfset hasMissingCitations = false>
+			<cfset makesMixedCollectionOnSave = false>
 			<cfif getDetermined.coll_object_type EQ "CI">
 				<cfquery name="getTarget" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 					SELECT guid
@@ -812,6 +813,16 @@ limitations under the License.
 						specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
 				</cfquery>
 				<cfset target = "#getTarget.guid# #getTarget.part_name# (#getTarget.preserve_method#)">
+				<!--- count identifications on this part, used to check if page should reload after addition --->
+				<cfquery name="countPartIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
+					SELECT count(*) as id_count
+					FROM identification
+					WHERE 
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
+				</cfquery>
+				<cfif countPartIdentifications.id_count EQ 0>
+					<cfset makesMixedCollectionOnSave = true>
+				</cfif>
 			<cfelse>
 				<cfthrow message="This collection object type (#getDetermined.coll_object_type#) is not supported.">
 			</cfif>
@@ -1051,6 +1062,10 @@ limitations under the License.
 														success: function() {
 															setFeedbackControlState("addIdStatus","saved")
 															reloadIdentificationsDialogAndPage();
+															<cfif makesMixedCollectionOnSave>
+																<!--- on subsequent call of reloadParts, trigger a heading reload as a mixed collection has been created --->
+																triggerHeadingReload = true;
+															</cfif>
 														}
 														,error: function(jqXHR, textStatus, errorThrown) {
 															setFeedbackControlState("addIdStatus","error")
