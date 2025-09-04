@@ -4619,7 +4619,7 @@ limitations under the License.
 										button.addEventListener('click', function(event) {
 											event.preventDefault();
 											// confirm making mixed collection
-											confirmDialog('Adding identifications to this part will make this cataloged item into a mixed collection.  This means that the cataloged item will no longer be a single taxon, but rather a collection of parts with different identifications.  <strong>Are you sure you want to do this?</strong>  This is appropriate for some cases in some collections, such as when a cataloged item ins a composite of multiple taxa, such as pin with an ant and an associated insect on the same pin and a single catalog number, but not appropriate for all collections.  If you are unsure, please seek guidance before proceeding.', 
+											confirmDialog('Adding identifications to this part will make this cataloged item into a mixed collection.  This means that the cataloged item will no longer be a single taxon, but rather a collection of parts with different identifications.  <strong>Are you sure you want to do this?</strong>  This is appropriate for some cases in some collections, such as when a cataloged item is a composite of multiple taxa, such as pin with an ant and an associated insect on the same pin and a single catalog number, but not appropriate for all collections.  If you are unsure, please seek guidance before proceeding.', 
 												'Confirm Mixed Collection', 
 												function() {
 													// make mixed collection
