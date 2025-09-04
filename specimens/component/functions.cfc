@@ -4603,7 +4603,7 @@ limitations under the License.
 												dataType: 'json',
 												data: {
 													method: 'deletePart',
-													collection_object_id: $("##editPart" + id + " input[name='collection_object_id']").val()
+													collection_object_id: $("##editPart" + id + " input[name='part_collection_object_id']").val()
 												},
 												success: function(response) {
 													setFeedbackControlState(feedbackOutput,"deleted");
