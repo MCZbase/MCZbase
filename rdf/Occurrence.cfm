@@ -148,24 +148,28 @@ limitations under the License.
 	  "prov": "http://www.w3.org/ns/prov##",
 	  "xsd": "http://www.w3.org/2001/XMLSchema##"
   },
-  "@id": "#lookupUUID.assembled_resolvable#",
-  "@type":"dwc:Occurrence",
-  "prov:invalidatedAtTime": {
-	 "@value": "#lookupUUID.xsd_modified#",
-	 "@type": "xsd:dateTime"
-  },
-  "prov:wasInvalidatedBy": {
-	 "@id": "##deleteActivity"
-  }
-},
-{
-  "@id": "##deleteActivity",
-  "@type":"prov:Activity",
-  "prov:endedAtTime": {
-	 "@value": "#lookupUUID.xsd_modified#",
-	 "@type": "xsd:dateTime"
-  },
-  "prov:type":"deletion"
+  "@graph": [
+    {
+      "@id": "#lookupUUID.assembled_resolvable#",
+      "@type":"dwc:Occurrence",
+      "prov:invalidatedAtTime": {
+        "@value": "#lookupUUID.xsd_modified#",
+        "@type": "xsd:dateTime"
+      },
+      "prov:wasInvalidatedBy": {
+        "@id": "##deleteActivity"
+      }
+    },
+    {
+      "@id": "##deleteActivity",
+      "@type":"prov:Activity",
+      "prov:endedAtTime": {
+         "@value": "#lookupUUID.xsd_modified#",
+         "@type": "xsd:dateTime"
+      },
+      "prov:type":"deletion"
+    }
+  ]
 }
 </cfoutput>
 <cfabort>
