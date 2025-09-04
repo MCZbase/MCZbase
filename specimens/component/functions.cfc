@@ -2829,6 +2829,7 @@ limitations under the License.
 													if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
 														setFeedbackControlState("addOtherIDResultDiv","saved")
 														reloadOtherIDDialog("#getCatalog.collection_object_id#");
+														reloadOtherIDs();
 													} else {
 														// we shouldn't be able to reach this block, backing error should return an http 500 status
 														setFeedbackControlState("addOtherIDResultDiv","error")
@@ -2947,6 +2948,7 @@ limitations under the License.
 													success: function (result) {
 														if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
 															setFeedbackControlState("saveOtherIDResultDiv" + num,"saved")
+															reloadOtherIDs();
 														} else {
 															// we shouldn't be able to reach this block, backing error should return an http 500 status
 															setFeedbackControlState("saveOtherIDResultDiv" + num,"error")
