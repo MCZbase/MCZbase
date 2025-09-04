@@ -110,17 +110,17 @@ limitations under the License.
 <cfif referencedRecordDeleted>
 <cfif deliver IS 'application/rdf+xml'>
 <cfoutput><rdf:RDF
-  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns##"
   xmlns:dwc="http://rs.tdwg.org/dwc/terms/"
-  xmlns:prov="http://www.w3.org/ns/prov#"
-  xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+  xmlns:prov="http://www.w3.org/ns/prov##"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema##"
 >
   <dwc:Occurrence rdf:about="#lookupUUID.assembled_resolvable#">
     <prov:invalidatedAtTime rdf:datatype="xsd:dateTime">#lookupUUID.xsd_modified#</prov:invalidatedAtTime>
-    <prov:wasInvalidatedBy rdf:resource="#deleteActivity"/>
+    <prov:wasInvalidatedBy rdf:resource="##deleteActivity"/>
   </dwc:Occurrence>
 
-  <prov:Activity rdf:about="#deleteActivity">
+  <prov:Activity rdf:about="##deleteActivity">
     <prov:endedAtTime rdf:datatype="xsd:dateTime">#lookupUUID.xsd_modified#</prov:endedAtTime>
     <prov:type>deletion</prov:type>
   </prov:Activity>
@@ -129,8 +129,8 @@ limitations under the License.
 <cfabort>
 <cfelseif deliver IS 'text/turtle'>
 <cfoutput>@prefix dwc: <http://rs.tdwg.org/dwc/terms/> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov: <http://www.w3.org/ns/prov##> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema##> .
 
 <#lookupUUID.assembled_resolvable#> a dwc:Occurrence ;
     prov:invalidatedAtTime "#lookupUUID.xsd_modified#"^^xsd:dateTime ;
@@ -145,8 +145,8 @@ limitations under the License.
 <cfoutput>{
   "@context": { 
 	  "dwc": "http://rs.tdwg.org/dwc/terms/",
-	  "prov": "http://www.w3.org/ns/prov#",
-	  "xsd": "http://www.w3.org/2001/XMLSchema#"
+	  "prov": "http://www.w3.org/ns/prov##",
+	  "xsd": "http://www.w3.org/2001/XMLSchema##"
   },
   "@id": "#lookupUUID.assembled_resolvable#",
   "@type":"dwc:Occurrence",
