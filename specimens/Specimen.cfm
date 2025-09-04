@@ -992,6 +992,21 @@ limitations under the License.
 						<div class="card mb-2 bg-light">
 							<div id="annotationDialog"></div>
 							<div id="AnnotationsDialog"></div>
+							<cfquery name="countAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT
+									count(annotation_id) ct
+								FROM 
+									annotations
+								WHERE
+									collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								ORDER BY 
+									annotate_date
+							</cfquery>
+							<cfif countAnnotations.ct GT 0>
+								<cfset hasAnnotations = true>
+							<cfelse>
+								<cfset hasAnnotations = false>
+							</cfif>
 							<cfset blockAnnotations = getAnnotationsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingAnnotations">
 								<h3 class="h5 my-0">
@@ -1004,7 +1019,7 @@ limitations under the License.
 											Report Bad Data
 										</a>
 									</cfif>
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+									<cfif listcontainsnocase(session.roles,"manage_specimens") AND hasAnnotations >
 										<!--- TODO: An edit annotation dialog --->
 										<!---
 										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAnnotationsDialog(#collection_object_id#,'AnnotationsDialog','#guid#',reloadAnnotations)">

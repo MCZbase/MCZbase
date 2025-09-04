@@ -3675,7 +3675,7 @@ limitations under the License.
 									<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) #state#</span>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 										<cfif reviewed_fg EQ "1">
-											<span class="d-block small mb-0 pb-0">#resolution# #reviwer# #reviewer_comment#</span>
+											<span class="d-block small mb-0 pb-0">#resolution# #reviewer# #reviewer_comment#</span>
 										</cfif>
 									</cfif>
 								</li>
