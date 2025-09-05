@@ -489,7 +489,7 @@ limitations under the License.
 		<div id="materialSampleIDEditDialog1"></div>
 
 		<!--- controls for editing record --->
-		<div class="container-fluid d-none d-md-block" id="editControlsDiv">
+		<div class="container-fluid d-none d-xl-block" id="editControlsDiv">
 			<div class="row mt-2" id="editControlsBlock">
 				<ul class="list-group list-inline list-group-horizontal-md py-0 mx-auto">
 					<cfset resultBit = "">
