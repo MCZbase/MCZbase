@@ -20,9 +20,9 @@
 		You may search specimens using the <a href="/api/specsrch">SpecimenResults.cfm API</a>. 
 	</p --->
 	<div class="col-12">
-		You may open KML files of MCZbase data using the <a href="/api/kml">KML API</a>. 
+		<h3 class="h3">You may open KML files of MCZbase data using the <a href="/api/kml">KML API</a>.</h3>
 	</div>
-	<div class="col-12>
+	<div class="col-12">
 		<h3 class="h3">You may link to specimens with any of the following:</h3>
 		<ul class="labels">
 			<li>
@@ -93,8 +93,10 @@
 				<br>
 			</li>
 		</ul>
-		or through Saved Searches (find specimens, click Save Search, provide a name, then click My Stuff/Saved Searches, then 
-		copy/paste/email/click the links.)
+		<div>
+			You can also obtain specimen data through Saved Searches (find specimens, click Save Search, provide a name, then click My Stuff/Saved Searches, then 
+			copy/paste/email/click the links.)
+		</div>
 	</div>
 	<div class="col-12">
 		You may search taxonomy using the <a href="/api/taxsrch">Taxonomy API</a>. 
