@@ -181,7 +181,6 @@ limitations under the License.
 					<div class="col-12 px-0 pr-md-3 pl-md-0 ">
 						<div class="border bg-light rounded p-3 my-2">
 							<cfif findNoCase('redesign',Session.gitBranch) GT 0>
-								<script>var section = 2</script>
 								<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
 								<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
 							</cfif>
@@ -266,7 +265,6 @@ limitations under the License.
 									#blockform#
 								</form>
 							</div>
-							<script>var section = 0</script>
 							<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
 							<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
 						</div>
@@ -662,16 +660,9 @@ limitations under the License.
 
 <cfif isDefined("action") AND ( action EQ "new" OR action EQ "edit" )>
 	<cfoutput>
-<!---		<cfset targetWikiPage = "Locality">
+		<cfset targetWikiPage = "Locality">
 		<cfif action EQ "edit">
 			<cfset targetWikiPage = "Edit_Locality">
-		</cfif>--->
-		<cfif isDefined("action") AND ( action EQ "new" )>
-		<cfset targetWikiPage = "Locality">
-		<cfelseif isDefined("action") AND ( action EQ "edit" )>
-			<cfset targetWikiPage = "Edit_Locality">
-		<cfelse>
-			<cfset targetWikiPage = "Locality">
 		</cfif>
 		<div id="wikiDrawer" class="wiki-drawer border">
 			<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
@@ -688,7 +679,13 @@ limitations under the License.
 			var marginPx = 30;
 			var topMarginPx = 20;
 			var dialogWidthPercent = 1;
-			
+			var section = 0; // Default for all page content
+			// Determine the section based on the developer's logic
+			if (action == "edit") {
+				section = 2; // or whatever section the developer decides for editing
+			} else if (action == "new") {
+				section = 0; // full view when creating new
+			}
 
 			$(document).ready(function() {
 				// Show drawer, push dialog right if drawer will be visible
