@@ -187,7 +187,8 @@ limitations under the License.
 												<cfquery name="mixedCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 													SELECT 
 														distinct identification.scientific_name,
-														guid_our_thing.assembled_resolvable, guid_our_thing.assembled_identifier
+														guid_our_thing.assembled_resolvable, guid_our_thing.assembled_identifier, 
+														guid_our_thing.local_identifier
 													FROM 
 														specimen_part
 														join guid_our_thing on specimen_part.collection_object_id = guid_our_thing.co_collection_object_id
@@ -299,7 +300,9 @@ limitations under the License.
 												<cfloop query="mixedCollection">
 													<li>
 														occurrenceID: <a class="h5 mb-1" href="#mixedCollection.assembled_resolvable#">#mixedCollection.assembled_identifier#</a>
-														<a href="/uuid/#assembled_identifier#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+														<cfif left(mixedCollection.assembled_identifier,9) EQ "urn:uuid:">
+															<a href="/uuid/#mixedCollection.local_identifier#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+														</cfif>
 														#mixedCollection.scientific_name#
 													</li>
 												</cfloop>
@@ -1687,7 +1690,7 @@ limitations under the License.
 								</cfif>
 								<!--- lookup material sample id from guid_our_thing table --->
 								<cfquery name="getMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable
+									SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable, local_identifier
 									FROM guid_our_thing
 									WHERE guid_is_a = 'materialSampleID'
 									  AND sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
@@ -1697,8 +1700,11 @@ limitations under the License.
 										<tr class="small90 #addedClass#">
 											<td colspan="6" class="mb-0 pb-1 pt-0">
 												<span class="pl-3 d-block">
-													<span class="font-italic">materialSample_id:</span> 
+													<span class="font-italic">materialSampleID:</span> 
 													<a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
+													<cfif left(assembled_identifier,9) EQ "urn:uuid:">
+														<a href="/uuid/#local_identifier#/json" target="_blank"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+													</cfif>
 												</span>
 											</td>
 										</tr>

@@ -2582,7 +2582,7 @@ limitations under the License.
 									<cfset variables.subtype="">
 									<cfif getComponents.identifications gt 0>
 										<cfset variables.subtype=": Different Organism">
-										<!--- TODO: show occurrence ID value(s) for the identifiable object(s) --->
+										<!--- Show occurrence ID value(s) for the identifiable object(s) --->
 										<cfquery name="getComponentOccurrenceID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT assembled_identifier, assembled_resolvable, identification.scientific_name sc_name
 											FROM 
@@ -4379,7 +4379,7 @@ limitations under the License.
 								<cfset i = i + 1>
 								<!--- lookup material sample id from guid_our_thing table --->
 								<cfquery name="getMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable, internal_fg
+									SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable, internal_fg, local_identifier
 									FROM guid_our_thing
 									WHERE guid_is_a = 'materialSampleID'
 									  AND sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mPart.part_id#">
@@ -4541,7 +4541,9 @@ limitations under the License.
 													<li>
 														<strong>materialSampleID:</strong> <a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
 														<cfif internal_fg EQ 1>
-															<a href="/uuid/#assembled_identifier#/json" target="_blank"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+															<cfif left(assembled_identifier,9) EQ "urn:uuid:"> 
+																<a href="/uuid/#local_identifier#/json" target="_blank"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+															</cfif>
 														</cfif>
 													</li>
 												</cfloop>
