@@ -21,6 +21,12 @@ limitations under the License.
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml --->
 <cfinclude template="/specimens/component/public.cfc" runOnce="true"><!--- for getIdentificationsUnthreadedHTML  --->
 
+<!--- updateCatNumber update the catalog number and collection id for a cataloged item identified by the collection object id.
+ @param collection_object_id the collection_object_id for the cataloged item to update
+ @param cat_num the new catalog number to set
+ @param collection_id the new collection id to set
+ @return a json structure with status=updated, or an http 500 response.
+--->
 <cffunction name="updateCatNumber" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="numeric" required="yes">
 	<cfargument name="cat_num" type="string" required="yes">
@@ -89,6 +95,11 @@ limitations under the License.
 	<cfreturn serializeJSON(data)>
 </cffunction>
 
+<!--- updateAccn update the accession for a cataloged item identified by the collection object id.
+ @param collection_object_id the collection_object_id for the cataloged item to update
+ @param accession_transaction_id the new accession_transaction_id to set
+ @return a json structure with status=updated, or an http 500 response.
+--->
 <cffunction name="updateAccn" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="numeric" required="yes">
 	<cfargument name="accession_transaction_id" type="numeric" required="yes">
@@ -1135,6 +1146,7 @@ limitations under the License.
 	@param accepted_id_fg whether to set the identification is to be the current identification.
 	@param stored_as_fg whether to store the identification as a field guide (optional, default 0).
 	@param determiner_ids a comma-separated list of agent IDs for the determiners.
+	@return a json structure with status=added, or an http 500 response.
  --->
 <cffunction name="addIdentification" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
@@ -1338,6 +1350,7 @@ limitations under the License.
 
 <!--- Remove an identification (prevents removing accepted) 
   @param identification_id the identification_id to remove.
+  @return a json structure with status=removed, or an http 500 response.
 --->
 <cffunction name="removeIdentification" access="remote" returntype="any" returnformat="json">
 	<cfargument name="identification_id" type="string" required="yes">
@@ -2104,7 +2117,11 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-<!--- Bulk update identifications for a collection object (edit/save all fields, triggers, flags, etc.) --->
+<!--- Bulk update identifications for a collection object (edit/save all fields, triggers, flags, etc.) 
+  @param collection_object_id the collection_object_id for the specimen.
+  @param identificationUpdates an array of structs, each struct containing all fields for an identification to update, including accepted_id_fg, stored_as_fg, sort_order, etc.
+  @return JSON object with status for each identification updated or a http 500 error on failure.
+--->
 <cffunction name="updateIdentifications" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="identificationUpdates" type="array" required="yes">
