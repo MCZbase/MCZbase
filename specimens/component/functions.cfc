@@ -592,7 +592,9 @@ limitations under the License.
 					<div class="col-12 col-md-3">
 						<!--- metadata for media record --->
 						<ul>
-							<li>#getMedia.subject#</li>
+							<cfif getMedia.subject is not "">
+								<li>#getMedia.subject#</li>
+							</cfif>
 							<cfif getMedia.aspect is not "">
 								<li>#getMedia.aspect#</li>
 							</cfif>
@@ -601,6 +603,7 @@ limitations under the License.
 							<li>
 								(<a href="/media.cfm?action=edit&media_id=#getMedia.media_id#" target="_blank" >Edit</a>)
 							</li>
+						</ul>
 					</div>
 					<div class="col-12 col-md-3">
 						<!--- form to add current media to cataloged item --->
