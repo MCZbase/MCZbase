@@ -2575,6 +2575,7 @@ limitations under the License.
 										left join identification on coll_object.collection_object_id=identification.collection_object_id
 									WHERE derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatalog.collection_object_id#">
 									GROUP BY coll_object_type, part_name
+									ORDER BY count(identification.collection_object_id) asc, part_name asc
 								</cfquery>
 								<ul>
 								<cfloop query="getComponents">
