@@ -49,7 +49,7 @@ limitations under the License.
 <script>
 	// Determine the Wiki section based on the developer's logic
 	if (action == "edit") {
-		section = 2; // or whatever section the developer decides for editing
+		section = 3; // or whatever section the developer decides for editing
 	} else if (action == "new") {
 		section = 0; // full view when creating new
 	}
