@@ -417,10 +417,10 @@ limitations under the License.
 								</div>
 								<div class="card-body">
 									<!--- form to add current media to cataloged item --->
-									<form name="formLinkMedia" id="formLinkMedia">
+									<form name="formLinkMedia" id="formLinkMedia" class="mb-0">
 										<div class="form-row">	
 											<div class="col-12 my-1">
-												<label for="underscore_collection_id">Filename of Media to link:</label>
+												<label for="underscore_collection_id" class="mt-1">Filename of Media to link:</label>
 												<input type="hidden" name="media_id" id="media_id">
 												<input type="text" name="media_uri" id="media_uri" class="data-entry-input">
 											</div>
@@ -448,7 +448,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 col-md-1">
+											<div class="col-12 col-md-1 my-1">
 												<label for="addMediaButton" class="data-entry-label">&nbsp;</label>
 												<input type="button" value="Add" class="btn btn-xs btn-primary" id="addMediaButton"
 													onClick="handleAddMedia();">
