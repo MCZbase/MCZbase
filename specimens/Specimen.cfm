@@ -565,7 +565,7 @@ limitations under the License.
 						<button type="button" id="btn_pane7" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Attributes</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane8" class="btn btn-xs btn-powder-blue py-0 px-0 small" onclick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Relationships</button>
+						<button type="button" id="btn_pane8" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Relationships</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
 						<button type="button" id="btn_pane9" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)">Remarks</button>
