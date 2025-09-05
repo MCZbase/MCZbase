@@ -2584,7 +2584,7 @@ limitations under the License.
 										<cfset variables.subtype=": Different Organism">
 										<!--- TODO: show occurrence ID value(s) for the identifiable object(s) --->
 										<cfquery name="getComponentOccurrenceID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											SELECT assembled_identifier, assembled_resolvable, identification.scientific_name
+											SELECT assembled_identifier, assembled_resolvable, identification.scientific_name sc_name
 											FROM 
 												specimen_part 
 												join guid_our_thing on specimen_part.collection_object_id=guid_our_thing.co_collection_object_id
@@ -2593,7 +2593,7 @@ limitations under the License.
 												and identification.accepted_id_fg=1
 										</cfquery>
 										<cfloop query="getComponentOccurrenceID">
-											<cfset variables.occurrences="(occurrenceID: #getComponentOccurrenceID.assembled_identifier# <a href='#getComponentOccurrenceID.assembled_resolvable#/json'> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a> #getComponentOccurrenceID.scientifc_name# )">
+											<cfset variables.occurrences="(occurrenceID: #getComponentOccurrenceID.assembled_identifier# <a href='#getComponentOccurrenceID.assembled_resolvable#/json'> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a> #getComponentOccurrenceID.sc_name# )">
 										</cfloop>
 									</cfif>
 									<cfif getComponents.coll_object_type is "SP">
@@ -4541,7 +4541,7 @@ limitations under the License.
 													<li>
 														<strong>materialSampleID:</strong> <a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
 														<cfif internal_fg EQ 1>
-															<a href="/uuid/#assembled_identifier#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+															<a href="/uuid/#assembled_identifier#/json" target="_blank"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
 														</cfif>
 													</li>
 												</cfloop>
