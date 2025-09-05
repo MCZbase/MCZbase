@@ -5042,8 +5042,8 @@ limitations under the License.
 					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">
 			</cfquery>
 			<cfif ispartRem.recordcount is 0>
-				<!--- if not and ther are remarks, add a record --->
-				<cfif len(thiscoll_object_remarks) gt 0>
+				<!--- if not and there are remarks, add a record --->
+				<cfif len(arguments.coll_object_remarks) gt 0>
 					<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						INSERT INTO coll_object_remark (
 							collection_object_id, 
@@ -5070,7 +5070,7 @@ limitations under the License.
 			</cfif>
 
 			<!---- TODO: Update container placement code 
-			<cfif len(thisnewCode) gt 0>
+			<cfif len(this.newCode) gt 0>
 				<cfquery name="isCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						container_id, container_type, parent_container_id
