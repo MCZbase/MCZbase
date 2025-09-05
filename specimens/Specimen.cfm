@@ -276,6 +276,7 @@ limitations under the License.
 					loadMedia(#getCatalogedItem.collection_object_id#,'specimenMediaCardBody');
 					// Update media count
 					updateMediaCounts(#getCatalogedItem.collection_object_id#,'specimenMediaCount');
+					reloadLedger();
 				} else {
 					$("##editControlsBlock").html("<h2 class=h3>Reloading page...</h2>");
 					reloadPage();
