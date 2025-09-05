@@ -291,7 +291,7 @@ limitations under the License.
 									<a class="btn btn-xs btn-secondary" target="_blank" href="/localities/CollectingEvent.cfm?action=new&clone_from_collecting_event_id=#encodeForUrl(lookupEvent.collecting_event_id)#">Clone</a>
 								</div>
 								<cfif findNoCase('redesign',Session.gitBranch) GT 0>
-									<script>var section = 6;</script>
+								<!---	<script>var section = 6;</script>--->
 									<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
 									<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
 								</cfif>
@@ -454,7 +454,7 @@ limitations under the License.
 							</script>
 						</div>
 						<cfif findNoCase('redesign',Session.gitBranch) GT 0>
-							<script>var section = 2;</script>
+						<!---	<script>var section = 2;</script>--->
 							<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
 							<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
 						</cfif>
@@ -689,8 +689,11 @@ limitations under the License.
 
 <cfif isDefined("action") AND ( action EQ "new" OR action EQ "edit" )>
 	<cfoutput>
-		<cfset targetWikiPage = "Collecting_Event">
-		<cfif action EQ "edit">
+		<cfif isDefined("action") AND ( action EQ "new" )>
+			<cfset targetWikiPage = "Collecting_Event">
+		<cfelseif isDefined("action") AND ( action EQ "edit" )>
+			<cfset targetWikiPage = "Collecting_Event">
+		<cfelse>
 			<cfset targetWikiPage = "Collecting_Event">
 		</cfif>
 		<div id="wikiDrawer" class="wiki-drawer border">
