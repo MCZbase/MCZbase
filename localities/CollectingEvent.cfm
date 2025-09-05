@@ -446,6 +446,7 @@ limitations under the License.
 							</form>
 					
 							<script>
+								var section = 1
 								function saveCollectingEvent() { 
 									if (checkFormValidity($('##createCollectingEventForm')[0])) { 
 										$("##createCollectingEventForm").submit();
@@ -686,35 +687,6 @@ limitations under the License.
 	</cfcase>
 </cfswitch>
 
-<script>
-//	var wikiLoaded = false;
-//	$('#wikiAccordionBody').on('show.bs.collapse', function () {
-//		if(wikiLoaded) return;
-//		wikiLoaded = true;
-//		$('#wiki-content').html('Loading...');
-//		// Open the accordion
-//		$('#wikiAccordionBody').collapse('show');
-//
-//		$.ajax({
-//		url: '/shared/component/functions.cfc?method=getWikiSection&returnFormat=json',
-//		data: {
-//		page: "Locality_-_Data_Entry",// Collecting event section (3) on the locality page 
-//		section: 3
-//		},
-//		dataType: 'json',
-//		success: function(response) {
-//			$('#wiki-content').html(response.result || "<div>Section not found.</div>");
-//		},
-//		error: function(jqXHR, textStatus, errorThrown) {
-//			$('#wiki-content').html('<div class="alert alert-danger">AJAX error: '+textStatus+'<br>'+errorThrown+'</div>');
-//			console.log("AJAX ERROR", jqXHR, textStatus, errorThrown);
-//		}
-//	});
-//	$('#wikiDrawer').addClass('open');
-//	$('#content').addClass('pushed');
-//});
-</script>
-						
 <cfif isDefined("action") AND ( action EQ "new" OR action EQ "edit" )>
 	<cfoutput>
 		<cfset targetWikiPage = "Collecting_Event">
@@ -732,7 +704,8 @@ limitations under the License.
 		</div>
 
 		<script>
-			///the rest of the code for this is on /shared/js/shared-scripts.js
+			// The rest of the code for this is on /shared/js/shared-scripts.js. 
+			// Related css is on custom_styles.css lines 2884-2858 starting with the class ".wiki-drawer".
 			var drawerWidthPx = 400;
 			var marginPx = 30;
 			var topMarginPx = 20;
