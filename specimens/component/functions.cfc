@@ -2582,7 +2582,7 @@ limitations under the License.
 									<cfset variables.occurrences="">
 									<cfset variables.subtype="">
 									<cfif getComponents.identifications gt 0>
-										<cfset variables.subtype=": Different Organism">
+										<cfset variables.subtype=": <strong>Different Organism</strong>"><!--- " --->
 										<!--- Show occurrence ID value(s) for the identifiable object(s) --->
 										<cfquery name="getComponentOccurrenceID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 											SELECT assembled_identifier, assembled_resolvable, identification.scientific_name sc_name
