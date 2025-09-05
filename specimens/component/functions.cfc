@@ -590,7 +590,7 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-4">
 						<!--- metadata for media record --->
-						<ul>
+						<ul class="pl-0">
 							<li>
 							#getMedia.auto_filename#
 							</li>
