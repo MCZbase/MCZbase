@@ -408,7 +408,7 @@ limitations under the License.
 							<h1 class="h3 px-1"> 
 								Edit Media 
 								<a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> 
-								<a href="/media.cfm?action=newMedia" target="_blank" class="btn btn-secondary float-right">Add New Media Record</a>
+								<a href="/media.cfm?action=newMedia" target="_blank" class="btn btn-xs btn-secondary float-right">Add New Media Record</a>
 							</h1>
 							<!--- link existing media to cataloged item --->
 							<div class="add-form float-left">
