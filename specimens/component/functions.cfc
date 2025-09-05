@@ -2564,8 +2564,9 @@ limitations under the License.
 								<cfif checkMixed.ct gt 0>
 									<cfset variables.coll_object_type="#variables.coll_object_type#: Mixed Collection">
 								</cfif>
+								<cfset guidLink = "https://mczbase.mcz.harvard.edu/guid/#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#">
 								#variables.coll_object_type# #getCatalog.cataloged_item_type_description# 
-								( occurrenceID: https://mczbase.mcz.harvard.edu/guid/#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num# )
+								( occurrenceID: #guidLink# <a href="#guidLink#/json"> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a>)
 								<cfquery name="getComponents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT count(specimen_part.collection_object_id) ct, coll_object_type, part_name, count(identification.collection_object_id) identifications
 									FROM 
@@ -2582,17 +2583,23 @@ limitations under the License.
 									<cfif getComponents.identifications gt 0>
 										<cfset variables.subtype=": Different Organism">
 										<!--- TODO: show occurrence ID value(s) for the identifiable object(s) --->
-										<cfset variables.occurrences="(occurrenceID: **TODO** )">
+										<cfquery name="getComponentOccurrenceID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT assembled_identifier, assembled_resolvable, identification.scientific_name
+											FROM 
+												specimen_part 
+												join guid_our_thing on specimen_part.collection_object_id=guid_our_thing.co_collection_object_id
+												join identification on specimen_part.collection_object_id=identification.collection_object_id
+											WHERE specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatalog.collection_object_id#">
+												and identification.accepted_id_fg=1
+										</cfquery>
+										<cfloop query="getComponentOccurrenceID">
+											<cfset variables.occurrences="(occurrenceID: #getComponentOccurrenceID.assembled_identifier# <a href='#getComponentOccurrenceID.assembled_resolvable#/json'> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a> #getComponentOccurrenceID.scientifc_name# )">
+										</cfloop>
 									</cfif>
 									<cfif getComponents.coll_object_type is "SP">
 										<cfset variables.coll_object_type="Specimen Part#variables.subtype#">
 									<cfelseif getComponents.coll_object_type is "SS">
 										<cfset variables.coll_object_type="Subsample#variables.subtype#">
-									<cfelseif getComponents.coll_object_type is "IO"><!--- identifiable object thus a new occurrence --->
-										<!--- TODO: Identify specimen parts with identifications through linked identifications, not type --->
-										<cfset variables.coll_object_type="Different Organism">
-										<!--- TODO: show occurrence ID value(s) for the identifiable object(s) --->
-										<cfset variables.occurrences="(occurrenceID: **TODO** )">
 									<cfelse>
 										<cfset variables.coll_object_type="#getComponents.coll_object_type#">
 									</cfif>
@@ -4372,7 +4379,7 @@ limitations under the License.
 								<cfset i = i + 1>
 								<!--- lookup material sample id from guid_our_thing table --->
 								<cfquery name="getMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable
+									SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable, internal_fg
 									FROM guid_our_thing
 									WHERE guid_is_a = 'materialSampleID'
 									  AND sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mPart.part_id#">
@@ -4531,7 +4538,12 @@ limitations under the License.
 										<div class="col-12">
 											<ul class="list-unstyled pl-1">
 												<cfloop query="getMaterialSampleID">
-													<li><strong>materialSampleID:</strong> <a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a></li>
+													<li>
+														<strong>materialSampleID:</strong> <a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
+														<cfif internal_fg EQ 1>
+															<a href="/uuid/#assembled_identifier#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+														</cfif>
+													</li>
 												</cfloop>
 												<li>
 													<button type="button" id="btn_pane1" class="btn btn-xs btn-secondary py-0 small" onclick="openEditMaterialSampleIDDialog(#part_id#,'materialSampleIDEditDialog','#guid# #part_name#',reloadPartsAndSection)">

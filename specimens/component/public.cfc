@@ -299,7 +299,6 @@ limitations under the License.
 												<cfloop query="mixedCollection">
 													<li>
 														occurrenceID: <a class="h5 mb-1" href="#mixedCollection.assembled_resolvable#">#mixedCollection.assembled_identifier#</a>
-														<!--- TODO: Implement JSON-LD for occurrences by uuid --->
 														<a href="/uuid/#assembled_identifier#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
 														#mixedCollection.scientific_name#
 													</li>
