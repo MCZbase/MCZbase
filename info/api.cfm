@@ -49,7 +49,7 @@
 			<cfquery name="occID" datasource="cf_dbuser">
 				SELECT local_identifier
 				FROM guid_our_thing
-				WHERE guid_is_a 'occurrenceID'
+				WHERE guid_is_a = 'occurrenceID'
 					and scheme = 'urn' 
 					and type = 'uuid'
 				FETCH FIRST 1 ROW ONLY
