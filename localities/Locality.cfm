@@ -46,7 +46,14 @@ limitations under the License.
 </cfswitch>
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
-
+<script>
+	// Determine the Wiki section based on the developer's logic
+	if (action == "edit") {
+		section = 2; // or whatever section the developer decides for editing
+	} else if (action == "new") {
+		section = 0; // full view when creating new
+	}
+</script>
 <cfswitch expression="#action#">
 	<cfcase value="edit">
 		<cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
@@ -687,13 +694,7 @@ limitations under the License.
 			var topMarginPx = 20;
 			var dialogWidthPercent = 1;
 			var section = 0; // Default for all page content
-			// Determine the section based on the developer's logic
-			if (action == "edit") {
-				section = 2; // or whatever section the developer decides for editing
-			} else if (action == "new") {
-				section = 0; // full view when creating new
-			}
-
+	
 			$(document).ready(function() {
 				// Show drawer, push dialog right if drawer will be visible
 				 $('##show-wiki').on('click', function(e) {
