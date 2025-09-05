@@ -693,8 +693,7 @@ limitations under the License.
 			var marginPx = 30;
 			var topMarginPx = 20;
 			var dialogWidthPercent = 1;
-			var section = 0; // Default for all page content
-	
+		
 			$(document).ready(function() {
 				// Show drawer, push dialog right if drawer will be visible
 				 $('##show-wiki').on('click', function(e) {
