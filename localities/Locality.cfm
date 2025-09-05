@@ -266,7 +266,7 @@ limitations under the License.
 									#blockform#
 								</form>
 							</div>
-							<script>//var section = 0</script>
+							<script>var section = 0</script>
 							<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
 							<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
 						</div>
