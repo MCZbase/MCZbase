@@ -8,7 +8,7 @@
 </cfif>
 
 <cfoutput>
-	<main class="container-fluid" id="content">
+	<main class="container" id="content">
 		<section class="row mb-5">
         
 <cfif action is "entryPoint">
@@ -19,10 +19,11 @@
 	<!--- p>
 		You may search specimens using the <a href="/api/specsrch">SpecimenResults.cfm API</a>. 
 	</p --->
-	<p>
+	<div class="col-12">
 		You may open KML files of MCZbase data using the <a href="/api/kml">KML API</a>. 
-	</p>
-	You may link to specimens with any of the following:
+	</div>
+	<div class="col-12>
+		<h3 class="h3">You may link to specimens with any of the following:</h3>
 		<ul class="labels">
 			<li>
 				#Application.serverRootUrl#/guid/{institution}:{collection}:{catnum}
@@ -92,13 +93,14 @@
 				<br>
 			</li>
 		</ul>
-	or through Saved Searches (find specimens, click Save Search, provide a name, then click My Stuff/Saved Searches, then 
-	copy/paste/email/click the links.)
-	<p>
+		or through Saved Searches (find specimens, click Save Search, provide a name, then click My Stuff/Saved Searches, then 
+		copy/paste/email/click the links.)
+	</div>
+	<div class="col-12">
 		You may search taxonomy using the <a href="/api/taxsrch">Taxonomy API</a>. 
-	</p>
-	<p>
-		You may link to taxon detail pages with URLs of the format:
+	</div>
+	<div class="col-12">
+		<h3 class="h3">You may link to taxon detail pages with URLs of the format:</h3>
 		<ul class="labels">
 			<li>
 				#Application.serverRootUrl#/name/{taxon name}
@@ -109,14 +111,14 @@
 				</ul>
 			</li>
 		</ul>		
-	</p>
-	<p>
+	</div>
+	<div class="col-12>
 		You may search Media using the <a href="/api/mediasrch">MediaSearch.cfm API</a>
-	</p>
-	<p>
+	</div>
+	<div class="col-12">
 		You may download the complete public MCZ data set from 
         our <a href='http://digir.mcz.harvard.edu/ipt/resource.do?r=mczbase'>IPT instance</a> DOI <a href='http://doi.org/10.15468/p5rupv'>doi:10.15468/p5rupv</a>.
-	</p>
+	</div>
 	<!--- 
 	<p>
 		You may link to specific <a href="/api/collections">collection&##39;s portals</a>.
