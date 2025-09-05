@@ -62,7 +62,9 @@ function updateDialogPositionForDrawer() {
 
 	$('.ui-dialog:visible').each(function() {
 		var $dlg = $(this);
-		if ($dlg.data('origWidth') === undefined) $dlg.data('origWidth', $dlg.width());
+		if ($dlg.data('origWidth') === undefined) {
+			$dlg.data('origWidth', $dlg.width());
+		}
 		if (drawerIsOpen) {
 			// Dialog pushed over to main content area
 			var availableSpace = winWidth - drawerWidthPx - (2 * marginPx);
@@ -110,7 +112,6 @@ function closeWikiDrawer() {
 // Shared process/cleanup wiki content
 function processWikiContent($container) {
 	$container.find('.mw-editsection').remove(); // remove edit controls
-	
 	//To ensure that the wiki table of contents is not seen uncomment this and change section variable to zero on the share wiki call on the page (e.g., CollectingEvent.cfm)
 	//	$container.find('#toc').remove(); // remove table of contents
 
