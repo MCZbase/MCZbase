@@ -30,9 +30,11 @@ limitations under the License.
 <cfswitch expression="#action#">
 	<cfcase value="edit">
 		<cfset pageTitle="Edit Locality">
+		<cfset section = 4>
 	</cfcase>
 	<cfcase value="new">
 		<cfset pageTitle="New Locality">
+		<cfset section = 2>
 	</cfcase>
 	<cfcase value="makenewLocality">
 		<cfset pageTitle="Creating New Locality">
@@ -46,14 +48,7 @@ limitations under the License.
 </cfswitch>
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
-<script>
-	// Determine the Wiki section based on the developer's logic
-	if (action == "edit") {
-		section = 3; // or whatever section the developer decides for editing
-	} else if (action == "new") {
-		section = 0; // full view when creating new
-	}
-</script>
+
 <cfswitch expression="#action#">
 	<cfcase value="edit">
 		<cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
@@ -272,6 +267,7 @@ limitations under the License.
 									#blockform#
 								</form>
 							</div>
+						
 							<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
 							<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
 						</div>
