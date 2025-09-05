@@ -454,7 +454,7 @@ limitations under the License.
 							</script>
 						</div>
 						<cfif findNoCase('redesign',Session.gitBranch) GT 0>
-							<script>var section = 2;</script>
+							<script>var section = 0;</script>
 							<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
 							<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
 						</cfif>
