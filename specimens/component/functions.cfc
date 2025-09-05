@@ -607,7 +607,7 @@ limitations under the License.
 							</li>
 						</ul>
 					</div>
-					<div class="col-12 col-md-auto">
+					<div class="col-12 col-md-4">
 						<!--- form to add current media to cataloged item --->
 						<form name="formChangeLink_#variables.mpos#" id="formChangeLink_#variables.mpos#">
 							<div class="form-row">	
