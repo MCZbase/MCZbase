@@ -8,8 +8,8 @@
 </cfif>
 
 <cfoutput>
-	<main class=”container-fluid” id=”content”>
-		<section class=”row mb-5”>
+	<main class="container-fluid" id="content">
+		<section class="row mb-5">
         
 <cfif action is "entryPoint">
  
