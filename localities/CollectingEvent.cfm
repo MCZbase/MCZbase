@@ -718,9 +718,9 @@ limitations under the License.
 					e.preventDefault();
 					<cfif isDefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 						// Choose 0 to include the table of contents and all sections on the wiki page--OR--designate a section number of the page header if you only want 1 section with its content in the wiki page showing.
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,0);
+						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,true,section);
 					<cfelse>
-						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,0);
+						showWiki("#targetWikiPage#", false, "wiki-content","wiki-content-title",openWikiDrawer,closeWikiDrawer,false,section);
 					</cfif>
 					$("##show-wiki").hide();
 					$("##hide-wiki").show();
