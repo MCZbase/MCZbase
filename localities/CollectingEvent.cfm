@@ -291,7 +291,7 @@ limitations under the License.
 									<a class="btn btn-xs btn-secondary" target="_blank" href="/localities/CollectingEvent.cfm?action=new&clone_from_collecting_event_id=#encodeForUrl(lookupEvent.collecting_event_id)#">Clone</a>
 								</div>
 								<cfif findNoCase('redesign',Session.gitBranch) GT 0>
-									<script>var section = 1;</script>
+									<script>var section = 6;</script>
 									<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
 									<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
 								</cfif>
