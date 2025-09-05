@@ -446,7 +446,7 @@ limitations under the License.
 							</form>
 					
 							<script>
-								var section = 1
+								
 								function saveCollectingEvent() { 
 									if (checkFormValidity($('##createCollectingEventForm')[0])) { 
 										$("##createCollectingEventForm").submit();
@@ -455,6 +455,7 @@ limitations under the License.
 							</script>
 						</div>
 						<cfif findNoCase('redesign',Session.gitBranch) GT 0>
+							<script>var section = 1</script>
 							<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
 							<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
 						</cfif>
