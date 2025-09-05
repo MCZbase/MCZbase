@@ -419,12 +419,12 @@ limitations under the License.
 									<!--- form to add current media to cataloged item --->
 									<form name="formLinkMedia" id="formLinkMedia">
 										<div class="form-row">	
-											<div class="col-12">
+											<div class="col-12 my-1">
 												<label for="underscore_collection_id">Filename of Media to link:</label>
 												<input type="hidden" name="media_id" id="media_id">
 												<input type="text" name="media_uri" id="media_uri" class="data-entry-input">
 											</div>
-											<div class="col-12 col-md-3">
+											<div class="col-12 col-md-3 my-1">
 												<label for="media_type">Media Type</label>
 												<select name="media_type" id="media_type" size="1" class="reqdClr w-100" required>
 													<cfloop query="ctmedia_type">
@@ -436,7 +436,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 col-md-3">
+											<div class="col-12 col-md-3 my-1">
 												<label for="relationship_type">Type of Relationship:</label>
 												<select name="relationship_type" id="relationship_type" size="1" class="reqdClr w-100" required>
 													<cfloop query="ctmedia_relationship">
@@ -607,7 +607,7 @@ limitations under the License.
 							</li>
 						</ul>
 					</div>
-					<div class="col-12 col-md-4">
+					<div class="col-12 col-md-4 pr-1">
 						<!--- form to add current media to cataloged item --->
 						<form name="formChangeLink_#variables.mpos#" id="formChangeLink_#variables.mpos#">
 							<div class="form-row">	
