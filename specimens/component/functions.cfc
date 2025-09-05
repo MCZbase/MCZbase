@@ -584,7 +584,7 @@ limitations under the License.
 			<cfloop query="getMedia">
 				<div class="row mx-0 border-top border-bottom py-1">
 			
-					<div class="col-12 col-md-2 float-left">
+					<div class="col-12 col-md-2">
 						<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getMedia.media_id#",displayAs="thumb",captionAs="textNone")>
 					
 					</div>
@@ -607,7 +607,7 @@ limitations under the License.
 							</li>
 						</ul>
 					</div>
-					<div class="col-12 col-md-4">
+					<div class="col-12 col-md-auto">
 						<!--- form to add current media to cataloged item --->
 						<form name="formChangeLink_#variables.mpos#" id="formChangeLink_#variables.mpos#">
 							<div class="form-row">	
@@ -634,7 +634,7 @@ limitations under the License.
 							</div>
 					</div>
 					<div class="col-12 col-md-1">
-						<button class="btn btn-xs btn-primary" onClick="removeMediaRelationship('#getMedia.media_relations_id#',reloadMediaDialogList);">Remove</button>
+						<button class="btn btn-xs btn-primary mt-3" onClick="removeMediaRelationship('#getMedia.media_relations_id#',reloadMediaDialogList);">Remove</button>
 					</div>
 				</div>
 				<cfset variables.mpos= variables.mpos + 1>
