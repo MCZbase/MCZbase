@@ -105,7 +105,7 @@ Function getContainerAutocompleteMeta.  Search for containers by name with a sub
 				upper(barcode) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 				<cfif REFind('^[0-9]+$',term) GT 0>
 					OR
-					upper(container_id) <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#term#">
+					upper(container_id) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#term#">
 				</cfif>
 				<cfif exclude_coll_objects EQ "true">
 					)
