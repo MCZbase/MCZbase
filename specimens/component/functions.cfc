@@ -588,7 +588,7 @@ limitations under the License.
 						<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getMedia.media_id#",displayAs="thumb",captionAs="textNone")>
 					
 					</div>
-					<div class="col-12 col-md-4">
+					<div class="col-12 col-md-5">
 						<!--- metadata for media record --->
 						<ul class="pl-0">
 							<li>
@@ -607,7 +607,7 @@ limitations under the License.
 							</li>
 						</ul>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-4">
 						<!--- form to add current media to cataloged item --->
 						<form name="formChangeLink_#variables.mpos#" id="formChangeLink_#variables.mpos#">
 							<div class="form-row">	
@@ -633,7 +633,7 @@ limitations under the License.
 								</div>
 							</div>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-1">
 						<button class="btn btn-xs btn-primary" onClick="removeMediaRelationship('#getMedia.media_relations_id#',reloadMediaDialogList);">Remove</button>
 					</div>
 				</div>
