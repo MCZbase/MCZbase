@@ -727,7 +727,7 @@ limitations under the License.
 					setTimeout(updateDialogPositionForDrawer, 400); // after wiki tray is visible
 				});
 
-				$('##hide-wiki').on('click', function(e) {
+				$('##hide-wiki').on('click', function(e) {// This is for the buttons
 					e.preventDefault();
 					closeWikiDrawer();
 					setTimeout(updateDialogPositionForDrawer, 400); // after wiki tray is hidden
