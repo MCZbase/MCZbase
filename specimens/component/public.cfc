@@ -1709,7 +1709,7 @@ limitations under the License.
 												<span class="pl-3 d-block">
 													<span class="font-italic">materialSampleID:</span> 
 													<a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
-													<cfif internal_fg EQ "1" left(assembled_identifier,9) EQ "urn:uuid:">
+													<cfif internal_fg EQ "1" AND left(assembled_identifier,9) EQ "urn:uuid:">
 														<a href="/uuid/#local_identifier#/json" target="_blank"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
 													</cfif>
 												</span>
