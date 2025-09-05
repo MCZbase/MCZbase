@@ -727,14 +727,14 @@ limitations under the License.
 					setTimeout(updateDialogPositionForDrawer, 400); // after wiki tray is visible
 				});
 
-				$('##hide-wiki').on('click', function(e) {
-					e.preventDefault();
-					closeWikiDrawer();
-					setTimeout(updateDialogPositionForDrawer, 400); // after wiki tray is hidden
-					$("##hide-wiki").hide();
-					$("##show-wiki").show();
+			//	$('##hide-wiki').on('click', function(e) {
+				//	e.preventDefault();
+				//	closeWikiDrawer();
+				//	setTimeout(updateDialogPositionForDrawer, 400); // after wiki tray is hidden
+				//	$("##hide-wiki").hide();
+				//	$("##show-wiki").show();
 				});
-				$("##hide-wiki").hide();
+				//$("##hide-wiki").hide();
 
 				$(window).on('resize', updateDialogPositionForDrawer);
 
