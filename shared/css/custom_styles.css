@@ -2857,6 +2857,9 @@ div.toctitle {margin-bottom:0;}
 #wikiDrawer {
 	z-index: 9997 !important;
 }
+.mw-toc-heading {
+	margin-bottom: 0;
+}
 
 
 /****************end all screen styles*********************/

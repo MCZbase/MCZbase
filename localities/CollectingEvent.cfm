@@ -31,9 +31,7 @@ limitations under the License.
 	<cfset variables.collecting_event_id=url.collecting_event_id>
 </cfif>
 <style>
-	.mw-toc-heading {
-		margin-bottom: 0;
-	}
+
 	</style>
 <cfif not isdefined("variables.action")>
 	<cfif not isdefined("variables.collecting_event_id")>
@@ -293,6 +291,7 @@ limitations under the License.
 									<a class="btn btn-xs btn-secondary" target="_blank" href="/localities/CollectingEvent.cfm?action=new&clone_from_collecting_event_id=#encodeForUrl(lookupEvent.collecting_event_id)#">Clone</a>
 								</div>
 								<cfif findNoCase('redesign',Session.gitBranch) GT 0>
+									<script>var section = 1;</script>
 									<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
 									<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
 								</cfif>
@@ -455,7 +454,7 @@ limitations under the License.
 							</script>
 						</div>
 						<cfif findNoCase('redesign',Session.gitBranch) GT 0>
-							<script>var section = 1</script>
+							<script>var section = 2;</script>
 							<button id="show-wiki" class="btn btn-xs btn-info">Show Wiki Article</button>
 							<button id="hide-wiki" class="btn btn-xs btn-info">Hide Wiki Article</button>
 						</cfif>
