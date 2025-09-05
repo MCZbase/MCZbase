@@ -8,8 +8,8 @@
 </cfif>
 
 <cfoutput>
-	<main class=”container” id=”content”>
-		<section class=”row” >
+	<main class=”container-fluid” id=”content”>
+		<section class=”row mb-5”>
         
 <cfif action is "entryPoint">
  
@@ -55,30 +55,29 @@
 				FETCH FIRST 1 ROW ONLY
 			</cfquery>
 			<cfif occID.recordcount GT 0>
-			<li>
-				#Application.serverRootUrl#/uuid/{uuid:uuid:occurrenceID or materialSampleID}
-				<ul>
-					<li>
-						Example: #Application.serverRootUrl#/uuid/#local_identifier#>
-					</li>
-					<li>
-						This uri delivers a human readable html representation by default, but it also supports content negotiation with an http accept header for RDF representations with 'text/turtle' or 'application/rdf+xml' or 'application/ld+json'
-					</li>
-					<li>
-						To request RDF in a specific format, you may also append /turtle, /rdf, or /json to the URI.
-					</li>
-					<li>
-						Example RDF in a Turtle serialization : #Application.serverRootUrl#/uuid/#local_identifier#/turtle
-					</li>
-					<li>
-						Example RDF in a JSON-LD serialization: #Application.serverRootUrl#/uuid/#local_identifier#/json-ld
-					</li>
-					<li>
-						Example RDF in an RDF/XML serialization: #Application.serverRootUrl#/uuid/#local_identifier#/xml
-					</li>
-				</ul>
-				<br>
-			</li>
+				<li>
+					#Application.serverRootUrl#/uuid/{uuid:uuid:occurrenceID or materialSampleID}
+					<ul>
+						<li>
+							Example: #Application.serverRootUrl#/uuid/#occID.local_identifier#>
+						</li>
+						<li>
+							This uri delivers a human readable html representation by default, but it also supports content negotiation with an http accept header for RDF representations with 'text/turtle' or 'application/rdf+xml' or 'application/ld+json'
+						</li>
+						<li>
+							To request RDF in a specific format, you may also append /turtle, /rdf, or /json to the URI.
+						</li>
+						<li>
+							Example RDF in a Turtle serialization : #Application.serverRootUrl#/uuid/#occID.local_identifier#/turtle
+						</li>
+						<li>
+							Example RDF in a JSON-LD serialization: #Application.serverRootUrl#/uuid/#occID.local_identifier#/json-ld
+						</li>
+						<li>
+							Example RDF in an RDF/XML serialization: #Application.serverRootUrl#/uuid/#occID.local_identifier#/xml
+						</li>
+					</ul>
+				</li>
 			</cfif>
 			<li>
 				#Application.serverRootUrl#/rdf/Occurrence.cfm?guid={institution}:{collection}:{catnum}
