@@ -627,7 +627,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 								<label class="data-entry-label">Motivation</label>
 								<span class="small">#motivation#</span>
 							</div>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-2">
 								<label for="reviewed_fg" class="data-entry-label">Reviewed?</label>
 								<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select">
 									<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
@@ -638,9 +638,9 @@ Annotation to report problematic data concerning #annotated.annorecord#
 									Last review by #reviewer#</span>
 								</cfif>
 							</div>
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-md-8">
 									<label for="reviewer_comment" class="data-entry-label">Review Comments</label>
-									<textarea rows="3" class="" name="reviewer_comment" id="reviewer_comment">#reviewer_comment#</textarea>
+									<textarea name="reviewer_comment" id="reviewer_comment" class="data-entry-textarea autogrow mb-1" maxlength="4000" >#reviewer_comment#</textarea>
 							</div>
 							<div class="col-12 col-md-2">
 									<input type="submit" value="save review" class="btn btn-xs btn-primary mt-3 mb-2">
