@@ -19,7 +19,9 @@ limitations under the License.
 --->
 <cfcomponent>
 
-<cfinclude template = "/shared/functionLib.cfm">
+<cf_rolecheck>
+<cfinclude template = "/shared/functionLib.cfm" runOnce="true">
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <cffunction name="getAnnotationDialogHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="target_type" type="string" required="yes">
