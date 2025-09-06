@@ -655,22 +655,22 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					</cfloop>
 					<script>
 						function submitAnnotationReview(form_id) {
-							setFeedbackControlState("result_annotation_" + i,"saving");
+							setFeedbackControlState("result_annotation_" + form_id,"saving");
 							$.ajax({
 								type: "POST",
 								url: "/annotations/component/functions.cfc",
-								data: $("#review_annotation_" + form_id).serialize(),
+								data: $("##review_annotation_" + form_id).serialize(),
 								dataType: "json",
 								success: function(data) {
 									if (data[0].status == "updated") {
-										setFeedbackControlState("result_annotation_" + i,"saved");
+										setFeedbackControlState("result_annotation_" + form_id,"saved");
 									} else {
-										setFeedbackControlState("result_annotation_" + i,"error");
+										setFeedbackControlState("result_annotation_" + form_id,"error");
 									}
 								},
 								error: function(xhr, status, error) {
 									handleFail(xhr,status,error,"updating annotation.");
-									setFeedbackControlState("result_annotation_" + i,"error");
+									setFeedbackControlState("result_annotation_" + form_id,"error");
 								}
 							});
 							return false; // prevent default form submission
