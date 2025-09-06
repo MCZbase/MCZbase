@@ -617,15 +617,16 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							<input type="hidden" name="method" value="updateAnnotationReview">
 							<input type="hidden" name="annotation_id" value="#annotation_id#">
 							<div class="col-12 col-md-4">
-								<span>Annotation by</span>
-								<span class="small"> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
+								<label class="data-entry-label">Annotator:</label>
+								<span><strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
 							</div>
 							<div class="col-12 col-md-6">
-								<span class="small">#annotation#</span>
+								<label class="data-entry-label">Annotation:</label>
+								<span>#annotation#</span>
 							</div>
 							<div class="col-12 col-md-2">
 								<label class="data-entry-label">Motivation</label>
-								<span class="small">#motivation#</span>
+								<span>#motivation#</span>
 							</div>
 							<div class="col-12 col-md-2">
 								<label for="reviewed_fg" class="data-entry-label">Reviewed?</label>
