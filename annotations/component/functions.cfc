@@ -562,7 +562,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						 locality.spec_locality,
 						 cf_user_data.email
 					FROM
-						annotations,
+						annotations
 						join cataloged_item on annotations.collection_object_id = cataloged_item.collection_object_id
 						join collection on cataloged_item.collection_id = collection.collection_id
 						join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
@@ -607,7 +607,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						</tr>
 					</cfloop>
 					<cfset i=0>
-					<cfloop query="ci_annotation">
+					<cfloop query="ci_annotations">
 						<tr>
 							<td>
 								<label class="data-entry-label">Annotation by</label>
