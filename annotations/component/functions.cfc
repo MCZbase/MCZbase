@@ -644,7 +644,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 									<textarea name="reviewer_comment" id="reviewer_comment" class="data-entry-textarea autogrow mb-1" maxlength="4000" >#reviewer_comment#</textarea>
 							</div>
 							<div class="col-12 col-md-2">
-									<input type="submit" value="save review" class="btn btn-xs btn-primary mt-3 mb-2">
+									<input type="submit" value="Save Review" class="btn btn-xs btn-primary mt-3 mb-2">
 									<output id="result_annotation_#i#"></output>
 							</div>
 						</div>
