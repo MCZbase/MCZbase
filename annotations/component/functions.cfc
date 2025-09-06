@@ -546,7 +546,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 		<cfoutput>
 			<cftry>
 				<cfquery name="ci_annotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					select
+					SELECT DISTINCT
 						 annotations.annotation_id,
 						 annotations.annotate_date,
 						 annotations.cf_username,
@@ -602,7 +602,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						spec_locality
 				</cfquery>
 				<cfloop query="catitem">
-					<cfset guid = "#institution_acronnym#:#collection_cde#:#cat_num#">
+					<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
 					<h2 class="h3 mt-3 pl-1">Annotations on #guid#</h2>
 					<h3 class="h4">
 						<a href="/guid/#guid#">#collection# #cat_num#</a> 
