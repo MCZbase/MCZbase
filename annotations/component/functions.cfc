@@ -613,20 +613,20 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<table class="table table-responsive">
 					<cfset i=0>
 					<cfloop query="ci_annotations">
-						<tr>
-							<td>
-								<label class="data-entry-label">Annotation by</label>
-								<span class="small"> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
-							</td>
-							<td><span class="small">#annotation#</span></td>
-							<td>
-								<label class="data-entry-label">Motivation</label>
-								<span class="small">#motivation#</span>
-							</td>
-							<form name="review_annotation_#i#" id="review_annotation_#i#">
-								<input type="hidden" name="action" value="updateAnnotationReview">
-								<input type="hidden" name="annotation_id" value="#annotation_id#">
+						<form name="review_annotation_#i#" id="review_annotation_#i#">
+							<tr>
 								<td>
+									<label class="data-entry-label">Annotation by</label>
+									<span class="small"> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
+								</td>
+								<td><span class="small">#annotation#</span></td>
+								<td>
+									<label class="data-entry-label">Motivation</label>
+									<span class="small">#motivation#</span>
+								</td>
+								<td>
+									<input type="hidden" name="action" value="updateAnnotationReview">
+									<input type="hidden" name="annotation_id" value="#annotation_id#">
 									<label for="reviewed_fg" class="data-entry-label">Reviewed?</label>
 									<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select">
 										<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
@@ -645,17 +645,17 @@ Annotation to report problematic data concerning #annotated.annorecord#
 									<input type="submit" value="save review" class="btn btn-xs btn-primary mt-3 mb-2">
 									<output id="result_annotation_#i#"></output>
 								</td>
-							</form>
-							<script>
-								$(document).ready(function() { 
-									$("##review_annotation_#i#").submit(function(event) {
-										event.preventDefault(); // prevent default form submission
-										var form_id = #i#;
-										submitAnnotationReview(form_id);
-									});
+							</tr>
+						</form>
+						<script>
+							$(document).ready(function() { 
+								$("##review_annotation_#i#").submit(function(event) {
+									event.preventDefault(); // prevent default form submission
+									var form_id = #i#;
+									submitAnnotationReview(form_id);
 								});
-							</script>
-						</tr>
+							});
+						</script>
 						<cfset i=i+1>
 					</cfloop>
 					<script>
