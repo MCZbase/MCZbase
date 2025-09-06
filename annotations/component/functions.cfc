@@ -614,7 +614,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				<cfloop query="ci_annotations">
 					<div class="form-row border">
 						<form name="review_annotation_#i#" id="review_annotation_#i#">
-							<input type="hidden" name="action" value="updateAnnotationReview">
+							<input type="hidden" name="method" value="updateAnnotationReview">
 							<input type="hidden" name="annotation_id" value="#annotation_id#">
 							<div class="col-12 col-md-4">
 								<span>Annotation by</span>
