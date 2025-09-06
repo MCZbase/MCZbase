@@ -556,6 +556,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						 annotations.reviewer_comment,
 						 annotations.motivation,
 						 collection.collection,
+						 collection.collection_cde,
+						 collection.institution_acronym,
 						 cataloged_item.cat_num,
 						 identification.scientific_name idAs,
 						 geog_auth_rec.higher_geog,
@@ -579,6 +581,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					SELECT DISTINCT
 						collection_object_id,
 						collection,
+						collection_cde,
+						institution_acronym,
 						cat_num,
 						idAs,
 						higher_geog,
@@ -588,24 +592,23 @@ Annotation to report problematic data concerning #annotated.annorecord#
 					GROUP BY
 						collection_object_id,
 						collection,
+						collection_cde,
+						institution_acronym,
 						cat_num,
 						idAs,
 						higher_geog,
 						spec_locality
 				</cfquery>
-				<h2 class="h3 mt-3 pl-1">Annotations</h2>
+				<cfloop query="catitem">
+					<cfset guid = "#institution_acronnym#:#collection_cde#:#cat_num#">
+					<h2 class="h3 mt-3 pl-1">Annotations on #guid#</h2>
+					<h3 class="h4">
+						<a href="/guid/#guid#">#collection# #cat_num#</a> 
+						<span class="mr-3">&nbsp; Current Identification: <em>#idAs#</em></span> 
+						<span class="ml-1"> Locality: #higher_geog#: #spec_locality#</span>
+					</h3>
+				</cfloop>
 				<table class="table table-responsive">
-					<cfloop query="catitem">
-						<tr>
-							<td colspan="5">
-								<h3 class="h5 mb-1 mt-2">
-									<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a> 
-									<span class="mr-3">&nbsp; Specimen ID: <em>#idAs#</em></span> 
-									<span class="ml-1"> Locality: #higher_geog#: #spec_locality#</span>
-								</h3>
-							</td>
-						</tr>
-					</cfloop>
 					<cfset i=0>
 					<cfloop query="ci_annotations">
 						<tr>
@@ -618,7 +621,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 								<label class="data-entry-label">Motivation</label>
 								<span class="small">#motivation#</span>
 							</td>
-							<form name="review_annotation_#i#" method="post"
+							<form name="review_annotation_#i#" id="review_annotation_#i#">
 								<input type="hidden" name="action" value="updateAnnotationReview">
 								<input type="hidden" name="annotation_id" value="#annotation_id#">
 								<td>
