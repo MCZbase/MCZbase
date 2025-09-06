@@ -776,6 +776,33 @@ function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 	});
 };
 
+/** openEditAnnotationsDialog open a dialog for editing annotations for a cataloged item.
+ *
+ * @param collection_object_id for the cataloged_item for which to edit annotations.
+ * @param dialogId the id in the dom for the div to turn into the dialog without
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openEditAnnotationsDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Review and Edit Annotations on " + guid;
+	createSpecimenEditDialog(dialogId,title,callback,800,1400);
+	jQuery.ajax({
+		url: "/annotations/component/functions.cfc",
+		data : {
+			method : "getReviewCIAnnotationHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit annotations dialog");
+		},
+		dataType: "html"
+	});
+};
+
 /** closeInPage closes the in-page editor, restoring the SpecimenDetailsDiv and editControlsBlock.
  * @param callback an optional callback function to invoke on closing the in-page editor.
  */

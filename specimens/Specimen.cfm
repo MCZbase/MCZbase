@@ -1021,15 +1021,14 @@ limitations under the License.
 										</a>
 									</cfif>
 									<cfif listcontainsnocase(session.roles,"manage_specimens") AND hasAnnotations >
-										<!--- TODO: An edit annotation dialog --->
-										<!---
 										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAnnotationsDialog(#collection_object_id#,'AnnotationsDialog','#guid#',reloadAnnotations)">
 											Edit
 										</a>
-										--->
+										<!---
 										<a href="/info/reviewAnnotation.cfm?action=show&type=collection_object_id&id=#collection_object_id#" role="button" class="btn btn-secondary btn-xs small py-0 anchorFocus" target="_blank">
 											Edit
 										</a>
+										--->
 									</cfif>
 								</h3>
 							</div>
