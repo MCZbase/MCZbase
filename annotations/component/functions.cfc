@@ -612,8 +612,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				</cfloop>
 				<cfset i=0>
 				<cfloop query="ci_annotations">
-					<div class="form-row border">
-						<form name="review_annotation_#i#" id="review_annotation_#i#">
+					<form name="review_annotation_#i#" id="review_annotation_#i#">
+						<div class="form-row border">
 							<input type="hidden" name="method" value="updateAnnotationReview">
 							<input type="hidden" name="annotation_id" value="#annotation_id#">
 							<div class="col-12 col-md-4">
@@ -646,17 +646,17 @@ Annotation to report problematic data concerning #annotated.annorecord#
 									<input type="submit" value="save review" class="btn btn-xs btn-primary mt-3 mb-2">
 									<output id="result_annotation_#i#"></output>
 							</div>
-						</form>
-						<script>
-							$(document).ready(function() { 
-								$("##review_annotation_#i#").submit(function(event) {
-									event.preventDefault(); // prevent default form submission
-									var form_id = #i#;
-									submitAnnotationReview(form_id);
-								});
+						</div>
+					</form>
+					<script>
+						$(document).ready(function() { 
+							$("##review_annotation_#i#").submit(function(event) {
+								event.preventDefault(); // prevent default form submission
+								var form_id = #i#;
+								submitAnnotationReview(form_id);
 							});
-						</script>
-					</div>
+						});
+					</script>
 					<cfset i=i+1>
 				</cfloop>
 				<script>
