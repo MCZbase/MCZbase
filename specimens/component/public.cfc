@@ -180,7 +180,7 @@ limitations under the License.
 									<div class="float-left pr-md-0 my-1 #cols# ">
 										<div class="col-12 px-0">
 											<h1 class="col-12 mb-1 h4 font-weight-bold">MCZ #summary.collection# #summary.cat_num##mixedMarker#</h1>
-											<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
+											<h2 class="h3 col-12 d-inline-block mt-0 mb-0 mb-xl-1">
 												<a href="/name/#summary.sci_name#" class="text-dark font-weight-bold">#summary.sci_name#</a>
 											</h2>
 											<cfif isMixed>
@@ -201,17 +201,17 @@ limitations under the License.
 														AND upper(guid_our_thing.target_table) = 'COLL_OBJECT'
 												</cfquery>
 												<cfif mixedCollection.recordcount EQ 1> 
-													<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
+													<h2 class="h3 col-12 d-inline-block mt-0 mb-0 mb-xl-1">
 														#mixedCollection.scientific_name#
 													</h2>
 												<cfelseif mixedCollection.recordcount GT 1>
-													<h3 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
+													<h2 class="h3 col-12 d-inline-block mt-0 mb-0 mb-xl-1">
 														<cfset separator = "">
 														<cfloop query="mixedCollection">
 															#separator##mixedCollection.scientific_name#
 															<cfset separator = ";">
 														</cfloop>
-													</h3>
+													</h2>
 												</cfif>
 											</cfif>
 											<cfif len(local.restrictions) GT 0>
@@ -287,10 +287,10 @@ limitations under the License.
 										</div>
 										<div class="col-12 px-xl-0 small">
 											<cfif isMixed> 
-												<ul>
-													<li>
+												<ul style="list-style: disc;padding: .5rem 1.5rem 0 1.5rem;">
+													<li class="h5 mb-1">
 											</cfif>
-											occurrenceID: <a class="h5 mb-1" href="https://mczbase.mcz.harvard.edu/guid/#summary.GUID#">https://mczbase.mcz.harvard.edu/guid/#summary.GUID#</a>
+											occurrenceID: <a href="https://mczbase.mcz.harvard.edu/guid/#summary.GUID#">https://mczbase.mcz.harvard.edu/guid/#summary.GUID#</a>
 											<a href="/guid/#summary.GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a> 
 											<cfif isMixed>
 													#summary.sci_name#
@@ -298,10 +298,10 @@ limitations under the License.
 											</cfif>
 											<cfif isMixed>
 												<cfloop query="mixedCollection">
-													<li>
-														occurrenceID: <a class="h5 mb-1" href="#mixedCollection.assembled_resolvable#">#mixedCollection.assembled_identifier#</a>
+													<li class="h5 mb-1" style="line-height: 0.5rem;">
+														occurrenceID: <a class="mb-0" href="#mixedCollection.assembled_resolvable#">#mixedCollection.assembled_identifier#</a>
 														<cfif left(mixedCollection.assembled_identifier,9) EQ "urn:uuid:">
-															<a href="/uuid/#mixedCollection.local_identifier#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+															<a href="/uuid/#mixedCollection.local_identifier#/json" class="mb-0"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
 														</cfif>
 														#mixedCollection.scientific_name#
 													</li>
