@@ -2897,7 +2897,7 @@ limitations under the License.
 									
 
 										<div class="border bg-light rounded mx-0 px-2 mt-2 form-row" id="otherIDEditControls#i#">
-											<div class="col-12 border-bottom py-3 form-row">
+											<div class="col-12 border-bottom py-2 my-1 form-row">
 
 												<div class="col-12 col-xl-4">
 													Identifier: #getIDs.other_id_type#:
