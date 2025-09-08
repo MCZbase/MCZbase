@@ -69,8 +69,28 @@
 	<cfif confirm.recordcount NEQ 1>
 		<cfthrow message="Unknown controlled vocabulary table">
 	</cfif>
+	<cfif isDefined("url.collection_cde") and len(url.collection_cde) GT 0>
+		<cfset collection_cde = trim(url.collection_cde)>
+		<cfquery name="checkForCollectionCde" datasource="uam_god">
+			SELECT count(*) as column_exists
+			FROM all_tab_columns
+			WHERE table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#table#">
+				and column_name = 'COLLECTION_CDE'
+				and owner = 'MCZBASE'
+		<cfquery>
+		<cfif checkForCollectionCde.column_exists EQ 0>
+			<!--- table does not have collection_cde field, so ignore this limit --->
+			<cfset collection_cde = "">
+		</cfif>
+	<cfelse>
+		<cfset collection_cde = "">
+	</cfif>
 	<cfquery name="docs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select * from #confirm.found_table#
+		SELECT * 
+		FROM #confirm.found_table#
+		<cfif len(collection_cde) GT 0>
+			WHERE upper(collection_cde) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(collection_cde)#">
+		</cfif>
 	</cfquery>
 	
 	<div class="container my-3">
