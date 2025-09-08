@@ -501,12 +501,17 @@ limitations under the License.
 			<cftry>
 				<cfquery name="identifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT distinct
-						collection.collection, cataloged_item.cat_num, collection.guid_prefix, collection.web_link
+						collection.institution_acronym,
+						collection.collection, 
+						cataloged_item.cat_num, 
+						collection.guid_prefix, 
+						collection.web_link,
+						coll_object.flags
 					FROM 
-						collection, cataloged_item 
+						cataloged_item 
+						join collection on collection.collection_id = cataloged_item.collection_id 
+						join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
 					WHERE 
-						collection.collection_id = cataloged_item.collection_id 
-					AND 
 						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
 				<!--- check for mixed collection --->
@@ -545,6 +550,16 @@ limitations under the License.
 								<span class="float-left font-weight-lessbold">Mixed Collection: </span>
 								<span class="float-left pl-1 mb-0">This specimen is a mixed collection.</span>
 							</li>
+						</cfif>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+							<!--- display the content of coll_object.flags for internal users, deprecated, not editable --->
+							<cfif isDefined("identifiers.flags") AND len(identifiers.flags) GT 0 and identifiers.flags NEQ "0">
+								<!--- most values are "0", not in the code table --->
+								<li class="list-group-item py-0">
+									<span class="float-left font-weight-lessbold">Flags: </span>
+									<span class="float-left pl-1 mb-0">#identifiers.flags#</span>
+								</li>
+							</cfif>
 						</cfif>
 					</ul>
 				</cfif>
