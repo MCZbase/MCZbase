@@ -71,15 +71,15 @@
 	</cfif>
 	<cfset showingJust = "">
 	<cfset collection_cde = "">
-	<cfif isDefined("url.collection_cde") and len(url.collection_cde) GT 0>
-		<cfquery name="checkForCollectionCde" datasource="uam_god">
-			SELECT count(*) as column_exists
-			FROM all_tab_columns
-			WHERE table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#table#">
-				and column_name = 'COLLECTION_CDE'
-				and owner = 'MCZBASE'
-		</cfquery>
-		<cfif checkForCollectionCde.column_exists GT 0>
+	<cfquery name="checkForCollectionCde" datasource="uam_god">
+		SELECT count(*) as column_exists
+		FROM all_tab_columns
+		WHERE table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#table#">
+			and column_name = 'COLLECTION_CDE'
+			and owner = 'MCZBASE'
+	</cfquery>
+	<cfif checkForCollectionCde.column_exists GT 0>
+		<cfif isDefined("url.collection_cde") and len(url.collection_cde) GT 0>
 			<cfset collection_cde = trim(url.collection_cde)>
 			<cfset showingJust = "Showing values for just collection code #encodeForHtml(collection_cde)#">
 		</cfif>
@@ -97,7 +97,25 @@
 			<div class="col-12">
 			<h3>Documentation for code table <strong>#tableName#</strong>:</h3>
 			<cfif len(showingJust) GT 0>
-				<div class="pb-1">#showingJust# <a href="/vocabularies/ControlledVocabulary.cfm?table=#table#">Show All</a></div>
+				<div class="pb-1">
+					#showingJust#
+					<a href="/vocabularies/ControlledVocabulary.cfm?table=#confirm.found_table#">Show All</a>
+				</div>
+			<cfelseif checkForCollectionCde.column_exists GT 0>
+				<cfquery name="getCollections" datasource="uam_god">
+					SELECT distinct collection_cde
+					FROM #confirm.found_table#
+					WHERE collection_cde is not null
+					ORDER BY collection_cde
+				</cfquery>
+				<cfif getCollections.recordcount GT 0>
+					<div class="pb-1">
+						Show just values for collection:
+						<cfloop query="getCollections">
+							<a href="/vocabularies/ControlledVocabulary.cfm?table=#confirm.found_table#&collection_cde=#getCollections.collection_cde#">#getCollections.collection_cde#</a>
+						</cfloop>
+					</div>
+				</cfif>
 			</cfif>
 			<cfif table is "ctmedia_license">
 			<table class="table table-responsive table-striped d-lg-table">
