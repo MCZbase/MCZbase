@@ -77,7 +77,7 @@
 			WHERE table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#table#">
 				and column_name = 'COLLECTION_CDE'
 				and owner = 'MCZBASE'
-		<cfquery>
+		</cfquery>
 		<cfif checkForCollectionCde.column_exists EQ 0>
 			<!--- table does not have collection_cde field, so ignore this limit --->
 			<cfset collection_cde = "">
