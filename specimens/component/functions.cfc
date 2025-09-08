@@ -2928,9 +2928,9 @@ limitations under the License.
 												<input type="text" class="data-entry-input" value="#encodeForHTML(getIDs.display_value)#" size="12" name="display_value" id="display_value#i#">
 											</div>
 											<div class="form-group mt-2 col-12 col-md-4 px-1">
-												<input type="button" value="Save" aria-label="Save Changes" class="mt-3 btn btn-xs btn-primary"
+												<input type="button" value="Save" aria-label="Save Changes" class="my-1 btn btn-xs btn-primary"
 													onClick="if (checkFormValidity($('##editOtherIDForm#i#')[0])) { editOtherIDsSubmit(#i#);  } ">
-												<input type="button" value="Delete" class="btn btn-xs mt-3 px-1 btn-danger" onclick="doDelete(#i#);">
+												<input type="button" value="Delete" class="btn btn-xs my-1 px-1 btn-danger" onclick="doDelete(#i#);">
 												<output id="saveOtherIDResultDiv#i#"></output>
 											</div>
 										</div>
