@@ -2922,7 +2922,7 @@ limitations under the License.
 														</strong>
 													</div>
 													<div class="col-12 col-md-8 border-bottom px-1 my-2">
-														#getIDs.description#
+														<cfif getIds.description NEQ "">Description:</cfif> #getIDs.description#
 													</div>
 													<div class="form-group mt-2 col-12 col-md-3 px-1">
 														<cfset thisType = #getIDs.other_id_type#>
