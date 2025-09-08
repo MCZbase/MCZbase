@@ -2896,7 +2896,7 @@ limitations under the License.
 										<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIDs.recordcount#">
 									
 										<div class="border bg-light rounded form-row" id="otherIDEditControls#i#">
-											<div class="col-12 border-bottom py-3">
+											<div class="col-12 border-bottom py-1">
 												<div class="col-12 col-xl-4">
 													Identifier: #getIDs.other_id_type#:
 													<strong> 
