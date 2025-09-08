@@ -988,10 +988,10 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<!---For change between monnitors and phones the button should have its own div--->
+															<!---For change between monitors and phones the button should have its own div--->
 															<div class="col-12 col-md-3">
 																<!--- button to add another set of determiner controls --->
-																<button type="button" class="btn btn-xs btn-secondary" id="addDeterminerButton"
+																<button type="button" class="btn btn-xs btn-secondary mt-md-3" id="addDeterminerButton"
 																		 onClick="addDeterminerControl();">Add Determiner</button>
 																<script>
 																	function addDeterminerControl() {
@@ -1028,8 +1028,8 @@ limitations under the License.
 															</div>
 														</div>
 													</div>
-													<div class="col-12 mt-3">
-														<input type="button" value="Add" class="btn btn-xs btn-primary" id="addIdButton"
+													<div class="col-12">
+														<input type="button" value="Add" class="btn btn-xs btn-primary mt-3" id="addIdButton"
 																	 onClick="handleAddIdentification();">
 														<output id="addIdStatus" class="pt-1"></output>
 													</div>
