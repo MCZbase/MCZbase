@@ -2827,8 +2827,8 @@ limitations under the License.
 						<div class="col-12">
 							<!--- Add form --->
 							<div class="card add-form mt-2">
-								<div class="add-form-header">
-									<h2 class="h3 px-2">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
+								<div class="add-form-header px-3">
+									<h2 class="h3">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								</div>
 								<div class="card-body mt-2 py-0">
 									<form name="addOtherIDForm" id="addOtherIDForm" class="form-row mx-0 px-2 mb-0 pt-1">
@@ -2844,11 +2844,11 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-4 px-1 py-0 mt-2">
+										<div class="col-12 col-md-4 px-0 py-0 mt-2">
 											<label class="data-entry-label" id="display_value">Other ID Number</label>
 											<input type="text" class="reqdClr data-entry-input" name="display_value" required>
 										</div>
-										<div class="col-12 col-md-4 px-1 py-0 mt-2">
+										<div class="col-12 col-md-4 px-0 py-0 mt-2">
 											<input type="button" value="Create Identifier" class="btn btn-xs btn-primary mt-3" onClick="if (checkFormValidity($('##addOtherIDForm')[0])) { addOtherIDSubmit();  } ">
 											<output id="addOtherIDResultDiv" class="d-block text-danger">&nbsp;</output>
 										</div>
