@@ -2911,8 +2911,8 @@ limitations under the License.
 												<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIDs.recordcount#">
 									
 												<div class="row p-1 border bg-light rounded" id="otherIDEditControls#i#">
-													<div class="col-12 col-md-4 border-bottom my-2">
-														#getIDs.other_id_type#:
+													<div class="col-12 col-md-4 border-bottom px-1 my-2">
+														Identifier: #getIDs.other_id_type#:
 														<strong> 
 															<cfif getIds.base_url NEQ "">
 																<a href="#getIDs.base_url##getIDs.display_value#" target="_blank">#getIDs.display_value#</a>
@@ -2950,7 +2950,7 @@ limitations under the License.
 														<input type="button" value="Save" aria-label="Save Changes" class="mt-3 btn btn-xs btn-primary"
 															onClick="if (checkFormValidity($('##editOtherIDForm#i#')[0])) { editOtherIDsSubmit(#i#);  } ">
 											
-														<input type="button" value="Delete" class="btn btn-xs mt-3 btn-danger" onclick="doDelete(#i#);">
+														<input type="button" value="Delete" class="btn btn-xs mt-3 px-1 btn-danger" onclick="doDelete(#i#);">
 														<output id="saveOtherIDResultDiv#i#"></output>
 													</div>
 												</div>
