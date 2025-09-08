@@ -490,7 +490,7 @@ limitations under the License.
 
 		<!--- controls for editing record --->
 		<div class="container-fluid d-none d-xl-block" id="editControlsDiv">
-			<div class="row mt-2" id="editControlsBlock">
+			<div class="row mt-1" id="editControlsBlock">
 				<ul class="list-group list-inline list-group-horizontal-md py-0 mx-auto">
 					<cfset resultBit = "">
 					<!--- Navigation through records in a result set --->
@@ -529,10 +529,10 @@ limitations under the License.
 							</li>
 						<cfelse>
 							<li class="list-group-item px-0 mx-1">
-								<img src="/images/no_first.gif" alt="[ inactive button ]">
+								<img src="/images/no_first.gif" class="mt-1" alt="[ inactive button ]">
 							</li>
 							<li class="list-group-item px-0 mx-1">
-								<img src="/images/no_previous.gif" alt="[ inactive button ]">
+								<img src="/images/no_previous.gif" class="mt-1" alt="[ inactive button ]">
 							</li>
 						</cfif>
 					</cfif>
