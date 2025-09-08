@@ -4112,11 +4112,17 @@ limitations under the License.
 											<input type="hidden" name="subsampled_from_obj_id" value="">
 											<div class="row mx-0 pb-2 col-12 px-0 mt-2 mb-1">
 												<div class="float-left col-12 col-md-4 px-1">
-													<label for="part_name" class="data-entry-label">Part Name</label>
+													<label for="part_name" class="data-entry-label">
+														<span>Part Name</span>
+														<span>[<a href="vocabularies/ControlledVocabulary.cfm?table=CTSPECIMEN_PART_NAME&collection_cde=#getCatItem.collection_cde#" title="List of part names specific to the #getCatItem.collection_cde# collection." target="_blank">Define Values</a>]</span>
+													</label>
 													<input name="part_name" class="data-entry-input reqdClr" id="part_name" type="text" required>
 												</div>
 												<div class="float-left col-12 col-md-4 px-1">
-													<label for="preserve_method" class="data-entry-label">Preserve Method</label>
+													<label for="preserve_method" class="data-entry-label">
+														<span>Preserve Method</span>
+														<span>[<a href="vocabularies/ControlledVocabulary.cfm?table=CTSPECIMEN_PRESERV_METHOD&collection_cde=#getCatItem.collection_cde#" title="List of preserve methods specific to the #getCatItem.collection_cde# collection." target="_blank">Define Values</a>]</span>
+</label>
 													<select name="preserve_method" id="preserve_method" class="data-entry-select reqdClr" required>
 														<option value=""></option>
 														<cfloop query="ctPreserveMethod">
