@@ -71,32 +71,16 @@
 			</cfcatch>
 			</cftry>
 		<cfelse> 
-			<cfif findNoCase('redesign',Session.gitBranch) GT 0>	
-				<cfset guid = listgetat(rdurl,gPos+1,"/")>
-				<cfinclude template="/specimens/Specimen.cfm">
-			<cfelse>
-				<cfset guid = listgetat(rdurl,gPos+1,"/")>
-				<cfif listfindnocase(guid,"fish",":") or listfindnocase(guid,"bird",":")>
-					<cfset guid=replacenocase(guid, "fish", "Ich")>
-					<cfset guid=replacenocase(guid, "bird", "Orn")>
-					<cfheader statuscode="301" statustext="Moved permanently">
-					<cfheader name="Location" value="/guid/#guid#">
-				</cfif>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-					<!--- logged in users see the old specimen details page, this allows editing --->
-					<cftry>
-						<cfinclude template="/SpecimenDetail.cfm">
-					<cfcatch>
-						<cfinclude template="/errors/404.cfm">
-					</cfcatch>
-					</cftry>
-				<cfelse>
-					<!--- not logged in sees the redesigned specimen details page, editing not enabled for them and not working there yet --->
-					<!--- not wrapped in an error handler that redirects to /errors/404, specimen not found handled internally --->
-					<!---  exceptions should rise up to the Application.cfc error handler.  --->
-					<cfinclude template="/specimens/Specimen.cfm">
-				</cfif>
+			<cfset guid = listgetat(rdurl,gPos+1,"/")>
+			<cfif listfindnocase(guid,"fish",":") or listfindnocase(guid,"bird",":")>
+				<cfset guid=replacenocase(guid, "fish", "Ich")>
+				<cfset guid=replacenocase(guid, "bird", "Orn")>
+				<cfheader statuscode="301" statustext="Moved permanently">
+				<cfheader name="Location" value="/guid/#guid#">
 			</cfif>
+			<!--- not wrapped in an error handler that redirects to /errors/404, specimen not found handled internally --->
+			<!--- exceptions should rise up to the Application.cfc error handler.  --->
+			<cfinclude template="/specimens/Specimen.cfm">
 		</cfif>
 	<cfelseif listfindnocase(rdurl,'specimen',"/")>
 		<!--- Request by (old) specimen API --->
