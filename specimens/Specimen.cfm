@@ -255,6 +255,7 @@ limitations under the License.
 		<!--- user can edit the specimen record --->
 		<!--- scripts for reloading sections of pages after edits, use as callabcks on edit dialogs --->
 		<script>
+			var triggerHeadingReload = false;
 			function reloadPage() { 
 				$("##specimenDetailsPageContent").html("<h2 class=h3>Reloading page...</h2>");
 				window.location.reload();
@@ -275,6 +276,7 @@ limitations under the License.
 					loadMedia(#getCatalogedItem.collection_object_id#,'specimenMediaCardBody');
 					// Update media count
 					updateMediaCounts(#getCatalogedItem.collection_object_id#,'specimenMediaCount');
+					reloadLedger();
 				} else {
 					$("##editControlsBlock").html("<h2 class=h3>Reloading page...</h2>");
 					reloadPage();
@@ -305,6 +307,16 @@ limitations under the License.
 				loadParts(#getCatalogedItem.collection_object_id#,'partsCardBody');
 				// Update part count
 				loadPartCount(#getCatalogedItem.collection_object_id#,'partCountSpan');
+				if (triggerHeadingReload) {
+					reloadHeadingBar();
+				}
+			}
+			function reloadPartsAndSection() {
+				reloadParts();
+				// if it is a function, execture reloadPartsSection, it should be defined if invoked, but check to avoid js error.
+				if (typeof reloadPartsSection === "function") {
+					reloadPartsSection();
+				}
 			}
 			function reloadAttributes() { 
 				// invoke specimen/component/public.cfc function getAttributesHTML via ajax and repopulate the attributes block.
@@ -471,9 +483,13 @@ limitations under the License.
 		
 		<!--- Div to hold full page editing dialog --->
 		<div id="InPageEditorDiv" class="container-fluid"></div>
+		<!--- Divs to hold modal edit dialog launched from within above --->
+		<div id="materialSampleIDEditDialog"></div>
+		<!--- Divs to hold modal edit dialog launched from within above --->
+		<div id="materialSampleIDEditDialog1"></div>
 
 		<!--- controls for editing record --->
-		<div class="container-lg d-none d-lg-block" id="editControlsDiv">
+		<div class="container-fluid d-none d-xl-block" id="editControlsDiv">
 			<div class="row mt-2" id="editControlsBlock">
 				<ul class="list-group list-inline list-group-horizontal-md py-0 mx-auto">
 					<cfset resultBit = "">
@@ -523,33 +539,33 @@ limitations under the License.
 					<!--- Task Bar of edit dialog controls --->
 					<li class="list-group-item px-0 mx-1">
 						<div id="catalogDialog"></div>
-						<button type="button" id="btn_pane1" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage)">Catalog</button>
+						<button type="button" id="btn_pane1" class="btn btn-xs btn-powder-blue px-1 py-0 small" onclick="openEditCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage)">Catalog</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
 						<cfif listcontainsnocase(session.roles,"manage_media")>
-							<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadSpecimenMedia)">Media</button>
+							<button type="button" class="btn btn-xs btn-powder-blue small px-1 py-0" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadSpecimenMedia)">Media</button>
 						</cfif>
 					</li>
 					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane2" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditIdentificationsInPage(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
+						<button type="button" id="btn_pane2" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditIdentificationsInPage(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane3" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Citations</button>
+						<button type="button" id="btn_pane3" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Citations</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane4" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Other&nbsp;IDs</button>
+						<button type="button" id="btn_pane4" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Other&nbsp;IDs</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane5" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditPartsInPage(#collection_object_id#,reloadParts)">Parts</button>
+						<button type="button" id="btn_pane5" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditPartsInPage(#collection_object_id#,reloadParts)">Parts</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane6" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditPreparatorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadPreparators)">Preparators</button>
+						<button type="button" id="btn_pane6" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditPreparatorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadPreparators)">Preparators</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane7" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Attributes</button>
+						<button type="button" id="btn_pane7" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Attributes</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane8" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Relationships</button>
+						<button type="button" id="btn_pane8" class="btn btn-xs btn-powder-blue py-0 px-1 small" onclick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Relationships</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
 						<button type="button" id="btn_pane9" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)">Remarks</button>
@@ -557,7 +573,7 @@ limitations under the License.
 					<li class="list-group-item px-0 mx-1">
 						<div id="collEventPickerDialogDiv"></div>
 						<input type="hidden" id="collecting_event_id_control" name="collecting_event_id_control" value="#getCatalogedItem.collecting_event_id#">
-						<button type="button" id="btn_pane10" class="btn btn-xs btn-powder-blue py-0 small" 
+						<button type="button" id="btn_pane10" class="btn btn-xs btn-powder-blue py-0 px-1 small" 
 							onclick=" launchCollectingEventDialog(); ">Coll&nbsp;Event</button>
 						<script>
 							function launchCollectingEventDialog() {
@@ -614,13 +630,13 @@ limitations under the License.
 						<!--- 
 						<button type="button" id="btn_pane11" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Locality</button>
 						--->
-						<button type="button" id="btn_pane12" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditLocalityInPage(#collection_object_id#,reloadLocality)">Locality/Event</button>
+						<button type="button" id="btn_pane12" class="btn btn-xs btn-powder-blue px-1 py-0 small" onclick="openEditLocalityInPage(#collection_object_id#,reloadLocality)">Locality/Event</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane13" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)">Collectors</button>
+						<button type="button" id="btn_pane13" class="btn btn-xs btn-powder-blue px-1 py-0 small" onclick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)">Collectors</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane14" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditNamedGroupsDialog(#collection_object_id#,'NamedGroupsDialog','#guid#',reloadNamedGroups)">Named&nbsp;Groups</button>
+						<button type="button" id="btn_pane14" class="btn btn-xs btn-powder-blue px-1 py-0 small" onclick="openEditNamedGroupsDialog(#collection_object_id#,'NamedGroupsDialog','#guid#',reloadNamedGroups)">Named&nbsp;Groups</button>
 					</li>
 					<!--- Navigation through records in a result set --->
 					<cfif navigable>
@@ -977,6 +993,21 @@ limitations under the License.
 						<div class="card mb-2 bg-light">
 							<div id="annotationDialog"></div>
 							<div id="AnnotationsDialog"></div>
+							<cfquery name="countAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT
+									count(annotation_id) ct
+								FROM 
+									annotations
+								WHERE
+									collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								ORDER BY 
+									annotate_date
+							</cfquery>
+							<cfif countAnnotations.ct GT 0>
+								<cfset hasAnnotations = true>
+							<cfelse>
+								<cfset hasAnnotations = false>
+							</cfif>
 							<cfset blockAnnotations = getAnnotationsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingAnnotations">
 								<h3 class="h5 my-0">
@@ -989,10 +1020,15 @@ limitations under the License.
 											Report Bad Data
 										</a>
 									</cfif>
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+									<cfif listcontainsnocase(session.roles,"manage_specimens") AND hasAnnotations >
 										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAnnotationsDialog(#collection_object_id#,'AnnotationsDialog','#guid#',reloadAnnotations)">
 											Edit
 										</a>
+										<!---
+										<a href="/info/reviewAnnotation.cfm?action=show&type=collection_object_id&id=#collection_object_id#" role="button" class="btn btn-secondary btn-xs small py-0 anchorFocus" target="_blank">
+											Edit
+										</a>
+										--->
 									</cfif>
 								</h3>
 							</div>

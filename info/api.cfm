@@ -1,21 +1,29 @@
-<cfinclude template="/includes/_header.cfm">
-<cfset title="MCZbase API">
+<cfset pageTitle = "MCZbase API summary.">
+<cfinclude template="/shared/_header.cfm">
        
+<cfif isdefined("url.action")>
+	<cfset action = url.action>
+<cfelse>
+	<cfset action = "entryPoint">
+</cfif>
+
 <cfoutput>
-    <div style="width: 54em; margin:0 auto; padding: 0 0 3em 0;" class="barcodes">
+	<main class="container" id="content">
+		<section class="row mb-5">
         
-<cfif action is "nothing">
+<cfif action is "entryPoint">
  
-	<h2>
+	<h2 class="h2">
 		Partial list of ways to talk to MCZbase
 	</h2>
 	<!--- p>
 		You may search specimens using the <a href="/api/specsrch">SpecimenResults.cfm API</a>. 
 	</p --->
-	<p>
-		You may open KML files of MCZbase data using the <a href="/api/kml">KML API</a>. 
-	</p>
-	You may link to specimens with any of the following:
+	<div class="col-12">
+		<h3 class="h3">You may open KML files of MCZbase data using the <a href="/api/kml">KML API</a>.</h3>
+	</div>
+	<div class="col-12">
+		<h3 class="h3">You may link to specimens with any of the following:</h3>
 		<ul class="labels">
 			<li>
 				#Application.serverRootUrl#/guid/{institution}:{collection}:{catnum}
@@ -38,18 +46,40 @@
 				</ul>
 				<br>
 			</li>
-			<li>
-				#Application.serverRootUrl#/SpecimenDetail.cfm?guid={institution}:{collection}:{catnum}
-				<ul>
-					<li>
-						Example: #Application.serverRootUrl#/SpecimenDetail.cfm?guid=MCZ:Mamm:1
-					</li>
-					<li>
-						This URI is deprecated and is expected to move.
-					</li>
-				</ul>
-				<br>
-			</li>
+			<!--- look up an occurrenceID from guid_our_thing --->
+			<cfquery name="occID" datasource="cf_dbuser">
+				SELECT local_identifier
+				FROM guid_our_thing
+				WHERE guid_is_a = 'occurrenceID'
+					and scheme = 'urn' 
+					and type = 'uuid'
+				FETCH FIRST 1 ROW ONLY
+			</cfquery>
+			<cfif occID.recordcount GT 0>
+				<li>
+					#Application.serverRootUrl#/uuid/{uuid:uuid:occurrenceID or materialSampleID}
+					<ul>
+						<li>
+							Example: #Application.serverRootUrl#/uuid/#occID.local_identifier#>
+						</li>
+						<li>
+							This uri delivers a human readable html representation by default, but it also supports content negotiation with an http accept header for RDF representations with 'text/turtle' or 'application/rdf+xml' or 'application/ld+json'
+						</li>
+						<li>
+							To request RDF in a specific format, you may also append /turtle, /rdf, or /json to the URI.
+						</li>
+						<li>
+							Example RDF in a Turtle serialization : #Application.serverRootUrl#/uuid/#occID.local_identifier#/turtle
+						</li>
+						<li>
+							Example RDF in a JSON-LD serialization: #Application.serverRootUrl#/uuid/#occID.local_identifier#/json-ld
+						</li>
+						<li>
+							Example RDF in an RDF/XML serialization: #Application.serverRootUrl#/uuid/#occID.local_identifier#/xml
+						</li>
+					</ul>
+				</li>
+			</cfif>
 			<li>
 				#Application.serverRootUrl#/rdf/Occurrence.cfm?guid={institution}:{collection}:{catnum}
 				<ul>
@@ -58,17 +88,21 @@
 					</li>
 					<li>
 						This URI returns rdf-xml by default, but can deliver turtle or json-ld via content negotiation, include an http accept header for 'text/turtle' or 'application/ld+json'.
+					</li>
 				</ul>
 				<br>
 			</li>
 		</ul>
-	or through Saved Searches (find specimens, click Save Search, provide a name, then click My Stuff/Saved Searches, then 
-	copy/paste/email/click the links.)
-	<p>
+		<div>
+			You can also obtain specimen data through Saved Searches (find specimens, click Save Search, provide a name, then click My Stuff/Saved Searches, then 
+			copy/paste/email/click the links.)
+		</div>
+	</div>
+	<div class="col-12">
 		You may search taxonomy using the <a href="/api/taxsrch">Taxonomy API</a>. 
-	</p>
-	<p>
-		You may link to taxon detail pages with URLs of the format:
+	</div>
+	<div class="col-12">
+		<h3 class="h3">You may link to taxon detail pages with URLs of the format:</h3>
 		<ul class="labels">
 			<li>
 				#Application.serverRootUrl#/name/{taxon name}
@@ -79,17 +113,19 @@
 				</ul>
 			</li>
 		</ul>		
-	</p>
-	<p>
+	</div>
+	<div class="col-12>
 		You may search Media using the <a href="/api/mediasrch">MediaSearch.cfm API</a>
-	</p>
-	<p>
+	</div>
+	<div class="col-12">
 		You may download the complete public MCZ data set from 
         our <a href='http://digir.mcz.harvard.edu/ipt/resource.do?r=mczbase'>IPT instance</a> DOI <a href='http://doi.org/10.15468/p5rupv'>doi:10.15468/p5rupv</a>.
-	</p>
+	</div>
+	<!--- 
 	<p>
-		You may link to specific <a href="/api/collections">collection's portals</a>.
+		You may link to specific <a href="/api/collections">collection&##39;s portals</a>.
 	</p>
+	--->
 </cfif>
 <cfif action is "collections">
 	<p>
@@ -440,7 +476,9 @@
 		</tr>
 	</table>
 </cfif>
-                </div>       
+ 
+		<section>
+	</main>
 </cfoutput>
                  
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">

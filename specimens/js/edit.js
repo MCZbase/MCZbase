@@ -776,6 +776,33 @@ function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 	});
 };
 
+/** openEditAnnotationsDialog open a dialog for editing annotations for a cataloged item.
+ *
+ * @param collection_object_id for the cataloged_item for which to edit annotations.
+ * @param dialogId the id in the dom for the div to turn into the dialog without
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openEditAnnotationsDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Review and Edit Annotations on " + guid;
+	createSpecimenEditDialog(dialogId,title,callback,800,1400);
+	jQuery.ajax({
+		url: "/annotations/component/functions.cfc",
+		data : {
+			method : "getReviewCIAnnotationHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit annotations dialog");
+		},
+		dataType: "html"
+	});
+};
+
 /** closeInPage closes the in-page editor, restoring the SpecimenDetailsDiv and editControlsBlock.
  * @param callback an optional callback function to invoke on closing the in-page editor.
  */
@@ -988,13 +1015,13 @@ function handlePartAttributeTypeChange(suffix, partID) {
                 selectHtml += '</select>';
                 
                 // Replace the element content
-                $('#' + valueFieldId).html(selectHtml);
+                $('#' + valueFieldId).replaceWith(selectHtml);
             } else {
                 // Create text input with label
                 var inputHtml = '<input type="text" class="data-entry-input reqdClr" id="' + valueFieldId + '" name="attribute_value" value="" required>';
                 
                 // Replace the element content
-                $('#' + valueFieldId).html(inputHtml);
+                $('#' + valueFieldId).replaceWith(inputHtml);
             }
             
             // Handle units field
@@ -1010,17 +1037,283 @@ function handlePartAttributeTypeChange(suffix, partID) {
                 selectHtml += '</select>';
                 
                 // Replace the element content
-                $('#' + unitsFieldId).html(selectHtml);
+                $('#' + unitsFieldId).replaceWith(selectHtml);
             } else {
                 // Create text input with label (disabled for units when no code table)
                 var inputHtml = '<input type="text" class="data-entry-input" id="' + unitsFieldId + '" name="attribute_units" value="" disabled>';
                 
                 // Replace the element content
-                $('#' + unitsFieldId).html(inputHtml);
+                $('#' + unitsFieldId).replaceWith(inputHtml);
             }
         },
         error: function(xhr, status, error) {
             handleFail(xhr,status,error,"handling change of part attribute type.");
         }
     });
+}
+
+/** deleteGuidOurThing delete a guid_our_thing record.
+ *
+ * @param guid_our_thing_id the id of the guid_our_thing record to delete.
+ * @param feedbackDiv the id of the div in which to display feedback messages without a leading # selector.
+ * @param callback a callback function to invoke on success.
+ **/
+function deleteGuidOurThing(guid_our_thing_id, feedbackDiv, callback) {
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "deleteGuidOurThing",
+			guid_our_thing_id: guid_our_thing_id
+		},
+		success: function (result) {
+			if (result[0].status=="deleted") {
+				if (callback instanceof Function) {
+					callback();
+				}
+				var message  = "Deleted guid record";
+				console.log(message);
+			}
+			else {
+				messageDialog("Error deleting guid_our_thing_id: " + result.DATA.MESSAGE[0],'Error');
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing from named group");
+		},
+		dataType: "json"
+	});
+}
+
+/** openEditAMaterialSampleIDDialog open a dialog for editing a materialSampleID
+ *
+ * @param guid_our_thing_id primary key value for the guid record to edit, expected
+ *   to be a materialSampleID.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param description text describing the specimen part the guid is for to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openEditAMaterialSampleIDDialog(guid_our_thing_id,dialogId,description,callback) {
+	var title = "Edit materialSampleID for " + description;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditAMaterialSampleIDHTML",
+			guid_our_thing_id: guid_our_thing_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit a materialSampleID dialog");
+		},
+		dataType: "html"
+	});
+};
+
+/** openEditMaterialSampleIDDialog open a dialog for adding materialSampleIDs to 
+ * a specimen part.
+ *
+ * @param collection_object_id for the specimen_part for which to edit materialSampleIDs.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param partlabel text, (such as guid plus part name plus preservation type) describing the part
+ * the material sample ids apply to, to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openEditMaterialSampleIDDialog(collection_object_id,dialogId,partlabel,callback) {
+	var title = "Edit dwc:materialSampleIDs for " + partlabel;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditMaterialSampleIDsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit materialSampleIDs dialog");
+		},
+		dataType: "html"
+	});
+};
+
+/** parseGuid takes a GUID string and parses it into its components suitable for 
+ * persistence in guid_our_thing. 
+ * The function recognizes the following forms for guids:
+ * urn:uuid:{local_identifier}
+ * urn:catalog:{authority}:{local_identifier}
+ * urn:lsid:{authority}:{local_identifier}
+ * doi:{authority}/{local_identifier}
+ * ark:/{authority}/{local_identifier}
+ * hdl:{authority}/{local_identifier}
+ * It also recognizes these forms with a resolver prefix, e.g.:
+ * https://doi.org/10.1234/5678
+ * http://n2t.net/ark:/12345/abc/def
+ *
+ * @param input the GUID string to parse
+ * @return an object with the following properties, corresponding to components 
+ *  of the GUID and guid_our_thing fields
+ * RESOLVER_PREFIX - the resolver prefix, if any (e.g., https://doi.org/)
+ * SCHEME - the scheme (e.g., urn, doi, ark, hdl, purl)
+ * TYPE - the type (e.g., uuid, catalog, lsid, doi, ark, handle, purl)
+ * AUTHORITY - the authority (e.g., 10.1234, n2t.net, etc.), if any
+ * LOCAL_IDENTIFIER - the local identifier (e.g., 5678, abc/def, etc.)
+ * ASSEMBLED_IDENTIFIER - the full GUID as assembled from the components
+ * ASSEMBLED_RESOLVABLE - the full resolvable GUID as assembled from the components and resolver prefix, if any
+ */
+function parseGuid(input) {
+  input = input.trim();
+
+  let RESOLVER_PREFIX = "";
+  let SCHEME = "";
+  let TYPE = "";
+  let AUTHORITY = "";
+  let LOCAL_IDENTIFIER = "";
+  let ASSEMBLED_IDENTIFIER = "";
+  let ASSEMBLED_RESOLVABLE = "";
+
+  // DOI handling first, fixed resolver
+  // Match both https://doi.org/10.1234/abcd1234 and doi:10.1234/abcd1234
+  let doiMatch = input.match(/^(?:https?:\/\/doi\.org\/|doi:)([^\/:]+)\/([^\/]+)$/);
+  if (doiMatch) {
+    RESOLVER_PREFIX = "https://doi.org/";
+    SCHEME = "doi";
+    TYPE = "doi";
+    AUTHORITY = doiMatch[1];
+    LOCAL_IDENTIFIER = doiMatch[2];
+    ASSEMBLED_IDENTIFIER = `doi:${AUTHORITY}/${LOCAL_IDENTIFIER}`;
+    ASSEMBLED_RESOLVABLE = `${RESOLVER_PREFIX}${AUTHORITY}/${LOCAL_IDENTIFIER}`;
+    return { RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE };
+  }
+
+  // 1. Split resolver prefix from identifier (if present)
+  // Supported schemes
+  const schemes = [
+    "urn:uuid:",
+    "urn:catalog:",
+    "urn:lsid:",
+    "ark:/",
+    "hdl:",
+    "https://purl.org/"
+  ];
+  let schemeIdx = -1;
+  let foundScheme = "";
+  for (let s of schemes) {
+    let idx = input.indexOf(s);
+    if (idx !== -1 && (schemeIdx === -1 || idx < schemeIdx)) {
+      schemeIdx = idx;
+      foundScheme = s;
+    }
+  }
+
+  if (schemeIdx > 0) {
+    RESOLVER_PREFIX = input.substring(0, schemeIdx);
+    if (!RESOLVER_PREFIX.match(/\/$/)) RESOLVER_PREFIX += "/";
+    input = input.substring(schemeIdx);
+  }
+
+  // Special case: purl resolver prefix, e.g. https://purl.org/...
+  if (input.startsWith("https://purl.org/")) {
+    RESOLVER_PREFIX = "https://purl.org/";
+    input = input.substring(17); // length of 'https://purl.org/'
+  }
+
+  // UUID: urn:uuid:{local_identifier} or {resolver_prefix}{uuid} or bare uuid
+  let uuidPattern = /([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[1-5][a-fA-F0-9]{3}-[89abAB][a-fA-F0-9]{3}-[a-fA-F0-9]{12})$/;
+  let uuidMatch = input.match(uuidPattern);
+
+  if (uuidMatch) {
+    LOCAL_IDENTIFIER = uuidMatch[1];
+    SCHEME = "urn";
+    TYPE = "uuid";
+    AUTHORITY = "";
+    // Find resolver prefix (everything before the uuid)
+    let idx = input.lastIndexOf(LOCAL_IDENTIFIER);
+    RESOLVER_PREFIX = input.substring(0, idx);
+    // If the input was urn:uuid:{uuid}, don't add a resolver prefix
+    if (input.startsWith("urn:uuid:")) {
+      RESOLVER_PREFIX = "";
+    }
+    ASSEMBLED_IDENTIFIER = `urn:uuid:${LOCAL_IDENTIFIER}`;
+    ASSEMBLED_RESOLVABLE = input;
+    return { RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE };
+  }
+
+  // urn:catalog:{authority}:{local_identifier}
+  const catalogMatch = input.match(/^urn:catalog:([^:]+):(.+)$/);
+  if (catalogMatch) {
+    SCHEME = "urn";
+    TYPE = "catalog";
+    AUTHORITY = catalogMatch[1];
+    LOCAL_IDENTIFIER = catalogMatch[2];
+    ASSEMBLED_IDENTIFIER = `urn:catalog:${AUTHORITY}:${LOCAL_IDENTIFIER}`;
+    if (RESOLVER_PREFIX === "") {
+        ASSEMBLED_RESOLVABLE = "";
+    } else {
+        ASSEMBLED_RESOLVABLE = RESOLVER_PREFIX + ASSEMBLED_IDENTIFIER;
+    }
+    return { RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE };
+  }
+
+  // urn:lsid:{authority}:{local_identifier}
+  const lsidMatch = input.match(/^urn:lsid:([^:]+):(.+)$/);
+  if (lsidMatch) {
+    SCHEME = "urn";
+    TYPE = "lsid";
+    AUTHORITY = lsidMatch[1];
+    LOCAL_IDENTIFIER = lsidMatch[2];
+    ASSEMBLED_IDENTIFIER = `urn:lsid:${AUTHORITY}:${LOCAL_IDENTIFIER}`;
+    if (RESOLVER_PREFIX === "") {
+		  ASSEMBLED_RESOLVABLE = "";
+	 } else {
+       ASSEMBLED_RESOLVABLE = RESOLVER_PREFIX + ASSEMBLED_IDENTIFIER;
+    }
+    return { RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE };
+  }
+
+  // ark:/{authority}/{local_identifier}
+  const arkMatch = input.match(/^ark:\/([^\/]+)\/(.+)$/);
+  if (arkMatch) {
+    SCHEME = "ark";
+    TYPE = "ark";
+    AUTHORITY = arkMatch[1];
+    LOCAL_IDENTIFIER = arkMatch[2];
+    ASSEMBLED_IDENTIFIER = `ark:/${AUTHORITY}/${LOCAL_IDENTIFIER}`;
+    ASSEMBLED_RESOLVABLE = RESOLVER_PREFIX + ASSEMBLED_IDENTIFIER;
+    return { RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE };
+  }
+
+  // hdl:{authority}/{local_identifier}
+  const hdlMatch = input.match(/^hdl:([^\/]+)\/(.+)$/);
+  if (hdlMatch) {
+    SCHEME = "hdl";
+    TYPE = "handle";
+    AUTHORITY = hdlMatch[1];
+    LOCAL_IDENTIFIER = hdlMatch[2];
+    ASSEMBLED_IDENTIFIER = `hdl:${AUTHORITY}/${LOCAL_IDENTIFIER}`;
+    if (RESOLVER_PREFIX === "") {
+        ASSEMBLED_RESOLVABLE = "";
+    }	 else {
+		  ASSEMBLED_RESOLVABLE = RESOLVER_PREFIX + ASSEMBLED_IDENTIFIER;
+	 }
+    return { RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE };
+  }
+
+  // purl: (without resolver, fallback)
+  const purlMatch = input.match(/^([^\/]+)\/(.+)$/);
+  if (foundScheme === "https://purl.org/" && purlMatch) {
+    SCHEME = "purl";
+    TYPE = "purl";
+    AUTHORITY = purlMatch[1];
+    LOCAL_IDENTIFIER = purlMatch[2];
+    ASSEMBLED_IDENTIFIER = RESOLVER_PREFIX + AUTHORITY + "/" + LOCAL_IDENTIFIER;
+    ASSEMBLED_RESOLVABLE = ASSEMBLED_IDENTIFIER;
+    return { RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE };
+  }
+
+  return { RESOLVER_PREFIX, SCHEME, TYPE, AUTHORITY, LOCAL_IDENTIFIER, ASSEMBLED_IDENTIFIER, ASSEMBLED_RESOLVABLE };
 }

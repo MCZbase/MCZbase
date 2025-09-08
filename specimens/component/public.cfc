@@ -187,7 +187,8 @@ limitations under the License.
 												<cfquery name="mixedCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 													SELECT 
 														distinct identification.scientific_name,
-														guid_our_thing.assembled_resolvable, guid_our_thing.assembled_identifier
+														guid_our_thing.assembled_resolvable, guid_our_thing.assembled_identifier, 
+														guid_our_thing.local_identifier
 													FROM 
 														specimen_part
 														join guid_our_thing on specimen_part.collection_object_id = guid_our_thing.co_collection_object_id
@@ -299,8 +300,9 @@ limitations under the License.
 												<cfloop query="mixedCollection">
 													<li>
 														occurrenceID: <a class="h5 mb-1" href="#mixedCollection.assembled_resolvable#">#mixedCollection.assembled_identifier#</a>
-														<!--- TODO: Implement JSON-LD for occurrences by uuid --->
-														<a href="/uuid/#assembled_identifier#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+														<cfif left(mixedCollection.assembled_identifier,9) EQ "urn:uuid:">
+															<a href="/uuid/#mixedCollection.local_identifier#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+														</cfif>
 														#mixedCollection.scientific_name#
 													</li>
 												</cfloop>
@@ -658,6 +660,7 @@ limitations under the License.
 									if ($("##identificationDialogList").length) {
 										loadIdentificationsList("#identification.collection_object_id#", "identificationDialogList","true");
 									}
+									reloadParts();
 								} else {
 									setFeedbackControlState(feedbackDiv,"error")
 								}
@@ -1269,7 +1272,11 @@ limitations under the License.
 						agent_name,
 						agent.agent_id,
 						agentguid,
-						agentguid_guid_type
+						agentguid_guid_type,
+    					CASE
+    					    WHEN identification.collection_object_id IS NOT NULL THEN 1
+       					 ELSE 0
+    					END AS has_identification
 					from
 						specimen_part
 						left join coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
@@ -1280,6 +1287,7 @@ limitations under the License.
 						left join specimen_part_attribute on specimen_part.collection_object_id=specimen_part_attribute.collection_object_id
 						left join preferred_agent_name on specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id
 						left join agent on specimen_part_attribute.determined_by_agent_id = agent.agent_id
+    					LEFT JOIN identification ON specimen_part.collection_object_id = identification.collection_object_id
 					where
 						specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
@@ -1293,7 +1301,8 @@ limitations under the License.
 						part_disposition,
 						part_condition,
 						lot_count,
-						part_remarks
+						part_remarks,
+						has_identification
 					from
 						getParts
 					group by
@@ -1304,8 +1313,10 @@ limitations under the License.
 						part_disposition,
 						part_condition,
 						lot_count,
-						part_remarks
+						part_remarks,
+						has_identification
 					order by
+						has_identification asc, 
 						part_name, part_id
 				</cfquery>
 				<table class="table px-1 table-responsive-md w-100 tablesection my-1">
@@ -1327,7 +1338,12 @@ limitations under the License.
 					<tbody class="bg-white">
 						<!--- iterate through the main (not subsampled) parts --->
 						<cfquery name="mainParts" dbtype="query">
-							select * from distinctParts where sampled_from_obj_id is null order by part_name
+							SELECT * 
+							FROM distinctParts 
+							WHERE sampled_from_obj_id is null 
+							ORDER BY
+								has_identification asc,
+								part_name
 						</cfquery>
 						<cfset i=1>
 						<cfloop query="mainParts">
@@ -1344,9 +1360,23 @@ limitations under the License.
 										collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
 								)
 							</cfquery>
-							<cfif historyCount.ct GT 2><cfset histCount = " (#historyCount.ct#)"><cfelse><cfset histCount = ""></cfif>
+							<cfif mainParts.has_identification EQ "1">
+								<cfset addedClass = "part_occurrence_head">
+							<cfelse>
+								<cfset addedClass = "">
+							</cfif>
+							<cfif mainParts.recordcount gt 1>
+								<cfset lineClass="line-top-sd">
+							<cfelse>
+								<cfset lineClass="">
+							</cfif>
+							<cfif historyCount.ct GT 2>
+								<cfset histCount = " (#historyCount.ct#)">
+							<cfelse>
+								<cfset histCount = "">
+							</cfif>
 							<div id="historyDialog#mainParts.part_id#"></div>
-							<tr <cfif mainParts.recordcount gt 1>class="line-top-sd"<cfelse></cfif>>
+							<tr class="#lineClass# #addedClass#">
 								<td class="py-1"><span class="font-weight-lessbold">#part_name#</span></td>
 								<td class="py-1">
 									#part_condition#
@@ -1436,36 +1466,66 @@ limitations under the License.
 								WHERE
 									collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
 							</cfquery>
+							<cfif mainParts.has_identification EQ "1">
+								<cfset addedClass = "part_occurrence">
+							<cfelse>
+								<cfset addedClass = "">
+							</cfif>
 							<cfif getIdentifications.recordcount GT 0>
 								<!--- This is a separate occurrence  look up the occurrenceID --->
 								<cfquery name="getOccurrenceID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT
-										guid_our_thing.assembled_resolvable, guid_our_thing.assembled_identifier
+										assembled_resolvable, assembled_identifier, local_identifier
 									FROM
 										guid_our_thing
 									WHERE
 										co_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
 								</cfquery>
-								<tr class="">
-									<td colspan="5">
+								<tr class="#addedClass#">
+									<td colspan="6">
 										<span class="font-weight-lessbold">This Part is a separate Occurence</span>
 										<span class="small">occurrenceID: #getOccurrenceID.assembled_identifier#</span>
 									</td>
 								</tr>
-								<tr class="small">
-									<td colspan="5">
+								<tr class="small #addedClass#">
+									<td colspan="6">
 										<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=part_id)>
 									</td>
 								</tr>
 							</cfif>
 							<cfif len(part_remarks) gt 0>
-								<tr class="small90">
+								<tr class="small90 #addedClass#">
 									<td colspan="6" class="mb-0 pb-1 pt-0">
 										<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
 									</td>
 								</tr>
 							</cfif>
-							<!--- for each part list the part attributes --->
+							<!--- lookup material sample id from guid_our_thing table --->
+							<cfquery name="getMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable, local_identifier, internal_fg
+								FROM guid_our_thing
+								WHERE guid_is_a = 'materialSampleID'
+								  AND sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+								ORDER BY internal_fg DESC, timestamp_created DESC
+							</cfquery>
+							<cfif getMaterialSampleID.recordcount GT 0>
+								<cfloop query="getMaterialSampleID">
+									<tr class="small90 #addedClass#">
+										<td colspan="6" class="mb-0 pb-1 pt-0">
+											<span class="pl-3 d-block">
+												<span class="font-italic">materialSampleID:</span> 
+												<a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
+												<cfif internal_fg EQ "1" AND left(assembled_identifier,9) EQ "urn:uuid:">
+													<a href="/uuid/#local_identifier#/json" target="_blank" title="View RDF representation of this dwc:MaterialSample in a JSON-LD serialization">
+														<img src="/shared/images/json-ld-data-24.png" alt="JSON-LD">
+													</a>
+												</cfif>
+											</span>
+										</td>
+									</tr>
+								</cfloop>
+							</cfif>
+							
 							<cfquery name="partAttributes" dbtype="query">
 								SELECT
 									attribute_type,
@@ -1494,7 +1554,7 @@ limitations under the License.
 									agentguid_guid_type
 							</cfquery>
 							<cfif partAttributes.recordcount gt 0>
-								<tr class="border-top-0">
+								<tr class="border-top-0 #addedClass#">
 									<td colspan="6" class="border-top-0 mt-0 py-0">
 										<cfloop query="partAttributes">
 											<div class="small90 pl-3 line-height-sm">
@@ -1545,7 +1605,7 @@ limitations under the License.
 								</cfquery>
 								<cfif historyCount.ct GT 2><cfset histCount = " (#historyCount.ct#)"><cfelse><cfset histCount = ""></cfif>
 								<div id="historyDialog#subsampleParts.part_id#"></div>
-								<tr>
+								<tr class="#addedClass#">
 									<td class="py-1">
 										<span class="d-inline-block pl-3">
 										<span class="font-weight-bold " style="font-size: 17px;">&##172;</span> 
@@ -1626,13 +1686,36 @@ limitations under the License.
 									</td>
 								</tr>
 								<cfif len(part_remarks) gt 0>
-									<tr class="small90">
+									<tr class="small90 #addedClass#">
 										<td colspan="6" class="pt-1">
 											<span class="pl-3 d-block pb-1">
 												<span class="font-italic">Remarks:</span> #part_remarks#
 											</span>
 										</td>
 									</tr>
+								</cfif>
+								<!--- lookup material sample id from guid_our_thing table --->
+								<cfquery name="getMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable, local_identifier, internal_fg
+									FROM guid_our_thing
+									WHERE guid_is_a = 'materialSampleID'
+									  AND sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
+									ORDER BY internal_fg DESC, timestamp_created DESC
+								</cfquery>
+								<cfif getMaterialSampleID.recordcount GT 0>
+									<cfloop query="getMaterialSampleID">
+										<tr class="small90 #addedClass#">
+											<td colspan="6" class="mb-0 pb-1 pt-0">
+												<span class="pl-3 d-block">
+													<span class="font-italic">materialSampleID:</span> 
+													<a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
+													<cfif internal_fg EQ "1" AND left(assembled_identifier,9) EQ "urn:uuid:">
+														<a href="/uuid/#local_identifier#/json" target="_blank"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+													</cfif>
+												</span>
+											</td>
+										</tr>
+									</cfloop>
 								</cfif>
 								<!--- for each subsample part list any part attributes --->
 								<cfquery name="partAttributes" dbtype="query">
@@ -1663,7 +1746,7 @@ limitations under the License.
 										agentguid_guid_type
 								</cfquery>
 								<cfif partAttributes.recordcount gt 0>
-									<tr class="border-top-0">
+									<tr class="border-top-0 #addedClass#">
 										<td colspan="6" class="border-top-0 mt-0 pb-2 pt-1">
 											<cfloop query="partAttributes">
 												<div class="small90 pl-3 pb-2 line-height-sm">
@@ -3604,7 +3687,7 @@ limitations under the License.
 									<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) #state#</span>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 										<cfif reviewed_fg EQ "1">
-											<span class="d-block small mb-0 pb-0">#resolution# #reviwer# #reviewer_comment#</span>
+											<span class="d-block small mb-0 pb-0">#resolution# #reviewer# #reviewer_comment#</span>
 										</cfif>
 									</cfif>
 								</li>

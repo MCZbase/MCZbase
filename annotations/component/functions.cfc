@@ -2,7 +2,7 @@
 <!---
 /transactions/component/functions.cfc
 
-Copyright 2020 President and Fellows of Harvard College
+Copyright 2020-2025 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,7 +19,9 @@ limitations under the License.
 --->
 <cfcomponent>
 
-<cfinclude template = "/shared/functionLib.cfm">
+<cf_rolecheck>
+<cfinclude template = "/shared/functionLib.cfm" runOnce="true">
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <cffunction name="getAnnotationDialogHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="target_type" type="string" required="yes">
@@ -531,4 +533,210 @@ Annotation to report problematic data concerning #annotated.annorecord#
 	</cfif>
 	<cfreturn result>
 </cffunction>
+
+
+<!--- deliver html for a form to review annotations on a cataloged item 
+ @param collection_object_id the surrogate numeric primary key value for the cataloged_item to be annotated.
+ @return html for a form to review annotations on a cataloged item
+--->
+<cffunction name="getReviewCIAnnotationHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfthread name="getReviewAnnotationThread" collection_object_id = "#arguments.collection_object_id#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="ci_annotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT DISTINCT
+						 annotations.annotation_id,
+						 annotations.annotate_date,
+						 annotations.cf_username,
+						 annotations.collection_object_id,
+						 annotations.annotation,	 
+						 annotations.reviewer_agent_id,
+						 preferred_agent_name.agent_name reviewer,
+						 annotations.reviewed_fg,
+						 annotations.reviewer_comment,
+						 annotations.motivation,
+						 collection.collection,
+						 collection.collection_cde,
+						 collection.institution_acronym,
+						 cataloged_item.cat_num,
+						 identification.scientific_name idAs,
+						 geog_auth_rec.higher_geog,
+						 locality.spec_locality,
+						 cf_user_data.email
+					FROM
+						annotations
+						join cataloged_item on annotations.collection_object_id = cataloged_item.collection_object_id
+						join collection on cataloged_item.collection_id = collection.collection_id
+						join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+						join locality on collecting_event.locality_id = locality.locality_id
+						join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id 
+						join identification on cataloged_item.collection_object_id = identification.collection_object_id AND accepted_id_fg = 1
+						left join cf_users on annotations.CF_USERNAME=cf_users.username
+						left join cf_user_data on cf_users.user_id = cf_user_data.user_id
+						left join preferred_agent_name on annotations.reviewer_agent_id=preferred_agent_name.agent_id
+					WHERE
+						annotations.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<cfquery name="catitem" dbtype="query">
+					SELECT DISTINCT
+						collection_object_id,
+						collection,
+						collection_cde,
+						institution_acronym,
+						cat_num,
+						idAs,
+						higher_geog,
+						spec_locality
+					FROM 
+						ci_annotations
+					GROUP BY
+						collection_object_id,
+						collection,
+						collection_cde,
+						institution_acronym,
+						cat_num,
+						idAs,
+						higher_geog,
+						spec_locality
+				</cfquery>
+				<cfloop query="catitem">
+					<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
+					<h2 class="h3 mt-3 pl-1">Annotations on #guid#</h2>
+					<h3 class="h4">
+						<a href="/guid/#guid#">#collection# #cat_num#</a> 
+						<span class="mr-3">&nbsp; Current Identification: <em>#idAs#</em></span> 
+						<span class="ml-1"> Locality: #higher_geog#: #spec_locality#</span>
+					</h3>
+				</cfloop>
+				<cfset i=0>
+				<cfloop query="ci_annotations">
+					<form name="review_annotation_#i#" id="review_annotation_#i#">
+						<div class="form-row border">
+							<input type="hidden" name="method" value="updateAnnotationReview">
+							<input type="hidden" name="annotation_id" value="#annotation_id#">
+							<div class="col-12 col-md-4">
+								<label class="data-entry-label">Annotator:</label>
+								<span><strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
+							</div>
+							<div class="col-12 col-md-6">
+								<label class="data-entry-label">Annotation:</label>
+								<span>#annotation#</span>
+							</div>
+							<div class="col-12 col-md-2">
+								<label class="data-entry-label">Motivation</label>
+								<span>#motivation#</span>
+							</div>
+							<div class="col-12 col-md-2">
+								<label for="reviewed_fg" class="data-entry-label">Reviewed?</label>
+								<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select">
+									<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
+									<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
+								</select>
+								<cfif len(reviewer) gt 0>
+									<span class="d-block small">
+									Last review by #reviewer#</span>
+								</cfif>
+							</div>
+							<div class="col-12 col-md-8">
+									<label for="reviewer_comment" class="data-entry-label">Review Comments</label>
+									<textarea name="reviewer_comment" id="reviewer_comment" class="data-entry-textarea autogrow mb-1" maxlength="4000" >#reviewer_comment#</textarea>
+							</div>
+							<div class="col-12 col-md-2">
+									<input type="submit" value="Save Review" class="btn btn-xs btn-primary mt-3 mb-2">
+									<output id="result_annotation_#i#"></output>
+							</div>
+						</div>
+					</form>
+					<script>
+						$(document).ready(function() { 
+							$("##review_annotation_#i#").submit(function(event) {
+								event.preventDefault(); // prevent default form submission
+								var form_id = #i#;
+								submitAnnotationReview(form_id);
+							});
+						});
+					</script>
+					<cfset i=i+1>
+				</cfloop>
+				<script>
+					function submitAnnotationReview(form_id) {
+						setFeedbackControlState("result_annotation_" + form_id,"saving");
+						$.ajax({
+							type: "POST",
+							url: "/annotations/component/functions.cfc",
+							data: $("##review_annotation_" + form_id).serialize(),
+							dataType: "json",
+							success: function(data) {
+								if (data[0].status == "updated") {
+									setFeedbackControlState("result_annotation_" + form_id,"saved");
+								} else {
+								setFeedbackControlState("result_annotation_" + form_id,"error");
+								}
+							},
+							error: function(xhr, status, error) {
+								handleFail(xhr,status,error,"updating annotation.");
+								setFeedbackControlState("result_annotation_" + form_id,"error");
+							}
+						});
+						return false; // prevent default form submission
+					}
+				</script>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+					<cfdump var="#cfcatch#">
+				</cfif>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getReviewAnnotationThread" />
+	<cfreturn getReviewAnnotationThread.output>
+</cffunction>
+
+<!--- Update the review status and optional comment for an annotation.
+ @param annotation_id the surrogate numeric primary key value for the annotation to be updated.
+ @param reviewed_fg 1 if the annotation has been reviewed, 0 if not.
+ @param reviewer_comment optional text comment about the review of the annotation.
+ @return json with status=updated or an http 500 error if the update fails.
+--->
+<cffunction name="updateAnnotationReview" returntype="any" access="remote" returnformat="json">
+	<cfargument name="annotation_id" type="string" required="yes">
+   <cfargument name="reviewed_fg" type="string" required="yes">
+	<cfargument name="reviewer_comment" type="string" required="no" default="">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="updateAnnotation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateAnnotation_result">
+				UPDATE annotations
+				SET
+					reviewer_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+					reviewed_fg=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#reviewed_fg#">,
+					reviewer_comment=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#reviewer_comment#">
+				WHERE
+					annotation_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotation_id#">
+			</cfquery>
+			<cfif updateAnnotation_result.recordcount NEQ 1>
+				<cfthrow message="Annotation to update not found.">
+			</cfif>
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "updated">	
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
 </cfcomponent>

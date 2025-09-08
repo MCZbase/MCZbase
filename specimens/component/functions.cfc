@@ -21,6 +21,12 @@ limitations under the License.
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml --->
 <cfinclude template="/specimens/component/public.cfc" runOnce="true"><!--- for getIdentificationsUnthreadedHTML  --->
 
+<!--- updateCatNumber update the catalog number and collection id for a cataloged item identified by the collection object id.
+ @param collection_object_id the collection_object_id for the cataloged item to update
+ @param cat_num the new catalog number to set
+ @param collection_id the new collection id to set
+ @return a json structure with status=updated, or an http 500 response.
+--->
 <cffunction name="updateCatNumber" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="numeric" required="yes">
 	<cfargument name="cat_num" type="string" required="yes">
@@ -31,7 +37,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_collections")>
+			<cfif isdefined("session.roles") AND listfindnocase(session.roles,"MANAGE_COLLECTION")>
 				<cfquery name="updateCatNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateCatNum_result">
 					UPDATE cataloged_item 
 					SET
@@ -89,6 +95,11 @@ limitations under the License.
 	<cfreturn serializeJSON(data)>
 </cffunction>
 
+<!--- updateAccn update the accession for a cataloged item identified by the collection object id.
+ @param collection_object_id the collection_object_id for the cataloged item to update
+ @param accession_transaction_id the new accession_transaction_id to set
+ @return a json structure with status=updated, or an http 500 response.
+--->
 <cffunction name="updateAccn" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="numeric" required="yes">
 	<cfargument name="accession_transaction_id" type="numeric" required="yes">
@@ -397,7 +408,7 @@ limitations under the License.
 							<h1 class="h3 px-1"> 
 								Edit Media 
 								<a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> 
-								<a href="/media.cfm?action=newMedia" target="_blank" class="btn btn-secondary float-right">Add New Media Record</a>
+								<a href="/media.cfm?action=newMedia" target="_blank" class="btn btn-xs btn-secondary float-right">Add New Media Record</a>
 							</h1>
 							<!--- link existing media to cataloged item --->
 							<div class="add-form float-left">
@@ -406,14 +417,14 @@ limitations under the License.
 								</div>
 								<div class="card-body">
 									<!--- form to add current media to cataloged item --->
-									<form name="formLinkMedia" id="formLinkMedia">
+									<form name="formLinkMedia" id="formLinkMedia" class="mb-0">
 										<div class="form-row">	
-											<div class="col-12">
-												<label for="underscore_collection_id">Filename of Media to link:</label>
+											<div class="col-12 my-1">
+												<label for="underscore_collection_id" class="mt-1">Filename of Media to link:</label>
 												<input type="hidden" name="media_id" id="media_id">
 												<input type="text" name="media_uri" id="media_uri" class="data-entry-input">
 											</div>
-											<div class="col-12 col-md-3">
+											<div class="col-12 col-md-3 my-1">
 												<label for="media_type">Media Type</label>
 												<select name="media_type" id="media_type" size="1" class="reqdClr w-100" required>
 													<cfloop query="ctmedia_type">
@@ -425,7 +436,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 col-md-3">
+											<div class="col-12 col-md-3 my-1">
 												<label for="relationship_type">Type of Relationship:</label>
 												<select name="relationship_type" id="relationship_type" size="1" class="reqdClr w-100" required>
 													<cfloop query="ctmedia_relationship">
@@ -437,7 +448,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 col-md-1">
+											<div class="col-12 col-md-1 my-1">
 												<label for="addMediaButton" class="data-entry-label">&nbsp;</label>
 												<input type="button" value="Add" class="btn btn-xs btn-primary" id="addMediaButton"
 													onClick="handleAddMedia();">
@@ -572,16 +583,20 @@ limitations under the License.
 			<cfset variables.mpos = 1>
 			<cfloop query="getMedia">
 				<div class="row mx-0 border-top border-bottom py-1">
-					<div class="col-12 col-md-3 float-left">
+			
+					<div class="col-12 col-md-2">
 						<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getMedia.media_id#",displayAs="thumb",captionAs="textNone")>
-						<div class="text-center">
-							#getMedia.auto_filename#
-						</div>
+					
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-4">
 						<!--- metadata for media record --->
-						<ul>
-							<li>#getMedia.subject#</li>
+						<ul class="pl-0">
+							<li>
+							#getMedia.auto_filename#
+							</li>
+							<cfif getMedia.subject is not "">
+								<li>#getMedia.subject#</li>
+							</cfif>
 							<cfif getMedia.aspect is not "">
 								<li>#getMedia.aspect#</li>
 							</cfif>
@@ -590,8 +605,9 @@ limitations under the License.
 							<li>
 								(<a href="/media.cfm?action=edit&media_id=#getMedia.media_id#" target="_blank" >Edit</a>)
 							</li>
+						</ul>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-4 pr-1">
 						<!--- form to add current media to cataloged item --->
 						<form name="formChangeLink_#variables.mpos#" id="formChangeLink_#variables.mpos#">
 							<div class="form-row">	
@@ -617,8 +633,8 @@ limitations under the License.
 								</div>
 							</div>
 					</div>
-					<div class="col-12 col-md-3">
-						<button class="btn btn-xs btn-primary" onClick="removeMediaRelationship('#getMedia.media_relations_id#',reloadMediaDialogList);">Remove</button>
+					<div class="col-12 col-md-1 px-1">
+						<button class="btn btn-xs btn-primary mt-3" onClick="removeMediaRelationship('#getMedia.media_relations_id#',reloadMediaDialogList);">Remove</button>
 					</div>
 				</div>
 				<cfset variables.mpos= variables.mpos + 1>
@@ -767,6 +783,7 @@ limitations under the License.
 			</cfif>
 			<cfset target = "">
 			<cfset hasMissingCitations = false>
+			<cfset makesMixedCollectionOnSave = false>
 			<cfif getDetermined.coll_object_type EQ "CI">
 				<cfquery name="getTarget" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
 					SELECT guid
@@ -812,6 +829,16 @@ limitations under the License.
 						specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
 				</cfquery>
 				<cfset target = "#getTarget.guid# #getTarget.part_name# (#getTarget.preserve_method#)">
+				<!--- count identifications on this part, used to check if page should reload after addition --->
+				<cfquery name="countPartIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
+					SELECT count(*) as id_count
+					FROM identification
+					WHERE 
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
+				</cfquery>
+				<cfif countPartIdentifications.id_count EQ 0>
+					<cfset makesMixedCollectionOnSave = true>
+				</cfif>
 			<cfelse>
 				<cfthrow message="This collection object type (#getDetermined.coll_object_type#) is not supported.">
 			</cfif>
@@ -826,7 +853,7 @@ limitations under the License.
 								<cfif getDetermined.coll_object_type EQ "CI" OR getDetermined.coll_object_type EQ "SP">
 									<!--- identifiable, thus allow add identifications --->
 									<div class="add-form float-left">
-										<div class="add-form-header pt-1 px-2 col-12 float-left">
+										<div class="add-form-header pt-1 pb-2 px-2 col-12 float-left">
 											<h2 class="h3 my-0 px-1 pb-1 float-left">Add Identification#target#</h2>
 											<cfif attributes.in_page>
 												<script>
@@ -840,11 +867,11 @@ limitations under the License.
 											</cfif>
 										</div>
 										<div class="card-body">
-											<form name="addIdentificationForm" id="addIdentificationForm">
+											<form name="addIdentificationForm" class="my-2" id="addIdentificationForm">
 												<input type="hidden" name="collection_object_id" value="#attributes.collection_object_id#">
 												<input type="hidden" name="method" value="addIdentification">
 												<input type="hidden" name="returnformat" value="json">
-												<div class="form-row">
+												<div class="form-row pt-2">
 													<div class="col-12 col-md-2">
 														<label for="taxa_formula" class="data-entry-label">ID Formula:</label>
 														<select name="taxa_formula" id="taxa_formula" class="data-entry-input reqdClr" onchange="updateTaxonBVisibility();" required>
@@ -996,7 +1023,7 @@ limitations under the License.
 															</div>
 														</div>
 													</div>
-													<div class="col-12">
+													<div class="col-12 mt-3">
 														<input type="button" value="Add" class="btn btn-xs btn-primary" id="addIdButton"
 																	 onClick="handleAddIdentification();">
 														<output id="addIdStatus" class="pt-1"></output>
@@ -1051,6 +1078,10 @@ limitations under the License.
 														success: function() {
 															setFeedbackControlState("addIdStatus","saved")
 															reloadIdentificationsDialogAndPage();
+															<cfif makesMixedCollectionOnSave>
+																<!--- on subsequent call of reloadParts, trigger a heading reload as a mixed collection has been created --->
+																triggerHeadingReload = true;
+															</cfif>
 														}
 														,error: function(jqXHR, textStatus, errorThrown) {
 															setFeedbackControlState("addIdStatus","error")
@@ -1063,7 +1094,7 @@ limitations under the License.
 									</div>
 								</cfif>
 								<cfif hasMissingCitations>
-									<div id="missingCitationList" class="col-12 float-left mt-4 mb-4 px-0 border border-rounded">
+									<div id="missingCitationList" class="col-12 float-left my-4 px-0 border border-rounded">
 										<h3 class="h3">
 											There are citations for taxa that do not have corresponding identifications.
 										</h3>
@@ -1120,6 +1151,7 @@ limitations under the License.
 	@param accepted_id_fg whether to set the identification is to be the current identification.
 	@param stored_as_fg whether to store the identification as a field guide (optional, default 0).
 	@param determiner_ids a comma-separated list of agent IDs for the determiners.
+	@return a json structure with status=added, or an http 500 response.
  --->
 <cffunction name="addIdentification" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
@@ -1323,6 +1355,7 @@ limitations under the License.
 
 <!--- Remove an identification (prevents removing accepted) 
   @param identification_id the identification_id to remove.
+  @return a json structure with status=removed, or an http 500 response.
 --->
 <cffunction name="removeIdentification" access="remote" returntype="any" returnformat="json">
 	<cfargument name="identification_id" type="string" required="yes">
@@ -2089,7 +2122,11 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-<!--- Bulk update identifications for a collection object (edit/save all fields, triggers, flags, etc.) --->
+<!--- Bulk update identifications for a collection object (edit/save all fields, triggers, flags, etc.) 
+  @param collection_object_id the collection_object_id for the specimen.
+  @param identificationUpdates an array of structs, each struct containing all fields for an identification to update, including accepted_id_fg, stored_as_fg, sort_order, etc.
+  @return JSON object with status for each identification updated or a http 500 error on failure.
+--->
 <cffunction name="updateIdentifications" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="identificationUpdates" type="array" required="yes">
@@ -2532,8 +2569,9 @@ limitations under the License.
 								<cfif checkMixed.ct gt 0>
 									<cfset variables.coll_object_type="#variables.coll_object_type#: Mixed Collection">
 								</cfif>
+								<cfset guidLink = "https://mczbase.mcz.harvard.edu/guid/#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#">
 								#variables.coll_object_type# #getCatalog.cataloged_item_type_description# 
-								( occurrenceID: https://mczbase.mcz.harvard.edu/guid/#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num# )
+								( occurrenceID: #guidLink# <a href="#guidLink#/json"> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a>)
 								<cfquery name="getComponents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT count(specimen_part.collection_object_id) ct, coll_object_type, part_name, count(identification.collection_object_id) identifications
 									FROM 
@@ -2542,25 +2580,32 @@ limitations under the License.
 										left join identification on coll_object.collection_object_id=identification.collection_object_id
 									WHERE derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatalog.collection_object_id#">
 									GROUP BY coll_object_type, part_name
+									ORDER BY count(identification.collection_object_id) asc, part_name asc
 								</cfquery>
 								<ul>
 								<cfloop query="getComponents">
 									<cfset variables.occurrences="">
 									<cfset variables.subtype="">
 									<cfif getComponents.identifications gt 0>
-										<cfset variables.subtype=": Different Organism">
-										<!--- TODO: show occurrence ID value(s) for the identifiable object(s) --->
-										<cfset variables.occurrences="(occurrenceID: **TODO** )">
+										<cfset variables.subtype=": <strong>Different Organism</strong>"><!--- " --->
+										<!--- Show occurrence ID value(s) for the identifiable object(s) --->
+										<cfquery name="getComponentOccurrenceID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+											SELECT assembled_identifier, assembled_resolvable, identification.scientific_name sc_name
+											FROM 
+												specimen_part 
+												join guid_our_thing on specimen_part.collection_object_id=guid_our_thing.co_collection_object_id
+												join identification on specimen_part.collection_object_id=identification.collection_object_id
+											WHERE specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatalog.collection_object_id#">
+												and identification.accepted_id_fg=1
+										</cfquery>
+										<cfloop query="getComponentOccurrenceID">
+											<cfset variables.occurrences="(occurrenceID: #getComponentOccurrenceID.assembled_identifier# <a href='#getComponentOccurrenceID.assembled_resolvable#/json'> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a> #getComponentOccurrenceID.sc_name# )">
+										</cfloop>
 									</cfif>
 									<cfif getComponents.coll_object_type is "SP">
 										<cfset variables.coll_object_type="Specimen Part#variables.subtype#">
 									<cfelseif getComponents.coll_object_type is "SS">
 										<cfset variables.coll_object_type="Subsample#variables.subtype#">
-									<cfelseif getComponents.coll_object_type is "IO"><!--- identifiable object thus a new occurrence --->
-										<!--- TODO: Identify specimen parts with identifications through linked identifications, not type --->
-										<cfset variables.coll_object_type="Different Organism">
-										<!--- TODO: show occurrence ID value(s) for the identifiable object(s) --->
-										<cfset variables.occurrences="(occurrenceID: **TODO** )">
 									<cfelse>
 										<cfset variables.coll_object_type="#getComponents.coll_object_type#">
 									</cfif>
@@ -2829,6 +2874,7 @@ limitations under the License.
 													if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
 														setFeedbackControlState("addOtherIDResultDiv","saved")
 														reloadOtherIDDialog("#getCatalog.collection_object_id#");
+														reloadOtherIDs();
 													} else {
 														// we shouldn't be able to reach this block, backing error should return an http 500 status
 														setFeedbackControlState("addOtherIDResultDiv","error")
@@ -2947,6 +2993,7 @@ limitations under the License.
 													success: function (result) {
 														if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
 															setFeedbackControlState("saveOtherIDResultDiv" + num,"saved")
+															reloadOtherIDs();
 														} else {
 															// we shouldn't be able to reach this block, backing error should return an http 500 status
 															setFeedbackControlState("saveOtherIDResultDiv" + num,"error")
@@ -4246,6 +4293,10 @@ limitations under the License.
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					specimen_part.collection_object_id part_id,
+    				CASE
+    				    WHEN identification.collection_object_id IS NOT NULL THEN 1
+       				 ELSE 0
+    				END AS has_identification,
 					pc.label label,
 					pc.container_id container_id,
 					nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
@@ -4265,22 +4316,16 @@ limitations under the License.
 					attribute_remark,
 					agent_name
 				FROM
-					specimen_part,
-					coll_object,
-					coll_object_remark,
-					coll_obj_cont_hist,
-					container oc,
-					container pc,
-					specimen_part_attribute,
-					preferred_agent_name
+					specimen_part
+					LEFT JOIN specimen_part_attribute on specimen_part.collection_object_id=specimen_part_attribute.collection_object_id
+					JOIN coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
+					LEFT JOIN coll_object_remark on coll_object.collection_object_id=coll_object_remark.collection_object_id
+					LEFT JOIN coll_obj_cont_hist on coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id
+					left join container oc on coll_obj_cont_hist.container_id=oc.container_id
+					left join container pc on oc.parent_container_id=pc.container_id
+					left join preferred_agent_name on specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id
+    				LEFT JOIN identification ON specimen_part.collection_object_id = identification.collection_object_id
 				WHERE
-					specimen_part.collection_object_id=specimen_part_attribute.collection_object_id (+) and
-					specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id (+) and
-					specimen_part.collection_object_id=coll_object.collection_object_id and
-					coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id and
-					coll_object.collection_object_id=coll_object_remark.collection_object_id (+) and
-					coll_obj_cont_hist.container_id=oc.container_id and
-					oc.parent_container_id=pc.container_id (+) and
 					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 			</cfquery>
 			
@@ -4298,7 +4343,8 @@ limitations under the License.
 					lot_count_modifier,
 					lot_count,
 					display_lot_count,
-					part_remarks
+					part_remarks,
+					has_identification
 				FROM
 					rparts
 				GROUP BY
@@ -4314,13 +4360,17 @@ limitations under the License.
 					lot_count_modifier,
 					lot_count,
 					display_lot_count,
-					part_remarks
+					part_remarks,
+					has_identification
 				ORDER BY
-					part_name
+					has_identification asc, part_name
 			</cfquery>
 			
 			<cfquery name="mPart" dbtype="query">
-				SELECT * FROM parts WHERE sampled_from_obj_id IS NULL ORDER BY part_name
+				SELECT * 
+				FROM parts 
+				WHERE sampled_from_obj_id IS NULL 
+				ORDER BY has_identification asc, part_name
 			</cfquery>
 			
 			<div class="row mx-0">
@@ -4333,7 +4383,19 @@ limitations under the License.
 							<cfset var i = 0>
 							<cfloop query="mPart">
 								<cfset i = i + 1>
-								<div class="row mx-0 border py-1 mb-0">
+								<!--- lookup material sample id from guid_our_thing table --->
+								<cfquery name="getMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable, internal_fg, local_identifier
+									FROM guid_our_thing
+									WHERE guid_is_a = 'materialSampleID'
+									  AND sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mPart.part_id#">
+								</cfquery>
+								<cfif mPart.has_identification EQ "1">
+									<cfset addedClass = "part_occurrence">
+								<cfelse>
+									<cfset addedClass = "">
+								</cfif>
+								<div class="row mx-0 border py-1 mb-0 #addedClass#">
 									<!--- find identifications of the part to see if this is a mixed collection --->
 									<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT identification_id
@@ -4460,11 +4522,11 @@ limitations under the License.
 									<div class="col-12 row mx-0 border-left border-right border-bottom px-2 py-1">
 										<cfif patt.recordcount EQ 0>
 											<strong>No Part Attributes:</strong>
-											<button class="btn btn-xs btn-secondary py-0" onclick="editPartAttributes('#part_id#',reloadParts)">Edit</button>
+											<button class="btn btn-xs btn-secondary py-0" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
 										<cfelse>
 											<div class="col-12 small">
 												<strong>Part Attributes (#patt.recordcount#):</strong>
-												<button class="btn btn-xs btn-secondary py-0" onclick="editPartAttributes('#part_id#',reloadParts)">Edit</button>
+												<button class="btn btn-xs btn-secondary py-0" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
 												<cfloop query="patt">
 													<div class="ml-2">
 														#attribute_type# = #attribute_value#
@@ -4477,6 +4539,33 @@ limitations under the License.
 											</div>
 										</cfif>
 									</div>
+									<cfif getMaterialSampleID.recordcount GT 0>
+										<!--- only show, and only allow addition of, materialSampleID values if there are any assigned to this part --->
+										<div class="col-12">
+											<ul class="list-unstyled pl-1">
+												<cfloop query="getMaterialSampleID">
+													<li>
+														<strong>materialSampleID:</strong> <a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
+														<cfif internal_fg EQ 1>
+															<cfif left(assembled_identifier,9) EQ "urn:uuid:"> 
+																<a href="/uuid/#local_identifier#/json" target="_blank"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+															</cfif>
+														</cfif>
+													</li>
+												</cfloop>
+												<li>
+													<button type="button" id="btn_pane1" class="btn btn-xs btn-secondary py-0 small" onclick="openEditMaterialSampleIDDialog(#part_id#,'materialSampleIDEditDialog','#guid# #part_name#',reloadPartsAndSection)">
+														<cfif getMaterialSampleID.recordcount EQ 1>
+															Add 
+														<cfelse>
+															Edit
+														</cfif>
+														externally assigned dwc:MaterialSampleID
+													</button>
+												</li>
+											</ul>
+										</div>
+									</cfif>
 								</div>
 
 								<!--- Show subsamples --->
@@ -4528,7 +4617,7 @@ limitations under the License.
 											data: $("##editPart" + id).serialize(),
 											success: function(response) {
 												setFeedbackControlState(feedbackOutput,"saved");
-												reloadParts();
+												reloadPartsAndSection();
 											},
 											error: function(xhr, status, error) {
 												setFeedbackControlState(feedbackOutput,"error")
@@ -4551,11 +4640,11 @@ limitations under the License.
 												dataType: 'json',
 												data: {
 													method: 'deletePart',
-													collection_object_id: $("##editPart" + id + " input[name='collection_object_id']").val()
+													collection_object_id: $("##editPart" + id + " input[name='part_collection_object_id']").val()
 												},
 												success: function(response) {
 													setFeedbackControlState(feedbackOutput,"deleted");
-													reloadParts();
+													reloadPartsAndSection();
 												},
 												error: function(xhr, status, error) {
 													setFeedbackControlState(feedbackOutput,"error")
@@ -4574,7 +4663,7 @@ limitations under the License.
 											var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
 											var guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num# " + $('##editPart' + id + ' input[name="part_name"]').val() + ' (' + $('##editPart' + id + ' select[name="preserve_method"]').val() + ')';
 											openEditIdentificationsDialog(partId,'identificationsDialog',guid,function(){
-												reloadParts();
+												reloadPartsAndSection();
 											});
 										});
 									});
@@ -4582,7 +4671,7 @@ limitations under the License.
 										button.addEventListener('click', function(event) {
 											event.preventDefault();
 											// confirm making mixed collection
-											confirmDialog('Adding identifications to this part will make this cataloged item into a mixed collection.  This means that the cataloged item will no longer be a single taxon, but rather a collection of parts with different identifications.  <strong>Are you sure you want to do this?</strong>  This is appropriate for some cases in some collections, such as when a cataloged item ins a composite of multiple taxa, such as pin with an ant and an associated insect on the same pin and a single catalog number, but not appropriate for all collections.  If you are unsure, please seek guidance before proceeding.', 
+											confirmDialog('Adding identifications to this part will make this cataloged item into a mixed collection.  This means that the cataloged item will no longer be a single taxon, but rather a collection of parts with different identifications.  <strong>Are you sure you want to do this?</strong>  This is appropriate for some cases in some collections, such as when a cataloged item is a composite of multiple taxa, such as pin with an ant and an associated insect on the same pin and a single catalog number, but not appropriate for all collections.  If you are unsure, please seek guidance before proceeding.', 
 												'Confirm Mixed Collection', 
 												function() {
 													// make mixed collection
@@ -4590,14 +4679,14 @@ limitations under the License.
 													var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
 													var guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num# " + $('##editPart' + id + ' input[name="part_name"]').val() + ' (' + $('##editPart' + id + ' select[name="preserve_method"]').val() + ')';
 													openEditIdentificationsDialog(partId,'identificationsDialog',guid,function(){
-														reloadParts();
+														reloadPartsAndSection();
 													});
 												}
 											);
 										});
 									});
 								</cfif>
-								function reloadParts() {
+								function reloadPartsSection() {
 									// reload the edit existing parts section
 									$.ajax({
 										url: '/specimens/component/functions.cfc',
@@ -4865,6 +4954,19 @@ limitations under the License.
 			<cfif checkAttributes.recordcount GT 0>
 				<cfthrow message="Error: Cannot delete part with attributes. Please remove attributes first.">
 			</cfif>
+			<!--- if there is a materialSampleID, set its foreign key to null --->
+			<cfquery name="nullMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE guid_our_thing
+				SET sp_collection_object_id = NULL
+				WHERE sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			</cfquery>
+
+			<!--- if there is an occurrenceID, set its foreign key to null --->
+			<cfquery name="nullOccurrenceID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				UPDATE guid_our_thing
+				SET co_collection_object_id = NULL
+				WHERE co_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			</cfquery>
 
 			<!--- delete the specimen part record --->
 			<cfquery name="deletePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deletePart_result">
@@ -4940,8 +5042,8 @@ limitations under the License.
 					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">
 			</cfquery>
 			<cfif ispartRem.recordcount is 0>
-				<!--- if not and ther are remarks, add a record --->
-				<cfif len(thiscoll_object_remarks) gt 0>
+				<!--- if not and there are remarks, add a record --->
+				<cfif len(arguments.coll_object_remarks) gt 0>
 					<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						INSERT INTO coll_object_remark (
 							collection_object_id, 
@@ -4968,7 +5070,7 @@ limitations under the License.
 			</cfif>
 
 			<!---- TODO: Update container placement code 
-			<cfif len(thisnewCode) gt 0>
+			<cfif len(this.newCode) gt 0>
 				<cfquery name="isCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						container_id, container_type, parent_container_id
@@ -10402,7 +10504,12 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					</cfif>
 					<cfoutput>
 						<label for="attribute_units_#arguments.paid#" class="data-entry-label">Units#current#</label>
-						<input type="text" name="attribute_units" id="attribute_units_#arguments.paid#" value="#arguments.val#" class="data-entry-input">
+						<cfif len(arguments.val) GT 0>
+							<cfset disabled="">
+						<cfelse>
+							<cfset disabled="disabled">
+						</cfif>
+						<input type="text" name="attribute_units" id="attribute_units_#arguments.paid#" value="#arguments.val#" class="data-entry-input" #disabled#>
 					</cfoutput>
 				</cfsavecontent>
 			</cfif>
@@ -10453,6 +10560,844 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 		</cftry>
 	</cftransaction>
 	<cfreturn serializeJSON(result)>
+</cffunction>
+
+<!---getEditMaterialSampleIDsHTML obtain a block of html to populate a materialSampleID editor dialog for a specified specimen part,
+ Does not allow editing of an existing internally assigned materialSampleID, only adding new ones or deleting user assigned ones.
+
+ @param collection_object_id the collection_object_id for the specimen part for which to obtain the materialSampleId editor dialog.
+ @return html for editing materialSampleIDs for the specified specimen part.
+--->
+<cffunction name="getEditMaterialSampleIDsHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfthread name="getEditMaterialSampleIDsThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getCatalog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						collection.institution_acronym,
+						cataloged_item.collection_cde,
+						cataloged_item.cat_num,
+						specimen_part.part_name,
+						specimen_part.preserve_method,
+						specimen_part.collection_object_id AS part_id
+					FROM 
+						specimen_part
+						join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+						join collection on cataloged_item.collection_id = collection.collection_id
+					WHERE 
+						specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+				</cfquery>
+				<cfquery name="getGuids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						GUID_OUR_THING_ID,
+						TIMESTAMP_CREATED,
+						TARGET_TABLE,
+						CO_COLLECTION_OBJECT_ID,
+						SP_COLLECTION_OBJECT_ID,
+						TAXON_NAME_ID,
+						RESOLVER_PREFIX,
+						SCHEME,
+						TYPE,
+						AUTHORITY,
+						LOCAL_IDENTIFIER,
+						ASSEMBLED_IDENTIFIER,
+						ASSEMBLED_RESOLVABLE,
+						assigning_agent.agent_name ASSIGNED_BY,
+						assigned_by_agent_id,
+						creating_agent.agent_name CREATED_BY,
+						LAST_MODIFIED,
+						internal_fg,
+						DISPOSITION,
+						GUID_IS_A  
+					FROM guid_our_thing
+						left join preferred_agent_name assigning_agent on guid_our_thing.assigned_by_agent_id = assigning_agent.agent_id
+						left join preferred_agent_name creating_agent on guid_our_thing.created_by_agent_id = creating_agent.agent_id
+					WHERE
+						sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+
+							<!--- Add form --->
+							<div class="add-form">
+								<div class="add-form-header pt-1 px-2 col-12 float-left">
+									<h2 class="h3 my-0 px-1 pb-1">Add dwc:materialSampleID for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num# #getCatalog.part_name# (#getCatalog.preserve_method#)</h2>
+								</div>
+								<div class="card-body mt-2">
+									<form name="addMaterialSampleIDForm" id="addMaterialSampleIDForm" class="row mb-0 pt-1">
+										<input type="hidden" name="sp_collection_object_id" value="#getCatalog.part_id#">
+										<input type="hidden" name="method" value="addMaterialSampleID">
+										<input type="hidden" name="returnformat" value="json">
+										<input type="hidden" name="queryformat" value="column">
+										<div class="form-row ml-3 mr-4 w-100">
+											<div class="col-12 col-md-9 pl-0 pr-2">
+												<label class="data-entry-label" for="input_text">dwc:materialSampleID assigned externally to this part</label>
+												<input type="text" name="input_text" id="input_text" class="reqdClr data-entry-input">
+												<!--- on entry of a value, parse it into the guid fields with parseGuid() --->
+												<script>
+													$(document).ready(function() {
+														$("##input_text").on('change', function() { 
+															$(".guidparsefield").show(); // show the parsed fields when a value is entered
+															var bits = parseGuid($(this).val());
+															console.log(bits);
+															if (bits !== null) { 
+																$("input[name='resolver_prefix']").val(bits.RESOLVER_PREFIX);
+																$("input[name='scheme']").val(bits.SCHEME);
+																$("input[name='type']").val(bits.TYPE);
+																$("input[name='authority']").val(bits.AUTHORITY);
+																$("input[name='local_identifier']").val(bits.LOCAL_IDENTIFIER);
+																$("input[name='assembled_identifier']").val(bits.ASSEMBLED_IDENTIFIER);
+																$("input[name='assembled_resolvable']").val(bits.ASSEMBLED_RESOLVABLE);
+															} else {
+																// clear all fields if parse failed
+																$("input[name='resolver_prefix']").val("");
+																$("input[name='scheme']").val("");
+																$("input[name='type']").val("");
+																$("input[name='authority']").val("");
+																$("input[name='local_identifier']").val("");
+																$("input[name='assembled_identifier']").val("");
+																$("input[name='assembled_resolvable']").val("");
+															}
+														});
+													});
+													$(".guidparsefield").hide(); // hide the parsed fields by default
+												</script>
+											</div>
+											<div class="col-12 col-md-3 px-1 guidparsefield">
+												<label class="data-entry-label" for="resolver_prefix">Resolver Prefix</label>
+												<input type="text" class="data-entry-input" name="resolver_prefix" id="resolver_prefix">
+											</div>
+											<div class="col-12 col-md-3 px-1 guidparsefield">
+												<label class="data-entry-label" for="scheme">Scheme</label>
+												<input type="text" class="data-entry-input" name="scheme" id="scheme">
+											</div>
+											<div class="col-12 col-md-3 px-1 guidparsefield">
+												<label class="data-entry-label" for="type">Type</label>
+												<input type="text" class="data-entry-input" name="type" id="type">
+											</div>
+											<div class="col-12 col-md-3 px-1 guidparsefield">
+												<label class="data-entry-label" for="authority">Authority</label>
+												<input type="text" class="data-entry-input" name="authority" id="authority">
+											</div>
+											<div class="col-12 col-md-3 px-1 guidparsefield">
+												<label class="data-entry-label" for="local_identifier">Local Identifier</label>
+												<input type="text" class="data-entry-input" name="local_identifier" id="local_identifier">
+											</div>
+											<div class="col-12 col-md-6 px-1 guidparsefield">
+												<label class="data-entry-label" for="assembled_identifier">Full Identifier</label>
+												<input type="text" class="data-entry-input" name="assembled_identifier" id="assembled_identifier">
+											</div>
+											<div class="col-12 col-md-6 px-1 guidparsefield">
+												<label class="data-entry-label" for="assembled_resolvable">Resolvable Identifier</label>
+												<input type="text" class="data-entry-input" name="assembled_resolvable" id="assembled_resolvable">
+											</div>
+											<div class="col-12 col-md-6 px-1 guidparsefield">
+												<label class="data-entry-label" for="assigned_by">Assigned By</label>
+												<input type="hidden" name="assigned_by_agent_id" value="">
+												<input type="text" class="data-entry-input" name="assigned_by" id="assigned_by">
+												<script>
+													$(document).ready(function() {
+														makeAgentAutocompleteMeta("assigned_by","assigned_by_agent_id",true);
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-6 px-1 guidparsefield">
+												<button type="button" class="btn btn-primary mt-2" onclick="addOtherIDSubmit();">Add materialSampleID</button>
+												<output id="addMaterialSampleIDResultDiv"></output>
+											</div>
+										</div>
+									</form>
+									<script>
+										function addOtherIDSubmit() { 
+											setFeedbackControlState("addMaterialSampleIDResultDiv","saving")
+											$.ajax({
+												url : "/specimens/component/functions.cfc",
+												type : "post",
+												dataType : "json",
+												data: $("##addMaterialSampleIDForm").serialize(),
+												success: function (result) {
+													console.log(result);
+													if (result && result[0] && result[0].status == "saved") {
+														setFeedbackControlState("addMaterialSampleIDResultDiv","saved")
+														reloadPartsAndSection();
+													} else {
+														// we shouldn't be able to reach this block, backing error should return an http 500 status
+														setFeedbackControlState("addMaterialSampleIDResultDiv","error")
+														messageDialog('Error adding materialSamleID ', 'Error saving materialSampleID.');
+													}
+												},
+												error: function(jqXHR,textStatus,error){
+													setFeedbackControlState("addMaterialSampleIDResultDiv","error")
+													handleFail(jqXHR,textStatus,error,"adding new materialSampleID");
+												}
+											});
+										};
+									</script>
+								</div>
+							</div>
+
+							<!--- List/Edit existing --->
+							<cfset description="#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num# #getCatalog.part_name# (#getCatalog.preserve_method#)">
+							<div class="container-fluid">
+								<div class="row">
+									<div class="col-12 mt-0 bg-light border rounded pt-1 pb-0 px-3">
+										<h1 class="h3">Existing dwc:MaterialSampleIDs</h1>
+										<cfset i=1>
+										<ul>
+											<cfloop query="getGuids">
+												<cfif resolver_prefix EQ "https://mczbase.mcz.harvard.edu/uuid/" AND scheme EQ "urn" AND type EQ "uuid">
+													<cfif getGuids.internal_fg EQ 1>
+														<!--- this is an internally assigned MCZbase UUID, not editable --->
+														<cfset internal = true>
+													<cfelse>
+														<!--- this is an externally assigned UUID (which we can resolve), editable --->
+														<cfset internal = false>
+													</cfif>
+												<cfelse>
+													<cfset internal = false>
+												</cfif>
+												<li>
+													<cfif internal>
+														<strong>Internally assigned:</strong> #getGuids.assembled_identifier# 
+														<span class="small90">(created #dateFormat(getGuids.timestamp_created,"mm/dd/yyyy")# by #getGuids.created_by#)</span>
+													<cfelse>
+														<strong>Externally assigned:</strong> #getGuids.assembled_identifier# 
+														<span class="small90">(created #dateFormat(getGuids.timestamp_created,"mm/dd/yyyy")# by #getGuids.created_by#)</span>
+														<!--- allow deletion of user assigned materialSampleIDs --->
+														<button type="button" class="btn btn-sm btn-warning ml-2" title="Delete this materialSampleID" onclick="deleteGuidOurThing('#getGuids.guid_our_thing_id#','editMaterialSampleIDstatus_#getGuids.guid_our_thing_id#',reloadPartsAndSection);">Delete</button>
+														<!--- allow edit of user assigned materialSampleIDs --->
+														<button type="button" class="btn btn-sm btn-secondary ml-2" title="Edit this materialSampleID" onclick=" doOpenEdit_#getGuids.guid_our_thing_id#(); "
+> Edit</button>
+														<output id="editMaterialSampleIDstatus_#getGuids.guid_our_thing_id#"></output>
+													</cfif>
+													<script>
+														function doOpenEdit_#getGuids.guid_our_thing_id#() { 
+															openEditAMaterialSampleIDDialog('#getGuids.guid_our_thing_id#','materialSampleIDEditDialog1','#description#',reloadPartsAndSection);
+															$("##materialSampleIDEditDialog").dialog("close"); 
+														};
+													</script>
+											</cfloop>
+										</ul>
+									</div>
+								</div>
+							</div><!--- End of List/Edit existing --->
+
+						</div>
+					</div>
+				</div>
+			<cfcatch>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getEditMaterialSampleIDsThread"/>
+	<cfreturn getEditMaterialSampleIDsThread.output>
+</cffunction>
+
+<!---
+ * addMaterialSampleID insert a guid_our_thing record for a new materialSampleID, assumes this is an externally assigned ID.
+ *
+ * @param sp_collection_object_id the collection_object_id of the specimen part to which the new materialSampleID applies.
+ * @param resolver_prefix the resolver prefix for the new guid
+ * @param scheme the scheme for the new guid, e.g. urn
+ * @param type the type for the new guid, e.g. uuuid
+ * @param authority the authority part of the new guid
+ * @param local_identifier the local identifier part of the new guid
+ * @param assembled_identifier the full assembled identifier 
+ * @param assembled_resolvable the resolvable uri form of the new guid
+ * @param assigned_by source who assigned the materialSampleID
+ * @param assigned_by_agent_id the agent_id of the source who assigned the materialSampleID
+ *
+ * @return a json structure with status=saved, or an http 500 response.
+--->
+<cffunction name="addMaterialSampleID" returntype="any" access="remote" returnformat="json">
+	<cfargument name="sp_collection_object_id" type="string" required="yes">
+	<cfargument name="resolver_prefix" type="string" required="no" default=''>
+	<cfargument name="scheme" type="string" required="no" default="">
+	<cfargument name="type" type="string" required="no" default="">
+	<cfargument name="authority" type="string" required="no" default="">
+	<cfargument name="local_identifier" type="string" required="no" default="">
+	<cfargument name="assembled_identifier" type="string" required="no" default="">
+	<cfargument name="assembled_resolvable" type="string" required="no" default="">
+	<cfargument name="assigned_by" type="string" required="no" default="">
+	<cfargument name="assigned_by_agent_id" type="string" required="no" default="">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="addMatSample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addMatSample_result">
+				INSERT INTO guid_our_thing
+				(
+						GUID_IS_A,
+						TARGET_TABLE,
+						CO_COLLECTION_OBJECT_ID,
+						SP_COLLECTION_OBJECT_ID,
+						TAXON_NAME_ID,
+						RESOLVER_PREFIX,
+						SCHEME,
+						TYPE,
+						AUTHORITY,
+						LOCAL_IDENTIFIER,
+						ASSEMBLED_IDENTIFIER,
+						ASSEMBLED_RESOLVABLE,
+						assigned_by_agent_id,
+						disposition,
+						internal_fg,
+						created_by_agent_id
+				) VALUES (
+					'materialSampleID',
+					'SPECIMEN_PART',
+					null,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sp_collection_object_id#">,
+					null,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.resolver_prefix#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.scheme#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.authority#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.local_identifier#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_identifier#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_resolvable#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assigned_by_agent_id#">,
+					'exists',
+					0,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentID#">
+				) 
+			</cfquery>
+			<cfif addMatSample_result.recordcount EQ 1>
+				<!--- get new guid pk value --->
+				<cfquery name="getPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPK_result">
+					SELECT guid_our_thing_id
+					FROM guid_our_thing
+					WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#addMatSample_result.GENERATEDKEY#">
+				</cfquery>
+				<cftransaction action="commit"/>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "saved">
+				<cfset row["id"] = "#getPK.guid_our_thing_id#">
+				<cfset data[1] = row>
+			<cfelse>
+				<cfthrow message="Error other than one row affected.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---getEditAMaterialSampleIDHTML obtain a block of html to populate a materialSampleID editor dialog for a specified specimen part,
+ Does not allow editing of an existing internally assigned materialSampleID, only adding new ones or deleting user assigned ones.
+
+ @param collection_object_id the collection_object_id for the specimen part for which to obtain the materialSampleId editor dialog.
+ @return html for editing materialSampleIDs for the specified specimen part.
+--->
+<cffunction name="getEditAMaterialSampleIDHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="guid_our_thing_id" type="string" required="yes">
+
+	<cfset variables.guid_our_thing_id = arguments.guid_our_thing_id>
+	<cfthread name="getEditMaterialSampleIDThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getCatalog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						collection.institution_acronym,
+						cataloged_item.collection_cde,
+						cataloged_item.cat_num,
+						specimen_part.part_name,
+						specimen_part.preserve_method,
+						specimen_part.collection_object_id AS part_id
+					FROM 
+						specimen_part
+						join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+						join collection on cataloged_item.collection_id = collection.collection_id
+						join guid_our_thing on guid_our_thing.sp_collection_object_id = specimen_part.collection_object_id
+					WHERE 
+						guid_our_thing.guid_our_thing_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.guid_our_thing_id#">
+				</cfquery>
+				<cfif getCatalog.recordcount EQ 0>
+					<cfthrow message="No guid_our_thing record found with guid_our_thing_id #encodeForHtml(arguments.guid_our_thing_id)#">
+				</cfif>
+				<cfquery name="getGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						GUID_OUR_THING_ID,
+						TIMESTAMP_CREATED,
+						TARGET_TABLE,
+						CO_COLLECTION_OBJECT_ID,
+						SP_COLLECTION_OBJECT_ID,
+						TAXON_NAME_ID,
+						RESOLVER_PREFIX,
+						SCHEME,
+						TYPE,
+						AUTHORITY,
+						LOCAL_IDENTIFIER,
+						ASSEMBLED_IDENTIFIER,
+						ASSEMBLED_RESOLVABLE,
+						assigning_agent.agent_name ASSIGNED_BY,
+						assigned_by_agent_id,
+						creating_agent.agent_name CREATED_BY,
+						LAST_MODIFIED,
+						internal_fg,
+						DISPOSITION,
+						GUID_IS_A  
+					FROM guid_our_thing
+						left join preferred_agent_name assigning_agent on guid_our_thing.assigned_by_agent_id = assigning_agent.agent_id
+						left join preferred_agent_name creating_agent on guid_our_thing.created_by_agent_id = creating_agent.agent_id
+					WHERE
+						guid_our_thing_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#guid_our_thing_id#">
+				</cfquery>
+				<!--- Edit existing --->
+				<div class="container-fluid">
+					<div class="row">
+						<div class="pt-1 px-2 col-12 float-left">
+							<div class="col-12 mt-0 bg-light border rounded pt-1 pb-0 px-3">
+								<h2 classs="h3">Existing dwc:MaterialSampleID</h2>
+								<ul>
+									<li>
+										For: #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num# #getCatalog.part_name# (#getCatalog.preserve_method#)
+									</li>
+									<li>
+										#getGuid.guid_is_a#: #getGuid.assembled_identifier#
+									</li>
+									<li>
+										Created: #getGuid.timestamp_created# by #getGuid.created_by#
+									</li>
+									<cfif len(getGuid.last_modified) GT 0>
+										<li>
+											Last Modified: #getGuid.last_modified# 
+										</li>
+									</cfif>
+								</ul>
+								<cfloop query="getGuid">
+									<form name="editMaterialSampleIDForm" id="editMaterialSampleIDForm" class="row mb-0 pt-1">
+										<input type="hidden" name="sp_collection_object_id" value="#getCatalog.part_id#">
+										<input type="hidden" name="guid_our_thing_id" value="#getGuid.guid_our_thing_id#">
+										<input type="hidden" name="method" value="updateMaterialSampleID">
+										<input type="hidden" name="returnformat" value="json">
+										<input type="hidden" name="queryformat" value="column">
+										<div class="form-row ml-3 mr-4 w-100">
+											<div class="col-12 col-md-3 px-1">
+												<label class="data-entry-label" for="resolver_prefix">Resolver Prefix</label>
+												<input type="text" class="data-entry-input" name="resolver_prefix" id="resolver_prefix_edit" value="#getGuid.resolver_prefix#">
+											</div>
+											<div class="col-12 col-md-3 px-1">
+												<label class="data-entry-label" for="scheme">Scheme</label>
+												<input type="text" class="data-entry-input" name="scheme" id="scheme_edit" value="#getGuid.scheme#">
+											</div>
+											<div class="col-12 col-md-3 px-1">
+												<label class="data-entry-label" for="type">Type</label>
+												<input type="text" class="data-entry-input" name="type" id="type_edit" value="#getGuid.type#">
+											</div>
+											<div class="col-12 col-md-3 px-1">
+												<label class="data-entry-label" for="authority">Authority</label>
+												<input type="text" class="data-entry-input" name="authority" id="authority_edit" value="#getGuid.authority#">
+											</div>
+											<div class="col-12 col-md-3 px-1">
+												<label class="data-entry-label" for="local_identifier">Local Identifier</label>
+												<input type="text" class="data-entry-input" name="local_identifier" id="local_identifier_edit" value="#getGuid.local_identifier#">
+											</div>
+											<div class="col-12 col-md-6 px-1">
+												<label class="data-entry-label" for="assembled_identifier">Full Identifier</label>
+												<input type="text" class="data-entry-input" name="assembled_identifier" id="assembled_identifier_edit" value="#getGuid.assembled_identifier#">
+											</div>
+											<div class="col-12 col-md-6 px-1">
+												<label class="data-entry-label" for="assembled_resolvable">Resolvable Identifier</label>
+												<input type="text" class="data-entry-input" name="assembled_resolvable" id="assembled_resolvable_edit" value="#getGuid.assembled_resolvable#">
+											</div>
+											<div class="col-12 col-md-6 px-1">
+												<label class="data-entry-label" for="assigned_by">Assigned By</label>
+												<input type="hidden" name="assigned_by_agent_id" value="#getGuid.assigned_by_agent_id#" id="assigned_by_agent_id_edit">
+												<input type="text" class="data-entry-input" name="assigned_by" id="assigned_by_edit" value="#getGuid.assigned_by#">
+												<script>
+													$(document).ready(function() {
+														makeAgentAutocompleteMeta("assigned_by_edit","assigned_by_agent_id_edit",true);
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-6 px-1">
+												<button type="button" class="btn btn-primary mt-2" onclick="editOtherIDSubmit();">Save</button>
+												<output id="editMaterialSampleIDResultDiv"></output>
+											</div>
+										</div>
+									</form>
+									<script>
+										function editOtherIDSubmit() { 
+											setFeedbackControlState("editMaterialSampleIDResultDiv","saving")
+											$.ajax({
+												url : "/specimens/component/functions.cfc",
+												type : "post",
+												dataType : "json",
+												data: $("##editMaterialSampleIDForm").serialize(),
+												success: function (result) {
+													console.log(result);
+													if (result && result[0] && result[0].status == "saved") {
+														setFeedbackControlState("editMaterialSampleIDResultDiv","saved");
+														reloadPartsAndSection();
+													} else {
+														// we shouldn't be able to reach this block, backing error should return an http 500 status
+														setFeedbackControlState("editMaterialSampleIDResultDiv","error");
+														messageDialog('Error saving materialSamleID', 'Error saving materialSampleID.');
+													}
+												},
+												error: function(jqXHR,textStatus,error){
+													setFeedbackControlState("editMaterialSampleIDResultDiv","error")
+													handleFail(jqXHR,textStatus,error,"saving materialSampleID");
+												}
+											});
+										};
+									</script>
+								</cfloop>
+							</div>
+						</div>
+					</div>
+				</div>
+			<cfcatch>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getEditMaterialSampleIDThread"/>
+	<cfreturn getEditMaterialSampleIDThread.output>
+</cffunction>
+
+<!---
+ * updateMaterialSampleID update a guid_our_thing record for a materialSampleID
+ *
+ * @param sp_collection_object_id the collection_object_id of the specimen part to which the materialSampleID applies.
+ * @param guid_our_thing_id the primary key value of the record to update
+ * @param resolver_prefix new the resolver prefix for the guid
+ * @param scheme the new scheme for the guid, e.g. urn
+ * @param type the new type for the guid, e.g. uuuid
+ * @param authority the new authority part of the guid
+ * @param local_identifier the new local identifier part of the guid
+ * @param assembled_identifier the new full assembled identifier 
+ * @param assembled_resolvable the new resolvable uri form of the guid
+ * @param assigned_by source who assigned the materialSampleID
+ * @param assigned_by_agent_id the agent_id of the source who assigned the materialSampleID
+ *
+ * @return a json structure with status=saved, or an http 500 response.
+--->
+<cffunction name="updateMaterialSampleID" returntype="any" access="remote" returnformat="json">
+	<cfargument name="sp_collection_object_id" type="string" required="yes">
+	<cfargument name="guid_our_thing_id" type="string" required="yes">
+	<cfargument name="resolver_prefix" type="string" required="no" default=''>
+	<cfargument name="scheme" type="string" required="no" default="">
+	<cfargument name="type" type="string" required="no" default="">
+	<cfargument name="authority" type="string" required="no" default="">
+	<cfargument name="local_identifier" type="string" required="no" default="">
+	<cfargument name="assembled_identifier" type="string" required="no" default="">
+	<cfargument name="assembled_resolvable" type="string" required="no" default="">
+	<cfargument name="assigned_by" type="string" required="no" default="">
+	<cfargument name="assigned_by_agent_id" type="string" required="no" default="">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="updateMatSample" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateMatSample_result">
+				UPDATE guid_our_thing
+				SET
+					GUID_IS_A = 'materialSampleID',
+					TARGET_TABLE = 'SPECIMEN_PART',
+					TAXON_NAME_ID = null,
+					SP_COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sp_collection_object_id#">,
+					CO_COLLECTION_OBJECT_ID = null,
+					resolver_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.resolver_prefix#">,
+					scheme = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.scheme#">,
+					type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.type#">,
+					authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.authority#">,
+					local_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.local_identifier#">,
+					assembled_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_identifier#">,
+					assembled_resolvable = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_resolvable#">,
+					assigned_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assigned_by_agent_id#">,
+					last_modified = CURRENT_DATE
+				WHERE 
+					guid_our_thing_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.guid_our_thing_id#">
+			</cfquery>
+			<cfif updateMatSample_result.recordcount EQ 1>
+				<cftransaction action="commit"/>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "saved">
+				<cfset row["id"] = "#guid_our_thing_id#">
+				<cfset data[1] = row>
+			<cfelse>
+				<cfthrow message="Error other than one row affected.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- 
+ * deleteGuidOurThing delete a guid_our_thing record.
+ *
+ * @param guid_our_thing_id the primary key value of the record to remove.
+ *
+ * @return a json structure with status=deleted, or an http 500 response.
+--->
+<cffunction name="deleteGuidOurThing" returntype="any" access="remote" returnformat="json">
+	<cfargument name="guid_our_thing_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>	
+			<cfquery name="deleteGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteGuid_result">
+				DELETE FROM guid_our_thing
+				WHERE guid_our_thing_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.guid_our_thing_id#">
+			</cfquery>
+			<cfif deleteGuid_result.recordcount EQ 1>
+				<cftransaction action="commit"/>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "deleted">
+				<cfset data[1] = row>
+			<cfelse>
+				<cfthrow message="Error other than one row affected.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---
+ * addGuidOurThing insert a guid_our_thing record for any supported guid type, assumes this is an externally assigned ID.
+ *
+ * @param co_collection_object_id the collection_object_id of the specimen part to which the guid applies as an occurrenceID.
+ * @param sp_collection_object_id the collection_object_id of the specimen part to which the guid applies as a materialSampleID.
+ * @param taxon_name_id the taxon_name_id of the taxon to which the guid applies as a taxonID.
+ * @param guid_is_a the type of guid, e.g. occurrenceID, materialSampleID, taxonID
+ * @param target_table the target table for the guid, e.g. SPECIMEN_PART, TAXON_NAME	
+ * @param resolver_prefix the resolver prefix for the new guid
+ * @param scheme the scheme for the new guid, e.g. urn
+ * @param type the type for the new guid, e.g. uuuid
+ * @param authority the authority part of the new guid
+ * @param local_identifier the local identifier part of the new guid
+ * @param assembled_identifier the full assembled identifier 
+ * @param assembled_resolvable the resolvable uri form of the new guid
+ * @param assigned_by source who assigned the materialSampleID
+ * @param assigned_by_agent_id the agent_id of the source who assigned the materialSampleID
+ *
+ * @return a json structure with status=saved, or an http 500 response.
+--->
+<cffunction name="addGuidOurThing" returntype="any" access="remote" returnformat="json">
+	<cfargument name="co_collection_object_id" type="string" required="no">
+	<cfargument name="sp_collection_object_id" type="string" required="no">
+	<cfargument name="taxon_name_id" type="string" required="no">
+   <cfargument name="guid_is_a" type="string" required="yes">
+   <cfargument name="target_table" type="string" required="yes">
+	<cfargument name="resolver_prefix" type="string" required="no" default=''>
+	<cfargument name="scheme" type="string" required="no" default="">
+	<cfargument name="type" type="string" required="no" default="">
+	<cfargument name="authority" type="string" required="no" default="">
+	<cfargument name="local_identifier" type="string" required="no" default="">
+	<cfargument name="assembled_identifier" type="string" required="no" default="">
+	<cfargument name="assembled_resolvable" type="string" required="no" default="">
+	<cfargument name="assigned_by" type="string" required="no" default="">
+	<cfargument name="assigned_by_agent_id" type="string" required="no" default="">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfset validParams = false>
+			<!--- check that guid_is_a and target_table are a supported combination and have expected key --->
+			<cfif (arguments.guid_is_a EQ "materialSampleID" AND arguments.target_table EQ "SPECIMEN_PART" AND StructKeyExists(arguments,"sp_collection_object_id") AND IsNumeric(arguments.sp_collection_object_id))>
+				<cfset validParams = true>
+				<cfif len(co_collection_object_id) GT 0>
+					<cfthrow message="co_collection_object_id should not be provided when guid_is_a is materialSampleID">
+				</cfif>
+				<cfif len(taxon_name_id) GT 0>
+					<cfthrow message="taxon_name_id should not be provided when guid_is_a is materialSampleID">
+				</cfif>
+			<cfelseif (arguments.guid_is_a EQ "occurrenceID" AND arguments.target_table EQ "SPECIMEN_PART" AND StructKeyExists(arguments,"co_collection_object_id") AND IsNumeric(arguments.co_collection_object_id))>
+				<cfset validParams = true>
+				<cfif len(sp_collection_object_id) GT 0>
+					<cfthrow message="sp_collection_object_id should not be provided when guid_is_a is occurrenceID">
+				</cfif>
+				<cfif len(taxon_name_id) GT 0>
+					<cfthrow message="taxon_name_id should not be provided when guid_is_a is occurrenceID">
+				</cfif>
+			<cfelseif (arguments.guid_is_a EQ "taxonID" AND arguments.target_table EQ "TAXONOMY" AND StructKeyExists(arguments,"taxon_name_id") AND IsNumeric(arguments.taxon_name_id))>
+				<cfset validParams = true>
+				<cfif len(sp_collection_object_id) GT 0>
+					<cfthrow message="sp_collection_object_id should not be provided when guid_is_a is taxonID">
+				</cfif>
+				<cfif len(co_collection_object_id) GT 0>
+					<cfthrow message="co_collection_object_id should not be provided when guid_is_a is taxonID">
+				</cfif>
+			</cfif>
+			<cfif NOT validParams>
+				<cfthrow message="Invalid combination or missing parameters for the specified guid_is_a and target_table combination.">
+			</cfif>
+			<cfquery name="addGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="addMatSampe_result">
+				INSERT INTO guid_our_thing
+				(
+						GUID_IS_A,
+						TARGET_TABLE,
+						CO_COLLECTION_OBJECT_ID,
+						SP_COLLECTION_OBJECT_ID,
+						TAXON_NAME_ID,
+						RESOLVER_PREFIX,
+						SCHEME,
+						TYPE,
+						AUTHORITY,
+						LOCAL_IDENTIFIER,
+						ASSEMBLED_IDENTIFIER,
+						ASSEMBLED_RESOLVABLE,
+						ASSIGNED_BY_agent_id,
+						disposition,
+						CREATED_BY_agent_id,
+						internal_fg
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.guid_is_a#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.target_table#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.co_collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sp_collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxon_name_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.resolver_prefix#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.scheme#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.authority#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.local_identifier#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_identifier#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_resolvable#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assigned_by_agent_id#">,
+					'exists',
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentID#">,
+					0
+				) 
+			</cfquery>
+			<cfif addGuid_result.recordcount EQ 1>
+				<!--- get new guid pk value --->
+				<cfquery name="getPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getPK_result">
+					SELECT guid_our_thing_id
+					FROM guid_our_thing
+					WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#addGuid_result.GENERATEDKEY#">
+				</cfquery>
+				<cftransaction action="commit"/>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "saved">
+				<cfset row["id"] = "#getPK.guid_our_thing_id#">
+				<cfset data[1] = row>
+			<cfelse>
+				<cfthrow message="Error other than one row affected.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---
+ * updateGuidOurThing update a guid_our_thing record.
+ * @param co_collection_object_id the collection_object_id of the specimen part to which the guid applies as an occurrenceID.
+ * @param sp_collection_object_id the collection_object_id of the specimen part to which the guid applies as a materialSampleID.
+ * @param taxon_name_id the taxon_name_id of the taxon to which the guid applies as a taxonID.
+ * @param guid_is_a the type of guid, e.g. occurrenceID, materialSampleID, taxonID
+ * @param target_table the target table for the guid, e.g. SPECIMEN_PART, TAXON_NAME
+ * @param guid_our_thing_id the primary key value of the record to update
+ * @param resolver_prefix new the resolver prefix for the guid
+ * @param scheme the new scheme for the guid, e.g. urn
+ * @param type the new type for the guid, e.g. uuuid
+ * @param authority the new authority part of the guid
+ * @param local_identifier the new local identifier part of the guid
+ * @param assembled_identifier the new full assembled identifier 
+ * @param assembled_resolvable the new resolvable uri form of the guid
+ * @param assigned_by source who assigned the materialSampleID
+ * @param assigned_by_agent_id the agent_id of the source who assigned the materialSampleID
+ *
+ * @return a json structure with status=saved, or an http 500 response.
+--->
+<cffunction name="updateGuidOurThing" returntype="any" access="remote" returnformat="json">
+	<cfargument name="sp_collection_object_id" type="string" required="no">
+	<cfargument name="co_collection_object_id" type="string" required="no">
+   <cfargument name="taxon_name_id" type="string" required="no">
+   <cfargument name="guid_is_a" type="string" required="yes">
+   <cfargument name="target_table" type="string" required="yes">
+	<cfargument name="guid_our_thing_id" type="string" required="yes">
+	<cfargument name="resolver_prefix" type="string" required="no" default=''>
+	<cfargument name="scheme" type="string" required="no" default="">
+	<cfargument name="type" type="string" required="no" default="">
+	<cfargument name="authority" type="string" required="no" default="">
+	<cfargument name="local_identifier" type="string" required="no" default="">
+	<cfargument name="assembled_identifier" type="string" required="no" default="">
+	<cfargument name="assembled_resolvable" type="string" required="no" default="">
+	<cfargument name="assigned_by" type="string" required="no" default="">
+	<cfargument name="assigned_by_agent_id" type="string" required="no" default="">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="updateGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateMatSampe_result">
+				UPDATE guid_our_thing
+				SET
+					GUID_IS_A = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.guid_is_a#">,
+					TARGET_TABLE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.target_table#">,
+					TAXON_NAME_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxon_name_id#">,
+					SP_COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sp_collection_object_id#">,
+					CO_COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.co_collection_object_id#">,
+					resolver_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.resolver_prefix#">,
+					scheme = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.scheme#">,
+					type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.type#">,
+					authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.authority#">,
+					local_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.local_identifier#">,
+					assembled_identifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_identifier#">,
+					assembled_resolvable = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assembled_resolvable#">,
+					assigned_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.assigned_by_agent_id#">,
+					last_modified = CURRENT_DATE
+				WHERE 
+					guid_our_thing_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.guid_our_thing_id#">
+			</cfquery>
+			<cfif updateGuid_result.recordcount EQ 1>
+				<cftransaction action="commit"/>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "saved">
+				<cfset row["id"] = "#guid_our_thing_id#">
+				<cfset data[1] = row>
+			<cfelse>
+				<cfthrow message="Error other than one row affected.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
 </cfcomponent>
