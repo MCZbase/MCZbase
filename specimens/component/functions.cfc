@@ -5446,7 +5446,7 @@ limitations under the License.
 									<input type="hidden" name="original_publication_id" id="orig_publication_id#i#" value="#publication_id#">
 									<input type="hidden" name="original_cited_taxon_name_id" id="orig_cited_name_id#i#" value="#cited_taxon_name_id#">
 									<input type="hidden" name="method" value="updateCitation">
-									<div class="row mx-0 border rounded py-1 mb-0">
+									<div class="row mx-0 border rounded pt-3 pb-2 mb-0">
 										<div class="col-12 pb-1">
 											<label for="cit_publication#i#" class="data-entry-label">
 												Publication 
