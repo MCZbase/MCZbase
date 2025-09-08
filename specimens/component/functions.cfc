@@ -2828,11 +2828,11 @@ limitations under the License.
 							<!--- Add form --->
 							<div class="card add-form mt-2">
 								<div class="card-header">
-									<h2 class="h3">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
+									<h2 class="h3 px-2">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								</div>
 								<div class="card-body mt-2 py-0">
 									<form name="addOtherIDForm" id="addOtherIDForm" class="form-row mx-0 px-2 mb-0 pt-1">
-										<div class="col-12 col-md-4 pl-0 pr-2 mt-2 py-0">
+										<div class="col-12 col-md-4 px-0 mt-2 py-0">
 											<input type="hidden" name="collection_object_id" value="#getCatalog.collection_object_id#">
 											<input type="hidden" name="method" value="addNewOtherID">
 											<input type="hidden" name="returnformat" value="json">
