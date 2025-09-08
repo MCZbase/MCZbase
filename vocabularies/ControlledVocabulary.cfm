@@ -69,8 +69,9 @@
 	<cfif confirm.recordcount NEQ 1>
 		<cfthrow message="Unknown controlled vocabulary table">
 	</cfif>
+	<cfset showingJust = "">
+	<cfset collection_cde = "">
 	<cfif isDefined("url.collection_cde") and len(url.collection_cde) GT 0>
-		<cfset collection_cde = trim(url.collection_cde)>
 		<cfquery name="checkForCollectionCde" datasource="uam_god">
 			SELECT count(*) as column_exists
 			FROM all_tab_columns
@@ -78,12 +79,10 @@
 				and column_name = 'COLLECTION_CDE'
 				and owner = 'MCZBASE'
 		</cfquery>
-		<cfif checkForCollectionCde.column_exists EQ 0>
-			<!--- table does not have collection_cde field, so ignore this limit --->
-			<cfset collection_cde = "">
+		<cfif checkForCollectionCde.column_exists GT 0>
+			<cfset collection_cde = trim(url.collection_cde)>
+			<cfset showingJust = "Showing values for just collection code #encodeForHtml(collection_cde)#">
 		</cfif>
-	<cfelse>
-		<cfset collection_cde = "">
 	</cfif>
 	<cfquery name="docs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		SELECT * 
@@ -97,6 +96,9 @@
 		<div class="row">
 			<div class="col-12">
 			<h3>Documentation for code table <strong>#tableName#</strong>:</h3>
+			<cfif len(showingJust) GT 0>
+				<div>#showingJust#</div>
+			</cfif>
 			<cfif table is "ctmedia_license">
 			<table class="table table-responsive table-striped d-lg-table">
 				<thead class="thead-light">
