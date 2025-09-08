@@ -3034,7 +3034,7 @@ limitations under the License.
 		<cfquery name="checkParse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkParse_result">
 			select distinct display_value
 			from coll_obj_other_id_num 
-			where collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+			where collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collection_object_id#">
 			group by display_value
 			having count(*) > 1
 		</cfquery>
