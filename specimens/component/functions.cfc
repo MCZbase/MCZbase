@@ -5191,7 +5191,7 @@ limitations under the License.
 										<h2 class="h3 my-0 px-1 bp-1">Add New Citation of #guid#</h2>
 									</div>
 									<div class="card-body">
-										<form name="newCitation" id="newCitation">
+										<form name="newCitation" id="newCitation" class="mb-0">
 											<input type="hidden" name="collection_object_id" value="#getCatItem.collection_object_id#">
 											<input type="hidden" name="method" value="createCitation">
 											<div class="row mx-0 pb-2 col-12 px-0 mt-2 mb-1">
@@ -5201,7 +5201,7 @@ limitations under the License.
 													<cfset cols = "col-12">
 												</cfif>
 												<div class="float-left #cols# px-1">
-													<label for="publication" class="data-entry-label">Publication <span id="lookedUpPublicationLink"></span></label>
+													<label for="publication" class="data-entry-label mb-1">Publication <span id="lookedUpPublicationLink"></span></label>
 													<input type="hidden" name="publication_id" id="publication_id" value="">
 													<input type="text" id="publication" value="" class="data-entry-input reqdClr" required>
 													<script>
@@ -5241,16 +5241,16 @@ limitations under the License.
 													</script>
 												</div>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
-													<div class="col-12 col-md-3 mt-3 float-right">
-														<a class="btn btn-xs btn-outline-primary px-2 float-right" target="_blank" href="/publications/Publication.cfm?action=new">Add New Publication <i class="fas fa-external-link-alt"></i></a>
+													<div class="col-12 col-md-3 mt-3 pb-1 float-right">
+														<a class="btn btn-xs btn-outline-primary px-2 py-1 float-right" target="_blank" href="/publications/Publication.cfm?action=new">Add New Publication <i class="fas fa-external-link-alt"></i></a>
 													</div>
 												</cfif>
-												<div class="float-left col-12 col-md-4 px-1">
+												<div class="float-left col-12 col-md-4 pb-1 px-1">
 													<label for="cited_sci_Name" class="data-entry-label">Cited Scientific Name</label>
 													<input name="citsciname" class="data-entry-input reqdClr" id="cited_sci_Name" type="text" required>
 													<input type="hidden" name="cited_taxon_name_id" id="cited_taxon_name_id" value="">
 												</div>
-												<div class="float-left col-12 col-md-3 px-1">
+												<div class="float-left col-12 col-md-3 pb-1 px-1">
 													<label for="type_status" class="data-entry-label">Citation Type</label>
 													<select name="type_status" id="type_status" class="data-entry-select reqdClr" required>
 														<option value=""></option>
@@ -5259,21 +5259,21 @@ limitations under the License.
 														</cfloop>
 													</select>
 												</div>
-												<div class="float-left col-12 col-md-2 px-1">
+												<div class="float-left col-12 col-md-2 pb-1 px-1">
 													<label for="occurs_page_number" class="data-entry-label">Page ##</label>
 													<input name="occurs_page_number" id="occurs_page_number" class="data-entry-input" type="text" value="">
 												</div>
-												<div class="float-left col-12 col-md-3 px-1">
+												<div class="float-left col-12 col-md-3 pb-1 px-1">
 													<label for="citation_page_uri" class="data-entry-label">Page URI</label>
 													<input name="citation_page_uri" id="citation_page_uri" class="data-entry-input" type="text" value="">
 												</div>
-												<div class="float-left col-12 px-1">
+												<div class="float-left col-12 pb-1 px-1 pb-1">
 													<label for="citation_remarks" class="data-entry-label">Remarks	(<span id="length_remarks"></span>)</label>
 													<textarea id="citation_remarks" name="citation_remarks" 
 														onkeyup="countCharsLeft('citation_remarks', 4000, 'length_remarks');"
 														class="data-entry-textarea autogrow mb-1" maxlength="4000"></textarea>
 												</div>
-												<div class="col-12 col-md-12 px-1 mt-2">
+												<div class="col-12 col-md-12 px-1 mt-2 pb-1">
 													<button id="newCitation_submit" value="Create" class="btn btn-xs btn-primary" title="Create Citation">Create Citation</button>
 													<output id="newCitation_output"></output>
 												</div>
@@ -5428,8 +5428,8 @@ limitations under the License.
 					publication.published_year DESC
 			</cfquery>
 			
-			<div class="row mx-0">
-				<div class="bg-light p-2 col-12 row">
+			<div class="row">
+				<div class="bg-light p-2 col-12">
 					<h1 class="h3">Edit Existing Citations</h1>
 					<div class="col-12 px-0 pb-3">
 						<cfif getCited.recordCount EQ 0>
@@ -5445,10 +5445,9 @@ limitations under the License.
 									<input type="hidden" name="original_collection_object_id" id="orig_col_obj_id#i#"  value="#collection_object_id#">
 									<input type="hidden" name="original_publication_id" id="orig_publication_id#i#" value="#publication_id#">
 									<input type="hidden" name="original_cited_taxon_name_id" id="orig_cited_name_id#i#" value="#cited_taxon_name_id#">
-
 									<input type="hidden" name="method" value="updateCitation">
-									<div class="row mx-0 border py-1 mb-0">
-										<div class="col-12">
+									<div class="row mx-0 border rounded py-1 mb-0">
+										<div class="col-12 pb-1">
 											<label for="cit_publication#i#" class="data-entry-label">
 												Publication 
 												(<a href="/publications/showPublication.cfm?publication_id=#publication_id#" target="_blank">#formpubshort#</a>)
@@ -5456,12 +5455,12 @@ limitations under the License.
 											<input type="hidden" name="publication_id" id="cit_publication_id#i#" value="#publication_id#">
 											<input type="text" class="data-entry-input" id="cit_publication#i#" name="publication" value="#formpublong#">
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-4 pb-1">
 											<label for="cit_cited_name#i#" class="data-entry-label">Cited Scientific Name</label>
 											<input type="hidden" name="cited_taxon_name_id" id="cit_cited_name_id#i#" value="#cited_taxon_name_id#">
 											<input type="text" class="data-entry-input reqdClr" id="cit_cited_name#i#" name="cited_name" value="#citSciName#" required>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 pb-1">
 											<label for="cit_type_status#i#" class="data-entry-label">Citation Type</label>
 											<select name="type_status" id="cit_type_status#i#" class="data-entry-select reqdClr" required>
 												<option value=""></option>
@@ -5475,22 +5474,22 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-2">
+										<div class="col-12 col-md-2 pb-1">
 											<label for="cit_page#i#" class="data-entry-label">Page ##</label>
 											<input type="text" class="data-entry-input" id="cit_page#i#" name="occurs_page_number" value="#occurs_page_number#">
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 pb-1">
 											<label for="cit_page_uri#i#" class="data-entry-label">Page URI</label>
 											<input type="text" class="data-entry-input" id="cit_page_uri#i#" name="citation_page_uri" value="#citation_page_uri#">
 										</div>
-										<div class="col-12 col-md-9">
+										<div class="col-12 col-md-9 pb-1">
 											<label for="cit_remarks#i#" class="data-entry-label">Remarks (<span id="length_remarks_#i#"></span>)</label>
 											<textarea id="cit_remarks#i#" name="citation_remarks" 
 												onkeyup="countCharsLeft('cit_remarks#i#', 4000, 'length_remarks_#i#');"
 												class="data-entry-textarea autogrow mb-1" maxlength="4000"
 											>#citation_remarks#</textarea>
 										</div>
-										<div class="col-12 col-md-3 pt-2">
+										<div class="col-12 col-md-3 pt-2 pb-1">
 											<button id="cit_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Citation">Save</button>
 											<button id="cit_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Citation">Delete</button>
 											<output id="cit_output#i#"></output>
