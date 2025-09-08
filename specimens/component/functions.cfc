@@ -2895,8 +2895,10 @@ limitations under the License.
 										<input type="hidden" name="coll_obj_other_id_num_id" value="#coll_obj_other_id_num_id#">
 										<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIDs.recordcount#">
 									
-										<div class="border bg-light rounded form-row" id="otherIDEditControls#i#">
-											<div class="col-12 border-bottom py-1">
+
+										<div class="border bg-light rounded mx-0 px-2 mt-3 form-row" id="otherIDEditControls#i#">
+											<div class="col-12 border-bottom py-3 form-row">
+
 												<div class="col-12 col-xl-4">
 													Identifier: #getIDs.other_id_type#:
 													<strong> 
