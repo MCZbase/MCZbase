@@ -5429,7 +5429,7 @@ limitations under the License.
 			</cfquery>
 			
 			<div class="row">
-				<div class="bg-light p-2 col-12">
+				<div class="p-2 col-12">
 					<h1 class="h3">Edit Existing Citations</h1>
 					<div class="col-12 px-0 pb-3">
 						<cfif getCited.recordCount EQ 0>
