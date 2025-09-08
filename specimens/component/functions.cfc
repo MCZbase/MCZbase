@@ -2829,9 +2829,11 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<!--- Add form --->
-							<div class="add-form my-3">
-								<div class="add-form-header pt-1 px-2 col-12 float-left">
-									<h2 class="h3 my-0 px-1 pb-1">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
+							<div class="card">
+								<div class="add-form card-header my-3">
+									<div class="add-form-header pt-1 px-2 col-12 float-left">
+										<h2 class="h3 my-0 px-1 pb-1">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
+									</div>
 								</div>
 								<div class="card-body mt-2 pt-2 py-0">
 									<form name="addOtherIDForm" id="addOtherIDForm" class="row mb-0 pt-1">
@@ -2896,12 +2898,10 @@ limitations under the License.
 							</div>
 
 							<!--- List/Edit existing --->
-							<div class="container-fluid">
-								<div class="row">
-									<div class="col-12 my-0 px-1 pt-1 pb-0">
-										<h1 class="h3 mb-1">Edit Existing Identifiers</h1>
-										<cfset i=1>
-										<cfloop query="getIDs">
+							<div class="col-12 my-0 px-1 pt-1 pb-0">
+								<h1 class="h3 mb-1">Edit Existing Identifiers</h1>
+								<cfset i=1>
+								<cfloop query="getIDs">
 											<form name="getIDs#i#" id="editOtherIDForm#i#" class="mb-0">
 												<input type="hidden" name="method" value="updateOtherID" id="getIDsMethod#i#">
 												<input type="hidden" name="returnformat" value="json">
@@ -2957,8 +2957,7 @@ limitations under the License.
 											</form>
 											<cfset i=#i#+1>
 										</cfloop>
-
-										<script>
+								<script>
 											function doDelete(num) {
 												$("##getIDsMethod"+num).val('deleteOtherID');
 												console.log($("##getIDsMethod"+num).val());
@@ -3011,10 +3010,8 @@ limitations under the License.
 												});
 											};
 										</script> 
-									</div>
-								</div>
-							</div><!--- End of List/Edit existing --->
-
+							</div>
+							<!--- End of List/Edit existing --->
 						</div>
 					</div>
 				</div>
