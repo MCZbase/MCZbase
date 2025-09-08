@@ -2835,7 +2835,7 @@ limitations under the License.
 								</div>
 								<div class="card-body mt-2 pt-2 pb-0">
 									<form name="addOtherIDForm" id="addOtherIDForm" class="row mb-0 pt-1">
-										<div class="col-12 col-md-3 mb-2">
+										<div class="col-12 col-md-3 px-md-1 mb-2">
 											<input type="hidden" name="collection_object_id" value="#getCatalog.collection_object_id#">
 											<input type="hidden" name="method" value="addNewOtherID">
 											<input type="hidden" name="returnformat" value="json">
@@ -2847,19 +2847,19 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-2 mb-2">
+										<div class="col-12 col-md-2 px-md-1 mb-2">
 											<label class="data-entry-label" id="other_id_prefix">Other ID Prefix</label>
 											<input type="text" class="reqdClr data-entry-input" name="other_id_prefix" size="6">
 										</div>
-										<div class="col-12 col-md-3 mb-2">
+										<div class="col-12 col-md-3 px-md-1 mb-2">
 											<label class="data-entry-label" id="other_id_number">Other ID Number</label>
 											<input type="text" class="reqdClr data-entry-input" name="other_id_number" size="6">
 										</div>
-										<div class="col-12 col-md-2 mb-2">
+										<div class="col-12 col-md-2 px-md-1 mb-2">
 											<label class="data-entry-label" id="other_id_suffix">Other ID Suffix</label>
 											<input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">
 										</div>
-										<div class="col-12 col-md-2">
+										<div class="col-12 col-xl-2 px-md-1">
 											<input type="button" value="Create Identifier" class="btn btn-xs btn-primary mt-3" onClick="if (checkFormValidity($('##addOtherIDForm')[0])) { addOtherIDSubmit();  } ">
 											<output id="addOtherIDResultDiv" class="d-block text-danger">&nbsp;</output>
 										</div>
