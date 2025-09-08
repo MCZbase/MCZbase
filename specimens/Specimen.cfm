@@ -502,7 +502,7 @@ limitations under the License.
 							<li class="list-group-item px-0 mx-1">
 								<span>
 									<a href="/guid/#firstGUID#" onClick=" event.preventDefault(); $('##firstRecordForm').submit();">
-										<img src="/images/first.gif" alt="[ First Record ]">
+										<img src="/images/first.gif" class="mt-1" alt="[ First Record ]">
 									</a>
 									<form action="/guid/#firstGUID#" method="post" id="firstRecordForm">
 										<cfif len(resultBit) GT 0>
@@ -516,7 +516,7 @@ limitations under the License.
 							<li class="list-group-item px-0 mx-1">
 								<span>
 									<a href="/guid/#prevGUID#" onClick=" event.preventDefault(); $('##previousRecordForm').submit();">
-										<img src="/images/previous.gif" alt="[ Previous Record ]">
+										<img src="/images/previous.gif" class="mt-1" alt="[ Previous Record ]">
 									</a>
 									<form action="/guid/#prevGUID#" method="post" id="previousRecordForm">
 										<cfif len(resultBit) GT 0>
