@@ -215,9 +215,9 @@ limitations under the License.
 												</cfif>
 											</cfif>
 											<cfif len(local.restrictions) GT 0>
-												<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
+												<h3 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
 													<span class="text-danger font-weight-bold" style="white-space: nowrap;">#local.restrictions#</span>
-												</h2>
+												</h3>
 											</cfif>
 										</div>
 									</div>
@@ -287,7 +287,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 px-xl-0 small">
 											<cfif isMixed> 
-												<ul style="list-style: disc;padding: .5rem 1.5rem 0 1.5rem;">
+												<ul style="list-style: disc;padding: .25rem 1.5rem 0 1.5rem;margin-bottom:0.5rem;">
 													<li class="h5 mb-1">
 											</cfif>
 											occurrenceID: <a href="https://mczbase.mcz.harvard.edu/guid/#summary.GUID#">https://mczbase.mcz.harvard.edu/guid/#summary.GUID#</a>
