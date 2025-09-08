@@ -2827,7 +2827,7 @@ limitations under the License.
 						<div class="col-12">
 							<!--- Add form --->
 							<div class="card add-form mt-2">
-								<div class="card-header">
+								<div class="add-form-header">
 									<h2 class="h3 px-2">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								</div>
 								<div class="card-body mt-2 py-0">
