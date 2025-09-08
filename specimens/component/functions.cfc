@@ -2834,7 +2834,7 @@ limitations under the License.
 									<h2 class="h3">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								</div>
 								<div class="card-body mt-2 pt-2 pb-0">
-									<form name="addOtherIDForm" id="addOtherIDForm" class="row mb-0 pt-1">
+									<form name="addOtherIDForm" id="addOtherIDForm" class="form-row mb-0 pt-1">
 										<div class="col-12 col-md-3 px-md-1 mb-2">
 											<input type="hidden" name="collection_object_id" value="#getCatalog.collection_object_id#">
 											<input type="hidden" name="method" value="addNewOtherID">
@@ -2906,9 +2906,9 @@ limitations under the License.
 										<input type="hidden" name="coll_obj_other_id_num_id" value="#coll_obj_other_id_num_id#">
 										<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIDs.recordcount#">
 									
-										<div class="row p-1 border bg-light rounded" id="otherIDEditControls#i#">
-											<div class="border-bottom">
-												<div class="col-12 col-md-4">
+										<div class="border bg-light rounded" id="otherIDEditControls#i#">
+											<div class="col-12 border-bottom">
+												<div class="col-12 col-xl-4">
 													Identifier: #getIDs.other_id_type#:
 													<strong> 
 														<cfif getIds.base_url NEQ "">
@@ -2918,7 +2918,7 @@ limitations under the License.
 														</cfif>
 													</strong>
 												</div>
-												<div class="col-12 col-md-8">
+												<div class="col-12 col-xl-8">
 													<cfif getIds.description NEQ "">Description:</cfif> #getIDs.description#
 												</div>
 											</div>
