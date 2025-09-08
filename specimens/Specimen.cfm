@@ -644,7 +644,7 @@ limitations under the License.
 							<li class="list-group-item px-0 mx-1">
 								<span>
 									<a href="/guid/#nextGUID#" onClick=" event.preventDefault(); $('##nextRecordForm').submit();">
-										<img src="/images/next.gif" alt="[ Next Record ]">
+										<img src="/images/next.gif" class="mt-1" alt="[ Next Record ]">
 									</a>
 									<form action="/guid/#nextGUID#" method="post" id="nextRecordForm">
 										<cfif len(resultBit) GT 0>
@@ -658,7 +658,7 @@ limitations under the License.
 							<li class="list-group-item px-0 mx-1">
 								<span>
 									<a href="/guid/#lastGUID#" onClick=" event.preventDefault(); $('##lastRecordForm').submit();">
-										<img src="/images/last.gif" alt="[ Last Record ]">
+										<img src="/images/last.gif" class="mt-1" alt="[ Last Record ]">
 									</a>
 									<form action="/guid/#lastGUID#" method="post" id="lastRecordForm">
 										<cfif len(resultBit) GT 0>
@@ -671,10 +671,10 @@ limitations under the License.
 							</li>
 						<cfelse>
 							<li class="list-group-item px-0 mx-1">
-								<img src="/images/no_next.gif" alt="[ inactive button ]">
+								<img src="/images/no_next.gif" class="mt-1" alt="[ inactive button ]">
 							</li>
 							<li class="list-group-item px-0 mx-1">
-								<img src="/images/no_last.gif" alt="[ inactive button ]">
+								<img src="/images/no_last.gif" class="mt-1" alt="[ inactive button ]">
 							</li>
 						</cfif>
 					</cfif>
