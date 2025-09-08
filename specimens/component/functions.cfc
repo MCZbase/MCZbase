@@ -2807,9 +2807,6 @@ limitations under the License.
 					SELECT DISTINCT
 						coll_obj_other_id_num.COLL_OBJ_OTHER_ID_NUM_ID,
 						coll_obj_other_id_num.display_value,
-						coll_obj_other_id_num.other_id_prefix,
-						coll_obj_other_id_num.other_id_number,
-						coll_obj_other_id_num.other_id_suffix,
 						coll_obj_other_id_num.other_id_type,
 						ctcoll_other_id_type.description,
 						ctcoll_other_id_type.base_url,
@@ -2833,9 +2830,9 @@ limitations under the License.
 								<div class="card-header">
 									<h2 class="h3">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								</div>
-								<div class="card-body mt-2 pt-2 pb-0">
+								<div class="card-body mt-2 pt-2 py-0">
 									<form name="addOtherIDForm" id="addOtherIDForm" class="form-row mb-0 pt-1">
-										<div class="col-12 col-md-3 px-md-1 mb-2">
+										<div class="col-12 col-md-4 pl-0 pr-2 mt-2 mb-0 py-0">
 											<input type="hidden" name="collection_object_id" value="#getCatalog.collection_object_id#">
 											<input type="hidden" name="method" value="addNewOtherID">
 											<input type="hidden" name="returnformat" value="json">
@@ -2847,19 +2844,11 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-2 px-md-1 mb-2">
-											<label class="data-entry-label" id="other_id_prefix">Other ID Prefix</label>
-											<input type="text" class="reqdClr data-entry-input" name="other_id_prefix" size="6">
+										<div class="col-12 col-md-4 px-1 py-0 mt-2">
+											<label class="data-entry-label" id="display_value">Other ID Number</label>
+											<input type="text" class="reqdClr data-entry-input" name="display_value" required>
 										</div>
-										<div class="col-12 col-md-3 px-md-1 mb-2">
-											<label class="data-entry-label" id="other_id_number">Other ID Number</label>
-											<input type="text" class="reqdClr data-entry-input" name="other_id_number" size="6">
-										</div>
-										<div class="col-12 col-md-2 px-md-1 mb-2">
-											<label class="data-entry-label" id="other_id_suffix">Other ID Suffix</label>
-											<input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">
-										</div>
-										<div class="col-12 col-xl-2 px-md-1">
+										<div class="col-12 col-md-4 px-1 py-0 mt-2">
 											<input type="button" value="Create Identifier" class="btn btn-xs btn-primary mt-3" onClick="if (checkFormValidity($('##addOtherIDForm')[0])) { addOtherIDSubmit();  } ">
 											<output id="addOtherIDResultDiv" class="d-block text-danger">&nbsp;</output>
 										</div>
@@ -2933,21 +2922,12 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="form-group mt-2 col-12 col-md-2 px-1">
-												<label for="other_id_prefix" class="data-entry-label" for="other_id_prefix#i#">Prefix</label>
-												<input class="data-entry-input" type="text" value="#encodeForHTML(getIDs.other_id_prefix)#" size="12" name="other_id_prefix" id="other_id_prefix#i#">
-											</div>
-											<div class="form-group mt-2 col-12 col-md-2 px-1">
-												<label for="other_id_number" class="data-entry-label" for="other_id_number#i#" >Number</label>
-												<input type="text" class="data-entry-input" value="#encodeForHTML(getIDs.other_id_number)#" size="12" name="other_id_number" id="other_id_number#i#">
-											</div>
-											<div class="form-group mt-2 col-12 col-md-2 px-1">
-												<label for="other_id_suffix" class="data-entry-label">Suffix</label>
-												<input type="text" class="data-entry-input" value="#encodeForHTML(getIDs.other_id_suffix)#" size="12" name="other_id_suffix" id="other_id_suffix#i#">
+												<label class="data-entry-label" for="display_value#i#" >Number</label>
+												<input type="text" class="data-entry-input" value="#encodeForHTML(getIDs.display_value)#" size="12" name="display_value" id="display_value#i#">
 											</div>
 											<div class="form-group col-12 col-md-3 px-1 mt-2">
 												<input type="button" value="Save" aria-label="Save Changes" class="mt-3 btn btn-xs btn-primary"
 													onClick="if (checkFormValidity($('##editOtherIDForm#i#')[0])) { editOtherIDsSubmit(#i#);  } ">
-
 												<input type="button" value="Delete" class="btn btn-xs mt-3 px-1 btn-danger" onclick="doDelete(#i#);">
 												<output id="saveOtherIDResultDiv#i#"></output>
 											</div>
@@ -2956,58 +2936,58 @@ limitations under the License.
 									<cfset i=#i#+1>
 								</cfloop>
 								<script>
-											function doDelete(num) {
-												$("##getIDsMethod"+num).val('deleteOtherID');
-												console.log($("##getIDsMethod"+num).val());
-												setFeedbackControlState("saveOtherIDResultDiv"+num,"deleting")
-												$.ajax({
-													url : "/specimens/component/functions.cfc",
-													type : "post",
-													dataType : "json",
-													data: $("##editOtherIDForm" + num).serialize(),
-													success: function(result) { 
-														if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-															setFeedbackControlState("saveOtherIDResultDiv" + num,"deleted")
-															$("##otherIDEditControls"+num).find('input, textarea, button, select').attr("disabled", true);
-															$("##otherIDEditControls"+num + " :input").val("");
-															reloadOtherIDs();
-														} else {
-															// we shouldn't be able to reach this block, backing error should return an http 500 status
-															setFeedbackControlState("saveOtherIDResultDiv" + num,"error")
-															messageDialog('Error updating Other IDs: '+result.DATA.MESSAGE[0], 'Error deleting Other ID.');
-														}
-													},
-													error: function(jqXHR,textStatus,error){
-														setFeedbackControlState("saveOtherIDResultDiv"+num,"error")
-														handleFail(jqXHR,textStatus,error,"deleting Other ID");
-													}
-												});
-											};
-											function editOtherIDsSubmit(num){
-												$("##getIDsMethod"+num).val('updateOtherID');
-												setFeedbackControlState("saveOtherIDResultDiv" + num,"saving")
-												$.ajax({
-													url : "/specimens/component/functions.cfc",
-													type : "post",
-													dataType : "json",
-													data: $("##editOtherIDForm" + num).serialize(),
-													success: function (result) {
-														if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-															setFeedbackControlState("saveOtherIDResultDiv" + num,"saved")
-															reloadOtherIDs();
-														} else {
-															// we shouldn't be able to reach this block, backing error should return an http 500 status
-															setFeedbackControlState("saveOtherIDResultDiv" + num,"error")
-															messageDialog('Error updating Other IDs: '+result.DATA.MESSAGE[0], 'Error saving Other ID.');
-														}
-													},
-													error: function(jqXHR,textStatus,error){
-														setFeedbackControlState("saveOtherIDResultDiv" + num,"error")
-														handleFail(jqXHR,textStatus,error,"saving changes to Other IDs");
-													}
-												});
-											};
-										</script> 
+									function doDelete(num) {
+										$("##getIDsMethod"+num).val('deleteOtherID');
+										console.log($("##getIDsMethod"+num).val());
+										setFeedbackControlState("saveOtherIDResultDiv"+num,"deleting")
+										$.ajax({
+											url : "/specimens/component/functions.cfc",
+											type : "post",
+											dataType : "json",
+											data: $("##editOtherIDForm" + num).serialize(),
+											success: function(result) { 
+												if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+													setFeedbackControlState("saveOtherIDResultDiv" + num,"deleted")
+													$("##otherIDEditControls"+num).find('input, textarea, button, select').attr("disabled", true);
+													$("##otherIDEditControls"+num + " :input").val("");
+													reloadOtherIDs();
+												} else {
+													// we shouldn't be able to reach this block, backing error should return an http 500 status
+													setFeedbackControlState("saveOtherIDResultDiv" + num,"error")
+													messageDialog('Error updating Other IDs: '+result.DATA.MESSAGE[0], 'Error deleting Other ID.');
+												}
+											},
+											error: function(jqXHR,textStatus,error){
+												setFeedbackControlState("saveOtherIDResultDiv"+num,"error")
+												handleFail(jqXHR,textStatus,error,"deleting Other ID");
+											}
+										});
+									};
+									function editOtherIDsSubmit(num){
+										$("##getIDsMethod"+num).val('updateOtherID');
+										setFeedbackControlState("saveOtherIDResultDiv" + num,"saving")
+										$.ajax({
+											url : "/specimens/component/functions.cfc",
+											type : "post",
+											dataType : "json",
+											data: $("##editOtherIDForm" + num).serialize(),
+											success: function (result) {
+												if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+													setFeedbackControlState("saveOtherIDResultDiv" + num,"saved")
+													reloadOtherIDs();
+												} else {
+													// we shouldn't be able to reach this block, backing error should return an http 500 status
+													setFeedbackControlState("saveOtherIDResultDiv" + num,"error")
+													messageDialog('Error updating Other IDs: '+result.DATA.MESSAGE[0], 'Error saving Other ID.');
+												}
+											},
+											error: function(jqXHR,textStatus,error){
+												setFeedbackControlState("saveOtherIDResultDiv" + num,"error")
+												handleFail(jqXHR,textStatus,error,"saving changes to Other IDs");
+											}
+										});
+									};
+								</script> 
 							</div>
 							<!--- End of List/Edit existing --->
 						</div>
@@ -3042,32 +3022,30 @@ limitations under the License.
 <cffunction name="addNewOtherID" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="other_id_type" type="string" required="yes">
-	<cfargument name="other_id_prefix" type="string" required="no">
-	<cfargument name="other_id_number" type="string" required="no">
-	<cfargument name="other_id_suffix" type="string" required="no">
+	<cfargument name="display_value" type="string" required="yes">
 
 	<cftry>
 		<cfset data=queryNew("status, message, id")>
-		<cfquery name="addNewOtherID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			INSERT INTO coll_obj_other_id_num (
-				collection_object_id, 
-				other_id_type, 
-				other_id_prefix, 
-				other_id_number, 
-				other_id_suffix
-			) VALUES (
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_type#">,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_prefix#">,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_number#">,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_suffix#">
-			)
+		<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.display_value#">
+			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_type#">
+		</cfstoredproc>
+		<cfquery name="checkParse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkParse_result">
+			select distinct display_value
+			from coll_obj_other_id_num 
+			where collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collection_object_id#">
+			group by display_value
+			having count(*) > 1
 		</cfquery>
+		<cfif checkParse_result.recordcount gt 0>
+			<cfthrow message = "Error: insert would create a duplicate other id type : other id value pair.">
+		</cfif>
 		<cftransaction action="commit">
 		<cfset t = queryaddrow(data,1)>
 		<cfset t = QuerySetCell(data, "status", "1", 1)>
 		<cfset t = QuerySetCell(data, "message", "Record added.", 1)>
-		<cfset t = QuerySetCell(data, "id", "#collection_object_id#", 1)>
+		<cfset t = QuerySetCell(data, "id", "#arguments.collection_object_id#", 1)>
 	<cfcatch>
 		<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -3078,7 +3056,6 @@ limitations under the License.
 	</cftry>
 	<cfreturn data>
 </cffunction>
-	
 
 <!---updateOtherID function update an other id for a cataloged item.
  @param collection_object_id the collection_object_id for the cataloged item for which to update an other id.
@@ -3089,25 +3066,31 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfargument name="other_id_type" type="string" required="yes">
-	<cfargument name="other_id_prefix" type="string" required="no">
-	<cfargument name="other_id_suffix" type="string" required="no">
+	<cfargument name="display_value" type="string" required="yes">
 
 	<cftry>
-		<cfset data=queryNew("status, message, id")>
-		<cfquery name="updateOtherID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			UPDATE coll_obj_other_id_num 
-			SET
-				other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_type#">,
-				other_id_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_prefix#">,
-				other_id_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_number#">,
-				other_id_suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_suffix#">
-			WHERE coll_obj_other_id_num_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.coll_obj_other_id_num_id#">
+		<cfset data=queryNew("status, message, id, display_value")>
+		<cfstoredproc procedure="update_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+			<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.COLL_OBJ_OTHER_ID_NUM_ID#">
+			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.display_value#">
+			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_type#">
+		</cfstoredproc>	
+		<cfquery name="checkParse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkParse_result">
+			select distinct display_value
+			from coll_obj_other_id_num 
+			where collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments..collection_object_id#">
+			group by display_value
+			having count(*) > 1
 		</cfquery>
+		<cfif checkParse_result.recordcount gt 0>
+			<cfthrow message = "Error: insert would create a duplicate other id type : other id value pair.">
+		</cfif>
 		<cftransaction action="commit">
 		<cfset t = queryaddrow(data,1)>
 		<cfset t = QuerySetCell(data, "status", "1", 1)>
 		<cfset t = QuerySetCell(data, "message", "Record updated.", 1)>
-		<cfset t = QuerySetCell(data, "id", "#collection_object_id#", 1)>
+		<cfset t = QuerySetCell(data, "id", "#arguments.collection_object_id#", 1)>
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -3129,11 +3112,16 @@ limitations under the License.
 
 	<cftry>
 		<cfset data=queryNew("status, message, id")>
-		<cfquery name="deleteOtherID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		<cfquery name="deleteOtherID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteOtherID_result">
 			DELETE FROM coll_obj_other_id_num 
 			WHERE coll_obj_other_id_num_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.coll_obj_other_id_num_id#">
 			AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 		</cfquery>
+		<cfif deleteOtherID_result.recordcount EQ 0>
+			<cfthrow message = "Error: delete failed, record not found.">
+		<cfelseif deleteOtherID_result.recordcount GT 1>
+			<cfthrow message = "Error: delete failed, multiple records would be deleted.">
+		</cfif>
 		<cftransaction action="commit">
 		<cfset t = queryaddrow(data,1)>
 		<cfset t = QuerySetCell(data, "status", "1", 1)>
