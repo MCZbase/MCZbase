@@ -2894,8 +2894,8 @@ limitations under the License.
 							</div>
 
 							<!--- List/Edit existing --->
-							<div class="col-12 my-0 px-1 pt-1 pb-0">
-								<h1 class="h3 mb-1">Edit Existing Identifiers</h1>
+							<div class="col-12 my-0 px-0 pt-1 pb-0">
+								<h2 class="h3 mt-3 px-2 mb-1">Edit Existing Identifiers</h1>
 								<cfset i=1>
 								<cfloop query="getIDs">
 									<form name="getIDs#i#" id="editOtherIDForm#i#" class="mb-0">
@@ -2907,7 +2907,7 @@ limitations under the License.
 										<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIDs.recordcount#">
 									
 										<div class="border bg-light rounded" id="otherIDEditControls#i#">
-											<div class="col-12 border-bottom">
+											<div class="col-12 border-bottom py-3">
 												<div class="col-12 col-xl-4">
 													Identifier: #getIDs.other_id_type#:
 													<strong> 
@@ -2918,11 +2918,11 @@ limitations under the License.
 														</cfif>
 													</strong>
 												</div>
-												<div class="col-12 col-xl-8">
+												<div class="col-12 col-md-8">
 													<cfif getIds.description NEQ "">Description:</cfif> #getIDs.description#
 												</div>
 											</div>
-											<div class="form-group mt-2 col-12 col-md-3 px-1">
+											<div class="form-group mt-2 col-12 col-md-3">
 												<cfset thisType = #getIDs.other_id_type#>
 												<label class="data-entry-label" for="other_id_type#i#" >Type</label>
 												<select name="other_id_type" class="data-entry-select" style="" size="1" id="other_id_type#i#">
