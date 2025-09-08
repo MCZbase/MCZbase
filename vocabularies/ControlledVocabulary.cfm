@@ -88,7 +88,7 @@
 		SELECT * 
 		FROM #confirm.found_table#
 		<cfif len(collection_cde) GT 0>
-			WHERE upper(collection_cde) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(collection_cde)#">
+			WHERE upper(collection_cde) IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(collection_cde)#" list="yes">)
 		</cfif>
 	</cfquery>
 	
@@ -97,7 +97,7 @@
 			<div class="col-12">
 			<h3>Documentation for code table <strong>#tableName#</strong>:</h3>
 			<cfif len(showingJust) GT 0>
-				<div>#showingJust#</div>
+				<div class="pb-1">#showingJust# <a href="/vocabularies/ControlledVocabulary.cfm?table=#table#">Show All</a></div>
 			</cfif>
 			<cfif table is "ctmedia_license">
 			<table class="table table-responsive table-striped d-lg-table">
