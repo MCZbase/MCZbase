@@ -2836,7 +2836,7 @@ limitations under the License.
 								<div class="card-body mt-2 pt-2 py-0">
 									<form name="addOtherIDForm" id="addOtherIDForm" class="row mb-0 pt-1">
 										<div class="form-row ml-3 py-0 my-0" style="display: flex;">
-											<div class="col-3 pl-0 pr-2 mt-2 mb-0 py-0">
+											<div class="col-12 col-md-3 pl-0 pr-2 mt-2 mb-0 py-0">
 												<input type="hidden" name="collection_object_id" value="#getCatalog.collection_object_id#">
 												<input type="hidden" name="method" value="addNewOtherID">
 												<input type="hidden" name="returnformat" value="json">
@@ -2848,19 +2848,19 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-2 px-1 mb-0 mt-2 py-0">
+											<div class="col-12 col-md-2 px-1 mb-0 mt-2 py-0">
 												<label class="data-entry-label" id="other_id_prefix">Other ID Prefix</label>
 												<input type="text" class="reqdClr data-entry-input" name="other_id_prefix" size="6">
 											</div>
-											<div class="col-3 px-1 py-0 mt-2">
+											<div class="col-12 col-md-3 px-1 py-0 mt-2">
 												<label class="data-entry-label" id="other_id_number">Other ID Number</label>
 												<input type="text" class="reqdClr data-entry-input" name="other_id_number" size="6">
 											</div>
-											<div class="col-2 px-1 py-0 mt-2">
+											<div class="col-12 col-md-2 px-1 py-0 mt-2">
 												<label class="data-entry-label" id="other_id_suffix">Other ID Suffix</label>
 												<input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">
 											</div>
-											<div class="col-2 px-1 py-0 mt-2">
+											<div class="col-12 col-md-2 px-1 py-0 mt-2">
 												<input type="button" value="Create Identifier" class="btn btn-xs btn-primary mt-3" onClick="if (checkFormValidity($('##addOtherIDForm')[0])) { addOtherIDSubmit();  } ">
 												<output id="addOtherIDResultDiv" class="d-block text-danger">&nbsp;</output>
 											</div>
