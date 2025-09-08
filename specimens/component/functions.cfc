@@ -2826,13 +2826,13 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<!--- Add form --->
-							<div class="card add-form">
+							<div class="card add-form mt-2">
 								<div class="card-header">
 									<h2 class="h3">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								</div>
-								<div class="card-body mt-2 pt-2 py-0">
-									<form name="addOtherIDForm" id="addOtherIDForm" class="form-row mb-0 pt-1">
-										<div class="col-12 col-md-4 pl-0 pr-2 mt-2 mb-0 py-0">
+								<div class="card-body mt-2 py-0">
+									<form name="addOtherIDForm" id="addOtherIDForm" class="form-row mx-0 px-2 mb-0 pt-1">
+										<div class="col-12 col-md-4 pl-0 pr-2 mt-2 py-0">
 											<input type="hidden" name="collection_object_id" value="#getCatalog.collection_object_id#">
 											<input type="hidden" name="method" value="addNewOtherID">
 											<input type="hidden" name="returnformat" value="json">
@@ -2884,7 +2884,7 @@ limitations under the License.
 
 							<!--- List/Edit existing --->
 							<div class="col-12 my-0 px-0 pt-1 pb-0">
-								<h2 class="h3 mt-3 px-2 mb-1">Edit Existing Identifiers</h1>
+								<h2 class="h3 mt-3 px-2 mb-0">Edit Existing Identifiers</h1>
 								<cfset i=1>
 								<cfloop query="getIDs">
 									<form name="getIDs#i#" id="editOtherIDForm#i#" class="mb-0">
@@ -2896,7 +2896,7 @@ limitations under the License.
 										<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIDs.recordcount#">
 									
 
-										<div class="border bg-light rounded mx-0 px-2 mt-3 form-row" id="otherIDEditControls#i#">
+										<div class="border bg-light rounded mx-0 px-2 mt-2 form-row" id="otherIDEditControls#i#">
 											<div class="col-12 border-bottom py-3 form-row">
 
 												<div class="col-12 col-xl-4">
@@ -2913,7 +2913,7 @@ limitations under the License.
 													<cfif getIds.description NEQ "">Description:</cfif> #getIDs.description#
 												</div>
 											</div>
-											<div class="form-group mt-2 col-12 col-md-4">
+											<div class="form-group mt-2 col-12 col-md-4 px-1">
 												<cfset thisType = #getIDs.other_id_type#>
 												<label class="data-entry-label" for="other_id_type#i#" >Type</label>
 												<select name="other_id_type" class="data-entry-select" style="" size="1" id="other_id_type#i#">
@@ -2927,7 +2927,7 @@ limitations under the License.
 												<label class="data-entry-label" for="display_value#i#" >Number</label>
 												<input type="text" class="data-entry-input" value="#encodeForHTML(getIDs.display_value)#" size="12" name="display_value" id="display_value#i#">
 											</div>
-											<div class="form-group col-12 col-md-4 px-1 mt-2">
+											<div class="form-group mt-2 col-12 col-md-4 px-1">
 												<input type="button" value="Save" aria-label="Save Changes" class="mt-3 btn btn-xs btn-primary"
 													onClick="if (checkFormValidity($('##editOtherIDForm#i#')[0])) { editOtherIDsSubmit(#i#);  } ">
 												<input type="button" value="Delete" class="btn btn-xs mt-3 px-1 btn-danger" onclick="doDelete(#i#);">
