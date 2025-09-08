@@ -2898,7 +2898,7 @@ limitations under the License.
 							<!--- List/Edit existing --->
 							<div class="container-fluid">
 								<div class="row">
-									<div class="col-12 mt-0 bg-light border rounded pt-1 pb-0 px-3">
+									<div class="col-12 my-0 pt-1 pb-0">
 										<h1 class="h3">Edit Existing Identifiers</h1>
 										<cfset i=1>
 										<cfloop query="getIDs">
@@ -2910,8 +2910,8 @@ limitations under the License.
 												<input type="hidden" name="coll_obj_other_id_num_id" value="#coll_obj_other_id_num_id#">
 												<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIDs.recordcount#">
 									
-												<div class="row p-1 border" id="otherIDEditControls#i#">
-													<div class="col-12 col-md-6 pl-1 pr-1 mb-1">
+												<div class="row p-1 border rounded" id="otherIDEditControls#i#">
+													<div class="col-12 col-md-6 mb-1">
 														#getIDs.other_id_type#:
 														<strong> 
 															<cfif getIds.base_url NEQ "">
@@ -2921,10 +2921,10 @@ limitations under the License.
 															</cfif>
 														</strong>
 													</div>
-													<div class="col-12 col-md-6 pl-1 pr-1 mb-1">
+													<div class="col-12 col-md-6 px-1 mb-1">
 														#getIDs.description#
 													</div>
-													<div class="form-group mb-1 col-12 col-md-3 pl-0 pr-1">
+													<div class="form-group mt-2 col-12 col-md-3 px-1">
 														<cfset thisType = #getIDs.other_id_type#>
 														<label class="data-entry-label" for="other_id_type#i#" >Type</label>
 														<select name="other_id_type" class="data-entry-select" style="" size="1" id="other_id_type#i#">
@@ -2934,19 +2934,19 @@ limitations under the License.
 															</cfloop>
 														</select>
 													</div>
-													<div class="form-group mb-1 col-12 col-md-2 px-1">
+													<div class="form-group mt-2 col-12 col-md-2 px-1">
 														<label for="other_id_prefix" class="data-entry-label" for="other_id_prefix#i#" >Prefix</label>
 														<input class="data-entry-input" type="text" value="#encodeForHTML(getIDs.other_id_prefix)#" size="12" name="other_id_prefix" id="other_id_prefix#i#">
 													</div>
-													<div class="form-group mb-1 col-12 col-md-2 px-1">
+													<div class="form-group mt-2 col-12 col-md-2 px-1">
 														<label for="other_id_number" class="data-entry-label" for="other_id_number#i#" >Number</label>
 														<input type="text" class="data-entry-input" value="#encodeForHTML(getIDs.other_id_number)#" size="12" name="other_id_number" id="other_id_number#i#">
 													</div>
-													<div class="form-group mb-1 col-12 col-md-2 px-1">
+													<div class="form-group mt-2 col-12 col-md-2 px-1">
 														<label for="other_id_suffix" class="data-entry-label">Suffix</label>
 														<input type="text" class="data-entry-input" value="#encodeForHTML(getIDs.other_id_suffix)#" size="12" name="other_id_suffix" id="other_id_suffix#i#">
 													</div>
-													<div class="form-group col-12 col-md-3 px-1 mt-0 mt-md-3">
+													<div class="form-group mt-2 col-12 col-md-3 px-1 mt-md-3">
 														<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
 															onClick="if (checkFormValidity($('##editOtherIDForm#i#')[0])) { editOtherIDsSubmit(#i#);  } ">
 											
