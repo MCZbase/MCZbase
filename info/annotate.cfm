@@ -136,6 +136,6 @@
 		#collection_object_id#,
 		'#scientific_name#')
 	</cfquery>
-	<cflocation url="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#&showAnnotation=true">
+	<cflocation url="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#&showAnnotation=true">
 </cfoutput>
 </cfif>

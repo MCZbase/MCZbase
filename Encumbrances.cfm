@@ -642,7 +642,7 @@ Edit Encumbrance:  [encumbrance_id = #encumbrance_id#]
 		<cfoutput query="getData" group="collection_object_id">
 			<tr>
 				<td>
-					<a href="SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
+					<a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">
 					#collection_cde#&nbsp;#cat_num#</a><br>
 				</td>
 				<td>#CustomID#&nbsp;</td>

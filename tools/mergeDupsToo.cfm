@@ -111,8 +111,8 @@
 					cataloged_item.collection_object_id = #RELATED_COLL_OBJECT_ID#
 			</cfquery>
 			<tr>
-				<td><a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a> (#session.customOtherIdentifier# #CustomID#) <em>#scientific_name#</em></td>
-				<td><a href="/SpecimenDetail.cfm?collection_object_id=#dupRec.collection_object_id#">#dupRec.collection# #dupRec.cat_num#</a>
+				<td><a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a> (#session.customOtherIdentifier# #CustomID#) <em>#scientific_name#</em></td>
+				<td><a href="/specimens/Specimen.cfm?collection_object_id=#dupRec.collection_object_id#">#dupRec.collection# #dupRec.cat_num#</a>
 					(#session.customOtherIdentifier# #dupRec.CustomID#) 
 					<em>#dupRec.scientific_name#</em>
 				</td>

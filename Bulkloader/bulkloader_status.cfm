@@ -178,7 +178,7 @@ table.stat th {
 						<cfloop query="success">
 							<tr>
 								<td><cfif len(success.cat_num) gt 0>
-									<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
+									<a href="/guid/#institution_acronym#:#collection_cde#:#cat_num#">
 										#institution_acronym# #collection_cde# #cat_num#
 									</a>
 									<cfelse>

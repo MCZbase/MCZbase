@@ -93,7 +93,7 @@ Retrieving map data - please wait....
 		<cfloop query="sdet">
 			<cfset rColn = replace(collection," ","&nbsp;","all")>
 			<cfset rName = replace(scientific_name," ","&nbsp;","all")>
-			<cfset oneSpecLink = '<a href="#Application.serverRootUrl#/SpecimenDetail.cfm?collection_object_id=#collection_object_id#" target="_blank">#rColn#&nbsp;#cat_num#&nbsp;#rName#</a>'><!--- ' --->
+			<cfset oneSpecLink = '<a href="#Application.serverRootUrl#/specimens/Specimen.cfm?collection_object_id=#collection_object_id#" target="_blank">#rColn#&nbsp;#cat_num#&nbsp;#rName#</a>'><!--- ' --->
 			<cfif len(#specLink#) is 0>
 				<cfset specLink = oneSpecLink>
 			<cfelse>
