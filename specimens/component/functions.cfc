@@ -5430,7 +5430,7 @@ limitations under the License.
 			
 			<div class="row">
 				<div class="p-2 col-12">
-					<h1 class="h3">Edit Existing Citations</h1>
+					<h1 class="h3 mb-1">Edit Existing Citations</h1>
 					<div class="col-12 px-0 pb-3">
 						<cfif getCited.recordCount EQ 0>
 							<li>No citations</li>
