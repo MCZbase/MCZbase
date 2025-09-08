@@ -1933,6 +1933,10 @@ limitations under the License.
 						</cfloop>
 						</tbody>
 					</table>
+				<cfelse>
+					<ul class="list-group my-0">
+						<li class="small list-group-item py-1 font-italic">None</li>
+					</ul>
 				</cfif>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
