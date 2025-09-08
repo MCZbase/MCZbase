@@ -2861,7 +2861,7 @@ limitations under the License.
 												<input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">
 											</div>
 											<div class="col-2 px-1 py-0 mt-2">
-												<input type="button" value="Create Identifier" class="btn btn-xs btn-primary" onClick="if (checkFormValidity($('##addOtherIDForm')[0])) { addOtherIDSubmit();  } ">
+												<input type="button" value="Create Identifier" class="btn btn-xs btn-primary mt-3" onClick="if (checkFormValidity($('##addOtherIDForm')[0])) { addOtherIDSubmit();  } ">
 												<output id="addOtherIDResultDiv" class="d-block text-danger">&nbsp;</output>
 											</div>
 										</div>
