@@ -1,4 +1,5 @@
 <cfabort>
+<!--- Unused old file --->
 <cfinclude template="/includes/_header.cfm">
 <cfset title="User Loans">
 <script>
@@ -516,7 +517,7 @@
 	 </p>
 	 <p>
 	 After you submit this form, 
-	 you'll be requested to edit and send an email message to the requestor. Include any instructions ("contact me by ....";
+	 you&##39;ll be requested to edit and send an email message to the requestor. Include any instructions ("contact me by ....";
 	 "submit a request on letterhead...", etc.) that you wish them to follow in that form.
 	 </p>
 	 <table border>
@@ -665,7 +666,7 @@
 					
 				<tr>
 					<td>
-						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
+						<a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">
 							#institution_acronym# #collection_cde# #cat_num#</a>
 					</td>
 					<td><em>#scientific_name#</em></td>

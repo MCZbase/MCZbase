@@ -17,7 +17,7 @@
 	</cfif>
 	<cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/SpecimenDetail_body.cfm">
 		<cfheader statuscode="301" statustext="Moved permanently">
-		<cfheader name="Location" value="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
+		<cfheader name="Location" value="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">
 	</cfif>
 </cfoutput>
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -361,7 +361,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 </style>
 <cfoutput query="one">
 	<cfif oneOfUs is 1>
-		<form name="editStuffLinks" method="post" action="SpecimenDetail.cfm">
+		<form name="editStuffLinks" method="post" action="specimens/Specimen.cfm">
 			<input type="hidden" name="collection_object_id" value="#one.collection_object_id#">
 			<input type="hidden" name="suppressHeader" value="true">
 			<input type="hidden" name="action" value="nothing">
@@ -1049,7 +1049,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 						<div class="detailBlock" style="margin-top: .5em; padding-top: 0;margin-bottom: .5em; padding-bottom:0;">
 							<span class="detailData">
 								<span class="innerDetailLabel">#biol_indiv_relationship#</span>
-								<a href="/SpecimenDetail.cfm?collection_object_id=#related_coll_object_id#" target="_top">
+								<a href="/specimens/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_top">
 									#related_collection# #related_cat_num#
 								</a>
                                 <cfif len(relns.biol_indiv_relation_remarks) gt 0>

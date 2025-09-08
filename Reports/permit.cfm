@@ -1122,7 +1122,7 @@ and on day add a 0 to the front if it is one digit only--->
 		</cfif>
 			>
 			<td name='cat_num'>
-			<a href='../SpecimenDetail.cfm?collection_object_id=#collection_object_id#' target='Edit Specimen'>
+			<a href='/specimens/Specimen.cfm?collection_object_id=#collection_object_id#' target='Edit Specimen'>
 				#collection_cde# #cat_num#</a>
 			<input type='checkbox' 
 			<cfif order is defaultOrder or isdefined('$#collection_object_id#$')>

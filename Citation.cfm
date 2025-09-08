@@ -258,7 +258,7 @@
 							</tr>
 						</table>
 					</td>
-					<td style="padding:0 .5rem;"><a href="/SpecimenDetail.cfm?collection_object_id=#getCited.collection_object_id#">#getCited.collection#&nbsp;#getCited.cat_num#</a></td>
+					<td style="padding:0 .5rem;"><a href="/specimens/Specimen.cfm?collection_object_id=#getCited.collection_object_id#">#getCited.collection#&nbsp;#getCited.cat_num#</a></td>
 					<cfif len(#getCited.CustomID#) GT 0><td nowrap="nowrap">#customID#</td></cfif>
 					<td style="padding: 0 .5rem;"><i>#getCited.citSciName#</i>&nbsp;</td>
 					<td style="padding: 0 .5rem;"><i>#getCited.scientific_name#</i>&nbsp;</td>

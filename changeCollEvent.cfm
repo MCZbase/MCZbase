@@ -72,7 +72,7 @@
 		cataloged_item.collection_object_id = #collection_object_id#
  </cfquery>
 <div class="basic_box">
- <h3>Existing collecting Event for <a href="SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#getLoc.collection_cde# #getLoc.cat_num#</a>:</h3>
+ <h3>Existing collecting Event for <a href="specimens/Specimen.cfm?collection_object_id=#collection_object_id#">#getLoc.collection_cde# #getLoc.cat_num#</a>:</h3>
  <form name="newCollEvent" method="post" action="changeCollEvent.cfm">
 	<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 	<input type="hidden" name="collecting_event_id" value="">

@@ -566,9 +566,9 @@ limitations under the License.
 						</cfif>
 						<tr>
 							<td>
-							<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
-							#collection#&nbsp;#cat_num#
-							</a>
+								<a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">
+									#collection#&nbsp;#cat_num#
+								</a>
 							</td>
 						<cfif len(#session.CustomOtherIdentifier#) GT 0>
 							<td>

@@ -309,7 +309,7 @@
 	</cfscript>
 	<cfloop query="getMapData">
 		<cfscript>
-			a='<a href="#Application.serverRootUrl#/SpecimenDetail.cfm?collection_object_id=' &
+			a='<a href="#Application.serverRootUrl#/specimens/Specimen.cfm?collection_object_id=' &
 				collection_object_id & '"' &
 				'target="_blank">' &
 				collection & '&nbsp;' & cat_num & '</a>' &

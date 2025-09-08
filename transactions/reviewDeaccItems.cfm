@@ -319,7 +319,7 @@ limitations under the License.
 		<cfloop query="getPartDeaccRequests">
 			<tr id="rowNum#partID#">
 				<td class="inside">
-					<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a>
+					<a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a>
 		
 				</td>
 				<cfif otherIdOn>

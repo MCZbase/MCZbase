@@ -104,7 +104,7 @@
 		</cfif>
 		<cfif len(#collection_object_id#) gt 0>
 			<tr>
-				<td colspan="2" class="lblval"><a href="SpecimenDetail.cfm?collection_object_id=#collection_object_id#"
+				<td colspan="2" class="lblval"><a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#"
                                    target="_blank">Specimen</a> <span style="font-size: small"> (new window)</span></td>
 			</tr>
 		<cfelse>

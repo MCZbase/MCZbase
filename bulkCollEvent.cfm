@@ -126,7 +126,7 @@
  <cfoutput query="specimenList" group="collection_object_id">
     <tr>
 	  <td>
-	  	<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
+	  	<a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">
 	  #collection#&nbsp;#cat_num#
 	  	</a>
 	  </td>	  
