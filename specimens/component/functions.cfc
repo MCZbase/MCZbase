@@ -5429,7 +5429,7 @@ limitations under the License.
 			
 			<div class="row">
 				<div class="p-2 col-12">
-					<h1 class="h3 mb-1">Edit Existing Citations</h1>
+					<h1 class="h3 mb-1 px-1">Edit Existing Citations</h1>
 					<div class="col-12 px-0 pb-3">
 						<cfif getCited.recordCount EQ 0>
 							<li>No citations</li>
@@ -5445,8 +5445,8 @@ limitations under the License.
 									<input type="hidden" name="original_publication_id" id="orig_publication_id#i#" value="#publication_id#">
 									<input type="hidden" name="original_cited_taxon_name_id" id="orig_cited_name_id#i#" value="#cited_taxon_name_id#">
 									<input type="hidden" name="method" value="updateCitation">
-									<div class="row mx-0 border rounded pt-3 pb-2 mb-0">
-										<div class="col-12 pb-1">
+									<div class="row mx-0 border bg-light rounded pt-3 pb-2 mb-0">
+										<div class="col-12 pb-2">
 											<label for="cit_publication#i#" class="data-entry-label">
 												Publication 
 												(<a href="/publications/showPublication.cfm?publication_id=#publication_id#" target="_blank">#formpubshort#</a>)
