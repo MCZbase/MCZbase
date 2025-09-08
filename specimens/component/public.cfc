@@ -179,7 +179,7 @@ limitations under the License.
 									</cfif>
 									<div class="float-left pr-md-0 my-1 #cols# ">
 										<div class="col-12 px-0">
-											<h1 class="col-12 mb-1 h4">MCZ #summary.collection# #summary.cat_num##mixedMarker#</h1>
+											<h1 class="col-12 mb-1 h4 font-weight-bold">MCZ #summary.collection# #summary.cat_num##mixedMarker#</h1>
 											<h2 class="h4 col-12 d-inline-block mt-0 mb-0 mb-xl-1">
 												<a href="/name/#summary.sci_name#" class="text-dark">#summary.sci_name#</a>
 											</h2>
