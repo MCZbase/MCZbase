@@ -3032,16 +3032,6 @@ limitations under the License.
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.display_value#">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_type#">
 		</cfstoredproc>
-		<cfquery name="checkParse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkParse_result">
-			select distinct display_value
-			from coll_obj_other_id_num 
-			where collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collection_object_id#">
-			group by display_value
-			having count(*) > 1
-		</cfquery>
-		<cfif checkParse_result.recordcount gt 0>
-			<cfthrow message = "Error: insert would create a duplicate other id type : other id value pair.">
-		</cfif>
 		<cftransaction action="commit">
 		<cfset t = queryaddrow(data,1)>
 		<cfset t = QuerySetCell(data, "status", "1", 1)>
@@ -3070,23 +3060,13 @@ limitations under the License.
 	<cfargument name="display_value" type="string" required="yes">
 
 	<cftry>
-		<cfset data=queryNew("status, message, id, display_value")>
+		<cfset data=queryNew("status, message, id")>
 		<cfstoredproc procedure="update_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 			<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.COLL_OBJ_OTHER_ID_NUM_ID#">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.display_value#">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.other_id_type#">
 		</cfstoredproc>	
-		<cfquery name="checkParse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="checkParse_result">
-			select distinct display_value
-			from coll_obj_other_id_num 
-			where collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments..collection_object_id#">
-			group by display_value
-			having count(*) > 1
-		</cfquery>
-		<cfif checkParse_result.recordcount gt 0>
-			<cfthrow message = "Error: insert would create a duplicate other id type : other id value pair.">
-		</cfif>
 		<cftransaction action="commit">
 		<cfset t = queryaddrow(data,1)>
 		<cfset t = QuerySetCell(data, "status", "1", 1)>
