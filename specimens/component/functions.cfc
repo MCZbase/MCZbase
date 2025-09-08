@@ -853,7 +853,7 @@ limitations under the License.
 								<cfif getDetermined.coll_object_type EQ "CI" OR getDetermined.coll_object_type EQ "SP">
 									<!--- identifiable, thus allow add identifications --->
 									<div class="add-form float-left">
-										<div class="add-form-header pt-1 px-2 col-12 float-left">
+										<div class="add-form-header pt-1 pb-2 px-2 col-12 float-left">
 											<h2 class="h3 my-0 px-1 pb-1 float-left">Add Identification#target#</h2>
 											<cfif attributes.in_page>
 												<script>
@@ -867,11 +867,11 @@ limitations under the License.
 											</cfif>
 										</div>
 										<div class="card-body">
-											<form name="addIdentificationForm" id="addIdentificationForm">
+											<form name="addIdentificationForm" class="my-2" id="addIdentificationForm">
 												<input type="hidden" name="collection_object_id" value="#attributes.collection_object_id#">
 												<input type="hidden" name="method" value="addIdentification">
 												<input type="hidden" name="returnformat" value="json">
-												<div class="form-row">
+												<div class="form-row pt-2">
 													<div class="col-12 col-md-2">
 														<label for="taxa_formula" class="data-entry-label">ID Formula:</label>
 														<select name="taxa_formula" id="taxa_formula" class="data-entry-input reqdClr" onchange="updateTaxonBVisibility();" required>
@@ -1023,7 +1023,7 @@ limitations under the License.
 															</div>
 														</div>
 													</div>
-													<div class="col-12">
+													<div class="col-12 mt-3">
 														<input type="button" value="Add" class="btn btn-xs btn-primary" id="addIdButton"
 																	 onClick="handleAddIdentification();">
 														<output id="addIdStatus" class="pt-1"></output>
@@ -1094,7 +1094,7 @@ limitations under the License.
 									</div>
 								</cfif>
 								<cfif hasMissingCitations>
-									<div id="missingCitationList" class="col-12 float-left mt-4 mb-4 px-0 border border-rounded">
+									<div id="missingCitationList" class="col-12 float-left my-4 px-0 border border-rounded">
 										<h3 class="h3">
 											There are citations for taxa that do not have corresponding identifications.
 										</h3>
