@@ -2895,7 +2895,7 @@ limitations under the License.
 										<input type="hidden" name="coll_obj_other_id_num_id" value="#coll_obj_other_id_num_id#">
 										<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIDs.recordcount#">
 									
-										<div class="border bg-light rounded" id="otherIDEditControls#i#">
+										<div class="border bg-light rounded form-row" id="otherIDEditControls#i#">
 											<div class="col-12 border-bottom py-3">
 												<div class="col-12 col-xl-4">
 													Identifier: #getIDs.other_id_type#:
@@ -2911,7 +2911,7 @@ limitations under the License.
 													<cfif getIds.description NEQ "">Description:</cfif> #getIDs.description#
 												</div>
 											</div>
-											<div class="form-group mt-2 col-12 col-md-3">
+											<div class="form-group mt-2 col-12 col-md-4">
 												<cfset thisType = #getIDs.other_id_type#>
 												<label class="data-entry-label" for="other_id_type#i#" >Type</label>
 												<select name="other_id_type" class="data-entry-select" style="" size="1" id="other_id_type#i#">
@@ -2921,11 +2921,11 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="form-group mt-2 col-12 col-md-2 px-1">
+											<div class="form-group mt-2 col-12 col-md-4 px-1">
 												<label class="data-entry-label" for="display_value#i#" >Number</label>
 												<input type="text" class="data-entry-input" value="#encodeForHTML(getIDs.display_value)#" size="12" name="display_value" id="display_value#i#">
 											</div>
-											<div class="form-group col-12 col-md-3 px-1 mt-2">
+											<div class="form-group col-12 col-md-4 px-1 mt-2">
 												<input type="button" value="Save" aria-label="Save Changes" class="mt-3 btn btn-xs btn-primary"
 													onClick="if (checkFormValidity($('##editOtherIDForm#i#')[0])) { editOtherIDsSubmit(#i#);  } ">
 												<input type="button" value="Delete" class="btn btn-xs mt-3 px-1 btn-danger" onclick="doDelete(#i#);">
