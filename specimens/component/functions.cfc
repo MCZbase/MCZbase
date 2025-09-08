@@ -2911,7 +2911,7 @@ limitations under the License.
 												<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIDs.recordcount#">
 									
 												<div class="row p-1 border rounded" id="otherIDEditControls#i#">
-													<div class="col-12 col-md-6 mb-1">
+													<div class="col-12 col-md-6 border-bottom my-2">
 														#getIDs.other_id_type#:
 														<strong> 
 															<cfif getIds.base_url NEQ "">
@@ -2921,7 +2921,7 @@ limitations under the License.
 															</cfif>
 														</strong>
 													</div>
-													<div class="col-12 col-md-6 px-1 mb-1">
+													<div class="col-12 col-md-6 border-bottom px-1 my-2">
 														#getIDs.description#
 													</div>
 													<div class="form-group mt-2 col-12 col-md-3 px-1">
@@ -2946,11 +2946,11 @@ limitations under the License.
 														<label for="other_id_suffix" class="data-entry-label">Suffix</label>
 														<input type="text" class="data-entry-input" value="#encodeForHTML(getIDs.other_id_suffix)#" size="12" name="other_id_suffix" id="other_id_suffix#i#">
 													</div>
-													<div class="form-group mt-2 col-12 col-md-3 px-1 mt-md-3">
-														<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
+													<div class="form-group col-12 col-md-3 px-1">
+														<input type="button" value="Save" aria-label="Save Changes" class="mt-2 btn btn-xs btn-primary"
 															onClick="if (checkFormValidity($('##editOtherIDForm#i#')[0])) { editOtherIDsSubmit(#i#);  } ">
 											
-														<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="doDelete(#i#);">
+														<input type="button" value="Delete" class="btn btn-xs mt-2 btn-danger" onclick="doDelete(#i#);">
 														<output id="saveOtherIDResultDiv#i#"></output>
 													</div>
 												</div>
