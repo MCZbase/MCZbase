@@ -2908,49 +2908,49 @@ limitations under the License.
 									
 										<div class="row p-1 border bg-light rounded" id="otherIDEditControls#i#">
 											<div class="border-bottom">
-														<div class="col-12 col-md-4 px-1 my-2">
-															Identifier: #getIDs.other_id_type#:
-															<strong> 
-																<cfif getIds.base_url NEQ "">
-																	<a href="#getIDs.base_url##getIDs.display_value#" target="_blank">#getIDs.display_value#</a>
-																<cfelse>
-																	#getIDs.display_value#
-																</cfif>
-															</strong>
-														</div>
-														<div class="col-12 col-md-8 px-1 my-2">
-															<cfif getIds.description NEQ "">Description:</cfif> #getIDs.description#
-														</div>
-													</div>
+												<div class="col-12 col-md-4">
+													Identifier: #getIDs.other_id_type#:
+													<strong> 
+														<cfif getIds.base_url NEQ "">
+															<a href="#getIDs.base_url##getIDs.display_value#" target="_blank">#getIDs.display_value#</a>
+														<cfelse>
+															#getIDs.display_value#
+														</cfif>
+													</strong>
+												</div>
+												<div class="col-12 col-md-8">
+													<cfif getIds.description NEQ "">Description:</cfif> #getIDs.description#
+												</div>
+											</div>
 											<div class="form-group mt-2 col-12 col-md-3 px-1">
-														<cfset thisType = #getIDs.other_id_type#>
-														<label class="data-entry-label" for="other_id_type#i#" >Type</label>
-														<select name="other_id_type" class="data-entry-select" style="" size="1" id="other_id_type#i#">
-															<cfloop query="ctType">
-																<cfif #thisType# is #ctType.other_id_type#><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-																<option #selected# value="#ctType.other_id_type#">#ctType.other_id_type#</option>
-															</cfloop>
-														</select>
-													</div>
+												<cfset thisType = #getIDs.other_id_type#>
+												<label class="data-entry-label" for="other_id_type#i#" >Type</label>
+												<select name="other_id_type" class="data-entry-select" style="" size="1" id="other_id_type#i#">
+													<cfloop query="ctType">
+														<cfif #thisType# is #ctType.other_id_type#><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+														<option #selected# value="#ctType.other_id_type#">#ctType.other_id_type#</option>
+													</cfloop>
+												</select>
+											</div>
 											<div class="form-group mt-2 col-12 col-md-2 px-1">
-														<label for="other_id_prefix" class="data-entry-label" for="other_id_prefix#i#" >Prefix</label>
-														<input class="data-entry-input" type="text" value="#encodeForHTML(getIDs.other_id_prefix)#" size="12" name="other_id_prefix" id="other_id_prefix#i#">
-													</div>
+												<label for="other_id_prefix" class="data-entry-label" for="other_id_prefix#i#">Prefix</label>
+												<input class="data-entry-input" type="text" value="#encodeForHTML(getIDs.other_id_prefix)#" size="12" name="other_id_prefix" id="other_id_prefix#i#">
+											</div>
 											<div class="form-group mt-2 col-12 col-md-2 px-1">
-														<label for="other_id_number" class="data-entry-label" for="other_id_number#i#" >Number</label>
-														<input type="text" class="data-entry-input" value="#encodeForHTML(getIDs.other_id_number)#" size="12" name="other_id_number" id="other_id_number#i#">
-													</div>
+												<label for="other_id_number" class="data-entry-label" for="other_id_number#i#" >Number</label>
+												<input type="text" class="data-entry-input" value="#encodeForHTML(getIDs.other_id_number)#" size="12" name="other_id_number" id="other_id_number#i#">
+											</div>
 											<div class="form-group mt-2 col-12 col-md-2 px-1">
-														<label for="other_id_suffix" class="data-entry-label">Suffix</label>
-														<input type="text" class="data-entry-input" value="#encodeForHTML(getIDs.other_id_suffix)#" size="12" name="other_id_suffix" id="other_id_suffix#i#">
-													</div>
+												<label for="other_id_suffix" class="data-entry-label">Suffix</label>
+												<input type="text" class="data-entry-input" value="#encodeForHTML(getIDs.other_id_suffix)#" size="12" name="other_id_suffix" id="other_id_suffix#i#">
+											</div>
 											<div class="form-group col-12 col-md-3 px-1 mt-2">
-														<input type="button" value="Save" aria-label="Save Changes" class="mt-3 btn btn-xs btn-primary"
-															onClick="if (checkFormValidity($('##editOtherIDForm#i#')[0])) { editOtherIDsSubmit(#i#);  } ">
-											
-														<input type="button" value="Delete" class="btn btn-xs mt-3 px-1 btn-danger" onclick="doDelete(#i#);">
-														<output id="saveOtherIDResultDiv#i#"></output>
-													</div>
+												<input type="button" value="Save" aria-label="Save Changes" class="mt-3 btn btn-xs btn-primary"
+													onClick="if (checkFormValidity($('##editOtherIDForm#i#')[0])) { editOtherIDsSubmit(#i#);  } ">
+
+												<input type="button" value="Delete" class="btn btn-xs mt-3 px-1 btn-danger" onclick="doDelete(#i#);">
+												<output id="saveOtherIDResultDiv#i#"></output>
+											</div>
 										</div>
 									</form>
 									<cfset i=#i#+1>
