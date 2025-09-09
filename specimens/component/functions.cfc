@@ -290,8 +290,8 @@ limitations under the License.
 				</cfquery>
 				<!--- should be just one record per collection_object_id --->
 				<div class="container-fluid">
-					<h1 class="h3 px-1">Remarks</h1>
-					<form name="formEditRemarks" id="formEditRemarks">
+					<h1 class="sr-only">Remarks</h1>
+					<form name="formEditRemarks" id="formEditRemarks" class="bg-light border p-2">
 						<div class="form-row row">
 							<input type="hidden" name="collection_object_id" id="collection_object_id" value="#variables.collection_object_id#">
 							<cfif getRemarks.recordcount EQ 0>
@@ -305,31 +305,31 @@ limitations under the License.
 								<cfset habitatText = getRemarks.habitat>
 								<cfset associatedText = getRemarks.associated_species>
 							</cfif>
-							<div class="col-12">
+							<div class="col-12 pb-2">
 								<label for="coll_object_remarks">Remarks (<span id='length_coll_object_remarks'></span>):</label>
 								<textarea name="coll_object_remarks" id="coll_object_remarks" rows="2" 
 									onkeyup="countCharsLeft('coll_object_remarks', 4000, 'length_coll_object_remarks');"
 									class="form-control form-control-sm w-100 autogrow mb-1">#remarksText#</textarea>
 							</div>
-							<div class="col-12">
+							<div class="col-12 pb-2">
 								<label for="disposition_remarks">Disposition Remarks (<span id='length_disposition_remarks'></span>):</label>
 								<textarea name="disposition_remarks" id="disposition_remarks" rows="2" 
 									onkeyup="countCharsLeft('disposition_remarks', 4000, 'length_disposition_remarks');"
 									class="form-control form-control-sm w-100 autogrow mb-1">#dispositionText#</textarea>
 							</div>
-							<div class="col-12">
+							<div class="col-12 pb-2">
 								<label for="habitat">Microhabitat (<span id='length_habitat'></span>):</label>
 								<textarea name="habitat" id="habitat" rows="2" 
 									onkeyup="countCharsLeft('habitat', 4000, 'length_habitat');"
 									class="form-control form-control-sm w-100 autogrow mb-1">#habitatText#</textarea>
 							</div>
-							<div class="col-12">
+							<div class="col-12 pb-2">
 								<label for="associated_species">Associated Species (<span id='length_associated_species'></span>):</label>
 								<textarea name="associated_species" id="associated_species" rows="2" 
 									onkeyup="countCharsLeft('associated_species', 4000, 'length_associated_species');"
 									class="form-control form-control-sm w-100 autogrow mb-1">#associatedText#</textarea>
 							</div>
-							<div class="col-12 col-md-3 mt-1">
+							<div class="col-12 col-md-3 pb-2 mt-1">
 								<input type="button" value="Save" class="btn btn-xs btn-primary" id="saveRemarksButton" onClick="handleSaveRemarks();">
 							</div>
 							<div class="col-12 col-md-9 mt-md-1">
