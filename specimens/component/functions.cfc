@@ -5389,10 +5389,10 @@ limitations under the License.
 					publication.published_year DESC
 			</cfquery>
 			
-			<div class="row mx-0">
+			<div class="row">
 				<div class="col-12">
 					<h1 class="h3 mb-1 mt-3 px-1">Edit Existing Citations</h1>
-					<div class="col-12 px-4 pb-3">
+					<div class="col-12 px-0 pb-3">
 						<cfif getCited.recordCount EQ 0>
 							<li>No citations</li>
 						<cfelse>
