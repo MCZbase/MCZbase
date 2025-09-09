@@ -4374,7 +4374,7 @@ limitations under the License.
 									FROM identification
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 								</cfquery>
-								<form name="editPart#i#" id="editPart#i#">
+								<form name="editPart#i#" id="editPart#i#" class="mb-2">
 									<div class="col-12 form-row px-0">
 										<input type="hidden" name="part_collection_object_id" value="#part_id#">
 										<input type="hidden" name="method" value="updatePart">
