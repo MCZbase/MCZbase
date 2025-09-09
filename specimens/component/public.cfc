@@ -148,7 +148,7 @@ limitations under the License.
 					<cfelse>
 						<cfset sectionclass="defaultType">
 					</cfif>
-					<section class="row #sectionclass# mb-2">
+					<section class="row #sectionclass# mb-0">
 						<div class="col-12">
 							<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
 								<cfif summary.toptypestatuskind eq 'Primary' >
@@ -724,9 +724,9 @@ limitations under the License.
 						identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 				<cfif identification.accepted_id_fg is 1>
-					<cfset divClasses ="list-group border-green rounded mx-1 my-2 p-2 h4 font-weight-normal">
+					<cfset divClasses ="list-group border-green bg-white rounded mx-1 my-2 p-2 h4 font-weight-normal">
 				<cfelse>
-					<cfset divClasses ="list-group border-transparent rounded mx-1 mt-0 mb-1 p-1 h4 font-weight-normal">
+					<cfset divClasses ="list-group border border-secondary bg-white rounded mx-1 mt-0 mb-1 p-2 h4 font-weight-normal">
 				</cfif>
 				<div class="#divClasses#">
 					<cfif identification.accepted_id_fg is 1>
