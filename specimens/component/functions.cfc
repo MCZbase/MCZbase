@@ -4140,9 +4140,9 @@ limitations under the License.
 											</div>
 										</div>
 									</form>
+								</div>
 							</div>
-						</div>
-						<script>
+							<script>
 							$(document).ready(function() {
 								// make container barcode autocomplete, reference containers that can contain collection objects
 								makeContainerAutocompleteMetaExcludeCO("container_barcode", "container_id");
@@ -4194,15 +4194,13 @@ limitations under the License.
 								});
 							}
 						</script>
-						<!--- edit existing parts --->
-						<div id="editExistingPartsDiv">
-							<!--- this div is replaced with the edit existing parts HTML when parts are added --->
-							#getEditExistingPartsUnthreaded(collection_object_id=attributes.collection_object_id)#
-						</div>
-						<div class="col-12 mt-2">
-							<button class="btn btn-xs btn-secondary float-right" onclick="closePartsInPage();">Back to Specimen</button>
-						</div>
+							<!--- edit existing parts --->
+							<div id="editExistingPartsDiv">
+								<!--- this div is replaced with the edit existing parts HTML when parts are added --->
+								#getEditExistingPartsUnthreaded(collection_object_id=attributes.collection_object_id)#
 							</div>
+							<button class="btn btn-xs mt-2 btn-secondary float-right" onclick="closePartsInPage();">
+								Back to Specimen</button>
 						</div>
 					</div>
 				</div>
@@ -4349,7 +4347,7 @@ limitations under the License.
 				ORDER BY has_identification asc, part_name
 			</cfquery>
 			<div class="row">
-				<div class="col-12 px-0 py-3">
+				<div class="col-12 py-3">
 					<h1 class="h3">Edit Existing Parts</h1>
 					<cfif mPart.recordCount EQ 0>
 						<p>No parts found</p>
