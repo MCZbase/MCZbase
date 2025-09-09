@@ -859,7 +859,7 @@ limitations under the License.
 											}
 										</script>
 										<!--- if in_page, provide button to return to specimen details page --->
-										<button id="backToSpecimen1" class="btn btn-xs btn-secondary float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
+										<button id="backToSpecimen1" class="btn btn-xs btn-secondary mb-2 float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
 									</cfif>
 									<!--- identifiable, thus allow add identifications --->
 									<div class="add-form float-left">
@@ -1118,7 +1118,7 @@ limitations under the License.
 										</cfif>
 									</div>
 								</cfif>
-								<div id="identificationDialogList" class="col-12 float-left mt-4 mb-4 px-0">
+								<div id="identificationDialogList" class="col-12 float-left mt-4 mb-3 px-0">
 									<cfset idList = getIdentificationsUnthreadedHTML(collection_object_id = attributes.collection_object_id, editable=true)>
 								</div>
 								<cfif attributes.in_page>
