@@ -4352,10 +4352,10 @@ limitations under the License.
 				ORDER BY has_identification asc, part_name
 			</cfquery>
 			
-			<div class="row mx-0">
+			<div class="row">
 				<div class="col-12">
 					<h1 class="h3">Edit Existing Parts</h1>
-					<div class="col-12 px-0 pb-3">
+					<div class="col-12 px-0 py-3">
 						<cfif mPart.recordCount EQ 0>
 							<p>No parts found</p>
 						<cfelse>
@@ -4382,14 +4382,14 @@ limitations under the License.
 										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 									</cfquery>
 									<form name="editPart#i#" id="editPart#i#">
-										<div class="col-12 form-row">
+										<div class="col-12 form-row px-0">
 											<input type="hidden" name="part_collection_object_id" value="#part_id#">
 											<input type="hidden" name="method" value="updatePart">
-											<div class="col-12 col-md-4">
+											<div class="col-12 col-md-4 mb-2">
 												<label for="part_name#i#" class="data-entry-label">Part Name</label>
 												<input type="text" class="data-entry-input reqdClr" id="part_name#i#" name="part_name" value="#base_part_name#" required>
 											</div>
-											<div class="col-12 col-md-4">
+											<div class="col-12 col-md-4 mb-2">
 												<label for="preserve_method#i#" class="data-entry-label">Preserve Method</label>
 												<select name="preserve_method" id="preserve_method#i#" class="data-entry-select reqdClr" required>
 													<option value=""></option>
@@ -4403,7 +4403,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 col-md-2">
+											<div class="col-12 col-md-2 mb-2">
 												<label for="lot_count_modifier#i#" class="data-entry-label">Count Modifier</label>
 												<select name="lot_count_modifier" id="lot_count_modifier#i#" class="data-entry-select">
 													<option value=""></option>
@@ -4417,11 +4417,11 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 col-md-2">
+											<div class="col-12 col-md-2 mb-2">
 												<label for="lot_count#i#" class="data-entry-label">Count</label>
 												<input type="text" class="data-entry-input reqdClr" id="lot_count#i#" name="lot_count" value="#lot_count#" required>
 											</div>
-											<div class="col-12 col-md-4">
+											<div class="col-12 col-md-4 mb-2">
 												<label for="part_disposition#i#" class="data-entry-label">Disposition</label>
 												<select name="disposition" id="part_disposition#i#" class="data-entry-select reqdClr" required>
 													<option value=""></option>
@@ -4435,16 +4435,16 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 col-md-4">
+											<div class="col-12 col-md-4 mb-2">
 												<label for="part_condition#i#" class="data-entry-label">Condition</label>
 												<input type="text" class="data-entry-input reqdClr" id="part_condition#i#" name="condition" value="#part_condition#" required>
 											</div>
-											<div class="col-12 col-md-4">
+											<div class="col-12 col-md-4 mb-2">
 												<label for="container_label#i#" class="data-entry-label">Container</label>
 												<input type="text" class="data-entry-input" id="container_label#i#" name="container_barcode" value="#label#">
 												<input type="hidden" id="container_id#i#" name="container_id" value="#container_id#">
 											</div>
-											<div class="col-12 col-md-9">
+											<div class="col-12 col-md-9 mb-2">
 												<label for="part_remarks#i#" class="data-entry-label">Remarks (<span id="length_remarks_#i#"></span>)</label>
 												<textarea id="part_remarks#i#" name="coll_object_remarks" 
 													onkeyup="countCharsLeft('part_remarks#i#', 4000, 'length_remarks_#i#');"
@@ -4452,15 +4452,15 @@ limitations under the License.
 												>#part_remarks#</textarea>
 											</div>
 											<div class="col-12 col-md-3 pt-2">
-												<button id="part_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Part">Save</button>
+												<button id="part_submit#i#" value="Save" class="mt-3 btn btn-xs btn-primary" title="Save Part">Save</button>
 												<cfif getIdentifications.recordcount EQ 0>
-													<button id="part_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Part">Delete</button>
+													<button id="part_delete#i#" value="Delete" class="mt-3 btn btn-xs btn-danger" title="Delete Part">Delete</button>
 													<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 														<button id="newpart_mixed#i#" value="Mixed" class="btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
 													</cfif>
 												<cfelse>
 													<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-														<button id="part_mixed#i#" value="Mixed" class="btn btn-xs btn-warning" title="Make Mixed Collection">Edit Identifications</button>
+														<button id="part_mixed#i#" value="Mixed" class="mt-3 btn btn-xs btn-warning" title="Make Mixed Collection">Edit Identifications</button>
 													</cfif>
 												</cfif>
 												<output id="part_output#i#"></output>
@@ -4498,12 +4498,12 @@ limitations under the License.
 											attribute_remark,
 											agent_name
 									</cfquery>
-									<div class="col-12 row mx-0 border-left border-right border-bottom px-2 py-1">
+									<div class="col-12 row mx-0 bg-white border py-1">
 										<cfif patt.recordcount EQ 0>
 											<strong>No Part Attributes:</strong>
-											<button class="btn btn-xs btn-secondary py-0" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
+											<button class="btn btn-xs btn-secondary py-0 mx-3" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
 										<cfelse>
-											<div class="col-12 small">
+											<div class="col-12 px-0 small">
 												<strong>Part Attributes (#patt.recordcount#):</strong>
 												<button class="btn btn-xs btn-secondary py-0" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
 												<cfloop query="patt">
