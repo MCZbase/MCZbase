@@ -487,6 +487,7 @@ limitations under the License.
 		<div id="materialSampleIDEditDialog"></div>
 		<!--- Divs to hold modal edit dialog launched from within above --->
 		<div id="materialSampleIDEditDialog1"></div>
+		<div id="encumbranceEditDialog"></div>
 
 		<!--- controls for editing record --->
 		<div class="container-fluid d-none d-xl-block" id="editControlsDiv">
