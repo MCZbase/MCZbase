@@ -5210,8 +5210,8 @@ limitations under the License.
 													</script>
 												</div>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
-													<div class="col-12 col-md-3 mt-3 pb-2 float-right">
-														<a class="btn btn-xs btn-outline-primary px-2 py-1 float-right" target="_blank" href="/publications/Publication.cfm?action=new">Add New Publication <i class="fas fa-external-link-alt"></i></a>
+													<div class="col-12 col-md-3 mt-3 pb-2">
+														<a class="btn btn-xs btn-outline-primary w-100 px-2 py-1" target="_blank" href="/publications/Publication.cfm?action=new">Add New Publication <i class="fas fa-external-link-alt"></i></a>
 													</div>
 												</cfif>
 												<div class="float-left col-12 col-md-4 pb-2 px-1">
