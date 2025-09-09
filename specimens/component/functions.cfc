@@ -4452,15 +4452,15 @@ limitations under the License.
 												>#part_remarks#</textarea>
 											</div>
 											<div class="col-12 col-md-3 pt-2">
-												<button id="part_submit#i#" value="Save" class="mt-3 btn btn-xs btn-primary" title="Save Part">Save</button>
+												<button id="part_submit#i#" value="Save" class="mt-0 btn btn-xs btn-primary" title="Save Part">Save</button>
 												<cfif getIdentifications.recordcount EQ 0>
-													<button id="part_delete#i#" value="Delete" class="mt-3 btn btn-xs btn-danger" title="Delete Part">Delete</button>
+													<button id="part_delete#i#" value="Delete" class="mt-0 btn btn-xs btn-danger" title="Delete Part">Delete</button>
 													<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-														<button id="newpart_mixed#i#" value="Mixed" class="btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
+														<button id="newpart_mixed#i#" value="Mixed" class="mt-0 btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
 													</cfif>
 												<cfelse>
 													<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-														<button id="part_mixed#i#" value="Mixed" class="mt-3 btn btn-xs btn-warning" title="Make Mixed Collection">Edit Identifications</button>
+														<button id="part_mixed#i#" value="Mixed" class="mt-0 btn btn-xs btn-warning" title="Make Mixed Collection">Edit Identifications</button>
 													</cfif>
 												</cfif>
 												<output id="part_output#i#"></output>
@@ -4500,12 +4500,12 @@ limitations under the License.
 									</cfquery>
 									<div class="col-12 row mx-0 bg-white border py-1">
 										<cfif patt.recordcount EQ 0>
-											<strong>No Part Attributes:</strong>
+											<span class="font-weight-lessbold pt-1">No Part Attributes:</span>
 											<button class="btn btn-xs btn-secondary py-0 mx-3" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
 										<cfelse>
 											<div class="col-12 px-0 small">
 												<strong>Part Attributes (#patt.recordcount#):</strong>
-												<button class="btn btn-xs btn-secondary py-0" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
+												<button class="btn btn-xs btn-secondary mx-3" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
 												<cfloop query="patt">
 													<div class="ml-2">
 														#attribute_type# = #attribute_value#

@@ -865,7 +865,7 @@ function openEditPartsInPage(collection_object_id,callback) {
 	$("#InPageEditorDiv").addClass("border-secondary");
 	$("#InPageEditorDiv").addClass("bg-teal");
 	$("#InPageEditorDiv").addClass("rounded");
-	$("#InPageEditorDiv").addClass("py-2");
+	$("#InPageEditorDiv").addClass("py-3");
 	$("#InPageEditorDiv").addClass("mt-3");
 	$("#InPageEditorDiv").addClass("border-3");
 	$("#InPageEditorDiv").html("Loading...");
