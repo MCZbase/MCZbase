@@ -289,9 +289,18 @@ limitations under the License.
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 				</cfquery>
 				<!--- should be just one record per collection_object_id --->
+					<div class="add-form float-left">
+								<div class="add-form-header pt-1 px-2 col-12 float-left">
+									<h2 class="h3 my-0 px-1 pb-1">Relate existing media to #getGuid.guid#</h2>
+								</div>
+					
+					
 				<div class="container-fluid">
-					<h1 class="sr-only">Remarks</h1>
-					<form name="formEditRemarks" id="formEditRemarks" class="bg-light border p-2">
+					<div class="add-form float-left">
+						<div class="add-form-header pt-1 px-2 col-12 float-left">
+							<h2 class="h3 my-0 px-1 pb-1">Edit Remarks for #getGuid.guid#</h2>
+						</div>
+						<form name="formEditRemarks" id="formEditRemarks" class="card bg-light border p-2">
 						<div class="form-row row">
 							<input type="hidden" name="collection_object_id" id="collection_object_id" value="#variables.collection_object_id#">
 							<cfif getRemarks.recordcount EQ 0>
@@ -337,7 +346,7 @@ limitations under the License.
 							</div>
 						</div>
 					</form>
-					<script>
+						<script>
 						// Make all textareas with autogrow class be bound to the autogrow function on key up
 						$(document).ready(function() { 
 							$("textarea.autogrow").keyup(autogrow);  
@@ -352,6 +361,7 @@ limitations under the License.
 							saveRemarks(collection_object_id,coll_object_remarks,disposition_remarks,habitat,associated_species,reloadRemarks,"saveRemarksStatus");
 						};
 					</script>
+					</div>
 				</div>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
