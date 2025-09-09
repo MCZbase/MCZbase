@@ -4064,7 +4064,7 @@ limitations under the License.
 						<div class="col-12">
 							<cfif NOT dialog>
 								<div class="col-12 px-0 pt-1">
-									<h2 class="h2">Edit Parts for #guid#</h2>
+									<h2 class="h2">Parts for #guid#</h2>
 									<button class="btn btn-xs btn-secondary float-right" onclick="closePartsInPage();">Back to Specimen</button>
 								</div>
 							</cfif>
@@ -4381,8 +4381,8 @@ limitations under the License.
 										FROM identification
 										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 									</cfquery>
-									<form name="editPart#i#" id="editPart#i#" class="form-row">
-										<div class="col-12">
+									<form name="editPart#i#" id="editPart#i#">
+										<div class="col-12 form-row">
 											<input type="hidden" name="part_collection_object_id" value="#part_id#">
 											<input type="hidden" name="method" value="updatePart">
 											<div class="col-12 col-md-4">

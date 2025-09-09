@@ -863,6 +863,7 @@ function openEditPartsInPage(collection_object_id,callback) {
 	$('#editControlsBlock').hide();
 	$("#InPageEditorDiv").addClass("border");
 	$("#InPageEditorDiv").addClass("border-secondary");
+	$("#InPageEditorDiv").addClass("bg-teal");
 	$("#InPageEditorDiv").addClass("rounded");
 	$("#InPageEditorDiv").addClass("py-2");
 	$("#InPageEditorDiv").addClass("border-3");
@@ -922,7 +923,7 @@ function openEditCitationsDialog(collection_object_id,dialogId,guid,callback) {
  * @param callback a callback function to invoke on closing the dialog.
  */
 function openEditPartsDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Parts for " + guid;
+	var title = "Parts for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
