@@ -2465,6 +2465,7 @@ limitations under the License.
 				<cfquery name="getCatalog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						cataloged_item.collection_object_id,
+						concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
 						coll_object_type,
 						cataloged_item.cat_num,
 						cataloged_item.collection_cde,
@@ -2553,6 +2554,9 @@ limitations under the License.
 										<cfloop query="getDispositionRemarks">
 											<li>Disposition Remarks: #getDispositionRemarks.disposition_remarks#</li>
 										</cfloop>
+									</cfif>
+									<cfif len(getCatalog.encumbranceDetail) GT 0>
+										<li>Encumbrances: #getCatalog.encumbranceDetail#</li>
 									</cfif>
 								</ul>
 							</div>
