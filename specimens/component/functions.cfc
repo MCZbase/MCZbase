@@ -291,12 +291,12 @@ limitations under the License.
 				<!--- should be just one record per collection_object_id --->
 		
 				<div class="container-fluid">
-					<div class="add-form float-left">
-						<div class="add-form-header pt-1 px-2 col-12 float-left">
+					<div class="add-form mt-3 float-left">
+						<div class="add-form-header p-2 col-12 float-left">
 							<h2 class="h3 my-0 px-1 pb-1">Edit Remarks</h2>
 						</div>
 						<form name="formEditRemarks" id="formEditRemarks" class="card bg-light border p-2">
-						<div class="form-row row">
+						<div class="form-row">
 							<input type="hidden" name="collection_object_id" id="collection_object_id" value="#variables.collection_object_id#">
 							<cfif getRemarks.recordcount EQ 0>
 								<cfset remarksText = "">
