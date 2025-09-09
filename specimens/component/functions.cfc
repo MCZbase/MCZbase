@@ -4354,8 +4354,8 @@ limitations under the License.
 			
 			<div class="row">
 				<div class="col-12">
-					<h1 class="h3">Edit Existing Parts</h1>
 					<div class="col-12 px-0 py-3">
+						<h1 class="h3">Edit Existing Parts</h1>
 						<cfif mPart.recordCount EQ 0>
 							<p>No parts found</p>
 						<cfelse>
@@ -4452,15 +4452,15 @@ limitations under the License.
 												>#part_remarks#</textarea>
 											</div>
 											<div class="col-12 col-md-3 pt-2">
-												<button id="part_submit#i#" value="Save" class="mt-0 btn btn-xs btn-primary" title="Save Part">Save</button>
+												<button id="part_submit#i#" value="Save" class="mt-2 btn btn-xs btn-primary" title="Save Part">Save</button>
 												<cfif getIdentifications.recordcount EQ 0>
-													<button id="part_delete#i#" value="Delete" class="mt-0 btn btn-xs btn-danger" title="Delete Part">Delete</button>
+													<button id="part_delete#i#" value="Delete" class="mt-2 btn btn-xs btn-danger" title="Delete Part">Delete</button>
 													<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-														<button id="newpart_mixed#i#" value="Mixed" class="mt-0 btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
+														<button id="newpart_mixed#i#" value="Mixed" class="mt-2 btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
 													</cfif>
 												<cfelse>
 													<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-														<button id="part_mixed#i#" value="Mixed" class="mt-0 btn btn-xs btn-warning" title="Make Mixed Collection">Edit Identifications</button>
+														<button id="part_mixed#i#" value="Mixed" class="mt-2 btn btn-xs btn-warning" title="Make Mixed Collection">Edit Identifications</button>
 													</cfif>
 												</cfif>
 												<output id="part_output#i#"></output>
