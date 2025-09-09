@@ -217,8 +217,10 @@ function openEditIdentificationsInPage(collection_object_id,callback) {
 	$('#editControlsBlock').hide();
 	$("#InPageEditorDiv").addClass("border");
 	$("#InPageEditorDiv").addClass("border-secondary");
+	$("#InPageEditorDiv").addClass("bg-teal");
 	$("#InPageEditorDiv").addClass("rounded");
-	$("#InPageEditorDiv").addClass("py-2");
+	$("#InPageEditorDiv").addClass("py-3");
+	$("#InPageEditorDiv").addClass("mt-3");
 	$("#InPageEditorDiv").addClass("border-3");
 	$("#InPageEditorDiv").html("Loading...");
 	jQuery.ajax({
@@ -810,11 +812,13 @@ function closeInPage(callback=null) {
 	$("#InPageEditorDiv").html("");
 	$('#SpecimenDetailsDiv').show();
 	$('#editControlsBlock').show();
-	$("#InPageEditorDiv").removeClass("border");
-	$("#InPageEditorDiv").removeClass("border-secondary");
-	$("#InPageEditorDiv").removeClass("rounded");
-	$("#InPageEditorDiv").removeClass("py-2");
-	$("#InPageEditorDiv").removeClass("border-3");
+	$("#InPageEditorDiv").addClass("border");
+	$("#InPageEditorDiv").addClass("border-secondary");
+	$("#InPageEditorDiv").addClass("bg-teal");
+	$("#InPageEditorDiv").addClass("rounded");
+	$("#InPageEditorDiv").addClass("py-3");
+	$("#InPageEditorDiv").addClass("mt-3");
+	$("#InPageEditorDiv").addClass("border-3");
 	if (callback instanceof Function) {
 		callback();
 	}
@@ -831,8 +835,10 @@ function openEditLocalityInPage(collection_object_id,callback) {
 	$('#editControlsBlock').hide();
 	$("#InPageEditorDiv").addClass("border");
 	$("#InPageEditorDiv").addClass("border-secondary");
+	$("#InPageEditorDiv").addClass("bg-teal");
 	$("#InPageEditorDiv").addClass("rounded");
-	$("#InPageEditorDiv").addClass("py-2");
+	$("#InPageEditorDiv").addClass("py-3");
+	$("#InPageEditorDiv").addClass("mt-3");
 	$("#InPageEditorDiv").addClass("border-3");
 	$("#InPageEditorDiv").html("Loading...");
 	jQuery.ajax({
