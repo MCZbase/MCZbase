@@ -5408,7 +5408,7 @@ limitations under the License.
 									<input type="hidden" name="original_cited_taxon_name_id" id="orig_cited_name_id#i#" value="#cited_taxon_name_id#">
 									<input type="hidden" name="method" value="updateCitation">
 									<div class="row mx-0 border bg-light rounded pt-3 pb-2 mb-0">
-										<div class="col-12 pb-2">
+										<div class="col-12 px-1 pb-2">
 											<label for="cit_publication#i#" class="data-entry-label">
 												Publication 
 												(<a href="/publications/showPublication.cfm?publication_id=#publication_id#" target="_blank">#formpubshort#</a>)
@@ -5416,12 +5416,12 @@ limitations under the License.
 											<input type="hidden" name="publication_id" id="cit_publication_id#i#" value="#publication_id#">
 											<input type="text" class="data-entry-input" id="cit_publication#i#" name="publication" value="#formpublong#">
 										</div>
-										<div class="col-12 col-md-4 pb-2">
+										<div class="col-12 col-md-4 px-1 pb-2">
 											<label for="cit_cited_name#i#" class="data-entry-label">Cited Scientific Name</label>
 											<input type="hidden" name="cited_taxon_name_id" id="cit_cited_name_id#i#" value="#cited_taxon_name_id#">
 											<input type="text" class="data-entry-input reqdClr" id="cit_cited_name#i#" name="cited_name" value="#citSciName#" required>
 										</div>
-										<div class="col-12 col-md-3 pb-2">
+										<div class="col-12 col-md-3 px-1 pb-2">
 											<label for="cit_type_status#i#" class="data-entry-label">Citation Type</label>
 											<select name="type_status" id="cit_type_status#i#" class="data-entry-select reqdClr" required>
 												<option value=""></option>
@@ -5435,22 +5435,22 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-2 pb-2">
+										<div class="col-12 col-md-2 px-1 pb-2">
 											<label for="cit_page#i#" class="data-entry-label">Page ##</label>
 											<input type="text" class="data-entry-input" id="cit_page#i#" name="occurs_page_number" value="#occurs_page_number#">
 										</div>
-										<div class="col-12 col-md-3 pb-2">
+										<div class="col-12 col-md-3 px-1 pb-2">
 											<label for="cit_page_uri#i#" class="data-entry-label">Page URI</label>
 											<input type="text" class="data-entry-input" id="cit_page_uri#i#" name="citation_page_uri" value="#citation_page_uri#">
 										</div>
-										<div class="col-12 col-md-9 pb-2">
+										<div class="col-12 col-md-9 px-1 pb-2">
 											<label for="cit_remarks#i#" class="data-entry-label">Remarks (<span id="length_remarks_#i#"></span>)</label>
 											<textarea id="cit_remarks#i#" name="citation_remarks" 
 												onkeyup="countCharsLeft('cit_remarks#i#', 4000, 'length_remarks_#i#');"
 												class="data-entry-textarea autogrow mb-1" maxlength="4000"
 											>#citation_remarks#</textarea>
 										</div>
-										<div class="col-12 col-md-3 mt-3">
+										<div class="col-12 col-md-3 px-1 mt-3">
 											<button id="cit_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Citation">Save</button>
 											<button id="cit_delete#i#" value="Delete" class="btn btn-xs mx-1 btn-danger" title="Delete Citation">Delete</button>
 											<output id="cit_output#i#"></output>
