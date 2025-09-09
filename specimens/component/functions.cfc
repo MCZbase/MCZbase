@@ -6020,7 +6020,7 @@ limitations under the License.
 			WHERE
 				attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
-		<h2 class="h3 mt-4 px-2 mb-1">Edit Existing Attributes</h2>
+		<h2 class="h3 mt-4 px-2 mb-0">Edit Existing Attributes</h2>
 		<div class="col-12 px-0 pb-3">
 			<cfif getAttributes.recordCount EQ 0>
 				<li>No attributes found for this specimen.</li>
@@ -6042,7 +6042,7 @@ limitations under the License.
 					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 					<input type="hidden" name="attribute_id" value="#attribute_id#">
 					<input type="hidden" name="method" value="updateAttribute">
-					<div class="row mx-0 border py-2">
+					<div class="row mx-0 border bg-light py-2">
 						<div class="col-12 col-md-2 mt-1 pb-2">
 							<label for="att_name#i#" class="data-entry-label">Name</label>
 							<select class="data-entry-select reqdClr" id="att_name#i#" name="attribute_type" required>
