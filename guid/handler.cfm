@@ -105,39 +105,20 @@ RewriteRule "^/guid/(MCZ:[A-Za-z]+:.*)"    /guid/handler.cfm?catalog=$1 [QSA,PT]
 		</cfif>
 	</cfif>
 
+	<cfset guid = catalog>
 	<cfif deliver NEQ "text/html">
+		<!--- if request was for something other than html, deliver rdf, unless there is an error... --->
 		<cftry>
-			<cfset guid = catalog>
 			<cfinclude template="/rdf/Occurrence.cfm">
 		<cfcatch>
 			<cfinclude template="/errors/404.cfm">
 		</cfcatch>
 		</cftry>
 	<cfelse> 
-		<cfif findNoCase('redesign',Session.gitBranch) GT 0>	
-			<cfset guid = catalog>
-			<cfinclude template="/specimens/Specimen.cfm">
-		<cfelseif findNoCase('test',Session.gitBranch) GT 0>	
-			<cfset guid = catalog>
-			<cfinclude template="/specimens/Specimen.cfm">
-		<cfelse>
-			<cfset guid = catalog>
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-				<!--- logged in users see the old specimen details page, this allows editing --->
-				<!--- wrapped in an error handler that redirects to /errors/404.cfm--->
-				<cftry>
-					<cfinclude template="/SpecimenDetail.cfm">
-				<cfcatch>
-					<cfinclude template="/errors/404.cfm">
-				</cfcatch>
-				</cftry>
-			<cfelse>
-				<!--- not logged in sees the redesigned specimen details page, editing not enabled for them and not working there yet --->
-				<!--- not wrapped in an error handler that redirects to /errors/404, specimen not found handled internally --->
-				<!---  exceptions should rise up to the Application.cfc error handler.  --->
-				<cfinclude template="/specimens/Specimen.cfm">
-			</cfif>
-		</cfif>
+		<!--- deliver the human readable specimen details page --->
+		<!--- not wrapped in an error handler that redirects to /errors/404, specimen not found handled internally --->
+		<!--- exceptions should rise up to the Application.cfc error handler.  --->
+		<cfinclude template="/specimens/Specimen.cfm">
 	</cfif>
 <cfelse>
 	<cfset rdurl = cgi.SCRIPT_NAME>

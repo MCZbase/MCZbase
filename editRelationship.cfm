@@ -107,7 +107,7 @@ To split a lot or create a parasite, you can
 							class="delBtn"
 							onclick="reln#i#.action.value='deleReln'; confirmDelete('reln#i#','this relationship');">
 					<span>#BIOL_INDIV_RELATION_REMARKS#</span>
-					<a href="SpecimenDetail.cfm?collection_object_id=#getRelns.collection_object_id#" class="infoLink">
+					<a href="/specimens/Specimen.cfm?collection_object_id=#getRelns.collection_object_id#" class="infoLink">
 						View Related Specimen
 					</a>
 					<cfif #biol_indiv_relationship# is "parent of" and (#scientific_name# neq #CatItemSciName#)>

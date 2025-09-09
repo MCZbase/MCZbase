@@ -573,7 +573,7 @@
 			</cfif>
 			<cfloop query="sdet">
 				<cfscript>
-					kml=kml & '<a href="#application.serverRootUrl#/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">' &
+					kml=kml & '<a href="#application.serverRootUrl#/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">' &
 						'#collection# #cat_num# (<em>#scientific_name#</em>)</a><br/>';
 				</cfscript>				
 			</cfloop>

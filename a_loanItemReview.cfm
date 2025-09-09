@@ -421,7 +421,7 @@ Review items in loan<b>
 	<cif>	
 	<tr id="rowNum#partID#">
 		<td>
-			<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a>
+			<a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a>
 			
 		</td>
 		<td>
@@ -431,7 +431,7 @@ Review items in loan<b>
 			<em>#scientific_name#</em>&nbsp;
 		</td>
 		<td>
-			<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#part_name# (#preserve_method#)</a>
+			<a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">#part_name# (#preserve_method#)</a>
 		</td>
 		<td>
 			<textarea name="condition#partID#" 

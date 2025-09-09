@@ -86,14 +86,14 @@
 			</cfquery>
 			<tr>
 				<td>
-					<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a>
+					<a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a>
 						(#session.customOtherIdentifier# #CustomID#) <em>#scientific_name#</em>
 					<br>#flags#
 					<br>#encumbrances#
 					<br>#p1l#>#p2l#
 				</td>
 				<td>
-					<a href="/SpecimenDetail.cfm?collection_object_id=#dupRec.collection_object_id#">
+					<a href="/specimens/Specimen.cfm?collection_object_id=#dupRec.collection_object_id#">
 						#dupRec.collection# #dupRec.cat_num#
 					</a>
 					(#session.customOtherIdentifier# #dupRec.CustomID#)
@@ -309,8 +309,8 @@
 		</cfquery>
 		It's done:
 		</cftransaction>
-		<br><a href="/SpecimenDetail.cfm?collection_object_id=#good.collection_object_id#">Good Record</a>
-		<br><a href="/SpecimenDetail.cfm?collection_object_id=#bad.collection_object_id#">Bad Record</a>
+		<br><a href="/specimens/Specimen.cfm?collection_object_id=#good.collection_object_id#">Good Record</a>
+		<br><a href="/specimens/Specimen.cfm?collection_object_id=#bad.collection_object_id#">Bad Record</a>
 		<cfelse>
 			<cfif isdefined("bad.collection_object_id")>
 				<cfset thisOneToFlag = bad.collection_object_id>
@@ -322,8 +322,8 @@
 			</cfquery>
 			<br>There are problems with these records. One has been flagged ("Missing") as "duplicate".
 			<br>#problems#
-			<br><a href="/SpecimenDetail.cfm?collection_object_id=#id1#">One Record</a>
-			<br><a href="/SpecimenDetail.cfm?collection_object_id=#id2#">Other Record</a>
+			<br><a href="/specimens/Specimen.cfm?collection_object_id=#id1#">One Record</a>
+			<br><a href="/specimens/Specimen.cfm?collection_object_id=#id2#">Other Record</a>
 		</cfif>
 
 		<br><a href="mergeDups.cfm">Back to list</a>

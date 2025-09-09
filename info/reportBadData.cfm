@@ -95,7 +95,7 @@
 							<input type="checkbox" name="newCollObjId#counter#" value="#id#" checked>
 						</td>
 						<td>
-							<a href="#Application.ServerRootUrl#/SpecimenDetail.cfm?collection_object_id=#id#">#collection# #cat_num#</a>
+							<a href="#Application.ServerRootUrl#/specimens/Specimen.cfm?collection_object_id=#id#">#collection# #cat_num#</a>
 					    </td>
 						<td>#scientific_name#</td>
 						<td>#higher_geog#</td>

@@ -250,7 +250,7 @@
 						</cfquery>
 						<input type="text" name="container_type" id="container_type" value="collection object" readonly />
 						<cfif #findItem.recordcount# is 1>
-							<a href="/SpecimenDetail.cfm?collection_object_id=#findItem.collection_object_id#" target="_blank">
+							<a href="/guid/#findItem.institution_acronym#:#findItem.collection_cde#:#findItem.cat_num#" target="_blank">
 								#findItem.institution_acronym# #findItem.collection_cde# #findItem.cat_num#</a>
 						<cfelse>
 							Something is goofy - this containers matches #findItem.recordcount# items. File a bug report.

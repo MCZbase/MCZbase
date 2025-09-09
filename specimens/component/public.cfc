@@ -180,8 +180,8 @@ limitations under the License.
 									<div class="float-left pr-md-0 my-1 #cols# ">
 										<div class="col-12 px-0">
 											<h1 class="col-12 mb-1 h4 font-weight-bold">MCZ #summary.collection# #summary.cat_num##mixedMarker#</h1>
-											<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
-												<a href="/name/#summary.sci_name#" class="text-dark font-weight-bold">#summary.sci_name#</a>
+											<h2 class="h4 col-12 d-inline-block mt-0 mb-0 mb-xl-1">
+												<a href="/name/#summary.sci_name#" class="text-dark">#summary.sci_name#</a>
 											</h2>
 											<cfif isMixed>
 												<cfquery name="mixedCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -201,23 +201,23 @@ limitations under the License.
 														AND upper(guid_our_thing.target_table) = 'COLL_OBJECT'
 												</cfquery>
 												<cfif mixedCollection.recordcount EQ 1> 
-													<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
+													<h2 class="h4 col-12 d-inline-block mt-0 mb-0 mb-xl-1">
 														#mixedCollection.scientific_name#
 													</h2>
 												<cfelseif mixedCollection.recordcount GT 1>
-													<h3 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
+													<h2 class="h4 col-12 d-inline-block mt-0 mb-0 mb-xl-1">
 														<cfset separator = "">
 														<cfloop query="mixedCollection">
 															#separator##mixedCollection.scientific_name#
 															<cfset separator = ";">
 														</cfloop>
-													</h3>
+													</h2>
 												</cfif>
 											</cfif>
 											<cfif len(local.restrictions) GT 0>
-												<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
+												<h3 class="h4 col-12 d-inline-block mt-1 mb-0 mb-xl-1">
 													<span class="text-danger font-weight-bold" style="white-space: nowrap;">#local.restrictions#</span>
-												</h2>
+												</h3>
 											</cfif>
 										</div>
 									</div>
@@ -287,10 +287,10 @@ limitations under the License.
 										</div>
 										<div class="col-12 px-xl-0 small">
 											<cfif isMixed> 
-												<ul>
-													<li>
+												<ul style="list-style: disc;padding: .25rem 1.5rem 0 1.5rem;margin-bottom:0.5rem;">
+													<li class="h5 mb-1">
 											</cfif>
-											occurrenceID: <a class="h5 mb-1" href="https://mczbase.mcz.harvard.edu/guid/#summary.GUID#">https://mczbase.mcz.harvard.edu/guid/#summary.GUID#</a>
+											occurrenceID: <a href="https://mczbase.mcz.harvard.edu/guid/#summary.GUID#">https://mczbase.mcz.harvard.edu/guid/#summary.GUID#</a>
 											<a href="/guid/#summary.GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a> 
 											<cfif isMixed>
 													#summary.sci_name#
@@ -298,10 +298,10 @@ limitations under the License.
 											</cfif>
 											<cfif isMixed>
 												<cfloop query="mixedCollection">
-													<li>
-														occurrenceID: <a class="h5 mb-1" href="#mixedCollection.assembled_resolvable#">#mixedCollection.assembled_identifier#</a>
+													<li class="h5 mb-1" style="line-height: 0.5rem;">
+														occurrenceID: <a class="mb-0" href="#mixedCollection.assembled_resolvable#">#mixedCollection.assembled_identifier#</a>
 														<cfif left(mixedCollection.assembled_identifier,9) EQ "urn:uuid:">
-															<a href="/uuid/#mixedCollection.local_identifier#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+															<a href="/uuid/#mixedCollection.local_identifier#/json" class="mb-0"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
 														</cfif>
 														#mixedCollection.scientific_name#
 													</li>
@@ -501,12 +501,17 @@ limitations under the License.
 			<cftry>
 				<cfquery name="identifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT distinct
-						collection.collection, cataloged_item.cat_num, collection.guid_prefix, collection.web_link
+						collection.institution_acronym,
+						collection.collection, 
+						cataloged_item.cat_num, 
+						collection.guid_prefix, 
+						collection.web_link,
+						coll_object.flags
 					FROM 
-						collection, cataloged_item 
+						cataloged_item 
+						join collection on collection.collection_id = cataloged_item.collection_id 
+						join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
 					WHERE 
-						collection.collection_id = cataloged_item.collection_id 
-					AND 
 						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
 				<!--- check for mixed collection --->
@@ -545,6 +550,16 @@ limitations under the License.
 								<span class="float-left font-weight-lessbold">Mixed Collection: </span>
 								<span class="float-left pl-1 mb-0">This specimen is a mixed collection.</span>
 							</li>
+						</cfif>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+							<!--- display the content of coll_object.flags for internal users, deprecated, not editable --->
+							<cfif isDefined("identifiers.flags") AND len(identifiers.flags) GT 0 and identifiers.flags NEQ "0">
+								<!--- most values are "0", not in the code table --->
+								<li class="list-group-item py-0">
+									<span class="float-left font-weight-lessbold">Flags: </span>
+									<span class="float-left pl-1 mb-0">#identifiers.flags#</span>
+								</li>
+							</cfif>
 						</cfif>
 					</ul>
 				</cfif>
@@ -1933,6 +1948,10 @@ limitations under the License.
 						</cfloop>
 						</tbody>
 					</table>
+				<cfelse>
+					<ul class="list-group my-0">
+						<li class="small list-group-item py-1 font-italic">None</li>
+					</ul>
 				</cfif>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>

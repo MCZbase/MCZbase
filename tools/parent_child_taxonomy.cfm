@@ -79,7 +79,7 @@ Use this to synchronize child ID to parent's. Check the boxes and click submit t
 				
 			</td>
 			<td>
-				<a href="/SpecimenDetail.cfm?collection_object_id=#pCollID#">#pInst# #pColl# #pCatnum#</a>	
+				<a href="/specimens/Specimen.cfm?collection_object_id=#pCollID#">#pInst# #pColl# #pCatnum#</a>	
 				(#session.CustomOtherIdentifier# = #parentCustom#)	
 			</td>
 			<td>
@@ -87,7 +87,7 @@ Use this to synchronize child ID to parent's. Check the boxes and click submit t
 				<span style="font-size:small">(#cNat#)</span>
 			</td>
 			<td>
-				<a href="/SpecimenDetail.cfm?collection_object_id=#cCollID#">#cInst# #cColl# #cCatnum#</a>
+				<a href="/specimens/Specimen.cfm?collection_object_id=#cCollID#">#cInst# #cColl# #cCatnum#</a>
 				(#session.CustomOtherIdentifier# = #childCustom#)	
 			</td>
 			<td>
@@ -117,9 +117,9 @@ Use this to synchronize child ID to parent's. Check the boxes and click submit t
 				RELATED_COLL_OBJECT_ID = #i#
 			</cfquery>
 			<cfif #numP.c# neq 1>
-				Something's hinky!  
-				<a href="/SpecimenDetail.cfm?collection_object_id=#i#">this critter</a>
-				 seems to have #numP.c# parents! That may be good data, but I can't handle it here. Update the ID from the link.
+				Something is not correct. 
+				<a href="/specimens/Specimen.cfm?collection_object_id=#i#">this critter</a>
+				 seems to have #numP.c# parents! That may be good data, but I can not handle it here. Update the ID from the link.
 				<cfabort>
 			</cfif>
 			<cfquery name="pData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">

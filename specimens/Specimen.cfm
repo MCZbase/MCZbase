@@ -490,7 +490,7 @@ limitations under the License.
 
 		<!--- controls for editing record --->
 		<div class="container-fluid d-none d-xl-block" id="editControlsDiv">
-			<div class="row mt-2" id="editControlsBlock">
+			<div class="row mt-1" id="editControlsBlock">
 				<ul class="list-group list-inline list-group-horizontal-md py-0 mx-auto">
 					<cfset resultBit = "">
 					<!--- Navigation through records in a result set --->
@@ -502,7 +502,7 @@ limitations under the License.
 							<li class="list-group-item px-0 mx-1">
 								<span>
 									<a href="/guid/#firstGUID#" onClick=" event.preventDefault(); $('##firstRecordForm').submit();">
-										<img src="/images/first.gif" alt="[ First Record ]">
+										<img src="/images/first.gif" class="mt-1" alt="[ First Record ]">
 									</a>
 									<form action="/guid/#firstGUID#" method="post" id="firstRecordForm">
 										<cfif len(resultBit) GT 0>
@@ -516,7 +516,7 @@ limitations under the License.
 							<li class="list-group-item px-0 mx-1">
 								<span>
 									<a href="/guid/#prevGUID#" onClick=" event.preventDefault(); $('##previousRecordForm').submit();">
-										<img src="/images/previous.gif" alt="[ Previous Record ]">
+										<img src="/images/previous.gif" class="mt-1" alt="[ Previous Record ]">
 									</a>
 									<form action="/guid/#prevGUID#" method="post" id="previousRecordForm">
 										<cfif len(resultBit) GT 0>
@@ -529,10 +529,10 @@ limitations under the License.
 							</li>
 						<cfelse>
 							<li class="list-group-item px-0 mx-1">
-								<img src="/images/no_first.gif" alt="[ inactive button ]">
+								<img src="/images/no_first.gif" class="mt-1" alt="[ inactive button ]">
 							</li>
 							<li class="list-group-item px-0 mx-1">
-								<img src="/images/no_previous.gif" alt="[ inactive button ]">
+								<img src="/images/no_previous.gif" class="mt-1" alt="[ inactive button ]">
 							</li>
 						</cfif>
 					</cfif>
@@ -644,7 +644,7 @@ limitations under the License.
 							<li class="list-group-item px-0 mx-1">
 								<span>
 									<a href="/guid/#nextGUID#" onClick=" event.preventDefault(); $('##nextRecordForm').submit();">
-										<img src="/images/next.gif" alt="[ Next Record ]">
+										<img src="/images/next.gif" class="mt-1" alt="[ Next Record ]">
 									</a>
 									<form action="/guid/#nextGUID#" method="post" id="nextRecordForm">
 										<cfif len(resultBit) GT 0>
@@ -658,7 +658,7 @@ limitations under the License.
 							<li class="list-group-item px-0 mx-1">
 								<span>
 									<a href="/guid/#lastGUID#" onClick=" event.preventDefault(); $('##lastRecordForm').submit();">
-										<img src="/images/last.gif" alt="[ Last Record ]">
+										<img src="/images/last.gif" class="mt-1" alt="[ Last Record ]">
 									</a>
 									<form action="/guid/#lastGUID#" method="post" id="lastRecordForm">
 										<cfif len(resultBit) GT 0>
@@ -671,10 +671,10 @@ limitations under the License.
 							</li>
 						<cfelse>
 							<li class="list-group-item px-0 mx-1">
-								<img src="/images/no_next.gif" alt="[ inactive button ]">
+								<img src="/images/no_next.gif" class="mt-1" alt="[ inactive button ]">
 							</li>
 							<li class="list-group-item px-0 mx-1">
-								<img src="/images/no_last.gif" alt="[ inactive button ]">
+								<img src="/images/no_last.gif" class="mt-1" alt="[ inactive button ]">
 							</li>
 						</cfif>
 					</cfif>
@@ -1024,11 +1024,6 @@ limitations under the License.
 										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAnnotationsDialog(#collection_object_id#,'AnnotationsDialog','#guid#',reloadAnnotations)">
 											Edit
 										</a>
-										<!---
-										<a href="/info/reviewAnnotation.cfm?action=show&type=collection_object_id&id=#collection_object_id#" role="button" class="btn btn-secondary btn-xs small py-0 anchorFocus" target="_blank">
-											Edit
-										</a>
-										--->
 									</cfif>
 								</h3>
 							</div>

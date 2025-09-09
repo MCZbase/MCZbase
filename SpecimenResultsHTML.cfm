@@ -337,11 +337,7 @@
 <cfquery name="getBasic" dbtype="query">
 	select * from SpecRes#cfidAndToken# order by #order_by# #order_order#
 </cfquery>
-<!---
-<cfif #getBasic.recordcount# is 1 and #action# is "nothing">
-	<cflocation url="SpecimenDetail.cfm?collection_object_id=#getBasic.collection_object_id#">
-</cfif>
---->
+
 <cfquery name="mappable" dbtype="query">
 	select count(distinct(collection_object_id)) as cnt from getBasic where dec_long is not null and
 	dec_lat is not null
@@ -972,7 +968,7 @@ document.getElementById('saveme').submit();
 </cfif>
       <td nowrap>
 
-	  <a href="SpecimenDetail.cfm?collection_object_id=#collection_object_id#&orderedCollObjIdList=#orderedCollObjIdList#">
+	  <a href="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#&orderedCollObjIdList=#orderedCollObjIdList#">
 	 <div class="linkButton"
 			onmouseover="this.className='linkButton btnhov'"
 			onmouseout="this.className='linkButton'"

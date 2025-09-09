@@ -199,7 +199,7 @@ limitations under the License.
 									<td>#specData.part_name#</td>
 									<td>#specData.preserve_method#</td>
 									<td>
-										<a href="/SpecimenDetail.cfm?collection_object_id=#specData.collection_object_id#" target="_blank">
+										<a href="/guid/#specData.institution_acronym#:#specData.collection_cde#:#specData.cat_num#" target="_blank">
 											#specData.institution_acronym# #specData.collection_cde# #specData.cat_num#
 										</a>
 									</td>

@@ -791,7 +791,7 @@ function success_getSpecResultsData(result){
 					theInnerHtml +=data.COLLECTION_OBJECT_ID[i] + "'" + ',this.checked);"></td>';
 				}
 				theInnerHtml += '<td nowrap="nowrap" id="CatItem_'+data.COLLECTION_OBJECT_ID[i]+'">';
-					theInnerHtml += '<a target="_blank" href="/SpecimenDetail.cfm?collection_object_id=';
+					theInnerHtml += '<a target="_blank" href="/specimens/Specimen.cfm?collection_object_id=';
 					theInnerHtml += data.COLLECTION_OBJECT_ID[i];
 					theInnerHtml += '" onClick=" event.preventDefault(); $(&#39;#aLinkForm'+data.COLLECTION_OBJECT_ID[i]+'&#39;).submit();"  >';
 					theInnerHtml += data.COLLECTION[i];

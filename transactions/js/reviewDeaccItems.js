@@ -120,7 +120,7 @@ function remPartFromDeacc( partID, collObjectID ) {
 	varisSslVal = isSslFld.value;
 	var transaction_id = document.getElementById('transaction_id').value;
 	if (varisSslVal > 0) {
-		var dialogText = "Would you like to remove this subsample from the Deaccession?  If you do, check the parts and part counts for the <a href='/SpecimenDetail.cfm?collection_object_id=" + collObjectID +  "' target='_blank'>cataloged item</a> when done, you may wish to manually merge the subsample part back into its parent lot.";
+		var dialogText = "Would you like to remove this subsample from the Deaccession?  If you do, check the parts and part counts for the <a href='/specimens/Specimen.cfm?collection_object_id=" + collObjectID +  "' target='_blank'>cataloged item</a> when done, you may wish to manually merge the subsample part back into its parent lot.";
                 confirmAction(dialogText, "Remove subsample from Deaccession", function(){ remPartFromDeaccSubsample(thisDispn,partID,transaction_id) } );
 	} else if (thisDispn != 'in collection') {
 		messageDialog('That part cannot be removed because the disposition is not "in collection".','Unable to remove part.');
