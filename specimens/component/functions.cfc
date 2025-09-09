@@ -4346,11 +4346,13 @@ limitations under the License.
 				WHERE sampled_from_obj_id IS NULL 
 				ORDER BY has_identification asc, part_name
 			</cfquery>
-			<div class="row">
+			<div class="form-row mx-0">
 				<div class="col-12 py-3">
 					<h1 class="h3">Edit Existing Parts</h1>
 					<cfif mPart.recordCount EQ 0>
-						<p>No parts found</p>
+						<div class="bg-white border">
+							<p>No parts found</p>
+						</div>
 					<cfelse>
 						<cfset var i = 0>
 						<cfloop query="mPart">
