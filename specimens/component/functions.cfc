@@ -4347,10 +4347,10 @@ limitations under the License.
 				ORDER BY has_identification asc, part_name
 			</cfquery>
 			<div class="form-row mx-0">
-				<div class="col-12 py-3">
+				<div class="col-12 py-3 float-left">
 					<h1 class="h3">Edit Existing Parts</h1>
 					<cfif mPart.recordCount EQ 0>
-						<div class="bg-white border">
+						<div class="bg-white border p-2">
 							<p>No parts found</p>
 						</div>
 					<cfelse>
