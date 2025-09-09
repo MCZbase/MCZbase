@@ -4353,7 +4353,7 @@ limitations under the License.
 			</cfquery>
 			
 			<div class="row mx-0">
-				<div class="bg-light p-2 col-12 row">
+				<div class="col-12">
 					<h1 class="h3">Edit Existing Parts</h1>
 					<div class="col-12 px-0 pb-3">
 						<cfif mPart.recordCount EQ 0>
@@ -4374,15 +4374,15 @@ limitations under the License.
 								<cfelse>
 									<cfset addedClass = "">
 								</cfif>
-								<div class="row mx-0 border py-1 mb-0 #addedClass#">
+								<div class="mx-0 py-1 mb-0 #addedClass#">
 									<!--- find identifications of the part to see if this is a mixed collection --->
 									<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT identification_id
 										FROM identification
 										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 									</cfquery>
-									<form name="editPart#i#" id="editPart#i#">
-										<div class="col-12 row">
+									<form name="editPart#i#" id="editPart#i#" class="form-row">
+										<div class="col-12">
 											<input type="hidden" name="part_collection_object_id" value="#part_id#">
 											<input type="hidden" name="method" value="updatePart">
 											<div class="col-12 col-md-4">
