@@ -2844,7 +2844,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-4 px-0 py-0 mt-2">
+										<div class="col-12 col-md-4 px-0 px-xl-2 py-0 mt-2">
 											<label class="data-entry-label" id="display_value">Other ID Number</label>
 											<input type="text" class="reqdClr data-entry-input" name="display_value" required>
 										</div>
@@ -4055,150 +4055,149 @@ limitations under the License.
 				</cfquery>
 
 				<!--- add new part --->
-				<div class="col-12 mt-4 px-1 pb-2 border border-rounded bg-light">
-					<div class="container-fluid row ">
-						<cfif NOT dialog>
-							<div class="col-12 px-0 pt-1">
-								<h2 class="h2 float-left">Edit Parts for #guid#</h2>
-								<button class="btn btn-xs btn-secondary float-right" onclick="closePartsInPage();">Back to Specimen</button>
-							</div>
-						</cfif>
-						<div class="col-12 row">
-							<div class="col-12">
-								<div class="add-form">
-									<div class="add-form-header pt-1 px-2" id="headingPart">
-										<h2 class="h3 my-0 px-1 bp-1">Add New Part for #guid#</h2>
-									</div>
-									<div class="card-body">
-										<form name="newPart" id="newPart" class="mb-0">
-											<input type="hidden" name="derived_from_cat_item" value="#getCatItem.collection_object_id#">
-											<input type="hidden" name="method" value="createSpecimenPart">
-											<input type="hidden" name="is_subsample" value="false"><!--- TODO: Add subsample support --->
-											<input type="hidden" name="subsampled_from_obj_id" value="">
-											<div class="row mx-0 pb-2 col-12 px-0 mt-2 mb-1">
-												<div class="float-left col-12 col-md-4 px-1">
-													<label for="part_name" class="data-entry-label">
-														<span>Part Name</span>
-														<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTSPECIMEN_PART_NAME&collection_cde=#getCatItem.collection_cde#" title="List of part names specific to the #getCatItem.collection_cde# collection." target="_blank">Define Values</a>]</span>
-													</label>
-													<input name="part_name" class="data-entry-input reqdClr" id="part_name" type="text" required>
-												</div>
-												<div class="float-left col-12 col-md-4 px-1">
-													<label for="preserve_method" class="data-entry-label">
-														<span>Preserve Method</span>
-														<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTSPECIMEN_PRESERV_METHOD&collection_cde=#getCatItem.collection_cde#" title="List of preserve methods specific to the #getCatItem.collection_cde# collection." target="_blank">Define Values</a>]</span>
-</label>
-													<select name="preserve_method" id="preserve_method" class="data-entry-select reqdClr" required>
-														<option value=""></option>
-														<cfloop query="ctPreserveMethod">
-															<option value="#preserve_method#">#preserve_method#</option>
-														</cfloop>
-													</select>
-												</div>
-												<div class="float-left col-12 col-md-2 px-1">
-													<label for="lot_count_modifier" class="data-entry-label">Count Modifier</label>
-													<select name="lot_count_modifier" id="lot_count_modifier" class="data-entry-select">
-														<option value=""></option>
-														<cfloop query="ctModifiers">
-															<option value="#modifier#">#modifier#</option>
-														</cfloop>
-													</select>
-												</div>
-												<div class="float-left col-12 col-md-2 px-1">
-													<label for="lot_count" class="data-entry-label">Count</label>
-													<input name="lot_count" id="lot_count" class="data-entry-input reqdClr" type="text" required>
-												</div>
-												<div class="float-left col-12 col-md-4 px-1">
-													<label for="coll_obj_disposition" class="data-entry-label">Disposition</label>
-													<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select reqdClr" required>
-														<option value=""></option>
-														<cfloop query="ctDisp">
-															<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
-														</cfloop>
-													</select>
-												</div>
-												<div class="float-left col-12 col-md-4 px-1">
-													<label for="condition" class="data-entry-label">Condition</label>
-													<input name="condition" id="condition" class="data-entry-input reqdClr" type="text" required>
-												</div>
-												<div class="float-left col-12 col-md-4 px-1">
-													<label for="container_barcode" class="data-entry-label">Container</label>
-													<input name="container_barcode" id="container_barcode" class="data-entry-input" type="text" placeholder="Scan or type barcode">
-												</div>
-												<div class="float-left col-12 col-md-10 px-1 mt-1">
-													<label for="coll_object_remarks" class="data-entry-label">Remarks (<span id="length_remarks"></span>)</label>
-													<textarea id="coll_object_remarks" name="coll_object_remarks" 
-														onkeyup="countCharsLeft('coll_object_remarks', 4000, 'length_remarks');"
-														class="data-entry-textarea autogrow mb-1" maxlength="4000"></textarea>
-												</div>
-												<div class="col-12 col-md-2 px-1 pt-3 mt-1">
-													<button id="newPart_submit" value="Create" class="btn btn-xs btn-primary" title="Create Part">Create Part</button>
-													<output id="newPart_output"></output>
-												</div>
-											</div>
-										</form>
-									</div>
-								</div>
-								<script>
-									$(document).ready(function() {
-										// make container barcode autocomplete, reference containers that can contain collection objects
-										makeContainerAutocompleteMetaExcludeCO("container_barcode", "container_id");
-										// make part name autocomplete, limiting to parts in the collection for the collection object
-										makePartNameAutocompleteMetaForCollection("part_name", "#getCatItem.collection_cde#");
-									});
-									// Add event listener to the save button
-									$('##newPart_submit').on('click', function(event) {
-										event.preventDefault();
-										// Validate the form
-										if ($('##newPart')[0].checkValidity() === false) {
-											// If the form is invalid, show validation messages
-											$('##newPart')[0].reportValidity();
-											return false; // Prevent form submission if validation fails
-										}
-										setFeedbackControlState("newPart_output","saving");
-										$.ajax({
-											url: '/specimens/component/functions.cfc',
-											type: 'POST',
-											responseType: 'json',
-											data: $('##newPart').serialize(),
-											success: function(response) {
-												console.log(response);
-												setFeedbackControlState("newPart_output","saved");
-												reloadEditExistingParts();
-											},
-											error: function(xhr, status, error) {
-												setFeedbackControlState("newPart_output","error");
-												handleFail(xhr,status,error,"saving part.");
-											}
-										});
-									});
-									function reloadEditExistingParts() {
-										// reload the edit existing parts section
-										$.ajax({
-											url: '/specimens/component/functions.cfc',
-											type: 'POST',
-											dataType: 'html',
-											data: {
-												method: 'getEditExistingPartsUnthreaded',
-												collection_object_id: '#attributes.collection_object_id#'
-											},
-											success: function(response) {
-												$('##editExistingPartsDiv').html(response);
-											},
-											error: function(xhr, status, error) {
-												handleFail(xhr,status,error,"reloading edit existing parts.");
-											}
-										});
-									}
-								</script>
-								<!--- edit existing parts --->
-								<div id="editExistingPartsDiv">
-									<!--- this div is replaced with the edit existing parts HTML when parts are added --->
-									#getEditExistingPartsUnthreaded(collection_object_id=attributes.collection_object_id)#
-								</div>
-								<div class="col-12 mt-2">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<cfif NOT dialog>
+								<div class="col-12 px-0 pt-1">
+									<h2 class="h2">Edit Parts for #guid#</h2>
 									<button class="btn btn-xs btn-secondary float-right" onclick="closePartsInPage();">Back to Specimen</button>
 								</div>
+							</cfif>
+							<div class="add-form">
+								<div class="add-form-header pt-1 px-2" id="headingPart">
+									<h2 class="h3 my-0 px-1 bp-1">Add New Part for #guid#</h2>
+								</div>
+								<div class="card-body">
+									<form name="newPart" id="newPart" class="mb-0">
+										<input type="hidden" name="derived_from_cat_item" value="#getCatItem.collection_object_id#">
+										<input type="hidden" name="method" value="createSpecimenPart">
+										<input type="hidden" name="is_subsample" value="false"><!--- TODO: Add subsample support --->
+										<input type="hidden" name="subsampled_from_obj_id" value="">
+										<div class="row mx-0 pb-2 col-12 px-0 mt-2 mb-1">
+											<div class="float-left col-12 col-md-4 px-1">
+												<label for="part_name" class="data-entry-label">
+													<span>Part Name</span>
+													<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTSPECIMEN_PART_NAME&collection_cde=#getCatItem.collection_cde#" title="List of part names specific to the #getCatItem.collection_cde# collection." target="_blank">Define Values</a>]</span>
+												</label>
+												<input name="part_name" class="data-entry-input reqdClr" id="part_name" type="text" required>
+											</div>
+											<div class="float-left col-12 col-md-4 px-1">
+												<label for="preserve_method" class="data-entry-label">
+													<span>Preserve Method</span>
+													<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTSPECIMEN_PRESERV_METHOD&collection_cde=#getCatItem.collection_cde#" title="List of preserve methods specific to the #getCatItem.collection_cde# collection." target="_blank">Define Values</a>]</span>
+												</label>
+												<select name="preserve_method" id="preserve_method" class="data-entry-select reqdClr" required>
+													<option value=""></option>
+													<cfloop query="ctPreserveMethod">
+														<option value="#preserve_method#">#preserve_method#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="float-left col-12 col-md-2 px-1">
+												<label for="lot_count_modifier" class="data-entry-label">Count Modifier</label>
+												<select name="lot_count_modifier" id="lot_count_modifier" class="data-entry-select">
+													<option value=""></option>
+													<cfloop query="ctModifiers">
+														<option value="#modifier#">#modifier#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="float-left col-12 col-md-2 px-1">
+												<label for="lot_count" class="data-entry-label">Count</label>
+												<input name="lot_count" id="lot_count" class="data-entry-input reqdClr" type="text" required>
+											</div>
+											<div class="float-left col-12 col-md-4 px-1">
+												<label for="coll_obj_disposition" class="data-entry-label">Disposition</label>
+												<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select reqdClr" required>
+													<option value=""></option>
+													<cfloop query="ctDisp">
+														<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="float-left col-12 col-md-4 px-1">
+												<label for="condition" class="data-entry-label">Condition</label>
+												<input name="condition" id="condition" class="data-entry-input reqdClr" type="text" required>
+											</div>
+											<div class="float-left col-12 col-md-4 px-1">
+												<label for="container_barcode" class="data-entry-label">Container</label>
+												<input name="container_barcode" id="container_barcode" class="data-entry-input" type="text" placeholder="Scan or type barcode">
+											</div>
+											<div class="float-left col-12 col-md-10 px-1 mt-1">
+												<label for="coll_object_remarks" class="data-entry-label">Remarks (<span id="length_remarks"></span>)</label>
+												<textarea id="coll_object_remarks" name="coll_object_remarks" 
+													onkeyup="countCharsLeft('coll_object_remarks', 4000, 'length_remarks');"
+													class="data-entry-textarea autogrow mb-1" maxlength="4000"></textarea>
+											</div>
+											<div class="col-12 col-md-2 px-1 pt-3 mt-1">
+												<button id="newPart_submit" value="Create" class="btn btn-xs btn-primary" title="Create Part">Create Part</button>
+												<output id="newPart_output"></output>
+											</div>
+										</div>
+									</form>
+							</div>
+						</div>
+						<script>
+							$(document).ready(function() {
+								// make container barcode autocomplete, reference containers that can contain collection objects
+								makeContainerAutocompleteMetaExcludeCO("container_barcode", "container_id");
+								// make part name autocomplete, limiting to parts in the collection for the collection object
+								makePartNameAutocompleteMetaForCollection("part_name", "#getCatItem.collection_cde#");
+							});
+							// Add event listener to the save button
+							$('##newPart_submit').on('click', function(event) {
+								event.preventDefault();
+								// Validate the form
+								if ($('##newPart')[0].checkValidity() === false) {
+									// If the form is invalid, show validation messages
+									$('##newPart')[0].reportValidity();
+									return false; // Prevent form submission if validation fails
+								}
+								setFeedbackControlState("newPart_output","saving");
+								$.ajax({
+									url: '/specimens/component/functions.cfc',
+									type: 'POST',
+									responseType: 'json',
+									data: $('##newPart').serialize(),
+									success: function(response) {
+										console.log(response);
+										setFeedbackControlState("newPart_output","saved");
+										reloadEditExistingParts();
+									},
+									error: function(xhr, status, error) {
+										setFeedbackControlState("newPart_output","error");
+										handleFail(xhr,status,error,"saving part.");
+									}
+								});
+							});
+							function reloadEditExistingParts() {
+								// reload the edit existing parts section
+								$.ajax({
+									url: '/specimens/component/functions.cfc',
+									type: 'POST',
+									dataType: 'html',
+									data: {
+										method: 'getEditExistingPartsUnthreaded',
+										collection_object_id: '#attributes.collection_object_id#'
+									},
+									success: function(response) {
+										$('##editExistingPartsDiv').html(response);
+									},
+									error: function(xhr, status, error) {
+										handleFail(xhr,status,error,"reloading edit existing parts.");
+									}
+								});
+							}
+						</script>
+						<!--- edit existing parts --->
+						<div id="editExistingPartsDiv">
+							<!--- this div is replaced with the edit existing parts HTML when parts are added --->
+							#getEditExistingPartsUnthreaded(collection_object_id=attributes.collection_object_id)#
+						</div>
+						<div class="col-12 mt-2">
+							<button class="btn btn-xs btn-secondary float-right" onclick="closePartsInPage();">Back to Specimen</button>
+						</div>
 							</div>
 						</div>
 					</div>
