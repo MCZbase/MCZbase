@@ -4195,11 +4195,11 @@ limitations under the License.
 							}
 						</script>
 							<!--- edit existing parts --->
-							<div id="editExistingPartsDiv">
+							<div id="editExistingPartsDiv" class="col-12 float-left">
 								<!--- this div is replaced with the edit existing parts HTML when parts are added --->
 								#getEditExistingPartsUnthreaded(collection_object_id=attributes.collection_object_id)#
 							</div>
-							<button class="btn btn-xs btn-secondary float-right mb-3" onclick="closePartsInPage();">
+							<button class="btn btn-xs btn-secondary float-right my-3" onclick="closePartsInPage();">
 								Back to Specimen</button>
 						</div>
 					</div>
@@ -4346,7 +4346,7 @@ limitations under the License.
 				WHERE sampled_from_obj_id IS NULL 
 				ORDER BY has_identification asc, part_name
 			</cfquery>
-			<div class="">
+	
 				<div class="col-12 py-3">
 					<h1 class="h3">Edit Existing Parts</h1>
 					<cfif mPart.recordCount EQ 0>
@@ -4681,7 +4681,6 @@ limitations under the License.
 						</script>
 					</cfif>
 				</div>
-			</div>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
