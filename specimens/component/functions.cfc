@@ -6020,7 +6020,7 @@ limitations under the License.
 			WHERE
 				attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
-		<h2 class="h3 mt-2 px-2 mb-0">Edit Existing Attributes</h2>
+		<h2 class="h3 mt-4 px-2 mb-1">Edit Existing Attributes</h2>
 		<div class="col-12 px-0 pb-3">
 			<cfif getAttributes.recordCount EQ 0>
 				<li>No attributes found for this specimen.</li>
@@ -6038,12 +6038,12 @@ limitations under the License.
 						attribute_type = <cfqueryparam value="#getAttributes.attribute_type#" cfsqltype="CF_SQL_VARCHAR">
 				</cfquery>
 				<cfset i = i + 1>
-				<form name="editAttribute#i#" id="editAttribute#i#" class="my-0 py-0">
+				<form name="editAttribute#i#" id="editAttribute#i#" class="my-0 py-2">
 					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 					<input type="hidden" name="attribute_id" value="#attribute_id#">
 					<input type="hidden" name="method" value="updateAttribute">
-					<div class="row mx-0 border py-1">
-						<div class="col-12 col-md-2">
+					<div class="row mx-0 border py-2">
+						<div class="col-12 col-md-2 pb-2">
 							<label for="att_name#i#" class="data-entry-label">Name</label>
 							<select class="data-entry-select reqdClr" id="att_name#i#" name="attribute_type" required>
 								<cfloop query="getAttributeTypes">
@@ -6056,7 +6056,7 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-md-2">
+						<div class="col-12 col-md-2 pb-2">
 							<label for="att_value" class="data-entry-label reqdClr" required>Value</label>
 							<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.value_code_table) GT 0>
 								<cfset valueCodeTable = getAttributeCodeTables.value_code_table>
@@ -6102,68 +6102,68 @@ limitations under the License.
 								<input type="text" class="data-entry-input" id="att_value#i#" name="attribute_value" value="#attribute_value#">
 							</cfif>
 						</div>
-						<div class="col-12 col-md-2">
-					<label for="att_units" class="data-entry-label">Units</label>
-					<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.units_code_table) GT 0>
-						<cfset unitsCodeTable = getAttributeCodeTables.units_code_table>
-						<cfquery name="getUnitsCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT
-								#replace(unitsCodeTable,"CT","","one")# as unit
-							FROM
-								#unitsCodeTable#
-							ORDER BY
-								#replace(unitsCodeTable,"CT","","one")#
-						</cfquery>
-						<select class="data-entry-select" id="att_units#i#" name="attribute_units">
-							<option value=""></option>
-							<cfloop query="getUnitsCodeTable">
-								<option value="#getUnitsCodeTable.unit#" <cfif getUnitsCodeTable.unit EQ getAttributes.attribute_units>selected</cfif>>#unit#</option>
-							</cfloop>
-						</select>
-					<cfelse>
-						<!--- if no code table for units, use a text input, but disable it --->
-						<cfif len(attribute_units) EQ 0>
-							<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="" disabled>
-						<cfelse>
-							<!--- but if there is a value, which there shouldn't be, failover and use a text input --->
-							<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="#attribute_units#">
-						</cfif>
-					</cfif>
-				</div>
-						<div class="col-12 col-md-2">
-						<label class="data-entry-label">Determiner</label>
-						<input type="text" class="data-entry-input" id="att_det#i#" name="determined_by_agent" value="#attributeDeterminer#">
-						<input type="hidden" name="determined_by_agent_id" id="att_det_id#i#" value="#determined_by_agent_id#">
-						<!--- make the determined by agent into an agent autocomplete --->
-						<script>
-							$(document).ready(function() {
-								makeAgentAutocompleteMeta('att_det#i#','att_det_id#i#');
-							});
-						</script>
+						<div class="col-12 col-md-2 pb-2">
+							<label for="att_units" class="data-entry-label">Units</label>
+							<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.units_code_table) GT 0>
+								<cfset unitsCodeTable = getAttributeCodeTables.units_code_table>
+								<cfquery name="getUnitsCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT
+										#replace(unitsCodeTable,"CT","","one")# as unit
+									FROM
+										#unitsCodeTable#
+									ORDER BY
+										#replace(unitsCodeTable,"CT","","one")#
+								</cfquery>
+								<select class="data-entry-select" id="att_units#i#" name="attribute_units">
+									<option value=""></option>
+									<cfloop query="getUnitsCodeTable">
+										<option value="#getUnitsCodeTable.unit#" <cfif getUnitsCodeTable.unit EQ getAttributes.attribute_units>selected</cfif>>#unit#</option>
+									</cfloop>
+								</select>
+							<cfelse>
+								<!--- if no code table for units, use a text input, but disable it --->
+								<cfif len(attribute_units) EQ 0>
+									<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="" disabled>
+								<cfelse>
+									<!--- but if there is a value, which there shouldn't be, failover and use a text input --->
+									<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="#attribute_units#">
+								</cfif>
+							</cfif>
+						</div>
+						<div class="col-12 col-md-2 pb-2">
+							<label class="data-entry-label">Determiner</label>
+							<input type="text" class="data-entry-input" id="att_det#i#" name="determined_by_agent" value="#attributeDeterminer#">
+							<input type="hidden" name="determined_by_agent_id" id="att_det_id#i#" value="#determined_by_agent_id#">
+							<!--- make the determined by agent into an agent autocomplete --->
+							<script>
+								$(document).ready(function() {
+									makeAgentAutocompleteMeta('att_det#i#','att_det_id#i#');
+								});
+							</script>
+						</div>
+						<div class="col-12 col-md-2 pb-2">
+							<label class="data-entry-label">Determined Date</label>
+							<input type="text" class="data-entry-input" id="att_date#i#" name="determined_date" value="#dateformat(determined_date,"yyyy-mm-dd")#">
+						</div>
+						<div class="col-12 col-md-2 pb-2">
+							<label class="data-entry-label" for="att_method#i#">Method</label>
+							<input type="text" class="data-entry-input" id="att_method#i#" name="determination_method" value="#determination_method#">
+						</div>
+						<div class="col-12 col-md-9 pb-2">
+							<label for="att_rem" class="data-entry-label">Remarks</label>
+							<input type="text" class="data-entry-input" id="att_rem#i#" name="attribute_remark" value="#attribute_remark#">
+						</div>
+						<div class="col-12 col-md-3 mt-1 pt-3">
+							<button id="att_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Attribute">Save</button>
+							<button id="att_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Attribute">Delete</button>
+							<output id="att_output#i#"></output>
+						</div>
 					</div>
-					<div class="col-12 col-md-2">
-						<label class="data-entry-label">Determined Date</label>
-						<input type="text" class="data-entry-input" id="att_date#i#" name="determined_date" value="#dateformat(determined_date,"yyyy-mm-dd")#">
-					</div>
-					<div class="col-12 col-md-2">
-						<label class="data-entry-label" for="att_method#i#">Method</label>
-						<input type="text" class="data-entry-input" id="att_method#i#" name="determination_method" value="#determination_method#">
-					</div>
-					<div class="col-12 col-md-9 mt-1">
-						<label for="att_rem" class="data-entry-label">Remarks</label>
-						<input type="text" class="data-entry-input" id="att_rem#i#" name="attribute_remark" value="#attribute_remark#">
-					</div>
-					<div class="col-12 col-md-3 mt-1 pt-3">
-						<button id="att_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Attribute">Save</button>
-						<button id="att_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Attribute">Delete</button>
-						<output id="att_output#i#"></output>
-					</div>
-				</div>
-				<script>
-					$('##att_name#i#').on('change', function() {
-						handleTypeChangeExisting('#i#');
-					});
-				</script>
+					<script>
+						$('##att_name#i#').on('change', function() {
+							handleTypeChangeExisting('#i#');
+						});
+					</script>
 					</div>
 				</form>
 			</cfloop>
