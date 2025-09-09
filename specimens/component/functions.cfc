@@ -4346,8 +4346,8 @@ limitations under the License.
 				WHERE sampled_from_obj_id IS NULL 
 				ORDER BY has_identification asc, part_name
 			</cfquery>
-			<div class="form-row mx-0">
-				<div class="col-12 py-3 float-left">
+			<div class="">
+				<div class="col-12 py-3">
 					<h1 class="h3">Edit Existing Parts</h1>
 					<cfif mPart.recordCount EQ 0>
 						<div class="bg-white border p-2">
