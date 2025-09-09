@@ -4068,9 +4068,9 @@ limitations under the License.
 									<button class="btn btn-xs btn-secondary my-3 float-right" onclick="closePartsInPage();">
 										Back to Specimen</button>
 							</cfif>
-							<div class="add-form float-left">
-								<div class="add-form-header pt-1 px-2" id="headingPart">
-									<h2 class="h3 my-0 px-1 bp-1">Add New Part for #guid#</h2>
+							<div class="add-form float-left">								
+								<div class="add-form-header pt-1 pb-2 px-2" id="headingPart">
+									<h2 class="h3 my-0 px-1 pb-1">Add New Part for #guid#</h2>
 								</div>
 								<div class="card-body">
 									<form name="newPart" id="newPart" class="mb-0">
