@@ -726,7 +726,7 @@ limitations under the License.
 				<cfif identification.accepted_id_fg is 1>
 					<cfset divClasses ="list-group border-green bg-white rounded mx-1 my-2 p-2 h4 font-weight-normal">
 				<cfelse>
-					<cfset divClasses ="list-group border-transparent bg-white rounded mx-1 mt-0 mb-1 p-1 h4 font-weight-normal">
+					<cfset divClasses ="list-group border border-secondary bg-white rounded mx-1 mt-0 mb-1 p-2 h4 font-weight-normal">
 				</cfif>
 				<div class="#divClasses#">
 					<cfif identification.accepted_id_fg is 1>
