@@ -5237,7 +5237,7 @@ limitations under the License.
 													<input name="citation_page_uri" id="citation_page_uri" class="data-entry-input" type="text" value="">
 												</div>
 												<div class="float-left col-12 pb-1 px-1 pb-2">
-													<label for="citation_remarks" class="data-entry-label">Remarks	(<span id="length_remarks"></span>)</label>
+													<label for="citation_remarks" class="data-entry-label">Remarks <span id="length_remarks"></span></label>
 													<textarea id="citation_remarks" name="citation_remarks" 
 														onkeyup="countCharsLeft('citation_remarks', 4000, 'length_remarks');"
 														class="data-entry-textarea autogrow mb-1" maxlength="4000"></textarea>
