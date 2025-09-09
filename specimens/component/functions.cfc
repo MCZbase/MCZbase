@@ -289,16 +289,11 @@ limitations under the License.
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 				</cfquery>
 				<!--- should be just one record per collection_object_id --->
-					<div class="add-form float-left">
-								<div class="add-form-header pt-1 px-2 col-12 float-left">
-									<h2 class="h3 my-0 px-1 pb-1">Relate existing media to #getGuid.guid#</h2>
-								</div>
-					
-					
+		
 				<div class="container-fluid">
 					<div class="add-form float-left">
 						<div class="add-form-header pt-1 px-2 col-12 float-left">
-							<h2 class="h3 my-0 px-1 pb-1">Edit Remarks for #getGuid.guid#</h2>
+							<h2 class="h3 my-0 px-1 pb-1">Edit Remarks</h2>
 						</div>
 						<form name="formEditRemarks" id="formEditRemarks" class="card bg-light border p-2">
 						<div class="form-row row">
