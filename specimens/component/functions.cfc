@@ -859,7 +859,7 @@ limitations under the License.
 											}
 										</script>
 										<!--- if in_page, provide button to return to specimen details page --->
-										<button id="backToSpecimen1" class="btn btn-xs btn-secondary mt-2 float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
+										<button id="backToSpecimen1" class="btn btn-xs btn-secondary my-3 float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
 									</cfif>
 									<!--- identifiable, thus allow add identifications --->
 									<div class="add-form float-left">
@@ -1124,7 +1124,7 @@ limitations under the License.
 								<cfif attributes.in_page>
 									<!--- if in_page, provide button to return to specimen details page --->
 									<div class="col-12 px-0 mt-0">
-										<button id="backToSpecimen2" class="btn btn-xs btn-secondary mb-2 float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
+										<button id="backToSpecimen2" class="btn btn-xs btn-secondary mb-3 float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
 									</div>
 								</cfif>
 							</div>
@@ -4065,7 +4065,7 @@ limitations under the License.
 						<div class="col-12">
 							<cfif NOT dialog>
 									<!---<h2 class="h2">Parts for #guid#</h2> // seems redundant since it is on the page with the catalog number at the top--->
-									<button class="btn btn-xs btn-secondary mt-2 float-right" onclick="closePartsInPage();">
+									<button class="btn btn-xs btn-secondary my-3 float-right" onclick="closePartsInPage();">
 										Back to Specimen</button>
 							</cfif>
 							<div class="add-form float-left">
@@ -4199,7 +4199,7 @@ limitations under the License.
 								<!--- this div is replaced with the edit existing parts HTML when parts are added --->
 								#getEditExistingPartsUnthreaded(collection_object_id=attributes.collection_object_id)#
 							</div>
-							<button class="btn btn-xs btn-secondary float-right mb-2" onclick="closePartsInPage();">
+							<button class="btn btn-xs btn-secondary float-right mb-3" onclick="closePartsInPage();">
 								Back to Specimen</button>
 						</div>
 					</div>
@@ -6721,7 +6721,7 @@ limitations under the License.
 					<cfset guid = "#getLoc.institution_acronym#:#getLoc.collection_cde#:#getLoc.cat_num#">
 					<div class="col-12 px-0 pt-1">
 						<h2 class="h2 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
-						<button id="backToSpecimen1" class="btn btn-xs btn-secondary float-right mt-2" onclick="closeLocalityInPage();">Back to Specimen</button>
+						<button id="backToSpecimen1" class="btn btn-xs btn-secondary float-right my-3" onclick="closeLocalityInPage();">Back to Specimen</button>
 					</div>
 					<cfset splitToSave = true>
 					<cfif loccount.ct eq 1 and cecount.ct eq 1>
@@ -8608,7 +8608,7 @@ limitations under the License.
 									</cfif>
 								</div>
 								<div class="mt-3 float-right">
-									<button id="backToSpecimen2" class="btn btn-xs btn-secondary mb-2" onclick="closeLocalityInPage();">Back to Specimen</button>
+									<button id="backToSpecimen2" class="btn btn-xs btn-secondary mb-3" onclick="closeLocalityInPage();">Back to Specimen</button>
 								</div>
 							</div>
 						</div>
