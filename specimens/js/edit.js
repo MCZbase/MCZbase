@@ -216,6 +216,7 @@ function openEditIdentificationsInPage(collection_object_id,callback) {
 	$('#SpecimenDetailsDiv').hide();
 	$('#editControlsBlock').hide();
 	$("#InPageEditorDiv").addClass("bg-teal");
+	$("#InPageEditorDiv").addClass("border-bottom");
 	$("#InPageEditorDiv").html("Loading...");
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
@@ -807,6 +808,7 @@ function closeInPage(callback=null) {
 	$('#SpecimenDetailsDiv').show();
 	$('#editControlsBlock').show();
 	$("#InPageEditorDiv").addClass("bg-teal");
+	$("#InPageEditorDiv").addClass("border-bottom");
 	if (callback instanceof Function) {
 		callback();
 	}
@@ -822,6 +824,7 @@ function openEditLocalityInPage(collection_object_id,callback) {
 	$('#SpecimenDetailsDiv').hide();
 	$('#editControlsBlock').hide();
 	$("#InPageEditorDiv").addClass("bg-teal");
+	$("#InPageEditorDiv").addClass("border-bottom");
 	$("#InPageEditorDiv").html("Loading...");
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
@@ -850,6 +853,7 @@ function openEditPartsInPage(collection_object_id,callback) {
 	$('#SpecimenDetailsDiv').hide();
 	$('#editControlsBlock').hide();
 	$("#InPageEditorDiv").addClass("bg-teal");
+	$("#InPageEditorDiv").addClass("border-bottom");
 	$("#InPageEditorDiv").html("Loading...");
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
