@@ -1118,7 +1118,7 @@ limitations under the License.
 										</cfif>
 									</div>
 								</cfif>
-								<div id="identificationDialogList" class="col-12 float-left mt-4 mb-3 px-0">
+								<div id="identificationDialogList" class="col-12 float-left my-3 px-0">
 									<cfset idList = getIdentificationsUnthreadedHTML(collection_object_id = attributes.collection_object_id, editable=true)>
 								</div>
 								<cfif attributes.in_page>
