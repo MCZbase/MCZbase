@@ -5148,7 +5148,7 @@ limitations under the License.
 							<div class="col-12">
 								<div class="add-form">
 									<div class="add-form-header pt-1 px-2" id="headingCitation">
-										<h2 class="h3 my-0 px-1 bp-1">Add New Citation of #guid#</h2>
+										<h2 class="h3 my-0 px-1 pb-1">Add New Citation of #guid#</h2>
 									</div>
 									<div class="card-body">
 										<form name="newCitation" id="newCitation" class="mb-0">
