@@ -5778,14 +5778,14 @@ limitations under the License.
 							<div class="col-12">
 								<div class="add-form">
 									<div class="add-form-header pt-1 px-2" id="headingAttribute">
-										<h2 class="h3 my-0 px-1 bp-1">Add New Attribute to #guid#</h2>
+										<h2 class="h3 my-0 px-1 pb-1">Add New Attribute to #guid#</h2>
 									</div>
 									<div class="card-body">
 										<form name="newAttribute" id="newAttribute" class="mb-1">
 											<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 											<input type="hidden" name="method" value="addAttribute">
 											<div class="row mx-0 pb-2">
-												<div class="col-12 col-md-4 px-1">
+												<div class="col-12 col-md-4 pb-2 px-1">
 													<label for="attribute_type" class="data-entry-label">Name</label>
 													<select name="attribute_type" id="attribute_type" class="data-entry-select reqdClr" required>
 														<option value=""></option>
@@ -5794,34 +5794,34 @@ limitations under the License.
 														</cfloop>
 													</select>
 												</div>
-												<div class="col-12 col-md-4 px-1">
+												<div class="col-12 col-md-4 pb-2 px-1">
 													<label for="attribute_value" class="data-entry-label">Value</label>
 													<input type="text" class="data-entry-input" id="attribute_value" name="attribute_value" value="">
 												</div>
-												<div class="col-12 col-md-4 px-1">
+												<div class="col-12 col-md-4 pb-2 px-1">
 													<label for="attribute_units" class="data-entry-label">Units</label>
 													<input type="text" class="data-entry-input" id="attribute_units" name="attribute_units" value="">
 												</div>
-												<div class="col-12 col-md-4 px-1">
+												<div class="col-12 col-md-4 pb-2 px-1">
 													<label for="determined_by_agent" class="data-entry-label">Determiner</label>
 													<input type="text" class="data-entry-input" id="determined_by_agent" name="determined_by_agent" value="#getCurrentUser.agent_name#">
 													<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id" value="#getCurrentUser.agent_id#">
 												</div>
-												<div class="col-12 col-md-4 px-1">
+												<div class="col-12 col-md-4 pb-2 px-1">
 													<label for="determined_date" class="data-entry-label">Determined Date</label>
 													<input type="text" class="data-entry-input" id="determined_date" name="determined_date" 
 														placeholder="yyyy-mm-dd" value="#dateformat(now(),"yyyy-mm-dd")#">
 												</div>
-												<div class="col-12 col-md-4 px-1">
+												<div class="col-12 col-md-4 pb-2 px-1">
 													<label for="determination_method" class="data-entry-label">Determined Method</label>
 													<input type="text" class="data-entry-input" id="determination_method" name="determination_method" value="">
 												</div>
-												<div class="col-12 col-md-10 px-1 pt-1">
+												<div class="col-12 col-md-10 pb-2 px-1">
 													<label for="attribute_remark" class="data-entry-label">Remarks</label>
 													<input type="text" class="data-entry-input" id="attribute_remark" name="attribute_remark" value="" maxlength="255">
 												</div>
 												<div class="col-12 col-md-2 px-1 pt-1 mt-3">
-													<button id="newAttribute_submit" value="Create" class="btn btn-xs btn-primary" title="Create Attribute">Create Attribute</button>
+													<button id="newAttribute_submit" value="Create" class="mt-2 btn btn-xs btn-primary" title="Create Attribute">Create Attribute</button>
 													<output id="newAttribute_output"></output>
 												</div>
 											</div>
