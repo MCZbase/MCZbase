@@ -502,7 +502,7 @@ limitations under the License.
 								</div><!--- end card-body for add form --->
 							</div><!--- end add-form for link media --->
 							<!--- remove relationships to existing media from cataloged item --->
-							<div class="col-12 col-lg-12 float-left mb-4 px-0 border">
+							<div class="col-12 col-lg-12 float-left mb-4 mt-3 px-0 border">
 								<div class="bg-light p-0">
 									<h2 class="my-0 py-1 text-dark">
 										<span class="h3 px-2">Edit existing links to media</span> 
