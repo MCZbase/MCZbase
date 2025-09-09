@@ -291,71 +291,75 @@ limitations under the License.
 				<!--- should be just one record per collection_object_id --->
 		
 				<div class="container-fluid">
-					<div class="add-form mt-3 float-left">
-						<div class="add-form-header py-2 col-12 float-left">
-							<h2 class="h3 my-0 px-1 pb-1">Edit Remarks</h2>
+					<div class="row">
+						<div class="col-12 bg-light border">
+							<div class="add-form mt-3">
+								<div class="add-form-header py-2 ">
+									<h2 class="h3 my-0 px-1 pb-1">Edit Remarks</h2>
+								</div>
+								<form name="formEditRemarks" id="formEditRemarks">
+									<div class="form-row">
+										<input type="hidden" name="collection_object_id" id="collection_object_id" value="#variables.collection_object_id#">
+										<cfif getRemarks.recordcount EQ 0>
+											<cfset remarksText = "">
+											<cfset dispositionText = "">
+											<cfset habitatText = "">
+											<cfset associatedText = "">
+										<cfelse>
+											<cfset remarksText = getRemarks.coll_object_remarks>
+											<cfset dispositionText = getRemarks.disposition_remarks>
+											<cfset habitatText = getRemarks.habitat>
+											<cfset associatedText = getRemarks.associated_species>
+										</cfif>
+										<div class="col-12 pb-2">
+											<label for="coll_object_remarks">Remarks (<span id='length_coll_object_remarks'></span>):</label>
+											<textarea name="coll_object_remarks" id="coll_object_remarks" rows="2" 
+												onkeyup="countCharsLeft('coll_object_remarks', 4000, 'length_coll_object_remarks');"
+												class="form-control form-control-sm w-100 autogrow mb-1">#remarksText#</textarea>
+										</div>
+										<div class="col-12 pb-2">
+											<label for="disposition_remarks">Disposition Remarks (<span id='length_disposition_remarks'></span>):</label>
+											<textarea name="disposition_remarks" id="disposition_remarks" rows="2" 
+												onkeyup="countCharsLeft('disposition_remarks', 4000, 'length_disposition_remarks');"
+												class="form-control form-control-sm w-100 autogrow mb-1">#dispositionText#</textarea>
+										</div>
+										<div class="col-12 pb-2">
+											<label for="habitat">Microhabitat (<span id='length_habitat'></span>):</label>
+											<textarea name="habitat" id="habitat" rows="2" 
+												onkeyup="countCharsLeft('habitat', 4000, 'length_habitat');"
+												class="form-control form-control-sm w-100 autogrow mb-1">#habitatText#</textarea>
+										</div>
+										<div class="col-12 pb-2">
+											<label for="associated_species">Associated Species (<span id='length_associated_species'></span>):</label>
+											<textarea name="associated_species" id="associated_species" rows="2" 
+												onkeyup="countCharsLeft('associated_species', 4000, 'length_associated_species');"
+												class="form-control form-control-sm w-100 autogrow mb-1">#associatedText#</textarea>
+										</div>
+										<div class="col-12 col-md-3 pb-2 mt-1">
+											<input type="button" value="Save" class="btn btn-xs btn-primary" id="saveRemarksButton" onClick="handleSaveRemarks();">
+										</div>
+										<div class="col-12 col-md-9 mt-md-1">
+											<output id="saveRemarksStatus" class="pt-1"></output>
+										</div>
+									</div>
+								</form>
+							<script>
+							// Make all textareas with autogrow class be bound to the autogrow function on key up
+							$(document).ready(function() { 
+								$("textarea.autogrow").keyup(autogrow);  
+								$('textarea.autogrow').keyup();
+							});
+							function handleSaveRemarks() {
+								var collection_object_id = $("##collection_object_id").val();
+								var coll_object_remarks = $("##coll_object_remarks").val();
+								var disposition_remarks = $("##disposition_remarks").val();
+								var habitat = $("##habitat").val();
+								var associated_species = $("##associated_species").val();
+								saveRemarks(collection_object_id,coll_object_remarks,disposition_remarks,habitat,associated_species,reloadRemarks,"saveRemarksStatus");
+							};
+						</script>
+							</div>
 						</div>
-						<form name="formEditRemarks" id="formEditRemarks" class="bg-light border">
-						<div class="form-row">
-							<input type="hidden" name="collection_object_id" id="collection_object_id" value="#variables.collection_object_id#">
-							<cfif getRemarks.recordcount EQ 0>
-								<cfset remarksText = "">
-								<cfset dispositionText = "">
-								<cfset habitatText = "">
-								<cfset associatedText = "">
-							<cfelse>
-								<cfset remarksText = getRemarks.coll_object_remarks>
-								<cfset dispositionText = getRemarks.disposition_remarks>
-								<cfset habitatText = getRemarks.habitat>
-								<cfset associatedText = getRemarks.associated_species>
-							</cfif>
-							<div class="col-12 pb-2">
-								<label for="coll_object_remarks">Remarks (<span id='length_coll_object_remarks'></span>):</label>
-								<textarea name="coll_object_remarks" id="coll_object_remarks" rows="2" 
-									onkeyup="countCharsLeft('coll_object_remarks', 4000, 'length_coll_object_remarks');"
-									class="form-control form-control-sm w-100 autogrow mb-1">#remarksText#</textarea>
-							</div>
-							<div class="col-12 pb-2">
-								<label for="disposition_remarks">Disposition Remarks (<span id='length_disposition_remarks'></span>):</label>
-								<textarea name="disposition_remarks" id="disposition_remarks" rows="2" 
-									onkeyup="countCharsLeft('disposition_remarks', 4000, 'length_disposition_remarks');"
-									class="form-control form-control-sm w-100 autogrow mb-1">#dispositionText#</textarea>
-							</div>
-							<div class="col-12 pb-2">
-								<label for="habitat">Microhabitat (<span id='length_habitat'></span>):</label>
-								<textarea name="habitat" id="habitat" rows="2" 
-									onkeyup="countCharsLeft('habitat', 4000, 'length_habitat');"
-									class="form-control form-control-sm w-100 autogrow mb-1">#habitatText#</textarea>
-							</div>
-							<div class="col-12 pb-2">
-								<label for="associated_species">Associated Species (<span id='length_associated_species'></span>):</label>
-								<textarea name="associated_species" id="associated_species" rows="2" 
-									onkeyup="countCharsLeft('associated_species', 4000, 'length_associated_species');"
-									class="form-control form-control-sm w-100 autogrow mb-1">#associatedText#</textarea>
-							</div>
-							<div class="col-12 col-md-3 pb-2 mt-1">
-								<input type="button" value="Save" class="btn btn-xs btn-primary" id="saveRemarksButton" onClick="handleSaveRemarks();">
-							</div>
-							<div class="col-12 col-md-9 mt-md-1">
-								<output id="saveRemarksStatus" class="pt-1"></output>
-							</div>
-						</div>
-					</form>
-						<script>
-						// Make all textareas with autogrow class be bound to the autogrow function on key up
-						$(document).ready(function() { 
-							$("textarea.autogrow").keyup(autogrow);  
-							$('textarea.autogrow').keyup();
-						});
-						function handleSaveRemarks() {
-							var collection_object_id = $("##collection_object_id").val();
-							var coll_object_remarks = $("##coll_object_remarks").val();
-							var disposition_remarks = $("##disposition_remarks").val();
-							var habitat = $("##habitat").val();
-							var associated_species = $("##associated_species").val();
-							saveRemarks(collection_object_id,coll_object_remarks,disposition_remarks,habitat,associated_species,reloadRemarks,"saveRemarksStatus");
-						};
-					</script>
 					</div>
 				</div>
 			<cfcatch>
