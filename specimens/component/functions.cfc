@@ -4195,7 +4195,7 @@ limitations under the License.
 							}
 						</script>
 							<!--- edit existing parts --->
-							<div id="editExistingPartsDiv" class="col-12 float-left">
+							<div id="editExistingPartsDiv" class="col-12 px-0 float-left">
 								<!--- this div is replaced with the edit existing parts HTML when parts are added --->
 								#getEditExistingPartsUnthreaded(collection_object_id=attributes.collection_object_id)#
 							</div>
