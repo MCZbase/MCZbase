@@ -218,7 +218,6 @@ function openEditIdentificationsInPage(collection_object_id,callback) {
 	$("#InPageEditorDiv").addClass("border");
 	$("#InPageEditorDiv").addClass("border-secondary");
 	$("#InPageEditorDiv").addClass("bg-teal");
-	$("#InPageEditorDiv").addClass("rounded");
 	$("#InPageEditorDiv").addClass("py-3");
 	$("#InPageEditorDiv").addClass("mt-3");
 	$("#InPageEditorDiv").addClass("border-3");
@@ -815,7 +814,6 @@ function closeInPage(callback=null) {
 	$("#InPageEditorDiv").addClass("border");
 	$("#InPageEditorDiv").addClass("border-secondary");
 	$("#InPageEditorDiv").addClass("bg-teal");
-	$("#InPageEditorDiv").addClass("rounded");
 	$("#InPageEditorDiv").addClass("py-3");
 	$("#InPageEditorDiv").addClass("mt-3");
 	$("#InPageEditorDiv").addClass("border-3");
@@ -836,7 +834,6 @@ function openEditLocalityInPage(collection_object_id,callback) {
 	$("#InPageEditorDiv").addClass("border");
 	$("#InPageEditorDiv").addClass("border-secondary");
 	$("#InPageEditorDiv").addClass("bg-teal");
-	$("#InPageEditorDiv").addClass("rounded");
 	$("#InPageEditorDiv").addClass("py-3");
 	$("#InPageEditorDiv").addClass("mt-3");
 	$("#InPageEditorDiv").addClass("border-3");
@@ -870,7 +867,6 @@ function openEditPartsInPage(collection_object_id,callback) {
 	$("#InPageEditorDiv").addClass("border");
 	$("#InPageEditorDiv").addClass("border-secondary");
 	$("#InPageEditorDiv").addClass("bg-teal");
-	$("#InPageEditorDiv").addClass("rounded");
 	$("#InPageEditorDiv").addClass("py-3");
 	$("#InPageEditorDiv").addClass("mt-3");
 	$("#InPageEditorDiv").addClass("border-3");
