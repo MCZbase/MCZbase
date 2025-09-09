@@ -1193,7 +1193,7 @@ limitations under the License.
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")>
 		<div class="container-fluid">
 			<section class="row" id="QCSection">
-				<div class="col-12 px-2 border bg-light rounded mt-2">
+				<div class="col-12 mt-2">
 					<!---  Include the TDWG BDQ TG2 test integration --->
 					<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
 					<script>
