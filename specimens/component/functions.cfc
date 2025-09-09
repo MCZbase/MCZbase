@@ -4079,14 +4079,14 @@ limitations under the License.
 										<input type="hidden" name="is_subsample" value="false"><!--- TODO: Add subsample support --->
 										<input type="hidden" name="subsampled_from_obj_id" value="">
 										<div class="row mx-0 pb-2 col-12 px-0 mt-2 mb-1">
-											<div class="float-left col-12 col-md-4 px-1">
+											<div class="float-left col-12 col-md-4 mb-2 px-1">
 												<label for="part_name" class="data-entry-label">
 													<span>Part Name</span>
 													<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTSPECIMEN_PART_NAME&collection_cde=#getCatItem.collection_cde#" title="List of part names specific to the #getCatItem.collection_cde# collection." target="_blank">Define Values</a>]</span>
 												</label>
 												<input name="part_name" class="data-entry-input reqdClr" id="part_name" type="text" required>
 											</div>
-											<div class="float-left col-12 col-md-4 px-1">
+											<div class="float-left col-12 col-md-4 mb-2 px-1">
 												<label for="preserve_method" class="data-entry-label">
 													<span>Preserve Method</span>
 													<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTSPECIMEN_PRESERV_METHOD&collection_cde=#getCatItem.collection_cde#" title="List of preserve methods specific to the #getCatItem.collection_cde# collection." target="_blank">Define Values</a>]</span>
@@ -4098,7 +4098,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="float-left col-12 col-md-2 px-1">
+											<div class="float-left col-12 col-md-2 mb-2 px-1">
 												<label for="lot_count_modifier" class="data-entry-label">Count Modifier</label>
 												<select name="lot_count_modifier" id="lot_count_modifier" class="data-entry-select">
 													<option value=""></option>
@@ -4107,11 +4107,11 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="float-left col-12 col-md-2 px-1">
+											<div class="float-left col-12 col-md-2 mb-2 px-1">
 												<label for="lot_count" class="data-entry-label">Count</label>
 												<input name="lot_count" id="lot_count" class="data-entry-input reqdClr" type="text" required>
 											</div>
-											<div class="float-left col-12 col-md-4 px-1">
+											<div class="float-left col-12 col-md-4 mb-2 px-1">
 												<label for="coll_obj_disposition" class="data-entry-label">Disposition</label>
 												<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select reqdClr" required>
 													<option value=""></option>
@@ -4120,15 +4120,15 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="float-left col-12 col-md-4 px-1">
+											<div class="float-left col-12 col-md-4 mb-2 px-1">
 												<label for="condition" class="data-entry-label">Condition</label>
 												<input name="condition" id="condition" class="data-entry-input reqdClr" type="text" required>
 											</div>
-											<div class="float-left col-12 col-md-4 px-1">
+											<div class="float-left col-12 col-md-4 mb-2 px-1">
 												<label for="container_barcode" class="data-entry-label">Container</label>
 												<input name="container_barcode" id="container_barcode" class="data-entry-input" type="text" placeholder="Scan or type barcode">
 											</div>
-											<div class="float-left col-12 col-md-10 px-1 mt-1">
+											<div class="float-left col-12 col-md-10 px-1">
 												<label for="coll_object_remarks" class="data-entry-label">Remarks (<span id="length_remarks"></span>)</label>
 												<textarea id="coll_object_remarks" name="coll_object_remarks" 
 													onkeyup="countCharsLeft('coll_object_remarks', 4000, 'length_remarks');"
@@ -4199,7 +4199,7 @@ limitations under the License.
 								<!--- this div is replaced with the edit existing parts HTML when parts are added --->
 								#getEditExistingPartsUnthreaded(collection_object_id=attributes.collection_object_id)#
 							</div>
-							<button class="btn btn-xs mt-2 btn-secondary float-right" onclick="closePartsInPage();">
+							<button class="btn btn-xs btn-secondary float-right" onclick="closePartsInPage();">
 								Back to Specimen</button>
 						</div>
 					</div>
