@@ -215,12 +215,7 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
 function openEditIdentificationsInPage(collection_object_id,callback) { 
 	$('#SpecimenDetailsDiv').hide();
 	$('#editControlsBlock').hide();
-	$("#InPageEditorDiv").addClass("border");
-	$("#InPageEditorDiv").addClass("border-secondary");
 	$("#InPageEditorDiv").addClass("bg-teal");
-	$("#InPageEditorDiv").addClass("py-3");
-	$("#InPageEditorDiv").addClass("mt-3");
-	$("#InPageEditorDiv").addClass("border-3");
 	$("#InPageEditorDiv").html("Loading...");
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
@@ -811,12 +806,7 @@ function closeInPage(callback=null) {
 	$("#InPageEditorDiv").html("");
 	$('#SpecimenDetailsDiv').show();
 	$('#editControlsBlock').show();
-	$("#InPageEditorDiv").addClass("border");
-	$("#InPageEditorDiv").addClass("border-secondary");
 	$("#InPageEditorDiv").addClass("bg-teal");
-	$("#InPageEditorDiv").addClass("py-3");
-	$("#InPageEditorDiv").addClass("mt-3");
-	$("#InPageEditorDiv").addClass("border-3");
 	if (callback instanceof Function) {
 		callback();
 	}
@@ -831,12 +821,7 @@ function closeInPage(callback=null) {
 function openEditLocalityInPage(collection_object_id,callback) { 
 	$('#SpecimenDetailsDiv').hide();
 	$('#editControlsBlock').hide();
-	$("#InPageEditorDiv").addClass("border");
-	$("#InPageEditorDiv").addClass("border-secondary");
 	$("#InPageEditorDiv").addClass("bg-teal");
-	$("#InPageEditorDiv").addClass("py-3");
-	$("#InPageEditorDiv").addClass("mt-3");
-	$("#InPageEditorDiv").addClass("border-3");
 	$("#InPageEditorDiv").html("Loading...");
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
@@ -864,12 +849,7 @@ function openEditLocalityInPage(collection_object_id,callback) {
 function openEditPartsInPage(collection_object_id,callback) { 
 	$('#SpecimenDetailsDiv').hide();
 	$('#editControlsBlock').hide();
-	$("#InPageEditorDiv").addClass("border");
-	$("#InPageEditorDiv").addClass("border-secondary");
 	$("#InPageEditorDiv").addClass("bg-teal");
-	$("#InPageEditorDiv").addClass("py-3");
-	$("#InPageEditorDiv").addClass("mt-3");
-	$("#InPageEditorDiv").addClass("border-3");
 	$("#InPageEditorDiv").html("Loading...");
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
