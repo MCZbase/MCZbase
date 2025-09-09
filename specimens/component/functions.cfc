@@ -4210,6 +4210,7 @@ limitations under the License.
 					function closePartsInPage() {
 						closeInPage(reloadParts);
 					}
+				</script>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
@@ -4261,14 +4262,12 @@ limitations under the License.
 				FROM ctnumeric_modifiers 
 				ORDER BY modifier DESC
 			</cfquery>
-			
 			<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT preserve_method
 				FROM ctspecimen_preserv_method
 				WHERE collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
 				ORDER BY preserve_method
 			</cfquery>
-			
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					specimen_part.collection_object_id part_id,
@@ -4307,7 +4306,6 @@ limitations under the License.
 				WHERE
 					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 			</cfquery>
-			
 			<cfquery name="parts" dbtype="query">
 				SELECT
 					part_id,
@@ -4344,348 +4342,344 @@ limitations under the License.
 				ORDER BY
 					has_identification asc, part_name
 			</cfquery>
-			
 			<cfquery name="mPart" dbtype="query">
 				SELECT * 
 				FROM parts 
 				WHERE sampled_from_obj_id IS NULL 
 				ORDER BY has_identification asc, part_name
 			</cfquery>
-			
 			<div class="row">
-				<div class="col-12">
-					<div class="col-12 py-3">
-						<h1 class="h3">Edit Existing Parts</h1>
-						<cfif mPart.recordCount EQ 0>
-							<p>No parts found</p>
-						<cfelse>
-							<cfset var i = 0>
-							<cfloop query="mPart">
-								<cfset i = i + 1>
-								<!--- lookup material sample id from guid_our_thing table --->
-								<cfquery name="getMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-									SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable, internal_fg, local_identifier
-									FROM guid_our_thing
-									WHERE guid_is_a = 'materialSampleID'
-									  AND sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mPart.part_id#">
+				<div class="col-12 px-0 py-3">
+					<h1 class="h3">Edit Existing Parts</h1>
+					<cfif mPart.recordCount EQ 0>
+						<p>No parts found</p>
+					<cfelse>
+						<cfset var i = 0>
+						<cfloop query="mPart">
+							<cfset i = i + 1>
+							<!--- lookup material sample id from guid_our_thing table --->
+							<cfquery name="getMaterialSampleID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT guid_our_thing_id, assembled_identifier, assembled_resolvable, internal_fg, local_identifier
+								FROM guid_our_thing
+								WHERE guid_is_a = 'materialSampleID'
+								  AND sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mPart.part_id#">
+							</cfquery>
+							<cfif mPart.has_identification EQ "1">
+								<cfset addedClass = "part_occurrence">
+							<cfelse>
+								<cfset addedClass = "">
+							</cfif>
+							<div class="mx-0 py-1 mb-0 #addedClass#">
+								<!--- find identifications of the part to see if this is a mixed collection --->
+								<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT identification_id
+									FROM identification
+									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 								</cfquery>
-								<cfif mPart.has_identification EQ "1">
-									<cfset addedClass = "part_occurrence">
-								<cfelse>
-									<cfset addedClass = "">
-								</cfif>
-								<div class="mx-0 py-1 mb-0 #addedClass#">
-									<!--- find identifications of the part to see if this is a mixed collection --->
-									<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT identification_id
-										FROM identification
-										WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
-									</cfquery>
-									<form name="editPart#i#" id="editPart#i#">
-										<div class="col-12 form-row px-0">
-											<input type="hidden" name="part_collection_object_id" value="#part_id#">
-											<input type="hidden" name="method" value="updatePart">
-											<div class="col-12 col-md-4 mb-2">
-												<label for="part_name#i#" class="data-entry-label">Part Name</label>
-												<input type="text" class="data-entry-input reqdClr" id="part_name#i#" name="part_name" value="#base_part_name#" required>
-											</div>
-											<div class="col-12 col-md-4 mb-2">
-												<label for="preserve_method#i#" class="data-entry-label">Preserve Method</label>
-												<select name="preserve_method" id="preserve_method#i#" class="data-entry-select reqdClr" required>
-													<option value=""></option>
-													<cfloop query="ctPreserveMethod">
-														<cfif ctPreserveMethod.preserve_method EQ mPart.preserve_method>
-															<cfset selected = "selected">
-														<cfelse>
-															<cfset selected = "">
-														</cfif>
-														<option value="#ctPreserveMethod.preserve_method#" #selected#>#ctPreserveMethod.preserve_method#</option>
-													</cfloop>
-												</select>
-											</div>
-											<div class="col-12 col-md-2 mb-2">
-												<label for="lot_count_modifier#i#" class="data-entry-label">Count Modifier</label>
-												<select name="lot_count_modifier" id="lot_count_modifier#i#" class="data-entry-select">
-													<option value=""></option>
-													<cfloop query="ctModifiers">
-														<cfif ctModifiers.modifier EQ mPart.lot_count_modifier>
-															<cfset selected = "selected">
-														<cfelse>
-															<cfset selected = "">
-														</cfif>
-														<option value="#ctModifiers.modifier#" #selected#>#ctModifiers.modifier#</option>
-													</cfloop>
-												</select>
-											</div>
-											<div class="col-12 col-md-2 mb-2">
-												<label for="lot_count#i#" class="data-entry-label">Count</label>
-												<input type="text" class="data-entry-input reqdClr" id="lot_count#i#" name="lot_count" value="#lot_count#" required>
-											</div>
-											<div class="col-12 col-md-4 mb-2">
-												<label for="part_disposition#i#" class="data-entry-label">Disposition</label>
-												<select name="disposition" id="part_disposition#i#" class="data-entry-select reqdClr" required>
-													<option value=""></option>
-													<cfloop query="ctDisp">
-														<cfif ctDisp.coll_obj_disposition EQ mPart.part_disposition>
-															<cfset selected = "selected">
-														<cfelse>
-															<cfset selected = "">
-														</cfif>
-														<option value="#ctDisp.coll_obj_disposition#" #selected#>#ctDisp.coll_obj_disposition#</option>
-													</cfloop>
-												</select>
-											</div>
-											<div class="col-12 col-md-4 mb-2">
-												<label for="part_condition#i#" class="data-entry-label">Condition</label>
-												<input type="text" class="data-entry-input reqdClr" id="part_condition#i#" name="condition" value="#part_condition#" required>
-											</div>
-											<div class="col-12 col-md-4 mb-2">
-												<label for="container_label#i#" class="data-entry-label">Container</label>
-												<input type="text" class="data-entry-input" id="container_label#i#" name="container_barcode" value="#label#">
-												<input type="hidden" id="container_id#i#" name="container_id" value="#container_id#">
-											</div>
-											<div class="col-12 col-md-9 mb-2">
-												<label for="part_remarks#i#" class="data-entry-label">Remarks (<span id="length_remarks_#i#"></span>)</label>
-												<textarea id="part_remarks#i#" name="coll_object_remarks" 
-													onkeyup="countCharsLeft('part_remarks#i#', 4000, 'length_remarks_#i#');"
-													class="data-entry-textarea autogrow mb-1" maxlength="4000"
-												>#part_remarks#</textarea>
-											</div>
-											<div class="col-12 col-md-3 pt-2">
-												<button id="part_submit#i#" value="Save" class="mt-2 btn btn-xs btn-primary" title="Save Part">Save</button>
-												<cfif getIdentifications.recordcount EQ 0>
-													<button id="part_delete#i#" value="Delete" class="mt-2 btn btn-xs btn-danger" title="Delete Part">Delete</button>
-													<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-														<button id="newpart_mixed#i#" value="Mixed" class="mt-2 btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
+								<form name="editPart#i#" id="editPart#i#">
+									<div class="col-12 form-row px-0">
+										<input type="hidden" name="part_collection_object_id" value="#part_id#">
+										<input type="hidden" name="method" value="updatePart">
+										<div class="col-12 col-md-4 mb-2">
+											<label for="part_name#i#" class="data-entry-label">Part Name</label>
+											<input type="text" class="data-entry-input reqdClr" id="part_name#i#" name="part_name" value="#base_part_name#" required>
+										</div>
+										<div class="col-12 col-md-4 mb-2">
+											<label for="preserve_method#i#" class="data-entry-label">Preserve Method</label>
+											<select name="preserve_method" id="preserve_method#i#" class="data-entry-select reqdClr" required>
+												<option value=""></option>
+												<cfloop query="ctPreserveMethod">
+													<cfif ctPreserveMethod.preserve_method EQ mPart.preserve_method>
+														<cfset selected = "selected">
+													<cfelse>
+														<cfset selected = "">
 													</cfif>
-												<cfelse>
-													<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-														<button id="part_mixed#i#" value="Mixed" class="mt-2 btn btn-xs btn-warning" title="Make Mixed Collection">Edit Identifications</button>
+													<option value="#ctPreserveMethod.preserve_method#" #selected#>#ctPreserveMethod.preserve_method#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-2 mb-2">
+											<label for="lot_count_modifier#i#" class="data-entry-label">Count Modifier</label>
+											<select name="lot_count_modifier" id="lot_count_modifier#i#" class="data-entry-select">
+												<option value=""></option>
+												<cfloop query="ctModifiers">
+													<cfif ctModifiers.modifier EQ mPart.lot_count_modifier>
+														<cfset selected = "selected">
+													<cfelse>
+														<cfset selected = "">
 													</cfif>
+													<option value="#ctModifiers.modifier#" #selected#>#ctModifiers.modifier#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-2 mb-2">
+											<label for="lot_count#i#" class="data-entry-label">Count</label>
+											<input type="text" class="data-entry-input reqdClr" id="lot_count#i#" name="lot_count" value="#lot_count#" required>
+										</div>
+										<div class="col-12 col-md-4 mb-2">
+											<label for="part_disposition#i#" class="data-entry-label">Disposition</label>
+											<select name="disposition" id="part_disposition#i#" class="data-entry-select reqdClr" required>
+												<option value=""></option>
+												<cfloop query="ctDisp">
+													<cfif ctDisp.coll_obj_disposition EQ mPart.part_disposition>
+														<cfset selected = "selected">
+													<cfelse>
+														<cfset selected = "">
+													</cfif>
+													<option value="#ctDisp.coll_obj_disposition#" #selected#>#ctDisp.coll_obj_disposition#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-4 mb-2">
+											<label for="part_condition#i#" class="data-entry-label">Condition</label>
+											<input type="text" class="data-entry-input reqdClr" id="part_condition#i#" name="condition" value="#part_condition#" required>
+										</div>
+										<div class="col-12 col-md-4 mb-2">
+											<label for="container_label#i#" class="data-entry-label">Container</label>
+											<input type="text" class="data-entry-input" id="container_label#i#" name="container_barcode" value="#label#">
+											<input type="hidden" id="container_id#i#" name="container_id" value="#container_id#">
+										</div>
+										<div class="col-12 col-md-9 mb-2">
+											<label for="part_remarks#i#" class="data-entry-label">Remarks (<span id="length_remarks_#i#"></span>)</label>
+											<textarea id="part_remarks#i#" name="coll_object_remarks" 
+												onkeyup="countCharsLeft('part_remarks#i#', 4000, 'length_remarks_#i#');"
+												class="data-entry-textarea autogrow mb-1" maxlength="4000"
+											>#part_remarks#</textarea>
+										</div>
+										<div class="col-12 col-md-3 pt-2">
+											<button id="part_submit#i#" value="Save" class="mt-2 btn btn-xs btn-primary" title="Save Part">Save</button>
+											<cfif getIdentifications.recordcount EQ 0>
+												<button id="part_delete#i#" value="Delete" class="mt-2 btn btn-xs btn-danger" title="Delete Part">Delete</button>
+												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+													<button id="newpart_mixed#i#" value="Mixed" class="mt-2 btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
 												</cfif>
-												<output id="part_output#i#"></output>
-											</div>
+											<cfelse>
+												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+													<button id="part_mixed#i#" value="Mixed" class="mt-2 btn btn-xs btn-warning" title="Make Mixed Collection">Edit Identifications</button>
+												</cfif>
+											</cfif>
+											<output id="part_output#i#"></output>
 										</div>
-									</form>
-
-									<!--- Show identifications if this is a mixed collection --->
-									<cfif getIdentifications.recordcount GT 0>
-										<div class="col-12 small">
-											<strong>Mixed Collection Identifications of #mpart.base_part_name# (#mpart.preserve_method#)</strong>
-											#getIdentificationsUnthreadedHTML(collection_object_id=part_id)#
-										</div>
-									</cfif>
-	
-									<!--- Show part attributes --->
-									<cfquery name="patt" dbtype="query">
-										SELECT
-											attribute_type,
-											attribute_value,
-											attribute_units,
-											determined_date,
-											attribute_remark,
-											agent_name
-										FROM
-											rparts
-										WHERE
-											attribute_type IS NOT NULL AND
-											part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
-										GROUP BY
-											attribute_type,
-											attribute_value,
-											attribute_units,
-											determined_date,
-											attribute_remark,
-											agent_name
-									</cfquery>
-									<div class="col-12 row mx-0 bg-white border py-1">
-										<cfif patt.recordcount EQ 0>
-											<span class="font-weight-lessbold pt-1">No Part Attributes:</span>
-											<button class="btn btn-xs btn-secondary py-0 mx-3" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
-										<cfelse>
-											<div class="col-12 px-0 small">
-												<strong>Part Attributes (#patt.recordcount#):</strong>
-												<button class="btn btn-xs btn-secondary mx-3" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
-												<cfloop query="patt">
-													<div class="ml-2">
-														#attribute_type# = #attribute_value#
-														<cfif len(attribute_units) GT 0> #attribute_units#</cfif>
-														<cfif len(determined_date) GT 0> (determined: #dateformat(determined_date,"yyyy-mm-dd")#)</cfif>
-														<cfif len(agent_name) GT 0> by #agent_name#</cfif>
-														<cfif len(attribute_remark) GT 0> - #attribute_remark#</cfif>
-													</div>
-												</cfloop>
-											</div>
-										</cfif>
 									</div>
-									<cfif getMaterialSampleID.recordcount GT 0>
-										<!--- only show, and only allow addition of, materialSampleID values if there are any assigned to this part --->
-										<div class="col-12">
-											<ul class="list-unstyled pl-1">
-												<cfloop query="getMaterialSampleID">
-													<li>
-														<strong>materialSampleID:</strong> <a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
-														<cfif internal_fg EQ 1>
-															<cfif left(assembled_identifier,9) EQ "urn:uuid:"> 
-																<a href="/uuid/#local_identifier#/json" target="_blank"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
-															</cfif>
-														</cfif>
-													</li>
-												</cfloop>
-												<li>
-													<button type="button" id="btn_pane1" class="btn btn-xs btn-secondary py-0 small" onclick="openEditMaterialSampleIDDialog(#part_id#,'materialSampleIDEditDialog','#guid# #part_name#',reloadPartsAndSection)">
-														<cfif getMaterialSampleID.recordcount EQ 1>
-															Add 
-														<cfelse>
-															Edit
-														</cfif>
-														externally assigned dwc:MaterialSampleID
-													</button>
-												</li>
-											</ul>
+								</form>
+
+								<!--- Show identifications if this is a mixed collection --->
+								<cfif getIdentifications.recordcount GT 0>
+									<div class="col-12 small">
+										<strong>Mixed Collection Identifications of #mpart.base_part_name# (#mpart.preserve_method#)</strong>
+										#getIdentificationsUnthreadedHTML(collection_object_id=part_id)#
+									</div>
+								</cfif>
+
+								<!--- Show part attributes --->
+								<cfquery name="patt" dbtype="query">
+									SELECT
+										attribute_type,
+										attribute_value,
+										attribute_units,
+										determined_date,
+										attribute_remark,
+										agent_name
+									FROM
+										rparts
+									WHERE
+										attribute_type IS NOT NULL AND
+										part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+									GROUP BY
+										attribute_type,
+										attribute_value,
+										attribute_units,
+										determined_date,
+										attribute_remark,
+										agent_name
+								</cfquery>
+								<div class="col-12 row mx-0 bg-white border py-1">
+									<cfif patt.recordcount EQ 0>
+										<span class="font-weight-lessbold">No Part Attributes:</span>
+										<button class="btn btn-xs btn-secondary py-0 mx-3" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
+									<cfelse>
+										<div class="col-12 px-0 small">
+											<strong>Part Attributes (#patt.recordcount#):</strong>
+											<button class="btn btn-xs btn-secondary mx-3" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
+											<cfloop query="patt">
+												<div class="ml-2">
+													#attribute_type# = #attribute_value#
+													<cfif len(attribute_units) GT 0> #attribute_units#</cfif>
+													<cfif len(determined_date) GT 0> (determined: #dateformat(determined_date,"yyyy-mm-dd")#)</cfif>
+													<cfif len(agent_name) GT 0> by #agent_name#</cfif>
+													<cfif len(attribute_remark) GT 0> - #attribute_remark#</cfif>
+												</div>
+											</cfloop>
 										</div>
 									</cfif>
 								</div>
-
-								<!--- Show subsamples --->
-								<cfquery name="sPart" dbtype="query">
-									SELECT * FROM parts WHERE sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
-								</cfquery>
-								<cfloop query="sPart">
-									<div class="row mx-0 border-left border-right px-2 py-1 bg-light">
-										<div class="col-12 small">
-											<strong>Subsample:</strong> #part_name# | Condition: #part_condition# | Disposition: #part_disposition# | Count: #display_lot_count# | Container: #label#
-											<cfif len(part_remarks) GT 0><br><em>Remarks:</em> #part_remarks#</cfif>
-										</div>
+								<cfif getMaterialSampleID.recordcount GT 0>
+									<!--- only show, and only allow addition of, materialSampleID values if there are any assigned to this part --->
+									<div class="col-12">
+										<ul class="list-unstyled pl-1">
+											<cfloop query="getMaterialSampleID">
+												<li>
+													<strong>materialSampleID:</strong> <a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
+													<cfif internal_fg EQ 1>
+														<cfif left(assembled_identifier,9) EQ "urn:uuid:"> 
+															<a href="/uuid/#local_identifier#/json" target="_blank"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+														</cfif>
+													</cfif>
+												</li>
+											</cfloop>
+											<li>
+												<button type="button" id="btn_pane1" class="btn btn-xs btn-secondary py-0 small" onclick="openEditMaterialSampleIDDialog(#part_id#,'materialSampleIDEditDialog','#guid# #part_name#',reloadPartsAndSection)">
+													<cfif getMaterialSampleID.recordcount EQ 1>
+														Add 
+													<cfelse>
+														Edit
+													</cfif>
+													externally assigned dwc:MaterialSampleID
+												</button>
+											</li>
+										</ul>
 									</div>
-								</cfloop>
+								</cfif>
+							</div>
 
-								<script>
-									$(document).ready(function() {
-										// make container barcode autocomplete
-										makeContainerAutocompleteMetaExcludeCO("container_label#i#", "container_id#i#");
-										// make part name autocomplete
-										makePartNameAutocompleteMetaForCollection("part_name#i#", "#getCatItem.collection_cde#");
-									});
-								</script>
+							<!--- Show subsamples --->
+							<cfquery name="sPart" dbtype="query">
+								SELECT * FROM parts WHERE sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+							</cfquery>
+							<cfloop query="sPart">
+								<div class="row mx-0 border-left border-right px-2 py-1 bg-light">
+									<div class="col-12 small">
+										<strong>Subsample:</strong> #part_name# | Condition: #part_condition# | Disposition: #part_disposition# | Count: #display_lot_count# | Container: #label#
+										<cfif len(part_remarks) GT 0><br><em>Remarks:</em> #part_remarks#</cfif>
+									</div>
+								</div>
 							</cfloop>
+
 							<script>
-								// Make all textareas with autogrow class be bound to the autogrow function on key up
-								$(document).ready(function() { 
-									$("textarea.autogrow").keyup(autogrow);
-									$('textarea.autogrow').keyup();
+								$(document).ready(function() {
+									// make container barcode autocomplete
+									makeContainerAutocompleteMetaExcludeCO("container_label#i#", "container_id#i#");
+									// make part name autocomplete
+									makePartNameAutocompleteMetaForCollection("part_name#i#", "#getCatItem.collection_cde#");
 								});
-								// Add event listeners to the buttons
-								document.querySelectorAll('button[id^="part_submit"]').forEach(function(button) {
-									button.addEventListener('click', function(event) {
-										event.preventDefault();
-										// save changes to a part
-										var id = button.id.replace('part_submit', '');
-										// check form validity
-										if (!$("##editPart" + id).get(0).checkValidity()) {
-											// If the form is invalid, show validation messages
-											$("##editPart" + id).get(0).reportValidity();
-											return false; // Prevent form submission if validation fails
+							</script>
+						</cfloop>
+						<script>
+							// Make all textareas with autogrow class be bound to the autogrow function on key up
+							$(document).ready(function() { 
+								$("textarea.autogrow").keyup(autogrow);
+								$('textarea.autogrow').keyup();
+							});
+							// Add event listeners to the buttons
+							document.querySelectorAll('button[id^="part_submit"]').forEach(function(button) {
+								button.addEventListener('click', function(event) {
+									event.preventDefault();
+									// save changes to a part
+									var id = button.id.replace('part_submit', '');
+									// check form validity
+									if (!$("##editPart" + id).get(0).checkValidity()) {
+										// If the form is invalid, show validation messages
+										$("##editPart" + id).get(0).reportValidity();
+										return false; // Prevent form submission if validation fails
+									}
+									var feedbackOutput = 'part_output' + id;
+									setFeedbackControlState(feedbackOutput,"saving")
+									$.ajax({
+										url: '/specimens/component/functions.cfc',
+										type: 'POST',
+										dataType: 'json',
+										data: $("##editPart" + id).serialize(),
+										success: function(response) {
+											setFeedbackControlState(feedbackOutput,"saved");
+											reloadPartsAndSection();
+										},
+										error: function(xhr, status, error) {
+											setFeedbackControlState(feedbackOutput,"error")
+											handleFail(xhr,status,error,"saving change to part.");
 										}
-										var feedbackOutput = 'part_output' + id;
-										setFeedbackControlState(feedbackOutput,"saving")
+									});
+								});
+							});
+							document.querySelectorAll('button[id^="part_delete"]').forEach(function(button) {
+								button.addEventListener('click', function(event) {
+									event.preventDefault();
+									// delete a part record
+									var id = button.id.replace('part_delete', '');
+									var feedbackOutput = 'part_output' + id;
+									confirmDialog('Remove this part? This action cannot be undone.', 'Confirm Delete Part', function() {
+										setFeedbackControlState(feedbackOutput,"deleting")
 										$.ajax({
 											url: '/specimens/component/functions.cfc',
 											type: 'POST',
 											dataType: 'json',
-											data: $("##editPart" + id).serialize(),
+											data: {
+												method: 'deletePart',
+												collection_object_id: $("##editPart" + id + " input[name='part_collection_object_id']").val()
+											},
 											success: function(response) {
-												setFeedbackControlState(feedbackOutput,"saved");
+												setFeedbackControlState(feedbackOutput,"deleted");
 												reloadPartsAndSection();
 											},
 											error: function(xhr, status, error) {
 												setFeedbackControlState(feedbackOutput,"error")
-												handleFail(xhr,status,error,"saving change to part.");
+												handleFail(xhr,status,error,"deleting part.");
 											}
 										});
 									});
 								});
-								document.querySelectorAll('button[id^="part_delete"]').forEach(function(button) {
+							});
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+								document.querySelectorAll('button[id^="part_mixed"]').forEach(function(button) {
 									button.addEventListener('click', function(event) {
 										event.preventDefault();
-										// delete a part record
-										var id = button.id.replace('part_delete', '');
-										var feedbackOutput = 'part_output' + id;
-										confirmDialog('Remove this part? This action cannot be undone.', 'Confirm Delete Part', function() {
-											setFeedbackControlState(feedbackOutput,"deleting")
-											$.ajax({
-												url: '/specimens/component/functions.cfc',
-												type: 'POST',
-												dataType: 'json',
-												data: {
-													method: 'deletePart',
-													collection_object_id: $("##editPart" + id + " input[name='part_collection_object_id']").val()
-												},
-												success: function(response) {
-													setFeedbackControlState(feedbackOutput,"deleted");
-													reloadPartsAndSection();
-												},
-												error: function(xhr, status, error) {
-													setFeedbackControlState(feedbackOutput,"error")
-													handleFail(xhr,status,error,"deleting part.");
-												}
-											});
+										// make mixed collection
+										var id = button.id.replace('part_mixed', '');
+										var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
+										var guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num# " + $('##editPart' + id + ' input[name="part_name"]').val() + ' (' + $('##editPart' + id + ' select[name="preserve_method"]').val() + ')';
+										openEditIdentificationsDialog(partId,'identificationsDialog',guid,function(){
+											reloadPartsAndSection();
 										});
 									});
 								});
-								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-									document.querySelectorAll('button[id^="part_mixed"]').forEach(function(button) {
-										button.addEventListener('click', function(event) {
-											event.preventDefault();
-											// make mixed collection
-											var id = button.id.replace('part_mixed', '');
-											var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
-											var guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num# " + $('##editPart' + id + ' input[name="part_name"]').val() + ' (' + $('##editPart' + id + ' select[name="preserve_method"]').val() + ')';
-											openEditIdentificationsDialog(partId,'identificationsDialog',guid,function(){
-												reloadPartsAndSection();
-											});
-										});
+								document.querySelectorAll('button[id^="newpart_mixed"]').forEach(function(button) {
+									button.addEventListener('click', function(event) {
+										event.preventDefault();
+										// confirm making mixed collection
+										confirmDialog('Adding identifications to this part will make this cataloged item into a mixed collection.  This means that the cataloged item will no longer be a single taxon, but rather a collection of parts with different identifications.  <strong>Are you sure you want to do this?</strong>  This is appropriate for some cases in some collections, such as when a cataloged item is a composite of multiple taxa, such as pin with an ant and an associated insect on the same pin and a single catalog number, but not appropriate for all collections.  If you are unsure, please seek guidance before proceeding.', 
+											'Confirm Mixed Collection', 
+											function() {
+												// make mixed collection
+												var id = button.id.replace('newpart_mixed', '');
+												var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
+												var guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num# " + $('##editPart' + id + ' input[name="part_name"]').val() + ' (' + $('##editPart' + id + ' select[name="preserve_method"]').val() + ')';
+												openEditIdentificationsDialog(partId,'identificationsDialog',guid,function(){
+													reloadPartsAndSection();
+												});
+											}
+										);
 									});
-									document.querySelectorAll('button[id^="newpart_mixed"]').forEach(function(button) {
-										button.addEventListener('click', function(event) {
-											event.preventDefault();
-											// confirm making mixed collection
-											confirmDialog('Adding identifications to this part will make this cataloged item into a mixed collection.  This means that the cataloged item will no longer be a single taxon, but rather a collection of parts with different identifications.  <strong>Are you sure you want to do this?</strong>  This is appropriate for some cases in some collections, such as when a cataloged item is a composite of multiple taxa, such as pin with an ant and an associated insect on the same pin and a single catalog number, but not appropriate for all collections.  If you are unsure, please seek guidance before proceeding.', 
-												'Confirm Mixed Collection', 
-												function() {
-													// make mixed collection
-													var id = button.id.replace('newpart_mixed', '');
-													var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
-													var guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num# " + $('##editPart' + id + ' input[name="part_name"]').val() + ' (' + $('##editPart' + id + ' select[name="preserve_method"]').val() + ')';
-													openEditIdentificationsDialog(partId,'identificationsDialog',guid,function(){
-														reloadPartsAndSection();
-													});
-												}
-											);
-										});
-									});
-								</cfif>
-								function reloadPartsSection() {
-									// reload the edit existing parts section
-									$.ajax({
-										url: '/specimens/component/functions.cfc',
-										type: 'POST',
-										dataType: 'html',
-										data: {
-											method: 'getEditExistingPartsUnthreaded',
-											collection_object_id: '#arguments.collection_object_id#'
-										},
-										success: function(response) {
-											$('##editExistingPartsDiv').html(response);
-										},
-										error: function(xhr, status, error) {
-											handleFail(xhr,status,error,"reloading edit existing parts.");
-										}
-									});
-								}
-							</script>
-						</cfif>
-					</div>
+								});
+							</cfif>
+							function reloadPartsSection() {
+								// reload the edit existing parts section
+								$.ajax({
+									url: '/specimens/component/functions.cfc',
+									type: 'POST',
+									dataType: 'html',
+									data: {
+										method: 'getEditExistingPartsUnthreaded',
+										collection_object_id: '#arguments.collection_object_id#'
+									},
+									success: function(response) {
+										$('##editExistingPartsDiv').html(response);
+									},
+									error: function(xhr, status, error) {
+										handleFail(xhr,status,error,"reloading edit existing parts.");
+									}
+								});
+							}
+						</script>
+					</cfif>
 				</div>
 			</div>
 		<cfcatch>
