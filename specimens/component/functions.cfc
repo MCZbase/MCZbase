@@ -851,20 +851,21 @@ limitations under the License.
 						<div class="row">
 							<div class="col-12 float-left">
 								<cfif getDetermined.coll_object_type EQ "CI" OR getDetermined.coll_object_type EQ "SP">
+									<cfif attributes.in_page>
+										<script>
+											function closeIdentificationInPage() { 
+												// Close the in-page modal editor, and invoke the reloadIdentifications function
+												closeInPage(reloadIdentifications);
+											}
+										</script>
+										<!--- if in_page, provide button to return to specimen details page --->
+										<button id="backToSpecimen1" class="btn btn-xs btn-secondary float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
+									</cfif>
 									<!--- identifiable, thus allow add identifications --->
 									<div class="add-form float-left">
 										<div class="add-form-header pt-1 pb-2 px-2 col-12 float-left">
 											<h2 class="h3 my-0 px-1 pb-1 float-left">Add Identification#target#</h2>
-											<cfif attributes.in_page>
-												<script>
-													function closeIdentificationInPage() { 
-														// Close the in-page modal editor, and invoke the reloadIdentifications function
-														closeInPage(reloadIdentifications);
-													}
-												</script>
-												<!--- if in_page, provide button to return to specimen details page --->
-												<button id="backToSpecimen1" class="btn btn-xs btn-secondary float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
-											</cfif>
+									
 										</div>
 										<div class="card-body">
 											<form name="addIdentificationForm" class="my-2" id="addIdentificationForm">
@@ -1122,7 +1123,7 @@ limitations under the License.
 								</div>
 								<cfif attributes.in_page>
 									<!--- if in_page, provide button to return to specimen details page --->
-									<div class="col-12 mt-0">
+									<div class="col-12 px-0 mt-0">
 										<button id="backToSpecimen2" class="btn btn-xs btn-secondary float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
 									</div>
 								</cfif>
