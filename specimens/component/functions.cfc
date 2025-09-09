@@ -6020,119 +6020,120 @@ limitations under the License.
 			WHERE
 				attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
-		<div class="row mx-0">
-			<div class="bg-light p-2 col-12 row">
-				<h1 class="h3">Edit Existing Attributes</h1>
-				<div class="col-12 px-0 pb-3">
-					<cfif getAttributes.recordCount EQ 0>
-						<li>No attributes found for this specimen.</li>
-					</cfif>
-					<cfset i = 0>
-					<cfloop query="getAttributes">
-						<cfquery name="getAttributeCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-							SELECT
-								attribute_type,
-								upper(value_code_table) value_code_table,
-								upper(units_code_table) units_code_table
-							FROM
-								ctattribute_code_tables
-							WHERE 
-								attribute_type = <cfqueryparam value="#getAttributes.attribute_type#" cfsqltype="CF_SQL_VARCHAR">
-						</cfquery>
-						<cfset i = i + 1>
-						<form name="editAttribute#i#" id="editAttribute#i#" class="my-0 py-0">
-							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-							<input type="hidden" name="attribute_id" value="#attribute_id#">
-							<input type="hidden" name="method" value="updateAttribute">
-							<div class="row mx-0 border py-1">
-								<div class="col-12 col-md-2">
-									<label for="att_name#i#" class="data-entry-label">Name</label>
-									<select class="data-entry-select reqdClr" id="att_name#i#" name="attribute_type" required>
-										<cfloop query="getAttributeTypes">
-											<cfif getAttributeTypes.attribute_type EQ getAttributes.attribute_type>
-												<cfset selected = "selected">
+		<div class="container">
+			<div class="row mx-0">
+				<div class="col-12">
+					<h2 class="h3 mt-2 px-2 mb-0">Edit Existing Attributes</h2>
+					<div class="col-12 px-0 pb-3">
+						<cfif getAttributes.recordCount EQ 0>
+							<li>No attributes found for this specimen.</li>
+						</cfif>
+						<cfset i = 0>
+						<cfloop query="getAttributes">
+							<cfquery name="getAttributeCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT
+									attribute_type,
+									upper(value_code_table) value_code_table,
+									upper(units_code_table) units_code_table
+								FROM
+									ctattribute_code_tables
+								WHERE 
+									attribute_type = <cfqueryparam value="#getAttributes.attribute_type#" cfsqltype="CF_SQL_VARCHAR">
+							</cfquery>
+							<cfset i = i + 1>
+							<form name="editAttribute#i#" id="editAttribute#i#" class="my-0 py-0">
+								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+								<input type="hidden" name="attribute_id" value="#attribute_id#">
+								<input type="hidden" name="method" value="updateAttribute">
+								<div class="row mx-0 border py-1">
+									<div class="col-12 col-md-2">
+										<label for="att_name#i#" class="data-entry-label">Name</label>
+										<select class="data-entry-select reqdClr" id="att_name#i#" name="attribute_type" required>
+											<cfloop query="getAttributeTypes">
+												<cfif getAttributeTypes.attribute_type EQ getAttributes.attribute_type>
+													<cfset selected = "selected">
+												<cfelse>
+													<cfset selected = "">
+												</cfif>
+												<option value="#getAttributeTypes.attribute_type#" #selected#>#getAttributeTypes.attribute_type#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-2">
+										<label for="att_value" class="data-entry-label reqdClr" required>Value</label>
+										<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.value_code_table) GT 0>
+											<cfset valueCodeTable = getAttributeCodeTables.value_code_table>
+											<!--- find out if the value code table has a collection_cde field --->
+											<cfquery name="checkForCollectionCde" datasource="uam_god">
+												SELECT
+													COUNT(*) as ct
+												FROM
+													sys.all_tab_columns
+												WHERE
+													table_name = <cfqueryparam value="#valueCodeTable#" cfsqltype="CF_SQL_VARCHAR">
+													AND owner = 'MCZBASE'
+													AND column_name = 'COLLECTION_CDE'
+											</cfquery>
+											<!--- default is attribute field is the attribute code table name with CT prefix removed --->
+											<cfset var field="">
+											<cfif ucase(valueCodeTable) EQ "CTASSOCIATED_GRANTS">
+												<cfset field="ASSOCIATED_GRANT">
+											<cfelseif ucase(valueCodeTable) EQ "CTCOLLECTION_FULL_NAMES">
+												<cfset field="COLLECTION">
 											<cfelse>
-												<cfset selected = "">
+												<cfset field=replace(valueCodeTable,"CT","","one")>
 											</cfif>
-											<option value="#getAttributeTypes.attribute_type#" #selected#>#getAttributeTypes.attribute_type#</option>
+											<cfquery name="getValueCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT
+													#field# as value
+												FROM
+													#valueCodeTable#
+												<cfif checkForCollectionCde.ct GT 0>
+													WHERE
+														collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
+												</cfif>
+												ORDER BY
+													#field#
+											</cfquery>
+											<select class="data-entry-select reqdClr" id="att_value#i#" name="attribute_value" required>
+												<option value=""></option>
+												<cfloop query="getValueCodeTable">
+													<option value="#getValueCodeTable.value#" <cfif getValueCodeTable.value EQ getAttributes.attribute_value>selected</cfif>>#value#</option>
+												</cfloop>
+											</select>
+										<cfelse>
+											<input type="text" class="data-entry-input" id="att_value#i#" name="attribute_value" value="#attribute_value#">
+										</cfif>
+									</div>
+									<div class="col-12 col-md-2">
+								<label for="att_units" class="data-entry-label">Units</label>
+								<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.units_code_table) GT 0>
+									<cfset unitsCodeTable = getAttributeCodeTables.units_code_table>
+									<cfquery name="getUnitsCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT
+											#replace(unitsCodeTable,"CT","","one")# as unit
+										FROM
+											#unitsCodeTable#
+										ORDER BY
+											#replace(unitsCodeTable,"CT","","one")#
+									</cfquery>
+									<select class="data-entry-select" id="att_units#i#" name="attribute_units">
+										<option value=""></option>
+										<cfloop query="getUnitsCodeTable">
+											<option value="#getUnitsCodeTable.unit#" <cfif getUnitsCodeTable.unit EQ getAttributes.attribute_units>selected</cfif>>#unit#</option>
 										</cfloop>
 									</select>
-								</div>
-								<div class="col-12 col-md-2">
-									<label for="att_value" class="data-entry-label reqdClr" required>Value</label>
-									<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.value_code_table) GT 0>
-										<cfset valueCodeTable = getAttributeCodeTables.value_code_table>
-										<!--- find out if the value code table has a collection_cde field --->
-										<cfquery name="checkForCollectionCde" datasource="uam_god">
-											SELECT
-												COUNT(*) as ct
-											FROM
-												sys.all_tab_columns
-											WHERE
-												table_name = <cfqueryparam value="#valueCodeTable#" cfsqltype="CF_SQL_VARCHAR">
-												AND owner = 'MCZBASE'
-												AND column_name = 'COLLECTION_CDE'
-										</cfquery>
-										<!--- default is attribute field is the attribute code table name with CT prefix removed --->
-										<cfset var field="">
-										<cfif ucase(valueCodeTable) EQ "CTASSOCIATED_GRANTS">
-											<cfset field="ASSOCIATED_GRANT">
-										<cfelseif ucase(valueCodeTable) EQ "CTCOLLECTION_FULL_NAMES">
-											<cfset field="COLLECTION">
-										<cfelse>
-											<cfset field=replace(valueCodeTable,"CT","","one")>
-										</cfif>
-										<cfquery name="getValueCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											SELECT
-												#field# as value
-											FROM
-												#valueCodeTable#
-											<cfif checkForCollectionCde.ct GT 0>
-												WHERE
-													collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
-											</cfif>
-											ORDER BY
-												#field#
-										</cfquery>
-										<select class="data-entry-select reqdClr" id="att_value#i#" name="attribute_value" required>
-											<option value=""></option>
-											<cfloop query="getValueCodeTable">
-												<option value="#getValueCodeTable.value#" <cfif getValueCodeTable.value EQ getAttributes.attribute_value>selected</cfif>>#value#</option>
-											</cfloop>
-										</select>
+								<cfelse>
+									<!--- if no code table for units, use a text input, but disable it --->
+									<cfif len(attribute_units) EQ 0>
+										<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="" disabled>
 									<cfelse>
-										<input type="text" class="data-entry-input" id="att_value#i#" name="attribute_value" value="#attribute_value#">
+										<!--- but if there is a value, which there shouldn't be, failover and use a text input --->
+										<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="#attribute_units#">
 									</cfif>
-								</div>
-								<div class="col-12 col-md-2">
-									<label for="att_units" class="data-entry-label">Units</label>
-									<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.units_code_table) GT 0>
-										<cfset unitsCodeTable = getAttributeCodeTables.units_code_table>
-										<cfquery name="getUnitsCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-											SELECT
-												#replace(unitsCodeTable,"CT","","one")# as unit
-											FROM
-												#unitsCodeTable#
-											ORDER BY
-												#replace(unitsCodeTable,"CT","","one")#
-										</cfquery>
-										<select class="data-entry-select" id="att_units#i#" name="attribute_units">
-											<option value=""></option>
-											<cfloop query="getUnitsCodeTable">
-												<option value="#getUnitsCodeTable.unit#" <cfif getUnitsCodeTable.unit EQ getAttributes.attribute_units>selected</cfif>>#unit#</option>
-											</cfloop>
-										</select>
-									<cfelse>
-										<!--- if no code table for units, use a text input, but disable it --->
-										<cfif len(attribute_units) EQ 0>
-											<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="" disabled>
-										<cfelse>
-											<!--- but if there is a value, which there shouldn't be, failover and use a text input --->
-											<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="#attribute_units#">
-										</cfif>
-									</cfif>
-								</div>
-								<div class="col-12 col-md-2">
+								</cfif>
+							</div>
+									<div class="col-12 col-md-2">
 									<label class="data-entry-label">Determiner</label>
 									<input type="text" class="data-entry-input" id="att_det#i#" name="determined_by_agent" value="#attributeDeterminer#">
 									<input type="hidden" name="determined_by_agent_id" id="att_det_id#i#" value="#determined_by_agent_id#">
@@ -6166,116 +6167,118 @@ limitations under the License.
 									handleTypeChangeExisting('#i#');
 								});
 							</script>
-						</form>
-					</cfloop>
-					<script>
-						// Add event listeners to the buttons
-						document.querySelectorAll('button[id^="att_submit"]').forEach(function(button) {
-							button.addEventListener('click', function(event) {
-								event.preventDefault();
-								var id = button.id.slice(-1);
-								var feedbackOutput = 'att_output' + id;
-								setFeedbackControlState(feedbackOutput,"saving")
-								$.ajax({
-									url: '/specimens/component/functions.cfc',
-									type: 'POST',
-									data: $("##editAttribute" + id).serialize(),
-									success: function(response) {
-										setFeedbackControlState(feedbackOutput,"saved");
-										reloadAttributes();
-									},
-									error: function(xhr, status, error) {
-										setFeedbackControlState(feedbackOutput,"error")
-										handleFail(xhr,status,error,"saving change to attribute.");
-									}
+								</div>
+							</form>
+						</cfloop>
+						<script>
+							// Add event listeners to the buttons
+							document.querySelectorAll('button[id^="att_submit"]').forEach(function(button) {
+								button.addEventListener('click', function(event) {
+									event.preventDefault();
+									var id = button.id.slice(-1);
+									var feedbackOutput = 'att_output' + id;
+									setFeedbackControlState(feedbackOutput,"saving")
+									$.ajax({
+										url: '/specimens/component/functions.cfc',
+										type: 'POST',
+										data: $("##editAttribute" + id).serialize(),
+										success: function(response) {
+											setFeedbackControlState(feedbackOutput,"saved");
+											reloadAttributes();
+										},
+										error: function(xhr, status, error) {
+											setFeedbackControlState(feedbackOutput,"error")
+											handleFail(xhr,status,error,"saving change to attribute.");
+										}
+									});
 								});
 							});
-						});
-						document.querySelectorAll('button[id^="att_delete"]').forEach(function(button) {
-							button.addEventListener('click', function(event) {
-								event.preventDefault();
-								var id = button.id.slice(-1);
-								var feedbackOutput = 'att_output' + id;
-								setFeedbackControlState(feedbackOutput,"deleting")
+							document.querySelectorAll('button[id^="att_delete"]').forEach(function(button) {
+								button.addEventListener('click', function(event) {
+									event.preventDefault();
+									var id = button.id.slice(-1);
+									var feedbackOutput = 'att_output' + id;
+									setFeedbackControlState(feedbackOutput,"deleting")
+									$.ajax({
+										url: '/specimens/component/functions.cfc',
+										type: 'POST',
+										data: {
+											method: 'deleteAttribute',
+											attribute_id: $("##editAttribute" + id + " input[name='attribute_id']").val(),
+											collection_object_id: $("##editAttribute" + id + " input[name='collection_object_id']").val()
+										},
+										success: function(response) {
+											setFeedbackControlState(feedbackOutput,"deleted");
+											reloadAttributes();
+											// remove the form from the DOM
+											$("##editAttribute" + id).remove();
+										},
+										error: function(xhr, status, error) {
+											setFeedbackControlState(feedbackOutput,"error")
+											handleFail(xhr,status,error,"deleting attribute.");
+										}
+									});
+								});
+							});
+							function handleTypeChangeExisting(id) {
+								var selectedType = $('##att_name' + id).val();
+								// lookup value code table and units code table from ctattribute_code_tables
+								// set select lists for value and units accordingly, or set as text input
 								$.ajax({
 									url: '/specimens/component/functions.cfc',
 									type: 'POST',
+									dataType: 'json',
 									data: {
-										method: 'deleteAttribute',
-										attribute_id: $("##editAttribute" + id + " input[name='attribute_id']").val(),
-										collection_object_id: $("##editAttribute" + id + " input[name='collection_object_id']").val()
+										collection_object_id: '#collection_object_id#',
+										method: 'getAttributeCodeTables',
+										attribute_type: selectedType
 									},
 									success: function(response) {
-										setFeedbackControlState(feedbackOutput,"deleted");
-										reloadAttributes();
-										// remove the form from the DOM
-										$("##editAttribute" + id).remove();
+										console.log(response);
+										// determine if the value field should be a select based on the response
+										if (response[0].value_code_table) {
+											$('##att_value'+id).prop('disabled', false);
+											// convert the value field to a select
+											$('##att_value'+id).replaceWith('<select name="attribute_value" id="att_value'+id+'" class="data-entry-select reqdClr" required></select>');
+											// Populate the value select with options from the response
+											// value_values is a pipe delimited list of values
+											var values = response[0].value_values.split('|');
+											$('##att_value'+id).append('<option value=""></option>');
+											$.each(values, function(index, value) {
+												$('##att_value'+id).append('<option value="' + value + '">' + value + '</option>');
+											});
+										} else {
+											// enable as a text input, replace any existing select
+											$('##att_value'+id).replaceWith('<input type="text" class="data-entry-input reqdClr" id="att_value'+id+'" name="attribute_value" value="" required>');
+											$('##att_value'+id).prop('disabled', false);
+										}
+										// Determine if the units field should be enabled based on the response
+										if (response[0].units_code_table) {
+											$('##att_units'+id).prop('disabled', false);
+											// convert the units field to a select
+											$('##att_units'+id).replaceWith('<select name="attribute_units" id="att_units'+id+'" class="data-entry-select reqdClr" required></select>');
+											// Populate the units select with options from the response
+											// units_values is a pipe delimited list of values
+											$('##att_units'+id).append('<option value=""></option>');
+											$.each(response[0].units_values.split('|'), function(index, value) {
+												$('##att_units'+id).append('<option value="' + value + '">' + value + '</option>');
+											});
+										} else {
+											// units are either picklists or not used.
+											// empty and disable the units field if units are not used
+											$('##att_units'+id).val("");  
+											$('##att_units'+id).prop('disabled', true);
+											// remove any reqdClr class
+											$('##att_units'+id).removeClass('reqdClr');
+										}
 									},
 									error: function(xhr, status, error) {
-										setFeedbackControlState(feedbackOutput,"error")
-										handleFail(xhr,status,error,"deleting attribute.");
+										handleFail(xhr,status,error,"handling change of attribute type.");
 									}
 								});
-							});
-						});
-						function handleTypeChangeExisting(id) {
-							var selectedType = $('##att_name' + id).val();
-							// lookup value code table and units code table from ctattribute_code_tables
-							// set select lists for value and units accordingly, or set as text input
-							$.ajax({
-								url: '/specimens/component/functions.cfc',
-								type: 'POST',
-								dataType: 'json',
-								data: {
-									collection_object_id: '#collection_object_id#',
-									method: 'getAttributeCodeTables',
-									attribute_type: selectedType
-								},
-								success: function(response) {
-									console.log(response);
-									// determine if the value field should be a select based on the response
-									if (response[0].value_code_table) {
-										$('##att_value'+id).prop('disabled', false);
-										// convert the value field to a select
-										$('##att_value'+id).replaceWith('<select name="attribute_value" id="att_value'+id+'" class="data-entry-select reqdClr" required></select>');
-										// Populate the value select with options from the response
-										// value_values is a pipe delimited list of values
-										var values = response[0].value_values.split('|');
-										$('##att_value'+id).append('<option value=""></option>');
-										$.each(values, function(index, value) {
-											$('##att_value'+id).append('<option value="' + value + '">' + value + '</option>');
-										});
-									} else {
-										// enable as a text input, replace any existing select
-										$('##att_value'+id).replaceWith('<input type="text" class="data-entry-input reqdClr" id="att_value'+id+'" name="attribute_value" value="" required>');
-										$('##att_value'+id).prop('disabled', false);
-									}
-									// Determine if the units field should be enabled based on the response
-									if (response[0].units_code_table) {
-										$('##att_units'+id).prop('disabled', false);
-										// convert the units field to a select
-										$('##att_units'+id).replaceWith('<select name="attribute_units" id="att_units'+id+'" class="data-entry-select reqdClr" required></select>');
-										// Populate the units select with options from the response
-										// units_values is a pipe delimited list of values
-										$('##att_units'+id).append('<option value=""></option>');
-										$.each(response[0].units_values.split('|'), function(index, value) {
-											$('##att_units'+id).append('<option value="' + value + '">' + value + '</option>');
-										});
-									} else {
-										// units are either picklists or not used.
-										// empty and disable the units field if units are not used
-										$('##att_units'+id).val("");  
-										$('##att_units'+id).prop('disabled', true);
-										// remove any reqdClr class
-										$('##att_units'+id).removeClass('reqdClr');
-									}
-								},
-								error: function(xhr, status, error) {
-									handleFail(xhr,status,error,"handling change of attribute type.");
-								}
-							});
-						}
-					</script>
+							}
+						</script>
+					</div>
 				</div>
 			</div>
 		</div>
