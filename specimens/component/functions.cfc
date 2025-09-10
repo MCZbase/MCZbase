@@ -9341,6 +9341,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
   @param collection_object_id the cataloged item to remove from the encumbrance
   @param encumbrance_id the encumbrance from which to remove the item.
   @return a json structure with status=removed, or an http 500 response.
+  @deprecated, duplicated by unencumberSpecimen method.
 --->
 <cffunction name="removeObjectFromEncumbrance" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
@@ -11727,7 +11728,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
  *
  * @return a json structure with status=deleted, or an http 500 response.
 --->
-<cffunction name="encumberSpecimen" returntype="any" access="remote" returnformat="json">
+<cffunction name="unencumberSpecimen" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="encumbrance_id" type="string" required="yes">
 
