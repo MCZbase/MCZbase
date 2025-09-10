@@ -11651,7 +11651,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							</cfloop>
 							<script>
 								function removeEncumbrance(encumbrance_id,collection_object_id) { 
-									confirmDialog('Confirm Remove Encumbrance', 'Are you sure you want to remove this secimen from this encumbrance?', function() {
+									confirmDialog('Are you sure you want to remove this specimen from this encumbrance?','Confirm: Remove this Cataloged Item from this Encumbrance', function() {
 										var feedbackDiv = "encumberForm_feedback_"+encumbrance_id
 										setFeedbackControlState(feedbackDiv,"saving")
 										$.ajax({
