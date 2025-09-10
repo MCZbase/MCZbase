@@ -4394,7 +4394,7 @@ limitations under the License.
 							<cfelse>
 								<cfset addedClass = "">
 							</cfif>
-							<div class="mx-0 py-1 mb-3 #addedClass# card float-left">
+							<div class="mx-0 py-1 mb-3 #addedClass# col-12 card float-left">">
 								<!--- find identifications of the part to see if this is a mixed collection --->
 								<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT identification_id
