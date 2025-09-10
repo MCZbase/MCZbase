@@ -1498,8 +1498,8 @@ limitations under the License.
 								</cfquery>
 								<tr class="#addedClass#">
 									<td colspan="6">
-										<span class="font-weight-lessbold">This Part is a separate Occurence</span>
-										<span class="small95">occurrenceID: #getOccurrenceID.assembled_identifier#</span>
+										<span class="font-weight-lessbold">This part is a separate occurence.</span>
+										<span class="small95"><em>occurrenceID:</em> #getOccurrenceID.assembled_identifier#</span>
 									</td>
 								</tr>
 								<tr class="small95 #addedClass#">
