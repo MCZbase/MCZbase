@@ -6985,7 +6985,7 @@ limitations under the License.
 						</div>
 	
 						<!--- locality --->
-						<div class="col-12 card float-left px-0 mt-3 mb-4">
+						<div class="col-12 card float-left px-0 mt-3 mb-2">
 							<h2 class="h3 py-2 mt-0 card-header">
 								Locality
 								<span class="pl-2">
