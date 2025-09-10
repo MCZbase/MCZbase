@@ -1572,7 +1572,7 @@ limitations under the License.
 								<tr class="border-top-0 #addedClass#">
 									<td colspan="6" class="border-top-0 mt-0 py-2">
 										<cfloop query="partAttributes">
-											<div class="small95 pl-3 line-height-sm">
+											<div class="small95 pl-2 line-height-sm">
 												#attribute_type# = <span class="">#attribute_value#</span> &nbsp;
 											<cfif len(attribute_units) gt 0>
 												#attribute_units# &nbsp;
