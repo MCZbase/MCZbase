@@ -6803,7 +6803,7 @@ limitations under the License.
 							});
 						});
 					</script>
-					<div class="col-12 py-3">
+					<div class="col-12 pt-3">
 						<h2 class="h2 px-2">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
 					</div>
 					<form id="locForm" name="locForm" method="post" class="">
@@ -6821,7 +6821,7 @@ limitations under the License.
 						<input type="hidden" name="coll_event_numbers_data" id="coll_event_numbers_data" value="">
 	
 						<!--- higher geography --->
-						<div class="col-12 px-3 pb-3 mb-3 border bg-white">
+						<div class="col-12 px-3 py-3 my-3 border bg-white">
 							<!--- describe action this form will take --->
 							<cfif cecount.ct GT 1 OR loccount.ct GT 1>
 								<!---<cfset separator = "">--->
@@ -6832,7 +6832,7 @@ limitations under the License.
 								<cfif loccount.ct GT 1>
 									<h3>Locality is <span class="text-danger">Shared with #loccount.ct# other specimens</span></h3>
 								</cfif>
-								<p class="font-italic small95 text-danger">
+								<p class="font-italic h3 text-danger">
 									Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
 								</p>
 							<cfelse>
@@ -6893,7 +6893,7 @@ limitations under the License.
 											</cfif>
 										</h3>
 									</div>
-									<div class="col-12 col-md-8">
+									<div class="col-12 col-md-8 py-1">
 										<span class="font-weight-lessbold" id="higherGeographySpan">#getGeography.higher_geog#</span>
 										<input type="text" class="col-12 col-md-9 data-entry-input reqdClr" id="higherGeographyInput" name="higher_geog" value="#getGeography.higher_geog#" style="display: none;">
 										<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#getGeography.geog_auth_rec_id#">
