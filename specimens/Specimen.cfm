@@ -352,6 +352,9 @@ limitations under the License.
 			function reloadNamedGroups() { 
 				loadNamedGroups(#getCatalogedItem.collection_object_id#,'namedGroupsCardBody');
 			}
+			function reloadEncumbrances() { 
+				loadEncumbrances(#getCatalogedItem.collection_object_id#,'encumbranceCardBody');
+			}
 		</script>
 		<!--- setup for navigation between specimen records within a result set. --->
 		<cfset navigable = false>
@@ -1202,7 +1205,7 @@ limitations under the License.
 								</div>
 								<div id="EncumbrancePane" class="collapse show" aria-labelledby="headingEncumbrance" data-parent="##accordionEncumbrance">
 									<cfset encumbranceBlock = getEncumbranceHTML(collection_object_id = "#collection_object_id#")>
-									<div class="card-body" id="emcumbranceCardBody">
+									<div class="card-body" id="encumbranceCardBody">
 										#encumbranceBlock#
 									</div>
 								</div>
