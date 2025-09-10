@@ -4490,8 +4490,8 @@ limitations under the License.
 
 								<!--- Show identifications if this is a mixed collection --->
 								<cfif getIdentifications.recordcount GT 0>
-									<div class="col-12 small">
-										<strong>Mixed Collection Identifications of #mpart.base_part_name# (#mpart.preserve_method#)</strong>
+									<div class="col-12 small90">
+										<span style="font-weight-bold">Mixed Collection Identifications of #mpart.base_part_name# (#mpart.preserve_method#)</span>
 										#getIdentificationsUnthreadedHTML(collection_object_id=part_id)#
 									</div>
 								</cfif>
@@ -4523,11 +4523,11 @@ limitations under the License.
 										<span class="small90 font-weight-lessbold vertical-align-stretch">No Part Attributes:</span>
 										<button class="btn btn-xs btn-secondary py-0 mx-3" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
 									<cfelse>
-										<div class="col-12 px-0 small">
+										<div class="col-12 px-1 small90">
 											<strong>Part Attributes (#patt.recordcount#):</strong>
-											<button class="btn btn-xs btn-secondary mx-3" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
+											<button class="btn btn-xs btn-secondary px-2 py-0 mx-2" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
 											<cfloop query="patt">
-												<div class="ml-2">
+												<div class="">
 													#attribute_type# = #attribute_value#
 													<cfif len(attribute_units) GT 0> #attribute_units#</cfif>
 													<cfif len(determined_date) GT 0> (determined: #dateformat(determined_date,"yyyy-mm-dd")#)</cfif>
@@ -4541,9 +4541,9 @@ limitations under the License.
 								<cfif getMaterialSampleID.recordcount GT 0>
 									<!--- only show, and only allow addition of, materialSampleID values if there are any assigned to this part --->
 									<div class="col-12">
-										<ul class="list-unstyled pl-1">
+										<ul class="list-unstyled">
 											<cfloop query="getMaterialSampleID">
-												<li>
+												<li class="list-group-item">
 													<strong>materialSampleID:</strong> <a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
 													<cfif internal_fg EQ 1>
 														<cfif left(assembled_identifier,9) EQ "urn:uuid:"> 
@@ -4553,7 +4553,7 @@ limitations under the License.
 												</li>
 											</cfloop>
 											<li>
-												<button type="button" id="btn_pane1" class="btn btn-xs btn-secondary py-0 small" onclick="openEditMaterialSampleIDDialog(#part_id#,'materialSampleIDEditDialog','#guid# #part_name#',reloadPartsAndSection)">
+												<button type="button" id="btn_pane1" class="btn btn-xs btn-secondary py-0 small90" onclick="openEditMaterialSampleIDDialog(#part_id#,'materialSampleIDEditDialog','#guid# #part_name#',reloadPartsAndSection)">
 													<cfif getMaterialSampleID.recordcount EQ 1>
 														Add 
 													<cfelse>
