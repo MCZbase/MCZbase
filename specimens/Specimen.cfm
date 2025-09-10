@@ -1204,7 +1204,7 @@ limitations under the License.
 									</h3>
 								</div>
 								<div id="EncumbrancePane" class="collapse show" aria-labelledby="headingEncumbrance" data-parent="##accordionEncumbrance">
-									<cfset encumbranceBlock = getEncumbranceHTML(collection_object_id = "#collection_object_id#")>
+									<cfset encumbranceBlock = getEncumbrancesDetailsHTML(collection_object_id = "#collection_object_id#")>
 									<div class="card-body" id="encumbranceCardBody">
 										#encumbranceBlock#
 									</div>

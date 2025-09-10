@@ -2573,13 +2573,13 @@ limitations under the License.
 										<li>
 											Encumbrances: #getCatalog.encumbranceDetail#
 											<button type="button" class="btn btn-xs btn-secondary ml-2"
-												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadPage); ">Edit</button>
+												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadEncumbrances); ">Edit</button>
 										</li>
 									<cfelse>
 										<li>
 											Encumbrances: None 
 											<button type="button" class="btn btn-xs btn-secondary ml-2"
-												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadPage); ">Encumber</button>
+												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadEncumbrances); ">Encumber</button>
 										</li>
 									</cfif>
 								</ul>
@@ -9275,7 +9275,8 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-<!--- obtain a block of html listing encumbrances for a cataloged item 
+<!--- obtain a block of html listing encumbrances for a cataloged item, 
+  note: used by specimens/changeQueryEncumbrance.cfm not by specimens/Specimen.cfm
   @param collection_object_id the primary key for the cataloged item for which to list encumbrances 
   @param containing_block the id, without a leading pound for an element in the dom that is to be
     passed to removeFromEncumbrance and reloaded on success.
@@ -9286,10 +9287,8 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="containing_block" type="string" required="yes">
 
-	<cfset variables.collection_object_id = arguments.collection_object_id>
-	<cfset variables.containing_block = arguments.containing_block>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
-	<cfthread name="getEncumbThread#tn#">
+	<cfthread name="getEncumbThread#tn#" collection_object_id="#arguments.collection_object_id#" containing_block="#arguments.containing_block#">
 		<cfoutput>
 			<cftry>
 					<cfquery name="getEncumbrances" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -11420,14 +11419,16 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						filtered_flat.spec_locality ff_spec_locality,
 						flat.collectors,
 						filtered_flat.collectors ff_collectors,
-						flat.iso_began_date,
-						filtered_flat.iso_began_date ff_iso_began_date,
-						flat.iso_ended_date,
-						filtered_flat.iso_ended_date ff_iso_ended_date,
+						flat.began_date,
+						filtered_flat.began_date ff_began_date,
+						flat.ended_date,
+						filtered_flat.ended_date ff_ended_date,
 						flat.dec_lat,
 						filtered_flat.dec_lat ff_dec_lat,
 						flat.dec_long,
-						filtered_flat.dec_long ff_dec_long
+						filtered_flat.dec_long ff_dec_long,
+						flat.parts,
+						filtered_flat.parts ff_parts
 					FROM
 						FLAT
 						left join filtered_flat on flat.collection_object_id = filtered_flat.collection_object_id
@@ -11479,15 +11480,15 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 									<tr>
 										<td>Date Collected</td>
 										<td>
-											#getSpecimen.iso_began_date#
-											<cfif Len(getSpecimen.iso_ended_date) GT 0 AND  getSpecimen.iso_began_date NEQ getSpecimen.iso_ended_date>
-												/#getSpecimen.iso_ended_date#
+											#getSpecimen.began_date#
+											<cfif Len(getSpecimen.ended_date) GT 0 AND  getSpecimen.began_date NEQ getSpecimen.ended_date>
+												/#getSpecimen.ended_date#
 											</cfif>
 										</td>
 										<td>
-											#getSpecimen.ff_iso_began_date#
-											<cfif Len(getSpecimen.ff_iso_ended_date) GT 0 AND  getSpecimen.ff_iso_began_date NEQ getSpecimen.ff_iso_ended_date>
-												/#getSpecimen.ff_iso_ended_date#
+											#getSpecimen.ff_began_date#
+											<cfif Len(getSpecimen.ff_ended_date) GT 0 AND  getSpecimen.ff_began_date NEQ getSpecimen.ff_ended_date>
+												/#getSpecimen.ff_ended_date#
 											</cfif>
 										</td>
 									</tr>
@@ -11504,6 +11505,13 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											<cfif Len(getSpecimen.ff_dec_long) GT 0>
 												/#getSpecimen.ff_dec_long#
 											</cfif>
+										</td>
+									</tr>
+									<tr>
+										<td>Parts</td>
+										<td>#getSpecimen.parts#</td>
+										<td>
+											#getSpecimen.ff_parts#
 										</td>
 									</tr>
 								</cfloop>

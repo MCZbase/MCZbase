@@ -3762,7 +3762,6 @@ limitations under the License.
 						coll_object.flags,
 						enteredPerson.agent_name EnteredBy,
 						editedPerson.agent_name EditedBy,
-						concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 						concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail
 					FROM
 						cataloged_item
@@ -3781,9 +3780,6 @@ limitations under the License.
 						</cfif>
 						<cfif len(#meta.flags#) is not 0>
 							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">Missing (flags):</span> #isOne.flags# </li>
-						</cfif>
-						<cfif len(#meta.encumbranceDetail#) is not 0>
-							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">Encumbrances:</span> #replace(meta.encumbranceDetail,";","<br>","all")# </li>
 						</cfif>
 					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
@@ -3804,11 +3800,13 @@ limitations under the License.
 </cffunction>
 
 
-<!--- getEncumbranceHTML get a block of html containing metadata about a cataloged item record 
+<!--- getEncumbrancesDetailsHTML get a block of html containing metadata about a cataloged item record 
  @param collection_object_id for the cataloged item for which to return metadata.
  @return a block of html with cataloged item record metadata, or if none, whitespace only
+ @see getEncumbrancesHTML in specimens/component/functions.cfc for a version without the details 
+   and a remove button.
 --->
-<cffunction name="getEncumbranceHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getEncumbrancesDetailsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
 	<cfthread name="getEncumbranceThread">
@@ -3841,6 +3839,118 @@ limitations under the License.
 							<li class="small list-group-item font-italic py-0">None</li>
 						</cfif>
 					</ul>
+					<cfif len(#check.encumbranceDetail#) is not 0>
+						<!--- lookup data from flat and filtered flat to show redactions produced by the encumbrances --->
+						<cfquery name="getSpecimen" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT
+								DECODE(filtered_flat.collection_object_id, NULL, 'Yes', 'No') AS record_masked,
+								flat.guid,
+								filtered_flat.guid ff_guid,
+								flat.country,
+								filtered_flat.country ff_country,
+								flat.spec_locality,
+								filtered_flat.spec_locality ff_spec_locality,
+								flat.collectors,
+								filtered_flat.collectors ff_collectors,
+								flat.began_date,
+								filtered_flat.began_date ff_began_date,
+								flat.ended_date,
+								filtered_flat.ended_date ff_ended_date,
+								flat.dec_lat,
+								filtered_flat.dec_lat ff_dec_lat,
+								flat.dec_long,
+								filtered_flat.dec_long ff_dec_long,
+								flat.parts,
+								filtered_flat.parts ff_parts
+							FROM
+								FLAT
+								left join filtered_flat on flat.collection_object_id = filtered_flat.collection_object_id
+							WHERE
+								FLAT.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						</cfquery>
+						<div class="row">
+							<div class="col-12">
+								<table class="table-responsive w-100">
+									<cfloop query="getSpecimen">
+										<tr>
+											<th></th>
+											<th>Internal</th>
+											<th>External</th>
+										<tr>
+										<tr>
+											<td>GUID</td>
+											<td>#getSpecimen.guid#</td>
+											<td>
+												<cfif getSpecimen.record_masked EQ "Yes">
+													<i>Record Masked</i>
+												<cfelse>
+													#getSpecimen.ff_guid#
+												</cfif>
+											</td>
+										</tr>
+										<tr>
+											<td>Locality</td>
+											<td>#getSpecimen.spec_locality#</td>
+											<td>
+												#getSpecimen.ff_spec_locality#
+											</td>
+										</tr>
+										<tr>
+											<td>Country</td>
+											<td>#getSpecimen.country#</td>
+											<td>
+												#getSpecimen.ff_country#
+											</td>
+										</tr>
+										<tr>
+											<td>Collectors</td>
+											<td>#getSpecimen.collectors#</td>
+											<td>
+												#getSpecimen.ff_collectors#
+											</td>
+										</tr>
+										<tr>
+											<td>Date Collected</td>
+											<td>
+												#getSpecimen.began_date#
+												<cfif Len(getSpecimen.ended_date) GT 0 AND  getSpecimen.began_date NEQ getSpecimen.ended_date>
+													/#getSpecimen.ended_date#
+												</cfif>
+											</td>
+											<td>
+												#getSpecimen.ff_began_date#
+												<cfif Len(getSpecimen.ff_ended_date) GT 0 AND  getSpecimen.ff_began_date NEQ getSpecimen.ff_ended_date>
+													/#getSpecimen.ff_ended_date#
+												</cfif>
+											</td>
+										</tr>
+										<tr>
+											<td>Georeference</td>
+											<td>
+												#getSpecimen.dec_lat#
+												<cfif Len(getSpecimen.dec_long) GT 0>
+													/#getSpecimen.dec_long#
+												</cfif>
+											</td>
+											<td>
+												#getSpecimen.ff_dec_lat#
+												<cfif Len(getSpecimen.ff_dec_long) GT 0>
+													/#getSpecimen.ff_dec_long#
+												</cfif>
+											</td>
+										</tr>
+										<tr>
+											<td>Parts</td>
+											<td>#getSpecimen.parts#</td>
+											<td>
+												#getSpecimen.ff_parts#
+											</td>
+										</tr>
+									</cfloop>
+								</table>
+							</div>
+						</div>
+					</cfif>
 				</cfif>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
