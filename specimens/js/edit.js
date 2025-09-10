@@ -859,6 +859,29 @@ function openEditLocalityInPage(collection_object_id,callback) {
 	});
 }
 
+/** loadEncumbrances load the encumbrances list (with details) for a cataloged_item
+ * @param collection_object_id the cataloged_item for which to load the encumbrances list
+ * @param targetDivId the id of the div in which to load the encumbrances list without a leading # selector.
+ */
+function loadEncumbrances(collection_object_id,targetDivId) {
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/specimens/component/functions.cfc",
+		data: { 
+			method : "getEncumbrancesHTML",
+			collection_object_id : collection_object_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"load encumbrances");
+		},
+		dataType: "html"
+	})
+};
+
 /** openEditPartsInPage loads a form for editing parts for a cataloged item into the editControlsBlock 
  * of a page hiding the SpecimenDetailsDiv.
  * Invokes closeInPage() on an error.
