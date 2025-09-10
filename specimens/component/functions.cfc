@@ -6840,13 +6840,13 @@ limitations under the License.
 							<cfif cecount.ct GT 1 OR loccount.ct GT 1>
 								<!---<cfset separator = "">--->
 								<cfif cecount.ct GT 1>
-									<h3>Collecting Event (#getloc.collecting_event_id#) is 
+									<h3>Collecting Event is 
 										<span class="text-danger">shared with #cecount.ct# other specimens</span>.
 									</h3>
 								<!---<cfset separator = " ; ">--->
 								</cfif>
 								<cfif loccount.ct GT 1>
-									<h3>Locality (#getloc.collecting_event_id#) is 
+									<h3>Locality is 
 										<span class="text-danger">shared with #loccount.ct# other specimens</span>.
 									</h3>
 								</cfif>
@@ -6903,7 +6903,7 @@ limitations under the License.
 								<div class="row bg-light px-3 pb-1">
 									<div class="col-12 col-md-3 px-0 py-1">
 										<h3 class="h3">
-											Higher Geography (#getLoc.geog_auth_rec_id#)
+											Higher Geography
 										</h3>
 										<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
 											<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-warning" target="_blank"> Edit Shared Higher Geography Record</a>
@@ -7010,7 +7010,7 @@ limitations under the License.
 									<a class="btn btn-xs btn-info" href="/localities/viewLocality.cfm?locality_id=#getLoc.locality_id#" target="_blank">View #shared_loc# Locality</a>
 									<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit #shared_loc# Locality</a>
 									#followText#
-									<span class="small90"> [Internal locality_id: #getLoc.locality_id#></span>
+									<span class="small90"> [Internal locality_id: #getLoc.locality_id#]</span>
 								</span>
 							</h2>
 							<div class="form-row mx-0 mb-0 p-2">
