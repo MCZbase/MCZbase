@@ -6806,7 +6806,7 @@ limitations under the License.
 					<div class="col-12 py-3">
 						<h2 class="h2 px-2">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
 					</div>
-					<form id="locForm" name="locForm" method="post" class="form-row mx-0">
+					<form id="locForm" name="locForm" method="post" class="">
 						<cfif splitToSave>	
 							<input type="hidden" name="action" id="action" value="splitAndSave">
 						<cfelse>
@@ -6832,7 +6832,7 @@ limitations under the License.
 								<cfif loccount.ct GT 1>
 									<h3>Locality is <span class="text-danger">Shared with #loccount.ct# other specimens</span></h3>
 								</cfif>
-								<p class="font-italic text-danger">
+								<p class="font-italic small95 text-danger">
 									Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
 								</p>
 							<cfelse>
@@ -6884,19 +6884,21 @@ limitations under the License.
 							]>
 	
 							<cfloop query="getGeography">
-								<div class="col-12 px-0 py-1">
+								<div class="col-12 col-md-4 px-0 py-1">
 									<h3 class="h3">
 										Higher Geography
 										<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-											<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-warning" target="_blank"> Edit Higher Geography</a>
+											<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-warning" target="_blank"> Edit Shared Higher Geography Record</a>
 										</cfif>
 									</h3>
+								</div>
+								<div class="col-12 col-md-8">
 									<span class="font-weight-lessbold" id="higherGeographySpan">#getGeography.higher_geog#</span>
-									<input type="text" class="data-entry-input reqdClr" id="higherGeographyInput" name="higher_geog" value="#getGeography.higher_geog#" style="display: none;">
+									<input type="text" class="col-12 col-md-9 data-entry-input reqdClr" id="higherGeographyInput" name="higher_geog" value="#getGeography.higher_geog#" style="display: none;">
 									<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#getGeography.geog_auth_rec_id#">
 									<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
 									<input type="button" value="Details" class="btn btn-xs btn-info mr-2" id="showGeogButton">
-									<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> View </a>
+									<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> View Higher Geography Record</a>
 								</div>
 								<script>
 									$("##changeGeogButton").click(function() {
