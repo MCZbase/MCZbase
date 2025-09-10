@@ -1194,7 +1194,7 @@ limitations under the License.
 											Encumbrances
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEncumbrancessDialog(#collection_object_id#,'EncumbranceDialog','#GUID#',reloadEncumbrances)">
+											<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditEncumbarancesDialog(#collection_object_id#,'EncumbranceDialog','#guid#',reloadEncumbrances);">
 												Edit
 											</a>
 										</cfif>
