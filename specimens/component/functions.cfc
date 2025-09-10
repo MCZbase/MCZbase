@@ -11650,7 +11650,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											type : "post",
 											dataType : "json",
 											data: {
-												method: "unencumberSpecimen",
+												method: "removeObjectFromEncumbrance",
 												encumbrance_id: encumbrance_id,
 												collection_object_id: #collection_object_id#
 											},
@@ -11716,48 +11716,6 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				<cftransaction action="commit"/>
 				<cfset row = StructNew()>
 				<cfset row["status"] = "saved">
-				<cfset data[1] = row>
-			<cfelse>
-				<cfthrow message="Error other than one row affected.">
-			</cfif>
-		<cfcatch>
-			<cftransaction action="rollback"/>
-			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-			<cfset function_called = "#GetFunctionCalledName()#">
-			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-			<cfabort>
-		</cfcatch>
-		</cftry>
-	</cftransaction>
-	<cfreturn #serializeJSON(data)#>
-</cffunction>
-
-<!--- 
- * unencumberSpecimen remove a specimen from an encumbrance
- *
- * @param collection_object_id the collection_object_id of the specimen to unencumber
- * @param encumbrance_id the encumbrance_id of the encumbrance to which to remove the specimen
- *
- * @return a json structure with status=deleted, or an http 500 response.
---->
-<cffunction name="unencumberSpecimen" returntype="any" access="remote" returnformat="json">
-	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfargument name="encumbrance_id" type="string" required="yes">
-
-	<cfset data = ArrayNew(1)>
-	<cftransaction>
-		<cftry>	
-			<cfquery name="unencumberSpecimen" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="unencumberSpecimen_result">
-				DELETE FROM coll_object_encumbrance
-				WHERE
-					encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
-					AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-				)
-			</cfquery>
-			<cfif unencumberSpecimen_result.recordcount EQ 1>
-				<cftransaction action="commit"/>
-				<cfset row = StructNew()>
-				<cfset row["status"] = "deleted">
 				<cfset data[1] = row>
 			<cfelse>
 				<cfthrow message="Error other than one row affected.">
