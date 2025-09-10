@@ -482,7 +482,7 @@ limitations under the License.
 		</cfif>
 		
 		<!--- Div to hold full page editing dialog --->
-		<div id="InPageEditorDiv" class="container-fluid"></div>
+		<div id="InPageEditorDiv" class="container-fluid bg-paleyellow"></div>
 		<!--- Divs to hold modal edit dialog launched from within above --->
 		<div id="materialSampleIDEditDialog"></div>
 		<!--- Divs to hold modal edit dialog launched from within above --->

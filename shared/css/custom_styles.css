@@ -2282,6 +2282,9 @@ section#mediaSection.accordion {
 .bg-teal {
 	background-color: rgb(199 251 255 / .35) !important;
 }
+.bg-paleyellow {
+	background-color: rgba(255, 238, 199, 0.35) !important
+}
 .height1p2 {
 	height: 1.4rem!important;
 }
