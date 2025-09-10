@@ -3762,7 +3762,6 @@ limitations under the License.
 						coll_object.flags,
 						enteredPerson.agent_name EnteredBy,
 						editedPerson.agent_name EditedBy,
-						concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 						concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail
 					FROM
 						cataloged_item
@@ -3781,9 +3780,6 @@ limitations under the License.
 						</cfif>
 						<cfif len(#meta.flags#) is not 0>
 							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">Missing (flags):</span> #isOne.flags# </li>
-						</cfif>
-						<cfif len(#meta.encumbranceDetail#) is not 0>
-							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">Encumbrances:</span> #replace(meta.encumbranceDetail,";","<br>","all")# </li>
 						</cfif>
 					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
