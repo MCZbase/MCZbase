@@ -4491,7 +4491,7 @@ limitations under the License.
 								<!--- Show identifications if this is a mixed collection --->
 								<cfif getIdentifications.recordcount GT 0>
 									<div class="col-12 small90">
-										<span style="font-weight-bold">Mixed Collection Identifications of #mpart.base_part_name# (#mpart.preserve_method#)</span>
+										<span class="font-weight-bold mx-1">Mixed Collection Identifications of #mpart.base_part_name# (#mpart.preserve_method#)</span>
 										#getIdentificationsUnthreadedHTML(collection_object_id=part_id)#
 									</div>
 								</cfif>
