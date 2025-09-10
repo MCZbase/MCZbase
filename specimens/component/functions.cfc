@@ -6730,7 +6730,7 @@ limitations under the License.
 					<div class="row mx-0">
 					<cfset guid = "#getLoc.institution_acronym#:#getLoc.collection_cde#:#getLoc.cat_num#">
 					<div class="col-12 px-0 pt-1">
-						<button id="backToSpecimen1" class="btn btn-xs btn-secondary float-right mt-3 mb-1" onclick="closeLocalityInPage();">Back to Specimen</button>
+						<button id="backToSpecimen1" class="btn btn-xs btn-secondary float-right mt-3 mb-2" onclick="closeLocalityInPage();">Back to Specimen</button>
 					</div>
 					<cfset splitToSave = true>
 					<cfif loccount.ct eq 1 and cecount.ct eq 1>
@@ -6806,7 +6806,7 @@ limitations under the License.
 					<div class="col-12">
 						<h2 class="h2 px-2">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
 					</div>
-					<form id="locForm" name="locForm" method="post" class="col-12">
+					<form id="locForm" name="locForm" method="post" class="col-12 px-0">
 						<cfif splitToSave>	
 							<input type="hidden" name="action" id="action" value="splitAndSave">
 						<cfelse>
@@ -6985,8 +6985,8 @@ limitations under the License.
 						</div>
 	
 						<!--- locality --->
-						<div class="col-12 float-left px-0">
-							<h2 class="h3">
+						<div class="col-12 card float-left px-0">
+							<h2 class="h3 card-header">
 								Locality
 								<span class="pl-2">
 									<cfif loccount.ct eq 1>
@@ -7157,8 +7157,8 @@ limitations under the License.
 						</div>
 	
 						<!--- collecting event --->
-						<div class="col-12 px-0">
-							<h2 class="h3 mt-3">
+						<div class="col-12 px-0 card">
+							<h2 class="h3 mt-3 card-header">
 								Collecting Event
 								<span class="pl-2">
 										<cfif cecount.ct eq 1>
