@@ -6837,7 +6837,7 @@ limitations under the License.
 						<input type="hidden" name="coll_event_numbers_data" id="coll_event_numbers_data" value="">
 	
 						<!--- higher geography --->
-						<div class="col-12 px-4 py-3 mt-2 border bg-white">
+						<div class="col-12 pt-2 pb-0 mt-2 border bg-white">
 							<h4 class="font-italic text-info">
 								Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
 							</h4>
