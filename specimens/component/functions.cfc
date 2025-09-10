@@ -2572,13 +2572,13 @@ limitations under the License.
 										<cfset guid ="#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#">
 										<li>
 											Encumbrances: #getCatalog.encumbranceDetail#
-											<button type="button" class="btn btn-sm btn-secondary ml-2"
+											<button type="button" class="btn btn-xs btn-secondary ml-2"
 												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadPage); ">Edit</button>
 										</li>
 									<cfelse>
 										<li>
 											Encumbrances: None 
-											<button type="button" class="btn btn-sm btn-secondary ml-2"
+											<button type="button" class="btn btn-xs btn-secondary ml-2"
 												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadPage); ">Encumber</button>
 										</li>
 									</cfif>
@@ -11545,7 +11545,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											</cfloop>
 										</div>
 										<div class="col-12 mb-2">
-											<button type="button" class="btn btn-primary" onclick="submitEncumberForm();">Add to Encumbrance</button>
+											<button type="button" class="btn btn-xs btn-primary" onclick="submitEncumberForm();">Add to Encumbrance</button>
 											<output id="encumberForm_feedback" class="feedback"></output>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
 												<a class="btn btn-xs btn-primary float-right" target="_blank" href="/Encumbrances.cfm?action=create">Create New Encumbrance</a>
