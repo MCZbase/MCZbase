@@ -6804,7 +6804,7 @@ limitations under the License.
 						});
 					</script>
 					<div class="col-12">
-						<h2 class="h2 px-2">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
+						<h2 class="h2 px-1">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
 					</div>
 					<form id="locForm" name="locForm" method="post" class="col-12 px-0">
 						<cfif splitToSave>	
@@ -7157,8 +7157,8 @@ limitations under the License.
 						</div>
 	
 						<!--- collecting event --->
-						<div class="col-12 px-0 card">
-							<h2 class="h3 mt-3 card-header">
+						<div class="col-12 px-0 mt-3 card">
+							<h2 class="h3 mt-0 py-2 card-header">
 								Collecting Event
 								<span class="pl-2">
 										<cfif cecount.ct eq 1>
