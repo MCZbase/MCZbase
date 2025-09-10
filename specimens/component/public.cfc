@@ -1499,10 +1499,10 @@ limitations under the License.
 								<tr class="#addedClass#">
 									<td colspan="6">
 										<span class="font-weight-lessbold">This Part is a separate Occurence</span>
-										<span class="small">occurrenceID: #getOccurrenceID.assembled_identifier#</span>
+										<span class="small95">occurrenceID: #getOccurrenceID.assembled_identifier#</span>
 									</td>
 								</tr>
-								<tr class="small #addedClass#">
+								<tr class="small95 #addedClass#">
 									<td colspan="6">
 										<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=part_id)>
 									</td>
@@ -1527,7 +1527,7 @@ limitations under the License.
 								<cfloop query="getMaterialSampleID">
 									<tr class="small95 #addedClass#">
 										<td colspan="6" class="mb-0 pb-1 pt-0">
-											<span class="pl-3 d-block">
+											<span class="pl-2 d-block">
 												<span class="font-italic">materialSampleID:</span> 
 												<a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
 												<cfif internal_fg EQ "1" AND left(assembled_identifier,9) EQ "urn:uuid:">
@@ -1904,7 +1904,7 @@ limitations under the License.
 						decode(attribute_type,'sex',0,1), attribute_type
 				</cfquery>
 				<cfif attributes.recordcount GT 0>
-					<table class="table px-1 table-responsive-md w-100 tablesection my-1" aria-label="attributes">
+					<table class="table px-1 table-responsive-md w-100 tablesection my-0" aria-label="attributes">
 						<thead class="thead-light">
 							<tr>
 								<th class="py-0">Attribute</th>
