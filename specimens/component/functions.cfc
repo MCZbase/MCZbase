@@ -6822,18 +6822,22 @@ limitations under the License.
 	
 						<!--- higher geography --->
 						<div class="col-12 px-3 py-3 mb-3 border bg-white">
-							<h3 class="font-italic text-danger">
+							<h4 class="font-italic text-danger">
 								Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
-							</h3>
+							</h4>
 							<!--- describe action this form will take --->
 							<cfif cecount.ct GT 1 OR loccount.ct GT 1>
 								<!---<cfset separator = "">--->
 								<cfif cecount.ct GT 1>
-									<h3>Collecting Event (#getloc.collecting_event_id#) is <span class="text-danger">shared with #cecount.ct# other specimens </span></h3>
+									<h3>Collecting Event (#getloc.collecting_event_id#) is 
+										<span class="text-danger">shared with #cecount.ct# other specimens</span>.
+									</h3>
 								<!---<cfset separator = " ; ">--->
 								</cfif>
 								<cfif loccount.ct GT 1>
-									<h3>Locality (#getloc.collecting_event_id#) is <span class="text-danger">shared with #loccount.ct# other specimens</span></h3>
+									<h3>Locality (#getloc.collecting_event_id#) is 
+										<span class="text-danger">shared with #loccount.ct# other specimens</span>.
+									</h3>
 								</cfif>
 							
 							<cfelse>
@@ -6894,7 +6898,7 @@ limitations under the License.
 											<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-warning" target="_blank"> Edit Shared Higher Geography Record</a>
 										</cfif>
 									</div>
-									<div class="col-12 col-md-9 px-0 px-md-3 pt-4 pb-1">
+									<div class="col-12 col-md-9 px-0 px-md-3 py-1">
 								
 										<h4 class="font-weight-lessbold" id="higherGeographySpan">#getGeography.higher_geog#</h4>
 										<input type="text" class="col-12 col-md-9 data-entry-input reqdClr" id="higherGeographyInput" name="higher_geog" value="#getGeography.higher_geog#" style="display: none;">
@@ -6990,7 +6994,7 @@ limitations under the License.
 										<cfset followText = "(unique to this specimen)">
 									<cfelse>
 										<cfset shared_loc= "Shared">
-										<cfset followText = "(shared_loc with #loccount.ct# specimens)">
+										<cfset followText = "(shared with #loccount.ct# specimens)">
 									</cfif>
 									<a class="btn btn-xs btn-info" href="/localities/viewLocality.cfm?locality_id=#getLoc.locality_id#" target="_blank">View #shared_loc# Locality</a>
 									<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit #shared_loc# Locality</a>
