@@ -803,7 +803,7 @@ function openEditEncumbarancesDialog(collection_object_id,dialogId,guid,callback
 	var title = "Review and Edit Encumbarances on " + guid;
 	createSpecimenEditDialog(dialogId,title,callback,800,1400);
 	jQuery.ajax({
-		url: "/annotations/component/functions.cfc",
+		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getEditEncumrancesHTML",
 			collection_object_id: collection_object_id,
@@ -812,7 +812,7 @@ function openEditEncumbarancesDialog(collection_object_id,dialogId,guid,callback
 			$("#" + dialogId + "_div").html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit encumbarences dialog");
+			handleFail(jqXHR,textStatus,error,"opening edit encumbrances dialog");
 		},
 		dataType: "html"
 	});
