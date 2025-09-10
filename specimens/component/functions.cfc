@@ -6730,7 +6730,7 @@ limitations under the License.
 					<div class="row mx-0">
 					<cfset guid = "#getLoc.institution_acronym#:#getLoc.collection_cde#:#getLoc.cat_num#">
 					<div class="col-12 px-0 pt-1">
-						<button id="backToSpecimen1" class="btn btn-xs btn-secondary float-right mt-3 mb-2" onclick="closeLocalityInPage();">Back to Specimen</button>
+						<button id="backToSpecimen1" class="btn btn-xs btn-secondary float-right mt-3 mb-1" onclick="closeLocalityInPage();">Back to Specimen</button>
 					</div>
 					<cfset splitToSave = true>
 					<cfif loccount.ct eq 1 and cecount.ct eq 1>
@@ -6804,7 +6804,7 @@ limitations under the License.
 						});
 					</script>
 					<div class="col-12">
-						<h2 class="h2 px-1">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
+						<h2 class="h2 mb-1 px-1">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
 					</div>
 					<form id="locForm" name="locForm" method="post" class="col-12 px-0">
 						<cfif splitToSave>	
@@ -8023,7 +8023,7 @@ limitations under the License.
 										<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeoreference">Edit Current Here</button>
 									</cfif>
 								</cfif>
-								<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit from the #shared_loc# Locality</a>.
+								<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit from the #shared_loc# Locality</a>
 							</h2>
 							<div class="form-row col-12">
 								<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
