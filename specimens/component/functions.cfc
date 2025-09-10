@@ -289,69 +289,80 @@ limitations under the License.
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 				</cfquery>
 				<!--- should be just one record per collection_object_id --->
+				<div class="col-12 mt-4 px-1">
 				<div class="container-fluid">
-					<h1 class="h3 px-1">Remarks</h1>
-					<form name="formEditRemarks" id="formEditRemarks">
-						<div class="form-row row">
-							<input type="hidden" name="collection_object_id" id="collection_object_id" value="#variables.collection_object_id#">
-							<cfif getRemarks.recordcount EQ 0>
-								<cfset remarksText = "">
-								<cfset dispositionText = "">
-								<cfset habitatText = "">
-								<cfset associatedText = "">
-							<cfelse>
-								<cfset remarksText = getRemarks.coll_object_remarks>
-								<cfset dispositionText = getRemarks.disposition_remarks>
-								<cfset habitatText = getRemarks.habitat>
-								<cfset associatedText = getRemarks.associated_species>
-							</cfif>
-							<div class="col-12">
-								<label for="coll_object_remarks">Remarks (<span id='length_coll_object_remarks'></span>):</label>
-								<textarea name="coll_object_remarks" id="coll_object_remarks" rows="2" 
-									onkeyup="countCharsLeft('coll_object_remarks', 4000, 'length_coll_object_remarks');"
-									class="form-control form-control-sm w-100 autogrow mb-1">#remarksText#</textarea>
-							</div>
-							<div class="col-12">
-								<label for="disposition_remarks">Disposition Remarks (<span id='length_disposition_remarks'></span>):</label>
-								<textarea name="disposition_remarks" id="disposition_remarks" rows="2" 
-									onkeyup="countCharsLeft('disposition_remarks', 4000, 'length_disposition_remarks');"
-									class="form-control form-control-sm w-100 autogrow mb-1">#dispositionText#</textarea>
-							</div>
-							<div class="col-12">
-								<label for="habitat">Microhabitat (<span id='length_habitat'></span>):</label>
-								<textarea name="habitat" id="habitat" rows="2" 
-									onkeyup="countCharsLeft('habitat', 4000, 'length_habitat');"
-									class="form-control form-control-sm w-100 autogrow mb-1">#habitatText#</textarea>
-							</div>
-							<div class="col-12">
-								<label for="associated_species">Associated Species (<span id='length_associated_species'></span>):</label>
-								<textarea name="associated_species" id="associated_species" rows="2" 
-									onkeyup="countCharsLeft('associated_species', 4000, 'length_associated_species');"
-									class="form-control form-control-sm w-100 autogrow mb-1">#associatedText#</textarea>
-							</div>
-							<div class="col-12 col-md-3 mt-1">
-								<input type="button" value="Save" class="btn btn-xs btn-primary" id="saveRemarksButton" onClick="handleSaveRemarks();">
-							</div>
-							<div class="col-12 col-md-9 mt-md-1">
-								<output id="saveRemarksStatus" class="pt-1"></output>
+					<div class="row">
+						<div class="col-12">
+							<div class="add-form">
+								<div class="add-form-header pt-1 px-2">
+									<h2 class="h3 my-0 px-1 pb-1">Edit Remarks</h2>
+								</div>
+								<div class="card-body">
+									<form name="formEditRemarks" id="formEditRemarks" class="mb-0">
+										<div class="row mx-0 pb-2 col-12 px-0 mt-2 mb-1">
+											<input type="hidden" name="collection_object_id" id="collection_object_id" value="#variables.collection_object_id#">
+											<cfif getRemarks.recordcount EQ 0>
+												<cfset remarksText = "">
+												<cfset dispositionText = "">
+												<cfset habitatText = "">
+												<cfset associatedText = "">
+											<cfelse>
+												<cfset remarksText = getRemarks.coll_object_remarks>
+												<cfset dispositionText = getRemarks.disposition_remarks>
+												<cfset habitatText = getRemarks.habitat>
+												<cfset associatedText = getRemarks.associated_species>
+											</cfif>
+											<div class="float-left px-1 col-12 pb-2">
+												<label for="coll_object_remarks">Remarks (<span id='length_coll_object_remarks'></span>):</label>
+												<textarea name="coll_object_remarks" id="coll_object_remarks" rows="2" 
+													onkeyup="countCharsLeft('coll_object_remarks', 4000, 'length_coll_object_remarks');"
+													class="form-control form-control-sm w-100 autogrow mb-1">#remarksText#</textarea>
+											</div>
+											<div class="float-left px-1 col-12 pb-2">
+												<label for="disposition_remarks">Disposition Remarks (<span id='length_disposition_remarks'></span>):</label>
+												<textarea name="disposition_remarks" id="disposition_remarks" rows="2" 
+													onkeyup="countCharsLeft('disposition_remarks', 4000, 'length_disposition_remarks');"
+													class="form-control form-control-sm w-100 autogrow mb-1">#dispositionText#</textarea>
+											</div>
+											<div class="float-left px-1 col-12 pb-2">
+												<label for="habitat">Microhabitat (<span id='length_habitat'></span>):</label>
+												<textarea name="habitat" id="habitat" rows="2" 
+													onkeyup="countCharsLeft('habitat', 4000, 'length_habitat');"
+													class="form-control form-control-sm w-100 autogrow mb-1">#habitatText#</textarea>
+											</div>
+											<div class="float-left px-1 col-12 pb-2">
+												<label for="associated_species">Associated Species (<span id='length_associated_species'></span>):</label>
+												<textarea name="associated_species" id="associated_species" rows="2" 
+													onkeyup="countCharsLeft('associated_species', 4000, 'length_associated_species');"
+													class="form-control form-control-sm w-100 autogrow mb-1">#associatedText#</textarea>
+											</div>
+											<div class="float-left px-1 col-12 col-md-3 pb-2 mt-1">
+												<input type="button" value="Save" class="btn btn-xs btn-primary" id="saveRemarksButton" onClick="handleSaveRemarks();">
+											</div>
+											<div class="float-left px-1 col-12 col-md-9 mt-md-1">
+												<output id="saveRemarksStatus" class="pt-1"></output>
+											</div>
+										</div>
+									</form>
+									<script>
+								// Make all textareas with autogrow class be bound to the autogrow function on key up
+								$(document).ready(function() { 
+									$("textarea.autogrow").keyup(autogrow);  
+									$('textarea.autogrow').keyup();
+								});
+								function handleSaveRemarks() {
+									var collection_object_id = $("##collection_object_id").val();
+									var coll_object_remarks = $("##coll_object_remarks").val();
+									var disposition_remarks = $("##disposition_remarks").val();
+									var habitat = $("##habitat").val();
+									var associated_species = $("##associated_species").val();
+									saveRemarks(collection_object_id,coll_object_remarks,disposition_remarks,habitat,associated_species,reloadRemarks,"saveRemarksStatus");
+								};
+							</script>
+								</div>
 							</div>
 						</div>
-					</form>
-					<script>
-						// Make all textareas with autogrow class be bound to the autogrow function on key up
-						$(document).ready(function() { 
-							$("textarea.autogrow").keyup(autogrow);  
-							$('textarea.autogrow').keyup();
-						});
-						function handleSaveRemarks() {
-							var collection_object_id = $("##collection_object_id").val();
-							var coll_object_remarks = $("##coll_object_remarks").val();
-							var disposition_remarks = $("##disposition_remarks").val();
-							var habitat = $("##habitat").val();
-							var associated_species = $("##associated_species").val();
-							saveRemarks(collection_object_id,coll_object_remarks,disposition_remarks,habitat,associated_species,reloadRemarks,"saveRemarksStatus");
-						};
-					</script>
+					</div>
 				</div>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -502,7 +513,7 @@ limitations under the License.
 								</div><!--- end card-body for add form --->
 							</div><!--- end add-form for link media --->
 							<!--- remove relationships to existing media from cataloged item --->
-							<div class="col-12 col-lg-12 float-left mb-4 px-0 border">
+							<div class="col-12 col-lg-12 float-left mb-4 mt-3 px-0 border">
 								<div class="bg-light p-0">
 									<h2 class="my-0 py-1 text-dark">
 										<span class="h3 px-2">Edit existing links to media</span> 
@@ -5400,10 +5411,10 @@ limitations under the License.
 					publication.published_year DESC
 			</cfquery>
 			
-			<div class="row mx-0">
+			<div class="row">
 				<div class="col-12">
 					<h1 class="h3 mb-1 mt-3 px-1">Edit Existing Citations</h1>
-					<div class="col-12 px-4 pb-3">
+					<div class="col-12 px-0 pb-3">
 						<cfif getCited.recordCount EQ 0>
 							<li>No citations</li>
 						<cfelse>
@@ -5418,8 +5429,8 @@ limitations under the License.
 									<input type="hidden" name="original_publication_id" id="orig_publication_id#i#" value="#publication_id#">
 									<input type="hidden" name="original_cited_taxon_name_id" id="orig_cited_name_id#i#" value="#cited_taxon_name_id#">
 									<input type="hidden" name="method" value="updateCitation">
-									<div class="row mx-0 border bg-light rounded pt-3 pb-2 mb-0">
-										<div class="col-12 pb-2">
+									<div class="row mx-0 border bg-light px-2 rounded pt-3 pb-2 mb-0">
+										<div class="col-12 px-1 pb-2">
 											<label for="cit_publication#i#" class="data-entry-label">
 												Publication 
 												(<a href="/publications/showPublication.cfm?publication_id=#publication_id#" target="_blank">#formpubshort#</a>)
@@ -5427,12 +5438,12 @@ limitations under the License.
 											<input type="hidden" name="publication_id" id="cit_publication_id#i#" value="#publication_id#">
 											<input type="text" class="data-entry-input" id="cit_publication#i#" name="publication" value="#formpublong#">
 										</div>
-										<div class="col-12 col-md-4 pb-2">
+										<div class="col-12 col-md-4 px-1 pb-2">
 											<label for="cit_cited_name#i#" class="data-entry-label">Cited Scientific Name</label>
 											<input type="hidden" name="cited_taxon_name_id" id="cit_cited_name_id#i#" value="#cited_taxon_name_id#">
 											<input type="text" class="data-entry-input reqdClr" id="cit_cited_name#i#" name="cited_name" value="#citSciName#" required>
 										</div>
-										<div class="col-12 col-md-3 pb-2">
+										<div class="col-12 col-md-3 px-1 pb-2">
 											<label for="cit_type_status#i#" class="data-entry-label">Citation Type</label>
 											<select name="type_status" id="cit_type_status#i#" class="data-entry-select reqdClr" required>
 												<option value=""></option>
@@ -5446,22 +5457,22 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-2 pb-2">
+										<div class="col-12 col-md-2 px-1 pb-2">
 											<label for="cit_page#i#" class="data-entry-label">Page ##</label>
 											<input type="text" class="data-entry-input" id="cit_page#i#" name="occurs_page_number" value="#occurs_page_number#">
 										</div>
-										<div class="col-12 col-md-3 pb-2">
+										<div class="col-12 col-md-3 px-1 pb-2">
 											<label for="cit_page_uri#i#" class="data-entry-label">Page URI</label>
 											<input type="text" class="data-entry-input" id="cit_page_uri#i#" name="citation_page_uri" value="#citation_page_uri#">
 										</div>
-										<div class="col-12 col-md-9 pb-2">
+										<div class="col-12 col-md-9 px-1 pb-2">
 											<label for="cit_remarks#i#" class="data-entry-label">Remarks (<span id="length_remarks_#i#"></span>)</label>
 											<textarea id="cit_remarks#i#" name="citation_remarks" 
 												onkeyup="countCharsLeft('cit_remarks#i#', 4000, 'length_remarks_#i#');"
 												class="data-entry-textarea autogrow mb-1" maxlength="4000"
 											>#citation_remarks#</textarea>
 										</div>
-										<div class="col-12 col-md-3 mt-3">
+										<div class="col-12 col-md-3 px-1 mt-3">
 											<button id="cit_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Citation">Save</button>
 											<button id="cit_delete#i#" value="Delete" class="btn btn-xs mx-1 btn-danger" title="Delete Citation">Delete</button>
 											<output id="cit_output#i#"></output>
@@ -6031,268 +6042,263 @@ limitations under the License.
 			WHERE
 				attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
-		<div class="container">
-			<div class="row mx-0">
-				<div class="col-12">
-					<h2 class="h3 mt-2 px-2 mb-0">Edit Existing Attributes</h2>
-					<div class="col-12 px-0 pb-3">
-						<cfif getAttributes.recordCount EQ 0>
-							<li>No attributes found for this specimen.</li>
-						</cfif>
-						<cfset i = 0>
-						<cfloop query="getAttributes">
-							<cfquery name="getAttributeCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								SELECT
-									attribute_type,
-									upper(value_code_table) value_code_table,
-									upper(units_code_table) units_code_table
-								FROM
-									ctattribute_code_tables
-								WHERE 
-									attribute_type = <cfqueryparam value="#getAttributes.attribute_type#" cfsqltype="CF_SQL_VARCHAR">
-							</cfquery>
-							<cfset i = i + 1>
-							<form name="editAttribute#i#" id="editAttribute#i#" class="my-0 py-0">
-								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-								<input type="hidden" name="attribute_id" value="#attribute_id#">
-								<input type="hidden" name="method" value="updateAttribute">
-								<div class="row mx-0 border py-1">
-									<div class="col-12 col-md-2">
-										<label for="att_name#i#" class="data-entry-label">Name</label>
-										<select class="data-entry-select reqdClr" id="att_name#i#" name="attribute_type" required>
-											<cfloop query="getAttributeTypes">
-												<cfif getAttributeTypes.attribute_type EQ getAttributes.attribute_type>
-													<cfset selected = "selected">
-												<cfelse>
-													<cfset selected = "">
-												</cfif>
-												<option value="#getAttributeTypes.attribute_type#" #selected#>#getAttributeTypes.attribute_type#</option>
-											</cfloop>
-										</select>
-									</div>
-									<div class="col-12 col-md-2">
-										<label for="att_value" class="data-entry-label reqdClr" required>Value</label>
-										<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.value_code_table) GT 0>
-											<cfset valueCodeTable = getAttributeCodeTables.value_code_table>
-											<!--- find out if the value code table has a collection_cde field --->
-											<cfquery name="checkForCollectionCde" datasource="uam_god">
-												SELECT
-													COUNT(*) as ct
-												FROM
-													sys.all_tab_columns
-												WHERE
-													table_name = <cfqueryparam value="#valueCodeTable#" cfsqltype="CF_SQL_VARCHAR">
-													AND owner = 'MCZBASE'
-													AND column_name = 'COLLECTION_CDE'
-											</cfquery>
-											<!--- default is attribute field is the attribute code table name with CT prefix removed --->
-											<cfset var field="">
-											<cfif ucase(valueCodeTable) EQ "CTASSOCIATED_GRANTS">
-												<cfset field="ASSOCIATED_GRANT">
-											<cfelseif ucase(valueCodeTable) EQ "CTCOLLECTION_FULL_NAMES">
-												<cfset field="COLLECTION">
-											<cfelse>
-												<cfset field=replace(valueCodeTable,"CT","","one")>
-											</cfif>
-											<cfquery name="getValueCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-												SELECT
-													#field# as value
-												FROM
-													#valueCodeTable#
-												<cfif checkForCollectionCde.ct GT 0>
-													WHERE
-														collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
-												</cfif>
-												ORDER BY
-													#field#
-											</cfquery>
-											<select class="data-entry-select reqdClr" id="att_value#i#" name="attribute_value" required>
-												<option value=""></option>
-												<cfloop query="getValueCodeTable">
-													<option value="#getValueCodeTable.value#" <cfif getValueCodeTable.value EQ getAttributes.attribute_value>selected</cfif>>#value#</option>
-												</cfloop>
-											</select>
-										<cfelse>
-											<input type="text" class="data-entry-input" id="att_value#i#" name="attribute_value" value="#attribute_value#">
-										</cfif>
-									</div>
-									<div class="col-12 col-md-2">
-								<label for="att_units" class="data-entry-label">Units</label>
-								<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.units_code_table) GT 0>
-									<cfset unitsCodeTable = getAttributeCodeTables.units_code_table>
-									<cfquery name="getUnitsCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-										SELECT
-											#replace(unitsCodeTable,"CT","","one")# as unit
-										FROM
-											#unitsCodeTable#
-										ORDER BY
-											#replace(unitsCodeTable,"CT","","one")#
-									</cfquery>
-									<select class="data-entry-select" id="att_units#i#" name="attribute_units">
-										<option value=""></option>
-										<cfloop query="getUnitsCodeTable">
-											<option value="#getUnitsCodeTable.unit#" <cfif getUnitsCodeTable.unit EQ getAttributes.attribute_units>selected</cfif>>#unit#</option>
-										</cfloop>
-									</select>
-								<cfelse>
-									<!--- if no code table for units, use a text input, but disable it --->
-									<cfif len(attribute_units) EQ 0>
-										<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="" disabled>
+		<h2 class="h3 mt-4 px-2 mb-0">Edit Existing Attributes</h2>
+		<div class="col-12 px-0 pb-3">
+			<cfif getAttributes.recordCount EQ 0>
+				<li>No attributes found for this specimen.</li>
+			</cfif>
+			<cfset i = 0>
+			<cfloop query="getAttributes">
+				<cfquery name="getAttributeCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						attribute_type,
+						upper(value_code_table) value_code_table,
+						upper(units_code_table) units_code_table
+					FROM
+						ctattribute_code_tables
+					WHERE 
+						attribute_type = <cfqueryparam value="#getAttributes.attribute_type#" cfsqltype="CF_SQL_VARCHAR">
+				</cfquery>
+				<cfset i = i + 1>
+				<form name="editAttribute#i#" id="editAttribute#i#" class="my-0 py-2">
+					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+					<input type="hidden" name="attribute_id" value="#attribute_id#">
+					<input type="hidden" name="method" value="updateAttribute">
+					<div class="row mx-0 border bg-light py-2">
+						<div class="col-12 col-md-2 mt-1 pb-2">
+							<label for="att_name#i#" class="data-entry-label">Name</label>
+							<select class="data-entry-select reqdClr" id="att_name#i#" name="attribute_type" required>
+								<cfloop query="getAttributeTypes">
+									<cfif getAttributeTypes.attribute_type EQ getAttributes.attribute_type>
+										<cfset selected = "selected">
 									<cfelse>
-										<!--- but if there is a value, which there shouldn't be, failover and use a text input --->
-										<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="#attribute_units#">
+										<cfset selected = "">
 									</cfif>
+									<option value="#getAttributeTypes.attribute_type#" #selected#>#getAttributeTypes.attribute_type#</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12 col-md-2 mt-1 pb-2">
+							<label for="att_value" class="data-entry-label reqdClr" required>Value</label>
+							<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.value_code_table) GT 0>
+								<cfset valueCodeTable = getAttributeCodeTables.value_code_table>
+								<!--- find out if the value code table has a collection_cde field --->
+								<cfquery name="checkForCollectionCde" datasource="uam_god">
+									SELECT
+										COUNT(*) as ct
+									FROM
+										sys.all_tab_columns
+									WHERE
+										table_name = <cfqueryparam value="#valueCodeTable#" cfsqltype="CF_SQL_VARCHAR">
+										AND owner = 'MCZBASE'
+										AND column_name = 'COLLECTION_CDE'
+								</cfquery>
+								<!--- default is attribute field is the attribute code table name with CT prefix removed --->
+								<cfset var field="">
+								<cfif ucase(valueCodeTable) EQ "CTASSOCIATED_GRANTS">
+									<cfset field="ASSOCIATED_GRANT">
+								<cfelseif ucase(valueCodeTable) EQ "CTCOLLECTION_FULL_NAMES">
+									<cfset field="COLLECTION">
+								<cfelse>
+									<cfset field=replace(valueCodeTable,"CT","","one")>
 								</cfif>
-							</div>
-									<div class="col-12 col-md-2">
-									<label class="data-entry-label">Determiner</label>
-									<input type="text" class="data-entry-input" id="att_det#i#" name="determined_by_agent" value="#attributeDeterminer#">
-									<input type="hidden" name="determined_by_agent_id" id="att_det_id#i#" value="#determined_by_agent_id#">
-									<!--- make the determined by agent into an agent autocomplete --->
-									<script>
-										$(document).ready(function() {
-											makeAgentAutocompleteMeta('att_det#i#','att_det_id#i#');
-										});
-									</script>
-								</div>
-								<div class="col-12 col-md-2">
-									<label class="data-entry-label">Determined Date</label>
-									<input type="text" class="data-entry-input" id="att_date#i#" name="determined_date" value="#dateformat(determined_date,"yyyy-mm-dd")#">
-								</div>
-								<div class="col-12 col-md-2">
-									<label class="data-entry-label" for="att_method#i#">Method</label>
-									<input type="text" class="data-entry-input" id="att_method#i#" name="determination_method" value="#determination_method#">
-								</div>
-								<div class="col-12 col-md-9 mt-1">
-									<label for="att_rem" class="data-entry-label">Remarks</label>
-									<input type="text" class="data-entry-input" id="att_rem#i#" name="attribute_remark" value="#attribute_remark#">
-								</div>
-								<div class="col-12 col-md-3 mt-1 pt-3">
-									<button id="att_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Attribute">Save</button>
-									<button id="att_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Attribute">Delete</button>
-									<output id="att_output#i#"></output>
-								</div>
-							</div>
+								<cfquery name="getValueCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT
+										#field# as value
+									FROM
+										#valueCodeTable#
+									<cfif checkForCollectionCde.ct GT 0>
+										WHERE
+											collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
+									</cfif>
+									ORDER BY
+										#field#
+								</cfquery>
+								<select class="data-entry-select reqdClr" id="att_value#i#" name="attribute_value" required>
+									<option value=""></option>
+									<cfloop query="getValueCodeTable">
+										<option value="#getValueCodeTable.value#" <cfif getValueCodeTable.value EQ getAttributes.attribute_value>selected</cfif>>#value#</option>
+									</cfloop>
+								</select>
+							<cfelse>
+								<input type="text" class="data-entry-input" id="att_value#i#" name="attribute_value" value="#attribute_value#">
+							</cfif>
+						</div>
+						<div class="col-12 col-md-2 mt-1 pb-2">
+							<label for="att_units" class="data-entry-label">Units</label>
+							<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.units_code_table) GT 0>
+								<cfset unitsCodeTable = getAttributeCodeTables.units_code_table>
+								<cfquery name="getUnitsCodeTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT
+										#replace(unitsCodeTable,"CT","","one")# as unit
+									FROM
+										#unitsCodeTable#
+									ORDER BY
+										#replace(unitsCodeTable,"CT","","one")#
+								</cfquery>
+								<select class="data-entry-select" id="att_units#i#" name="attribute_units">
+									<option value=""></option>
+									<cfloop query="getUnitsCodeTable">
+										<option value="#getUnitsCodeTable.unit#" <cfif getUnitsCodeTable.unit EQ getAttributes.attribute_units>selected</cfif>>#unit#</option>
+									</cfloop>
+								</select>
+							<cfelse>
+								<!--- if no code table for units, use a text input, but disable it --->
+								<cfif len(attribute_units) EQ 0>
+									<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="" disabled>
+								<cfelse>
+									<!--- but if there is a value, which there shouldn't be, failover and use a text input --->
+									<input type="text" class="data-entry-input" id="att_units#i#" name="attribute_units" value="#attribute_units#">
+								</cfif>
+							</cfif>
+						</div>
+						<div class="col-12 col-md-2 mt-1 pb-2">
+							<label class="data-entry-label">Determiner</label>
+							<input type="text" class="data-entry-input" id="att_det#i#" name="determined_by_agent" value="#attributeDeterminer#">
+							<input type="hidden" name="determined_by_agent_id" id="att_det_id#i#" value="#determined_by_agent_id#">
+							<!--- make the determined by agent into an agent autocomplete --->
 							<script>
-								$('##att_name#i#').on('change', function() {
-									handleTypeChangeExisting('#i#');
+								$(document).ready(function() {
+									makeAgentAutocompleteMeta('att_det#i#','att_det_id#i#');
 								});
 							</script>
-								</div>
-							</form>
-						</cfloop>
-						<script>
-							// Add event listeners to the buttons
-							document.querySelectorAll('button[id^="att_submit"]').forEach(function(button) {
-								button.addEventListener('click', function(event) {
-									event.preventDefault();
-									var id = button.id.slice(-1);
-									var feedbackOutput = 'att_output' + id;
-									setFeedbackControlState(feedbackOutput,"saving")
-									$.ajax({
-										url: '/specimens/component/functions.cfc',
-										type: 'POST',
-										data: $("##editAttribute" + id).serialize(),
-										success: function(response) {
-											setFeedbackControlState(feedbackOutput,"saved");
-											reloadAttributes();
-										},
-										error: function(xhr, status, error) {
-											setFeedbackControlState(feedbackOutput,"error")
-											handleFail(xhr,status,error,"saving change to attribute.");
-										}
-									});
-								});
-							});
-							document.querySelectorAll('button[id^="att_delete"]').forEach(function(button) {
-								button.addEventListener('click', function(event) {
-									event.preventDefault();
-									var id = button.id.slice(-1);
-									var feedbackOutput = 'att_output' + id;
-									setFeedbackControlState(feedbackOutput,"deleting")
-									$.ajax({
-										url: '/specimens/component/functions.cfc',
-										type: 'POST',
-										data: {
-											method: 'deleteAttribute',
-											attribute_id: $("##editAttribute" + id + " input[name='attribute_id']").val(),
-											collection_object_id: $("##editAttribute" + id + " input[name='collection_object_id']").val()
-										},
-										success: function(response) {
-											setFeedbackControlState(feedbackOutput,"deleted");
-											reloadAttributes();
-											// remove the form from the DOM
-											$("##editAttribute" + id).remove();
-										},
-										error: function(xhr, status, error) {
-											setFeedbackControlState(feedbackOutput,"error")
-											handleFail(xhr,status,error,"deleting attribute.");
-										}
-									});
-								});
-							});
-							function handleTypeChangeExisting(id) {
-								var selectedType = $('##att_name' + id).val();
-								// lookup value code table and units code table from ctattribute_code_tables
-								// set select lists for value and units accordingly, or set as text input
-								$.ajax({
-									url: '/specimens/component/functions.cfc',
-									type: 'POST',
-									dataType: 'json',
-									data: {
-										collection_object_id: '#collection_object_id#',
-										method: 'getAttributeCodeTables',
-										attribute_type: selectedType
-									},
-									success: function(response) {
-										console.log(response);
-										// determine if the value field should be a select based on the response
-										if (response[0].value_code_table) {
-											$('##att_value'+id).prop('disabled', false);
-											// convert the value field to a select
-											$('##att_value'+id).replaceWith('<select name="attribute_value" id="att_value'+id+'" class="data-entry-select reqdClr" required></select>');
-											// Populate the value select with options from the response
-											// value_values is a pipe delimited list of values
-											var values = response[0].value_values.split('|');
-											$('##att_value'+id).append('<option value=""></option>');
-											$.each(values, function(index, value) {
-												$('##att_value'+id).append('<option value="' + value + '">' + value + '</option>');
-											});
-										} else {
-											// enable as a text input, replace any existing select
-											$('##att_value'+id).replaceWith('<input type="text" class="data-entry-input reqdClr" id="att_value'+id+'" name="attribute_value" value="" required>');
-											$('##att_value'+id).prop('disabled', false);
-										}
-										// Determine if the units field should be enabled based on the response
-										if (response[0].units_code_table) {
-											$('##att_units'+id).prop('disabled', false);
-											// convert the units field to a select
-											$('##att_units'+id).replaceWith('<select name="attribute_units" id="att_units'+id+'" class="data-entry-select reqdClr" required></select>');
-											// Populate the units select with options from the response
-											// units_values is a pipe delimited list of values
-											$('##att_units'+id).append('<option value=""></option>');
-											$.each(response[0].units_values.split('|'), function(index, value) {
-												$('##att_units'+id).append('<option value="' + value + '">' + value + '</option>');
-											});
-										} else {
-											// units are either picklists or not used.
-											// empty and disable the units field if units are not used
-											$('##att_units'+id).val("");  
-											$('##att_units'+id).prop('disabled', true);
-											// remove any reqdClr class
-											$('##att_units'+id).removeClass('reqdClr');
-										}
-									},
-									error: function(xhr, status, error) {
-										handleFail(xhr,status,error,"handling change of attribute type.");
-									}
-								});
-							}
-						</script>
+						</div>
+						<div class="col-12 col-md-2 mt-1 pb-2">
+							<label class="data-entry-label">Determined Date</label>
+							<input type="text" class="data-entry-input" id="att_date#i#" name="determined_date" value="#dateformat(determined_date,"yyyy-mm-dd")#">
+						</div>
+						<div class="col-12 col-md-2 mt-1 pb-2">
+							<label class="data-entry-label" for="att_method#i#">Method</label>
+							<input type="text" class="data-entry-input" id="att_method#i#" name="determination_method" value="#determination_method#">
+						</div>
+						<div class="col-12 col-md-9 mt-1 pb-2">
+							<label for="att_rem" class="data-entry-label">Remarks</label>
+							<input type="text" class="data-entry-input" id="att_rem#i#" name="attribute_remark" value="#attribute_remark#">
+						</div>
+						<div class="col-12 col-md-3 mt-1 pt-3">
+							<button id="att_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Attribute">Save</button>
+							<button id="att_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Attribute">Delete</button>
+							<output id="att_output#i#"></output>
+						</div>
 					</div>
-				</div>
-			</div>
+					<script>
+						$('##att_name#i#').on('change', function() {
+							handleTypeChangeExisting('#i#');
+						});
+					</script>
+					</div>
+				</form>
+			</cfloop>
+			<script>
+				// Add event listeners to the buttons
+				document.querySelectorAll('button[id^="att_submit"]').forEach(function(button) {
+					button.addEventListener('click', function(event) {
+						event.preventDefault();
+						var id = button.id.slice(-1);
+						var feedbackOutput = 'att_output' + id;
+						setFeedbackControlState(feedbackOutput,"saving")
+						$.ajax({
+							url: '/specimens/component/functions.cfc',
+							type: 'POST',
+							data: $("##editAttribute" + id).serialize(),
+							success: function(response) {
+								setFeedbackControlState(feedbackOutput,"saved");
+								reloadAttributes();
+							},
+							error: function(xhr, status, error) {
+								setFeedbackControlState(feedbackOutput,"error")
+								handleFail(xhr,status,error,"saving change to attribute.");
+							}
+						});
+					});
+				});
+				document.querySelectorAll('button[id^="att_delete"]').forEach(function(button) {
+					button.addEventListener('click', function(event) {
+						event.preventDefault();
+						var id = button.id.slice(-1);
+						var feedbackOutput = 'att_output' + id;
+						setFeedbackControlState(feedbackOutput,"deleting")
+						$.ajax({
+							url: '/specimens/component/functions.cfc',
+							type: 'POST',
+							data: {
+								method: 'deleteAttribute',
+								attribute_id: $("##editAttribute" + id + " input[name='attribute_id']").val(),
+								collection_object_id: $("##editAttribute" + id + " input[name='collection_object_id']").val()
+							},
+							success: function(response) {
+								setFeedbackControlState(feedbackOutput,"deleted");
+								reloadAttributes();
+								// remove the form from the DOM
+								$("##editAttribute" + id).remove();
+							},
+							error: function(xhr, status, error) {
+								setFeedbackControlState(feedbackOutput,"error")
+								handleFail(xhr,status,error,"deleting attribute.");
+							}
+						});
+					});
+				});
+				function handleTypeChangeExisting(id) {
+					var selectedType = $('##att_name' + id).val();
+					// lookup value code table and units code table from ctattribute_code_tables
+					// set select lists for value and units accordingly, or set as text input
+					$.ajax({
+						url: '/specimens/component/functions.cfc',
+						type: 'POST',
+						dataType: 'json',
+						data: {
+							collection_object_id: '#collection_object_id#',
+							method: 'getAttributeCodeTables',
+							attribute_type: selectedType
+						},
+						success: function(response) {
+							console.log(response);
+							// determine if the value field should be a select based on the response
+							if (response[0].value_code_table) {
+								$('##att_value'+id).prop('disabled', false);
+								// convert the value field to a select
+								$('##att_value'+id).replaceWith('<select name="attribute_value" id="att_value'+id+'" class="data-entry-select reqdClr" required></select>');
+								// Populate the value select with options from the response
+								// value_values is a pipe delimited list of values
+								var values = response[0].value_values.split('|');
+								$('##att_value'+id).append('<option value=""></option>');
+								$.each(values, function(index, value) {
+									$('##att_value'+id).append('<option value="' + value + '">' + value + '</option>');
+								});
+							} else {
+								// enable as a text input, replace any existing select
+								$('##att_value'+id).replaceWith('<input type="text" class="data-entry-input reqdClr" id="att_value'+id+'" name="attribute_value" value="" required>');
+								$('##att_value'+id).prop('disabled', false);
+							}
+							// Determine if the units field should be enabled based on the response
+							if (response[0].units_code_table) {
+								$('##att_units'+id).prop('disabled', false);
+								// convert the units field to a select
+								$('##att_units'+id).replaceWith('<select name="attribute_units" id="att_units'+id+'" class="data-entry-select reqdClr" required></select>');
+								// Populate the units select with options from the response
+								// units_values is a pipe delimited list of values
+								$('##att_units'+id).append('<option value=""></option>');
+								$.each(response[0].units_values.split('|'), function(index, value) {
+									$('##att_units'+id).append('<option value="' + value + '">' + value + '</option>');
+								});
+							} else {
+								// units are either picklists or not used.
+								// empty and disable the units field if units are not used
+								$('##att_units'+id).val("");  
+								$('##att_units'+id).prop('disabled', true);
+								// remove any reqdClr class
+								$('##att_units'+id).removeClass('reqdClr');
+							}
+						},
+						error: function(xhr, status, error) {
+							handleFail(xhr,status,error,"handling change of attribute type.");
+						}
+					});
+				}
+			</script>
 		</div>
+
 	</cfoutput>
 </cffunction>
 
@@ -6731,12 +6737,11 @@ limitations under the License.
 					WHERE
 						geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getLoc.geog_auth_rec_id#">
 				</cfquery>
-	
-				<div class="row mx-0">
+				<div class="container-fluid">
+					<div class="row mx-0">
 					<cfset guid = "#getLoc.institution_acronym#:#getLoc.collection_cde#:#getLoc.cat_num#">
 					<div class="col-12 px-0 pt-1">
-						<h2 class="h2 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
-						<button id="backToSpecimen1" class="btn btn-xs btn-secondary float-right my-3" onclick="closeLocalityInPage();">Back to Specimen</button>
+						<button id="backToSpecimen1" class="btn btn-xs btn-secondary float-right mt-3 mb-2" onclick="closeLocalityInPage();">Back to Specimen</button>
 					</div>
 					<cfset splitToSave = true>
 					<cfif loccount.ct eq 1 and cecount.ct eq 1>
@@ -6809,7 +6814,10 @@ limitations under the License.
 							});
 						});
 					</script>
-					<form id="locForm" name="locForm" method="post" class="row border p-1 m-1 bg-light">
+					<div class="col-12">
+						<h2 class="h2 px-1">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
+					</div>
+					<form id="locForm" name="locForm" method="post" class="col-12 px-0">
 						<cfif splitToSave>	
 							<input type="hidden" name="action" id="action" value="splitAndSave">
 						<cfelse>
@@ -6824,27 +6832,29 @@ limitations under the License.
 						<input type="hidden" name="coll_event_numbers_data" id="coll_event_numbers_data" value="">
 	
 						<!--- higher geography --->
-						<div class="col-12 px-2 form-row">
-	
+						<div class="col-12 px-4 py-3 mb-3 border bg-white">
+							<h4 class="font-italic text-danger">
+								Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
+							</h4>
 							<!--- describe action this form will take --->
 							<cfif cecount.ct GT 1 OR loccount.ct GT 1>
-								<h3 class="h3">
-									<cfset separator = "">
-									<cfif cecount.ct GT 1>
-										Collecting Event is <span class="text-danger">Shared with #cecount.ct# other specimens</span> 
-										<cfset separator = " ; ">
-									</cfif>
-									<cfif loccount.ct GT 1>
-										#separator#Locality is <span class="text-danger">Shared with #loccount.ct# other specimens</span>
-									</cfif>
-								</h3>
-								<p class="font-italic text-danger">Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.</p>
+								<!---<cfset separator = "">--->
+								<cfif cecount.ct GT 1>
+									<h3>Collecting Event (#getloc.collecting_event_id#) is 
+										<span class="text-danger">shared with #cecount.ct# other specimens</span>.
+									</h3>
+								<!---<cfset separator = " ; ">--->
+								</cfif>
+								<cfif loccount.ct GT 1>
+									<h3>Locality (#getloc.collecting_event_id#) is 
+										<span class="text-danger">shared with #loccount.ct# other specimens</span>.
+									</h3>
+								</cfif>
+							
 							<cfelse>
 								<p class="font-italic text-success">The collecting event and locality are used only by this specimen.</p>
 							</cfif>
-	
 							<!--- Display of higher geography --->
-	
 							<cfquery name="getGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT 
 									geog_auth_rec_id,
@@ -6890,19 +6900,24 @@ limitations under the License.
 							]>
 	
 							<cfloop query="getGeography">
-								<div class="col-12 px-0 py-1">
-									<h3 class="h3">
-										Higher Geography
+								<div class="row bg-light px-3 pb-1">
+									<div class="col-12 col-md-3 px-0 py-1">
+										<h3 class="h3">
+											Higher Geography (#getLoc.geog_auth_rec_id#)
+										</h3>
 										<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-											<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-warning" target="_blank"> Edit Higher Geography</a>
+											<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-warning" target="_blank"> Edit Shared Higher Geography Record</a>
 										</cfif>
-									</h3>
-									<span class="font-weight-lessbold" id="higherGeographySpan">#getGeography.higher_geog#</span>
-									<input type="text" class="data-entry-input reqdClr" id="higherGeographyInput" name="higher_geog" value="#getGeography.higher_geog#" style="display: none;">
-									<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#getGeography.geog_auth_rec_id#">
-									<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
-									<input type="button" value="Details" class="btn btn-xs btn-info mr-2" id="showGeogButton">
-									<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> View </a>
+									</div>
+									<div class="col-12 col-md-9 px-0 px-md-3 py-1">
+								
+										<h4 class="font-weight-lessbold" id="higherGeographySpan">#getGeography.higher_geog#</h4>
+										<input type="text" class="col-12 col-md-9 data-entry-input reqdClr" id="higherGeographyInput" name="higher_geog" value="#getGeography.higher_geog#" style="display: none;">
+										<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#getGeography.geog_auth_rec_id#">
+										<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
+										<input type="button" value="Details" class="btn btn-xs btn-info mr-2" id="showGeogButton">
+										<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> View Higher Geography Record</a>
+									</div>
 								</div>
 								<script>
 									$("##changeGeogButton").click(function() {
@@ -6981,8 +6996,8 @@ limitations under the License.
 						</div>
 	
 						<!--- locality --->
-						<div class="col-12 float-left px-0">
-							<h2 class="h3">
+						<div class="col-12 card float-left px-0 mt-3 mb-4">
+							<h2 class="h3 pt-3 pb-2 card-header">
 								Locality
 								<span class="pl-2">
 									<cfif loccount.ct eq 1>
@@ -6990,7 +7005,7 @@ limitations under the License.
 										<cfset followText = "(unique to this specimen)">
 									<cfelse>
 										<cfset shared_loc= "Shared">
-										<cfset followText = "(shared_loc with #loccount.ct# specimens)">
+										<cfset followText = "(shared with #loccount.ct# specimens)">
 									</cfif>
 									<a class="btn btn-xs btn-info" href="/localities/viewLocality.cfm?locality_id=#getLoc.locality_id#" target="_blank">View #shared_loc# Locality</a>
 									<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit #shared_loc# Locality</a>
@@ -7153,8 +7168,8 @@ limitations under the License.
 						</div>
 	
 						<!--- collecting event --->
-						<div class="col-12 px-0">
-							<h2 class="h3 mt-3">
+						<div class="col-12 px-0 mt-3 card">
+							<h2 class="h3 mt-0 pb-2 pt-3 card-header">
 								Collecting Event
 								<span class="pl-2">
 										<cfif cecount.ct eq 1>
@@ -8655,6 +8670,8 @@ limitations under the License.
 						}
 					</script>
 				</div>
+				</div>
+														
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
