@@ -4370,7 +4370,7 @@ limitations under the License.
 			</cfquery>
 	
 				<div class="col-12 py-3">
-					<h1 class="h3">Edit Existing Parts (mPart.recordcount)</h1>
+					<h1 class="h3">Edit Existing Parts (#mPart.recordcount#)</h1>
 					<cfif mPart.recordCount EQ 0>
 						<div class="bg-white border p-2">
 							<p>No parts found</p>
