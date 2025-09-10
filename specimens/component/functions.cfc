@@ -11620,7 +11620,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							<cfif getEncumbrances.recordcount EQ 0>
 								<div class="p-2">No encumbrances exist for this specimen.</div>
 							</cfif>
-							<cfloop query="getEncumbarances">
+							<cfloop query="getEncumbrances">
 								<div class="border rounded p-1 mb-1">
 									<div><strong>Encumbered Date:</strong> #DateFormat(getEncumbrances.encumbered_date,"yyyy-mm-dd")#</div>
 									<div><strong>Encumbering Agent:</strong> #getEncumbrances.encumbering_agent#</div>
