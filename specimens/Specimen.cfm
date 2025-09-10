@@ -893,11 +893,18 @@ limitations under the License.
 									</cfif>
 								</h3>
 							</div>
-							<div id="PartsPane" <cfif #partCount# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
+							<cfset heightStyle = "">
+							<cfif oneOfUs eq 0 AND partCount GT 5>
+								<!--- for external users, limit the number of parts visible on initial page load --->
+								<cfset heightStyle = "height:300px">
+							</cfif>
+							<div id="PartsPane" style="#heightStyle#" class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
 								<div class="card-body px-0 pb-0 pt-1" id="partsCardBody">
-									<p class="smaller py-0 mb-0 text-center w-100">
-										<cfif #partCount# gt 5>click once to close and another time to see all #partCount#</cfif>
-									</p>
+									<cfif len(heightStyle) GT 0>
+										<p class="smaller py-0 mb-0 text-center w-100">
+											<cfif #partCount# gt 5>Click Parts header once to close and again to see all #partCount#.</cfif>
+										</p>
+									</cfif>
 									<cfset blockparts = getPartsHTML(collection_object_id = "#collection_object_id#")>
 									#blockparts#
 								</div>
