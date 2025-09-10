@@ -4490,7 +4490,7 @@ limitations under the License.
 
 								<!--- Show identifications if this is a mixed collection --->
 								<cfif getIdentifications.recordcount GT 0>
-									<div class="col-12 small">
+									<div class="col-12 small90 px-1">
 										<strong>Mixed Collection Identifications of #mpart.base_part_name# (#mpart.preserve_method#)</strong>
 										#getIdentificationsUnthreadedHTML(collection_object_id=part_id)#
 									</div>
@@ -4523,7 +4523,7 @@ limitations under the License.
 										<span class="small90 font-weight-lessbold vertical-align-stretch">No Part Attributes:</span>
 										<button class="btn btn-xs btn-secondary py-0 mx-3" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
 									<cfelse>
-										<div class="col-12 px-0 small">
+										<div class="col-12 px-1 small">
 											<strong>Part Attributes (#patt.recordcount#):</strong>
 											<button class="btn btn-xs btn-secondary px-2 py-0 mx-2" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
 											<cfloop query="patt">
