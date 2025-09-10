@@ -961,7 +961,7 @@ limitations under the License.
 								</h3>
 							</div>
 							<cfset blockrel = getRelationsHTML(collection_object_id = "#collection_object_id#")>
-							<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
+							<div id="RelationsPane" class="collapse show py-1" aria-labelledby="headingRelations" data-parent="##accordionRelations">
 								<div class="card-body" id="relationsCardBody">
 									#blockrel# 
 								</div>
