@@ -7374,12 +7374,12 @@ limitations under the License.
 										WHERE
 											coll_event_number.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.collecting_event_id#">
 									</cfquery>
-									<ul class="mb-1">
+									<ul class="my-2">
 										<cfloop query="colEventNumbers">
 											<li><span id="collEventNumber_#coll_event_number_id#">#coll_event_number# (#number_series#, #collector_agent#)</span></li>
 										</cfloop>
 										<cfif colEventNumbers.recordcount EQ 0>
-											<li class="text-muted">None.</li>
+											<li class="text-muted">None</li>
 										</cfif>
 									</ul>
 								</div>
