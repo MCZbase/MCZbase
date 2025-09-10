@@ -1334,7 +1334,7 @@ limitations under the License.
 						has_identification asc, 
 						part_name, part_id
 				</cfquery>
-				<table class="table px-1 table-responsive-md w-100 tablesection my-1">
+				<table class="table px-0 table-responsive-md w-100 tablesection my-1">
 					<thead class="thead-light">
 						<tr>
 							<th class="py-0"><span>Part</span></th>
@@ -1509,7 +1509,7 @@ limitations under the License.
 								</tr>
 							</cfif>
 							<cfif len(part_remarks) gt 0>
-								<tr class="small90 #addedClass#">
+								<tr class="small95 #addedClass#">
 									<td colspan="6" class="mb-0 pb-1 pt-0">
 										<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
 									</td>
@@ -1525,7 +1525,7 @@ limitations under the License.
 							</cfquery>
 							<cfif getMaterialSampleID.recordcount GT 0>
 								<cfloop query="getMaterialSampleID">
-									<tr class="small90 #addedClass#">
+									<tr class="small95 #addedClass#">
 										<td colspan="6" class="mb-0 pb-1 pt-0">
 											<span class="pl-3 d-block">
 												<span class="font-italic">materialSampleID:</span> 
@@ -1572,7 +1572,7 @@ limitations under the License.
 								<tr class="border-top-0 #addedClass#">
 									<td colspan="6" class="border-top-0 mt-0 py-0">
 										<cfloop query="partAttributes">
-											<div class="small90 pl-3 line-height-sm">
+											<div class="small95 pl-3 line-height-sm">
 												#attribute_type# = <span class="">#attribute_value#</span> &nbsp;
 											<cfif len(attribute_units) gt 0>
 												#attribute_units# &nbsp;
