@@ -1135,7 +1135,7 @@ limitations under the License.
 								<cfif attributes.in_page>
 									<!--- if in_page, provide button to return to specimen details page --->
 									<div class="col-12 px-0 mt-0">
-										<button id="backToSpecimen2" class="btn btn-xs btn-secondary mb-3 float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
+										<button id="backToSpecimen2" class="btn btn-xs btn-secondary mb-4 float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
 									</div>
 								</cfif>
 							</div>
@@ -4225,7 +4225,7 @@ limitations under the License.
 								<!--- this div is replaced with the edit existing parts HTML when parts are added --->
 								#getEditExistingPartsUnthreaded(collection_object_id=attributes.collection_object_id)#
 							</div>
-							<button class="btn btn-xs btn-secondary float-right my-3" onclick="closePartsInPage();">
+							<button class="btn btn-xs btn-secondary float-right mb-4" onclick="closePartsInPage();">
 								Back to Specimen</button>
 						</div>
 					</div>
@@ -8634,7 +8634,7 @@ limitations under the License.
 									</cfif>
 								</div>
 								<div class="py-3 float-right">
-									<button id="backToSpecimen2" class="btn btn-xs btn-secondary mb-3" onclick="closeLocalityInPage();">Back to Specimen</button>
+									<button id="backToSpecimen2" class="btn btn-xs btn-secondary mb-4" onclick="closeLocalityInPage();">Back to Specimen</button>
 								</div>
 							</div>
 						</div>
