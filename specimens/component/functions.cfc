@@ -7354,9 +7354,11 @@ limitations under the License.
 								FROM coll_event_num_series
 								ORDER BY number_series, mczbase.get_agentnameoftype(collector_agent_id)
 							</cfquery>
-							<h3 class="h4 card-header">
-								Collecting Event Number Series&mdahs;Collector/Field Numbers (identifying collecting events)</h3>
+							<h3 class="h4 card-header py-2">
+								Collecting Event Number Series&mdash;Collector/Field Numbers (identifying collecting events) 
 								<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditCollectingEventNumbers">Edit</button>
+							</h3>
+								
 							<!--- Display existing collecting event numbers --->
 							<div class="form-row mx-0 mb-2">
 								<div class="col-12">
