@@ -4261,6 +4261,7 @@ limitations under the License.
 
 	<cfoutput>
 		<cftry>
+			
 			<cfquery name="getCatItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					cataloged_item.collection_object_id,
@@ -4274,13 +4275,11 @@ limitations under the License.
 					cataloged_item.collection_object_id = <cfqueryparam value="#arguments.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
 			<cfset guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num#">
-			
 			<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT coll_obj_disposition 
 				FROM ctcoll_obj_disp 
 				ORDER BY coll_obj_disposition
 			</cfquery>
-			
 			<cfquery name="ctModifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT modifier 
 				FROM ctnumeric_modifiers 
@@ -4372,15 +4371,15 @@ limitations under the License.
 				WHERE sampled_from_obj_id IS NULL 
 				ORDER BY has_identification asc, part_name
 			</cfquery>
-				<h1 class="h3 py-3">Edit Existing Parts</h1>
-				<div class="col-12">
+		
+				<h1 class="h3 pt-3 px-2">Edit Existing Parts</h1>
+				<div class="col-12 px-0 my-1 float-left">
 					<cfif mPart.recordCount EQ 0>
 						<div class="bg-light border p-2 m-2">
 							<p>No parts found</p>
 						</div>
 					<cfelse>
 						<cfset var i = 0>
-						
 						<cfloop query="mPart">
 							<cfset i = i + 1>
 							<!--- lookup material sample id from guid_our_thing table --->
@@ -4395,15 +4394,15 @@ limitations under the License.
 							<cfelse>
 								<cfset addedClass = "">
 							</cfif>
-							<div class="mx-0 py-1 mb-0 #addedClass# card">
+							<div class="mx-0 py-1 mb-3 #addedClass# card float-left">
 								<!--- find identifications of the part to see if this is a mixed collection --->
 								<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT identification_id
 									FROM identification
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 								</cfquery>
-								<form name="editPart#i#" id="editPart#i#" class="mb-2">
-									<div class="col-12 form-row px-0">
+								<form name="editPart#i#" id="editPart#i#" class="col-12 form-row mb-0">
+									<div class="form-row mx-0 py-2 mt-2">
 										<input type="hidden" name="part_collection_object_id" value="#part_id#">
 										<input type="hidden" name="method" value="updatePart">
 										<div class="col-12 col-md-4 mb-2">
@@ -4519,7 +4518,7 @@ limitations under the License.
 										attribute_remark,
 										agent_name
 								</cfquery>
-								<div class="col-12 row mx-0 d-flex bg-white border py-1">
+								<div class="col-12 form-row px-4 py-1">
 									<cfif patt.recordcount EQ 0>
 										<span class="small90 font-weight-lessbold vertical-align-stretch">No Part Attributes:</span>
 										<button class="btn btn-xs btn-secondary py-0 mx-3" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
