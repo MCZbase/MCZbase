@@ -6826,11 +6826,11 @@ limitations under the License.
 							<cfif cecount.ct GT 1 OR loccount.ct GT 1>
 								<!---<cfset separator = "">--->
 								<cfif cecount.ct GT 1>
-									<h3>Collecting Event is <span class="text-danger">Shared with #cecount.ct# other specimens</span></h3>
+									<h3>Collecting Event is <span class="text-danger">shared with #cecount.ct# other specimens</span></h3>
 								<!---<cfset separator = " ; ">--->
 								</cfif>
 								<cfif loccount.ct GT 1>
-									<h3>Locality is <span class="text-danger">Shared with #loccount.ct# other specimens</span></h3>
+									<h3>Locality is <span class="text-danger">shared with #loccount.ct# other specimens</span></h3>
 								</cfif>
 							
 							<cfelse>
@@ -6883,7 +6883,7 @@ limitations under the License.
 	
 							<cfloop query="getGeography">
 								<div class="row mx-0">
-									<div class="col-12 col-md-4 px-0 py-1">
+									<div class="col-12 col-md-3 px-0 py-1">
 										<h3 class="h3">
 											Higher Geography
 											<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
@@ -6891,11 +6891,11 @@ limitations under the License.
 											</cfif>
 										</h3>
 									</div>
-									<div class="col-12 col-md-8 py-1">
+									<div class="col-12 col-md-9 py-1">
 									<label class="font-italic text-danger">
 									Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
 									</label>
-										<h5 class="font-weight-lessbold" id="higherGeographySpan">#getGeography.higher_geog#</h5>
+										<h4 class="font-weight-lessbold" id="higherGeographySpan">#getGeography.higher_geog#</h4>
 										<input type="text" class="col-12 col-md-9 data-entry-input reqdClr" id="higherGeographyInput" name="higher_geog" value="#getGeography.higher_geog#" style="display: none;">
 										<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#getGeography.geog_auth_rec_id#">
 										<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
