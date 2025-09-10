@@ -3802,6 +3802,56 @@ limitations under the License.
 	<cfthread action="join" name="getMetadataThread"/>
 	<cfreturn getMetadataThread.output>
 </cffunction>
+
+
+<!--- getEncumbranceHTML get a block of html containing metadata about a cataloged item record 
+ @param collection_object_id for the cataloged item for which to return metadata.
+ @return a block of html with cataloged item record metadata, or if none, whitespace only
+--->
+<cffunction name="getEncumbranceHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfthread name="getEncumbranceThread">
+		<cfoutput>
+			<cftry>
+				<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
+					<div class="error"> Improper call. Aborting..... </div>
+					<cfabort>
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
+				<!--- check for mask record, hide if mask record ---->
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					FROM DUAL
+				</cfquery>
+				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+					<div>Record Masked</div>
+				<cfelse oneOfUs EQ 0>
+					<div>Some information is redacted</div>
+				<cfelse if oneOfUs EQ 1>
+					<ul class="list-group">
+						<cfif len(#check.encumbranceDetail#) is not 0>
+							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">Encumbrances:</span> #replace(check.encumbranceDetail,";","<br>","all")# </li>
+						</cfif>
+					</ul>
+				</cfif>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getEncumbranceThread"/>
+	<cfreturn getEncumbranceThread.output>
+</cffunction>
 							
 <!--- getNamedGroupsHTML get a block of html containing a list of named groups that a cataloged item belongs to.
  @param collection_object_id for the cataloged item for which to return named groups.
