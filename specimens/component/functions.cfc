@@ -7346,7 +7346,7 @@ limitations under the License.
 						</div>
 						
 						<!--- Collecting event numbers --->
-						<div class="col-12 px-0 mt-2 card">
+						<div class="col-12 px-0 mt-3 card">
 							<!--- Query for available number series --->
 							<cfquery name="collEventNumberSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT coll_event_num_series_id, number_series, pattern, remarks, collector_agent_id,
@@ -7354,7 +7354,7 @@ limitations under the License.
 								FROM coll_event_num_series
 								ORDER BY number_series, mczbase.get_agentnameoftype(collector_agent_id)
 							</cfquery>
-							<h2 class="h3 card-header py-2">
+							<h2 class="h3 card-header mt-0 py-2">
 								Collecting Event Number Series&mdash;Collector/Field Numbers (identifying collecting events) 
 								<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditCollectingEventNumbers">Edit</button>
 							</h2>
@@ -7379,7 +7379,7 @@ limitations under the License.
 											<li><span id="collEventNumber_#coll_event_number_id#">#coll_event_number# (#number_series#, #collector_agent#)</span></li>
 										</cfloop>
 										<cfif colEventNumbers.recordcount EQ 0>
-											<li class="text-muted">None</li>
+											<li>None</li>
 										</cfif>
 									</ul>
 								</div>
