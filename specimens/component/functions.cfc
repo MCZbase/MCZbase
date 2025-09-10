@@ -6838,7 +6838,7 @@ limitations under the License.
 	
 						<!--- higher geography --->
 						<div class="col-12 px-4 py-3 mt-2 border bg-white">
-							<h4 class="font-italic text-danger">
+							<h4 class="font-italic text-info">
 								Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
 							</h4>
 							<!--- describe action this form will take --->
