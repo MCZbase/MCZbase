@@ -2925,7 +2925,7 @@ limitations under the License.
 									
 
 										<div class="border bg-light rounded mx-0 px-0 mt-2 form-row" id="otherIDEditControls#i#">
-											<div class="col-12 border-bottom py-2 mx-0 form-row" style="color: ##dee2e6;">
+											<div class="col-12 border-bottom py-2 mx-0 form-row" style="background-color: ##dee2e6;">
 
 												<div class="col-12 col-xl-4">
 													Identifier: #getIDs.other_id_type#:
@@ -4372,7 +4372,7 @@ limitations under the License.
 				ORDER BY has_identification asc, part_name
 			</cfquery>
 	
-				<div class="col-12 py-3 eader">
+				<div class="col-12 py-3 card">
 					<h1 class="h3 card-header">Edit Existing Parts</h1>
 					<cfif mPart.recordCount EQ 0>
 						<div class="bg-light border p-2 m-2">
