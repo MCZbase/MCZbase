@@ -11727,7 +11727,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
  *
  * @return a json structure with status=deleted, or an http 500 response.
 --->
-<cffunction name="encumberSpecimen" returntype="any" access="remote" returnformat="json">
+<cffunction name="unencumberSpecimen" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="encumbrance_id" type="string" required="yes">
 
