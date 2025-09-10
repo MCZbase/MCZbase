@@ -6883,7 +6883,7 @@ limitations under the License.
 	
 							<cfloop query="getGeography">
 								<div class="row mx-0">
-									<div class="col-12 col-md-2 px-0 py-1">
+									<div class="col-12 col-md-3 px-0 py-1">
 										<h3 class="h3">
 											Higher Geography
 										</h3>
@@ -6891,7 +6891,7 @@ limitations under the License.
 											<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-warning" target="_blank"> Edit Shared Higher Geography Record</a>
 										</cfif>
 									</div>
-									<div class="col-12 col-md-10 py-1">
+									<div class="col-12 col-md-9 px-0 px-md-3 pt-5 pb-1">
 									<label class="font-italic text-danger">
 									Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
 									</label>
