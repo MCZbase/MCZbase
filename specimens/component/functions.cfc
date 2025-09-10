@@ -7354,10 +7354,10 @@ limitations under the License.
 								FROM coll_event_num_series
 								ORDER BY number_series, mczbase.get_agentnameoftype(collector_agent_id)
 							</cfquery>
-							<h3 class="h4 card-header py-2">
+							<h2 class="h3 card-header py-2">
 								Collecting Event Number Series&mdash;Collector/Field Numbers (identifying collecting events) 
 								<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditCollectingEventNumbers">Edit</button>
-							</h3>
+							</h2>
 								
 							<!--- Display existing collecting event numbers --->
 							<div class="form-row mx-0 mb-2">
@@ -7573,7 +7573,7 @@ limitations under the License.
 						</div><!--- end collecting event numbers section --->
 	
 						<!--- geology attributes (on locality) --->
-						<div class="col-12 px-0">
+						<div class="col-12 px-0 mt-3 card">
 							<!--- Geological Attributes Query --->
 							<cfquery name="getGeologicalAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.query_timeout#">
 								SELECT
@@ -7607,12 +7607,12 @@ limitations under the License.
 							<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT geology_attribute, type FROM ctgeology_attribute ORDER BY ordinal
 							</cfquery>
-							<h2 class="h3 mt-3">
+							<h2 class="h3 mt-3 card-header">
 								Geological Attributes
 								<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Edit</button>
 							</h2>
 							<!--- Display current attributes --->
-							<ul>
+							<ul class="my-2">
 								<cfif getGeologicalAttributes.recordcount EQ 0>
 									<li id="noAttributesLI"> No geological attributes for this locality.</li>
 								</cfif>
