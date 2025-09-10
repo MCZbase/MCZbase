@@ -867,9 +867,9 @@ function loadEncumbrances(collection_object_id,targetDivId) {
 	jQuery.ajax(
 	{
 		dataType: "json",
-		url: "/specimens/component/functions.cfc",
+		url: "/specimens/component/public.cfc",
 		data: { 
-			method : "getEncumbrancesHTML",
+			method : "getEncumbrancesDetailsHTML",
 			collection_object_id : collection_object_id,
 			containing_block : targetDivId
 		},
