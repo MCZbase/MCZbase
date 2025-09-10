@@ -6048,7 +6048,7 @@ limitations under the License.
 				attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 		<h2 class="h3 mt-4 px-2 mb-0">Edit Existing Attributes</h2>
-		<div class="col-12 px-0 pb-3">
+		<div class="col-12 px-0">
 			<cfif getAttributes.recordCount EQ 0>
 				<li>No attributes found for this specimen.</li>
 			</cfif>
