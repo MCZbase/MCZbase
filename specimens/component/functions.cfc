@@ -2923,8 +2923,8 @@ limitations under the License.
 										<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIDs.recordcount#">
 									
 
-										<div class="border bg-light rounded mx-0 px-2 mt-2 form-row" id="otherIDEditControls#i#">
-											<div class="col-12 border-bottom py-2 my-1 form-row">
+										<div class="border bg-light rounded mx-0 px-0 mt-2 form-row" id="otherIDEditControls#i#">
+											<div class="col-12 border-bottom py-2 mx-0 form-row" style="color: ##dee2e6;">
 
 												<div class="col-12 col-xl-4">
 													Identifier: #getIDs.other_id_type#:
@@ -2940,25 +2940,27 @@ limitations under the License.
 													<cfif getIds.description NEQ "">Description:</cfif> #getIDs.description#
 												</div>
 											</div>
-											<div class="form-group mt-2 col-12 col-md-4 px-1">
-												<cfset thisType = #getIDs.other_id_type#>
-												<label class="data-entry-label" for="other_id_type#i#" >Type</label>
-												<select name="other_id_type" class="data-entry-select" style="" size="1" id="other_id_type#i#">
-													<cfloop query="ctType">
-														<cfif #thisType# is #ctType.other_id_type#><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-														<option #selected# value="#ctType.other_id_type#">#ctType.other_id_type#</option>
-													</cfloop>
-												</select>
-											</div>
-											<div class="form-group mt-2 col-12 col-md-4 px-1">
-												<label class="data-entry-label" for="display_value#i#" >Number</label>
-												<input type="text" class="data-entry-input" value="#encodeForHTML(getIDs.display_value)#" size="12" name="display_value" id="display_value#i#">
-											</div>
-											<div class="form-group mt-2 col-12 col-md-4 px-1">
-												<input type="button" value="Save" aria-label="Save Changes" class="mt-3 btn btn-xs btn-primary"
-													onClick="if (checkFormValidity($('##editOtherIDForm#i#')[0])) { editOtherIDsSubmit(#i#);  } ">
-												<input type="button" value="Delete" class="btn btn-xs mt-3 px-1 btn-danger" onclick="doDelete(#i#);">
-												<output id="saveOtherIDResultDiv#i#"></output>
+											<div class="col-12">
+												<div class="form-group mt-2 col-12 col-md-4 px-1">
+													<cfset thisType = #getIDs.other_id_type#>
+													<label class="data-entry-label" for="other_id_type#i#" >Type</label>
+													<select name="other_id_type" class="data-entry-select" style="" size="1" id="other_id_type#i#">
+														<cfloop query="ctType">
+															<cfif #thisType# is #ctType.other_id_type#><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="#ctType.other_id_type#">#ctType.other_id_type#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="form-group mt-2 col-12 col-md-4 px-1">
+													<label class="data-entry-label" for="display_value#i#" >Number</label>
+													<input type="text" class="data-entry-input" value="#encodeForHTML(getIDs.display_value)#" size="12" name="display_value" id="display_value#i#">
+												</div>
+												<div class="form-group mt-2 col-12 col-md-4 px-1">
+													<input type="button" value="Save" aria-label="Save Changes" class="mt-3 btn btn-xs btn-primary"
+														onClick="if (checkFormValidity($('##editOtherIDForm#i#')[0])) { editOtherIDsSubmit(#i#);  } ">
+													<input type="button" value="Delete" class="btn btn-xs mt-3 px-1 btn-danger" onclick="doDelete(#i#);">
+													<output id="saveOtherIDResultDiv#i#"></output>
+												</div>
 											</div>
 										</div>
 									</form>
