@@ -4372,8 +4372,8 @@ limitations under the License.
 				ORDER BY has_identification asc, part_name
 			</cfquery>
 		
-				<h1 class="h3 py-3 px-2">Edit Existing Parts</h1>
-				<div class="col-12 px-0 my-2 float-left">
+				<h1 class="h3 pt-3 px-2">Edit Existing Parts</h1>
+				<div class="col-12 px-0 my-1 float-left">
 					<cfif mPart.recordCount EQ 0>
 						<div class="bg-light border p-2 m-2">
 							<p>No parts found</p>
@@ -4401,7 +4401,7 @@ limitations under the License.
 									FROM identification
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 								</cfquery>
-								<form name="editPart#i#" id="editPart#i#" class="col-12 form-row">
+								<form name="editPart#i#" id="editPart#i#" class="col-12 form-row mb-0">
 									<div class="form-row mx-0 py-2 mt-2">
 										<input type="hidden" name="part_collection_object_id" value="#part_id#">
 										<input type="hidden" name="method" value="updatePart">
