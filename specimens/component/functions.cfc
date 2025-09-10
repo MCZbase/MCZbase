@@ -6822,6 +6822,9 @@ limitations under the License.
 	
 						<!--- higher geography --->
 						<div class="col-12 px-3 py-3 mb-3 border bg-white">
+							<h3 class="font-italic text-danger">
+								Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
+							</h3>
 							<!--- describe action this form will take --->
 							<cfif cecount.ct GT 1 OR loccount.ct GT 1>
 								<!---<cfset separator = "">--->
@@ -6892,9 +6895,7 @@ limitations under the License.
 										</cfif>
 									</div>
 									<div class="col-12 col-md-9 px-0 px-md-3 pt-4 pb-1">
-									<label class="font-italic text-danger">
-									Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
-									</label>
+								
 										<h4 class="font-weight-lessbold" id="higherGeographySpan">#getGeography.higher_geog#</h4>
 										<input type="text" class="col-12 col-md-9 data-entry-input reqdClr" id="higherGeographyInput" name="higher_geog" value="#getGeography.higher_geog#" style="display: none;">
 										<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#getGeography.geog_auth_rec_id#">
