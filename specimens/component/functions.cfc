@@ -11529,6 +11529,15 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 									left join coll_object_encumbrance on encumbrance.encumbrance_id = coll_object_encumbrance.encumbrance_id
 								WHERE
 									encumbrance.encumbrance_id is not null
+								GROUP BY
+									encumbrance.encumbrance_id,
+									encumbrance.encumbrance,
+									encumbrance.encumbrance_action,
+									preferred_agent_name.agent_name,
+									encumbrance.made_date,
+									encumbrance.expiration_date,
+									encumbrance.expiration_event,
+									encumbrance.remarks
 							</cfquery>
 							<div class="add-form">
 								<div class="add-form-header pt-1 px-2 col-12 float-left">
