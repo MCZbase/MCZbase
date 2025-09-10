@@ -7110,7 +7110,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 form-row border rounded m-1 p-1">
+								<div class="col-12 form-row mx-0 my-1 p-1">
 									<!--- PLSS coordinates --->
 									<div class="col-12 col-md-2 py-1">
 										<label class="data-entry-label" for="section_part"><span class="font-weight-lessbold">PLSS: </span> Section Part</label>
