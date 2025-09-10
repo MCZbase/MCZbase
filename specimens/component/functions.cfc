@@ -6821,7 +6821,7 @@ limitations under the License.
 						<input type="hidden" name="coll_event_numbers_data" id="coll_event_numbers_data" value="">
 	
 						<!--- higher geography --->
-						<div class="col-12 px-3 py-3 mb-3 border bg-white">
+						<div class="col-12 px-4 py-3 mb-3 border bg-white">
 							<h4 class="font-italic text-danger">
 								Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
 							</h4>
@@ -6889,7 +6889,7 @@ limitations under the License.
 							]>
 	
 							<cfloop query="getGeography">
-								<div class="row mx-0 bg-light">
+								<div class="row bg-light">
 									<div class="col-12 col-md-3 px-0 py-1">
 										<h3 class="h3">
 											Higher Geography (#getLoc.geog_auth_rec_id#)
