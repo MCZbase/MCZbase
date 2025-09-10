@@ -5799,7 +5799,7 @@ limitations under the License.
 				</cfquery>
 
 				<!--- add new attribute --->
-				<div class="col-12 mt-4 px-1">
+				<div class="col-12 mt-3 px-1">
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12">
@@ -6837,7 +6837,7 @@ limitations under the License.
 						<input type="hidden" name="coll_event_numbers_data" id="coll_event_numbers_data" value="">
 	
 						<!--- higher geography --->
-						<div class="col-12 px-4 py-3 mb-3 border bg-white">
+						<div class="col-12 px-4 py-3 mt-2 border bg-white">
 							<h4 class="font-italic text-danger">
 								Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
 							</h4>
@@ -9734,7 +9734,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				<cfset guid = "#getPartInfo.institution_acronym#:#getPartInfo.collection_cde#:#getPartInfo.cat_num#">
 
 				<!--- add new part attribute form --->
-				<div class="col-12 mt-4 px-1">
+				<div class="col-12 mt-3 px-1">
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12">
