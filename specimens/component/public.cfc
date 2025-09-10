@@ -3856,10 +3856,10 @@ limitations under the License.
 								filtered_flat.spec_locality ff_spec_locality,
 								flat.collectors,
 								filtered_flat.collectors ff_collectors,
-								flat.iso_began_date,
-								filtered_flat.iso_began_date ff_iso_began_date,
-								flat.iso_ended_date,
-								filtered_flat.iso_ended_date ff_iso_ended_date,
+								flat.began_date,
+								filtered_flat.began_date ff_began_date,
+								flat.ended_date,
+								filtered_flat.ended_date ff_ended_date,
 								flat.dec_lat,
 								filtered_flat.dec_lat ff_dec_lat,
 								flat.dec_long,
@@ -3916,15 +3916,15 @@ limitations under the License.
 										<tr>
 											<td>Date Collected</td>
 											<td>
-												#getSpecimen.iso_began_date#
-												<cfif Len(getSpecimen.iso_ended_date) GT 0 AND  getSpecimen.iso_began_date NEQ getSpecimen.iso_ended_date>
-													/#getSpecimen.iso_ended_date#
+												#getSpecimen.began_date#
+												<cfif Len(getSpecimen.ended_date) GT 0 AND  getSpecimen.began_date NEQ getSpecimen.ended_date>
+													/#getSpecimen.ended_date#
 												</cfif>
 											</td>
 											<td>
-												#getSpecimen.ff_iso_began_date#
-												<cfif Len(getSpecimen.ff_iso_ended_date) GT 0 AND  getSpecimen.ff_iso_began_date NEQ getSpecimen.ff_iso_ended_date>
-													/#getSpecimen.ff_iso_ended_date#
+												#getSpecimen.ff_began_date#
+												<cfif Len(getSpecimen.ff_ended_date) GT 0 AND  getSpecimen.ff_began_date NEQ getSpecimen.ff_ended_date>
+													/#getSpecimen.ff_ended_date#
 												</cfif>
 											</td>
 										</tr>
