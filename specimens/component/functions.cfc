@@ -6806,7 +6806,7 @@ limitations under the License.
 					<div class="col-12 pt-3">
 						<h2 class="h2 px-2">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
 					</div>
-					<form id="locForm" name="locForm" method="post" class="">
+					<form id="locForm" name="locForm" method="post" class="col-12">
 						<cfif splitToSave>	
 							<input type="hidden" name="action" id="action" value="splitAndSave">
 						<cfelse>
