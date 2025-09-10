@@ -6986,7 +6986,7 @@ limitations under the License.
 	
 						<!--- locality --->
 						<div class="col-12 card float-left px-0 mt-3 mb-4">
-							<h2 class="h3 pt-3 pb-2 card-header">
+							<h2 class="h3 py-2 mt-0 card-header">
 								Locality
 								<span class="pl-2">
 									<cfif loccount.ct eq 1>
@@ -7158,7 +7158,7 @@ limitations under the License.
 	
 						<!--- collecting event --->
 						<div class="col-12 px-0 mt-3 card">
-							<h2 class="h3 mt-0 pb-2 pt-3 card-header">
+							<h2 class="h3 mt-0 py-2 card-header">
 								Collecting Event
 								<span class="pl-2">
 										<cfif cecount.ct eq 1>
@@ -7346,7 +7346,7 @@ limitations under the License.
 						</div>
 						
 						<!--- Collecting event numbers --->
-						<div class="col-12 px-0 mt-2">
+						<div class="col-12 px-0 mt-2 card">
 							<!--- Query for available number series --->
 							<cfquery name="collEventNumberSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT coll_event_num_series_id, number_series, pattern, remarks, collector_agent_id,
@@ -7354,13 +7354,11 @@ limitations under the License.
 								FROM coll_event_num_series
 								ORDER BY number_series, mczbase.get_agentnameoftype(collector_agent_id)
 							</cfquery>
-							
-							<h3 class="h4">
-								Collecting Event Numbers
-								Collector/Field Numbers (identifying collecting events)
+							<h3 class="h4 card-header">
+								Collecting Event Number Series&mdahs;Collector/Field Numbers (identifying collecting events)</h3>
 								<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditCollectingEventNumbers">Edit</button>
 							</h3>
-						
+							</div>
 							<!--- Display existing collecting event numbers --->
 							<div class="form-row mx-0 mb-2">
 								<div class="col-12">
