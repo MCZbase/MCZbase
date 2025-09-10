@@ -7011,7 +7011,7 @@ limitations under the License.
 							<h2 class="h3 py-2 mt-0 card-header">
 								Locality #followText#
 							</h2>
-								<div class="px-2 my-1">
+								<div class="px-3 my-1">
 									
 									<a class="btn btn-xs btn-info" href="/localities/viewLocality.cfm?locality_id=#getLoc.locality_id#" target="_blank">View #shared_loc# Locality</a>
 									<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit #shared_loc# Locality</a>
@@ -7184,7 +7184,7 @@ limitations under the License.
 							<h2 class="h3 mt-0 py-2 card-header">Collecting Event #followText# 
 			
 							</h2>
-							<div class="px-2 my-1">
+							<div class="px-3 my-1">
 								<a class="btn btn-xs btn-info" href="/localities/viewCollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">View #shared# Collecting Event</a>
 								<button type="button" class="btn btn-xs btn-warning" id="launchCollEventPickerButtonFromFormButton"
 								onclick=" closeLocalityInPage();  launchCollectingEventDialog(); ">Pick Different Collecting Event</button>
