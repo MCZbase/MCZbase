@@ -7001,7 +7001,7 @@ limitations under the License.
 									#followText#
 								</span>
 							</h2>
-							<div class="form-row mx-0 mb-0 border-bottom p-2">
+							<div class="form-row mx-0 mb-0 p-2">
 								<div class="col-12 mb-2 mt-0">
 									<label class="data-entry-label" for="spec_locality">
 										Specific Locality
