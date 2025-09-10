@@ -6726,8 +6726,8 @@ limitations under the License.
 					WHERE
 						geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getLoc.geog_auth_rec_id#">
 				</cfquery>
-	
-				<div class="row mx-0">
+				<div class="container-fluid">
+					<div class="row mx-0">
 					<cfset guid = "#getLoc.institution_acronym#:#getLoc.collection_cde#:#getLoc.cat_num#">
 					<div class="col-12 px-0 pt-1">
 						<button id="backToSpecimen1" class="btn btn-xs btn-secondary float-right my-3" onclick="closeLocalityInPage();">Back to Specimen</button>
@@ -8653,7 +8653,7 @@ limitations under the License.
 						}
 					</script>
 				</div>
-			</div>
+				</div>
 														
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
