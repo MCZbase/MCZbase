@@ -1135,7 +1135,7 @@ limitations under the License.
 								<cfif attributes.in_page>
 									<!--- if in_page, provide button to return to specimen details page --->
 									<div class="col-12 px-0 mt-0">
-										<button id="backToSpecimen2" class="btn btn-xs btn-secondary mb-3 float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
+										<button id="backToSpecimen2" class="btn btn-xs btn-secondary mb-4 float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
 									</div>
 								</cfif>
 							</div>
@@ -4225,7 +4225,7 @@ limitations under the License.
 								<!--- this div is replaced with the edit existing parts HTML when parts are added --->
 								#getEditExistingPartsUnthreaded(collection_object_id=attributes.collection_object_id)#
 							</div>
-							<button class="btn btn-xs btn-secondary float-right my-3" onclick="closePartsInPage();">
+							<button class="btn btn-xs btn-secondary float-right mb-4" onclick="closePartsInPage();">
 								Back to Specimen</button>
 						</div>
 					</div>
@@ -4394,7 +4394,7 @@ limitations under the License.
 							<cfelse>
 								<cfset addedClass = "">
 							</cfif>
-							<div class="mx-0 py-1 mb-3 #addedClass# card float-left">
+							<div class="mx-0 py-1 mb-3 #addedClass# col-12 card float-left">
 								<!--- find identifications of the part to see if this is a mixed collection --->
 								<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT identification_id
@@ -4491,7 +4491,7 @@ limitations under the License.
 								<!--- Show identifications if this is a mixed collection --->
 								<cfif getIdentifications.recordcount GT 0>
 									<div class="col-12 small90">
-										<span style="font-weight-bold">Mixed Collection Identifications of #mpart.base_part_name# (#mpart.preserve_method#)</span>
+										<span class="font-weight-bold mx-1">Mixed Collection Identifications of #mpart.base_part_name# (#mpart.preserve_method#)</span>
 										#getIdentificationsUnthreadedHTML(collection_object_id=part_id)#
 									</div>
 								</cfif>
@@ -4553,7 +4553,7 @@ limitations under the License.
 												</li>
 											</cfloop>
 											<li>
-												<button type="button" id="btn_pane1" class="btn btn-xs btn-secondary py-0 small90" onclick="openEditMaterialSampleIDDialog(#part_id#,'materialSampleIDEditDialog','#guid# #part_name#',reloadPartsAndSection)">
+												<button type="button" id="btn_pane1" class="btn btn-xs btn-secondary py-1 small95" onclick="openEditMaterialSampleIDDialog(#part_id#,'materialSampleIDEditDialog','#guid# #part_name#',reloadPartsAndSection)">
 													<cfif getMaterialSampleID.recordcount EQ 1>
 														Add 
 													<cfelse>
@@ -8634,7 +8634,7 @@ limitations under the License.
 									</cfif>
 								</div>
 								<div class="py-3 float-right">
-									<button id="backToSpecimen2" class="btn btn-xs btn-secondary mb-3" onclick="closeLocalityInPage();">Back to Specimen</button>
+									<button id="backToSpecimen2" class="btn btn-xs btn-secondary mb-4" onclick="closeLocalityInPage();">Back to Specimen</button>
 								</div>
 							</div>
 						</div>
