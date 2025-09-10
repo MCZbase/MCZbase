@@ -4553,7 +4553,7 @@ limitations under the License.
 												</li>
 											</cfloop>
 											<li>
-												<button type="button" id="btn_pane1" class="btn btn-xs btn-secondary py-0 small90" onclick="openEditMaterialSampleIDDialog(#part_id#,'materialSampleIDEditDialog','#guid# #part_name#',reloadPartsAndSection)">
+												<button type="button" id="btn_pane1" class="btn btn-xs btn-secondary py-1 small95" onclick="openEditMaterialSampleIDDialog(#part_id#,'materialSampleIDEditDialog','#guid# #part_name#',reloadPartsAndSection)">
 													<cfif getMaterialSampleID.recordcount EQ 1>
 														Add 
 													<cfelse>
