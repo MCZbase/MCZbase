@@ -6821,7 +6821,7 @@ limitations under the License.
 						<input type="hidden" name="coll_event_numbers_data" id="coll_event_numbers_data" value="">
 	
 						<!--- higher geography --->
-						<div class="col-12 px-3 py-3 my-3 py-3 border bg-white">
+						<div class="col-12 px-3 pb-3 mb-3 border bg-white">
 							<!--- describe action this form will take --->
 							<cfif cecount.ct GT 1 OR loccount.ct GT 1>
 								<!---<cfset separator = "">--->
@@ -6884,21 +6884,23 @@ limitations under the License.
 							]>
 	
 							<cfloop query="getGeography">
-								<div class="col-12 col-md-4 px-0 py-1">
-									<h3 class="h3">
-										Higher Geography
-										<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-											<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-warning" target="_blank"> Edit Shared Higher Geography Record</a>
-										</cfif>
-									</h3>
-								</div>
-								<div class="col-12 col-md-8">
-									<span class="font-weight-lessbold" id="higherGeographySpan">#getGeography.higher_geog#</span>
-									<input type="text" class="col-12 col-md-9 data-entry-input reqdClr" id="higherGeographyInput" name="higher_geog" value="#getGeography.higher_geog#" style="display: none;">
-									<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#getGeography.geog_auth_rec_id#">
-									<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
-									<input type="button" value="Details" class="btn btn-xs btn-info mr-2" id="showGeogButton">
-									<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> View Higher Geography Record</a>
+								<div class="row mx-0">
+									<div class="col-12 col-md-4 px-0 py-1">
+										<h3 class="h3">
+											Higher Geography
+											<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
+												<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-warning" target="_blank"> Edit Shared Higher Geography Record</a>
+											</cfif>
+										</h3>
+									</div>
+									<div class="col-12 col-md-8">
+										<span class="font-weight-lessbold" id="higherGeographySpan">#getGeography.higher_geog#</span>
+										<input type="text" class="col-12 col-md-9 data-entry-input reqdClr" id="higherGeographyInput" name="higher_geog" value="#getGeography.higher_geog#" style="display: none;">
+										<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#getGeography.geog_auth_rec_id#">
+										<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
+										<input type="button" value="Details" class="btn btn-xs btn-info mr-2" id="showGeogButton">
+										<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> View Higher Geography Record</a>
+									</div>
 								</div>
 								<script>
 									$("##changeGeogButton").click(function() {
