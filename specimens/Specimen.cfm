@@ -931,7 +931,7 @@ limitations under the License.
 							</div>
 							<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
 								<cfif len(trim(#blockattributes#)) GT 0>
-									<div class="card-body px-1" id="attributesCardBody">
+									<div class="card-body px-0 py-0" id="attributesCardBody">
 										#blockattributes#
 									</div>
 								<cfelse>
