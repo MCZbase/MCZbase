@@ -6892,10 +6892,10 @@ limitations under the License.
 										</h3>
 									</div>
 									<div class="col-12 col-md-8 py-1">
-									<label class="font-italic h3 text-danger">
+									<label class="font-italic text-danger">
 									Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
 									</label>
-										<span class="font-weight-lessbold" id="higherGeographySpan">#getGeography.higher_geog#</span>
+										<h5 class="font-weight-lessbold" id="higherGeographySpan">#getGeography.higher_geog#</h5>
 										<input type="text" class="col-12 col-md-9 data-entry-input reqdClr" id="higherGeographyInput" name="higher_geog" value="#getGeography.higher_geog#" style="display: none;">
 										<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#getGeography.geog_auth_rec_id#">
 										<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
