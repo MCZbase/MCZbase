@@ -11503,7 +11503,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											</cfif>
 										</td>
 									</tr>
-								<cfloop>
+								</cfloop>
 							</table>
 						</div>
 						<div class="col-12">
