@@ -4568,6 +4568,7 @@ limitations under the License.
 							</div>
 
 							<!--- Show subsamples --->
+							<!--- TODO: Add support for editing subsamples --->
 							<cfquery name="sPart" dbtype="query">
 								SELECT * FROM parts WHERE sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 							</cfquery>
