@@ -7949,7 +7949,7 @@ limitations under the License.
 								)
 						</cfquery>
 						
-						<div class="col-12 mx-1 px-0 card">
+						<div class="col-12 mt-3 px-0 card">
 							<h2 class="h3 mt-0 py-2 card-header">
 								Georeference and Georeference Metadata
 								<cfquery name="getCurrentGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -8025,7 +8025,7 @@ limitations under the License.
 								</cfif>
 								<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit from the #shared_loc# Locality</a>.
 							</h2>
-							<div class="form-row">
+							<div class="form-row col-12">
 								<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT
 										lat_long_id,
@@ -8609,17 +8609,17 @@ limitations under the License.
 	
 						<div class="col-12 row px-0">
 							<div class="col-12">
-								<div class="mt-3 float-left">
+								<div class="py-2 mb-2 float-left">
 									<cfif splitToSave>	
 										<input id="splitAndSaveButton" type="submit" value="Split and Save Changes" class="btn btn-xs btn-primary" disabled>
 										<output id="locFormOutput"></output>
-										<span class="ml-3">A new locality and collecting event will be created with these values and changes will apply to this record only. </span> 
+										<span class="mx-3">A new locality and collecting event will be created with these values and changes will apply to this record only. </span> 
 									<cfelse>
 										<input id="saveButton" type="submit" value="Save Changes" class="btn btn-xs btn-primary float-left">
 										<output id="locFormOutput"></output>
 									</cfif>
 								</div>
-								<div class="mt-3 float-right">
+								<div class="py-3 float-right">
 									<button id="backToSpecimen2" class="btn btn-xs btn-secondary mb-3" onclick="closeLocalityInPage();">Back to Specimen</button>
 								</div>
 							</div>
