@@ -2500,6 +2500,7 @@ limitations under the License.
 						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
 				<cfloop query="getCatalog">
+					<cfset guid = "#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#">
 					<cfquery name="getAccnAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						SELECT
 							initcap(trans_agent_role) agent_role,
