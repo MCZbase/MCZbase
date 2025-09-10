@@ -11550,9 +11550,10 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											<label for="encumbrance_id" class="form-label">Select Existing Encumbrance</label>
 											<select name="encumbrance_id" id="encumbrance_id" class="data-entry-select w-100" required>
 												<option value="" disabled selected>Select an existing encumbrance</option>
-											<cfloop query="listEncumb">
-												<option value="#listEncumb.encumbrance_id#">#listEncumb.encumbrance# (Action: #listEncumb.encumbrance_action#, By: #listEncumb.agent_name#, Date: #DateFormat(listEncumb.made_date,"yyyy-mm-dd")#, Objects: #listEncumb.object_count#)</option>
-											</cfloop>
+												<cfloop query="listEncumb">
+													<option value="#listEncumb.encumbrance_id#">#listEncumb.encumbrance# (Action: #listEncumb.encumbrance_action#, By: #listEncumb.agent_name#, Date: #DateFormat(listEncumb.made_date,"yyyy-mm-dd")#, Objects: #listEncumb.object_count#)</option>
+												</cfloop>
+											</select>
 										</div>
 										<div class="col-12 mb-2">
 											<button type="button" class="btn btn-xs btn-primary" onclick="submitEncumberForm();">Add to Encumbrance</button>
