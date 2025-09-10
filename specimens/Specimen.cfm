@@ -1185,30 +1185,30 @@ limitations under the License.
 					</div>
 					<!------------------- encumbrances  -------------------------------->
 					<cfif #oneOfUs# eq 1>
-					<div class="accordion" id="accordionEncumberance">
-						<div class="card mb-2 bg-light">
-							<div id="EncumbranceDialog"></div>
-							<div class="card-header" id="headingEncumbrance">
-								<h3 class="h5 my-0">
-									<button type="button" role="button" aria-label="Encumbrance Pane" aria-controls="EncumbrancePane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##EncumbrancePane">
-										Encumbrances
-									</button>
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEncumbrancessDialog(#collection_object_id#,'EncumbranceDialog','#GUID#',reloadEncumbrances)">
-											Edit
-										</a>
-									</cfif>
-								</h3>
-							</div>
-							<div id="EncumbrancePane" class="collapse show" aria-labelledby="headingEncumbrance" data-parent="##accordionEncumbrance">
-								<cfset encumbranceBlock = getEncumbranceHTML(collection_object_id = "#collection_object_id#")>
-								<div class="card-body" id="emcumbranceCardBody">
-									#encumbranceBlock#
+						<div class="accordion" id="accordionEncumberance">
+							<div class="card mb-2 bg-light">
+								<div id="EncumbranceDialog"></div>
+								<div class="card-header" id="headingEncumbrance">
+									<h3 class="h5 my-0">
+										<button type="button" role="button" aria-label="Encumbrance Pane" aria-controls="EncumbrancePane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##EncumbrancePane">
+											Encumbrances
+										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEncumbrancessDialog(#collection_object_id#,'EncumbranceDialog','#GUID#',reloadEncumbrances)">
+												Edit
+											</a>
+										</cfif>
+									</h3>
+								</div>
+								<div id="EncumbrancePane" class="collapse show" aria-labelledby="headingEncumbrance" data-parent="##accordionEncumbrance">
+									<cfset encumbranceBlock = getEncumbranceHTML(collection_object_id = "#collection_object_id#")>
+									<div class="card-body" id="emcumbranceCardBody">
+										#encumbranceBlock#
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-
+					</cfif>
 
 				</div> <!--- end of column 3 --->
 			</div><!--- end of column to hold the two right colums (the two colums if no media) --->
