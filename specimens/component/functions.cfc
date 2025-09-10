@@ -6985,8 +6985,8 @@ limitations under the License.
 						</div>
 	
 						<!--- locality --->
-						<div class="col-12 card float-left px-0">
-							<h2 class="h3 card-header">
+						<div class="col-12 card float-left px-0 mt-3 mb-4">
+							<h2 class="h3 pt-3 pb-2 card-header">
 								Locality
 								<span class="pl-2">
 									<cfif loccount.ct eq 1>
@@ -7158,7 +7158,7 @@ limitations under the License.
 	
 						<!--- collecting event --->
 						<div class="col-12 px-0 mt-3 card">
-							<h2 class="h3 mt-0 py-2 card-header">
+							<h2 class="h3 mt-0 pb-2 pt-3 card-header">
 								Collecting Event
 								<span class="pl-2">
 										<cfif cecount.ct eq 1>
