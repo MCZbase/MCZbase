@@ -7288,48 +7288,48 @@ limitations under the License.
 								</div>
 								
 	
-								<div class="col-12 col-md-3 py-1 px-0">
+								<div class="col-12 col-md-3 py-1 px-1">
 									<label class="data-entry-label px-2 " for="verbatimdepth">Verbatim Depth</label>
 									<input type="text" name="verbatimdepth" id="verbatimdepth" value="#getLoc.verbatimdepth#" class="data-entry-input">
 								</div>
-								<div class="col-12 col-md-3 py-1 px-0">
+								<div class="col-12 col-md-3 py-1 px-1">
 									<label class="data-entry-label px-2 " for="verbatimelevation">Verbatim Elevation</label>
 									<input type="text" name="verbatimelevation" id="verbatimelevation" value="#getLoc.verbatimelevation#" class="data-entry-input">
 								</div>
-								<div class="col-12 col-md-3 py-1 px-0">
+								<div class="col-12 col-md-3 py-1">
 									<label class="data-entry-label px-2 " for="verbatimLatitude">Verbatim Latitude</label>
 									<input type="text" name="verbatimLatitude" id="verbatimLatitude" value="#getLoc.verbatimLatitude#" class="data-entry-input">
 								</div>
-								<div class="col-12 col-md-3 py-1 px-0">
+								<div class="col-12 col-md-3 py-1">
 									<label class="data-entry-label px-2 " for="verbatimLongitude">Verbatim Longitude</label>
 									<input type="text" name="verbatimLongitude" id="verbatimLongitude" value="#getLoc.verbatimLongitude#" class="data-entry-input">
 								</div>
-								<div class="col-12 col-md-3 py-1 px-0">
+								<div class="col-12 col-md-3 py-1">
 									<label class="data-entry-label px-2 " for="verbatimCoordinates">Verbatim Coordinates</label>
 									<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" value="#getLoc.verbatimCoordinates#" class="data-entry-input">
 								</div>
-								<div class="col-12 col-md-3 py-1 px-0">
+								<div class="col-12 col-md-3 py-1">
 									<label class="data-entry-label px-2 " for="verbatimCoordinateSystem">Verbatim Coordinate System</label>
 									<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" value="#getLoc.verbatimCoordinateSystem#" class="data-entry-input">
 								</div>
-								<div class="col-12 col-md-3 py-1 px-0">
-									<label class="data-entry-label px-2 " for="verbatimSRS"">Verbatim SRS (ellipsoid model/datum)</label>
+								<div class="col-12 col-md-3 py-1">
+									<label class="data-entry-label px-2" for="verbatimSRS">Verbatim SRS (ellipsoid model/datum)</label>
 									<input type="text" name="verbatimSRS" id="verbatimSRS" value="#getLoc.verbatimSRS#" class="data-entry-input">
 								</div>
 								<!--- Additional verbatim fields --->
-								<div class="col-12 col-md-3 py-1 px-0">
-									<label class="data-entry-label px-2 " for="verbatim_habitat"">Verbatim Habitat</label>
+								<div class="col-12 col-md-3 py-1">
+									<label class="data-entry-label px-2" for="verbatim_habitat">Verbatim Habitat</label>
 									<input type="text" name="verbatim_habitat" id="verbatim_habitat" value="#getLoc.verbatim_habitat#" class="data-entry-input">
 								</div>
-								<div class="col-12 col-md-3 py-1 px-0">
-									<label class="data-entry-label px-2 " for="verbatim_collectors"">Verbatim Collectors</label>
+								<div class="col-12 col-md-3 py-1">
+									<label class="data-entry-label px-2" for="verbatim_collectors">Verbatim Collectors</label>
 									<input type="text" name="verbatim_collectors" id="verbatim_collectors" value="#getLoc.verbatim_collectors#" class="data-entry-input">
 								</div>
-								<div class="col-12 col-md-3 py-1 px-0">
-									<label class="data-entry-label px-2 " for="verbatim_field_numbers"">Verbatim Field Numbers</label>
+								<div class="col-12 col-md-3 py-1">
+									<label class="data-entry-label px-2" for="verbatim_field_numbers">Verbatim Field Numbers</label>
 									<input type="text" name="verbatim_field_numbers" id="verbatim_field_numbers" value="#getLoc.verbatim_field_numbers#" class="data-entry-input">
 								</div>
-								<div class="col-12 col-md-6 mb-2">
+								<div class="col-12 col-md-6 py-1">
 									<label for="valid_distribution_fg" class="data-entry-label">Valid Distribution</label>
 									<cfif not isDefined("variables.valid_distribution_fg")>
 										<cfset variables.valid_distribution_fg = "1">
