@@ -4373,7 +4373,7 @@ limitations under the License.
 				ORDER BY has_identification asc, part_name
 			</cfquery>
 				<h1 class="h3 py-3">Edit Existing Parts</h1>
-				<div class="col-12 py-0 px-0 float-left card">
+				<div class="col-12">
 					<cfif mPart.recordCount EQ 0>
 						<div class="bg-light border p-2 m-2">
 							<p>No parts found</p>
@@ -4395,7 +4395,7 @@ limitations under the License.
 							<cfelse>
 								<cfset addedClass = "">
 							</cfif>
-							<div class="mx-0 py-1 mb-0 #addedClass#">
+							<div class="mx-0 py-1 mb-0 #addedClass# card">
 								<!--- find identifications of the part to see if this is a mixed collection --->
 								<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT identification_id
