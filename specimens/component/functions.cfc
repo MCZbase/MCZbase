@@ -4403,7 +4403,7 @@ limitations under the License.
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 								</cfquery>
 								<form name="editPart#i#" id="editPart#i#" class="col-12 form-row mb-2">
-									<div class="">
+									<div class="form-row mx-0 py-2 my-3">
 										<input type="hidden" name="part_collection_object_id" value="#part_id#">
 										<input type="hidden" name="method" value="updatePart">
 										<div class="col-12 col-md-4 mb-2">
