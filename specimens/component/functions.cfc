@@ -4372,15 +4372,15 @@ limitations under the License.
 				WHERE sampled_from_obj_id IS NULL 
 				ORDER BY has_identification asc, part_name
 			</cfquery>
-	
-				<div class="col-12 py-3 card float-left">
-					<h1 class="h3 card-header">Edit Existing Parts</h1>
+				<h1 class="h3 py-3">Edit Existing Parts</h1>
+				<div class="col-12 py-0 px-0 float-left card">
 					<cfif mPart.recordCount EQ 0>
 						<div class="bg-light border p-2 m-2">
 							<p>No parts found</p>
 						</div>
 					<cfelse>
 						<cfset var i = 0>
+						
 						<cfloop query="mPart">
 							<cfset i = i + 1>
 							<!--- lookup material sample id from guid_our_thing table --->
