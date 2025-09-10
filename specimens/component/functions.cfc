@@ -6820,7 +6820,7 @@ limitations under the License.
 						});
 					</script>
 					
-						<h2 class="h2 mb-1 px-1 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
+						<h2 class="h2 mt-3 px-0 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
 					</div>
 					<form id="locForm" name="locForm" method="post" class="col-12 px-0">
 						<cfif splitToSave>	
