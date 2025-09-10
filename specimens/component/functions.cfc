@@ -7357,8 +7357,6 @@ limitations under the License.
 							<h3 class="h4 card-header">
 								Collecting Event Number Series&mdahs;Collector/Field Numbers (identifying collecting events)</h3>
 								<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditCollectingEventNumbers">Edit</button>
-							</h3>
-							</div>
 							<!--- Display existing collecting event numbers --->
 							<div class="form-row mx-0 mb-2">
 								<div class="col-12">
