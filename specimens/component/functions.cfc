@@ -6821,16 +6821,16 @@ limitations under the License.
 						<input type="hidden" name="coll_event_numbers_data" id="coll_event_numbers_data" value="">
 	
 						<!--- higher geography --->
-						<div class="col-12 px-3 py-3 my-3 border bg-white">
+						<div class="col-12 px-3 py-3 mb-3 border bg-white">
 							<!--- describe action this form will take --->
 							<cfif cecount.ct GT 1 OR loccount.ct GT 1>
 								<!---<cfset separator = "">--->
 								<cfif cecount.ct GT 1>
-									<h3>Collecting Event is <span class="text-danger">shared with #cecount.ct# other specimens</span></h3>
+									<h3>Collecting Event (#cecount.collecting_event_id#) is <span class="text-danger">shared with #cecount.ct# other specimens </span></h3>
 								<!---<cfset separator = " ; ">--->
 								</cfif>
 								<cfif loccount.ct GT 1>
-									<h3>Locality is <span class="text-danger">shared with #loccount.ct# other specimens</span></h3>
+									<h3>Locality (#loccount.collecting_event_id#) is <span class="text-danger">shared with #loccount.ct# other specimens</span></h3>
 								</cfif>
 							
 							<cfelse>
@@ -6885,7 +6885,7 @@ limitations under the License.
 								<div class="row mx-0">
 									<div class="col-12 col-md-3 px-0 py-1">
 										<h3 class="h3">
-											Higher Geography
+											Higher Geography (#getLoc.geog_auth_rec_id#)
 										</h3>
 										<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
 											<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-warning" target="_blank"> Edit Shared Higher Geography Record</a>
