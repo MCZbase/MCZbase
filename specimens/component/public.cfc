@@ -3827,6 +3827,10 @@ limitations under the License.
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
 				</cfquery>
+				<cfset markedForDeletion = false>
+				<cfif Findnocase("delete records", check.encumbranceDetail)>
+					<cfset markedForDeletion = true>
+				</cfif>
 				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 					<div>Record Masked</div>
 				<cfelseif oneOfUs EQ 0>
@@ -3838,6 +3842,10 @@ limitations under the License.
 						<cfelse>
 							<li class="small list-group-item font-italic py-0">None</li>
 						</cfif>
+						<cfif markedForDeletion EQ true AND isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+							<li class="list-group-item pt-0 pb-1">
+								<span class="my-0 d-inline font-weight-lessbold text-danger">Marked for Deletion</span> 
+							</li>
 					</ul>
 					<cfif len(#check.encumbranceDetail#) is not 0>
 						<!--- lookup data from flat and filtered flat to show redactions produced by the encumbrances --->
