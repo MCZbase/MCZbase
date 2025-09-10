@@ -4261,6 +4261,7 @@ limitations under the License.
 
 	<cfoutput>
 		<cftry>
+			
 			<cfquery name="getCatItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					cataloged_item.collection_object_id,
@@ -4274,13 +4275,11 @@ limitations under the License.
 					cataloged_item.collection_object_id = <cfqueryparam value="#arguments.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
 			<cfset guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num#">
-			
 			<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT coll_obj_disposition 
 				FROM ctcoll_obj_disp 
 				ORDER BY coll_obj_disposition
 			</cfquery>
-			
 			<cfquery name="ctModifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT modifier 
 				FROM ctnumeric_modifiers 
@@ -4372,6 +4371,7 @@ limitations under the License.
 				WHERE sampled_from_obj_id IS NULL 
 				ORDER BY has_identification asc, part_name
 			</cfquery>
+		
 				<h1 class="h3 py-3">Edit Existing Parts</h1>
 				<div class="col-12">
 					<cfif mPart.recordCount EQ 0>
@@ -4402,8 +4402,8 @@ limitations under the License.
 									FROM identification
 									WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 								</cfquery>
-								<form name="editPart#i#" id="editPart#i#" class="mb-2">
-									<div class="col-12 form-row px-0">
+								<form name="editPart#i#" id="editPart#i#" class="col-12 form-row mb-2">
+									<div class="">
 										<input type="hidden" name="part_collection_object_id" value="#part_id#">
 										<input type="hidden" name="method" value="updatePart">
 										<div class="col-12 col-md-4 mb-2">
