@@ -6905,7 +6905,7 @@ limitations under the License.
 							]>
 	
 							<cfloop query="getGeography">
-								<div class="row bg-light px-3 pb-1">
+								<div class="row bg-light border-top px-3 pb-2">
 									<div class="col-12 col-md-3 px-0 py-1">
 										<h3 class="h4">
 											Higher Geography (#getLoc.geog_auth_rec_id#)
