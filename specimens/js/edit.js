@@ -215,7 +215,6 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
 function openEditIdentificationsInPage(collection_object_id,callback) { 
 	$('#SpecimenDetailsDiv').hide();
 	$('#editControlsBlock').hide();
-	$("#InPageEditorDiv").addClass("bg-teal");
 	$("#InPageEditorDiv").addClass("border-bottom");
 	$("#InPageEditorDiv").html("Loading...");
 	jQuery.ajax({
@@ -826,8 +825,7 @@ function closeInPage(callback=null) {
 	$("#InPageEditorDiv").html("");
 	$('#SpecimenDetailsDiv').show();
 	$('#editControlsBlock').show();
-	$("#InPageEditorDiv").addClass("bg-teal");
-	$("#InPageEditorDiv").addClass("border-bottom");
+	$("#InPageEditorDiv").removeClass("border-bottom");
 	if (callback instanceof Function) {
 		callback();
 	}
@@ -842,7 +840,6 @@ function closeInPage(callback=null) {
 function openEditLocalityInPage(collection_object_id,callback) { 
 	$('#SpecimenDetailsDiv').hide();
 	$('#editControlsBlock').hide();
-	$("#InPageEditorDiv").addClass("bg-teal");
 	$("#InPageEditorDiv").addClass("border-bottom");
 	$("#InPageEditorDiv").html("Loading...");
 	jQuery.ajax({
@@ -871,7 +868,6 @@ function openEditLocalityInPage(collection_object_id,callback) {
 function openEditPartsInPage(collection_object_id,callback) { 
 	$('#SpecimenDetailsDiv').hide();
 	$('#editControlsBlock').hide();
-	$("#InPageEditorDiv").addClass("bg-teal");
 	$("#InPageEditorDiv").addClass("border-bottom");
 	$("#InPageEditorDiv").html("Loading...");
 	jQuery.ajax({
