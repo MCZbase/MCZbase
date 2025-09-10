@@ -4391,7 +4391,7 @@ limitations under the License.
 							<cfelse>
 								<cfset addedClass = "">
 							</cfif>
-							<div class="mx-0 py-1 mb-0 #addedClass#">
+							<div class="mx-0 py-0 my-1 border #addedClass#">
 								<!--- find identifications of the part to see if this is a mixed collection --->
 								<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT identification_id
@@ -4515,7 +4515,7 @@ limitations under the License.
 										attribute_remark,
 										agent_name
 								</cfquery>
-								<div class="col-12 row mx-0 d-flex bg-white border py-1">
+								<div class="col-12 row mx-0 d-flex py-1">
 									<cfif patt.recordcount EQ 0>
 										<span class="small90 font-weight-lessbold vertical-align-stretch">No Part Attributes:</span>
 										<button class="btn btn-xs btn-secondary py-0 mx-3" onclick="editPartAttributes('#part_id#',reloadPartsAndSection)">Edit</button>
