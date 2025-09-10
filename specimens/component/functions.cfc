@@ -6845,13 +6845,13 @@ limitations under the License.
 							<cfif cecount.ct GT 1 OR loccount.ct GT 1>
 								<!---<cfset separator = "">--->
 								<cfif cecount.ct GT 1>
-									<h3>Collecting Event (#getloc.collecting_event_id#) is 
+									<h3 class="h4">Collecting Event (#getloc.collecting_event_id#) is 
 										<span class="text-danger">shared with #cecount.ct# other specimens</span>.
 									</h3>
 								<!---<cfset separator = " ; ">--->
 								</cfif>
 								<cfif loccount.ct GT 1>
-									<h3>Locality (#getloc.collecting_event_id#) is 
+									<h3 class="h4">Locality (#getloc.collecting_event_id#) is 
 										<span class="text-danger">shared with #loccount.ct# other specimens</span>.
 									</h3>
 								</cfif>
@@ -6907,7 +6907,7 @@ limitations under the License.
 							<cfloop query="getGeography">
 								<div class="row bg-light px-3 pb-1">
 									<div class="col-12 col-md-3 px-0 py-1">
-										<h3 class="h3">
+										<h3 class="h4">
 											Higher Geography (#getLoc.geog_auth_rec_id#)
 										</h3>
 										<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
