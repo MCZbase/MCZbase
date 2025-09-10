@@ -6730,9 +6730,9 @@ limitations under the License.
 				<div class="row mx-0">
 					<cfset guid = "#getLoc.institution_acronym#:#getLoc.collection_cde#:#getLoc.cat_num#">
 					<div class="col-12 px-0 pt-1">
-						<h2 class="h2 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
+			
 						<button id="backToSpecimen1" class="btn btn-xs btn-secondary float-right my-3" onclick="closeLocalityInPage();">Back to Specimen</button>
-					</div>
+					
 					<cfset splitToSave = true>
 					<cfif loccount.ct eq 1 and cecount.ct eq 1>
 						<cfset splitToSave = false>
@@ -6804,7 +6804,8 @@ limitations under the License.
 							});
 						});
 					</script>
-					<form id="locForm" name="locForm" method="post" class="row border p-1 m-1 bg-light">
+					<h2 class="h2 px-2 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
+					<form id="locForm" name="locForm" method="post" class="row border-primary border-4 p-1 m-1 bg-light">
 						<cfif splitToSave>	
 							<input type="hidden" name="action" id="action" value="splitAndSave">
 						<cfelse>
@@ -8650,6 +8651,8 @@ limitations under the License.
 						}
 					</script>
 				</div>
+			</div>
+														
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
