@@ -6832,9 +6832,7 @@ limitations under the License.
 								<cfif loccount.ct GT 1>
 									<h3>Locality is <span class="text-danger">Shared with #loccount.ct# other specimens</span></h3>
 								</cfif>
-								<p class="font-italic h3 text-danger">
-									Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
-								</p>
+							
 							<cfelse>
 								<p class="font-italic text-success">The collecting event and locality are used only by this specimen.</p>
 							</cfif>
@@ -6894,6 +6892,9 @@ limitations under the License.
 										</h3>
 									</div>
 									<div class="col-12 col-md-8 py-1">
+									<label class="font-italic h3 text-danger">
+									Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
+									</label>
 										<span class="font-weight-lessbold" id="higherGeographySpan">#getGeography.higher_geog#</span>
 										<input type="text" class="col-12 col-md-9 data-entry-input reqdClr" id="higherGeographyInput" name="higher_geog" value="#getGeography.higher_geog#" style="display: none;">
 										<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#getGeography.geog_auth_rec_id#">
