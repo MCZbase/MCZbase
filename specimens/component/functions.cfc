@@ -2573,13 +2573,13 @@ limitations under the License.
 										<li>
 											Encumbrances: #getCatalog.encumbranceDetail#
 											<button type="button" class="btn btn-xs btn-secondary ml-2"
-												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadPage); ">Edit</button>
+												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadEncumbrances); ">Edit</button>
 										</li>
 									<cfelse>
 										<li>
 											Encumbrances: None 
 											<button type="button" class="btn btn-xs btn-secondary ml-2"
-												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadPage); ">Encumber</button>
+												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadEncumbrances); ">Encumber</button>
 										</li>
 									</cfif>
 								</ul>
