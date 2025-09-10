@@ -1511,7 +1511,7 @@ limitations under the License.
 							<cfif len(part_remarks) gt 0>
 								<tr class="small95 #addedClass#">
 									<td colspan="6" class="mb-0 pb-1 pt-0">
-										<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
+										<span class="pl-2 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
 									</td>
 								</tr>
 							</cfif>
@@ -4162,9 +4162,9 @@ limitations under the License.
 										#agent_name#
 									</cfif>
 								</td>
-								<td> #thisDate# </td>
-								<td> #part_name# </td>
-								<td> #preserve_method# </td>
+								<td>#thisDate# </td>
+								<td>#part_name# </td>
+								<td>#preserve_method# </td>
 								<td>#lotCount# </td>
 							</tr>
 							<cfif len(coll_object_remarks) gt 0>
