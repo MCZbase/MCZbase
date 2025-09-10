@@ -11658,6 +11658,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 										});
 									});
 								};
+							</script>
 						</div>
 					</div>
 				</div>
