@@ -2568,7 +2568,18 @@ limitations under the License.
 										</cfloop>
 									</cfif>
 									<cfif len(getCatalog.encumbranceDetail) GT 0>
-										<li>Encumbrances: #getCatalog.encumbranceDetail#</li>
+										<cfset guid ="#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#">
+										<li>
+											Encumbrances: #getCatalog.encumbranceDetail#
+											<button type="button" class="btn btn-sm btn-secondary ml-2"
+												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadPage); ">Edit</button>
+										</li>
+									<cfelse>
+										<li>
+											Encumbrances: None 
+											<button type="button" class="btn btn-sm btn-secondary ml-2"
+												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadPage); ">Encumber</button>
+										</li>
 									</cfif>
 								</ul>
 							</div>
@@ -11368,6 +11379,371 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				<cfset row = StructNew()>
 				<cfset row["status"] = "saved">
 				<cfset row["id"] = "#guid_our_thing_id#">
+				<cfset data[1] = row>
+			<cfelse>
+				<cfthrow message="Error other than one row affected.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- getEditEncumbrancesHTML obtain a block of html to populate an encumbrance dialog for a specimen.
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the 
+	encumbrance editor dialog.
+ @return html for editing encumbrances for the specified cataloged item.
+--->
+<cffunction name="getEditEncumrancesHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfthread name="getEditEncumbrancesThread" collection_object_id="#arguments.collection_object_id#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getSpecimen" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						DECODE(filtered_flat.collection_object_id, NULL, 'Yes', 'No') AS record_masked,
+						flat.guid,
+						filtered_flat.guid ff_guid,
+						flat.country,
+						filtered_flat.country ff_country,
+						flat.spec_locality,
+						filtered_flat.spec_locality ff_spec_locality,
+						flat.collectors,
+						filtered_flat.collectors ff_collectors,
+						flat.iso_began_date,
+						filtered_flat.iso_began_date ff_iso_began_date,
+						flat.iso_ended_date,
+						filtered_flat.iso_ended_date ff_iso_ended_date,
+						flat.dec_lat,
+						filtered_flat.dec_lat ff_dec_lat,
+						flat.dec_long,
+						filtered_flat.dec_long ff_dec_long
+					FROM
+						FLAT
+						left join filtered_flat on flat.collection_object_id = filtered_flat.collection_object_id
+					WHERE
+						FLAT.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<table class="table-responsive w-100">
+								<cfloop query="getSpecimen">
+									<tr>
+										<th></th>
+										<th>Internal</th>
+										<th>External</th>
+									<tr>
+									<tr>
+										<td>GUID</td>
+										<td>#getSpecimen.guid#</td>
+										<td>
+											<cfif getSpecimen.record_masked EQ "Yes">
+												<i>Record Masked</i>
+											<cfelse>
+												#getSpecimen.ff_guid#
+											</cfif>
+										</td>
+									</tr>
+									<tr>
+										<td>Locality</td>
+										<td>#getSpecimen.spec_locality#</td>
+										<td>
+											#getSpecimen.ff_spec_locality#
+										</td>
+									</tr>
+									<tr>
+										<td>Country</td>
+										<td>#getSpecimen.country#</td>
+										<td>
+											#getSpecimen.ff_country#
+										</td>
+									</tr>
+									<tr>
+										<td>Collectors</td>
+										<td>#getSpecimen.collectors#</td>
+										<td>
+											#getSpecimen.ff_collectors#
+										</td>
+									</tr>
+									<tr>
+										<td>Date Collected</td>
+										<td>
+											#getSpecimen.iso_began_date#
+											<cfif Len(getSpecimen.iso_ended_date) GT 0 AND  getSpecimen.iso_began_date NEQ getSpecimen.iso_ended_date>
+												/#getSpecimen.iso_ended_date#
+											</cfif>
+										</td>
+										<td>
+											#getSpecimen.ff_iso_began_date#
+											<cfif Len(getSpecimen.ff_iso_ended_date) GT 0 AND  getSpecimen.ff_iso_began_date NEQ getSpecimen.ff_iso_ended_date>
+												/#getSpecimen.ff_iso_ended_date#
+											</cfif>
+										</td>
+									</tr>
+									<tr>
+										<td>Georeference</td>
+										<td>
+											#getSpecimen.dec_lat#
+											<cfif Len(getSpecimen.dec_long) GT 0>
+												/#getSpecimen.dec_long#
+											</cfif>
+										</td>
+										<td>
+											#getSpecimen.ff_dec_lat#
+											<cfif Len(getSpecimen.ff_dec_long) GT 0>
+												/#getSpecimen.ff_dec_long#
+											</cfif>
+										</td>
+									</tr>
+								<cfloop>
+							</table>
+						</div>
+						<div class="col-12">
+							<!--- Add form --->
+							<cfquery name="listEncumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								SELECT 
+									count(coll_object_encumbrance.collection_object_id) as object_count,
+									encumbrance.encumbrance_id,
+									encumbrance.encumbrance,
+									encumbrance.encumbrance_action,
+									preferred_agent_name.agent_name,
+									encumbrance.made_date,
+									encumbrance.expiration_date,
+									encumbrance.expiration_event,
+									encumbrance.remarks
+								FROM 
+									encumbrance 
+									left join preferred_agent_name on encumbrance.encumbering_agent_id = preferred_agent_name.agent_id
+									left join coll_object_encumbrance on encumbrance.encumbrance_id = coll_object_encumbrance.encumbrance_id
+								WHERE
+									encumbrance.encumbrance_id is not null
+							</cfquery>
+							<div class="add-form">
+								<div class="add-form-header pt-1 px-2 col-12 float-left">
+									<h2 class="h3 my-0 px-1 pb-1">Encumber #getSpecimen.guid#</h2>
+								</div>
+								<div class="card-body mt-2">
+									<form name="encumberForm" id="encumberForm" class="form-row mb-0 pt-1">
+										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+										<div class="col-12 mb-2">
+											<label for="encumbrance_id" class="form-label">Select Existing Encumbrance</label>
+											<select name="encumbrance_id" id="encumbrance_id" class="data-entry-select w-100" required>
+												<option value="" disabled selected>Select an existing encumbrance</option>
+											<cfloop query="listEncumb">
+												<option value="#listEncumb.encumbrance_id#">#listEncumb.encumbrance# (Action: #listEncumb.encumbrance_action#, By: #listEncumb.agent_name#, Date: #DateFormat(listEncumb.made_date,"yyyy-mm-dd")#, Objects: #listEncumb.object_count#)</option>
+											</cfloop>
+										</div>
+										<div class="col-12 mb-2">
+											<button type="button" class="btn btn-primary" onclick="submitEncumberForm();">Add to Encumbrance</button>
+											<output id="encumberForm_feedback" class="feedback"></output>
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
+												<a class="btn btn-xs btn-primary float-right" target="_blank" href="/Encumbrances.cfm?action=create">Create New Encumbrance</a>
+											</cfif>
+										</div>
+									</form>
+								</div>
+								<script>
+									function submitEncumberForm() { 
+										var feedbackDiv = "encumberForm_feedback"
+										setFeedbackControlState(feedbackDiv,"saving")
+										$.ajax({
+											url : "/specimens/component/functions.cfc",
+											type : "post",
+											dataType : "json",
+											data: {
+												method: "encumberSpecimen",
+												collection_object_id: #collection_object_id#,
+												encumbrance_id: $("##encumbrance_id").val()
+											},
+											success: function (result) {
+												console.log(result);
+												if (result && result[0] && result[0].status == "saved") {
+													setFeedbackControlState(feedbackDiv,"saved");
+												} else {
+													// we shouldn't be able to reach this block, backing error should return an http 500 status
+													setFeedbackControlState(feedbackDiv,"error");
+													messageDialog('Error adding encumbrance', 'Error adding encumbrance.');
+												}
+											},
+											error: function(jqXHR,textStatus,error){
+												setFeedbackControlState(feedbackDiv,"error")
+												handleFail(jqXHR,textStatus,error,"adding encumbrance");
+											}
+										});
+									};
+								</script>
+							</div>
+						</div>
+
+						<cfquery name="getEncumbrances" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT 
+								encumbering_agent.agent_name AS encumbering_agent, 
+								expiration_date, 
+								expiration_event, 
+								encumbrance, 
+								encumbrance.made_date AS encumbered_date, 
+								encumbrance.remarks AS remarks, 
+								encumbrance_action, 
+								encumbrance.encumbrance_id 
+							FROM
+								coll_object_encumbrance
+								join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+								left join preferred_agent_name encumbering_agent on encumbrance.encumbering_agent_id = encumbering_agent.agent_id
+							WHERE 
+								coll_object_encumbrance.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+							ORDER BY 
+								encumbrance.made_date DESC
+						</cfquery>
+						<div class="col-12 mt-0 bg-light border rounded pt-1 pb-0 px-3">
+							<h2 class="h3">Existing Encumberances</h2>
+							<cfif getEncumbrances.recordcount EQ 0>
+								<div class="p-2">No encumbrances exist for this specimen.</div>
+							</cfif>
+							<cfloop query="getEncumbarances">
+								<div class="border rounded p-1 mb-1">
+									<div><strong>Encumbered Date:</strong> #DateFormat(getEncumbrances.encumbered_date,"yyyy-mm-dd")#</div>
+									<div><strong>Encumbering Agent:</strong> #getEncumbrances.encumbering_agent#</div>
+									<cfif Len(getEncumbrances.expiration_date) GT 0>
+										<div><strong>Expiration Date:</strong> #DateFormat(getEncumbrances.expiration_date,"yyyy-mm-dd")#</div>
+									</cfif>
+									<cfif Len(getEncumbrances.expiration_event) GT 0>
+										<div><strong>Expiration Event:</strong> #getEncumbrances.expiration_event#</div>
+									</cfif>
+									<div><strong>Action:</strong> #getEncumbrances.encumbrance_action#</div>
+									<cfif Len(getEncumbrances.remarks) GT 0>
+										<div><strong>Remarks:</strong> #getEncumbrances.remarks#</div>
+									</cfif>
+									<div class="text-end">
+										<button type="button" class="btn btn-danger btn-sm" onclick="removeEncumbrance(#getEncumbrances.encumbrance_id#,#collection_object_id#);">Remove</button>
+										<output id="encumberForm_feedback_#encumbrance_id#" class="feedback"></output>
+									</div>
+								</div>
+							</cfloop>
+							<script>
+								function removeEncumbrance(encumbrance_id,collection_object_id) { 
+									confirmDialog('Confirm Remove Encumbrance', 'Are you sure you want to remove this secimen from this encumbrance?', function() {
+										var feedbackDiv = "encumberForm_feedback_"+encumbrance_id
+										setFeedbackControlState(feedbackDiv,"saving")
+										$.ajax({
+											url : "/specimens/component/functions.cfc",
+											type : "post",
+											dataType : "json",
+											data: {
+												method: "unencumberSpecimen",
+												encumbrance_id: encumbrance_id,
+												collection_object_id: #collection_object_id#
+											},
+											success: function (result) {
+												console.log(result);
+												if (result && result[0] && result[0].status == "deleted") {
+													setFeedbackControlState(feedbackDiv,"saved");
+												} else {
+													// we shouldn't be able to reach this block, backing error should return an http 500 status
+													setFeedbackControlState(feedbackDiv,"error");
+													messageDialog('Error removing encumbrance', 'Error removing encumbrance.');
+												}
+											},
+											error: function(jqXHR,textStatus,error){
+												setFeedbackControlState(feedbackDiv,"error")
+												handleFail(jqXHR,textStatus,error,"removing encumbrance");
+											}
+										});
+									});
+								};
+						</div>
+					</div>
+				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getEditEncumbrancesThread" />
+	<cfreturn getEditEncumbrancesThread.output>
+</cffunction>
+
+<!--- 
+ * encumberSpecimen add a specimen to an encumbrance
+ *
+ * @param collection_object_id the collection_object_id of the specimen to encumber
+ * @param encumbrance_id the encumbrance_id of the encumbrance to which to add the specimen
+ *
+ * @return a json structure with status=saved, or an http 500 response.
+--->
+<cffunction name="encumberSpecimen" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="encumbrance_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>	
+			<cfquery name="encumberSpecimen" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="encumberSpecimen_result">
+				INSERT INTO coll_object_encumbrance (
+					encumbrance_id, 
+					collection_object_id
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				)
+			</cfquery>
+			<cfif encumberSpecimen_result.recordcount EQ 1>
+				<cftransaction action="commit"/>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "saved">
+				<cfset data[1] = row>
+			<cfelse>
+				<cfthrow message="Error other than one row affected.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- 
+ * unencumberSpecimen remove a specimen from an encumbrance
+ *
+ * @param collection_object_id the collection_object_id of the specimen to unencumber
+ * @param encumbrance_id the encumbrance_id of the encumbrance to which to remove the specimen
+ *
+ * @return a json structure with status=deleted, or an http 500 response.
+--->
+<cffunction name="encumberSpecimen" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="encumbrance_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>	
+			<cfquery name="unencumberSpecimen" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="unencumberSpecimen_result">
+				DELETE FROM coll_object_encumbrance
+				WHERE
+					encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
+					AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				)
+			</cfquery>
+			<cfif unencumberSpecimen_result.recordcount EQ 1>
+				<cftransaction action="commit"/>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "deleted">
 				<cfset data[1] = row>
 			<cfelse>
 				<cfthrow message="Error other than one row affected.">

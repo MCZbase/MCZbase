@@ -800,6 +800,25 @@ function openEditAnnotationsDialog(collection_object_id,dialogId,guid,callback) 
 	});
 };
 
+function openEditEncumbarancesDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Review and Edit Encumbarances on " + guid;
+	createSpecimenEditDialog(dialogId,title,callback,800,1400);
+	jQuery.ajax({
+		url: "/annotations/component/functions.cfc",
+		data : {
+			method : "getEditEncumrancesHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit encumbarences dialog");
+		},
+		dataType: "html"
+	});
+};
+
 /** closeInPage closes the in-page editor, restoring the SpecimenDetailsDiv and editControlsBlock.
  * @param callback an optional callback function to invoke on closing the in-page editor.
  */
