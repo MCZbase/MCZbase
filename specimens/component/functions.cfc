@@ -7010,6 +7010,7 @@ limitations under the License.
 									<a class="btn btn-xs btn-info" href="/localities/viewLocality.cfm?locality_id=#getLoc.locality_id#" target="_blank">View #shared_loc# Locality</a>
 									<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit #shared_loc# Locality</a>
 									#followText#
+									<span class="small90"> [Internal locality_id: #getLoc.locality_id#></span>
 								</span>
 							</h2>
 							<div class="form-row mx-0 mb-0 p-2">
@@ -7184,6 +7185,7 @@ limitations under the License.
 											onclick=" closeLocalityInPage();  launchCollectingEventDialog(); ">Pick Different Collecting Event</button>
 										<a class="btn btn-xs btn-warning" href="/localities/CollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">Edit #shared# Collecting Event</a>
 										#followText#
+										<span class="small90"> [Internal collecting_event_id: #getLoc.collecting_event_id#]</span>
 								</span>
 							</h2>
 							<div class="form-row mx-0 mb-0 border-bottom p-2">
