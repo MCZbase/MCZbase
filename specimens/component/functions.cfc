@@ -6732,7 +6732,7 @@ limitations under the License.
 					<div class="col-12 px-0 pt-1">
 			
 						<button id="backToSpecimen1" class="btn btn-xs btn-secondary float-right my-3" onclick="closeLocalityInPage();">Back to Specimen</button>
-					
+					</div>
 					<cfset splitToSave = true>
 					<cfif loccount.ct eq 1 and cecount.ct eq 1>
 						<cfset splitToSave = false>
@@ -6804,6 +6804,7 @@ limitations under the License.
 							});
 						});
 					</script>
+					<div class="col-12 py-3">
 					<h2 class="h2 px-2 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
 					<form id="locForm" name="locForm" method="post" class="row border-primary border-4 p-1 m-1 bg-light">
 						<cfif splitToSave>	
