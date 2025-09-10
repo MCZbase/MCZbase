@@ -7175,7 +7175,7 @@ limitations under the License.
 						<!--- collecting event --->
 						<div class="col-12 px-0 mt-3 card">
 							<h2 class="h3 mt-0 py-2 card-header">
-								Collecting Event
+								Collecting Event</h2>
 								<span class="pl-2">
 										<cfif cecount.ct eq 1>
 											<cfset shared= "">
@@ -7190,7 +7190,7 @@ limitations under the License.
 										<a class="btn btn-xs btn-warning" href="/localities/CollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">Edit #shared# Collecting Event</a>
 										#followText#
 								</span>
-							</h2>
+							
 							<div class="form-row mx-0 mb-0 border-bottom p-2">
 								<div class="col-12 mb-2 mt-0">
 									<label class="data-entry-label" for="verbatim_locality">
