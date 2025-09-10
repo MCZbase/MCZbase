@@ -1703,7 +1703,7 @@ limitations under the License.
 								<cfif len(part_remarks) gt 0>
 									<tr class="small90 #addedClass#">
 										<td colspan="6" class="pt-1">
-											<span class="pl-3 d-block pb-1">
+											<span class="pl-2 d-block pb-1">
 												<span class="font-italic">Remarks:</span> #part_remarks#
 											</span>
 										</td>
@@ -1764,7 +1764,7 @@ limitations under the License.
 									<tr class="border-top-0 #addedClass#">
 										<td colspan="6" class="border-top-0 mt-0 pb-2 pt-1">
 											<cfloop query="partAttributes">
-												<div class="small90 pl-3 pb-2 line-height-sm">
+												<div class="small90 pl-2 pb-2 line-height-sm">
 													#attribute_type#&nbsp;=&nbsp;<span class="">#attribute_value#</span>
 												<cfif len(attribute_units) gt 0>
 												#attribute_units#&nbsp;
