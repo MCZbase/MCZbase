@@ -7174,7 +7174,7 @@ limitations under the License.
 	
 						<!--- collecting event --->
 						<div class="col-12 px-0 mt-3 card">
-							<h2 class="h3 mt-0 py-2 card-header">Collecting Event 
+							<h2 class="h3 mt-0 py-2 card-header">Collecting Event #followText# 
 								<cfif cecount.ct eq 1>
 									<cfset shared= "">
 									<cfset followText = "(unique to this specimen)">
@@ -7188,7 +7188,7 @@ limitations under the License.
 								<button type="button" class="btn btn-xs btn-warning" id="launchCollEventPickerButtonFromFormButton"
 								onclick=" closeLocalityInPage();  launchCollectingEventDialog(); ">Pick Different Collecting Event</button>
 								<a class="btn btn-xs btn-warning" href="/localities/CollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">Edit #shared# Collecting Event</a>
-								#followText#
+								
 							</span>
 							
 							<div class="form-row mx-0 mb-0 border-bottom p-2">
