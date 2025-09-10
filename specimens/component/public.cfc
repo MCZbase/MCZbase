@@ -3842,10 +3842,11 @@ limitations under the License.
 						<cfelse>
 							<li class="small list-group-item font-italic py-0">None</li>
 						</cfif>
-						<cfif markedForDeletion EQ true AND isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+						<cfif markedForDeletion>
 							<li class="list-group-item pt-0 pb-1">
 								<span class="my-0 d-inline font-weight-lessbold text-danger">Marked for Deletion</span> 
 							</li>
+						</cfif>
 					</ul>
 					<cfif len(#check.encumbranceDetail#) is not 0>
 						<!--- lookup data from flat and filtered flat to show redactions produced by the encumbrances --->
