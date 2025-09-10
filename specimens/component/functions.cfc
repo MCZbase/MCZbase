@@ -2941,7 +2941,7 @@ limitations under the License.
 													<cfif getIds.description NEQ "">Description:</cfif> #getIDs.description#
 												</div>
 											</div>
-											<div class="col-12">
+											<div class="col-12 form-row">
 												<div class="form-group mt-2 col-12 col-md-4 px-1">
 													<cfset thisType = #getIDs.other_id_type#>
 													<label class="data-entry-label" for="other_id_type#i#" >Type</label>
