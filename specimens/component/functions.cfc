@@ -4573,6 +4573,7 @@ limitations under the License.
 									<div class="col-12 small">
 										<strong>Subsample:</strong> #part_name# | Condition: #part_condition# | Disposition: #part_disposition# | Count: #display_lot_count# | Container: #label#
 										<cfif len(part_remarks) GT 0><br><em>Remarks:</em> #part_remarks#</cfif>
+										<!--- TODO: Edit Subsamples --->
 									</div>
 								</div>
 							</cfloop>
