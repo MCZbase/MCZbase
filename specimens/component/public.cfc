@@ -1498,8 +1498,8 @@ limitations under the License.
 								</cfquery>
 								<tr class="#addedClass#">
 									<td colspan="6">
-										<span class="font-weight-lessbold">This Part is a separate Occurence</span>
-										<span class="small95">occurrenceID: #getOccurrenceID.assembled_identifier#</span>
+										<span class="font-weight-lessbold pl-1">This part is a separate occurence.</span>
+										<span class="small95"><em>occurrenceID:</em> #getOccurrenceID.assembled_identifier#</span>
 									</td>
 								</tr>
 								<tr class="small95 #addedClass#">
@@ -1526,7 +1526,7 @@ limitations under the License.
 							<cfif getMaterialSampleID.recordcount GT 0>
 								<cfloop query="getMaterialSampleID">
 									<tr class="small95 #addedClass#">
-										<td colspan="6" class="mb-0 pb-1 pt-0">
+										<td colspan="6" class="mb-0 py-0">
 											<span class="pl-2 d-block">
 												<span class="font-italic">materialSampleID:</span> 
 												<a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
