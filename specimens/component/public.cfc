@@ -3877,7 +3877,18 @@ limitations under the License.
 							WHERE
 								FLAT.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						</cfquery>
+						<cfquery name="flatstatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT count(*) ct
+							FROM flat
+							WHERE stale_flag = 1
+								AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						</cfquery>
 						<div class="row">
+							<cfif flatstatus.ct GT 0>
+								<div class="col-12">
+									<span class="text-danger font-weight-bold">Note: Update to the flat file for this record is pending. The redactions shown may not be accurate.</span>
+								</div>
+							</cfif>
 							<div class="col-12">
 								<table class="table-responsive w-100">
 									<cfloop query="getSpecimen">
