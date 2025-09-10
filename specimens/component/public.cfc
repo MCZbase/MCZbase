@@ -1334,7 +1334,7 @@ limitations under the License.
 						has_identification asc, 
 						part_name, part_id
 				</cfquery>
-				<table class="table px-0 table-responsive-md w-100 tablesection my-1">
+				<table class="table px-0 table-responsive-md w-100 tablesection my-0">
 					<thead class="thead-light">
 						<tr>
 							<th class="py-0"><span>Part</span></th>
