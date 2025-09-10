@@ -4090,8 +4090,9 @@ limitations under the License.
 						<div class="col-12">
 							<cfif NOT dialog>
 									<!---<h2 class="h2">Parts for #guid#</h2> // seems redundant since it is on the page with the catalog number at the top--->
-									<button class="btn btn-xs btn-secondary my-3 float-right" onclick="closePartsInPage();">
-										Back to Specimen</button>
+								<button class="btn btn-xs btn-secondary my-3 float-right" onclick="closePartsInPage();">
+									Back to Specimen
+								</button>
 							</cfif>
 							<div class="add-form float-left">								
 								<div class="add-form-header pt-1 pb-2 px-2" id="headingPart">
@@ -4372,7 +4373,7 @@ limitations under the License.
 				ORDER BY has_identification asc, part_name
 			</cfquery>
 	
-				<div class="col-12 py-3 card">
+				<div class="col-12 py-3 card float-left">
 					<h1 class="h3 card-header">Edit Existing Parts</h1>
 					<cfif mPart.recordCount EQ 0>
 						<div class="bg-light border p-2 m-2">
