@@ -6730,7 +6730,6 @@ limitations under the License.
 				<div class="row mx-0">
 					<cfset guid = "#getLoc.institution_acronym#:#getLoc.collection_cde#:#getLoc.cat_num#">
 					<div class="col-12 px-0 pt-1">
-			
 						<button id="backToSpecimen1" class="btn btn-xs btn-secondary float-right my-3" onclick="closeLocalityInPage();">Back to Specimen</button>
 					</div>
 					<cfset splitToSave = true>
@@ -6805,8 +6804,9 @@ limitations under the License.
 						});
 					</script>
 					<div class="col-12 py-3">
-					<h2 class="h2 px-2 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
-					<form id="locForm" name="locForm" method="post" class="row border-primary border-4 p-1 m-1 bg-light">
+						<h2 class="h2 px-2">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
+					</div>
+					<form id="locForm" name="locForm" method="post" class="form-row mx-0">
 						<cfif splitToSave>	
 							<input type="hidden" name="action" id="action" value="splitAndSave">
 						<cfelse>
@@ -6821,27 +6821,24 @@ limitations under the License.
 						<input type="hidden" name="coll_event_numbers_data" id="coll_event_numbers_data" value="">
 	
 						<!--- higher geography --->
-						<div class="col-12 px-2 form-row">
-	
+						<div class="col-12 px-3 py-3 my-3 py-3 border bg-white">
 							<!--- describe action this form will take --->
 							<cfif cecount.ct GT 1 OR loccount.ct GT 1>
-								<h3 class="h3">
-									<cfset separator = "">
-									<cfif cecount.ct GT 1>
-										Collecting Event is <span class="text-danger">Shared with #cecount.ct# other specimens</span> 
-										<cfset separator = " ; ">
-									</cfif>
-									<cfif loccount.ct GT 1>
-										#separator#Locality is <span class="text-danger">Shared with #loccount.ct# other specimens</span>
-									</cfif>
-								</h3>
-								<p class="font-italic text-danger">Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.</p>
+								<!---<cfset separator = "">--->
+								<cfif cecount.ct GT 1>
+									<h3>Collecting Event is <span class="text-danger">Shared with #cecount.ct# other specimens</span></h3>
+								<!---<cfset separator = " ; ">--->
+								</cfif>
+								<cfif loccount.ct GT 1>
+									<h3>Locality is <span class="text-danger">Shared with #loccount.ct# other specimens</span></h3>
+								</cfif>
+								<p class="font-italic text-danger">
+									Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
+								</p>
 							<cfelse>
 								<p class="font-italic text-success">The collecting event and locality are used only by this specimen.</p>
 							</cfif>
-	
 							<!--- Display of higher geography --->
-	
 							<cfquery name="getGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT 
 									geog_auth_rec_id,
