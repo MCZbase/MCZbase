@@ -870,7 +870,8 @@ function loadEncumbrances(collection_object_id,targetDivId) {
 		url: "/specimens/component/functions.cfc",
 		data: { 
 			method : "getEncumbrancesHTML",
-			collection_object_id : collection_object_id
+			collection_object_id : collection_object_id,
+			containing_block : targetDivId
 		},
 		success: function (result) {
 			$("#" + targetDivId ).html(result);
