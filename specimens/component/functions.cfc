@@ -7003,8 +7003,9 @@ limitations under the License.
 						<!--- locality --->
 						<div class="col-12 card float-left px-0 mt-3 mb-3">
 							<h2 class="h3 py-2 mt-0 card-header">
-								Locality
-								<span class="pl-2">
+								Locality #followText#
+							</h2>
+								<div class="px-2 my-1">
 									<cfif loccount.ct eq 1>
 										<cfset shared_loc= "">
 										<cfset followText = "(unique to this specimen)">
@@ -7014,9 +7015,8 @@ limitations under the License.
 									</cfif>
 									<a class="btn btn-xs btn-info" href="/localities/viewLocality.cfm?locality_id=#getLoc.locality_id#" target="_blank">View #shared_loc# Locality</a>
 									<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit #shared_loc# Locality</a>
-									#followText#
-								</span>
-							</h2>
+								</div>
+						
 							<div class="form-row mx-0 mb-0 p-2">
 								<div class="col-12 mb-2 mt-0">
 									<label class="data-entry-label" for="spec_locality">
