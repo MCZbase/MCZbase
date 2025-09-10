@@ -6999,20 +6999,20 @@ limitations under the License.
 							</cfloop>
 	
 						</div>
-	
+						<cfif loccount.ct eq 1>
+							<cfset shared_loc= "">
+							<cfset followText = "(unique to this specimen)">
+						<cfelse>
+							<cfset shared_loc= "Shared">
+							<cfset followText = "(shared with #loccount.ct# specimens)">
+						</cfif>
 						<!--- locality --->
 						<div class="col-12 card float-left px-0 mt-3 mb-3">
 							<h2 class="h3 py-2 mt-0 card-header">
 								Locality #followText#
 							</h2>
 								<div class="px-2 my-1">
-									<cfif loccount.ct eq 1>
-										<cfset shared_loc= "">
-										<cfset followText = "(unique to this specimen)">
-									<cfelse>
-										<cfset shared_loc= "Shared">
-										<cfset followText = "(shared with #loccount.ct# specimens)">
-									</cfif>
+									
 									<a class="btn btn-xs btn-info" href="/localities/viewLocality.cfm?locality_id=#getLoc.locality_id#" target="_blank">View #shared_loc# Locality</a>
 									<a class="btn btn-xs btn-warning" href="/localities/Locality.cfm?locality_id=#getLoc.locality_id#" target="_blank">Edit #shared_loc# Locality</a>
 								</div>
@@ -7173,15 +7173,16 @@ limitations under the License.
 						</div>
 	
 						<!--- collecting event --->
+						<cfif cecount.ct eq 1>
+							<cfset shared= "">
+							<cfset followText = "(unique to this specimen)">
+						<cfelse>
+							<cfset shared= "Shared">
+							<cfset followText = "(shared with #cecount.ct# specimens)">
+						</cfif>
 						<div class="col-12 px-0 mt-3 card">
 							<h2 class="h3 mt-0 py-2 card-header">Collecting Event #followText# 
-								<cfif cecount.ct eq 1>
-									<cfset shared= "">
-									<cfset followText = "(unique to this specimen)">
-								<cfelse>
-									<cfset shared= "Shared">
-									<cfset followText = "(shared with #cecount.ct# specimens)">
-								</cfif>
+			
 							</h2>
 							<div class="px-2 my-1">
 								<a class="btn btn-xs btn-info" href="/localities/viewCollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">View #shared# Collecting Event</a>
