@@ -4301,6 +4301,10 @@ limitations under the License.
 						 WHEN identification.collection_object_id IS NOT NULL THEN 1
 						 ELSE 0
 					END AS has_identification,
+					CASE
+					  WHEN subsample.collection_object_id IS NULL THEN 0
+					  ELSE 1
+					END as has_subsample,
 					pc.label label,
 					pc.container_id container_id,
 					nvl2(preserve_method, part_name || ' (' || preserve_method || ')', part_name) part_name,
@@ -4334,6 +4338,7 @@ limitations under the License.
 					LEFT JOIN container pc ON oc.parent_container_id = pc.container_id
 					LEFT JOIN identification ON specimen_part.collection_object_id = identification.collection_object_id
 					LEFT JOIN identification parent_identification ON specimen_part.sampled_from_obj_id = parent_identification.collection_object_id
+					LEFT JOIN specimen_part subsample ON specimen_part.collection_object_id = subsample.sampled_from_obj_id
 				WHERE
 					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 				ORDER BY
@@ -4369,7 +4374,11 @@ limitations under the License.
 					<cfelse>
 						<cfset addedClass = "">
 					</cfif>
-					<div class="mx-0 py-1 mb-3 #addedClass# col-12 card float-left">
+					<cfset partSeparator = "mb-3">
+					<cfif getParts.has_subsample EQ "1">
+						<cfset partSeparator = "mb-0">
+					</cfif>
+					<div class="mx-0 py-1 #partSeparator# #addedClass# col-12 card float-left">
 						<!--- find identifications of the part to see if this is a mixed collection --->
 						<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT identification_id, scientific_name
