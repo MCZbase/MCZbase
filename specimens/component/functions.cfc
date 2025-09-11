@@ -2549,10 +2549,10 @@ limitations under the License.
 					</cfif>
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-12 float-left mb-4 px=0 border">
+							<div class="col-12 float-left mb-4 border">
 								<!--- cataloging data --->
-								<h2 class="h3 my-0 px-1 pb-1">Cataloged Item #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
-								<ul>
+								<h2 class="h3 my-0 px-1 py-1">Cataloged Item #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
+								<ul class="px-2">
 									<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 										<li>Accession: <a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#">#getCatalog.accn_number#</a></li>
 									<cfelse>
@@ -2581,7 +2581,7 @@ limitations under the License.
 									<cfelse>
 										<li>
 											Encumbrances: None 
-											<button type="button" class="btn btn-xs btn-secondary ml-2"
+											<button type="button" class="btn btn-xs btn-secondary mx-2 py-0"
 												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadEncumbrances); ">Encumber</button>
 										</li>
 									</cfif>
