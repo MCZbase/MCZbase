@@ -556,9 +556,14 @@ limitations under the License.
 		<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT media_relationship 
 			FROM ctmedia_relationship
-			WHERE (media_relationship like '% cataloged_item'
-				and media_relationship not like 'ledger %')
-				OR media_relationship like '% specimen_part'
+			WHERE media_relationship like '% cataloged_item'
+				and media_relationship not like 'ledger %'
+			ORDER by media_relationship
+		</cfquery>
+		<cfquery name="ctmedia_relationship_parts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT media_relationship 
+			FROM ctmedia_relationship
+			WHERE media_relationship like '% specimen_part'
 			ORDER by media_relationship
 		</cfquery>
 		<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -657,16 +662,29 @@ limitations under the License.
 								</div>
 								<div class="col-12">
 									<input type="hidden" name="media_id" id="media_id_#variables.mpos#">
-									<!--- Change relationship type (between shows and documents cataloged_item) --->
-									<select name="relationship_type" id="relationship_type_#variables.mpos#" size="1" class="reqdClr w-100" required>
-										<cfloop query="ctmedia_relationship">
-											<cfset selected="">
-											<cfif #ctmedia_relationship.media_relationship# EQ getMedia.media_relationship>
-												<cfset selected="selected='selected'">
-											</cfif>
-											<option value="#ctmedia_relationship.media_relationship#" #selected#>#ctmedia_relationship.media_relationship#</option>
-										</cfloop>
-									</select>
+									<cfif getMedia.media_relationship contains "specimen_part">
+										<!--- Change relationship type (between shows and documents specimen_part) --->
+										<select name="relationship_type" id="relationship_type_#variables.mpos#" size="1" class="reqdClr w-100" required>
+											<cfloop query="ctmedia_relationship_parts">
+												<cfset selected="">
+												<cfif #ctmedia_relationship_parts.media_relationship# EQ getMedia.media_relationship>
+													<cfset selected="selected='selected'">
+												</cfif>
+												<option value="#ctmedia_relationship_parts.media_relationship#" #selected#>#ctmedia_relationship_parts.media_relationship#</option>
+											</cfloop>	
+										</select>
+									<cfelse>
+										<!--- Change relationship type (between shows and documents cataloged_item) --->
+										<select name="relationship_type" id="relationship_type_#variables.mpos#" size="1" class="reqdClr w-100" required>
+											<cfloop query="ctmedia_relationship">
+												<cfset selected="">
+												<cfif #ctmedia_relationship.media_relationship# EQ getMedia.media_relationship>
+													<cfset selected="selected='selected'">
+												</cfif>
+												<option value="#ctmedia_relationship.media_relationship#" #selected#>#ctmedia_relationship.media_relationship#</option>
+											</cfloop>
+										</select>
+									</cfif>
 								</div>
 								<div class="col-12">
 									<!--- TODO: confirm working on media with specimen_part relationships --->
