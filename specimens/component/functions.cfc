@@ -4323,7 +4323,7 @@ limitations under the License.
 					END as is_subsample,
 					CASE
 					  WHEN specimen_part.sampled_from_obj_id IS NULL THEN specimen_part.collection_object_id
-					  ELSE secimen_part.sampled_from_obj_id
+					  ELSE specimen_part.sampled_from_obj_id
 					END as parent_id_for_sort,
 					CASE
 					  WHEN (identification.collection_object_id IS NOT NULL OR parent_identification.collection_object_id IS NOT NULL) THEN 2 
