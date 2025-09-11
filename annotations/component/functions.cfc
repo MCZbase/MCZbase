@@ -603,20 +603,20 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				</cfquery>
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-12 my-0 pt-1 pb-0">
+						<div class="col-12 my-0 pt-1 pb-0 card">
 							<cfloop query="catitem">
 								<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
 								<h2 class="h3 mt-3 px-2 mb-0">Annotations on #guid#</h2>
-								<div class="card">
+								<cfset link = "<a href='/guid/#guid#'>#collection# #cat_num#</a>">
 								<h3 class="h4 card-header">
-									<a href="/guid/#guid#">#collection# #cat_num#</a> 
+									#link# 
 									<span class="mr-3">&nbsp; Current Identification: <em>#idAs#</em></span> 
 									<span class="ml-1"> Locality: #higher_geog#: #spec_locality#</span>
 								</h3>
 							</cfloop>
 							<cfset i=0>
 							<cfloop query="ci_annotations">
-							<form name="review_annotation_#i#" id="review_annotation_#i#">
+							<form name="review_annotation_#i#" id="review_annotation_#i#" class="card-body">
 								<div class="form-row border">
 									<input type="hidden" name="method" value="updateAnnotationReview">
 									<input type="hidden" name="annotation_id" value="#annotation_id#">
@@ -653,6 +653,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 									</div>
 								</div>
 							</form>
+						
 							<script>
 								$(document).ready(function() { 
 									$("##review_annotation_#i#").submit(function(event) {
