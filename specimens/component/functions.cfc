@@ -3393,8 +3393,8 @@ limitations under the License.
 								<div class="add-form mt-2 float-left">
 									<cfset targetLabel = "">
 									<cfset targetValue = "">
-									<div class="pt-1 col-12 float-left">
-										<h2 class="add-form-header h3 my-0 col-12 float-left">
+									<div class="pt-0 px-0 col-12 float-left">
+										<h2 class="add-form-header py-2 h3 my-0 col-12 px-1 float-left">
 											<cfif variables.target is "collector">
 												Add Collector
 												<cfset targetLabel = "Collector">
