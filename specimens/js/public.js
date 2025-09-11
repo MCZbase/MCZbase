@@ -345,7 +345,7 @@ function getCatalogedItemCitation (id,type) {
 	var el = document.getElementById(id);
 	el.className='red';
 	var theNum = el.value;
-	jQuery.getJSON("/specimens/component/functions.cfc",
+	jQuery.getJSON("/component/functions.cfc",
 		{
 			method : "getCatalogedItemCitation",
 			collection_id : collection_id,
