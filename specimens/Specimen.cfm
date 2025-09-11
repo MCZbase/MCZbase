@@ -1026,9 +1026,13 @@ limitations under the License.
 									<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-label="Annotations Pane" aria-controls="AnnotationsPane" data-toggle="collapse" data-target="##AnnotationsPane">
 										Collection Object Annotations
 									</button>
+									<cfset buttonSpacer = "">
+									<cfif listcontainsnocase(session.roles,"manage_specimens") AND hasAnnotations >
+										<cfset buttonSpacer = "mr-5">
+									</cfif>
  									<cfif isdefined("session.username") AND len(session.username) gt 0>
 										<!--- anyone with a username can create annotations --->
-										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 mr-5 anchorFocus" onclick="openAnnotationsDialog('annotationDialog','collection_object',#collection_object_id#,reloadAnnotations);">
+										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 #buttonSpacer# anchorFocus" onclick="openAnnotationsDialog('annotationDialog','collection_object',#collection_object_id#,reloadAnnotations);">
 											Report Bad Data
 										</a>
 									</cfif>
