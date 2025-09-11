@@ -8809,7 +8809,7 @@ limitations under the License.
 										</script>
 									</div>
 								</div>
-								<div id="relationshipDialogList" class="col-12 float-left mt-4 mb-4">
+								<div id="relationshipDialogList" class="col-12 px-0 float-left my-2">
 									<!--- include output from getRelationshipDetailHTML to show list of relationships for the cataloged item --->
 									<cfset namedGroupList = getRelationshipDetailHTML(collection_object_id = variables.collection_object_id)>
 								</div>
@@ -8892,16 +8892,17 @@ limitations under the License.
 				<cfset inverseRelations = "">
 				<cfset i = 0>
 				<div class="">
-					<h2 class="h3 mt-4 px-2 mb-0">
+					<h2 class="h3 mt-2 px-2 mb-0">
 						Edit Existing Relationship
 					</h2>
 				</div>
+			
 				<cfloop query="relns">
 					<div class="row mx-0 border bg-light py-2">
 						<cfif direction EQ "forward">
 							<cfset i = i + 1>
-								<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;" class="mb-0">
-								<div class="row m-0 py-1 px-1 border">
+							<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;" class="my-2">
+								<div class="row m-0 pt-2 pb-1 col-12">
 									<input type="hidden" name="method" id="method_#i#" value="updateBiolIndivRelation">
 									<input type="hidden" name="biol_indiv_relations_id" value="#biol_indiv_relations_id#">
 									<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
@@ -8937,12 +8938,12 @@ limitations under the License.
 										<label class="data-entry-label" for="remarks_#i#" >Remarks:</label>
 										<input class="data-entry-input" type="text" id="remarks_#i#" name="biol_indiv_relation_remarks" value="#biol_indiv_relation_remarks#">
 									</div>
-									<div class="col-12 col-md-2">
-										<input type="button" id="updateButton_#i#" value="Update" class="btn btn-xs btn-secondary" onclick="doSave('#i#')">
+									<div class="col-12 col-md-auto px-0">
+										<input type="button" id="updateButton_#i#" value="Update" class="btn btn-xs btn-secondary mt-2" onclick="doSave('#i#')">
 									</div>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-auto px-2">
 										<input type="button" id="deleteButton_#i#"
-											value="Delete" class="btn btn-xs btn-warning" 
+											value="Delete" class="btn btn-xs btn-warning mt-2" 
 											onclick=" confirmDialog('Delete this relationship (#relns.biol_indiv_relationship# #guid#)?', 'Confirm Delete Relationship', function() { doDelete('#i#'); }  );">
 									</div>
 									<div class="col-12 col-md-8">
