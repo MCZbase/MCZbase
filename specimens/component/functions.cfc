@@ -9417,11 +9417,9 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						specimen_part.derived_from_cat_item in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
 				</cfquery>
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-					<ul class="listgroup">
-						<li class="listgroupitem">
-							<a href="/findContainer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs btn-secondary mr-5" title="Show parts in container heirarchy">View Part Locations</a>
-						</li>
-					</ul>
+					<div class="w-100 border-bottom">
+						<a href="/findContainer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs btn-secondary mr-5" title="Show parts in container heirarchy">View Part Locations</a>
+					</div>
 				</cfif>
 				<cfloop query="getPart">
 					<cfif len(getPart.sampled_from_obj_id) GT 0><cfset subsample=" [subsample] "><cfelse><cfset subsample=""></cfif> 
