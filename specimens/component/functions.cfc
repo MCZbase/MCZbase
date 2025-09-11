@@ -2917,7 +2917,9 @@ limitations under the License.
 							<div class="col-12 my-0 px-0 pt-1 pb-0">
 								<h2 class="h3 mt-3 px-2 mb-0">Edit Existing Identifiers</h1>
 								<cfif getIDs.recordcount eq 0>
-									<p class="px-2">No other identifiers exist for this cataloged item.</p>
+									<ul>
+										<li>No other identifiers exist for this cataloged item.</li>
+									</ul>
 								</cfif>
 								<cfset i=1>
 								<cfloop query="getIDs">
