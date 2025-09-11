@@ -4374,9 +4374,12 @@ limitations under the License.
 					<cfelse>
 						<cfset addedClass = "">
 					</cfif>
-					<cfset partSeparator = "mb-3">
-					<cfif getParts.has_subsample EQ "1">
-						<cfset partSeparator = "mb-0">
+					<cfset partSeparator = "mt-3">
+					<cfif getParts.is_subsample EQ "1" OR i EQ 1>
+						<cfset partSeparator = "mt-0">
+					</cfif>
+					<cfif i EQ getParts.recordcount>
+						<cfset partSeparator = "mb-3 #partSeparator#">
 					</cfif>
 					<div class="mx-0 py-1 #partSeparator# #addedClass# col-12 card float-left">
 						<!--- find identifications of the part to see if this is a mixed collection --->
