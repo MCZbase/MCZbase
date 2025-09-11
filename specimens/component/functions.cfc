@@ -3393,7 +3393,7 @@ limitations under the License.
 								<div class="add-form mt-2 float-left">
 									<cfset targetLabel = "">
 									<cfset targetValue = "">
-									<div class="pt-1 px-2 col-12 float-left">
+									<div class="pt-1 col-12 float-left">
 										<h2 class="add-form-header h3 my-0 py-1 px-2 col-12 float-left">
 											<cfif variables.target is "collector">
 												Add Collector
@@ -3422,7 +3422,7 @@ limitations under the License.
 												<cfelse>
 													<cfset colw ="6">
 												</cfif>
-												<div class="col-12 col-md-#colw# pt-3 px-2">
+												<div class="col-12 col-md-#colw# pt-3 px-3">
 													<label for="add_agent_name" class="px-1">Add #targetLabel#:</label>
 													<input type="text" name="name" id="add_agent_name" class="data-entry-input reqdClr">
 													<input type="hidden" name="agent_id" id="add_new_agent_id">
