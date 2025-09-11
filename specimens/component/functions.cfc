@@ -4554,7 +4554,7 @@ limitations under the License.
 						</cfquery>
 						<div class="col-12 form-row px-4 py-1">
 							<cfif getAttributes.recordcount EQ 0>
-								<span class="small90 font-weight-lessbold vertical-align-stretch">No Part Attributes:</span>
+								<span class="col-12 px-1 small90 font-weight-lessbold vertical-align-stretch">No Part Attributes:</span>
 								<button class="btn btn-xs btn-secondary py-0 mx-3" onclick="editPartAttributes('#getParts.part_id#',reloadPartsAndSection)">Edit</button>
 							<cfelse>
 								<div class="col-12 px-1 small90">
