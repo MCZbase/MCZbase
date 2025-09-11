@@ -2549,10 +2549,10 @@ limitations under the License.
 					</cfif>
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-12 float-left mb-4 px=0 border">
+							<div class="col-12 float-left mb-4 border">
 								<!--- cataloging data --->
-								<h2 class="h3 my-0 px-1 pb-1">Cataloged Item #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
-								<ul>
+								<h2 class="h3 my-0 px-1 py-1">Cataloged Item #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
+								<ul class="px-2">
 									<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 										<li>Accession: <a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#">#getCatalog.accn_number#</a></li>
 									<cfelse>
@@ -2581,7 +2581,7 @@ limitations under the License.
 									<cfelse>
 										<li>
 											Encumbrances: None 
-											<button type="button" class="btn btn-xs btn-secondary ml-2"
+											<button type="button" class="btn btn-xs btn-secondary mx-2 py-0"
 												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadEncumbrances); ">Encumber</button>
 										</li>
 									</cfif>
@@ -2607,7 +2607,7 @@ limitations under the License.
 								</cfif>
 								<cfset guidLink = "https://mczbase.mcz.harvard.edu/guid/#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#">
 								#variables.coll_object_type# #getCatalog.cataloged_item_type_description# 
-								( occurrenceID: #guidLink# <a href="#guidLink#/json"> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a>)
+								(occurrenceID: #guidLink# <a href="#guidLink#/json"> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a>)
 								<cfquery name="getComponents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT count(specimen_part.collection_object_id) ct, coll_object_type, part_name, count(identification.collection_object_id) identifications
 									FROM 
@@ -2618,7 +2618,7 @@ limitations under the License.
 									GROUP BY coll_object_type, part_name
 									ORDER BY count(identification.collection_object_id) asc, part_name asc
 								</cfquery>
-								<ul>
+								<ul class="px-4 mx-1">
 								<cfloop query="getComponents">
 									<cfset variables.occurrences="">
 									<cfset variables.subtype="">
@@ -2635,7 +2635,7 @@ limitations under the License.
 												and identification.accepted_id_fg=1
 										</cfquery>
 										<cfloop query="getComponentOccurrenceID">
-											<cfset variables.occurrences="(occurrenceID: #getComponentOccurrenceID.assembled_identifier# <a href='#getComponentOccurrenceID.assembled_resolvable#/json'> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a> #getComponentOccurrenceID.sc_name# )">
+											<cfset variables.occurrences="(occurrenceID: #getComponentOccurrenceID.assembled_identifier# <a href='#getComponentOccurrenceID.assembled_resolvable#/json'> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a> #getComponentOccurrenceID.sc_name#)">
 										</cfloop>
 									</cfif>
 									<cfif getComponents.coll_object_type is "SP">
