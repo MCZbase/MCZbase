@@ -556,8 +556,9 @@ limitations under the License.
 		<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT media_relationship 
 			FROM ctmedia_relationship
-			WHERE media_relationship like '% cataloged_item'
-				and media_relationship not like 'ledger %'
+			WHERE (media_relationship like '% cataloged_item'
+				and media_relationship not like 'ledger %')
+				OR media_relationship like '% specimen_part'
 			ORDER by media_relationship
 		</cfquery>
 		<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
