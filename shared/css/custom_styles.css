@@ -372,6 +372,9 @@ label {
 .bg-grayish {
 	background-color: #F5F5F5;
 }
+.bg-box-header-gray {
+	background-color:#dee2e6;
+}
 .dotted-border {
 	border: 2px dotted #bac5c6 !important;
 }
