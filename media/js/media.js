@@ -220,7 +220,7 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
 			}
 			break;
 		default:
-			messageDialog("Unknown or not implemented media relationship target, only NULL and NOT NULL values are supported","Error: Unknown");		
+			messageDialog("Unknown or not implemented media relationship target, unable to add a picker, only NULL and NOT NULL values are supported, enter one or the other in the text input","Error: Unknown");		
 	}
 
 }
