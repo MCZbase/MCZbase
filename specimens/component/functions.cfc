@@ -4385,7 +4385,7 @@ limitations under the License.
 					<cfif getParts.has_identification EQ "1" or getParts.parent_sort_group EQ "2">
 						<cfset addedClass = "part_occurrence">
 					<cfelse>
-						<cfset addedClass = "">
+						<cfset addedClass = "bg-white">
 					</cfif>
 					<cfset partSeparator = "mt-3">
 					<cfif getParts.is_subsample EQ "1" OR i EQ 1>
@@ -4394,7 +4394,7 @@ limitations under the License.
 					<cfif i EQ getParts.recordcount>
 						<cfset partSeparator = "mb-3 #partSeparator#">
 					</cfif>
-					<div class="mx-0 py-0 col-12 px-0 #partSeparator# #addedClass# float-left">
+					<div class="mx-0 py-0 col-12 px-0 #partSeparator# float-left">
 						<!--- find identifications of the part to see if this is a mixed collection --->
 						<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT identification_id, scientific_name
@@ -4412,7 +4412,7 @@ limitations under the License.
 						<cfelse>
 							<cfset marginSeparator = "">
 						</cfif>
-						<div class="col-12 px-0 bg-white rounded border mb-0 float-left">
+						<div class="col-12 px-0 #addClass# rounded border mb-0 float-left">
 						<form name="editPart#i#" id="editPart#i#" class="mb-0">
 							<div class="bg-box-header-gray py-2 col-12 row">
 								<input type="hidden" name="part_collection_object_id" value="#getParts.part_id#">
