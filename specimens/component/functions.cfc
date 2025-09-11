@@ -5075,7 +5075,7 @@ limitations under the License.
 				<!--- check if a move is needed, and find the container_id of the container to be moved --->
 				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT coll_obj_cont_hist.container_id, 
-						parent_container.container_id as current_parent_container_id
+						parent_container.container_id as current_parent_container_id,
 						parent_container.barcode as current_parent_container_barcode
 					FROM coll_obj_cont_hist 
 						join container on coll_obj_cont_hist.container_id = container.container_id
