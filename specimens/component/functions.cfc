@@ -4391,6 +4391,15 @@ limitations under the License.
 						<cfset partSeparator = "mb-3 #partSeparator#">
 					</cfif>
 					<div class="mx-0 py-1 #partSeparator# #addedClass# col-12 card float-left">
+						<cfif getParts.is_subsample EQ 1>
+							<div class="col-12 mb-1 py-1 bg-box-header-gray">
+								<strong>Subsample of:</strong> #parentPart#
+							</div>
+						<cfelse>
+							<div class="col-12 mb-1 py-1 bg-box-header-gray">
+								<strong>Part:</strong> #parentPart#
+							</div>
+						</cfif>
 						<!--- find identifications of the part to see if this is a mixed collection --->
 						<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT identification_id, scientific_name
@@ -4412,15 +4421,7 @@ limitations under the License.
 							<div class="form-row mx-0 py-2 #marginSeparator#">
 								<input type="hidden" name="part_collection_object_id" value="#getParts.part_id#">
 								<input type="hidden" name="method" value="updatePart">
-								<cfif getParts.is_subsample EQ 1>
-									<div class="col-12 mb-1">
-										<strong>Subsample of:</strong> #parentPart#
-									</div>
-								<cfelse>
-									<div class="col-12 mb-1">
-										<strong>Part:</strong> #parentPart#
-									</div>
-								</cfif>
+								
 								<div class="col-12 col-md-4 mb-2">
 									<label for="part_name#i#" class="data-entry-label">Part Name</label>
 									<select name="part_name" id="part_name#i#" class="data-entry-select reqdClr" required>
