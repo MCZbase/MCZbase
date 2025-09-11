@@ -687,7 +687,7 @@ limitations under the License.
 									</cfif>
 								</div>
 								<div class="col-12">
-									<!--- TODO: confirm working on media with specimen_part relationships --->
+									<!--- TODO: backing not yet working on media with specimen_part relationships --->
 									<input type="button" value="Change" class="btn btn-xs btn-primary" id="changeMediaButton_#variables.mpos#"
 										onClick="handleChangeCIMediaRelationshipType($('##relationship_type_#variables.mpos#').val(),'#getMedia.media_id#','#getMedia.collection_object_id#','#getMedia.media_relations_id#',reloadMediaDialogList);">
 								</div>
