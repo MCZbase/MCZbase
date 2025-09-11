@@ -4412,11 +4412,11 @@ limitations under the License.
 								<cfset parentPart = "#parentPart# (with identification #getIdentifications.scientific_name#)" >
 							</cfif>
 						</cfif>
-						<cfif getParts.is_subsample EQ 0>
+				<!---		<cfif getParts.is_subsample EQ 0>
 							<cfset marginSeparator = "mt-2">
 						<cfelse>
 							<cfset marginSeparator = "">
-						</cfif>
+						</cfif>--->
 						<form name="editPart#i#" id="editPart#i#" class="col-12 form-row mb-0">
 							<div class="form-row mx-0 py-2 #marginSeparator#">
 								<input type="hidden" name="part_collection_object_id" value="#getParts.part_id#">
