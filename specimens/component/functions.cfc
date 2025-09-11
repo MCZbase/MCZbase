@@ -4394,7 +4394,7 @@ limitations under the License.
 					<cfif i EQ getParts.recordcount>
 						<cfset partSeparator = "mb-3 #partSeparator#">
 					</cfif>
-					<div class="mx-0 py-1 #partSeparator# #addedClass# col-12 card px-0 float-left">
+					<div class="mx-0 py-0 col-12 px-0 #partSeparator# #addedClass# float-left">
 						<!--- find identifications of the part to see if this is a mixed collection --->
 						<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT identification_id, scientific_name
@@ -4412,8 +4412,8 @@ limitations under the License.
 						<cfelse>
 							<cfset marginSeparator = "">
 						</cfif>
-						<div class="col-12 form-row mb-0">
-						<form name="editPart#i#" id="editPart#i#" >
+						<div class="col-12 px-0 bg-white rounded border mb-0 float-left">
+						<form name="editPart#i#" id="editPart#i#" class="mb-0">
 							<div class="bg-box-header-gray py-2 col-12 row">
 								<input type="hidden" name="part_collection_object_id" value="#getParts.part_id#">
 								<input type="hidden" name="method" value="updatePart">
@@ -4427,7 +4427,7 @@ limitations under the License.
 									</div>
 								</cfif>
 							</div>
-							<div class="form-row mx-0 py-2 #marginSeparator#">
+							<div class="form-row col-12 mt-2 py-2 #marginSeparator#">
 								<div class="col-12 col-md-4 mb-2">
 									<label for="part_name#i#" class="data-entry-label">Part Name</label>
 									<select name="part_name" id="part_name#i#" class="data-entry-select reqdClr" required>
