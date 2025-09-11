@@ -638,7 +638,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 														<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
 													</select>
 													<cfif len(reviewer) gt 0>
-														<div class="pt-1 px-1 small95">Last review by #reviewer#</div>
+														<div class="pt-1 px-1 small90">Last review by: #reviewer#</div>
 													</cfif>
 												</div>
 												<div class="col-12 col-md-8 py-2 px-1">
