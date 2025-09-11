@@ -5010,6 +5010,7 @@ limitations under the License.
 	<cfargument name="coll_object_remarks" type="string" required="yes">
 	<cfargument name="container_id" type="string" required="no" default=""><!--- parent container id --->
 	<cfargument name="container_barcode" type="string" required="no" default=""><!--- parent container barcode --->
+	<!--- container id for the container for the specimen part is looked up below --->
 
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
@@ -5071,15 +5072,15 @@ limitations under the License.
 
 			<!--- Move Container --->
 			<cfif len(arguments.container_barcode) GT 0>
-				<!--- check if a move is needed --->
+				<!--- check if a move is needed, and find the container_id of the container to be moved --->
 				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT coll_obj_cont_hist.container_id, 
-						parent_container.container_id as current_parent_container_id
+						parent_container.container_id as current_parent_container_id,
 						parent_container.barcode as current_parent_container_barcode
 					FROM coll_obj_cont_hist 
 						join container on coll_obj_cont_hist.container_id = container.container_id
 						join container parent_container on container.parent_container_id = parent_container.container_id
-					WHERE coll_obj_cont_hist.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newPartCollObjectID#">
+					WHERE coll_obj_cont_hist.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_collection_object_id#">
 						and coll_obj_cont_hist.current_container_fg = 1
 				</cfquery>
 				<cfif getPartContainer.recordcount EQ 0>
@@ -5087,6 +5088,8 @@ limitations under the License.
 				</cfif>
 				<cfif arguments.container_id NEQ getPartContainer.current_parent_container_id>
 					<!--- a move is needed --->
+					<!--- arguments.container_id is the container id of the new parent container to move into --->
+					<!---  getPartContainer is the container id of the container to move (of type collection_oobject) --->
 					<cfif len(arguments.container_id) GT 0>
 						<!--- check that provided container exists --->
 						<cfquery name="checkContainerIDBarcode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
