@@ -2552,7 +2552,7 @@ limitations under the License.
 							<div class="col-12 float-left mb-4 border">
 								<!--- cataloging data --->
 								<h2 class="h3 my-0 px-1 py-1">Cataloged Item #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
-								<ul class="px-2">
+								<ul class="px-4 mx-1">
 									<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 										<li>Accession: <a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#">#getCatalog.accn_number#</a></li>
 									<cfelse>
@@ -2587,7 +2587,7 @@ limitations under the License.
 									</cfif>
 								</ul>
 							</div>
-							<div class="col-12 float-left mb-4 px=0 border">
+							<div class="col-12 float-left mb-4 pt-2 border">
 								<!--- Type of object --->
 								<cfif getCatalog.coll_object_type is "CI">
 									<cfset variables.coll_object_type="Cataloged Item">
@@ -2605,9 +2605,9 @@ limitations under the License.
 								<cfif checkMixed.ct gt 0>
 									<cfset variables.coll_object_type="#variables.coll_object_type#: Mixed Collection">
 								</cfif>
-								<cfset guidLink = "https://mczbase.mcz.harvard.edu/guid/#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#">
+								<div class="h4 mb-1"><cfset guidLink = "https://mczbase.mcz.harvard.edu/guid/#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#">
 								#variables.coll_object_type# #getCatalog.cataloged_item_type_description# 
-								(occurrenceID: #guidLink# <a href="#guidLink#/json"> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a>)
+								(occurrenceID: #guidLink# <a href="#guidLink#/json"> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a>)</div>
 								<cfquery name="getComponents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT count(specimen_part.collection_object_id) ct, coll_object_type, part_name, count(identification.collection_object_id) identifications
 									FROM 
@@ -2651,7 +2651,7 @@ limitations under the License.
 							</div>
 							<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 								<div class="col-12 float-left mb-4 px=0 border">
-									<h1 class="h3 my-1">Change Accession for this cataloged item:</h1>
+									<h2 class="h3 my-1">Change Accession for this cataloged item:</h2>
 									<form name="editAccn" id="editAccnForm">
 										<input type="hidden" name="method" value="updateAccn">
 										<input type="hidden" name="returnformat" value="json">
@@ -2715,7 +2715,7 @@ limitations under the License.
 							<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
 								<div class="col-12 float-left mb-4 px=0 border">
 									<!--- Edit catalog number --->
-									<h1 class="h3 my-1">Change Catalog Number for this cataloged item:</h1>
+									<h2 class="h3 my-2">Change Catalog Number for this cataloged item:</h2>
 									<form name="editCatNumForm" id="editCatNumForm">
 										<input type="hidden" name="method" value="updateCatNumber">
 										<input type="hidden" name="returnformat" value="json">
