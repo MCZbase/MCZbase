@@ -603,69 +603,70 @@ Annotation to report problematic data concerning #annotated.annorecord#
 				</cfquery>
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-12 px-0 my-0 pt-1 pb-0 card">
+						<div class="col-12"> 
 							<cfloop query="catitem">
 								<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
-								<h2 class="h3 mt-3 px-2 mb-0">Annotations on #guid#</h2>
-								<cfset link = "<a href='/guid/#guid#'>#collection# #cat_num#</a>">
-								<h3 class="h4 card-header">
-									#link# 
-									<span class="mr-3">&nbsp; Current Identification: <em>#idAs#</em></span> 
-									<span class="ml-1"> Locality: #higher_geog#: #spec_locality#</span>
-								</h3>
-						
-							<cfset i=0>
-							<cfloop query="ci_annotations">
-							<form name="review_annotation_#i#" id="review_annotation_#i#" class="card-body">
-								<div class="form-row border">
-									<input type="hidden" name="method" value="updateAnnotationReview">
-									<input type="hidden" name="annotation_id" value="#annotation_id#">
-									<div class="col-12 col-md-4">
-										<label class="data-entry-label">Annotator:</label>
-										<span><strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
-									</div>
-									<div class="col-12 col-md-6">
-										<label class="data-entry-label">Annotation:</label>
-										<span>#annotation#</span>
-									</div>
-									<div class="col-12 col-md-2">
-										<label class="data-entry-label">Motivation</label>
-										<span>#motivation#</span>
-									</div>
-									<div class="col-12 col-md-2">
-										<label for="reviewed_fg" class="data-entry-label">Reviewed?</label>
-										<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select">
-											<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
-											<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
-										</select>
-										<cfif len(reviewer) gt 0>
-											<span class="d-block small">
-											Last review by #reviewer#</span>
-										</cfif>
-									</div>
-									<div class="col-12 col-md-8">
-											<label for="reviewer_comment" class="data-entry-label">Review Comments</label>
-											<textarea name="reviewer_comment" id="reviewer_comment" class="data-entry-textarea autogrow mb-1" maxlength="4000" >#reviewer_comment#</textarea>
-									</div>
-									<div class="col-12 col-md-2">
-											<input type="submit" value="Save Review" class="btn btn-xs btn-primary mt-3 mb-2">
-											<output id="result_annotation_#i#"></output>
-									</div>
+								<h2 class="h3 mt-3 px-2 mb-1">Annotations on #guid#</h2>
+								<div class="col-12 px-0 my-0 pt-1 pb-0 card">
+									<cfset link = "<a href='/guid/#guid#'>#collection# #cat_num#</a>">
+									<h3 class="h4 card-header">
+										#link# 
+										<span class="mr-3">&nbsp; Current Identification: <em>#idAs#</em></span> 
+										<span class="ml-1"> Locality: #higher_geog#: #spec_locality#</span>
+									</h3>
+									<cfset i=0>
+									<cfloop query="ci_annotations">
+										<form name="review_annotation_#i#" id="review_annotation_#i#" class="card-body">
+											<div class="form-row border ">
+												<input type="hidden" name="method" value="updateAnnotationReview">
+												<input type="hidden" name="annotation_id" value="#annotation_id#">
+												<div class="col-12 col-md-4">
+													<label class="data-entry-label">Annotator:</label>
+													<span><strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
+												</div>
+												<div class="col-12 col-md-6">
+													<label class="data-entry-label">Annotation:</label>
+													<span>#annotation#</span>
+												</div>
+												<div class="col-12 col-md-2">
+													<label class="data-entry-label">Motivation</label>
+													<span>#motivation#</span>
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="reviewed_fg" class="data-entry-label">Reviewed?</label>
+													<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select">
+														<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
+														<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
+													</select>
+													<cfif len(reviewer) gt 0>
+														<span class="d-block small">
+														Last review by #reviewer#</span>
+													</cfif>
+												</div>
+												<div class="col-12 col-md-8">
+														<label for="reviewer_comment" class="data-entry-label">Review Comments</label>
+														<textarea name="reviewer_comment" id="reviewer_comment" class="data-entry-textarea autogrow mb-1" maxlength="4000" >#reviewer_comment#</textarea>
+												</div>
+												<div class="col-12 col-md-2">
+														<input type="submit" value="Save Review" class="btn btn-xs btn-primary mt-3 mb-2">
+														<output id="result_annotation_#i#"></output>
+												</div>
+											</div>
+										</form>
+										<script>
+											$(document).ready(function() { 
+												$("##review_annotation_#i#").submit(function(event) {
+													event.preventDefault(); // prevent default form submission
+													var form_id = #i#;
+													submitAnnotationReview(form_id);
+												});
+											});
+										</script>
+										<cfset i=i+1>
+									</cfloop>
 								</div>
-							</form>
-						
-							<script>
-								$(document).ready(function() { 
-									$("##review_annotation_#i#").submit(function(event) {
-										event.preventDefault(); // prevent default form submission
-										var form_id = #i#;
-										submitAnnotationReview(form_id);
-									});
-								});
-							</script>
-							<cfset i=i+1>
-						</cfloop>
-		</cfloop>
+							</cfloop>
+							
 							<script>
 							function submitAnnotationReview(form_id) {
 								setFeedbackControlState("result_annotation_" + form_id,"saving");
