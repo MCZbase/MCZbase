@@ -3390,7 +3390,7 @@ limitations under the License.
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12 float-left">
-								<div class="add-form float-left">
+								<div class="add-form mt-2 float-left">
 									<cfset targetLabel = "">
 									<cfset targetValue = "">
 									<div class="add-form-header pt-1 px-2 col-12 float-left">
@@ -3483,9 +3483,9 @@ limitations under the License.
 													AND collecting_event.verbatim_collectors IS NOT NULL
 											</cfquery>
 											<cfif fromCollEvent.recordcount GT 0>
-												<h3 class="h5 mt-3">Verbatim Collectors from collecting event</h3>
+												<div class="px-2"><h3 class="h5">Verbatim Collectors from collecting event:</h3>
 												<cfloop query="fromCollEvent">
-													<p class="mb-0">#fromCollEvent.verbatim_collectors#</p>
+													<p class="small95 my-1">#fromCollEvent.verbatim_collectors#</p>
 												</cfloop>
 											</cfif>
 										</form>
@@ -3652,7 +3652,7 @@ limitations under the License.
 			</cfif>
 			<cfset i=1>
 			<cfloop query="getColls">
-				<div class="border border-secondary my-0">
+				<div class="border border-secondary p-3 my-1">
 					<form name="colls#i#" id="colls#i#" class="w-100" onSubmit="return false;">
 						<input type="hidden" name="method" id="coll_method_#i#" value="">
 						<input type="hidden" name="returnformat" value="json">
