@@ -3394,7 +3394,7 @@ limitations under the License.
 									<cfset targetLabel = "">
 									<cfset targetValue = "">
 									<div class="pt-1 col-12 float-left">
-										<h2 class="add-form-header h3 my-0 py-1 px-2 col-12 float-left">
+										<h2 class="add-form-header h3 my-0 col-12 float-left">
 											<cfif variables.target is "collector">
 												Add Collector
 												<cfset targetLabel = "Collector">
@@ -3563,7 +3563,7 @@ limitations under the License.
 										</script>
 									</div><!--- end card-body for add form --->
 								</div><!--- end add-form --->
-								<div id="collectorsDialogList" class="col-12 float-left mt-4 mb-4 px-0">
+								<div id="collectorsDialogList" class="col-12 float-left mt-4 mb-4">
 									<!--- include output from getCollectorsDetailHTML to list collectors/preparators for the cataloged item --->
 									<cfset collectorsList = getCollectorsDetailHTML(collection_object_id=variables.collection_object_id, target=variables.target)>
 								</div>
