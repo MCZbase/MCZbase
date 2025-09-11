@@ -4307,23 +4307,23 @@ limitations under the License.
 					END as has_subsample,
 					pc.label label,
 					pc.container_id container_id,
-					nvl2(preserve_method, part_name || ' (' || preserve_method || ')', part_name) part_name,
+					nvl2(specimen_part.preserve_method, specimen_part.part_name || ' (' || specimen_part.preserve_method || ')', specimen_part.part_name) part_name,
 					specimen_part.part_name as base_part_name,
 					specimen_part.preserve_method,
-					sampled_from_obj_id,
+					specimen_part.sampled_from_obj_id,
 					coll_object.COLL_OBJ_DISPOSITION part_disposition,
 					coll_object.CONDITION part_condition,
 					coll_object.lot_count_modifier,
 					coll_object.lot_count,
-					nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) display_lot_count,
+					nvl2(specimen_part.lot_count_modifier, specimen_part.lot_count_modifier || specimen_part.lot_count, specimen_part.lot_count) display_lot_count,
 					coll_object_remarks part_remarks,
 					CASE
-					  WHEN sampled_from_obj_id IS NULL THEN 0
+					  WHEN specimen_part.sampled_from_obj_id IS NULL THEN 0
 					  ELSE 1
 					END as is_subsample,
 					CASE
-					  WHEN sampled_from_obj_id IS NULL THEN specimen_part.collection_object_id
-					  ELSE sampled_from_obj_id
+					  WHEN specimen_part.sampled_from_obj_id IS NULL THEN specimen_part.collection_object_id
+					  ELSE secimen_part.sampled_from_obj_id
 					END as parent_id_for_sort,
 					CASE
 					  WHEN (identification.collection_object_id IS NOT NULL OR parent_identification.collection_object_id IS NOT NULL) THEN 2 
@@ -4345,7 +4345,7 @@ limitations under the License.
 					parent_sort_group,
 					parent_id_for_sort,
 					is_subsample,
-					part_name
+					specimen_part.part_name
 			</cfquery>
 			<h1 class="h3 pt-3 px-2">
 				Edit Existing Parts (#getParts.recordcount#)
