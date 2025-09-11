@@ -5440,7 +5440,7 @@ limitations under the License.
 												<input type="hidden" name="publication_id" id="cit_publication_id#i#" value="#publication_id#">
 												<input type="text" class="data-entry-input" id="cit_publication#i#" name="publication" value="#formpublong#">
 											</div>
-											<div class="form-row">
+											<div class="form-row mx-0">
 												<div class="col-12 col-md-4 px-1 pb-2">
 													<label for="cit_cited_name#i#" class="data-entry-label">Cited Scientific Name</label>
 													<input type="hidden" name="cited_taxon_name_id" id="cit_cited_name_id#i#" value="#cited_taxon_name_id#">
