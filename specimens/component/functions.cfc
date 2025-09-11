@@ -9488,8 +9488,8 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12 float-left">
-								<div class="add-form float-left">
-									<div class="add-form-header pt-1 px-2 col-12 float-left">
+								<div class="add-form mt-2 float-left">
+									<div class="add-form-header py-1 px-2 col-12 float-left">
 										<h2 class="h3 my-0 px-1 pb-1">Add to Named Group</h2>
 									</div>
 									<div class="card-body">
@@ -9576,7 +9576,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				underscore_collection.collection_name
 		</cfquery>
 		<cfoutput>
-			<h2 class="h3">Named Groups</h2>
+			<h2 class="h3 px-2">Named Groups</h2>
 			<ul>
 				<cfif getUnderscoreRelations.recordcount EQ 0>
 					<li>None</li>
@@ -11640,7 +11640,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							<h2 class="h3 mt-3 px-2 mb-0">Existing Encumberances</h2>
 							<div class="col-12 border bg-light rounded mt-2">
 								<cfif getEncumbrances.recordcount EQ 0>
-									<div class="col-12 py-2">No encumbrances exist for this specimen.</div>
+									<div class="col-12 px-0 py-2">No encumbrances exist for this specimen.</div>
 								</cfif>
 								<cfloop query="getEncumbrances">
 									<div class="col-12 border-bottom py-2 row bg-box-header-gray">
