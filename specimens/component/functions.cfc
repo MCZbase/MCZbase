@@ -4328,7 +4328,7 @@ limitations under the License.
 					LEFT JOIN container oc ON coll_obj_cont_hist.container_id = oc.container_id
 					LEFT JOIN container pc ON oc.parent_container_id = pc.container_id
 					LEFT JOIN identification ON specimen_part.collection_object_id = identification.collection_object_id
-					LEFT JOIN identification parent_identification ON specimen_part.sampled_from_obj_id = identification.collection_object_id
+					LEFT JOIN identification parent_identification ON specimen_part.sampled_from_obj_id = parent_identification.collection_object_id
 				WHERE
 					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 				ORDER BY
