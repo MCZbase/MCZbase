@@ -2928,7 +2928,7 @@ limitations under the License.
 									
 
 										<div class="border bg-light rounded mx-0 px-0 mt-2 form-row" id="otherIDEditControls#i#">
-											<div class="col-12 border-bottom py-2 mx-0 form-row" style="background-color: ##cccccc47;">
+											<div class="col-12 border-bottom py-2 mx-0 form-row bg-box-header-gray">
 
 												<div class="col-12 col-xl-4">
 													Identifier: #getIDs.other_id_type#:
@@ -4395,6 +4395,15 @@ limitations under the License.
 						<cfset partSeparator = "mb-3 #partSeparator#">
 					</cfif>
 					<div class="mx-0 py-1 #partSeparator# #addedClass# col-12 card float-left">
+						<cfif getParts.is_subsample EQ 1>
+							<div class="col-12 mb-1 py-1 bg-box-header-gray">
+								<strong>Subsample of:</strong> #parentPart#
+							</div>
+						<cfelse>
+							<div class="col-12 mb-1 py-1 bg-box-header-gray">
+								<strong>Part:</strong> #parentPart#
+							</div>
+						</cfif>
 						<!--- find identifications of the part to see if this is a mixed collection --->
 						<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT identification_id, scientific_name
@@ -4407,24 +4416,16 @@ limitations under the License.
 								<cfset parentPart = "#parentPart# (with identification #getIdentifications.scientific_name#)" >
 							</cfif>
 						</cfif>
-						<cfif getParts.is_subsample EQ 0>
+				<!---		<cfif getParts.is_subsample EQ 0>
 							<cfset marginSeparator = "mt-2">
 						<cfelse>
 							<cfset marginSeparator = "">
-						</cfif>
+						</cfif>--->
 						<form name="editPart#i#" id="editPart#i#" class="col-12 form-row mb-0">
 							<div class="form-row mx-0 py-2 #marginSeparator#">
 								<input type="hidden" name="part_collection_object_id" value="#getParts.part_id#">
 								<input type="hidden" name="method" value="updatePart">
-								<cfif getParts.is_subsample EQ 1>
-									<div class="col-12 mb-1">
-										<strong>Subsample of:</strong> #parentPart#
-									</div>
-								<cfelse>
-									<div class="col-12 mb-1">
-										<strong>Part:</strong> #parentPart#
-									</div>
-								</cfif>
+								
 								<div class="col-12 col-md-4 mb-2">
 									<label for="part_name#i#" class="data-entry-label">Part Name</label>
 									<select name="part_name" id="part_name#i#" class="data-entry-select reqdClr" required>
@@ -5489,7 +5490,7 @@ limitations under the License.
 													class="data-entry-textarea autogrow mb-1" maxlength="4000"
 												>#citation_remarks#</textarea>
 											</div>
-											<div class="col-12 col-md-3 px-1 mt-3">
+											<div class="col-12 col-md-3 px-1 mt-2">
 												<button id="cit_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Citation">Save</button>
 												<button id="cit_delete#i#" value="Delete" class="btn btn-xs mx-1 btn-danger" title="Delete Citation">Delete</button>
 												<output id="cit_output#i#"></output>
