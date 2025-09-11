@@ -4394,7 +4394,7 @@ limitations under the License.
 					<cfif i EQ getParts.recordcount>
 						<cfset partSeparator = "mb-3 #partSeparator#">
 					</cfif>
-					<div class="mx-0 py-1 #partSeparator# #addedClass# col-12 card float-left">
+					<div class="mx-0 py-1 #partSeparator# #addedClass# col-12 card px-0 float-left">
 						<!--- find identifications of the part to see if this is a mixed collection --->
 						<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT identification_id, scientific_name
