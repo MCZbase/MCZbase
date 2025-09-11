@@ -8900,7 +8900,7 @@ limitations under the License.
 					<div class="row mx-0 border bg-light py-2">
 						<cfif direction EQ "forward">
 							<cfset i = i + 1>
-							<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;" class="mb-0">
+							<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;" class="my-2">
 								<div class="row m-0 pt-2 pb-1 col-12">
 									<input type="hidden" name="method" id="method_#i#" value="updateBiolIndivRelation">
 									<input type="hidden" name="biol_indiv_relations_id" value="#biol_indiv_relations_id#">
