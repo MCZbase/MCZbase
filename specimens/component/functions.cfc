@@ -11644,7 +11644,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 								</cfif>
 								<cfloop query="getEncumbrances">
 									<div class="col-12 border-bottom py-2 row bg-box-header-gray">
-										<h3 class="h4">#getEncumbrances.encumbrance_action#</h3>
+										<h3 class="h4 font-weight-bold mb-0">#getEncumbrances.encumbrance_action#</h3>
 									</div>
 									<div class="col-12 px-0 py-1 my-2">
 										<div><strong>Encumbered Date:</strong> #DateFormat(getEncumbrances.encumbered_date,"yyyy-mm-dd")#</div>
@@ -11660,7 +11660,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											<div><strong>Remarks:</strong> #getEncumbrances.remarks#</div>
 										</cfif>
 										<div class="text-end">
-											<button type="button" class="btn btn-danger btn-sm" onclick="removeEncumbrance(#getEncumbrances.encumbrance_id#,#collection_object_id#);">Remove</button>
+											<button type="button" class="btn btn-danger btn-sm mt-2 py-0" onclick="removeEncumbrance(#getEncumbrances.encumbrance_id#,#collection_object_id#);">Remove</button>
 											<output id="encumberForm_feedback_#encumbrance_id#" class="feedback"></output>
 										</div>
 									</div>
