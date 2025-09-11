@@ -6839,7 +6839,7 @@ limitations under the License.
 						<!--- higher geography --->
 						<div class="col-12 pt-2 pb-0 mt-2 border bg-white">
 							<h4 class="font-italic text-danger">
-								Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
+								Warning: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
 							</h4>
 							<!--- describe action this form will take --->
 							<cfif cecount.ct GT 1 OR loccount.ct GT 1>
@@ -8630,7 +8630,7 @@ limitations under the License.
 									<cfif splitToSave>	
 										<input id="splitAndSaveButton" type="submit" value="Split and Save Changes" class="btn btn-xs btn-primary" disabled>
 										<output id="locFormOutput"></output>
-										<span class="mx-3">A new locality and collecting event will be created with these values and changes will apply to this record only. </span> 
+										<span class="mx-3 text-danger">A new locality and collecting event will be created with these values and changes will apply to this record only. </span> 
 									<cfelse>
 										<input id="saveButton" type="submit" value="Save Changes" class="btn btn-xs btn-primary float-left">
 										<output id="locFormOutput"></output>
