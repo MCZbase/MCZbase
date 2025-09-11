@@ -621,19 +621,19 @@ Annotation to report problematic data concerning #annotated.annorecord#
 												<input type="hidden" name="method" value="updateAnnotationReview">
 												<input type="hidden" name="annotation_id" value="#annotation_id#">
 												<div class="col-12 col-md-4 py-2 px-1">
-													<label class="data-entry-label">Annotator:</label>
+													<label class="data-entry-label font-weight-bold">Annotator:</label>
 													<div class="px-1"><strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</div>
 												</div>
 												<div class="col-12 col-md-6 py-2 px-1">
-													<label class="data-entry-label">Annotation:</label>
+													<label class="data-entry-label font-weight-bold">Annotation:</label>
 													<div class="px-1">#annotation#</div>
 												</div>
 												<div class="col-12 col-md-2 py-2 px-1">
-													<label class="data-entry-label">Motivation</label>
+													<label class="data-entry-label font-weight-bold">Motivation:</label>
 													<div class="px-1">#motivation#</div>
 												</div>
 												<div class="col-12 col-md-2 py-2 px-1">
-													<label for="reviewed_fg" class="data-entry-label">Reviewed?</label>
+													<label for="reviewed_fg" class="data-entry-label font-weight-bold">Reviewed?</label>
 													<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select">
 														<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
 														<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
@@ -644,10 +644,10 @@ Annotation to report problematic data concerning #annotated.annorecord#
 													</cfif>
 												</div>
 												<div class="col-12 col-md-8 py-2 px-1">
-													<label for="reviewer_comment" class="data-entry-label">Review Comments</label>
+													<label for="reviewer_comment" class="data-entry-label font-weight-bold">Review Comments</label>
 													<textarea name="reviewer_comment" id="reviewer_comment" class="data-entry-textarea autogrow mb-1" maxlength="4000" >#reviewer_comment#</textarea>
 												</div>
-												<div class="col-12 col-md-2">
+												<div class="col-12 col-md-2 py-2 px-1">
 													<input type="submit" value="Save Review" class="btn btn-xs btn-primary mt-3 mb-2">
 													<output id="result_annotation_#i#"></output>
 												</div>
