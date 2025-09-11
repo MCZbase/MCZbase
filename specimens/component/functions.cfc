@@ -4538,7 +4538,7 @@ limitations under the License.
 								<div class="col-12 px-1 small90">
 									<strong>Part Attributes (#getAttributes.recordcount#):</strong>
 									<button class="btn btn-xs btn-secondary px-2 py-0 mx-2" onclick="editPartAttributes('#getParts.part_id#',reloadPartsAndSection)">Edit</button>
-									<cfloop query="getAttrributes">
+									<cfloop query="getAttributes">
 										<div class="">
 											#getAttributes.attribute_type# = #getATtributes.attribute_value#
 											<cfif len(getAttributes.attribute_units) GT 0> #getAttributes.attribute_units#</cfif>
