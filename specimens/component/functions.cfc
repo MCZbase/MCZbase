@@ -8842,14 +8842,14 @@ limitations under the License.
 						and ctrel.rel_type <> 'functional'
 				)
 			</cfquery>
+			<div class="">
+				<h2 class="h3 mt-2 px-2 mb-0">
+					Edit Existing Relationships
+				</h2>
+			</div>
 			<cfif relns.recordcount GT 0>
 				<cfset inverseRelations = "">
 				<cfset i = 0>
-				<div class="">
-					<h2 class="h3 mt-2 px-2 mb-0">
-						Edit Existing Relationship
-					</h2>
-				</div>
 			
 				<cfloop query="relns">
 					<div class="row mx-0 border bg-light py-2">
@@ -8961,9 +8961,9 @@ limitations under the License.
 					}
 				</script>
 			<cfelse>
-				<div class="row mx-0 mt-3">
-					<strong>No Relationships to this cataloged item</strong>
-				</div>
+				<ul>
+					<li>No Relationships to this cataloged item</li>
+				</ul>
 			</cfif>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
