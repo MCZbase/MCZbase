@@ -887,7 +887,7 @@ limitations under the License.
 										</cfif>
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a href="/report_printer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs small py-0 anchorFocus" title="Print Parts Labels for this Specimen">Print Labels</a>
+										<a href="/report_printer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs small py-0 anchorFocus mr-5" title="Print Parts Labels for this Specimen">Print Labels</a>
 										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPartsInPage(#collection_object_id#,reloadParts)">
 											Edit
 										</a>
