@@ -213,10 +213,7 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
  * @param callback a callback function, not currently used.
  */
 function openEditIdentificationsInPage(collection_object_id,callback) { 
-	$('#SpecimenDetailsDiv').hide();
-	$('#editControlsBlock').hide();
-	$("#InPageEditorDiv").addClass("border-bottom");
-	$("#InPageEditorDiv").html("Loading...");
+	startInPage();
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
@@ -826,10 +823,23 @@ function closeInPage(callback=null) {
 	$('#SpecimenDetailsDiv').show();
 	$('#editControlsBlock').show();
 	$("#InPageEditorDiv").removeClass("border-bottom");
+	if (typeof executeMultizoom !== 'undefined') {
+		executeMultizoom = true;
+	}
 	if (callback instanceof Function) {
 		callback();
 	}
 }
+
+function startInPage() { 
+	if (typeof executeMultizoom !== 'undefined') {
+		executeMultizoom = false;
+	}
+	$('#SpecimenDetailsDiv').hide();
+	$('#editControlsBlock').hide();
+	$("#InPageEditorDiv").addClass("border-bottom");
+	$("#InPageEditorDiv").html("Loading...");
+} 
 
 /** openEditLocalityInPage loads a form for editing locality and collecting event
  * for a cataloged item into the editControlsBlock of a page hiding the SpecimenDetailsDiv.
@@ -838,10 +848,7 @@ function closeInPage(callback=null) {
  * @param callback a callback function, not currently used.
  */
 function openEditLocalityInPage(collection_object_id,callback) { 
-	$('#SpecimenDetailsDiv').hide();
-	$('#editControlsBlock').hide();
-	$("#InPageEditorDiv").addClass("border-bottom");
-	$("#InPageEditorDiv").html("Loading...");
+	startInPage();
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
@@ -890,10 +897,7 @@ function loadEncumbrances(collection_object_id,targetDivId) {
  * @param callback a callback function, not currently used.
  */
 function openEditPartsInPage(collection_object_id,callback) { 
-	$('#SpecimenDetailsDiv').hide();
-	$('#editControlsBlock').hide();
-	$("#InPageEditorDiv").addClass("border-bottom");
-	$("#InPageEditorDiv").html("Loading...");
+	startInPage();
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
