@@ -21,6 +21,9 @@ limitations under the License.
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml --->
 <cfinclude template="/specimens/component/public.cfc" runOnce="true"><!--- for getIdentificationsUnthreadedHTML  --->
 
+<!--- parent container types that violate user expectations of what container is being moved --->
+<cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,cryovial,jar,envelope,glass vial,freezer box">
+
 <!--- updateCatNumber update the catalog number and collection id for a cataloged item identified by the collection object id.
  @param collection_object_id the collection_object_id for the cataloged item to update
  @param cat_num the new catalog number to set
@@ -4316,6 +4319,7 @@ limitations under the License.
 					END as has_subsample,
 					pc.label label,
 					pc.container_id container_id,
+					pc.container_type container_type,
 					nvl2(specimen_part.preserve_method, specimen_part.part_name || ' (' || specimen_part.preserve_method || ')', specimen_part.part_name) part_name,
 					specimen_part.part_name as base_part_name,
 					specimen_part.preserve_method,
@@ -4487,7 +4491,11 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-md-4 mb-2">
 									<label for="container_label#i#" class="data-entry-label">Container</label>
-									<input type="text" class="data-entry-input" id="container_label#i#" name="container_barcode" value="#getParts.label#">
+									<cfset containerDisabled = "">
+									<cfif listContains(DISALLOWED_CONTAINER_TYPES, container_type)>
+										<cfset containerDisabled = "readonly">
+									</cfif>
+									<input type="text" class="data-entry-input" id="container_label#i#" name="container_barcode" value="#getParts.label#" #containerDisabled#>
 									<input type="hidden" id="container_id#i#" name="container_id" value="#container_id#">
 								</div>
 								<div class="col-12 col-md-9 mb-2">
@@ -4589,8 +4597,10 @@ limitations under the License.
 					</div>
 					<script>
 						$(document).ready(function() {
-							// make container barcode autocomplete
-							makeContainerAutocompleteMetaExcludeCO("container_label#i#", "container_id#i#");
+							<cfif NOT listContains(DISALLOWED_CONTAINER_TYPES, container_type)>
+								// make container barcode autocomplete
+								makeContainerAutocompleteMetaExcludeCO("container_label#i#", "container_id#i#");
+							</cfif>
 							// make part name autocomplete
 							makePartNameAutocompleteMetaForCollection("part_name#i#", "#getCatItem.collection_cde#");
 						});
