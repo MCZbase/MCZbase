@@ -4364,7 +4364,7 @@ limitations under the License.
 						WHERE guid_is_a = 'materialSampleID'
 						  AND sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParts.part_id#">
 					</cfquery>
-					<cfif getParts.has_identification EQ "1">
+					<cfif getParts.has_identification EQ "1" or getParts.parent_sort_group EQ "2">
 						<cfset addedClass = "part_occurrence">
 					<cfelse>
 						<cfset addedClass = "">
@@ -4382,13 +4382,22 @@ limitations under the License.
 								<cfset parentPart = "#parentPart# (with identification #getIdentifications.scientific_name#)" >
 							</cfif>
 						</cfif>
+						<cfif getParts.is_subsample EQ 0>
+							<cfset marginSeparator = "mt-2">
+						<cfelse>
+							<cfset marginSeparator = "">
+						</cfif>
 						<form name="editPart#i#" id="editPart#i#" class="col-12 form-row mb-0">
-							<div class="form-row mx-0 py-2 mt-2">
+							<div class="form-row mx-0 py-2 #marginSeparator#">
 								<input type="hidden" name="part_collection_object_id" value="#getParts.part_id#">
 								<input type="hidden" name="method" value="updatePart">
 								<cfif getParts.is_subsample EQ 1>
 									<div class="col-12 mb-1">
 										<strong>Subsample of:</strong> #parentPart#
+									</div>
+								<cfelse>
+									<div class="col-12 mb-1">
+										<strong>Part:</strong> #parentPart#
 									</div>
 								</cfif>
 								<div class="col-12 col-md-4 mb-2">
