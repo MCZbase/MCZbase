@@ -601,88 +601,95 @@ Annotation to report problematic data concerning #annotated.annorecord#
 						higher_geog,
 						spec_locality
 				</cfquery>
-				<cfloop query="catitem">
-					<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
-					<h2 class="h3 mt-3 pl-1">Annotations on #guid#</h2>
-					<h3 class="h4">
-						<a href="/guid/#guid#">#collection# #cat_num#</a> 
-						<span class="mr-3">&nbsp; Current Identification: <em>#idAs#</em></span> 
-						<span class="ml-1"> Locality: #higher_geog#: #spec_locality#</span>
-					</h3>
-				</cfloop>
-				<cfset i=0>
-				<cfloop query="ci_annotations">
-					<form name="review_annotation_#i#" id="review_annotation_#i#">
-						<div class="form-row border">
-							<input type="hidden" name="method" value="updateAnnotationReview">
-							<input type="hidden" name="annotation_id" value="#annotation_id#">
-							<div class="col-12 col-md-4">
-								<label class="data-entry-label">Annotator:</label>
-								<span><strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
-							</div>
-							<div class="col-12 col-md-6">
-								<label class="data-entry-label">Annotation:</label>
-								<span>#annotation#</span>
-							</div>
-							<div class="col-12 col-md-2">
-								<label class="data-entry-label">Motivation</label>
-								<span>#motivation#</span>
-							</div>
-							<div class="col-12 col-md-2">
-								<label for="reviewed_fg" class="data-entry-label">Reviewed?</label>
-								<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select">
-									<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
-									<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
-								</select>
-								<cfif len(reviewer) gt 0>
-									<span class="d-block small">
-									Last review by #reviewer#</span>
-								</cfif>
-							</div>
-							<div class="col-12 col-md-8">
-									<label for="reviewer_comment" class="data-entry-label">Review Comments</label>
-									<textarea name="reviewer_comment" id="reviewer_comment" class="data-entry-textarea autogrow mb-1" maxlength="4000" >#reviewer_comment#</textarea>
-							</div>
-							<div class="col-12 col-md-2">
-									<input type="submit" value="Save Review" class="btn btn-xs btn-primary mt-3 mb-2">
-									<output id="result_annotation_#i#"></output>
-							</div>
-						</div>
-					</form>
-					<script>
-						$(document).ready(function() { 
-							$("##review_annotation_#i#").submit(function(event) {
-								event.preventDefault(); // prevent default form submission
-								var form_id = #i#;
-								submitAnnotationReview(form_id);
-							});
-						});
-					</script>
-					<cfset i=i+1>
-				</cfloop>
-				<script>
-					function submitAnnotationReview(form_id) {
-						setFeedbackControlState("result_annotation_" + form_id,"saving");
-						$.ajax({
-							type: "POST",
-							url: "/annotations/component/functions.cfc",
-							data: $("##review_annotation_" + form_id).serialize(),
-							dataType: "json",
-							success: function(data) {
-								if (data[0].status == "updated") {
-									setFeedbackControlState("result_annotation_" + form_id,"saved");
-								} else {
-								setFeedbackControlState("result_annotation_" + form_id,"error");
-								}
-							},
-							error: function(xhr, status, error) {
-								handleFail(xhr,status,error,"updating annotation.");
-								setFeedbackControlState("result_annotation_" + form_id,"error");
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12 my-0 pt-1 pb-0">
+							<cfloop query="catitem">
+								<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
+								<h2 class="h3 mt-3 px-2 mb-0">Annotations on #guid#</h2>
+								<div class="card">
+								<h3 class="h4 card-header">
+									<a href="/guid/#guid#">#collection# #cat_num#</a> 
+									<span class="mr-3">&nbsp; Current Identification: <em>#idAs#</em></span> 
+									<span class="ml-1"> Locality: #higher_geog#: #spec_locality#</span>
+								</h3>
+							</cfloop>
+							<cfset i=0>
+							<cfloop query="ci_annotations">
+							<form name="review_annotation_#i#" id="review_annotation_#i#">
+								<div class="form-row border">
+									<input type="hidden" name="method" value="updateAnnotationReview">
+									<input type="hidden" name="annotation_id" value="#annotation_id#">
+									<div class="col-12 col-md-4">
+										<label class="data-entry-label">Annotator:</label>
+										<span><strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
+									</div>
+									<div class="col-12 col-md-6">
+										<label class="data-entry-label">Annotation:</label>
+										<span>#annotation#</span>
+									</div>
+									<div class="col-12 col-md-2">
+										<label class="data-entry-label">Motivation</label>
+										<span>#motivation#</span>
+									</div>
+									<div class="col-12 col-md-2">
+										<label for="reviewed_fg" class="data-entry-label">Reviewed?</label>
+										<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select">
+											<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
+											<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
+										</select>
+										<cfif len(reviewer) gt 0>
+											<span class="d-block small">
+											Last review by #reviewer#</span>
+										</cfif>
+									</div>
+									<div class="col-12 col-md-8">
+											<label for="reviewer_comment" class="data-entry-label">Review Comments</label>
+											<textarea name="reviewer_comment" id="reviewer_comment" class="data-entry-textarea autogrow mb-1" maxlength="4000" >#reviewer_comment#</textarea>
+									</div>
+									<div class="col-12 col-md-2">
+											<input type="submit" value="Save Review" class="btn btn-xs btn-primary mt-3 mb-2">
+											<output id="result_annotation_#i#"></output>
+									</div>
+								</div>
+							</form>
+							<script>
+								$(document).ready(function() { 
+									$("##review_annotation_#i#").submit(function(event) {
+										event.preventDefault(); // prevent default form submission
+										var form_id = #i#;
+										submitAnnotationReview(form_id);
+									});
+								});
+							</script>
+							<cfset i=i+1>
+						</cfloop>
+							<script>
+							function submitAnnotationReview(form_id) {
+								setFeedbackControlState("result_annotation_" + form_id,"saving");
+								$.ajax({
+									type: "POST",
+									url: "/annotations/component/functions.cfc",
+									data: $("##review_annotation_" + form_id).serialize(),
+									dataType: "json",
+									success: function(data) {
+										if (data[0].status == "updated") {
+											setFeedbackControlState("result_annotation_" + form_id,"saved");
+										} else {
+										setFeedbackControlState("result_annotation_" + form_id,"error");
+										}
+									},
+									error: function(xhr, status, error) {
+										handleFail(xhr,status,error,"updating annotation.");
+										setFeedbackControlState("result_annotation_" + form_id,"error");
+									}
+								});
+								return false; // prevent default form submission
 							}
-						});
-						return false; // prevent default form submission
-					}
-				</script>
+						</script>
+						</div>
+					</div>
+				</div>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
