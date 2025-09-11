@@ -4068,13 +4068,17 @@ limitations under the License.
 					FROM ctcoll_obj_disp 
 					ORDER BY coll_obj_disposition
 				</cfquery>
-				
 				<cfquery name="ctModifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT modifier 
 					FROM ctnumeric_modifiers 
 					ORDER BY modifier DESC
 				</cfquery>
-				
+				<cfquery name="ctSpecimenPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT part_name
+					FROM ctspecimen_part_name
+					WHERE collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
+					ORDER BY part_name
+				</cfquery>
 				<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT preserve_method
 					FROM ctspecimen_preserv_method
@@ -4108,7 +4112,12 @@ limitations under the License.
 													<span>Part Name</span>
 													<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTSPECIMEN_PART_NAME&collection_cde=#getCatItem.collection_cde#" title="List of part names specific to the #getCatItem.collection_cde# collection." target="_blank">Define Values</a>]</span>
 												</label>
-												<input name="part_name" class="data-entry-input reqdClr" id="part_name" type="text" required>
+												<select name="part_name" id="part_name" class="data-entry-select reqdClr" required>
+													<option value=""></option>
+													<cfloop query="ctSpecimenPartName">
+														<option value="#part_name#">#part_name#</option>
+													</cfloop>
+												</select>
 											</div>
 											<div class="float-left col-12 col-md-4 mb-2 px-1">
 												<label for="preserve_method" class="data-entry-label">
