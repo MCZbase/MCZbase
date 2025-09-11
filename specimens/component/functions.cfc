@@ -4495,10 +4495,12 @@ limitations under the License.
 								<div class="col-12 col-md-4 mb-2">
 									<label for="container_label#i#" class="data-entry-label">Container</label>
 									<cfset containerDisabled = "">
+									<cfset containerclass = "">
 									<cfif listContains(DISALLOWED_CONTAINER_TYPES, container_type)>
 										<cfset containerDisabled = "readonly">
+										<cfset containerclass = "disabled">
 									</cfif>
-									<input type="text" class="data-entry-input" id="container_label#i#" name="container_barcode" value="#getParts.label#" #containerDisabled#>
+									<input type="text" class="data-entry-input #containerClass#" id="container_label#i#" name="container_barcode" value="#getParts.label#" #containerDisabled#>
 									<input type="hidden" id="container_id#i#" name="container_id" value="#container_id#">
 								</div>
 								<div class="col-12 col-md-9 mb-2">
