@@ -11601,7 +11601,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											</select>
 										</div>
 										<div class="col-12 mb-2">
-											<button type="button" class="btn btn-xs btn-primary" onclick="submitEncumberForm();">Add to Encumbrance</button>
+											<button type="button" class="btn btn-xs btn-primary mb-2 mb-md-0" onclick="submitEncumberForm();">Add to Encumbrance</button>
 											<output id="encumberForm_feedback" class="feedback"></output>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
 												<a class="btn btn-xs btn-primary float-right" target="_blank" href="/Encumbrances.cfm?action=create">Create New Encumbrance</a>
