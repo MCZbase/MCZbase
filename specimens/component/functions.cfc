@@ -4560,7 +4560,7 @@ limitations under the License.
 										specimen_part_attribute 
 										left join preferred_agent_name on specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id
 									WHERE
-										part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+										specimen_part_attribute.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 									ORDER BY
 										attribute_type, determined_date
 								</cfquery>
