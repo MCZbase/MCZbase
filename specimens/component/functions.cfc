@@ -4286,7 +4286,7 @@ limitations under the License.
 				SELECT part_name
 				FROM ctspecimen_part_name
 				WHERE collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
-				ORDER BY partName
+				ORDER BY part_name
 			</cfquery>
 			<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT preserve_method
