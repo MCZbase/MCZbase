@@ -4496,11 +4496,13 @@ limitations under the License.
 									<label for="container_label#i#" class="data-entry-label">Container</label>
 									<cfset containerDisabled = "">
 									<cfset containerstyle = "">
-									<cfif listContains(DISALLOWED_CONTAINER_TYPES, container_type)>
+									<cfset containerValue = "#getParts.label#">
+									<cfif listContains(DISALLOWED_CONTAINER_TYPES, getParts.container_type)>
 										<cfset containerDisabled = "readonly">
 										<cfset containerstyle = "background-color: ##ededed;">
+										<cfset containerValue = "#getParts.label# (#getParts.container_type#)">
 									</cfif>
-									<input type="text" class="data-entry-input" style="#containerstyle#" id="container_label#i#" name="container_barcode" value="#getParts.label#" #containerDisabled#>
+									<input type="text" class="data-entry-input" style="#containerstyle#" id="container_label#i#" name="container_barcode" value="#containerValue#" #containerDisabled#>
 									<input type="hidden" id="container_id#i#" name="container_id" value="#container_id#">
 								</div>
 								<div class="col-12 col-md-9 mb-2">
