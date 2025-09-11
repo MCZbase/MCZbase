@@ -4317,9 +4317,8 @@ limitations under the License.
 					  ELSE sampled_from_obj_id
 					END as parent_id_for_sort,
 					CASE
-					  WHEN sampled_from_obj_id IS NULL THEN
-						 CASE WHEN (identification.collection_object_id IS NOT NULL) THEN 2 ELSE 1 END
-					  ELSE 3
+					  WHEN (identification.collection_object_id IS NOT NULL AND parent_identification.collection_object_id IS NOT NULL) THEN 2 
+					  ELSE 1
 					END as parent_sort_group
 				FROM
 					specimen_part
@@ -4329,6 +4328,7 @@ limitations under the License.
 					LEFT JOIN container oc ON coll_obj_cont_hist.container_id = oc.container_id
 					LEFT JOIN container pc ON oc.parent_container_id = pc.container_id
 					LEFT JOIN identification ON specimen_part.collection_object_id = identification.collection_object_id
+					LEFT JOIN identification parent_identification ON specimen_part.sampled_from_obj_id = identification.collection_object_id
 				WHERE
 					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 				ORDER BY
