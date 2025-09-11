@@ -607,7 +607,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 							<cfloop query="catitem">
 								<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
 								<h2 class="h3 mt-3 px-2 mb-1">Annotations on #guid#</h2>
-								<div class="col-12 px-0 my-0 py-0 card">
+								<div class="col-12 px-0 my-0 py-0 card border-bottom-0">
 									<h3 class="h4 card-header">
 										<a href="/guid/#guid#" target="_blank">#guid#</a>
 										<span class="mx-2">&nbsp; Current Identification: <em>#idAs#</em></span> 
@@ -615,8 +615,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 									</h3>
 									<cfset i=0>
 									<cfloop query="ci_annotations">
-										<form name="review_annotation_#i#" id="review_annotation_#i#" class="card-body mb-0">
-											<div class="form-row mx-0 pb-0 col-12 px-1">
+										<form name="review_annotation_#i#" id="review_annotation_#i#" class="card-body border-bottom mb-0">
+											<div class="form-row mx-0 pb-0 col-12 px-1 table-striped">
 												<input type="hidden" name="method" value="updateAnnotationReview">
 												<input type="hidden" name="annotation_id" value="#annotation_id#">
 												<div class="col-12 col-md-4 pt-2 px-1">
