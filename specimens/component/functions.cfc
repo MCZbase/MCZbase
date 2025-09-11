@@ -3393,7 +3393,7 @@ limitations under the License.
 								<div class="add-form mt-2 float-left">
 									<cfset targetLabel = "">
 									<cfset targetValue = "">
-									<div class="add-form-header pt-1 px-2 col-12 float-left">
+									<div class="pt-1 px-2 col-12 float-left">
 										<h2 class="add-form-header h3 my-0 py-1 px-2 col-12 float-left">
 											<cfif variables.target is "collector">
 												Add Collector
@@ -3409,22 +3409,21 @@ limitations under the License.
 												<cfset targetValue = "c"><!--- default selection to collector --->
 											</cfif>
 										</h2>
+									</div>
 										<!--- Form to add a new collector/preparator --->
 										<form name="addToCollectors" onSubmit="return false;">
 											<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
 											<input type="hidden" name="method" value="addCollector">
 											<input type="hidden" name="returnformat" value="json">
 											<input type="hidden" name="queryformat" value="column">
-											<div class="form-row">
+											<div class="form-row card-body">
 												<cfif target EQ "both">
 													<cfset colw ="4">
 												<cfelse>
 													<cfset colw ="6">
 												</cfif>
 												<div class="col-12 col-md-#colw# pt-3 px-2">
-													<label for="add_agent_name">
-														Add #targetLabel#:
-													</label>
+													<label for="add_agent_name" class="px-1">Add #targetLabel#:</label>
 													<input type="text" name="name" id="add_agent_name" class="data-entry-input reqdClr">
 													<input type="hidden" name="agent_id" id="add_new_agent_id">
 												</div>
@@ -3481,7 +3480,7 @@ limitations under the License.
 													AND collecting_event.verbatim_collectors IS NOT NULL
 											</cfquery>
 											<cfif fromCollEvent.recordcount GT 0>
-												<div class="px-2"><h3 class="h4">Verbatim Collectors from collecting event:</h3>
+												<div class="px-2 mt-3 card-body"><h3 class="h4">Verbatim collectors from collecting event:</h3>
 													<cfloop query="fromCollEvent">
 														<div class="small95 my-1">#fromCollEvent.verbatim_collectors#</div>
 													</cfloop>
