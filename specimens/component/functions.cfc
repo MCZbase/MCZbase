@@ -4386,9 +4386,13 @@ limitations under the License.
 							<div class="form-row mx-0 py-2 mt-2">
 								<input type="hidden" name="part_collection_object_id" value="#getParts.part_id#">
 								<input type="hidden" name="method" value="updatePart">
+								<cfif getParts.is_subsample EQ 1>
+									<div class="col-12 mb-1">
+										<strong>Subsample of:</strong> #parentPart#
+									</div>
+								</cfif>
 								<div class="col-12 col-md-4 mb-2">
 									<label for="part_name#i#" class="data-entry-label">Part Name</label>
-									<input type="text" class="data-entry-input reqdClr" id="part_name#i#" name="part_name" value="#getParts.base_part_name#" required>
 									<select name="part_name" id="part_name#i#" class="data-entry-select reqdClr" required>
 										<option value=""></option>
 										<cfloop query="ctSpecimenPartName">
@@ -4401,11 +4405,6 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<cfif getParts.is_subsample EQ 1>
-									<div class="col-12 mb-1">
-										<strong>Subsample of:</strong> #parentPart#
-									</div>
-								</cfif>
 								<div class="col-12 col-md-4 mb-2">
 									<label for="preserve_method#i#" class="data-entry-label">Preserve Method</label>
 									<select name="preserve_method" id="preserve_method#i#" class="data-entry-select reqdClr" required>
