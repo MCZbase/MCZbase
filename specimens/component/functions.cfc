@@ -4614,103 +4614,105 @@ limitations under the License.
 							</script>
 						</div><!--- end part div --->
 					</cfloop><!--- end loop over parts --->
-				</div>
-				<script>
-					// Make all textareas with autogrow class be bound to the autogrow function on key up
-					$(document).ready(function() { 
-						$("textarea.autogrow").keyup(autogrow);
-						$('textarea.autogrow').keyup();
-					});
-					// Add event listeners to the buttons
-					document.querySelectorAll('button[id^="part_submit"]').forEach(function(button) {
-						button.addEventListener('click', function(event) {
-							event.preventDefault();
-							// save changes to a part
-							var id = button.id.replace('part_submit', '');
-							// check form validity
-							if (!$("##editPart" + id).get(0).checkValidity()) {
-								// If the form is invalid, show validation messages
-								$("##editPart" + id).get(0).reportValidity();
-								return false; // Prevent form submission if validation fails
-							}
-							var feedbackOutput = 'part_output' + id;
-							setFeedbackControlState(feedbackOutput,"saving")
-							$.ajax({
-								url: '/specimens/component/functions.cfc',
-								type: 'POST',
-								dataType: 'json',
-								data: $("##editPart" + id).serialize(),
-								success: function(response) {
-									setFeedbackControlState(feedbackOutput,"saved");
-									reloadPartsAndSection();
-								},
-								error: function(xhr, status, error) {
-									setFeedbackControlState(feedbackOutput,"error")
-									handleFail(xhr,status,error,"saving change to part.");
-								}
-							});
+					<script>
+						// Make all textareas with autogrow class be bound to the autogrow function on key up
+						$(document).ready(function() { 
+							$("textarea.autogrow").keyup(autogrow);
+							$('textarea.autogrow').keyup();
 						});
-					});
-					document.querySelectorAll('button[id^="part_delete"]').forEach(function(button) {
-						button.addEventListener('click', function(event) {
-							event.preventDefault();
-							// delete a part record
-							var id = button.id.replace('part_delete', '');
-							var feedbackOutput = 'part_output' + id;
-							confirmDialog('Remove this part? This action cannot be undone.', 'Confirm Delete Part', function() {
-								setFeedbackControlState(feedbackOutput,"deleting")
+						// Add event listeners to the buttons
+						document.querySelectorAll('button[id^="part_submit"]').forEach(function(button) {
+							button.addEventListener('click', function(event) {
+								event.preventDefault();
+								// save changes to a part
+								var id = button.id.replace('part_submit', '');
+								// check form validity
+								if (!$("##editPart" + id).get(0).checkValidity()) {
+									// If the form is invalid, show validation messages
+									$("##editPart" + id).get(0).reportValidity();
+									return false; // Prevent form submission if validation fails
+								}
+								var feedbackOutput = 'part_output' + id;
+								setFeedbackControlState(feedbackOutput,"saving")
 								$.ajax({
 									url: '/specimens/component/functions.cfc',
 									type: 'POST',
 									dataType: 'json',
-									data: {
-										method: 'deletePart',
-										collection_object_id: $("##editPart" + id + " input[name='part_collection_object_id']").val()
-									},
+									data: $("##editPart" + id).serialize(),
 									success: function(response) {
-										setFeedbackControlState(feedbackOutput,"deleted");
+										setFeedbackControlState(feedbackOutput,"saved");
 										reloadPartsAndSection();
 									},
 									error: function(xhr, status, error) {
 										setFeedbackControlState(feedbackOutput,"error")
-										handleFail(xhr,status,error,"deleting part.");
+										handleFail(xhr,status,error,"saving change to part.");
 									}
 								});
 							});
 						});
-					});
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						document.querySelectorAll('button[id^="part_mixed"]').forEach(function(button) {
+						document.querySelectorAll('button[id^="part_delete"]').forEach(function(button) {
 							button.addEventListener('click', function(event) {
 								event.preventDefault();
-								// make mixed collection
-								var id = button.id.replace('part_mixed', '');
-								var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
-								var guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num# " + $('##editPart' + id + ' input[name="part_name"]').val() + ' (' + $('##editPart' + id + ' select[name="preserve_method"]').val() + ')';
-								openEditIdentificationsDialog(partId,'identificationsDialog',guid,function(){
-									reloadPartsAndSection();
-								});
-							});
-						});
-						document.querySelectorAll('button[id^="newpart_mixed"]').forEach(function(button) {
-							button.addEventListener('click', function(event) {
-								event.preventDefault();
-								// confirm making mixed collection
-								confirmDialog('Adding identifications to this part will make this cataloged item into a mixed collection.  This means that the cataloged item will no longer be a single taxon, but rather a collection of parts with different identifications.  <strong>Are you sure you want to do this?</strong>  This is appropriate for some cases in some collections, such as when a cataloged item is a composite of multiple taxa, such as pin with an ant and an associated insect on the same pin and a single catalog number, but not appropriate for all collections.  If you are unsure, please seek guidance before proceeding.', 
-									'Confirm Mixed Collection', 
-									function() {
-										// make mixed collection
-										var id = button.id.replace('newpart_mixed', '');
-										var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
-										var guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num# " + $('##editPart' + id + ' input[name="part_name"]').val() + ' (' + $('##editPart' + id + ' select[name="preserve_method"]').val() + ')';
-										openEditIdentificationsDialog(partId,'identificationsDialog',guid,function(){
+								// delete a part record
+								var id = button.id.replace('part_delete', '');
+								var feedbackOutput = 'part_output' + id;
+								confirmDialog('Remove this part? This action cannot be undone.', 'Confirm Delete Part', function() {
+									setFeedbackControlState(feedbackOutput,"deleting")
+									$.ajax({
+										url: '/specimens/component/functions.cfc',
+										type: 'POST',
+										dataType: 'json',
+										data: {
+											method: 'deletePart',
+											collection_object_id: $("##editPart" + id + " input[name='part_collection_object_id']").val()
+										},
+										success: function(response) {
+											setFeedbackControlState(feedbackOutput,"deleted");
 											reloadPartsAndSection();
-										});
-									}
-								);
+										},
+										error: function(xhr, status, error) {
+											setFeedbackControlState(feedbackOutput,"error")
+											handleFail(xhr,status,error,"deleting part.");
+										}
+									});
+								});
 							});
 						});
-					</cfif>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+							document.querySelectorAll('button[id^="part_mixed"]').forEach(function(button) {
+								button.addEventListener('click', function(event) {
+									event.preventDefault();
+									// make mixed collection
+									var id = button.id.replace('part_mixed', '');
+									var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
+									var guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num# " + $('##editPart' + id + ' input[name="part_name"]').val() + ' (' + $('##editPart' + id + ' select[name="preserve_method"]').val() + ')';
+									openEditIdentificationsDialog(partId,'identificationsDialog',guid,function(){
+										reloadPartsAndSection();
+									});
+								});
+							});
+							document.querySelectorAll('button[id^="newpart_mixed"]').forEach(function(button) {
+								button.addEventListener('click', function(event) {
+									event.preventDefault();
+									// confirm making mixed collection
+									confirmDialog('Adding identifications to this part will make this cataloged item into a mixed collection.  This means that the cataloged item will no longer be a single taxon, but rather a collection of parts with different identifications.  <strong>Are you sure you want to do this?</strong>  This is appropriate for some cases in some collections, such as when a cataloged item is a composite of multiple taxa, such as pin with an ant and an associated insect on the same pin and a single catalog number, but not appropriate for all collections.  If you are unsure, please seek guidance before proceeding.', 
+										'Confirm Mixed Collection', 
+										function() {
+											// make mixed collection
+											var id = button.id.replace('newpart_mixed', '');
+											var partId = $("##editPart" + id + " input[name='part_collection_object_id']").val();
+											var guid = "#getCatItem.institution_acronym#:#getCatItem.collection_cde#:#getCatItem.cat_num# " + $('##editPart' + id + ' input[name="part_name"]').val() + ' (' + $('##editPart' + id + ' select[name="preserve_method"]').val() + ')';
+											openEditIdentificationsDialog(partId,'identificationsDialog',guid,function(){
+												reloadPartsAndSection();
+											});
+										}
+									);
+								});
+							});
+						</cfif>
+					</script>
+				</cfif><!--- end if parts exist --->
+				<script>
 					function reloadPartsSection() {
 						// reload the edit existing parts section
 						$.ajax({
@@ -4730,7 +4732,7 @@ limitations under the License.
 						});
 					}
 				</script>
-			</cfif>
+			</div>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<p class="mt-2 text-danger">Error: #cfcatch.type# #error_message#</p>
