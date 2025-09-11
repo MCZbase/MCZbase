@@ -4315,7 +4315,7 @@ limitations under the License.
 					coll_object.CONDITION part_condition,
 					coll_object.lot_count_modifier,
 					coll_object.lot_count,
-					nvl2(specimen_part.lot_count_modifier, specimen_part.lot_count_modifier || specimen_part.lot_count, specimen_part.lot_count) display_lot_count,
+					nvl2(coll_object.lot_count_modifier, coll_object.lot_count_modifier || coll_object.lot_count, coll_object.lot_count) display_lot_count,
 					coll_object_remarks part_remarks,
 					CASE
 					  WHEN specimen_part.sampled_from_obj_id IS NULL THEN 0
