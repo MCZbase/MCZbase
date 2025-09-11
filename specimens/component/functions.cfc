@@ -11560,13 +11560,13 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 									encumbrance.remarks
 							</cfquery>
 							<div class="add-form">
-								<div class="add-form-header pt-1 px-2 col-12 float-left">
+								<div class="add-form-header py-1 px-3 col-12 float-left">
 									<h2 class="h3 my-0 px-1 pb-1">Encumber #getSpecimen.guid#</h2>
 								</div>
-								<div class="card-body mt-2">
-									<form name="encumberForm" id="encumberForm" class="form-row mb-0 pt-1">
+								<div class="card-body">
+									<form name="encumberForm" id="encumberForm" class="col-12 px-2 form-row mx-0 mb-0 pt-1">
 										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-										<div class="col-12 mb-2">
+										<div class="col-12 my-2">
 											<label for="encumbrance_id" class="form-label">Select Existing Encumbrance</label>
 											<select name="encumbrance_id" id="encumbrance_id" class="data-entry-select w-100" required>
 												<option value="" disabled selected>Select an existing encumbrance</option>
