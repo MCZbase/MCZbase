@@ -3394,7 +3394,7 @@ limitations under the License.
 									<cfset targetLabel = "">
 									<cfset targetValue = "">
 									<div class="add-form-header pt-1 px-2 col-12 float-left">
-										<h2 class="h3 my-0 px-1 pb-1">
+										<h2 class="add-form-header h3 my-0 py-1 px-2 col-12 float-left">
 											<cfif variables.target is "collector">
 												Add Collector
 												<cfset targetLabel = "Collector">
@@ -3409,8 +3409,6 @@ limitations under the License.
 												<cfset targetValue = "c"><!--- default selection to collector --->
 											</cfif>
 										</h2>
-									</div>
-									<div class="card-body">
 										<!--- Form to add a new collector/preparator --->
 										<form name="addToCollectors" onSubmit="return false;">
 											<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
@@ -3483,10 +3481,11 @@ limitations under the License.
 													AND collecting_event.verbatim_collectors IS NOT NULL
 											</cfquery>
 											<cfif fromCollEvent.recordcount GT 0>
-												<div class="px-2"><h3 class="h5">Verbatim Collectors from collecting event:</h3>
-												<cfloop query="fromCollEvent">
-													<p class="small95 my-1">#fromCollEvent.verbatim_collectors#</p>
-												</cfloop>
+												<div class="px-2"><h3 class="h4">Verbatim Collectors from collecting event:</h3>
+													<cfloop query="fromCollEvent">
+														<div class="small95 my-1">#fromCollEvent.verbatim_collectors#</div>
+													</cfloop>
+												</div>
 											</cfif>
 										</form>
 										<script>
