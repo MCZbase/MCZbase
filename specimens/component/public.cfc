@@ -148,7 +148,7 @@ limitations under the License.
 					<cfelse>
 						<cfset sectionclass="defaultType">
 					</cfif>
-					<section class="row #sectionclass# mb-2">
+					<section class="row #sectionclass# mb-0">
 						<div class="col-12">
 							<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
 								<cfif summary.toptypestatuskind eq 'Primary' >
@@ -724,9 +724,9 @@ limitations under the License.
 						identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 				<cfif identification.accepted_id_fg is 1>
-					<cfset divClasses ="list-group border-green rounded mx-1 my-2 p-2 h4 font-weight-normal">
+					<cfset divClasses ="list-group border-green bg-white rounded mx-1 my-2 p-2 h4 font-weight-normal">
 				<cfelse>
-					<cfset divClasses ="list-group border-transparent rounded mx-1 mt-0 mb-1 p-1 h4 font-weight-normal">
+					<cfset divClasses ="list-group border border-secondary bg-white rounded mx-1 mt-0 mb-1 p-2 h4 font-weight-normal">
 				</cfif>
 				<div class="#divClasses#">
 					<cfif identification.accepted_id_fg is 1>
@@ -1334,7 +1334,7 @@ limitations under the License.
 						has_identification asc, 
 						part_name, part_id
 				</cfquery>
-				<table class="table px-1 table-responsive-md w-100 tablesection my-1">
+				<table class="table px-0 table-responsive-md w-100 tablesection my-0">
 					<thead class="thead-light">
 						<tr>
 							<th class="py-0"><span>Part</span></th>
@@ -1498,20 +1498,20 @@ limitations under the License.
 								</cfquery>
 								<tr class="#addedClass#">
 									<td colspan="6">
-										<span class="font-weight-lessbold">This Part is a separate Occurence</span>
-										<span class="small">occurrenceID: #getOccurrenceID.assembled_identifier#</span>
+										<span class="font-weight-lessbold pl-1">This part is a separate occurrence.</span>
+										<span class="small95"><em>occurrenceID:</em> #getOccurrenceID.assembled_identifier#</span>
 									</td>
 								</tr>
-								<tr class="small #addedClass#">
+								<tr class="small95 #addedClass#">
 									<td colspan="6">
 										<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=part_id)>
 									</td>
 								</tr>
 							</cfif>
 							<cfif len(part_remarks) gt 0>
-								<tr class="small90 #addedClass#">
+								<tr class="small95 #addedClass#">
 									<td colspan="6" class="mb-0 pb-1 pt-0">
-										<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
+										<span class="pl-2 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
 									</td>
 								</tr>
 							</cfif>
@@ -1525,9 +1525,9 @@ limitations under the License.
 							</cfquery>
 							<cfif getMaterialSampleID.recordcount GT 0>
 								<cfloop query="getMaterialSampleID">
-									<tr class="small90 #addedClass#">
-										<td colspan="6" class="mb-0 pb-1 pt-0">
-											<span class="pl-3 d-block">
+									<tr class="small95 #addedClass#">
+										<td colspan="6" class="mb-0 py-0">
+											<span class="pl-2 d-block">
 												<span class="font-italic">materialSampleID:</span> 
 												<a href="#assembled_resolvable#" target="_blank">#assembled_identifier#</a>
 												<cfif internal_fg EQ "1" AND left(assembled_identifier,9) EQ "urn:uuid:">
@@ -1570,9 +1570,9 @@ limitations under the License.
 							</cfquery>
 							<cfif partAttributes.recordcount gt 0>
 								<tr class="border-top-0 #addedClass#">
-									<td colspan="6" class="border-top-0 mt-0 py-0">
+									<td colspan="6" class="border-top-0 mt-0 py-2">
 										<cfloop query="partAttributes">
-											<div class="small90 pl-3 line-height-sm">
+											<div class="small95 pl-2 line-height-sm">
 												#attribute_type# = <span class="">#attribute_value#</span> &nbsp;
 											<cfif len(attribute_units) gt 0>
 												#attribute_units# &nbsp;
@@ -1703,7 +1703,7 @@ limitations under the License.
 								<cfif len(part_remarks) gt 0>
 									<tr class="small90 #addedClass#">
 										<td colspan="6" class="pt-1">
-											<span class="pl-3 d-block pb-1">
+											<span class="pl-2 d-block pb-1">
 												<span class="font-italic">Remarks:</span> #part_remarks#
 											</span>
 										</td>
@@ -1764,7 +1764,7 @@ limitations under the License.
 									<tr class="border-top-0 #addedClass#">
 										<td colspan="6" class="border-top-0 mt-0 pb-2 pt-1">
 											<cfloop query="partAttributes">
-												<div class="small90 pl-3 pb-2 line-height-sm">
+												<div class="small90 pl-2 pb-2 line-height-sm">
 													#attribute_type#&nbsp;=&nbsp;<span class="">#attribute_value#</span>
 												<cfif len(attribute_units) gt 0>
 												#attribute_units#&nbsp;
@@ -1904,7 +1904,7 @@ limitations under the License.
 						decode(attribute_type,'sex',0,1), attribute_type
 				</cfquery>
 				<cfif attributes.recordcount GT 0>
-					<table class="table px-1 table-responsive-md w-100 tablesection my-1" aria-label="attributes">
+					<table class="table px-1 table-responsive-md w-100 tablesection my-0" aria-label="attributes">
 						<thead class="thead-light">
 							<tr>
 								<th class="py-0">Attribute</th>
@@ -2095,7 +2095,7 @@ limitations under the License.
 							</cfif>
 						</cfloop>
 						<li>
-							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=BIOL_INDIV_RELATIONS%3ARELATED_COLL_OBJECT_ID&searchText1=#lookupGuid.guid#&searchId1=#collection_object_id#" target="_blank">All Related Specimens</a>
+							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=BIOL_INDIV_RELATIONS%3ARELATED_COLL_OBJECT_ID&searchText1=#lookupGuid.guid#&searchId1=#collection_object_id#" target="_blank" class="pb-2">All Related Specimens</a>
 						</li>
 					</ul>
 				<cfelse>
@@ -3762,7 +3762,6 @@ limitations under the License.
 						coll_object.flags,
 						enteredPerson.agent_name EnteredBy,
 						editedPerson.agent_name EditedBy,
-						concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 						concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail
 					FROM
 						cataloged_item
@@ -3782,9 +3781,6 @@ limitations under the License.
 						<cfif len(#meta.flags#) is not 0>
 							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">Missing (flags):</span> #isOne.flags# </li>
 						</cfif>
-						<cfif len(#meta.encumbranceDetail#) is not 0>
-							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">Encumbrances:</span> #replace(meta.encumbranceDetail,";","<br>","all")# </li>
-						</cfif>
 					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">collection_object_id:</span> #collection_object_id# </li>
@@ -3801,6 +3797,192 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getMetadataThread"/>
 	<cfreturn getMetadataThread.output>
+</cffunction>
+
+
+<!--- getEncumbrancesDetailsHTML get a block of html containing metadata about a cataloged item record 
+ @param collection_object_id for the cataloged item for which to return metadata.
+ @return a block of html with cataloged item record metadata, or if none, whitespace only
+ @see getEncumbrancesHTML in specimens/component/functions.cfc for a version without the details 
+   and a remove button.
+--->
+<cffunction name="getEncumbrancesDetailsHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfthread name="getEncumbranceThread">
+		<cfoutput>
+			<cftry>
+				<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
+					<div class="error"> Improper call. Aborting..... </div>
+					<cfabort>
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
+				<!--- check for mask record, hide if mask record ---->
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					FROM DUAL
+				</cfquery>
+				<cfset markedForDeletion = false>
+				<cfif Findnocase("delete records", check.encumbranceDetail)>
+					<cfset markedForDeletion = true>
+				</cfif>
+				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+					<div>Record Masked</div>
+				<cfelseif oneOfUs EQ 0>
+					<div>Some information is redacted</div>
+				<cfelseif oneOfUs EQ 1>
+					<ul class="list-group">
+						<cfif len(#check.encumbranceDetail#) is not 0>
+							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">Encumbrances:</span> #replace(check.encumbranceDetail,";","<br>","all")# </li>
+						<cfelse>
+							<li class="small list-group-item font-italic py-0">None</li>
+						</cfif>
+						<cfif markedForDeletion>
+							<li class="list-group-item pt-0 pb-1">
+								<span class="my-0 d-inline font-weight-lessbold text-danger">Marked for Deletion</span> 
+							</li>
+						</cfif>
+					</ul>
+					<cfif len(#check.encumbranceDetail#) is not 0>
+						<!--- lookup data from flat and filtered flat to show redactions produced by the encumbrances --->
+						<cfquery name="getSpecimen" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT
+								DECODE(filtered_flat.collection_object_id, NULL, 'Yes', 'No') AS record_masked,
+								flat.guid,
+								filtered_flat.guid ff_guid,
+								flat.country,
+								filtered_flat.country ff_country,
+								flat.spec_locality,
+								filtered_flat.spec_locality ff_spec_locality,
+								flat.collectors,
+								filtered_flat.collectors ff_collectors,
+								flat.began_date,
+								filtered_flat.began_date ff_began_date,
+								flat.ended_date,
+								filtered_flat.ended_date ff_ended_date,
+								flat.dec_lat,
+								filtered_flat.dec_lat ff_dec_lat,
+								flat.dec_long,
+								filtered_flat.dec_long ff_dec_long,
+								flat.parts,
+								filtered_flat.parts ff_parts
+							FROM
+								FLAT
+								left join filtered_flat on flat.collection_object_id = filtered_flat.collection_object_id
+							WHERE
+								FLAT.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						</cfquery>
+						<cfquery name="flatstatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT count(*) ct
+							FROM flat
+							WHERE stale_flag = 1
+								AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						</cfquery>
+						<div class="row">
+							<cfif flatstatus.ct GT 0>
+								<div class="col-12">
+									<span class="text-danger font-weight-bold">Note: Update to the external view for this record is pending. The External data shown are stale.</span>
+								</div>
+							</cfif>
+							<div class="col-12">
+								<table class="table table-responsive w-100">
+									<cfloop query="getSpecimen">
+										<tr>
+											<th></th>
+											<th>Internal</th>
+											<th>External</th>
+										<tr>
+										<tr>
+											<td>GUID</td>
+											<td>#getSpecimen.guid#</td>
+											<td>
+												<cfif getSpecimen.record_masked EQ "Yes">
+													<i>Record Masked</i>
+												<cfelse>
+													#getSpecimen.ff_guid#
+												</cfif>
+											</td>
+										</tr>
+										<tr>
+											<td>Locality</td>
+											<td>#getSpecimen.spec_locality#</td>
+											<td>
+												#getSpecimen.ff_spec_locality#
+											</td>
+										</tr>
+										<tr>
+											<td>Country</td>
+											<td>#getSpecimen.country#</td>
+											<td>
+												#getSpecimen.ff_country#
+											</td>
+										</tr>
+										<tr>
+											<td>Collectors</td>
+											<td>#getSpecimen.collectors#</td>
+											<td>
+												#getSpecimen.ff_collectors#
+											</td>
+										</tr>
+										<tr>
+											<td>Date Collected</td>
+											<td>
+												#getSpecimen.began_date#
+												<cfif Len(getSpecimen.ended_date) GT 0 AND  getSpecimen.began_date NEQ getSpecimen.ended_date>
+													/#getSpecimen.ended_date#
+												</cfif>
+											</td>
+											<td>
+												#getSpecimen.ff_began_date#
+												<cfif Len(getSpecimen.ff_ended_date) GT 0 AND  getSpecimen.ff_began_date NEQ getSpecimen.ff_ended_date>
+													/#getSpecimen.ff_ended_date#
+												</cfif>
+											</td>
+										</tr>
+										<tr>
+											<td>Georeference</td>
+											<td>
+												#getSpecimen.dec_lat#
+												<cfif Len(getSpecimen.dec_long) GT 0>
+													/#getSpecimen.dec_long#
+												</cfif>
+											</td>
+											<td>
+												#getSpecimen.ff_dec_lat#
+												<cfif Len(getSpecimen.ff_dec_long) GT 0>
+													/#getSpecimen.ff_dec_long#
+												</cfif>
+											</td>
+										</tr>
+										<tr>
+											<td>Parts</td>
+											<td>#getSpecimen.parts#</td>
+											<td>
+												#getSpecimen.ff_parts#
+											</td>
+										</tr>
+									</cfloop>
+								</table>
+							</div>
+						</div>
+					</cfif>
+				</cfif>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getEncumbranceThread"/>
+	<cfreturn getEncumbranceThread.output>
 </cffunction>
 							
 <!--- getNamedGroupsHTML get a block of html containing a list of named groups that a cataloged item belongs to.
@@ -3991,9 +4173,9 @@ limitations under the License.
 										#agent_name#
 									</cfif>
 								</td>
-								<td> #thisDate# </td>
-								<td> #part_name# </td>
-								<td> #preserve_method# </td>
+								<td>#thisDate# </td>
+								<td>#part_name# </td>
+								<td>#preserve_method# </td>
 								<td>#lotCount# </td>
 							</tr>
 							<cfif len(coll_object_remarks) gt 0>

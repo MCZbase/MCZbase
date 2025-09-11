@@ -352,6 +352,9 @@ limitations under the License.
 			function reloadNamedGroups() { 
 				loadNamedGroups(#getCatalogedItem.collection_object_id#,'namedGroupsCardBody');
 			}
+			function reloadEncumbrances() { 
+				loadEncumbrances(#getCatalogedItem.collection_object_id#,'encumbranceCardBody');
+			}
 		</script>
 		<!--- setup for navigation between specimen records within a result set. --->
 		<cfset navigable = false>
@@ -482,11 +485,12 @@ limitations under the License.
 		</cfif>
 		
 		<!--- Div to hold full page editing dialog --->
-		<div id="InPageEditorDiv" class="container-fluid"></div>
+		<div id="InPageEditorDiv" class="container-fluid bg-paleyellow"></div>
 		<!--- Divs to hold modal edit dialog launched from within above --->
 		<div id="materialSampleIDEditDialog"></div>
 		<!--- Divs to hold modal edit dialog launched from within above --->
 		<div id="materialSampleIDEditDialog1"></div>
+		<div id="encumbranceEditDialog"></div>
 
 		<!--- controls for editing record --->
 		<div class="container-fluid d-none d-xl-block" id="editControlsDiv">
@@ -883,17 +887,25 @@ limitations under the License.
 										</cfif>
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<a href="/Reports/report_printer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs small py-0 anchorFocus mr-5" title="Print Labels for this Specimen">Print Labels</a>
 										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPartsInPage(#collection_object_id#,reloadParts)">
 											Edit
 										</a>
 									</cfif>
 								</h3>
 							</div>
-							<div id="PartsPane" <cfif #partCount# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
-								<div class="card-body px-1" id="partsCardBody">
-									<p class="smaller py-0 mb-0 text-center w-100">
-										<cfif #partCount# gt 5>click once to close and another time to see all #partCount#</cfif>
-									</p>
+							<cfset heightStyle = "">
+							<cfif oneOfUs eq 0 AND partCount GT 5>
+								<!--- for external users, limit the number of parts visible on initial page load --->
+								<cfset heightStyle = "height:300px">
+							</cfif>
+							<div id="PartsPane" style="#heightStyle#" class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
+								<div class="card-body px-0 pb-0 pt-1" id="partsCardBody">
+									<cfif len(heightStyle) GT 0>
+										<p class="smaller py-0 mb-0 text-center w-100">
+											<cfif #partCount# gt 5>Click Parts header once to close and again to see all #partCount#.</cfif>
+										</p>
+									</cfif>
 									<cfset blockparts = getPartsHTML(collection_object_id = "#collection_object_id#")>
 									#blockparts#
 								</div>
@@ -927,7 +939,7 @@ limitations under the License.
 							</div>
 							<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
 								<cfif len(trim(#blockattributes#)) GT 0>
-									<div class="card-body px-1" id="attributesCardBody">
+									<div class="card-body px-0 pb-0 pt-1" id="attributesCardBody">
 										#blockattributes#
 									</div>
 								<cfelse>
@@ -957,7 +969,7 @@ limitations under the License.
 								</h3>
 							</div>
 							<cfset blockrel = getRelationsHTML(collection_object_id = "#collection_object_id#")>
-							<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
+							<div id="RelationsPane" class="collapse show py-1" aria-labelledby="headingRelations" data-parent="##accordionRelations">
 								<div class="card-body" id="relationsCardBody">
 									#blockrel# 
 								</div>
@@ -1014,9 +1026,13 @@ limitations under the License.
 									<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-label="Annotations Pane" aria-controls="AnnotationsPane" data-toggle="collapse" data-target="##AnnotationsPane">
 										Collection Object Annotations
 									</button>
+									<cfset buttonSpacer = "">
+									<cfif listcontainsnocase(session.roles,"manage_specimens") AND hasAnnotations >
+										<cfset buttonSpacer = "mr-5">
+									</cfif>
  									<cfif isdefined("session.username") AND len(session.username) gt 0>
 										<!--- anyone with a username can create annotations --->
-										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 mr-5 anchorFocus" onclick="openAnnotationsDialog('annotationDialog','collection_object',#collection_object_id#,reloadAnnotations);">
+										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 #buttonSpacer# anchorFocus" onclick="openAnnotationsDialog('annotationDialog','collection_object',#collection_object_id#,reloadAnnotations);">
 											Report Bad Data
 										</a>
 									</cfif>
@@ -1182,6 +1198,33 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+					<!------------------- encumbrances  -------------------------------->
+					<cfif #oneOfUs# eq 1>
+						<div class="accordion" id="accordionEncumberance">
+							<div class="card mb-2 bg-light">
+								<div id="EncumbranceDialog"></div>
+								<div class="card-header" id="headingEncumbrance">
+									<h3 class="h5 my-0">
+										<button type="button" role="button" aria-label="Encumbrance Pane" aria-controls="EncumbrancePane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##EncumbrancePane">
+											Encumbrances
+										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditEncumbarancesDialog(#collection_object_id#,'EncumbranceDialog','#guid#',reloadEncumbrances);">
+												Edit
+											</a>
+										</cfif>
+									</h3>
+								</div>
+								<div id="EncumbrancePane" class="collapse show" aria-labelledby="headingEncumbrance" data-parent="##accordionEncumbrance">
+									<cfset encumbranceBlock = getEncumbrancesDetailsHTML(collection_object_id = "#collection_object_id#")>
+									<div class="card-body" id="encumbranceCardBody">
+										#encumbranceBlock#
+									</div>
+								</div>
+							</div>
+						</div>
+					</cfif>
+
 				</div> <!--- end of column 3 --->
 			</div><!--- end of column to hold the two right colums (the two colums if no media) --->
 		</div><!--- end row --->
@@ -1192,8 +1235,8 @@ limitations under the License.
 <cfoutput>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")>
 		<div class="container-fluid">
-			<section class="row" id="QCSection">
-				<div class="col-12 px-2 border bg-light rounded mt-2">
+			<section class="row mx-0" id="QCSection">
+				<div class="col-12 mt-4">
 					<!---  Include the TDWG BDQ TG2 test integration --->
 					<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
 					<script>

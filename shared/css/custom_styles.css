@@ -372,6 +372,10 @@ label {
 .bg-grayish {
 	background-color: #F5F5F5;
 }
+.bg-box-header-gray {
+	background-color:#dee2e6;
+	background-color: #cccccc47;
+}
 .dotted-border {
 	border: 2px dotted #bac5c6 !important;
 }
@@ -665,7 +669,7 @@ BELOW: SPECIMEN DETAIL STYLES
 	background: -webkit-linear-gradient(top, rgba(165, 28, 48, .3) 0%, rgba(160, 77, 88, 0.12) 100%, rgba(109, 0, 25, 0) 100%); /*Chrome10-25,Safari5.1-6*/
 	background: linear-gradient(to bottom, rgba(165, 28, 48, .3) 0%, rgba(160, 77, 88, 0.12) 100%, rgba(109, 0, 25, 0) 100%); /*W3C,IE10+,FF16+,Chrome26+, Opera12+,Safari7+ */
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a51c30', endColorstr='#0a6d0019', GradientType=0); /* IE6-9 */
-	border: 1px solid #aaa;
+	/*border: 1px solid #aaa;*/
 }
 .secondaryType {
 	background-color: white;
@@ -682,7 +686,6 @@ BELOW: SPECIMEN DETAIL STYLES
 .ptype {
 	font-weight: bold;
 	background-color: white;
-	border: 1px solid #ccc;
 	border: 1px solid #aaa;
 	padding: 5px;
 	margin-top: 1rem;
@@ -2282,6 +2285,9 @@ section#mediaSection.accordion {
 }
 .bg-teal {
 	background-color: rgb(199 251 255 / .35) !important;
+}
+.bg-paleyellow {
+	background-color: rgba(255, 238, 199, 0.35) !important
 }
 .height1p2 {
 	height: 1.4rem!important;

@@ -213,14 +213,7 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
  * @param callback a callback function, not currently used.
  */
 function openEditIdentificationsInPage(collection_object_id,callback) { 
-	$('#SpecimenDetailsDiv').hide();
-	$('#editControlsBlock').hide();
-	$("#InPageEditorDiv").addClass("border");
-	$("#InPageEditorDiv").addClass("border-secondary");
-	$("#InPageEditorDiv").addClass("rounded");
-	$("#InPageEditorDiv").addClass("py-2");
-	$("#InPageEditorDiv").addClass("border-3");
-	$("#InPageEditorDiv").html("Loading...");
+	startInPage();
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
@@ -803,6 +796,25 @@ function openEditAnnotationsDialog(collection_object_id,dialogId,guid,callback) 
 	});
 };
 
+function openEditEncumbarancesDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Review and Edit Encumbarances on " + guid;
+	createSpecimenEditDialog(dialogId,title,callback,800,1400);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditEncumrancesHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit encumbrances dialog");
+		},
+		dataType: "html"
+	});
+};
+
 /** closeInPage closes the in-page editor, restoring the SpecimenDetailsDiv and editControlsBlock.
  * @param callback an optional callback function to invoke on closing the in-page editor.
  */
@@ -810,15 +822,24 @@ function closeInPage(callback=null) {
 	$("#InPageEditorDiv").html("");
 	$('#SpecimenDetailsDiv').show();
 	$('#editControlsBlock').show();
-	$("#InPageEditorDiv").removeClass("border");
-	$("#InPageEditorDiv").removeClass("border-secondary");
-	$("#InPageEditorDiv").removeClass("rounded");
-	$("#InPageEditorDiv").removeClass("py-2");
-	$("#InPageEditorDiv").removeClass("border-3");
+	$("#InPageEditorDiv").removeClass("border-bottom");
+	if (typeof executeMultizoom !== 'undefined') {
+		executeMultizoom = true;
+	}
 	if (callback instanceof Function) {
 		callback();
 	}
 }
+
+function startInPage() { 
+	if (typeof executeMultizoom !== 'undefined') {
+		executeMultizoom = false;
+	}
+	$('#SpecimenDetailsDiv').hide();
+	$('#editControlsBlock').hide();
+	$("#InPageEditorDiv").addClass("border-bottom");
+	$("#InPageEditorDiv").html("Loading...");
+} 
 
 /** openEditLocalityInPage loads a form for editing locality and collecting event
  * for a cataloged item into the editControlsBlock of a page hiding the SpecimenDetailsDiv.
@@ -827,14 +848,7 @@ function closeInPage(callback=null) {
  * @param callback a callback function, not currently used.
  */
 function openEditLocalityInPage(collection_object_id,callback) { 
-	$('#SpecimenDetailsDiv').hide();
-	$('#editControlsBlock').hide();
-	$("#InPageEditorDiv").addClass("border");
-	$("#InPageEditorDiv").addClass("border-secondary");
-	$("#InPageEditorDiv").addClass("rounded");
-	$("#InPageEditorDiv").addClass("py-2");
-	$("#InPageEditorDiv").addClass("border-3");
-	$("#InPageEditorDiv").html("Loading...");
+	startInPage();
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
@@ -852,6 +866,30 @@ function openEditLocalityInPage(collection_object_id,callback) {
 	});
 }
 
+/** loadEncumbrances load the encumbrances list (with details) for a cataloged_item
+ * @param collection_object_id the cataloged_item for which to load the encumbrances list
+ * @param targetDivId the id of the div in which to load the encumbrances list without a leading # selector.
+ */
+function loadEncumbrances(collection_object_id,targetDivId) {
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/specimens/component/public.cfc",
+		data: { 
+			method : "getEncumbrancesDetailsHTML",
+			collection_object_id : collection_object_id,
+			containing_block : targetDivId
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"load encumbrances");
+		},
+		dataType: "html"
+	})
+};
+
 /** openEditPartsInPage loads a form for editing parts for a cataloged item into the editControlsBlock 
  * of a page hiding the SpecimenDetailsDiv.
  * Invokes closeInPage() on an error.
@@ -859,14 +897,7 @@ function openEditLocalityInPage(collection_object_id,callback) {
  * @param callback a callback function, not currently used.
  */
 function openEditPartsInPage(collection_object_id,callback) { 
-	$('#SpecimenDetailsDiv').hide();
-	$('#editControlsBlock').hide();
-	$("#InPageEditorDiv").addClass("border");
-	$("#InPageEditorDiv").addClass("border-secondary");
-	$("#InPageEditorDiv").addClass("rounded");
-	$("#InPageEditorDiv").addClass("py-2");
-	$("#InPageEditorDiv").addClass("border-3");
-	$("#InPageEditorDiv").html("Loading...");
+	startInPage();
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
@@ -922,7 +953,7 @@ function openEditCitationsDialog(collection_object_id,dialogId,guid,callback) {
  * @param callback a callback function to invoke on closing the dialog.
  */
 function openEditPartsDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Parts for " + guid;
+	var title = "Parts for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
