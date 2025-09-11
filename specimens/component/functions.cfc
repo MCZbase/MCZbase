@@ -5422,15 +5422,16 @@ limitations under the License.
 			
 			<div class="row">
 				<div class="col-12">
-					<h1 class="h3 mb-1 mt-3 px-1">Edit Existing Citations</h1>
-					<div class="col-12 px-0 pb-3">
+					<div class="col-12 my-0 px-0 pt-1 pb-0">
+					<h2 class="h3 mt-3 px-2 mb-0">Edit Existing Citations</h2>
+				
 						<cfif getCited.recordCount EQ 0>
 							<li>No citations</li>
 						<cfelse>
 							<cfset var i = 0>
 							<cfloop query="getCited">
 								<cfset i = i + 1>
-								<form name="editCitation#i#" id="editCitation#i#">
+								<form name="editCitation#i#" id="editCitation#i#" class="mb-0">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 									<input type="hidden" name="citation_id" value="#citation_id#">
 									<!--- TODO: add citation_id, until then use weak key values --->
@@ -5438,8 +5439,8 @@ limitations under the License.
 									<input type="hidden" name="original_publication_id" id="orig_publication_id#i#" value="#publication_id#">
 									<input type="hidden" name="original_cited_taxon_name_id" id="orig_cited_name_id#i#" value="#cited_taxon_name_id#">
 									<input type="hidden" name="method" value="updateCitation">
-									<div class="row mx-0 border card bg-light px-2 rounded pt-3 pb-2 mb-0">
-										<div class="card-header py-2"><h3>#getCited.publication_title#</h3></div>
+									<div class="border bg-light rounded mx-0 px-0 mt-2 form-row ">
+										<div class="col-12 bg-box-header-gray"><h3>#getCited.publication_title#</h3></div>
 										<div class="col-12 px-1 pb-2">
 											<label for="cit_publication#i#" class="data-entry-label">
 												Publication 
@@ -5448,32 +5449,34 @@ limitations under the License.
 											<input type="hidden" name="publication_id" id="cit_publication_id#i#" value="#publication_id#">
 											<input type="text" class="data-entry-input" id="cit_publication#i#" name="publication" value="#formpublong#">
 										</div>
-										<div class="col-12 col-md-4 px-1 pb-2">
-											<label for="cit_cited_name#i#" class="data-entry-label">Cited Scientific Name</label>
-											<input type="hidden" name="cited_taxon_name_id" id="cit_cited_name_id#i#" value="#cited_taxon_name_id#">
-											<input type="text" class="data-entry-input reqdClr" id="cit_cited_name#i#" name="cited_name" value="#citSciName#" required>
-										</div>
-										<div class="col-12 col-md-3 px-1 pb-2">
-											<label for="cit_type_status#i#" class="data-entry-label">Citation Type</label>
-											<select name="type_status" id="cit_type_status#i#" class="data-entry-select reqdClr" required>
-												<option value=""></option>
-												<cfloop query="ctTypeStatus">
-													<cfif ctTypeStatus.type_status EQ getCited.type_status>
-														<cfset selected = "selected">
-													<cfelse>
-														<cfset selected = "">
-													</cfif>
-													<option value="#ctTypeStatus.type_status#" #selected#>#ctTypeStatus.type_status#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-2 px-1 pb-2">
-											<label for="cit_page#i#" class="data-entry-label">Page ##</label>
-											<input type="text" class="data-entry-input" id="cit_page#i#" name="occurs_page_number" value="#occurs_page_number#">
-										</div>
-										<div class="col-12 col-md-3 px-1 pb-2">
-											<label for="cit_page_uri#i#" class="data-entry-label">Page URI</label>
-											<input type="text" class="data-entry-input" id="cit_page_uri#i#" name="citation_page_uri" value="#citation_page_uri#">
+										<div class="form-row">
+											<div class="col-12 col-md-4 px-1 pb-2">
+												<label for="cit_cited_name#i#" class="data-entry-label">Cited Scientific Name</label>
+												<input type="hidden" name="cited_taxon_name_id" id="cit_cited_name_id#i#" value="#cited_taxon_name_id#">
+												<input type="text" class="data-entry-input reqdClr" id="cit_cited_name#i#" name="cited_name" value="#citSciName#" required>
+											</div>
+											<div class="col-12 col-md-3 px-1 pb-2">
+												<label for="cit_type_status#i#" class="data-entry-label">Citation Type</label>
+												<select name="type_status" id="cit_type_status#i#" class="data-entry-select reqdClr" required>
+													<option value=""></option>
+													<cfloop query="ctTypeStatus">
+														<cfif ctTypeStatus.type_status EQ getCited.type_status>
+															<cfset selected = "selected">
+														<cfelse>
+															<cfset selected = "">
+														</cfif>
+														<option value="#ctTypeStatus.type_status#" #selected#>#ctTypeStatus.type_status#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-2 px-1 pb-2">
+												<label for="cit_page#i#" class="data-entry-label">Page ##</label>
+												<input type="text" class="data-entry-input" id="cit_page#i#" name="occurs_page_number" value="#occurs_page_number#">
+											</div>
+											<div class="col-12 col-md-3 px-1 pb-2">
+												<label for="cit_page_uri#i#" class="data-entry-label">Page URI</label>
+												<input type="text" class="data-entry-input" id="cit_page_uri#i#" name="citation_page_uri" value="#citation_page_uri#">
+											</div>
 										</div>
 										<div class="col-12 col-md-9 px-1 pb-2">
 											<label for="cit_remarks#i#" class="data-entry-label">Remarks (<span id="length_remarks_#i#"></span>)</label>
