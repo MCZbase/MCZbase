@@ -2607,7 +2607,7 @@ limitations under the License.
 								</cfif>
 								<cfset guidLink = "https://mczbase.mcz.harvard.edu/guid/#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#">
 								#variables.coll_object_type# #getCatalog.cataloged_item_type_description# 
-								( occurrenceID: #guidLink# <a href="#guidLink#/json"> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a>)
+								(occurrenceID: #guidLink# <a href="#guidLink#/json"> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a>)
 								<cfquery name="getComponents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT count(specimen_part.collection_object_id) ct, coll_object_type, part_name, count(identification.collection_object_id) identifications
 									FROM 
@@ -2618,7 +2618,7 @@ limitations under the License.
 									GROUP BY coll_object_type, part_name
 									ORDER BY count(identification.collection_object_id) asc, part_name asc
 								</cfquery>
-								<ul>
+								<ul class="px-4 mx-1">
 								<cfloop query="getComponents">
 									<cfset variables.occurrences="">
 									<cfset variables.subtype="">
@@ -2635,7 +2635,7 @@ limitations under the License.
 												and identification.accepted_id_fg=1
 										</cfquery>
 										<cfloop query="getComponentOccurrenceID">
-											<cfset variables.occurrences="(occurrenceID: #getComponentOccurrenceID.assembled_identifier# <a href='#getComponentOccurrenceID.assembled_resolvable#/json'> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a> #getComponentOccurrenceID.sc_name# )">
+											<cfset variables.occurrences="(occurrenceID: #getComponentOccurrenceID.assembled_identifier# <a href='#getComponentOccurrenceID.assembled_resolvable#/json'> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a> #getComponentOccurrenceID.sc_name#)">
 										</cfloop>
 									</cfif>
 									<cfif getComponents.coll_object_type is "SP">
