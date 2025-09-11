@@ -294,7 +294,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<div class="add-form">
-								<div class="add-form-header pt-1 px-2">
+								<div class="add-form-header py-1 px-2">
 									<h2 class="h3 my-0 px-1 pb-1">Edit Remarks</h2>
 								</div>
 								<div class="card-body">
@@ -423,7 +423,7 @@ limitations under the License.
 							</h1>
 							<!--- link existing media to cataloged item --->
 							<div class="add-form float-left">
-								<div class="add-form-header pt-1 px-2 col-12 float-left">
+								<div class="add-form-header py-1 px-2 col-12 float-left">
 									<h2 class="h3 my-0 px-1 pb-1">Relate existing media to #getGuid.guid#</h2>
 								</div>
 								<div class="card-body">
@@ -874,7 +874,7 @@ limitations under the License.
 									</cfif>
 									<!--- identifiable, thus allow add identifications --->
 									<div class="add-form float-left">
-										<div class="add-form-header pt-1 pb-2 px-2 col-12 float-left">
+										<div class="add-form-header py-1 px-2 col-12 float-left">
 											<h2 class="h3 my-0 px-1 pb-1 float-left">Add Identification#target#</h2>
 									
 										</div>
@@ -2855,8 +2855,8 @@ limitations under the License.
 						<div class="col-12">
 							<!--- Add form --->
 							<div class="card add-form mt-3">
-								<div class="add-form-header px-3">
-									<h2 class="h3">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
+								<div class="add-form-header py-1 px-3">
+									<h2 class="h3 pb-1">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								</div>
 								<div class="card-body mt-2 py-0">
 									<form name="addOtherIDForm" id="addOtherIDForm" class="form-row mx-0 px-2 mb-0 pt-1">
@@ -5410,15 +5410,16 @@ limitations under the License.
 			
 			<div class="row">
 				<div class="col-12">
-					<h1 class="h3 mb-1 mt-3 px-1">Edit Existing Citations</h1>
-					<div class="col-12 px-0 pb-3">
+					<div class="col-12 my-0 px-0 pt-1 pb-0">
+					<h2 class="h3 mt-3 px-2 mb-0">Edit Existing Citations</h2>
+				
 						<cfif getCited.recordCount EQ 0>
 							<li>No citations</li>
 						<cfelse>
 							<cfset var i = 0>
 							<cfloop query="getCited">
 								<cfset i = i + 1>
-								<form name="editCitation#i#" id="editCitation#i#">
+								<form name="editCitation#i#" id="editCitation#i#" class="mb-0">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 									<input type="hidden" name="citation_id" value="#citation_id#">
 									<!--- TODO: add citation_id, until then use weak key values --->
@@ -5426,8 +5427,8 @@ limitations under the License.
 									<input type="hidden" name="original_publication_id" id="orig_publication_id#i#" value="#publication_id#">
 									<input type="hidden" name="original_cited_taxon_name_id" id="orig_cited_name_id#i#" value="#cited_taxon_name_id#">
 									<input type="hidden" name="method" value="updateCitation">
-									<div class="row mx-0 border card bg-light px-2 rounded pt-3 pb-2 mb-0">
-										<div class="card-header py-2"><h3>#getCited.publication_title#</h3></div>
+									<div class="border bg-light rounded mx-0 px-0 mt-2 form-row ">
+										<div class="col-12 bg-box-header-gray"><h3>#getCited.publication_title#</h3></div>
 										<div class="col-12 px-1 pb-2">
 											<label for="cit_publication#i#" class="data-entry-label">
 												Publication 
@@ -5436,32 +5437,34 @@ limitations under the License.
 											<input type="hidden" name="publication_id" id="cit_publication_id#i#" value="#publication_id#">
 											<input type="text" class="data-entry-input" id="cit_publication#i#" name="publication" value="#formpublong#">
 										</div>
-										<div class="col-12 col-md-4 px-1 pb-2">
-											<label for="cit_cited_name#i#" class="data-entry-label">Cited Scientific Name</label>
-											<input type="hidden" name="cited_taxon_name_id" id="cit_cited_name_id#i#" value="#cited_taxon_name_id#">
-											<input type="text" class="data-entry-input reqdClr" id="cit_cited_name#i#" name="cited_name" value="#citSciName#" required>
-										</div>
-										<div class="col-12 col-md-3 px-1 pb-2">
-											<label for="cit_type_status#i#" class="data-entry-label">Citation Type</label>
-											<select name="type_status" id="cit_type_status#i#" class="data-entry-select reqdClr" required>
-												<option value=""></option>
-												<cfloop query="ctTypeStatus">
-													<cfif ctTypeStatus.type_status EQ getCited.type_status>
-														<cfset selected = "selected">
-													<cfelse>
-														<cfset selected = "">
-													</cfif>
-													<option value="#ctTypeStatus.type_status#" #selected#>#ctTypeStatus.type_status#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-2 px-1 pb-2">
-											<label for="cit_page#i#" class="data-entry-label">Page ##</label>
-											<input type="text" class="data-entry-input" id="cit_page#i#" name="occurs_page_number" value="#occurs_page_number#">
-										</div>
-										<div class="col-12 col-md-3 px-1 pb-2">
-											<label for="cit_page_uri#i#" class="data-entry-label">Page URI</label>
-											<input type="text" class="data-entry-input" id="cit_page_uri#i#" name="citation_page_uri" value="#citation_page_uri#">
+										<div class="form-row">
+											<div class="col-12 col-md-4 px-1 pb-2">
+												<label for="cit_cited_name#i#" class="data-entry-label">Cited Scientific Name</label>
+												<input type="hidden" name="cited_taxon_name_id" id="cit_cited_name_id#i#" value="#cited_taxon_name_id#">
+												<input type="text" class="data-entry-input reqdClr" id="cit_cited_name#i#" name="cited_name" value="#citSciName#" required>
+											</div>
+											<div class="col-12 col-md-3 px-1 pb-2">
+												<label for="cit_type_status#i#" class="data-entry-label">Citation Type</label>
+												<select name="type_status" id="cit_type_status#i#" class="data-entry-select reqdClr" required>
+													<option value=""></option>
+													<cfloop query="ctTypeStatus">
+														<cfif ctTypeStatus.type_status EQ getCited.type_status>
+															<cfset selected = "selected">
+														<cfelse>
+															<cfset selected = "">
+														</cfif>
+														<option value="#ctTypeStatus.type_status#" #selected#>#ctTypeStatus.type_status#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-2 px-1 pb-2">
+												<label for="cit_page#i#" class="data-entry-label">Page ##</label>
+												<input type="text" class="data-entry-input" id="cit_page#i#" name="occurs_page_number" value="#occurs_page_number#">
+											</div>
+											<div class="col-12 col-md-3 px-1 pb-2">
+												<label for="cit_page_uri#i#" class="data-entry-label">Page URI</label>
+												<input type="text" class="data-entry-input" id="cit_page_uri#i#" name="citation_page_uri" value="#citation_page_uri#">
+											</div>
 										</div>
 										<div class="col-12 col-md-9 px-1 pb-2">
 											<label for="cit_remarks#i#" class="data-entry-label">Remarks (<span id="length_remarks_#i#"></span>)</label>
@@ -9476,8 +9479,8 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12 float-left">
-								<div class="add-form float-left">
-									<div class="add-form-header pt-1 px-2 col-12 float-left">
+								<div class="add-form mt-2 float-left">
+									<div class="add-form-header py-1 px-2 col-12 float-left">
 										<h2 class="h3 my-0 px-1 pb-1">Add to Named Group</h2>
 									</div>
 									<div class="card-body">
@@ -9564,7 +9567,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				underscore_collection.collection_name
 		</cfquery>
 		<cfoutput>
-			<h2 class="h3">Named Groups</h2>
+			<h2 class="h3 px-2">Named Groups</h2>
 			<ul>
 				<cfif getUnderscoreRelations.recordcount EQ 0>
 					<li>None</li>
@@ -9738,7 +9741,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						<div class="row">
 							<div class="col-12">
 								<div class="add-form">
-									<div class="add-form-header pt-1 px-2" id="headingPartAttribute">
+									<div class="add-form-header py-1 px-2" id="headingPartAttribute">
 										<h2 class="h3 my-0 px-1 bp-1">Add New Part Attribute for #guid# #partLabel#</h2>
 									</div>
 									<div class="card-body">
@@ -10622,7 +10625,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 
 							<!--- Add form --->
 							<div class="add-form">
-								<div class="add-form-header pt-1 px-2 col-12 float-left">
+								<div class="add-form-header py-1 px-2 col-12 float-left">
 									<h2 class="h3 my-0 px-1 pb-1">Add dwc:materialSampleID for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num# #getCatalog.part_name# (#getCatalog.preserve_method#)</h2>
 								</div>
 								<div class="card-body mt-2">
@@ -11439,7 +11442,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
-							<table class="table-responsive w-100 mb-3">
+							<table class="table table-responsive w-100 mb-3">
 								<cfloop query="getSpecimen">
 									<tr>
 										<th></th>
@@ -11548,13 +11551,13 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 									encumbrance.remarks
 							</cfquery>
 							<div class="add-form">
-								<div class="add-form-header pt-1 px-2 col-12 float-left">
+								<div class="add-form-header py-1 px-3 col-12 float-left">
 									<h2 class="h3 my-0 px-1 pb-1">Encumber #getSpecimen.guid#</h2>
 								</div>
-								<div class="card-body mt-2">
-									<form name="encumberForm" id="encumberForm" class="form-row mb-0 pt-1">
+								<div class="card-body">
+									<form name="encumberForm" id="encumberForm" class="col-12 px-1 form-row mx-0 mb-0 pt-1">
 										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-										<div class="col-12 mb-2">
+										<div class="col-12 my-2">
 											<label for="encumbrance_id" class="form-label">Select Existing Encumbrance</label>
 											<select name="encumbrance_id" id="encumbrance_id" class="data-entry-select w-100" required>
 												<option value="" disabled selected>Select an existing encumbrance</option>
@@ -11628,11 +11631,11 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							<h2 class="h3 mt-3 px-2 mb-0">Existing Encumberances</h2>
 							<div class="col-12 border bg-light rounded mt-2">
 								<cfif getEncumbrances.recordcount EQ 0>
-									<div class="col-12 py-2">No encumbrances exist for this specimen.</div>
+									<div class="col-12 px-0 py-2">No encumbrances exist for this specimen.</div>
 								</cfif>
 								<cfloop query="getEncumbrances">
-									<div class="col-12 border-bottom py-2 mx-0 form-row bg-box-header-gray">
-										#getEncumbrances.encumbrance_action#
+									<div class="col-12 border-bottom py-2 row bg-box-header-gray">
+										<h3 class="h4 font-weight-bold mb-0">#getEncumbrances.encumbrance_action#</h3>
 									</div>
 									<div class="col-12 px-0 py-1 my-2">
 										<div><strong>Encumbered Date:</strong> #DateFormat(getEncumbrances.encumbered_date,"yyyy-mm-dd")#</div>
@@ -11648,7 +11651,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											<div><strong>Remarks:</strong> #getEncumbrances.remarks#</div>
 										</cfif>
 										<div class="text-end">
-											<button type="button" class="btn btn-danger btn-sm" onclick="removeEncumbrance(#getEncumbrances.encumbrance_id#,#collection_object_id#);">Remove</button>
+											<button type="button" class="btn btn-danger btn-sm mt-2 py-0" onclick="removeEncumbrance(#getEncumbrances.encumbrance_id#,#collection_object_id#);">Remove</button>
 											<output id="encumberForm_feedback_#encumbrance_id#" class="feedback"></output>
 										</div>
 									</div>
