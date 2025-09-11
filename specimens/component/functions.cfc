@@ -4412,8 +4412,9 @@ limitations under the License.
 						<cfelse>
 							<cfset marginSeparator = "">
 						</cfif>
-						<form name="editPart#i#" id="editPart#i#" class="col-12 form-row mb-0">
-							<div class="bg-box-header-gray py-2 row">
+						<div class="col-12 form-row mb-0">
+						<form name="editPart#i#" id="editPart#i#" >
+							<div class="bg-box-header-gray py-2 col-12 row">
 								<input type="hidden" name="part_collection_object_id" value="#getParts.part_id#">
 								<input type="hidden" name="method" value="updatePart">
 								<cfif getParts.is_subsample EQ 1>
@@ -4525,7 +4526,7 @@ limitations under the License.
 								</div>
 							</div>
 						</form>
-
+						
 						<!--- Show identifications if this is a mixed collection --->
 						<cfif getIdentifications.recordcount GT 0>
 							<div class="col-12 small90">
@@ -4610,6 +4611,7 @@ limitations under the License.
 						});
 					</script>
 				</cfloop><!--- end loop over parts --->
+				</div>
 				<script>
 					// Make all textareas with autogrow class be bound to the autogrow function on key up
 					$(document).ready(function() { 
