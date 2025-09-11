@@ -5008,15 +5008,12 @@ limitations under the License.
 	<cfargument name="lot_count" type="string" required="yes">
 	<cfargument name="lot_count_modifier" type="string" required="yes">
 	<cfargument name="coll_object_remarks" type="string" required="yes">
-	<!--- TODO: Update container code --->
-	<cfargument name="parent_container_id" type="string" required="no" default="">
-	<cfargument name="part_container_id" type="string" required="no" default="">
+	<cfargument name="container_id" type="string" required="no" default=""><!--- parent container id --->
+	<cfargument name="container_barcode" type="string" required="no" default=""><!--- parent container barcode --->
 
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<!--- TODO: Unused???  --->
-			<cfset enteredbyid = session.myAgentId>
 
 			<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				UPDATE specimen_part 
@@ -5072,59 +5069,50 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 
-			<!---- TODO: Update container placement code 
-			<cfif len(this.newCode) gt 0>
-				<cfquery name="isCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT
-						container_id, container_type, parent_container_id
-					FROM
-						container
-					WHERE
-						barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisnewCode#">
-						AND container_type <> 'collection object'
-						AND institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
+			<!--- Move Container --->
+			<cfif len(arguments.container_barcode) GT 0>
+				<!--- check if a move is needed --->
+				<cfquery name="getPartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT coll_obj_cont_hist.container_id, 
+						parent_container.container_id as current_parent_container_id
+						parent_container.barcode as current_parent_container_barcode
+					FROM coll_obj_cont_hist 
+						join container on coll_obj_cont_hist.container_id = container.container_id
+						join container parent_container on container.parent_container_id = parent_container.container_id
+					WHERE coll_obj_cont_hist.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#local.newPartCollObjectID#">
+						and coll_obj_cont_hist.current_container_fg = 1
 				</cfquery>
-				<cfif #isCont.container_type# is 'cryovial label'>
-					<cfquery name="upCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE container 
-						SET container_type='cryovial'
-						WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isCont.container_id#">
-							AND container_type='cryovial label'
-					</cfquery>
+				<cfif getPartContainer.recordcount EQ 0>
+					<cfthrow message = "Unable to find the current container of type collection object for the part">
 				</cfif>
-				<cfif isCont.recordcount is 1>
-					<cfquery name="thisCollCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						SELECT
-							container_id
-						FROM
-							coll_obj_cont_hist
-						WHERE
-						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartId#">
-					</cfquery>
-					<cfquery name="upPartBC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE
-							container
-						SET
-							parent_install_date = sysdate,
-							parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isCont.container_id#">
-						WHERE
-							container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisCollCont.container_id#">
-					</cfquery>
-					<cfquery name="upPartPLF" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE container 
-						SET print_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisprint_fg#">
-						WHERE
-							container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isCont.container_id#">
-					</cfquery>
-				</cfif>
-				<cfif isCont.recordcount lt 1>
-					<cfthrow message = "That barcode was not found in the container database. You can only put parts into appropriate pre-existing containers.">
-				</cfif>
-				<cfif #isCont.recordcount# gt 1>
-					<cfthrow message="That barcode has multiple matches, that should not occurr.. Please file a bug report">
+				<cfif arguments.container_id NEQ getPartContainer.current_parent_container_id>
+					<!--- a move is needed --->
+					<cfif len(arguments.container_id) GT 0>
+						<!--- check that provided container exists --->
+						<cfquery name="checkContainerIDBarcode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT container_id 
+							FROM container 
+							WHERE 
+								container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">
+						</cfquery>
+						<cfif checkContainerIDBarcode.recordcount EQ 0>
+							<cfthrow message="Error: Container with provided container_id [#encodeForHtml(arguments.container_id)#] not found.">
+						</cfif>
+						<!--- then place the container into the specified parent --->
+						<!--- trigger MOVE_CONTAINER enforces rules on container movement --->
+						<!--- trigger GET_CONTAINER_HISTORY updates the container_history to reflect the move --->
+						<cfquery name="moveToParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="moveToParent_result">
+							UPDATE container 
+							SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.container_id#">,
+								parent_install_date = sysdate
+							WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPartContainer.container_id#">
+						</cfquery>
+						<cfif moveToParent_result.recordcount NEQ 1>
+							<cfthrow message="Unable to move to parent container, move altered other than 1 container. ">
+						</cfif>
+					</cfif>
 				</cfif>
 			</cfif>
-			--->
 
 			<cftransaction action="commit">
 			<cfset row = StructNew()>
