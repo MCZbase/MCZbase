@@ -3480,7 +3480,7 @@ limitations under the License.
 													AND collecting_event.verbatim_collectors IS NOT NULL
 											</cfquery>
 											<cfif fromCollEvent.recordcount GT 0>
-												<div class="col-12 mt-3 card-body"><h3 class="h4">Verbatim collectors from collecting event:</h3>
+												<div class="col-12 mt-3 px-4 card-body"><h3 class="h4">Verbatim collectors from collecting event:</h3>
 													<cfloop query="fromCollEvent">
 														<div class="small95 my-1">#fromCollEvent.verbatim_collectors#</div>
 													</cfloop>
