@@ -8808,7 +8808,7 @@ limitations under the License.
 										</script>
 									</div>
 								</div>
-								<div id="relationshipDialogList" class="col-12 px-0 float-left mt-4 mb-4">
+								<div id="relationshipDialogList" class="col-12 px-0 float-left my-2">
 									<!--- include output from getRelationshipDetailHTML to show list of relationships for the cataloged item --->
 									<cfset namedGroupList = getRelationshipDetailHTML(collection_object_id = variables.collection_object_id)>
 								</div>
@@ -8891,7 +8891,7 @@ limitations under the License.
 				<cfset inverseRelations = "">
 				<cfset i = 0>
 				<div class="">
-					<h2 class="h3 mt-4 px-2 mb-0">
+					<h2 class="h3 mt-2 px-2 mb-0">
 						Edit Existing Relationship
 					</h2>
 				</div>
