@@ -887,6 +887,7 @@ limitations under the License.
 										</cfif>
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<a href="/Reports/report_printer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs small py-0 anchorFocus mr-5" title="Print Labels for this Specimen">Print Labels</a>
 										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPartsInPage(#collection_object_id#,reloadParts)">
 											Edit
 										</a>
@@ -1025,9 +1026,13 @@ limitations under the License.
 									<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-label="Annotations Pane" aria-controls="AnnotationsPane" data-toggle="collapse" data-target="##AnnotationsPane">
 										Collection Object Annotations
 									</button>
+									<cfset buttonSpacer = "">
+									<cfif listcontainsnocase(session.roles,"manage_specimens") AND hasAnnotations >
+										<cfset buttonSpacer = "mr-5">
+									</cfif>
  									<cfif isdefined("session.username") AND len(session.username) gt 0>
 										<!--- anyone with a username can create annotations --->
-										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 mr-5 anchorFocus" onclick="openAnnotationsDialog('annotationDialog','collection_object',#collection_object_id#,reloadAnnotations);">
+										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 #buttonSpacer# anchorFocus" onclick="openAnnotationsDialog('annotationDialog','collection_object',#collection_object_id#,reloadAnnotations);">
 											Report Bad Data
 										</a>
 									</cfif>

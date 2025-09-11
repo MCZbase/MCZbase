@@ -4371,7 +4371,11 @@ limitations under the License.
 				ORDER BY has_identification asc, part_name
 			</cfquery>
 		
-				<h1 class="h3 pt-3 px-2">Edit Existing Parts (#mPart.recordcount#)</h1>
+				<h1 class="h3 pt-3 px-2">
+					Edit Existing Parts (#mPart.recordcount#)
+					<a href="/findContainer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs btn-secondary" title="Show parts in container heirarchy">View Part Locations</a>
+					<a href="/Reports/report_printer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs btn-secondary" title="Print Labels for this Specimen">Print Labels</a>
+				</h1>
 				<div class="col-12 px-0 my-1 float-left">
 					<cfif mPart.recordCount EQ 0>
 						<div class="bg-light border p-2 m-2">
@@ -9415,6 +9419,11 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					WHERE
 						specimen_part.derived_from_cat_item in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
 				</cfquery>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
+					<div class="w-100 border-bottom">
+						<a href="/findContainer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs btn-secondary" title="Show parts in container heirarchy">View Part Locations</a>
+					</div>
+				</cfif>
 				<cfloop query="getPart">
 					<cfif len(getPart.sampled_from_obj_id) GT 0><cfset subsample=" [subsample] "><cfelse><cfset subsample=""></cfif> 
 					<h3>Container Placement for #getPart.guid# #getPart.part_name# #subsample#</h3>
