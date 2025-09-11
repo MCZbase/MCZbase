@@ -608,9 +608,8 @@ Annotation to report problematic data concerning #annotated.annorecord#
 								<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
 								<h2 class="h3 mt-3 px-2 mb-1">Annotations on #guid#</h2>
 								<div class="col-12 px-0 my-0 py-0 card border-bottom-0">
-									<cfset link = "<a href='/guid/#guid#'>#collection# #cat_num#</a>">
 									<h3 class="h4 card-header">
-										#link# 
+										<a href="/guid/#guid#" target="_blank">#guid#</a>
 										<span class="mx-2">&nbsp; Current Identification: <em>#idAs#</em></span> 
 										<span class="mx-2"> Locality: #higher_geog#: #spec_locality#</span>
 									</h3>
