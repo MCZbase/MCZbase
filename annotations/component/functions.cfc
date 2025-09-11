@@ -619,13 +619,13 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											<div class="form-row mx-0 pb-0 col-12 px-1 table-striped">
 												<input type="hidden" name="method" value="updateAnnotationReview">
 												<input type="hidden" name="annotation_id" value="#annotation_id#">
-												<div class="col-12 col-md-4 pt-2 px-1">
-													<label class="data-entry-label font-weight-bold">Annotator:</label>
-													<div class="px-1"><strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</div>
-												</div>
 												<div class="col-12 col-md-6 pt-2 px-1">
 													<label class="data-entry-label font-weight-bold">Annotation:</label>
 													<div class="px-1">#annotation#</div>
+												</div>
+												<div class="col-12 col-md-4 pt-2 px-1">
+													<label class="data-entry-label font-weight-bold">Annotator:</label>
+													<div class="px-1"><strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</div>
 												</div>
 												<div class="col-12 col-md-2 pt-2 px-1">
 													<label class="data-entry-label font-weight-bold">Motivation:</label>
