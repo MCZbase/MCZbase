@@ -4413,7 +4413,7 @@ limitations under the License.
 							<cfset marginSeparator = "">
 						</cfif>
 						<form name="editPart#i#" id="editPart#i#" class="col-12 form-row mb-0">
-							<div class="form-row mx-0 py-2 #marginSeparator#">
+							<div class="bg-box-header-gray py-2 row">
 								<input type="hidden" name="part_collection_object_id" value="#getParts.part_id#">
 								<input type="hidden" name="method" value="updatePart">
 								<cfif getParts.is_subsample EQ 1>
@@ -4425,6 +4425,8 @@ limitations under the License.
 										<strong>Part:</strong> #parentPart#
 									</div>
 								</cfif>
+							</div>
+							<div class="form-row mx-0 py-2 #marginSeparator#">
 								<div class="col-12 col-md-4 mb-2">
 									<label for="part_name#i#" class="data-entry-label">Part Name</label>
 									<select name="part_name" id="part_name#i#" class="data-entry-select reqdClr" required>
