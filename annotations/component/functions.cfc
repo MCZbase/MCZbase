@@ -617,20 +617,20 @@ Annotation to report problematic data concerning #annotated.annorecord#
 									<cfset i=0>
 									<cfloop query="ci_annotations">
 										<form name="review_annotation_#i#" id="review_annotation_#i#" class="card-body">
-											<div class="form-row border ">
+											<div class="form-row mx-0 pb-0 col-12 px-1">
 												<input type="hidden" name="method" value="updateAnnotationReview">
 												<input type="hidden" name="annotation_id" value="#annotation_id#">
 												<div class="col-12 col-md-4 py-2 px-1">
 													<label class="data-entry-label">Annotator:</label>
-													<span><strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
+													<div class="px-1"><strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</div>
 												</div>
 												<div class="col-12 col-md-6 py-2 px-1">
 													<label class="data-entry-label">Annotation:</label>
-													<span>#annotation#</span>
+													<div class="px-1">#annotation#</div>
 												</div>
 												<div class="col-12 col-md-2 py-2 px-1">
 													<label class="data-entry-label">Motivation</label>
-													<span>#motivation#</span>
+													<div class="px-1">#motivation#</div>
 												</div>
 												<div class="col-12 col-md-2 py-2 px-1">
 													<label for="reviewed_fg" class="data-entry-label">Reviewed?</label>
