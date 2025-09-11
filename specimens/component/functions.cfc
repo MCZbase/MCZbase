@@ -3411,7 +3411,7 @@ limitations under the License.
 										</h2>
 									</div>
 										<!--- Form to add a new collector/preparator --->
-										<form name="addToCollectors" onSubmit="return false;">
+										<form name="addToCollectors" onSubmit="return false;" class="mb-2">
 											<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
 											<input type="hidden" name="method" value="addCollector">
 											<input type="hidden" name="returnformat" value="json">
