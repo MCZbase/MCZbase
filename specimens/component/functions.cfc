@@ -560,6 +560,12 @@ limitations under the License.
 				and media_relationship not like 'ledger %'
 			ORDER by media_relationship
 		</cfquery>
+		<cfquery name="ctmedia_relationship_parts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			SELECT media_relationship 
+			FROM ctmedia_relationship
+			WHERE media_relationship like '% specimen_part'
+			ORDER by media_relationship
+		</cfquery>
 		<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT distinct
 				media_relations.media_relations_id,
@@ -585,8 +591,34 @@ limitations under the License.
 					media_relations.media_relationship = 'shows cataloged_item'
 					OR media_relations.media_relationship = 'documents cataloged_item'
 				)
+			UNION
+			SELECT distinct
+				media_relations.media_relations_id,
+				media_relations.media_relationship,
+				media.media_id,
+				media.media_uri,
+				media.auto_filename,
+				media.preview_uri,
+				media.mime_type,
+				media.media_type,
+				decode(media.mask_media_fg,0,'public',1,'hidden',null,'public','error') as mask_media,
+				mczbase.get_media_descriptor(media.media_id) as media_descriptor,
+				mczbase.get_media_title(media.media_id) as media_title,
+				mczbase.get_medialabel(media.media_id,'aspect') as aspect,
+				mczbase.get_medialabel(media.media_id,'subject') as subject,
+				cataloged_item.collection_object_id as collection_object_id
+			FROM
+				media_relations 
+				join media on media_relations.media_id = media.media_id
+				join specimen_part on media_relations.related_primary_key = specimen_part.collection_object_id
+				join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+			WHERE
+				cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				AND (
+					media_relations.media_relationship = 'shows specimen_part'
+					OR media_relations.media_relationship = 'documents specimen_part'
+				)
 		</cfquery>
-		<!--- TODO: include media with specimen_part relationships --->
 		<cfif getMedia.recordcount EQ 0>
 			<div class="row mx-0">
 				<div class="col-12">
@@ -630,18 +662,32 @@ limitations under the License.
 								</div>
 								<div class="col-12">
 									<input type="hidden" name="media_id" id="media_id_#variables.mpos#">
-									<!--- Change relationship type (between shows and documents cataloged_item) --->
-									<select name="relationship_type" id="relationship_type_#variables.mpos#" size="1" class="reqdClr w-100" required>
-										<cfloop query="ctmedia_relationship">
-											<cfset selected="">
-											<cfif #ctmedia_relationship.media_relationship# EQ getMedia.media_relationship>
-												<cfset selected="selected='selected'">
-											</cfif>
-											<option value="#ctmedia_relationship.media_relationship#" #selected#>#ctmedia_relationship.media_relationship#</option>
-										</cfloop>
-									</select>
+									<cfif getMedia.media_relationship contains "specimen_part">
+										<!--- Change relationship type (between shows and documents specimen_part) --->
+										<select name="relationship_type" id="relationship_type_#variables.mpos#" size="1" class="reqdClr w-100" required>
+											<cfloop query="ctmedia_relationship_parts">
+												<cfset selected="">
+												<cfif #ctmedia_relationship_parts.media_relationship# EQ getMedia.media_relationship>
+													<cfset selected="selected='selected'">
+												</cfif>
+												<option value="#ctmedia_relationship_parts.media_relationship#" #selected#>#ctmedia_relationship_parts.media_relationship#</option>
+											</cfloop>	
+										</select>
+									<cfelse>
+										<!--- Change relationship type (between shows and documents cataloged_item) --->
+										<select name="relationship_type" id="relationship_type_#variables.mpos#" size="1" class="reqdClr w-100" required>
+											<cfloop query="ctmedia_relationship">
+												<cfset selected="">
+												<cfif #ctmedia_relationship.media_relationship# EQ getMedia.media_relationship>
+													<cfset selected="selected='selected'">
+												</cfif>
+												<option value="#ctmedia_relationship.media_relationship#" #selected#>#ctmedia_relationship.media_relationship#</option>
+											</cfloop>
+										</select>
+									</cfif>
 								</div>
 								<div class="col-12">
+									<!--- TODO: backing not yet working on media with specimen_part relationships --->
 									<input type="button" value="Change" class="btn btn-xs btn-primary" id="changeMediaButton_#variables.mpos#"
 										onClick="handleChangeCIMediaRelationshipType($('##relationship_type_#variables.mpos#').val(),'#getMedia.media_id#','#getMedia.collection_object_id#','#getMedia.media_relations_id#',reloadMediaDialogList);">
 								</div>
@@ -2549,10 +2595,10 @@ limitations under the License.
 					</cfif>
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-12 float-left mb-4 px=0 border">
+							<div class="col-12 float-left mb-4 border">
 								<!--- cataloging data --->
-								<h2 class="h3 my-0 px-1 pb-1">Cataloged Item #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
-								<ul>
+								<h2 class="h3 my-0 px-1 py-1">Cataloged Item #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
+								<ul class="px-4 mx-1">
 									<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 										<li>Accession: <a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#">#getCatalog.accn_number#</a></li>
 									<cfelse>
@@ -2581,13 +2627,13 @@ limitations under the License.
 									<cfelse>
 										<li>
 											Encumbrances: None 
-											<button type="button" class="btn btn-xs btn-secondary ml-2"
+											<button type="button" class="btn btn-xs btn-secondary mx-2 py-0"
 												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadEncumbrances); ">Encumber</button>
 										</li>
 									</cfif>
 								</ul>
 							</div>
-							<div class="col-12 float-left mb-4 px=0 border">
+							<div class="col-12 float-left mb-4 pt-2 border">
 								<!--- Type of object --->
 								<cfif getCatalog.coll_object_type is "CI">
 									<cfset variables.coll_object_type="Cataloged Item">
@@ -2605,9 +2651,9 @@ limitations under the License.
 								<cfif checkMixed.ct gt 0>
 									<cfset variables.coll_object_type="#variables.coll_object_type#: Mixed Collection">
 								</cfif>
-								<cfset guidLink = "https://mczbase.mcz.harvard.edu/guid/#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#">
+								<div class="h4 mb-1"><cfset guidLink = "https://mczbase.mcz.harvard.edu/guid/#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#">
 								#variables.coll_object_type# #getCatalog.cataloged_item_type_description# 
-								( occurrenceID: #guidLink# <a href="#guidLink#/json"> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a>)
+								(occurrenceID: #guidLink# <a href="#guidLink#/json"> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a>)</div>
 								<cfquery name="getComponents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT count(specimen_part.collection_object_id) ct, coll_object_type, part_name, count(identification.collection_object_id) identifications
 									FROM 
@@ -2618,7 +2664,7 @@ limitations under the License.
 									GROUP BY coll_object_type, part_name
 									ORDER BY count(identification.collection_object_id) asc, part_name asc
 								</cfquery>
-								<ul>
+								<ul class="px-4 mx-1">
 								<cfloop query="getComponents">
 									<cfset variables.occurrences="">
 									<cfset variables.subtype="">
@@ -2635,7 +2681,7 @@ limitations under the License.
 												and identification.accepted_id_fg=1
 										</cfquery>
 										<cfloop query="getComponentOccurrenceID">
-											<cfset variables.occurrences="(occurrenceID: #getComponentOccurrenceID.assembled_identifier# <a href='#getComponentOccurrenceID.assembled_resolvable#/json'> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a> #getComponentOccurrenceID.sc_name# )">
+											<cfset variables.occurrences="(occurrenceID: #getComponentOccurrenceID.assembled_identifier# <a href='#getComponentOccurrenceID.assembled_resolvable#/json'> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a> #getComponentOccurrenceID.sc_name#)">
 										</cfloop>
 									</cfif>
 									<cfif getComponents.coll_object_type is "SP">
@@ -2651,7 +2697,7 @@ limitations under the License.
 							</div>
 							<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 								<div class="col-12 float-left mb-4 px=0 border">
-									<h1 class="h3 my-1">Change Accession for this cataloged item:</h1>
+									<h2 class="h3 my-1">Change Accession for this cataloged item:</h2>
 									<form name="editAccn" id="editAccnForm">
 										<input type="hidden" name="method" value="updateAccn">
 										<input type="hidden" name="returnformat" value="json">
@@ -2715,7 +2761,7 @@ limitations under the License.
 							<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
 								<div class="col-12 float-left mb-4 px=0 border">
 									<!--- Edit catalog number --->
-									<h1 class="h3 my-1">Change Catalog Number for this cataloged item:</h1>
+									<h2 class="h3 my-2">Change Catalog Number for this cataloged item:</h2>
 									<form name="editCatNumForm" id="editCatNumForm">
 										<input type="hidden" name="method" value="updateCatNumber">
 										<input type="hidden" name="returnformat" value="json">
@@ -2916,6 +2962,11 @@ limitations under the License.
 							<!--- List/Edit existing --->
 							<div class="col-12 my-0 px-0 pt-1 pb-0">
 								<h2 class="h3 mt-3 px-2 mb-0">Edit Existing Identifiers</h1>
+								<cfif getIDs.recordcount eq 0>
+									<ul>
+										<li>No other identifiers exist for this cataloged item.</li>
+									</ul>
+								</cfif>
 								<cfset i=1>
 								<cfloop query="getIDs">
 									<form name="getIDs#i#" id="editOtherIDForm#i#" class="mb-0">
@@ -5604,59 +5655,6 @@ limitations under the License.
 		</cftry>
 	</cfoutput>
 </cffunction>	
-
-
-<!--- Duplicate of function in ajax/functions.cfc TODO: Determine where this goes --->
-<cffunction name="getCatalogedItemCitation" access="remote">
-	<cfargument name="collection_id" type="numeric" required="yes">
-	<cfargument name="theNum" type="string" required="yes">
-	<cfargument name="type" type="string" required="yes">
-	<cfoutput>
-	<cftry>
-		<cfif type is "cat_num">
-			<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select
-					cataloged_item.COLLECTION_OBJECT_ID,
-					cataloged_item.cat_num,
-					scientific_name
-				from
-					cataloged_item,
-					identification
-				where
-					cataloged_item.collection_object_id = identification.collection_object_id AND
-					accepted_id_fg=1 and
-					cat_num='#theNum#' and
-					collection_id=#collection_id#
-			</cfquery>
-		<cfelse>
-			<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				select
-					cataloged_item.COLLECTION_OBJECT_ID,
-					cataloged_item.cat_num,
-					scientific_name
-				from
-					cataloged_item,
-					identification,
-					coll_obj_other_id_num
-				where
-					cataloged_item.collection_object_id = identification.collection_object_id AND
-					cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id AND
-					accepted_id_fg=1 and
-					display_value='#theNum#' and
-					other_id_type='#type#' and
-					collection_id=#collection_id#
-			</cfquery>
-		</cfif>
-		<cfcatch>
-			<cfset result = querynew("collection_object_id,scientific_name")>
-			<cfset temp = queryaddrow(result,1)>
-			<cfset temp = QuerySetCell(result, "collection_object_id", "-1", 1)>
-			<cfset temp = QuerySetCell(result, "scientific_name", "#cfcatch.Message# #cfcatch.Detail#", 1)>
-		</cfcatch>
-	</cftry>
-	<cfreturn result>
-	</cfoutput>
-</cffunction>
 
 <!--- 
  getAttributeCodeTables lookup value and unit code tables for a given attribute type.
@@ -8890,14 +8888,14 @@ limitations under the License.
 						and ctrel.rel_type <> 'functional'
 				)
 			</cfquery>
+			<div class="">
+				<h2 class="h3 mt-2 px-2 mb-0">
+					Edit Existing Relationships
+				</h2>
+			</div>
 			<cfif relns.recordcount GT 0>
 				<cfset inverseRelations = "">
 				<cfset i = 0>
-				<div class="">
-					<h2 class="h3 mt-2 px-2 mb-0">
-						Edit Existing Relationship
-					</h2>
-				</div>
 			
 				<cfloop query="relns">
 					<div class="row mx-0 border bg-light py-2">
@@ -9009,9 +9007,9 @@ limitations under the License.
 					}
 				</script>
 			<cfelse>
-				<div class="row mx-0 mt-3">
-					<strong>No Relationships to this cataloged item</strong>
-				</div>
+				<ul>
+					<li>No Relationships to this cataloged item</li>
+				</ul>
 			</cfif>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -9603,7 +9601,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				underscore_collection.collection_name
 		</cfquery>
 		<cfoutput>
-			<h2 class="h3 px-2">Named Groups</h2>
+			<h2 class="h3 px-0 px-md-2">Named Groups</h2>
 			<ul>
 				<cfif getUnderscoreRelations.recordcount EQ 0>
 					<li>None</li>
@@ -11603,7 +11601,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											</select>
 										</div>
 										<div class="col-12 mb-2">
-											<button type="button" class="btn btn-xs btn-primary" onclick="submitEncumberForm();">Add to Encumbrance</button>
+											<button type="button" class="btn btn-xs btn-primary mb-2 mb-md-0" onclick="submitEncumberForm();">Add to Encumbrance</button>
 											<output id="encumberForm_feedback" class="feedback"></output>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
 												<a class="btn btn-xs btn-primary float-right" target="_blank" href="/Encumbrances.cfm?action=create">Create New Encumbrance</a>
