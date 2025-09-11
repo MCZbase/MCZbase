@@ -294,7 +294,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<div class="add-form">
-								<div class="add-form-header pt-1 px-2">
+								<div class="add-form-header py-1 px-2">
 									<h2 class="h3 my-0 px-1 pb-1">Edit Remarks</h2>
 								</div>
 								<div class="card-body">
@@ -423,7 +423,7 @@ limitations under the License.
 							</h1>
 							<!--- link existing media to cataloged item --->
 							<div class="add-form float-left">
-								<div class="add-form-header pt-1 px-2 col-12 float-left">
+								<div class="add-form-header py-1 px-2 col-12 float-left">
 									<h2 class="h3 my-0 px-1 pb-1">Relate existing media to #getGuid.guid#</h2>
 								</div>
 								<div class="card-body">
@@ -874,7 +874,7 @@ limitations under the License.
 									</cfif>
 									<!--- identifiable, thus allow add identifications --->
 									<div class="add-form float-left">
-										<div class="add-form-header pt-1 pb-2 px-2 col-12 float-left">
+										<div class="add-form-header py-1 px-2 col-12 float-left">
 											<h2 class="h3 my-0 px-1 pb-1 float-left">Add Identification#target#</h2>
 									
 										</div>
@@ -2855,8 +2855,8 @@ limitations under the License.
 						<div class="col-12">
 							<!--- Add form --->
 							<div class="card add-form mt-3">
-								<div class="add-form-header px-3">
-									<h2 class="h3">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
+								<div class="add-form-header py-1 px-3">
+									<h2 class="h3 pb-1">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								</div>
 								<div class="card-body mt-2 py-0">
 									<form name="addOtherIDForm" id="addOtherIDForm" class="form-row mx-0 px-2 mb-0 pt-1">
@@ -9750,7 +9750,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						<div class="row">
 							<div class="col-12">
 								<div class="add-form">
-									<div class="add-form-header pt-1 px-2" id="headingPartAttribute">
+									<div class="add-form-header py-1 px-2" id="headingPartAttribute">
 										<h2 class="h3 my-0 px-1 bp-1">Add New Part Attribute for #guid# #partLabel#</h2>
 									</div>
 									<div class="card-body">
@@ -10634,7 +10634,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 
 							<!--- Add form --->
 							<div class="add-form">
-								<div class="add-form-header pt-1 px-2 col-12 float-left">
+								<div class="add-form-header py-1 px-2 col-12 float-left">
 									<h2 class="h3 my-0 px-1 pb-1">Add dwc:materialSampleID for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num# #getCatalog.part_name# (#getCatalog.preserve_method#)</h2>
 								</div>
 								<div class="card-body mt-2">
