@@ -1857,8 +1857,8 @@
 				where
 					cataloged_item.collection_object_id = identification.collection_object_id AND
 					accepted_id_fg=1 and
-					cat_num='#theNum#' and
-					collection_id=#collection_id#
+					catnum = <cfqueryparam value="#theNum#" cfsqltype="CF_SQL_VARCHAR"> and
+					collection_id = <cfqueryparam value="#collection_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
 		<cfelse>
 			<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1874,9 +1874,9 @@
 					cataloged_item.collection_object_id = identification.collection_object_id AND
 					cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id AND
 					accepted_id_fg=1 and
-					display_value='#theNum#' and
-					other_id_type='#type#' and
-					collection_id=#collection_id#
+					display_value = <cfqueryparam value="#theNum#" cfsqltype="CF_SQL_VARCHAR"> and
+					other_id_type = <cfqueryparam value="#type#" cfsqltype="CF_SQL_VARCHAR"> and
+					collection_id = <cfqueryparam value="#collection_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
 		</cfif>
 		<cfcatch>
