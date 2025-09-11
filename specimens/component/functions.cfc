@@ -8808,7 +8808,7 @@ limitations under the License.
 										</script>
 									</div>
 								</div>
-								<div id="relationshipDialogList" class="col-12 float-left mt-4 mb-4">
+								<div id="relationshipDialogList" class="col-12 px-0 float-left mt-4 mb-4">
 									<!--- include output from getRelationshipDetailHTML to show list of relationships for the cataloged item --->
 									<cfset namedGroupList = getRelationshipDetailHTML(collection_object_id = variables.collection_object_id)>
 								</div>
@@ -8937,7 +8937,7 @@ limitations under the License.
 										<label class="data-entry-label" for="remarks_#i#" >Remarks:</label>
 										<input class="data-entry-input" type="text" id="remarks_#i#" name="biol_indiv_relation_remarks" value="#biol_indiv_relation_remarks#">
 									</div>
-									<div class="col-12 col-md-auto px-2">
+									<div class="col-12 col-md-auto px-0">
 										<input type="button" id="updateButton_#i#" value="Update" class="btn btn-xs btn-secondary mt-2" onclick="doSave('#i#')">
 									</div>
 									<div class="col-12 col-md-auto px-2">
