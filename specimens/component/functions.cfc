@@ -2313,7 +2313,6 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-
 <cffunction name="getMediaTable" returntype="query" access="remote">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfset r=1>
