@@ -607,7 +607,7 @@ limitations under the License.
 				join specimen_part on media_relations.related_primary_key = specimen_part.collection_object_id
 				join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
 			WHERE
-				media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				AND (
 					media_relations.media_relationship = 'shows specimen_part'
 					OR media_relations.media_relationship = 'documents specimen_part'
