@@ -4536,7 +4536,7 @@ limitations under the License.
 								<button class="btn btn-xs btn-secondary py-0 mx-3" onclick="editPartAttributes('#getParts.part_id#',reloadPartsAndSection)">Edit</button>
 							<cfelse>
 								<div class="col-12 px-1 small90">
-									<strong>Part Attributes (#getAttrributes.recordcount#):</strong>
+									<strong>Part Attributes (#getAttributes.recordcount#):</strong>
 									<button class="btn btn-xs btn-secondary px-2 py-0 mx-2" onclick="editPartAttributes('#getParts.part_id#',reloadPartsAndSection)">Edit</button>
 									<cfloop query="getAttrributes">
 										<div class="">
