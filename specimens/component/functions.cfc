@@ -585,8 +585,34 @@ limitations under the License.
 					media_relations.media_relationship = 'shows cataloged_item'
 					OR media_relations.media_relationship = 'documents cataloged_item'
 				)
+			UNION
+			SELECT distinct
+				media_relations.media_relations_id,
+				media_relations.media_relationship,
+				media.media_id,
+				media.media_uri,
+				media.auto_filename,
+				media.preview_uri,
+				media.mime_type,
+				media.media_type,
+				decode(media.mask_media_fg,0,'public',1,'hidden',null,'public','error') as mask_media,
+				mczbase.get_media_descriptor(media.media_id) as media_descriptor,
+				mczbase.get_media_title(media.media_id) as media_title,
+				mczbase.get_medialabel(media.media_id,'aspect') as aspect,
+				mczbase.get_medialabel(media.media_id,'subject') as subject,
+				cataloged_item.collection_object_id as collection_object_id
+			FROM
+				media_relations 
+				join media on media_relations.media_id = media.media_id
+				join specimen part on media_relations.related_primary_key = specimen_part.collection_object_id
+				join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+			WHERE
+				media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				AND (
+					media_relations.media_relationship = 'shows specimen_part'
+					OR media_relations.media_relationship = 'documents specimen_part'
+				)
 		</cfquery>
-		<!--- TODO: include media with specimen_part relationships --->
 		<cfif getMedia.recordcount EQ 0>
 			<div class="row mx-0">
 				<div class="col-12">
@@ -642,6 +668,7 @@ limitations under the License.
 									</select>
 								</div>
 								<div class="col-12">
+									<!--- TODO: confirm working on media with specimen_part relationships --->
 									<input type="button" value="Change" class="btn btn-xs btn-primary" id="changeMediaButton_#variables.mpos#"
 										onClick="handleChangeCIMediaRelationshipType($('##relationship_type_#variables.mpos#').val(),'#getMedia.media_id#','#getMedia.collection_object_id#','#getMedia.media_relations_id#',reloadMediaDialogList);">
 								</div>
