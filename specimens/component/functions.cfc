@@ -9603,7 +9603,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				underscore_collection.collection_name
 		</cfquery>
 		<cfoutput>
-			<h2 class="h3 px-2">Named Groups</h2>
+			<h2 class="h3 px-0 px-md-2">Named Groups</h2>
 			<ul>
 				<cfif getUnderscoreRelations.recordcount EQ 0>
 					<li>None</li>
