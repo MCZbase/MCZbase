@@ -4559,7 +4559,7 @@ limitations under the License.
 							<cfelse>
 								<div class="col-12 px-2 small90">
 									<strong>Part Attributes (#getAttributes.recordcount#):</strong>
-									<button class="btn btn-xs btn-secondary px-2 py-0 mx-2" onclick="editPartAttributes('#getParts.part_id#',reloadPartsAndSection)">Edit</button>
+									<button class="btn btn-xs btn-secondary pl-2 py-0 mx-2" onclick="editPartAttributes('#getParts.part_id#',reloadPartsAndSection)">Edit</button>
 									<cfloop query="getAttributes">
 										<div class="">
 											#getAttributes.attribute_type# = #getATtributes.attribute_value#
@@ -8726,17 +8726,17 @@ limitations under the License.
 				<div id="relationshipEditorDiv">
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-12 float-left">
-								<div class="add-form float-left">
-									<div class="add-form-header pt-1 px-2 col-12 float-left">
+							<div class="col-12">
+								<div class="add-form">
+									<div class="add-form-header pt-1 px-2">
 										<h2 class="h3 my-0 px-1 pb-1">Add New Relationship to #thisCollId.institution_acronym#:#thisCollId.collection_cde#:#thisCollId.cat_num#</h2>
 									</div>
 									<div class="card-body">
-										<form name="newRelationshipForm" id="newRelationshipForm">
+										<form name="newRelationshipForm" id="newRelationshipForm" class="mb-0">
 											<input type="hidden" name="collection_object_id" value="#thisCollId.collection_object_id#">
 											<input type="hidden" name="method" value="createBiolIndivRelation">
-											<div class="row mx-0 pb-0">
-												<div class="col-12 col-md-6 px-1 mt-3">
+											<div class="row mx-0 pb-2">
+												<div class="col-12 col-md-6 px-1 pb-2">
 													<label class="data-entry-label">Relationship:</label>
 													<select name="biol_indiv_relationship" size="1" class="reqdClr data-entry-select" required>
 														<cfloop query="ctReln">
@@ -8744,19 +8744,19 @@ limitations under the License.
 														</cfloop>
 													</select>
 												</div>
-												<div class="col-12 col-md-6 px-1 mt-3">
+												<div class="col-12 col-md-6 px-1 pb-2">
 													<input type="hidden" id="target_collection_object_id" name="target_collection_object_id" value="">
 													<label class="data-entry-label" for="target_guid">Related Cataloged Item:</label>
 													<input type="text" id="target_guid" name="target_guid" size="50" class="data-entry-input reqdClr" required>
 												</div>
-												<div class="col-12 col-md-12 px-1 mt-3">
+												<div class="col-12 col-md-12 px-1 pb-2">
 													<label class="data-entry-label">Remarks:</label>
 													<input type="text" id="" name="biol_indiv_relation_remarks" size="50" class="data-entry-input">
 												</div>
-												<div class="col-12 col-md-3 px-1">
+												<div class="col-12 col-md-3 px-1 pb-2 mt-2">
 													<input type="submit" id="createRelButton" value="Add Relationship" class="btn btn-xs btn-primary">
 												</div>
-												<div class="col-12 col-md-9 px-1 mt-3">
+												<div class="col-12 col-md-9 px-1 pb-2">
 													<output id="relationshipFormOutput"></output>
 												</div>
 											</div>
