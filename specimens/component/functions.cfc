@@ -3485,7 +3485,7 @@ limitations under the License.
 											<cfif fromCollEvent.recordcount GT 0>
 												<div class="col-12 mt-3 px-4 card-body"><h3 class="h4">Verbatim collectors from collecting event:</h3>
 													<cfloop query="fromCollEvent">
-														<div class="small95 my-1">#fromCollEvent.verbatim_collectors#</div>
+														<div class="small95 font-weight-bold my-1">#fromCollEvent.verbatim_collectors#</div>
 													</cfloop>
 												</div>
 											</cfif>
@@ -3653,7 +3653,7 @@ limitations under the License.
 			</cfif>
 			<cfset i=1>
 			<cfloop query="getColls">
-				<div class="border border-secondary p-3 my-1">
+				<div class="border border-secondary pt-2 pb-1 px-3 my-1">
 					<form name="colls#i#" id="colls#i#" class="w-100" onSubmit="return false;">
 						<input type="hidden" name="method" id="coll_method_#i#" value="">
 						<input type="hidden" name="returnformat" value="json">
