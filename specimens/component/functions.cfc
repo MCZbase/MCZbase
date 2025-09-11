@@ -4308,7 +4308,6 @@ limitations under the License.
 					coll_object.lot_count,
 					nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) display_lot_count,
 					coll_object_remarks part_remarks,
-					/* Replace IIF with CASE WHEN for the following computed columns */
 					CASE
 					  WHEN sampled_from_obj_id IS NULL THEN 1
 					  ELSE 2
