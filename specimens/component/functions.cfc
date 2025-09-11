@@ -4317,7 +4317,7 @@ limitations under the License.
 					  ELSE sampled_from_obj_id
 					END as parent_id_for_sort,
 					CASE
-					  WHEN (identification.collection_object_id IS NOT NULL AND parent_identification.collection_object_id IS NOT NULL) THEN 2 
+					  WHEN (identification.collection_object_id IS NOT NULL OR parent_identification.collection_object_id IS NOT NULL) THEN 2 
 					  ELSE 1
 					END as parent_sort_group
 				FROM
