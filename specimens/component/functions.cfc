@@ -11451,7 +11451,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
-							<table class="table-responsive w-100 mb-3">
+							<table class="table table-responsive w-100 mb-3">
 								<cfloop query="getSpecimen">
 									<tr>
 										<th></th>
@@ -11564,7 +11564,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 									<h2 class="h3 my-0 px-1 pb-1">Encumber #getSpecimen.guid#</h2>
 								</div>
 								<div class="card-body">
-									<form name="encumberForm" id="encumberForm" class="col-12 px-2 form-row mx-0 mb-0 pt-1">
+									<form name="encumberForm" id="encumberForm" class="col-12 px-1 form-row mx-0 mb-0 pt-1">
 										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 										<div class="col-12 my-2">
 											<label for="encumbrance_id" class="form-label">Select Existing Encumbrance</label>

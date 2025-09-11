@@ -3890,7 +3890,7 @@ limitations under the License.
 								</div>
 							</cfif>
 							<div class="col-12">
-								<table class="table-responsive w-100">
+								<table class="table table-responsive w-100">
 									<cfloop query="getSpecimen">
 										<tr>
 											<th></th>
