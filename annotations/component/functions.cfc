@@ -620,19 +620,19 @@ Annotation to report problematic data concerning #annotated.annorecord#
 											<div class="form-row border ">
 												<input type="hidden" name="method" value="updateAnnotationReview">
 												<input type="hidden" name="annotation_id" value="#annotation_id#">
-												<div class="col-12 col-md-4">
+												<div class="col-12 col-md-4 py-2 px-1">
 													<label class="data-entry-label">Annotator:</label>
 													<span><strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
 												</div>
-												<div class="col-12 col-md-6">
+												<div class="col-12 col-md-6 py-2 px-1">
 													<label class="data-entry-label">Annotation:</label>
 													<span>#annotation#</span>
 												</div>
-												<div class="col-12 col-md-2">
+												<div class="col-12 col-md-2 py-2 px-1">
 													<label class="data-entry-label">Motivation</label>
 													<span>#motivation#</span>
 												</div>
-												<div class="col-12 col-md-2">
+												<div class="col-12 col-md-2 py-2 px-1">
 													<label for="reviewed_fg" class="data-entry-label">Reviewed?</label>
 													<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select">
 														<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
@@ -643,13 +643,13 @@ Annotation to report problematic data concerning #annotated.annorecord#
 														Last review by #reviewer#</span>
 													</cfif>
 												</div>
-												<div class="col-12 col-md-8">
-														<label for="reviewer_comment" class="data-entry-label">Review Comments</label>
-														<textarea name="reviewer_comment" id="reviewer_comment" class="data-entry-textarea autogrow mb-1" maxlength="4000" >#reviewer_comment#</textarea>
+												<div class="col-12 col-md-8 py-2 px-1">
+													<label for="reviewer_comment" class="data-entry-label">Review Comments</label>
+													<textarea name="reviewer_comment" id="reviewer_comment" class="data-entry-textarea autogrow mb-1" maxlength="4000" >#reviewer_comment#</textarea>
 												</div>
 												<div class="col-12 col-md-2">
-														<input type="submit" value="Save Review" class="btn btn-xs btn-primary mt-3 mb-2">
-														<output id="result_annotation_#i#"></output>
+													<input type="submit" value="Save Review" class="btn btn-xs btn-primary mt-3 mb-2">
+													<output id="result_annotation_#i#"></output>
 												</div>
 											</div>
 										</form>
