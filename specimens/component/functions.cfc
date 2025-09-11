@@ -11643,8 +11643,8 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 									<div class="col-12 py-2">No encumbrances exist for this specimen.</div>
 								</cfif>
 								<cfloop query="getEncumbrances">
-									<div class="col-12 border-bottom py-2 mx-0 form-row bg-box-header-gray">
-										#getEncumbrances.encumbrance_action#
+									<div class="col-12 border-bottom py-2 row bg-box-header-gray">
+										<h3 class="h4">#getEncumbrances.encumbrance_action#</h3>
 									</div>
 									<div class="col-12 px-0 py-1 my-2">
 										<div><strong>Encumbered Date:</strong> #DateFormat(getEncumbrances.encumbered_date,"yyyy-mm-dd")#</div>
