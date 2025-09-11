@@ -4375,7 +4375,7 @@ limitations under the License.
 				<h1 class="h3 pt-3 px-2">
 					Edit Existing Parts (#mPart.recordcount#)
 					<a href="/findContainer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs btn-secondary" title="Show parts in container heirarchy">View Part Locations</a>
-					<a href="/report_printer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs btn-secondary" title="Print Labels for this Specimen">Print Labels</a>
+					<a href="/Reports/report_printer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs btn-secondary" title="Print Labels for this Specimen">Print Labels</a>
 				</h1>
 				<div class="col-12 px-0 my-1 float-left">
 					<cfif mPart.recordCount EQ 0>
