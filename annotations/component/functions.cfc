@@ -608,15 +608,14 @@ Annotation to report problematic data concerning #annotated.annorecord#
 								<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
 								<h2 class="h3 mt-3 px-2 mb-1">Annotations on #guid#</h2>
 								<div class="col-12 px-0 my-0 pt-1 pb-0 card">
-									<cfset link = "<a href='/guid/#guid#'>#collection# #cat_num#</a>">
 									<h3 class="h4 card-header">
-										#link# 
+										<a href="/guid/#guid#" target="_blank">#guid#</a>
 										<span class="mr-3">&nbsp; Current Identification: <em>#idAs#</em></span> 
 										<span class="ml-1"> Locality: #higher_geog#: #spec_locality#</span>
 									</h3>
 									<cfset i=0>
 									<cfloop query="ci_annotations">
-										<form name="review_annotation_#i#" id="review_annotation_#i#" class="card-body">
+										<form name="review_annotation_#i#" id="review_annotation_#i#" class="card-body border-top">
 											<div class="form-row mx-0 pb-0 col-12 px-1">
 												<input type="hidden" name="method" value="updateAnnotationReview">
 												<input type="hidden" name="annotation_id" value="#annotation_id#">
