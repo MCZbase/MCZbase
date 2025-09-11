@@ -4289,6 +4289,44 @@ limitations under the License.
 				WHERE collection_cde = <cfqueryparam value="#getCatItem.collection_cde#" cfsqltype="CF_SQL_VARCHAR">
 				ORDER BY preserve_method
 			</cfquery>
+			<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT distinct
+					specimen_part.collection_object_id part_id,
+    				CASE
+    				    WHEN identification.collection_object_id IS NOT NULL THEN 1
+       				 ELSE 0
+    				END AS has_identification,
+					pc.label label,
+					pc.container_id container_id,
+					nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
+					specimen_part.part_name as base_part_name,
+					specimen_part.preserve_method,
+					sampled_from_obj_id,
+					coll_object.COLL_OBJ_DISPOSITION part_disposition,
+					coll_object.CONDITION part_condition,
+					coll_object.lot_count_modifier,
+					coll_object.lot_count,
+					nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) display_lot_count,
+					coll_object_remarks part_remarks,
+					IIF(sampled_from_obj_id IS NULL, 1, 2) as is_subsample,
+					IIF(sampled_from_obj_id IS NULL, part_id, sampled_from_obj_id) as parent_id_for_sort,
+					IIF(sampled_from_obj_id IS NULL, IIF(has_identification = 1, 2, 1), 3) as parent_sort_group
+				FROM
+					specimen_part
+					JOIN coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
+					LEFT JOIN coll_object_remark on coll_object.collection_object_id=coll_object_remark.collection_object_id
+					LEFT JOIN coll_obj_cont_hist on coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id
+					left join container oc on coll_obj_cont_hist.container_id=oc.container_id
+					left join container pc on oc.parent_container_id=pc.container_id
+    				LEFT JOIN identification ON specimen_part.collection_object_id = identification.collection_object_id
+				WHERE
+					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+				ORDER BY
+					parent_sort_group, 
+					parent_id_for_sort, 
+					is_subsample,
+					part_name
+			</cfquery>
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT
 					specimen_part.collection_object_id part_id,
@@ -4499,6 +4537,22 @@ limitations under the License.
 								</cfif>
 
 								<!--- Show part attributes --->
+								<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+									SELECT
+										attribute_type,
+										attribute_value,
+										attribute_units,
+										determined_date,
+										attribute_remark,
+										agent_name
+									FROM
+										specimen_part_attribute 
+										left join preferred_agent_name on specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id
+									WHERE
+										part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+									ORDER BY
+										attribute_type, determined_date
+								</cfquery>
 								<cfquery name="patt" dbtype="query">
 									SELECT
 										attribute_type,
