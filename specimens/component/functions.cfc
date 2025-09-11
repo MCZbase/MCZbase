@@ -11636,17 +11636,17 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							ORDER BY 
 								encumbrance.made_date DESC
 						</cfquery>
-						<div class="col-12 my-0 px-0 pt-1 pb-0">
+						<div class="col-12 my-0 pt-1 pb-0">
 							<h2 class="h3 mt-3 px-2 mb-0">Existing Encumberances</h2>
-							<div class="border bg-light rounded mx-0 px-0 mt-2 form-row">
+							<div class="col-12 border bg-light rounded mt-2">
 								<cfif getEncumbrances.recordcount EQ 0>
-									<div class="p-2">No encumbrances exist for this specimen.</div>
+									<div class="col-12 py-2">No encumbrances exist for this specimen.</div>
 								</cfif>
 								<cfloop query="getEncumbrances">
 									<div class="col-12 border-bottom py-2 mx-0 form-row bg-box-header-gray">
 										#getEncumbrances.encumbrance_action#
 									</div>
-									<div class="border rounded p-1 mb-1">
+									<div class="col-12 px-0 py-1 my-2">
 										<div><strong>Encumbered Date:</strong> #DateFormat(getEncumbrances.encumbered_date,"yyyy-mm-dd")#</div>
 										<div><strong>Encumbering Agent:</strong> #getEncumbrances.encumbering_agent#</div>
 										<cfif Len(getEncumbrances.expiration_date) GT 0>
