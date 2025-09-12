@@ -1248,11 +1248,11 @@ limitations under the License.
 					</script>
 					<input type="button" value="Run Quality Control Tests" class="btn btn-secondary btn-xs" onClick=" runTests(); ">
 					<!---  Scientific Name tests --->
-					<div id="NameDQDiv"></div>
+					<div id="NameDQDiv" class="mt-3"></div>
 					<!---  Spatial tests --->
-					<div id="SpatialDQDiv"></div>
+					<div id="SpatialDQDiv" class="mt-3"></div>
 					<!---  Temporal tests --->
-					<div id="EventDQDiv"></div>
+					<div id="EventDQDiv" class="mt-3"></div>
 				</div>					
 			</section><!-- end QCSection --->
 		</div>
