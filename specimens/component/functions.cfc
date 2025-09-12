@@ -2489,7 +2489,7 @@ limitations under the License.
 						<div class="row">
 							<div class="col-12 float-left mb-4 border">
 								<!--- cataloging data --->
-								<h2 class="h3 my-0 px-1 py-1">Cataloged Item #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
+								<h2 class="h3 my-0 px-1 pt-2 pb-1">Cataloged Item #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								<ul class="px-4 mx-1">
 									<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 										<li>Accession: <a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#">#getCatalog.accn_number#</a></li>
@@ -2525,7 +2525,7 @@ limitations under the License.
 									</cfif>
 								</ul>
 							</div>
-							<div class="col-12 float-left mb-4 pt-2 border">
+							<div class="col-12 float-left mt-3 mb-4 pt-2 border">
 								<!--- Type of object --->
 								<cfif getCatalog.coll_object_type is "CI">
 									<cfset variables.coll_object_type="Cataloged Item">
