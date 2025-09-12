@@ -2653,7 +2653,7 @@ limitations under the License.
 							<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
 								<div class="col-12 float-left mb-3 border">
 									<!--- Edit catalog number --->
-									<h2 class="h3 my-2">Change Catalog Number for this cataloged item:</h2>
+									<h2 class="h3 my-0 py-2">Change Catalog Number for this cataloged item:</h2>
 									<form name="editCatNumForm" id="editCatNumForm">
 										<input type="hidden" name="method" value="updateCatNumber">
 										<input type="hidden" name="returnformat" value="json">
