@@ -5986,7 +5986,7 @@ limitations under the License.
 					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 					<input type="hidden" name="attribute_id" value="#attribute_id#">
 					<input type="hidden" name="method" value="updateAttribute">
-					<div class="row mx-0 border bg-light py-2">
+					<div class="row mx-0 border bg-light px-2 py-2">
 						<div class="col-12 col-md-2 px-1 mt-1 pb-2">
 							<label for="att_name#i#" class="data-entry-label">Name</label>
 							<select class="data-entry-select reqdClr" id="att_name#i#" name="attribute_type" required>
