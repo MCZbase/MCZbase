@@ -3510,7 +3510,7 @@ limitations under the License.
 										</script>
 									</div><!--- end card-body for add form --->
 								</div><!--- end add-form --->
-								<div id="collectorsDialogList" class="col-12 px-0 px-md-3 float-left mt-4 mb-4">
+								<div id="collectorsDialogList" class="col-12 px-0 px-md-3 float-left my-3">
 									<!--- include output from getCollectorsDetailHTML to list collectors/preparators for the cataloged item --->
 									<cfset collectorsList = getCollectorsDetailHTML(collection_object_id=variables.collection_object_id, target=variables.target)>
 								</div>
