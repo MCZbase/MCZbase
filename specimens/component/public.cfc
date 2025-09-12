@@ -2256,7 +2256,7 @@ limitations under the License.
 								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#lookupAccn.accn_id#" target="_blank">#lookupAccn.accn_number#</a>
 								#accnDept#
 								#lookupAccn.accn_type# (#lookupAccn.accn_status#) Received: #lookupAccn.received_date# From: #lookupAccn.received_from#
-								<button type="button" class="btn btn-xs position-relative left-0 right-auto anchorFocus py-0 small" onclick=" openEditCatalogDialog(#collection_object_id#,'catalogDialog','#getGuid.guid#',reloadPage); $('##transactionsDialog').dialog('close'); ">Edit</button>
+								<button type="button" class="btn btn-xs d-inline-block position-relative left-0 anchorFocus py-0 mx-1 small" style="margin-top:1px;"  onclick=" openEditCatalogDialog(#collection_object_id#,'catalogDialog','#getGuid.guid#',reloadPage); $('##transactionsDialog').dialog('close'); ">Edit</button>
 							<cfelse>
 								#lookupAccn.accn_number# #accnDept#
 							</cfif>
