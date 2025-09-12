@@ -5220,7 +5220,7 @@ limitations under the License.
 														onkeyup="countCharsLeft('citation_remarks', 4000, 'length_remarks');"
 														class="data-entry-textarea autogrow mb-1" maxlength="4000"></textarea>
 												</div>
-												<div class="col-12 col-md-12 px-1 mt-2 pb-2">
+												<div class="col-12 col-md-12 px-1 py-1">
 													<button id="newCitation_submit" value="Create" class="btn btn-xs btn-primary" title="Create Citation">Create Citation</button>
 													<output id="newCitation_output"></output>
 												</div>
@@ -5445,8 +5445,8 @@ limitations under the License.
 													>#citation_remarks#</textarea>
 												</div>
 												<div class="col-12 col-md-3 px-1 mt-2">
-													<button id="cit_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Citation">Save</button>
-													<button id="cit_delete#i#" value="Delete" class="btn btn-xs mx-1 btn-danger" title="Delete Citation">Delete</button>
+													<button id="cit_submit#i#" value="Save" class="btn btn-xs mt-2 btn-primary" title="Save Citation">Save</button>
+													<button id="cit_delete#i#" value="Delete" class="btn btn-xs mx-1 mt-2 btn-danger" title="Delete Citation">Delete</button>
 													<output id="cit_output#i#"></output>
 												</div>
 											</div>
