@@ -2256,7 +2256,7 @@ limitations under the License.
 								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#lookupAccn.accn_id#" target="_blank">#lookupAccn.accn_number#</a>
 								#accnDept#
 								#lookupAccn.accn_type# (#lookupAccn.accn_status#) Received: #lookupAccn.received_date# From: #lookupAccn.received_from#
-								<button type="button" class="btn btn-xs btn-powder-blue py-0 small" onclick=" openEditCatalogDialog(#collection_object_id#,'catalogDialog','#getGuid.guid#',reloadPage); $('##transactionsDialog').dialog('close'); ">Edit</button>
+								<button type="button" class="btn btn-xs anchorFocus py-0 small" onclick=" openEditCatalogDialog(#collection_object_id#,'catalogDialog','#getGuid.guid#',reloadPage); $('##transactionsDialog').dialog('close'); ">Edit</button>
 							<cfelse>
 								#lookupAccn.accn_number# #accnDept#
 							</cfif>
@@ -3213,7 +3213,7 @@ limitations under the License.
 									<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Unaccepted Georeferences: </li>
 									<li class="list-group-item col-7 col-xl-8 px-0">
 										#coordlookup.recordcount - 1#
-										<button onclick="toggleUnacceptedGeorefs();" role="button" class="btn btn-xs small py-0 ml-1 btn-secondary" id="unaccGeoToggleButton">Show</button>
+										<button onclick="toggleUnacceptedGeorefs();" role="button" class="btn btn-xs small py-0 ml-1 anchorFocus" id="unaccGeoToggleButton">Show</button>
 									</li>
 									<script>
 										function toggleUnacceptedGeorefs() { 

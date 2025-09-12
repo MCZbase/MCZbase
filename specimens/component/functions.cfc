@@ -2513,7 +2513,7 @@ limitations under the License.
 										<cfset guid ="#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#">
 										<li>
 											Encumbrances: #getCatalog.encumbranceDetail#
-											<button type="button" class="btn btn-xs anchorFocus ml-2"
+											<button type="button" class="btn btn-xs btn-secondary ml-2"
 												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadEncumbrances); ">Edit</button>
 										</li>
 									<cfelse>
@@ -4507,7 +4507,7 @@ limitations under the License.
 									<cfelse>
 										<div class="col-12 px-1 small90">
 											<strong>Part Attributes (#getAttributes.recordcount#):</strong>
-											<button class="btn btn-xs anchorFocus pl-2 py-0 mx-2" onclick="editPartAttributes('#getParts.part_id#',reloadPartsAndSection)">Edit</button>
+											<button class="btn btn-xs btn-secondary pl-2 py-0 mx-2" onclick="editPartAttributes('#getParts.part_id#',reloadPartsAndSection)">Edit</button>
 											<cfloop query="getAttributes">
 												<div class="">
 													#getAttributes.attribute_type# = #getATtributes.attribute_value#
@@ -7545,7 +7545,7 @@ limitations under the License.
 							</cfquery>
 							<h2 class="h3 mt-0 py-2 card-header">
 								Geological Attributes
-								<button type="button" class="btn btn-xs anchorFocus" id="buttonOpenEditGeologyTable">Edit</button>
+								<button type="button" class="btn btn-xs btn-secondary" id="buttonOpenEditGeologyTable">Edit</button>
 							</h2>
 							<!--- Display current attributes --->
 							<ul class="my-2">
@@ -10702,7 +10702,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 														<!--- allow deletion of user assigned materialSampleIDs --->
 														<button type="button" class="btn btn-sm btn-warning ml-2" title="Delete this materialSampleID" onclick="deleteGuidOurThing('#getGuids.guid_our_thing_id#','editMaterialSampleIDstatus_#getGuids.guid_our_thing_id#',reloadPartsAndSection);">Delete</button>
 														<!--- allow edit of user assigned materialSampleIDs --->
-														<button type="button" class="btn btn-sm anchorFocus ml-2" title="Edit this materialSampleID" onclick=" doOpenEdit_#getGuids.guid_our_thing_id#(); "
+														<button type="button" class="btn btn-sm btn-secondary ml-2" title="Edit this materialSampleID" onclick=" doOpenEdit_#getGuids.guid_our_thing_id#(); "
 > Edit</button>
 														<output id="editMaterialSampleIDstatus_#getGuids.guid_our_thing_id#"></output>
 													</cfif>
