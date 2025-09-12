@@ -5445,8 +5445,8 @@ limitations under the License.
 													>#citation_remarks#</textarea>
 												</div>
 												<div class="col-12 col-md-3 px-1 mt-2">
-													<button id="cit_submit#i#" value="Save" class="btn btn-xs mt-2 btn-primary" title="Save Citation">Save</button>
-													<button id="cit_delete#i#" value="Delete" class="btn btn-xs mx-1 mt-2 btn-danger" title="Delete Citation">Delete</button>
+													<button id="cit_submit#i#" value="Save" class="btn btn-xs my-1 mt-md-2 btn-primary" title="Save Citation">Save</button>
+													<button id="cit_delete#i#" value="Delete" class="btn btn-xs mx-1 my-1 mt-md-2 btn-danger" title="Delete Citation">Delete</button>
 													<output id="cit_output#i#"></output>
 												</div>
 											</div>
