@@ -245,10 +245,10 @@ limitations under the License.
 				</cfswitch>
 				<section class="container-fluid">
 					<div class="row">
-						<div class="col-12 px-0 px-md-3">
+						<div class="col-12 px-0 px-md-3 mt-2">
 							<div class="col-12 px-0 add-form">
 								<div class="add-form-header px-2">
-									<h2 class="h3 my-0 px-1 pb-1" tabindex="0">Annotations for #summary#</h2>
+									<h2 class="h3 my-0 px-1 py-2" tabindex="0">Annotations for #summary#</h2>
 								</div>
 								<div class="row col-12 mx-0 mt-3 d-block">
 									<form name="annotate" method="post" action="/info/annotate.cfm" class="form-row">
