@@ -2489,7 +2489,7 @@ limitations under the License.
 						<div class="row">
 							<div class="col-12 float-left mt-3 border">
 								<!--- cataloging data --->
-								<h2 class="h3 my-0 px-1 pt-2 pb-1">Cataloged Item #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
+								<h2 class="h3 my-0 px-1 pt-3 pb-0">Cataloged Item #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								<ul class="px-4 mx-1">
 									<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 										<li>Accession: <a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#">#getCatalog.accn_number#</a></li>
@@ -2588,7 +2588,7 @@ limitations under the License.
 								</ul>
 							</div>
 							<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-								<div class="col-12 float-left mb-4 px=0 border">
+								<div class="col-12 float-left mb-3 px=0 border">
 									<h2 class="h3 my-1">Change Accession for this cataloged item:</h2>
 									<form name="editAccn" id="editAccnForm">
 										<input type="hidden" name="method" value="updateAccn">
@@ -2651,7 +2651,7 @@ limitations under the License.
 								</div>
 							</cfif>
 							<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
-								<div class="col-12 float-left mb-4 px=0 border">
+								<div class="col-12 float-left mb-3 px=0 border">
 									<!--- Edit catalog number --->
 									<h2 class="h3 my-2">Change Catalog Number for this cataloged item:</h2>
 									<form name="editCatNumForm" id="editCatNumForm">
