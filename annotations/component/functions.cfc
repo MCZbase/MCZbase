@@ -249,12 +249,12 @@ limitations under the License.
 							<h1 class="h3" tabindex="0">Annotations for #summary#</h2>
 						</div>
 					</div>
-					<div class="row d-block">
+					<div class="row mx-0 d-block">
 						<form name="annotate" method="post" action="/info/annotate.cfm" class="form-row">
 							<input type="hidden" name="action" value="insert">
 							<input type="hidden" name="idtype" id="idtype" value="#target_type#">
 							<input type="hidden" name="idvalue" id="idvalue" value="#target_id#">
-							<div class="col-12">
+							<div class="col-12 pb-2">
 								<label for="annotation" class="data-entry-label">Annotation Text (<span id="length_annotation"></span>)</label>
 								<textarea rows="2" name="annotation" id="annotation"
 										onkeyup="countCharsLeft('annotation', 4000, 'length_annotation');"
@@ -266,7 +266,7 @@ limitations under the License.
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-md-6 pb-2">
 								<label for="motivation" class="data-entry-label">Your motivation for making this annotation</label>
 								<select id="motivation" name="motivation" class="data-entry-select">
 									<cfloop query="ctmotivation">
@@ -283,7 +283,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<cfif prevAnn.recordcount gt 0>
-								<h2 class="h4 mt-5">Annotations on this Record</h2>
+								<h2 class="h4 mt-2">Annotations on this Record</h2>
 								<table id="tbl" class="table table-responsive table-striped">
 									<thead class="thead-light">
 										<th>Annotation Body</th>
