@@ -175,11 +175,11 @@ table td .small {
 }
 .highlight_media {border: 2px solid #a51c30;background-color:#E2E6EC; }
 
-.part_occurrence_head {
+.part-occurrence-head {
 	/*background-color: #bff1f1;*/
 	background-color: #d4f6f6;
 } 
-.part_occurrence {
+.part-occurrence {
 	background-color: #d4f6f685;
 }
 

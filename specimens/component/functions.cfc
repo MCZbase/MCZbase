@@ -4327,7 +4327,7 @@ limitations under the License.
 							  AND sp_collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParts.part_id#">
 						</cfquery>
 						<cfif getParts.has_identification EQ "1" or getParts.parent_sort_group EQ "2">
-							<cfset addedClass = "part_occurrence">
+							<cfset addedClass = "part-occurrence">
 						<cfelse>
 							<cfset addedClass = "bg-white">
 						</cfif>
@@ -4358,7 +4358,7 @@ limitations under the License.
 							</cfif>
 							<div class="col-12 px-0 #addedClass# rounded border mb-0 float-left">
 								<form name="editPart#i#" id="editPart#i#" class="mb-0">
-									<div class="bg-box-header-gray py-2 col-12 row mx-0">
+									<div class="part-occurrence-head py-2 col-12 row mx-0">
 										<input type="hidden" name="part_collection_object_id" value="#getParts.part_id#">
 										<input type="hidden" name="method" value="updatePart">
 										<cfif getParts.is_subsample EQ 1>
