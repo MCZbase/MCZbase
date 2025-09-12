@@ -3335,7 +3335,7 @@ limitations under the License.
 				<div id="collectorsHTML">
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-12 float-left">
+							<div class="col-12 px-0 px-md-3 float-left">
 								<div class="add-form mt-2 float-left">
 									<cfset targetLabel = "">
 									<cfset targetValue = "">
@@ -3426,7 +3426,7 @@ limitations under the License.
 													AND collecting_event.verbatim_collectors IS NOT NULL
 											</cfquery>
 											<cfif fromCollEvent.recordcount GT 0>
-												<div class="col-12 mt-3 px-4 card-body"><h3 class="h4">Verbatim collectors from collecting event:</h3>
+												<div class="col-12 mt-3 card-body"><h3 class="h4">Verbatim collectors from collecting event:</h3>
 													<cfloop query="fromCollEvent">
 														<div class="small95 font-weight-bold my-1">#fromCollEvent.verbatim_collectors#</div>
 													</cfloop>
@@ -3509,7 +3509,7 @@ limitations under the License.
 										</script>
 									</div><!--- end card-body for add form --->
 								</div><!--- end add-form --->
-								<div id="collectorsDialogList" class="col-12 float-left mt-4 mb-4">
+								<div id="collectorsDialogList" class="col-12 px-0 px-md-3 float-left mt-4 mb-4">
 									<!--- include output from getCollectorsDetailHTML to list collectors/preparators for the cataloged item --->
 									<cfset collectorsList = getCollectorsDetailHTML(collection_object_id=variables.collection_object_id, target=variables.target)>
 								</div>
