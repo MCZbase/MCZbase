@@ -4361,11 +4361,11 @@ limitations under the License.
 										<input type="hidden" name="part_collection_object_id" value="#getParts.part_id#">
 										<input type="hidden" name="method" value="updatePart">
 										<cfif getParts.is_subsample EQ 1>
-											<div class="col-12 px-1 mb-1">
+											<div class="col-12 px-1 my-1">
 												<strong>Subsample of:</strong> #parentPart#
 											</div>
 										<cfelse>
-											<div class="col-12 px-1 mb-1">
+											<div class="col-12 px-1 my-1">
 												<strong>Part:</strong> #parentPart#
 											</div>
 										</cfif>
