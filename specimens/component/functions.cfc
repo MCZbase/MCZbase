@@ -4373,7 +4373,7 @@ limitations under the License.
 											</div>
 										</cfif>
 									</div>
-									<div class="form-row col-12 mt-2 py-2 #marginSeparator#">
+									<div class="form-row col-12 mt-2 pt-2 #marginSeparator#">
 										<div class="col-12 col-md-4 mb-2">
 											<label for="part_name#i#" class="data-entry-label">Part Name</label>
 											<select name="part_name" id="part_name#i#" class="data-entry-select reqdClr" required>
