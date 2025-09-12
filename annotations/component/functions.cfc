@@ -246,84 +246,88 @@ limitations under the License.
 				<section class="container-fluid">
 					<div class="row">
 						<div class="col-12">
-							<h1 class="h3" tabindex="0">Annotations for #summary#</h2>
-						</div>
-					</div>
-					<div class="row mx-0 d-block">
-						<form name="annotate" method="post" action="/info/annotate.cfm" class="form-row">
-							<input type="hidden" name="action" value="insert">
-							<input type="hidden" name="idtype" id="idtype" value="#target_type#">
-							<input type="hidden" name="idvalue" id="idvalue" value="#target_id#">
-							<div class="col-12 pb-2">
-								<label for="annotation" class="data-entry-label">Annotation Text (<span id="length_annotation"></span>)</label>
-								<textarea rows="2" name="annotation" id="annotation"
-										onkeyup="countCharsLeft('annotation', 4000, 'length_annotation');"
-										class="autogrow reqdClr form-control data-entry-textarea" required></textarea>
-								<script>
-									$(document).ready(function() { 
-										$("##annotation").keyup(autogrow);  
-										$("##annotation").keyup();  
-									});
-								</script>
-							</div>
-							<div class="col-12 col-md-6 pb-2">
-								<label for="motivation" class="data-entry-label">Your motivation for making this annotation</label>
-								<select id="motivation" name="motivation" class="data-entry-select">
-									<cfloop query="ctmotivation">
-										<cfif motivation EQ "commenting"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-										<option value="#motivation#"#selected#>#motivation# (#description#)</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12">
-								<input type="button" class="btn btn-xs btn-primary mt-2" value="Save Annotation" onclick="saveThisAnnotation()">
-							</div>
-						</form>
-					</div>
-					<div class="row">
-						<div class="col-12">
-							<cfif prevAnn.recordcount gt 0>
-								<h2 class="h4 mt-2">Annotations on this Record</h2>
-								<table id="tbl" class="table table-responsive table-striped">
-									<thead class="thead-light">
-										<th>Annotation Body</th>
-										<th>Created</th>
-										<th>Motivation</th>
-										<th>Reviewed</th>
-										<th>State</th>
-										<th>Resolution</th>
-									</thead>
-									<tbody>
-										<cfloop query="prevAnn">
-										<tr>
-											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-												<td>#annotation#</td>
-											<cfelse>
-												<td>#rereplace(annotation,"^.* reported:","[Masked] reported:")#</td>
+							<div class="col-12 add-form">
+								<div class="add-form-header">
+									<h2 class="h3 my-0 px-1 pb-1" tabindex="0">Annotations for #summary#</h2>
+								</div>
+								<div class="row mx-0 d-block">
+									<form name="annotate" method="post" action="/info/annotate.cfm" class="form-row">
+										<input type="hidden" name="action" value="insert">
+										<input type="hidden" name="idtype" id="idtype" value="#target_type#">
+										<input type="hidden" name="idvalue" id="idvalue" value="#target_id#">
+										<div class="col-12 pb-2">
+											<label for="annotation" class="data-entry-label">Annotation Text (<span id="length_annotation"></span>)</label>
+											<textarea rows="2" name="annotation" id="annotation"
+													onkeyup="countCharsLeft('annotation', 4000, 'length_annotation');"
+													class="autogrow reqdClr form-control data-entry-textarea" required></textarea>
+											<script>
+												$(document).ready(function() { 
+													$("##annotation").keyup(autogrow);  
+													$("##annotation").keyup();  
+												});
+											</script>
+										</div>
+										<div class="col-12 col-md-6 pb-2">
+											<label for="motivation" class="data-entry-label">Your motivation for making this annotation</label>
+											<select id="motivation" name="motivation" class="data-entry-select">
+												<cfloop query="ctmotivation">
+													<cfif motivation EQ "commenting"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+													<option value="#motivation#"#selected#>#motivation# (#description#)</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12">
+											<input type="button" class="btn btn-xs btn-primary mt-2" value="Save Annotation" onclick="saveThisAnnotation()">
+										</div>
+									</form>
+								</div>
+								<div class="row">
+									<div class="col-12">
+										<cfif prevAnn.recordcount gt 0>
+											<h2 class="h4 mt-2">Annotations on this Record</h2>
+											<table id="tbl" class="table table-responsive table-striped">
+												<thead class="thead-light">
+													<th>Annotation Body</th>
+													<th>Created</th>
+													<th>Motivation</th>
+													<th>Reviewed</th>
+													<th>State</th>
+													<th>Resolution</th>
+												</thead>
+												<tbody>
+													<cfloop query="prevAnn">
+													<tr>
+														<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+															<td>#annotation#</td>
+														<cfelse>
+															<td>#rereplace(annotation,"^.* reported:","[Masked] reported:")#</td>
+														</cfif>
+														<td>#dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
+														<td>#motivation#</td>
+														<td>
+															<cfif len(REVIEWER_COMMENT) gt 0>
+																#REVIEWER_COMMENT#
+															<cfelseif REVIEWED_FG is 0>
+																Not Reviewed
+															<cfelse>
+																Reviewed
+															</cfif>
+														</td>
+														<td>#state#</td>
+														<td>#resolution#</td>
+													</tr>
+												</cfloop>
+												</tbody>
+											</table>
+											<cfif len(manageIRI) GT 0 AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+												<a href="#manageIRI#" target="_blank">Manage Annotations</a>
 											</cfif>
-											<td>#dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
-											<td>#motivation#</td>
-											<td>
-												<cfif len(REVIEWER_COMMENT) gt 0>
-													#REVIEWER_COMMENT#
-												<cfelseif REVIEWED_FG is 0>
-													Not Reviewed
-												<cfelse>
-													Reviewed
-												</cfif>
-											</td>
-											<td>#state#</td>
-											<td>#resolution#</td>
-										</tr>
-									</cfloop>
-									</tbody>
-								</table>
-								<cfif len(manageIRI) GT 0 AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-									<a href="#manageIRI#" target="_blank">Manage Annotations</a>
-								</cfif>
-							<cfelse>
-								<h2 class="h3">There are no annotations for this record.</h2>
-							</cfif>
+										<cfelse>
+											<h2 class="h3">There are no annotations for this record.</h2>
+										</cfif>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				<section>
