@@ -3597,7 +3597,7 @@ limitations under the License.
 			</cfif>
 			<cfset i=1>
 			<cfloop query="getColls">
-				<div class="border bg-light pt-2 pb-1 px-3 my-1">
+				<div class="border bg-light pt-2 pb-0 px-3 my-2">
 					<form name="colls#i#" id="colls#i#" class="w-100" onSubmit="return false;">
 						<input type="hidden" name="method" id="coll_method_#i#" value="">
 						<input type="hidden" name="returnformat" value="json">
