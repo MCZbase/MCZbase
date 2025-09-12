@@ -3357,24 +3357,24 @@ limitations under the License.
 										</h2>
 									</div>
 										<!--- Form to add a new collector/preparator --->
-										<form name="addToCollectors" onSubmit="return false;" class="mb-2">
+										<form name="addToCollectors" onSubmit="return false;" class="mb-0">
 											<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
 											<input type="hidden" name="method" value="addCollector">
 											<input type="hidden" name="returnformat" value="json">
 											<input type="hidden" name="queryformat" value="column">
-											<div class="form-row card-body">
+											<div class="form-row mx-0 card-body">
 												<cfif target EQ "both">
 													<cfset colw ="4">
 												<cfelse>
 													<cfset colw ="6">
 												</cfif>
-												<div class="col-12 col-md-#colw# pt-3 px-3">
+												<div class="col-12 col-md-#colw# pt-2">
 													<label for="add_agent_name" class="">Add #targetLabel#:</label>
 													<input type="text" name="name" id="add_agent_name" class="data-entry-input reqdClr">
 													<input type="hidden" name="agent_id" id="add_new_agent_id">
 												</div>
 												<cfif target EQ "both">
-													<div class="col-12 col-md-2 pt-3 px-2">
+													<div class="col-12 col-md-2 pt-2">
 														<label for="add_collector_role">Role:</label>
 														<select name="collector_role" id="add_collector_role" class="data-entry-input reqdClr">
 															<cfset selected = "">
@@ -3392,7 +3392,7 @@ limitations under the License.
 												<cfelse>
 													<input type="hidden" name="collector_role" value="#targetValue#">
 												</cfif>
-												<div class="col-12 col-md-2 pt-3 px-2">
+												<div class="col-12 col-md-2 pt-2">
 													<label for="add_coll_order">Order:</label>
 													<cfquery name="collCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 														SELECT count(*) as cnt
@@ -11498,7 +11498,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											<button type="button" class="btn btn-xs btn-primary mb-2 mb-md-0" onclick="submitEncumberForm();">Add to Encumbrance</button>
 											<output id="encumberForm_feedback" class="feedback"></output>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
-												<a class="btn btn-xs btn-primary float-right" target="_blank" href="/Encumbrances.cfm?action=create">Create New Encumbrance</a>
+												<a class="btn btn-xs btn-primary float-right py-1" target="_blank" href="/Encumbrances.cfm?action=create">Create New Encumbrance</a>
 											</cfif>
 										</div>
 									</form>
