@@ -4358,7 +4358,7 @@ limitations under the License.
 							<cfelse>
 								<cfset marginSeparator = "">
 							</cfif>
-							<div class="col-12 px-0 #addedClass# rounded border mb-0 float-left">
+							<div class="col-12 px-0 pb-3 #addedClass# rounded border mb-0 float-left">
 								<form name="editPart#i#" id="editPart#i#" class="mb-0">
 									<div class="#phead# py-2 col-12 row mx-0">
 										<input type="hidden" name="part_collection_object_id" value="#getParts.part_id#">
