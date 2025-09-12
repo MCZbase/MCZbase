@@ -281,8 +281,8 @@ limitations under the License.
 										</div>
 									</form>
 								</div>
-								<div class="row">
-									<div class="col-12">
+							</div>
+							<div class="col-12">
 										<cfif prevAnn.recordcount gt 0>
 											<h2 class="h4 mt-2">Annotations on this Record</h2>
 											<table id="tbl" class="table table-responsive table-striped">
@@ -326,8 +326,6 @@ limitations under the License.
 											<h2 class="h3">There are no annotations for this record.</h2>
 										</cfif>
 									</div>
-								</div>
-							</div>
 						</div>
 					</div>
 				<section>
