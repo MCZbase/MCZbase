@@ -5141,7 +5141,7 @@ limitations under the License.
 										<form name="newCitation" id="newCitation" class="mb-0">
 											<input type="hidden" name="collection_object_id" value="#getCatItem.collection_object_id#">
 											<input type="hidden" name="method" value="createCitation">
-											<div class="row mx-0 pb-2 col-12 px-0 mt-2 mb-1">
+											<div class="row mx-0 pb-0 col-12 px-0 mt-2 mb-1">
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
 													<cfset cols = "col-12 col-md-9">
 												<cfelse>
