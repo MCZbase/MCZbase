@@ -302,7 +302,7 @@ limitations under the License.
 								</div>
 								<div class="card-body">
 									<form name="formEditRemarks" id="formEditRemarks" class="mb-0">
-										<div class="row mx-0 pb-2 col-12 px-0 mt-2 mb-1">
+										<div class="row mx-0 pb-0 col-12 px-0 mt-2 mb-1">
 											<input type="hidden" name="collection_object_id" id="collection_object_id" value="#variables.collection_object_id#">
 											<cfif getRemarks.recordcount EQ 0>
 												<cfset remarksText = "">
