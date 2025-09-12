@@ -245,12 +245,12 @@ limitations under the License.
 				</cfswitch>
 				<section class="container-fluid">
 					<div class="row">
-						<div class="col-12">
+						<div class="col-12 px-0 px-md-3">
 							<div class="col-12 px-0 add-form">
 								<div class="add-form-header px-2">
 									<h2 class="h3 my-0 px-1 pb-1" tabindex="0">Annotations for #summary#</h2>
 								</div>
-								<div class="row col-12 mx-0 d-block">
+								<div class="row col-12 mx-0 mt-3 d-block">
 									<form name="annotate" method="post" action="/info/annotate.cfm" class="form-row">
 										<input type="hidden" name="action" value="insert">
 										<input type="hidden" name="idtype" id="idtype" value="#target_type#">
@@ -267,7 +267,7 @@ limitations under the License.
 												});
 											</script>
 										</div>
-										<div class="col-12 col-md-6 pb-2">
+										<div class="col-12 pb-2">
 											<label for="motivation" class="data-entry-label">Your motivation for making this annotation</label>
 											<select id="motivation" name="motivation" class="data-entry-select">
 												<cfloop query="ctmotivation">
