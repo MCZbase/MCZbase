@@ -3411,7 +3411,7 @@ limitations under the License.
 														</cfloop>
 													</select>
 												</div>
-												<div class="col-12 col-md-4 pt-3">
+												<div class="col-12 col-md-4 pt-2">
 													<label for="addButton" class="data-entry-label">&nbsp;</label>
 													<input type="button" value="Add" class="btn btn-xs btn-primary" id="addButton" onClick=" handleAddCollector(); ">
 													<output id="addButtonResultDiv"></output>
@@ -3426,7 +3426,7 @@ limitations under the License.
 													AND collecting_event.verbatim_collectors IS NOT NULL
 											</cfquery>
 											<cfif fromCollEvent.recordcount GT 0>
-												<div class="col-12 mt-3 px-md-3 card-body">
+												<div class="col-12 mt-2 px-md-3 card-body">
 													<h3 class="h4">Verbatim collectors from collecting event:</h3>
 													<cfloop query="fromCollEvent">
 														<div class="small95 font-weight-bold my-1">#fromCollEvent.verbatim_collectors#</div>
