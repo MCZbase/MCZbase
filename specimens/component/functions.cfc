@@ -295,12 +295,12 @@ limitations under the License.
 				<div class="col-12 mt-4 px-1">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-12">
+						<div class="col-12 px-0 px-md-3">
 							<div class="add-form">
 								<div class="add-form-header py-1 px-2">
 									<h2 class="h3 my-0 px-1 pb-1">Edit Remarks</h2>
 								</div>
-								<div class="card-body">
+								<div class="card-body pb-0">
 									<form name="formEditRemarks" id="formEditRemarks" class="mb-0">
 										<div class="row mx-0 pb-0 col-12 px-0 mt-2 mb-1">
 											<input type="hidden" name="collection_object_id" id="collection_object_id" value="#variables.collection_object_id#">
