@@ -5444,7 +5444,7 @@ limitations under the License.
 														class="data-entry-textarea autogrow mb-1" maxlength="4000"
 													>#citation_remarks#</textarea>
 												</div>
-												<div class="col-12 col-md-3 px-1 mt-2">
+												<div class="col-12 col-md-3 px-1 mt-md-2 mt-0">
 													<button id="cit_submit#i#" value="Save" class="btn btn-xs my-1 mt-md-2 btn-primary" title="Save Citation">Save</button>
 													<button id="cit_delete#i#" value="Delete" class="btn btn-xs mx-1 my-1 mt-md-2 btn-danger" title="Delete Citation">Delete</button>
 													<output id="cit_output#i#"></output>
