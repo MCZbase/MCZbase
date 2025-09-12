@@ -2525,7 +2525,7 @@ limitations under the License.
 									</cfif>
 								</ul>
 							</div>
-							<div class="col-12 float-left mt-3 mb-4 pt-2 border">
+							<div class="col-12 float-left mt-3 mb-3 pt-2 border">
 								<!--- Type of object --->
 								<cfif getCatalog.coll_object_type is "CI">
 									<cfset variables.coll_object_type="Cataloged Item">
