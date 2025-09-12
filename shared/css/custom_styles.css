@@ -2169,7 +2169,7 @@ button[tabindex="-1"]:focus {
 .card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
 	text-decoration: none;
 }
-a.anchorFocus {
+a.anchorFocus, button.anchorFocus {
 	outline: 0;
 	box-shadow: 0 0 0 0 transparent;
 	margin: .25rem .75rem;
@@ -2181,7 +2181,7 @@ a.anchorFocus {
 	color: #0460c1;
 	text-decoration: underline dotted #aaa;
 }
-a.anchorFocus:focus {
+a.anchorFocus:focus, button.anchorFocus:focus {
 	border: 2px inset rgba(0, 123,255, .25)!important;
 	border: 2px inset rgba(255, 193, 7, .2)!important;
 	outline: 0;
