@@ -4328,10 +4328,10 @@ limitations under the License.
 						</cfquery>
 						<cfif getParts.has_identification EQ "1" or getParts.parent_sort_group EQ "2">
 							<cfset addedClass = "part-occurrence">
-							<cfset phead = "part-occurrence-head"
+							<cfset pHead = "part-occurrence-head"
 						<cfelse>
 							<cfset addedClass = "bg-white">
-							<cfset phead = "bg-box-header-gray">
+							<cfset pHead = "bg-box-header-gray">
 						</cfif>
 						<cfset partSeparator = "mt-3">
 						<cfif getParts.is_subsample EQ "1" OR i EQ 1>
