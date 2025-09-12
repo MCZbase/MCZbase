@@ -5987,7 +5987,7 @@ limitations under the License.
 					<input type="hidden" name="attribute_id" value="#attribute_id#">
 					<input type="hidden" name="method" value="updateAttribute">
 					<div class="row mx-0 border bg-light px-2 py-2">
-						<div class="col-12 col-md-2 px-1 mt-1 pb-2">
+						<div class="col-12 col-xl-2 px-1 mt-1 pb-2">
 							<label for="att_name#i#" class="data-entry-label">Name</label>
 							<select class="data-entry-select reqdClr" id="att_name#i#" name="attribute_type" required>
 								<cfloop query="getAttributeTypes">
@@ -6000,7 +6000,7 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-md-2 px-1 mt-1 pb-2">
+						<div class="col-12 col-xl-2 px-1 mt-1 pb-2">
 							<label for="att_value" class="data-entry-label reqdClr" required>Value</label>
 							<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.value_code_table) GT 0>
 								<cfset valueCodeTable = getAttributeCodeTables.value_code_table>
@@ -6046,7 +6046,7 @@ limitations under the License.
 								<input type="text" class="data-entry-input" id="att_value#i#" name="attribute_value" value="#attribute_value#">
 							</cfif>
 						</div>
-						<div class="col-12 col-md-2 px-1 mt-1 pb-2">
+						<div class="col-12 col-xl-2 px-1 mt-1 pb-2">
 							<label for="att_units" class="data-entry-label">Units</label>
 							<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.units_code_table) GT 0>
 								<cfset unitsCodeTable = getAttributeCodeTables.units_code_table>
@@ -6074,7 +6074,7 @@ limitations under the License.
 								</cfif>
 							</cfif>
 						</div>
-						<div class="col-12 col-md-2 px-1 mt-1 pb-2">
+						<div class="col-12 col-xl-2 px-1 mt-1 pb-2">
 							<label class="data-entry-label">Determiner</label>
 							<input type="text" class="data-entry-input" id="att_det#i#" name="determined_by_agent" value="#attributeDeterminer#">
 							<input type="hidden" name="determined_by_agent_id" id="att_det_id#i#" value="#determined_by_agent_id#">
@@ -6085,19 +6085,19 @@ limitations under the License.
 								});
 							</script>
 						</div>
-						<div class="col-12 col-md-2 px-1 mt-1 pb-2">
+						<div class="col-12 col-xl-2 px-1 mt-1 pb-2">
 							<label class="data-entry-label">Determined Date</label>
 							<input type="text" class="data-entry-input" id="att_date#i#" name="determined_date" value="#dateformat(determined_date,"yyyy-mm-dd")#">
 						</div>
-						<div class="col-12 col-md-2 px-1 mt-1 pb-2">
+						<div class="col-12 col-xl-2 px-1 mt-1 pb-2">
 							<label class="data-entry-label" for="att_method#i#">Method</label>
 							<input type="text" class="data-entry-input" id="att_method#i#" name="determination_method" value="#determination_method#">
 						</div>
-						<div class="col-12 col-md-9 px-1 mt-1 pb-2">
+						<div class="col-12 col-xl-9 px-1 mt-1 pb-2">
 							<label for="att_rem" class="data-entry-label">Remarks</label>
 							<input type="text" class="data-entry-input" id="att_rem#i#" name="attribute_remark" value="#attribute_remark#">
 						</div>
-						<div class="col-12 col-md-3 mt-1 pt-3">
+						<div class="col-12 col-xl-3 px-0 px-xl-3 mt-1 pt-3">
 							<button id="att_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Attribute">Save</button>
 							<button id="att_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Attribute">Delete</button>
 							<output id="att_output#i#"></output>
