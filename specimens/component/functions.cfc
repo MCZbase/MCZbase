@@ -2487,7 +2487,7 @@ limitations under the License.
 					</cfif>
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-12 float-left mb-4 border">
+							<div class="col-12 float-left mt-3 border">
 								<!--- cataloging data --->
 								<h2 class="h3 my-0 px-1 pt-2 pb-1">Cataloged Item #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								<ul class="px-4 mx-1">
