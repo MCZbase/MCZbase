@@ -3426,7 +3426,8 @@ limitations under the License.
 													AND collecting_event.verbatim_collectors IS NOT NULL
 											</cfquery>
 											<cfif fromCollEvent.recordcount GT 0>
-												<div class="col-12 mt-3 card-body"><h3 class="h4">Verbatim collectors from collecting event:</h3>
+												<div class="col-12 mt-3 px-md-3 card-body">
+													<h3 class="h4">Verbatim collectors from collecting event:</h3>
 													<cfloop query="fromCollEvent">
 														<div class="small95 font-weight-bold my-1">#fromCollEvent.verbatim_collectors#</div>
 													</cfloop>
@@ -3605,7 +3606,7 @@ limitations under the License.
 						<input type="hidden" name="collection_object_id" id="collection_object_id_#i#" value="#variables.collection_object_id#">
 						<input type="hidden" name="collector_role" id="collector_role_#i#" value="#getColls.collector_role#">
 						<div class="form-row">
-							<div class="col-12 col-md-6 px-2">
+							<div class="col-12 col-md-6 mt-1 px-2">
 								<cfif getColls.collector_role EQ "c">
 									<cfset role="Collector">
 								<cfelse>
