@@ -3616,7 +3616,7 @@ limitations under the License.
 								<input type="text" name="agent_name" id="agent_name_#i#" class="data-entry-input reqdClr" value="#getColls.agent_name#">
 								<input type="hidden" name="agent_id" id="agent_id_#i#" value="#getColls.agent_id#">
 							</div>
-							<div class="col-12 col-md-2 px-2">
+							<div class="col-12 col-md-2 mt-1 px-2">
 								<label class="data-entry-label">Order:</label>
 								<select class="data-entry-select" name="coll_order" id="coll_order_#i#">
 									<cfloop from="1" to="#maxCollOrder#" index="ci">
@@ -3628,9 +3628,9 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-4 pt-3 px-2">
+							<div class="col-12 col-md-4 mt-1 pt-3 px-2">
 								<input type="button" value="Save" class="btn btn-xs btn-primary" onclick=" updateCollector('#i#');">
-								<input type="button" value="Remove" class="btn btn-xs btn-danger" onClick=" confirmDialog('Remove this #role#?', 'Confirm Delete #role#', function() { removeCollector('#i#'); }  );">
+								<input type="button" value="Remove" class="btn btn-xs btn-danger px-1" onClick=" confirmDialog('Remove this #role#?', 'Confirm Delete #role#', function() { removeCollector('#i#'); }  );">
 								<output id="coll_output_#i#"></output>
 							</div>
 						</div>
