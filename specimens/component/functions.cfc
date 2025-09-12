@@ -2543,7 +2543,7 @@ limitations under the License.
 								<cfif checkMixed.ct gt 0>
 									<cfset variables.coll_object_type="#variables.coll_object_type#: Mixed Collection">
 								</cfif>
-								<div class="h4 mb-1"><cfset guidLink = "https://mczbase.mcz.harvard.edu/guid/#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#">
+								<div class="h3 mb-1"><cfset guidLink = "https://mczbase.mcz.harvard.edu/guid/#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#">
 								#variables.coll_object_type# #getCatalog.cataloged_item_type_description# 
 								(occurrenceID: #guidLink# <a href="#guidLink#/json"> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a>)</div>
 								<cfquery name="getComponents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
