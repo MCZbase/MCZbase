@@ -5399,7 +5399,7 @@ limitations under the License.
 											<h2 class="h4 px-2 my-1">#getCited.publication_title#</h2>
 										</div>
 										<div class="card-body">
-											<div class="row mx-0 pb-0 col-12 px-0 my-2">
+											<div class="row mx-0 pb-0 col-12 px-0 mt-2">
 												<div class="col-12 px-1 pb-2">
 													<label for="cit_publication#i#" class="data-entry-label">
 														Publication 
