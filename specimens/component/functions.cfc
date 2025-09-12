@@ -2793,7 +2793,7 @@ limitations under the License.
 				</cfquery>
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-12 px-0 px-md-auto">
+						<div class="col-12 px-0 px-md-3">
 							<!--- Add form --->
 							<div class="add-form mt-3">
 								<div class="add-form-header py-1 px-3">
@@ -4035,7 +4035,7 @@ limitations under the License.
 				<!--- add new part --->
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-12 px-0 px-md-auto">
+						<div class="col-12 px-0 px-md-3">
 							<cfif NOT dialog>
 									<!---<h2 class="h2">Parts for #guid#</h2> // seems redundant since it is on the page with the catalog number at the top--->
 								<button class="btn btn-xs btn-secondary my-3 float-right" onclick="closePartsInPage();">
@@ -4043,7 +4043,7 @@ limitations under the License.
 								</button>
 							</cfif>
 							<div class="add-form float-left">								
-								<div class="add-form-header pt-1 pb-2 px-2" id="headingPart">
+								<div class="add-form-header py-2 px-2" id="headingPart">
 									<h2 class="h3 my-0 px-1 pb-1">Add New Part for #guid#</h2>
 								</div>
 								<div class="card-body">
