@@ -2588,7 +2588,7 @@ limitations under the License.
 								</ul>
 							</div>
 							<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-								<div class="col-12 float-left mb-3 px=0 border">
+								<div class="col-12 float-left mb-3 border">
 									<h2 class="h3 my-1">Change Accession for this cataloged item:</h2>
 									<form name="editAccn" id="editAccnForm">
 										<input type="hidden" name="method" value="updateAccn">
@@ -2651,7 +2651,7 @@ limitations under the License.
 								</div>
 							</cfif>
 							<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
-								<div class="col-12 float-left mb-3 px=0 border">
+								<div class="col-12 float-left mb-3 border">
 									<!--- Edit catalog number --->
 									<h2 class="h3 my-2">Change Catalog Number for this cataloged item:</h2>
 									<form name="editCatNumForm" id="editCatNumForm">
