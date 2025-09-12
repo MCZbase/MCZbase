@@ -2793,9 +2793,9 @@ limitations under the License.
 				</cfquery>
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-12">
+						<div class="col-12 px-0 px-md-auto">
 							<!--- Add form --->
-							<div class="card add-form mt-3">
+							<div class="add-form mt-3">
 								<div class="add-form-header py-1 px-3">
 									<h2 class="h3 pb-1">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								</div>
@@ -4035,7 +4035,7 @@ limitations under the License.
 				<!--- add new part --->
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-12">
+						<div class="col-12 px-0 px-md-auto">
 							<cfif NOT dialog>
 									<!---<h2 class="h2">Parts for #guid#</h2> // seems redundant since it is on the page with the catalog number at the top--->
 								<button class="btn btn-xs btn-secondary my-3 float-right" onclick="closePartsInPage();">
