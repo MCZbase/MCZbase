@@ -2519,7 +2519,7 @@ limitations under the License.
 									<cfelse>
 										<li>
 											Encumbrances: None 
-											<button type="button" class="btn btn-xs btn-primary mx-2 py-0"
+											<button type="button" class="btn btn-xs btn-secondary mx-2 py-0"
 												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadEncumbrances); ">Encumber</button>
 										</li>
 									</cfif>

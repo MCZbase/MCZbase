@@ -2178,6 +2178,8 @@ a.anchorFocus {
 	z-index: 3;
 	top: 0;
 	right: 0;
+	color: #0460c1;
+	text-decoration: underline dotted #aaa;
 }
 a.anchorFocus:focus {
 	border: 2px inset rgba(0, 123,255, .25)!important;
