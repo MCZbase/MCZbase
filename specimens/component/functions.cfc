@@ -4044,7 +4044,7 @@ limitations under the License.
 							</cfif>
 							<div class="add-form float-left">								
 								<div class="add-form-header py-2 px-2" id="headingPart">
-									<h2 class="h3 my-0 px-1 pb-1">Add New Part for #guid#</h2>
+									<h2 class="h3 my-0 px-2 pb-1">Add New Part for #guid#</h2>
 								</div>
 								<div class="card-body">
 									<form name="newPart" id="newPart" class="mb-0">
@@ -4052,7 +4052,7 @@ limitations under the License.
 										<input type="hidden" name="method" value="createSpecimenPart">
 										<input type="hidden" name="is_subsample" value="false"><!--- TODO: Add subsample support --->
 										<input type="hidden" name="subsampled_from_obj_id" value="">
-										<div class="row mx-0 pb-2 col-12 px-0 mt-2 mb-1">
+										<div class="row mx-0 pb-2 col-12 px-1 mt-2 mb-1">
 											<div class="float-left col-12 col-md-4 mb-2 px-1">
 												<label for="part_name" class="data-entry-label">
 													<span>Part Name</span>
