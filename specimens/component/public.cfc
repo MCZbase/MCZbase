@@ -2144,7 +2144,7 @@ limitations under the License.
 				</cfquery>
 	
 				<cfset hasContent = false>
-				<ul class="list-group pl-0">
+				<ul class="list-group pl-0 py-1">
 					<!--- Accession for the cataloged item, display internally only --->
 					<cfif hasManageTransactions is 1>
 						<cfquery name="checkAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -2249,7 +2249,7 @@ limitations under the License.
 								MCZBASE.is_media_encumbered(media.media_id) < 1
 						</cfquery>
 						<cfset hasContent = true>
-						<li class="list-group-item pt-0">
+						<li class="list-group-item py-0">
 							<span class="font-weight-lessbold mb-0 d-inline-block">Accession:</span>
 							<cfif lookupAccn.visibility_to_user EQ 'visible'>
 								<!--- user has access to edit the accession, so link to edit it --->
@@ -2262,7 +2262,7 @@ limitations under the License.
 							</cfif>
 							<cfif accnLimitations.recordcount GT 0>
 								</li>
-								<li class="list-group-item pt-0">
+								<li class="list-group-item py-0">
 									<span class="font-weight-lessbold mb-0 d-inline-block">Permits with restrictions on use:</span>
 									<ul class="pl-0">
 										<cfloop query="accnLimitations">
