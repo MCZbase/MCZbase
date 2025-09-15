@@ -1697,7 +1697,7 @@ limitations under the License.
 														<cfset determiner_count = 0>
 														<cfloop query="determiners">
 															<cfset determiner_count = determiner_count + 1>
-															<div class="col-12 col-md-3 form-row pb-3" id="eid_det_div_#determiner_count#">
+															<div class="col-12 col-md-3 form-row" id="eid_det_div_#determiner_count#">
 																<div class="col-12 col-md-10 pr-0">
 																	<label id="eid_det_label_#determiner_count#" for="eid_det_name_#determiner_count#" class="data-entry-label">Determiner #determiner_count#:</label>
 																	<input type="text" name="eid_det_name_#determiner_count#" id="eid_det_name_#determiner_count#" class="data-entry-input reqdClr" value="#determiners.agent_name#" required>
@@ -1756,7 +1756,7 @@ limitations under the License.
 														<!--- List of positions for each determiner (1 to n) --->
 														<input type="hidden" name="determiner_positions" id="eid_determiner_positions" class="data-entry-input">
 													</div>
-													<button type="button" class="btn btn-xs btn-primary mt-2" id="eid_addEditDeterminerButton" onClick="addEditDeterminerControl();">Add Determiner</button>
+													<button type="button" class="btn btn-xs btn-primary my-1" id="eid_addEditDeterminerButton" onClick="addEditDeterminerControl();">Add Determiner</button>
 												</div>
 								
 												<!--- Action buttons --->
