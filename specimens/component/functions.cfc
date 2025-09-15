@@ -913,13 +913,13 @@ limitations under the License.
 								<cfif getDetermined.coll_object_type EQ "CI" OR getDetermined.coll_object_type EQ "SP">
 									<cfif attributes.in_page>
 										<script>
-											//function closeIdentificationInPage() { 
-//												// Close the in-page modal editor, and invoke the reloadIdentifications function
-//												closeInPage(reloadIdentifications);
-//											}
+											function closeIdentificationInPage() { 
+												// Close the in-page modal editor, and invoke the reloadIdentifications function
+												closeInPage(reloadIdentifications);
+											}
 										</script>
 										<!--- if in_page, provide button to return to specimen details page --->
-										<!---<button id="backToSpecimen1" class="btn btn-xs btn-secondary my-3 float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>--->
+										<button id="backToSpecimen1" class="btn btn-xs btn-secondary my-3 float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
 									</cfif>
 									<!--- identifiable, thus allow add identifications --->
 									<div class="add-form float-left">
