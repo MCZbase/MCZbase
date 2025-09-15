@@ -2919,7 +2919,7 @@ limitations under the License.
 													<input type="button" value="Save" aria-label="Save Changes" class="mt-3 btn btn-xs btn-primary"
 														onClick="if (checkFormValidity($('##editOtherIDForm#i#')[0])) { editOtherIDsSubmit(#i#);  } ">
 													<input type="button" value="Delete" class="btn btn-xs mt-3 px-1 btn-danger" onclick="doDelete(#i#);">
-													<output id="saveOtherIDResultDiv#i#" class="px-1" aria-live="polite"></output>
+													<output id="saveOtherIDResultDiv#i#" class="px-1 d-block" aria-live="polite"></output>
 												</div>
 											</div>
 										</div>
