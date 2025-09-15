@@ -1692,7 +1692,7 @@ limitations under the License.
 												</div>
 								
 												<!--- Determiners --->
-												<div class="col-12 pb-2">
+												<div class="col-12 pb-4">
 													<div class="form-row" id="eid_edit_determiners_form_row">
 														<cfset determiner_count = 0>
 														<cfloop query="determiners">
@@ -1704,7 +1704,7 @@ limitations under the License.
 																	<input type="hidden" name="eid_determiner_id_#determiner_count#" id="eid_determiner_id_#determiner_count#" value="#determiners.agent_id#">
 																	<input type="hidden" name="eid_identification_agent_id_#determiner_count#" value="#determiners.identification_agent_id#">
 																</div>
-																<div class="col-12 col-md-2 pl-0 pb-2">
+																<div class="col-12 col-md-2 pl-0">
 																	<!--- select to change position --->
 																	<label for="eid_det_position_#determiner_count#" class="data-entry-label" aria-label="Ordinal Position">Order</label>
 																	<select name="det_position_#determiner_count#" id="eid_det_position_#determiner_count#" class="data-entry-select">
@@ -1712,7 +1712,7 @@ limitations under the License.
 																			<cfif pos EQ determiner_count>
 																				<cfset selected="selected">
 																			<cfelse>
-																				<cfset selected="">
+																				<cfset selected="order">
 																			</cfif>
 																			<option value="#pos#" #selected#>#pos#</option>
 																		</cfloop>
@@ -1740,7 +1740,7 @@ limitations under the License.
 																<div class="col-12 col-md-2 pl-0">
 																	&nbsp;<!--- no position select for failover case --->
 																</div>
-																<button type="button" class="btn btn-xs btn-warning ml-1 pb-2" id="eid_removeDet1" onClick="removeEditDeterminerControl(1);">Remove</button>
+																<button type="button" class="btn btn-xs btn-warning ml-1" id="eid_removeDet1" onClick="removeEditDeterminerControl(1);">Remove</button>
 																<script>
 																	$(document).ready(function() {
 																		makeAgentAutocompleteMeta("eid_det_name_1", "eid_determiner_id_1");
