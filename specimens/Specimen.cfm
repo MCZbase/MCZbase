@@ -627,19 +627,28 @@ limitations under the License.
 										}
 									});
 								} );
-								setTimeout(function() {
-								// Try to focus the first button or another interactive element inside dialog
-								var dlg = document.getElementById('changeCollectingEvent'); // Use the ID of your dialog container
-								if (dlg) {
-								  var btn = dlg.querySelector('button, [tabindex]:not([tabindex="-1"])');
-								  if (btn) {
-									btn.focus();
-								  } else {
-									dlg.setAttribute('tabindex', '-1');
-									dlg.focus();
-								  }
+								function confirmDialog(message, title, onConfirm) {
+								  $("body").append(`
+									<div id="myConfirmDialog" role="dialog" aria-modal="true">
+									  <p>${message}</p>
+									  <button id="confirmBtn">Confirm</button>
+									  <button id="cancelBtn">Cancel</button>
+									</div>
+								  `);
+
+								  setTimeout(function() {
+									var btn = document.getElementById("confirmBtn");
+									if(btn) { btn.focus(); }
+								  }, 50);
+
+								  $("#confirmBtn").on('click', function() {
+									$("#myConfirmDialog").remove();
+									if(typeof onConfirm == "function") onConfirm();
+								  });
+								  $("#cancelBtn").on('click', function() {
+									$("#myConfirmDialog").remove();
+								  });
 								}
-							  }, 100);
 							}
 						</script>
 					</li>
