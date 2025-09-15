@@ -1706,7 +1706,7 @@ limitations under the License.
 																</div>
 																<div class="col-12 col-md-2 pl-0">
 																	<!--- select to change position --->
-																	<label for="eid_det_position_#determiner_count#" class="data-entry-label" aria-label="Ordinal Position">Order</label>
+																	<label for="eid_det_position_#determiner_count#" class="data-entry-label" aria-label="Ordinal Position">&nbsp;</label>
 																	<select name="det_position_#determiner_count#" id="eid_det_position_#determiner_count#" class="data-entry-select">
 																		<cfloop from="1" to="#determiners.recordcount#" index="pos">
 																			<cfif pos EQ determiner_count>
@@ -1793,7 +1793,7 @@ limitations under the License.
 												newControl += '</div>';
 												newControl += '<div class="col-12 col-md-2 pl-0">';
 												// select to change position 
-												newControl += '<label for="eid_det_position_' + currentCount + '" class="data-entry-label" aria-label="Ordinal Position">Order</label>';
+												newControl += '<label for="eid_det_position_' + currentCount + '" class="data-entry-label" aria-label="Ordinal Position">&nbsp;</label>';
 												newControl += '<select name="det_position_' + currentCount + '" id="eid_det_position_' + currentCount + '" class="data-entry-select">';
 												for (var i = 1; i <= currentCount; i++) {
 													if (i === currentCount) {
