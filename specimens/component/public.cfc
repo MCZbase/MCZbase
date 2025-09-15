@@ -2937,9 +2937,9 @@ limitations under the License.
 							</cfif>
 						</cfif>
 						<cfif len(loc_collevent.highergeographyid) gt 0>
-							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">dwc:highergeographyID:</li>
+							<li class="list-group-item col-5 px-0 font-weight-lessbold">dwc:highergeographyID:</li>
 							<cfset geogLink = getGuidLink(guid=#loc_collevent.highergeographyid#,guid_type=#loc_collevent.highergeographyid_guid_type#)>
-							<li class="list-group-item col-7 col-xl-8 px-0">
+							<li class="list-group-item col-7 px-0">
 								#loc_collevent.highergeographyid# #geogLink#
 							</li>
 						</cfif>
