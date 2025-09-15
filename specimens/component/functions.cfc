@@ -1733,14 +1733,12 @@ limitations under the License.
 																<div class="col-12 col-md-10 pr-0">
 																	<label id="eid_det_label_1" for="eid_det_name_1" class="data-entry-label">Determiner 1:</label>
 																	<input type="text" name="eid_det_name_1" id="eid_det_name_1" class="data-entry-input reqdClr" required>
-																	<input type="text" name="eid_determiner_id_1" id="eid_determiner_id_1">
+																	<input type="hidden" name="eid_determiner_id_1" id="eid_determiner_id_1">
 																	<input type="hidden" name="eid_identification_agent_id_1" value="new">
+																	<input type="hidden" name="det_position_1" id="eid_det_position_1" value="1">
 																</div>
 																<div class="col-12 col-md-2 pl-0">
-																	<label for="eid_det_position_1" class="data-entry-label" aria-label="Ordinal Position">Order</label>
-																	<select name="det_position_1" id="eid_det_position_1" class="data-entry-select">
-																		<option value="1" selected>1</option>
-																	</select>
+																	&nbsp;<!--- no position select for failover case --->
 																</div>
 																<button type="button" class="btn btn-xs btn-warning ml-1" id="eid_removeDet1" onClick="removeEditDeterminerControl(1);">Remove</button>
 																<script>
@@ -1752,13 +1750,13 @@ limitations under the License.
 														</cfif>
 														<input type="hidden" name="determiner_count" id="eid_determiner_count" value="#determiner_count#">
 														<!--- List of agent ids of determiners that were selected --->
-														<input type="text" name="determiner_ids" id="eid_determiner_ids" class="data-entry-input">
+														<input type="hidden" name="determiner_ids" id="eid_determiner_ids" class="data-entry-input">
 														<!--- List of primary key values for existing identification_agent records --->
 														<input type="hidden" name="identification_agent_ids" id="eid_identification_agent_ids" class="data-entry-input">
 														<!--- List of positions for each determiner (1 to n) --->
-														<input type="text" name="determiner_positions" id="eid_determiner_positions" class="data-entry-input">
+														<input type="hidden" name="determiner_positions" id="eid_determiner_positions" class="data-entry-input">
 													</div>
-													<button type="button" class="btn btn-xs btn-primary my-1" id="eid_addEditDeterminerButton" onClick="addEditDeterminerControl();">Add Determiner</button>
+													<button type="button" class="btn btn-xs btn-primary mt-2" id="eid_addEditDeterminerButton" onClick="addEditDeterminerControl();">Add Determiner</button>
 												</div>
 								
 												<!--- Action buttons --->
@@ -1795,7 +1793,7 @@ limitations under the License.
 												newControl += '</div>';
 												newControl += '<div class="col-12 col-md-2 pl-0">';
 												// select to change position 
-												newControl += '<label for="eid_det_position_' + currentCount + '" class="data-entry-label" aria-label="Ordinal Position">&nbsp;</label>';
+												newControl += '<label for="eid_det_position_' + currentCount + '" class="data-entry-label" aria-label="Ordinal Position">Order</label>';
 												newControl += '<select name="det_position_' + currentCount + '" id="eid_det_position_' + currentCount + '" class="data-entry-select">';
 												for (var i = 1; i <= currentCount; i++) {
 													if (i === currentCount) {
@@ -1856,20 +1854,18 @@ limitations under the License.
 													}
 												}
 												$("##eid_determiner_ids").val(determinerIds.join(','));
-												
-												
 												// Collect all determiner positions
 												var determinerPositions = [];
 												for (var i = 1; i <= count; i++) {
-													// Use the exact <select> ID, which is predictable:
-													var $select = $("##eid_det_position_" + i);
-													if ($select.length > 0) {
-														determinerPositions.push($select.val());
+													var $div = $("##eid_det_div_" + i);
+													if ($div.length > 0) {
+														var position = $div.find("[id^='eid_det_position_']").val();
+														if (position) {
+															determinerPositions.push(position);
+														}
 													}
 												}
 												$("##eid_determiner_positions").val(determinerPositions.join(','));
-												
-												
 												var form = $('##editIdentificationForm');
 												var formData = form.serialize();
 												$.ajax({
