@@ -1580,7 +1580,7 @@ limitations under the License.
 							<div class="col-12 float-left">
 								<div class="edit-form float-left">
 									<div class="edit-form-header pt-1 px-2 col-12 float-left">
-										<h2 class="h3 my-0 px-1 pb-1">Edit Identification</h2>
+										<h2 class="h3 my-0 px-1 pb-2">Edit Identification</h2>
 									</div>
 									<div class="card-body">
 										<form name="editIdentificationForm" id="editIdentificationForm">
@@ -1591,7 +1591,7 @@ limitations under the License.
 											<input type="hidden" name="accepted_id_fg" id="eid_edit_accepted_id_fg" value="#idData.accepted_id_fg#">
 											<input type="hidden" name="stored_as_fg" id="eid_edit_stored_as_fg" value="#idData.stored_as_fg#">
 											<div class="form-row">
-												<div class="col-12 col-md-2">
+												<div class="col-12 col-md-2 pb-2">
 													<label for="taxa_formula" class="data-entry-label">ID Formula:</label>
 													<select name="taxa_formula" id="eid_edit_taxa_formula" class="data-entry-input reqdClr" onchange="updateEditTaxonBVisibility();" required>
 														<cfloop query="ctFormula">
@@ -1599,7 +1599,7 @@ limitations under the License.
 														</cfloop>
 													</select>
 												</div>
-												<div class="col-12 col-md-5">
+												<div class="col-12 col-md-5 pb-2">
 													<label for="taxona" class="data-entry-label">Taxon A:</label>
 													<input type="text" name="taxona" id="eid_edit_taxona" class="data-entry-input reqdClr" required value="#taxonA.scientific_name#">
 													<input type="hidden" name="taxona_id" id="eid_edit_taxona_id" value="#taxonA.taxon_name_id#">
@@ -1609,7 +1609,7 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="col-12 col-md-5">
+												<div class="col-12 col-md-5 pb-2">
 													<div class="form-row" id="eid_edit_taxonb_row" <cfif NOT idData.taxa_formula CONTAINS "B">style="display:none;"</cfif>>
 														<label for="taxonb" class="data-entry-label">Taxon B:</label>
 														<input type="text" name="taxonb" id="eid_edit_taxonb" class="data-entry-input" value="#taxonB.scientific_name#">
@@ -1621,7 +1621,7 @@ limitations under the License.
 														</script>
 													</div>
 												</div>
-												<div class="col-12 col-md-3">
+												<div class="col-12 col-md-3 pb-2">
 													<label for="made_date" class="data-entry-label">Date Identified:</label>
 													<input type="text" name="made_date" id="eid_edit_made_date" class="data-entry-input" value="#idData.made_date#">
 													<script>
@@ -1635,7 +1635,7 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="col-12 col-md-3">
+												<div class="col-12 col-md-3 pb-2">
 													<label for="nature_of_id" class="data-entry-label">Nature of ID:</label>
 													<select name="nature_of_id" id="eid_edit_nature_of_id" class="data-entry-select reqdClr" required>
 														<cfloop query="ctNature">
@@ -1643,7 +1643,7 @@ limitations under the License.
 														</cfloop>
 													</select>
 												</div>
-												<div class="col-12 col-md-6">
+												<div class="col-12 col-md-6 pb-2">
 													<label for="publication" class="data-entry-label">Sensu:</label>
 													<input type="text" name="sensu" id="eid_edit_publication" class="data-entry-input" value="#idData.short_citation#">
 													<input type="hidden" name="publication_id" id="eid_edit_publication_id" value="#idData.publication_id#">
@@ -1653,11 +1653,11 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="col-12 col-md-10">
+												<div class="col-12 col-md-10 pb-2">
 													<label for="identification_remarks" class="data-entry-label">Remarks:</label>
 													<input type="text" name="identification_remarks" id="eid_edit_identification_remarks" class="data-entry-input" value="#idData.identification_remarks#">
 												</div>
-												<div class="col-12 col-md-2">
+												<div class="col-12 col-md-2 pb-2">
 													<!--- Unified identification state (current, and stored as flags) select --->
 													<!--- Determine id_state based on accepted_id_fg and stored_as_fg --->
 													<cfset id_state = "previous">
@@ -1692,7 +1692,7 @@ limitations under the License.
 												</div>
 								
 												<!--- Determiners --->
-												<div class="col-12">
+												<div class="col-12 pb-2">
 													<div class="form-row" id="eid_edit_determiners_form_row">
 														<cfset determiner_count = 0>
 														<cfloop query="determiners">
@@ -1704,9 +1704,9 @@ limitations under the License.
 																	<input type="hidden" name="eid_determiner_id_#determiner_count#" id="eid_determiner_id_#determiner_count#" value="#determiners.agent_id#">
 																	<input type="hidden" name="eid_identification_agent_id_#determiner_count#" value="#determiners.identification_agent_id#">
 																</div>
-																<div class="col-12 col-md-2 pl-0">
+																<div class="col-12 col-md-2 pl-0 pb-2">
 																	<!--- select to change position --->
-																	<label for="eid_det_position_#determiner_count#" class="data-entry-label" aria-label="Ordinal Position">&nbsp;</label>
+																	<label for="eid_det_position_#determiner_count#" class="data-entry-label" aria-label="Ordinal Position">Order</label>
 																	<select name="det_position_#determiner_count#" id="eid_det_position_#determiner_count#" class="data-entry-select">
 																		<cfloop from="1" to="#determiners.recordcount#" index="pos">
 																			<cfif pos EQ determiner_count>
@@ -1740,7 +1740,7 @@ limitations under the License.
 																<div class="col-12 col-md-2 pl-0">
 																	&nbsp;<!--- no position select for failover case --->
 																</div>
-																<button type="button" class="btn btn-xs btn-secondary ml-1" id="eid_removeDet1" onClick="removeEditDeterminerControl(1);">Remove</button>
+																<button type="button" class="btn btn-xs btn-warning ml-1 pb-2" id="eid_removeDet1" onClick="removeEditDeterminerControl(1);">Remove</button>
 																<script>
 																	$(document).ready(function() {
 																		makeAgentAutocompleteMeta("eid_det_name_1", "eid_determiner_id_1");
@@ -1756,7 +1756,7 @@ limitations under the License.
 														<!--- List of positions for each determiner (1 to n) --->
 														<input type="hidden" name="determiner_positions" id="eid_determiner_positions" class="data-entry-input">
 													</div>
-													<button type="button" class="btn btn-xs btn-secondary mt-2" id="eid_addEditDeterminerButton" onClick="addEditDeterminerControl();">Add Determiner</button>
+													<button type="button" class="btn btn-xs btn-primary mt-2" id="eid_addEditDeterminerButton" onClick="addEditDeterminerControl();">Add Determiner</button>
 												</div>
 								
 												<!--- Action buttons --->
