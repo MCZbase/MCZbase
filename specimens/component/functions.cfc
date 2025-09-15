@@ -1706,7 +1706,7 @@ limitations under the License.
 																</div>
 																<div class="col-12 col-md-2 pl-0">
 																	<!--- select to change position --->
-																	<label for="eid_det_position_#determiner_count#" class="data-entry-label" aria-label="Ordinal Position">&nbsp;</label>
+																	<label for="eid_det_position_#determiner_count#" class="data-entry-label" aria-label="Ordinal Position">Order</label>
 																	<select name="det_position_#determiner_count#" id="eid_det_position_#determiner_count#" class="data-entry-select">
 																		<cfloop from="1" to="#determiners.recordcount#" index="pos">
 																			<cfif pos EQ determiner_count>
@@ -1735,10 +1735,12 @@ limitations under the License.
 																	<input type="text" name="eid_det_name_1" id="eid_det_name_1" class="data-entry-input reqdClr" required>
 																	<input type="hidden" name="eid_determiner_id_1" id="eid_determiner_id_1">
 																	<input type="hidden" name="eid_identification_agent_id_1" value="new">
-																	<input type="hidden" name="det_position_1" id="eid_det_position_1" value="1">
 																</div>
 																<div class="col-12 col-md-2 pl-0">
-																	&nbsp;<!--- no position select for failover case --->
+																	<label for="eid_det_position_1" class="data-entry-label" aria-label="Ordinal Position">Order</label>
+																	<select name="det_position_1" id="eid_det_position_1" class="data-entry-select">
+																		<option value="1" selected>1</option>
+																	</select>
 																</div>
 																<button type="button" class="btn btn-xs btn-warning ml-1" id="eid_removeDet1" onClick="removeEditDeterminerControl(1);">Remove</button>
 																<script>
@@ -1854,18 +1856,20 @@ limitations under the License.
 													}
 												}
 												$("##eid_determiner_ids").val(determinerIds.join(','));
+												
+												
 												// Collect all determiner positions
 												var determinerPositions = [];
 												for (var i = 1; i <= count; i++) {
-													var $div = $("##eid_det_div_" + i);
-													if ($div.length > 0) {
-														var position = $div.find("[id^='eid_det_position_']").val();
-														if (position) {
-															determinerPositions.push(position);
-														}
+													// Use the exact <select> ID, which is predictable:
+													var $select = $("#eid_det_position_" + i);
+													if ($select.length > 0) {
+														determinerPositions.push($select.val());
 													}
 												}
 												$("##eid_determiner_positions").val(determinerPositions.join(','));
+												
+												
 												var form = $('##editIdentificationForm');
 												var formData = form.serialize();
 												$.ajax({
