@@ -1597,7 +1597,8 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-5">
-													<div class="form-row" id="eid_edit_taxonb_row" <cfif NOT idData.taxa_formula CONTAINS "B">style="display:none;"</cfif>>
+													<div class="form-row" id="eid_edit_taxonb_row" >
+														<!---<cfif NOT idData.taxa_formula CONTAINS "B">style="display:none;"</cfif>--->
 														<label for="taxonb" class="data-entry-label">Taxon B:</label>
 														<input type="text" name="taxonb" id="eid_edit_taxonb" class="data-entry-input" value="#taxonB.scientific_name#">
 														<input type="hidden" name="taxonb_id" id="eid_edit_taxonb_id" value="#taxonB.taxon_name_id#">
