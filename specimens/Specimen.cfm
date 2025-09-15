@@ -1216,8 +1216,27 @@ limitations under the License.
 <cfoutput>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")>
 		<div class="container-fluid">
-									#blocklocality# 
-								</div>
+			<section class="row mx-0" id="QCSection">
+				<div class="col-12 my-3">
+					<!---  Include the TDWG BDQ TG2 test integration --->
+					<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
+					<script>
+						function runTests() {
+							loadNameQC(#collection_object_id#, "", "NameDQDiv");
+							loadSpaceQC(#collection_object_id#, "", "SpatialDQDiv");
+							loadEventQC(#collection_object_id#, "", "EventDQDiv");
+						}
+					</script>
+					<input type="button" value="Run Quality Control Tests" class="btn btn-secondary btn-xs" onClick=" runTests(); ">
+					<!---  Scientific Name tests --->
+					<div id="NameDQDiv" class="mt-3"></div>
+					<!---  Spatial tests --->
+					<div id="SpatialDQDiv" class="mt-3"></div>
+					<!---  Temporal tests --->
+					<div id="EventDQDiv" class="mt-3"></div>
+				</div>					
+			</section><!-- end QCSection --->
+		</div>
 	</cfif>
 </cfoutput>
 </div><!--- end of specimenDetailsPageContent --->
