@@ -968,57 +968,29 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-					<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a role="button" href="javascript:void(0)" aria-label="edit relationships" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Edit</a>
-									</cfif></div>
+					</div>
 					<!------------------------------------ coll object remarks -------------------------------->
 					<div class="accordion" id="accordionRemarks">
 						<div class="card mb-2 bg-light">
 							<div id="remarksDialog"></div>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a href="javascript:void(0)" role="button" aria-label="edit specimen remarks" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)">Edit</a>
-									</cfif>
-						</div>
-					<cfset blockattributes = getAttributesHTML(collection_object_id = "#collection_object_id#")>
-							<div class="card-header" id="headingAttributes">
+							<cfset blockRemarks = getRemarksHTML(collection_object_id = "#collection_object_id#")>
+							<div class="card-header" id="headingRemarks">
 								<h3 class="h5 my-0">
-									<button type="button" aria-label="Attributes Pane" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="AttributesPane" data-toggle="collapse" data-target="##AttributesPane">
-										Attributes
+									<button type="button" class="headerLnk text-left w-100 h-100" aria-label="Remarks Pane" aria-expanded="true" aria-controls="RemarksPane" data-toggle="collapse" data-target="##RemarksPane">
+										Cataloged Item Remarks
 									</button>
-									<cfif len(#blockattributes#) gt 50> 
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<cfif len(trim(#blockattributes#)) GT 0>
-									<div class="card-body px-0 pb-0 pt-1" id="attributesCardBody"></div>
-								<cfelse>
-									<div class="card-body py-0" id="attributesCardBody">
-										<ul class="list-group my-0">
-											<li class="small list-group-item py-1 font-italic">None</li>
-										</ul>
-									</div>
-								</cfif>
-										</cfif>
-									<cfelse>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="javascript:void(0)" role="button" aria-label="add attributes" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">
-												Add
-											</a>
-										</cfif>
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<a href="javascript:void(0)" role="button" aria-label="edit specimen remarks" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)">Edit</a>
 									</cfif>
 								</h3>
 							</div>
-							<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
-								<cfif len(trim(#blockattributes#)) GT 0>
-									<div class="card-body px-0 pb-0 pt-1" id="attributesCardBody">
-										#blockattributes#
-									</div>
-								<cfelse>
-									<div class="card-body py-0" id="attributesCardBody">
-										<ul class="list-group my-0">
-											<li class="small list-group-item py-1 font-italic">None</li>
-										</ul>
-									</div>
-								</cfif>
-							</div></div>
+							<div id="RemarksPane" class="collapse show" aria-labelledby="headingRemarks" data-parent="##accordionRemarks">
+								<div class="card-body" id="remarksCardBody">
+									#blockRemarks#
+								</div>
+							</div>
+						</div>
+					</div>
 					<!------------------------------------ annotations -------------------------------->
 					<div class="accordion" id="accordionAnnotations">
 						<div class="card mb-2 bg-light">
@@ -1049,9 +1021,14 @@ limitations under the License.
 									<cfif listcontainsnocase(session.roles,"manage_specimens") AND hasAnnotations >
 										<cfset buttonSpacer = "mr-5">
 									</cfif>
- 									<cfif isdefined("session.username") AND len(session.username) gt 0>Edit</cfif>
+ 									<cfif isdefined("session.username") AND len(session.username) gt 0>
+										<!--- anyone with a username can create annotations --->
+										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 #buttonSpacer# anchorFocus" onclick="openAnnotationsDialog('annotationDialog','collection_object',#collection_object_id#,reloadAnnotations);">
+											Report Bad Data
+										</a>
+									</cfif>
 									<cfif listcontainsnocase(session.roles,"manage_specimens") AND hasAnnotations >
-										<a href="javascript:void(0)" role="button" aria-label="edit annotations" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAnnotationsDialog(#collection_object_id#,'AnnotationsDialog','#guid#',reloadAnnotations)"></a>
+										<a href="javascript:void(0)" role="button" aria-label="edit annotations" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAnnotationsDialog(#collection_object_id#,'AnnotationsDialog','#guid#',reloadAnnotations)">Edit</a>
 									</cfif>
 								</h3>
 							</div>
@@ -1064,8 +1041,25 @@ limitations under the License.
 					</div>
 					<!------------------------------------ Meta Data------------------------------------------->
 					<cfif #oneOfUs# eq 1>
-										#blockattributes#
-									</cfif>
+						<div class="accordion" id="accordionMeta">
+							<div class="card mb-2 bg-light">
+								<div id="metaDialog"></div>
+								<cfset blockmeta = getMetaHTML(collection_object_id = "#collection_object_id#")>
+								<div class="card-header" id="headingMeta">
+									<h3 class="h5 my-0">
+										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-label="Meta Pane" aria-controls="MetaPane" data-toggle="collapse" data-target="##MetaPane">
+											Metadata
+										</button>
+									</h3>
+								</div>
+								<div id="MetaPane" class="collapse show" aria-labelledby="headingMeta" data-parent="##accordionMeta">
+									<div class="card-body" id="metaCardBody">
+										#blockmeta#
+									</div>
+								</div>
+							</div>
+						</div>
+					</cfif>
 				</div>
 
 				<!----- start of column 3 (rightmost of the two right columns) --->
