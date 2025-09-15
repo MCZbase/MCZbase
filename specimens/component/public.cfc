@@ -3003,40 +3003,40 @@ limitations under the License.
 					<ul class="sd list-unstyled bg-light row mx-0 px-2 pt-1 mb-0 border-top">
 						<cfif len(loc_collevent.spec_locality) gt 0>
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Specific Locality: </li>
-							<li class="list-group-item col-7 col-xl-8 px-0 last">#loc_collevent.spec_locality#</li>
+							<li class="list-group-item col-7 col-xl-8 pl-2 pr-0 last">#loc_collevent.spec_locality#</li>
 						</cfif>
 						<cfif len(loc_collevent.verbatim_locality) gt 0>
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Locality: </li>
-							<li class="list-group-item col-7 col-xl-8 px-0 ">#loc_collevent.verbatim_locality#</li>
+							<li class="list-group-item col-7 col-xl-8 pl-2 pr-0">#loc_collevent.verbatim_locality#</li>
 						</cfif>
 						<cfif len(loc_collevent.verbatimcoordinates) gt 0>
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Coordinates: </li>
-							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.verbatimcoordinates#</li>
+							<li class="list-group-item col-7 col-xl-8  pl-2 pr-0">#loc_collevent.verbatimcoordinates#</li>
 						</cfif>
 						<cfif len(loc_collevent.verbatimlatitude) gt 0>
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Lat/Long: </li>
-							<li class="list-group-item col-7 col-xl-8 px-0">Lat: #loc_collevent.verbatimlatitude# Long: #loc_collevent.verbatimlongitude#</li>
+							<li class="list-group-item col-7 col-xl-8 pl-2 pr-0">Lat: #loc_collevent.verbatimlatitude# Long: #loc_collevent.verbatimlongitude#</li>
 						</cfif>
 						<cfif len(loc_collevent.township) gt 0>
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">PLSS: </li>
 							<cfif REFind("^[0-9]+$",loc_collevent.section)><cfset sec="S"><cfelse><cfset sec=""></cfif>
-							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.section_part# #sec##loc_collevent.section# T#loc_collevent.township##ucase(loc_collevent.township_direction)#R#loc_collevent.range##ucase(loc_collevent.range_direction)# </li>
+							<li class="list-group-item col-7 col-xl-8 pl-2 pr-0">#loc_collevent.section_part# #sec##loc_collevent.section# T#loc_collevent.township##ucase(loc_collevent.township_direction)#R#loc_collevent.range##ucase(loc_collevent.range_direction)# </li>
 						</cfif>
 						<cfif len(loc_collevent.max_depth) gt 0>
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Depth: </li>
-							<li class="list-group-item col-7 col-xl-8 px-0"><cfif #loc_collevent.min_depth# eq #loc_collevent.max_depth#>#loc_collevent.min_depth# #loc_collevent.depth_units#<cfelse>#loc_collevent.min_depth# - #loc_collevent.max_depth# #loc_collevent.depth_units#</cfif></li>
+							<li class="list-group-item col-7 col-xl-8  pl-2 pr-0"><cfif #loc_collevent.min_depth# eq #loc_collevent.max_depth#>#loc_collevent.min_depth# #loc_collevent.depth_units#<cfelse>#loc_collevent.min_depth# - #loc_collevent.max_depth# #loc_collevent.depth_units#</cfif></li>
 						</cfif>
 						<cfif len(loc_collevent.verbatimdepth) gt 0>
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Depth: </li>
-							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.verbatimdepth#</li>
+							<li class="list-group-item col-7 col-xl-8 pl-2 pr-0">#loc_collevent.verbatimdepth#</li>
 						</cfif>
 						<cfif len(loc_collevent.minimum_elevation) gt 0>
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Elevation: </li>
-							<li class="list-group-item col-7 col-xl-8 px-0"><cfif #loc_collevent.minimum_elevation# eq #loc_collevent.maximum_elevation#>#loc_collevent.minimum_elevation# #loc_collevent.orig_elev_units#<cfelse>#loc_collevent.minimum_elevation# - #loc_collevent.maximum_elevation# #loc_collevent.orig_elev_units#</cfif></li>
+							<li class="list-group-item col-7 col-xl-8 pl-2 pr-0"><cfif #loc_collevent.minimum_elevation# eq #loc_collevent.maximum_elevation#>#loc_collevent.minimum_elevation# #loc_collevent.orig_elev_units#<cfelse>#loc_collevent.minimum_elevation# - #loc_collevent.maximum_elevation# #loc_collevent.orig_elev_units#</cfif></li>
 						</cfif>
 						<cfif len(loc_collevent.verbatimelevation) gt 0>
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Elevation: </li>
-							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.verbatimelevation#</li>
+							<li class="list-group-item col-7 col-xl-8 pl-2 pr-0">#loc_collevent.verbatimelevation#</li>
 						</cfif>
 						<cfif geology.recordcount GT 0> 
 							<cfloop query="geology">
