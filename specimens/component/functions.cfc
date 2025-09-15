@@ -1862,7 +1862,7 @@ limitations under the License.
 												var determinerPositions = [];
 												for (var i = 1; i <= count; i++) {
 													// Use the exact <select> ID, which is predictable:
-													var $select = $("#eid_det_position_" + i);
+													var $select = $("##eid_det_position_" + i);
 													if ($select.length > 0) {
 														determinerPositions.push($select.val());
 													}
