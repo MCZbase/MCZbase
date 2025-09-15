@@ -585,33 +585,6 @@ limitations under the License.
 								// open the collecting event dialog to select a new collecting event
 								openlinkcollectingeventdialog('collEventPickerDialogDiv', '#guid#', 'collecting_event_id_control', 'changeCollectingEvent', null);
 							}
-							function confirmDialog(message, title, changeCollectingEvent) {
-							  // Create and insert the dialog into the DOM
-							  $("body").append(`
-								<div id="myConfirmDialog" role="dialog" aria-modal="true">
-								  <p>${message}</p>
-								  <button id="confirmBtn">Confirm</button>
-								  <button id="cancelBtn">Cancel</button>
-								</div>
-							  `);
-
-							  // ---- FOCUS CODE: Put this right after dialog is inserted ----
-							  setTimeout(function() {
-								var btn = document.getElementById("confirmBtn");
-								if(btn) { btn.focus(); }
-							  }, 50);
-							  // ------------------------------------------------------------
-
-							  // Usual event handlers
-							  $("#confirmBtn").on('click', function() {
-								$("#myConfirmDialog").remove();
-								if(typeof onConfirm == "function") onConfirm();
-							  });
-							  $("#cancelBtn").on('click', function() {
-								$("#myConfirmDialog").remove();
-							  });
-							}
-
 							function changeCollectingEvent() {
 								console.log("changeCollectingEvent called");
 								// change the collecting event id from the value in the hidden input field
