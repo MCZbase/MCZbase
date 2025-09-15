@@ -789,6 +789,7 @@ limitations under the License.
 						</div>
 					</div>
 					<!------------------------------------ Citations ------------------------------------------>
+						<!------------------------------------ Citations ------------------------------------------>
 					<div class="accordion" id="accordionCitations">
 						<div class="card mb-2 bg-light">
 							<div id="citationsDialog"></div>
@@ -799,7 +800,7 @@ limitations under the License.
 										Citations
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a role="button" aria-label="edit citations" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Edit</a>
+										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Edit</a>
 									</cfif>
 								</h3>
 							</div>
@@ -835,8 +836,8 @@ limitations under the License.
 			
 					<div class="accordion" id="accordionOtherID">
 						<div class="card mb-2 bg-light">
-										#blockcit#
-									<cfset blockotherid = getOtherIDsHTML(collection_object_id = "#collection_object_id#")>
+							<div id="otherIDsDialog"></div>
+							<cfset blockotherid = getOtherIDsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingOtherID">
 								<h3 class="h5 my-0">
 									<button type="button" aria-label="OtherID Pane" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
@@ -844,7 +845,9 @@ limitations under the License.
 									</button>
 									<cfif len(#blockotherid#) gt 1> 
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a role="button" aria-label="edit other identifiers" href="javascript:void(0)" class="anchorFocus btn btn-xs small py-0" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Edit</a>
+											<a role="button" href="javascript:void(0)" class="anchorFocus btn btn-xs small py-0" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">
+												Edit
+											</a>
 										</cfif>
 									<cfelse>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
@@ -867,7 +870,8 @@ limitations under the License.
 										</ul>
 									</div>
 								</cfif>
-							</div></div>
+							</div>
+						</div>
 					</div>
 					<!------------------------------------ parts ---------------------------------------------->
 						<div class="accordion" id="accordionParts">
