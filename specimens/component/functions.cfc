@@ -1712,7 +1712,7 @@ limitations under the License.
 																			<cfif pos EQ determiner_count>
 																				<cfset selected="selected">
 																			<cfelse>
-																				<cfset selected="order">
+																				<cfset selected="">
 																			</cfif>
 																			<option value="#pos#" #selected#>#pos#</option>
 																		</cfloop>
