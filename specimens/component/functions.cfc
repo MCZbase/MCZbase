@@ -1718,7 +1718,7 @@ limitations under the License.
 																		</cfloop>
 																	</select>
 																</div>
-																<button type="button" class="btn btn-xs btn-secondary ml-1" id="eid_removeDet#determiner_count#" onClick="removeEditDeterminerControl(#determiner_count#);">Remove</button>
+																<button type="button" class="btn btn-xs btn-warning ml-1" id="eid_removeDet#determiner_count#" onClick="removeEditDeterminerControl(#determiner_count#);">Remove</button>
 																<script>
 																	$(document).ready(function() {
 																		makeAgentAutocompleteMeta("eid_det_name_#determiner_count#", "eid_determiner_id_#determiner_count#");
