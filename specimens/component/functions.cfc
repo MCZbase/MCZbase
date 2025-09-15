@@ -934,6 +934,7 @@ limitations under the License.
 												<input type="hidden" name="returnformat" value="json">
 												<div class="form-row pt-2">
 													<div class="col-12 col-md-2 pb-1">
+														<div class="col-12 small">* required fields</div>
 														<label for="taxa_formula" class="data-entry-label">*ID Formula:</label>
 														<select name="taxa_formula" id="taxa_formula" class="data-entry-input reqdClr" onchange="updateTaxonBVisibility();" required>
 															<cfloop query="ctFormula">
@@ -942,7 +943,7 @@ limitations under the License.
 														</select>
 													</div>
 													<div class="col-12 col-md-5 pb-1">
-														<label for="taxona" class="data-entry-label">Taxon A:</label>
+														<label for="taxona" class="data-entry-label">*Taxon A:</label>
 														<input type="text" name="taxona" id="taxona" class="data-entry-input reqdClr" required>
 														<input type="hidden" name="taxona_id" id="taxona_id">
 														<script>
@@ -981,7 +982,7 @@ limitations under the License.
 														</script>
 													</div>
 													<div class="col-12 col-md-3 pb-1">
-														<label for="nature_of_id" class="data-entry-label">Nature of ID:</label>
+														<label for="nature_of_id" class="data-entry-label">*Nature of ID:</label>
 														<select name="nature_of_id" id="nature_of_id" class="data-entry-select reqdClr" required>
 															<option></option>
 															<cfloop query="ctNature">
@@ -1009,7 +1010,7 @@ limitations under the License.
 														<input type="hidden" name="accepted_id_fg" id="accepted_id_fg" value="1">
 														<input type="hidden" name="stored_as_fg" id="stored_as_fg" value="0">
 														<!--- select to indicate if this identification is to be created as the current identification, as a previous identification, or previous identification which is the stored as name --->
-														<label for="id_state" class="data-entry-label">Id is:</label>
+														<label for="id_state" class="data-entry-label">*Id is:</label>
 														<select name="id_state" id="id_state" class="data-entry-select reqdClr" required>
 															<option value="current">Current</option>
 															<option value="previous">Previous</option>
@@ -1038,7 +1039,7 @@ limitations under the License.
 														<div class="form-row" id="addIdNewDetsFormRow">
 															<div class="col-12 col-md-3">
 																<!--- autocomplete for a determiner --->
-																<label for="determiner" class="data-entry-label">Determiner:</label>
+																<label for="determiner" class="data-entry-label">*Determiner:</label>
 																<input type="text" name="determiner" id="determiner" class="data-entry-input reqdClr" required>
 																<input type="hidden" name="determiner_id" id="determiner_id_1">
 																<input type="hidden" name="determiner_count" id="determiner_count" value="1">
