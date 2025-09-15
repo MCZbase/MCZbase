@@ -934,7 +934,7 @@ limitations under the License.
 												<input type="hidden" name="returnformat" value="json">
 												<div class="form-row pt-2">
 													<div class="col-12 col-md-2 pb-1">
-														<label for="taxa_formula" class="data-entry-label">ID Formula:</label>
+														<label for="taxa_formula" class="data-entry-label">*ID Formula:</label>
 														<select name="taxa_formula" id="taxa_formula" class="data-entry-input reqdClr" onchange="updateTaxonBVisibility();" required>
 															<cfloop query="ctFormula">
 																<option value="#ctFormula.taxa_formula#">#ctFormula.taxa_formula#</option>
@@ -1083,8 +1083,7 @@ limitations under the License.
 																	}
 																</script>
 																<!--- hidden input to store determiner IDs for multiple determiner support --->
-												
-																
+																											
 																<input type="hidden" name="determiner_ids" id="determiner_ids" class="data-entry-input">
 															</div>
 														</div>
