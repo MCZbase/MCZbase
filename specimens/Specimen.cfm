@@ -870,10 +870,42 @@ limitations under the License.
 							</div></div>
 					</div>
 					<!------------------------------------ parts ---------------------------------------------->
-					<div class="accordion" id="accordionParts">
+						<div class="accordion" id="accordionParts">
 						<div class="card mb-2 bg-light">
-											#citationMediaBlock#
-										</div>
+							<div id="partsDialog"></div>
+							<div id="editPartAttributesDialog"></div>
+							<div class="card-header" id="headingParts">
+								<h3 class="h5 my-0">
+									<button type="button" class="headerLnk text-left w-100 h-100" aria-controls="PartsPane" aria-label="Parts Pane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">
+										<cfif len(partCount) GT 0>
+											Parts <span class="text-dark">(<span id="partCountSpan">#partCount#</span>)</span>
+										<cfelse>
+											Parts <span class="text-dark"><span id="partCountSpan"></span></span>
+										</cfif>
+									</button>
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<a href="/Reports/report_printer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs small py-0 anchorFocus mr-5" title="Print Labels for this Specimen">Print Labels</a>
+										<a href="javascript:void(0)" role="button" aria-label="edit parts" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPartsInPage(#collection_object_id#,reloadParts)">Edit</a>
+									</cfif>
+								</h3>
+							</div>
+							<cfset heightStyle = "">
+							<cfif oneOfUs eq 0 AND partCount GT 5>
+								<!--- for external users, limit the number of parts visible on initial page load --->
+								<cfset heightStyle = "height:300px">
+							</cfif>
+							<div id="PartsPane" style="#heightStyle#" class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
+								<div class="card-body px-0 pb-0 pt-1" id="partsCardBody">
+									<cfif len(heightStyle) GT 0>
+										<p class="smaller py-0 mb-0 text-center w-100">
+											<cfif #partCount# gt 5>Click Parts header once to close and again to see all #partCount#.</cfif>
+										</p>
+									</cfif>
+									<cfset blockparts = getPartsHTML(collection_object_id = "#collection_object_id#")>
+									#blockparts#
+								</div>
+							</div>
+						</div>
 					</div>
 					<!------------------------------------ attributes ----------------------------------------->
 					<div class="accordion" id="accordionAttributes">
