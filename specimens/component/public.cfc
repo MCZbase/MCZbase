@@ -1863,7 +1863,6 @@ limitations under the License.
 						
 <cffunction name="getAttributesHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-
 	<cfthread name="getAttributesThread">
 		<cfoutput>
 			<cftry>
