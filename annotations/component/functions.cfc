@@ -649,7 +649,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 												</div>
 												<div class="col-12 col-md-2 py-2 px-1">
 													<input type="submit" value="Save Review" class="btn btn-xs btn-primary mt-3 mb-2">
-													<output id="result_annotation_#i#"></output>
+													<output id="result_annotation_#i#" aria-live="polite"></output>
 												</div>
 											</div>
 										</form>

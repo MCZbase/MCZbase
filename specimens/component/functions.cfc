@@ -343,7 +343,7 @@ limitations under the License.
 												<input type="button" value="Save" class="btn btn-xs btn-primary" id="saveRemarksButton" onClick="handleSaveRemarks();">
 											</div>
 											<div class="float-left px-1 col-12 col-md-9 mt-md-1">
-												<output id="saveRemarksStatus" class="pt-1"></output>
+												<output id="saveRemarksStatus" class="pt-1" aria-live="polite"></output>
 											</div>
 										</div>
 									</form>
@@ -1092,7 +1092,7 @@ limitations under the License.
 													<div class="col-12">
 														<input type="button" value="Add" class="btn btn-xs btn-primary mt-3" id="addIdButton"
 																	 onClick="handleAddIdentification();">
-														<output id="addIdStatus" class="pt-1"></output>
+														<output id="addIdStatus" class="pt-1" aria-live="polite"></output>
 													</div>
 												</div>
 											</form>
@@ -1751,7 +1751,7 @@ limitations under the License.
 												<div class="col-12 mt-3">
 													<input type="button" value="Save Changes" class="btn btn-xs btn-primary mr-2" id="eid_saveIdButton" onClick="handleSaveIdentification();">
 													<input type="button" value="Cancel" class="btn btn-xs btn-secondary" onClick="closeEditDialog();">
-													<output id="eid_editIdStatus" class="pt-1"></output>
+													<output id="eid_editIdStatus" class="pt-1" aria-live="polite"></output>
 												</div>
 											</div>
 										</form>
@@ -2684,7 +2684,7 @@ limitations under the License.
 												<label for="saveCatNumButton" class="data-entry-label">&nbsp;</label>
 												<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary" id="saveCatNumButton"
 													onClick="if (checkFormValidity($('##editCatNumForm')[0])) { editCatNumSubmit();  } ">
-												<output id="saveCatNumResultDiv" class="d-block text-danger">&nbsp;</output>
+												<output id="saveCatNumResultDiv" class="d-block text-danger" aria-live="polite">&nbsp;</output>
 											</div>
 											<script>
 												function editCatNumSubmit(){
@@ -2819,7 +2819,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-4 px-0 py-0 mt-2">
 											<input type="button" value="Create Identifier" class="btn btn-xs btn-primary mt-3" onClick="if (checkFormValidity($('##addOtherIDForm')[0])) { addOtherIDSubmit();  } ">
-											<output id="addOtherIDResultDiv" class="d-block text-danger">&nbsp;</output>
+											<output id="addOtherIDResultDiv" class="d-block text-danger" aria-live="polite">&nbsp;</output>
 										</div>
 									</form>
 									<script>
@@ -2906,7 +2906,7 @@ limitations under the License.
 													<input type="button" value="Save" aria-label="Save Changes" class="mt-3 btn btn-xs btn-primary"
 														onClick="if (checkFormValidity($('##editOtherIDForm#i#')[0])) { editOtherIDsSubmit(#i#);  } ">
 													<input type="button" value="Delete" class="btn btn-xs mt-3 px-1 btn-danger" onclick="doDelete(#i#);">
-													<output id="saveOtherIDResultDiv#i#"></output>
+													<output id="saveOtherIDResultDiv#i#" aria-live="polite"></output>
 												</div>
 											</div>
 										</div>
@@ -3414,7 +3414,7 @@ limitations under the License.
 												<div class="col-12 col-md-4 pt-0 pt-md-2">
 													<label for="addButton" class="data-entry-label">&nbsp;</label>
 													<input type="button" value="Add" class="btn btn-xs btn-primary" id="addButton" onClick=" handleAddCollector(); ">
-													<output id="addButtonResultDiv"></output>
+													<output id="addButtonResultDiv" aria-live="polite"></output>
 												</div>
 											</div>
 											<cfquery name="fromCollEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -3631,7 +3631,7 @@ limitations under the License.
 							<div class="col-12 col-md-4 mt-1 pt-3 px-2">
 								<input type="button" value="Save" class="btn btn-xs btn-primary" onclick=" updateCollector('#i#');">
 								<input type="button" value="Remove" class="btn btn-xs btn-danger px-1" onClick=" confirmDialog('Remove this #role#?', 'Confirm Delete #role#', function() { removeCollector('#i#'); }  );">
-								<output id="coll_output_#i#"></output>
+								<output id="coll_output_#i#" aria-live="polite"></output>
 							</div>
 						</div>
 					</form>
@@ -4116,7 +4116,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-2 px-1 mt-3">
 												<button id="newPart_submit" value="Create" class="btn btn-xs btn-primary" title="Create Part">Create Part</button>
-												<output id="newPart_output"></output>
+												<output id="newPart_output" aria-live="polite"></output>
 											</div>
 										</div>
 									</form>
@@ -4470,7 +4470,7 @@ limitations under the License.
 													<button id="part_mixed#i#" value="Mixed" class="mt-2 btn btn-xs btn-warning" title="Make Mixed Collection">Edit Identifications</button>
 												</cfif>
 											</cfif>
-											<output id="part_output#i#"></output>
+											<output id="part_output#i#" aria-live="polite"></output>
 										</div>
 									</div>
 								</form>
@@ -5225,7 +5225,7 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-12 px-1 py-1">
 													<button id="newCitation_submit" value="Create" class="btn btn-xs btn-primary" title="Create Citation">Create Citation</button>
-													<output id="newCitation_output"></output>
+													<output id="newCitation_output" aria-live="polite"></output>
 												</div>
 											</div>
 										</form>
@@ -5450,7 +5450,7 @@ limitations under the License.
 												<div class="col-12 col-md-3 px-1 mt-md-2 mt-0">
 													<button id="cit_submit#i#" value="Save" class="btn btn-xs my-1 mt-md-2 btn-primary" title="Save Citation">Save</button>
 													<button id="cit_delete#i#" value="Delete" class="btn btn-xs mx-1 my-1 mt-md-2 btn-danger" title="Delete Citation">Delete</button>
-													<output id="cit_output#i#"></output>
+													<output id="cit_output#i#" aria-live="polite"></output>
 												</div>
 											</div>
 										</div>
@@ -5768,7 +5768,7 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-2 px-1 mt-2">
 													<button id="newAttribute_submit" value="Create" class="mt-2 btn btn-xs btn-primary" title="Create Attribute">Create Attribute</button>
-													<output id="newAttribute_output"></output>
+													<output id="newAttribute_output" aria-live="polite"></output>
 												</div>
 											</div>
 										</form>
@@ -6102,7 +6102,7 @@ limitations under the License.
 						<div class="col-12 col-xl-3 px-0 px-xl-3 mt-1 pt-3">
 							<button id="att_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Attribute">Save</button>
 							<button id="att_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Attribute">Delete</button>
-							<output id="att_output#i#"></output>
+							<output id="att_output#i#" aria-live="polite"></output>
 						</div>
 					</div>
 					<script>
@@ -8342,7 +8342,7 @@ limitations under the License.
 											<input type="file" id="wktFile" name="wktFile" accept=".wkt" class="w-100 p-0">
 										</div>
 										<div class="col-12 col-md-6 col-xl-2 mt-3 text-danger mb-2">
-											<output id="wktReplaceFeedback"></output>
+											<output id="wktReplaceFeedback" aria-live="polite"></output>
 										</div>
 										<div class="col-12 col-md-6 col-xl-3 mb-2">
 											<label for="copyFootprintFrom" class="data-entry-label" >Copy Polygon from locality_id</label>
@@ -8354,7 +8354,7 @@ limitations under the License.
 											<input type="button" value="Copy" class="btn btn-xs btn-secondary" onClick=" confirmCopyWKTFromLocality(); ">
 										</div>
 										<div class="col-12 col-md-4 col-xl-3 mb-2">
-											<output id="wktLocReplaceFeedback"></output>
+											<output id="wktLocReplaceFeedback" aria-live="polite"></output>
 										</div>
 										<cfif len(geolocate_score) GT 0>
 											<div class="geolocateMetadata col-12 mb-1">
@@ -8548,11 +8548,11 @@ limitations under the License.
 								<div class="py-2 mb-2 float-left">
 									<cfif splitToSave>	
 										<input id="splitAndSaveButton" type="submit" value="Split and Save Changes" class="btn btn-xs btn-primary" disabled>
-										<output id="locFormOutput"></output>
+										<output id="locFormOutput" aria-live="polite"></output>
 										<span class="mx-3 text-danger">A new locality and collecting event will be created with these values and changes will apply to this record only. </span> 
 									<cfelse>
 										<input id="saveButton" type="submit" value="Save Changes" class="btn btn-xs btn-primary float-left">
-										<output id="locFormOutput"></output>
+										<output id="locFormOutput" aria-live="polite"></output>
 									</cfif>
 								</div>
 								<div class="py-3 float-right">
@@ -8657,7 +8657,7 @@ limitations under the License.
 													<input type="submit" id="createRelButton" value="Add Relationship" class="btn btn-xs btn-primary">
 												</div>
 												<div class="col-12 col-md-9 px-1 pb-2">
-													<output id="relationshipFormOutput"></output>
+													<output id="relationshipFormOutput" aria-live="polite"></output>
 												</div>
 											</div>
 										</form>
@@ -8844,7 +8844,7 @@ limitations under the License.
 											onclick=" confirmDialog('Delete this relationship (#relns.biol_indiv_relationship# #guid#)?', 'Confirm Delete Relationship', function() { doDelete('#i#'); }  );">
 									</div>
 									<div class="col-12 col-md-8">
-										<output id="editRelationFormOutput_#i#"></output>
+										<output id="editRelationFormOutput_#i#" aria-live="polite"></output>
 									</div>
 								</div>
 							</form>
@@ -9715,7 +9715,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												</div>
 												<div class="col-12 col-md-2 px-1 pt-3 mt-1">
 													<button id="newPartAttribute_submit" value="Create" class="btn btn-xs btn-primary" title="Create Part Attribute">Create Attribute</button>
-													<output id="newPartAttribute_output"></output>
+													<output id="newPartAttribute_output" aria-live="polite"></output>
 												</div>
 											</div>
 										</form>
@@ -9915,7 +9915,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											<div class="col-12 col-md-3 pt-4">
 												<button id="partAttribute_submit#i#" value="Save" class="btn btn-xs btn-primary" title="Save Part Attribute">Save</button>
 												<button id="partAttribute_delete#i#" value="Delete" class="btn btn-xs btn-danger" title="Delete Part Attribute">Delete</button>
-												<output id="partAttribute_output#i#"></output>
+												<output id="partAttribute_output#i#" aria-live="polite"></output>
 											</div>
 										</div>
 									</form>
@@ -10639,7 +10639,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											</div>
 											<div class="col-12 col-md-6 px-1 guidparsefield">
 												<button type="button" class="btn btn-primary mt-2" onclick="addOtherIDSubmit();">Add materialSampleID</button>
-												<output id="addMaterialSampleIDResultDiv"></output>
+												<output id="addMaterialSampleIDResultDiv" aria-live="polite"></output>
 											</div>
 										</div>
 									</form>
@@ -10704,7 +10704,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 														<!--- allow edit of user assigned materialSampleIDs --->
 														<button type="button" class="btn btn-sm btn-secondary ml-2" title="Edit this materialSampleID" onclick=" doOpenEdit_#getGuids.guid_our_thing_id#(); "
 > Edit</button>
-														<output id="editMaterialSampleIDstatus_#getGuids.guid_our_thing_id#"></output>
+														<output id="editMaterialSampleIDstatus_#getGuids.guid_our_thing_id#" aria-live="polite"></output>
 													</cfif>
 													<script>
 														function doOpenEdit_#getGuids.guid_our_thing_id#() { 
@@ -10959,7 +10959,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											</div>
 											<div class="col-12 col-md-6 px-1">
 												<button type="button" class="btn btn-primary mt-2" onclick="editOtherIDSubmit();">Save</button>
-												<output id="editMaterialSampleIDResultDiv"></output>
+												<output id="editMaterialSampleIDResultDiv" aria-live="polite"></output>
 											</div>
 										</div>
 									</form>
@@ -11499,7 +11499,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 										</div>
 										<div class="col-12 mb-2">
 											<button type="button" class="btn btn-xs btn-primary mb-2 mb-md-0" onclick="submitEncumberForm();">Add to Encumbrance</button>
-											<output id="encumberForm_feedback" class="feedback"></output>
+											<output id="encumberForm_feedback" class="feedback" aria-live="polite"></output>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
 												<a class="btn btn-xs btn-primary float-right py-1" target="_blank" href="/Encumbrances.cfm?action=create">Create New Encumbrance</a>
 											</cfif>
@@ -11583,7 +11583,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 										</cfif>
 										<div class="text-end">
 											<button type="button" class="btn btn-danger btn-sm mt-2 py-0" onclick="removeEncumbrance(#getEncumbrances.encumbrance_id#,#collection_object_id#);">Remove</button>
-											<output id="encumberForm_feedback_#encumbrance_id#" class="feedback"></output>
+											<output id="encumberForm_feedback_#encumbrance_id#" class="feedback" aria-live="polite"></output>
 										</div>
 									</div>
 								</cfloop>

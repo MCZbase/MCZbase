@@ -803,7 +803,7 @@ limitations under the License.
 									</script>
 								</cfif>
 							</span>
-							<output id="editIdentificationOutput_#local.i#" class="editIdentificationOutput"></output>
+							<output id="editIdentificationOutput_#local.i#" class="editIdentificationOutput" aria-live="polite"></output>
 						</cfif>
 					</div>
 					
