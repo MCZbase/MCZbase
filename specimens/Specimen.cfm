@@ -1065,25 +1065,52 @@ limitations under the License.
 				<!----- start of column 3 (rightmost of the two right columns) --->
 				<div class="col-12 col-lg-6 px-1 float-left"> 
 					<!-------------------.locality and collecting event----------------->
-					<div class="accordion" id="accordionLocality">
+				<div class="accordion" id="accordionLocality">
 						<div class="card mb-2 bg-light">
 							<div id="localityDialog"></div>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+							<div id="collectorsDialog"></div>
+							<div class="card-header" id="headingLocality">
+								<h3 class="h5 my-0">
+									<button type="button" data-toggle="collapse" aria-expanded="true" aria-label="Locality Pane" data-target="##LocalityPane" aria-controls="LocalityPane" class="headerLnk w-100 h-100 text-left">
+										Location and Collecting Event
+									</button>
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<a href="javascript:void(0)" role="button" aria-label="edit locality and collecting event" class="btn btn-xs small py-0 anchorFocus" onClick="openEditLocalityInPage(#collection_object_id#,reloadLocality)">Edit</a>
 									</cfif>
+								</h3>
+							</div>
+							<cfset blocklocality = getLocalityHTML(collection_object_id = "#collection_object_id#")>
+							<div id="LocalityPane" class="collapse show" aria-labelledby="headingLocality" data-parent="##accordionLocality">
+								<div class="card-body" id="localityCardBody">
+									#blocklocality# 
+								</div>
+							</div>
 						</div>
 					</div>
 					<!------------------- Preparators ---------------------------------->
 					<div class="accordion" id="accordionPreparators">
 						<div class="card mb-2 bg-light">
 							<div id="preparatorsDialog"></div>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+							<cfset blockpreparators = getPreparatorsHTML(collection_object_id = "#collection_object_id#")>
+							<div class="card-header" id="headingPreparators">
+								<h3 class="h5 my-0">
+									<button type="button" data-toggle="collapse" class="w-100 h-100 headerLnk text-left" aria-label="Preparators Pane" aria-controls="PreparatorsPane" aria-expanded="true" data-target="##PreparatorsPane">
+										Preparators
+									</button>
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<a href="javascript:void(0)" role="button" aria-label="edit preparators" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPreparatorsDialog(#collection_object_id#,'preparatorsDialog','#guid#',reloadPreparators)">Edit</a>
 									</cfif>
+								</h3>
+							</div>
+							<div id="PreparatorsPane" class="collapse show" aria-labelledby="headingPreparators" data-parent="##accordionPreparators">
+								<div class="card-body" id="collectorsCardBody">
+									#blockpreparators# 
+								</div>
+							</div>
 						</div>
 					</div>
 					<!------------------- Ledger---------------------------------------->
-					<cfset ledgerMediaCount = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "documents", get_count = 'true')>
+				<cfset ledgerMediaCount = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "documents", get_count = 'true')>
 					<cfset ledgerMediaCount = val(rereplace(ledgerMediaCount,"[^0-9]","","all"))>
 					<div class="accordion" id="accordionLedger">
 						<div class="card mb-2 bg-light">
@@ -1147,12 +1174,13 @@ limitations under the License.
 								</h3>
 							</div>
 							<div id="NamedGroupsPane" class="collapse show" aria-labelledby="headingNamedGroups" data-parent="##accordionNamedGroups">
-										Transactions
-									</div>
+								<cfset namedGroupBlock = getNamedGroupsHTML(collection_object_id = "#collection_object_id#")>
+								<div class="card-body" id="namedGroupsCardBody">
+									#namedGroupBlock#
+								</div>
+							</div>
 						</div>
-					<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a role="button" href="javascript:void(0)" aria-label="edit named groups" class="btn btn-xs small py-0 anchorFocus" onClick="openEditNamedGroupsDialog(#collection_object_id#,'NamedGroupsDialog','#GUID#',reloadNamedGroups)">Edit</a>
-									</cfif></div>
+					</div>
 					<!------------------- encumbrances  -------------------------------->
 					<cfif #oneOfUs# eq 1>
 						<div class="accordion" id="accordionEncumberance">
