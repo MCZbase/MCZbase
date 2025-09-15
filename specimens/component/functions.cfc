@@ -1710,9 +1710,9 @@ limitations under the License.
 																	<select name="det_position_#determiner_count#" id="eid_det_position_#determiner_count#" class="data-entry-select">
 																		<cfloop from="1" to="#determiners.recordcount#" index="pos">
 																			<cfif pos EQ determiner_count>
-																				<cfset selected="selected">
-																			<cfelse>
 																				<cfset selected="">
+																			<cfelse>
+																				<cfset selected="selected">
 																			</cfif>
 																			<option value="#pos#" #selected#>#pos#</option>
 																		</cfloop>
