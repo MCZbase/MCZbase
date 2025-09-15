@@ -1154,6 +1154,19 @@ limitations under the License.
 														}
 													});
 												}
+												
+												setTimeout(function(){
+												  var form = document.getElementById('addIdentificationForm');
+												  if (form) {
+													var fields = form.querySelectorAll('input:not([type=hidden]):not([disabled]):not([tabindex="-1"]), select:not([disabled]):not([tabindex="-1"]), textarea:not([disabled]):not([tabindex="-1"])');
+													for (var i = 0; i < fields.length; i++) {
+													  if (fields[i].offsetParent !== null) { // visible
+														fields[i].focus();
+														break;
+													  }
+													}
+												  }
+												}, 100);
 											</script>
 										</div>
 									</div>
