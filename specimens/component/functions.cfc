@@ -1697,7 +1697,7 @@ limitations under the License.
 														<cfset determiner_count = 0>
 														<cfloop query="determiners">
 															<cfset determiner_count = determiner_count + 1>
-															<div class="col-12 col-md-3 form-row pb-4" id="eid_det_div_#determiner_count#">
+															<div class="col-12 col-md-3 form-row pb-3" id="eid_det_div_#determiner_count#">
 																<div class="col-12 col-md-10 pr-0">
 																	<label id="eid_det_label_#determiner_count#" for="eid_det_name_#determiner_count#" class="data-entry-label">Determiner #determiner_count#:</label>
 																	<input type="text" name="eid_det_name_#determiner_count#" id="eid_det_name_#determiner_count#" class="data-entry-input reqdClr" value="#determiners.agent_name#" required>
@@ -1784,7 +1784,7 @@ limitations under the License.
 											function addEditDeterminerControl() {
 												var currentCount = parseInt($("##eid_determiner_count").val());
 												currentCount++;
-												var newControl = '<div class="col-12 col-md-3 form-row pb-3" id="eid_det_div_' + currentCount + '">';
+												var newControl = '<div class="col-12 col-md-3 form-row" id="eid_det_div_' + currentCount + '">';
 												newControl += '<div class="col-12 col-md-10 pr-0">';
 												newControl += '<label id="eid_det_label_' + currentCount + '" for="eid_det_name_' + currentCount + '" class="data-entry-label">Determiner ' + currentCount + ':</label>';
 												newControl += '<input type="text" name="eid_det_name_' + currentCount + '" id="eid_det_name_' + currentCount + '" class="data-entry-input reqdClr" required>';
