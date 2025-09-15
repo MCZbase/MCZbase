@@ -933,7 +933,7 @@ limitations under the License.
 												<input type="hidden" name="method" value="addIdentification">
 												<input type="hidden" name="returnformat" value="json">
 												<div class="form-row pt-2">
-													<div class="col-12 small">* required fields</div>
+													<div class="col-12 small py-2">* required fields</div>
 													<div class="col-12 col-md-2 pb-1">
 														<label for="taxa_formula" class="data-entry-label">*ID Formula:</label>
 														<select name="taxa_formula" id="taxa_formula" class="data-entry-input reqdClr" onchange="updateTaxonBVisibility();" required>
