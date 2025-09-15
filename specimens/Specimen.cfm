@@ -611,7 +611,7 @@ limitations under the License.
 											collecting_event_id: new_collecting_event_id
 										},
 										success: function(response) {
-                        	      var response = JSON.parse(response);
+                        	      		var response = JSON.parse(response);
 											if (response.success) {
 												console.log("Collecting event changed successfully.");
 												reloadLocality();
@@ -759,11 +759,15 @@ limitations under the License.
 					<div class="accordion" id="accordionID">
 						<div class="card mb-2 bg-light">
 							<div id="identificationsDialog"></div>
-							<cfif len(#blockident#) gt 10> 
+							<cfset blockident = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
+							<div class="card-header" id="headingID">
+								<h3 class="h5 my-0">
+									<button type="button" aria-label="identifications pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationsPane">
+										Identifications
+									</button>
+									<cfif len(#blockident#) gt 10> 
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a role="button" href="javascript:void(0)" id="btn_openEditIdentDialog" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsInPage(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
-									#blockident#
-									
 												Edit
 											</a>
 										</cfif>
@@ -774,23 +778,71 @@ limitations under the License.
 											</a>
 										</cfif>
 									</cfif>
+								</h3>
+							</div>
+							<div id="identificationsPane" class="collapse show" aria-labelledby="headingID" data-parent="##accordionID">
+								<div class="card-body" id="identificationsCardBody">
+									#blockident#
+									<div id="identificationHTML"></div>
+								</div>
+							</div>
 						</div>
 					</div>
 					<!------------------------------------ Citations ------------------------------------------>
 					<div class="accordion" id="accordionCitations">
 						<div class="card mb-2 bg-light">
 							<div id="citationsDialog"></div>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+							<cfset blockcit = getCitationsHTML(collection_object_id = "#collection_object_id#")>
+							<div class="card-header" id="headingCitations">
+								<h3 class="h5 my-0 text-dark">
+									<button type="button" class="headerLnk text-left h-100 w-100" data-toggle="collapse" aria-label="citations Pane" data-target="##citationsPane" aria-expanded="true" aria-controls="citationsPane">
+										Citations
+									</button>
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<a role="button" aria-label="edit citations" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Edit</a>
 									</cfif>
+								</h3>
+							</div>
+							<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
+								<cfif len(trim(#blockcit#)) GT 0>
+									<div class="card-body pt-2 pb-1" id="citationsCardBody">
+										#blockcit#
+									</div>
+								<cfelse>
+									<div class="card-body" id="citationsCardBody">
+										<ul class="list-group">
+											<li class="small list-group-item py-0 font-italic">None</li>
+										</ul>
+									</div>
+								</cfif>
+								<cfset citationMediaCount = getCitationMediaHTML(collection_object_id="#collection_object_id#",get_count="true")>
+								<cfif refind("^[0-9 ]+$",citationMediaCount) EQ 0>
+									<!--- error, display the resulting error message --->
+									#citationMediaCount#
+								</cfif>
+								<cfif citationMediaCount gt 0>
+									<div class="">
+										<cfset citationMediaBlock= getCitationMediaHtml(collection_object_id="#collection_object_id#")>
+										<div id="citationMediaBlock" class="px-2">
+											#citationMediaBlock#
+										</div>
+									</div>
+								</cfif>
+							</div>
 						</div>
 					</div>
 					<!------------------------------------ other identifiers ---------------------------------->
 			
 					<div class="accordion" id="accordionOtherID">
 						<div class="card mb-2 bg-light">
-							<div id="otherIDsDialog"></div>
-							<cfif len(#blockotherid#) gt 1> 
+										#blockcit#
+									<cfset blockotherid = getOtherIDsHTML(collection_object_id = "#collection_object_id#")>
+							<div class="card-header" id="headingOtherID">
+								<h3 class="h5 my-0">
+									<button type="button" aria-label="OtherID Pane" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
+										Other Identifiers
+									</button>
+									<cfif len(#blockotherid#) gt 1> 
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a role="button" aria-label="edit other identifiers" href="javascript:void(0)" class="anchorFocus btn btn-xs small py-0" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Edit</a>
 										</cfif>
@@ -801,7 +853,21 @@ limitations under the License.
 											</a>
 										</cfif>
 									</cfif>
-						</div>
+								</h3>
+							</div>
+							<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
+								<cfif len(trim(#blockotherid#)) GT 0> 
+									<div class="card-body" id="otherIDsCardBody">
+										#blockotherid# 
+									</div>
+								<cfelse>
+									<div class="card-body py-0" id="otherIDsCardBody">
+										<ul class="list-group my-0">
+											<li class="small list-group-item py-0 font-italic">None</li>
+										</ul>
+									</div>
+								</cfif>
+							</div></div>
 					</div>
 					<!------------------------------------ parts ---------------------------------------------->
 					<div class="accordion" id="accordionParts">
@@ -815,8 +881,12 @@ limitations under the License.
 							<div id="attributesDialog"></div>
 							<cfif len(#blockattributes#) gt 50> 
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="javascript:void(0)" role="button" aria-label="edit attributes" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Edit</a>
-										</cfif>
+							<div id="partsDialog"></div>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<a href="/Reports/report_printer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs small py-0 anchorFocus mr-5" title="Print Labels for this Specimen">Print Labels</a>
+										<a href="javascript:void(0)" role="button" aria-label="edit parts" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPartsInPage(#collection_object_id#,reloadParts)">Edit</a>
+									</cfif>
+						</cfif>
 									<cfelse>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a href="javascript:void(0)" role="button" aria-label="add attributes" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">
@@ -858,7 +928,46 @@ limitations under the License.
 										<a href="javascript:void(0)" role="button" aria-label="edit specimen remarks" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)">Edit</a>
 									</cfif>
 						</div>
-					</div>
+					<cfset blockattributes = getAttributesHTML(collection_object_id = "#collection_object_id#")>
+							<div class="card-header" id="headingAttributes">
+								<h3 class="h5 my-0">
+									<button type="button" aria-label="Attributes Pane" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="AttributesPane" data-toggle="collapse" data-target="##AttributesPane">
+										Attributes
+									</button>
+									<cfif len(#blockattributes#) gt 50> 
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<cfif len(trim(#blockattributes#)) GT 0>
+									<div class="card-body px-0 pb-0 pt-1" id="attributesCardBody"></div>
+								<cfelse>
+									<div class="card-body py-0" id="attributesCardBody">
+										<ul class="list-group my-0">
+											<li class="small list-group-item py-1 font-italic">None</li>
+										</ul>
+									</div>
+								</cfif>
+										</cfif>
+									<cfelse>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a href="javascript:void(0)" role="button" aria-label="add attributes" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">
+												Add
+											</a>
+										</cfif>
+									</cfif>
+								</h3>
+							</div>
+							<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
+								<cfif len(trim(#blockattributes#)) GT 0>
+									<div class="card-body px-0 pb-0 pt-1" id="attributesCardBody">
+										#blockattributes#
+									</div>
+								<cfelse>
+									<div class="card-body py-0" id="attributesCardBody">
+										<ul class="list-group my-0">
+											<li class="small list-group-item py-1 font-italic">None</li>
+										</ul>
+									</div>
+								</cfif>
+							</div></div>
 					<!------------------------------------ annotations -------------------------------->
 					<div class="accordion" id="accordionAnnotations">
 						<div class="card mb-2 bg-light">
@@ -889,12 +998,7 @@ limitations under the License.
 									<cfif listcontainsnocase(session.roles,"manage_specimens") AND hasAnnotations >
 										<cfset buttonSpacer = "mr-5">
 									</cfif>
- 									<cfif isdefined("session.username") AND len(session.username) gt 0>
-										<!--- anyone with a username can create annotations --->
-										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 #buttonSpacer# anchorFocus" onclick="openAnnotationsDialog('annotationDialog','collection_object',#collection_object_id#,reloadAnnotations);">
-											Report Bad Data
-										</a>
-									</cfif>
+ 									<cfif isdefined("session.username") AND len(session.username) gt 0>Edit</cfif>
 									<cfif listcontainsnocase(session.roles,"manage_specimens") AND hasAnnotations >
 										<a href="javascript:void(0)" role="button" aria-label="edit annotations" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAnnotationsDialog(#collection_object_id#,'AnnotationsDialog','#guid#',reloadAnnotations)"></a>
 									</cfif>
@@ -998,11 +1102,8 @@ limitations under the License.
 								</h3>
 							</div>
 							<div id="NamedGroupsPane" class="collapse show" aria-labelledby="headingNamedGroups" data-parent="##accordionNamedGroups">
-								<cfset namedGroupBlock = getNamedGroupsHTML(collection_object_id = "#collection_object_id#")>
-								<div class="card-body" id="namedGroupsCardBody">
-									#namedGroupBlock#
-								</div>
-							</div>
+										Transactions
+									</div>
 						</div>
 					<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<a role="button" href="javascript:void(0)" aria-label="edit named groups" class="btn btn-xs small py-0 anchorFocus" onClick="openEditNamedGroupsDialog(#collection_object_id#,'NamedGroupsDialog','#GUID#',reloadNamedGroups)">Edit</a>
@@ -1042,27 +1143,8 @@ limitations under the License.
 <cfoutput>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")>
 		<div class="container-fluid">
-			<section class="row mx-0" id="QCSection">
-				<div class="col-12 my-3">
-					<!---  Include the TDWG BDQ TG2 test integration --->
-					<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
-					<script>
-						function runTests() {
-							loadNameQC(#collection_object_id#, "", "NameDQDiv");
-							loadSpaceQC(#collection_object_id#, "", "SpatialDQDiv");
-							loadEventQC(#collection_object_id#, "", "EventDQDiv");
-						}
-					</script>
-					<input type="button" value="Run Quality Control Tests" class="btn btn-secondary btn-xs" onClick=" runTests(); ">
-					<!---  Scientific Name tests --->
-					<div id="NameDQDiv" class="mt-3"></div>
-					<!---  Spatial tests --->
-					<div id="SpatialDQDiv" class="mt-3"></div>
-					<!---  Temporal tests --->
-					<div id="EventDQDiv" class="mt-3"></div>
-				</div>					
-			</section><!-- end QCSection --->
-		</div>
+									#blocklocality# 
+								</div>
 	</cfif>
 </cfoutput>
 </div><!--- end of specimenDetailsPageContent --->
