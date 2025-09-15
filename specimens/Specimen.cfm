@@ -788,8 +788,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+					
 					<!------------------------------------ Citations ------------------------------------------>
-						<!------------------------------------ Citations ------------------------------------------>
 					<div class="accordion" id="accordionCitations">
 						<div class="card mb-2 bg-light">
 							<div id="citationsDialog"></div>

@@ -2915,11 +2915,11 @@ limitations under the License.
 													<label class="data-entry-label" for="display_value#i#" >Number</label>
 													<input type="text" class="data-entry-input" value="#encodeForHTML(getIDs.display_value)#" size="12" name="display_value" id="display_value#i#">
 												</div>
-												<div class="form-group mt-2 col-12 col-md-4 px-1">
+												<div class="form-group mt-2 mb-1 col-12 col-md-4 px-1">
 													<input type="button" value="Save" aria-label="Save Changes" class="mt-3 btn btn-xs btn-primary"
 														onClick="if (checkFormValidity($('##editOtherIDForm#i#')[0])) { editOtherIDsSubmit(#i#);  } ">
 													<input type="button" value="Delete" class="btn btn-xs mt-3 px-1 btn-danger" onclick="doDelete(#i#);">
-													<output id="saveOtherIDResultDiv#i#" aria-live="polite"></output>
+													<output id="saveOtherIDResultDiv#i#" class="px-1" aria-live="polite"></output>
 												</div>
 											</div>
 										</div>
