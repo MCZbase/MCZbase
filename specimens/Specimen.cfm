@@ -911,21 +911,40 @@ limitations under the License.
 					<div class="accordion" id="accordionAttributes">
 						<div class="card mb-2 bg-light">
 							<div id="attributesDialog"></div>
-							<cfif len(#blockattributes#) gt 50> 
+							<cfset blockattributes = getAttributesHTML(collection_object_id = "#collection_object_id#")>
+							<div class="card-header" id="headingAttributes">
+								<h3 class="h5 my-0">
+									<button type="button" aria-label="Attributes Pane" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="AttributesPane" data-toggle="collapse" data-target="##AttributesPane">
+										Attributes
+									</button>
+									<cfif len(#blockattributes#) gt 50> 
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-							<div id="partsDialog"></div>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a href="/Reports/report_printer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs small py-0 anchorFocus mr-5" title="Print Labels for this Specimen">Print Labels</a>
-										<a href="javascript:void(0)" role="button" aria-label="edit parts" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPartsInPage(#collection_object_id#,reloadParts)">Edit</a>
-									</cfif>
-						</cfif>
+											<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">
+												Edit
+											</a>
+										</cfif>
 									<cfelse>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="javascript:void(0)" role="button" aria-label="add attributes" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">
+											<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">
 												Add
 											</a>
 										</cfif>
 									</cfif>
+								</h3>
+							</div>
+							<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
+								<cfif len(trim(#blockattributes#)) GT 0>
+									<div class="card-body px-0 pb-0 pt-1" id="attributesCardBody">
+										#blockattributes#
+									</div>
+								<cfelse>
+									<div class="card-body py-0" id="attributesCardBody">
+										<ul class="list-group my-0">
+											<li class="small list-group-item py-1 font-italic">None</li>
+										</ul>
+									</div>
+								</cfif>
+							</div>
 						</div>
 					</div>
 					<!------------------------------------ relationships  ------------------------------------->
