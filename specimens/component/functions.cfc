@@ -933,8 +933,8 @@ limitations under the License.
 												<input type="hidden" name="method" value="addIdentification">
 												<input type="hidden" name="returnformat" value="json">
 												<div class="form-row pt-2">
-													<div class="col-12 small py-2">* required fields</div>
-													<div class="col-12 col-md-2 pb-1">
+													<div class="col-12 small pb-2">* required fields</div>
+													<div class="col-12 col-md-2 pb-2">
 														<label for="taxa_formula" class="data-entry-label">*ID Formula:</label>
 														<select name="taxa_formula" id="taxa_formula" class="data-entry-input reqdClr" onchange="updateTaxonBVisibility();" required>
 															<cfloop query="ctFormula">
@@ -942,7 +942,7 @@ limitations under the License.
 															</cfloop>
 														</select>
 													</div>
-													<div class="col-12 col-md-5 pb-1">
+													<div class="col-12 col-md-5 pb-2">
 														<label for="taxona" class="data-entry-label">*Taxon A:</label>
 														<input type="text" name="taxona" id="taxona" class="data-entry-input reqdClr" required>
 														<input type="hidden" name="taxona_id" id="taxona_id">
@@ -953,7 +953,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 col-md-5">
+													<div class="col-12 col-md-5 pb-2">
 														<div class="form-row" id="taxonb_row" style="display:none;">
 															<label for="taxonb" class="data-entry-label">Taxon B:</label>
 															<input type="text" name="taxonb" id="taxonb" class="data-entry-input">
@@ -966,7 +966,7 @@ limitations under the License.
 															</script>
 														</div>
 													</div>
-													<div class="col-12 col-md-3 pb-1">
+													<div class="col-12 col-md-3 pb-2">
 														<label for="made_date" class="data-entry-label">Date Identified:</label>
 														<input type="text" name="made_date" id="made_date" class="data-entry-input">
 														<script>
@@ -981,7 +981,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 col-md-3 pb-1">
+													<div class="col-12 col-md-3 pb-2">
 														<label for="nature_of_id" class="data-entry-label">*Nature of ID:</label>
 														<select name="nature_of_id" id="nature_of_id" class="data-entry-select reqdClr" required>
 															<option></option>
@@ -990,7 +990,7 @@ limitations under the License.
 															</cfloop>
 														</select>
 													</div>
-													<div class="col-12 col-md-6 pb-1">
+													<div class="col-12 col-md-6 pb-2">
 														<!--- publication autocomplete --->
 														<label for="publication" class="data-entry-label">Sensu:</label>
 														<input type="text" name="sensu" id="publication" class="data-entry-input">
@@ -1002,11 +1002,11 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 col-md-10 pb-1">
+													<div class="col-12 col-md-10 pb-2">
 														<label for="identification_remarks" class="data-entry-label">Remarks:</label>
 														<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
 													</div>
-													<div class="col-12 col-md-2 pb-1">
+													<div class="col-12 col-md-2 pb-2">
 														<input type="hidden" name="accepted_id_fg" id="accepted_id_fg" value="1">
 														<input type="hidden" name="stored_as_fg" id="stored_as_fg" value="0">
 														<!--- select to indicate if this identification is to be created as the current identification, as a previous identification, or previous identification which is the stored as name --->
