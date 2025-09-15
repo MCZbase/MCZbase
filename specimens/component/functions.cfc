@@ -1561,7 +1561,7 @@ limitations under the License.
 			</cfif>
 			
 			<cfoutput>
-				<div id="editIdentificationHTML">
+				<section id="editIdentificationHTML" class="row mx-0">
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12 float-left">
@@ -1597,8 +1597,7 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-5">
-													<div class="form-row" id="eid_edit_taxonb_row" >
-														<!---<cfif NOT idData.taxa_formula CONTAINS "B">style="display:none;"</cfif>--->
+													<div class="form-row" id="eid_edit_taxonb_row" <cfif NOT idData.taxa_formula CONTAINS "B">style="display:none;"</cfif>>
 														<label for="taxonb" class="data-entry-label">Taxon B:</label>
 														<input type="text" name="taxonb" id="eid_edit_taxonb" class="data-entry-input" value="#taxonB.scientific_name#">
 														<input type="hidden" name="taxonb_id" id="eid_edit_taxonb_id" value="#taxonB.taxon_name_id#">
@@ -1882,7 +1881,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				</div>
+				</section>
 			</cfoutput>
 			<cfcatch>
 				<cfoutput>
