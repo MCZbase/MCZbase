@@ -629,7 +629,7 @@ limitations under the License.
 								} );
 								  setTimeout(function() {
 								// Try to focus the first button or another interactive element inside dialog
-								var dlg = document.getElementById('myConfirmDialog'); // Use the ID of your dialog container
+								var dlg = document.getElementById('changeCollectingEvent'); // Use the ID of your dialog container
 								if (dlg) {
 								  var btn = dlg.querySelector('button, [tabindex]:not([tabindex="-1"])');
 								  if (btn) {
