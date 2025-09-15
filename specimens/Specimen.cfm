@@ -627,7 +627,7 @@ limitations under the License.
 										}
 									});
 								} );
-								  setTimeout(function() {
+								setTimeout(function() {
 								// Try to focus the first button or another interactive element inside dialog
 								var dlg = document.getElementById('changeCollectingEvent'); // Use the ID of your dialog container
 								if (dlg) {
