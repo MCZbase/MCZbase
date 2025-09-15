@@ -1793,7 +1793,7 @@ limitations under the License.
 												newControl += '</div>';
 												newControl += '<div class="col-12 col-md-2 pl-0">';
 												// select to change position 
-												newControl += '<label for="eid_det_position_' + currentCount + '" class="data-entry-label" aria-label="Ordinal Position">&nbsp;</label>';
+												newControl += '<label for="eid_det_position_' + currentCount + '" class="data-entry-label" aria-label="Ordinal Position">Order</label>';
 												newControl += '<select name="det_position_' + currentCount + '" id="eid_det_position_' + currentCount + '" class="data-entry-select">';
 												for (var i = 1; i <= currentCount; i++) {
 													if (i === currentCount) {
@@ -1805,7 +1805,7 @@ limitations under the License.
 												}
 												newControl += '</select>';
 												newControl += '</div>';
-												newControl += '<button type="button" class="btn btn-xs btn-secondary ml-1" id="eid_removeDet' + currentCount + '" onClick="removeEditDeterminerControl(' + currentCount + ');">Remove</button>';
+												newControl += '<button type="button" class="btn btn-xs btn-warning ml-1" id="eid_removeDet' + currentCount + '" onClick="removeEditDeterminerControl(' + currentCount + ');">Remove</button>';
 												newControl += '</div>';
 												$("##eid_edit_determiners_form_row").append(newControl);
 												makeAgentAutocompleteMeta("eid_det_name_" + currentCount, "eid_determiner_id_" + currentCount);
