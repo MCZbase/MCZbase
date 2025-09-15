@@ -1169,7 +1169,7 @@ limitations under the License.
 							<div id="NamedGroupsDialog"></div>
 							<div class="card-header" id="headingNamedGroups">
 								<h3 class="h5 my-0">
-									<button type="button" role="button" aria-label="Named Groups Pane" aria-controls="NamedGroupsPane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##NamedGroupsPane">
+									<button type="button" aria-label="Named Groups Pane" aria-controls="NamedGroupsPane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##NamedGroupsPane">
 										Featured Collections (Named Groups)
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
@@ -1192,7 +1192,7 @@ limitations under the License.
 								<div id="EncumbranceDialog"></div>
 								<div class="card-header" id="headingEncumbrance">
 									<h3 class="h5 my-0">
-										<button type="button" role="button" aria-label="Encumbrance Pane" aria-controls="EncumbrancePane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##EncumbrancePane">
+										<button type="button" aria-label="Encumbrance Pane" aria-controls="EncumbrancePane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##EncumbrancePane">
 											Encumbrances
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
