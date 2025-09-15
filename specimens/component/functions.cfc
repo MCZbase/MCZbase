@@ -1733,7 +1733,7 @@ limitations under the License.
 																<div class="col-12 col-md-10 pr-0">
 																	<label id="eid_det_label_1" for="eid_det_name_1" class="data-entry-label">Determiner 1:</label>
 																	<input type="text" name="eid_det_name_1" id="eid_det_name_1" class="data-entry-input reqdClr" required>
-																	<input type="hidden" name="eid_determiner_id_1" id="eid_determiner_id_1">
+																	<input type="text" name="eid_determiner_id_1" id="eid_determiner_id_1">
 																	<input type="hidden" name="eid_identification_agent_id_1" value="new">
 																</div>
 																<div class="col-12 col-md-2 pl-0">
@@ -1752,11 +1752,11 @@ limitations under the License.
 														</cfif>
 														<input type="hidden" name="determiner_count" id="eid_determiner_count" value="#determiner_count#">
 														<!--- List of agent ids of determiners that were selected --->
-														<input type="hidden" name="determiner_ids" id="eid_determiner_ids" class="data-entry-input">
+														<input type="text" name="determiner_ids" id="eid_determiner_ids" class="data-entry-input">
 														<!--- List of primary key values for existing identification_agent records --->
 														<input type="hidden" name="identification_agent_ids" id="eid_identification_agent_ids" class="data-entry-input">
 														<!--- List of positions for each determiner (1 to n) --->
-														<input type="hidden" name="determiner_positions" id="eid_determiner_positions" class="data-entry-input">
+														<input type="text" name="determiner_positions" id="eid_determiner_positions" class="data-entry-input">
 													</div>
 													<button type="button" class="btn btn-xs btn-primary my-1" id="eid_addEditDeterminerButton" onClick="addEditDeterminerControl();">Add Determiner</button>
 												</div>
