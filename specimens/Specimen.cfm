@@ -627,28 +627,6 @@ limitations under the License.
 										}
 									});
 								} );
-								function confirmDialog(message, title, onConfirm) {
-								  $("body").append(`
-									<div id="myConfirmDialog" role="dialog" aria-modal="true">
-									  <p>${message}</p>
-									  <button id="confirmBtn">Confirm</button>
-									  <button id="cancelBtn">Cancel</button>
-									</div>
-								  `);
-
-								  setTimeout(function() {
-									var btn = document.getElementById("confirmBtn");
-									if(btn) { btn.focus(); }
-								  }, 50);
-
-								  $("#confirmBtn").on('click', function() {
-									$("#myConfirmDialog").remove();
-									if(typeof onConfirm == "function") onConfirm();
-								  });
-								  $("#cancelBtn").on('click', function() {
-									$("#myConfirmDialog").remove();
-								  });
-								}
 							}
 						</script>
 					</li>
