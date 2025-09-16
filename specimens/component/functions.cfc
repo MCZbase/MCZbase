@@ -1827,14 +1827,32 @@ limitations under the License.
 											}
 								
 											function handleSaveIdentification() {
+												setFeedbackControlState("editIdStatus", "saving");
 												// Validate required fields
 												if (!$("##editIdentificationForm")[0].checkValidity()) {
 													$("##editIdentificationForm")[0].reportValidity();
+													setFeedbackControlState("editIdStatus", "error");
 													return;
 												}
-												setFeedbackControlState("editIdStatus", "saving");
 												// Expected number of determiner field sets 
 												var count = parseInt($("##eid_determiner_count").val());
+												// check that no two determiners share the same position
+												var positions = {};
+												for (var i = 1; i <= count; i++) {
+													var $div = $("##eid_det_div_" + i);
+													if ($div.length > 0) {
+														var position = $div.find("[id^='eid_det_position_']").val();
+														if (position) {
+															if (positions[position]) {
+																alert("Two determiners cannot share the same order position. Please adjust.");
+																setFeedbackControlState("editIdStatus", "error");
+																return;
+															} else {
+																positions[position] = true;
+															}
+														}
+													}
+												}
 												// Collect all identification_agent_ids for determiner records
 												var identificationAgentIds = [];
 												for (var i=1; i<=count; i++) {
