@@ -922,11 +922,10 @@ limitations under the License.
 										<button id="backToSpecimen1" class="btn btn-xs btn-secondary my-3 float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
 									</cfif>
 									<!--- identifiable, thus allow add identifications --->
-									<div class="col-10 small pt-3 mt-2 float-left">* required fields</div>
+									<div class="col-10 small pt-3 mt-2 float-left" aria-live="assertive">* required fields</div>
 									<div class="add-form float-left">
 										<div class="add-form-header py-1 px-2 col-12 float-left">
 											<h2 class="h3 my-0 px-1 pb-1 float-left">Add Identification#target#</h2>
-									
 										</div>
 										<div class="card-body">
 											<form name="addIdentificationForm" class="my-2" id="addIdentificationForm">
@@ -2814,8 +2813,8 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12 px-0 px-md-3">
 							<!--- Add form --->
-							<div class="col-12 small mt-3 pb-2">* required fields</div>
-							<div class="add-form mt-2">
+							<div class="col-12 small mt-3 pb-2" aria-live="assertive">* required fields</div>
+							<div class="add-form">
 								<div class="add-form-header py-1 px-3">
 									<h2 class="h3 my-1">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								</div>
@@ -5171,7 +5170,7 @@ limitations under the License.
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12">
-								<div class="col-12 small pb-2">* required fields</div>
+								<div class="col-12 small pb-2" aria-live="assertive">* required fields</div>
 								<div class="add-form">
 									<div class="add-form-header pt-1 px-2 col-12" id="headingCitation">
 										<h2 class="h3 my-0 px-1 pb-1">Add New Citation of #guid#</h2>
@@ -5181,7 +5180,6 @@ limitations under the License.
 											<input type="hidden" name="collection_object_id" value="#getCatItem.collection_object_id#">
 											<input type="hidden" name="method" value="createCitation">
 											<div class="row mx-0 pb-0 col-12 px-0 mt-2 mb-1">
-												<div class="col-12 small pb-2">* required fields</div>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
 													<cfset cols = "col-12 col-md-9">
 												<cfelse>
