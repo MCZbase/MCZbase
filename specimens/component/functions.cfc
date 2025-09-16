@@ -1758,7 +1758,7 @@ limitations under the License.
 														<!--- List of positions for each determiner (1 to n) --->
 														<input type="hidden" name="determiner_positions" id="eid_determiner_positions" class="data-entry-input">
 													</div>
-													<button type="button" class="btn btn-xs btn-secondary my-3" id="eid_addEditDeterminerButton" onClick="addEditDeterminerControl();">Add Determiner</button>
+													<button type="button" class="btn btn-xs btn-secondary py-0 my-2" id="eid_addEditDeterminerButton" onClick="addEditDeterminerControl();">Add Determiner</button>
 												</div>
 								
 												<!--- Action buttons --->
