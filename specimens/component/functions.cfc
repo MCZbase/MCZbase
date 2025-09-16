@@ -7652,7 +7652,7 @@ limitations under the License.
 							<div id="geologyTableSection" class="col-12" style="display: none;">
 								<!--- Editable Table --->
 								<div class="table-responsive">
-									<table class="table table-sm table-striped" id="geologyTable">
+									<table class="table table-responsive-sm table-sm table-striped" id="geologyTable">
 										<thead>
 											<tr>
 												<th>Type</th>
@@ -9165,7 +9165,7 @@ limitations under the License.
 					order by 
 						determined_date DESC
 				</cfquery>
-				<table class="table table-responsive border table-striped table-sm">
+				<table class="table table-responsive-sm border table-striped table-sm">
 					<tr>
 						<td><strong>Determined By</strong></td>
 						<td><strong>Date</strong></td>

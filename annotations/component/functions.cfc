@@ -282,10 +282,10 @@ limitations under the License.
 									</form>
 								</div>
 							</div>
-							<div class="col-12 px-0">
+							<div class="col-12 form-row">
 								<cfif prevAnn.recordcount gt 0>
 									<h2 class="h4 mt-3">Annotations on this Record</h2>
-									<table id="tbl" class="table table-responsive table-striped">
+									<table id="tbl" class="table table-responsive-sm table-striped">
 										<thead class="thead-light">
 											<th>Annotation Body</th>
 											<th>Created</th>
