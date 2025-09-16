@@ -8821,7 +8821,8 @@ limitations under the License.
 				)
 			</cfquery>
 			<div class="row mx-0 py-2">
-				<h2 class="h3 mt-2 px-2 mb-1">
+				
+				<h2 class="h3 mt-2 col-12 px-2 mb-1">
 					Edit Existing Relationships
 				</h2>
 			<cfif relns.recordcount GT 0>
@@ -8938,7 +8939,7 @@ limitations under the License.
 				</script>
 			<cfelse>
 				<ul>
-					<li>No Relationships to this cataloged item</li>
+					<li class="py-1">No Relationships to this cataloged item</li>
 				</ul>
 			</cfif>
 		</div>
