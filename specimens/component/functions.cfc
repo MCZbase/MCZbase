@@ -2528,9 +2528,9 @@ limitations under the License.
 									</cfif>
 									<cfif len(getCatalog.encumbranceDetail) GT 0>
 										<cfset guid ="#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#">
-										<li>
-											Encumbrances: #getCatalog.encumbranceDetail#
-											<button type="button" class="btn btn-xs btn-secondary py-0 ml-2"
+										<li >
+											<span class="mr-1">Encumbrances: #getCatalog.encumbranceDetail#</span>
+											<button type="button" class="btn btn-xs btn-secondary py-0"
 												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadEncumbrances); ">Edit Encumbrance</button>
 										</li>
 									<cfelse>
