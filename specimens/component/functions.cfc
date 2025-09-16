@@ -919,7 +919,7 @@ limitations under the License.
 											}
 										</script>
 										<!--- if in_page, provide button to return to specimen details page --->
-										<button id="backToSpecimen1" class="btn btn-xs btn-secondary my-3 float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
+										<button id="backToSpecimen1" class="btn btn-xs btn-secondary mt-3 mb-2 float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
 									</cfif>
 									<!--- identifiable, thus allow add identifications --->
 									
@@ -1191,13 +1191,13 @@ limitations under the License.
 										</cfif>
 									</div>
 								</cfif>
-								<div id="identificationDialogList" class="col-12 float-left my-3 px-0">
+								<div id="identificationDialogList" class="col-12 float-left my-2 px-0">
 									<cfset idList = getIdentificationsUnthreadedHTML(collection_object_id = attributes.collection_object_id, editable=true)>
 								</div>
 								<cfif attributes.in_page>
 									<!--- if in_page, provide button to return to specimen details page --->
 									<div class="col-12 px-0 mt-0">
-										<button id="backToSpecimen2" class="btn btn-xs btn-secondary mb-4 float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
+										<button id="backToSpecimen2" class="btn btn-xs btn-secondary mb-3 float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
 									</div>
 								</cfif>
 							</div>
@@ -9712,7 +9712,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							<div class="col-12">
 								<div class="add-form">
 									<div class="add-form-header py-1 px-2" id="headingPartAttribute">
-										<h2 class="h3 my-0 px-1 bp-1">Add New Part Attribute for #guid# #partLabel#</h2>
+										<h2 class="h3 my-0 px-1">Add New Part Attribute for #guid# #partLabel#</h2>
 									</div>
 									<div class="card-body">
 										<form name="newPartAttribute" id="newPartAttribute" class="mb-1">
