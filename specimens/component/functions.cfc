@@ -8820,9 +8820,9 @@ limitations under the License.
 						and ctrel.rel_type <> 'functional'
 				)
 			</cfquery>
-			<div class="row mx-0 py-2">
+			<div class="row addform mx-0 py-2">
 				
-				<h2 class="h3 mt-2 col-12 px-2 mb-1">
+				<h2 class="h3 addform-header mt-2 col-12 px-2 mb-1">
 					Edit Existing Relationships
 				</h2>
 			<cfif relns.recordcount GT 0>
@@ -8832,7 +8832,7 @@ limitations under the License.
 							<cfif direction EQ "forward">
 								<cfset i = i + 1>
 								<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;" class="my-2">
-									<div class="row m-0 py-1 col-12 px-0 bg-light border">
+									<div class="row m-0  col-12 py-3 bg-light border">
 										<input type="hidden" name="method" id="method_#i#" value="updateBiolIndivRelation">
 										<input type="hidden" name="biol_indiv_relations_id" value="#biol_indiv_relations_id#">
 										<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
