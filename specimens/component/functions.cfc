@@ -922,7 +922,7 @@ limitations under the License.
 										<button id="backToSpecimen1" class="btn btn-xs btn-secondary my-3 float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
 									</cfif>
 									<!--- identifiable, thus allow add identifications --->
-									<div class="col-10 small pt-3 mt-2 float-left" aria-live="assertive">* required fields</div>
+									
 									<div class="add-form float-left">
 										<div class="add-form-header py-1 px-2 col-12 float-left">
 											<h2 class="h3 my-0 px-1 pb-1 float-left">Add Identification#target#</h2>
@@ -1592,7 +1592,6 @@ limitations under the License.
 											<input type="hidden" name="accepted_id_fg" id="eid_edit_accepted_id_fg" value="#idData.accepted_id_fg#">
 											<input type="hidden" name="stored_as_fg" id="eid_edit_stored_as_fg" value="#idData.stored_as_fg#">
 											<div class="form-row">
-												<div class="col-12 small pb-2">* required fields</div>
 												<div class="col-12 col-md-2 pb-2">
 													<label for="taxa_formula" class="data-entry-label">*ID Formula:</label>
 													<select name="taxa_formula" id="eid_edit_taxa_formula" class="data-entry-input reqdClr" onchange="updateEditTaxonBVisibility();" required>
@@ -2813,7 +2812,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12 px-0 px-md-3">
 							<!--- Add form --->
-							<div class="col-12 small mt-3 pb-2" aria-live="assertive">* required fields</div>
+
 							<div class="add-form">
 								<div class="add-form-header py-1 px-3">
 									<h2 class="h3 my-1">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
@@ -2825,7 +2824,7 @@ limitations under the License.
 											<input type="hidden" name="method" value="addNewOtherID">
 											<input type="hidden" name="returnformat" value="json">
 											<input type="hidden" name="queryformat" value="column">
-											<label class="data-entry-label" id="other_id_type">*Other ID Type</label>
+											<label class="data-entry-label" id="other_id_type">Other ID Type</label>
 											<select name="other_id_type" size="1" class="reqdClr data-entry-select">
 												<cfloop query="ctType">
 													<option value="#ctType.other_id_type#">#ctType.other_id_type#</option>
@@ -2833,7 +2832,7 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 col-md-4 px-0 px-xl-2 py-0 mt-2">
-											<label class="data-entry-label" id="display_value">*Other ID Number</label>
+											<label class="data-entry-label" id="display_value">Other ID Number</label>
 											<input type="text" class="reqdClr data-entry-input" name="display_value" required>
 										</div>
 										<div class="col-12 col-md-4 px-0 py-0 mt-2">
@@ -4062,7 +4061,7 @@ limitations under the License.
 									Back to Specimen
 								</button>
 							</cfif>
-							<div class="col-12 small pb-2 float-left">* required fields</div>
+							
 							<div class="add-form float-left">
 								
 								<div class="add-form-header py-2 px-2" id="headingPart">
@@ -4077,7 +4076,7 @@ limitations under the License.
 										<div class="row mx-0 pb-2 col-12 px-1 mt-2 mb-1">
 											<div class="float-left col-12 col-md-4 mb-2 px-1">
 												<label for="part_name" class="data-entry-label">
-													<span>*Part Name</span>
+													<span>Part Name</span>
 													<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTSPECIMEN_PART_NAME&collection_cde=#getCatItem.collection_cde#" title="List of part names specific to the #getCatItem.collection_cde# collection." target="_blank">Define Values</a>]</span>
 												</label>
 												<select name="part_name" id="part_name" class="data-entry-select reqdClr" required>
@@ -4089,7 +4088,7 @@ limitations under the License.
 											</div>
 											<div class="float-left col-12 col-md-4 mb-2 px-1">
 												<label for="preserve_method" class="data-entry-label">
-													<span>*Preserve Method</span>
+													<span>Preserve Method</span>
 													<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTSPECIMEN_PRESERV_METHOD&collection_cde=#getCatItem.collection_cde#" title="List of preserve methods specific to the #getCatItem.collection_cde# collection." target="_blank">Define Values</a>]</span>
 												</label>
 												<select name="preserve_method" id="preserve_method" class="data-entry-select reqdClr" required>
@@ -4109,11 +4108,11 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="float-left col-12 col-md-2 mb-2 px-1">
-												<label for="lot_count" class="data-entry-label">*Count</label>
+												<label for="lot_count" class="data-entry-label">Count</label>
 												<input name="lot_count" id="lot_count" class="data-entry-input reqdClr" type="text" required>
 											</div>
 											<div class="float-left col-12 col-md-4 mb-2 px-1">
-												<label for="coll_obj_disposition" class="data-entry-label">*Disposition</label>
+												<label for="coll_obj_disposition" class="data-entry-label">Disposition</label>
 												<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select reqdClr" required>
 													<option value=""></option>
 													<cfloop query="ctDisp">
@@ -4122,7 +4121,7 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="float-left col-12 col-md-4 mb-2 px-1">
-												<label for="condition" class="data-entry-label">*Condition</label>
+												<label for="condition" class="data-entry-label">Condition</label>
 												<input name="condition" id="condition" class="data-entry-input reqdClr" type="text" required>
 											</div>
 											<div class="float-left col-12 col-md-4 mb-2 px-1">
@@ -4409,7 +4408,7 @@ limitations under the License.
 									</div>
 									<div class="form-row col-12 mt-2 pt-2 #marginSeparator#">
 										<div class="col-12 col-md-4 mb-2">
-											<label for="part_name#i#" class="data-entry-label">*Part Name</label>
+											<label for="part_name#i#" class="data-entry-label">Part Name</label>
 											<select name="part_name" id="part_name#i#" class="data-entry-select reqdClr" required>
 												<option value=""></option>
 												<cfloop query="ctSpecimenPartName">
@@ -4423,7 +4422,7 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 col-md-4 mb-2">
-											<label for="preserve_method#i#" class="data-entry-label">*Preserve Method</label>
+											<label for="preserve_method#i#" class="data-entry-label">Preserve Method</label>
 											<select name="preserve_method" id="preserve_method#i#" class="data-entry-select reqdClr" required>
 												<option value=""></option>
 												<cfloop query="ctPreserveMethod">
@@ -4451,11 +4450,11 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 col-md-2 mb-2">
-											<label for="lot_count#i#" class="data-entry-label">*Count</label>
+											<label for="lot_count#i#" class="data-entry-label">Count</label>
 											<input type="text" class="data-entry-input reqdClr" id="lot_count#i#" name="lot_count" value="#getParts.lot_count#" required>
 										</div>
 										<div class="col-12 col-md-4 mb-2">
-											<label for="part_disposition#i#" class="data-entry-label">*Disposition</label>
+											<label for="part_disposition#i#" class="data-entry-label">Disposition</label>
 											<select name="disposition" id="part_disposition#i#" class="data-entry-select reqdClr" required>
 												<option value=""></option>
 												<cfloop query="ctDisp">
@@ -4469,7 +4468,7 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 col-md-4 mb-2">
-											<label for="part_condition#i#" class="data-entry-label">*Condition</label>
+											<label for="part_condition#i#" class="data-entry-label">Condition</label>
 											<input type="text" class="data-entry-input reqdClr" id="part_condition#i#" name="condition" value="#getParts.part_condition#" required>
 										</div>
 										<div class="col-12 col-md-4 mb-2">
@@ -5170,7 +5169,7 @@ limitations under the License.
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12">
-								<div class="col-12 small pb-2" aria-live="assertive">* required fields</div>
+								
 								<div class="add-form">
 									<div class="add-form-header pt-1 px-2 col-12" id="headingCitation">
 										<h2 class="h3 my-0 px-1 pb-1">Add New Citation of #guid#</h2>
@@ -5186,7 +5185,7 @@ limitations under the License.
 													<cfset cols = "col-12">
 												</cfif>
 												<div class="float-left #cols# px-1 pb-2">
-													<label for="publication" class="data-entry-label">*Publication <span id="lookedUpPublicationLink"></span></label>
+													<label for="publication" class="data-entry-label">Publication <span id="lookedUpPublicationLink"></span></label>
 													<input type="hidden" name="publication_id" id="publication_id" value="">
 													<input type="text" id="publication" value="" class="data-entry-input reqdClr" required>
 													<script>
@@ -5231,12 +5230,12 @@ limitations under the License.
 													</div>
 												</cfif>
 												<div class="float-left col-12 col-md-4 pb-2 px-1">
-													<label for="cited_sci_Name" class="data-entry-label">*Cited Scientific Name</label>
+													<label for="cited_sci_Name" class="data-entry-label">Cited Scientific Name</label>
 													<input name="citsciname" class="data-entry-input reqdClr" id="cited_sci_Name" type="text" required>
 													<input type="hidden" name="cited_taxon_name_id" id="cited_taxon_name_id" value="">
 												</div>
 												<div class="float-left col-12 col-md-3 pb-2 px-1">
-													<label for="type_status" class="data-entry-label">*Citation Type</label>
+													<label for="type_status" class="data-entry-label">Citation Type</label>
 													<select name="type_status" id="type_status" class="data-entry-select reqdClr" required>
 														<option value=""></option>
 														<cfloop query="ctTypeStatus">
@@ -5448,12 +5447,12 @@ limitations under the License.
 												</div>
 												<div class="form-row mx-0">
 													<div class="col-12 col-md-4 px-1 pb-2">
-														<label for="cit_cited_name#i#" class="data-entry-label">*Cited Scientific Name</label>
+														<label for="cit_cited_name#i#" class="data-entry-label">Cited Scientific Name</label>
 														<input type="hidden" name="cited_taxon_name_id" id="cit_cited_name_id#i#" value="#cited_taxon_name_id#">
 														<input type="text" class="data-entry-input reqdClr" id="cit_cited_name#i#" name="cited_name" value="#citSciName#" required>
 													</div>
 													<div class="col-12 col-md-3 px-1 pb-2">
-														<label for="cit_type_status#i#" class="data-entry-label">*Citation Type</label>
+														<label for="cit_type_status#i#" class="data-entry-label">Citation Type</label>
 														<select name="type_status" id="cit_type_status#i#" class="data-entry-select reqdClr" required>
 															<option value=""></option>
 															<cfloop query="ctTypeStatus">
@@ -5756,7 +5755,7 @@ limitations under the License.
 				<div class="col-12 mt-3 px-1">
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-12 small pb-2">* required fields</div>
+						
 							<div class="col-12">
 								<div class="add-form">
 									<div class="add-form-header pt-1 px-2" id="headingAttribute">
@@ -5768,7 +5767,7 @@ limitations under the License.
 											<input type="hidden" name="method" value="addAttribute">
 											<div class="row mx-0 pb-2">
 												<div class="col-12 col-md-4 pb-2 px-1">
-													<label for="attribute_type" class="data-entry-label">*Name</label>
+													<label for="attribute_type" class="data-entry-label">Name</label>
 													<select name="attribute_type" id="attribute_type" class="data-entry-select reqdClr" required>
 														<option value=""></option>
 														<cfloop query="getAttributeTypes">
@@ -6039,7 +6038,7 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12 col-xl-2 px-1 mt-1 pb-2">
-							<label for="att_value" class="data-entry-label reqdClr" required>*Value</label>
+							<label for="att_value" class="data-entry-label reqdClr" required>Value</label>
 							<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.value_code_table) GT 0>
 								<cfset valueCodeTable = getAttributeCodeTables.value_code_table>
 								<!--- find out if the value code table has a collection_cde field --->
@@ -7156,17 +7155,17 @@ limitations under the License.
 								</div>
 								
 								<div class="col-12 col-md-3 mb-2 mt-0">
-									<label class="data-entry-label" for="verbatim_date">*Verbatim Date</label>
+									<label class="data-entry-label" for="verbatim_date">Verbatim Date</label>
 									<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.verbatim_date)#" required>
 								</div>
 								
 								<div class="col-12 col-md-3 mb-2 mt-0">
-									<label class="data-entry-label" for="began_date">*Date/Time</label>
+									<label class="data-entry-label" for="began_date">Date/Time</label>
 									<input type="text" name="began_date" id="began_date" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.began_date)#" required>
 								</div>
 								
 								<div class="col-12 col-md-3 mb-2 mt-0">
-									<label class="data-entry-label" for="ended_date">*Ended Date/Time</label>
+									<label class="data-entry-label" for="ended_date">Ended Date/Time</label>
 									<input type="text" name="ended_date" id="ended_date" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.ended_date)#" required>
 								</div>
 								
@@ -7286,7 +7285,7 @@ limitations under the License.
 									<input type="text" name="verbatim_field_numbers" id="verbatim_field_numbers" value="#getLoc.verbatim_field_numbers#" class="data-entry-input">
 								</div>
 								<div class="col-12 col-md-6 py-1">
-									<label for="valid_distribution_fg" class="data-entry-label">*Valid Distribution</label>
+									<label for="valid_distribution_fg" class="data-entry-label">Valid Distribution</label>
 									<cfif not isDefined("variables.valid_distribution_fg")>
 										<cfset variables.valid_distribution_fg = "1">
 									</cfif>
@@ -8253,7 +8252,7 @@ limitations under the License.
 											<input type="text" name="datum" id="datum" class="data-entry-input reqdClr" value="#encodeForHtml(datum)#" required>
 										</div>
 										<div class="col-12 col-md-2 mb-2">
-											<label for="max_error_distance" class="data-entry-label">*Error Radius</label>
+											<label for="max_error_distance" class="data-entry-label">Error Radius</label>
 											<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input reqdClr" value="#max_error_distance#" required>
 										</div>
 										<div class="col-12 col-md-1 mb-2">
@@ -8288,7 +8287,7 @@ limitations under the License.
 
 										<!--- Precision and other fields --->
 										<div class="col-12 col-md-3 mb-2">
-											<label for="coordinate_precision" class="data-entry-label">*Precision</label>
+											<label for="coordinate_precision" class="data-entry-label"*Precision</label>
 											<select name="coordinate_precision" id="coordinate_precision" class="data-entry-select reqdClr" required>
 												<cfif len(coordinate_precision) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 												<option value="" #selected#></option>
@@ -8317,7 +8316,7 @@ limitations under the License.
 											<input type="text" name="nearest_named_place" id="nearest_named_place" class="data-entry-input" value="#encodeForHtml(nearest_named_place)#">
 										</div>
 										<div class="col-12 col-md-3 mb-2">
-											<label for="lat_long_for_nnp_fg" class="data-entry-label">*Georeference is of Nearest Named Place</label>
+											<label for="lat_long_for_nnp_fg" class="data-entry-label">Georeference is of Nearest Named Place</label>
 											<select name="lat_long_for_nnp_fg" id="lat_long_for_nnp_fg" class="data-entry-select reqdClr" required>
 												<cfif lat_long_for_nnp_fg EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 												<option value="0" #selected#>No</option>
@@ -8326,7 +8325,7 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="lat_long_ref_source" class="data-entry-label">*Reference</label>
+											<label for="lat_long_ref_source" class="data-entry-label">Reference</label>
 											<input type="text" name="lat_long_ref_source" id="lat_long_ref_source" class="data-entry-input reqdClr" value="#encodeForHtml(lat_long_ref_source)#" required>
 										</div>
 										<div class="col-12 col-md-3 mb-2">
@@ -8673,7 +8672,7 @@ limitations under the License.
 											<input type="hidden" name="method" value="createBiolIndivRelation">
 											<div class="row mx-0 py-2">
 												<div class="col-12 col-md-6 px-1 pb-2">
-													<label class="data-entry-label">*Relationship:</label>
+													<label class="data-entry-label">Relationship:</label>
 													<select name="biol_indiv_relationship" size="1" class="reqdClr data-entry-select" required>
 														<cfloop query="ctReln">
 															<option value="#ctReln.biol_indiv_relationship#">#ctReln.biol_indiv_relationship#</option>
@@ -8682,7 +8681,7 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-6 px-1 pb-2">
 													<input type="hidden" id="target_collection_object_id" name="target_collection_object_id" value="">
-													<label class="data-entry-label" for="target_guid">*Related Cataloged Item:</label>
+													<label class="data-entry-label" for="target_guid">Related Cataloged Item:</label>
 													<input type="text" id="target_guid" name="target_guid" size="50" class="data-entry-input reqdClr" required>
 												</div>
 												<div class="col-12 col-md-12 px-1 pb-2">
@@ -8840,7 +8839,7 @@ limitations under the License.
 									<input type="hidden" name="biol_indiv_relations_id" value="#biol_indiv_relations_id#">
 									<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
 									<div class="col-12 col-md-3 px-0">
-										<label class="data-entry-label" for="biol_indiv_relationship_#i#">*Relationship:</label>
+										<label class="data-entry-label" for="biol_indiv_relationship_#i#">Relationship:</label>
 										<select name="biol_indiv_relationship" size="1" class="data-entry-select" required id="biol_indiv_relationship_#i#">
 											<cfloop query="ctReln">
 												<cfset selected = "">
@@ -9717,7 +9716,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											<input type="hidden" name="method" value="createPartAttribute">
 											<div class="row mx-0 pb-2">
 												<div class=" col-12 col-md-3 px-1">
-													<label for="attribute_type" class="data-entry-label">*Attribute Type</label>
+													<label for="attribute_type" class="data-entry-label">Attribute Type</label>
 													<select name="attribute_type" id="attribute_type" class="data-entry-select reqdClr" required>
 														<option value=""></option>
 														<cfloop query="ctspecpart_attribute_type">
@@ -9912,7 +9911,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											<input type="hidden" name="method" value="updatePartAttribute">
 											<div class="col-12 col-md-3">
 												<cfset current = "<span class='small90'>(#getPartAttributes.attribute_type#)</span>"><!--- " --->
-												<label for="attribute_type_#i#" class="data-entry-label">*Attribute Type #current#</label>
+												<label for="attribute_type_#i#" class="data-entry-label">Attribute Type #current#</label>
 												<select name="attribute_type" id="attribute_type_#i#" class="data-entry-select reqdClr" required
 														onchange="handlePartAttributeTypeChange('_#i#', '#arguments.partID#')">
 													<option value=""></option>
@@ -10411,7 +10410,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				<cfsavecontent variable="retval">
 					<cfset current = "<span class='small90'>(#arguments.val#)</span>"><!--- " --->
 					<cfoutput>
-						<label for="attribute_value_#arguments.paid#" class="data-entry-label">*Value #current#</label>
+						<label for="attribute_value_#arguments.paid#" class="data-entry-label">Value #current#</label>
 						<select name="attribute_value" id="attribute_value_#arguments.paid#" class="data-entry-select reqdClr" required>
 							<option value=""></option>
 							<cfloop query="r">
@@ -11527,7 +11526,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 									<form name="encumberForm" id="encumberForm" class="col-12 px-1 form-row mx-0 mb-0 pt-1">
 										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 										<div class="col-12 my-2">
-											<label for="encumbrance_id" class="form-label">*Select Existing Encumbrance</label>
+											<label for="encumbrance_id" class="form-label">Select Existing Encumbrance</label>
 											<select name="encumbrance_id" id="encumbrance_id" class="data-entry-select w-100" required>
 												<option value="" disabled selected>Select an existing encumbrance</option>
 												<cfloop query="listEncumb">
