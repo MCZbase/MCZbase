@@ -6801,7 +6801,7 @@ limitations under the License.
 					
 						<h2 class="h2 mt-3 px-0 float-left">Edit Collecting Event, Locality, Higher Geography for #guid#</h2>
 					</div>
-					<form id="locForm" name="locForm" method="post" class="col-12 px-0">
+					<form id="locForm" name="locForm" method="post" class="col-12 px-2 py-0 border bg-white">
 						<cfif splitToSave>	
 							<input type="hidden" name="action" id="action" value="splitAndSave">
 						<cfelse>
@@ -6815,8 +6815,8 @@ limitations under the License.
 						<input type="hidden" name="geology_data" id="geology_data" value="">
 						<input type="hidden" name="coll_event_numbers_data" id="coll_event_numbers_data" value="">
 	
-						<!--- higher geography --->
-						<div class="col-12 pt-2 pb-0 mt-2 border bg-white">
+						<!--- multiplicity and form action --->
+						<div class="col-12 pt-2 pb-0 mt-2 bg-white">
 							<!--- describe action this form will take --->
 							<cfif cecount.ct GT 1 OR loccount.ct GT 1>
 								<h4 class="font-italic text-danger">
@@ -6824,15 +6824,15 @@ limitations under the License.
 								</h4>
 								<!---<cfset separator = "">--->
 								<cfif cecount.ct GT 1>
-									<h3 class="h4">Collecting Event (#getloc.collecting_event_id#) is 
+									<h5 class="h4">Collecting Event (#getloc.collecting_event_id#) is 
 										<span class="text-danger">shared with #cecount.ct# other specimens</span>.
-									</h3>
+									</h5>
 								<!---<cfset separator = " ; ">--->
 								</cfif>
 								<cfif loccount.ct GT 1>
-									<h3 class="h4">Locality (#getloc.collecting_event_id#) is 
+									<h5 class="h4">Locality (#getloc.collecting_event_id#) is 
 										<span class="text-danger">shared with #loccount.ct# other specimens</span>.
-									</h3>
+									</h5>
 								</cfif>
 							
 							<cfelse>
@@ -6840,6 +6840,10 @@ limitations under the License.
 									The collecting event and locality are used only by this specimen.
 								</h4>
 							</cfif>
+						</div>
+
+						<!--- higher geography --->
+						<div class="col-12 pt-2 pb-0 mt-2 border bg-white">
 							<!--- Display of higher geography --->
 							<cfquery name="getGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT 
