@@ -3079,6 +3079,14 @@ limitations under the License.
 								</cfif>
 							</li>
 							<li class="list-group-item col-7 col-xl-7 pl-2 pr-0">#microhabitat#</li>
+						<cfelseif oneOfUs EQ 1>
+							<li class="list-group-item col-5 col-xl-5 px-0 font-weight-lessbold">
+								Microhabitat:
+								<cfif listcontainsnocase(session.roles,"manage_specimens")>
+									<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)"> Add </a>
+								</cfif>
+							</li>
+							<li class="list-group-item col-7 col-xl-7 pl-2 pr-0">[No Microhabitat recorded]</li>
 						</cfif>
 						<cfif len(loc_collevent.verbatim_habitat) gt 0>
 							<li class="list-group-item col-5 col-xl-5 px-0 font-weight-lessbold">Verbatim Habitat: </li>
