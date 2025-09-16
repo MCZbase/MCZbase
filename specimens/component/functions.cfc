@@ -11416,6 +11416,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
+							<div class="col-12">
 							<table class="table table-responsive w-100 mb-3">
 								<cfloop query="getSpecimen">
 									<tr>
@@ -11495,7 +11496,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 								</cfloop>
 							</table>
 						</div>
-						<div class="col-12">
+							<div class="col-12">
 							<!--- Add form --->
 							<cfquery name="listEncumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								SELECT 
@@ -11582,7 +11583,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							</div>
 						</div>
 
-						<cfquery name="getEncumbrances" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							<cfquery name="getEncumbrances" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT 
 								encumbering_agent.agent_name AS encumbering_agent, 
 								expiration_date, 
@@ -11601,7 +11602,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							ORDER BY 
 								encumbrance.made_date DESC
 						</cfquery>
-						<div class="col-12 my-0 pt-1 pb-0">
+							<div class="col-12 my-0 pt-1 pb-0">
 							<h2 class="h3 mt-3 px-2 mb-0">Existing Encumberances</h2>
 							<div class="col-12 px-0 form-row mx-0 border bg-light rounded mt-2">
 								<cfif getEncumbrances.recordcount EQ 0>
@@ -11609,20 +11610,27 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 								</cfif>
 								<cfloop query="getEncumbrances">
 									<div class="col-12 border-bottom py-2 bg-box-header-gray">
-										<h3 class="h4 font-weight-bold px-2 mb-0">#getEncumbrances.encumbrance_action#</h3>
-									</div>
-									<div class="col-12 px-3 py-1 my-2 mx-0 form-row">
-										<div class-"mx-3"><strong>Encumbered Date:</strong> #DateFormat(getEncumbrances.encumbered_date,"yyyy-mm-dd")#</div>
-										<div class="mx-3"><strong>Encumbering Agent:</strong> #getEncumbrances.encumbering_agent#</div>
+										<h3 class="h4 font-weight-bold px-2 mb-0">#getEncumbrances.encumbrance_action# with 
 										<cfif Len(getEncumbrances.expiration_date) GT 0>
-											<div class="mx-3"><strong>Expiration Date:</strong> #DateFormat(getEncumbrances.expiration_date,"yyyy-mm-dd")#</div>
+											<div class="mx-3"><strong>expiration date:</strong> #DateFormat(getEncumbrances.expiration_date,"yyyy-mm-dd")#</div>
 										</cfif>
 										<cfif Len(getEncumbrances.expiration_event) GT 0>
-											<div class="mx-3"><strong>Expiration Event:</strong> #getEncumbrances.expiration_event#</div>
+											<div class="mx-3"><strong>expiration event:</strong> #getEncumbrances.expiration_event#</div>
+										</cfif> 
+										</h3>
+									</div>
+									<div class="col-12 px-3 py-1 my-2 mx-0 form-row">
+										<div class-"mx-3">Encumbered Date: <strong>#DateFormat(getEncumbrances.encumbered_date,"yyyy-mm-dd")#</strong></div>
+										<div class="mx-3">Encumbering Agent: <strong>#getEncumbrances.encumbering_agent#</strong></div>
+										<cfif Len(getEncumbrances.expiration_date) GT 0>
+											<div class="mx-3">Expiration Date: <strong>#DateFormat(getEncumbrances.expiration_date,"yyyy-mm-dd")#</strong></div>
 										</cfif>
-										<div class="mx-3"><strong>Action:</strong> #getEncumbrances.encumbrance_action#</div>
+										<cfif Len(getEncumbrances.expiration_event) GT 0>
+											<div class="mx-3">Expiration Event: <strong>#getEncumbrances.expiration_event#</strong></div>
+										</cfif>
+										<div class="mx-3">Action: <strong>#getEncumbrances.encumbrance_action#</strong></div>
 										<cfif Len(getEncumbrances.remarks) GT 0>
-											<div class="mx-3"><strong>Remarks:</strong> #getEncumbrances.remarks#</div>
+											<div class="mx-3">Remarks: <strong>#getEncumbrances.remarks#</strong></div>
 										</cfif>
 										<div class="text-end">
 											<button type="button" class="btn btn-danger btn-xs mt-0 mx-3 py-0" onclick="removeEncumbrance(#getEncumbrances.encumbrance_id#,#collection_object_id#);">Remove</button>
@@ -11663,6 +11671,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 									};
 								</script>
 							</div>
+						</div>
 						</div>
 					</div>
 				</div>

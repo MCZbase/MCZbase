@@ -3888,7 +3888,7 @@ limitations under the License.
 						<div class="row mx-0">
 							<cfif flatstatus.ct GT 0>
 								<div class="col-12 px-2">
-									<span class="small90 text-danger font-weight-bold">Note: Update to the external view for this record is pending. The External data shown are stale.</span>
+									<span class="small90 text-danger font-weight-bold">Note: Update to the external view for this record is pending. The external data shown are stale.</span>
 								</div>
 							</cfif>
 							<div class="col-12 px-2">
