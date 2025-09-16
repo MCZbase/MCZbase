@@ -8827,10 +8827,10 @@ limitations under the License.
 				</h2>
 				<cfif relns.recordcount GT 0>
 				<cfset inverseRelations = "">
-				<cfset i = 0>	
-					<div class="border bg-light rounded mx-0 px-0 mt-2 form-row">
-						<cfloop query="relns">
-							<cfif direction EQ "forward">
+				<cfset i = 0>		
+					<cfloop query="relns">
+						<cfif direction EQ "forward">
+							<div class="border bg-light rounded mx-0 px-0 mt-2 form-row">
 								<cfset i = i + 1>
 								<div class="bg-box-header-gray border-bottom col-12 px-2 py-2">
 									Relationship: #ctReln.biol_indiv_relationship# to Record: #relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#
@@ -8885,11 +8885,12 @@ limitations under the License.
 										</div>
 									</div>
 								</form>
-							<cfelse>
-								<cfset inverseRelations =  "#inverseRelations#<li class='my-1'>#relns.biol_indiv_relationship# <a href='/Specimen.cfm?collection_object_id=#related_coll_object_id#' target='_blank'> #relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#</a> #relns.biol_indiv_relation_remarks# </li>"><!--- " --->
-							</cfif>
-						</cfloop>
-					</div>
+							</div>
+						<cfelse>
+							<cfset inverseRelations =  "#inverseRelations#<li class='my-1'>#relns.biol_indiv_relationship# <a href='/Specimen.cfm?collection_object_id=#related_coll_object_id#' target='_blank'> #relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#</a> #relns.biol_indiv_relation_remarks# </li>"><!--- " --->
+						</cfif>
+					</cfloop>
+					
 					<cfif len(inverseRelations) GT 0>
 						<div class="row mx-0 mt-3">
 							<div class="col-12">
