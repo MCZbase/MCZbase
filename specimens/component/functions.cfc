@@ -1581,7 +1581,7 @@ limitations under the License.
 							<div class="col-12 float-left">
 								<div class="edit-form float-left">
 									<div class="edit-form-header pt-1 px-2 col-12 float-left">
-										<h2 class="h3 my-0 px-1 pb-2">Edit Identification</h2>
+										<h2 class="h3 my-0 px-1 pb-0">Edit Identification</h2>
 									</div>
 									<div class="card-body">
 										<form name="editIdentificationForm" id="editIdentificationForm">
