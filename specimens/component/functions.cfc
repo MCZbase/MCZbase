@@ -1671,9 +1671,13 @@ limitations under the License.
 													</cfif>
 													<label for="id_state" class="data-entry-label">*Id is:</label>
 													<select name="id_state" id="eid_edit_id_state" class="data-entry-select reqdClr" required>
-														<option value="current" <cfif id_state EQ "current">selected</cfif>>Current</option>
-														<option value="previous" <cfif id_state EQ "previous">selected</cfif>>Previous</option>
-														<option value="stored_as" <cfif id_state EQ "stored_as">selected</cfif>>Previous: Stored As</option>
+														<cfif id_state EQ "current">
+															<option value="current" selected>Current</option>
+														<cfelse>
+															<option value="current">Current</option>
+															<option value="previous" <cfif id_state EQ "previous">selected</cfif>>Previous</option>
+															<option value="stored_as" <cfif id_state EQ "stored_as">selected</cfif>>Previous: Stored As</option>
+														</cfif>
 													</select>
 													<script>
 														$(document).ready(function() {
