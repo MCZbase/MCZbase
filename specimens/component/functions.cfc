@@ -8828,12 +8828,11 @@ limitations under the License.
 			<cfif relns.recordcount GT 0>
 				<cfset inverseRelations = "">
 				<cfset i = 0>	
-					<div class="col-12 bg-light border">
 						<cfloop query="relns">
 							<cfif direction EQ "forward">
 								<cfset i = i + 1>
 								<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;" class="my-2">
-									<div class="row m-0 py-1 col-12">
+									<div class="row m-0 py-1 col-12 px-0 bg-light border">
 										<input type="hidden" name="method" id="method_#i#" value="updateBiolIndivRelation">
 										<input type="hidden" name="biol_indiv_relations_id" value="#biol_indiv_relations_id#">
 										<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
@@ -8877,8 +8876,8 @@ limitations under the License.
 												value="Delete" class="btn btn-xs btn-warning mt-2" 
 												onclick=" confirmDialog('Delete this relationship (#relns.biol_indiv_relationship# #guid#)?', 'Confirm Delete Relationship', function() { doDelete('#i#'); }  );">
 										</div>
-										<div class="col-12 col-md-8">
-											<output id="editRelationFormOutput_#i#" aria-live="polite"></output>
+										<div class="col-12 col-md-8 px-0 mt-2">
+											<output id="editRelationFormOutput_#i#" class="pt-1" aria-live="polite"></output>
 										</div>
 									</div>
 								</form>
@@ -8886,7 +8885,7 @@ limitations under the License.
 								<cfset inverseRelations =  "#inverseRelations#<li class='my-1'>#relns.biol_indiv_relationship# <a href='/Specimen.cfm?collection_object_id=#related_coll_object_id#' target='_blank'> #relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#</a> #relns.biol_indiv_relation_remarks# </li>"><!--- " --->
 							</cfif>
 						</cfloop>
-					</div>
+					
 					<cfif len(inverseRelations) GT 0>
 						<div class="row mx-0 mt-3">
 							<div class="col-12">
