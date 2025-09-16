@@ -8820,18 +8820,22 @@ limitations under the License.
 						and ctrel.rel_type <> 'functional'
 				)
 			</cfquery>
-			<div class="row addform mx-0 py-2">
+			<div class="row  mx-0 py-2">
 				
-				<h2 class="h3 addform-header mt-2 col-12 px-2 mb-1">
+				<h2 class="h3 mt-2 col-12 px-2 mb-1">
 					Edit Existing Relationships
 				</h2>
-			<cfif relns.recordcount GT 0>
+				<cfif relns.recordcount GT 0>
 				<cfset inverseRelations = "">
 				<cfset i = 0>	
+					<div class="add-form">
 						<cfloop query="relns">
 							<cfif direction EQ "forward">
 								<cfset i = i + 1>
-								<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;" class="my-2">
+								<div class="add-form-header">
+									Relationship: #ctReln.biol_indiv_relationship# to #relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#
+								</div>
+								<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;" class="card-body my-2">
 									<div class="row m-0  col-12 py-3 bg-light border">
 										<input type="hidden" name="method" id="method_#i#" value="updateBiolIndivRelation">
 										<input type="hidden" name="biol_indiv_relations_id" value="#biol_indiv_relations_id#">
@@ -8885,7 +8889,7 @@ limitations under the License.
 								<cfset inverseRelations =  "#inverseRelations#<li class='my-1'>#relns.biol_indiv_relationship# <a href='/Specimen.cfm?collection_object_id=#related_coll_object_id#' target='_blank'> #relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#</a> #relns.biol_indiv_relation_remarks# </li>"><!--- " --->
 							</cfif>
 						</cfloop>
-					
+					</div>
 					<cfif len(inverseRelations) GT 0>
 						<div class="row mx-0 mt-3">
 							<div class="col-12">
@@ -8941,7 +8945,7 @@ limitations under the License.
 					<li class="py-1">No Relationships to this cataloged item</li>
 				</ul>
 			</cfif>
-		</div>
+			</div>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
