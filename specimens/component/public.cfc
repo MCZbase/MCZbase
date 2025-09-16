@@ -3838,7 +3838,9 @@ limitations under the License.
 				<cfelseif oneOfUs EQ 1>
 					<ul class="list-group">
 						<cfif len(#check.encumbranceDetail#) is not 0>
-							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">Encumbrances:</span> #replace(check.encumbranceDetail,";","<br>","all")# </li>
+							<li class="list-group-item pt-0 pb-1">
+								<!---<span class="my-0 d-inline font-weight-lessbold">Encumbrances:</span> --->
+								#replace(check.encumbranceDetail,";","</li><li>","all")# </li>
 						<cfelse>
 							<li class="small list-group-item font-italic py-0">None</li>
 						</cfif>
