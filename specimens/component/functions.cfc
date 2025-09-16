@@ -8828,12 +8828,12 @@ limitations under the License.
 				<cfif relns.recordcount GT 0>
 				<cfset inverseRelations = "">
 				<cfset i = 0>	
-					<div class="add-form">
+					<div class="border bg-light rounded mx-0 px-0 mt-2 form-row">
 						<cfloop query="relns">
 							<cfif direction EQ "forward">
 								<cfset i = i + 1>
-								<div class="add-form-header">
-									Relationship: #ctReln.biol_indiv_relationship# to #relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#
+								<div class="bg-box-header-gray border-bottom col-12 px-2 py-2">
+									Relationship: #ctReln.biol_indiv_relationship# to Record: #relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#
 								</div>
 								<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;" class="card-body my-2">
 									<div class="row m-0  col-12 py-3 bg-light border">
