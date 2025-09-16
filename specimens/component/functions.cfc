@@ -419,11 +419,11 @@ limitations under the License.
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12 float-left">
-							<h1 class="h3 px-1"> 
+							<h2 class="h3 px-1"> 
 								Edit Media 
 								<a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> 
 								<a href="/media.cfm?action=newMedia" target="_blank" class="btn btn-xs btn-secondary float-right">Add New Media Record</a>
-							</h1>
+							</h2>
 							<!--- link existing media to cataloged item --->
 							<div class="add-form float-left">
 								<div class="add-form-header py-1 px-2 col-12 float-left">
@@ -4337,11 +4337,11 @@ limitations under the License.
 					is_subsample,
 					specimen_part.part_name
 			</cfquery>
-			<h1 class="h3 pt-3 px-2">
+			<h2 class="h3 pt-3 px-2">
 				Edit Existing Parts (#getParts.recordcount#)
 				<a href="/findContainer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs btn-secondary" title="Show parts in container heirarchy">View Part Locations</a>
 				<a href="/Reports/report_printer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs btn-secondary" title="Print Labels for this Specimen">Print Labels</a>
-			</h1>
+			</h2>
 			<div class="col-12 px-0 my-1 float-left">
 				<cfif getParts.recordCount EQ 0>
 					<div class="bg-light border p-2 m-2">
@@ -10718,7 +10718,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							<div class="container-fluid">
 								<div class="row">
 									<div class="col-12 mt-0 bg-light border rounded pt-1 pb-0 px-3">
-										<h1 class="h3">Existing dwc:MaterialSampleIDs</h1>
+										<h2 class="h3">Existing dwc:MaterialSampleIDs</h2>
 										<cfset i=1>
 										<ul>
 											<cfloop query="getGuids">
