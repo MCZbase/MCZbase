@@ -133,7 +133,7 @@ function createCitationEditDialog(dialogId,title,closecallback,max_height=775) {
 		height: h,
 		width: w,
 		minWidth: 320,
-		minHeight: 450,
+		minHeight: 650,
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
@@ -200,7 +200,7 @@ function updateIdentifications(collection_object_id, identificationUpdates,targe
  * @param guid the guid of the specimen to display in the dialog title
  * @param callback a callback function to invoke on closing the dialog.
  */
-function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callback) {
+function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callback, 400, 600) {
 	var title = "Edit Identifications for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
 	jQuery.ajax({
