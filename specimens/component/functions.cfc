@@ -11608,7 +11608,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 									<div class="col-12 px-0 form-row mx-0 border bg-light rounded mt-2">
 										<cfif getEncumbrances.recordcount EQ 0>
 											<div class="col-12 px-0 py-2">No encumbrances exist for this specimen.</div>
-										<cfelse>>
+										<cfelse>
 										<div class="col-12 border-bottom py-2 form-row mx-0 bg-box-header-gray">
 											<h3 class="h4 font-weight-lessbold px-2 mb-0">#getEncumbrances.encumbrance_action# with 
 											<cfif Len(getEncumbrances.expiration_date) GT 0>
