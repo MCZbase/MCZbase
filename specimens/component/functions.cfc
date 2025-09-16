@@ -8820,17 +8820,16 @@ limitations under the License.
 						and ctrel.rel_type <> 'functional'
 				)
 			</cfquery>
-			<div class="">
+			<div class="row mx-0 py-2">
 				<h2 class="h3 mt-2 px-2 mb-1">
 					Edit Existing Relationships
 				</h2>
-			</div>
 			<cfif relns.recordcount GT 0>
 				<cfset inverseRelations = "">
-				<cfset i = 0>
-				<div class="row mx-0 border bg-light py-2">
+				<cfset i = 0>	
 					<cfloop query="relns">
-						<cfif direction EQ "forward">
+						<div class="col-12 bg-light border">
+							<cfif direction EQ "forward">
 							<cfset i = i + 1>
 							<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;" class="my-2">
 								<div class="row m-0 py-1 col-12">
@@ -8885,18 +8884,18 @@ limitations under the License.
 						<cfelse>
 							<cfset inverseRelations =  "#inverseRelations#<li>#relns.biol_indiv_relationship# <a href='/Specimen.cfm?collection_object_id=#related_coll_object_id#' target='_blank'> #relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#</a> #relns.biol_indiv_relation_remarks# </li>"><!--- " --->
 						</cfif>
-					</div>
-				</cfloop>
-				<cfif len(inverseRelations) GT 0>
-					<div class="row mx-0 mt-3">
-						<div class="col-12">
-							<strong>Inverse Relationships:</strong>
-							<ul>
-								#inverseRelations#
-							</ul>
 						</div>
-					</div>
-				</cfif>
+					</cfloop>
+					<cfif len(inverseRelations) GT 0>
+						<div class="row mx-0 mt-3">
+							<div class="col-12">
+								<strong>Inverse Relationships:</strong>
+								<ul>
+									#inverseRelations#
+								</ul>
+							</div>
+						</div>
+					</cfif>
 				<script>
 					function doSave(formId) {
 						setFeedbackControlState("editRelationFormOutput_"+formId,"saving")
