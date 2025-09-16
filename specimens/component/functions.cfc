@@ -8827,65 +8827,65 @@ limitations under the License.
 			<cfif relns.recordcount GT 0>
 				<cfset inverseRelations = "">
 				<cfset i = 0>	
-					<cfloop query="relns">
-						<div class="col-12 bg-light border">
+					<div class="col-12 bg-light border">
+						<cfloop query="relns">
 							<cfif direction EQ "forward">
-							<cfset i = i + 1>
-							<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;" class="my-2">
-								<div class="row m-0 py-1 col-12">
-									<input type="hidden" name="method" id="method_#i#" value="updateBiolIndivRelation">
-									<input type="hidden" name="biol_indiv_relations_id" value="#biol_indiv_relations_id#">
-									<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
-									<div class="col-12 col-md-3 px-0">
-										<label class="data-entry-label" for="biol_indiv_relationship_#i#">Relationship:</label>
-										<select name="biol_indiv_relationship" size="1" class="data-entry-select" required id="biol_indiv_relationship_#i#">
-											<cfloop query="ctReln">
-												<cfset selected = "">
-												<cfif relns.biol_indiv_relationship EQ ctReln.biol_indiv_relationship>
-													<cfset selected = "selected">
-												</cfif>
-												<option value="#ctReln.biol_indiv_relationship#" #selected#>#ctReln.biol_indiv_relationship#</option>
-											</cfloop>
-										</select>
+								<cfset i = i + 1>
+								<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;" class="my-2">
+									<div class="row m-0 py-1 col-12">
+										<input type="hidden" name="method" id="method_#i#" value="updateBiolIndivRelation">
+										<input type="hidden" name="biol_indiv_relations_id" value="#biol_indiv_relations_id#">
+										<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
+										<div class="col-12 col-md-3 px-0">
+											<label class="data-entry-label" for="biol_indiv_relationship_#i#">Relationship:</label>
+											<select name="biol_indiv_relationship" size="1" class="data-entry-select" required id="biol_indiv_relationship_#i#">
+												<cfloop query="ctReln">
+													<cfset selected = "">
+													<cfif relns.biol_indiv_relationship EQ ctReln.biol_indiv_relationship>
+														<cfset selected = "selected">
+													</cfif>
+													<option value="#ctReln.biol_indiv_relationship#" #selected#>#ctReln.biol_indiv_relationship#</option>
+												</cfloop>
+											</select>
+										</div>
+										<cfset guid = "#relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#">
+										<div class="col-12 col-md-3">
+											<label class="data-entry-label" for="target_collection_object_id_#i#">
+												To:
+												<a href="/specimens/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_blank">
+													#guid#
+												</a>
+											</label>
+											<input type="hidden" id="target_collection_object_id_#i#" name="target_collection_object_id" value="#related_coll_object_id#">
+											<input type="text" id="target_guid_#i#" name="target_guid" size="50" class="data-entry-input" value="#guid#">
+											<script>
+												$(document).ready(function() {
+													makeCatalogedItemAutocompleteMeta("target_guid_#i#", "target_collection_object_id_#i#");
+												});
+											</script>
+										</div>
+										<div class="col-12 col-md-6 px-0">
+											<label class="data-entry-label" for="remarks_#i#" >Remarks:</label>
+											<input class="data-entry-input" type="text" id="remarks_#i#" name="biol_indiv_relation_remarks" value="#biol_indiv_relation_remarks#">
+										</div>
+										<div class="col-12 col-md-auto px-0">
+											<input type="button" id="updateButton_#i#" value="Update" class="btn btn-xs btn-secondary mt-2" onclick="doSave('#i#')">
+										</div>
+										<div class="col-12 col-md-auto px-2">
+											<input type="button" id="deleteButton_#i#"
+												value="Delete" class="btn btn-xs btn-warning mt-2" 
+												onclick=" confirmDialog('Delete this relationship (#relns.biol_indiv_relationship# #guid#)?', 'Confirm Delete Relationship', function() { doDelete('#i#'); }  );">
+										</div>
+										<div class="col-12 col-md-8">
+											<output id="editRelationFormOutput_#i#" aria-live="polite"></output>
+										</div>
 									</div>
-									<cfset guid = "#relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#">
-									<div class="col-12 col-md-3">
-										<label class="data-entry-label" for="target_collection_object_id_#i#">
-											To:
-											<a href="/specimens/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_blank">
-												#guid#
-											</a>
-										</label>
-										<input type="hidden" id="target_collection_object_id_#i#" name="target_collection_object_id" value="#related_coll_object_id#">
-										<input type="text" id="target_guid_#i#" name="target_guid" size="50" class="data-entry-input" value="#guid#">
-										<script>
-											$(document).ready(function() {
-												makeCatalogedItemAutocompleteMeta("target_guid_#i#", "target_collection_object_id_#i#");
-											});
-										</script>
-									</div>
-									<div class="col-12 col-md-6 px-0">
-										<label class="data-entry-label" for="remarks_#i#" >Remarks:</label>
-										<input class="data-entry-input" type="text" id="remarks_#i#" name="biol_indiv_relation_remarks" value="#biol_indiv_relation_remarks#">
-									</div>
-									<div class="col-12 col-md-auto px-0">
-										<input type="button" id="updateButton_#i#" value="Update" class="btn btn-xs btn-secondary mt-2" onclick="doSave('#i#')">
-									</div>
-									<div class="col-12 col-md-auto px-2">
-										<input type="button" id="deleteButton_#i#"
-											value="Delete" class="btn btn-xs btn-warning mt-2" 
-											onclick=" confirmDialog('Delete this relationship (#relns.biol_indiv_relationship# #guid#)?', 'Confirm Delete Relationship', function() { doDelete('#i#'); }  );">
-									</div>
-									<div class="col-12 col-md-8">
-										<output id="editRelationFormOutput_#i#" aria-live="polite"></output>
-									</div>
-								</div>
-							</form>
-						<cfelse>
-							<cfset inverseRelations =  "#inverseRelations#<li>#relns.biol_indiv_relationship# <a href='/Specimen.cfm?collection_object_id=#related_coll_object_id#' target='_blank'> #relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#</a> #relns.biol_indiv_relation_remarks# </li>"><!--- " --->
-						</cfif>
-						</div>
-					</cfloop>
+								</form>
+							<cfelse>
+								<cfset inverseRelations =  "#inverseRelations#<li class='my-1'>#relns.biol_indiv_relationship# <a href='/Specimen.cfm?collection_object_id=#related_coll_object_id#' target='_blank'> #relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#</a> #relns.biol_indiv_relation_remarks# </li>"><!--- " --->
+							</cfif>
+						</cfloop>
+					</div>
 					<cfif len(inverseRelations) GT 0>
 						<div class="row mx-0 mt-3">
 							<div class="col-12">
