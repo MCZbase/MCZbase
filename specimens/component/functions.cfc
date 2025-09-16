@@ -3617,7 +3617,7 @@ limitations under the License.
 		</cfquery>
 		<cfset maxCollOrder = Val(collOrderMax.max_order) + 1>
 		<cfoutput>
-			<h2 class="h3">Current
+			<h2 class="h3 mt-3 mx-2 mb-0">Current
 				<cfif variables.target is "collector">
 					Collectors
 				<cfelseif variables.target is "preparator">
@@ -3634,7 +3634,7 @@ limitations under the License.
 			<cfset i=1>
 			<cfloop query="getColls">
 				<div class="border bg-light pt-2 pb-0 px-3 my-2">
-					<div class="col-12 border-bottom py-2 mx-0 form-row bg-box-header-gray"><h2 class="h3">#getColls.collector_role#: #getColls.agent_name#</h2></div>
+					<div class="col-12 border-bottom py-2 mx-0 form-row bg-box-header-gray"><h2 class="h3 mt-3 mx-2 mb-0">Agent: #getColls.collector_role#: #getColls.agent_name#</h2></div>
 					<form name="colls#i#" id="colls#i#" class="w-100" onSubmit="return false;">
 						<input type="hidden" name="method" id="coll_method_#i#" value="">
 						<input type="hidden" name="returnformat" value="json">
@@ -3642,8 +3642,8 @@ limitations under the License.
 						<input type="hidden" name="collector_id" id="collector_id_#i#" value="#getColls.collector_id#">
 						<input type="hidden" name="collection_object_id" id="collection_object_id_#i#" value="#variables.collection_object_id#">
 						<input type="hidden" name="collector_role" id="collector_role_#i#" value="#getColls.collector_role#">
-						<div class="form-row">
-							<div class="col-12 col-md-6 mt-1 px-2">
+						<div class="form-row mt-2 px-0 mx-0 rounded bg-light border">
+							<div class="col-12 border-bottom py-2 mx-0 form-row bg-box-header-gray ">
 								<cfif getColls.collector_role EQ "c">
 									<cfset role="Collector">
 								<cfelse>
