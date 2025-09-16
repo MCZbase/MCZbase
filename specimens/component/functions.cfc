@@ -3637,7 +3637,7 @@ limitations under the License.
 					<div class="col-12 border-bottom py-1 mb-2 mx-0 form-row bg-box-header-gray">
 						<h2 class="h3 mt-1 mx-2 mb-0">Agent: #getColls.agent_name#</h2>
 					</div>
-					<div class="form-row mx-0 px-3">
+					<div class="form-row mx-0 px-2">
 						<form name="colls#i#" id="colls#i#" class="form-row mx-0" onSubmit="return false;">
 							<input type="hidden" name="method" id="coll_method_#i#" value="">
 							<input type="hidden" name="returnformat" value="json">
