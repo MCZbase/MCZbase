@@ -6025,7 +6025,9 @@ limitations under the License.
 		<h2 class="h3 mt-4 px-2 mb-0">Edit Existing Attributes</h2>
 		<div class="col-12 px-0">
 			<cfif getAttributes.recordCount EQ 0>
-				<li>No attributes found for this specimen.</li>
+				<ul>
+					<li>No attributes found for this specimen.</li>
+				</ul>
 			</cfif>
 			<cfset i = 0>
 			<cfloop query="getAttributes">
