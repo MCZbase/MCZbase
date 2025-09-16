@@ -248,7 +248,7 @@ limitations under the License.
 										</cfif>	
 									</div>
 										
-									<cfset cols="col-xl-5">
+									<cfset cols="col-xl-6">
 									<cfif isDefined("iheader.imageurl") and isDefined("summary.cited_as")>
 										<cfif len(iheader.imageurl) gt 7 and len(summary.cited_as) gt 7> 
 											<cfset cols="col-12 col-xl-5">
@@ -257,9 +257,9 @@ limitations under the License.
 										<cfelseif len(iheader.imageurl) lt 7 and len(summary.cited_as) gt 7> 
 											<cfset cols="col-12 col-xl-5">
 										<cfelseif len(iheader.imageurl) lt 7 and len(summary.cited_as) lt 7> 
-											<cfset cols="col-12 col-xl-5">
+											<cfset cols="col-12 col-xl-6">
 										<cfelse> 
-											<cfset cols="col-xl-5">
+											<cfset cols="col-xl-6">
 										</cfif>
 									</cfif>
 									<div class="float-left pr-md-0 my-1 mt-xl-2 #cols# ">
@@ -288,7 +288,7 @@ limitations under the License.
 										<div class="col-12 px-xl-0 small">
 											<cfif isMixed> 
 												<ul style="list-style: disc;padding: .25rem 1.5rem 0 1.5rem;margin-bottom:0.5rem;">
-													<li class="h5 mb-1">
+													<li class="h5 mb-0">
 											</cfif>
 											occurrenceID: <a href="https://mczbase.mcz.harvard.edu/guid/#summary.GUID#">https://mczbase.mcz.harvard.edu/guid/#summary.GUID#</a>
 											<a href="/guid/#summary.GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a> 
@@ -298,7 +298,7 @@ limitations under the License.
 											</cfif>
 											<cfif isMixed>
 												<cfloop query="mixedCollection">
-													<li class="h5 mb-1" style="line-height: 0.5rem;">
+													<li class="h5 mb-0" style="line-height: 0.5rem;">
 														occurrenceID: <a class="mb-0" href="#mixedCollection.assembled_resolvable#">#mixedCollection.assembled_identifier#</a>
 														<cfif left(mixedCollection.assembled_identifier,9) EQ "urn:uuid:">
 															<a href="/uuid/#mixedCollection.local_identifier#/json" class="mb-0"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>

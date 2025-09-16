@@ -1581,7 +1581,7 @@ limitations under the License.
 							<div class="col-12 float-left">
 								<div class="edit-form float-left">
 									<div class="edit-form-header pt-1 px-2 col-12 float-left">
-										<h2 class="h3 my-0 px-1 pb-0">Edit Identification</h2>
+										<h2 class="h3 my-0 px-1 pb-2">Edit Identification</h2>
 									</div>
 									<div class="card-body">
 										<form name="editIdentificationForm" id="editIdentificationForm">
@@ -2524,7 +2524,7 @@ limitations under the License.
 						<div class="row">
 							<div class="col-12 float-left mt-3 border">
 								<!--- cataloging data --->
-								<h2 class="h3 my-0 px-1 pt-3 pb-0">Cataloged Item #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
+								<h2 class="h3 my-0 px-1 pt-2 pb-0">Cataloged Item #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								<ul class="px-4 mx-1">
 									<cfif isDefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 										<li>Accession: <a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#">#getCatalog.accn_number#</a></li>
