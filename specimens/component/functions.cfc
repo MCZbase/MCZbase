@@ -6817,11 +6817,11 @@ limitations under the License.
 	
 						<!--- higher geography --->
 						<div class="col-12 pt-2 pb-0 mt-2 border bg-white">
-							<h4 class="font-italic text-danger">
-								Warning: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
-							</h4>
 							<!--- describe action this form will take --->
 							<cfif cecount.ct GT 1 OR loccount.ct GT 1>
+								<h4 class="font-italic text-danger">
+									Warning: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
+								</h4>
 								<!---<cfset separator = "">--->
 								<cfif cecount.ct GT 1>
 									<h3 class="h4">Collecting Event (#getloc.collecting_event_id#) is 
@@ -6836,7 +6836,9 @@ limitations under the License.
 								</cfif>
 							
 							<cfelse>
-								<p class="font-italic text-success">The collecting event and locality are used only by this specimen.</p>
+								<h4 class="font-italic text-success">
+									The collecting event and locality are used only by this specimen.
+								</h4>
 							</cfif>
 							<!--- Display of higher geography --->
 							<cfquery name="getGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
