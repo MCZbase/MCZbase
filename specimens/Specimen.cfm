@@ -942,9 +942,9 @@ limitations under the License.
 										#blockattributes#
 									</div>
 								<cfelse>
-									<div class="card-body px-2 py-0" id="attributesCardBody">
+									<div class="card-body py-0" id="attributesCardBody">
 										<ul class="list-group my-0">
-											<li class="small list-group-item py-1 font-italic">None</li>
+											<li class="small list-group-item px-3 py-1 font-italic">None</li>
 										</ul>
 									</div>
 								</cfif>
