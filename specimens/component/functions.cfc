@@ -3616,6 +3616,7 @@ limitations under the License.
 			<cfset i=1>
 			<cfloop query="getColls">
 				<div class="border bg-light pt-2 pb-0 px-3 my-2">
+					<div class="col-12 border-bottom py-2 mx-0 form-row bg-box-header-gray"><h2 class="h3">#getColls.collector_role#: #getColls.agent_name#</h2></div>
 					<form name="colls#i#" id="colls#i#" class="w-100" onSubmit="return false;">
 						<input type="hidden" name="method" id="coll_method_#i#" value="">
 						<input type="hidden" name="returnformat" value="json">
