@@ -2546,10 +2546,10 @@ limitations under the License.
 									</cfif>
 									<cfif len(getCatalog.encumbranceDetail) GT 0>
 										<cfset guid ="#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#">
-										<li>
-											Encumbrances: #getCatalog.encumbranceDetail#
-											<button type="button" class="btn btn-xs btn-secondary ml-2"
-												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadEncumbrances); ">Edit</button>
+										<li >
+											<span class="mr-1">Encumbrances: #getCatalog.encumbranceDetail#</span>
+											<button type="button" class="btn btn-xs btn-secondary py-0"
+												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadEncumbrances); ">Edit Encumbrance</button>
 										</li>
 									<cfelse>
 										<li>
@@ -2579,8 +2579,8 @@ limitations under the License.
 									<cfset variables.coll_object_type="#variables.coll_object_type#: Mixed Collection">
 								</cfif>
 								<div class="h3 mb-1"><cfset guidLink = "https://mczbase.mcz.harvard.edu/guid/#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#">
-								#variables.coll_object_type# #getCatalog.cataloged_item_type_description# 
-								(occurrenceID: #guidLink# <a href="#guidLink#/json"> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a>)</div>
+								#variables.coll_object_type# #getCatalog.cataloged_item_type_description# <br>
+								<span class="small">(occurrenceID: #guidLink# <a href="#guidLink#/json"> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a>)</span></div>
 								<cfquery name="getComponents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT count(specimen_part.collection_object_id) ct, coll_object_type, part_name, count(identification.collection_object_id) identifications
 									FROM 
@@ -3634,6 +3634,7 @@ limitations under the License.
 			<cfset i=1>
 			<cfloop query="getColls">
 				<div class="border bg-light pt-2 pb-0 px-3 my-2">
+					<div class="col-12 border-bottom py-2 mx-0 form-row bg-box-header-gray"><h2 class="h3">#getColls.collector_role#: #getColls.agent_name#</h2></div>
 					<form name="colls#i#" id="colls#i#" class="w-100" onSubmit="return false;">
 						<input type="hidden" name="method" id="coll_method_#i#" value="">
 						<input type="hidden" name="returnformat" value="json">
