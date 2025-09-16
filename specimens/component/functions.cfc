@@ -11604,11 +11604,11 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 						</cfquery>
 							<div class="col-12 my-0 pt-1 pb-0">
 								<h2 class="h3 mt-3 px-2 mb-0">Existing Encumberances</h2>
-								<div class="col-12 px-0 form-row mx-0 border bg-light rounded mt-2">
-									<cfif getEncumbrances.recordcount EQ 0>
-										<div class="col-12 px-0 py-2">No encumbrances exist for this specimen.</div>
-									</cfif>
-									<cfloop query="getEncumbrances">
+								<cfloop query="getEncumbrances">
+									<div class="col-12 px-0 form-row mx-0 border bg-light rounded mt-2">
+										<cfif getEncumbrances.recordcount EQ 0>
+											<div class="col-12 px-0 py-2">No encumbrances exist for this specimen.</div>
+										<cfelse>>
 										<div class="col-12 border-bottom py-2 form-row mx-0 bg-box-header-gray">
 											<h3 class="h4 font-weight-lessbold px-2 mb-0">#getEncumbrances.encumbrance_action# with 
 											<cfif Len(getEncumbrances.expiration_date) GT 0>
@@ -11637,40 +11637,41 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												<output id="encumberForm_feedback_#encumbrance_id#" class="feedback" aria-live="polite"></output>
 											</div>
 										</div>
-									</cfloop>
-									<script>
-									function removeEncumbrance(encumbrance_id,collection_object_id) { 
-										confirmDialog('Are you sure you want to remove this specimen from this encumbrance?','Confirm: Remove this Cataloged Item from this Encumbrance', function() {
-											var feedbackDiv = "encumberForm_feedback_"+encumbrance_id
-											setFeedbackControlState(feedbackDiv,"saving")
-											$.ajax({
-												url : "/specimens/component/functions.cfc",
-												type : "post",
-												dataType : "json",
-												data: {
-													method: "removeObjectFromEncumbrance",
-													encumbrance_id: encumbrance_id,
-													collection_object_id: #collection_object_id#
-												},
-												success: function (result) {
-													console.log(result);
-													if (result && result[0] && result[0].status == "removed") {
-														setFeedbackControlState(feedbackDiv,"removed");
-													} else {
-														// we shouldn't be able to reach this block, backing error should return an http 500 status
-														setFeedbackControlState(feedbackDiv,"error");
-														messageDialog('Error removing encumbrance', 'Error removing encumbrance.');
-													}
-												},
-												error: function(jqXHR,textStatus,error){
-													setFeedbackControlState(feedbackDiv,"error")
-													handleFail(jqXHR,textStatus,error,"removing encumbrance");
+										</cfif>
+									</div>
+								</cfloop>
+								<script>
+								function removeEncumbrance(encumbrance_id,collection_object_id) { 
+									confirmDialog('Are you sure you want to remove this specimen from this encumbrance?','Confirm: Remove this Cataloged Item from this Encumbrance', function() {
+										var feedbackDiv = "encumberForm_feedback_"+encumbrance_id
+										setFeedbackControlState(feedbackDiv,"saving")
+										$.ajax({
+											url : "/specimens/component/functions.cfc",
+											type : "post",
+											dataType : "json",
+											data: {
+												method: "removeObjectFromEncumbrance",
+												encumbrance_id: encumbrance_id,
+												collection_object_id: #collection_object_id#
+											},
+											success: function (result) {
+												console.log(result);
+												if (result && result[0] && result[0].status == "removed") {
+													setFeedbackControlState(feedbackDiv,"removed");
+												} else {
+													// we shouldn't be able to reach this block, backing error should return an http 500 status
+													setFeedbackControlState(feedbackDiv,"error");
+													messageDialog('Error removing encumbrance', 'Error removing encumbrance.');
 												}
-											});
+											},
+											error: function(jqXHR,textStatus,error){
+												setFeedbackControlState(feedbackDiv,"error")
+												handleFail(jqXHR,textStatus,error,"removing encumbrance");
+											}
 										});
-									};
-								</script>
-								</div>
+									});
+								};
+							</script>
 							</div>
 						</div>
 					</div>
