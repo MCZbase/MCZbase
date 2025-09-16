@@ -8662,7 +8662,7 @@ limitations under the License.
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12">
-								<div class="add-form">
+								<div class="add-form mt-2">
 									<div class="add-form-header pt-1 px-2">
 										<h2 class="h3 my-0 px-1 pb-1">Add New Relationship to #thisCollId.institution_acronym#:#thisCollId.collection_cde#:#thisCollId.cat_num#</h2>
 									</div>
