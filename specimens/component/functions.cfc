@@ -9885,12 +9885,12 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 			</cfquery>
 			
 			<div class="row mx-0">
-				<div class="p-2 col-12 row">
+				<div class="p-2 col-12 row mx-0">
 					<h2 class="h3">Edit Existing Part Attributes</h2>
 					<div class="col-12 px-0 pb-3">
 						<cfif getPartAttributes.recordCount EQ 0>
-							<div class="bg-light border col-12">
-								<p>None</p>
+							<div class="bg-light border py-2 col-12">
+								<p class="mb-0">None</p>
 							</div>
 						<cfelse>
 							<cfset var i = 0>
