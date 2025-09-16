@@ -3635,7 +3635,7 @@ limitations under the License.
 			<cfloop query="getColls">
 				<div class="form-row mt-2 px-0 mx-0 rounded bg-light border">
 					<div class="col-12 border-bottom py-1 mb-2 mx-0 form-row bg-box-header-gray">
-						<h2 class="h3 mt-1 mx-2 mb-0">Agent: #getColls.agent_name#</h2>
+						<h3 class="h4 mt-0 mx-2 mb-0">Agent: #getColls.agent_name#</h3>
 					</div>
 					<div class="form-row mx-0 px-2">
 						<form name="colls#i#" id="colls#i#" class="form-row mx-0" onSubmit="return false;">
