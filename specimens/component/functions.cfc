@@ -8821,7 +8821,7 @@ limitations under the License.
 				)
 			</cfquery>
 			<div class="">
-				<h2 class="h3 mt-2 px-2 mb-0">
+				<h2 class="h3 mt-2 px-2 mb-1">
 					Edit Existing Relationships
 				</h2>
 			</div>
@@ -8834,7 +8834,7 @@ limitations under the License.
 						<cfif direction EQ "forward">
 							<cfset i = i + 1>
 							<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;" class="my-2">
-								<div class="row m-0 pt-2 pb-1 col-12">
+								<div class="row m-0 py-1 col-12">
 									<input type="hidden" name="method" id="method_#i#" value="updateBiolIndivRelation">
 									<input type="hidden" name="biol_indiv_relations_id" value="#biol_indiv_relations_id#">
 									<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
