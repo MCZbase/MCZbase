@@ -6023,8 +6023,9 @@ limitations under the License.
 					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 					<input type="hidden" name="attribute_id" value="#attribute_id#">
 					<input type="hidden" name="method" value="updateAttribute">
-					<div class="row mx-0 border bg-light rounded px-2 py-2">
-						<div class="bg-box-header-gray bottom-bottom">#getAttributeTypes.attribute_type#: #getAttributes.attribute_value# <cfif len(#getAttributes.attribute_units#) gt 0>#getAttributes.attribute_units#</cfif></div>
+					<div class="border bg-light rounded mx-0 px-0 mt-2 form-row">
+						<div class="col-12 border-bottom py-2 mx-0 form-row bg-box-header-gray">#getAttributeTypes.attribute_type#: #getAttributes.attribute_value# <cfif len(#getAttributes.attribute_units#) gt 0>#getAttributes.attribute_units#</cfif>
+						</div>
 						<div class="col-12 col-xl-2 px-1 mt-1 pb-2">
 							<label for="att_name#i#" class="data-entry-label">Name</label>
 							<select class="data-entry-select reqdClr" id="att_name#i#" name="attribute_type" required>
