@@ -54,7 +54,7 @@ function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775,wi
 		height: h,
 		width: w,
 		minWidth: 320,
-		minHeight: 450,
+		minHeight: 550,
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
