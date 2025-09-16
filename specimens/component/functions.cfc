@@ -5222,12 +5222,12 @@ limitations under the License.
 													</div>
 												</cfif>
 												<div class="float-left col-12 col-md-4 pb-2 px-1">
-													<label for="cited_sci_Name" class="data-entry-label">Cited Scientific Name</label>
+													<label for="cited_sci_Name" class="data-entry-label">*Cited Scientific Name</label>
 													<input name="citsciname" class="data-entry-input reqdClr" id="cited_sci_Name" type="text" required>
 													<input type="hidden" name="cited_taxon_name_id" id="cited_taxon_name_id" value="">
 												</div>
 												<div class="float-left col-12 col-md-3 pb-2 px-1">
-													<label for="type_status" class="data-entry-label">Citation Type</label>
+													<label for="type_status" class="data-entry-label">*Citation Type</label>
 													<select name="type_status" id="type_status" class="data-entry-select reqdClr" required>
 														<option value=""></option>
 														<cfloop query="ctTypeStatus">
@@ -5439,12 +5439,12 @@ limitations under the License.
 												</div>
 												<div class="form-row mx-0">
 													<div class="col-12 col-md-4 px-1 pb-2">
-														<label for="cit_cited_name#i#" class="data-entry-label">Cited Scientific Name</label>
+														<label for="cit_cited_name#i#" class="data-entry-label">*Cited Scientific Name</label>
 														<input type="hidden" name="cited_taxon_name_id" id="cit_cited_name_id#i#" value="#cited_taxon_name_id#">
 														<input type="text" class="data-entry-input reqdClr" id="cit_cited_name#i#" name="cited_name" value="#citSciName#" required>
 													</div>
 													<div class="col-12 col-md-3 px-1 pb-2">
-														<label for="cit_type_status#i#" class="data-entry-label">Citation Type</label>
+														<label for="cit_type_status#i#" class="data-entry-label">*Citation Type</label>
 														<select name="type_status" id="cit_type_status#i#" class="data-entry-select reqdClr" required>
 															<option value=""></option>
 															<cfloop query="ctTypeStatus">
@@ -5758,7 +5758,7 @@ limitations under the License.
 											<input type="hidden" name="method" value="addAttribute">
 											<div class="row mx-0 pb-2">
 												<div class="col-12 col-md-4 pb-2 px-1">
-													<label for="attribute_type" class="data-entry-label">Name</label>
+													<label for="attribute_type" class="data-entry-label">*Name</label>
 													<select name="attribute_type" id="attribute_type" class="data-entry-select reqdClr" required>
 														<option value=""></option>
 														<cfloop query="getAttributeTypes">
@@ -6016,7 +6016,7 @@ limitations under the License.
 					<input type="hidden" name="method" value="updateAttribute">
 					<div class="row mx-0 border bg-light px-2 py-2">
 						<div class="col-12 col-xl-2 px-1 mt-1 pb-2">
-							<label for="att_name#i#" class="data-entry-label">Name</label>
+							<label for="att_name#i#" class="data-entry-label">*Name</label>
 							<select class="data-entry-select reqdClr" id="att_name#i#" name="attribute_type" required>
 								<cfloop query="getAttributeTypes">
 									<cfif getAttributeTypes.attribute_type EQ getAttributes.attribute_type>
@@ -6029,7 +6029,7 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12 col-xl-2 px-1 mt-1 pb-2">
-							<label for="att_value" class="data-entry-label reqdClr" required>Value</label>
+							<label for="att_value" class="data-entry-label reqdClr" required>*Value</label>
 							<cfif getAttributeCodeTables.recordcount GT 0 AND len(getAttributeCodeTables.value_code_table) GT 0>
 								<cfset valueCodeTable = getAttributeCodeTables.value_code_table>
 								<!--- find out if the value code table has a collection_cde field --->
@@ -6067,7 +6067,7 @@ limitations under the License.
 								<select class="data-entry-select reqdClr" id="att_value#i#" name="attribute_value" required>
 									<option value=""></option>
 									<cfloop query="getValueCodeTable">
-										<option value="#getValueCodeTable.value#" <cfif getValueCodeTable.value EQ getAttributes.attribute_value>selected</cfif>>#value#</option>
+										<option value="#getValueCodeTable.value#" <cfif getValueCodeTable.value EQ getAttributes.attribute_value>selected</cfif>>*#value#</option>
 									</cfloop>
 								</select>
 							<cfelse>
@@ -6214,7 +6214,7 @@ limitations under the License.
 								var values = response[0].value_values.split('|');
 								$('##att_value'+id).append('<option value=""></option>');
 								$.each(values, function(index, value) {
-									$('##att_value'+id).append('<option value="' + value + '">' + value + '</option>');
+									$('##att_value'+id).append('<option value="' + value + '">*' + value + '</option>');
 								});
 							} else {
 								// enable as a text input, replace any existing select
@@ -6230,7 +6230,7 @@ limitations under the License.
 								// units_values is a pipe delimited list of values
 								$('##att_units'+id).append('<option value=""></option>');
 								$.each(response[0].units_values.split('|'), function(index, value) {
-									$('##att_units'+id).append('<option value="' + value + '">' + value + '</option>');
+									$('##att_units'+id).append('<option value="' + value + '">*' + value + '</option>');
 								});
 							} else {
 								// units are either picklists or not used.
@@ -6965,7 +6965,7 @@ limitations under the License.
 							<div class="form-row mx-0 mb-0 p-2">
 								<div class="col-12 mb-2 mt-0">
 									<label class="data-entry-label" for="spec_locality">
-										Specific Locality
+										*Specific Locality
 									</label>
 									<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.spec_locality)#" required>
 								</div>
@@ -7140,23 +7140,23 @@ limitations under the License.
 							<div class="form-row mx-0 mb-0 border-bottom p-2">
 								<div class="col-12 mb-2 mt-0">
 									<label class="data-entry-label" for="verbatim_locality">
-										Verbatim Locality
+										*Verbatim Locality
 									</label>
 									<input type="text" name="verbatim_locality" id="verbatim_locality" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.verbatim_locality)#" required>
 								</div>
 								
 								<div class="col-12 col-md-3 mb-2 mt-0">
-									<label class="data-entry-label" for="verbatim_date">Verbatim Date</label>
+									<label class="data-entry-label" for="verbatim_date">*Verbatim Date</label>
 									<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.verbatim_date)#" required>
 								</div>
 								
 								<div class="col-12 col-md-3 mb-2 mt-0">
-									<label class="data-entry-label" for="began_date">Began Date/Time</label>
+									<label class="data-entry-label" for="began_date">*Date/Time</label>
 									<input type="text" name="began_date" id="began_date" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.began_date)#" required>
 								</div>
 								
 								<div class="col-12 col-md-3 mb-2 mt-0">
-									<label class="data-entry-label" for="ended_date">Ended Date/Time</label>
+									<label class="data-entry-label" for="ended_date">*Ended Date/Time</label>
 									<input type="text" name="ended_date" id="ended_date" class="data-entry-input reqdClr" value="#encodeForHTML(getLoc.ended_date)#" required>
 								</div>
 								
