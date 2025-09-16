@@ -922,6 +922,7 @@ limitations under the License.
 										<button id="backToSpecimen1" class="btn btn-xs btn-secondary my-3 float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
 									</cfif>
 									<!--- identifiable, thus allow add identifications --->
+									<div class="col-12 small pb-2 float-left">* required fields</div>
 									<div class="add-form float-left">
 										<div class="add-form-header py-1 px-2 col-12 float-left">
 											<h2 class="h3 my-0 px-1 pb-1 float-left">Add Identification#target#</h2>
@@ -933,7 +934,7 @@ limitations under the License.
 												<input type="hidden" name="method" value="addIdentification">
 												<input type="hidden" name="returnformat" value="json">
 												<div class="form-row pt-2">
-													<div class="col-12 small pb-2">* required fields</div>
+													
 													<div class="col-12 col-md-2 pb-2">
 														<label for="taxa_formula" class="data-entry-label">*ID Formula:</label>
 														<select name="taxa_formula" id="taxa_formula" class="data-entry-input reqdClr" onchange="updateTaxonBVisibility();" required>
@@ -2809,9 +2810,10 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12 px-0 px-md-3">
 							<!--- Add form --->
-							<div class="add-form mt-3">
+							<div class="col-12 small mt-3 pb-2">* required fields</div>
+							<div class="add-form mt-2">
 								<div class="add-form-header py-1 px-3">
-									<h2 class="h3 pb-1">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
+									<h2 class="h3 my-1">Add other identifier for #getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#</h2>
 								</div>
 								<div class="card-body mt-2 py-0">
 									<form name="addOtherIDForm" id="addOtherIDForm" class="form-row mx-0 px-2 mb-0 pt-1">
@@ -2820,7 +2822,7 @@ limitations under the License.
 											<input type="hidden" name="method" value="addNewOtherID">
 											<input type="hidden" name="returnformat" value="json">
 											<input type="hidden" name="queryformat" value="column">
-											<label class="data-entry-label" id="other_id_type">Other ID Type</label>
+											<label class="data-entry-label" id="other_id_type">*Other ID Type</label>
 											<select name="other_id_type" size="1" class="reqdClr data-entry-select">
 												<cfloop query="ctType">
 													<option value="#ctType.other_id_type#">#ctType.other_id_type#</option>
@@ -4057,7 +4059,9 @@ limitations under the License.
 									Back to Specimen
 								</button>
 							</cfif>
-							<div class="add-form float-left">								
+							<div class="col-12 small pb-2 float-left">* required fields</div>
+							<div class="add-form float-left">
+								
 								<div class="add-form-header py-2 px-2" id="headingPart">
 									<h2 class="h3 my-0 px-2 pb-1">Add New Part for #guid#</h2>
 								</div>
@@ -5163,6 +5167,7 @@ limitations under the License.
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12">
+								<div class="col-12 small pb-2">* required fields</div>
 								<div class="add-form">
 									<div class="add-form-header pt-1 px-2 col-12" id="headingCitation">
 										<h2 class="h3 my-0 px-1 pb-1">Add New Citation of #guid#</h2>
@@ -5172,6 +5177,7 @@ limitations under the License.
 											<input type="hidden" name="collection_object_id" value="#getCatItem.collection_object_id#">
 											<input type="hidden" name="method" value="createCitation">
 											<div class="row mx-0 pb-0 col-12 px-0 mt-2 mb-1">
+												<div class="col-12 small pb-2">* required fields</div>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
 													<cfset cols = "col-12 col-md-9">
 												<cfelse>
@@ -5748,6 +5754,7 @@ limitations under the License.
 				<div class="col-12 mt-3 px-1">
 					<div class="container-fluid">
 						<div class="row">
+							<div class="col-12 small pb-2">* required fields</div>
 							<div class="col-12">
 								<div class="add-form">
 									<div class="add-form-header pt-1 px-2" id="headingAttribute">
