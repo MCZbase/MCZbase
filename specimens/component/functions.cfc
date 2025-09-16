@@ -6019,7 +6019,7 @@ limitations under the License.
 						attribute_type = <cfqueryparam value="#getAttributes.attribute_type#" cfsqltype="CF_SQL_VARCHAR">
 				</cfquery>
 				<cfset i = i + 1>
-				<form name="editAttribute#i#" id="editAttribute#i#" class="my-0 py-2">
+				<form name="editAttribute#i#" id="editAttribute#i#" class="my-0 pt-2">
 					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 					<input type="hidden" name="attribute_id" value="#attribute_id#">
 					<input type="hidden" name="method" value="updateAttribute">
