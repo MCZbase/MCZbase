@@ -944,7 +944,7 @@ limitations under the License.
 								<cfelse>
 									<div class="card-body px-2 py-0" id="attributesCardBody">
 										<ul class="list-group my-0">
-											<li class="small list-group-item py-1 px- font-italic">None</li>
+											<li class="small list-group-item py-1 font-italic">None</li>
 										</ul>
 									</div>
 								</cfif>
