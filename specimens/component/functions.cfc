@@ -8835,8 +8835,8 @@ limitations under the License.
 								<div class="bg-box-header-gray border-bottom col-12 px-2 py-2">
 									Relationship: #ctReln.biol_indiv_relationship# to Record: #relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#
 								</div>
-								<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;" class="card-body my-2">
-									<div class="row m-0  col-12 py-3">
+								<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;" class="mb-2 mt-1">
+									<div class="row m-0 col-12 py-2">
 										<input type="hidden" name="method" id="method_#i#" value="updateBiolIndivRelation">
 										<input type="hidden" name="biol_indiv_relations_id" value="#biol_indiv_relations_id#">
 										<input type="hidden" name="collection_object_id" value="#variables.collection_object_id#">
