@@ -11610,12 +11610,12 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 									</cfif>
 									<cfloop query="getEncumbrances">
 										<div class="col-12 border-bottom py-2 form-row mx-0 bg-box-header-gray">
-											<h3 class="h4 font-weight-bold px-2 mb-0">#getEncumbrances.encumbrance_action# with 
+											<h3 class="h4 font-weight-lessbold px-2 mb-0">#getEncumbrances.encumbrance_action# with 
 											<cfif Len(getEncumbrances.expiration_date) GT 0>
-												<span class="mx-3">expiration date: #DateFormat(getEncumbrances.expiration_date,"yyyy-mm-dd")#</span>
+												expiration date: #DateFormat(getEncumbrances.expiration_date,"yyyy-mm-dd")#
 											</cfif>
 											<cfif Len(getEncumbrances.expiration_event) GT 0>
-												<span class="mx-3">expiration event: #getEncumbrances.expiration_event#</span>
+												expiration event: #getEncumbrances.expiration_event#
 											</cfif> 
 											</h3>
 										</div>
