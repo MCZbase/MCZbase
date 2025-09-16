@@ -1592,6 +1592,7 @@ limitations under the License.
 											<input type="hidden" name="accepted_id_fg" id="eid_edit_accepted_id_fg" value="#idData.accepted_id_fg#">
 											<input type="hidden" name="stored_as_fg" id="eid_edit_stored_as_fg" value="#idData.stored_as_fg#">
 											<div class="form-row">
+												<div class="col-12 small pb-2">* required fields</div>
 												<div class="col-12 col-md-2 pb-2">
 													<label for="taxa_formula" class="data-entry-label">*ID Formula:</label>
 													<select name="taxa_formula" id="eid_edit_taxa_formula" class="data-entry-input reqdClr" onchange="updateEditTaxonBVisibility();" required>
@@ -1601,8 +1602,8 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-12 col-md-5 pb-2">
-													<label for="taxona" class="data-entry-label">Taxon A:</label>
-													<input type="text" name="taxona" id="eid_edit_taxona" class="data-entry-input reqdClr" required value="#taxonA.scientific_name#">
+													<label for="taxona" class="data-entry-label">*Taxon A:</label>
+													<input type="text" name="taxona" id="eid_edit_taxona" class="data-entry-input reqdClr" required value="#taxonA.scientific_name#" required>
 													<input type="hidden" name="taxona_id" id="eid_edit_taxona_id" value="#taxonA.taxon_name_id#">
 													<script>
 														$(document).ready(function() {
