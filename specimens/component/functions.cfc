@@ -439,7 +439,7 @@ limitations under the License.
 												<input type="text" name="media_uri" id="media_uri" class="data-entry-input">
 											</div>
 											<div class="col-12 col-md-3 my-1">
-												<label for="media_type">*Media Type</label>
+												<label for="media_type">Media Type</label>
 												<select name="media_type" id="media_type" size="1" class="reqdClr w-100" required>
 													<cfloop query="ctmedia_type">
 														<cfset selected="">
@@ -451,7 +451,7 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-12 col-md-3 my-1">
-												<label for="relationship_type">*Type of Relationship:</label>
+												<label for="relationship_type">Type of Relationship:</label>
 												<select name="relationship_type" id="relationship_type" size="1" class="reqdClr w-100" required>
 													<cfloop query="ctmedia_relationship">
 														<cfset selected="">
@@ -658,7 +658,7 @@ limitations under the License.
 						<form name="formChangeLink_#variables.mpos#" id="formChangeLink_#variables.mpos#">
 							<div class="form-row">	
 								<div class="col-12">
-									<label for="relationship_type_#variables.mpos#">*Relationship (#getMedia.media_relationship#):</label>
+									<label for="relationship_type_#variables.mpos#">Relationship (#getMedia.media_relationship#):</label>
 								</div>
 								<div class="col-12">
 									<input type="hidden" name="media_id" id="media_id_#variables.mpos#">
@@ -935,7 +935,7 @@ limitations under the License.
 												<div class="form-row pt-2">
 													
 													<div class="col-12 col-md-2 pb-2">
-														<label for="taxa_formula" class="data-entry-label">*ID Formula:</label>
+														<label for="taxa_formula" class="data-entry-label">ID Formula:</label>
 														<select name="taxa_formula" id="taxa_formula" class="data-entry-input reqdClr" onchange="updateTaxonBVisibility();" required>
 															<cfloop query="ctFormula">
 																<option value="#ctFormula.taxa_formula#">#ctFormula.taxa_formula#</option>
@@ -943,7 +943,7 @@ limitations under the License.
 														</select>
 													</div>
 													<div class="col-12 col-md-5 pb-2">
-														<label for="taxona" class="data-entry-label">*Taxon A:</label>
+														<label for="taxona" class="data-entry-label">Taxon A:</label>
 														<input type="text" name="taxona" id="taxona" class="data-entry-input reqdClr" required>
 														<input type="hidden" name="taxona_id" id="taxona_id">
 														<script>
@@ -982,7 +982,7 @@ limitations under the License.
 														</script>
 													</div>
 													<div class="col-12 col-md-3 pb-2">
-														<label for="nature_of_id" class="data-entry-label">*Nature of ID:</label>
+														<label for="nature_of_id" class="data-entry-label">Nature of ID:</label>
 														<select name="nature_of_id" id="nature_of_id" class="data-entry-select reqdClr" required>
 															<option></option>
 															<cfloop query="ctNature">
@@ -1010,7 +1010,7 @@ limitations under the License.
 														<input type="hidden" name="accepted_id_fg" id="accepted_id_fg" value="1">
 														<input type="hidden" name="stored_as_fg" id="stored_as_fg" value="0">
 														<!--- select to indicate if this identification is to be created as the current identification, as a previous identification, or previous identification which is the stored as name --->
-														<label for="id_state" class="data-entry-label">*Id is:</label>
+														<label for="id_state" class="data-entry-label">Id is:</label>
 														<select name="id_state" id="id_state" class="data-entry-select reqdClr" required>
 															<option value="current">Current</option>
 															<option value="previous">Previous</option>
@@ -1039,7 +1039,7 @@ limitations under the License.
 														<div class="form-row" id="addIdNewDetsFormRow">
 															<div class="col-12 col-md-3">
 																<!--- autocomplete for a determiner --->
-																<label for="determiner" class="data-entry-label">*Determiner:</label>
+																<label for="determiner" class="data-entry-label">Determiner:</label>
 																<input type="text" name="determiner" id="determiner" class="data-entry-input reqdClr" required>
 																<input type="hidden" name="determiner_id" id="determiner_id_1">
 																<input type="hidden" name="determiner_count" id="determiner_count" value="1">
@@ -1593,7 +1593,7 @@ limitations under the License.
 											<input type="hidden" name="stored_as_fg" id="eid_edit_stored_as_fg" value="#idData.stored_as_fg#">
 											<div class="form-row">
 												<div class="col-12 col-md-2 pb-2">
-													<label for="taxa_formula" class="data-entry-label">*ID Formula:</label>
+													<label for="taxa_formula" class="data-entry-label">ID Formula:</label>
 													<select name="taxa_formula" id="eid_edit_taxa_formula" class="data-entry-input reqdClr" onchange="updateEditTaxonBVisibility();" required>
 														<cfloop query="ctFormula">
 															<option value="#ctFormula.taxa_formula#" <cfif idData.taxa_formula EQ ctFormula.taxa_formula>selected</cfif>>#ctFormula.taxa_formula#</option>
@@ -1601,7 +1601,7 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-12 col-md-5 pb-2">
-													<label for="taxona" class="data-entry-label">*Taxon A:</label>
+													<label for="taxona" class="data-entry-label">Taxon A:</label>
 													<input type="text" name="taxona" id="eid_edit_taxona" class="data-entry-input reqdClr" required value="#taxonA.scientific_name#" required>
 													<input type="hidden" name="taxona_id" id="eid_edit_taxona_id" value="#taxonA.taxon_name_id#">
 													<script>
@@ -1637,7 +1637,7 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-3 pb-2">
-													<label for="nature_of_id" class="data-entry-label">*Nature of ID:</label>
+													<label for="nature_of_id" class="data-entry-label">Nature of ID:</label>
 													<select name="nature_of_id" id="eid_edit_nature_of_id" class="data-entry-select reqdClr" required>
 														<cfloop query="ctNature">
 															<option value="#ctNature.nature_of_id#" <cfif idData.nature_of_id EQ ctNature.nature_of_id>selected</cfif>>#ctNature.nature_of_id# #ctNature.description#</option>
@@ -1667,7 +1667,7 @@ limitations under the License.
 													<cfelseif idData.stored_as_fg EQ 1>
 														<cfset id_state = "stored_as">
 													</cfif>
-													<label for="id_state" class="data-entry-label">*Id is:</label>
+													<label for="id_state" class="data-entry-label">Id is:</label>
 													<select name="id_state" id="eid_edit_id_state" class="data-entry-select reqdClr" required>
 														<cfif id_state EQ "current">
 															<option value="current" selected>Current</option>
@@ -1704,7 +1704,7 @@ limitations under the License.
 															<cfset determiner_count = determiner_count + 1>
 															<div class="col-12 col-md-3 form-row" id="eid_det_div_#determiner_count#">
 																<div class="col-12 col-md-10 pr-0">
-																	<label id="eid_det_label_#determiner_count#" for="eid_det_name_#determiner_count#" class="data-entry-label">*Determiner #determiner_count#:</label>
+																	<label id="eid_det_label_#determiner_count#" for="eid_det_name_#determiner_count#" class="data-entry-label">Determiner #determiner_count#:</label>
 																	<input type="text" name="eid_det_name_#determiner_count#" id="eid_det_name_#determiner_count#" class="data-entry-input reqdClr" value="#determiners.agent_name#" required>
 																	<input type="hidden" name="eid_determiner_id_#determiner_count#" id="eid_determiner_id_#determiner_count#" value="#determiners.agent_id#">
 																	<input type="hidden" name="eid_identification_agent_id_#determiner_count#" value="#determiners.identification_agent_id#">
@@ -1736,7 +1736,7 @@ limitations under the License.
 															<cfset determiner_count = 1>
 															<div class="col-12 col-md-3 form-row" id="eid_det_div_1">
 																<div class="col-12 col-md-10 pr-0">
-																	<label id="eid_det_label_1" for="eid_det_name_1" class="data-entry-label">*Determiner 1:</label>
+																	<label id="eid_det_label_1" for="eid_det_name_1" class="data-entry-label">Determiner 1:</label>
 																	<input type="text" name="eid_det_name_1" id="eid_det_name_1" class="data-entry-input reqdClr" required>
 																	<input type="hidden" name="eid_determiner_id_1" id="eid_determiner_id_1">
 																	<input type="hidden" name="eid_identification_agent_id_1" value="new">
@@ -2694,7 +2694,7 @@ limitations under the License.
 												</cfif>
 											</div>
 											<div class="col-12 col-sm-4 mb-0">
-												<label for="cat_num" class="data-entry-label">*Catalog Number:</label>
+												<label for="cat_num" class="data-entry-label">Catalog Number:</label>
 												<input type="text" name="cat_num" id="cat_num" class="data-entry-input reqdClr" value="#getCatalog.cat_num#" required>
 											</div>
 											<div class="col-12 col-sm-4 mb-0">
@@ -6025,7 +6025,7 @@ limitations under the License.
 					<input type="hidden" name="method" value="updateAttribute">
 					<div class="row mx-0 border bg-light px-2 py-2">
 						<div class="col-12 col-xl-2 px-1 mt-1 pb-2">
-							<label for="att_name#i#" class="data-entry-label">*Name</label>
+							<label for="att_name#i#" class="data-entry-label">Name</label>
 							<select class="data-entry-select reqdClr" id="att_name#i#" name="attribute_type" required>
 								<cfloop query="getAttributeTypes">
 									<cfif getAttributeTypes.attribute_type EQ getAttributes.attribute_type>
