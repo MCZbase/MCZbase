@@ -1151,8 +1151,8 @@ limitations under the License.
 							<div class="card-header" id="headingTransactions">
 								<h3 class="h5 my-0">
 									<button type="button" aria-controls="TransactionsPane" class="w-100 h-100 text-left headerLnk" aria-label="Transactions Pane" aria-expanded="true" data-toggle="collapse" data-target="##TransactionsPane">
-									#blockAnnotations#
-								</button>
+									Transactions
+									</button>
 								</h3>
 							</div>
 							<div id="TransactionsPane" class="collapse show" aria-labelledby="headingTransactions" data-parent="##accordionTransactions">
