@@ -2530,7 +2530,7 @@ limitations under the License.
 										<cfset guid ="#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#">
 										<li>
 											Encumbrances: #getCatalog.encumbranceDetail#
-											<button type="button" class="btn btn-xs btn-secondary py-1 ml-2"
+											<button type="button" class="btn btn-xs btn-secondary py-0 ml-2"
 												onClick=" openEditEncumbarancesDialog(#getCatalog.collection_object_id#,'encumbranceEditDialog','#guid#',reloadEncumbrances); ">Edit Encumbrance</button>
 										</li>
 									<cfelse>
@@ -2562,7 +2562,7 @@ limitations under the License.
 								</cfif>
 								<div class="h3 mb-1"><cfset guidLink = "https://mczbase.mcz.harvard.edu/guid/#getCatalog.institution_acronym#:#getCatalog.collection_cde#:#getCatalog.cat_num#">
 								#variables.coll_object_type# #getCatalog.cataloged_item_type_description# <br>
-								<span class="smaller">(occurrenceID: #guidLink# <a href="#guidLink#/json"> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a></span>)</div>
+								<span class="smaller">(occurrenceID: #guidLink# <a href="#guidLink#/json"> <img src='/shared/images/json-ld-data-24.png' alt='JSON-LD'> </a>)</span></div>
 								<cfquery name="getComponents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 									SELECT count(specimen_part.collection_object_id) ct, coll_object_type, part_name, count(identification.collection_object_id) identifications
 									FROM 
