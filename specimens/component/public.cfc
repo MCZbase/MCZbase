@@ -3840,7 +3840,7 @@ limitations under the License.
 						<cfif len(#check.encumbranceDetail#) is not 0>
 							<li class="list-group-item pt-0 pb-1">
 								<!---<span class="my-0 d-inline font-weight-lessbold">Encumbrances:</span> --->
-								#replace(check.encumbranceDetail,";","</li><li class='list-group-item font-weight-bold pt-0 pb-1'>","all")# </li>
+								#replace(check.encumbranceDetail,";","</li><li class='list-group-item pt-0 pb-1'>","all")# </li>
 						<cfelse>
 							<li class="small list-group-item font-italic py-0">None</li>
 						</cfif>
@@ -3885,13 +3885,13 @@ limitations under the License.
 							WHERE stale_flag = 1
 								AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						</cfquery>
-						<div class="row">
+						<div class="row mx-0">
 							<cfif flatstatus.ct GT 0>
-								<div class="col-12">
-									<span class="text-danger font-weight-bold">Note: Update to the external view for this record is pending. The External data shown are stale.</span>
+								<div class="col-12 px-2">
+									<span class="small90 text-danger font-weight-bold">Note: Update to the external view for this record is pending. The External data shown are stale.</span>
 								</div>
 							</cfif>
-							<div class="col-12">
+							<div class="col-12 px-2">
 								<table class="table table-responsive w-100">
 									<cfloop query="getSpecimen">
 										<tr>
