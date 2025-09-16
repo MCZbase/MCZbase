@@ -8828,9 +8828,8 @@ limitations under the License.
 			<cfif relns.recordcount GT 0>
 				<cfset inverseRelations = "">
 				<cfset i = 0>
-			
-				<cfloop query="relns">
-					<div class="row mx-0 border bg-light py-2">
+				<div class="row mx-0 border bg-light py-2">
+					<cfloop query="relns">
 						<cfif direction EQ "forward">
 							<cfset i = i + 1>
 							<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;" class="my-2">
@@ -8943,6 +8942,7 @@ limitations under the License.
 					<li>No Relationships to this cataloged item</li>
 				</ul>
 			</cfif>
+		</div>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
