@@ -11623,7 +11623,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 											<div class-"mx-3">Encumbered Date: <strong>#DateFormat(getEncumbrances.encumbered_date,"yyyy-mm-dd")#</strong></div>
 											<div class="mx-3">Encumbering Agent: <strong>#getEncumbrances.encumbering_agent#</strong></div>
 											<cfif Len(getEncumbrances.expiration_date) GT 0>
-												<div class="mx-3">Expiration Date: <strong>#DateFormat(getEncumbrances.expiration_date,"yyyy-mm-dd")#</strong></div>
+											<div class="mx-3">Expiration Date: <strong>#DateFormat(getEncumbrances.expiration_date,"yyyy-mm-dd")#</strong></div>
 											</cfif>
 											<cfif Len(getEncumbrances.expiration_event) GT 0>
 												<div class="mx-3">Expiration Event: <strong>#getEncumbrances.expiration_event#</strong></div>
@@ -11633,7 +11633,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 												<div class="mx-3">Remarks: <strong>#getEncumbrances.remarks#</strong></div>
 											</cfif>
 											<div class="text-end">
-												<button type="button" class="btn btn-danger btn-xs mt-0 mx-3 py-0" onclick="removeEncumbrance(#getEncumbrances.encumbrance_id#,#collection_object_id#);">Remove</button>
+												<button type="button" class="btn btn-danger btn-xs mt-0 mx-2 py-0" onclick="removeEncumbrance(#getEncumbrances.encumbrance_id#,#collection_object_id#);">Remove</button>
 												<output id="encumberForm_feedback_#encumbrance_id#" class="feedback" aria-live="polite"></output>
 											</div>
 										</div>
