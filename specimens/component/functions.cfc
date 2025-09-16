@@ -922,7 +922,7 @@ limitations under the License.
 										<button id="backToSpecimen1" class="btn btn-xs btn-secondary my-3 float-right" onclick="closeIdentificationInPage();">Back to Specimen</button>
 									</cfif>
 									<!--- identifiable, thus allow add identifications --->
-									<div class="col-12 small pb-2 float-left">* required fields</div>
+									<div class="col-10 small py-3 float-left">* required fields</div>
 									<div class="add-form float-left">
 										<div class="add-form-header py-1 px-2 col-12 float-left">
 											<h2 class="h3 my-0 px-1 pb-1 float-left">Add Identification#target#</h2>
