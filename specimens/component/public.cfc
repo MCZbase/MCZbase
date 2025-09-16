@@ -251,11 +251,11 @@ limitations under the License.
 									<cfset cols="col-xl-6">
 									<cfif isDefined("iheader.imageurl") and isDefined("summary.cited_as")>
 										<cfif len(iheader.imageurl) gt 7 and len(summary.cited_as) gt 7> 
-											<cfset cols="col-12 col-xl-6">
+											<cfset cols="col-12 col-xl-5">
 										<cfelseif len(iheader.imageurl) gt 7 and len(summary.cited_as) lt 7> 
-											<cfset cols="col-12 col-xl-6">
+											<cfset cols="col-12 col-xl-5">
 										<cfelseif len(iheader.imageurl) lt 7 and len(summary.cited_as) gt 7> 
-											<cfset cols="col-12 col-xl-6">
+											<cfset cols="col-12 col-xl-5">
 										<cfelseif len(iheader.imageurl) lt 7 and len(summary.cited_as) lt 7> 
 											<cfset cols="col-12 col-xl-6">
 										<cfelse> 
