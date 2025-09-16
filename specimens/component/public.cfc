@@ -248,7 +248,7 @@ limitations under the License.
 										</cfif>	
 									</div>
 										
-									<cfset cols="col-xl-6">
+									<cfset cols="col-xl-5">
 									<cfif isDefined("iheader.imageurl") and isDefined("summary.cited_as")>
 										<cfif len(iheader.imageurl) gt 7 and len(summary.cited_as) gt 7> 
 											<cfset cols="col-12 col-xl-5">
@@ -257,9 +257,9 @@ limitations under the License.
 										<cfelseif len(iheader.imageurl) lt 7 and len(summary.cited_as) gt 7> 
 											<cfset cols="col-12 col-xl-5">
 										<cfelseif len(iheader.imageurl) lt 7 and len(summary.cited_as) lt 7> 
-											<cfset cols="col-12 col-xl-6">
+											<cfset cols="col-12 col-xl-5">
 										<cfelse> 
-											<cfset cols="col-xl-6">
+											<cfset cols="col-xl-5">
 										</cfif>
 									</cfif>
 									<div class="float-left pr-md-0 my-1 mt-xl-2 #cols# ">
