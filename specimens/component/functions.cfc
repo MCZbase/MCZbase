@@ -11603,42 +11603,42 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 								encumbrance.made_date DESC
 						</cfquery>
 							<div class="col-12 my-0 pt-1 pb-0">
-							<h2 class="h3 mt-3 px-2 mb-0">Existing Encumberances</h2>
-							<div class="col-12 px-0 form-row mx-0 border bg-light rounded mt-2">
-								<cfif getEncumbrances.recordcount EQ 0>
-									<div class="col-12 px-0 py-2">No encumbrances exist for this specimen.</div>
-								</cfif>
-								<cfloop query="getEncumbrances">
-									<div class="col-12 border-bottom py-2 bg-box-header-gray">
-										<h3 class="h4 font-weight-bold px-2 mb-0">#getEncumbrances.encumbrance_action# with 
-										<cfif Len(getEncumbrances.expiration_date) GT 0>
-											<div class="mx-3"><strong>expiration date:</strong> #DateFormat(getEncumbrances.expiration_date,"yyyy-mm-dd")#</div>
-										</cfif>
-										<cfif Len(getEncumbrances.expiration_event) GT 0>
-											<div class="mx-3"><strong>expiration event:</strong> #getEncumbrances.expiration_event#</div>
-										</cfif> 
-										</h3>
-									</div>
-									<div class="col-12 px-3 py-1 my-2 mx-0 form-row">
-										<div class-"mx-3">Encumbered Date: <strong>#DateFormat(getEncumbrances.encumbered_date,"yyyy-mm-dd")#</strong></div>
-										<div class="mx-3">Encumbering Agent: <strong>#getEncumbrances.encumbering_agent#</strong></div>
-										<cfif Len(getEncumbrances.expiration_date) GT 0>
-											<div class="mx-3">Expiration Date: <strong>#DateFormat(getEncumbrances.expiration_date,"yyyy-mm-dd")#</strong></div>
-										</cfif>
-										<cfif Len(getEncumbrances.expiration_event) GT 0>
-											<div class="mx-3">Expiration Event: <strong>#getEncumbrances.expiration_event#</strong></div>
-										</cfif>
-										<div class="mx-3">Action: <strong>#getEncumbrances.encumbrance_action#</strong></div>
-										<cfif Len(getEncumbrances.remarks) GT 0>
-											<div class="mx-3">Remarks: <strong>#getEncumbrances.remarks#</strong></div>
-										</cfif>
-										<div class="text-end">
-											<button type="button" class="btn btn-danger btn-xs mt-0 mx-3 py-0" onclick="removeEncumbrance(#getEncumbrances.encumbrance_id#,#collection_object_id#);">Remove</button>
-											<output id="encumberForm_feedback_#encumbrance_id#" class="feedback" aria-live="polite"></output>
+								<h2 class="h3 mt-3 px-2 mb-0">Existing Encumberances</h2>
+								<div class="col-12 px-0 form-row mx-0 border bg-light rounded mt-2">
+									<cfif getEncumbrances.recordcount EQ 0>
+										<div class="col-12 px-0 py-2">No encumbrances exist for this specimen.</div>
+									</cfif>
+									<cfloop query="getEncumbrances">
+										<div class="col-12 border-bottom py-2 form-row mx-0 bg-box-header-gray">
+											<h3 class="h4 font-weight-bold px-2 mb-0">#getEncumbrances.encumbrance_action# with 
+											<cfif Len(getEncumbrances.expiration_date) GT 0>
+												<div class="mx-3">expiration date: #DateFormat(getEncumbrances.expiration_date,"yyyy-mm-dd")#</div>
+											</cfif>
+											<cfif Len(getEncumbrances.expiration_event) GT 0>
+												<div class="mx-3">expiration event: #getEncumbrances.expiration_event#</div>
+											</cfif> 
+											</h3>
 										</div>
-									</div>
-								</cfloop>
-								<script>
+										<div class="col-12 px-3 py-1 my-2 mx-0 form-row">
+											<div class-"mx-3">Encumbered Date: <strong>#DateFormat(getEncumbrances.encumbered_date,"yyyy-mm-dd")#</strong></div>
+											<div class="mx-3">Encumbering Agent: <strong>#getEncumbrances.encumbering_agent#</strong></div>
+											<cfif Len(getEncumbrances.expiration_date) GT 0>
+												<div class="mx-3">Expiration Date: <strong>#DateFormat(getEncumbrances.expiration_date,"yyyy-mm-dd")#</strong></div>
+											</cfif>
+											<cfif Len(getEncumbrances.expiration_event) GT 0>
+												<div class="mx-3">Expiration Event: <strong>#getEncumbrances.expiration_event#</strong></div>
+											</cfif>
+											<div class="mx-3">Action: <strong>#getEncumbrances.encumbrance_action#</strong></div>
+											<cfif Len(getEncumbrances.remarks) GT 0>
+												<div class="mx-3">Remarks: <strong>#getEncumbrances.remarks#</strong></div>
+											</cfif>
+											<div class="text-end">
+												<button type="button" class="btn btn-danger btn-xs mt-0 mx-3 py-0" onclick="removeEncumbrance(#getEncumbrances.encumbrance_id#,#collection_object_id#);">Remove</button>
+												<output id="encumberForm_feedback_#encumbrance_id#" class="feedback" aria-live="polite"></output>
+											</div>
+										</div>
+									</cfloop>
+									<script>
 									function removeEncumbrance(encumbrance_id,collection_object_id) { 
 										confirmDialog('Are you sure you want to remove this specimen from this encumbrance?','Confirm: Remove this Cataloged Item from this Encumbrance', function() {
 											var feedbackDiv = "encumberForm_feedback_"+encumbrance_id
@@ -11670,8 +11670,8 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 										});
 									};
 								</script>
+								</div>
 							</div>
-						</div>
 						</div>
 					</div>
 				</div>
