@@ -3635,40 +3635,43 @@ limitations under the License.
 			<cfloop query="getColls">
 				<div class="form-row mt-2 px-0 mx-0 rounded bg-light border">
 					<div class="col-12 border-bottom py-2 mx-0 form-row bg-box-header-gray">
-						<h2 class="h3 mt-3 mx-2 mb-0">Agent: #getColls.agent_name#</h2>
+						<h2 class="h3 mt-1 mx-2 mb-0">Agent: #getColls.agent_name#</h2>
 					</div>
-						<form name="colls#i#" id="colls#i#" class="w-100" onSubmit="return false;">
+					<div class="form-row mx-0">
+						<form name="colls#i#" id="colls#i#" class="" onSubmit="return false;">
 							<input type="hidden" name="method" id="coll_method_#i#" value="">
 							<input type="hidden" name="returnformat" value="json">
 							<input type="hidden" name="queryformat" value="column">
 							<input type="hidden" name="collector_id" id="collector_id_#i#" value="#getColls.collector_id#">
 							<input type="hidden" name="collection_object_id" id="collection_object_id_#i#" value="#variables.collection_object_id#">
 							<input type="hidden" name="collector_role" id="collector_role_#i#" value="#getColls.collector_role#">
-								<cfif getColls.collector_role EQ "c">
-									<cfset role="Collector">
-								<cfelse>
-									<cfset role="Preparator">
-								</cfif>
+							<cfif getColls.collector_role EQ "c">
+								<cfset role="Collector">
+							<cfelse>
+								<cfset role="Preparator">
+							</cfif>
+							<div class="col-12 col-md-8">
 								<label for="agent_name_#i#" class="data-entry-label">#role#</label>
 								<input type="text" name="agent_name" id="agent_name_#i#" class="data-entry-input reqdClr" value="#getColls.agent_name#">
 								<input type="hidden" name="agent_id" id="agent_id_#i#" value="#getColls.agent_id#">
-								<div class="col-12 col-md-2 mt-1 px-2">
-									<label class="data-entry-label">Order:</label>
-									<select class="data-entry-select" name="coll_order" id="coll_order_#i#">
-										<cfloop from="1" to="#maxCollOrder#" index="ci">
-											<cfset selected = "">
-											<cfif ci EQ getColls.coll_order>
-												<cfset selected = "selected">
-											</cfif>
-											<option value="#ci#" #selected#>#ci#</option>
-										</cfloop>
-									</select>
-								</div>
-								<div class="col-12 col-md-4 mt-1 pt-3 px-2">
-									<input type="button" value="Save" class="btn btn-xs btn-primary" onclick=" updateCollector('#i#');">
-									<input type="button" value="Remove" class="btn btn-xs btn-danger px-1" onClick=" confirmDialog('Remove this #role#?', 'Confirm Delete #role#', function() { removeCollector('#i#'); }  );">
-									<output id="coll_output_#i#" aria-live="polite"></output>
-								</div>
+							</div>
+							<div class="col-12 col-md-2 mt-1 px-2">
+								<label class="data-entry-label">Order:</label>
+								<select class="data-entry-select" name="coll_order" id="coll_order_#i#">
+									<cfloop from="1" to="#maxCollOrder#" index="ci">
+										<cfset selected = "">
+										<cfif ci EQ getColls.coll_order>
+											<cfset selected = "selected">
+										</cfif>
+										<option value="#ci#" #selected#>#ci#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-md-4 mt-1 pt-3 px-2">
+								<input type="button" value="Save" class="btn btn-xs btn-primary" onclick=" updateCollector('#i#');">
+								<input type="button" value="Remove" class="btn btn-xs btn-danger px-1" onClick=" confirmDialog('Remove this #role#?', 'Confirm Delete #role#', function() { removeCollector('#i#'); }  );">
+								<output id="coll_output_#i#" aria-live="polite"></output>
+							</div>
 						</form>
 					</div>
 					<script>
