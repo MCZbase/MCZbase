@@ -1647,7 +1647,7 @@ limitations under the License.
 													<select name="nature_of_id" id="eid_edit_nature_of_id" class="data-entry-select reqdClr" required>
 														<cfloop query="ctNature">
 															<cfset desc = "">
-															<cfif Len(ctNature.desciption) GT 50>
+															<cfif Len(ctNature.description) GT 50>
 																<cfset var desc = "(" & Left(ctNature.description,47) & "...)">
 															<cfelse>
 																<cfset var desc = "(" & ctNature.description & ")">
