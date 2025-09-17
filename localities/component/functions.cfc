@@ -4803,7 +4803,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	</cfif>
 
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
-	<cfthread name="createCollEventFormThread#tn#" collecting_event_id="#collecting_event_id#" locality_id="#locality_id#" verbatim_locality="#verbatim_locality#" verbatimDepth="#verbatimDepth#" verbatimElevation="#verbatimElevation#" verbatimCoordinates="#verbatimCoordinates#" verbatimLatitude="#verbatimLatitude#" verbatimLongitude="#verbatimLongitude#" verbatimCoordinateSystem="#verbatimCoordinateSystem#" verbatimSRS="#verbatimSRS#" verbatim_date="#verbatim_date#" collecting_time="#collecting_time#" verbatim_collectors="#verbatim_collectors#" verbatim_field_numbers="#verbatim_field_numbers#" verbatim_habitat="#verbatim_habitat#">
+	<cfthread name="createCollEventFormThread#tn#" collecting_event_id="#getEvent.collecting_event_id#" locality_id="#locality_id#" verbatim_locality="#verbatim_locality#" verbatimDepth="#verbatimDepth#" verbatimElevation="#verbatimElevation#" verbatimCoordinates="#verbatimCoordinates#" verbatimLatitude="#verbatimLatitude#" verbatimLongitude="#verbatimLongitude#" verbatimCoordinateSystem="#verbatimCoordinateSystem#" verbatimSRS="#verbatimSRS#" verbatim_date="#verbatim_date#" collecting_time="#collecting_time#" verbatim_collectors="#verbatim_collectors#" verbatim_field_numbers="#verbatim_field_numbers#" verbatim_habitat="#verbatim_habitat#">
 		<cfoutput>
 			<cftry>
 				<cfquery name="ctCollecting_Source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
