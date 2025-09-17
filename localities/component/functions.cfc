@@ -4736,6 +4736,20 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfelseif mode EQ "create">
 		<!--- create, but not cloning, set defaults --->
 		<cfset collecting_event_id = "">
+		<cfif not isDefined("locality_id")> <cfset variables.locality_id = ""></cfif>
+		<cfif not isDefined("verbatim_locality")> <cfset verbatim_locality = ""></cfif>
+		<cfif not isDefined("verbatimDepth")> <cfset verbatimDepth = ""></cfif>
+		<cfif not isDefined("verbatimElevation")> <cfset verbatimElevation = ""></cfif>
+		<cfif not isDefined("verbatimCoordinates")> <cfset verbatimCoordinates = ""></cfif>
+		<cfif not isDefined("verbatimLatitude")> <cfset verbatimLatitude = ""></cfif>
+		<cfif not isDefined("verbatimLongitude")> <cfset verbatimLongitude = ""></cfif>
+		<cfif not isDefined("verbatimCoordinateSystem")> <cfset verbatimCoordinateSystem = ""></cfif>
+		<cfif not isDefined("verbatimSRS")> <cfset verbatimSRS = ""></cfif>
+		<cfif not isDefined("verbatim_date")> <cfset verbatim_date = ""></cfif>
+		<cfif not isDefined("collecting_time")> <cfset collecting_time = ""></cfif>
+		<cfif not isDefined("verbatim_collectors")> <cfset verbatim_collectors = ""></cfif>
+		<cfif not isDefined("verbatim_field_numbers")> <cfset verbatim_field_numbers = ""></cfif>
+		<cfif not isDefined("verbatim_habitat")> <cfset verbatim_habitat = ""></cfif>
 	<cfelseif mode EQ "edit" >
 		<cfquery name="getEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
@@ -4839,7 +4853,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<input type="hidden" id="reset_locality" value="#higher_geog#: #spec_locality# (#locality_id#)">
 							<input type="hidden" id="reset_state" value="0"><!--- 0 = not editing locality, 1 = editing locality --->
 						</div>
-						<cfif NOT isDefined("onelinesummary")><cfset onlinesummary = "Collecting Event (#collecting_event_id#)"></cfif>
+						<cfif NOT isDefined("onelinesummary")>
+							<cfif isDefined("collecting_event_id") AND len(collecting_event_id) GT 0>
+								<cfset onelinesummary = "Collecting Event (#collecting_event_id#)">
+							<cfelse>	
+								<cfset onelinesummary = "New Collecting Event">
+							</cfif>
+						</cfif>
 						<div class="col-2 mb-2">
 							<label class="data-entry-label">&nbsp;</label>
 							<button type="button" class="btn btn-xs btn-secondary" onclick="toggleChangeLocality();" id="editLocalityToggle">Change Locality</button>
