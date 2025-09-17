@@ -990,7 +990,11 @@ limitations under the License.
 																<cfif len(ctNature.description GT 50)>
 																	<cfset desc = "(" & left(ctNature.description,47) & "...)">
 																<cfelse>
-																	<cfset desc = "(" & ctNature.description & ")">
+																	<cfif len(ctNature.description) EQ 0>
+																		<cfset desc = "">
+																	<cfelse>
+																		<cfset desc = "(" & ctNature.description & ")">
+																	</cfif>
 																</cfif>
 																<option value="#ctNature.nature_of_id#">#ctNature.nature_of_id# #desc#</option>
 															</cfloop>
@@ -1650,7 +1654,11 @@ limitations under the License.
 															<cfif Len(ctNature.description) GT 50>
 																<cfset var desc = "(" & Left(ctNature.description,47) & "...)">
 															<cfelse>
-																<cfset var desc = "(" & ctNature.description & ")">
+																<cfif len(ctNature.description) EQ 0>
+																	<cfset var desc = "">
+																<cfelse>
+																	<cfset var desc = "(" & ctNature.description & ")">
+																</cfif>
 															</cfif>
 															<cfif idData.nature_of_id EQ ctNature.nature_of_id>
 																<cfset selected="selected">
