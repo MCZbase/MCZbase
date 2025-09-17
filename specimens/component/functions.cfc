@@ -7911,7 +7911,7 @@ limitations under the License.
 							</div><!--- end geology table section --->
 						</div><!--- end geology attributes section --->
 	
-						<!--- current georeference (on locality) --->
+						<!--- find out about the current georeference (on locality) --->
 						<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT ORIG_LAT_LONG_UNITS 
 							FROM ctlat_long_units
@@ -7948,67 +7948,67 @@ limitations under the License.
 										and agent_name_type = 'login'
 								)
 						</cfquery>
-						
+						<cfquery name="getCurrentGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT
+								lat_long_id,
+								accepted_lat_long_fg,
+								decode(accepted_lat_long_fg,1,'Accepted','') accepted_lat_long,
+								orig_lat_long_units,
+								lat_deg, dec_lat_min, lat_min, lat_sec, lat_dir,
+								long_deg, dec_long_min, long_min, long_sec, long_dir,
+								utm_zone, utm_ew, utm_ns,
+								georefmethod,
+								coordinate_precision,
+								nvl2(coordinate_precision, round(dec_lat,coordinate_precision), round(dec_lat,5)) dec_lat,
+								dec_lat raw_dec_lat,
+								nvl2(coordinate_precision, round(dec_long,coordinate_precision), round(dec_long,5)) dec_long,
+								dec_long raw_dec_long,
+								max_error_distance,
+								max_error_units,
+								round(to_meters(lat_long.max_error_distance, lat_long.max_error_units)) coordinateUncertaintyInMeters,
+								spatialfit,
+								error_polygon,
+								footprint_spatialfit,
+								datum,
+								extent,
+								extent_units,
+								determined_by_agent_id,
+								det_agent.agent_name determined_by,
+								to_char(determined_date,'yyyy-mm-dd') determined_date,
+								gpsaccuracy,
+								lat_long_ref_source,
+								nearest_named_place,
+								lat_long_for_nnp_fg,
+								verificationstatus,
+								field_verified_fg,
+								verified_by_agent_id,
+								ver_agent.agent_name verified_by,
+								CASE orig_lat_long_units
+									WHEN 'decimal degrees' THEN dec_lat || '&##176;'
+									WHEN 'deg. min. sec.' THEN lat_deg || '&##176; ' || lat_min || '&apos; ' || lat_sec || '&quot; ' || lat_dir
+									WHEN 'degrees dec. minutes' THEN lat_deg || '&##176; ' || dec_lat_min || '&apos; ' || lat_dir
+								END as LatitudeString,
+								CASE orig_lat_long_units
+									WHEN 'decimal degrees' THEN dec_long || '&##176;'
+									WHEN'degrees dec. minutes' THEN long_deg || '&##176; ' || dec_long_min || '&apos; ' || long_dir
+									WHEN 'deg. min. sec.' THEN long_deg || '&##176; ' || long_min || '&apos; ' || long_sec || '&quot ' || long_dir
+								END as LongitudeString,
+								geolocate_uncertaintypolygon,
+								geolocate_score,
+								geolocate_precision,
+								geolocate_numresults,
+								geolocate_parsepattern,
+								lat_long_remarks
+							FROM
+								lat_long
+								left join preferred_agent_name det_agent on lat_long.determined_by_agent_id = det_agent.agent_id
+								left join preferred_agent_name ver_agent on lat_long.verified_by_agent_id = ver_agent.agent_id
+							WHERE 
+								lat_long.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.locality_id#">
+								AND accepted_lat_long_fg = 1
+						</cfquery>
+						<!--- current georeference (on locality), always shown --->
 						<div class="col-12 mt-3 px-0 card">
-							<cfquery name="getCurrentGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-								SELECT
-									lat_long_id,
-									accepted_lat_long_fg,
-									decode(accepted_lat_long_fg,1,'Accepted','') accepted_lat_long,
-									orig_lat_long_units,
-									lat_deg, dec_lat_min, lat_min, lat_sec, lat_dir,
-									long_deg, dec_long_min, long_min, long_sec, long_dir,
-									utm_zone, utm_ew, utm_ns,
-									georefmethod,
-									coordinate_precision,
-									nvl2(coordinate_precision, round(dec_lat,coordinate_precision), round(dec_lat,5)) dec_lat,
-									dec_lat raw_dec_lat,
-									nvl2(coordinate_precision, round(dec_long,coordinate_precision), round(dec_long,5)) dec_long,
-									dec_long raw_dec_long,
-									max_error_distance,
-									max_error_units,
-									round(to_meters(lat_long.max_error_distance, lat_long.max_error_units)) coordinateUncertaintyInMeters,
-									spatialfit,
-									error_polygon,
-									footprint_spatialfit,
-									datum,
-									extent,
-									extent_units,
-									determined_by_agent_id,
-									det_agent.agent_name determined_by,
-									to_char(determined_date,'yyyy-mm-dd') determined_date,
-									gpsaccuracy,
-									lat_long_ref_source,
-									nearest_named_place,
-									lat_long_for_nnp_fg,
-									verificationstatus,
-									field_verified_fg,
-									verified_by_agent_id,
-									ver_agent.agent_name verified_by,
-									CASE orig_lat_long_units
-										WHEN 'decimal degrees' THEN dec_lat || '&##176;'
-										WHEN 'deg. min. sec.' THEN lat_deg || '&##176; ' || lat_min || '&apos; ' || lat_sec || '&quot; ' || lat_dir
-										WHEN 'degrees dec. minutes' THEN lat_deg || '&##176; ' || dec_lat_min || '&apos; ' || lat_dir
-									END as LatitudeString,
-									CASE orig_lat_long_units
-										WHEN 'decimal degrees' THEN dec_long || '&##176;'
-										WHEN'degrees dec. minutes' THEN long_deg || '&##176; ' || dec_long_min || '&apos; ' || long_dir
-										WHEN 'deg. min. sec.' THEN long_deg || '&##176; ' || long_min || '&apos; ' || long_sec || '&quot ' || long_dir
-									END as LongitudeString,
-									geolocate_uncertaintypolygon,
-									geolocate_score,
-									geolocate_precision,
-									geolocate_numresults,
-									geolocate_parsepattern,
-									lat_long_remarks
-								FROM
-									lat_long
-									left join preferred_agent_name det_agent on lat_long.determined_by_agent_id = det_agent.agent_id
-									left join preferred_agent_name ver_agent on lat_long.verified_by_agent_id = ver_agent.agent_id
-								WHERE 
-									lat_long.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.locality_id#">
-									AND accepted_lat_long_fg = 1
-							</cfquery>
 							<h2 class="h3 mt-0 py-2 card-header">
 								Georeference and Georeference Metadata
 								<cfif getCurrentGeoreference.recordcount GT 0>
@@ -8132,19 +8132,18 @@ limitations under the License.
 									</ul>
 								</cfloop>
 							</div>
-						</div>
-						
-						<script>
-							$(document).ready(function() {
-								$('##buttonOpenEditGeoreference').on('click', function() {
-									$('##georeferenceEditSection').show();
-									$('##buttonOpenEditGeoreference').hide();
-									changeLatLongUnits();
+							<script>
+								$(document).ready(function() {
+									$('##buttonOpenEditGeoreference').on('click', function() {
+										$('##georeferenceEditSection').show();
+										$('##buttonOpenEditGeoreference').hide();
+										changeLatLongUnits();
+									});
 								});
-							});
-						</script>
+							</script>
+						</div><!--- end current georeference section --->
 						
-						<!--- Edit georeference form section --->
+						<!--- Edit georeference form section, conditional on there being a georeference to edit --->
 						<cfif getCurrentGeoreference.recordcount GT 0>
 							<cfloop query="getCurrentGeoreference">
 								<cfset georefSectionStyleValue="style='display: none;'"><!--- this part of form is hidden by default --->
@@ -8604,8 +8603,7 @@ limitations under the License.
 									</script>
 								</div><!--- end georeference edit section --->
 							</cfloop>
-						</cfif>
-						</div><!--- end georeference section --->	
+						</cfif><!--- end if georeference exists produce edit form section --->
 	
 						<div class="col-12 row px-0">
 							<div class="col-12">
