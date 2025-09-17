@@ -986,12 +986,13 @@ limitations under the License.
 														<select name="nature_of_id" id="nature_of_id" class="data-entry-select reqdClr" required>
 															<option></option>
 															<cfloop query="ctNature">
-																<cfif len(ctNature.description GT 30)>
-																	<cfset desc = left(ctNature.description,27) & "...">
+																<cfset desc = "">
+																<cfif len(ctNature.description GT 50)>
+																	<cfset desc = "(" & left(ctNature.description,47) & "...)">
 																<cfelse>
-																	<cfset desc = ctNature.description>
+																	<cfset desc = "(" & ctNature.description & ")">
 																</cfif>
-																<option value="#ctNature.nature_of_id#">#ctNature.nature_of_id# (#desc#)</option>
+																<option value="#ctNature.nature_of_id#">#ctNature.nature_of_id# #desc#</option>
 															</cfloop>
 														</select>
 													</div>
@@ -1645,17 +1646,18 @@ limitations under the License.
 													<label for="nature_of_id" class="data-entry-label">Nature of ID:</label>
 													<select name="nature_of_id" id="eid_edit_nature_of_id" class="data-entry-select reqdClr" required>
 														<cfloop query="ctNature">
-															<cfif Len(ctNature.desciption) GT 30>
-																<cfset var desc = Left(ctNature.description,27) & "...">
+															<cfset desc = "">
+															<cfif Len(ctNature.desciption) GT 50>
+																<cfset var desc = "(" & Left(ctNature.description,47) & "...)">
 															<cfelse>
-																<cfset var desc = ctNature.description>
+																<cfset var desc = "(" & ctNature.description & ")">
 															</cfif>
 															<cfif idData.nature_of_id EQ ctNature.nature_of_id>
 																<cfset selected="selected">
 															<cfelse>
 																<cfset selected="">
 															</cfif>
-															<option value="#ctNature.nature_of_id#" #selected#>#ctNature.nature_of_id# (#desc#)</option>
+															<option value="#ctNature.nature_of_id#" #selected#>#ctNature.nature_of_id# #desc#</option>
 														</cfloop>
 													</select>
 												</div>
