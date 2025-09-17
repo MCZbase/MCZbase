@@ -987,7 +987,7 @@ limitations under the License.
 															<option></option>
 															<cfloop query="ctNature">
 																<cfset desc = "">
-																<cfif len(ctNature.description GT 75)>
+																<cfif len(ctNature.description) GT 75>
 																	<cfset desc = "(" & left(ctNature.description,72) & "...)">
 																<cfelse>
 																	<cfif len(ctNature.description) EQ 0>
