@@ -8738,7 +8738,10 @@ limitations under the License.
 											<input type="hidden" name="method" value="createBiolIndivRelation">
 											<div class="row mx-0 py-2">
 												<div class="col-12 col-md-6 px-1 pb-2">
-													<label class="data-entry-label">Relationship:</label>
+													<label class="data-entry-label">
+														Relationship:
+														<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTBIOL_RELATIONS" title="list of values in the relationship type controlled vocabulary." target="_blank">Define Values</a>]</span>
+													</label>
 													<select name="biol_indiv_relationship" size="1" class="reqdClr data-entry-select" required>
 														<cfloop query="ctReln">
 															<option value="#ctReln.biol_indiv_relationship#">#ctReln.biol_indiv_relationship#</option>
