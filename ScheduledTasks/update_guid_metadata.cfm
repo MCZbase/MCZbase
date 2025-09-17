@@ -7,7 +7,7 @@
 </cfquery>
 <cfloop query="getGuids">
 	<cfhttp url="#getGuids.assembled_resolvable#/json" method="get" result="httpResponse" timeout="10">
-	<cfif httpResponse.statusCode EQ "200">
+	<cfif httpResponse.statusCode EQ "200 OK">
 		<cfset jsonData = deserializeJson(httpResponse.fileContent)>
 		<cfquery datasource="uam_god">
 			UPDATE guid_our_thing
