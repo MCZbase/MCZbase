@@ -6824,13 +6824,15 @@ limitations under the License.
 								</h4>
 								<!---<cfset separator = "">--->
 								<cfif cecount.ct GT 1>
-									<h5 class="h4">Collecting Event (#getloc.collecting_event_id#) is 
+									<h5 class="h4">
+										Collecting Event is 
 										<span class="text-danger">shared with #cecount.ct# other specimens</span>.
 									</h5>
 								<!---<cfset separator = " ; ">--->
 								</cfif>
 								<cfif loccount.ct GT 1>
-									<h5 class="h4">Locality (#getloc.collecting_event_id#) is 
+									<h5 class="h4">
+										Locality is 
 										<span class="text-danger">shared with #loccount.ct# other specimens</span>.
 									</h5>
 								</cfif>
@@ -6893,7 +6895,7 @@ limitations under the License.
 								<div class="row bg-light border-top px-3 pb-2">
 									<div class="col-12 col-md-3 px-0 py-1">
 										<h3 class="h4">
-											Higher Geography (#getLoc.geog_auth_rec_id#)
+											Higher Geography <span class="small">[internal geog_auth_rec_id #getLoc.geog_auth_rec_id#]</span>
 										</h3>
 										<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
 											<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#getLoc.geog_auth_rec_id#" class="btn btn-xs btn-warning" target="_blank"> Edit Shared Higher Geography Record</a>
@@ -6995,7 +6997,7 @@ limitations under the License.
 						<!--- locality --->
 						<div class="col-12 card float-left px-0 mt-3 mb-3">
 							<h2 class="h3 py-2 mt-0 card-header">
-								Locality #followText#
+								Locality #followText# <span class="small">[internal locality_id #getLoc.locality_id#]</span>
 							</h2>
 							<div class="px-3 my-1">
 								<a class="btn btn-xs btn-info" href="/localities/viewLocality.cfm?locality_id=#getLoc.locality_id#" target="_blank">View #shared_loc# Locality</a>
@@ -7166,8 +7168,8 @@ limitations under the License.
 							<cfset followText = "(shared with #cecount.ct# specimens)">
 						</cfif>
 						<div class="col-12 px-0 mt-3 card">
-							<h2 class="h3 mt-0 py-2 card-header">Collecting Event #followText# 
-			
+							<h2 class="h3 mt-0 py-2 card-header">
+								Collecting Event #followText#  <span class="small">[internal collecting_event_id #getLoc.collecting_event_id#]</span>
 							</h2>
 							<div class="px-3 my-1">
 								<a class="btn btn-xs btn-info" href="/localities/viewCollectingEvent.cfm?collecting_event_id=#getLoc.collecting_event_id#" target="_blank">View #shared# Collecting Event</a>
