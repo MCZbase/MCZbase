@@ -982,11 +982,24 @@ limitations under the License.
 														</script>
 													</div>
 													<div class="col-12 col-md-3 pb-2">
-														<label for="nature_of_id" class="data-entry-label">Nature of ID:</label>
+														<label for="nature_of_id" class="data-entry-label">
+															Nature of ID:
+															<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTNATURE_OF_ID" title="list and full descriptions of the nature of id controlled vocabulary." target="_blank">Define Values</a>]</span>
+														</label>
 														<select name="nature_of_id" id="nature_of_id" class="data-entry-select reqdClr" required>
 															<option></option>
 															<cfloop query="ctNature">
-																<option value="#ctNature.nature_of_id#">#ctNature.nature_of_id# #ctNature.description#</option>
+																<cfset desc = "">
+																<cfif len(ctNature.description) GT 75>
+																	<cfset desc = "(" & left(ctNature.description,72) & "...)">
+																<cfelse>
+																	<cfif len(ctNature.description) EQ 0>
+																		<cfset desc = "">
+																	<cfelse>
+																		<cfset desc = "(" & ctNature.description & ")">
+																	</cfif>
+																</cfif>
+																<option value="#ctNature.nature_of_id#">#ctNature.nature_of_id# #desc#</option>
 															</cfloop>
 														</select>
 													</div>
@@ -1637,10 +1650,28 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-3 pb-2">
-													<label for="nature_of_id" class="data-entry-label">Nature of ID:</label>
+													<label for="nature_of_id" class="data-entry-label">
+														Nature of ID:
+														<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTNATURE_OF_ID" title="list and full descriptions of the nature of id controlled vocabulary." target="_blank">Define Values</a>]</span>
+													</label>
 													<select name="nature_of_id" id="eid_edit_nature_of_id" class="data-entry-select reqdClr" required>
 														<cfloop query="ctNature">
-															<option value="#ctNature.nature_of_id#" <cfif idData.nature_of_id EQ ctNature.nature_of_id>selected</cfif>>#ctNature.nature_of_id# #ctNature.description#</option>
+															<cfset desc = "">
+															<cfif Len(ctNature.description) GT 75>
+																<cfset var desc = "(" & Left(ctNature.description,72) & "...)">
+															<cfelse>
+																<cfif len(ctNature.description) EQ 0>
+																	<cfset var desc = "">
+																<cfelse>
+																	<cfset var desc = "(" & ctNature.description & ")">
+																</cfif>
+															</cfif>
+															<cfif idData.nature_of_id EQ ctNature.nature_of_id>
+																<cfset selected="selected">
+															<cfelse>
+																<cfset selected="">
+															</cfif>
+															<option value="#ctNature.nature_of_id#" #selected#>#ctNature.nature_of_id# #desc#</option>
 														</cfloop>
 													</select>
 												</div>
@@ -5256,7 +5287,10 @@ limitations under the License.
 													<input type="hidden" name="cited_taxon_name_id" id="cited_taxon_name_id" value="">
 												</div>
 												<div class="float-left col-12 col-md-3 pb-2 px-1">
-													<label for="type_status" class="data-entry-label">Citation Type</label>
+													<label for="type_status" class="data-entry-label">
+														Citation Type
+														<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTCITATION_TYPE_STATUS" title="list and full descriptions of the citation type controlled vocabulary." target="_blank">Define Values</a>]</span>
+													</label>
 													<select name="type_status" id="type_status" class="data-entry-select reqdClr" required>
 														<option value=""></option>
 														<cfloop query="ctTypeStatus">
@@ -5473,7 +5507,10 @@ limitations under the License.
 														<input type="text" class="data-entry-input reqdClr" id="cit_cited_name#i#" name="cited_name" value="#citSciName#" required>
 													</div>
 													<div class="col-12 col-md-3 px-1 pb-2">
-														<label for="cit_type_status#i#" class="data-entry-label">Citation Type</label>
+														<label for="cit_type_status#i#" class="data-entry-label">
+															Citation Type
+															<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTCITATION_TYPE_STATUS" title="list and full descriptions of the citation type controlled vocabulary." target="_blank">Define Values</a>]</span>
+														</label>
 														<select name="type_status" id="cit_type_status#i#" class="data-entry-select reqdClr" required>
 															<option value=""></option>
 															<cfloop query="ctTypeStatus">
@@ -5788,7 +5825,10 @@ limitations under the License.
 											<input type="hidden" name="method" value="addAttribute">
 											<div class="row mx-0 pb-2">
 												<div class="col-12 col-md-4 pb-2 px-1">
-													<label for="attribute_type" class="data-entry-label">Name</label>
+													<label for="attribute_type" class="data-entry-label">
+														Name
+														<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE&collection_cde=#getCatItem.collection_cde#" title="list and full descriptions of the attribute type controlled vocabulary for the #getCatItem.collection_cde# collection." target="_blank">Define Values</a>]</span>
+													</label>
 													<select name="attribute_type" id="attribute_type" class="data-entry-select reqdClr" required>
 														<option value=""></option>
 														<cfloop query="getAttributeTypes">
@@ -8701,7 +8741,10 @@ limitations under the License.
 											<input type="hidden" name="method" value="createBiolIndivRelation">
 											<div class="row mx-0 py-2">
 												<div class="col-12 col-md-6 px-1 pb-2">
-													<label class="data-entry-label">Relationship:</label>
+													<label class="data-entry-label">
+														Relationship:
+														<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTBIOL_RELATIONS" title="list of values in the relationship type controlled vocabulary." target="_blank">Define Values</a>]</span>
+													</label>
 													<select name="biol_indiv_relationship" size="1" class="reqdClr data-entry-select" required>
 														<cfloop query="ctReln">
 															<option value="#ctReln.biol_indiv_relationship#">#ctReln.biol_indiv_relationship#</option>
