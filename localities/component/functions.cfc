@@ -4707,6 +4707,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 		<cfif eventToCloneFrom.recordcount EQ 0>
 			<cfthrow message = "No event to clone from found for specified collecting event id.">
 		<cfelse>
+			<cfset collecting_event_id = ""><!--- new event, so no id to pass to form --->
 			<cfset variables.locality_id = eventToCloneFrom.locality_id>
 			<cfset variables.verbatim_locality = eventToCloneFrom.verbatim_locality>
 			<cfset variables.verbatimDepth = eventToCloneFrom.verbatimDepth>
