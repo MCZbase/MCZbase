@@ -8624,7 +8624,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-					</form>
+					</form><!--- end locForm --->
 					<script>
 						$(document).ready(function() {
 							// Initialize datepicker for determined_date
