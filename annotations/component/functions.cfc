@@ -245,85 +245,87 @@ limitations under the License.
 				</cfswitch>
 				<section class="container-fluid">
 					<div class="row">
-						<div class="col-12">
-							<h1 class="h3" tabindex="0">Annotations for #summary#</h2>
-						</div>
-					</div>
-					<div class="row d-block">
-						<form name="annotate" method="post" action="/info/annotate.cfm" class="form-row">
-							<input type="hidden" name="action" value="insert">
-							<input type="hidden" name="idtype" id="idtype" value="#target_type#">
-							<input type="hidden" name="idvalue" id="idvalue" value="#target_id#">
-							<div class="col-12">
-								<label for="annotation" class="data-entry-label">Annotation Text (<span id="length_annotation"></span>)</label>
-								<textarea rows="2" name="annotation" id="annotation"
-										onkeyup="countCharsLeft('annotation', 4000, 'length_annotation');"
-										class="autogrow reqdClr form-control data-entry-textarea" required></textarea>
-								<script>
-									$(document).ready(function() { 
-										$("##annotation").keyup(autogrow);  
-										$("##annotation").keyup();  
-									});
-								</script>
+						<div class="col-12 px-0 px-md-3 mt-2">
+							<div class="col-12 px-0 add-form">
+								<div class="add-form-header px-2">
+									<h2 class="h3 my-0 px-1 py-2" tabindex="0">Annotations for #summary#</h2>
+								</div>
+								<div class="row col-12 mx-0 mt-3 d-block">
+									<form name="annotate" method="post" action="/info/annotate.cfm" class="form-row">
+										<input type="hidden" name="action" value="insert">
+										<input type="hidden" name="idtype" id="idtype" value="#target_type#">
+										<input type="hidden" name="idvalue" id="idvalue" value="#target_id#">
+										<div class="col-12 pb-2">
+											<label for="annotation" class="data-entry-label">Annotation Text (<span id="length_annotation"></span>)</label>
+											<textarea rows="2" name="annotation" id="annotation"
+													onkeyup="countCharsLeft('annotation', 4000, 'length_annotation');"
+													class="autogrow reqdClr form-control data-entry-textarea" required></textarea>
+											<script>
+												$(document).ready(function() { 
+													$("##annotation").keyup(autogrow);  
+													$("##annotation").keyup();  
+												});
+											</script>
+										</div>
+										<div class="col-12 pb-2">
+											<label for="motivation" class="data-entry-label">Your motivation for making this annotation</label>
+											<select id="motivation" name="motivation" class="data-entry-select">
+												<cfloop query="ctmotivation">
+													<cfif motivation EQ "commenting"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+													<option value="#motivation#"#selected#>#motivation# (#description#)</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12">
+											<input type="button" class="btn btn-xs btn-primary mt-2" value="Save Annotation" onclick="saveThisAnnotation()">
+										</div>
+									</form>
+								</div>
 							</div>
-							<div class="col-12 col-md-6">
-								<label for="motivation" class="data-entry-label">Your motivation for making this annotation</label>
-								<select id="motivation" name="motivation" class="data-entry-select">
-									<cfloop query="ctmotivation">
-										<cfif motivation EQ "commenting"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-										<option value="#motivation#"#selected#>#motivation# (#description#)</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12">
-								<input type="button" class="btn btn-xs btn-primary mt-2" value="Save Annotation" onclick="saveThisAnnotation()">
-							</div>
-						</form>
-					</div>
-					<div class="row">
-						<div class="col-12">
-							<cfif prevAnn.recordcount gt 0>
-								<h2 class="h4 mt-5">Annotations on this Record</h2>
-								<table id="tbl" class="table table-responsive table-striped">
-									<thead class="thead-light">
-										<th>Annotation Body</th>
-										<th>Created</th>
-										<th>Motivation</th>
-										<th>Reviewed</th>
-										<th>State</th>
-										<th>Resolution</th>
-									</thead>
-									<tbody>
-										<cfloop query="prevAnn">
-										<tr>
-											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-												<td>#annotation#</td>
-											<cfelse>
-												<td>#rereplace(annotation,"^.* reported:","[Masked] reported:")#</td>
-											</cfif>
-											<td>#dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
-											<td>#motivation#</td>
-											<td>
-												<cfif len(REVIEWER_COMMENT) gt 0>
-													#REVIEWER_COMMENT#
-												<cfelseif REVIEWED_FG is 0>
-													Not Reviewed
+							<div class="col-12 form-row mx-0 px-0">
+								<cfif prevAnn.recordcount gt 0>
+									<h2 class="h4 mt-3 px-1">Annotations on this Record</h2>
+									<table id="tbl" class="table table-responsive-sm table-striped">
+										<thead class="thead-light">
+											<th>Annotation Body</th>
+											<th>Created</th>
+											<th>Motivation</th>
+											<th>Reviewed</th>
+											<th>State</th>
+											<th>Resolution</th>
+										</thead>
+										<tbody>
+											<cfloop query="prevAnn">
+											<tr>
+												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+													<td>#annotation#</td>
 												<cfelse>
-													Reviewed
+													<td>#rereplace(annotation,"^.* reported:","[Masked] reported:")#</td>
 												</cfif>
-											</td>
-											<td>#state#</td>
-											<td>#resolution#</td>
-										</tr>
-									</cfloop>
-									</tbody>
-								</table>
-								<cfif len(manageIRI) GT 0 AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-									<a href="#manageIRI#" target="_blank">Manage Annotations</a>
+												<td>#dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
+												<td>#motivation#</td>
+												<td>
+													<cfif len(REVIEWER_COMMENT) gt 0>
+														#REVIEWER_COMMENT#
+													<cfelseif REVIEWED_FG is 0>
+														Not Reviewed
+													<cfelse>
+														Reviewed
+													</cfif>
+												</td>
+												<td>#state#</td>
+												<td>#resolution#</td>
+											</tr>
+										</cfloop>
+										</tbody>
+									</table>
+									<cfif len(manageIRI) GT 0 AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+										<a href="#manageIRI#" class="h3" target="_blank">Manage Annotations</a>
+									</cfif>
+								<cfelse>
+									<h2 class="h3">There are no annotations for this record.</h2>
 								</cfif>
-							<cfelse>
-								<h2 class="h3">There are no annotations for this record.</h2>
-							</cfif>
+							</div>
 						</div>
 					</div>
 				<section>
@@ -608,15 +610,15 @@ Annotation to report problematic data concerning #annotated.annorecord#
 								<cfset guid = "#institution_acronym#:#collection_cde#:#cat_num#">
 								<h2 class="h3 mt-3 px-2 mb-1">Annotations on #guid#</h2>
 								<div class="col-12 px-0 my-0 py-0 card border-bottom-0">
-									<h3 class="h4 card-header">
+									<h3 class="h4 card-header py-2 bg-box-header-gray">
 										<a href="/guid/#guid#" target="_blank">#guid#</a>
 										<span class="mx-2">&nbsp; Current Identification: <em>#idAs#</em></span> 
 										<span class="mx-2"> Locality: #higher_geog#: #spec_locality#</span>
 									</h3>
 									<cfset i=0>
 									<cfloop query="ci_annotations">
-										<form name="review_annotation_#i#" id="review_annotation_#i#" class="card-body border-bottom mb-0">
-											<div class="form-row mx-0 pb-0 col-12 px-1 table-striped">
+										<form name="review_annotation_#i#" id="review_annotation_#i#" class="card-body bg-light border-bottom mb-0">
+											<div class="form-row mx-0 pb-0 col-12 px-1 ">
 												<input type="hidden" name="method" value="updateAnnotationReview">
 												<input type="hidden" name="annotation_id" value="#annotation_id#">
 												<div class="col-12 col-md-6 pt-2 px-1">
@@ -647,7 +649,7 @@ Annotation to report problematic data concerning #annotated.annorecord#
 												</div>
 												<div class="col-12 col-md-2 py-2 px-1">
 													<input type="submit" value="Save Review" class="btn btn-xs btn-primary mt-3 mb-2">
-													<output id="result_annotation_#i#"></output>
+													<output id="result_annotation_#i#" aria-live="polite"></output>
 												</div>
 											</div>
 										</form>

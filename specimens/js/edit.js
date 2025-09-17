@@ -54,7 +54,7 @@ function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775,wi
 		height: h,
 		width: w,
 		minWidth: 320,
-		minHeight: 450,
+		minHeight: 550,
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
@@ -69,6 +69,13 @@ function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775,wi
 			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
 			// position consistently with top at top of browser window:
 			$(this).dialog("option", "position",{ my: "top", at: "top", of: window, collision: "fit" });
+			 // -------- A11Y start --------
+            $(this).attr('aria-modal','true');    // Ensure modal semantics
+            setTimeout(() => {
+              $(this).find('input, select, textarea, button, a[href]')
+                     .filter(':visible').first().focus();
+            }, 100);
+            // -------- A11Y end --------
 		},
 		close: function(event,ui) {
 			console.log("Close called on dialog in div with id: " + dialogId);
@@ -83,6 +90,13 @@ function createSpecimenEditDialog(dialogId,title,closecallback,max_height=775,wi
 			} catch (e) {
 				console.error("Error destroying dialog: " + e);
 			}
+			  // -------- A11Y start --------
+            if (typeof window.lastDialogTrigger !== 'undefined') {
+                setTimeout(function() {
+                    $(window.lastDialogTrigger).focus();
+                }, 0);
+            }
+            // -------- A11Y end --------
 		}
 	});
 	thedialog.dialog('open');
@@ -119,7 +133,7 @@ function createCitationEditDialog(dialogId,title,closecallback,max_height=775) {
 		height: h,
 		width: w,
 		minWidth: 320,
-		minHeight: 450,
+		minHeight: 550,
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {

@@ -611,7 +611,7 @@ limitations under the License.
 											collecting_event_id: new_collecting_event_id
 										},
 										success: function(response) {
-                        	      var response = JSON.parse(response);
+                        	      		var response = JSON.parse(response);
 											if (response.success) {
 												console.log("Collecting event changed successfully.");
 												reloadLocality();
@@ -742,7 +742,7 @@ limitations under the License.
 							<cfset blockidentifiers = getIdentifiersHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingIdentifiers">
 								<h3 class="h5 my-0">
-									<button type="button" role="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane">
+									<button type="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane">
 										Cataloged Item
 									</button>
 								</h3>
@@ -762,7 +762,7 @@ limitations under the License.
 							<cfset blockident = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingID">
 								<h3 class="h5 my-0">
-									<button type="button" role="button" aria-label="identifications pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationsPane">
+									<button type="button" aria-label="identifications pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationsPane">
 										Identifications
 									</button>
 									<cfif len(#blockident#) gt 10> 
@@ -788,6 +788,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+					
 					<!------------------------------------ Citations ------------------------------------------>
 					<div class="accordion" id="accordionCitations">
 						<div class="card mb-2 bg-light">
@@ -873,7 +874,7 @@ limitations under the License.
 						</div>
 					</div>
 					<!------------------------------------ parts ---------------------------------------------->
-					<div class="accordion" id="accordionParts">
+						<div class="accordion" id="accordionParts">
 						<div class="card mb-2 bg-light">
 							<div id="partsDialog"></div>
 							<div id="editPartAttributesDialog"></div>
@@ -888,9 +889,7 @@ limitations under the License.
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<a href="/Reports/report_printer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs small py-0 anchorFocus mr-5" title="Print Labels for this Specimen">Print Labels</a>
-										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPartsInPage(#collection_object_id#,reloadParts)">
-											Edit
-										</a>
+										<a href="javascript:void(0)" role="button" aria-label="edit parts" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPartsInPage(#collection_object_id#,reloadParts)">Edit</a>
 									</cfif>
 								</h3>
 							</div>
@@ -945,7 +944,7 @@ limitations under the License.
 								<cfelse>
 									<div class="card-body py-0" id="attributesCardBody">
 										<ul class="list-group my-0">
-											<li class="small list-group-item py-1 font-italic">None</li>
+											<li class="small list-group-item px-3 py-1 font-italic">None</li>
 										</ul>
 									</div>
 								</cfif>
@@ -962,9 +961,7 @@ limitations under the License.
 										Relationships
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">
-											Edit
-										</a>
+										<a role="button" href="javascript:void(0)" aria-label="edit relationships" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Edit</a>
 									</cfif>
 								</h3>
 							</div>
@@ -987,9 +984,7 @@ limitations under the License.
 										Cataloged Item Remarks
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)">
-											Edit
-										</a>
+										<a href="javascript:void(0)" role="button" aria-label="edit specimen remarks" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)">Edit</a>
 									</cfif>
 								</h3>
 							</div>
@@ -1037,9 +1032,7 @@ limitations under the License.
 										</a>
 									</cfif>
 									<cfif listcontainsnocase(session.roles,"manage_specimens") AND hasAnnotations >
-										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAnnotationsDialog(#collection_object_id#,'AnnotationsDialog','#guid#',reloadAnnotations)">
-											Edit
-										</a>
+										<a href="javascript:void(0)" role="button" aria-label="edit annotations" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAnnotationsDialog(#collection_object_id#,'AnnotationsDialog','#guid#',reloadAnnotations)">Edit</a>
 									</cfif>
 								</h3>
 							</div>
@@ -1076,7 +1069,7 @@ limitations under the License.
 				<!----- start of column 3 (rightmost of the two right columns) --->
 				<div class="col-12 col-lg-6 px-1 float-left"> 
 					<!-------------------.locality and collecting event----------------->
-					<div class="accordion" id="accordionLocality">
+				<div class="accordion" id="accordionLocality">
 						<div class="card mb-2 bg-light">
 							<div id="localityDialog"></div>
 							<div id="collectorsDialog"></div>
@@ -1086,9 +1079,7 @@ limitations under the License.
 										Location and Collecting Event
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditLocalityInPage(#collection_object_id#,reloadLocality)">
-											Edit
-										</a>
+										<a href="javascript:void(0)" role="button" aria-label="edit locality and collecting event" class="btn btn-xs small py-0 anchorFocus" onClick="openEditLocalityInPage(#collection_object_id#,reloadLocality)">Edit</a>
 									</cfif>
 								</h3>
 							</div>
@@ -1111,9 +1102,7 @@ limitations under the License.
 										Preparators
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPreparatorsDialog(#collection_object_id#,'preparatorsDialog','#guid#',reloadPreparators)">
-											Edit
-										</a>
+										<a href="javascript:void(0)" role="button" aria-label="edit preparators" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPreparatorsDialog(#collection_object_id#,'preparatorsDialog','#guid#',reloadPreparators)">Edit</a>
 									</cfif>
 								</h3>
 							</div>
@@ -1125,7 +1114,7 @@ limitations under the License.
 						</div>
 					</div>
 					<!------------------- Ledger---------------------------------------->
-					<cfset ledgerMediaCount = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "documents", get_count = 'true')>
+				<cfset ledgerMediaCount = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "documents", get_count = 'true')>
 					<cfset ledgerMediaCount = val(rereplace(ledgerMediaCount,"[^0-9]","","all"))>
 					<div class="accordion" id="accordionLedger">
 						<div class="card mb-2 bg-light">
@@ -1162,7 +1151,7 @@ limitations under the License.
 							<div class="card-header" id="headingTransactions">
 								<h3 class="h5 my-0">
 									<button type="button" aria-controls="TransactionsPane" class="w-100 h-100 text-left headerLnk" aria-label="Transactions Pane" aria-expanded="true" data-toggle="collapse" data-target="##TransactionsPane">
-										Transactions
+									Transactions
 									</button>
 								</h3>
 							</div>
@@ -1180,13 +1169,11 @@ limitations under the License.
 							<div id="NamedGroupsDialog"></div>
 							<div class="card-header" id="headingNamedGroups">
 								<h3 class="h5 my-0">
-									<button type="button" role="button" aria-label="Named Groups Pane" aria-controls="NamedGroupsPane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##NamedGroupsPane">
+									<button type="button" aria-label="Named Groups Pane" aria-controls="NamedGroupsPane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##NamedGroupsPane">
 										Featured Collections (Named Groups)
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditNamedGroupsDialog(#collection_object_id#,'NamedGroupsDialog','#GUID#',reloadNamedGroups)">
-											Edit
-										</a>
+										<a role="button" href="javascript:void(0)" aria-label="edit named groups" class="btn btn-xs small py-0 anchorFocus" onClick="openEditNamedGroupsDialog(#collection_object_id#,'NamedGroupsDialog','#GUID#',reloadNamedGroups)">Edit</a>
 									</cfif>
 								</h3>
 							</div>
@@ -1205,13 +1192,11 @@ limitations under the License.
 								<div id="EncumbranceDialog"></div>
 								<div class="card-header" id="headingEncumbrance">
 									<h3 class="h5 my-0">
-										<button type="button" role="button" aria-label="Encumbrance Pane" aria-controls="EncumbrancePane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##EncumbrancePane">
+										<button type="button" aria-label="Encumbrance Pane" aria-controls="EncumbrancePane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##EncumbrancePane">
 											Encumbrances
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditEncumbarancesDialog(#collection_object_id#,'EncumbranceDialog','#guid#',reloadEncumbrances);">
-												Edit
-											</a>
+											<a role="button" href="javascript:void(0)" aria-label="edit encumbrances" class="btn btn-xs small py-0 anchorFocus" onClick="openEditEncumbarancesDialog(#collection_object_id#,'EncumbranceDialog','#guid#',reloadEncumbrances);">Edit</a>
 										</cfif>
 									</h3>
 								</div>
@@ -1236,7 +1221,7 @@ limitations under the License.
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")>
 		<div class="container-fluid">
 			<section class="row mx-0" id="QCSection">
-				<div class="col-12 mt-4">
+				<div class="col-12 my-3">
 					<!---  Include the TDWG BDQ TG2 test integration --->
 					<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
 					<script>
@@ -1248,11 +1233,11 @@ limitations under the License.
 					</script>
 					<input type="button" value="Run Quality Control Tests" class="btn btn-secondary btn-xs" onClick=" runTests(); ">
 					<!---  Scientific Name tests --->
-					<div id="NameDQDiv"></div>
+					<div id="NameDQDiv" class="mt-3"></div>
 					<!---  Spatial tests --->
-					<div id="SpatialDQDiv"></div>
+					<div id="SpatialDQDiv" class="mt-3"></div>
 					<!---  Temporal tests --->
-					<div id="EventDQDiv"></div>
+					<div id="EventDQDiv" class="mt-3"></div>
 				</div>					
 			</section><!-- end QCSection --->
 		</div>
