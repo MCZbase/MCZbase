@@ -414,7 +414,7 @@ limitations under the License.
 				<cfset extra = " within #lookupLocality.higher_geog# #lookupLocality.spec_locality#">
 				<cfset geog_auth_rec_id = "#lookupLocality.geog_auth_rec_id#">
 			</cfloop>
-			<cfset blockform = getCollectingEventFormHtml(geog_auth_rec_id = "#geog_auth_rec_id#",mode="create")>
+			<cfset blockform = getCollectingEventFormHtml(geog_auth_rec_id = "#geog_auth_rec_id#",locality_id="#variables.locality_id#",mode="create")>
 		<cfelseif len(variables.clone_from_collecting_event_id) GT 0>
 			<cfset extra = " cloned from #encodeForHtml(variables.clone_from_collecting_event_id)#">
 				<cfset blockform = getCollectingEventFormHtml(clone_from_collecting_event_id = "#variables.clone_from_collecting_event_id#",mode="create")>
