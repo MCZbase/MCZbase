@@ -7,8 +7,8 @@
 </cfquery>
 <cfloop query="getGuids">
 	<cfhttp url="#getGuids.assembled_resolvable#/json" method="get" result="httpResponse" timeout="10">
-	<cfif cfhttp.statusCode EQ "200">
-		<cfset jsonData = deserializeJson(cfhttp.fileContent)>
+	<cfif httpResponse.statusCode EQ "200">
+		<cfset jsonData = deserializeJson(httpResponse.fileContent)>
 		<cfquery datasource="uam_god">
 			UPDATE guid_our_thing
 			SET metadata = <cfqueryparam value="#serializeJson(jsonData)#" cfsqltype="cf_sql_longvarchar">
