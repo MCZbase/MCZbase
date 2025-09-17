@@ -987,8 +987,8 @@ limitations under the License.
 															<option></option>
 															<cfloop query="ctNature">
 																<cfset desc = "">
-																<cfif len(ctNature.description GT 50)>
-																	<cfset desc = "(" & left(ctNature.description,47) & "...)">
+																<cfif len(ctNature.description GT 75)>
+																	<cfset desc = "(" & left(ctNature.description,72) & "...)">
 																<cfelse>
 																	<cfif len(ctNature.description) EQ 0>
 																		<cfset desc = "">
@@ -1651,8 +1651,8 @@ limitations under the License.
 													<select name="nature_of_id" id="eid_edit_nature_of_id" class="data-entry-select reqdClr" required>
 														<cfloop query="ctNature">
 															<cfset desc = "">
-															<cfif Len(ctNature.description) GT 50>
-																<cfset var desc = "(" & Left(ctNature.description,47) & "...)">
+															<cfif Len(ctNature.description) GT 75>
+																<cfset var desc = "(" & Left(ctNature.description,72) & "...)">
 															<cfelse>
 																<cfif len(ctNature.description) EQ 0>
 																	<cfset var desc = "">
