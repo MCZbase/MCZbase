@@ -982,7 +982,10 @@ limitations under the License.
 														</script>
 													</div>
 													<div class="col-12 col-md-3 pb-2">
-														<label for="nature_of_id" class="data-entry-label">Nature of ID:</label>
+														<label for="nature_of_id" class="data-entry-label">
+															Nature of ID:
+															<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTNATURE_OF_ID" title="list and full descriptions of the nature of id controlled vocabulary." target="_blank">Define Values</a>]</span>
+														</label>
 														<select name="nature_of_id" id="nature_of_id" class="data-entry-select reqdClr" required>
 															<option></option>
 															<cfloop query="ctNature">
@@ -1647,7 +1650,10 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-3 pb-2">
-													<label for="nature_of_id" class="data-entry-label">Nature of ID:</label>
+													<label for="nature_of_id" class="data-entry-label">
+														Nature of ID:
+														<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTNATURE_OF_ID" title="list and full descriptions of the nature of id controlled vocabulary." target="_blank">Define Values</a>]</span>
+													</label>
 													<select name="nature_of_id" id="eid_edit_nature_of_id" class="data-entry-select reqdClr" required>
 														<cfloop query="ctNature">
 															<cfset desc = "">
