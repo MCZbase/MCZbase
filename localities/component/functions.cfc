@@ -4733,6 +4733,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfset fish_field_number = eventToCloneFrom.fish_field_number>
 			<cfset date_determined_by_agent_id = eventToCloneFrom.date_determined_by_agent_id>
 		</cfif>
+	<cfelseif mode EQ "create">
+		<!--- create, but not cloning, set defaults --->
+		<cfset collecting_event_id = "">
 	<cfelseif mode EQ "edit" >
 		<cfquery name="getEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT
