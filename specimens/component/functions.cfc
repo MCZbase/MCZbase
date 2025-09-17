@@ -5825,7 +5825,10 @@ limitations under the License.
 											<input type="hidden" name="method" value="addAttribute">
 											<div class="row mx-0 pb-2">
 												<div class="col-12 col-md-4 pb-2 px-1">
-													<label for="attribute_type" class="data-entry-label">Name</label>
+													<label for="attribute_type" class="data-entry-label">
+														Name
+														<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE&collection_cde=#getCatItem.collection_cde#" title="list and full descriptions of the attribute type controlled vocabulary for the #getCatItem.collection_cde# collection." target="_blank">Define Values</a>]</span>
+													</label>
 													<select name="attribute_type" id="attribute_type" class="data-entry-select reqdClr" required>
 														<option value=""></option>
 														<cfloop query="getAttributeTypes">
