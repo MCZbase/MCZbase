@@ -265,6 +265,7 @@ limitations under the License.
 	<cfargument name="began_date" type="string" required="no" default="">
 	<cfargument name="ended_date" type="string" required="no" default="">
 	<cfargument name="higher_geog" type="string" required="no" default="">
+	<cfargument name="collecting_event_id" type="string" required="no" default="">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -308,6 +309,9 @@ limitations under the License.
 				</cfif>
 				<cfif arguments.ended_date NEQ "">
 					AND ce.ended_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.ended_date#">
+				</cfif>
+				<cfif arguments.collecting_event_id NEQ "">
+					AND ce.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.collecting_event_id#">
 				</cfif>
 			ORDER BY
 				l.spec_locality, ce.verbatim_date, ce.began_date
@@ -395,13 +399,17 @@ limitations under the License.
 									</div>
 								</div>
 								<div class='form-row'>
-									<div class='col-12 col-md-6 pb-2'>
+									<div class='col-12 col-md-4 pb-2'>
 										<label for='began_date' class='data-entry-label'>Began Date (yyyy-mm-dd)</label>
 				 						<input type='text' name='began_date' id='began_date' value='' class='data-entry-input' placeholder='yyyy-mm-dd'>
 									</div>
-									<div class='col-12 col-md-6 pb-2'>
+									<div class='col-12 col-md-4 pb-2'>
 										<label for='ended_date' class='data-entry-label'>Ended Date (yyyy-mm-dd)</label>
 				 						<input type='text' name='ended_date' id='ended_date' value='' class='data-entry-input' placeholder='yyyy-mm-dd'>
+									</div>
+									<div class='col-12 col-md-4 pb-2'>
+										<label for='ended_date' class='data-entry-label'>Collecting Event ID</label>
+				 						<input type='text' name='collecting_event_id' id='collecting_event_id' value='' class='data-entry-input' placeholder='9999999'>
 									</div>
 								</div>
 								<div class='form-row mt-2'>
