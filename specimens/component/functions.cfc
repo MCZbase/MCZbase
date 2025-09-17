@@ -5287,7 +5287,10 @@ limitations under the License.
 													<input type="hidden" name="cited_taxon_name_id" id="cited_taxon_name_id" value="">
 												</div>
 												<div class="float-left col-12 col-md-3 pb-2 px-1">
-													<label for="type_status" class="data-entry-label">Citation Type</label>
+													<label for="type_status" class="data-entry-label">
+														Citation Type
+														<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTCITATION_TYPE_STATUS" title="list and full descriptions of the citation type controlled vocabulary." target="_blank">Define Values</a>]</span>
+													</label>
 													<select name="type_status" id="type_status" class="data-entry-select reqdClr" required>
 														<option value=""></option>
 														<cfloop query="ctTypeStatus">
@@ -5504,7 +5507,10 @@ limitations under the License.
 														<input type="text" class="data-entry-input reqdClr" id="cit_cited_name#i#" name="cited_name" value="#citSciName#" required>
 													</div>
 													<div class="col-12 col-md-3 px-1 pb-2">
-														<label for="cit_type_status#i#" class="data-entry-label">Citation Type</label>
+														<label for="cit_type_status#i#" class="data-entry-label">
+															Citation Type
+															<span>[<a href="/vocabularies/ControlledVocabulary.cfm?table=CTCITATION_TYPE_STATUS" title="list and full descriptions of the citation type controlled vocabulary." target="_blank">Define Values</a>]</span>
+														</label>
 														<select name="type_status" id="cit_type_status#i#" class="data-entry-select reqdClr" required>
 															<option value=""></option>
 															<cfloop query="ctTypeStatus">
