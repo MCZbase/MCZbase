@@ -1054,7 +1054,7 @@ limitations under the License.
 						<li class="small list-group-item py-0 font-italic">None</li>
 					</ul>
 				</cfif>
-				<cfloop query="citations" group="formatted_publication">
+				<cfloop query="citations">
 					<div class="list-group pt-0 d-block pb-1 px-2 w-100 mb-0 small95">
 						<span class="d-inline"></span>
 						<a href="/publications/showPublication.cfm?publication_id=#publication_id#">#formatted_publication#</a>,
