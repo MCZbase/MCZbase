@@ -643,10 +643,12 @@ limitations under the License.
 					taxa_formula,
 					formatted_publication,
 					identification.publication_id,
-					stored_as_fg
+					stored_as_fg,
+					coll_object.coll_object_type
 				FROM
 					identification
 					left join formatted_publication on identification.publication_id=formatted_publication.publication_id and format_style='short'
+					left join coll_object on identification.collection_object_id = coll_object.collection_object_id
 				WHERE
 					identification.collection_object_id = <cfqueryparam value="#arguments.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				ORDER BY 
@@ -789,10 +791,15 @@ limitations under the License.
 							</cfif>
 						</cfif>
 						<cfif local_editable>
+							<cfset allowDelete = false>
+							<!--- allow delete if not current identification or if identification on specimen part and only one identification --->
+							<cfif identification.accepted_id_fg NEQ 1 OR (identification.recordcount EQ 1 and identification.coll_object_type EQ 'SP')>
+								<cfset allowDelete = true>	
+							</cfif>
 							<span class="float-right">
 								<button class="btn btn-xs btn-secondary py-0" 
 									onclick="editIdentification('#identification.identification_id#',reloadIdentificationsDialogAndPage)">Edit</button>
-								<cfif identification.accepted_id_fg NEQ 1>
+								<cfif allowDelete>
 									<button class="btn btn-xs btn-danger py-0" 
 										onclick=" confirmDialog('Are you sure you want to delete this identification?', 'Delete Identification',removeIdentification_#local.i#);"
 										>Delete</button>
