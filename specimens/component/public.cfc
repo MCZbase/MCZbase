@@ -793,7 +793,8 @@ limitations under the License.
 						<cfif local_editable>
 							<cfset allowDelete = false>
 							<!--- allow delete if not current identification or if identification on specimen part and only one identification --->
-							<cfif identification.accepted_id_fg NEQ 1 OR (identification.recordcount EQ 1 and identification.coll_object_type EQ 'SP')>
+							<!--- cfif identification.accepted_id_fg NEQ 1 OR (identification.recordcount EQ 1 and identification.coll_object_type EQ 'SP') --->
+							<cfif identification.accepted_id_fg NEQ 1>
 								<cfset allowDelete = true>	
 							</cfif>
 							<span class="float-right">
