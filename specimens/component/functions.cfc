@@ -2068,11 +2068,15 @@ limitations under the License.
 					identification_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.identification_remarks#">,
 					taxa_formula = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.taxa_formula#">,
 					scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,
-					stored_as_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.stored_as_fg#">,
-					publication_id = <cfif len(arguments.publication_id)>
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.publication_id#">
+					<cfif len(arguments.stored_as_fg) GT 0>
+						stored_as_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.stored_as_fg#">,
 					<cfelse>
-						NULL
+						stored_as_fg = 0,
+					</cfif>
+					<cfif len(arguments.publication_id) GT 0>
+						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.publication_id#">
+					<cfelse>
+						publication_id = NULL
 					</cfif>
 				WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.identification_id#">
 			</cfquery>
@@ -2591,6 +2595,72 @@ limitations under the License.
 									</cfif>
 								</ul>
 							</div>
+							<div class="col-12 float-left mt-3 mb-3 pt-2 pb-1 border">
+								<!--- Clone this record into the bulkloader --->
+								<h2 class="h3 my-0 px-1 pt-2 pb-0">Clone into Bulkloader</h2>
+								<script>
+									function cloneCatalogedItem(collection_object_id){
+										$('##cloneOutput').css("display", "inline").html('<img src="/images/indicator.gif">Cloning this record into the bulkloader.....');
+										$.getJSON("/component/functions.cfc",
+											{
+												method : "cloneCatalogedItem",
+												collection_object_id : collection_object_id,
+												returnformat : "json",
+												queryformat : 'column'
+											},
+											function (r) {
+												if (r.substring(0,6) == 'spiffy') {
+													var v=r.substring(7,r.length);
+													var q='Clone created: <a target="_blank" href="/DataEntry.cfm?action=editEnterData&pMode=edit&collection_object_id=' + v + '">View Clone In Bulkloader</a>';
+													jQuery('##cloneOutput').css("display", "inline").html(q);
+												} else {
+													jQuery('##cloneOutput').css("display", "inline").text(r);
+												}
+											}
+										);
+									}
+									function toggleCloneText(){
+										if ($('##cloneInstructionsDiv').is(':visible')){
+											$('##cloneInstructionsDiv').hide();
+											$('##cloneInstructionsButton').html('Show Instructions');
+										} else {
+											$('##cloneInstructionsDiv').show();
+											$('##cloneInstructionsButton').html('Hide Instructions');
+										}
+									}
+								</script>
+								<h3 class="h4">
+									To split a lot or create a related record such as of a parasite, you can clone this record into the bulkloader.  
+									<button class="btn btn-secondary" onclick="toggleCloneText();" id="cloneInstructionsButton">Show Instructions</button>
+								</h3>
+								<div id="cloneInstructionsDiv" style="display:none">
+									<ul>
+										<li>
+											Data from this cataloged item will be inserted into the Bulkloader, where you
+											may further edit the record or flag it to load, as with any other new record. 
+										</li>
+										<li>
+											A new relationship of "child record of" will be created from the new cataloged item to this one, and a
+											derived relationship of "child record IS" will appear on this record.
+										</li>
+										<li>
+											Potential issues in the cloning process will be added to the specimen remarks in the bulkloader.  
+											Check the specimen remarks in the bulkloader for things that might have been missed.
+										</li>
+										<li>
+											This application has limited handling of agents, identifiers, attributes, and parts.
+											You will need to carefully examine and edit the new record in the bulkloader to add any additional information needed.
+										</li>
+										<li>
+											A link to your new record in the bulkloader will appear below if the procedure is successful. It might take a minute.
+										</li>
+										<li>
+											<button class="btn btn-secondary" onclick="cloneCatalogedItem(#collection_object_id#)">Clone into Bulkloader</span>.
+										</li>
+									</ul>
+								</div>
+								<output id="cloneOutput" style="display:none"></output>
+							</div>
 							<div class="col-12 float-left mt-3 mb-3 pt-2 border">
 								<!--- Type of object --->
 								<cfif getCatalog.coll_object_type is "CI">
@@ -2701,6 +2771,7 @@ limitations under the License.
 												success: function (result) {
 													if (result[0].status=="updated") {
 														setFeedbackControlState("saveAccnResultDiv","saved")
+														triggerPageReload = true;
 													} else {
 														setFeedbackControlState("saveAccnResultDiv","error")
 														// we shouldn't be able to reach this block, backing error should return an http 500 status
@@ -2762,7 +2833,7 @@ limitations under the License.
 														data: $("##editCatNumForm").serialize(),
 														success: function (result) {
 															if (result[0].status=="updated") {
-																setFeedbackControlState("saveCatNumResultDiv","saved")
+																setFeedbackControlState("saveCatNumResultDiv","saved");
 																// reload the page with the new guid
 																targetPage = "/guid/" + result[0].guid;
 																console.log("targetPage: " + targetPage);
