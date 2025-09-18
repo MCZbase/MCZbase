@@ -2596,6 +2596,8 @@ limitations under the License.
 								</ul>
 							</div>
 							<div class="col-12 float-left mt-3 mb-3 pt-2 border">
+								<!--- Clone this record into the bulkloader --->
+								<h2 class="h3 my-0 px-1 pt-2 pb-0">Clone into Bulkloader</h2>
 								<script>
 									function cloneCatalogedItem(collection_object_id){
 										$('##cloneOutput').css("display", "inline").html('<img src="/images/indicator.gif">Cloning this record into the bulkloader.....');
