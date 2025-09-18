@@ -2068,11 +2068,15 @@ limitations under the License.
 					identification_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.identification_remarks#">,
 					taxa_formula = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.taxa_formula#">,
 					scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,
-					stored_as_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.stored_as_fg#">,
-					publication_id = <cfif len(arguments.publication_id)>
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.publication_id#">
+					<cfif len(arguments.stored_as_fg) GT 0>
+						stored_as_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.stored_as_fg#">,
 					<cfelse>
-						NULL
+						stored_as_fg = 0,
+					</cfif>
+					<cfif len(arguments.publication_id) GT 0>
+						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.publication_id#">
+					<cfelse>
+						publication_id = NULL
 					</cfif>
 				WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.identification_id#">
 			</cfquery>
