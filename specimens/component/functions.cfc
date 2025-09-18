@@ -2617,23 +2617,46 @@ limitations under the License.
 											}
 										);
 									}
-									function showCloneText(){
-										$('##cThis').css("display", "block");
+									function toggleCloneText(){
+										if ($('##cloneInstructionsDiv').is(':visible')){
+											$('##cloneInstructionsDiv').hide();
+											$('##cloneInstructionsButton').html('Show Instructions');
+										} else {
+											$('##cloneInstructionsDiv').show();
+											$('##cloneInstructionsButton').html('Hide Instructions');
+										}
 									}
 								</script>
-								<span>
-									To split a lot or create a related record such as of a parasite, you can <span onclick="showCloneText();">Clone This Record</span>.
-									<div id="cThis" style="display:none">
-										Data from this cataloged item will be inserted into the Bulkloader, where you
-										may further edit the record or flag it to load, as with any other new record. 
-										A new relationship of "child record of" will be created from the new cataloged item to this one, and a
-										derived relationship of "child record IS" will appear on this record.
-										Check specimen remarks in the bulkloader for things that might have been missed - this 
-										application has limited handling of agents, identifiers, attributes, and parts.
-										<br>
-										A link to your new record in the bulkloader will appear below if the procedure is successful. It might take a minute.
-										<button class="btn btn-secondary" onclick="cloneCatalogedItem(#collection_object_id#)">Clone into Bulkloader</span>.
-									</div>
+								<h3 class="h4">
+									To split a lot or create a related record such as of a parasite, you can clone this record into the bulkloader.  
+									<button class="btn btn-secondary" onclick="toggleCloneText();" id="cloneInstructionsButton">Show Instructions</button>
+								</h3>
+								<div id="cloneInstructionsDiv" style="display:none">
+									<ul>
+										<li>
+											Data from this cataloged item will be inserted into the Bulkloader, where you
+											may further edit the record or flag it to load, as with any other new record. 
+										</li>
+										<li>
+											A new relationship of "child record of" will be created from the new cataloged item to this one, and a
+											derived relationship of "child record IS" will appear on this record.
+										</li>
+										<li>
+											Potential issues in the cloning process will be added to the specimen remarks in the bulkloader.  
+											Check the specimen remarks in the bulkloader for things that might have been missed.
+										</li>
+										<li>
+											This application has limited handling of agents, identifiers, attributes, and parts.
+											You will need to carefully examine and edit the new record in the bulkloader to add any additional information needed.
+										</li>
+										<li>
+											A link to your new record in the bulkloader will appear below if the procedure is successful. It might take a minute.
+										</li>
+										<li>
+											<button class="btn btn-secondary" onclick="cloneCatalogedItem(#collection_object_id#)">Clone into Bulkloader</span>.
+										</li>
+									</ul>
+								</div>
 								<output id="cloneOutput" style="display:none"></output>
 							</div>
 							<div class="col-12 float-left mt-3 mb-3 pt-2 border">
