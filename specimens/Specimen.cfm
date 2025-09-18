@@ -256,9 +256,12 @@ limitations under the License.
 		<!--- scripts for reloading sections of pages after edits, use as callabcks on edit dialogs --->
 		<script>
 			var triggerHeadingReload = false;
+			var triggerPageReload = false;
 			function reloadPage() { 
-				$("##specimenDetailsPageContent").html("<h2 class=h3>Reloading page...</h2>");
-				window.location.reload();
+				if (triggerPageReload) {
+					$("##specimenDetailsPageContent").html("<h2 class=h3>Reloading page...</h2>");
+					window.location.reload();
+				}
 			}
 			function reloadHeadingBar() { 
 				// invoke specimen/component/public function to reload summary header section.
@@ -279,6 +282,7 @@ limitations under the License.
 					reloadLedger();
 				} else {
 					$("##editControlsBlock").html("<h2 class=h3>Reloading page...</h2>");
+					triggerPageReload = true;
 					reloadPage();
 				}
 			}

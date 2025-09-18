@@ -2746,6 +2746,7 @@ limitations under the License.
 												success: function (result) {
 													if (result[0].status=="updated") {
 														setFeedbackControlState("saveAccnResultDiv","saved")
+														triggerPageReload = true;
 													} else {
 														setFeedbackControlState("saveAccnResultDiv","error")
 														// we shouldn't be able to reach this block, backing error should return an http 500 status
@@ -2807,7 +2808,7 @@ limitations under the License.
 														data: $("##editCatNumForm").serialize(),
 														success: function (result) {
 															if (result[0].status=="updated") {
-																setFeedbackControlState("saveCatNumResultDiv","saved")
+																setFeedbackControlState("saveCatNumResultDiv","saved");
 																// reload the page with the new guid
 																targetPage = "/guid/" + result[0].guid;
 																console.log("targetPage: " + targetPage);
