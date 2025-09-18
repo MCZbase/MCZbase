@@ -2596,6 +2596,47 @@ limitations under the License.
 								</ul>
 							</div>
 							<div class="col-12 float-left mt-3 mb-3 pt-2 border">
+								<script>
+									function cloneCatalogedItem(collection_object_id){
+										$('##cloneOutput').css("display", "inline").html('<img src="/images/indicator.gif">Cloning this record into the bulkloader.....');
+										$.getJSON("/component/functions.cfc",
+											{
+												method : "cloneCatalogedItem",
+												collection_object_id : collection_object_id,
+												returnformat : "json",
+												queryformat : 'column'
+											},
+											function (r) {
+												if (r.substring(0,6) == 'spiffy') {
+													var v=r.substring(7,r.length);
+													var q='Clone created: <a target="_blank" href="/DataEntry.cfm?action=editEnterData&pMode=edit&collection_object_id=' + v + '">View Clone In Bulkloader</a>';
+													jQuery('##cloneOutput').css("display", "inline").html(q);
+												} else {
+													jQuery('##cloneOutput').css("display", "inline").text(r);
+												}
+											}
+										);
+									}
+									function showCloneText(){
+										$('##cThis').css("display", "block");
+									}
+								</script>
+								<span>
+									To split a lot or create a related record such as of a parasite, you can <span onclick="showCloneText();">Clone This Record</span>.
+									<div id="cThis" style="display:none">
+										Data from this cataloged item will be inserted into the Bulkloader, where you
+										may further edit the record or flag it to load, as with any other new record. 
+										A new relationship of "child record of" will be created from the new cataloged item to this one, and a
+										derived relationship of "child record IS" will appear on this record.
+										Check specimen remarks in the bulkloader for things that might have been missed - this 
+										application has limited handling of agents, identifiers, attributes, and parts.
+										<br>
+										A link to your new record in the bulkloader will appear below if the procedure is successful. It might take a minute.
+										<button class="btn btn-secondary" onclick="cloneCatalogedItem(#collection_object_id#)">Clone into Bulkloader</span>.
+									</div>
+								<output id="cloneOutput" style="display:none"></output>
+							</div>
+							<div class="col-12 float-left mt-3 mb-3 pt-2 border">
 								<!--- Type of object --->
 								<cfif getCatalog.coll_object_type is "CI">
 									<cfset variables.coll_object_type="Cataloged Item">
