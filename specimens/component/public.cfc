@@ -1273,16 +1273,7 @@ limitations under the License.
 				<!--- get the current identification for the cataloged item --->
 				<cfquery name="getMainIdentification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
-						identification_id,
-						collection_object_id,
-						scientific_name,
-						author_text,
-						taxa_formula,
-						nature_of_id,
-						made_date,
-						identification_remarks,
-						accepted_id_fg,
-						coll_object_type
+						scientific_name
 					FROM
 						identification
 					WHERE
