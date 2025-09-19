@@ -1270,6 +1270,16 @@ limitations under the License.
 						deacc_number is not null and
 						specimen_part.derived_from_cat_item=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
+				<!--- get the current identification for the cataloged item --->
+				<cfquery name="getMainIdentification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						scientific_name
+					FROM
+						identification
+					WHERE
+						collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						AND accepted_id_fg = 1
+				</cfquery>
 				<!--- retrieve all the denormalized parts data in one query, then query those results to get normalized information to display --->
 				<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					select
@@ -1342,6 +1352,20 @@ limitations under the License.
 						has_identification asc, 
 						part_name, part_id
 				</cfquery>
+				<!--- find if any parts have identifications (thus a mixed collection) --->
+				<cfquery name="checkForMixedCollection" dbtype="query">
+					select
+						count(*) cnt
+					from
+						getParts
+					where
+						has_identification = 1
+				</cfquery>
+				<cfif checkForMixedCollection.recordcount GT 0 AND checkForMixedCollection.cnt GT 0>
+					<cfset isMixedCollection = true>
+				<cfelse>
+					<cfset isMixedCollection = false>
+				</cfif>
 				<table class="table px-0 table-responsive-md w-100 tablesection my-0">
 					<thead class="thead-light">
 						<tr>
@@ -1515,6 +1539,14 @@ limitations under the License.
 										<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=part_id)>
 									</td>
 								</tr>
+							<cfelse>
+								<cfif isMixedCollection>
+									<tr>
+										<td colspan="6">
+											<span class="small95">#getMainIdentification.scientific_name#</span>
+										</td>
+									</tr>
+								</cfif>
 							</cfif>
 							<cfif len(part_remarks) gt 0>
 								<tr class="small95 #addedClass#">

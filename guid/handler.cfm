@@ -64,7 +64,7 @@ RewriteRule "^/guid/(MCZ:[A-Za-z]+:.*)"    /guid/handler.cfm?catalog=$1 [QSA,PT]
 		<cfinclude template="/errors/404.cfm">
 		<cfabort>
 	</cfif>
-	<cfquery name="checkForGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+	<cfquery name="checkForGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 		select GUID 
 		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 		where GUID = <cfqueryparam value="#catalog#" cfsqltype="CF_SQL_VARCHAR">
