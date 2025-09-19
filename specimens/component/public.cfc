@@ -1540,11 +1540,13 @@ limitations under the License.
 									</td>
 								</tr>
 							<cfelse>
-								<tr>
-									<td colspan="6">
-										<span class="small95">#getMainIdentification.scientific_name#</span>
-									</td>
-								</tr>
+								<cfif isMixedCollection>
+									<tr>
+										<td colspan="6">
+											<span class="small95">#getMainIdentification.scientific_name#</span>
+										</td>
+									</tr>
+								</cfif>
 							</cfif>
 							<cfif len(part_remarks) gt 0>
 								<tr class="small95 #addedClass#">
