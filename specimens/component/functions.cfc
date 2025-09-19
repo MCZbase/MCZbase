@@ -4473,10 +4473,10 @@ limitations under the License.
 			<cfset isMixedCollection = false>
 			<cfloop query="countPartsWithId">
 				<cfif countPartsWithID.has_identification EQ 0>
-					<cfset var partsWithoutId = countPartsWithId.ct>
+					<cfset partsWithoutId = countPartsWithId.ct>
 				</cfif>
 				<cfif countPartsWithID.has_identification EQ 1>
-					<cfset var partsWithId = countPartsWithId.ct>
+					<cfset partsWithId = countPartsWithId.ct>
 				</cfif>
 			</cfloop>
 			<cfif partsWithId GT 0>
@@ -4641,7 +4641,7 @@ limitations under the License.
 											<cfif getIdentifications.recordcount EQ 0>
 												<button id="part_delete#i#" value="Delete" class="mt-2 btn btn-xs btn-danger" title="Delete Part">Delete</button>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-													<cfif partsWithId GT 1>
+													<cfif partsWithoutId GT 1>
 														<button id="newpart_mixed#i#" value="Mixed" class="mt-2 btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
 													<cfelse>
 														<!--- at least one part must remain without an identification for a mixed collection --->
