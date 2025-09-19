@@ -4462,7 +4462,7 @@ limitations under the License.
 			</cfquery>
 			<!--- count the number of parts that do not have identifications --->
 			<cfquery name="countPartsWithId" dbtype="query">
-				SELECT COUNT(*) AS ct,
+				SELECT COUNT(part_id) AS ct,
 					has_identification
 				FROM getParts
 				GROUP BY has_identification
@@ -4641,7 +4641,7 @@ limitations under the License.
 											<cfif getIdentifications.recordcount EQ 0>
 												<button id="part_delete#i#" value="Delete" class="mt-2 btn btn-xs btn-danger" title="Delete Part">Delete</button>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-													<cfif partsWithID GT 1>
+													<cfif partsWithId GT 1>
 														<button id="newpart_mixed#i#" value="Mixed" class="mt-2 btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
 													<cfelse>
 														<!--- at least one part must remain without an identification for a mixed collection --->
