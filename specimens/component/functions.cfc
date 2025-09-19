@@ -4460,6 +4460,28 @@ limitations under the License.
 					is_subsample,
 					specimen_part.part_name
 			</cfquery>
+			<!--- count the number of parts that do not have identifications --->
+			<cfquery name="countPartsWithId" dbtype="query">
+				SELECT COUNT(*) AS ct,
+					has_identification
+				FROM getParts
+				GROUP BY has_identification
+			</cfquery>
+			<!--- if this is a mixed collection, at least one part must not have an identification (inheriting it from the cataloged item --->
+			<cfset partsWithoutId = 0>
+			<cfset partsWithId = 0>
+			<cfset isMixedCollection = false>
+			<cfloop query="countPartsWithId">
+				<cfif countPartsWithID.has_identification EQ 0>
+					<cfset var partsWithoutId = countPartsWithId.ct>
+				</cfif>
+				<cfif countPartsWithID.has_identification EQ 1>
+					<cfset var partsWithId = countPartsWithId.ct>
+				</cfif>
+			</cfloop>
+			<cfif partsWithId GT 0>
+				<cfset isMixedCollection = true>
+			</cfif>
 			<h2 class="h3 pt-3 px-2">
 				Edit Existing Parts (#getParts.recordcount#)
 				<a href="/findContainer.cfm?collection_object_id=#collection_object_id#" target="_blank" role="button" class="btn btn-xs btn-secondary" title="Show parts in container heirarchy">View Part Locations</a>
@@ -4619,11 +4641,15 @@ limitations under the License.
 											<cfif getIdentifications.recordcount EQ 0>
 												<button id="part_delete#i#" value="Delete" class="mt-2 btn btn-xs btn-danger" title="Delete Part">Delete</button>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-													<button id="newpart_mixed#i#" value="Mixed" class="mt-2 btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
+													<cfif partsWithID GT 1>
+														<button id="newpart_mixed#i#" value="Mixed" class="mt-2 btn btn-xs btn-warning" title="Make Mixed Collection">ID Mixed</button>
+													<cfelse>
+														<!--- at least one part must remain without an identification for a mixed collection --->
+													</cfif>
 												</cfif>
 											<cfelse>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-													<button id="part_mixed#i#" value="Mixed" class="mt-2 btn btn-xs btn-warning" title="Make Mixed Collection">Edit Identifications</button>
+													<button id="part_mixed#i#" value="Mixed" class="mt-2 btn btn-xs btn-warning" title="Edit Mixed Collection Identifications">Edit Identifications</button>
 												</cfif>
 											</cfif>
 											<output id="part_output#i#" aria-live="polite"></output>
