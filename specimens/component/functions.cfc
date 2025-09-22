@@ -381,9 +381,9 @@ limitations under the License.
 </cffunction>
 
 <!---getEditMediaHTML obtain a block of html to populate an media editor dialog for a specimen.
- @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media
 	editor dialog.
- @return html for editing identifications for the specified cataloged item. 
+ @return html for editing media for the specified cataloged item. 
 --->
 <cffunction name="getEditMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
