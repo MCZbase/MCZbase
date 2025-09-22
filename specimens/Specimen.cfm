@@ -749,7 +749,9 @@ limitations under the License.
 									<button type="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane">
 										Cataloged Item
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<button type="button" id="btn_pane1" class="btn btn-xs btn-powder-blue px-1 py-0 small d-block d-xl-none" onclick="openEditCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage)">Edit/Clone</button>
+											<a role="button" href="javascript:void(0)" id="btn_openCatalogDialog" class="anchorFocus btn btn-xs small py-0 d-block d-xl-none" onclick="openEditCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage)">
+												Edit/Clone
+											</a>
 										</cfif>
 									</button>
 								</h3>
