@@ -652,7 +652,9 @@ limitations under the License.
 				WHERE
 					identification.collection_object_id = <cfqueryparam value="#arguments.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				ORDER BY 
-					accepted_id_fg DESC,sort_order, made_date DESC
+					accepted_id_fg DESC,
+					sort_order, 
+					made_date DESC
 			</cfquery>
 			<cfif local_editable>
 			<script>
