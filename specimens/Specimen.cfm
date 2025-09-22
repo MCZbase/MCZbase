@@ -547,7 +547,7 @@ limitations under the License.
 					<!--- Task Bar of edit dialog controls --->
 					<li class="list-group-item px-0 mx-1">
 						<div id="catalogDialog"></div>
-						<button type="button" id="btn_pane1" class="btn btn-xs btn-powder-blue px-1 py-0 small" onclick="openEditCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage)">Catalog</button>
+						<button type="button" id="btn_pane1" class="btn btn-xs btn-powder-blue px-1 py-0 small" onclick="openEditCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage)">Catalog/Clone</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
 						<cfif listcontainsnocase(session.roles,"manage_media")>
@@ -748,6 +748,9 @@ limitations under the License.
 								<h3 class="h5 my-0">
 									<button type="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane">
 										Cataloged Item
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<button type="button" id="btn_pane1" class="btn btn-xs btn-powder-blue px-1 py-0 small d-block d-xl-none" onclick="openEditCatalogDialog(#collection_object_id#,'catalogDialog','#guid#',reloadPage)">Edit/Clone</button>
+										</cfif>
 									</button>
 								</h3>
 							</div>
