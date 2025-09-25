@@ -902,6 +902,12 @@ limitations under the License.
 			<cfelse>
 				<cfthrow message="This collection object type (#getDetermined.coll_object_type#) is not supported.">
 			</cfif>
+			<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
+				SELECT identification_id
+				FROM identification
+				WHERE 
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
+			</cfquery>
 			<cfif len(target) GT 0>
 				<cfset target = " to #target#">
 			</cfif>
@@ -1015,9 +1021,18 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 col-md-10 pb-2">
+													<div class="col-12 col-md-8 pb-2">
 														<label for="identification_remarks" class="data-entry-label">Remarks:</label>
 														<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
+													</div>
+													<div class="col-12 col-md-2 pb-2">
+														<label for="sort_order" class="data-entry-label">Sort Order:</label>
+														<select name="sort_order" id="sort_order" size="1" class="data-entry-select">
+															<option selected value=""></option>
+															<cfloop index="id_ordinal" from="1" to="#getIdentifications.recordcount + 1#">
+																<option value="#id_ordinal#">#id_ordinal#</option>
+															</cfloop>
+														</select>
 													</div>
 													<div class="col-12 col-md-2 pb-2">
 														<input type="hidden" name="accepted_id_fg" id="accepted_id_fg" value="1">
