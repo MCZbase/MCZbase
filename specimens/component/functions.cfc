@@ -1277,20 +1277,6 @@ limitations under the License.
 	<cfargument name="sort_order" type="string" required="no" default="">
 	<cfargument name="determiner_ids" type="string" required="yes">
 
-	<cfset variables.collection_object_id = arguments.collection_object_id>
-	<cfset variables.taxa_formula = arguments.taxa_formula>
-	<cfset variables.taxona = arguments.taxona>
-	<cfset variables.taxona_id = arguments.taxona_id>
-	<cfset variables.taxonb = arguments.taxonb>
-	<cfset variables.taxonb_id = arguments.taxonb_id>
-	<cfset variables.made_date = arguments.made_date>
-	<cfset variables.nature_of_id = arguments.nature_of_id>
-	<cfset variables.publication_id = arguments.publication_id>
-	<cfset variables.identification_remarks = arguments.identification_remarks>
-	<cfset variables.accepted_id_fg = arguments.accepted_id_fg>
-	<cfset variables.stored_as_fg = arguments.stored_as_fg>
-	<cfset variables.determiner_ids = arguments.determiner_ids>
-
 	<!--- TODO: add sort_order support --->
 
 	<!--- determiner_ids: comma-separated agent_id's --->
@@ -1300,9 +1286,9 @@ limitations under the License.
 		<cftry>
 
 			<!--- setup variables for either 1 (A) or 2 (A and B) taxa from formula in identification --->
-			<cfset var scientific_name = variables.taxa_formula>
+			<cfset var scientific_name = arguments.taxa_formula>
 			<!--- throw an exception if formula contains B but taxon B is not provided --->
-			<cfif variables.taxa_formula contains "B" and len(variables.taxonb) EQ 0>	
+			<cfif arguments.taxa_formula contains "B" and len(arguments.taxonb) EQ 0>	
 				<cfthrow message="Taxon B is required when the formula contains 'B'.">
 			</cfif>
 			<!--- replace A in the formula with a string that is not likely to occur in a scientific name --->
@@ -1311,22 +1297,22 @@ limitations under the License.
 			<cfset scientific_name = REReplace(scientific_name, "\bB\b", "TAXON_B", "all")>
 			<!--- replace the placeholder for A in the formula with the taxon A name --->
 			<!--- lookup the taxon A name in the taxon name table to not include the authorship --->
-			<cfif variables.taxona_id EQ "">
+			<cfif arguments.taxona_id EQ "">
 				<cfthrow message="Taxon A taxon_name_id is required, you must select a taxon from the autocomplete list.">
 			</cfif>
 			<cfquery name="getTaxonA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT scientific_name
 				FROM taxonomy
-				WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxona_id#">
+				WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxona_id#">
 			</cfquery>
 			<cfset scientific_name = replace(scientific_name, "TAXON_A", getTaxonA.scientific_name)>
-			<cfif len(variables.taxonb)>
+			<cfif len(arguments.taxonb)>
 				<!--- replace the placeholder for B with the taxon B name if provided --->
 				<!--- lookup the taxon B name in the taxon name table to not include the authorship --->
 				<cfquery name="getTaxonB" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT scientific_name
 					FROM taxonomy
-					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxonb_id#">
+					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxonb_id#">
 				</cfquery>
 				<cfset scientific_name = replace(scientific_name, "TAXON_B", getTaxonB.scientific_name)>
 			</cfif>
@@ -1338,7 +1324,7 @@ limitations under the License.
 				SELECT coll_object_type
 				FROM coll_object
 				WHERE 
-					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 			</cfquery>
 			<cfif getType.recordcount EQ 0>
 				<cfthrow message="No such collection_object_id.">
@@ -1348,31 +1334,31 @@ limitations under the License.
 				<cfthrow message = "Identifications can not be added to a collection object of type [#getType.coll_object_type#]">
 			</cfif>
 
-			<cfif variables.accepted_id_fg EQ "1">
+			<cfif arguments.accepted_id_fg EQ "1">
 				<!--- if this is an accepted identification, force unset the stored_as_fg flag --->
-				<cfset variables.stored_as_fg = 0>
+				<cfset arguments.stored_as_fg = 0>
 				<!--- Only one accepted per specimen, unset the flag for others --->
 				<cfquery name="unsetAcceptedFG" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE identification 
 					SET ACCEPTED_ID_FG = 0 
-					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 				</cfquery>
 			</cfif>
-			<cfif variables.stored_as_fg EQ "1">
+			<cfif arguments.stored_as_fg EQ "1">
 				<!--- Only one stored as per specimen, unset the flag for others --->
 				<cfquery name="unsetStoredFG" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE identification 
 					SET STORED_AS_FG = 0 
-					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 				</cfquery>
 			</cfif>
-			<cfif len(variables.sort_order) GT 0>
+			<cfif len(arguments.sort_order) GT 0>
 				<!--- if a sort order is provided, increment the sort order of any existing identifications with a sort order >= the provided value --->
 				<cfquery name="incrementSortOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE identification 
 					SET sort_order = sort_order + 1
-					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
-					AND sort_order >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.sort_order#">
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+					AND sort_order >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">
 				</cfquery>
 			</cfif>
 			<!--- Insert identification --->
@@ -1387,28 +1373,28 @@ limitations under the License.
 					taxa_formula,
 					scientific_name,
 					publication_id,
-					<cfif len(variables.sort_order) GT 0>
+					<cfif len(arguments.sort_order) GT 0>
 						sort_order,
 					</cfif>
 					stored_as_fg
 				) VALUES (
 					sq_identification_id.nextval,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.made_date#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.nature_of_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.accepted_id_fg#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.identification_remarks#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.taxa_formula#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.made_date#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.nature_of_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.accepted_id_fg#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.identification_remarks#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.taxa_formula#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,
-					<cfif len(variables.publication_id)>
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.publication_id#">
+					<cfif len(arguments.publication_id)>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.publication_id#">
 					<cfelse>
 						NULL
 					</cfif>,
-					<cfif len(variables.sort_order) GT 0>
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.sort_order#">,
+					<cfif len(arguments.sort_order) GT 0>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">,
 					</cfif>
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.stored_as_fg#">
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.stored_as_fg#">
 				)
 			</cfquery>
 			<!--- lookup the oracle primary key value for the inserted identification.identification_id --->
@@ -1419,8 +1405,8 @@ limitations under the License.
 			</cfquery>
 			<cfset var new_identification_id =getNewIDPK.identification_id>
 			<!--- Insert determiners --->
-			<cfif len(variables.determiner_ids)>
-				<cfset var agentList = ListToArray(variables.determiner_ids)>
+			<cfif len(arguments.determiner_ids)>
+				<cfset var agentList = ListToArray(arguments.determiner_ids)>
 				<cfloop from="1" to="#ArrayLen(agentList)#" index="idx">
 					<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						INSERT INTO identification_agent (
@@ -1436,7 +1422,7 @@ limitations under the License.
 				</cfloop>
 			</cfif>
 			<!--- Taxonomy linking for A and (optionally) B --->
-			<cfif len(variables.taxona_id)>
+			<cfif len(arguments.taxona_id)>
 				<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO identification_taxonomy (
 						identification_id,
@@ -1444,12 +1430,12 @@ limitations under the License.
 						variable
 					) VALUES (
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_identification_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxona_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxona_id#">,
 						'A'
 					)
 				</cfquery>
 			</cfif>
-			<cfif len(variables.taxonb_id)>
+			<cfif len(arguments.taxonb_id)>
 				<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO identification_taxonomy (
 						identification_id,
@@ -1457,7 +1443,7 @@ limitations under the License.
 						variable
 					) VALUES (
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_identification_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxonb_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxonb_id#">,
 						'B'
 					)
 				</cfquery>
