@@ -1026,15 +1026,6 @@ limitations under the License.
 														<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
 													</div>
 													<div class="col-12 col-md-2 pb-2">
-														<label for="sort_order" class="data-entry-label">Sort Order:</label>
-														<select name="sort_order" id="sort_order" size="1" class="data-entry-select">
-															<option selected value=""></option>
-															<cfloop index="id_ordinal" from="1" to="#getIdentifications.recordcount + 1#">
-																<option value="#id_ordinal#">#id_ordinal#</option>
-															</cfloop>
-														</select>
-													</div>
-													<div class="col-12 col-md-2 pb-2">
 														<input type="hidden" name="accepted_id_fg" id="accepted_id_fg" value="1">
 														<input type="hidden" name="stored_as_fg" id="stored_as_fg" value="0">
 														<!--- select to indicate if this identification is to be created as the current identification, as a previous identification, or previous identification which is the stored as name --->
@@ -1063,7 +1054,15 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<!--- TODO: Add sort_order --->
+													<div class="col-12 col-md-2 pb-2">
+														<label for="sort_order" class="data-entry-label">Sort Order (after current):</label>
+														<select name="sort_order" id="sort_order" size="1" class="data-entry-select">
+															<option selected value=""></option>
+															<cfloop index="id_ordinal" from="1" to="#getIdentifications.recordcount + 1#">
+																<option value="#id_ordinal#">#id_ordinal#</option>
+															</cfloop>
+														</select>
+													</div>
 													<div class="col-12 pb-1">
 														<div class="form-row" id="addIdNewDetsFormRow">
 															<div class="col-12 col-md-3">
@@ -1724,34 +1723,9 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="col-12 col-md-18 pb-2">
+												<div class="col-12 col-md-8 pb-2">
 													<label for="identification_remarks" class="data-entry-label">Remarks:</label>
 													<input type="text" name="identification_remarks" id="eid_edit_identification_remarks" class="data-entry-input" value="#idData.identification_remarks#">
-												</div>
-												<div class="col-12 col-md-2 pb-2">
-													<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
-														SELECT identification_id
-														FROM identification
-														WHERE 
-															collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#idData.collection_object_id#">
-													</cfquery>
-													<label for="sort_order" class="data-entry-label">Sort Order:</label>
-													<select name="sort_order" id="sort_order" size="1" class="data-entry-select">
-														<option value=""></option>
-														<cfset hasSelected = false>
-														<cfloop index="id_ordinal" from="1" to="#getIdentifications.recordcount + 1#">
-															<cfif idData.sort_order EQ id_ordinal>
-																<cfset selected="selected">
-																<cfset hasSelected = false>
-															<cfelse>
-																<cfset selected="">
-															</cfif>
-															<option value="#id_ordinal#" #selected#>#id_ordinal#</option>
-														</cfloop>
-														<cfif NOT hasSelected AND len(idData.sort_order) GT 0 and refind(idData.sort_order, "^[0-9]+$") GT 0>
-															<option value="#idData.sort_order#" selected>#idData.sort_order#</option>
-														</cfif>
-													</select>
 												</div>
 												<div class="col-12 col-md-2 pb-2">
 													<!--- Unified identification state (current, and stored as flags) select --->
@@ -1791,9 +1765,29 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-2 pb-2">
-													<!--- TODO: Add support for sort_order Sort order --->
+													<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
+														SELECT identification_id
+														FROM identification
+														WHERE 
+															collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#idData.collection_object_id#">
+													</cfquery>
 													<label for="sort_order" class="data-entry-label">Sort Order (after current):</label>
-													<input type="number" name="sort_order" id="eid_edit_sort_order" class="data-entry-input" value="#idData.sort_order#">
+													<select name="sort_order" id="sort_order" size="1" class="data-entry-select">
+														<option value=""></option>
+														<cfset hasSelected = false>
+														<cfloop index="id_ordinal" from="1" to="#getIdentifications.recordcount + 1#">
+															<cfif idData.sort_order EQ id_ordinal>
+																<cfset selected="selected">
+																<cfset hasSelected = false>
+															<cfelse>
+																<cfset selected="">
+															</cfif>
+															<option value="#id_ordinal#" #selected#>#id_ordinal#</option>
+														</cfloop>
+														<cfif NOT hasSelected AND len(idData.sort_order) GT 0 and refind(idData.sort_order, "^[0-9]+$") GT 0>
+															<option value="#idData.sort_order#" selected>#idData.sort_order#</option>
+														</cfif>
+													</select>
 												</div>
 								
 												<!--- Determiners --->
