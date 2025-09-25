@@ -1733,7 +1733,7 @@ limitations under the License.
 														SELECT identification_id
 														FROM identification
 														WHERE 
-															collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
+															collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#idData.collection_object_id#">
 													</cfquery>
 													<label for="sort_order" class="data-entry-label">Sort Order:</label>
 													<select name="sort_order" id="sort_order" size="1" class="data-entry-select">
