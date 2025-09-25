@@ -83,7 +83,33 @@ limitations under the License.
 						AND rownum < 2
 				</cfquery>
 				<cfif summary.recordcount LT 1>
-					<cfthrow message="No such cataloged item found.">
+					<cfquery name="checkForVPDError_1" datasource="uam_god" >
+						SELECT 
+							cataloged_item.collection_id,
+							collecting_event.locality_id
+						FROM 
+							cataloged_item 
+							join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+						WHERE
+							cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					</cfquery>
+					<cfif checkForVPDError_1.recordcount LT 1>
+						<cfthrow message="No such cataloged item found.">
+					</cfif>
+					<cfif checkForVPDError_1.recordcount GT 1>
+						<cfthrow message="Error looking up cataloged item.">
+					</cfif>
+					<cfquery name="checkForVPDError_2" datasource="uam_god" >
+						SELECT count(*) ct
+						FROM vpd_collection_locality
+						WHERE 
+							collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#checkForVPDError_1.collection_id#">
+							locality_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#checkForVPDError_1.locality_id#">
+					</cfquery>
+					<cfif checkForVPDError_2.ct EQ 0>
+						<cfthrow message="Error loading cataloged item data, vpd_collection_locality is missing a row.  Please file a bug report.">
+					</cfif>
+					<cfthrow message="Error checking for cataloged item.">
 				</cfif>
 				<!--- check for mixed collection --->
 				<cfset variables.isMixed = false>
@@ -652,7 +678,9 @@ limitations under the License.
 				WHERE
 					identification.collection_object_id = <cfqueryparam value="#arguments.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				ORDER BY 
-					accepted_id_fg DESC,sort_order, made_date DESC
+					accepted_id_fg DESC,
+					sort_order, 
+					made_date DESC
 			</cfquery>
 			<cfif local_editable>
 			<script>

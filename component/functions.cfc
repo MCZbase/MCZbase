@@ -1857,7 +1857,7 @@
 				where
 					cataloged_item.collection_object_id = identification.collection_object_id AND
 					accepted_id_fg=1 and
-					catnum = <cfqueryparam value="#theNum#" cfsqltype="CF_SQL_VARCHAR"> and
+					cat_num = <cfqueryparam value="#theNum#" cfsqltype="CF_SQL_VARCHAR"> and
 					collection_id = <cfqueryparam value="#collection_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
 		<cfelse>

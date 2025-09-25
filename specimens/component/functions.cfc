@@ -381,9 +381,9 @@ limitations under the License.
 </cffunction>
 
 <!---getEditMediaHTML obtain a block of html to populate an media editor dialog for a specimen.
- @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media
 	editor dialog.
- @return html for editing identifications for the specified cataloged item. 
+ @return html for editing media for the specified cataloged item. 
 --->
 <cffunction name="getEditMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
@@ -1048,6 +1048,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
+													<!--- TODO: Add sort_order --->
 													<div class="col-12 pb-1">
 														<div class="form-row" id="addIdNewDetsFormRow">
 															<div class="col-12 col-md-3">
@@ -1258,6 +1259,7 @@ limitations under the License.
 	<cfargument name="identification_remarks" type="string" required="no" default="">
 	<cfargument name="accepted_id_fg" type="string" required="yes">
 	<cfargument name="stored_as_fg" type="string" required="no" default="0">
+	<cfargument name="sort_order" type="string" required="no" default="">
 	<cfargument name="determiner_ids" type="string" required="yes">
 
 	<cfset variables.collection_object_id = arguments.collection_object_id>
@@ -1273,6 +1275,8 @@ limitations under the License.
 	<cfset variables.accepted_id_fg = arguments.accepted_id_fg>
 	<cfset variables.stored_as_fg = arguments.stored_as_fg>
 	<cfset variables.determiner_ids = arguments.determiner_ids>
+
+	<!--- TODO: add sort_order support --->
 
 	<!--- determiner_ids: comma-separated agent_id's --->
 	<cfset var data = ArrayNew(1)>
@@ -1528,6 +1532,7 @@ limitations under the License.
 					identification.scientific_name,
 					identification.publication_id,
 					identification.stored_as_fg,
+					identification.sort_order,
 					fp_long.formatted_publication full_citation,
 					fp_short.formatted_publication short_citation
 				FROM 
@@ -1725,6 +1730,11 @@ limitations under the License.
 															});
 														});
 													</script>
+												</div>
+												<div class="col-12 col-md-2 pb-2">
+													<!--- TODO: Add support for sort_order Sort order --->
+													<label for="sort_order" class="data-entry-label">Sort Order (after current):</label>
+													<input type="number" name="sort_order" id="eid_edit_sort_order" class="data-entry-input" value="#idData.sort_order#">
 												</div>
 								
 												<!--- Determiners --->
@@ -1980,6 +1990,7 @@ limitations under the License.
 	@param identification_remarks any remarks for the identification (optional).
 	@param stored_as_fg whether to store the identification as a field guide (optional, default 0).
 	@param accepted_id_fg whether this is the accepted identification (optional, default 0).
+	@param sort_order the sort order for the identification (optional).
 	@param identification_agent_ids a comma-separated list of identification agent IDs for the associative entity.
 	@param determiner_ids a comma-separated list of agent IDs for the determiners.
 	@param determiner_positions a comma-separated list of positions for the determiners.
@@ -1999,9 +2010,12 @@ limitations under the License.
 	<cfargument name="identification_remarks" type="string" required="no" default="">
 	<cfargument name="stored_as_fg" type="string" required="no" default="0">
 	<cfargument name="accepted_id_fg" type="string" required="no" default="0">
+	<cfargument name="sort_order" type="string" required="no" default="">
 	<cfargument name="identification_agent_ids" type="string" required="yes"><!--- the list of identification_agent_ids for the associative entity --->
 	<cfargument name="determiner_ids" type="string" required="yes"> <!--- the list of agent_ids for determiners --->
 	<cfargument name="determiner_positions" type="string" required="yes"> <!--- the list of positions for determiners --->	
+
+	<!--- TODO: Add support for sort_order --->
 
 	<cfset var data = ArrayNew(1)>
 	
@@ -2072,6 +2086,9 @@ limitations under the License.
 						stored_as_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.stored_as_fg#">,
 					<cfelse>
 						stored_as_fg = 0,
+					</cfif>
+					<cfif len(arguments.sort_order) GT 0>
+						sort_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">,
 					</cfif>
 					<cfif len(arguments.publication_id) GT 0>
 						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.publication_id#">
@@ -4270,7 +4287,7 @@ limitations under the License.
 								// make container barcode autocomplete, reference containers that can contain collection objects
 								makeContainerAutocompleteMetaExcludeCO("container_barcode", "container_id");
 								// make part name autocomplete, limiting to parts in the collection for the collection object
-								makePartNameAutocompleteMetaForCollection("part_name", "#getCatItem.collection_cde#");
+								// makePartNameAutocompleteMetaForCollection("part_name", "#getCatItem.collection_cde#");
 							});
 							// Add event listener to the save button
 							$('##newPart_submit').on('click', function(event) {
@@ -4737,7 +4754,7 @@ limitations under the License.
 										makeContainerAutocompleteMetaExcludeCO("container_label#i#", "container_id#i#");
 									</cfif>
 									// make part name autocomplete
-									makePartNameAutocompleteMetaForCollection("part_name#i#", "#getCatItem.collection_cde#");
+									// makePartNameAutocompleteMetaForCollection("part_name#i#", "#getCatItem.collection_cde#");
 								});
 							</script>
 						</div><!--- end part div --->
