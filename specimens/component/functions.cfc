@@ -4287,7 +4287,7 @@ limitations under the License.
 								// make container barcode autocomplete, reference containers that can contain collection objects
 								makeContainerAutocompleteMetaExcludeCO("container_barcode", "container_id");
 								// make part name autocomplete, limiting to parts in the collection for the collection object
-								makePartNameAutocompleteMetaForCollection("part_name", "#getCatItem.collection_cde#");
+								// makePartNameAutocompleteMetaForCollection("part_name", "#getCatItem.collection_cde#");
 							});
 							// Add event listener to the save button
 							$('##newPart_submit').on('click', function(event) {
