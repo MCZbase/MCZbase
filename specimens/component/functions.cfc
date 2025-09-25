@@ -1375,7 +1375,6 @@ limitations under the License.
 					AND sort_order >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.sort_order#">
 				</cfquery>
 			</cfif>
-			</cfif>
 			<!--- Insert identification --->
 			<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newID_result">
 				INSERT INTO identification (
