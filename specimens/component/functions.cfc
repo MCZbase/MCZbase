@@ -4754,7 +4754,7 @@ limitations under the License.
 										makeContainerAutocompleteMetaExcludeCO("container_label#i#", "container_id#i#");
 									</cfif>
 									// make part name autocomplete
-									makePartNameAutocompleteMetaForCollection("part_name#i#", "#getCatItem.collection_cde#");
+									// makePartNameAutocompleteMetaForCollection("part_name#i#", "#getCatItem.collection_cde#");
 								});
 							</script>
 						</div><!--- end part div --->
