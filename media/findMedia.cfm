@@ -167,8 +167,8 @@ limitations under the License.
 	</cfif>
 	<cfloop query="ctmedia_label">
 		<cfif ctmedia_label.media_label NEQ 'description' and ctmedia_label.media_label NEQ 'dcterms:identifier' and ctmedia_label.media_label NEQ 'ac:resourceCreationTechnique'>
-			<cfset label = replace(ctmedia_label.media_label," ","_","all")>
-			<cfif not isdefined(label)>
+			<cfset label = rereplace(ctmedia_label.media_label,"[^0-9A-Za-z:]","_","all")>
+			<cfif not isdefined("#label#")>
 				<cfset "#label#" = "">
 			</cfif>
 		</cfif>
