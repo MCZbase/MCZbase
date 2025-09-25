@@ -1366,6 +1366,16 @@ limitations under the License.
 					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 				</cfquery>
 			</cfif>
+			<cfif len(variables.sort_order) GT 0>
+				<!--- if a sort order is provided, increment the sort order of any existing identifications with a sort order >= the provided value --->
+				<cfquery name="incrementSortOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE identification 
+					SET sort_order = sort_order + 1
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					AND sort_order >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.sort_order#">
+				</cfquery>
+			</cfif>
+			</cfif>
 			<!--- Insert identification --->
 			<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newID_result">
 				INSERT INTO identification (
@@ -1378,6 +1388,9 @@ limitations under the License.
 					taxa_formula,
 					scientific_name,
 					publication_id,
+					<cfif len(variables.sort_order) GT 0>
+						sort_order,
+					</cfif>
 					stored_as_fg
 				) VALUES (
 					sq_identification_id.nextval,
@@ -1393,6 +1406,9 @@ limitations under the License.
 					<cfelse>
 						NULL
 					</cfif>,
+					<cfif len(variables.sort_order) GT 0>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.sort_order#">,
+					</cfif>
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.stored_as_fg#">
 				)
 			</cfquery>
