@@ -822,7 +822,7 @@ limitations under the License.
 						<cfif local_editable>
 							<cfif identification.accepted_id_fg EQ 0>
 								<cfif len(identification.sort_order) GT 0 AND identification.sort_order GT 0>
-									<span class="float-right font-weight-lessbold mr-1">Sort Order: #identification.sort_order#</span>
+									<span class="small mr-1">[Sort Order: #identification.sort_order#]</span>
 								</cfif>
 							</cfif>
 							<cfset allowDelete = false>
