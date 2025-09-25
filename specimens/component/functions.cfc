@@ -1423,18 +1423,22 @@ limitations under the License.
 			</cfquery>
 			<cfif len(arguments.sort_order) GT 0>
 				<!--- ensure that non-current identifications have a sort order of sequential integers starting with 1 --->
-				<cfquery name="renumberSortOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					MERGE INTO identification tgt
-					USING (
-						SELECT identification_id, ROW_NUMBER() OVER (ORDER BY sort_order, identification_id) AS new_sort_order
-						FROM identification
-						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
-							and accepted_id_fg = 0
-					) src
-					ON (tgt.identification_id = src.identification_id)
-					WHEN MATCHED THEN
-						UPDATE SET tgt.sort_order = src.new_sort_order
+				<!--- query for sorted identifications first --->
+				<cfquery name="getSortedIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT identification_id
+					FROM identification
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+						and accepted_id_fg = 0
+					ORDER BY sort_order, made_date, identification_id
 				</cfquery>
+				<!--- then update the sort_order values --->
+				<cfloop query="getSortedIdentifications">
+					<cfquery name="setSequentialSortOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE identification 
+						SET sort_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getSortedIdentifications.currentRow#">
+						WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getSortedIdentifications.identification_id#">
+					</cfquery>
+				</cfloop>
 			</cfif>
 			<cfset var new_identification_id =getNewIDPK.identification_id>
 			<!--- Insert determiners --->
