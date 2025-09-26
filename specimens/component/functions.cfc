@@ -1501,7 +1501,18 @@ limitations under the License.
 	<cftransaction>
 		<cftry>
 			<cfif getAccepted.accepted_id_fg EQ 1>
-				<cfthrow message="Cannot delete the accepted identification.">
+				<!--- check if this is an identificaiton on a part, if so, alow delete, otherwise prevent delete --->
+				<cfquery name="checkPartID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT coll_object_type
+					FROM 
+						identification
+						join coll_object on identification.collection_object_id = coll_object.collection_object_id
+					WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.identification_id#">
+						and coll_object.coll_object_type = 'SP'
+				</cfquery>
+				<cfif checkPartID.recordcount EQ 0>
+					<cfthrow message="Cannot delete the accepted identification.">
+				</cfif>
 			</cfif>
 			<!--- Remove associated records --->
 			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
