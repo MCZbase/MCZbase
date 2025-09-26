@@ -1392,7 +1392,7 @@ limitations under the License.
 						FROM identification 
 						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 							AND accepted_id_fg = 0
-							AND sort_order = 0 OR sort_order IS NULL
+							AND (sort_order = 0 OR sort_order IS NULL)
 					</cfquery>
 					<cfset incremented_sort_order = max_sort_order + 1>
 					<cfloop query="getZeroSortOrder">
