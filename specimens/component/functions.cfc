@@ -2124,7 +2124,8 @@ limitations under the License.
 			<!--- Handle accepted_id_fg flag - only one per specimen --->
 			<cfif arguments.accepted_id_fg EQ 1>
 				<cfquery name="setAcceptedZero" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE identification SET accepted_id_fg = 0 
+					UPDATE identification 
+					SET accepted_id_fg = 0, sort_order = null
 					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 				</cfquery>
 			</cfif>
@@ -2134,6 +2135,16 @@ limitations under the License.
 				<cfquery name="setStoredAsZero" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE identification SET stored_as_fg = 0 
 					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+				</cfquery>
+			</cfif>
+			<cfif len(arguments.sort_order) GT 0>
+				<!--- increment sort order for any identifications with sort_order >= the new value --->
+				<cfquery name="incrementSortOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE identification 
+					SET sort_order = sort_order + 1
+					WHERE 
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+						AND sort_order >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">
 				</cfquery>
 			</cfif>
 			
