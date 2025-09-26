@@ -1352,31 +1352,58 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfif len(arguments.sort_order) GT 0>
-				<!--- if a sort order is provided, increment the sort order of any existing identifications with a sort order >= the provided value --->
-				<cfquery name="incrementSortOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE identification 
-					SET sort_order = sort_order + 1
+				<!--- Check if an existing identification has the provided sort order --->
+				<cfquery name="checkSortOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT identification_id
+					FROM identification
 					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 						AND accepted_id_fg = 0
-						AND sort_order >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">
+						AND sort_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">
 				</cfquery>
-				<!--- if any existing non-current identfications have a sort order of 0, set them to higher than the provided sort order, with sequental integers --->
-				<cfquery name="getZeroSortOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT identification_id
+				<cfif checkSortOrder.recordcount EQ 0>
+					<!--- provided sort order is not used, do nothing --->
+				<cfelse>
+					<!--- if a sort order is provided, increment the sort order of any existing identifications with a sort order >= the provided value --->
+					<cfquery name="incrementSortOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE identification 
+						SET sort_order = sort_order + 1
+						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+							AND accepted_id_fg = 0
+							AND sort_order >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">
+					</cfquery>
+				</cfif>
+				<!--- find out the highest sort order currently in use for non-current identifications higher than the provided sort_order --->
+				<cfquery name="getMaxSortOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT max(sort_order) as max_sort_order
 					FROM identification 
 					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 						AND accepted_id_fg = 0
-						AND sort_order = 0
+						AND sort_order > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">
 				</cfquery>
-				<cfset incremented_sort_order = arguments.sort_order + 1>
-				<cfloop query="getZeroSortOrder">
-					<cfquery name="setZeroSortOrderLoop" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE identification 
-						SET sort_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#incremented_sort_order#">
-						WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getZeroSortOrder.identification_id#">
+				<cfif getMaxSortOrder.recordCount GT 0>
+					<cfset max_sort_order = getMaxSort_order.max_sort_order>
+					<cfif arguments.sort_order GT max_sort_order>
+						<!--- if the provided sort order is higher than the highest existing sort order, set it to one higher than the highest existing sort order --->
+						<cfset max_sort_order = arguments.sort_order>
+					</cfif>
+					<!--- if any existing non-current identfications have a sort order of 0, set them to higher than the higheset sort order, with sequental integers --->
+					<cfquery name="getZeroSortOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT identification_id
+						FROM identification 
+						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+							AND accepted_id_fg = 0
+							AND sort_order = 0 OR sort_order IS NULL
 					</cfquery>
-					<cfset incremented_sort_order = incremented_sort_order + 1>
-				</cfloop>
+					<cfset incremented_sort_order = max_sort_order + 1>
+					<cfloop query="getZeroSortOrder">
+						<cfquery name="setZeroSortOrderLoop" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE identification 
+							SET sort_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#incremented_sort_order#">
+							WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getZeroSortOrder.identification_id#">
+						</cfquery>
+						<cfset incremented_sort_order = incremented_sort_order + 1>
+					</cfloop>
+				</cfif>
 			</cfif>
 			<!--- Insert identification --->
 			<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newID_result">
@@ -1497,6 +1524,12 @@ limitations under the License.
 		FROM identification 
 		WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.identification_id#">
 	</cfquery>
+	<cfquery name="getCollectionObjectID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT collection_object_id 
+		FROM identification 
+		WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.identification_id#">
+	</cfquery>
+	<cfset identified_collection_object_id = getCollectionObjectID.collection_object_id>
 
 	<cftransaction>
 		<cftry>
@@ -1524,6 +1557,23 @@ limitations under the License.
 			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				DELETE FROM identification WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.identification_id#">
 			</cfquery>
+			<!--- renumber any existing sort orders to be sequential starting at 1 --->
+			<cfquery name="getSortOrders" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT identification_id
+				FROM identification 
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identified_collection_object_id#">
+					AND accepted_id_fg = 0
+					AND sort_order IS NOT NULL
+				ORDER BY sort_order, identification_id
+			</cfquery>
+			<cfloop query="getSortOrders">
+				<cfquery name="updateSortOrderLoop" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE identification 
+					SET sort_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getSortOrders.currentrow#">
+					WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getSortOrders.identification_id#">
+				</cfquery>
+			</cfloop>			
+
 			<cftransaction action="commit"/>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "removed">
