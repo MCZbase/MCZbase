@@ -839,6 +839,7 @@ function closeInPage(callback=null) {
 	$("#InPageEditorDiv").removeClass("border-bottom");
 	if (typeof executeMultizoom !== 'undefined') {
 		executeMultizoom = true;
+		$(".zoomtracker").show();
 	}
 	if (callback instanceof Function) {
 		callback();
@@ -848,6 +849,7 @@ function closeInPage(callback=null) {
 function startInPage() { 
 	if (typeof executeMultizoom !== 'undefined') {
 		executeMultizoom = false;
+		$(".zoomtracker").hide();
 	}
 	$('#SpecimenDetailsDiv').hide();
 	$('#editControlsBlock').hide();

@@ -902,6 +902,12 @@ limitations under the License.
 			<cfelse>
 				<cfthrow message="This collection object type (#getDetermined.coll_object_type#) is not supported.">
 			</cfif>
+			<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
+				SELECT identification_id
+				FROM identification
+				WHERE 
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#attributes.collection_object_id#">
+			</cfquery>
 			<cfif len(target) GT 0>
 				<cfset target = " to #target#">
 			</cfif>
@@ -1015,7 +1021,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 col-md-10 pb-2">
+													<div class="col-12 col-md-8 pb-2">
 														<label for="identification_remarks" class="data-entry-label">Remarks:</label>
 														<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
 													</div>
@@ -1037,18 +1043,30 @@ limitations under the License.
 																	if (state === "current") {
 																		$("##accepted_id_fg").val("1");
 																		$("##stored_as_fg").val("0");
+																		$("##sort_order").val("");
+																		$("##sort_order").prop("disabled", 'disabled');
 																	} else if (state === "previous") {
 																		$("##accepted_id_fg").val("0");
 																		$("##stored_as_fg").val("0");
+																		$("##sort_order").prop("disabled", false);
 																	} else if (state === "stored_as") {
 																		$("##accepted_id_fg").val("0");
 																		$("##stored_as_fg").val("1");
+																		$("##sort_order").prop("disabled", false);
 																	}
 																});
 															});
 														</script>
 													</div>
-													<!--- TODO: Add sort_order --->
+													<div class="col-12 col-md-2 pb-2">
+														<label for="sort_order" class="data-entry-label">Sort Order (after current):</label>
+														<select name="sort_order" id="sort_order" size="1" class="data-entry-select" disabled>
+															<option selected value=""></option>
+															<cfloop index="id_ordinal" from="1" to="#getIdentifications.recordcount + 1#">
+																<option value="#id_ordinal#">#id_ordinal#</option>
+															</cfloop>
+														</select>
+													</div>
 													<div class="col-12 pb-1">
 														<div class="form-row" id="addIdNewDetsFormRow">
 															<div class="col-12 col-md-3">
@@ -1262,20 +1280,6 @@ limitations under the License.
 	<cfargument name="sort_order" type="string" required="no" default="">
 	<cfargument name="determiner_ids" type="string" required="yes">
 
-	<cfset variables.collection_object_id = arguments.collection_object_id>
-	<cfset variables.taxa_formula = arguments.taxa_formula>
-	<cfset variables.taxona = arguments.taxona>
-	<cfset variables.taxona_id = arguments.taxona_id>
-	<cfset variables.taxonb = arguments.taxonb>
-	<cfset variables.taxonb_id = arguments.taxonb_id>
-	<cfset variables.made_date = arguments.made_date>
-	<cfset variables.nature_of_id = arguments.nature_of_id>
-	<cfset variables.publication_id = arguments.publication_id>
-	<cfset variables.identification_remarks = arguments.identification_remarks>
-	<cfset variables.accepted_id_fg = arguments.accepted_id_fg>
-	<cfset variables.stored_as_fg = arguments.stored_as_fg>
-	<cfset variables.determiner_ids = arguments.determiner_ids>
-
 	<!--- TODO: add sort_order support --->
 
 	<!--- determiner_ids: comma-separated agent_id's --->
@@ -1285,9 +1289,9 @@ limitations under the License.
 		<cftry>
 
 			<!--- setup variables for either 1 (A) or 2 (A and B) taxa from formula in identification --->
-			<cfset var scientific_name = variables.taxa_formula>
+			<cfset var scientific_name = arguments.taxa_formula>
 			<!--- throw an exception if formula contains B but taxon B is not provided --->
-			<cfif variables.taxa_formula contains "B" and len(variables.taxonb) EQ 0>	
+			<cfif arguments.taxa_formula contains "B" and len(arguments.taxonb) EQ 0>	
 				<cfthrow message="Taxon B is required when the formula contains 'B'.">
 			</cfif>
 			<!--- replace A in the formula with a string that is not likely to occur in a scientific name --->
@@ -1296,22 +1300,22 @@ limitations under the License.
 			<cfset scientific_name = REReplace(scientific_name, "\bB\b", "TAXON_B", "all")>
 			<!--- replace the placeholder for A in the formula with the taxon A name --->
 			<!--- lookup the taxon A name in the taxon name table to not include the authorship --->
-			<cfif variables.taxona_id EQ "">
+			<cfif arguments.taxona_id EQ "">
 				<cfthrow message="Taxon A taxon_name_id is required, you must select a taxon from the autocomplete list.">
 			</cfif>
 			<cfquery name="getTaxonA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT scientific_name
 				FROM taxonomy
-				WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxona_id#">
+				WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxona_id#">
 			</cfquery>
 			<cfset scientific_name = replace(scientific_name, "TAXON_A", getTaxonA.scientific_name)>
-			<cfif len(variables.taxonb)>
+			<cfif len(arguments.taxonb)>
 				<!--- replace the placeholder for B with the taxon B name if provided --->
 				<!--- lookup the taxon B name in the taxon name table to not include the authorship --->
 				<cfquery name="getTaxonB" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT scientific_name
 					FROM taxonomy
-					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxonb_id#">
+					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxonb_id#">
 				</cfquery>
 				<cfset scientific_name = replace(scientific_name, "TAXON_B", getTaxonB.scientific_name)>
 			</cfif>
@@ -1323,7 +1327,7 @@ limitations under the License.
 				SELECT coll_object_type
 				FROM coll_object
 				WHERE 
-					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 			</cfquery>
 			<cfif getType.recordcount EQ 0>
 				<cfthrow message="No such collection_object_id.">
@@ -1333,23 +1337,78 @@ limitations under the License.
 				<cfthrow message = "Identifications can not be added to a collection object of type [#getType.coll_object_type#]">
 			</cfif>
 
-			<cfif variables.accepted_id_fg EQ "1">
+			<cfif arguments.accepted_id_fg EQ "1">
 				<!--- if this is an accepted identification, force unset the stored_as_fg flag --->
-				<cfset variables.stored_as_fg = 0>
+				<cfset arguments.stored_as_fg = 0>
 				<!--- Only one accepted per specimen, unset the flag for others --->
 				<cfquery name="unsetAcceptedFG" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE identification 
 					SET ACCEPTED_ID_FG = 0 
-					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 				</cfquery>
 			</cfif>
-			<cfif variables.stored_as_fg EQ "1">
+			<cfif arguments.stored_as_fg EQ "1">
 				<!--- Only one stored as per specimen, unset the flag for others --->
 				<cfquery name="unsetStoredFG" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					UPDATE identification 
 					SET STORED_AS_FG = 0 
-					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 				</cfquery>
+			</cfif>
+			<cfif len(arguments.sort_order) GT 0>
+				<!--- Check if an existing identification has the provided sort order --->
+				<cfquery name="checkSortOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT identification_id
+					FROM identification
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+						AND accepted_id_fg = 0
+						AND sort_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">
+				</cfquery>
+				<cfif checkSortOrder.recordcount EQ 0>
+					<!--- provided sort order is not used, do nothing --->
+				<cfelse>
+					<!--- if a sort order is provided, increment the sort order of any existing identifications with a sort order >= the provided value --->
+					<cfquery name="incrementSortOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE identification 
+						SET sort_order = sort_order + 1
+						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+							AND accepted_id_fg = 0
+							AND sort_order >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">
+					</cfquery>
+				</cfif>
+				<!--- find out the highest sort order currently in use for non-current identifications higher than the provided sort_order --->
+				<cfquery name="getMaxSortOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT max(sort_order) as max_sort_order
+					FROM identification 
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+						AND accepted_id_fg = 0
+						AND sort_order > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">
+				</cfquery>
+				<cfif getMaxSortOrder.recordCount GT 0>
+					<cfset max_sort_order = getMaxSortOrder.max_sort_order>
+					<cfif arguments.sort_order GT max_sort_order>
+						<!--- if the provided sort order is higher than the highest existing sort order, set it to one higher than the highest existing sort order --->
+						<cfset max_sort_order = arguments.sort_order>
+					</cfif>
+					<!--- if any existing non-current identfications have a sort order of 0, set them to higher than the higheset sort order, with sequental integers --->
+					<cfquery name="getZeroSortOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT identification_id
+						FROM identification 
+						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+							AND accepted_id_fg = 0
+							AND (sort_order = 0 OR sort_order IS NULL)
+						ORDER BY made_date, identification_id
+					</cfquery>
+					<cfset incremented_sort_order = max_sort_order + 1>
+					<cfloop query="getZeroSortOrder">
+						<cfquery name="setZeroSortOrderLoop" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE identification 
+							SET sort_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#incremented_sort_order#">
+							WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getZeroSortOrder.identification_id#">
+						</cfquery>
+						<cfset incremented_sort_order = incremented_sort_order + 1>
+					</cfloop>
+				</cfif>
 			</cfif>
 			<!--- Insert identification --->
 			<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="newID_result">
@@ -1363,22 +1422,28 @@ limitations under the License.
 					taxa_formula,
 					scientific_name,
 					publication_id,
+					<cfif len(arguments.sort_order) GT 0>
+						sort_order,
+					</cfif>
 					stored_as_fg
 				) VALUES (
 					sq_identification_id.nextval,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.made_date#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.nature_of_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.accepted_id_fg#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.identification_remarks#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.taxa_formula#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.made_date#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.nature_of_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.accepted_id_fg#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.identification_remarks#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.taxa_formula#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,
-					<cfif len(variables.publication_id)>
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.publication_id#">
+					<cfif len(arguments.publication_id)>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.publication_id#">
 					<cfelse>
 						NULL
 					</cfif>,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.stored_as_fg#">
+					<cfif len(arguments.sort_order) GT 0>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">,
+					</cfif>
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.stored_as_fg#">
 				)
 			</cfquery>
 			<!--- lookup the oracle primary key value for the inserted identification.identification_id --->
@@ -1389,8 +1454,8 @@ limitations under the License.
 			</cfquery>
 			<cfset var new_identification_id =getNewIDPK.identification_id>
 			<!--- Insert determiners --->
-			<cfif len(variables.determiner_ids)>
-				<cfset var agentList = ListToArray(variables.determiner_ids)>
+			<cfif len(arguments.determiner_ids)>
+				<cfset var agentList = ListToArray(arguments.determiner_ids)>
 				<cfloop from="1" to="#ArrayLen(agentList)#" index="idx">
 					<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						INSERT INTO identification_agent (
@@ -1406,7 +1471,7 @@ limitations under the License.
 				</cfloop>
 			</cfif>
 			<!--- Taxonomy linking for A and (optionally) B --->
-			<cfif len(variables.taxona_id)>
+			<cfif len(arguments.taxona_id)>
 				<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO identification_taxonomy (
 						identification_id,
@@ -1414,12 +1479,12 @@ limitations under the License.
 						variable
 					) VALUES (
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_identification_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxona_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxona_id#">,
 						'A'
 					)
 				</cfquery>
 			</cfif>
-			<cfif len(variables.taxonb_id)>
+			<cfif len(arguments.taxonb_id)>
 				<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					INSERT INTO identification_taxonomy (
 						identification_id,
@@ -1427,7 +1492,7 @@ limitations under the License.
 						variable
 					) VALUES (
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_identification_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.taxonb_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxonb_id#">,
 						'B'
 					)
 				</cfquery>
@@ -1464,11 +1529,28 @@ limitations under the License.
 		FROM identification 
 		WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.identification_id#">
 	</cfquery>
+	<cfquery name="getCollectionObjectID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT collection_object_id 
+		FROM identification 
+		WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.identification_id#">
+	</cfquery>
+	<cfset identified_collection_object_id = getCollectionObjectID.collection_object_id>
 
 	<cftransaction>
 		<cftry>
 			<cfif getAccepted.accepted_id_fg EQ 1>
-				<cfthrow message="Cannot delete the accepted identification.">
+				<!--- check if this is an identificaiton on a part, if so, alow delete, otherwise prevent delete --->
+				<cfquery name="checkPartID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT coll_object_type
+					FROM 
+						identification
+						join coll_object on identification.collection_object_id = coll_object.collection_object_id
+					WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.identification_id#">
+						and coll_object.coll_object_type = 'SP'
+				</cfquery>
+				<cfif checkPartID.recordcount EQ 0>
+					<cfthrow message="Cannot delete the accepted identification.">
+				</cfif>
 			</cfif>
 			<!--- Remove associated records --->
 			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1480,6 +1562,23 @@ limitations under the License.
 			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				DELETE FROM identification WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.identification_id#">
 			</cfquery>
+			<!--- renumber any existing sort orders to be sequential starting at 1 --->
+			<cfquery name="getSortOrders" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT identification_id
+				FROM identification 
+				WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identified_collection_object_id#">
+					AND accepted_id_fg = 0
+					AND sort_order IS NOT NULL
+				ORDER BY sort_order, identification_id
+			</cfquery>
+			<cfloop query="getSortOrders">
+				<cfquery name="updateSortOrderLoop" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					UPDATE identification 
+					SET sort_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getSortOrders.currentrow#">
+					WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getSortOrders.identification_id#">
+				</cfquery>
+			</cfloop>			
+
 			<cftransaction action="commit"/>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "removed">
@@ -1690,7 +1789,7 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="col-12 col-md-10 pb-2">
+												<div class="col-12 col-md-8 pb-2">
 													<label for="identification_remarks" class="data-entry-label">Remarks:</label>
 													<input type="text" name="identification_remarks" id="eid_edit_identification_remarks" class="data-entry-input" value="#idData.identification_remarks#">
 												</div>
@@ -1732,9 +1831,29 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-2 pb-2">
-													<!--- TODO: Add support for sort_order Sort order --->
+													<cfquery name="getIdentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" >
+														SELECT identification_id
+														FROM identification
+														WHERE 
+															collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#idData.collection_object_id#">
+													</cfquery>
 													<label for="sort_order" class="data-entry-label">Sort Order (after current):</label>
-													<input type="number" name="sort_order" id="eid_edit_sort_order" class="data-entry-input" value="#idData.sort_order#">
+													<select name="sort_order" id="sort_order" size="1" class="data-entry-select">
+														<option value=""></option>
+														<cfset hasSelected = false>
+														<cfloop index="id_ordinal" from="1" to="#getIdentifications.recordcount + 1#">
+															<cfif idData.sort_order EQ id_ordinal>
+																<cfset selected="selected">
+																<cfset hasSelected = false>
+															<cfelse>
+																<cfset selected="">
+															</cfif>
+															<option value="#id_ordinal#" #selected#>#id_ordinal#</option>
+														</cfloop>
+														<cfif NOT hasSelected AND len(idData.sort_order) GT 0 and refind(idData.sort_order, "^[0-9]+$") GT 0>
+															<option value="#idData.sort_order#" selected>#idData.sort_order#</option>
+														</cfif>
+													</select>
 												</div>
 								
 												<!--- Determiners --->
@@ -2060,7 +2179,8 @@ limitations under the License.
 			<!--- Handle accepted_id_fg flag - only one per specimen --->
 			<cfif arguments.accepted_id_fg EQ 1>
 				<cfquery name="setAcceptedZero" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE identification SET accepted_id_fg = 0 
+					UPDATE identification 
+					SET accepted_id_fg = 0, sort_order = null
 					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 				</cfquery>
 			</cfif>
@@ -2071,6 +2191,27 @@ limitations under the License.
 					UPDATE identification SET stored_as_fg = 0 
 					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 				</cfquery>
+			</cfif>
+			<cfif len(arguments.sort_order) GT 0>
+				<!--- check if an identification exists with the provided sort_order --->
+				<cfquery name="checkSortOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT identification_id
+					FROM identification 
+					WHERE 
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+						AND sort_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">
+						AND identification_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.identification_id#">
+				</cfquery>
+				<cfif checkSortOrder.recordcount GT 0>
+					<!--- increment sort order for any identifications with sort_order >= the new value --->
+					<cfquery name="incrementSortOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE identification 
+						SET sort_order = sort_order + 1
+						WHERE 
+							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+							AND sort_order >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">
+					</cfquery>
+				</cfif>
 			</cfif>
 			
 			<!--- Update the identification record --->
@@ -2089,6 +2230,8 @@ limitations under the License.
 					</cfif>
 					<cfif len(arguments.sort_order) GT 0>
 						sort_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">,
+					<cfelse>
+						sort_order = NULL,
 					</cfif>
 					<cfif len(arguments.publication_id) GT 0>
 						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.publication_id#">

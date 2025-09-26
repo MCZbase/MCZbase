@@ -167,9 +167,19 @@ limitations under the License.
 	</cfif>
 	<cfloop query="ctmedia_label">
 		<cfif ctmedia_label.media_label NEQ 'description' and ctmedia_label.media_label NEQ 'dcterms:identifier' and ctmedia_label.media_label NEQ 'ac:resourceCreationTechnique'>
-			<cfset label = replace(ctmedia_label.media_label," ","_","all")>
-			<cfif not isdefined(label)>
-				<cfset "#label#" = "">
+			<!--- Some media labels are used as form fields, but their characters may not conform to coldfusion variable name rules, so replace non conforming characters --->
+			<!--- skip description dcterms:identifier and ac:resourceCreationTechnique as they are handled explicitly above --->
+			<cfset label = rereplace(ctmedia_label.media_label,"[^0-9A-Za-z_]","_","all")>
+			<cfif refind("^[A-Za-z_][A-Za-z0-9_$]{0,254}$",label) GT 0>
+				<!--- media labels used as form fields with link to this search must conform to coldfusion variable name rules --->
+				<!--- only include if replacement above produces a valid variable name --->
+				<!--- if media_label begins with a number it will not be valid --->
+				<!--- Note: the backing method for the search will need to use the  --->
+				<!--- replacement (e.g. media label 'light source' to variable 'light_source') --->
+				<!--- and map any variable names used on the form back to the media_label --->
+				<cfif not isdefined("#label#")>
+					<cfset "#label#" = "">
+				</cfif>
 			</cfif>
 		</cfif>
 	</cfloop>
