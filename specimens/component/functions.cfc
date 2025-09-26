@@ -2145,7 +2145,7 @@ limitations under the License.
 					WHERE 
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
 						AND sort_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">
-						AND identification_id NEQ <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.identification_id#">
+						AND identification_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.identification_id#">
 				</cfquery>
 				<cfif checkSortOrder.recordcount GT 0>
 					<!--- increment sort order for any identifications with sort_order >= the new value --->
