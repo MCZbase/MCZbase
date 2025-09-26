@@ -1381,7 +1381,7 @@ limitations under the License.
 						AND sort_order > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">
 				</cfquery>
 				<cfif getMaxSortOrder.recordCount GT 0>
-					<cfset max_sort_order = getMaxSort_order.max_sort_order>
+					<cfset max_sort_order = getMaxSortOrder.max_sort_order>
 					<cfif arguments.sort_order GT max_sort_order>
 						<!--- if the provided sort order is higher than the highest existing sort order, set it to one higher than the highest existing sort order --->
 						<cfset max_sort_order = arguments.sort_order>
