@@ -2138,14 +2138,25 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfif len(arguments.sort_order) GT 0>
-				<!--- increment sort order for any identifications with sort_order >= the new value --->
-				<cfquery name="incrementSortOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					UPDATE identification 
-					SET sort_order = sort_order + 1
+				<!--- check if an identification exists with the provided sort_order --->
+				<cfquery name="checkSortOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT identification_id
+					FROM identification 
 					WHERE 
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
-						AND sort_order >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">
+						AND sort_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">
+						AND identification_id NEQ <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.identification_id#">
 				</cfquery>
+				<cfif checkSortOrder.recordcount GT 0>
+					<!--- increment sort order for any identifications with sort_order >= the new value --->
+					<cfquery name="incrementSortOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE identification 
+						SET sort_order = sort_order + 1
+						WHERE 
+							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.collection_object_id#">
+							AND sort_order >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">
+					</cfquery>
+				</cfif>
 			</cfif>
 			
 			<!--- Update the identification record --->
