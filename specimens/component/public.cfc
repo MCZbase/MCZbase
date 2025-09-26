@@ -666,6 +666,7 @@ limitations under the License.
 					identification_remarks,
 					identification.identification_id,
 					accepted_id_fg,
+					sort_order,
 					taxa_formula,
 					formatted_publication,
 					identification.publication_id,
@@ -678,7 +679,9 @@ limitations under the License.
 				WHERE
 					identification.collection_object_id = <cfqueryparam value="#arguments.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				ORDER BY 
-					accepted_id_fg DESC,sort_order, made_date DESC
+					accepted_id_fg DESC,
+					sort_order, 
+					made_date DESC
 			</cfquery>
 			<cfif local_editable>
 			<script>
@@ -817,10 +820,14 @@ limitations under the License.
 							</cfif>
 						</cfif>
 						<cfif local_editable>
+							<cfif identification.accepted_id_fg EQ 0>
+								<cfif len(identification.sort_order) GT 0 AND identification.sort_order GT 0>
+									<span class="small mr-1">[Sort Order: #identification.sort_order#]</span>
+								</cfif>
+							</cfif>
 							<cfset allowDelete = false>
 							<!--- allow delete if not current identification or if identification on specimen part and only one identification --->
-							<!--- cfif identification.accepted_id_fg NEQ 1 OR (identification.recordcount EQ 1 and identification.coll_object_type EQ 'SP') --->
-							<cfif identification.accepted_id_fg NEQ 1>
+							<cfif identification.accepted_id_fg NEQ 1 OR (identification.recordcount EQ 1 and identification.coll_object_type EQ 'SP')>
 								<cfset allowDelete = true>	
 							</cfif>
 							<span class="float-right">
@@ -924,7 +931,7 @@ limitations under the License.
 					var title = "Edit Identification";
 					dialogId = "editIdentificationDialog";
 					max_height = 450;
-					width_cap = 1100; 
+					width_cap = 1200; 
 					console.log("editIdentification: identification_id = " + identification_id);
 					createSpecimenEditDialog(dialogId,title,callback,max_height,width_cap);
 					// Call the server-side function to get the edit HTML, load into the dialog
