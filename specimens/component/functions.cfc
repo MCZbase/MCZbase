@@ -1043,12 +1043,15 @@ limitations under the License.
 																	if (state === "current") {
 																		$("##accepted_id_fg").val("1");
 																		$("##stored_as_fg").val("0");
+																		$("##sort_order").prop("disabled", 'disabled');
 																	} else if (state === "previous") {
 																		$("##accepted_id_fg").val("0");
 																		$("##stored_as_fg").val("0");
+																		$("##sort_order").prop("disabled", false);
 																	} else if (state === "stored_as") {
 																		$("##accepted_id_fg").val("0");
 																		$("##stored_as_fg").val("1");
+																		$("##sort_order").prop("disabled", false);
 																	}
 																});
 															});
@@ -1056,7 +1059,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-2 pb-2">
 														<label for="sort_order" class="data-entry-label">Sort Order (after current):</label>
-														<select name="sort_order" id="sort_order" size="1" class="data-entry-select">
+														<select name="sort_order" id="sort_order" size="1" class="data-entry-select" disabled>
 															<option selected value=""></option>
 															<cfloop index="id_ordinal" from="1" to="#getIdentifications.recordcount + 1#">
 																<option value="#id_ordinal#">#id_ordinal#</option>
