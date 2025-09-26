@@ -1043,6 +1043,7 @@ limitations under the License.
 																	if (state === "current") {
 																		$("##accepted_id_fg").val("1");
 																		$("##stored_as_fg").val("0");
+																		$("##sort_order").val("");
 																		$("##sort_order").prop("disabled", 'disabled');
 																	} else if (state === "previous") {
 																		$("##accepted_id_fg").val("0");
