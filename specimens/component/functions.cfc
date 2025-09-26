@@ -2226,6 +2226,8 @@ limitations under the License.
 					</cfif>
 					<cfif len(arguments.sort_order) GT 0>
 						sort_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_order#">,
+					<cfelse>
+						sort_order = NULL,
 					</cfif>
 					<cfif len(arguments.publication_id) GT 0>
 						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.publication_id#">
