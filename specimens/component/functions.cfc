@@ -6959,7 +6959,7 @@ limitations under the License.
 						left join preferred_agent_name editedPerson on coll_object.last_edited_person_id = editedPerson.agent_id
 						join accn on cataloged_item.accn_id = accn.transaction_id
 						left join trans on accn.transaction_id = trans.transaction_id
-						join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+						left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>

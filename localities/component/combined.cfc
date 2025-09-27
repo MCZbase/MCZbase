@@ -1068,10 +1068,10 @@ limitations under the License.
 		<cfquery name="enableTrigger" datasource="uam_god" result="enableTrigger_result">
 			ALTER TRIGGER TR_LATLONG_ACCEPTED_BIUPA ENABLE
 		</cfquery>
+		<cfif cloneGeoref_result.recordcount EQ 0>
+			<cfthrow message="Error cloning georeference for locality ID #arguments.source_locality_id#.">
+		</cfif>
 		<cfset retval = next_lat_long_id>
-	</cfif>
-	<cfif cloneGeoref_result.recordcount EQ 0>
-		<cfthrow message="Error cloning georeference for locality ID #arguments.source_locality_id#.">
 	</cfif>
 	<cfreturn retval>
 </cffunction>
