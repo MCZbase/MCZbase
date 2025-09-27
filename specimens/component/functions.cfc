@@ -6466,6 +6466,8 @@ limitations under the License.
 						$('##att_name#i#').on('change', function() {
 							handleTypeChangeExisting('#i#');
 						});
+						// make the determined date a date picker
+						$("##att_date#i#").datepicker({ dateFormat: 'yy-mm-dd'});
 					</script>
 					</div>
 				</form>
