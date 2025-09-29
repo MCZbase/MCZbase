@@ -71,6 +71,7 @@
 						<label>Container Type</label>
 						<select name="container_type" id="container_type" size="1">
 							<option value=""></option>
+							<option value="institution">institution</option>
 							<option value="campus">campus</option>
 							<option value="building">building</option>
 							<option value="floor">floor</option>
