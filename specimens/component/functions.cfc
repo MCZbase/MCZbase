@@ -7121,8 +7121,15 @@ limitations under the License.
 								<h4 class="font-italic text-danger">
 									Warning: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
 								</h4>
-								<!---<cfset separator = "">--->
 								<cfif cecount.ct GT 1>
+									<cfset eventDate = "">
+									<cfif len(getLoc.began_date) gt 0>
+										<cfif getLoc.began_date eq #getLoc.ended_date#>
+											<cfset eventDate = "#getLoc.began_date#">
+										<cfelse>
+											<cfset eventDate ="#getLoc.began_date# / #getLoc.ended_date#">
+										</cfif>
+									</cfif>
 									<h5 class="h4">
 										Collecting Event is 
 										<span class="text-danger">
@@ -7132,7 +7139,6 @@ limitations under the License.
 											</a>
 										</span>.
 									</h5>
-								<!---<cfset separator = " ; ">--->
 								</cfif>
 								<cfif loccount.ct GT 1>
 									<h5 class="h4">
