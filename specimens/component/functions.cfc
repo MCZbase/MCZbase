@@ -7121,18 +7121,34 @@ limitations under the License.
 								<h4 class="font-italic text-danger">
 									Warning: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.
 								</h4>
-								<!---<cfset separator = "">--->
 								<cfif cecount.ct GT 1>
+									<cfset eventDate = "">
+									<cfif len(getLoc.began_date) gt 0>
+										<cfif getLoc.began_date eq #getLoc.ended_date#>
+											<cfset eventDate = "#getLoc.began_date#">
+										<cfelse>
+											<cfset eventDate ="#getLoc.began_date# / #getLoc.ended_date#">
+										</cfif>
+									</cfif>
 									<h5 class="h4">
 										Collecting Event is 
-										<span class="text-danger">shared with #cecount.ct# other specimens</span>.
+										<span class="text-danger">
+											shared with 
+											<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=CATALOGED_ITEM%3ACATALOGED%20ITEM_COLLECTING_EVENT_ID&searchText1=#encodeForURL(getLoc.spec_locality)#%20#eventDate#%20(#getLoc.collecting_event_id#)&searchId1=#getLoc.collecting_event_id#" title="See other specimens from this collecting event" target="_blank">
+												#cecount.ct# other specimens
+											</a>
+										</span>.
 									</h5>
-								<!---<cfset separator = " ; ">--->
 								</cfif>
 								<cfif loccount.ct GT 1>
 									<h5 class="h4">
 										Locality is 
-										<span class="text-danger">shared with #loccount.ct# other specimens</span>.
+										<span class="text-danger">
+											shared with
+											<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=LOCALITY%3ALOCALITY_LOCALITY_ID_PICK&searchText1=#encodeForURL(getLoc.spec_locality)#%20(#getLoc.locality_id#)&searchId1=#getLoc.locality_id#" title="See other specimens with this Locality" target="_blank">
+										 		#loccount.ct# other specimens
+											</a>
+										</span>.
 									</h5>
 								</cfif>
 							
