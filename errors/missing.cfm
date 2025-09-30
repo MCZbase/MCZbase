@@ -89,12 +89,8 @@
 		<cfset	c = listgetat(rdurl,gPos+2,"/")>
 		<cfset	n = listgetat(rdurl,gPos+3,"/")>
 		<cfset guid=i & ":" & c & ":" & n>
-		<cftry>
-			<cfinclude template="/specimens/Specimen.cfm">
-		<cfcatch>
-			<cfinclude template="/errors/404.cfm">
-		</cfcatch>
-		</cftry>
+		<cfheader statuscode="301" statustext="Moved permanently">
+		<cfheader name="Location" value="/guid/#guid#">
 	<cfelseif listfindnocase(rdurl,'uuid',"/")>
 		<!--- UUID resolver service --->
 		<cftry>
