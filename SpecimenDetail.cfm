@@ -405,7 +405,6 @@
     </div><!---end primaryCont or secondaryCont or defaultCont--->
 	<!--- NOTE: List of files invoked with loadEditApp, search on filename.cfm won't find the loadEditApp(filename) references --->
 	<!--- Do not remove or rename these files until loadEditApp references have also been addressed: 
-				editIdentification.cfm referenced with loadEditApp
 				addAccn.cfm referenced with loadEditApp
 				changeCollEvent.cfm referenced with loadEditApp
 				specLocality.cfm referenced with loadEditApp
@@ -447,7 +446,6 @@
 				popDiv.className = 'editAppBox';
 				document.body.appendChild(popDiv);
 				var links='<ul id="navbar">';
-				links+='<li><span onclick="loadEditApp(\'editIdentification\')" class="likeLink" id="BTN_editIdentification">Taxa</span></li>';
 				links+='<li><span onclick="loadEditApp(\'addAccn\')" class="likeLink" id="BTN_addAccn">Accn</span></li>';
 				links+='<li><span onclick="loadEditApp(\'changeCollEvent\')" class="likeLink" id="BTN_changeCollEvent">PickEvent</span></li>';
 				links+='<li><span onclick="loadEditApp(\'specLocality\')" class="likeLink" id="BTN_specLocality">Locality</span></li>';
@@ -663,7 +661,6 @@
 								<img src="/images/no_first.gif" alt="[ inactive button ]">
 								<img src="/images/no_previous.gif" alt="[ inactive button ]">
 							</cfif>
-							<li><span onclick="loadEditApp('editIdentification')" class="likeLink" id="BTN_editIdentification">Taxa</span></li>
 							<li>
 								<span onclick="loadEditApp('addAccn')"	class="likeLink" id="BTN_addAccn">Accn</span>
 							</li>

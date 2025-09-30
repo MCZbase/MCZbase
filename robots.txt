@@ -81,7 +81,6 @@ Disallow: /editAllAgent.cfm
 Disallow: /editBiolIndiv.cfm
 Disallow: /editBook.cfm
 Disallow: /editContainer.cfm
-Disallow: /editIdentification.cfm
 Disallow: /localities/Locality.cfm
 Disallow: /localities/HigherGeography.cfm
 Disallow: /Encumbrances.cfm

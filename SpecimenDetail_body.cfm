@@ -374,9 +374,6 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 <!------------------------------------ Taxonomy ---------------------------------------------->
 				<div class="detailCell">
 					<div class="detailLabel">Identifications
-						<cfif oneOfUs is 1>
-							<span class="detailEditCell" onclick="window.parent.loadEditApp('editIdentification');">Edit</span>
-						</cfif>
 					</div>
 					<div class="detailBlock" style="margin-left: 0;">
 						<span class="detailData">
