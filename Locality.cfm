@@ -99,17 +99,8 @@
 	<cfset action = firstAction>
 </cfif>
 <cfif isdefined("collection_object_id") AND collection_object_id gt 0 AND action is "nothing">
-	<!--- probably got here from SpecimenDetail, make sure we're in a frame --->
-	<script>
-		var thePar = parent.location.href;
-		var isFrame = thePar.indexOf('Locality.cfm');
-		if (isFrame == -1) {
-			// we're in a frame, action is NOTHING, we have a collection_object_id; redirect to
-			// get a collecting_event_id
-			//alert('in a frame');
-			document.location='Locality.cfm?action=findCollEventIdForSpecDetail&collection_object_id=#collection_object_id#';
-		}
-	</script>
+	<!--- probably unused failover from old specimen details page where this was invoked in an iframe --->
+	<cfset action ="findCollEventIdForSpecDetail">
 </cfif>
 <cfif action is "findCollEventIdForSpecDetail">
 	<!--- get a collecting event ID and relocate to editCollEvnt --->
