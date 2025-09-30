@@ -1362,9 +1362,6 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 			<cfif len(attribute.attribute_type) gt 0>
 				<div class="detailCell">
 					<div class="detailLabel">Attributes
-						<cfif oneOfUs is 1>
-							<span class="detailEditCell" onclick="window.parent.loadEditApp('editBiolIndiv');">Edit</span>
-						</cfif>
 					</div>
 					<cfquery name="sex" dbtype="query">
 						select * from attribute where attribute_type = 'sex'
@@ -1506,9 +1503,6 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 <!------------------------------------ cataloged item ---------------------------------------------->
 			<div class="detailCell">
 				<div class="detailLabel">
-					<cfif oneOfUs is 1>
-						<span class="detailEditCell" onclick="window.parent.loadEditApp('editBiolIndiv');">Edit</span>
-					</cfif>
                 </div>
 <cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 					<cfif len(one.coll_object_remarks) gt 0>
