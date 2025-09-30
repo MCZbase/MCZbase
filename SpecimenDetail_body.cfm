@@ -1599,9 +1599,6 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 				</cfquery>
 				<div class="detailCell">
 					<div class="detailLabel">Accession
-						<cfif oneOfUs is 1>
-							<span class="detailEditCell" onclick="window.parent.loadEditApp('addAccn');">Edit</span>
-						</cfif>
 					</div>
 					<div class="detailBlock">
 						<span class="detailData">
