@@ -1,6 +1,5 @@
 <cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
-<cf_customizeIFrame>
 <cfoutput>
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
@@ -495,7 +494,7 @@ You deleted a collecting event.
 	</tr>
 	<cfloop query="cd">
 		<tr>
-			<td><a href="/localiteis/Locality.cfm?locality_id=#locality_id#">#spec_locality#</a></td>
+			<td><a href="/localities/Locality.cfm?locality_id=#locality_id#">#spec_locality#</a></td>
 			<td>#higher_geog#</td>
 			<td>#dec_lat# #dec_long#</td>
 		</tr>
