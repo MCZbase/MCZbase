@@ -1030,9 +1030,6 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 			<cfif len(relns.biol_indiv_relationship) gt 0 >
 				<div class="detailCell">
 					<div class="detailLabel" style="padding-bottom: .25em;">Relationships
-						<cfif oneOfUs is 1>
-							<span class="detailEditCell" onclick="window.parent.loadEditApp('editRelationship');">Edit</span>
-						</cfif>
 					</div>
 					<cfloop query="relns">
 						<div class="detailBlock" style="margin-top: .5em; padding-top: 0;margin-bottom: .5em; padding-bottom:0;">
