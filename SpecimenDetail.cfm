@@ -406,7 +406,6 @@
 	<!--- NOTE: List of files invoked with loadEditApp, search on filename.cfm won't find the loadEditApp(filename) references --->
 	<!--- Do not remove or rename these files until loadEditApp references have also been addressed: 
 				addAccn.cfm referenced with loadEditApp
-				changeCollEvent.cfm referenced with loadEditApp
 				specLocality.cfm referenced with loadEditApp
 				findContainer.cfm referenced with loadEditApp
 				MediaSearch.cfm referenced with loadEditApp
@@ -446,7 +445,6 @@
 				document.body.appendChild(popDiv);
 				var links='<ul id="navbar">';
 				links+='<li><span onclick="loadEditApp(\'addAccn\')" class="likeLink" id="BTN_addAccn">Accn</span></li>';
-				links+='<li><span onclick="loadEditApp(\'changeCollEvent\')" class="likeLink" id="BTN_changeCollEvent">PickEvent</span></li>';
 				links+='<li><span onclick="loadEditApp(\'specLocality\')" class="likeLink" id="BTN_specLocality">Locality</span></li>';
 				links+='<li><span onclick="loadEditApp(\'findContainer\')" class="likeLink" id="BTN_findContainer">PartLocn</span></li>';
 				links+='<li><span onclick="loadEditApp(\'MediaSearch\')" class="likeLink" id="BTN_MediaSearch">Media</span></li>';
@@ -661,9 +659,6 @@
 							</cfif>
 							<li>
 								<span onclick="loadEditApp('addAccn')"	class="likeLink" id="BTN_addAccn">Accn</span>
-							</li>
-							<li>
-								<span onclick="loadEditApp('changeCollEvent')" class="likeLink" id="BTN_changeCollEvent">Pick New Coll Event</span>
 							</li>
 							<li>
 								<span onclick="loadEditApp('specLocality')" class="likeLink" id="BTN_specLocality">Locality</span>
