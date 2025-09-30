@@ -80,7 +80,6 @@ Disallow: /editAccn.cfm
 Disallow: /editAllAgent.cfm
 Disallow: /editBiolIndiv.cfm
 Disallow: /editBook.cfm
-Disallow: /editColls.cfm
 Disallow: /editContainer.cfm
 Disallow: /editIdentification.cfm
 Disallow: /editIdentifiers.cfm

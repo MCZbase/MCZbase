@@ -409,7 +409,6 @@
 				addAccn.cfm referenced with loadEditApp
 				changeCollEvent.cfm referenced with loadEditApp
 				specLocality.cfm referenced with loadEditApp
-				editColls.cfm referenced with loadEditApp
 				editRelationship.cfm referenced with loadEditApp
 				editParts.cfm referenced with loadEditApp
 				findContainer.cfm referenced with loadEditApp
@@ -455,7 +454,6 @@
 				links+='<li><span onclick="loadEditApp(\'addAccn\')" class="likeLink" id="BTN_addAccn">Accn</span></li>';
 				links+='<li><span onclick="loadEditApp(\'changeCollEvent\')" class="likeLink" id="BTN_changeCollEvent">PickEvent</span></li>';
 				links+='<li><span onclick="loadEditApp(\'specLocality\')" class="likeLink" id="BTN_specLocality">Locality</span></li>';
-				links+='<li><span onclick="loadEditApp(\'editColls\')" class="likeLink" id="BTN_editColls">Agents</span></li>';
 				links+='<li><span onclick="loadEditApp(\'editRelationship\')" class="likeLink" id="BTN_editRelationship">Relations</span></li>';
 				links+='<li><span onclick="loadEditApp(\'editParts\')" class="likeLink" id="BTN_editParts">Parts</span></li>';
 				links+='<li><span onclick="loadEditApp(\'findContainer\')" class="likeLink" id="BTN_findContainer">PartLocn</span></li>';
@@ -680,9 +678,6 @@
 							</li>
 							<li>
 								<span onclick="loadEditApp('specLocality')" class="likeLink" id="BTN_specLocality">Locality</span>
-							</li>
-							<li>
-								<span onclick="loadEditApp('editColls')" class="likeLink" id="BTN_editColls">Agents</span>
 							</li>
 							<li>
 								<span onclick="loadEditApp('editRelationship')" class="likeLink" id="BTN_editRelationship">Relations</span>

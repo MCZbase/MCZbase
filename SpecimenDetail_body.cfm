@@ -959,9 +959,6 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 <!------------------------------------ collectors ---------------------------------------------->
 			<div class="detailCell">
 				<div class="detailLabel">Collectors
-					<cfif oneOfUs is 1>
-						<span class="detailEditCell" onclick="window.parent.loadEditApp('editColls');">Edit</span>
-					</cfif>
 				</div>
 				<cfloop query="colls">
 					<cfset collectorLink ="">
@@ -982,9 +979,6 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 			<cfif len(preps.preparators) gt 0>
 				<div class="detailCell">
 					<div class="detailLabel">Preparators
-						<cfif oneOfUs is 1>
-							<span class="detailEditCell" onclick="window.parent.loadEditApp('editColls');">Edit</span>
-						</cfif>
 					</div>
 					<cfloop query="preps">
 						<cfset preparatorLink ="">
@@ -1018,11 +1012,6 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 			<cfif collectionsQuery.recordcount GT 0>
 				<div class="detailCell">
 					<div class="detailLabel">Included in these Collections
-						<!---  TODO: Implement edit 
-						<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"manage_specimens")>
-							<span class="detailEditCell" onclick="window.parent.loadEditApp('editColls');">Edit</span>
-						</cfif>
-						--->
 					</div>
 					<div class="detailBlock">
 						<ul>
