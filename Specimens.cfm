@@ -1411,7 +1411,7 @@ limitations under the License.
 																		transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_trans_id#">
 																</cfquery>
 																<cfif lookupLoan.recordcount EQ 1>
-																	<cfset accn_number = "=#lookupLoan.lnum#">
+																	<cfset loan_number = "=#lookupLoan.lnum#">
 																</cfif>
 															</cfif>
 															<label for="loan_number" class="data-entry-label small">Loan ##</label>
