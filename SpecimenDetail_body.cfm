@@ -1231,11 +1231,6 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 <cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 			<div class="detailCell">
 				<div class="detailLabel">Part Details<!---Parts--->
-					<cfif oneOfUs is 1>
-						<span class="detailEditCell" onclick="window.parent.loadEditApp('editParts');">Edit</span>
-				<!---	<cfelse>
-						<span class="detailEditCell" onClick="getInfo('parts','#one.collection_object_id#');">Details</span>--->
-					</cfif>
 				</div>
 			<div class="detailBlock" style="margin-left: 0px;">
 						<table class="partname">
