@@ -84,22 +84,13 @@
 		</cfif>
 	<cfelseif listfindnocase(rdurl,'specimen',"/")>
 		<!--- Request by (old) specimen API --->
-		<cfif findNoCase('redesign',Session.gitBranch) GT 0>	
-			<cfset guid = listgetat(rdurl,gPos+1,"/")>
-			<cfinclude template="/specimens/Specimen.cfm">
-		<cfelse>
-			<cftry>
-				<cfset gPos=listfindnocase(rdurl,"specimen","/")>
-				<cfset	i = listgetat(rdurl,gPos+1,"/")>
-				<cfset	c = listgetat(rdurl,gPos+2,"/")>
-				<cfset	n = listgetat(rdurl,gPos+3,"/")>
-				<cfset guid=i & ":" & c & ":" & n>
-				<cfinclude template="/SpecimenDetail.cfm">
-			<cfcatch>
-				<cfinclude template="/errors/404.cfm">
-			</cfcatch>
-			</cftry>
-		</cfif>
+		<cfset gPos=listfindnocase(rdurl,"specimen","/")>
+		<cfset	i = listgetat(rdurl,gPos+1,"/")>
+		<cfset	c = listgetat(rdurl,gPos+2,"/")>
+		<cfset	n = listgetat(rdurl,gPos+3,"/")>
+		<cfset guid=i & ":" & c & ":" & n>
+		<cfheader statuscode="301" statustext="Moved permanently">
+		<cfheader name="Location" value="/guid/#guid#">
 	<cfelseif listfindnocase(rdurl,'uuid',"/")>
 		<!--- UUID resolver service --->
 		<cftry>

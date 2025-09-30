@@ -1,6 +1,5 @@
 <cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
-<cf_customizeIFrame>
 <cfoutput>
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
@@ -99,17 +98,8 @@
 	<cfset action = firstAction>
 </cfif>
 <cfif isdefined("collection_object_id") AND collection_object_id gt 0 AND action is "nothing">
-	<!--- probably got here from SpecimenDetail, make sure we're in a frame --->
-	<script>
-		var thePar = parent.location.href;
-		var isFrame = thePar.indexOf('Locality.cfm');
-		if (isFrame == -1) {
-			// we're in a frame, action is NOTHING, we have a collection_object_id; redirect to
-			// get a collecting_event_id
-			//alert('in a frame');
-			document.location='Locality.cfm?action=findCollEventIdForSpecDetail&collection_object_id=#collection_object_id#';
-		}
-	</script>
+	<!--- probably unused failover from old specimen details page where this was invoked in an iframe --->
+	<cfset action ="findCollEventIdForSpecDetail">
 </cfif>
 <cfif action is "findCollEventIdForSpecDetail">
 	<!--- get a collecting event ID and relocate to editCollEvnt --->
@@ -504,7 +494,7 @@ You deleted a collecting event.
 	</tr>
 	<cfloop query="cd">
 		<tr>
-			<td><a href="/localiteis/Locality.cfm?locality_id=#locality_id#">#spec_locality#</a></td>
+			<td><a href="/localities/Locality.cfm?locality_id=#locality_id#">#spec_locality#</a></td>
 			<td>#higher_geog#</td>
 			<td>#dec_lat# #dec_long#</td>
 		</tr>
