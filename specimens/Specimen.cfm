@@ -197,7 +197,7 @@ limitations under the License.
 </div>
 </cfoutput>
 
-<!--- (5) Bulk of the specimen page (formerly in SpecimenDetailBody) --->
+<!--- (5) Bulk of the specimen page (formerly in SpecimenDetail_body) --->
 
 <!--- query getCatalogedItem is needed for determining what is public and what is partitioned --->
 <cfquery name="getCatalogedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
