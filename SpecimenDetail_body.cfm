@@ -1138,9 +1138,6 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 			<cfif len(oid.other_id_type) gt 0>
 				<div class="detailCell">
 					<div class="detailLabel">Identifiers
-						<cfif oneOfUs is 1>
-							<span class="detailEditCell" onclick="window.parent.loadEditApp('editIdentifiers');">Edit</span>
-						</cfif>
 					</div>
 					<cfloop query="oid">
 						<div class="detailBlock">

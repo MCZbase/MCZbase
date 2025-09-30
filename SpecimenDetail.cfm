@@ -412,7 +412,6 @@
 				editRelationship.cfm referenced with loadEditApp
 				findContainer.cfm referenced with loadEditApp
 				editBiolIndiv.cfm referenced with loadEditApp
-				editIdentifiers.cfm referenced with loadEditApp
 				MediaSearch.cfm referenced with loadEditApp
 				Encumbrances.cfm referenced with loadEditApp
 				catalog.cfm referenced with loadEditApp
@@ -456,7 +455,6 @@
 				links+='<li><span onclick="loadEditApp(\'editRelationship\')" class="likeLink" id="BTN_editRelationship">Relations</span></li>';
 				links+='<li><span onclick="loadEditApp(\'findContainer\')" class="likeLink" id="BTN_findContainer">PartLocn</span></li>';
 				links+='<li><span onclick="loadEditApp(\'editBiolIndiv\')" class="likeLink" id="BTN_editBiolIndiv">Attributes</span></li>';
-				links+='<li><span onclick="loadEditApp(\'editIdentifiers\')" class="likeLink" id="BTN_editIdentifiers">OtherID</span></li>';
 				links+='<li><span onclick="loadEditApp(\'MediaSearch\')" class="likeLink" id="BTN_MediaSearch">Media</span></li>';
 				links+='<li><span onclick="loadEditApp(\'Encumbrances\')" class="likeLink" id="BTN_Encumbrances">Encumbrance</span></li>';
 				links+='<li><span onclick="loadEditApp(\'catalog\')" class="likeLink" id="BTN_catalog">Catalog</span></li>';
@@ -685,9 +683,6 @@
 							</li>
 							<li>
 								<span onclick="loadEditApp('editBiolIndiv')" class="likeLink" id="BTN_editBiolIndiv">Attributes</span>
-							</li>
-							<li>
-								<span onclick="loadEditApp('editIdentifiers')"	class="likeLink" id="BTN_editIdentifiers">Other IDs</span>
 							</li>
 							<li>
 								<span onclick="loadEditApp('MediaSearch')"	class="likeLink" id="BTN_MediaSearch">Media</span>

@@ -82,7 +82,6 @@ Disallow: /editBiolIndiv.cfm
 Disallow: /editBook.cfm
 Disallow: /editContainer.cfm
 Disallow: /editIdentification.cfm
-Disallow: /editIdentifiers.cfm
 Disallow: /localities/Locality.cfm
 Disallow: /localities/HigherGeography.cfm
 Disallow: /editRelationship.cfm
