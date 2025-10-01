@@ -9,6 +9,8 @@ _notes/
 /bower_components/
 /node_modules/
 bnhmMaps/tabfiles
+# some scripts for helping with cleanup of old files
+find_unreferenced_images.sh
 # Generated sitemap files
 sitemapindex.xml
 sitemapindex.xml.gz

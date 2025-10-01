@@ -59,7 +59,9 @@ limitations under the License.
 						collecting_event.verbatim_date,
 						collecting_event.began_date,
 						collecting_event.ended_date,
-						MCZBASE.GET_SCIENTIFIC_NAME_AUTHS_PL(cataloged_item.collection_object_id) as sci_name, MCZBASE.get_pretty_date(collecting_event.verbatim_date,collecting_event.began_date,collecting_event.ended_date,1,0) as pretty_date,
+						MCZBASE.GET_SCIENTIFIC_NAME_AUTHS_PL(cataloged_item.collection_object_id) as sci_name, 
+						MCZBASE.GET_SCIENTIFIC_NAME_PLAIN(cataloged_item.collection_object_id) as sci_name_no_auth, 
+						MCZBASE.get_pretty_date(collecting_event.verbatim_date,collecting_event.began_date,collecting_event.ended_date,1,0) as pretty_date,
 						MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,
 						geog_auth_rec.higher_geog,
 						<cfif oneOfUs EQ 0 AND Findnocase("mask locality", check.encumbranceDetail) >
@@ -207,7 +209,7 @@ limitations under the License.
 										<div class="col-12 px-0">
 											<h1 class="col-12 mb-1 h4 font-weight-bold">MCZ #summary.collection# #summary.cat_num##mixedMarker#</h1>
 											<h2 class="h4 col-12 d-inline-block mt-0 mb-0 mb-xl-1">
-												<a href="/name/#summary.sci_name#" class="text-dark">#summary.sci_name#</a>
+												<a href="/name/#encodeForURL(summary.sci_name_no_auth)#" class="text-dark">#summary.sci_name#</a>
 											</h2>
 											<cfif isMixed>
 												<cfquery name="mixedCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
