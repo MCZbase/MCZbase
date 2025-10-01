@@ -59,7 +59,6 @@ Disallow: /batchScan.cfm
 Disallow: /bulkCollEvent.cfm
 Disallow: /bulkLocality.cfm
 Disallow: /catalog.cfm
-Disallow: /changeCollEvent.cfm
 Disallow: /checkContainerMovement.cfm
 Disallow: /Citation.cfm
 Disallow: /CodeTableButtons.cfm
@@ -78,13 +77,10 @@ Disallow: /dumpAll.cfm
 Disallow: /edecView.cfm
 Disallow: /editAccn.cfm
 Disallow: /editAllAgent.cfm
-Disallow: /editBiolIndiv.cfm
 Disallow: /editBook.cfm
 Disallow: /editContainer.cfm
-Disallow: /editIdentification.cfm
 Disallow: /localities/Locality.cfm
 Disallow: /localities/HigherGeography.cfm
-Disallow: /editRelationship.cfm
 Disallow: /Encumbrances.cfm
 Disallow: /findContainer.cfm
 Disallow: /googled712d4c80741b156.html

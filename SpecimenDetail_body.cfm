@@ -374,9 +374,6 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 <!------------------------------------ Taxonomy ---------------------------------------------->
 				<div class="detailCell">
 					<div class="detailLabel">Identifications
-						<cfif oneOfUs is 1>
-							<span class="detailEditCell" onclick="window.parent.loadEditApp('editIdentification');">Edit</span>
-						</cfif>
 					</div>
 					<div class="detailBlock" style="margin-left: 0;">
 						<span class="detailData">
@@ -1030,9 +1027,6 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 			<cfif len(relns.biol_indiv_relationship) gt 0 >
 				<div class="detailCell">
 					<div class="detailLabel" style="padding-bottom: .25em;">Relationships
-						<cfif oneOfUs is 1>
-							<span class="detailEditCell" onclick="window.parent.loadEditApp('editRelationship');">Edit</span>
-						</cfif>
 					</div>
 					<cfloop query="relns">
 						<div class="detailBlock" style="margin-top: .5em; padding-top: 0;margin-bottom: .5em; padding-bottom:0;">
@@ -1368,9 +1362,6 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 			<cfif len(attribute.attribute_type) gt 0>
 				<div class="detailCell">
 					<div class="detailLabel">Attributes
-						<cfif oneOfUs is 1>
-							<span class="detailEditCell" onclick="window.parent.loadEditApp('editBiolIndiv');">Edit</span>
-						</cfif>
 					</div>
 					<cfquery name="sex" dbtype="query">
 						select * from attribute where attribute_type = 'sex'
@@ -1512,9 +1503,6 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 <!------------------------------------ cataloged item ---------------------------------------------->
 			<div class="detailCell">
 				<div class="detailLabel">
-					<cfif oneOfUs is 1>
-						<span class="detailEditCell" onclick="window.parent.loadEditApp('editBiolIndiv');">Edit</span>
-					</cfif>
                 </div>
 <cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 					<cfif len(one.coll_object_remarks) gt 0>
@@ -1611,9 +1599,6 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 				</cfquery>
 				<div class="detailCell">
 					<div class="detailLabel">Accession
-						<cfif oneOfUs is 1>
-							<span class="detailEditCell" onclick="window.parent.loadEditApp('addAccn');">Edit</span>
-						</cfif>
 					</div>
 					<div class="detailBlock">
 						<span class="detailData">
