@@ -581,12 +581,12 @@
 				<cfset i = #i#+1>
 			</cfloop>
 		</table>
-	<cfelseif tbl is "ctauthorship_role"><!-------------------------------------------------------->
+	<cfelseif tbl is "CTAUTHORSHIP_ROLE"><!-------------------------------------------------------->
 		<!--- Authorship Role code table includes fields for nomenclatural code and sort order, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			select authorship_role, ordinal, nomenclatural_code 
-			from ctauthorship_role 
-			order by ordinal, authorship_role
+			SELECT authorship_role, ordinal, nomenclatural_code 
+			FROM ctauthorship_role 
+			ORDER BY ordinal, authorship_role
 		</cfquery>
 		<cfquery name="getNomenclaturalCodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select nomenclatural_code from ctnomenclatural_code order by nomenclatural_code
@@ -1754,10 +1754,10 @@
 			where
 				BIOL_INDIV_RELATIONSHIP=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
 		</cfquery>
-	<cfelseif tbl is "ctauthorship_role">
+	<cfelseif tbl is "CTAUTHORSHIP_ROLE">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			delete from ctauthorship_role
-			where
+			DELETE FROM ctauthorship_role
+			WHERE
 				authorship_role=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
 		</cfquery>
 	<cfelseif tbl is "ctcitation_type_status">
@@ -1893,7 +1893,7 @@
 			where
 				BIOL_INDIV_RELATIONSHIP= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
-	<cfelseif tbl is "ctauthorship_role">
+	<cfelseif tbl is "CTAUTHORSHIP_ROLE">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			UPDATE ctauthorship_role 
 			SET 
@@ -2086,7 +2086,7 @@
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rel_type#" />
 			)
 		</cfquery>
-	<cfelseif tbl is "ctauthorship_role">
+	<cfelseif tbl is "CTAUTHORSHIP_ROLE">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			INSERT INTO ctauthorship_role (
 				authorship_role,
