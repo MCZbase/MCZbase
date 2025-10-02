@@ -1921,7 +1921,7 @@ limitations under the License.
 					</cfif>
 					<cfif len(#zoological_changed_combination#) GT 0>
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(zoological_changed_combination)#">
-					</cfif
+					</cfif>
 					)
 				</cfquery>
 				<cftransaction action="commit">
