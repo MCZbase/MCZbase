@@ -3,6 +3,13 @@
 <cfquery name="ctcollcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select distinct collection_cde from ctcollection_cde
 </cfquery>
+<cfset var tbl="">
+<!--- obtain tbl variable from form post or get parameter with url scope taking precedence, and force to uppercase --->
+<cfif isdefined("url.tbl")>
+	<cfset tbl = ucase(url.tbl)>
+<cfelseif isdefined("form.tbl")>
+	<cfset tbl = ucase(form.tbl)>
+</cfif>
 <cfif not isdefined("action")><cfset action="listtables"></cfif>
 <!--- TODO: Not all actions involve output, move them to a backing method put this block only in actions that have output --->
 <cfoutput>
@@ -33,7 +40,7 @@
 									</cfquery>
 									<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
 									<li>
-										<a href="CodeTableEditor.cfm?action=edit&tbl=#getCTName.table_name#">#name#</a> (#getRowCounts.ct#)
+										<a href="/vocabularies/CodeTableEditor.cfm?action=edit&tbl=#getCTName.table_name#">#name#</a> (#getRowCounts.ct#)
 									</li>
 								</cfloop>
 							</ul>
@@ -1592,7 +1599,9 @@
 		</table>
 	<cfelse><!---------------------------- normal CTs --------------->
 		<cfquery name="getCols" datasource="uam_god">
-			select column_name from sys.user_tab_columns where table_name='#tbl#'
+			SELECT column_name 
+			FROM sys.user_tab_columns 
+			WHERE table_name = <cfqueryparam value="#ucase(tbl)#" cfsqltype="CF_SQL_VARCHAR">
 		</cfquery>
 		<cfset collcde=listfindnocase(valuelist(getCols.column_name),"collection_cde")>
 		<cfset hasDescn=listfindnocase(valuelist(getCols.column_name),"description")>
