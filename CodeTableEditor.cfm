@@ -637,7 +637,7 @@
 							<input type="text" name="ordinal" value="#ordinal#" pattern="\d*" title="Integer value only">
 						</td>
 						<td>
-							<cfset thisNomenclaturalCode = #q,nomenclatural_code#>
+							<cfset thisNomenclaturalCode = #q.nomenclatural_code#>
 							<select name="nomenclatural_code" >
 								<cfloop query="getNomenclaturalCodes">
 									<cfif thisNomenclaturalCode is "#getNomenclaturalCodes.nomenclatural_code#" ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
