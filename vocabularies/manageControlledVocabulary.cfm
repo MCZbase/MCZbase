@@ -581,6 +581,100 @@
 				<cfset i = #i#+1>
 			</cfloop>
 		</table>
+	<cfelseif tbl is "ctauthorship_role"><!-------------------------------------------------------->
+		<!--- Authorship Role code table includes fields for nomenclatural code and sort order, thus needs custom form  --->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			select authorship_role, ordinal, nomenclatural_code 
+			from ctauthorship_role 
+			order by ordinal, authorship_role
+		</cfquery>
+		<cfquery name="getNomenclaturalCodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			select nomenclatural_code from ctnomenclatural_code order by nomenclatural_code
+		</cfquery>
+		<h2>Authorship roles for agents involved in creating scientific names</h2>
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="#tbl#">
+			<table class="newRec">
+				<tr>
+					<th>Authorship Role</th>
+					<th>Sort Order</th>
+					<th>Nomenclatural Code</th>
+					<th>Description</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" name="newData" >
+					</td>
+					<td>
+						<input type="text" name="ordinal" pattern="\d*" title="Integer value only">
+					</td>
+					<td>
+						<select name="nomenclatural_code" >
+							<cfloop query="getNomenclaturalCodes">
+								<option value="#nomenclatural_code#">#nomenclatural_code#</option>
+							</cfloop>
+						</select>
+					</td>
+					<td>
+						<input type="text" name="description" title="description">
+					</td>
+					<td>
+						<input type="submit" value="Insert" class="insBtn">
+					</td>
+				</tr>
+			</table>
+		</form>
+		<table>
+			<tr>
+				<th>Authorship Role</th>
+				<th>Sort Order</th>
+				<th>Nomenclatural Code</th>
+				<th>Description</th>
+				<th></th>
+			</tr>
+			<cfset i = 1>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="#tbl#">
+						<!---  Need to pass current value as it is the PK for the code table --->
+						<input type="hidden" name="origData" value="#nomenclatural_code#">
+						<td>
+							<input type="text" name="nomenclatural_code" value="#nomenclatural_code#">
+						</td>
+						<td>
+							<input type="text" name="ordinal" value="#ordinal#" pattern="\d*" title="Integer value only">
+						</td>
+						<td>
+							<cfset thisNomenclaturalCode = #q,nomenclatural_code#>
+							<select name="nomenclatural_code" >
+								<cfloop query="getNomenclaturalCodes">
+									<cfif thisNomenclaturalCode is "#getNomenclaturalCodes.nomenclatural_code#" ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="#nomenclatural_code#" #selected#>#nomenclatural_code#</option>
+								</cfloop>
+							</select>
+						</td>
+						<td>
+							<input type="text" name="description" value="#description#>
+						</td>
+						<td>
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</td>
+					</form>
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
 	<cfelseif tbl is "ctcitation_type_status"><!---------------------------------------------------->
 		<!---  Type status code table includes fields for category and sort order, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1660,6 +1754,12 @@
 			where
 				BIOL_INDIV_RELATIONSHIP=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
 		</cfquery>
+	<cfelseif tbl is "ctauthorship_role">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			delete from ctauthorship_role
+			where
+				authorship_role=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
+		</cfquery>
 	<cfelseif tbl is "ctcitation_type_status">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			delete from ctcitation_type_status
@@ -1792,6 +1892,17 @@
 				REL_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rel_type#" />
 			where
 				BIOL_INDIV_RELATIONSHIP= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "ctauthorship_role">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			UPDATE ctauthorship_role 
+			SET 
+				authorship_role= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#authorship_role#" />,
+				ordinal = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ordinal#" />,
+				nomenclatural_code = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nomenclatural_code#" />,
+				description= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
+			WHERE
+				AUTHORSHIP_ROLE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcitation_type_status">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1973,6 +2084,20 @@
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_relation#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rel_type#" />
+			)
+		</cfquery>
+	<cfelseif tbl is "ctauthorship_role">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+			INSERT INTO ctauthorship_role (
+				authorship_role,
+				ordinal,
+				nomenclatural_code,
+				description
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ordinal#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nomenclatural_code#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctcitation_type_status">
