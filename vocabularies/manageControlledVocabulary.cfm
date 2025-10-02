@@ -665,7 +665,7 @@
 							</select>
 						</td>
 						<td>
-							<input type="text" name="description" value="#description#>
+							<input type="text" name="description" value="#description#">
 						</td>
 						<td>
 							<input type="button" 
