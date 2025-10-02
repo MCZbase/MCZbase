@@ -3,7 +3,7 @@
 <cfquery name="ctcollcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 	select distinct collection_cde from ctcollection_cde
 </cfquery>
-<cfset var tbl="">
+<cfset tbl="">
 <!--- obtain tbl variable from form post or get parameter with url scope taking precedence, and force to uppercase --->
 <cfif isdefined("url.tbl")>
 	<cfset tbl = ucase(url.tbl)>
