@@ -591,7 +591,7 @@
 	<cfelseif tbl is "CTAUTHORSHIP_ROLE"><!-------------------------------------------------------->
 		<!--- Authorship Role code table includes fields for nomenclatural code and sort order, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-			SELECT authorship_role, ordinal, nomenclatural_code 
+			SELECT authorship_role, ordinal, nomenclatural_code, description	
 			FROM ctauthorship_role 
 			ORDER BY ordinal, authorship_role
 		</cfquery>
