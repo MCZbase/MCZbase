@@ -30,6 +30,7 @@ limitations under the License.
 	<cfargument name="species" type="string" required="no">
 	<cfargument name="subspecies" type="string" required="no">
 	<cfargument name="author_text" type="string" required="no">
+	<cfargument name="zoological_changed_combination" type="string" required="no">
 	<cfargument name="year_of_publication" type="string" required="no">
 	<cfargument name="infraspecific_author" type="string" required="yes">
 	<cfargument name="infraspecific_rank" type="string" required="no">	
@@ -88,6 +89,7 @@ limitations under the License.
 				<cfif isdefined("subspecies") and len(subspecies) GT 0> ,subspecies = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#subspecies#"> <cfelse> ,subspecies = NULL </cfif>
 				<cfif isdefined("author_text") and len(author_text) GT 0> ,author_text = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#author_text#"> <cfelse> ,author_text = NULL </cfif>
 				<cfif isdefined("year_of_publication") and len(year_of_publication) GT 0> ,year_of_publication = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#year_of_publication#"> <cfelse> ,year_of_publication = NULL </cfif>
+				<cfif isdefined("zoological_changed_combination") and len(zoological_changed_combination) GT 0> ,zoological_changed_combination = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#zoological_changed_combination#"> <cfelse> ,zoological_changed_combination = NULL </cfif>
 				<cfif isdefined("infraspecific_rank") and len(infraspecific_rank) GT 0> ,infraspecific_rank = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#infraspecific_rank#"> <cfelse> ,infraspecific_rank = NULL </cfif>
 				<cfif isdefined("infraspecific_author") and len(infraspecific_author) GT 0> ,infraspecific_author = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#infraspecific_author#"> <cfelse> ,infraspecific_author = NULL </cfif>
 				<cfif isdefined("kingdom") and len(kingdom) GT 0> ,kingdom = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(kingdom)#"> <cfelse> ,kingdom = NULL </cfif>
@@ -1022,6 +1024,84 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 	</cfthread>
 	<cfthread action="join" name="lookupInWoRMSThread" />
 	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<cffunction name="getTaxonAuthorsHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="taxon_name_id" type="numeric" required="yes">
+	<cfargument name="target" type="string" required="yes">
+
+	<cfthread name="getTaxonAuthorsThread" target="#arguments.target#" taxon_name_id="#arguments.taxon_name_id#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getTaxonAuthors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getTaxonAuthors_result">
+					SELECT taxon_author.taxon_author_id,
+						taxon_author.taxon_name_id, taxon_author.agent_id, 
+						taxon_author.authorship_role, taxon_author.sort_position_in_role,
+						taxonomy.nomenclatural_code,
+						case taxonomy.nomenclatural_code
+							when 'ICNafp' then 
+								get_agentnameoftype(taxon_author.agent_id, 'standard abbreviation')
+							when 'ICZN' then 
+								get_agentnameoftype(taxon_author.agent_id, 'taxon author')
+								else get_agentnameoftype(taxon_author.agent_id, 'taxon author')
+						end as author_text
+					FROM taxon_author
+						join taxonomy on taxon_author.taxon_name_id = taxonomy.taxon_name_id
+					WHERE taxon_author.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+					ORDER BY author_text
+				</cfquery>
+				<cfloop query="getTaxonAuthors">
+					<cfset authorList = "">
+					<cfif getTaxonAuthors.recordcount gt 0>
+						<table>
+							<tr>
+								<th class="px-1">Author</th>
+								<th class="px-1">Role</th>
+								<th class="px-1">Position</th>
+								<th class="px-1">Actions</th>
+							</tr>
+							<cfset i=1>
+							<cfloop query="getTaxonAuthors">
+								<tr>
+									<td class="px-1">#encodeForHtml(author_text)#</td>
+									<td class="px-1">#encodeForHtml(authorship_role)#</td>
+									<td class="px-1">#sort_position_in_role#</td>
+									<td class="px-1">
+										<button value="Remove" class="btn btn-xs btn-warning my-0 float-right" id="authorDeleteButton_#i#">Remove</button>
+										<button value="Edit" class="btn btn-xs btn-secondary my-0 float-right" id="authorEditButton_#i#">Edit</button>
+									</td>
+									<script>
+										$(document).ready(function () {
+											$('##authorDeleteButton_#i#').click(function(evt){
+												evt.preventDefault();
+												confirmWarningDialog('Delete <b>#encodeForHtml(author_text)#</b> as <b>#encodeForHtml(authorship_role)#</b> for this taxon?','Confirm Delete?', function() { deleteTaxonAuthor(#taxon_author_id#,#taxon_name_id#,'#target#'); } );
+											});
+											$('##authorEditButton_#i#').click(function(evt){
+												evt.preventDefault();
+												editTaxonAuthor(#taxon_author_id#,#taxon_name_id#,'#target#');
+											});
+										});
+									</script>
+								</tr>
+								<cfset i=i+1>
+							</cfloop>
+						</table>
+					</cfif>
+				</cfloop>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+					<cfdump var="#cfcatch#">
+				</cfif>
+			</cfcatch>
+			</cftry>
+		</cfoutput> 
+	</cfthread>
+	<cfthread action="join" name="getTaxonAuthorsThread" />
+	<cfreturn getTaxonAuthorsThread.output>
 </cffunction>
 
 </cfcomponent>
