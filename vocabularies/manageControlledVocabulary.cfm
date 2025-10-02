@@ -648,9 +648,9 @@
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<!---  Need to pass current value as it is the PK for the code table --->
-						<input type="hidden" name="origData" value="#nomenclatural_code#">
+						<input type="hidden" name="origData" value="#authorship_role#">
 						<td>
-							<input type="text" name="nomenclatural_code" value="#nomenclatural_code#">
+							<input type="text" name="authorship_role" value="#authorship_role#">
 						</td>
 						<td>
 							<input type="text" name="ordinal" value="#ordinal#" pattern="\d*" title="Integer value only">
