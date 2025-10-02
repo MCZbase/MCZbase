@@ -874,7 +874,7 @@ limitations under the License.
 					<h2 class="h3 mt-0 mb-1 px-1">Authors (linked to agents)</h4>
 					<section class="col-12 col-md-12 px-0">
 						<cfset authorshipContent = getTaxonAuthorsHtml("#taxon_name_id#","taxonAuthorsDiv")>
-						<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
+						<div class="row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
 							<div id="taxonAuthorsDiv" class="mx-0 row mt-1">#authorshipContent#</div>
 						</div>
 						<script>

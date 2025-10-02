@@ -1053,7 +1053,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 				<cfloop query="getTaxonAuthors">
 					<cfset authorList = "">
 					<cfif getTaxonAuthors.recordcount gt 0>
-						<table>
+						<table class="w-100">
 							<tr>
 								<th class="px-1">Author</th>
 								<th class="px-1">Role</th>
