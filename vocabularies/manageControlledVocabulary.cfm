@@ -40,7 +40,7 @@
 									</cfquery>
 									<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
 									<li>
-										<a href="/vocabularies/CodeTableEditor.cfm?action=edit&tbl=#getCTName.table_name#">#name#</a> (#getRowCounts.ct#)
+										<a href="/CodeTableEditor.cfm?action=edit&tbl=#getCTName.table_name#">#name#</a> (#getRowCounts.ct#)
 									</li>
 								</cfloop>
 							</ul>
