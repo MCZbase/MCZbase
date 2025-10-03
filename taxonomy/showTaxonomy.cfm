@@ -475,6 +475,7 @@
 					FROM
 						taxon_author
 						join preferred_agent_name on taxon_author.agent_id = preferred_agent_name.agent_id
+						join ctauthorship_role on taxon_author.authorship_role = ctauthorship_role.authorship_role
 					WHERE
 						taxon_author.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
 					ORDER BY
