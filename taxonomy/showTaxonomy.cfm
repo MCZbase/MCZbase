@@ -485,7 +485,7 @@
 					<h2 class="h4">Authors:</h2>
 					<ul>
 						<cfloop query="getAuthors">
-							<li><a href="/agents/showAgent.cfm?agent_id=#getAuthors.agent_id#">#encodeForHTML(getAuthors.agent_name)#</a></li>
+							<li><a href="/agents/Agent.cfm?agent_id=#getAuthors.agent_id#">#encodeForHTML(getAuthors.agent_name)#</a></li>
 						</cfloop>
 					</ul>
 				</cfif>
