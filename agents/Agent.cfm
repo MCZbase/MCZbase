@@ -1009,18 +1009,12 @@ limitations under the License.
 															<cfif len(getAgentFamilyScope.family) GT 0>
 																<li class="list-group-item">#getAgentFamilyScope.phylclass#: #getAgentFamilyScope.family# (<a href="/Specimens.cfm?execute=true&action=fixedSearch&collector_agent_id=#agent_id#&family=#getAgentFamilyScope.family#" target="_blank">#getAgentFamilyScope.ct# record#plural#</a>) #yearbit#</li>
 															<cfelse>
-																<!--- TODO: Until redesigned specimen search is public, pick which search to link to --->
-																<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-																	<cfif len(getAgentFamilyScope.phylclass) GT 0>
-																		<cfset classSearch=getAgentFamilyScope.phylclass>
-																	<cfelse>
-																		<cfset classSearch="NULL">
-																	</cfif>
-																	<li class="list-group-item">#getAgentFamilyScope.phylclass#: [no family] (<a href="/Specimens.cfm?execute=true&action=fixedSearch&collector_agent_id=#agent_id#&family=NULL&phylclass=#classSearch#" target="_blank">#getAgentFamilyScope.ct# record#plural#</a>) #yearbit#</li>
+																<cfif len(getAgentFamilyScope.phylclass) GT 0>
+																	<cfset classSearch=getAgentFamilyScope.phylclass>
 																<cfelse>
-																	<!--- old search does not support nulls, just show values --->
-																	<li class="list-group-item">#getAgentFamilyScope.phylclass#: [no family] (#getAgentFamilyScope.ct# record#plural#) #yearbit#</li>
+																	<cfset classSearch="NULL">
 																</cfif>
+																<li class="list-group-item">#getAgentFamilyScope.phylclass#: [no family] (<a href="/Specimens.cfm?execute=true&action=fixedSearch&collector_agent_id=#agent_id#&family=NULL&phylclass=#classSearch#" target="_blank">#getAgentFamilyScope.ct# record#plural#</a>) #yearbit#</li>
 															</cfif>
 														</cfloop>
 													</ul>
@@ -1030,6 +1024,53 @@ limitations under the License.
 									</div><!--- end collectorCardBodyWrap --->
 								</div>
 							</section>
+
+							<!--- Author of Taxon Names --->
+							<section class="accordion" id="taxonAuthorSection2">
+								<div class="card mb-2 bg-light">
+									<cfquery name="getAgentTaxonAuthorScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getAgentTaxonAuthorScope_result">
+										select scientific_name, display_name, author_text
+										from agent
+											left join taxon_author on agent.agent_id = taxon_author.AGENT_ID
+											left join taxonomy on taxon_author.taxon_name_id = taxonomy.taxon_name_id
+										order by scientific_name
+									</cfquery>
+									<cfif getAgentTaxonAuthorScope.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+									<cfif getAgentTaxonAuthorScope.recordcount GT 20 OR getAgentTaxonAuthorScope.recordcount eq 0>
+										<!--- cardState = collapsed --->
+										<cfset bodyClass = "collapse">
+										<cfset ariaExpanded ="false">
+									<cfelse>
+										<!--- cardState = expanded --->
+										<cfset bodyClass = "collapse show">
+										<cfset ariaExpanded ="true">
+									</cfif>
+									<div class="card-header" id="taxonAuthorHeader2">
+										<h2 class="h4 my-0">
+											<button class="headerLnk text-left w-100 h-100" type="button" data-toggle="collapse" data-target="##taxonAuthorCardBodyWrap2" aria-expanded="#ariaExpanded#" aria-controls="taxonAuthorCardBodyWrap2">
+											Author (of #getAgentTaxonAuthorScope.recordcount# scientific name#plural#)
+											</button>
+										</h2>
+									</div>
+									<div id="taxonAuthorCardBodyWrap2" class="#bodyClass#" aria-labelledby="taxonAuthorHeader2" data-parent="##taxonAuthorSection2">
+										<!---	<cfif getAgentTaxonAuthorScope2.recordcount GT 0>--->
+										<div class="card-body py-1 mb-1">
+											<div class="w-100"> 
+												<cfif getAgentCollScope.recordcount EQ 0>
+													<ul class="list-group"><li class="list-group-item">Not the author of any scientific names in MCZbase</li></ul>
+												<cfelse>
+													<ul class="list-group">
+														<cfloop query="getAgentTaxonAuthorScope">
+															<li class="list-group-item"><a href="/name/#encodeForUrl(getAgentTaxonAuthorScope.scientific_name)#">#getAgentTaxonAuthorScope.dislplay_name#</a> #getAgentTaxonAuthorScope.author_text#</li>
+														</cfloop>
+													</ul>
+												</cfif>
+											</div>
+										</div>
+									</div><!--- end taxonAuthorCardBodyWrap --->
+								</div>
+							</section>
+
 							<!--- Preparator--->
 							<section class="accordion" id="preparatorSection"> 
 								<div class="card mb-2 bg-light">
