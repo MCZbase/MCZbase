@@ -1092,7 +1092,6 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 					<cfif getTaxonAuthors.recordcount eq 0>
 						<h4 class="h4">No Authors Entered</h4>
 					</cfif>
-					<button class="btn btn-sm btn-primary" onClick="addTaxonAuthor(#taxon_name_id#,'#target#');">Add Author</button>
 				</div>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>

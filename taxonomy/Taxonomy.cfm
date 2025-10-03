@@ -871,11 +871,12 @@ limitations under the License.
 
 			<div class="row mx-0">
 				<div class="col-12 mx-0 row mt-2 mb-2 border rounded px-2 pb-2">
-					<h2 class="h3 mt-0 mb-1 px-1">Authors (linked to agents)</h4>
+					<h2 class="h3 mt-0 mb-1 px-1">Authors (as agents)</h4>
 					<section class="col-12 col-md-12 px-0">
 						<cfset authorshipContent = getTaxonAuthorsHtml("#taxon_name_id#","taxonAuthorsDiv")>
 						<div class="row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
 							<div id="taxonAuthorsDiv" class="mx-0 col-12 mt-1">#authorshipContent#</div>
+							<button class="btn btn-sm btn-primary float-right" onClick="addTaxonAuthor(#taxon_name_id#,'#target#');">Add Author</button>
 						</div>
 						<script>
 							$(document).ready(function(){
