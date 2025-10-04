@@ -1123,7 +1123,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 					WHERE taxon_author_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_author_id#">
 				</cfquery>
 				<cfquery name="getTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT taxon_name_id, display_nane, scientific_name, author_text, nomenclatural_code
+					SELECT taxon_name_id, display_name, scientific_name, author_text, nomenclatural_code
 					FROM taxonomy
 					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTaxonAuthor.taxon_name_id#">
 				</cfquery>
@@ -1202,7 +1202,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 		<cfoutput>
 			<cftry>
 				<cfquery name="getTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT taxon_name_id, display_nane, scientific_name, author_text, nomenclatural_code
+					SELECT taxon_name_id, display_name, scientific_name, author_text, nomenclatural_code
 					FROM taxonomy
 					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxon_name_id#">
 				</cfquery>
