@@ -1044,7 +1044,8 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 							when 'ICZN' then 
 								get_agentnameoftype(taxon_author.agent_id, 'taxon author')
 								else get_agentnameoftype(taxon_author.agent_id, 'taxon author')
-						end as author_text
+						end as author_text,
+						taxonomy.scientific_name, taxonomy.display_name
 					FROM taxon_author
 						join taxonomy on taxon_author.taxon_name_id = taxonomy.taxon_name_id
 					WHERE taxon_author.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
@@ -1078,7 +1079,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 											});
 											$('##authorEditButton_#i#').click(function(evt){
 												evt.preventDefault();
-												editTaxonAuthor(#taxon_author_id#,#taxon_name_id#,'#target#');
+												openEditTaxonAuthorDialog(#taxon_author_id#,"editTaxonAuthorDiv","#scientificName#",reloadTaxonAuthors);
 											});
 										});
 									</script>
@@ -1107,6 +1108,166 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 	</cfthread>
 	<cfthread action="join" name="getTaxonAuthorsThread" />
 	<cfreturn getTaxonAuthorsThread.output>
+</cffunction>
+
+
+<cffunction name="getEditTaxonAuthorHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="taxon_author_id" type="string" required="yes">
+
+	<cfthread name="getEditTaxonAuthorThread" taxon_author_id="#arguments.taxon_author_id#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getTaxonAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT taxon_author_id, taxon_name_id, agent_id, authorship_role, sort_position_in_role
+					FROM taxon_author
+					WHERE taxon_author_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxon_author_id#">
+				</cfquery>
+				<cfquery name="getTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT taxon_name_id, display_nane, scientific_name, author_text, nomenclatural_code
+					FROM taxonomy
+					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTaxonAuthor.taxon_name_id#">
+				</cfquery>
+				<cfquery name="ctAuthorshipRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT distinct authorship_role
+					FROM ctauthorship_role
+					<cfif nomenclatural_code eq "ICZN" or nomenclatural_code eq "ICNafp">
+						WHERE nomenclatural_code = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTaxon.nomenclatural_code#">
+					</cfif>
+					ORDER BY authorship_role
+				</cfquery>
+				<div id="taxonAuthorEditorDiv">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12 row mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
+								<h2 class="h3 mt-0 mb-1 px-1">Add Taxon Author to #getTaxon.display_name# #getTaxon.author_text#</h2>
+								<form id="addTaxonAuthorForm" class="row align-items-end" method="post" action="/taxonomy/component/functions.cfc">
+									<input type="hidden" name="method" value="updateTaxonAuthor">
+									<input type="hidden" name="taxon_name_id" value="#getTaxon.taxon_name_id#">
+									<div class="col-12 col-md-4 mb-2">
+										<label for="agent_name_input" class="data-entry-label">Agent Name</label>
+										<input type="text" name="agent_name" id="agent_name_input" class="data-entry-input" autocomplete="off" required>
+										<input type="hidden" name="agent_id" id="agent_id_input">
+										<script>
+											$(document).ready(function() {
+												makeAgentAutocompleteMeta('agent_name_input', 'agent_id_input');
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-4 mb-2">
+										<label for="authorship_role" class="data-entry-label">Authorship Role (#getTaxon.nomenclatural_code#)</label>
+										<select name="authorship_role" id="authorship_role" class="data-entry-select" required>
+											<option value="">Select role</option>
+											<cfloop query="ctAuthorshipRole">
+												<option value="#ctAuthorshipRole.authorship_role#">#ctAuthorshipRole.authorship_role#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-2 mb-2">
+										<label for="sort_position_in_role" class="data-entry-label">Sort Position</label>
+										<input type="number" name="sort_position_in_role" id="sort_position_in_role" class="data-entry-input" min="1" value="1" required>
+									</div>
+									<div class="col-12 col-md-2 mb-2">
+										<button type="submit" class="btn btn-primary btn-xs">Save</button>
+										<output id="editTaxonAuthorStatus" class="ml-2"></output>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+					<cfdump var="#cfcatch#">
+				</cfif>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getEditTaxonAuthorThread" />
+	<cfreturn getEditTaxonAuthorThread.output>
+</cffunction>
+
+<!--- form to add a taxon author to a taxon 
+@param taxon_name_id the PK of the taxon name for which to add an author.
+@return a block of HTML containing a form to add a taxon author or an error message.
+--->
+<cffunction name="getAddTaxonAuthorHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="taxon_name_id" type="string" required="yes">
+
+	<cfthread name="getAddTaxonAuthorThread" taxon_author_id="#arguments.taxon_name_id#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT taxon_name_id, display_nane, scientific_name, author_text, nomenclatural_code
+					FROM taxonomy
+					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxon_name_id#">
+				</cfquery>
+				<cfquery name="ctAuthorshipRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT distinct authorship_role
+					FROM ctauthorship_role
+					<cfif nomenclatural_code eq "ICZN" or nomenclatural_code eq "ICNafp">
+						WHERE nomenclatural_code = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTaxon.nomenclatural_code#">
+					</cfif>
+					ORDER BY authorship_role
+				</cfquery>
+				<div id="taxonAuthorAddDiv">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12 row mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
+								<h2 class="h3 mt-0 mb-1 px-1">Add Taxon Author to #getTaxon.display_name# #getTaxon.author_text#</h2>
+								<form id="addTaxonAuthorForm" class="row align-items-end" method="post" action="/taxonomy/component/functions.cfc">
+									<input type="hidden" name="method" value="addTaxonAuthor">
+									<input type="hidden" name="taxon_name_id" value="#getTaxon.taxon_name_id#">
+									<div class="col-12 col-md-4 mb-2">
+										<label for="agent_name_input" class="data-entry-label">Agent Name</label>
+										<input type="text" name="agent_name" id="agent_name_input" class="data-entry-input" autocomplete="off" required>
+										<input type="hidden" name="agent_id" id="agent_id_input">
+										<script>
+											$(document).ready(function() {
+												makeAgentAutocompleteMeta('agent_name_input', 'agent_id_input');
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-4 mb-2">
+										<label for="authorship_role" class="data-entry-label">Authorship Role (#getTaxon.nomenclatural_code#)</label>
+										<select name="authorship_role" id="authorship_role" class="data-entry-select" required>
+											<option value="">Select role</option>
+											<cfloop query="ctAuthorshipRole">
+												<option value="#ctAuthorshipRole.authorship_role#">#ctAuthorshipRole.authorship_role#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-2 mb-2">
+										<label for="sort_position_in_role" class="data-entry-label">Sort Position</label>
+										<input type="number" name="sort_position_in_role" id="sort_position_in_role" class="data-entry-input" min="1" value="1" required>
+									</div>
+									<div class="col-12 col-md-2 mb-2">
+										<button type="submit" class="btn btn-primary btn-xs">Add Author</button>
+										<output id="addTaxonAuthorStatus" class="ml-2"></output>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+					<cfdump var="#cfcatch#">
+				</cfif>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getAddTaxonAuthorThread" />
+	<cfreturn getAddTaxonAuthorThread.output>
 </cffunction>
 
 </cfcomponent>

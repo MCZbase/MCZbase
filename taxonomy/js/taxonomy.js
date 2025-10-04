@@ -424,3 +424,80 @@ function lookupName(taxon_name_id,target) {
 	});
 };
 
+/** openEditTaxonAuthorDialog open a dialog for editing an author of a taxon name.
+ *
+ * @param taxon_author_id the primary key for the taxonomy author record to edit.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param name the scientific name to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openEditTaxonAuthorDialog(taxon_author_id,dialogId,name,callback) {
+	var title = "Edit Author for " + name;
+	createGenericEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/taxonomy/component/functions.cfc",
+		data : {
+			method : "getEditTaxonAuthorHTML",
+			taxon_author_id: taxon_author_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit taxon author dialog");
+		},
+		dataType: "html"
+	});
+}
+
+/** openAddTaxonAuthorDialog open a dialog for adding an author to a taxon name.
+ *
+ * @param taxon_name_id the primary key for the taxonomy record record to which
+ *   to add an author.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param name the scientific name to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openAddTaxonAuthorDialog(taxon_author_id,dialogId,name,callback) {
+	var title = "Add Author to " + name;
+	createGenericEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/taxonomy/component/functions.cfc",
+		data : {
+			method : "getAddTaxonAuthorHTML",
+			taxon_author_id: taxon_author_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit taxon author dialog");
+		},
+		dataType: "html"
+	});
+}
+
+/** loadTaxonAuthors given a taxon name id and a target in the dom, replace the 
+ * content of the target in the dom with the html of the taxon authorship list.
+ * @param taxon_name_id the taxonomy entry to look up
+ * @param dialogId the target div to replace the content of with the return value 
+ */
+function loadTaxonAuthors(taxon_name_id,dialogId) { 
+	jQuery.ajax({
+		url: "/taxonomy/component/functions.cfc",
+		data : {
+			method : "getTaxonAuthorsHtml",
+			taxon_name_id: taxon_name_id,
+			target: dialogId
+		},
+		success: function (result) {
+			$("#" + dialogId).html(result);
+		},
+		error: function (jqXHR, textStatus, message) {
+			handleFail(jqXHR,textStatus,message,"loading authors for taxon");
+		},
+		dataType: "html"
+	});
+}

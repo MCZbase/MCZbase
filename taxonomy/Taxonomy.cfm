@@ -870,10 +870,18 @@ limitations under the License.
 			</section>
 
 			<div class="row mx-0">
+				<div id="editTaxonAuthorDiv"></div>
+				<div id="addTaxonAuthorDiv"></div>
 				<div class="col-12 mx-0 row mt-2 mb-2 border rounded px-2 pb-2">
 					<h2 class="h3 mt-0 mb-1 px-1 w-100">
 						Authors (as agents)
-						<button class="btn btn-xs btn-primary float-right" onClick="addTaxonAuthor(#taxon_name_id#,'taxonAuthorsDiv');">Add Author</button>
+						<button id="addTaxonAuthorButton" class="btn btn-xs btn-primary float-right">Add Author</button>
+						<script>
+							$(document).ready(function(){
+								$('##addTaxonAuthorButton').click(function(){ 
+									openAddTaxonAuthorDialog(#taxon_name_id#,"addTaxonAuthorDiv","#scientificName#",reloadTaxonAuthors);
+								});
+							});
 					</h2>
 					<section class="col-12 col-md-12 px-0">
 						<cfset authorshipContent = getTaxonAuthorsHtml("#taxon_name_id#","taxonAuthorsDiv")>
@@ -881,9 +889,9 @@ limitations under the License.
 							<div id="taxonAuthorsDiv" class="mx-0 col-12 mt-1">#authorshipContent#</div>
 						</div>
 						<script>
-							$(document).ready(function(){
+							function reloadTaxonAuthors() {
 								loadTaxonAuthors(#taxon_name_id#,'taxonAuthorsDiv');
-							});
+							};
 						</script>
 					</section>
 				</div>
