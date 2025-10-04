@@ -1079,7 +1079,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 											});
 											$('##authorEditButton_#i#').click(function(evt){
 												evt.preventDefault();
-												openEditTaxonAuthorDialog(#taxon_author_id#,"editTaxonAuthorDiv","#scientificName#",reloadTaxonAuthors);
+												openEditTaxonAuthorDialog(#taxon_author_id#,"editTaxonAuthorDiv","#getTaxonAuthors.scientific_name#",reloadTaxonAuthors);
 											});
 										});
 									</script>
