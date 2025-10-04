@@ -1281,4 +1281,139 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 	<cfreturn getAddTaxonAuthorThread.output>
 </cffunction>
 
+<!--- function deleteTaxonAuthor 
+ * Deletes an author from a taxonomy record.
+ * @param taxon_author_id - the id of the taxon_author relationship to delete
+ * @return JSON object with status and id of the deleted relationship
+--->
+<cffunction name="deleteTaxonAuthor" returntype="any" access="remote" returnformat="json">
+	<cfargument name="taxon_author_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="deleteTaxonAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="deleteTaxonAuthor_result">
+				DELETE FROM taxon_author
+				WHERE taxon_author_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxon_author_id#">
+			</cfquery>
+			<cfif deleteTaxonAuthor_result.recordcount NEQ 1>
+				<cfthrow message="Error: Other than one record deleted">
+			</cfif>
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "deleted">
+			<cfset row["id"] = "#arguments.taxon_author_id#">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
+<!--- function addTaxonAuthor 
+ * Adds an author to a taxonomy record with a taxon_author relationship.
+ * @param taxon_name_id - the id of the taxon to which to add an author
+ * @param agent_id - the id of the agent to add as an author
+ * @param authorship_role - the role of the agent in the authorship
+ * @param sort_position_in_role - the position of the agent in the authorship role
+ * @return JSON object with status and id of the inserted relationship
+--->
+<cffunction name="addTaxonAuthor" returntype="any" access="remote" returnformat="json">
+	<cfargument name="taxon_name_id" type="string" required="yes">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="authorship_role" type="string" required="yes">
+	<cfargument name="sort_position_in_role" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="insertTaxonAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="insertTaxonAuthor_result">
+				INSERT INTO taxon_author
+				(taxon_name_id, agent_id, authorship_role, sort_position_in_role)
+				VALUES
+				(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxon_name_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.agent_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.authorship_role#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_position_in_role#">)
+			</cfquery>
+			<cfif insertTaxonAuthor_result.recordcount NEQ 1>
+				<cfthrow message="Error: Other than one record insertd">
+			</cfif>
+			<!--- get the generatedkey and lookup the id of the new record --->
+			<cfquery name="getPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				SELECT taxon_author_id
+				FROM taxon_author
+				WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insertTaxonAuthor_result.GENERATEDKEY#">
+			</cfquery>
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#getPK.taxon_author_id#">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
+<!--- function updateTaxonAuthor 
+ * Updates an taxon_author agent and taxonomy relationship.
+ * @param taxon_author_id - the id of the taxon_author relationship to update
+ * @param taxon_name_id - the id of the taxon for which to update the author relationship
+ * @param agent_id - the id of the agent in the relationship
+ * @param authorship_role - the role of the agent in the authorship
+ * @param sort_position_in_role - the position of the agent in the authorship role
+ * @return JSON object with status and id of the updated relationship
+--->
+<cffunction name="updateTaxonAuthor" returntype="any" access="remote" returnformat="json">
+	<cfargument name="taxon_author_id" type="string" required="yes">
+	<cfargument name="taxon_name_id" type="string" required="yes">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="authorship_role" type="string" required="yes">
+	<cfargument name="sort_position_in_role" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="updateTaxonAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="updateTaxonAuthor_result">
+				UPDATE taxon_author
+				SET 
+					taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxon_name_id#">,
+					agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.agent_id#">,
+					authorship_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.authorship_role#">,
+					sort_position_in_role = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.sort_position_in_role#">
+				WHERE taxon_author_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxon_author_id#">
+			</cfquery>
+			<cfif updateTaxonAuthor_result.recordcount NEQ 1>
+				<cfthrow message="Error: Other than one record updated">
+			</cfif>
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#arguments.taxon_author_id#">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn serializeJSON(data)>
+</cffunction>
+
 </cfcomponent>
