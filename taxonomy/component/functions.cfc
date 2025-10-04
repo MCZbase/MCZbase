@@ -1034,9 +1034,13 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 		<cfoutput>
 			<cftry>
 				<cfquery name="getTaxonAuthors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getTaxonAuthors_result">
-					SELECT taxon_author.taxon_author_id,
-						taxon_author.taxon_name_id, taxon_author.agent_id, 
-						taxon_author.authorship_role, taxon_author.sort_position_in_role,
+					SELECT
+						taxon_author.taxon_author_id,
+						taxon_author.taxon_name_id, 
+						taxon_author.agent_id, 
+						taxon_author.authorship_role, 
+						ctauthorship_role.ordinal,
+						taxon_author.sort_position_in_role,
 						taxonomy.nomenclatural_code,
 						case taxonomy.nomenclatural_code
 							when 'ICNafp' then 
@@ -1045,76 +1049,78 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 								get_agentnameoftype(taxon_author.agent_id, 'taxon author')
 								else get_agentnameoftype(taxon_author.agent_id, 'taxon author')
 						end as author_text,
-						taxonomy.scientific_name, taxonomy.display_name
+						taxonomy.scientific_name, 
+						taxonomy.display_name
 					FROM taxon_author
 						join taxonomy on taxon_author.taxon_name_id = taxonomy.taxon_name_id
-					WHERE taxon_author.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-					ORDER BY author_text
+						join ctauthorship_role on taxon_author.authorship_role = ctauthorship_role.authorship_role
+					WHERE 
+						taxon_author.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+					ORDER BY ctauthorship_role.ordinal, 
+						taxon_author.sort_position_in_role,
+						author_text
 				</cfquery>
-				<cfloop query="getTaxonAuthors">
-					<cfset authorList = "">
-					<cfif getTaxonAuthors.recordcount gt 0>
-						<table class="w-100">
+				<cfset authorList = "">
+				<cfif getTaxonAuthors.recordcount gt 0>
+					<table class="w-100">
+						<tr>
+							<th class="px-1">Author</th>
+							<th class="px-1">Role</th>
+							<th class="px-1">Position</th>
+							<th class="px-1">Actions</th>
+						</tr>
+						<cfset i=1>
+						<cfloop query="getTaxonAuthors">
 							<tr>
-								<th class="px-1">Author</th>
-								<th class="px-1">Role</th>
-								<th class="px-1">Position</th>
-								<th class="px-1">Actions</th>
-							</tr>
-							<cfset i=1>
-							<cfloop query="getTaxonAuthors">
-								<tr>
-									<td class="px-1">#encodeForHtml(author_text)#</td>
-									<td class="px-1">#encodeForHtml(authorship_role)#</td>
-									<td class="px-1">#sort_position_in_role#</td>
-									<td class="px-1">
-										<output id="taxonAuthor_output_#i#"></output>
-										<button value="Remove" class="btn btn-xs btn-warning my-0 float-right" id="authorDeleteButton_#i#">Remove</button>
-										<button value="Edit" class="btn btn-xs btn-secondary my-0 float-right" id="authorEditButton_#i#">Edit</button>
-									</td>
-									<script>
-										$(document).ready(function () {
-											$('##authorDeleteButton_#i#').click(function(evt){
-												evt.preventDefault();
-												confirmWarningDialog('Delete <b>#encodeForHtml(author_text)#</b> as <b>#encodeForHtml(authorship_role)#</b> for this taxon?','Confirm Delete?', function() { deleteTaxonAuthor(#taxon_author_id#,#taxon_name_id#,'#target#'); } );
-											});
-											$('##authorEditButton_#i#').click(function(evt){
-												evt.preventDefault();
-												openEditTaxonAuthorDialog(#taxon_author_id#,"editTaxonAuthorDiv","#getTaxonAuthors.scientific_name#",reloadTaxonAuthors);
-											});
+								<td class="px-1">#encodeForHtml(author_text)#</td>
+								<td class="px-1">#encodeForHtml(authorship_role)#</td>
+								<td class="px-1">#sort_position_in_role#</td>
+								<td class="px-1">
+									<output id="taxonAuthor_output_#i#"></output>
+									<button value="Remove" class="btn btn-xs btn-warning my-0 float-right" id="authorDeleteButton_#i#">Remove</button>
+									<button value="Edit" class="btn btn-xs btn-secondary my-0 float-right" id="authorEditButton_#i#">Edit</button>
+								</td>
+								<script>
+									$(document).ready(function () {
+										$('##authorDeleteButton_#i#').click(function(evt){
+											evt.preventDefault();
+											confirmWarningDialog('Delete <b>#encodeForHtml(author_text)#</b> as <b>#encodeForHtml(authorship_role)#</b> for this taxon?','Confirm Delete?', function() { deleteTaxonAuthor(#taxon_author_id#,#taxon_name_id#,'#target#'); } );
 										});
-									</script>
-								</tr>
-								<cfset i=i+1>
-							</cfloop>
-						</table>
-						<script>
-							function deleteTaxonAuthor(taxon_author_id,taxon_name_id,target){
-								$.ajax({
-									url: '/taxonomy/component/functions.cfc',
-									type: 'POST',
-									responseType: 'json',
-									data: {
-										method: 'deleteTaxonAuthor',
-										taxon_author_id: taxon_author_id
-									},
-									success: function(response) {
-										console.log(response);
-										reloadTaxonAuthors();
-									},
-									error: function(xhr, status, error) {
-										handleFail(xhr,status,error,"deleting taxon author.");
-									}
-								});
-							}
-						</script>
-					</cfif>
-				</cfloop>
-				<div class="col-12 text-right my-2">
-					<cfif getTaxonAuthors.recordcount eq 0>
+										$('##authorEditButton_#i#').click(function(evt){
+											evt.preventDefault();
+											openEditTaxonAuthorDialog(#taxon_author_id#,"editTaxonAuthorDiv","#getTaxonAuthors.scientific_name#",reloadTaxonAuthors);
+										});
+									});
+								</script>
+							</tr>
+							<cfset i=i+1>
+						</cfloop>
+					</table>
+					<script>
+						function deleteTaxonAuthor(taxon_author_id,taxon_name_id,target){
+							$.ajax({
+								url: '/taxonomy/component/functions.cfc',
+								type: 'POST',
+								responseType: 'json',
+								data: {
+									method: 'deleteTaxonAuthor',
+									taxon_author_id: taxon_author_id
+								},
+								success: function(response) {
+									console.log(response);
+									reloadTaxonAuthors();
+								},
+								error: function(xhr, status, error) {
+									handleFail(xhr,status,error,"deleting taxon author.");
+								}
+							});
+						}
+					</script>
+				<cfelse>
+					<div class="col-12 text-right my-2">
 						<h4 class="h4">No Authors Entered</h4>
-					</cfif>
-				</div>
+					</div>
+				</cfif>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
