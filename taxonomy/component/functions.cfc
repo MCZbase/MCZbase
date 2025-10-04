@@ -1153,7 +1153,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 									<div class="col-12 col-md-4 mb-2">
 										<label for="agent_name_input" class="data-entry-label">Agent Name</label>
 										<input type="text" name="agent_name" id="agent_name_input" class="data-entry-input reqdClr" autocomplete="off" required value="#getTaxonAuthor.author_text#">
-										<input type="hidden" name="agent_id" id="agent_id_input" value="#getTaxonaAuthor.agent_id#">
+										<input type="hidden" name="agent_id" id="agent_id_input" value="#getTaxonAuthor.agent_id#">
 										<script>
 											$(document).ready(function() {
 												makeAgentAutocompleteMeta('agent_name_input', 'agent_id_input');
