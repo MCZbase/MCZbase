@@ -1118,7 +1118,8 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 		<cfoutput>
 			<cftry>
 				<cfquery name="getTaxonAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT taxon_author_id, taxon_name_id, agent_id, authorship_role, sort_position_in_role
+					SELECT taxon_author_id, taxon_name_id, agent_id, authorship_role, sort_position_in_role,
+						get_agentnameoftype(agent_id, 'taxon author') as author_text
 					FROM taxon_author
 					WHERE taxon_author_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_author_id#">
 				</cfquery>
@@ -1145,14 +1146,14 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12 row mx-1 mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
-								<h2 class="h3 mt-0 mb-1 px-1">Add Taxon Author to #getTaxon.display_name# #getTaxon.author_text#</h2>
+								<h2 class="h3 mt-0 mb-1 px-1">Edit Taxon Author to #getTaxon.display_name# #getTaxon.author_text#</h2>
 								<form id="addTaxonAuthorForm" class="row align-items-end" method="post" action="/taxonomy/component/functions.cfc">
 									<input type="hidden" name="method" value="updateTaxonAuthor">
 									<input type="hidden" name="taxon_name_id" value="#getTaxon.taxon_name_id#">
 									<div class="col-12 col-md-4 mb-2">
 										<label for="agent_name_input" class="data-entry-label">Agent Name</label>
-										<input type="text" name="agent_name" id="agent_name_input" class="data-entry-input" autocomplete="off" required>
-										<input type="hidden" name="agent_id" id="agent_id_input">
+										<input type="text" name="agent_name" id="agent_name_input" class="data-entry-input reqdClr" autocomplete="off" required value="#getTaxonAuthor.author_text#">
+										<input type="hidden" name="agent_id" id="agent_id_input" value="#getTaxonaAuthor.agent_id#">
 										<script>
 											$(document).ready(function() {
 												makeAgentAutocompleteMeta('agent_name_input', 'agent_id_input');
@@ -1161,16 +1162,20 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 									</div>
 									<div class="col-12 col-md-4 mb-2">
 										<label for="authorship_role" class="data-entry-label">Authorship Role (#getTaxon.nomenclatural_code#)</label>
-										<select name="authorship_role" id="authorship_role" class="data-entry-select" required>
-											<option value="">Select role</option>
+										<select name="authorship_role" id="authorship_role" class="data-entry-select reqdClr" required>
 											<cfloop query="ctAuthorshipRole">
-												<option value="#ctAuthorshipRole.authorship_role#">#ctAuthorshipRole.authorship_role#</option>
+												<cfif getTaxonAuthor.authorship_role eq ctAuthorshipRole.authorship_role>
+													<cfset selected="selected">
+												<cfelse>
+													<cfset selected="">
+												</cfif>
+												<option value="#ctAuthorshipRole.authorship_role#" #selected#>#ctAuthorshipRole.authorship_role#</option>
 											</cfloop>
 										</select>
 									</div>
 									<div class="col-12 col-md-2 mb-2">
 										<label for="sort_position_in_role" class="data-entry-label">Sort Position</label>
-										<input type="number" name="sort_position_in_role" id="sort_position_in_role" class="data-entry-input" min="1" value="1" required>
+										<input type="number" name="sort_position_in_role" id="sort_position_in_role" class="data-entry-input reqdClr" min="1" value="#getTaxonAuthor.sort_position_in_role#" required>
 									</div>
 									<div class="col-12 col-md-2 mb-2">
 										<button type="submit" class="btn btn-primary btn-xs">Save</button>
@@ -1230,7 +1235,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 									<input type="hidden" name="taxon_name_id" value="#getTaxon.taxon_name_id#">
 									<div class="col-12 col-md-4 mb-2">
 										<label for="agent_name_input" class="data-entry-label">Agent Name</label>
-										<input type="text" name="agent_name" id="agent_name_input" class="data-entry-input" autocomplete="off" required>
+										<input type="text" name="agent_name" id="agent_name_input" class="data-entry-input reqdClr" autocomplete="off" required>
 										<input type="hidden" name="agent_id" id="agent_id_input">
 										<script>
 											$(document).ready(function() {
@@ -1240,7 +1245,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 									</div>
 									<div class="col-12 col-md-4 mb-2">
 										<label for="authorship_role" class="data-entry-label">Authorship Role (#getTaxon.nomenclatural_code#)</label>
-										<select name="authorship_role" id="authorship_role" class="data-entry-select" required>
+										<select name="authorship_role" id="authorship_role" class="data-entry-select reqdClr" required>
 											<option value="">Select role</option>
 											<cfloop query="ctAuthorshipRole">
 												<option value="#ctAuthorshipRole.authorship_role#">#ctAuthorshipRole.authorship_role#</option>
@@ -1249,7 +1254,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 									</div>
 									<div class="col-12 col-md-2 mb-2">
 										<label for="sort_position_in_role" class="data-entry-label">Sort Position</label>
-										<input type="number" name="sort_position_in_role" id="sort_position_in_role" class="data-entry-input" min="1" value="1" required>
+										<input type="number" name="sort_position_in_role" id="sort_position_in_role" class="data-entry-input reqdClr" min="1" value="1" required>
 									</div>
 									<div class="col-12 col-md-2 mb-2">
 										<button type="submit" class="btn btn-primary btn-xs">Add Author</button>
