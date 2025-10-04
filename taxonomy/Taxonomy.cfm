@@ -882,6 +882,7 @@ limitations under the License.
 									openAddTaxonAuthorDialog(#taxon_name_id#,"addTaxonAuthorDiv","#getTaxa.scientific_name#",reloadTaxonAuthors);
 								});
 							});
+						</script>
 					</h2>
 					<section class="col-12 col-md-12 px-0">
 						<cfset authorshipContent = getTaxonAuthorsHtml("#taxon_name_id#","taxonAuthorsDiv")>
