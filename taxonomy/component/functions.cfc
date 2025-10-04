@@ -1072,7 +1072,9 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 						<cfset i=1>
 						<cfloop query="getTaxonAuthors">
 							<tr>
-								<td class="px-1">#encodeForHtml(author_text)#</td>
+								<td class="px-1">
+									<a href="/agents/editAgent.cfm?agent_id=#agent_id#" target="_blank">#encodeForHtml(author_text)#</a>
+								</td>
 								<td class="px-1">#encodeForHtml(authorship_role)#</td>
 								<td class="px-1">#sort_position_in_role#</td>
 								<td class="px-1">
@@ -1302,7 +1304,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 									<div class="col-12 col-md-4 mb-2">
 										<label for="authorship_role" class="data-entry-label">Authorship Role (#getTaxon.nomenclatural_code#)</label>
 										<select name="authorship_role" id="authorship_role" class="data-entry-select reqdClr" required>
-											<option value="">Select role</option>
+											<option value=""></option>
 											<cfloop query="ctAuthorshipRole">
 												<option value="#ctAuthorshipRole.authorship_role#">#ctAuthorshipRole.authorship_role#</option>
 											</cfloop>
