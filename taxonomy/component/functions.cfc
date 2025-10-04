@@ -1122,15 +1122,21 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 					FROM taxon_author
 					WHERE taxon_author_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_author_id#">
 				</cfquery>
+				<cfif getTaxonAuthor.recordcount eq 0>
+					<cfthrow message="No taxon author found with taxon_author_id #encodeForHtml(taxon_author_id)#">
+				</cfif>
 				<cfquery name="getTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT taxon_name_id, display_name, scientific_name, author_text, nomenclatural_code
 					FROM taxonomy
 					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTaxonAuthor.taxon_name_id#">
 				</cfquery>
+				<cfif getTaxon.recordcount eq 0>
+					<cfthrow message="No taxon found with taxon_name_id #encodeForHtml(getTaxonAuthor.taxon_name_id)#">
+				</cfif>
 				<cfquery name="ctAuthorshipRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT distinct authorship_role
 					FROM ctauthorship_role
-					<cfif nomenclatural_code eq "ICZN" or nomenclatural_code eq "ICNafp">
+					<cfif getTaxon.nomenclatural_code neq "noncompliant">
 						WHERE nomenclatural_code = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTaxon.nomenclatural_code#">
 					</cfif>
 					ORDER BY authorship_role
