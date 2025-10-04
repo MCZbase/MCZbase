@@ -1215,7 +1215,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 				<cfquery name="ctAuthorshipRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT distinct authorship_role
 					FROM ctauthorship_role
-					<cfif nomenclatural_code eq "ICZN" or nomenclatural_code eq "ICNafp">
+					<cfif getTaxon.nomenclatural_code neq "noncompliant">
 						WHERE nomenclatural_code = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTaxon.nomenclatural_code#">
 					</cfif>
 					ORDER BY authorship_role
