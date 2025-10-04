@@ -1434,14 +1434,12 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 			</cfif>
 			<cfset newid = "">
 			<!--- get the generatedkey and lookup the id of the new record --->
-			<!--- TODO: Temporaraly disabling while experimenting with the jdbc driver 
 			<cfquery name="getPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				SELECT taxon_author_id
 				FROM taxon_author
 				WHERE ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insertTaxonAuthor_result.GENERATEDKEY#">
 			</cfquery>
 			<cfset newid = getPK.taxon_author_id>
-			--->
 			<cftransaction action="commit">
 			<cfset row = StructNew()>
 			<cfset row["status"] = "saved">
