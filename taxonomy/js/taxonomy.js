@@ -460,14 +460,14 @@ function openEditTaxonAuthorDialog(taxon_author_id,dialogId,name,callback) {
  * @param name the scientific name to display in the dialog title
  * @param callback a callback function to invoke on closing the dialog.
  */
-function openAddTaxonAuthorDialog(taxon_author_id,dialogId,name,callback) {
+function openAddTaxonAuthorDialog(taxon_name_id,dialogId,name,callback) {
 	var title = "Add Author to " + name;
 	createGenericEditDialog(dialogId,title,callback);
 	jQuery.ajax({
 		url: "/taxonomy/component/functions.cfc",
 		data : {
 			method : "getAddTaxonAuthorHTML",
-			taxon_author_id: taxon_author_id,
+			taxon_name_id: taxon_name_id,
 		},
 		success: function (result) {
 			$("#" + dialogId + "_div").html(result);
