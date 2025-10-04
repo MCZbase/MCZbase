@@ -1231,8 +1231,6 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 												console.log(response);
 												setFeedbackControlState("editTaxonAuthor_output","saved");
 												reloadTaxonAuthors();
-												// Clear form
-												$('##editTaxonAuthorForm')[0].reset();
 											},
 											error: function(xhr, status, error) {
 												setFeedbackControlState("editTaxonAuthor_output","error");
