@@ -1175,10 +1175,11 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12 row mx-1 mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
-								<h2 class="h3 mt-0 mb-1 px-1">Edit Taxon Author to #getTaxon.display_name# #getTaxon.author_text#</h2>
+								<h2 class="h3 mt-0 mb-1 px-1">Edit Taxon Author for #getTaxon.display_name# #getTaxon.author_text#</h2>
 								<form id="editTaxonAuthorForm" class="row align-items-end" method="post" action="/taxonomy/component/functions.cfc">
 									<input type="hidden" name="method" value="updateTaxonAuthor">
 									<input type="hidden" name="taxon_name_id" value="#getTaxon.taxon_name_id#">
+									<input type="hidden" name="taxon_author_id" value="#getTaxonAuthor.taxon_author_id#">
 									<div class="col-12 col-md-4 mb-2">
 										<label for="agent_name_input" class="data-entry-label">Agent Name</label>
 										<input type="text" name="agent_name" id="agent_name_input" class="data-entry-input reqdClr" autocomplete="off" required value="#getTaxonAuthor.author_text#">
