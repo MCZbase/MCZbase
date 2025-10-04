@@ -1068,6 +1068,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 									<td class="px-1">#encodeForHtml(authorship_role)#</td>
 									<td class="px-1">#sort_position_in_role#</td>
 									<td class="px-1">
+										<output id="taxonAuthor_output_#i#"></output>
 										<button value="Remove" class="btn btn-xs btn-warning my-0 float-right" id="authorDeleteButton_#i#">Remove</button>
 										<button value="Edit" class="btn btn-xs btn-secondary my-0 float-right" id="authorEditButton_#i#">Edit</button>
 									</td>
@@ -1087,6 +1088,26 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 								<cfset i=i+1>
 							</cfloop>
 						</table>
+						<script>
+							function deleteTaxonAuthor(taxon_author_id,taxon_name_id,target){
+								$.ajax({
+									url: '/taxonomy/component/functions.cfc',
+									type: 'POST',
+									responseType: 'json',
+									data: {
+										method: 'deleteTaxonAuthor',
+										taxon_author_id: taxon_author_id
+									},
+									success: function(response) {
+										console.log(response);
+										reloadTaxonAuthors();
+									},
+									error: function(xhr, status, error) {
+										handleFail(xhr,status,error,"deleting taxon author.");
+									}
+								});
+							}
+						</script>
 					</cfif>
 				</cfloop>
 				<div class="col-12 text-right my-2">
@@ -1147,7 +1168,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 						<div class="row">
 							<div class="col-12 row mx-1 mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
 								<h2 class="h3 mt-0 mb-1 px-1">Edit Taxon Author to #getTaxon.display_name# #getTaxon.author_text#</h2>
-								<form id="addTaxonAuthorForm" class="row align-items-end" method="post" action="/taxonomy/component/functions.cfc">
+								<form id="editTaxonAuthorForm" class="row align-items-end" method="post" action="/taxonomy/component/functions.cfc">
 									<input type="hidden" name="method" value="updateTaxonAuthor">
 									<input type="hidden" name="taxon_name_id" value="#getTaxon.taxon_name_id#">
 									<div class="col-12 col-md-4 mb-2">
@@ -1178,10 +1199,39 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 										<input type="number" name="sort_position_in_role" id="sort_position_in_role" class="data-entry-input reqdClr" min="1" value="#getTaxonAuthor.sort_position_in_role#" required>
 									</div>
 									<div class="col-12 col-md-2 mb-2">
-										<button type="submit" class="btn btn-primary btn-xs">Save</button>
-										<output id="editTaxonAuthorStatus" class="ml-2"></output>
+										<button type="submit" id="editTaxonAuthor_submit" class="btn btn-primary btn-xs">Save</button>
+										<output id="editTaxonAuthor_output" class="ml-2"></output>
 									</div>
 								</form>
+								<script>
+									$('##editTaxonAuthor_submit').on('click', function(event) {
+										event.preventDefault();
+										// Validate the form
+										if ($('##editTaxonAuthorForm')[0].checkValidity() === false) {
+											// If the form is invalid, show validation messages
+											$('##editTaxonAuthorForm')[0].reportValidity();
+											return false; // Prevent form submission if validation fails
+										}
+										setFeedbackControlState("editTaxonAuthor_output","saving");
+										$.ajax({
+											url: '/taxonomy/component/functions.cfc',
+											type: 'POST',
+											responseType: 'json',
+											data: $('##editTaxonAuthorForm').serialize(),
+											success: function(response) {
+												console.log(response);
+												setFeedbackControlState("editTaxonAuthor_output","saved");
+												reloadTaxonAuthors();
+												// Clear form
+												$('##editTaxonAuthorForm')[0].reset();
+											},
+											error: function(xhr, status, error) {
+												setFeedbackControlState("editTaxonAuthor_output","error");
+												handleFail(xhr,status,error,"saving change to taxon author.");
+											}
+										});
+									});
+								</script>
 							</div>
 						</div>
 					</div>
@@ -1230,7 +1280,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 						<div class="row">
 							<div class="col-12 row mx-1 mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
 								<h2 class="h3 mt-0 mb-1 px-1">Add Taxon Author to #getTaxon.display_name# #getTaxon.author_text#</h2>
-								<form id="addTaxonAuthorForm" class="row align-items-end" method="post" action="/taxonomy/component/functions.cfc">
+								<form id="addTaxonAuthorForm" class="row align-items-end" >
 									<input type="hidden" name="method" value="addTaxonAuthor">
 									<input type="hidden" name="taxon_name_id" value="#getTaxon.taxon_name_id#">
 									<div class="col-12 col-md-4 mb-2">
@@ -1257,10 +1307,39 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 										<input type="number" name="sort_position_in_role" id="sort_position_in_role" class="data-entry-input reqdClr" min="1" value="1" required>
 									</div>
 									<div class="col-12 col-md-2 mb-2">
-										<button type="submit" class="btn btn-primary btn-xs">Add Author</button>
-										<output id="addTaxonAuthorStatus" class="ml-2"></output>
+										<button type="submit" class="btn btn-primary btn-xs" id="newTaxonAuthor_submit">Add Author</button>
+										<output id="addTaxonAuthor_output" class="ml-2" aria-live="polite"></output>
 									</div>
 								</form>
+								<script>
+									$('##newTaxonAuthor_submit').on('click', function(event) {
+										event.preventDefault();
+										// Validate the form
+										if ($('##addTaxonAuthorForm')[0].checkValidity() === false) {
+											// If the form is invalid, show validation messages
+											$('##addTaxonAuthorForm')[0].reportValidity();
+											return false; // Prevent form submission if validation fails
+										}
+										setFeedbackControlState("addTaxonAuthor_output","saving");
+										$.ajax({
+											url: '/taxonomy/component/functions.cfc',
+											type: 'POST',
+											responseType: 'json',
+											data: $('##addTaxonAuthorForm').serialize(),
+											success: function(response) {
+												console.log(response);
+												setFeedbackControlState("addTaxonAuthor_output","saved");
+												reloadTaxonAuthors();
+												// Clear form
+												$('##addTaxonAuthorForm')[0].reset();
+											},
+											error: function(xhr, status, error) {
+												setFeedbackControlState("addTaxonAuthor_output","error");
+												handleFail(xhr,status,error,"saving taxon author.");
+											}
+										});
+									});
+								</script>
 							</div>
 						</div>
 					</div>
