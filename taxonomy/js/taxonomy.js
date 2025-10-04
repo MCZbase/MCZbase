@@ -482,18 +482,20 @@ function openAddTaxonAuthorDialog(taxon_name_id,dialogId,name,callback) {
 /** loadTaxonAuthors given a taxon name id and a target in the dom, replace the 
  * content of the target in the dom with the html of the taxon authorship list.
  * @param taxon_name_id the taxonomy entry to look up
- * @param dialogId the target div to replace the content of with the return value 
+ * @param targetDivId the id of the target div to replace the content of 
+ *   with the return value 
  */
-function loadTaxonAuthors(taxon_name_id,dialogId) { 
+function loadTaxonAuthors(taxon_name_id,targetDivId) { 
+	$("#" + targetDivId).html("Loading...");
 	jQuery.ajax({
 		url: "/taxonomy/component/functions.cfc",
 		data : {
 			method : "getTaxonAuthorsHtml",
 			taxon_name_id: taxon_name_id,
-			target: dialogId
+			target: targetDivId
 		},
 		success: function (result) {
-			$("#" + dialogId).html(result);
+			$("#" + targetDivId).html(result);
 		},
 		error: function (jqXHR, textStatus, message) {
 			handleFail(jqXHR,textStatus,message,"loading authors for taxon");
