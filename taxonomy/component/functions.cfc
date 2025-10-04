@@ -1204,13 +1204,13 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 <cffunction name="getAddTaxonAuthorHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="taxon_name_id" type="string" required="yes">
 
-	<cfthread name="getAddTaxonAuthorThread" taxon_author_id="#arguments.taxon_name_id#">
+	<cfthread name="getAddTaxonAuthorThread" taxon_name_id="#arguments.taxon_name_id#">
 		<cfoutput>
 			<cftry>
 				<cfquery name="getTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT taxon_name_id, display_name, scientific_name, author_text, nomenclatural_code
 					FROM taxonomy
-					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxon_name_id#">
+					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 				</cfquery>
 				<cfquery name="ctAuthorshipRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT distinct authorship_role
