@@ -879,7 +879,7 @@ limitations under the License.
 						<script>
 							$(document).ready(function(){
 								$('##addTaxonAuthorButton').click(function(){ 
-									openAddTaxonAuthorDialog(#taxon_name_id#,"addTaxonAuthorDiv","#scientificName#",reloadTaxonAuthors);
+									openAddTaxonAuthorDialog(#taxon_name_id#,"addTaxonAuthorDiv","#getTaxa.scientific_name#",reloadTaxonAuthors);
 								});
 							});
 					</h2>
