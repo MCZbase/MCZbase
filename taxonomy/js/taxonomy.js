@@ -434,7 +434,7 @@ function lookupName(taxon_name_id,target) {
  */
 function openEditTaxonAuthorDialog(taxon_author_id,dialogId,name,callback) {
 	var title = "Edit Author for " + name;
-	createGenericEditDialog(dialogId,title,callback);
+	createGenericEditDialog(dialogId,title,callback,300);
 	jQuery.ajax({
 		url: "/taxonomy/component/functions.cfc",
 		data : {
@@ -462,7 +462,7 @@ function openEditTaxonAuthorDialog(taxon_author_id,dialogId,name,callback) {
  */
 function openAddTaxonAuthorDialog(taxon_name_id,dialogId,name,callback) {
 	var title = "Add Author to " + name;
-	createGenericEditDialog(dialogId,title,callback);
+	createGenericEditDialog(dialogId,title,callback,300);
 	jQuery.ajax({
 		url: "/taxonomy/component/functions.cfc",
 		data : {

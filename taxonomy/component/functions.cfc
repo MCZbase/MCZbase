@@ -1144,7 +1144,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 				<div id="taxonAuthorEditorDiv">
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-12 row mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
+							<div class="col-12 row mx-1 mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
 								<h2 class="h3 mt-0 mb-1 px-1">Add Taxon Author to #getTaxon.display_name# #getTaxon.author_text#</h2>
 								<form id="addTaxonAuthorForm" class="row align-items-end" method="post" action="/taxonomy/component/functions.cfc">
 									<input type="hidden" name="method" value="updateTaxonAuthor">
@@ -1223,7 +1223,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 				<div id="taxonAuthorAddDiv">
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-12 row mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
+							<div class="col-12 row mx-1 mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
 								<h2 class="h3 mt-0 mb-1 px-1">Add Taxon Author to #getTaxon.display_name# #getTaxon.author_text#</h2>
 								<form id="addTaxonAuthorForm" class="row align-items-end" method="post" action="/taxonomy/component/functions.cfc">
 									<input type="hidden" name="method" value="addTaxonAuthor">
