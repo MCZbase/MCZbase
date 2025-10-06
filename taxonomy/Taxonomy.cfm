@@ -918,6 +918,12 @@ limitations under the License.
 										console.log(data);
 										// If status = success and we have a value in authorship, show the paste button and set the clipboard value.
 										// Otherwise hide the paste button and clear the clipboard value.
+										// returned object is a json array with one object in it.
+										if (data && data.length > 0) { 
+											data = data[0];
+										} else { 
+											data = {};
+										}
 										if (data.STATUS && data.STATUS == 'success' && data.AUTHORSHIP && data.AUTHORSHIP.length > 0) { 
 											$('##pasteTaxonAuthorClipboard').val(data.AUTHORSHIP);
 											$('##pasteTaxonAuthorButton').show();
