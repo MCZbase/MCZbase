@@ -896,53 +896,17 @@ limitations under the License.
 						<script>
 							function reloadTaxonAuthors() {
 								loadTaxonAuthors(#taxon_name_id#,'taxonAuthorsDiv');
-								lookupTaxonAuthorship();
+								lookupTaxonAuthorship(#taxon_name_id#);
 							};
 							$(document).ready(function(){
 								$('##pasteTaxonAuthorButton').click(function(){ 
 									if ($('##pasteTaxonAuthorClipboard').val().length > 0) {
 										$("##author_text").val($('##pasteTaxonAuthorClipboard').val());
+										changed();
 									}
 								});
-								lookupTaxonAuthorship();
+								lookupTaxonAuthorship(#taxon_name_id#);
 							});
-							function lookupTaxonAuthorship() { 
-								$.ajax({
-									url : "/taxonomy/component/functions.cfc",
-									type : "post",
-									dataType : "json",
-									data :  { 
-										method: 'proposeTaxonAuthorship',
-										taxon_name_id: #taxon_name_id#
-									},
-									success : function (data) {
-										console.log(data);
-										// If status = success and we have a value in authorship, show the paste button and set the clipboard value.
-										// Otherwise hide the paste button and clear the clipboard value.
-										// Returned object is a json array with one object in it, so handle failure cases in response, otherwise
-										// use first element.
-										if (data && data.length > 0) { 
-											data = data[0];
-										} else { 
-											data = {};
-										}
-										if (data.status && data.status == 'success' && data.authorship && data.authorship.length > 0 && data.authorship != $("##author_text").val() ) { 
-											$('##pasteTaxonAuthorClipboard').val(data.authorship);
-											$('##pasteTaxonAuthorButton').removeAttr('hidden');
-											$('##pasteTaxonAuthorButton').attr('title','Use proposed authorship: '+data.authorship);
-											$('##pasteTaxonAuthorButton').text('Paste into Authorship: '+data.authorship);
-										} else { 
-											$('##pasteTaxonAuthorClipboard').val("");
-											$('##pasteTaxonAuthorButton').attr('hidden',true);
-											$('##pasteTaxonAuthorButton').removeAttr('title');
-											$('##pasteTaxonAuthorButton').text('Paste Author');
-										}
-									},
-									error: function(jqXHR,textStatus,error){
-										handleFail(jqXHR,textStatus,error,"looking up authorship string from authors");
-									}
-								});
-							};
 						</script>
 					</section>
 				</div>
