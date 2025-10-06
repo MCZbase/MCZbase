@@ -896,6 +896,7 @@ limitations under the License.
 						<script>
 							function reloadTaxonAuthors() {
 								loadTaxonAuthors(#taxon_name_id#,'taxonAuthorsDiv');
+								lookupTaxonAuthorship();
 							};
 							$(document).ready(function(){
 								$('##pasteTaxonAuthorButton').click(function(){ 
