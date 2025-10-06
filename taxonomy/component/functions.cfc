@@ -1552,7 +1552,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 			<cfquery name="lookupTaxonInAuthors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupTaxonAuthor_result">
 				SELECT 
 					taxon_author.agent_id, 
-					get_agentnameoftype(agent_id, 'taxon author') as author_text
+					get_agentnameoftype(agent_id, 'taxon author') as author_text,
 					taxon_author.authorship_role, 
 					taxon_author.sort_position_in_role,
 					ctauthorship_role.ordinal,
