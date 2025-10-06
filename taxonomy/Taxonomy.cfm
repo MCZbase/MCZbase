@@ -874,7 +874,11 @@ limitations under the License.
 				<div id="addTaxonAuthorDiv"></div>
 				<div class="col-12 mx-0 row mt-2 mb-2 border rounded px-2 pb-2">
 					<h2 class="h3 mt-0 mb-1 px-1 w-100">
-						Authors (as agents)
+						<span class="float-left mr-2">
+							Authors (as agents) 
+						</span>
+						<button id="pasteTaxonAuthorButton" class="btn btn-xs btn-primary float-right" hidden>Paste Author</button>
+						<input type="hidden" id="pasteTaxonAuthorClipboard" value="">
 						<button id="addTaxonAuthorButton" class="btn btn-xs btn-primary float-right">Add Author</button>
 						<script>
 							$(document).ready(function(){
@@ -892,6 +896,40 @@ limitations under the License.
 						<script>
 							function reloadTaxonAuthors() {
 								loadTaxonAuthors(#taxon_name_id#,'taxonAuthorsDiv');
+							};
+							$(document).ready(function(){
+								$('##pasteTaxonAuthorButton').click(function(){ 
+									if ($('##pasteTaxonAuthorClipboard').val().length > 0) {
+										$("##author_text").val($('##pasteTaxonAuthorClipboard').val());
+									}
+								});
+								lookupTaxonAuthorship();
+							});
+							function lookupTaxonAuthorship() { 
+								$.ajax({
+									url : "/taxonomy/component/functions.cfc",
+									type : "post",
+									dataType : "json",
+									data :  { 
+										method: 'proposeTaxonAuthorship',
+										taxon_name_id: #taxon_name_id#
+									},
+									success : function (data) {
+										console.log(data);
+										// If status = success and we have a value in authorship, show the paste button and set the clipboard value.
+										// Otherwise hide the paste button and clear the clipboard value.
+										if (data.STATUS && data.STATUS == 'success' && data.AUTHORSHIP && data.AUTHORSHIP.length > 0) { 
+											$('##pasteTaxonAuthorClipboard').val(data.AUTHORSHIP);
+											$('##pasteTaxonAuthorButton').show();
+										} else { 
+											$('##pasteTaxonAuthorClipboard').val("");
+											$('##pasteTaxonAuthorButton').hide();
+										}
+									},
+									error: function(jqXHR,textStatus,error){
+										handleFail(jqXHR,textStatus,error,"looking up authorship string from authors");
+									}
+								});
 							};
 						</script>
 					</section>
