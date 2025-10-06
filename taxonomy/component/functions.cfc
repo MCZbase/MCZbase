@@ -1583,7 +1583,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 		</cfif>
 
 		<Cfif len(lookupTaxon.year_of_publication) GT 0>
-			<cfset authorship = "#authorship#, #year_of_publication#">
+			<cfset authorship = "#authorship#, #lookupTaxon.year_of_publication#">
 		</cfif>
 
 		<cfif lookupTaxon.zoological_changed_combination EQ "1">
