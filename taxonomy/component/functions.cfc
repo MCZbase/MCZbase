@@ -1542,7 +1542,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 			<cfset status = "success">
 			<cfset separator = "">
 			<cfloop query="lookupTaxonAuthors">
-				<cfset authorship = "#authorship##separator##lookupTaxonAuthor.author_text#">
+				<cfset authorship = "#authorship##separator##lookupTaxonAuthors.author_text#">
 				<cfif lookupTaxonAuthors.currentrow EQ lookupTaxonAuthors.recordcount -1>
 					<cfset separator = " and ">
 				<cfelse>
@@ -1569,7 +1569,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 				<cfset authorship = "#authorship# in ">
 				<cfset separator = "">
 				<cfloop query="lookupTaxonInAuthors">
-					<cfset authorship = "#authorship##separator##lookupTaxonInAuthor.author_text#">
+					<cfset authorship = "#authorship##separator##lookupTaxonInAuthors.author_text#">
 					<cfif lookupTaxonInAuthors.currentrow EQ lookupTaxonInAuthors.recordcount -1>
 						<cfset separator = " and ">
 					<cfelse>
