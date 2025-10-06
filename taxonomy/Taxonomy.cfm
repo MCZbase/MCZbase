@@ -877,7 +877,7 @@ limitations under the License.
 						<span class="float-left mr-2">
 							Authors (as agents) 
 						</span>
-						<button id="pasteTaxonAuthorButton" class="btn btn-xs btn-primary float-right" hidden>Paste Author</button>
+						<button id="pasteTaxonAuthorButton" class="btn btn-xs btn-primary float-left" hidden>Paste Author</button>
 						<input type="hidden" id="pasteTaxonAuthorClipboard" value="">
 						<button id="addTaxonAuthorButton" class="btn btn-xs btn-primary float-right">Add Author</button>
 						<script>
@@ -928,9 +928,13 @@ limitations under the License.
 										if (data.status && data.status == 'success' && data.authorship && data.authorship.length > 0) { 
 											$('##pasteTaxonAuthorClipboard').val(data.authorship);
 											$('##pasteTaxonAuthorButton').removeAttr('hidden');
+											$('##pasteTaxonAuthorButton').attr('title','Use proposed authorship: '+data.authorship);
+											$('##pasteTaxonAuthorButton').val('Paste: '+data.authorship+' as authorship');
 										} else { 
 											$('##pasteTaxonAuthorClipboard').val("");
 											$('##pasteTaxonAuthorButton').attr('hidden',true);
+											$('##pasteTaxonAuthorButton').removeAttr('title');
+											$('##pasteTaxonAuthorButton').val('Paste Author');
 										}
 									},
 									error: function(jqXHR,textStatus,error){
