@@ -925,7 +925,7 @@ limitations under the License.
 										} else { 
 											data = {};
 										}
-										if (data.status && data.status == 'success' && data.authorship && data.authorship.length > 0) { 
+										if (data.status && data.status == 'success' && data.authorship && data.authorship.length > 0 && data.authorship != $("##author_text").val() ) { 
 											$('##pasteTaxonAuthorClipboard').val(data.authorship);
 											$('##pasteTaxonAuthorButton').removeAttr('hidden');
 											$('##pasteTaxonAuthorButton').attr('title','Use proposed authorship: '+data.authorship);
