@@ -1560,7 +1560,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 				FROM taxon_author
 					join ctauthorship_role on taxon_author.authorship_role = ctauthorship_role.authorship_role
 				WHERE
-					taxon_author_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxon_author_id#">
+					taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxon_name_id#">
 					AND taxon_author.authorship_role = 'zoological in author'
 				ORDER BY
 					ordinal, sort_position_in_role
