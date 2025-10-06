@@ -929,12 +929,12 @@ limitations under the License.
 											$('##pasteTaxonAuthorClipboard').val(data.authorship);
 											$('##pasteTaxonAuthorButton').removeAttr('hidden');
 											$('##pasteTaxonAuthorButton').attr('title','Use proposed authorship: '+data.authorship);
-											$('##pasteTaxonAuthorButton').val('Paste: '+data.authorship+' as authorship');
+											$('##pasteTaxonAuthorButton').text('Paste: '+data.authorship+' as authorship');
 										} else { 
 											$('##pasteTaxonAuthorClipboard').val("");
 											$('##pasteTaxonAuthorButton').attr('hidden',true);
 											$('##pasteTaxonAuthorButton').removeAttr('title');
-											$('##pasteTaxonAuthorButton').val('Paste Author');
+											$('##pasteTaxonAuthorButton').text('Paste Author');
 										}
 									},
 									error: function(jqXHR,textStatus,error){
