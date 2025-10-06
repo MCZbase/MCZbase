@@ -924,8 +924,8 @@ limitations under the License.
 										} else { 
 											data = {};
 										}
-										if (data.STATUS && data.STATUS == 'success' && data.AUTHORSHIP && data.AUTHORSHIP.length > 0) { 
-											$('##pasteTaxonAuthorClipboard').val(data.AUTHORSHIP);
+										if (data.status && data.status == 'success' && data.authorship && data.authorship.length > 0) { 
+											$('##pasteTaxonAuthorClipboard').val(data.authorship);
 											$('##pasteTaxonAuthorButton').show();
 										} else { 
 											$('##pasteTaxonAuthorClipboard').val("");
