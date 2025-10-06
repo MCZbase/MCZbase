@@ -929,7 +929,7 @@ limitations under the License.
 											$('##pasteTaxonAuthorClipboard').val(data.authorship);
 											$('##pasteTaxonAuthorButton').removeAttr('hidden');
 											$('##pasteTaxonAuthorButton').attr('title','Use proposed authorship: '+data.authorship);
-											$('##pasteTaxonAuthorButton').text('Paste: '+data.authorship+' as authorship');
+											$('##pasteTaxonAuthorButton').text('Paste into Authorship: '+data.authorship);
 										} else { 
 											$('##pasteTaxonAuthorClipboard').val("");
 											$('##pasteTaxonAuthorButton').attr('hidden',true);
