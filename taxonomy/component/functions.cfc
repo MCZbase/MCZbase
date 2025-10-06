@@ -1504,4 +1504,99 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 	<cfreturn serializeJSON(data)>
 </cffunction>
 
+<cffunction name="proposeTaxonAuthorship" returntype="any" access="remote" returnformat="json">
+	<cfargument name="taxon_name_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cfset authorship = "">
+	<cfset status = "empty">
+	<cfquery name="lookupTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupTaxon_result">
+		SELECT author_text, year_of_publication, nomenclatural_code, zoological_changed_combination
+		FROM taxonomy
+		WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxon_name_id#">
+	</cfquery>
+
+
+	<cfif lookupTaxon.nomenclatural_code EQ 'ICNafp'>
+		<!--- build authorships for botanical names with botanical rules  --->
+
+	<cfelse>
+		<!--- build authorships for ICZN and noncompliant names using zoological rules --->
+		<cfquery name="lookupTaxonAuthors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupTaxonAuthor_result">
+			SELECT 
+				taxon_author.agent_id, 
+				get_agentnameoftype(agent_id, 'taxon author') as author_text
+				taxon_author.authorship_role, 
+				taxon_author.sort_position_in_role,
+				ctauthorship_role.ordinal,
+				ctauthorship_role.nomenclatural_code
+			FROM taxon_author
+				join ctauthorship_role on taxon_author.authorship_role = ctauthorship_role.authorship_role
+			WHERE
+				taxon_author_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxon_author_id#">
+				AND taxon_author.authorship_role = 'zoological author'
+			ORDER BY
+				ordinal, sort_position_in_role
+		</cfquery>
+		<cfif lookupTaxonAuthors.recordcount GT 0>
+			<cfset status = "success">
+			<cfset separator = "">
+			<cfloop query="lookupTaxonAuthors">
+				<cfset authorship = "#authorship##separator##lookupTaxonAuthor.author_text#">
+				<cfif lookupTaxonAuthors.currentrow = lookupTaxonAuthors.recordcount -1>
+					<cfset separator = " and ">
+				<cfelse>
+					<cfset separator = ", ">
+				</cfif>
+			</cfloop>
+			<cfquery name="lookupTaxonInAuthors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="lookupTaxonAuthor_result">
+				SELECT 
+					taxon_author.agent_id, 
+					get_agentnameoftype(agent_id, 'taxon author') as author_text
+					taxon_author.authorship_role, 
+					taxon_author.sort_position_in_role,
+					ctauthorship_role.ordinal,
+					ctauthorship_role.nomenclatural_code
+				FROM taxon_author
+					join ctauthorship_role on taxon_author.authorship_role = ctauthorship_role.authorship_role
+				WHERE
+					taxon_author_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.taxon_author_id#">
+					AND taxon_author.authorship_role = 'zoological in author'
+				ORDER BY
+					ordinal, sort_position_in_role
+			</cfquery>
+			<cfif lookupTaxonInAuthors.recordcount GT 0>
+				<cfset authorship = "#authorship# in ">
+				<cfset separator = "">
+				<cfloop query="lookupTaxonInAuthors">
+					<cfset authorship = "#authorship##separator##lookupTaxonInAuthor.author_text#">
+					<cfif lookupTaxonInAuthors.currentrow = lookupTaxonInAuthors.recordcount -1>
+						<cfset separator = " and ">
+					<cfelse>
+						<cfset separator = ", ">
+					</cfif>
+				</cfloop>
+			</cfif>
+				
+		<cfelse>
+			<cfset status ="error">
+		</cfif>
+
+		<Cfif len(lookupTaxon.year_of_publication) GT 0>
+			<cfset authorship = "#authorship#, #year_of_publication#">
+		</cfif>
+
+		<cfif lookupTaxon.zoological_changed_combination EQ "1">
+			<cfset authorship = "(#authorship#)">
+		</cfif>
+	
+	</cfif>
+	
+	<cfset row = StructNew()>
+	<cfset row["authorship"] = "#authorship#">
+	<cfset row["status"] = "#status#">
+	<cfset data[1] = row>
+
+	<cfreturn serializeJSON(data)>
+</cffunction>
 </cfcomponent>
