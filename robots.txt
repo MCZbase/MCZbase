@@ -58,7 +58,6 @@ Disallow: /Application_down.cfc
 Disallow: /batchScan.cfm
 Disallow: /bulkCollEvent.cfm
 Disallow: /bulkLocality.cfm
-Disallow: /catalog.cfm
 Disallow: /checkContainerMovement.cfm
 Disallow: /Citation.cfm
 Disallow: /CodeTableButtons.cfm

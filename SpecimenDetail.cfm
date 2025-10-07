@@ -409,7 +409,6 @@
 				findContainer.cfm referenced with loadEditApp
 				MediaSearch.cfm referenced with loadEditApp
 				Encumbrances.cfm referenced with loadEditApp
-				catalog.cfm referenced with loadEditApp
 	--->
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 		<script language="javascript" type="text/javascript">
@@ -447,7 +446,6 @@
 				links+='<li><span onclick="loadEditApp(\'findContainer\')" class="likeLink" id="BTN_findContainer">PartLocn</span></li>';
 				links+='<li><span onclick="loadEditApp(\'MediaSearch\')" class="likeLink" id="BTN_MediaSearch">Media</span></li>';
 				links+='<li><span onclick="loadEditApp(\'Encumbrances\')" class="likeLink" id="BTN_Encumbrances">Encumbrance</span></li>';
-				links+='<li><span onclick="loadEditApp(\'catalog\')" class="likeLink" id="BTN_catalog">Catalog</span></li>';
 				links+="</ul>";
 
 				$("##popDiv").append(links);
