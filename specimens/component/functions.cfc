@@ -8632,7 +8632,7 @@ limitations under the License.
 
 										<!--- Precision and other fields --->
 										<div class="col-12 col-md-3 mb-2">
-											<label for="coordinate_precision" class="data-entry-label"*Precision</label>
+											<label for="coordinate_precision" class="data-entry-label">Precision</label>
 											<select name="coordinate_precision" id="coordinate_precision" class="data-entry-select reqdClr" required>
 												<cfif len(coordinate_precision) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 												<option value="" #selected#></option>
