@@ -883,3 +883,88 @@ function opencollectingeventpickerdialog(dialogid, header_text, collecting_event
 		}
 	});
 }
+
+
+/** createGenericEditDialog create a dialog intended to be loaded with an edit form.
+ creates a dialog with the given id and title, and a div with the same id with _div appended,
+ intended use is to load content into the {dialog_id}_div with ajax after the dialog is created.
+ Note: the dialog div must exist in the dom before this function is called.
+
+	@param dialogId the id in the dom for the div to turn into the dialog without leading # selector.
+	@param title the title for the dialog
+	@param closecallback a callback function to invoke on closing the dialog.
+	@param max_height the maximum height for the dialog, optional, default 775
+	@param width_cap the maximum width for the dialog when screen is larger 
+    than extra large (1333), optional, default 999
+*/
+function createGenericEditDialog(dialogId,title,closecallback,max_height=775,width_cap=999) {
+	var content = '<div id="'+dialogId+'_div">Loading...</div>';
+	var x=1;
+	var h = $(window).height();
+	if (h>max_height) { h=max_height; } // cap height default at 775
+	var w = $(window).width();
+	// full width at less than medium screens
+	if (w>414 && w<=1333) { 
+		// 90% width up to extra large screens
+		w = Math.floor(w *.9);
+	} else if (w>1333) { 
+		// cap width at specified value, but no more that 95% of the screen width
+		if (width_cap < w * .95) {
+			w = width_cap;
+		}
+	}
+	console.log("Creating dialog in div with id: " + dialogId);
+	var thedialog = $("#"+dialogId).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		height: h,
+		width: w,
+		minWidth: 320,
+		minHeight: 550,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				console.log("Button calling close on dialog in div with id: " + dialogId);
+				$("#"+dialogId).dialog('close');
+			}
+		},
+		open: function (event, ui) {
+			// force the dialog to lay above any other elements in the page.
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+			// position consistently with top at top of browser window:
+			$(this).dialog("option", "position",{ my: "top", at: "top", of: window, collision: "fit" });
+			 // -------- A11Y start --------
+			$(this).attr('aria-modal','true');    // Ensure modal semantics
+			setTimeout(() => {
+				$(this).find('input, select, textarea, button, a[href]').filter(':visible').first().focus();
+			}, 100);
+			// -------- A11Y end --------
+		},
+		close: function(event,ui) {
+			console.log("Close called on dialog in div with id: " + dialogId);
+			if (jQuery.type(closecallback)==='function')	{
+				closecallback();
+			}
+			$("#"+dialogId+"_div").html("");
+			try {
+				if ($("#"+dialogId).hasClass("ui-dialog-content")) {
+					$("#"+dialogId).dialog('destroy');
+				}
+			} catch (e) {
+				console.error("Error destroying dialog: " + e);
+			}
+			// -------- A11Y start --------
+			if (typeof window.lastDialogTrigger !== 'undefined') {
+				setTimeout(function() { $(window.lastDialogTrigger).focus(); }, 0);
+			}
+			// -------- A11Y end --------
+		}
+	});
+	thedialog.dialog('open');
+}

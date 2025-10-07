@@ -3265,6 +3265,10 @@ limitations under the License.
 							</cfif>
 	
 							<cfif oneOfUs EQ 1>
+								<cfif len(coordlookup.lat_long_remarks) GT 0>
+									<li class="list-group-item col-5 col-xl-5 px-0 font-weight-lessbold">Georeference Remarks: </li>
+									<li class="list-group-item col-7 col-xl-7 pl-2 pr-0">#coordlookup.lat_long_remarks#</li>
+								</cfif>
 								<cfif len(coordlookup.error_polygon) GT 0>
 									<li class="list-group-item col-5 col-xl-5 px-0 font-weight-lessbold">Has Footprint: </li>
 									<li class="list-group-item col-7 col-xl-7 pl-2 pr-0">Yes (see map)</li>

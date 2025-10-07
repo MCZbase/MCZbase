@@ -13,7 +13,6 @@ Creative Commons Attribution-Share Alike 3.0 United States
 * Gnome-text-x-generic.png
 * Gnome-text-x-generic.svg
 * Gnome-video-x-generic.svg
-* Gnome-x-office-document.svg
 
 ## Modified from open clip art, public domain
 

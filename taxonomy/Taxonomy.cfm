@@ -191,7 +191,8 @@ limitations under the License.
 	function toggleBotanicalVisibility() { 
 		var ncode = $('##nomenclatural_code').val();
 		if (ncode=='ICNafp' || ncode=='ICBN') { 
-			$('.botanical').show();	
+			$('.botanical').show();
+			$('.zoological').hide();
 			$('##infraspecific_author').show(); 
 			$('##infraspecific_author_label').show(); 
 			$('##division').show(); 
@@ -210,6 +211,7 @@ limitations under the License.
 			}
 		} else { 
 			$('.botanical').hide();	
+			$('.zoological').show();	
 			if ($('##infraspecific_author').val()=="") { 
 				$('##infraspecific_author').hide(); 
 				$('##infraspecific_author_label').hide(); 
@@ -247,7 +249,27 @@ limitations under the License.
 <cfif action is "edit">
 	<cfset title="Edit Taxonomy">
 	<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+		SELECT 
+			taxon_name_id,
+			guid,
+			nomenclatural_code,
+			kingdom, division, subdivision, subsection,
+			phylum, subphylum,
+			superclass, phylclass, subclass, infraclass,
+			superorder, phylorder, suborder, infraorder,
+			superfamily, family, subfamily, tribe,
+			genus, subgenus, species, subspecies,
+			infraspecific_rank, infraspecific_author,
+			author_text,
+			year_of_publication,
+			zoological_changed_combination,
+			valid_catalog_term_fg, source_authority, taxon_status,
+			full_taxon_name, scientific_name, display_name,
+			taxon_remarks,
+			taxonid_guid_type, taxonid,
+			scientificnameid_guid_type, scientificnameid
+		FROM taxonomy 
+		WHERE taxon_name_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#taxon_name_id#">
 	</cfquery>
 	<cfquery name="isSourceAuthorityCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
@@ -321,6 +343,7 @@ limitations under the License.
 										value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
 								</cfloop>
 							</select>
+							<!--- change event triggers toggleBotanicalVisibility() --->
 						</div>
 						<div class="col-12 col-sm-3 mb-1">
 							<label for="taxon_status" >Nomenclatural Status <i class="fas fas-info fa-info-circle" onclick="getCtDoc('cttaxon_status');" aria-label="help link"></i></label>
@@ -597,7 +620,7 @@ limitations under the License.
 						</div>
 					</div>
 				
-					<cfif len(gettaxa.subsection) GT 0.>
+					<cfif len(gettaxa.subsection) GT 0>
 						<div class="form-row col-12 px-0 mx-0">
 							<div class="col-12 col-md-6 col-xl-3 px-0">
 							</div>
@@ -681,7 +704,7 @@ limitations under the License.
 					</div>
 
 					<div class="form-row">
-						<div class="col-12 col-md-6 col-xl-3 px-1">
+						<div class="col-12 col-md-4 col-xl-2 px-1">
 							<label for="infraspecific_rank" class="data-entry-label">Infraspecific Rank</label>
 							<select name="infraspecific_rank" id="infraspecific_rank" class="data-entry-select" data-style="btn-primary" show-tick>
 								<option value=""></option>
@@ -693,7 +716,7 @@ limitations under the License.
 							</select>
 						</div>
 					
-						<div class="col-12 col-md-4 col-xl-7 px-1">
+						<div class="col-12 col-md-4 col-xl-6 px-1">
 							<label for="author_text" class="data-entry-label">Authorship (including year)</label>
 							<input type="text" name="author_text" id="author_text" value="#encodeForHTML(gettaxa.author_text)#" class="data-entry-input">
 							<span class="infoLink botanical"
@@ -701,8 +724,18 @@ limitations under the License.
 								 <small class="link-color">Find in IPNI</small>
 							</span>
 						</div>
-						<div class="col-12 col-md-2 col-xl-2 px-1 ">
-							<label for="year_of_publication" class="data-entry-label">Year of publication</label>
+						<div class="col-12 col-md-2 col-xl-2 px-1 zoological ">
+							<label for="zoological_changed_combination" class="data-entry-label zoological">Changed Combination</label>
+							<select name="zoological_changed_combination" id="zoological_changed_combination" class="data-entry-select zoological">
+								<option value=""></option>
+								<cfif getTaxa.zoological_changed_combination is "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="0" #selected#>No</option>
+								<cfif getTaxa.zoological_changed_combination is "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="1" #selected#>(Yes)</option>
+							</select>
+						</div>
+						<div class="col-12 col-md-2 col-xl-2 px-1 zoological ">
+							<label for="year_of_publication" class="data-entry-label zoological">Year of publication</label>
 							<input type="text" name="year_of_publication" id="year_of_publication" value="#encodeForHTML(gettaxa.year_of_publication)#" class="data-entry-input">
 						</div>
 					</div>
@@ -837,7 +870,50 @@ limitations under the License.
 			</section>
 
 			<div class="row mx-0">
-				<div class="col-12 row mt-2 mb-2 border rounded px-2 pb-2 bg-grayish">
+				<div id="editTaxonAuthorDiv"></div>
+				<div id="addTaxonAuthorDiv"></div>
+				<div class="col-12 mx-0 row mt-2 mb-2 border rounded px-2 pb-2">
+					<h2 class="h3 mt-0 mb-1 px-1 w-100">
+						<span class="float-left mr-2">
+							Authors (as agents) 
+						</span>
+						<button id="pasteTaxonAuthorButton" class="btn btn-xs btn-secondary float-left" hidden>Paste Author</button>
+						<input type="hidden" id="pasteTaxonAuthorClipboard" value="">
+						<button id="addTaxonAuthorButton" class="btn btn-xs btn-primary float-right">Add Author</button>
+						<script>
+							$(document).ready(function(){
+								$('##addTaxonAuthorButton').click(function(){ 
+									openAddTaxonAuthorDialog(#taxon_name_id#,"addTaxonAuthorDiv","#getTaxa.scientific_name#",reloadTaxonAuthors);
+								});
+							});
+						</script>
+					</h2>
+					<section class="col-12 col-md-12 px-0">
+						<cfset authorshipContent = getTaxonAuthorsHtml("#taxon_name_id#","taxonAuthorsDiv")>
+						<div class="row mx-0 mt-1 px-1 py-2 border bg-light rounded">	
+							<div id="taxonAuthorsDiv" class="mx-0 col-12 mt-1">#authorshipContent#</div>
+						</div>
+						<script>
+							function reloadTaxonAuthors() {
+								loadTaxonAuthors(#taxon_name_id#,'taxonAuthorsDiv');
+								lookupTaxonAuthorship(#taxon_name_id#);
+							};
+							$(document).ready(function(){
+								$('##pasteTaxonAuthorButton').click(function(){ 
+									if ($('##pasteTaxonAuthorClipboard').val().length > 0) {
+										$("##author_text").val($('##pasteTaxonAuthorClipboard').val());
+										changed();
+									}
+								});
+								lookupTaxonAuthorship(#taxon_name_id#);
+							});
+						</script>
+					</section>
+				</div>
+			</div>
+
+			<div class="row mx-0">
+				<div class="col-12 mx-0 row mt-2 mb-2 border rounded px-2 pb-2 bg-grayish">
 					<h2 class="h3 mt-0 mb-1 px-1">Matches on this name in other scientific name data sets:</h4>
 					<section class="col-12 col-md-12 px-0">
 						<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
@@ -853,7 +929,7 @@ limitations under the License.
 			</div>
 
 			<div class="row mx-0">
-				<div class="col-12 row mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
+				<div class="col-12 mx-0 row mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
 
 					<section class="col-12 col-md-12 px-0">
 						<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
@@ -1593,6 +1669,14 @@ limitations under the License.
 								 <small class="link-color">Find in IPNI</small>
 							</span>
 						</div>
+						<div class="col-12 col-md-2 col-xl-2 px-1 zoological">
+							<label for="zoological_changed_combination" class="data-entry-label zoological">Changed Combination</label>
+							<select name="zoological_changed_combination" id="zoological_changed_combination" class="data-entry-select zoological">
+								<option value=""></option>
+								<option value="0">No</option>
+								<option value="1">(Yes)</option>
+							</select>
+						</div>
 						<div class="col-12 col-md-2 col-xl-2 px-1">
 							<label for="year_of_publication" class="data-entry-label">Year</label>
 							<input type="text" name="year_of_publication" id="year_of_publication" value="" class="data-entry-input">
@@ -1755,6 +1839,9 @@ limitations under the License.
 					<cfif len(#taxon_status#) gt 0>
 						,taxon_status
 					</cfif>
+					<cfif len(#zoological_changed_combination#) GT 0>
+						,zoological_changed_combination
+					</cfif>
 					) VALUES (
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextID.nextID#">,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">,
@@ -1857,6 +1944,9 @@ limitations under the License.
 					</cfif>
 					<cfif len(#taxon_status#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(taxon_status)#">
+					</cfif>
+					<cfif len(#zoological_changed_combination#) GT 0>
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(zoological_changed_combination)#">
 					</cfif>
 					)
 				</cfquery>

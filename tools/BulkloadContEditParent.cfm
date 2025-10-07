@@ -66,7 +66,7 @@ limitations under the License.
 	<cfif variables.action is "entryPoint">
 		<cfoutput>
 			<p>This tool is used to edit container information and/or move parts to a different parent container. Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored. The container_unique_id, container_name, and parent_unique_id fields take a mix of text, hyphens, underscores, and numbers. (Numbers should match values in MCZbase.) Only number entries are expected in the width, height, length, and number_positions fields.</p>
-			<p>The container_unique_id is the container's unique identifier to update. All other values provided will change this record. Specify the current value for container type and container name if you wish to avoid changing those, leave others blank to retain current values. To place a container in a new parent container, specify the Unique Identifier for the new parent container in parent_unique_id. Check the Help > Controlled Vocabulary page and select the <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCONTAINER_TYPE">CTCONTAINER_TYPE</a> list for types. Submit a bug report to request an additional type when needed.</p>
+			<p>The container_unique_id is the container&apos;s unique identifier to update. All other values provided will change this record. Specify the current value for container type and container name if you wish to avoid changing those, leave others blank to retain current values. To place a container in a new parent container, specify the Unique Identifier for the new parent container in parent_unique_id. Check the Help > Controlled Vocabulary page and select the <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCONTAINER_TYPE">CTCONTAINER_TYPE</a> list for types. Submit a bug report to request an additional type when needed.</p>
 			<h2 class="h4">Use Template to Load Data</h2>
 			<button class="btn btn-xs btn-primary float-left mr-3" id="copyButton">Copy Column Headers</button>
 			<div id="template" class="my-1 mx-0">
@@ -550,7 +550,7 @@ limitations under the License.
 						<tbody>
 							<cfloop query="getProblemData">
 								<tr>
-									<td><cfif len(data.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
+									<td><cfif len(getProblemData.status) eq 0>Cleared to load<cfelse><strong>#getProblemData.status#</strong></cfif></td>
 									<td>#getProblemData.container_unique_id#</td>
 									<td>#getProblemData.parent_unique_id#</td>
 									<td>#getProblemData.container_type#</td>

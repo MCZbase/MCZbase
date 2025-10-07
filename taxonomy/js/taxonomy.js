@@ -424,3 +424,132 @@ function lookupName(taxon_name_id,target) {
 	});
 };
 
+/** openEditTaxonAuthorDialog open a dialog for editing an author of a taxon name.
+ *
+ * @param taxon_author_id the primary key for the taxonomy author record to edit.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param name the scientific name to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openEditTaxonAuthorDialog(taxon_author_id,dialogId,name,callback) {
+	var title = "Edit Author for " + name;
+	createGenericEditDialog(dialogId,title,callback,300);
+	jQuery.ajax({
+		url: "/taxonomy/component/functions.cfc",
+		data : {
+			method : "getEditTaxonAuthorHTML",
+			taxon_author_id: taxon_author_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit taxon author dialog");
+		},
+		dataType: "html"
+	});
+}
+
+/** openAddTaxonAuthorDialog open a dialog for adding an author to a taxon name.
+ *
+ * @param taxon_name_id the primary key for the taxonomy record record to which
+ *   to add an author.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param name the scientific name to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ */
+function openAddTaxonAuthorDialog(taxon_name_id,dialogId,name,callback) {
+	var title = "Add Author to " + name;
+	createGenericEditDialog(dialogId,title,callback,300);
+	jQuery.ajax({
+		url: "/taxonomy/component/functions.cfc",
+		data : {
+			method : "getAddTaxonAuthorHTML",
+			taxon_name_id: taxon_name_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit taxon author dialog");
+		},
+		dataType: "html"
+	});
+}
+
+/** loadTaxonAuthors given a taxon name id and a target in the dom, replace the 
+ * content of the target in the dom with the html of the taxon authorship list.
+ * @param taxon_name_id the taxonomy entry to look up
+ * @param targetDivId the id of the target div to replace the content of 
+ *   with the return value 
+ */
+function loadTaxonAuthors(taxon_name_id,targetDivId) { 
+	$("#" + targetDivId).html("Loading...");
+	jQuery.ajax({
+		url: "/taxonomy/component/functions.cfc",
+		data : {
+			method : "getTaxonAuthorsHtml",
+			taxon_name_id: taxon_name_id,
+			target: targetDivId
+		},
+		success: function (result) {
+			$("#" + targetDivId).html(result);
+		},
+		error: function (jqXHR, textStatus, message) {
+			handleFail(jqXHR,textStatus,message,"loading authors for taxon");
+		},
+		dataType: "html"
+	});
+}
+// lookupTaxonAuthorship, for a given taxon_name_id, look up a proposed authorship string
+// from the taxon_author and taxonomy properties and if it is different from the current value in
+// the author_text field, show a paste button with the proposed authorship string in a hidden field.
+// Assumes the presence of elements with ids pasteTaxonAuthorButton, pasteTaxonAuthorClipboard and author_text.
+function lookupTaxonAuthorship(taxon_name_id) { 
+	$.ajax({
+		url : "/taxonomy/component/functions.cfc",
+		type : "post",
+		dataType : "json",
+		data :  { 
+			method: 'proposeTaxonAuthorship',
+			taxon_name_id: taxon_name_id
+		},
+		success : function (data) {
+			console.log(data);
+			// If status = success and we have a value in authorship, show the paste button and set the clipboard value.
+			// Otherwise hide the paste button and clear the clipboard value.
+			// Returned object is a json array with one object in it, so handle failure cases in response, otherwise
+			// use first element.
+			if (data && data.length > 0) { 
+				data = data[0];
+			} else { 
+				data = {};
+			}
+			if (data.status && data.status == 'success' && data.authorship && data.authorship.length > 0 && data.authorship != $("#author_text").val() ) { 
+				$('#pasteTaxonAuthorClipboard').val(data.authorship);
+				$('#pasteTaxonAuthorButton').removeAttr('hidden');
+				if (!$("#author_text").val() || $("#author_text").val().length == 0) { 
+					// set class to secondary if author_text is empty (we are filling in an empty authorship).
+					$('#pasteTaxonAuthorButton').removeClass('btn-danger');
+					$('#pasteTaxonAuthorButton').addClass('btn-secondary');
+				} else { 
+					// set class to danger if author_text is not empty (we are overwriting existing conflicting authorship)
+					$('#pasteTaxonAuthorButton').addClass('btn-danger');
+					$('#pasteTaxonAuthorButton').removeClass('btn-secondary');
+				}
+				$('#pasteTaxonAuthorButton').attr('title','Use proposed authorship: '+data.authorship);
+				$('#pasteTaxonAuthorButton').text('Paste into Authorship: '+data.authorship);
+			} else { 
+				$('#pasteTaxonAuthorClipboard').val("");
+				$('#pasteTaxonAuthorButton').attr('hidden',true);
+				$('#pasteTaxonAuthorButton').removeAttr('title');
+				$('#pasteTaxonAuthorButton').text('Paste Author');
+			}
+		},
+		error: function(jqXHR,textStatus,error){
+			handleFail(jqXHR,textStatus,error,"looking up authorship string from authors");
+		}
+	});
+};

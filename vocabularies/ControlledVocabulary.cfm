@@ -69,6 +69,20 @@
 	<cfif confirm.recordcount NEQ 1>
 		<cfthrow message="Unknown controlled vocabulary table">
 	</cfif>
+	<!--- lookup any comment on the table --->
+	<cfquery name="getTableComment" datasource="uam_god">
+		SELECT
+			comments
+		FROM
+			all_tab_comments
+		WHERE
+			table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#table#">
+			and owner = 'MCZBASE'
+	</cfquery>
+	<cfset tableComment = "">
+	<cfif getTableComment.recordcount EQ 1 and len(getTableComment.comments) GT 0>
+		<cfset tableComment = getTableComment.comments>
+	</cfif>
 	<cfset showingJust = "">
 	<cfset collection_cde = "">
 	<cfquery name="checkForCollectionCde" datasource="uam_god">
@@ -96,6 +110,9 @@
 		<div class="row">
 			<div class="col-12">
 			<h3>Documentation for code table <strong>#tableName#</strong>:</h3>
+			<cfif len(tableComment) GT 0>
+				<p>#tableComment#</p>
+			</cfif>
 			<cfif len(showingJust) GT 0>
 				<div class="pb-1">
 					#showingJust#

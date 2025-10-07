@@ -467,6 +467,30 @@
 					</tr>
 				</table>
 
+				<!--- lookup authorship from taxon_author table --->
+				<cfquery name="getAuthors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						taxon_author.agent_id,
+						preferred_agent_name.agent_name
+					FROM
+						taxon_author
+						join preferred_agent_name on taxon_author.agent_id = preferred_agent_name.agent_id
+						join ctauthorship_role on taxon_author.authorship_role = ctauthorship_role.authorship_role
+					WHERE
+						taxon_author.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
+					ORDER BY
+						ctauthorship_role.ordinal asc, sort_position_in_role asc
+				</cfquery>
+				<cfif getAuthors.recordcount GT 0>
+					<h2 class="h4">Authors:</h2>
+					<ul>
+						<cfloop query="getAuthors">
+							<li><a href="/agents/Agent.cfm?agent_id=#getAuthors.agent_id#">#encodeForHTML(getAuthors.agent_name)#</a></li>
+						</cfloop>
+					</ul>
+				</cfif>
+
+				<!--- display details --->
 				<h2 class="h4">Name Authority: <b>#encodeForHTML(one.source_Authority)#</b></h2>
 				<cfif len(taxonidlink) GT 0>
 					<p>dwc:taxonID: <a href="#taxonidlink#" target="_blank">#one.taxonid#</a></p>
