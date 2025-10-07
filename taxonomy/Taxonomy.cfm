@@ -877,7 +877,7 @@ limitations under the License.
 						<span class="float-left mr-2">
 							Authors (as agents) 
 						</span>
-						<button id="pasteTaxonAuthorButton" class="btn btn-xs btn-primary float-left" hidden>Paste Author</button>
+						<button id="pasteTaxonAuthorButton" class="btn btn-xs btn-secondary float-left" hidden>Paste Author</button>
 						<input type="hidden" id="pasteTaxonAuthorClipboard" value="">
 						<button id="addTaxonAuthorButton" class="btn btn-xs btn-primary float-right">Add Author</button>
 						<script>

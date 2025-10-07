@@ -530,6 +530,15 @@ function lookupTaxonAuthorship(taxon_name_id) {
 			if (data.status && data.status == 'success' && data.authorship && data.authorship.length > 0 && data.authorship != $("#author_text").val() ) { 
 				$('#pasteTaxonAuthorClipboard').val(data.authorship);
 				$('#pasteTaxonAuthorButton').removeAttr('hidden');
+				if (!$("#author_text").val() || $("#author_text").val().length == 0) { 
+					// set class to secondary if author_text is empty (we are filling in an empty authorship).
+					$('#pasteTaxonAuthorButton').removeClass('btn-danger');
+					$('#pasteTaxonAuthorButton').addClass('btn-secondary');
+				} else { 
+					// set class to danger if author_text is not empty (we are overwriting existing conflicting authorship)
+					$('#pasteTaxonAuthorButton').addClass('btn-danger');
+					$('#pasteTaxonAuthorButton').removeClass('btn-secondary');
+				}
 				$('#pasteTaxonAuthorButton').attr('title','Use proposed authorship: '+data.authorship);
 				$('#pasteTaxonAuthorButton').text('Paste into Authorship: '+data.authorship);
 			} else { 
