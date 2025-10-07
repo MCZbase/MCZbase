@@ -1049,7 +1049,7 @@ limitations under the License.
 									<div class="card-header" id="taxonAuthorHeader2">
 										<h2 class="h4 my-0">
 											<button class="headerLnk text-left w-100 h-100" type="button" data-toggle="collapse" data-target="##taxonAuthorCardBodyWrap2" aria-expanded="#ariaExpanded#" aria-controls="taxonAuthorCardBodyWrap2">
-											Author (of #getAgentTaxonAuthor.recordcount# scientific name#plural#)
+											Author (of #getAgentTaxonAuthor.recordcount# scientific name#plural# in MCZbase)
 											</button>
 										</h2>
 									</div>
