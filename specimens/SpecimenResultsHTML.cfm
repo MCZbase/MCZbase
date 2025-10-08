@@ -4,7 +4,7 @@
 <cftry>
 	<cfif not isDefined("result_id") OR len(result_id) EQ 0> 
 		<!--- new search --->
-		<cfinclude template="/specimens/component/search.cfc" runOnce="true">
+		<cfinclude template="/specimens/component/search.cfc" runOnce="true"><!--- constructJsonForField --->
 	
 		<cfset search_json = "[">
 		<cfset separator = "">
@@ -218,7 +218,7 @@
 		</cfif>
 	
 		<cfset result_id = CreateUUID()>
-		<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout#">
+		<cfstoredproc procedure="build_query_dbms_sql_nest" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout#">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 			<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
