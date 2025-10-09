@@ -47,7 +47,7 @@ Change to: <select name="format">
 </form>
 </cfoutput>
 <cfif format is "Cryo-Sheet" or format is "Cryo-Sheet-R">
-	<cfset var NOT_SUBSAMPLE = "The Vial, Not A Subsample">
+	<cfset NOT_SUBSAMPLE = "The Vial, Not A Subsample">
 	<cftry>
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT * 
