@@ -284,9 +284,53 @@ limitations under the License.
 *		 testScriptPrefixedNumberListToSQLWherePrefix and testScriptPrefixedNumberListToSQLWherePrefixLists
 */
 function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixFieldname, embeddedSeparator, openWith, closeWith, leadingJoin ) {
-	var result = "";
-	var orBit = "";
-	var wherePart = "";
+
+    // Make sure the call is not using the old parameter list, which had nest instead of openWith/closeWith.
+    if (NOT structKeyExists(arguments, "leadingJoin") OR len(trim(arguments.leadingJoin)) EQ 0) {
+        throw(type="InvalidArgumentException",
+              message="ScriptPrefixedNumberListToJSON: missing required parameter 'leadingJoin' (expected 'and' or 'or').");
+    }
+
+    // normalize and validate leadingJoin
+    leadingJoin = lcase(trim(arguments.leadingJoin));
+    if (NOT (leadingJoin EQ "and" OR leadingJoin EQ "or")) {
+        throw(type="InvalidArgumentException",
+              message="ScriptPrefixedNumberListToJSON: invalid leadingJoin value '" & arguments.leadingJoin & "'. Expect 'and' or 'or'.");
+    }
+
+    // ensure openWith/closeWith are numeric so later loops don't misbehave
+    if (NOT isNumeric(arguments.openWith)) {
+        openWith = 0;
+    } else {
+        openWith = int(arguments.openWith);
+    }
+    if (NOT isNumeric(arguments.closeWith)) {
+        closeWith = 0;
+    } else {
+        closeWith = int(arguments.closeWith);
+    }
+
+    // local declarations (important: declare loop counters so they don't leak or get clobbered)
+    var result = "";
+    var orBit = "";
+    var wherePart = "";
+    var i = 0;
+    var j = 0;
+    var comma = "";
+    var nestDepth = "";
+    var numericClause = "";
+    var wherebit = "";
+    var prefix = "";
+    var numeric = "";
+    var suffix = "";
+    var mayBeQuoted = "";
+    var partFromList = "";
+    var atomParts = [];
+    var partCount = 0;
+    var specialNumber = "";
+    var localentryNestDepth = "";
+    var joinPhrase = "";
+
 	if (prefixFieldName EQ "CAT_NUM_PREFIX") { 
 		baseFieldName = "CAT_NUM";
 		displayFieldName = "CAT_NUM";
