@@ -15,8 +15,12 @@
 		<cfset parameters = StructNew()>
 	
 		<cfif isdefined("collection_id") and len(#collection_id#) gt 0>
+			<!--- TODO: Fix: Causes thread to hang --->
+			<cfset collection_id = "">
+		</cfif>
+		<cfif isdefined("collection_id") and len(#collection_id#) gt 0>
 			<cfset StructInsert(parameters,"collection_id",collection_id)>
-			<!--- lookup collection from collection_id if specified --->
+			 <!--- lookup collection from collection_id if specified --->
 			<cfquery name="lookupColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
 				SELECT collection_cde
 				FROM collection
@@ -34,6 +38,10 @@
 			<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
+		</cfif>
+		<cfif isDefined("cat_num") AND len(cat_num) GT 0>
+			<!--- TODO: Fix: Causes thread to hang --->
+			<cfset cat_num = "">
 		</cfif>
 		<cfif isDefined("cat_num") AND len(cat_num) GT 0>
 			<cfset StructInsert(parameters,"cat_num",cat_num)>
@@ -102,6 +110,10 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#family#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
+		</cfif>
+		<cfif isDefined("any_geography") AND len(any_geography) GT 0>
+			<!--- TODO: Fix: Causes thread to hang --->
+			<cfset any_geography = "">
 		</cfif>
 		<cfif isDefined("any_geography") AND len(any_geography) GT 0>
 			<cfset StructInsert(parameters,"any_geography",any_geography)>
