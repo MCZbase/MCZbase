@@ -40,12 +40,10 @@
 			<cfset join='"join":"and",'>
 		</cfif>
 		<cfif isDefined("cat_num") AND len(cat_num) GT 0>
-			<!--- TODO: Fix: Causes thread to hang --->
-			<cfset cat_num = "">
-		</cfif>
-		<cfif isDefined("cat_num") AND len(cat_num) GT 0>
 			<cfset StructInsert(parameters,"cat_num",cat_num)>
-			<cfset clause = ScriptPrefixedNumberListToJSON(cat_num, "CAT_NUM_INTEGER", "CAT_NUM_PREFIX", true, nest, "and")>
+			<cfset openWith = 1>
+			<cfset closeWith = 1>
+			<cfset clause = ScriptPrefixedNumberListToJSON(cat_num, "CAT_NUM_INTEGER", "CAT_NUM_PREFIX", true, openWith, closeWith, "and")>
 			<cfset search_json = "#search_json##separator##clause#">
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
