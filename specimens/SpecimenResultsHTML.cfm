@@ -194,7 +194,9 @@
 		<cfif isdefined("debug") AND len(debug) GT 0>
 			<cfoutput>
 				<cfdump var="#search_json#">
-				<cfdump var="#session.dbuser#">
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+					<cfdump var="#session.dbuser#">
+				</cfif>
 			</cfoutput>
 		</cfif>
 		<cfif NOT IsJSON(search_json)>
