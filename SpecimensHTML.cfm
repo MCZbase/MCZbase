@@ -48,8 +48,7 @@
 							<cfelse>
 								<cfset thisCollId = "">
 							</cfif>
-							<!--- TODO: Disabling, backing needs to be fixed --->
-							<select name="collection_id" id="collection_id" size="1" class="data-entry-select" disabled>
+							<select name="collection_id" id="collection_id" size="1" class="data-entry-select">
 								<option value="">All</option>
 								<cfloop query="ctInst">
 									<option <cfif #thisCollId# is #ctInst.collection_id#>	selected </cfif>
