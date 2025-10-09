@@ -130,8 +130,9 @@ imgStyleClass=value
 	<cfthread name="mediaWidgetThread#tn#" threadName="mediaWidgetThread#tn#">
 		<cfoutput>
 			<cfset output = getMediaBlockHtmlUnthreaded(media_id="#l_media_id#",displayAs="#l_displayAs#",size="#l_size#",styles="#l_styles#",captionAs="#l_captionAs#",background_class="#l_background_class#",background_color="#l_background_color#")>
-				
-			#output#
+			<cfif isDefined("output") AND len(output) GT 0>
+				#output#
+			</cfif>
 		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="mediaWidgetThread#tn#" />
