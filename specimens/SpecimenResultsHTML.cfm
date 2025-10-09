@@ -15,10 +15,6 @@
 		<cfset parameters = StructNew()>
 	
 		<cfif isdefined("collection_id") and len(#collection_id#) gt 0>
-			<!--- TODO: Fix: Causes thread to hang --->
-			<cfset collection_id = "">
-		</cfif>
-		<cfif isdefined("collection_id") and len(#collection_id#) gt 0>
 			<cfset StructInsert(parameters,"collection_id",collection_id)>
 			 <!--- lookup collection from collection_id if specified --->
 			<cfquery name="lookupColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" timeout="#Application.short_timeout#">
@@ -35,14 +31,14 @@
 			<cfset field = '"field": "collection_cde"'>
 			<cfset comparator = '"comparator": "IN"'>
 			<cfset value = encodeForJSON(collection_cde)>
-			<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+			<cfset search_json = '#search_json##separator#{"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
 		</cfif>
 		<cfif isDefined("cat_num") AND len(cat_num) GT 0>
 			<cfset StructInsert(parameters,"cat_num",cat_num)>
-			<cfset openWith = 1>
-			<cfset closeWith = 1>
+			<cfset openWith = 0>
+			<cfset closeWith = 0>
 			<cfset clause = ScriptPrefixedNumberListToJSON(cat_num, "CAT_NUM_INTEGER", "CAT_NUM_PREFIX", true, openWith, closeWith, "and")>
 			<cfset search_json = "#search_json##separator##clause#">
 			<cfset separator = ",">
