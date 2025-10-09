@@ -47,6 +47,7 @@ Change to: <select name="format">
 </form>
 </cfoutput>
 <cfif format is "Cryo-Sheet" or format is "Cryo-Sheet-R">
+	<cfset var NOT_SUBSAMPLE = "The Vial, Not A Subsample">
 	<cftry>
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			SELECT * 
@@ -95,7 +96,7 @@ Change to: <select name="format">
 				   c2.label as position,
 				   c1.barcode as vial,
 				   corem.coll_object_remarks as part_remarks,
-				   'The Vial, Not A Subsample' sampled_from_part_remarks
+				   '#NOT_SUBSAMPLE#' sampled_from_part_remarks
 				from
 					loan_item
 					left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
@@ -256,7 +257,12 @@ Change to: <select name="format">
     		         <td #tdStyle#><span class="#textClass#"><strong>#slot#</strong></span></td>
     		         <td #tdStyle#><span class="#textClass#">#box#</span></td>
     		         <td #tdStyle#><span class="#textClass#"><strong>#position#</strong></span></td>
-    		         <td #tdStyle#><span class="#textClass#">#vial#</span></td>
+    		         <td #tdStyle#><span class="#textClass#">
+							#vial#
+							<cfif sampled_from_part_remarks EQ NOT_SUBSAMPLE>
+								(Not a Subsample)
+							</cfif>
+						</span></td>
 						<cfif format is "Cryo-Sheet-R">
     		         	<td #tdStyle#><span class="#textClass#">#part_remarks#</span></td>
     		         	<td #tdStyle#><span class="#textClass#">#sampled_from_part_remarks#</span></td>
