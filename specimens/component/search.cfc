@@ -1003,6 +1003,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 </cffunction>
 
 <cffunction name="constructJsonForField">
+	<!--- NOTE: If changing the structure of JSON to change to a different procedure than build_query_dbms_sql, 
+		make sure to also assess the changes in specimens/SpecimenResultsHTML.cfm as well as in this file --->
 	<cfargument name="join" type="string" required="yes">
 	<cfargument name="field" type="string" required="yes">
 	<cfargument name="value" type="string" required="yes">
@@ -2308,7 +2310,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
 		<cfif result_id_count.ct EQ 0>
-			<!--- errors are handled by build_query_dbms_sql throwing exceptions --->
+			<!--- NOTE: if changing to a different proceedure, also change the invocation in specimens/SpecimenResultsHTML.cfm --->
+			<!--- errors are handled by build_query_dbms_sql_nest throwing exceptions --->
 			<cfstoredproc procedure="build_query_dbms_sql_nest" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout*2#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
