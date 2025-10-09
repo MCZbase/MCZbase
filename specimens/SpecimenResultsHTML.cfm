@@ -106,10 +106,6 @@
 			<cfset join='"join":"and",'>
 		</cfif>
 		<cfif isDefined("any_geography") AND len(any_geography) GT 0>
-			<!--- TODO: Fix: Causes thread to hang --->
-			<cfset any_geography = "">
-		</cfif>
-		<cfif isDefined("any_geography") AND len(any_geography) GT 0>
 			<cfset StructInsert(parameters,"any_geography",any_geography)>
 			<cfset field = '"field": "any_geography"'>
 			<cfset comparator = '"comparator": ""'>
@@ -131,7 +127,7 @@
 			<cfset searchValueForJSON = searchValue>
 			<cfset searchValueForJSON = replace(searchValueForJSON,"\","\\","all")>
 			<cfset searchValueForJSON = replace(searchValueForJSON,'"','\"',"all")>
-			<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#searchValueForJSON#"}'>
+			<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#searchValueForJSON#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
 		</cfif>

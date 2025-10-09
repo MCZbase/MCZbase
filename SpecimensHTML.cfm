@@ -96,8 +96,7 @@
 						<div class="col-12 col-md-6 col-xl-4 mt-1">
 							<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 							<label for="any_geography" class="data-entry-label">Any Geographic Element</label>
-							<!--- TODO: Disabling, backing needs to be fixed --->
-							<input id="any_geography" type="text" name="any_geography" class="data-entry-input" value="#encodeForHtml(any_geography)#" disabled>
+							<input id="any_geography" type="text" name="any_geography" class="data-entry-input" value="#encodeForHtml(any_geography)#">
 						</div>
 						<div class="col-12 col-md-6 col-xl-4 mt-1">
 							<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
