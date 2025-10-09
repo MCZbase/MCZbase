@@ -10,7 +10,7 @@
 		<cfset separator = "">
 		<cfset join = ''>
 
-		<cfset nest = 1>
+		<cfset nest = '"openParens":"0","closeParens":"0"'>
 
 		<cfset parameters = StructNew()>
 	
@@ -34,7 +34,6 @@
 			<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("cat_num") AND len(cat_num) GT 0>
 			<cfset StructInsert(parameters,"cat_num",cat_num)>
@@ -42,7 +41,6 @@
 			<cfset search_json = "#search_json##separator##clause#">
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("type_status") AND len(type_status) GT 0>
 			<cfset StructInsert(parameters,"type_status",type_status)>
@@ -79,7 +77,6 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#type_status_value#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("any_taxa_term") AND len(any_taxa_term) GT 0>
 			<cfset StructInsert(parameters,"any_taxa_term",any_taxa_term)>
@@ -91,7 +88,6 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#any_taxa_term#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("phylum") AND len(phylum) GT 0>
 			<cfset StructInsert(parameters,"phylum",phylum)>
@@ -99,7 +95,6 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#phylum#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("family") AND len(family) GT 0>
 			<cfset StructInsert(parameters,"family",family)>
@@ -107,7 +102,6 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#family#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("any_geography") AND len(any_geography) GT 0>
 			<cfset StructInsert(parameters,"any_geography",any_geography)>
@@ -134,7 +128,6 @@
 			<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#searchValueForJSON#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("continent_ocean") AND len(continent_ocean) GT 0>
 			<cfset StructInsert(parameters,"continent_ocean",continent_ocean)>
@@ -142,7 +135,6 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#continent_ocean#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("country") AND len(country) GT 0>
 			<cfset StructInsert(parameters,"country",country)>
@@ -150,7 +142,6 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#country#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("island_group") AND len(island_group) GT 0>
 			<cfset StructInsert(parameters,"island_group",island_group)>
@@ -158,7 +149,6 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#island_group#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("islands") AND len(islands) GT 0>
 			<cfset island=islands>
@@ -169,7 +159,6 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#island#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("spec_locality") AND len(spec_locality) GT 0>
 			<cfset StructInsert(parameters,"spec_locality",spec_locality)>
@@ -177,7 +166,6 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#spec_locality#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("date_collected") AND len(date_collected) GT 0>
 			<cfset StructInsert(parameters,"date_collected",date_collected)>
@@ -186,13 +174,11 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 			<cfset field = '"field": "date_ended_date"'>
 			<cfset searchText = reformatDateSearchTerm(searchText="#date_collected#") >
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("part_name") AND len(part_name) GT 0>
 			<cfset StructInsert(parameters,"part_name",part_name)>
@@ -200,7 +186,6 @@
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#part_name#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
-			<cfset nest = nest + 1>
 		</cfif>
 	
 		<cfset search_json = "#search_json#]">
