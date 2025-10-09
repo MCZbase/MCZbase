@@ -60,8 +60,7 @@
 						<div class="col-12 col-md-6 col-xl-4 mt-1">
 							<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
 							<label for="catalogNum" class="data-entry-label">Catalog Number</label>
-							<!--- TODO: Disabling, backing needs to be fixed --->
-							<input id="catalogNum" type="text" name="cat_num" class="data-entry-input" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#" disabled>
+							<input id="catalogNum" type="text" name="cat_num" class="data-entry-input" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
 						</div>
 						<div class="col-12 col-md-6 col-xl-4 mt-1">
 							<cfif not isdefined("type_status")><cfset type_status=""></cfif>
