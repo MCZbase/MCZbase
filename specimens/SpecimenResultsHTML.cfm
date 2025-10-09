@@ -31,7 +31,7 @@
 			<cfset field = '"field": "collection_cde"'>
 			<cfset comparator = '"comparator": "IN"'>
 			<cfset value = encodeForJSON(collection_cde)>
-			<cfset search_json = '#search_json##separator#{"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+			<cfset search_json = '#search_json##separator#{#nest#,#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
 		</cfif>
