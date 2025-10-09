@@ -48,8 +48,7 @@
 							<cfelse>
 								<cfset thisCollId = "">
 							</cfif>
-							<!--- TODO: Disabling, backing needs to be fixed --->
-							<select name="collection_id" id="collection_id" size="1" class="data-entry-select" disabled>
+							<select name="collection_id" id="collection_id" size="1" class="data-entry-select">
 								<option value="">All</option>
 								<cfloop query="ctInst">
 									<option <cfif #thisCollId# is #ctInst.collection_id#>	selected </cfif>
@@ -60,8 +59,7 @@
 						<div class="col-12 col-md-6 col-xl-4 mt-1">
 							<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
 							<label for="catalogNum" class="data-entry-label">Catalog Number</label>
-							<!--- TODO: Disabling, backing needs to be fixed --->
-							<input id="catalogNum" type="text" name="cat_num" class="data-entry-input" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#" disabled>
+							<input id="catalogNum" type="text" name="cat_num" class="data-entry-input" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
 						</div>
 						<div class="col-12 col-md-6 col-xl-4 mt-1">
 							<cfif not isdefined("type_status")><cfset type_status=""></cfif>
@@ -98,8 +96,7 @@
 						<div class="col-12 col-md-6 col-xl-4 mt-1">
 							<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 							<label for="any_geography" class="data-entry-label">Any Geographic Element</label>
-							<!--- TODO: Disabling, backing needs to be fixed --->
-							<input id="any_geography" type="text" name="any_geography" class="data-entry-input" value="#encodeForHtml(any_geography)#" disabled>
+							<input id="any_geography" type="text" name="any_geography" class="data-entry-input" value="#encodeForHtml(any_geography)#">
 						</div>
 						<div class="col-12 col-md-6 col-xl-4 mt-1">
 							<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>

@@ -284,9 +284,53 @@ limitations under the License.
 *		 testScriptPrefixedNumberListToSQLWherePrefix and testScriptPrefixedNumberListToSQLWherePrefixLists
 */
 function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixFieldname, embeddedSeparator, openWith, closeWith, leadingJoin ) {
-	var result = "";
-	var orBit = "";
-	var wherePart = "";
+
+    // Make sure the call is not using the old parameter list, which had nest instead of openWith/closeWith.
+    if (NOT structKeyExists(arguments, "leadingJoin") OR len(trim(arguments.leadingJoin)) EQ 0) {
+        throw(type="InvalidArgumentException",
+              message="ScriptPrefixedNumberListToJSON: missing required parameter 'leadingJoin' (expected 'and' or 'or').");
+    }
+
+    // normalize and validate leadingJoin
+    leadingJoin = lcase(trim(arguments.leadingJoin));
+    if (NOT (leadingJoin EQ "and" OR leadingJoin EQ "or")) {
+        throw(type="InvalidArgumentException",
+              message="ScriptPrefixedNumberListToJSON: invalid leadingJoin value '" & arguments.leadingJoin & "'. Expect 'and' or 'or'.");
+    }
+
+    // ensure openWith/closeWith are numeric so later loops don't misbehave
+    if (NOT isNumeric(arguments.openWith)) {
+        openWith = 0;
+    } else {
+        openWith = int(arguments.openWith);
+    }
+    if (NOT isNumeric(arguments.closeWith)) {
+        closeWith = 0;
+    } else {
+        closeWith = int(arguments.closeWith);
+    }
+
+    // local declarations (important: declare loop counters so they don't leak or get clobbered)
+    var result = "";
+    var orBit = "";
+    var wherePart = "";
+    var i = 0;
+    var j = 0;
+    var comma = "";
+    var nestDepth = "";
+    var numericClause = "";
+    var wherebit = "";
+    var prefix = "";
+    var numeric = "";
+    var suffix = "";
+    var mayBeQuoted = "";
+    var partFromList = "";
+    var atomParts = [];
+    var partCount = 0;
+    var specialNumber = "";
+    var localentryNestDepth = "";
+    var joinPhrase = "";
+
 	if (prefixFieldName EQ "CAT_NUM_PREFIX") { 
 		baseFieldName = "CAT_NUM";
 		displayFieldName = "CAT_NUM";
@@ -1003,6 +1047,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 </cffunction>
 
 <cffunction name="constructJsonForField">
+	<!--- NOTE: If changing the structure of JSON to change to a different procedure than build_query_dbms_sql, 
+		make sure to also assess the changes in specimens/SpecimenResultsHTML.cfm as well as in this file --->
 	<cfargument name="join" type="string" required="yes">
 	<cfargument name="field" type="string" required="yes">
 	<cfargument name="value" type="string" required="yes">
@@ -2308,7 +2354,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
 		<cfif result_id_count.ct EQ 0>
-			<!--- errors are handled by build_query_dbms_sql throwing exceptions --->
+			<!--- NOTE: if changing to a different proceedure, also change the invocation in specimens/SpecimenResultsHTML.cfm --->
+			<!--- errors are handled by build_query_dbms_sql_nest throwing exceptions --->
 			<cfstoredproc procedure="build_query_dbms_sql_nest" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout*2#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
