@@ -123,7 +123,7 @@ limitations under the License.
 				</cfquery>
 				<h2 class="h3"> 
 					#getContainer.label# 
-					<cfif getContainer.barcode is not getContainer.label>
+					<cfif getContainer.barcode is not getContainer.label and len(getContainer.barcode) gt 0>
 						(#getContainer.barcode#)
 					</cfif>
 				</h2>
@@ -138,12 +138,9 @@ limitations under the License.
 					<cfif len(getContainer.container_remarks) gt 0>
 						<li><strong>Remarks:</strong> #getContainer.container_remarks#</li>
 					</cfif>
-					<cfif #getHistory.recordcount# gt 0>
-						Has been in the following container(s):
-					<cfelse>
-						Has no placement history.
-					</cfif>
+					</ul>
 				</div>
+				<h3 class="h4 mt-4">Current Container</h3>
 				<table class="table table-striped border mt-2">
 					<tr>
 						<th>Placement Date</th>
@@ -154,7 +151,6 @@ limitations under the License.
 					</tr>
 					<tr>
 						<td>
-							Current
 							#dateformat(getContainer.install_date,"yyyy-mm-dd")#
 							#timeformat(getContainer.install_date,"HH:mm:ss")#
 						</td>
@@ -167,6 +163,31 @@ limitations under the License.
 						<td>#getContainer.parent_container_type#</td>
 						<td>#getContainer.parent_description#</td>
 						<td>#getContainer.parent_barcode#</td>
+					</tr>
+				</table>
+				<h2 class="h3"> 
+					#getContainer.label# 
+					<cfif getContainer.barcode is not getContainer.label and len(getContainer.barcode) gt 0>
+						(#getContainer.barcode#)
+					</cfif>
+				</h2>
+				<div>
+					<h3 class="h4">Container History</h3>
+					<ul>
+						<cfif #getHistory.recordcount# gt 0>
+							<li>Has been in the following container(s):</li>
+						<cfelse>
+							<li>Has no placement history.</li>
+						</cfif>
+					</ul>
+				</div>
+				<table class="table table-striped border mt-2">
+					<tr>
+						<th>Placement Date</th>
+						<th>Name</th>
+						<th>Type</th>
+						<th>Description</th>
+						<th>Unique Identifier</th>
 					</tr>
 					<cfloop query="getHistory">
 						<tr>
