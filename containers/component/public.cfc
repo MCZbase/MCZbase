@@ -118,7 +118,7 @@ limitations under the License.
 						label,
 						description,
 						barcode
-					ORDER BY install_date DESC
+					ORDER BY install_date DESC NULLS LAST
 				</cfquery>
 				<h2 class="h3"> 
 					#getContainer.label# 
