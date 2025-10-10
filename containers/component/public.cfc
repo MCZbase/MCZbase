@@ -88,6 +88,7 @@ limitations under the License.
 						container.container_type,
 						container.container_id,
 						container.container_remarks,
+						container.parent_install_date as install_date,
 						parent.label AS parent_label,
 						parent.description AS parent_description,
 						parent.container_type AS parent_container_type,
@@ -152,7 +153,11 @@ limitations under the License.
 						<th>Unique Identifier</th>
 					</tr>
 					<tr>
-						<td>Current</td>
+						<td>
+							Current
+							#dateformat(getContainer.install_date,"yyyy-mm-dd")#
+							#timeformat(getContainer.install_date,"HH:mm:ss")#
+						</td>
 						<td>
 							#getContainer.parent_label#
 							<cfif getContainer.parent_barcode is not getContainer.parent_label>
