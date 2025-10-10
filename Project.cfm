@@ -64,6 +64,11 @@
 				<textarea name="project_description" id="project_description" cols="100" rows="6"></textarea>
 				<label for="project_remarks">Remarks</label>
 				<textarea name="project_remarks" id="project_remarks" cols="100" rows="3"></textarea>
+				<label for="mask_project_fg">Visibility</label>
+				<select name="mask_project_fg" id="mask_project_fg">
+					<option value="0" selected="selected">Public</option>
+					<option value="1">Hidden</option>
+				</select>
 				<br>
 	
  </div>
@@ -83,7 +88,8 @@
 		<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 		INSERT INTO project (
 			PROJECT_ID,
-			PROJECT_NAME
+			PROJECT_NAME,
+			MASK_PROJECT_FG
 			<cfif len(#START_DATE#) gt 0>
 				,START_DATE
 			</cfif>
@@ -100,7 +106,8 @@
 			 )
 		VALUES ( 
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextID.nextid#">,
-			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PROJECT_NAME#">
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PROJECT_NAME#">,
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_project_fg#">
 			<cfif len(#START_DATE#) gt 0>
 				,<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(START_DATE,"yyyy-mm-dd")#">
 			</cfif>
@@ -137,6 +144,7 @@
 				project_agent_name.agent_name_id,
 				project_agent_role,
 				project_remarks,
+				mask_project_fg,
 				agent_position,
 				PROJECT_SPONSOR_ID,
 				ACKNOWLEDGEMENT,
@@ -240,7 +248,8 @@
 				start_date,
 				end_date,
 				project_description,
-				project_remarks
+				project_remarks,
+				mask_project_fg
 			FROM 
 				getDetails
 			group by
@@ -249,7 +258,8 @@
 				start_date,
 				end_date,
 				project_description,
-				project_remarks
+				project_remarks,
+				mask_project_fg
 		</cfquery>
 		<cfquery name="numAgents" dbtype="query">
 			select max(agent_position) as  agent_position from agents
@@ -297,6 +307,13 @@
 				<textarea name="project_description" id="project_description" cols="80" rows="6">#proj.project_description#</textarea>
 				<label for="project_remarks">Remarks</label>
 				<textarea name="project_remarks" id="project_remarks" cols="80" rows="3">#proj.project_remarks#</textarea>
+				<label for="mask_project_fg">Visibility</label>
+				<select name="mask_project_fg" id="mask_project_fg">
+					<cfif proj.mask_project_fg EQ "0"><cfset selected = "selected"><cfelse><cfset selected=""> </cfif>
+					<option value="0" #selected# >Public</option>
+					<cfif proj.mask_project_fg EQ "1"><cfset selected = "selected"><cfelse><cfset selected=""> </cfif>
+					<option value="1" #selected#>Hidden</option>
+				</select>
 				<br>
 				<input type="button" 
 					value="Save Updates" 
@@ -756,7 +773,7 @@
 		<cftransaction action="commit">
 	</cftransaction>
 	
-	You've deleted the project.
+	You have deleted the project.
 	<br>
 	<a href="Project.cfm">continue</a>
  </cfoutput>
@@ -838,6 +855,7 @@
 			SET 
 				project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 				,project_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#project_name#">
+				,mask_project_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_project_fg#">
 			<cfif len(#start_date#) gt 0>
 			 	,start_date = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(start_date,"yyyy-mm-dd")#">
 			<cfelse>

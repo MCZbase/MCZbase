@@ -26,6 +26,11 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 
 	<cftry>
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			<cfset oneOfUs = 1>
+		<cfelse>
+			<cfset oneOfUs = 0>
+		</cfif>
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			select distinct project_name, project_id, 
@@ -34,6 +39,9 @@ limitations under the License.
 			from project 
 			where 
 				upper(project_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+				<cfif oneOfUs NEQ 1>
+					AND project.mask_project_fg = 0
+				</cfif>
 			order by project_name
 		</cfquery>
 		<cfset rows = search_result.recordcount>

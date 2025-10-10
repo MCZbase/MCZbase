@@ -4515,7 +4515,9 @@ limitations under the License.
 		<cftry>
 			<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select project_name, project.project_id, 
-					project_trans_remarks,
+					project_trans_remarks, 
+					mask_project_fg,
+					decode(mask_project_fg,0,'Public',1,'Hidden') as project_visibility,
 					to_char(start_date,'YYYY-MM-DD') as start_date,
 					to_char(end_date,'YYYY-MM-DD') as end_date
 				from project_trans left join project on project_trans.project_id =  project.project_id
@@ -4529,6 +4531,7 @@ limitations under the License.
 						<cfloop query="projs">
 							<li class="my-1">
 								<a href="/Project.cfm?Action=editProject&project_id=#project_id#" target="_blank"><strong>#project_name#</strong></a> 
+								<cfif mask_project_fg eq 1>#project_visibility#</cfif>
 								(#start_date#/#end_date#) #project_trans_remarks#
 								<a class='btn btn-xs btn-warning' onClick='  confirmDialog("Remove this project from this transaction?", "Confirm Unlink Project", function() { removeProjectFromTrans(#project_id#,#transaction_id#); } ); '>Remove</a>
 							</li>
@@ -4719,6 +4722,15 @@ limitations under the License.
 					</div>
 					<div class="form-row mt-2">
 						<div class="col-12 px-0">
+							<label for="mask_project_fg" class="data-entry-label">Project Visibility</label>
+							<select name="mask_project_fg" id="mask_project_fg" size="1" class="data-entry-select">
+								<option value="0" selected>Public</option>
+								<option value="1">Hidden</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-row mt-2">
+						<div class="col-12 px-0">
 							<label for="project_description" class="data-entry-label">Project Description</label>
 							<textarea name="project_description" id="project_description" class="form-control autogrow"
 								id="project_description" cols="50" rows="2"></textarea>
@@ -4896,6 +4908,7 @@ limitations under the License.
 	<cfargument name="newAgent_name_id" type="string" required="yes">
 	<cfargument name="project_agent_role" type="string" required="yes">
 	<cfargument name="project_trans_remarks" type="string" required="no">
+	<cfargument name="mask_project_fg" type="string" required="no" default="0">
 	<cfset r=1>
 	<cftransaction>
 		<cftry>
@@ -4907,6 +4920,7 @@ limitations under the License.
 				INSERT INTO project (
 					PROJECT_ID
 					,PROJECT_NAME
+					,mask_project_fg
 					<cfif len(#START_DATE#) gt 0>
 						,START_DATE
 					</cfif>
@@ -4924,6 +4938,7 @@ limitations under the License.
 				(
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id_new#">
 					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PROJECT_NAME#">
+					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_project_fg#">
 					<cfif len(#START_DATE#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(START_DATE,"yyyy-mm-dd")#">
 					</cfif>

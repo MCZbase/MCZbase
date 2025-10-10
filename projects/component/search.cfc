@@ -31,6 +31,11 @@ Function getProjectAutocompleteMeta.  Search for projects by name with a substri
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			<cfset oneOfUs = 1>
+		<cfelse>
+			<cfset oneOfUs = 0>
+		</cfif>
       <cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="search_result">
 			SELECT 
@@ -39,9 +44,14 @@ Function getProjectAutocompleteMeta.  Search for projects by name with a substri
 			FROM 
 				project
 			WHERE
+				(
 				upper(project_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 				OR
 				upper(project_description) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+				)
+				<cfif oneOfUs NEQ 1>
+					AND project.mask_project_fg = 0
+				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>

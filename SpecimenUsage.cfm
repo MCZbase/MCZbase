@@ -1,4 +1,9 @@
 <cfinclude template = "includes/_header.cfm">
+<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+	<cfset oneOfUs = 1>
+<cfelse>
+	<cfset oneOfUs = 0>
+</cfif>
 <cfif action is "nothing">
 	<cfif isdefined("publication_id") and len(publication_id) gt 0>
 		<cflocation url="SpecimenUsage.cfm?action=search&publication_id=#publication_id#" addtoken="false">
@@ -93,6 +98,9 @@
 					left join agent_name s_name on project_sponsor.agent_name_id = s_name.agent_name_id
 				WHERE
 					project.project_id is not null
+					<cfif oneOfUs NEQ 1>
+						AND project.mask_project_fg = 0
+					<cfif>
 					<cfif isdefined("p_title") AND len(p_title) gt 0>
 						<cfset title = "#p_title#">
 						<cfset go="yes">
