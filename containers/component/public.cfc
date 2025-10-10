@@ -86,7 +86,7 @@ limitations under the License.
 					WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
 				</cfquery>
 				<cfif getContainer.recordcount eq 0>
-					<cfthrow message="Container ID #encodeForHtml(container_id)# not found."
+					<cfthrow message="Container ID #encodeForHtml(container_id)# not found.">
 				</cfif>
 				<cfquery name="getHist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
