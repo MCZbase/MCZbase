@@ -325,7 +325,7 @@ function openPartContainersDialog(collection_object_id, dialogid) {
   * @param dialogid the id of the div that is to contain the dialog, without a leading # selector.
   */
 function openPartContainerHistoryDialog(container_id, dialogid) { 
-	var title = "Part Container Placement";
+	var title = "Part Container Placement History";
 	console.log(dialogid);
 	var dialogElement = $("#" + dialogid);
 
