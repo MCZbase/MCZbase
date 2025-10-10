@@ -1745,6 +1745,9 @@ limitations under the License.
 												left join agent_name on project_sponsor.agent_name_id = agent_name.agent_name_id
 											WHERE
 												agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+												<cfif oneOfUs NEQ 1>
+													and project.mask_project_fg = 0
+												</cfif>
 											UNION
 											SELECT distinct
 												project_agent_role as role, 
@@ -1756,6 +1759,9 @@ limitations under the License.
 												left join agent_name on project_agent.agent_name_id = agent_name.agent_name_id
 											WHERE
 												agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+												<cfif oneOfUs NEQ 1>
+													and project.mask_project_fg = 0
+												</cfif>
 										</cfquery>
 										<cfif getProjRoles.recordcount GT 20 OR getProjRoles.recordcount eq 0>
 											<!--- cardState = collapsed --->

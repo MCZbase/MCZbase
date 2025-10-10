@@ -2208,6 +2208,11 @@ limitations under the License.
 				<cfelse>
 					<cfset hasManageTransactions = 0>
 				</cfif>	
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
 				<cfquery name="getGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						flat.guid
@@ -2574,6 +2579,9 @@ limitations under the License.
 							join cataloged_item on project_trans.transaction_id = cataloged_item.accn_id
 						WHERE
 							cataloged_item.collection_object_id = <cfqueryparam value="#variables.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+							<cfif oneOfUs NEQ 1>
+								AND project.mask_project_fg = 0
+							</cfif>
 						GROUP BY project_name, project.project_id
 					</cfquery>
 					<cfquery name="hasLoanInProject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -2586,6 +2594,9 @@ limitations under the License.
 							join project on project_trans.project_id=project.project_id
 						WHERE 
 							specimen_part.derived_from_cat_item = <cfqueryparam value="#variables.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+							<cfif oneOfUs NEQ 1>
+								AND project.mask_project_fg = 0
+							</cfif>
 						GROUP BY 
 							project_name, project.project_id
 					</cfquery>

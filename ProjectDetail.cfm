@@ -1,5 +1,10 @@
 <cfinclude template = "includes/_header.cfm">
-   
+ 
+<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+	<cfset oneOfUs = 1>
+<cfelse>
+	<cfset oneOfUs = 0>
+</cfif>
 <cfoutput>
      <div style="width: 60em; margin:0 auto;padding: 1em 0 5em 0;">
 <cfif not listfindnocase(cgi.REDIRECT_URL,"project","/")>
@@ -7,7 +12,14 @@
 		select project_name 
 		from project 
 		where project_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
+		<cfif oneOfUs NEQ 1>
+			and mask_project_fg = 0
+		</cfif>
 	</cfquery>
+	<cfif redir.recordcount is 0>
+		<cfinclude template="/errors/404.cfm">
+		<cfabort>
+	</cfif>
 	<cfheader statuscode="301" statustext="Moved permanently">
 	<cfheader name="Location" value="/project/#niceURL(redir.project_name)#">
 <cfelse>
@@ -15,9 +27,15 @@
 		select project_id
 		from project 
 		where niceURL(project_name)=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#niceProjName#">
+		<cfif oneOfUs NEQ 1>
+			and mask_project_fg = 0
+		</cfif>
 	</cfquery>
 	<cfif redir.recordcount is 1>
 		<cfset project_id=redir.project_id>
+	<cfelseif redir.recordcount is 0>
+		<cfinclude template="/errors/404.cfm">
+		<cfabort>
 	<cfelse>
 		<div class="error">
 			Yikes! Something bad happened. Please file a <a href="/info/bugs.cfm">Bug Report</a>.
@@ -62,10 +80,12 @@
 		SELECT 
 			project.project_id,
 			project_name,
+			mask_project_fg,
 			project_description,
 			start_date,
 			end_date,
-			agent_name.agent_name, 
+			agent_name.agent_name,
+			agent_name.agent_id,
 			agent_position,
 			project_agent_role,
 			ps.agent_name sponsor,
@@ -82,11 +102,19 @@
 			project.project_id=project_sponsor.project_id (+) and
 			project_sponsor.agent_name_id=ps.agent_name_id (+) and
 			project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
+			<cfif oneOfUs NEQ 1>
+				and mask_project_fg = 0
+			</cfif>
 	</cfquery>
+	<cfif proj.recordcount is 0>
+		<cfinclude template="/errors/404.cfm">
+		<cfabort>
+	</cfif>
 	<cfquery name="p" dbtype="query">
 		select 
 			project_id,
 			project_name,
+			mask_project_fg,
 			project_description,
 			start_date,
 			end_date
@@ -95,6 +123,7 @@
 		group by
 			project_id,
 			project_name,
+			mask_project_fg,
 			project_description,
 			start_date,
 			end_date
@@ -102,11 +131,13 @@
 	<cfquery name="a" dbtype="query">
 		select
 			agent_name,
+			agent_id,
 			project_agent_role
 		from 
 			proj
 		group by
 			agent_name,
+			agent_id,
 			project_agent_role
 		order by 
 			agent_position
@@ -139,8 +170,8 @@
 			<a href="/login.cfm">Login or Create Account</a>
 		</cfif>
     </span>
-	<cfset noHTML=replacenocase(p.project_name,'<i>','','all')>
-	<cfset noHTML=replacenocase(noHTML,'</i>','','all')>
+	<cfset noHTML=replacenocase(p.project_name,'<i>','','all')><!--- ' --->
+	<cfset noHTML=replacenocase(noHTML,'</i>','','all')><!--- ' --->
 	<cfset title = "Project Detail: #noHTML#">
 	<cfset metaDesc="Project: #p.project_name#">
 	<h2 class="proj_title">#p.project_name#</h2>
@@ -151,7 +182,7 @@
 	</cfloop>
 	<cfloop query="a">
 		<h3 class="proj_agent">
-			#agent_name#: #project_agent_role#
+			<a href="/agents/Agent.cfm?agent_id=#agent_id#">#agent_name#</a>: #project_agent_role#
 		</h3>
 	</cfloop>
 	<div class="cdiv">
@@ -159,6 +190,14 @@
 	</div>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
 		<p><a href="/Project.cfm?Action=editProject&project_id=#p.project_id#">Edit Project</a></p>
+	</cfif>
+	<cfif oneOfUs EQ 1>
+		<cfif p.mask_project_fg EQ 1>
+			<cfset visibility="Hidden">
+		<cfelse>
+			<cfset visibility="Public">
+		</cfif>
+		<h3>Visibility: #visibility#</h3>
 	</cfif>
 	<h3>Description</h3>
 	#p.project_description#

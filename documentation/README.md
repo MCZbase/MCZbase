@@ -163,8 +163,8 @@ Set your editing environment to use tabs for indentation. For display you can se
 
 When nesting html or javascript or sql within coldfusion, indentation SHOULD start at the current level of indentation and indent for each level of nesting, regardless of the language involved.
 
-	<cfif>	[coldfusion]
-		<cfset>
+	<cfif ...>	[coldfusion]
+		<cfset ...>
 		<div>[html]
 			<h2></h2>
 			<script> [html]

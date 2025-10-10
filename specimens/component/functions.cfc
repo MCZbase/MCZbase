@@ -11869,6 +11869,8 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 									encumbrance.expiration_date,
 									encumbrance.expiration_event,
 									encumbrance.remarks
+								ORDER BY
+									encumbrance.encumbrance ASC
 							</cfquery>
 							<div class="add-form">
 								<div class="add-form-header py-1 px-3 col-12 float-left">
