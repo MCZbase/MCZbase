@@ -275,7 +275,7 @@ function openPartContainersDialog(collection_object_id, dialogid) {
 				'position': 'fixed',
 				'top': '50%',
 				'left': '50%',
-				'transform': 'translate(-50%, -50%)'
+				'transform': 'translate(0%, -50%)'
 			});
 
 			if (typeof(getMaxZIndex) === "function") { 
@@ -362,7 +362,7 @@ function openPartContainerHistoryDialog(container_id, dialogid) {
 				'position': 'fixed',
 				'top': '50%',
 				'left': '50%',
-				'transform': 'translate(-50%, -50%)'
+				'transform': 'translate(0%, -50%)'
 			});
 
 			if (typeof(getMaxZIndex) === "function") { 
