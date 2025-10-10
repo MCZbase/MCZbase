@@ -5,21 +5,23 @@
 	<cfabort>
 </cfif>
 <cfquery name="thisCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select * from container where container_id=#container_id#
+	SELECT * 
+	FROM container 
+	WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
 </cfquery>
 
 <cfquery name="getHist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-	select
+	SELECT
 		install_date,
 		container_type,
 		label,
 		description,
 		barcode
-		 from container_history,container
-		 where container_history.parent_container_id = container.container_id and
-		  container_history.container_id=#container_id#
-		 GROUP BY
-		 install_date,
+	 FROM container_history,container
+	 WHERE container_history.parent_container_id = container.container_id and
+		  container_history.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
+	 GROUP BY
+		install_date,
 		container_type,
 		label,
 		description,
