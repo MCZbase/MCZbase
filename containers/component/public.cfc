@@ -109,7 +109,7 @@ limitations under the License.
 						label,
 						description,
 						barcode,
-						container_history.container_id
+						container_history.parent_container_id
 					 FROM container_history
 							join container on container_history.parent_container_id = container.container_id
 					 WHERE 
@@ -197,7 +197,7 @@ limitations under the License.
 									#timeformat(install_date,"HH:mm:ss")#
 								</td>
 								<td>
-									<a href="/findContainer.cfm?container_id=#encodeForURL(getHistory.container_id)#" target="_blank">
+									<a href="/findContainer.cfm?container_id=#encodeForURL(getHistory.parent_container_id)#" target="_blank">
 										#label#
 									</a>
 									<cfif barcode is not label>
