@@ -88,7 +88,7 @@ limitations under the License.
 				<cfif getContainer.recordcount eq 0>
 					<cfthrow message="Container ID #encodeForHtml(container_id)# not found.">
 				</cfif>
-				<cfquery name="getHist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				<cfquery name="getHistory" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 					SELECT
 						install_date,
 						container_type,
@@ -107,13 +107,13 @@ limitations under the License.
 						barcode
 					ORDER BY install_date DESC
 				</cfquery>
-				<h2 class="h3"> #thisCont.label# </h2>
+				<h2 class="h3"> #getContainer.label# </h2>
 				<div>
 					<h3 class="h4">
-						<cfif len(#thisCont.description#) gt 0>#thisCont.description#,&nbsp;</cfif>
-						#thisCont.container_type#
+						<cfif len(#getContainer.description#) gt 0>#getContainer.description#,&nbsp;</cfif>
+						#getContainer.container_type#
 					</h3>
-					<cfif #getHist.recordcount# gt 0>
+					<cfif #getHistory.recordcount# gt 0>
 						Has been in the following container(s):
 					<cfelse>
 						Has no placement history.
@@ -127,7 +127,7 @@ limitations under the License.
 						<th>Description</th>
 						<th>Unique Identifier</th>
 					</tr>
-					<cfloop query="getHist">
+					<cfloop query="getHistory">
 						<tr>
 							<td>
 								#dateformat(install_date,"dd mmm yyyy")#
