@@ -81,9 +81,22 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<cfquery name="getContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT * 
+					SELECT 
+						container.label,
+						container.barcode,
+						container.description,
+						container.container_type,
+						container.container_id,
+						container.container_remarks,
+						parent.label AS parent_label,
+						parent.description AS parent_description,
+						parent.container_type AS parent_container_type,
+						parent.container_id AS parent_container_id,
+						parent.barcode AS parent_barcode,
+						parent.container_remarks AS parent_container_remarks
 					FROM container 
-					WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
+						left join container parent on container.parent_container_id = parent.container_id
+					WHERE container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
 				</cfquery>
 				<cfif getContainer.recordcount eq 0>
 					<cfthrow message="Container ID #encodeForHtml(container_id)# not found.">
@@ -107,12 +120,23 @@ limitations under the License.
 						barcode
 					ORDER BY install_date DESC
 				</cfquery>
-				<h2 class="h3"> #getContainer.label# </h2>
+				<h2 class="h3"> 
+					#getContainer.label# 
+					<cfif getContainer.barcode is not getContainer.label>
+						(#getContainer.barcode#)
+					</cfif>
+				</h2>
 				<div>
 					<h3 class="h4">
-						<cfif len(#getContainer.description#) gt 0>#getContainer.description#,&nbsp;</cfif>
 						#getContainer.container_type#
 					</h3>
+					<ul>
+					<cfif len(#getContainer.description#) gt 0>
+						<li><strong>Description:</strong>#getContainer.description#</li>
+					</cfif>
+					<cfif len(getContainer.container_remarks) gt 0>
+						<li><strong>Remarks:</strong> #getContainer.container_remarks#</li>
+					</cfif>
 					<cfif #getHistory.recordcount# gt 0>
 						Has been in the following container(s):
 					<cfelse>
@@ -121,20 +145,37 @@ limitations under the License.
 				</div>
 				<table class="table table-striped border mt-2">
 					<tr>
-						<th>Date</th>
-						<th>Type</th>
+						<th>Placement Date</th>
 						<th>Name</th>
+						<th>Type</th>
 						<th>Description</th>
 						<th>Unique Identifier</th>
+					</tr>
+					<tr>
+						<td>Current</td>
+						<td>
+							#getContainer.parent_label#
+							<cfif getContainer.parent_barcode is not getContainer.parent_label>
+								(#getContainer.parent_barcode#)
+							</cfif>
+						</td>
+						<td>#getContainer.parent_container_type#</td>
+						<td>#getContainer.parent_description#</td>
+						<td>#getContainer.parent_barcode#</td>
 					</tr>
 					<cfloop query="getHistory">
 						<tr>
 							<td>
-								#dateformat(install_date,"dd mmm yyyy")#
-								&nbsp; #timeformat(install_date,"HH:mm:ss")#
+								#dateformat(install_date,"yyyy-mm-dd")#
+								#timeformat(install_date,"HH:mm:ss")#
+							</td>
+							<td>
+								#label#
+								<cfif barcode is not label>
+									(#barcode#)
+								</cfif>
 							</td>
 							<td>#container_type#</td>
-							<td>#label#</td>
 							<td>#description#</td>
 							<td>#barcode#</td>
 						</tr>
