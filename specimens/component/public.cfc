@@ -1320,9 +1320,13 @@ limitations under the License.
 					select
 						specimen_part.collection_object_id part_id,
 						<cfif oneOfUs EQ 1>
+							oc.label as oc_label,
+							oc.container_id as oc_container_id,
 							pc.label, 
 							pc.container_id as container_id,
 						<cfelse>
+							null as oc_label,
+							null as oc_container_id,
 							null as label,
 							null as container_id,
 						</cfif>
@@ -1363,6 +1367,7 @@ limitations under the License.
 				<cfquery name="distinctParts" dbtype="query">
 					select
 						part_id,
+						oc_label, oc_container_id,
 						label, container_id,
 						part_name,
 						sampled_from_obj_id,
@@ -1375,6 +1380,7 @@ limitations under the License.
 						getParts
 					group by
 						part_id,
+						oc_label, oc_container_id,
 						label, container_id,
 						part_name,
 						sampled_from_obj_id,
@@ -1519,11 +1525,15 @@ limitations under the License.
 								<td class="py-1">#lot_count#</td>
 								<cfif oneOfus is "1">
 									<div id="partContDialog_#collection_object_id#"></div>
+									<div id="partContHistoryDialog_#collection_object_id#"></div>
 									<td class="pb-0">
 										#label# 
 										<span class="small mb-0 pb-0">
 											<a href="javascript:void(0)" aria-label="Part Container Placement"
 												onClick=" openPartContainersDialog(#collection_object_id#, 'partContDialog_#collection_object_id#'); ">Placement</a>
+											&nbsp;
+											<a href="javascript:void(0)" aria-label="Part Container History"
+												onClick=" openPartContainerHistoryDialog(#oc_container_id#, 'partContHistoryDialog_#collection_object_id#'); ">History</a>
 										</span>
 									</td>
 								</cfif>
