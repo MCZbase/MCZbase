@@ -84,7 +84,8 @@
 			project_description,
 			start_date,
 			end_date,
-			agent_name.agent_name, 
+			agent_name.agent_name,
+			agent_name.agent_id,
 			agent_position,
 			project_agent_role,
 			ps.agent_name sponsor,
@@ -130,11 +131,13 @@
 	<cfquery name="a" dbtype="query">
 		select
 			agent_name,
+			agent_id,
 			project_agent_role
 		from 
 			proj
 		group by
 			agent_name,
+			agent_id,
 			project_agent_role
 		order by 
 			agent_position
@@ -179,7 +182,7 @@
 	</cfloop>
 	<cfloop query="a">
 		<h3 class="proj_agent">
-			#agent_name#: #project_agent_role#
+			<a href="/agents/Agent.cfm?agent_id=#agent_id#">#agent_name#</a>: #project_agent_role#
 		</h3>
 	</cfloop>
 	<div class="cdiv">
