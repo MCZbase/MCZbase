@@ -166,6 +166,9 @@ limitations under the License.
 					<cfloop query="getHistory">
 						<tr>
 							<td>
+								<cfif len(trim(install_date)) eq 0>
+									Unknown
+								</cfif>
 								#dateformat(install_date,"yyyy-mm-dd")#
 								#timeformat(install_date,"HH:mm:ss")#
 							</td>
