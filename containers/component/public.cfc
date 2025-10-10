@@ -122,7 +122,9 @@ limitations under the License.
 					ORDER BY install_date DESC NULLS LAST
 				</cfquery>
 				<h2 class="h3"> 
-					#getContainer.label# 
+					<a href="/findContainer.cfm?barcode=#encodeForURL(getContainer.barcode)#" target="_blank">
+						#getContainer.label# 
+					</a>
 					<cfif getContainer.barcode is not getContainer.label and len(getContainer.barcode) gt 0>
 						(#getContainer.barcode#)
 					</cfif>
@@ -165,51 +167,46 @@ limitations under the License.
 						<td>#getContainer.parent_barcode#</td>
 					</tr>
 				</table>
-				<h2 class="h3"> 
-					#getContainer.label# 
-					<cfif getContainer.barcode is not getContainer.label and len(getContainer.barcode) gt 0>
-						(#getContainer.barcode#)
-					</cfif>
-				</h2>
 				<div>
 					<h3 class="h4">Container History</h3>
-					<ul>
-						<cfif #getHistory.recordcount# gt 0>
-							<li>Has been in the following container(s):</li>
-						<cfelse>
-							<li>Has no placement history.</li>
+						<cfif #getHistory.recordcount# EQ 0>
+							<ul><li>Has no placement history.</li></ul>
 						</cfif>
 					</ul>
 				</div>
-				<table class="table table-striped border mt-2">
-					<tr>
-						<th>Placement Date</th>
-						<th>Name</th>
-						<th>Type</th>
-						<th>Description</th>
-						<th>Unique Identifier</th>
-					</tr>
-					<cfloop query="getHistory">
+				<cfif #getHistory.recordcount# gt 0>
+					<table class="table table-striped border mt-2">
 						<tr>
-							<td>
-								<cfif len(trim(install_date)) eq 0>
-									Unknown
-								</cfif>
-								#dateformat(install_date,"yyyy-mm-dd")#
-								#timeformat(install_date,"HH:mm:ss")#
-							</td>
-							<td>
-								#label#
-								<cfif barcode is not label>
-									(#barcode#)
-								</cfif>
-							</td>
-							<td>#container_type#</td>
-							<td>#description#</td>
-							<td>#barcode#</td>
+							<th>Placement Date</th>
+							<th>Name</th>
+							<th>Type</th>
+							<th>Description</th>
+							<th>Unique Identifier</th>
 						</tr>
-					</cfloop>
-				</table>
+						<cfloop query="getHistory">
+							<tr>
+								<td>
+									<cfif len(trim(install_date)) eq 0>
+										Unknown
+									</cfif>
+									#dateformat(install_date,"yyyy-mm-dd")#
+									#timeformat(install_date,"HH:mm:ss")#
+								</td>
+								<td>
+									<a href="/findContainer.cfm?barcode=#encodeForURL(barcode)#" target="_blank">
+										#label#
+									</a>
+									<cfif barcode is not label>
+										(#barcode#)
+									</cfif>
+								</td>
+								<td>#container_type#</td>
+								<td>#description#</td>
+								<td>#barcode#</td>
+							</tr>
+						</cfloop>
+					</table>
+				</cfif>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">

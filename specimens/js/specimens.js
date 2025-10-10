@@ -347,7 +347,7 @@ function openPartContainerHistoryDialog(container_id, dialogid) {
 		stack: true,
 		height: 'auto',
 		width: 'auto',
-		maxWidth: 600,
+		maxWidth: 800,
 		minHeight: 500,
 		draggable:true,
 		buttons: {
@@ -358,12 +358,6 @@ function openPartContainerHistoryDialog(container_id, dialogid) {
 		open: function (event, ui) {
 			// center the dialog in the viewport
 			var dialog = $(this).dialog('widget');
-			dialog.css({
-				'position': 'fixed',
-				'top': '50%',
-				'left': '50%',
-				'transform': 'translate(-50%, -50%)'
-			});
 
 			if (typeof(getMaxZIndex) === "function") { 
 				// force the dialog to lay above any other elements in the page.
@@ -389,18 +383,10 @@ function openPartContainerHistoryDialog(container_id, dialogid) {
 		},
 		success: function(data) {
 			console.log("data loaded");
-			console.log($("#"+dialogid+"_div").length);
-			console.log($("#"+dialogid).length);
 			$("#"+dialogid+"_div").html(data);
 		},
-		error: function (jqXHR, status, error) {
-			var message = "";
-			if (error == 'timeout') { 
-				message = ' Server took too long to respond.';
-			} else { 
-				message = jqXHR.responseText;
-			}
-			$("#"+dialogid+"_div").html("Error (" + error + "): " + message );
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading container history");
 		}
 	});
 }
