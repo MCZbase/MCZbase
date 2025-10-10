@@ -120,7 +120,7 @@ limitations under the License.
 						label,
 						description,
 						barcode,
-						container_history.container_id
+						container_history.parent_container_id
 					ORDER BY install_date DESC NULLS LAST
 				</cfquery>
 				<h2 class="h3"> 
