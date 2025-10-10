@@ -193,7 +193,7 @@
 			<cfset visibility="Hidden">
 		<cfelse>
 			<cfset visibility="Public">
-		<cfif>
+		</cfif>
 		<h3>Visibility: #visibility#</h3>
 	</cfif>
 	<h3>Description</h3>

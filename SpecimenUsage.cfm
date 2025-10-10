@@ -100,7 +100,7 @@
 					project.project_id is not null
 					<cfif oneOfUs NEQ 1>
 						AND project.mask_project_fg = 0
-					<cfif>
+					</cfif>
 					<cfif isdefined("p_title") AND len(p_title) gt 0>
 						<cfset title = "#p_title#">
 						<cfset go="yes">

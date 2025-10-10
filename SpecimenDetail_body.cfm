@@ -1059,7 +1059,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 				project_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.accn_id#">
 				<cfif oneOfUs neq 1>
 					AND project.mask_project_fg = 0
-				<cfif>
+				</cfif>
 				GROUP BY project_name, project.project_id
 		  </cfquery>
 		  <cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1075,7 +1075,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 					specimen_part.collection_object_id = loan_item.collection_object_id
 					<cfif oneOfUs neq 1>
 						AND project.mask_project_fg = 0
-					<cfif>
+					</cfif>
 				GROUP BY
 					project_name, project.project_id
 		</cfquery>
