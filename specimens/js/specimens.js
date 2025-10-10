@@ -358,6 +358,12 @@ function openPartContainerHistoryDialog(container_id, dialogid) {
 		open: function (event, ui) {
 			// center the dialog in the viewport
 			var dialog = $(this).dialog('widget');
+			dialog.css({
+				'position': 'fixed',
+				'top': '50%',
+				'left': '50%',
+				'transform': 'translate(-50%, -50%)'
+			});
 
 			if (typeof(getMaxZIndex) === "function") { 
 				// force the dialog to lay above any other elements in the page.
