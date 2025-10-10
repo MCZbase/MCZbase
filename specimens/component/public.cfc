@@ -2591,12 +2591,12 @@ limitations under the License.
 							specimen_part 
 							join loan_item on loan_item.collection_object_id = specimen_part.collection_object_id
 							join project_trans on loan_item.transaction_id=project_trans.transaction_id
-							<cfif oneOfUs NEQ 1>
-								AND project.mask_project_fg = 0
-							</cfif>
 							join project on project_trans.project_id=project.project_id
 						WHERE 
 							specimen_part.derived_from_cat_item = <cfqueryparam value="#variables.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+							<cfif oneOfUs NEQ 1>
+								AND project.mask_project_fg = 0
+							</cfif>
 						GROUP BY 
 							project_name, project.project_id
 					</cfquery>
