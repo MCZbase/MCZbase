@@ -241,7 +241,7 @@
 				from 
 					project 
 				where
-					project.mask_project_fg eq 0
+					project.mask_project_fg = 0
 				order by niceURL(project_name)
 			) a
 		where rownum <= #maxRN#)

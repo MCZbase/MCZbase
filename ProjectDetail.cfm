@@ -13,7 +13,7 @@
 		from project 
 		where project_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 		<cfif oneOfUs NEQ 1>
-			and mask_project_fg  EQ 0
+			and mask_project_fg = 0
 		</cfif>
 	</cfquery>
 	<cfif redir.recordcount is 0>
@@ -28,7 +28,7 @@
 		from project 
 		where niceURL(project_name)=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#niceProjName#">
 		<cfif oneOfUs NEQ 1>
-			and mask_project_fg  EQ 0
+			and mask_project_fg = 0
 		</cfif>
 	</cfquery>
 	<cfif redir.recordcount is 1>
@@ -102,7 +102,7 @@
 			project_sponsor.agent_name_id=ps.agent_name_id (+) and
 			project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 			<cfif oneOfUs NEQ 1>
-				and mask_project_fg  EQ 0
+				and mask_project_fg = 0
 			</cfif>
 	</cfquery>
 	<cfif proj.recordcount is 0>
