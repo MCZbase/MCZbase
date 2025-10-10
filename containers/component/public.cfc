@@ -102,27 +102,6 @@ limitations under the License.
 				<cfif getContainer.recordcount eq 0>
 					<cfthrow message="Container ID #encodeForHtml(container_id)# not found.">
 				</cfif>
-				<cfquery name="getHistory" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-					SELECT
-						install_date,
-						container_type,
-						label,
-						description,
-						barcode,
-						container_history.parent_container_id
-					 FROM container_history
-							join container on container_history.parent_container_id = container.container_id
-					 WHERE 
-						  container_history.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
-					 GROUP BY
-						install_date,
-						container_type,
-						label,
-						description,
-						barcode,
-						container_history.parent_container_id
-					ORDER BY install_date DESC NULLS LAST
-				</cfquery>
 				<h2 class="h3"> 
 					<a href="/findContainer.cfm?container_id=#encodeForURL(getContainer.container_id)#" target="_blank">
 						#getContainer.label# 
@@ -171,6 +150,27 @@ limitations under the License.
 						<td>#getContainer.parent_barcode#</td>
 					</tr>
 				</table>
+				<cfquery name="getHistory" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT
+						install_date,
+						container_type,
+						label,
+						description,
+						barcode,
+						container_history.parent_container_id
+					 FROM container_history
+						left join container on container_history.parent_container_id = container.container_id
+					 WHERE 
+						  container_history.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
+					 GROUP BY
+						install_date,
+						container_type,
+						label,
+						description,
+						barcode,
+						container_history.parent_container_id
+					ORDER BY install_date DESC NULLS LAST
+				</cfquery>
 				<div>
 					<h3 class="h4">Container History</h3>
 						<cfif #getHistory.recordcount# EQ 0>
@@ -196,15 +196,20 @@ limitations under the License.
 									#dateformat(install_date,"yyyy-mm-dd")#
 									#timeformat(install_date,"HH:mm:ss")#
 								</td>
-								<td>
-									<a href="/findContainer.cfm?container_id=#encodeForURL(getHistory.parent_container_id)#" target="_blank">
-										#label#
-									</a>
-									<cfif barcode is not label>
-										(#barcode#)
-									</cfif>
-								</td>
-								<td>#container_type#</td>
+								<cfif len(getHistory.label) eq 0 and len(getHistory.barcode) eq 0 and len(getHistory.container_type) eq 0>
+									<td>Unknown</td>
+									<td>Deleted</td>
+								<cfelse>
+									<td>
+										<a href="/findContainer.cfm?container_id=#encodeForURL(getHistory.parent_container_id)#" target="_blank">
+											#label#
+										</a>
+										<cfif barcode is not label>
+											(#barcode#)
+										</cfif>
+									</td>
+									<td>#container_type#</td>
+								</cfif>
 								<td>#description#</td>
 								<td>#barcode#</td>
 							</tr>
