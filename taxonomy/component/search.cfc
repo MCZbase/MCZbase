@@ -736,18 +736,17 @@ limitations under the License.
 				CONCATCOMMONNAME(taxonomy.TAXON_NAME_ID)
 			ORDER BY taxonomy.scientific_name, taxonomy.author_text
 		</cfquery>
-		<!--- Track queries by adding tracking information into uam_query.query_stats by sys.SP_GET_QUERYSTATS from drops in dba_recyclebin of TaxSrch... tables. 
-		./includes/functionLib.cfm:	<cfset session.TaxSrchTab="TaxSrch" & temp>
-		./TaxonomyResults.cfm:<CFSET SQL = "create table #session.TaxSrchTab# as #SQL#">
-		./TaxonomyResults.cfm:		drop table #session.TaxSrchTab#
-		--->
+		<!--- Track queries by adding tracking information into uam_query.query_stats by sys.SP_GET_QUERYSTATS from drops in dba_recyclebin of TaxSrch... tables.  --->
 		<cftry>
-			<cfquery name="prepStatRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				create table <cfif isDefined("session.TaxSrchTab")>#session.TaxSrchTab#</cfif> as select * from taxonomy where rownum < 2
-			</cfquery>
-			<cfquery name="createStatRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-				drop table <cfif isDefined("session.TaxSrchTab")>#session.TaxSrchTab#</cfif>
-			</cfquery>
+			<cfif isDefined("session.TaxSrchTab") AND len(session.TaxSrchTab) gt 0 and left(session.TaxSrchTab,7) is "TaxSrch">
+				<cfset tablenm = session.TaxSrchTab>
+				<cfquery name="prepStatRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					create table <cfif isDefined("session.TaxSrchTab")>#session.TaxSrchTab#</cfif> as select * from taxonomy where rownum < 2
+				</cfquery>
+				<cfquery name="createStatRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					drop table <cfif isDefined("session.TaxSrchTab")>#session.TaxSrchTab#</cfif>
+				</cfquery>
+			</cfif>
 		<cfcatch>
 		</cfcatch>
 		</cftry>
