@@ -6,12 +6,11 @@ Creative Commons Attribution-Share Alike 3.0 United States
 
 * Gnome-audio-volume-medium.png
 * Gnome-audio-volume-medium.svg
-* Gnome-image-x-generic.png
-* Gnome-image-x-generic.svg
 * Gnome-media-playback-start.png
 * Gnome-media-playback-start.svg
 * Gnome-text-x-generic.png
 * Gnome-text-x-generic.svg
+* Gnome-image-x-generic.svg
 * Gnome-video-x-generic.svg
 
 ## Modified from open clip art, public domain
