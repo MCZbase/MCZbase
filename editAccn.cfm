@@ -10,22 +10,22 @@ editAccn.cfm?project_id=#getDetails.project_id#"
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
 		$("##ent_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "images/cal_icon.png",
+			buttonImage: "/shared/images/calendar_icon.png",
 			buttonImageOnly: true });
 		$("##rec_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "images/cal_icon.png",
+			buttonImage: "/shared/images/calendar_icon.png",
 			buttonImageOnly: true });
 		$("##rec_until_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "images/cal_icon.png",
+			buttonImage: "/shared/images/calendar_icon.png",
 			buttonImageOnly: true });
 		$("##issued_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "images/cal_icon.png",
+			buttonImage: "/shared/images/calendar_icon.png",
 			buttonImageOnly: true });
 		$("##renewed_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "images/cal_icon.png",
+			buttonImage: "/shared/images/calendar_icon.png",
 			buttonImageOnly: true });
 		$("##exp_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "images/cal_icon.png",
+			buttonImage: "/shared/images/calendar_icon.png",
 			buttonImageOnly: true });
 	});
 	function addAccnContainer(transaction_id,barcode){
