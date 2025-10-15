@@ -447,7 +447,6 @@ limitations under the License.
 						mczbase.get_media_descriptor(media.media_id) as media_descriptor
 					FROM 
 						media
-							LEFT JOIN media_relations on media.media_id = media_relations.media_id 
 						JOIN media_relations cmr on media.media_id = cmr.media_id
 					WHERE
 						MCZBASE.is_media_encumbered(media.media_id) < 1 
@@ -460,7 +459,7 @@ limitations under the License.
 							AND cmr.media_relationship like '% cataloged_item'
 						</cfif>
 					<cfif l_relationship_type EQ 'documents'>
-					UNION
+					UNION ALL
 					SELECT
 						media.media_id,
 						media.auto_host,
@@ -473,8 +472,8 @@ limitations under the License.
 						mczbase.get_media_descriptor(media.media_id) as media_descriptor
 					FROM 
 						media
-						LEFT JOIN media_relations lmr on media.media_id = lmr.media_id
-						LEFT JOIN cataloged_item on lmr.related_primary_key = cataloged_item.collecting_event_id 
+						JOIN media_relations lmr on media.media_id = lmr.media_id
+						JOIN cataloged_item on lmr.related_primary_key = cataloged_item.collecting_event_id 
 					WHERE
 						MCZBASE.is_media_encumbered(media.media_id)  < 1 
 						AND lmr.media_relationship = 'documents collecting_event'
