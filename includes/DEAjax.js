@@ -1,15 +1,15 @@
 jQuery(document).ready(function() {
 	$("#made_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "../images/cal_icon.png",
+			buttonImage: "/shared/images/calendar_icon.png",
 			buttonImageOnly: true});
 	$("#began_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "../images/cal_icon.png",
+			buttonImage: "/shared/images/calendar_icon.png",
 			buttonImageOnly: true });
 	$("#ended_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "../images/cal_icon.png",
+			buttonImage: "/shared/images/calendar_icon.png",
 			buttonImageOnly: true});	
 	$("#determined_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "images/cal_icon.png",
+			buttonImage: "/shared/images/calendar_icon.png",
 			buttonImageOnly: true});
 	for (i=1;i<=14;i++){
 		$("#geo_att_determined_date_" + i).datepicker({dateFormat: "yy-mm-dd"});

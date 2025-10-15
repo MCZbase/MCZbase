@@ -1969,7 +1969,7 @@ input#readMore_check_id {
 .comma2 span{display:inline!important;}
 .comma2 span:last-child {display:none!important;}
 .jqx-grid-load {
-	background-image: url("../../images/spinner_712_sm.gif");
+	background-image: url("/shared/images/spinner_712_sm.gif");
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
 }
@@ -3874,7 +3874,7 @@ and also iPads specifically.
 	overflow: auto;
 }
 .fancybox-close {
-	background: url("/images/fancybox.png") repeat scroll -40px 0 transparent;
+	background: url("/shared/images/fancybox.png") repeat scroll -40px 0 transparent;
 	cursor: pointer;
 	height: 30px;
 	position: absolute;

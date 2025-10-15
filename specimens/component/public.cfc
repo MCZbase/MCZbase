@@ -447,7 +447,6 @@ limitations under the License.
 						mczbase.get_media_descriptor(media.media_id) as media_descriptor
 					FROM 
 						media
-							LEFT JOIN media_relations on media.media_id = media_relations.media_id 
 						JOIN media_relations cmr on media.media_id = cmr.media_id
 					WHERE
 						MCZBASE.is_media_encumbered(media.media_id) < 1 
@@ -460,7 +459,7 @@ limitations under the License.
 							AND cmr.media_relationship like '% cataloged_item'
 						</cfif>
 					<cfif l_relationship_type EQ 'documents'>
-					UNION
+					UNION ALL
 					SELECT
 						media.media_id,
 						media.auto_host,
@@ -473,8 +472,8 @@ limitations under the License.
 						mczbase.get_media_descriptor(media.media_id) as media_descriptor
 					FROM 
 						media
-						LEFT JOIN media_relations lmr on media.media_id = lmr.media_id
-						LEFT JOIN cataloged_item on lmr.related_primary_key = cataloged_item.collecting_event_id 
+						JOIN media_relations lmr on media.media_id = lmr.media_id
+						JOIN cataloged_item on lmr.related_primary_key = cataloged_item.collecting_event_id 
 					WHERE
 						MCZBASE.is_media_encumbered(media.media_id)  < 1 
 						AND lmr.media_relationship = 'documents collecting_event'
@@ -2093,12 +2092,12 @@ limitations under the License.
 								rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
 							FROM
 								biol_indiv_relations rel
-								left join cataloged_item rcat on rel.related_coll_object_id = rcat.collection_object_id
-								left join collection on collection.collection_id = rcat.collection_id
-								left join ctbiol_relations ctrel on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+								join cataloged_item rcat on rel.related_coll_object_id = rcat.collection_object_id
+								join collection on collection.collection_id = rcat.collection_id
+								join ctbiol_relations ctrel on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
 							WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
 								and ctrel.rel_type <> 'functional'
-							UNION
+							UNION ALL
 							SELECT
 								ctrel.inverse_relation as biol_indiv_relationship,
 								collection as related_collection,
@@ -2108,9 +2107,9 @@ limitations under the License.
 								irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
 							FROM
 								biol_indiv_relations irel
-								left join ctbiol_relations ctrel on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-								left join cataloged_item rcat on irel.collection_object_id = rcat.collection_object_id
-								left join collection on collection.collection_id = rcat.collection_id
+								join ctbiol_relations ctrel on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+								join cataloged_item rcat on irel.collection_object_id = rcat.collection_object_id
+								join collection on collection.collection_id = rcat.collection_id
 							WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								 and ctrel.rel_type <> 'functional'
 							)
@@ -2133,12 +2132,12 @@ limitations under the License.
 								rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
 							FROM
 								biol_indiv_relations rel
-								left join cataloged_item rcat on rel.related_coll_object_id = rcat.collection_object_id
-								left join collection on collection.collection_id = rcat.collection_id
-								left join ctbiol_relations ctrel on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+								join cataloged_item rcat on rel.related_coll_object_id = rcat.collection_object_id
+								join collection on collection.collection_id = rcat.collection_id
+								join ctbiol_relations ctrel on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
 							WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
 								and ctrel.rel_type <> 'functional'
-							UNION
+							UNION ALL
 							SELECT
 								ctrel.inverse_relation as biol_indiv_relationship,
 								collection as related_collection,
@@ -2148,9 +2147,9 @@ limitations under the License.
 								irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
 							FROM
 								biol_indiv_relations irel
-								left join ctbiol_relations ctrel on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-								left join cataloged_item rcat on irel.collection_object_id = rcat.collection_object_id
-								left join collection on collection.collection_id = rcat.collection_id
+								join ctbiol_relations ctrel on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+								join cataloged_item rcat on irel.collection_object_id = rcat.collection_object_id
+								join collection on collection.collection_id = rcat.collection_id
 							WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								 and ctrel.rel_type <> 'functional'
 							)

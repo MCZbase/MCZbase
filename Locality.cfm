@@ -4,10 +4,10 @@
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
 		$("##began_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "images/cal_icon.png",
+			buttonImage: "/shared/images/calendar_icon.png",
 			buttonImageOnly: true });
 		$("##ended_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "images/cal_icon.png",
+			buttonImage: "/shared/images/calendar_icon.png",
 			buttonImageOnly: true });
             $(".ui-datepicker-trigger").css("margin-bottom","-7px");
         $("input[id='wktFile'").change(function(){
