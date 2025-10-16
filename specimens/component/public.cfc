@@ -1418,8 +1418,11 @@ limitations under the License.
 									<span>Container</span>
 								</th>
 							</cfif>
-							<th class="py-0"></th>
-							
+							<th class="py-0">
+								<cfif NOT local_editable>
+									<span>History</span>
+								</cfif>
+							</th>
 						</tr>
 					</thead>
 					<tbody class="bg-white">
@@ -1530,17 +1533,20 @@ limitations under the License.
 										<span class="small mb-0 pb-0">
 											<a href="javascript:void(0)" aria-label="Part Container Placement"
 												onClick=" openPartContainersDialog(#collection_object_id#, 'partContDialog_#collection_object_id#'); ">Placement</a>
-											&nbsp;
-											<a href="javascript:void(0)" aria-label="Part Container History"
-												onClick=" openPartContainerHistoryDialog(#oc_container_id#, 'partContHistoryDialog_#collection_object_id#'); ">History</a>
 										</span>
 									</td>
 								</cfif>
 								<td class="py-1">
 									<span class="small mb-0 pb-0">
 										<a href="javascript:void(0)" aria-label="Condition/Preparation History"
-											onClick=" openHistoryDialog(#mainParts.part_id#, 'historyDialog#mainParts.part_id#');">History#histCount#</a>
+											onClick=" openHistoryDialog(#mainParts.part_id#, 'historyDialog#mainParts.part_id#');">Part&nbsp;History#histCount#</a>
 									</span>
+									<cfif oneOfus is "1">
+										<span class="small mb-0 pb-0">
+											<a href="javascript:void(0)" aria-label="Part Container History"
+												onClick=" openPartContainerHistoryDialog(#oc_container_id#, 'partContHistoryDialog_#collection_object_id#'); ">Container&nbsp;History</a>
+										</span>
+									</cfif>
 									<cfif local_editable>
 										<span class="small mb-0 pb-0">
 											<a class="btn btn-xs btn-secondary" href="javascript:void(0)" aria-label="Edit Part">Edit</a>
