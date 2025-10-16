@@ -625,6 +625,10 @@ limitations under the License.
 
 <!--- getIdentificationsUnthreadedHTML obtain a block of html listing identifications for a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
+ @param editable if true, include javascript and html to allow editing of identifications, default false
+  note, editable will only be true if the user has the manage_specimens role.
+  this parameter is useful when loading identifications in a dialog where editing is allowed.
+  the default is false, which will not include the javascript or html for editing.
  @return html for viewing identifications for the specified cataloged item.
  @see getIdentificationsHTML
 --->
