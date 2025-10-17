@@ -374,15 +374,15 @@ limitations under the License.
 														<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
 													</cfloop>				
 												</select>
-												<input type="submit" value="Update Dispositions" class="btn btn-xs btn-primary" disabled>
+												<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary" disabled>
 												<!--- enable the button only if a value is selected --->
 												<script>
 													$(document).ready(function() {
 														$('##coll_obj_disposition').change(function() {
 															if ($('##coll_obj_disposition').val() != "") {
-																$('##coll_obj_disposition').prop('disabled', false);
+																$('##coll_obj_disposition_submit').prop('disabled', false);
 															} else {
-																$('##coll_obj_disposition').prop('disabled', true);
+																$('##coll_obj_disposition_submit').prop('disabled', true);
 															}
 														});
 													});
@@ -407,15 +407,15 @@ limitations under the License.
 															<option value="#getTreatmentContainers.barcode#">#getTreatmentContainers.label# (#getTreatmentContainers.barcode#)</option>
 														</cfloop>
 													</select>
-													<input type="submit" value="Move Containers" class="btn btn-xs btn-primary" disabled>
+													<input type="submit" id="new_parent_barcode_submit" value="Move Containers" class="btn btn-xs btn-primary" disabled>
 													<!--- enable the button only if a value is selected --->
 													<script>
 														$(document).ready(function() {
 															$('##new_parent_barcode').change(function() {
 																if ($('##new_parent_barcode').val() != "") {
-																	$('##new_parent_barcode').prop('disabled', false);
+																	$('##new_parent_barcode_submit').prop('disabled', false);
 																} else {
-																	$('##new_parent_barcode').prop('disabled', true);
+																	$('##new_parent_barcode_submit').prop('disabled', true);
 																}
 															});
 														});
