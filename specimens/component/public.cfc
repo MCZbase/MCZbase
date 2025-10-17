@@ -2087,7 +2087,7 @@ limitations under the License.
 				<!--- Use appropriate data source to allow access to relationships to records in other VPDs ---->
 				<cfif oneOfUs EQ 1>
 					<!--- if coldfusion_user, then the VPD may be involved and all cataloged items may not be visible, use a user that can see relationships across VPDs --->
-					<cfquery name="relns" datasource="cf_dbuser">
+					<cfquery name="relns" datasource="uam_god">
 						SELECT 
 							distinct biol_indiv_relationship, related_coll_cde, related_collection, 
 							related_coll_object_id, related_cat_num, biol_indiv_relation_remarks 
