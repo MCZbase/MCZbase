@@ -286,6 +286,7 @@ limitations under the License.
 					WHERE
 						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 						and coll_obj_cont_hist.current_container_fg = 1
+					GROUP BY p.container_type
 				</cfquery>
 				<cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,cryovial,jar,envelope,glass vial,freezer box">
 				<cfloop query="checkContainers">
