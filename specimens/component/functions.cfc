@@ -9180,7 +9180,7 @@ limitations under the License.
 							<div class="border bg-light rounded mx-0 px-0 mt-2 form-row">
 								<cfset i = i + 1>
 								<div class="bg-box-header-gray border-bottom col-12 px-2 py-2">
-									Relationship: <strong>#ctReln.biol_indiv_relationship#</strong> to Record: <strong>#relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#</strong>
+									Relationship: <strong>#relns.biol_indiv_relationship#</strong> to Record: <strong>#relns.related_institution_acronym#:#relns.related_collection_cde#:#relns.related_cat_num#</strong>
 								</div>
 								<form id="editRelationForm_#i#" name="editRelationForm_#i#" onsubmit="return false;" class="mb-2 mt-1">
 									<div class="row m-0 col-12 py-2">
