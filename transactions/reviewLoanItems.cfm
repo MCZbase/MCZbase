@@ -19,6 +19,7 @@ limitations under the License.
 --->
 <cfset pageTitle="Review Loan Items">
 <cfinclude template="/shared/_header.cfm">
+<cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,cryovial,jar,envelope,glass vial,freezer box">
 
 <script type='text/javascript' src='/transactions/js/reviewLoanItems.js'></script>
 <script type='text/javascript' src='/specimens/js/specimens.js'></script>
@@ -70,6 +71,7 @@ limitations under the License.
 
 <cfif #Action# is "killSS">
 	<!--- TODO: Suspect, remove this functionality or move to backing method --->
+<!---
 	<cfoutput>
 <cftransaction>
 	<cfquery name="deleLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -102,9 +104,8 @@ limitations under the License.
 </cftransaction>
 	<cflocation url="a_loanItemReview.cfm?transaction_id=#transaction_id#">
 	</cfoutput>
-
-</cfif>
 ---->
+</cfif>
 
 <cfif NOT isdefined("action")><cfset action=""></cfif>
 <cfswitch expression="#action#">
@@ -123,6 +124,65 @@ limitations under the License.
 							SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						</cfquery>
+					</cfloop>
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+					<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
+					<cfthrow message="#message#">
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+		</cfoutput>
+	</cfcase>
+	<cfcase value="BulkUpdateContainers">
+		<cfoutput>
+			<cftransaction>
+				<cftry>
+					<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						select collection_object_id 
+						FROM loan_item 
+						where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					</cfquery>
+					<cfquery name="getTargetParentContainerID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT container_id 
+						FROM container 
+						WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_parent_barcode#">
+					</cfquery>
+					<cfif getTargetParentContainerID.recordcount EQ 0>
+						<cfthrow message="No such container with barcode #new_parent_barcode# found.">
+					<cfelseif getTargetParentContainerID.recordcount GT 1>
+						<cfthrow message="Multiple containers with barcode #new_parent_barcode# found. Cannot continue.">
+					</cfif>
+					<cfset targetParentContainerID = getTargetParentContainerID.container_id>
+					<cfloop query="getCollObjId">
+						<cfquery name="getContainerToMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT c.container_id, p.container_type
+							FROM coll_obj_cont_hist coll_obj_cont_hist
+								JOIN container c on coll_obj_cont_hist.container_id = c.container_id
+								join container p on c.parent_container_id = p.container_id
+							WHERE coll_obj_cont_hist.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+								AND coll_obj_cont_hist.current_container_fg = 1
+						</cfquery>
+						<cfif getContainerToMove.recordcount EQ 0>
+							<cfthrow message="No current container found for collection_object_id #collection_object_id#. Cannot continue.">
+						<cfelseif getContainerToMove.recordcount GT 1>
+							<cfthrow message="Multiple current containers found for collection_object_id #collection_object_id#. Cannot continue.">
+						</cfif>
+						<cfif listfindnocase(DISALLOWED_CONTAINER_TYPES,getContainerToMove.container_type) GT 0>
+							<cfthrow message="Containers of type #getContainerToMove.container_type# cannot be moved. Aborting operation.">
+						</cfif>
+						<cfset containerToMoveID = getContainerToMove.container_id>
+						<cfquery name="changeParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="changeParentContainer_result">
+							UPDATE container 
+							SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#targetParentContainerID#">
+							WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#containerToMoveId#">
+						</cfquery>
+						<cfif changeParentContainer_result.recordcount NEQ 1>
+							<cfthrow message="Failed to move container #containerToMoveID# to new parent container #targetParentContainerID#.">
+						</cfif>
 					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
@@ -288,7 +348,6 @@ limitations under the License.
 						and coll_obj_cont_hist.current_container_fg = 1
 					GROUP BY p.container_type
 				</cfquery>
-				<cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,cryovial,jar,envelope,glass vial,freezer box">
 				<cfloop query="checkContainers">
 					<cfif listfindnocase(DISALLOWED_CONTAINER_TYPES,checkContainers.container_type) GT 0>
 						<cfset containersCanMove = false>
@@ -365,7 +424,7 @@ limitations under the License.
 									<div class="row mb-0 pb-0 px-2 mx-0">
 										<div class="col-12 col-xl-6">
 											<form name="BulkUpdateDisp" method="post" action="/transactions/reviewLoanItems.cfm">
-											<br>Change disposition of all these items to:
+											<br>Change disposition of all these #partCount# items to:
 											<input type="hidden" name="Action" value="BulkUpdateDisp">
 												<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 												<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select col-3 d-inline" size="1">
@@ -398,8 +457,9 @@ limitations under the License.
 														and container_type = 'fixture'
 													ORDER BY label
 												</cfquery>
-												<form name="moveContainers" method="post" action="/transactions/moveLoanContainers.cfm">
-													<br>Move all containers for these items to:
+												<form name="moveContainers" method="post" action="/transactions/reviewLoanItems.cfm">
+													<br>Move all containers for all these #partCount# items to:
+													<input type="hidden" name="Action" value="BulkUpdateContainers">
 													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 													<select name="new_parent_barcode" id="new_parent_barcode" class="data-entry-select col-3 d-inline" size="1">
 														<option value=""></option>
