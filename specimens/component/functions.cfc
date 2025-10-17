@@ -10780,7 +10780,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 					<cfset current = "<span class='small90'>(#arguments.val#)</span>"><!--- " --->
 					<cfoutput>
 						<label for="attribute_value_#arguments.paid#" class="data-entry-label">Value#current#</label>
-						<input type="text" name="attribute_value" id="attribute_value_#arguments.paid#" value="#arguments.val#" class="data-entry-input reqdClr" required>
+						<input type="text" name="attribute_value" id="attribute_value_#arguments.paid#" value="#encodeForHtml(arguments.val)#" class="data-entry-input reqdClr" required>
 					</cfoutput>
 				</cfsavecontent>
 			</cfif>
