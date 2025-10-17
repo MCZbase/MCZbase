@@ -379,7 +379,7 @@ limitations under the License.
 												<script>
 													$(document).ready(function() {
 														$('##coll_obj_disposition').change(function() {
-															if ($(this).val() != "") {
+															if ($('##coll_obj_disposition').val() != "") {
 																$('##coll_obj_disposition').prop('disabled', false);
 															} else {
 																$('##coll_obj_disposition').prop('disabled', true);
@@ -403,14 +403,16 @@ limitations under the License.
 													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 													<select name="new_parent_barcode" id="new_parent_barcode" class="data-entry-select col-3 d-inline" size="1">
 														<option value=""></option>
-														<option value="#getTreatmentContainers.barcode#">#getTreatmentContainers.label# (#getTreatmentContainers.barcode#)</option>
+														<cfloop query="getTreatmentContainers">
+															<option value="#getTreatmentContainers.barcode#">#getTreatmentContainers.label# (#getTreatmentContainers.barcode#)</option>
+														</cfloop>
 													</select>
 													<input type="submit" value="Move Containers" class="btn btn-xs btn-primary" disabled>
 													<!--- enable the button only if a value is selected --->
 													<script>
 														$(document).ready(function() {
 															$('##new_parent_barcode').change(function() {
-																if ($(this).val() != "") {
+																if ($('##new_parent_barcode').val() != "") {
 																	$('##new_parent_barcode').prop('disabled', false);
 																} else {
 																	$('##new_parent_barcode').prop('disabled', true);
