@@ -368,7 +368,7 @@ limitations under the License.
 											<br>Change disposition of all these items to:
 											<input type="hidden" name="Action" value="BulkUpdateDisp">
 												<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-												<select name="coll_obj_disposition" class="data-entry-select col-3 d-inline" size="1">
+												<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select col-3 d-inline" size="1">
 													<option value=""></option>
 													<cfloop query="ctDisp">
 														<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
@@ -378,11 +378,11 @@ limitations under the License.
 												<!--- enable the button only if a value is selected --->
 												<script>
 													$(document).ready(function() {
-														$('select[name="coll_obj_disposition"]').change(function() {
+														$('##coll_obj_disposition').change(function() {
 															if ($(this).val() != "") {
-																$('input[type="submit"]').prop('disabled', false);
+																$('##coll_obj_disposition').prop('disabled', false);
 															} else {
-																$('input[type="submit"]').prop('disabled', true);
+																$('##coll_obj_disposition').prop('disabled', true);
 															}
 														});
 													});
@@ -401,7 +401,7 @@ limitations under the License.
 												<form name="moveContainers" method="post" action="/transactions/moveLoanContainers.cfm">
 													<br>Move all containers for these items to:
 													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-													<select name="new_location_id" class="data-entry-select col-3 d-inline" size="1">
+													<select name="new_parent_barcode" id="new_parent_barcode" class="data-entry-select col-3 d-inline" size="1">
 														<option value=""></option>
 														<option value="#getTreatmentContainers.barcode#">#getTreatmentContainers.label# (#getTreatmentContainers.barcode#)</option>
 													</select>
@@ -409,11 +409,11 @@ limitations under the License.
 													<!--- enable the button only if a value is selected --->
 													<script>
 														$(document).ready(function() {
-															$('select[name="new_location_id"]').change(function() {
+															$('##new_parent_barcode').change(function() {
 																if ($(this).val() != "") {
-																	$('input[type="submit"]').prop('disabled', false);
+																	$('##new_parent_barcode').prop('disabled', false);
 																} else {
-																	$('input[type="submit"]').prop('disabled', true);
+																	$('##new_parent_barcode').prop('disabled', true);
 																}
 															});
 														});
