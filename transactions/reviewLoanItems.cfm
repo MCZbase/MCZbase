@@ -276,6 +276,23 @@ limitations under the License.
 				<cfelse>
 					<cfset partCount = prtItemCnt.c>
 				</cfif>
+				<cfset containersCanMove = true>
+				<cfquery name="checkContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT count(distinct p.container_type) ct, p.container_type
+					FROM loan_item
+						join coll_obj_cont_hist on loan_item.collection_object_id = coll_obj_cont_hist.collection_object_id
+						join container c on coll_obj_cont_hist.container_id = c.container_id
+						join container p on c.parent_container_id = p.container_id
+					WHERE
+						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+						and coll_obj_cont_hist.current_container_fg = 1
+				</cfquery>
+				<cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,cryovial,jar,envelope,glass vial,freezer box">
+				<cfloop query="checkContainers">
+					<cfif listfindnocase(DISALLOWED_CONTAINER_TYPES,checkContainers.container_type) GT 0>
+						<cfset containersCanMove = false>
+					</cfif>
+				</cfloop>
 
 				<section class="row my-2 pt-2" title="Review Loan Items" >
 					<div class="col-12">
@@ -351,15 +368,60 @@ limitations under the License.
 											<input type="hidden" name="Action" value="BulkUpdateDisp">
 												<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 												<select name="coll_obj_disposition" class="data-entry-select col-3 d-inline" size="1">
+													<option value=""></option>
 													<cfloop query="ctDisp">
 														<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
 													</cfloop>				
 												</select>
-												<input type="submit" value="Update Dispositions" class="btn btn-xs btn-primary" >
+												<input type="submit" value="Update Dispositions" class="btn btn-xs btn-primary" disabled>
+												<!--- enable the button only if a value is selected --->
+												<script>
+													$(document).ready(function() {
+														$('select[name="coll_obj_disposition"]').change(function() {
+															if ($(this).val() != "") {
+																$('input[type="submit"]').prop('disabled', false);
+															} else {
+																$('input[type="submit"]').prop('disabled', true);
+															}
+														});
+													});
+												</script>
 											</form>
 										</div>
-										<div class="col-12 col-xl-6">
-											<cfif aboutLoan.collection EQ 'Cryogenic'>
+										<cfif containersCanMove>
+											<div class="col-12 col-xl-6">
+												<cfquery name="getTreatmentContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+													SELECT barcode, label
+													FROM container
+													WHERE label LIKE '%chamber'
+														and container_type = 'fixture'
+													ORDER BY label
+												</cfquery>
+												<form name="moveContainers" method="post" action="/transactions/moveLoanContainers.cfm">
+													<br>Move all containers for these items to:
+													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+													<select name="new_location_id" class="data-entry-select col-3 d-inline" size="1">
+														<option value=""></option>
+														<option value="#getTreatmentContainers.barcode#">#getTreatmentContainers.label# (#getTreatmentContainers.barcode#)</option>
+													</select>
+													<input type="submit" value="Move Containers" class="btn btn-xs btn-primary" disabled>
+													<!--- enable the button only if a value is selected --->
+													<script>
+														$(document).ready(function() {
+															$('select[name="new_location_id"]').change(function() {
+																if ($(this).val() != "") {
+																	$('input[type="submit"]').prop('disabled', false);
+																} else {
+																	$('input[type="submit"]').prop('disabled', true);
+																}
+															});
+														});
+													</script>
+												</form>
+											</div>
+										</cfif>
+										<cfif aboutLoan.collection EQ 'Cryogenic'>
+											<div class="col-12 col-xl-6">
 												<form name="BulkUpdatePres" method="post" action="/transactions/reviewLoanItems.cfm">
 													<br>Change preservation method of all these items to:
 													<input type="hidden" name="Action" value="BulkUpdatePres">
@@ -371,8 +433,8 @@ limitations under the License.
 													</select>
 													<input type="submit" value="Update Preservation methods" class="btn btn-xs btn-primary"> 
 												</form>
-											</cfif>
-										</div>
+											</div>
+										</cfif>
 									</div>
 								</div>
 							</div>
