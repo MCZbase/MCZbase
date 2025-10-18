@@ -61,11 +61,12 @@ limitations under the License.
 	<cfthrow message="Provided transaction_id [#encodeForHtml(transaction_id)#] does not specify a loan">
 </cfif>
 
-<!---
 <cfif #Action# is "delete">
 	<!--- TODO: Move to a backing function/dialog --->
+<!---
 		<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
 	</cfoutput>
+--->
 </cfif>
 <!-------------------------------------------------------------------------------->
 
