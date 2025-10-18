@@ -61,54 +61,13 @@ limitations under the License.
 	<cfthrow message="Provided transaction_id [#encodeForHtml(transaction_id)#] does not specify a loan">
 </cfif>
 
-<cfif #Action# is "delete">
-	<!--- TODO: Move to a backing function/dialog --->
-<!---
-		<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
-	</cfoutput>
---->
+<cfif isdefined("url.action") and len(url.action) GT 0>
+	<cfset action = url.action>
+<cfelseif isdefined("form.action") and len(form.action) GT 0>
+	<cfset action = form.action>
 </cfif>
-<!-------------------------------------------------------------------------------->
-
-<cfif #Action# is "killSS">
-	<!--- TODO: Suspect, remove this functionality or move to backing method --->
-<!---
-	<cfoutput>
-<cftransaction>
-	<cfquery name="deleLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		DELETE FROM loan_item WHERE collection_object_id = #partID#
-		and transaction_id=#transaction_id#
-	</cfquery>
-	<cfquery name="delePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		DELETE FROM specimen_part WHERE collection_object_id = #partID#
-	</cfquery>
-	<cfquery name="delePartCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		DELETE FROM coll_object WHERE collection_object_id = #partID#
-	</cfquery>
-	<cfquery name="delePartRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		DELETE FROM coll_object_remark WHERE collection_object_id = #partID#
-	</cfquery>
-	<cfquery name="getContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select container_id from coll_obj_cont_hist where
-		collection_object_id = #partID#
-	</cfquery>
-	
-	<cfquery name="deleCollCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		DELETE FROM coll_obj_cont_hist WHERE collection_object_id = #partID#
-	</cfquery>
-	<cfquery name="deleCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		DELETE FROM container_history WHERE container_id = #getContID.container_id#
-	</cfquery>
-	<cfquery name="deleCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		DELETE FROM container WHERE container_id = #getContID.container_id#
-	</cfquery>
-</cftransaction>
-	<cflocation url="a_loanItemReview.cfm?transaction_id=#transaction_id#">
-	</cfoutput>
----->
-</cfif>
-
 <cfif NOT isdefined("action")><cfset action=""></cfif>
+
 <cfswitch expression="#action#">
 	<cfcase value="BulkUpdateDisp">
 		<cfoutput>
