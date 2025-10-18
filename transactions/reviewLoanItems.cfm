@@ -23,6 +23,7 @@ limitations under the License.
 
 <script type='text/javascript' src='/transactions/js/reviewLoanItems.js'></script>
 <script type='text/javascript' src='/specimens/js/specimens.js'></script>
+<script type='text/javascript' src='/specimens/js/public.js'></script>
 <style>
 	.jqx-grid-cell {
 		background-color: #E9EDECd6;
