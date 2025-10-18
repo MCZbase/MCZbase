@@ -382,7 +382,18 @@ limitations under the License.
 										</div>
 										<div id="addLoanItemDialogDiv"></div>
 									</div>
-									<div class="row mb-0 pb-0 px-2 mx-0">
+									<cfif isClosed>
+										<cfset editVisibility = "d-none">
+										<div class="row mb-0 pb-0 px-2 mx-0">
+											<div class="col-12">
+												<h3 class="h4 text-danger">This loan is closed; bulk edit functions are disabled.</h3>
+												<span class="btn btn-xs btn-secondary"
+													onclick="$('##bulkEditControlsDiv').removeClass('d-none');"
+													aria-label="Enable bulk editing">Enable Editing</span>
+											</div>
+										</div>
+									</cfif>
+									<div class="row mb-0 pb-0 px-2 mx-0 #editVisibility#" id="bulkEditControlsDiv">
 										<div class="col-12 col-xl-6">
 											<form name="BulkUpdateDisp" method="post" action="/transactions/reviewLoanItems.cfm">
 											<br>Change disposition of all these #partCount# items to:
