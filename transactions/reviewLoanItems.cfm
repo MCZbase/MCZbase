@@ -839,7 +839,7 @@ limitations under the License.
 										$('.editable-cell').addClass('flag-editable-cell');
 										$('.flag-editable-cell').removeClass('editable-cell');
 										$('.flag-editable-cell').removeClass('bg-light');
-									<cfelse>
+									</cfif>
 								});
 								$('##searchResultsGrid').on('rowexpand', function (event) {
 									// Create a content div, add it to the detail row, and make it into a dialog.
