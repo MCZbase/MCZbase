@@ -401,16 +401,14 @@ limitations under the License.
 												$('##searchResultsGrid').jqxgrid({editable:true});
 												$('##enableEditControlsBtn').addClass('d-none');
 												$('##disableEditControlsBtn').removeClass('d-none');
-												$('.flag-editable-cell').addClass('editable-cell');
-												$('.flag-editable-cell').addClass('bg-light');
+												$('.editable-cell').addClass('bg-light');
 											};
 											function disableEditControls() { 
 												$('##bulkEditControlsDiv').addClass('d-none');
 												$('##searchResultsGrid').jqxgrid({editable:false});
 												$('##enableEditControlsBtn').removeClass('d-none');
 												$('##disableEditControlsBtn').addClass('d-none');
-												$('.flag-editable-cell').removeClass('editable-cell');
-												$('.flag-editable-cell').removeClass('bg-light');
+												$('.editable-cell').removeClass('bg-light');
 											};
 											$(document).ready(function() {
 											});
@@ -636,11 +634,6 @@ limitations under the License.
 								$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 								$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 								$('##locationButtonContainer').html('<a id="locationbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-1" aria-label="View part locations in storage heirarchy" href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank" >View Part Locations</a>');
-								<cfif isClosed>
-									$('.editable-cell').addClass('flag-editable-cell');
-									$('.flag-editable-cell').removeClass('editable-cell');
-									$('.flag-editable-cell').removeClass('bg-light');
-								</cfif>
 							};
 		
 							// Cell renderers
@@ -669,7 +662,11 @@ limitations under the License.
 								return 'History';
 							};
 							var editableCellClass = function (row, columnfield, value) {
-								return 'bg-light editable-cell';
+								<cfif isClosed>
+									return 'editable-cell';
+								<cfelse>
+									return 'bg-light editable-cell';
+								</cfif>
 							};
 							var historyButtonClick = function(row) {
 								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
