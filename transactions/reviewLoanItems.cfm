@@ -636,6 +636,11 @@ limitations under the License.
 								$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 								$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 								$('##locationButtonContainer').html('<a id="locationbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-1" aria-label="View part locations in storage heirarchy" href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank" >View Part Locations</a>');
+								<cfif isClosed>
+									$('.editable-cell').addClass('flag-editable-cell');
+									$('.flag-editable-cell').removeClass('editable-cell');
+									$('.flag-editable-cell').removeClass('bg-light');
+								</cfif>
 							};
 		
 							// Cell renderers
@@ -835,11 +840,6 @@ limitations under the License.
 								});
 								$("##searchResultsGrid").on("bindingcomplete", function(event) {
 									gridLoaded('searchResultsGrid','loan item');
-									<cfif isClosed>
-										$('.editable-cell').addClass('flag-editable-cell');
-										$('.flag-editable-cell').removeClass('editable-cell');
-										$('.flag-editable-cell').removeClass('bg-light');
-									</cfif>
 								});
 								$('##searchResultsGrid').on('rowexpand', function (event) {
 									// Create a content div, add it to the detail row, and make it into a dialog.
