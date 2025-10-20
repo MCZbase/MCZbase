@@ -401,13 +401,19 @@ limitations under the License.
 												$('##searchResultsGrid').jqxgrid({editable:true});
 												$('##enableEditControlsBtn').addClass('d-none');
 												$('##disableEditControlsBtn').removeClass('d-none');
+												$('.flag-editable-cell').addClass('editable-cell');
+												$('.flag-editable-cell').addClass('bg-light');
 											};
 											function disableEditControls() { 
 												$('##bulkEditControlsDiv').addClass('d-none');
 												$('##searchResultsGrid').jqxgrid({editable:false});
 												$('##enableEditControlsBtn').removeClass('d-none');
 												$('##disableEditControlsBtn').addClass('d-none');
+												$('.flag-editable-cell').removeClass('editable-cell');
+												$('.flag-editable-cell').removeClass('bg-light');
 											};
+											$(document).ready(function() {
+											});
 										</script>
 									</cfif>
 									<div class="row mb-0 pb-0 px-2 mx-0 #editVisibility#" id="bulkEditControlsDiv">
@@ -829,6 +835,11 @@ limitations under the License.
 								});
 								$("##searchResultsGrid").on("bindingcomplete", function(event) {
 									gridLoaded('searchResultsGrid','loan item');
+									<cfif isClosed>
+										$('.editable-cell').addClass('flag-editable-cell');
+										$('.flag-editable-cell').removeClass('editable-cell');
+										$('.flag-editable-cell').removeClass('bg-light');
+									<cfelse>
 								});
 								$('##searchResultsGrid').on('rowexpand', function (event) {
 									// Create a content div, add it to the detail row, and make it into a dialog.
