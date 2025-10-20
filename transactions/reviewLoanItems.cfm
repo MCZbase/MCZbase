@@ -401,17 +401,17 @@ limitations under the License.
 												$('##searchResultsGrid').jqxGrid({editable:true});
 												$('##enableEditControlsBtn').addClass('d-none');
 												$('##disableEditControlsBtn').removeClass('d-none');
-												$('.editable-cell').addClass('bg-light');
+												$('.flag-editable-cell').addClass('bg-light');
+												$('.flag-editable-cell').addClass('editable-cell');
 											};
 											function disableEditControls() { 
 												$('##bulkEditControlsDiv').addClass('d-none');
 												$('##searchResultsGrid').jqxGrid({editable:false});
 												$('##enableEditControlsBtn').removeClass('d-none');
 												$('##disableEditControlsBtn').addClass('d-none');
-												$('.editable-cell').removeClass('bg-light');
+												$('.flag-editable-cell').removeClass('bg-light');
+												$('.flag-editable-cell').removeClass('editable-cell');
 											};
-											$(document).ready(function() {
-											});
 										</script>
 									</cfif>
 									<div class="row mb-0 pb-0 px-2 mx-0 #editVisibility#" id="bulkEditControlsDiv">
@@ -663,7 +663,7 @@ limitations under the License.
 							};
 							var editableCellClass = function (row, columnfield, value) {
 								<cfif isClosed>
-									return 'editable-cell';
+									return 'flag-editable-cell';
 								<cfelse>
 									return 'bg-light editable-cell';
 								</cfif>
