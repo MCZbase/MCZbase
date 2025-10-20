@@ -435,7 +435,7 @@ limitations under the License.
 			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'cryovat') as location_cryovat,
 			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'compartment') as location_compartment,
 			mczbase.get_stored_as_id(cataloged_item.collection_object_id) as stored_as_name,
-			MCZBASE.get_storage_parentage(MCZBASE.get_previous_container_id(specimen_part.collection_object_id)) as previous_location,
+			MCZBASE.get_storage_parentage(MCZBASE.get_previous_container_id(coll_obj_cont_hist.container_id)) as previous_location,
 			loan_number,
 			specimen_part.collection_object_id as part_id,
 			concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS customid,
