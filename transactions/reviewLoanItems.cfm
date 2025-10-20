@@ -398,14 +398,14 @@ limitations under the License.
 										<script>
 											function enableEditControls() { 
 												$('##bulkEditControlsDiv').removeClass('d-none');
-												$('##searchResultsGrid').jqxgrid({editable:true});
+												$('##searchResultsGrid').jqxGrid({editable:true});
 												$('##enableEditControlsBtn').addClass('d-none');
 												$('##disableEditControlsBtn').removeClass('d-none');
 												$('.editable-cell').addClass('bg-light');
 											};
 											function disableEditControls() { 
 												$('##bulkEditControlsDiv').addClass('d-none');
-												$('##searchResultsGrid').jqxgrid({editable:false});
+												$('##searchResultsGrid').jqxGrid({editable:false});
 												$('##enableEditControlsBtn').removeClass('d-none');
 												$('##disableEditControlsBtn').addClass('d-none');
 												$('.editable-cell').removeClass('bg-light');
