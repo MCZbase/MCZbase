@@ -386,12 +386,29 @@ limitations under the License.
 										<cfset editVisibility = "d-none">
 										<div class="row mb-0 pb-0 px-2 mx-0">
 											<div class="col-12">
-												<h3 class="h4 text-danger">This loan is closed; bulk edit functions are disabled.</h3>
-												<span class="btn btn-xs btn-secondary"
-													onclick="$('##bulkEditControlsDiv').removeClass('d-none');"
+												<h3 class="h4 text-danger">This loan is closed; edit functions are disabled.</h3>
+												<span class="btn btn-xs btn-secondary" id="enableEditControlsBtn"
+													onclick=" enableEditControls(); "
 													aria-label="Enable bulk editing">Enable Editing</span>
+												<span class="btn btn-xs btn-secondary d-none"
+													onclick=" disableEditControls(); " id="disableEditControlsBtn"
+													aria-label="Disable bulk editing">Disable Editing</span>
 											</div>
 										</div>
+										<script>
+											function enableEditControls() { 
+												$('##bulkEditControlsDiv').removeClass('d-none');
+												$('##searchResultsGrid').jqxgrid({etiable:true});
+												$('##enableEditControlsBtn').addClass('d-none');
+												$('##disableEditControlsBtn').removeClass('d-none');
+											};
+											function disableEditControls() { 
+												$('##bulkEditControlsDiv').addClass('d-none');
+												$('##searchResultsGrid').jqxgrid({etiable:false});
+												$('##enableEditControlsBtn').removeClass('d-none');
+												$('##disableEditControlsBtn').addClass('d-none');
+											};
+										</script>
 									</cfif>
 									<div class="row mb-0 pb-0 px-2 mx-0 #editVisibility#" id="bulkEditControlsDiv">
 										<div class="col-12 col-xl-6">
@@ -742,7 +759,11 @@ limitations under the License.
 									filterable: true,
 									sortable: true,
 									pageable: true,
-									editable: true,
+									<cfif isClosed>
+										editable: false,
+									<cfelse>
+										editable: true,
+									</cfif>
 									enablemousewheel: #session.gridenablemousewheel#,
 									pagesize: 50,
 									pagesizeoptions: ['5','50','100'],
