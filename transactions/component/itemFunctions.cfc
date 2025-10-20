@@ -422,6 +422,7 @@ limitations under the License.
 			MCZBASE.getPreferredAgentName(reconciled_by_person_id) as reconciled_by_agent,
 			to_char(reconciled_date,'YYYY-MM-DD') reconciled_date,
 			coll_obj_disposition,
+			coll_obj_cont_hist.container_id,
 			MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,
 			MCZBASE.CONCATENCUMBRANCES(cataloged_item.collection_object_id) as encumbrance,
 			MCZBASE.CONCATENCUMBAGENTS(cataloged_item.collection_object_id) as encumbering_agent_name,
@@ -434,6 +435,7 @@ limitations under the License.
 			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'cryovat') as location_cryovat,
 			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'compartment') as location_compartment,
 			mczbase.get_stored_as_id(cataloged_item.collection_object_id) as stored_as_name,
+			MCZBASE.get_storage_parentage(MCZBASE.get_previous_container_id(specimen_part.collection_object_id)) as previous_location,
 			loan_number,
 			specimen_part.collection_object_id as part_id,
 			concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS customid,
@@ -443,12 +445,14 @@ limitations under the License.
 		from 
 			loan
 			left join loan_item on loan.transaction_id = loan_item.transaction_id
-			left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-			left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
-			left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id 
-			left join collection on cataloged_item.collection_id=collection.collection_id 
-			left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-			left join locality on collecting_event.locality_id = locality.locality_id
+			join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+			left join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id 
+				and coll_obj_cont_hist.current_container_fg = 1
+			join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+			join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id 
+			join collection on cataloged_item.collection_id=collection.collection_id 
+			join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+			join locality on collecting_event.locality_id = locality.locality_id
 		WHERE
 			loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 		ORDER BY cat_num
