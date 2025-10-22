@@ -201,8 +201,9 @@ limitations under the License.
 							SELECT
 								container_history.install_date,
 								container.container_type,
+								current_parent.container_type current_parent_container_type,
 								container.container_id part_container_id,
-								old_parent.container_type,
+								old_parent.container_type old_parent_container_type,
 								old_parent.label,
 								old_parent.barcode,
 								old_parent.container_id old_parent_container_id
@@ -213,6 +214,7 @@ limitations under the License.
 								join container on coll_obj_cont_hist.container_id = container.container_id
 								join container_history on container.container_id = container_history.container_id
 								join container old_parent on container_history.parent_container_id = old_parent.container_id
+								join container current_parent on container.parent_container_id = current_parent.container_id
 							 WHERE 
 								specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
 								and old_parent.container_type <> 'campus' 
@@ -223,8 +225,8 @@ limitations under the License.
 						</cfquery>
 						<cfif getPreviousContainer.recordcount EQ 1>
 							<!--- confirm that container is not of a disallowed type --->
-							<cfif listfindnocase(DISALLOWED_CONTAINER_TYPES,getPreviousContainer.container_type) GT 0>
-								<cfthrow message="Containers of type #getPreviousContainer.container_type# cannot be moved. Aborting operation.">
+							<cfif listfindnocase(DISALLOWED_CONTAINER_TYPES,getPreviousContainer.current_parent_container_type) GT 0>
+								<cfthrow message="Containers of type #getPreviousContainer.curreent_parent_container_type# cannot be moved. Aborting operation.">
 							</cfif>
 							<cfquery name="changeParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="changeParentContainer_result">
 								UPDATE container 
@@ -389,12 +391,14 @@ limitations under the License.
 					<cfloop query="getItems">
 						<cfquery name="checkHistories" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							SELECT
+								container.container_id part_container_id,
 								container_history.install_date,
 								container.container_type,
-								old_parent.container_type,
+								current_parent.container_type current_parent_container_type,
+								old_parent.container_type old_parent_container_type,
 								old_parent.label,
 								old_parent.barcode,
-								old_parent.container_id
+								old_parent.container_id old_parent_container_id
 							 FROM 
 								specimen_part 
 								join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
@@ -402,6 +406,7 @@ limitations under the License.
 								join container on coll_obj_cont_hist.container_id = container.container_id
 								join container_history on container.container_id = container_history.container_id
 								join container old_parent on container_history.parent_container_id = old_parent.container_id
+								join container current_parent on container.parent_container_id = current_parent.container_id
 							 WHERE 
 								specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
 								and old_parent.container_type <> 'campus' 
