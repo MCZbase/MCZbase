@@ -339,21 +339,15 @@ limitations under the License.
 								join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
 									and coll_obj_cont_hist.current_container_fg = 1
 								join container on coll_obj_cont_hist.container_id = container.container_id
-								join container_history on container.parent_container_id = container_history.container_id
+								join container_history on container.container_id = container_history.container_id
 								join container old_parent on container_history.parent_container_id = old_parent.container_id
 							 WHERE 
 								specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
 								and old_parent.container_type <> 'campus' 
 								and old_parent.container_type <> 'institution'
 								and old_parent.parent_container_id is not null 
-							 GROUP BY
-								container_history.install_date,
-								container.container_type,
-								old_parent.container_type,
-								old_parent.label,
-								old_parent.barcode,
-								old_parent.container_id
 							ORDER BY install_date DESC NULLS LAST
+							FETCH FIRST 1 ROWS ONLY
 						</cfquery>
 						<cfif checkHistories.recordcount EQ 1>
 							<cfset moveableItemCount = moveableItemCount + 1>
