@@ -668,7 +668,7 @@ limitations under the License.
 		
 							function gridLoaded(gridId, searchType) { 
 								if (Object.keys(window.columnHiddenSettings).length == 0) { 
-									window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+									lookupColumnVisibilities ('#cgi.script_name#','Default');
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 										saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
 									</cfif>
