@@ -201,11 +201,11 @@ limitations under the License.
 							SELECT
 								container_history.install_date,
 								container.container_type,
-								container.container_id,
+								container.container_id part_container_id,
 								old_parent.container_type,
 								old_parent.label,
 								old_parent.barcode,
-								old_parent.container_id
+								old_parent.container_id old_parent_container_id
 							 FROM 
 								specimen_part 
 								join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
@@ -228,8 +228,8 @@ limitations under the License.
 							</cfif>
 							<cfquery name="changeParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="changeParentContainer_result">
 								UPDATE container 
-								SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPreviousContainer.container_id#">
-								WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPreviousContainer.container_id#">
+								SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPreviousContainer.old_parent_container_id#">
+								WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPreviousContainer.part_container_id#">
 							</cfquery>
 						<cfelse>
 							<cfthrow message="No previous container found for collection_object_id #getItems.collection_object_id#. Cannot continue.">
