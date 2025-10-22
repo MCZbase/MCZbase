@@ -322,7 +322,7 @@ limitations under the License.
 							loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 					</cfquery>
 					<cfset itemCount = getItems.recordcount>
-					<cfest movableItemCount = 0>
+					<cfset movableItemCount = 0>
 					<cfset bulkMoveBackPossible=false>
 					<!--- check to see if all parts have a container history they can move to --->
 					<cfloop query="getItems">
