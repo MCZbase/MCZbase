@@ -692,9 +692,11 @@ limitations under the License.
 								}
 								// set maximum page size
 								if (rowcount > 100) { 
-									$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount], pagesize: 50});
+									$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','50', '100', rowcount], pagesize: 50});
 								} else if (rowcount > 50) { 
-									$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount], pagesize: 50});
+									$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','50', rowcount], pagesize: 50});
+								} else if (rowcount > 10) { 
+									$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10', rowcount], pagesize: 50});
 								} else { 
 									$('##' + gridId).jqxGrid({ pageable: false });
 								}
@@ -896,7 +898,7 @@ limitations under the License.
 									</cfif>
 									enablemousewheel: #session.gridenablemousewheel#,
 									pagesize: 50,
-									pagesizeoptions: ['5','50','100'],
+									pagesizeoptions: ['5','10','50','100'],
 									showaggregates: true,
 									columnsresize: true,
 									autoshowfiltericon: true,
