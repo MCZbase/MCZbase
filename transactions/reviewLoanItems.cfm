@@ -186,6 +186,67 @@ limitations under the License.
 			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
 		</cfoutput>
 	</cfcase>
+	<cfcase value="BulkMoveBackContainers">
+		<cfoutput>
+			<cftransaction>
+				<cftry>
+					<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT collection_object_id
+						FROM loan_item
+						WHERE
+							loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+					</cfquery>
+					<cfloop query="getItems">
+						<cfquery name="getPreviousContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT
+								container_history.install_date,
+								container.container_type,
+								container.container_id,
+								old_parent.container_type,
+								old_parent.label,
+								old_parent.barcode,
+								old_parent.container_id
+							 FROM 
+								specimen_part 
+								join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
+									and coll_obj_cont_hist.current_container_fg = 1
+								join container on coll_obj_cont_hist.container_id = container.container_id
+								join container_history on container.container_id = container_history.container_id
+								join container old_parent on container_history.parent_container_id = old_parent.container_id
+							 WHERE 
+								specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
+								and old_parent.container_type <> 'campus' 
+								and old_parent.container_type <> 'institution'
+								and old_parent.parent_container_id is not null 
+							ORDER BY install_date DESC NULLS LAST
+							FETCH FIRST 1 ROWS ONLY
+						</cfquery>
+						<cfif getPreviousContainer.recordcount EQ 1>
+							<!--- confirm that container is not of a disallowed type --->
+							<cfif listfindnocase(DISALLOWED_CONTAINER_TYPES,getPreviousContainer.container_type) GT 0>
+								<cfthrow message="Containers of type #getPreviousContainer.container_type# cannot be moved. Aborting operation.">
+							</cfif>
+							<cfquery name="changeParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="changeParentContainer_result">
+								UPDATE container 
+								SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPreviousContainer.container_id#">
+								WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPreviousContainer.container_id#">
+							</cfquery>
+						<cfelse>
+							<cfthrow message="No previous container found for collection_object_id #getItems.collection_object_id#. Cannot continue.">
+						</cfif>
+					</cfloop>
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+					<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
+					<cfthrow message="#message#">
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+		</cfoutput>
+	</cfcase>
 	<!-------------------------------------------------------------------------------->
 	<cfdefaultcase>
 		<cfquery name="getCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getCollections_result">
@@ -521,6 +582,12 @@ limitations under the License.
 											<div class="col-12 col-xl-6">
 												<h3 class="h3">#moveableItemCount# of #itemCount# parts could be placed back in their previous containers</h3>
 												<cfif bulkMoveBackPossible>
+													<form name="BulkMoveBackContainers" method="post" action="/transactions/reviewLoanItems.cfm">
+														<br>Move all containers for all these #partCount# items back to their previous containers:
+														<input type="hidden" name="Action" value="BulkMoveBackContainers">
+														<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+														<input type="submit" value="Move Containers Back" class="btn btn-xs btn-primary"> 
+													</form>
 												</cfif>
 											</div>
 										</cfif>
