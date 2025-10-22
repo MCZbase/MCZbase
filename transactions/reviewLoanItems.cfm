@@ -673,6 +673,7 @@ limitations under the License.
 										saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
 									</cfif>
 								}
+								setColumnVisibilities(window.columnHiddenSettings,gridId);
 								$("##overlay").hide();
 								var now = new Date();
 								var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
