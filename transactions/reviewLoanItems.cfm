@@ -322,7 +322,7 @@ limitations under the License.
 							loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 					</cfquery>
 					<cfset itemCount = getItems.recordcount>
-					<cfset movableItemCount = 0>
+					<cfset moveableItemCount = 0>
 					<cfset bulkMoveBackPossible=false>
 					<!--- check to see if all parts have a container history they can move to --->
 					<cfloop query="getItems">
@@ -356,10 +356,10 @@ limitations under the License.
 							ORDER BY install_date DESC NULLS LAST
 						</cfquery>
 						<cfif checkHistories.recordcount EQ 1>
-							<cfset movableItemCount = moveableItemCount + 1>
+							<cfset moveableItemCount = moveableItemCount + 1>
 						</cfif>
 					</cfloop>
-					<cfif itemCount EQ movableItemCount>
+					<cfif itemCount EQ moveableItemCount>
 						<cfset bulkMoveBackPossible = true>
 					</cfif>
 				</cfif>
