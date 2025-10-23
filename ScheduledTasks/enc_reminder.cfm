@@ -54,7 +54,7 @@
 				MUSEUM OF COMPARATIVE ZOOLOGY<br>
 				HARVARD UNIVERSITY<br>
 				<br>
-				ENCUMBRANCE EXPIRATION NOTIFICATION FOR #DateFormat(Now(),"DD-mmmm-YYYY")#
+				ENCUMBRANCE EXPIRATION NOTIFICATION FOR #DateFormat(Now(),"dd-mmmm-YYYY")#
 				<br><br>
 				The following encumbrance for which you are the encumbering agent is set to expire today:<br><br>
 

@@ -221,7 +221,7 @@
 				MUSEUM OF COMPARATIVE ZOOLOGY<br>
 				HARVARD UNIVERSITY<br>
 				<br>
-				BORROW NOTIFICATION REPORT FOR #DateFormat(Now(),"DD-mmmm-YYYY")#
+				BORROW NOTIFICATION REPORT FOR #DateFormat(Now(),"dd-mmmm-YYYY")#
 				<br><br>
 				Dear Colleague,
 				<br><br>
@@ -237,9 +237,9 @@
 				<br>
 				Borrow Type: #lender_loan_type#
 				<br>
-				Borrow Date: #DateFormat(trans_date, "DD-mmmm-YYYY")#
+				Borrow Date: #DateFormat(trans_date, "dd-mmmm-YYYY")#
 				<br>
-				Due Date: #DateFormat(due_date, "DD-mmmm-YYYY")#
+				Due Date: #DateFormat(due_date, "dd-mmmm-YYYY")#
 				<br><br>
 
 				Approved Borrower: #receivedby.agent_name#
