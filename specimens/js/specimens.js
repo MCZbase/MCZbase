@@ -262,7 +262,7 @@ function openPartContainersDialog(collection_object_id, dialogid) {
 		width: 'auto',
 		maxWidth: 600,
 		minHeight: 500,
-      maxHeight: $(window).height(),
+      maxHeight: window.innerHeight,
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
@@ -350,7 +350,7 @@ function openPartContainerHistoryDialog(container_id, dialogid) {
 		width: 'auto',
 		maxWidth: 800,
 		minHeight: 500,
-      maxHeight: $(window).height(),
+      maxHeight: window.innerHeight,
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
