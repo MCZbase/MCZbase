@@ -19,9 +19,11 @@ limitations under the License.
 --->
 <cfset pageTitle="Review Loan Items">
 <cfinclude template="/shared/_header.cfm">
+<cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,cryovial,jar,envelope,glass vial,freezer box">
 
 <script type='text/javascript' src='/transactions/js/reviewLoanItems.js'></script>
 <script type='text/javascript' src='/specimens/js/specimens.js'></script>
+<script type='text/javascript' src='/specimens/js/public.js'></script>
 <style>
 	.jqx-grid-cell {
 		background-color: #E9EDECd6;
@@ -60,53 +62,13 @@ limitations under the License.
 	<cfthrow message="Provided transaction_id [#encodeForHtml(transaction_id)#] does not specify a loan">
 </cfif>
 
-<!---
-<cfif #Action# is "delete">
-	<!--- TODO: Move to a backing function/dialog --->
-		<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
-	</cfoutput>
+<cfif isdefined("url.action") and len(url.action) GT 0>
+	<cfset action = url.action>
+<cfelseif isdefined("form.action") and len(form.action) GT 0>
+	<cfset action = form.action>
 </cfif>
-<!-------------------------------------------------------------------------------->
-
-<cfif #Action# is "killSS">
-	<!--- TODO: Suspect, remove this functionality or move to backing method --->
-	<cfoutput>
-<cftransaction>
-	<cfquery name="deleLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		DELETE FROM loan_item WHERE collection_object_id = #partID#
-		and transaction_id=#transaction_id#
-	</cfquery>
-	<cfquery name="delePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		DELETE FROM specimen_part WHERE collection_object_id = #partID#
-	</cfquery>
-	<cfquery name="delePartCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		DELETE FROM coll_object WHERE collection_object_id = #partID#
-	</cfquery>
-	<cfquery name="delePartRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		DELETE FROM coll_object_remark WHERE collection_object_id = #partID#
-	</cfquery>
-	<cfquery name="getContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select container_id from coll_obj_cont_hist where
-		collection_object_id = #partID#
-	</cfquery>
-	
-	<cfquery name="deleCollCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		DELETE FROM coll_obj_cont_hist WHERE collection_object_id = #partID#
-	</cfquery>
-	<cfquery name="deleCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		DELETE FROM container_history WHERE container_id = #getContID.container_id#
-	</cfquery>
-	<cfquery name="deleCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		DELETE FROM container WHERE container_id = #getContID.container_id#
-	</cfquery>
-</cftransaction>
-	<cflocation url="a_loanItemReview.cfm?transaction_id=#transaction_id#">
-	</cfoutput>
-
-</cfif>
----->
-
 <cfif NOT isdefined("action")><cfset action=""></cfif>
+
 <cfswitch expression="#action#">
 	<cfcase value="BulkUpdateDisp">
 		<cfoutput>
@@ -136,6 +98,65 @@ limitations under the License.
 			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
 		</cfoutput>
 	</cfcase>
+	<cfcase value="BulkUpdateContainers">
+		<cfoutput>
+			<cftransaction>
+				<cftry>
+					<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						select collection_object_id 
+						FROM loan_item 
+						where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					</cfquery>
+					<cfquery name="getTargetParentContainerID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT container_id 
+						FROM container 
+						WHERE barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_parent_barcode#">
+					</cfquery>
+					<cfif getTargetParentContainerID.recordcount EQ 0>
+						<cfthrow message="No such container with barcode #new_parent_barcode# found.">
+					<cfelseif getTargetParentContainerID.recordcount GT 1>
+						<cfthrow message="Multiple containers with barcode #new_parent_barcode# found. Cannot continue.">
+					</cfif>
+					<cfset targetParentContainerID = getTargetParentContainerID.container_id>
+					<cfloop query="getCollObjId">
+						<cfquery name="getContainerToMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT c.container_id, p.container_type
+							FROM coll_obj_cont_hist coll_obj_cont_hist
+								JOIN container c on coll_obj_cont_hist.container_id = c.container_id
+								join container p on c.parent_container_id = p.container_id
+							WHERE coll_obj_cont_hist.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+								AND coll_obj_cont_hist.current_container_fg = 1
+						</cfquery>
+						<cfif getContainerToMove.recordcount EQ 0>
+							<cfthrow message="No current container found for collection_object_id #collection_object_id#. Cannot continue.">
+						<cfelseif getContainerToMove.recordcount GT 1>
+							<cfthrow message="Multiple current containers found for collection_object_id #collection_object_id#. Cannot continue.">
+						</cfif>
+						<cfif listfindnocase(DISALLOWED_CONTAINER_TYPES,getContainerToMove.container_type) GT 0>
+							<cfthrow message="Containers of type #getContainerToMove.container_type# cannot be moved. Aborting operation.">
+						</cfif>
+						<cfset containerToMoveID = getContainerToMove.container_id>
+						<cfquery name="changeParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="changeParentContainer_result">
+							UPDATE container 
+							SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#targetParentContainerID#">
+							WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#containerToMoveId#">
+						</cfquery>
+						<cfif changeParentContainer_result.recordcount NEQ 1>
+							<cfthrow message="Failed to move container #containerToMoveID# to new parent container #targetParentContainerID#.">
+						</cfif>
+					</cfloop>
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+					<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
+					<cfthrow message="#message#">
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+		</cfoutput>
+	</cfcase>
 	<!-------------------------------------------------------------------------------->
 	<cfcase value="BulkUpdatePres">
 		<cfoutput>
@@ -152,6 +173,69 @@ limitations under the License.
 							SET preserve_method  = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_preserve_method#">
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						</cfquery>
+					</cfloop>
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+					<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
+					<cfthrow message="#message#">
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+		</cfoutput>
+	</cfcase>
+	<cfcase value="BulkMoveBackContainers">
+		<cfoutput>
+			<cftransaction>
+				<cftry>
+					<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT collection_object_id
+						FROM loan_item
+						WHERE
+							loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+					</cfquery>
+					<cfloop query="getItems">
+						<cfquery name="getPreviousContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT
+								container_history.install_date,
+								container.container_type,
+								current_parent.container_type current_parent_container_type,
+								container.container_id part_container_id,
+								old_parent.container_type old_parent_container_type,
+								old_parent.label,
+								old_parent.barcode,
+								old_parent.container_id old_parent_container_id
+							 FROM 
+								specimen_part 
+								join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
+									and coll_obj_cont_hist.current_container_fg = 1
+								join container on coll_obj_cont_hist.container_id = container.container_id
+								join container_history on container.container_id = container_history.container_id
+								join container old_parent on container_history.parent_container_id = old_parent.container_id
+								join container current_parent on container.parent_container_id = current_parent.container_id
+							 WHERE 
+								specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
+								and old_parent.container_type <> 'campus' 
+								and old_parent.container_type <> 'institution'
+								and old_parent.parent_container_id is not null 
+							ORDER BY install_date DESC NULLS LAST
+							FETCH FIRST 1 ROWS ONLY
+						</cfquery>
+						<cfif getPreviousContainer.recordcount EQ 1>
+							<!--- confirm that container is not of a disallowed type --->
+							<cfif listfindnocase(DISALLOWED_CONTAINER_TYPES,getPreviousContainer.current_parent_container_type) GT 0>
+								<cfthrow message="Containers of type #getPreviousContainer.curreent_parent_container_type# cannot be moved. Aborting operation.">
+							</cfif>
+							<cfquery name="changeParentContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="changeParentContainer_result">
+								UPDATE container 
+								SET parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPreviousContainer.old_parent_container_id#">
+								WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPreviousContainer.part_container_id#">
+							</cfquery>
+						<cfelse>
+							<cfthrow message="No previous container found for collection_object_id #getItems.collection_object_id#. Cannot continue.">
+						</cfif>
 					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
@@ -276,6 +360,69 @@ limitations under the License.
 				<cfelse>
 					<cfset partCount = prtItemCnt.c>
 				</cfif>
+				<cfset containersCanMove = true>
+				<cfquery name="checkContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT count(distinct p.container_type) ct, p.container_type
+					FROM loan_item
+						join coll_obj_cont_hist on loan_item.collection_object_id = coll_obj_cont_hist.collection_object_id
+						join container c on coll_obj_cont_hist.container_id = c.container_id
+						join container p on c.parent_container_id = p.container_id
+					WHERE
+						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+						and coll_obj_cont_hist.current_container_fg = 1
+					GROUP BY p.container_type
+				</cfquery>
+				<cfloop query="checkContainers">
+					<cfif listfindnocase(DISALLOWED_CONTAINER_TYPES,checkContainers.container_type) GT 0>
+						<cfset containersCanMove = false>
+					</cfif>
+				</cfloop>
+				<cfif containersCanMove>
+					<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT collection_object_id
+						FROM loan_item
+						WHERE
+							loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+					</cfquery>
+					<cfset itemCount = getItems.recordcount>
+					<cfset moveableItemCount = 0>
+					<cfset bulkMoveBackPossible=false>
+					<!--- check to see if all parts have a container history they can move to --->
+					<cfloop query="getItems">
+						<cfquery name="checkHistories" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT
+								container.container_id part_container_id,
+								container_history.install_date,
+								container.container_type,
+								current_parent.container_type current_parent_container_type,
+								old_parent.container_type old_parent_container_type,
+								old_parent.label,
+								old_parent.barcode,
+								old_parent.container_id old_parent_container_id
+							 FROM 
+								specimen_part 
+								join coll_obj_cont_hist on specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id
+									and coll_obj_cont_hist.current_container_fg = 1
+								join container on coll_obj_cont_hist.container_id = container.container_id
+								join container_history on container.container_id = container_history.container_id
+								join container old_parent on container_history.parent_container_id = old_parent.container_id
+								join container current_parent on container.parent_container_id = current_parent.container_id
+							 WHERE 
+								specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
+								and old_parent.container_type <> 'campus' 
+								and old_parent.container_type <> 'institution'
+								and old_parent.parent_container_id is not null 
+							ORDER BY install_date DESC NULLS LAST
+							FETCH FIRST 1 ROWS ONLY
+						</cfquery>
+						<cfif checkHistories.recordcount EQ 1>
+							<cfset moveableItemCount = moveableItemCount + 1>
+						</cfif>
+					</cfloop>
+					<cfif itemCount EQ moveableItemCount>
+						<cfset bulkMoveBackPossible = true>
+					</cfif>
+				</cfif>
 
 				<section class="row my-2 pt-2" title="Review Loan Items" >
 					<div class="col-12">
@@ -344,22 +491,113 @@ limitations under the License.
 										</div>
 										<div id="addLoanItemDialogDiv"></div>
 									</div>
-									<div class="row mb-0 pb-0 px-2 mx-0">
+									<cfif isClosed>
+										<cfset editVisibility = "d-none">
+										<div class="row mb-0 pb-0 px-2 mx-0">
+											<div class="col-12">
+												<h3 class="h4 text-danger">This loan is closed; edit functions are disabled.</h3>
+												<span class="btn btn-xs btn-secondary" id="enableEditControlsBtn"
+													onclick=" enableEditControls(); "
+													aria-label="Enable bulk editing">Enable Editing</span>
+												<span class="btn btn-xs btn-secondary d-none"
+													onclick=" disableEditControls(); " id="disableEditControlsBtn"
+													aria-label="Disable bulk editing">Disable Editing</span>
+											</div>
+										</div>
+										<script>
+											function enableEditControls() { 
+												$('##bulkEditControlsDiv').removeClass('d-none');
+												$('##searchResultsGrid').jqxGrid({editable:true});
+												$('##enableEditControlsBtn').addClass('d-none');
+												$('##disableEditControlsBtn').removeClass('d-none');
+												$('.flag-editable-cell').addClass('bg-light');
+												$('.flag-editable-cell').addClass('editable-cell');
+											};
+											function disableEditControls() { 
+												$('##bulkEditControlsDiv').addClass('d-none');
+												$('##searchResultsGrid').jqxGrid({editable:false});
+												$('##enableEditControlsBtn').removeClass('d-none');
+												$('##disableEditControlsBtn').addClass('d-none');
+												$('.flag-editable-cell').removeClass('bg-light');
+												$('.flag-editable-cell').removeClass('editable-cell');
+											};
+										</script>
+									</cfif>
+									<div class="row mb-0 pb-0 px-2 mx-0 #editVisibility#" id="bulkEditControlsDiv">
 										<div class="col-12 col-xl-6">
 											<form name="BulkUpdateDisp" method="post" action="/transactions/reviewLoanItems.cfm">
-											<br>Change disposition of all these items to:
+											<br>Change disposition of all these #partCount# items to:
 											<input type="hidden" name="Action" value="BulkUpdateDisp">
 												<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-												<select name="coll_obj_disposition" class="data-entry-select col-3 d-inline" size="1">
+												<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select col-3 d-inline" size="1">
+													<option value=""></option>
 													<cfloop query="ctDisp">
 														<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
 													</cfloop>				
 												</select>
-												<input type="submit" value="Update Dispositions" class="btn btn-xs btn-primary" >
+												<input type="submit" id="coll_obj_disposition_submit" value="Update Dispositions" class="btn btn-xs btn-primary" disabled>
+												<!--- enable the button only if a value is selected --->
+												<script>
+													$(document).ready(function() {
+														$('##coll_obj_disposition').change(function() {
+															if ($('##coll_obj_disposition').val() != "") {
+																$('##coll_obj_disposition_submit').prop('disabled', false);
+															} else {
+																$('##coll_obj_disposition_submit').prop('disabled', true);
+															}
+														});
+													});
+												</script>
 											</form>
 										</div>
-										<div class="col-12 col-xl-6">
-											<cfif aboutLoan.collection EQ 'Cryogenic'>
+										<cfif containersCanMove>
+											<div class="col-12 col-xl-6">
+												<cfquery name="getTreatmentContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+													SELECT barcode, label
+													FROM container
+													WHERE label LIKE '%chamber'
+														and container_type = 'fixture'
+													ORDER BY label
+												</cfquery>
+												<form name="moveContainers" method="post" action="/transactions/reviewLoanItems.cfm">
+													<br>Move all containers for all these #partCount# items to:
+													<input type="hidden" name="Action" value="BulkUpdateContainers">
+													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+													<select name="new_parent_barcode" id="new_parent_barcode" class="data-entry-select col-3 d-inline" size="1">
+														<option value=""></option>
+														<cfloop query="getTreatmentContainers">
+															<option value="#getTreatmentContainers.barcode#">#getTreatmentContainers.label# (#getTreatmentContainers.barcode#)</option>
+														</cfloop>
+													</select>
+													<input type="submit" id="new_parent_barcode_submit" value="Move Containers" class="btn btn-xs btn-primary" disabled>
+													<!--- enable the button only if a value is selected --->
+													<script>
+														$(document).ready(function() {
+															$('##new_parent_barcode').change(function() {
+																if ($('##new_parent_barcode').val() != "") {
+																	$('##new_parent_barcode_submit').prop('disabled', false);
+																} else {
+																	$('##new_parent_barcode_submit').prop('disabled', true);
+																}
+															});
+														});
+													</script>
+												</form>
+											</div>
+											<div class="col-12 col-xl-6">
+												<h3 class="h3">#moveableItemCount# of #itemCount# parts could be placed back in their previous containers</h3>
+												<cfif bulkMoveBackPossible>
+													<form name="BulkMoveBackContainers" method="post" action="/transactions/reviewLoanItems.cfm">
+														<br>Move all containers for all these #partCount# items back to their previous containers:
+														<input type="hidden" name="Action" value="BulkMoveBackContainers">
+														<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+														<input type="submit" value="Move Containers Back" class="btn btn-xs btn-primary"> 
+													</form>
+												</cfif>
+											</div>
+										</cfif>
+										<cfif aboutLoan.collection EQ 'Cryogenic'>
+											<div class="col-12 col-xl-6">
 												<form name="BulkUpdatePres" method="post" action="/transactions/reviewLoanItems.cfm">
 													<br>Change preservation method of all these items to:
 													<input type="hidden" name="Action" value="BulkUpdatePres">
@@ -371,8 +609,8 @@ limitations under the License.
 													</select>
 													<input type="submit" value="Update Preservation methods" class="btn btn-xs btn-primary"> 
 												</form>
-											</cfif>
-										</div>
+											</div>
+										</cfif>
 									</div>
 								</div>
 							</div>
@@ -430,11 +668,12 @@ limitations under the License.
 		
 							function gridLoaded(gridId, searchType) { 
 								if (Object.keys(window.columnHiddenSettings).length == 0) { 
-									window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+									lookupColumnVisibilities ('#cgi.script_name#','Default');
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 										saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
 									</cfif>
 								}
+								setColumnVisibilities(window.columnHiddenSettings,gridId);
 								$("##overlay").hide();
 								var now = new Date();
 								var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
@@ -453,9 +692,11 @@ limitations under the License.
 								}
 								// set maximum page size
 								if (rowcount > 100) { 
-									$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount], pagesize: 50});
+									$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','50', '100', rowcount], pagesize: 50});
 								} else if (rowcount > 50) { 
-									$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount], pagesize: 50});
+									$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','50', rowcount], pagesize: 50});
+								} else if (rowcount > 10) { 
+									$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10', rowcount], pagesize: 50});
 								} else { 
 									$('##' + gridId).jqxGrid({ pageable: false });
 								}
@@ -544,7 +785,11 @@ limitations under the License.
 								return 'History';
 							};
 							var editableCellClass = function (row, columnfield, value) {
-								return 'bg-light editable-cell';
+								<cfif isClosed>
+									return 'flag-editable-cell';
+								<cfelse>
+									return 'bg-light editable-cell';
+								</cfif>
 							};
 							var historyButtonClick = function(row) {
 								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
@@ -583,6 +828,7 @@ limitations under the License.
 										{ name: 'location_fixture', type: 'string' },
 										{ name: 'location_tank', type: 'string' },
 										{ name: 'location_cryovat', type: 'string' },
+										{ name: 'previous_location', type: 'string' },
 										{ name: 'stored_as_name', type: 'string' },
 										{ name: 'sovereign_nation', type: 'string' },
 										{ name: 'loan_number', type: 'string' },
@@ -645,10 +891,14 @@ limitations under the License.
 									filterable: true,
 									sortable: true,
 									pageable: true,
-									editable: true,
+									<cfif isClosed>
+										editable: false,
+									<cfelse>
+										editable: true,
+									</cfif>
 									enablemousewheel: #session.gridenablemousewheel#,
 									pagesize: 50,
-									pagesizeoptions: ['5','50','100'],
+									pagesizeoptions: ['5','10','50','100'],
 									showaggregates: true,
 									columnsresize: true,
 									autoshowfiltericon: true,
@@ -674,6 +924,7 @@ limitations under the License.
 										{text: 'Scientific Name', datafield: 'scientific_name', width:210, hideable: true, hidden: getColHidProp('scientific_name', false), editable: false },
 										{text: 'Stored As', datafield: 'stored_as_name', width:210, hideable: true, hidden: getColHidProp('stored_as_name', true), editable: false },
 										{text: 'Storage Location', datafield: 'short_location', width:210, hideable: true, hidden: getColHidProp('short_location', true), editable: false },
+										{text: 'Previous Location', datafield: 'previous_location', width:210, hideable: true, hidden: getColHidProp('previous_location', true), editable: false },
 										{text: 'Full Storage Location', datafield: 'location', width:210, hideable: true, hidden: getColHidProp('location', true), editable: false },
 										{text: 'Room', datafield: 'location_room', width:90, hideable: true, hidden: getColHidProp('location_room', true), editable: false },
 										{text: 'Fixture', datafield: 'location_fixture', width:90, hideable: true, hidden: getColHidProp('location_fixture', true), editable: false },

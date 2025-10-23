@@ -208,7 +208,7 @@
 		<table>
 	 		<tr>
 				<td colspan=2>
-					<strong>Parent Container:</strong> #getCont.parent_label#
+					<strong>Parent Container:</strong> <a href="findContainer.cfm?container_label=#encodeForUrl(getCont.parent_label)#" target="_blank">#getCont.parent_label#</a>
 				</td>
 	 		</tr>
 	 		<tr>
