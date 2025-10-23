@@ -34,16 +34,6 @@ limitations under the License.
 <!--- Set page title to reflect failure condition, if queries succeed it will be changed to reflect specimen record found --->
 <cfset pageTitle = "MCZbase Specimen not found.">
 
-<!--- load javascript libraries for the page --->
-<script type='text/javascript' src='/media/js/media.js'></script>
-<script type="text/javascript" src="/localities/js/collectingevents.js"></script>
-<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-	<script type="text/javascript" src="/specimens/js/specimens.js"></script>
-	<script type="text/javascript" src="/containers/js/containers.js"></script>
-</cfif>
-<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_transactions")>
-	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
-</cfif>
 
 <cfif isdefined("collection_object_id")>
 	<cfoutput>
@@ -175,6 +165,17 @@ limitations under the License.
 <cfset addedKeywords=",#header.full_taxon_name#,#header.higher_geog#,#header.typestatuswords#">
 <cfset pageTitle = "MCZbase #guid# specimen record">
 <cfinclude template="/shared/_header.cfm">
+
+<!--- load javascript libraries for the page --->
+<script type='text/javascript' src='/media/js/media.js'></script>
+<script type="text/javascript" src="/localities/js/collectingevents.js"></script>
+<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+	<script type="text/javascript" src="/specimens/js/specimens.js"></script>
+	<script type="text/javascript" src="/containers/js/containers.js"></script>
+</cfif>
+<cfif isdefined("session.roles") AND listfindnocase(session.roles,"manage_transactions")>
+	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
+</cfif>
 
 <cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
 	<cfset session.sdmapclass='tinymap'>

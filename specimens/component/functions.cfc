@@ -22,7 +22,7 @@ limitations under the License.
 <cfinclude template="/specimens/component/public.cfc" runOnce="true"><!--- for getIdentificationsUnthreadedHTML  --->
 
 <!--- parent container types that violate user expectations of what container is being moved --->
-<cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,cryovial,jar,envelope,glass vial,freezer box">
+<cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,cryovial,jar,envelope,glass vial">
 
 <!--- updateCatNumber update the catalog number and collection id for a cataloged item identified by the collection object id.
  @param collection_object_id the collection_object_id for the cataloged item to update
