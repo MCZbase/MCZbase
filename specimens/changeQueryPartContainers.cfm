@@ -30,7 +30,7 @@ limitations under the License.
 </cfif>
 
 <!--- container types that cannot be used in this tool, violate user expectations of what container is being moved --->
-<cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,cryovial,jar,envelope,glass vial,freezer box">
+<cfset DISALLOWED_CONTAINER_TYPES = "pin,slide,cryovial,jar,envelope,glass vial">
 
 <main class="container-fluid px-4 py-3" id="content">
 <cftry>
