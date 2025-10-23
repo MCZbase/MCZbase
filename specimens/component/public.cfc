@@ -1546,6 +1546,7 @@ limitations under the License.
 											onClick=" openHistoryDialog(#mainParts.part_id#, 'historyDialog#mainParts.part_id#');">Part&nbsp;History#histCount#</a>
 									</span>
 									<cfif oneOfus is "1">
+										<span class="d-xl-inline-block d-none"> | </span>
 										<span class="small mb-0 pb-0">
 											<a href="javascript:void(0)" aria-label="Part Container History"
 												onClick=" openPartContainerHistoryDialog(#oc_container_id#, 'partContHistoryDialog_#collection_object_id#'); ">Container&nbsp;History</a>
