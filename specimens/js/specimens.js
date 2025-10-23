@@ -250,7 +250,7 @@ function openPartContainersDialog(collection_object_id, dialogid) {
 		} catch (e) {}
 	}
 
-	var content = '<div id="'+dialogid+'_div" class="col-12 px-1 px-xl-2">Loading....</div>';
+	var content = '<div id="'+dialogid+'_div" class="col-12 px-1 px-xl-2" style="overflow: scroll-y;">Loading....</div>';
 	var thedialog = dialogElement.html(content)
 	.dialog({
 		title: title,
@@ -262,6 +262,7 @@ function openPartContainersDialog(collection_object_id, dialogid) {
 		width: 'auto',
 		maxWidth: 600,
 		minHeight: 500,
+      maxHeight: $(window).height(),
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
@@ -337,7 +338,7 @@ function openPartContainerHistoryDialog(container_id, dialogid) {
 		} catch (e) {}
 	}
 
-	var content = '<div id="'+dialogid+'_div" class="col-12 px-1 px-xl-2">Loading....</div>';
+	var content = '<div id="'+dialogid+'_div" class="col-12 px-1 px-xl-2" style="overflow: scroll-y;">Loading....</div>';
 	var thedialog = dialogElement.html(content)
 	.dialog({
 		title: title,
@@ -349,6 +350,7 @@ function openPartContainerHistoryDialog(container_id, dialogid) {
 		width: 'auto',
 		maxWidth: 800,
 		minHeight: 500,
+      maxHeight: $(window).height(),
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
