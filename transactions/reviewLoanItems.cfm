@@ -119,6 +119,9 @@ limitations under the License.
 							loan_item_state = 'returned',
 							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">
 						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+							and return_date is null
+							and loan_item_state is null
+					</cfquery>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
