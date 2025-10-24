@@ -123,6 +123,10 @@
 					<input type="text" name="barcode" id="barcode" size="20" placeholder=" (exact match)"/>
 				</li>
 				<li>
+					<label>Description/Remarks</label>
+					<input type="text" name="description" id="description" size="20" placeholder=""/>
+				</li>
+				<li>
 					<input type="submit" value="Search" class="schBtn" style="">
 					<input class="clrBtn" type="reset" value="Clear" style=""/>
 				</li>
