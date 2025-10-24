@@ -134,6 +134,33 @@ limitations under the License.
 			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
 		</cfoutput>
 	</cfcase>
+	<cfcase value="BulkMarkItemsReturned">
+		<cfoutput>
+			<cftransaction>
+				<cftry>
+					<cfquery name="setClosedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="setClosedDate_result">
+						UPDATE
+							loan_item
+						SET
+							return_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateFormat(now(),'yyyy-mm-dd')#">,
+							loan_item_state = 'returned',
+							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">
+						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+							and return_date is null
+							and loan_item_state is null
+					</cfquery>
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+					<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
+					<cfthrow message="#message#">
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+		</cfoutput>
+	</cfcase>
 	<cfcase value="BulkUpdateContainers">
 		<cfoutput>
 			<cftransaction>
@@ -665,6 +692,19 @@ limitations under the License.
 														<input type="hidden" name="Action" value="BulkSetReturnDates">
 														<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 														<input type="submit" value="Set Return Dates" class="btn btn-xs btn-primary"> 
+													</form>
+												</div>
+											</cfif>
+										</cfif>
+										<cfif isOpen>
+											<!--- if loan is open and returnable, show button to set return date on loan items to today and mark items as returned --->
+											<cfif aboutLoan.loan_type EQ 'returnable'>
+												<div class="col-12 col-xl-6">
+													<form name="BulkMarkItemsReturned" method="post" action="/transactions/reviewLoanItems.cfm">
+														<br>Mark all these #partCount# items as returned today (#dateFormat(now(),'yyyy-mm-dd')#):
+														<input type="hidden" name="Action" value="BulkMarkItemsReturned">
+														<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+														<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
 													</form>
 												</div>
 											</cfif>
