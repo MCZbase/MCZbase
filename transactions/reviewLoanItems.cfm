@@ -959,7 +959,7 @@ limitations under the License.
 										{text: 'Return Date', datafield: 'return_date', width:110, hideable: true, hidden: getColHidProp('return_date', true), editable: false },
 										{text: 'Resolution By', datafield: 'resolution_recorded_by_agent', width:110, hideable: true, hidden: getColHidProp('resolution_recorded_by_agent', true), editable: false },
 										{text: 'Resolution Date', datafield: 'resolution_date', width:110, hideable: true, hidden: getColHidProp('resolution_date', true), editable: false },
-										{text: 'Resolution Remarks', datafield: 'resolution_remarks', width:180, hideable: true, hidden: getColHidProp('resolution_remarks', true), editable: true. cellclassname: editableCellClass },	
+										{text: 'Resolution Remarks', datafield: 'resolution_remarks', width:180, hideable: true, hidden: getColHidProp('resolution_remarks', true), editable: true, cellclassname: editableCellClass },	
 										{text: 'Encumbrance', datafield: 'encumbrance', width:100, hideable: true, hidden: getColHidProp('encumbrance', false), editable: false },
 										{text: 'Encumbered By', datafield: 'encumbering_agent_name', width:100, hideable: true, hidden: getColHidProp('encumbring_agent_id', true), editable: false },
 										{text: 'Country of Origin', datafield: 'sovereign_nation', hideable: true, hidden: getColHidProp('sovereign_nation', false), editable: false }
