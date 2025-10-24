@@ -115,7 +115,7 @@ limitations under the License.
 						UPDATE
 							loan_item
 						SET
-							return_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#getClosedDate.closed_date#">.
+							return_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#getClosedDate.closed_date#">,
 							loan_item_state = 'returned',
 							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">
 						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
