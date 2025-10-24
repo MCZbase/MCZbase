@@ -1410,7 +1410,7 @@ limitations under the License.
 				<cfelse>
 					<cfset isMixedCollection = false>
 				</cfif>
-				<table class="table px-0 table-responsive-md w-100 tablesection my-0">
+				<table class="table px-0 table-responsive w-100 tablesection my-0">
 					<thead class="thead-light">
 						<tr>
 							<th class="py-0"><span>Part</span></th>
@@ -1602,10 +1602,10 @@ limitations under the License.
 								<tr class="#addedClass#">
 									<td colspan="6">
 										<span class="font-weight-lessbold pl-1">This part is a separate occurrence.</span>
-										<span class="small95"><em>occurrenceID:</em> #getOccurrenceID.assembled_identifier#</span>
+										<span class="small90"><em>occurrenceID:</em> #getOccurrenceID.assembled_identifier#</span>
 									</td>
 								</tr>
-								<tr class="small95 #addedClass#">
+								<tr class="small90 #addedClass#">
 									<td colspan="6">
 										<cfset content = getIdentificationsUnthreadedHTML(collection_object_id=part_id)>
 									</td>
@@ -1614,13 +1614,13 @@ limitations under the License.
 								<cfif isMixedCollection>
 									<tr>
 										<td colspan="6">
-											<span class="small95">#getMainIdentification.scientific_name#</span>
+											<span class="small90">#getMainIdentification.scientific_name#</span>
 										</td>
 									</tr>
 								</cfif>
 							</cfif>
 							<cfif len(part_remarks) gt 0>
-								<tr class="small95 #addedClass#">
+								<tr class="small90 #addedClass#">
 									<td colspan="6" class="mb-0 pb-1 pt-0">
 										<span class="pl-2 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
 									</td>
@@ -1636,7 +1636,7 @@ limitations under the License.
 							</cfquery>
 							<cfif getMaterialSampleID.recordcount GT 0>
 								<cfloop query="getMaterialSampleID">
-									<tr class="small95 #addedClass#">
+									<tr class="small90 #addedClass#">
 										<td colspan="6" class="mb-0 py-0">
 											<span class="pl-2 d-block">
 												<span class="font-italic">materialSampleID:</span> 
@@ -1683,7 +1683,7 @@ limitations under the License.
 								<tr class="border-top-0 #addedClass#">
 									<td colspan="6" class="border-top-0 mt-0 py-2">
 										<cfloop query="partAttributes">
-											<div class="small95 pl-2 line-height-sm">
+											<div class="small90 pl-2 line-height-sm">
 												#attribute_type# = <span class="">#attribute_value#</span> &nbsp;
 											<cfif len(attribute_units) gt 0>
 												#attribute_units# &nbsp;
