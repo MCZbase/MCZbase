@@ -433,8 +433,10 @@ limitations under the License.
 										<div class="col-12 col-xl-6">
 											<h1 class="h3 mb-0 pb-0">
 												Review items in loan
-												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>.
-												<p class="font-weight-normal mb-1 pb-0">There are #partCount# items from #catCount# specimens in this loan.</p>
+												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>
+												<p class="font-weight-normal mb-1 pb-0">
+													There are #partCount# items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank">#catCount# specimens</a> in this loan.
+												</p>
 												<cfif collectionCount GT 1 >
 													<p class="font-weight-normal mb-1 pb-0">#multipleCollectionsText#</p>
 												</cfif>
