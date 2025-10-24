@@ -2699,3 +2699,58 @@ function toggleAnySearchForm(formId, toggleIconId) {
 		$('#'+toggleIconId).removeClass('fa-eye');
 	}
 }
+
+/** tdHasWrappedSpans determine if a table cell contains spans that have wrapped to multiple lines.
+ * Detects by checking the top position of each span within the td, if any differ from the first 
+ * span's top position by more than the specified tolerance, then we have wrapped spans.
+ * 
+ * @param td the table cell element to check for wrapped spans, can be a selector string, a jQuery object, 
+ *   or a DOM element, e.g. given <td id="mytd">...</td> you can pass '#mytd', $('#mytd'), or document.getElementById('mytd')
+ *
+ * @param tolerance an optional number of pixels tolerance to allow for minor differences in top position.
+ * @return true if the td contains spans that have wrapped to multiple lines, false otherwise.
+ */
+function tdHasWrappedSpans(td, tolerance = 3) {
+  // Accept selector string
+  if (typeof td === 'string') td = document.querySelector(td);
+
+  // jQuery object -> pick first element (if the collection has many elements, we check the first)
+  if (window.jQuery && td instanceof window.jQuery) {
+    if (td.length === 0) return false;
+    td = td.get(0);
+  }
+  // Now td should be a DOM element, check this
+  if (!(td instanceof Element)) {
+	 throw new Error('tdHasWrappedSpans: td parameter must be a selector string, jQuery object, or DOM element.');
+  }
+  const spans = Array.from(td.querySelectorAll('span:not(.d-none)'));
+  if (spans.length <= 1) return false;
+  const firstTop = spans[0].getBoundingClientRect().top;
+  return spans.some(s => Math.abs(s.getBoundingClientRect().top - firstTop) > tolerance);
+}
+
+// Check a collection (jQuery, selector, NodeList, array, or single element).
+// Returns true if any element in the collection is a <td> that contains wrapped spans.
+function tdClassHasWrappedSpans(elOrSelector, tolerance = 3) {
+  const elements = resolveToElements(elOrSelector);
+  if (!elements.length) return false;
+  const tol = Number(tolerance) || 0;
+  for (const el of elements) {
+    // Only consider TD elements (skip others)
+    if (!el.matches || !el.matches('td')) continue;
+    if (tdHasWrappedSpans(el, tol)) return true;
+  }
+  return false;
+}
+
+// Helper to resolve input to an array of DOM elements
+// Return an array of Elements from various inputs
+function resolveToElements(input) {
+  if (!input) return [];
+  if (typeof input === 'string') return Array.from(document.querySelectorAll(input));
+  if (input instanceof Element) return [input];
+  if (window.jQuery && input instanceof window.jQuery) return input.toArray();
+  if (NodeList.prototype.isPrototypeOf(input) || HTMLCollection.prototype.isPrototypeOf(input)) return Array.from(input);
+  if (Array.isArray(input)) return input.filter(i => i instanceof Element);
+  return [];
+}
