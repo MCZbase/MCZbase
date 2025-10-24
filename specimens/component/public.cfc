@@ -1554,13 +1554,13 @@ limitations under the License.
 										<script>
 											// show separator only if spans are not wrapped within the dom 
 											$(document).ready(function() {
-												if (!tdHasWrappedSpans("partHistoryTd_#i#")) {
+												if (!tdHasWrappedSpans("##partHistoryTd_#i#")) {
 													document.getElementById("partHistoryLinkSeparator").classList.remove("d-none");
 												};
 											});
 											// add event listener to window resize to re-check wrapping
 											window.addEventListener('resize', function(event) {
-												if (!tdHasWrappedSpans("partHistoryTd_#i#")) {
+												if (!tdHasWrappedSpans("##partHistoryTd_#i#")) {
 													document.getElementById("partHistoryLinkSeparator").classList.remove("d-none");
 												} else {
 													document.getElementById("partHistoryLinkSeparator").classList.add("d-none");
