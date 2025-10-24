@@ -1807,8 +1807,15 @@ limitations under the License.
 									<td class="py-1">
 										<span class="small mb-0 pb-0">
 											<a href="javascript:void(0)" aria-label="Condition/Preparation History"
-												onClick=" openHistoryDialog(#subsampleParts.part_id#, 'historyDialog#subsampleParts.part_id#');">History#histCount#</a>
+												onClick=" openHistoryDialog(#subsampleParts.part_id#, 'historyDialog#subsampleParts.part_id#');">Part&nbsp;History#histCount#</a>
 										</span>
+										<cfif oneOfus is "1">
+											<span class="d-xl-inline-block d-none" id="partHistoryLinkSeparator"> | </span>
+											<span class="small mb-0 pb-0">
+												<a href="javascript:void(0)" aria-label="Part Container History"
+													onClick=" openPartContainerHistoryDialog(#oc_container_id#, 'partContHistoryDialog_#collection_object_id#'); ">Container&nbsp;History</a>
+											</span>
+										</cfif>
 									</td>
 								</tr>
 								<cfif len(part_remarks) gt 0>
