@@ -2680,7 +2680,7 @@ function tdHasWrappedSpans(td, tolerance = 3) {
   if (!(td instanceof Element)) {
 	 throw new Error('tdHasWrappedSpans: td parameter must be a selector string, jQuery object, or DOM element.');
   }
-  const spans = Array.from(td.querySelectorAll('span'));
+  const spans = Array.from(td.querySelectorAll('span:not(.d-none)'));
   if (spans.length <= 1) return false;
   const firstTop = spans[0].getBoundingClientRect().top;
   return spans.some(s => Math.abs(s.getBoundingClientRect().top - firstTop) > tolerance);
