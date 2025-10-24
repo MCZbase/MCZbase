@@ -1540,17 +1540,33 @@ limitations under the License.
 										</span>
 									</td>
 								</cfif>
-								<td class="py-1">
+								<td class="py-1 partHistoryTD" id="partHistoryTd_#i#">
 									<span class="small mb-0 pb-0">
 										<a href="javascript:void(0)" aria-label="Condition/Preparation History"
 											onClick=" openHistoryDialog(#mainParts.part_id#, 'historyDialog#mainParts.part_id#');">Part&nbsp;History#histCount#</a>
 									</span>
 									<cfif oneOfus is "1">
-										<span class="d-xl-inline-block d-none"> | </span>
+										<span class="d-none" id="partHistoryLinkSeparator"> | </span>
 										<span class="small mb-0 pb-0">
 											<a href="javascript:void(0)" aria-label="Part Container History"
 												onClick=" openPartContainerHistoryDialog(#oc_container_id#, 'partContHistoryDialog_#collection_object_id#'); ">Container&nbsp;History</a>
 										</span>
+										<script>
+											// show separator only if spans are not wrapped within the dom 
+											$(document).ready(function() {
+												if (!tdHasWrappedSpans("partHistoryTd_#i#")) {
+													document.getElementById("partHistoryLinkSeparator").classList.remove("d-none");
+												};
+											});
+											// add event listener to window resize to re-check wrapping
+											window.addEventListener('resize', function(event) {
+												if (!tdHasWrappedSpans("partHistoryTd_#i#")) {
+													document.getElementById("partHistoryLinkSeparator").classList.remove("d-none");
+												} else {
+													document.getElementById("partHistoryLinkSeparator").classList.add("d-none");
+												}
+											});
+										</script>
 									</cfif>
 									<cfif local_editable>
 										<span class="small mb-0 pb-0">
