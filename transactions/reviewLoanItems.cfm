@@ -98,6 +98,39 @@ limitations under the License.
 			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
 		</cfoutput>
 	</cfcase>
+	<cfcase value="BulkSetReturnDates">
+		<cfoutput>
+			<cftransaction>
+				<cftry>
+					<cfquery name="getClosedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getClosedDate_result">
+						SELECT
+							closed_date, loan_type, loan_status
+						FROM loan 
+						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					</cfquery>
+					<cfif getClosedDate.closed_date EQ ''>
+						<cfthrow message="Cannot set return due date on a loan without a closed date.">
+					</cfif>
+					<cfquery name="setClosedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="setClosedDate_result">
+						UPDATE
+							loan_item
+						SET
+							return_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#getClosedDate.closed_date#">.
+							loan_item_state = 'returned',
+							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">
+						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+					<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
+					<cfthrow message="#message#">
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+		</cfoutput>
+	</cfcase>
 	<cfcase value="BulkUpdateContainers">
 		<cfoutput>
 			<cftransaction>
@@ -612,6 +645,26 @@ limitations under the License.
 													<input type="submit" value="Update Preservation methods" class="btn btn-xs btn-primary"> 
 												</form>
 											</div>
+										</cfif>
+										<cfif isClosed>
+											<!--- if loan is returnable, and all loan items have no return date, show button to set return date to loan closed date --->
+											<cfquery name="ctReturnableItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT count(*) as ct
+												FROM loan_item
+												WHERE
+													loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+													and loan_item.return_date is null
+											</cfquery>
+											<cfif aboutLoan.loan_type EQ 'returnable' AND ctReturnableItems.ct EQ partCount>
+												<div class="col-12 col-xl-6">
+													<form name="BulkSetReturnDates" method="post" action="/transactions/reviewLoanItems.cfm">
+														<br>Set return date for all these #partCount# items to loan closed date of #dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#:
+														<input type="hidden" name="Action" value="BulkSetReturnDates">
+														<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+														<input type="submit" value="Set Return Dates" class="btn btn-xs btn-primary"> 
+													</form>
+												</div>
+											</cfif>
 										</cfif>
 									</div>
 								</div>
