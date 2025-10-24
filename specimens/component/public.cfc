@@ -3350,9 +3350,9 @@ limitations under the License.
 									<li class="list-group-item col-7 col-xl-7 pl-2 pr-0">Score: #coordlookup.geolocate_score# Precision: #coordlookup.geolocate_precision# Number of results: #coordlookup.geolocate_numresults# Pattern used: #coordlookup.geolocate_parsepattern#</li>
 								</cfif>
 								<cfif coordlookup.recordcount GT 1>
-									<li class="list-group-item col-5 col-xl-5 px-0 font-weight-lessbold">Unaccepted Georeferences: 
+									<li class="list-group-item col-5 col-xl-5 col-xl-5 px-0 font-weight-lessbold">Unaccepted<br>Georeferences: 
 										<button onclick="toggleUnacceptedGeorefs();" role="button" class="btn btn-xs small py-0 ml-1 anchorFocus" id="unaccGeoToggleButton">Show</button></li>
-									<li class="list-group-item col-7 col-xl-7 pl-2 pr-0">
+									<li class="list-group-item col-7 col-lg-7 col-xl-7 pl-2 pr-0">
 										#coordlookup.recordcount - 1#
 									<!---	<button onclick="toggleUnacceptedGeorefs();" role="button" class="btn btn-xs small py-0 ml-1 anchorFocus" id="unaccGeoToggleButton">Show</button>--->
 									</li>
