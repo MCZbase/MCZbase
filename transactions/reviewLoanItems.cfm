@@ -851,6 +851,7 @@ limitations under the License.
 									data = data + "&item_instructions=" + rowdata.item_instructions;
 									data = data + "&coll_obj_disposition=" + rowdata.coll_obj_disposition;
 									data = data + "&loan_item_remarks=" + rowdata.loan_item_remarks;
+									data = data + "&resolution_remarks=" + rowdata.resolution_remarks;
 									$.ajax({
 										dataType: 'json',
 										url: '/transactions/component/itemFunctions.cfc',
