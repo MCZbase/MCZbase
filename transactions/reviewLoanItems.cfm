@@ -556,6 +556,7 @@ limitations under the License.
 										</div>
 										<div id="addLoanItemDialogDiv"></div>
 									</div>
+									<cfset editVisibility = "">
 									<cfif isClosed>
 										<cfset editVisibility = "d-none">
 										<div class="row mb-0 pb-0 px-2 mx-0">
