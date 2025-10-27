@@ -19,7 +19,7 @@ limitations under the License.
 --->
 <cfif isDefined("url.result_id")>
 	<cfset result_id = url.result_id>
-<cfelseif isDe	fined("form.result_id")>
+<cfelseif isDefined("form.result_id")>
 	<cfset result_id = form.result_id>
 </cfif>
 <cfif isDefined("url.container_id")>
