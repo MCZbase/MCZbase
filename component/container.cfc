@@ -8,9 +8,19 @@
 		<cfquery name="childID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select container_id,barcode,label,container_type from container where barcode = '#barcode#'
 		</cfquery>
+		<cfif childID.recordcount EQ 0>
+			<cfquery  name="childID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select container_id,barcode,label,container_type from container where label = '#barcode#'
+			</cfquery>
+		</cfif>
 		<cfquery name="parentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select container_id,barcode,label,container_type from container where barcode = '#parent_barcode#'
 		</cfquery>
+		<cfif parentID.recordcount EQ 0>
+			<cfquery  name="parentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+				select container_id,barcode,label,container_type from container where label = '#parent_barcode#'
+			</cfquery>
+		</cfif>
 		<cfset thisDate = "#dateformat(timestamp,'yyyy-mm-dd')# #timeformat(timestamp,'HH:mm:ss')#">
 		<cfif #childID.recordcount# is not 1>
 			<cfset result = "fail|Child container not found.">
@@ -295,7 +305,7 @@
 		<cfset frm = "#frm# left join container p on (container.parent_container_id=p.container_id)">
 	 </cfif>
 	  <cfif len(description) gt 0>
-		<cfset whr = "#whr# AND upper(container.description) LIKE '%#ucase(description)#%'">
+		<cfset whr = "#whr# AND (upper(container.description) LIKE '%#ucase(description)#%' OR upper(container.container_remarks) LIKE '%#ucase(description)#%')">
 	 </cfif>
 	  <cfif len(container_type) gt 0>
 		<cfset whr = "#whr# AND container.container_type='#container_type#'">

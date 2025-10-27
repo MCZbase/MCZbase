@@ -98,6 +98,69 @@ limitations under the License.
 			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
 		</cfoutput>
 	</cfcase>
+	<cfcase value="BulkSetReturnDates">
+		<cfoutput>
+			<cftransaction>
+				<cftry>
+					<cfquery name="getClosedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="getClosedDate_result">
+						SELECT
+							closed_date, loan_type, loan_status
+						FROM loan 
+						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					</cfquery>
+					<cfif getClosedDate.closed_date EQ ''>
+						<cfthrow message="Cannot set return due date on a loan without a closed date.">
+					</cfif>
+					<cfquery name="setClosedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="setClosedDate_result">
+						UPDATE
+							loan_item
+						SET
+							return_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#getClosedDate.closed_date#">,
+							loan_item_state = 'returned',
+							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">
+						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+							and return_date is null
+							and loan_item_state is null
+					</cfquery>
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+					<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
+					<cfthrow message="#message#">
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+		</cfoutput>
+	</cfcase>
+	<cfcase value="BulkMarkItemsReturned">
+		<cfoutput>
+			<cftransaction>
+				<cftry>
+					<cfquery name="setClosedDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="setClosedDate_result">
+						UPDATE
+							loan_item
+						SET
+							return_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateFormat(now(),'yyyy-mm-dd')#">,
+							loan_item_state = 'returned',
+							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">
+						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+							and return_date is null
+							and loan_item_state is null
+					</cfquery>
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+					<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
+					<cfthrow message="#message#">
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+		</cfoutput>
+	</cfcase>
 	<cfcase value="BulkUpdateContainers">
 		<cfoutput>
 			<cftransaction>
@@ -433,8 +496,10 @@ limitations under the License.
 										<div class="col-12 col-xl-6">
 											<h1 class="h3 mb-0 pb-0">
 												Review items in loan
-												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>.
-												<p class="font-weight-normal mb-1 pb-0">There are #partCount# items from #catCount# specimens in this loan.</p>
+												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>
+												<p class="font-weight-normal mb-1 pb-0">
+													There are #partCount# items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank">#catCount# specimens</a> in this loan.  View <a href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank">Part Locations</a>
+												</p>
 												<cfif collectionCount GT 1 >
 													<p class="font-weight-normal mb-1 pb-0">#multipleCollectionsText#</p>
 												</cfif>
@@ -491,6 +556,7 @@ limitations under the License.
 										</div>
 										<div id="addLoanItemDialogDiv"></div>
 									</div>
+									<cfset editVisibility = "">
 									<cfif isClosed>
 										<cfset editVisibility = "d-none">
 										<div class="row mb-0 pb-0 px-2 mx-0">
@@ -610,6 +676,39 @@ limitations under the License.
 													<input type="submit" value="Update Preservation methods" class="btn btn-xs btn-primary"> 
 												</form>
 											</div>
+										</cfif>
+										<cfif isClosed>
+											<!--- if loan is returnable, and all loan items have no return date, show button to set return date to loan closed date --->
+											<cfquery name="ctReturnableItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+												SELECT count(*) as ct
+												FROM loan_item
+												WHERE
+													loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+													and loan_item.return_date is null
+											</cfquery>
+											<cfif aboutLoan.loan_type EQ 'returnable' AND ctReturnableItems.ct EQ partCount>
+												<div class="col-12 col-xl-6">
+													<form name="BulkSetReturnDates" method="post" action="/transactions/reviewLoanItems.cfm">
+														<br>Set return date for all these #partCount# items to loan closed date of #dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#:
+														<input type="hidden" name="Action" value="BulkSetReturnDates">
+														<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+														<input type="submit" value="Set Return Dates" class="btn btn-xs btn-primary"> 
+													</form>
+												</div>
+											</cfif>
+										</cfif>
+										<cfif isOpen>
+											<!--- if loan is open and returnable, show button to set return date on loan items to today and mark items as returned --->
+											<cfif aboutLoan.loan_type EQ 'returnable'>
+												<div class="col-12 col-xl-6">
+													<form name="BulkMarkItemsReturned" method="post" action="/transactions/reviewLoanItems.cfm">
+														<br>Mark all these #partCount# items as returned today (#dateFormat(now(),'yyyy-mm-dd')#):
+														<input type="hidden" name="Action" value="BulkMarkItemsReturned">
+														<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+														<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
+													</form>
+												</div>
+											</cfif>
 										</cfif>
 									</div>
 								</div>
@@ -817,6 +916,11 @@ limitations under the License.
 										{ name: 'reconciled_by_person_id', type: 'string' },
 										{ name: 'reconciled_by_agent', type: 'string' },
 										{ name: 'reconciled_date', type: 'string' },
+										{ name: 'return_date', type: 'string' },
+										{ name: 'resolution_recorded_by_agent', type: 'string' },
+										{ name: 'resolution_date', type: 'string' },
+										{ name: 'resolution_remarks', type: 'string' },
+										{ name: 'loan_item_state', type: 'string' },
 										{ name: 'coll_obj_disposition', type: 'string' },
 										{ name: 'encumbrance', type: 'string' },
 										{ name: 'encumbering_agent_name', type: 'string' },
@@ -844,6 +948,7 @@ limitations under the License.
 									data = data + "&item_instructions=" + rowdata.item_instructions;
 									data = data + "&coll_obj_disposition=" + rowdata.coll_obj_disposition;
 									data = data + "&loan_item_remarks=" + rowdata.loan_item_remarks;
+									data = data + "&resolution_remarks=" + rowdata.resolution_remarks;
 									$.ajax({
 										dataType: 'json',
 										url: '/transactions/component/itemFunctions.cfc',
@@ -949,6 +1054,10 @@ limitations under the License.
 										},
 										{text: 'Added By', datafield: 'reconciled_by_agent', width:110, hideable: true, hidden: getColHidProp('reconciled_by_agent', true), editable: false },
 										{text: 'Added Date', datafield: 'reconciled_date', width:110, hideable: true, hidden: getColHidProp('reconciled_date', false), editable: false },
+										{text: 'Loan Item State', datafield: 'loan_item_state', width:110, hideable: true, hidden: getColHidProp('loan_item_state', true), editable: false },
+										{text: 'Return Date', datafield: 'return_date', width:110, hideable: true, hidden: getColHidProp('return_date', true), editable: false },
+										{text: 'Resolution By', datafield: 'resolution_recorded_by_agent', width:110, hideable: true, hidden: getColHidProp('resolution_recorded_by_agent', true), editable: false },
+										{text: 'Resolution Remarks', datafield: 'resolution_remarks', width:180, hideable: true, hidden: getColHidProp('resolution_remarks', true), editable: true, cellclassname: editableCellClass },	
 										{text: 'Encumbrance', datafield: 'encumbrance', width:100, hideable: true, hidden: getColHidProp('encumbrance', false), editable: false },
 										{text: 'Encumbered By', datafield: 'encumbering_agent_name', width:100, hideable: true, hidden: getColHidProp('encumbring_agent_id', true), editable: false },
 										{text: 'Country of Origin', datafield: 'sovereign_nation', hideable: true, hidden: getColHidProp('sovereign_nation', false), editable: false }

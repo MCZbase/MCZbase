@@ -286,6 +286,7 @@ limitations under the License.
 	<cfargument name="item_instructions" type="string" required="yes">
 	<cfargument name="loan_item_remarks" type="string" required="yes">
 	<cfargument name="coll_obj_disposition" type="string" required="yes">
+	<cfargument name="resolution_remarks" type="string" required="no">
 
 	<cftransaction>
 		<cftry>
@@ -319,6 +320,13 @@ limitations under the License.
 						,loan_item_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_item_remarks#">
 					<cfelse>
 						,loan_item_remarks = null
+					</cfif>
+					<cfif structKeyExists(arguments,"resolution_remarks")> 
+						<cfif len(#arguments.resolution_remarks#) gt 0>
+							,resolution_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.resolution_remarks#">
+						<cfelse>
+							,resolution_remarks = null
+						</cfif>
 					</cfif>
 				WHERE
 					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#"> AND
@@ -421,6 +429,11 @@ limitations under the License.
 			reconciled_by_person_id,
 			MCZBASE.getPreferredAgentName(reconciled_by_person_id) as reconciled_by_agent,
 			to_char(reconciled_date,'YYYY-MM-DD') reconciled_date,
+			to_char(loan_item.return_date,'YYYY-MM-DD') return_date,
+			MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
+			loan_item.resolution_recorded_by_agent_id,
+			loan_item.resolution_remarks,
+			loan_item.loan_item_state,
 			coll_obj_disposition,
 			coll_obj_cont_hist.container_id,
 			MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,

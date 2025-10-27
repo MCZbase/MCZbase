@@ -17,12 +17,38 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+<cfif isDefined("url.result_id")>
+	<cfset result_id = url.result_id>
+<cfelseif isDe	fined("form.result_id")>
+	<cfset result_id = form.result_id>
+</cfif>
+<cfif isDefined("url.container_id")>
+	<cfset container_id = url.container_id>
+<cfelseif isDefined("form.container_id")>
+	<cfset container_id = form.container_id>
+</cfif>
 <cfif isDefined("result_id") AND len(result_id) GT 0>
 	<cfquery name="getCollectionObjectIdList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-		select collection_object_id
-		from user_search_table
-		where 
+		SELECT collection_object_id
+		FROM user_search_table
+		WHERE 
 			result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+	</cfquery>
+	<cfif getCollectionObjectIdList.recordcount GT 0>
+		<cfset collection_object_id = ValueList(getCollectionObjectIdList.collection_object_id)> 
+	</cfif>
+<cfelseif isDefined("container_id") AND len(container_id) GT 0>
+	<!--- if given a list of containers, find the cataloged items for parts that have containers of type collection object in that list --->
+	<!--- this is not the list of all leaf collection object nodes for the given containers, just containers in the list that are collection objects --->
+	<cfquery name="getCollectionObjectIdList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+		SELECT 
+			specimen_part.derived_from_cat_item collection_object_id
+		FROM coll_obj_cont_hist
+			join specimen_part on coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id
+		WHERE 
+			container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#container_id#" list="yes">
+			AND
+			current_container_fg = 1
 	</cfquery>
 	<cfif getCollectionObjectIdList.recordcount GT 0>
 		<cfset collection_object_id = ValueList(getCollectionObjectIdList.collection_object_id)> 
