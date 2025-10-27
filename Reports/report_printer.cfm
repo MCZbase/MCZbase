@@ -53,6 +53,7 @@ limitations under the License.
 	<cfif getCollectionObjectIdList.recordcount GT 0>
 		<cfset collection_object_id = ValueList(getCollectionObjectIdList.collection_object_id)> 
 	</cfif>
+	<cfset container_id = "">
 </cfif>
 <cfif not isdefined("collection_object_id")>
 	<cfset collection_object_id="">
@@ -63,6 +64,11 @@ limitations under the License.
 <cfif not isdefined("container_id")>
 	<cfset container_id="">
 </cfif>
+
+<cfif len(collection_object_id) EQ 0 AND len(transaction_id) EQ 0 AND len(container_id) EQ 0>
+	<cfthrow message="Nothing to print: No collection_object_id, transaction_id, or container_id specifies collection objects to print labels for.">
+</cfif>
+
 <cfif not isdefined("sort")>
 	<cfset sort="">
 </cfif>
