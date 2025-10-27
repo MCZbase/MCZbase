@@ -134,10 +134,12 @@
 					<span><a href="ContainerBrowse.cfm">Browse Containers</a></span>
 				</li>
 			</ul>
-			<div style="display: none;">
-				<span class="likeLink" onclick="downloadTree()">Flatten Part Locations</span>
-				<span class="likeLink" onclick="showTreeOnly()">Drag/Print</span> <br>
-				<span class="likeLink" onclick="printLabels()">Print Labels</span> 
+			<div>
+				<!--- enabled by loadTree_success --->
+				<span style="display: none;" id="listPartLocationsSpan" class="likeLink" onclick="downloadTree()">Flatten Part Locations</span>
+				<span style="display: none;" id="printLabelsSpan" class="likeLink" onclick="printLabels()">Print Labels</span> 
+				<!--- TODO: imlementation not working ? --->
+				<span style="display: none;" class="likeLink" onclick="showTreeOnly()">Drag/Print</span> <br>
 			</div>
 		</div>
 	</div>
