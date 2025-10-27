@@ -12,7 +12,7 @@
 			<cfquery  name="childID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 				select container_id,barcode,label,container_type from container where label = '#barcode#'
 			</cfquery>
-		<cfif>
+		</cfif>
 		<cfquery name="parentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 			select container_id,barcode,label,container_type from container where barcode = '#parent_barcode#'
 		</cfquery>
