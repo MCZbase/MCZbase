@@ -702,7 +702,7 @@ limitations under the License.
 											<cfif aboutLoan.loan_type EQ 'returnable'>
 												<div class="col-12 col-xl-6 border p-1">
 													<form name="BulkMarkItemsReturned" method="post" action="/transactions/reviewLoanItems.cfm">
-														<br>Mark all these #partCount# items as returned today (#dateFormat(now(),'yyyy-mm-dd')#):
+														Mark all these #partCount# items as returned today (#dateFormat(now(),'yyyy-mm-dd')#):
 														<input type="hidden" name="Action" value="BulkMarkItemsReturned">
 														<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 														<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
