@@ -132,12 +132,15 @@
 				</li>
 				<li>
 					<span><a href="ContainerBrowse.cfm">Browse Containers</a></span>
+					<br>
+					<!--- quck link to label printer, enabled by loadTree_success --->
+					<span style="display: none;" id="printLabelsSpan" class="likeLink" onclick="printLabels()">Print Labels</span> 
 				</li>
 			</ul>
-			<div>
-				<!--- enabled by loadTree_success --->
+			<div style="display: none;">
+				<!--- old code --->
+				<!--- Deprecated, replaced by containers/allContainerLeafNodes.cfm from container details --->
 				<span style="display: none;" id="listPartLocationsSpan" class="likeLink" onclick="downloadTree()">Flatten Part Locations</span>
-				<span style="display: none;" id="printLabelsSpan" class="likeLink" onclick="printLabels()">Print Labels</span> 
 				<!--- TODO: imlementation not working ? --->
 				<span style="display: none;" class="likeLink" onclick="showTreeOnly()">Drag/Print</span> <br>
 			</div>
