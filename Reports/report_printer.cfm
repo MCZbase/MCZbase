@@ -46,7 +46,7 @@ limitations under the License.
 		FROM coll_obj_cont_hist
 			join specimen_part on coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id
 		WHERE 
-			container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#container_id#" list="yes">
+			container_id IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#container_id#" list="yes">)
 			AND
 			current_container_fg = 1
 	</cfquery>
