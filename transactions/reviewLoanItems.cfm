@@ -498,7 +498,7 @@ limitations under the License.
 												Review items in loan
 												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>
 												<p class="font-weight-normal mb-1 pb-0">
-													There are #partCount# items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank">#catCount# specimens</a> in this loan.
+													There are #partCount# items from <a href="/Specimens.cfm?execute=true&action=fixedSearch&loan_number=#encodeForUrl(aboutLoan.loan_number)#" target="_blank">#catCount# specimens</a> in this loan.  View <a href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank">Part Locations</a>
 												</p>
 												<cfif collectionCount GT 1 >
 													<p class="font-weight-normal mb-1 pb-0">#multipleCollectionsText#</p>
