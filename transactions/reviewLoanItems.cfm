@@ -592,7 +592,7 @@ limitations under the License.
 									<div class="row mb-0 pb-0 px-2 mx-0 #editVisibility#" id="bulkEditControlsDiv">
 										<div class="col-12 col-xl-6 border p-1">
 											<form name="BulkUpdateDisp" method="post" action="/transactions/reviewLoanItems.cfm">
-											<br>Change disposition of all these #partCount# items to:
+											Change disposition of all these #partCount# items to:
 											<input type="hidden" name="Action" value="BulkUpdateDisp">
 												<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 												<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select col-3 d-inline" size="1">
@@ -626,7 +626,7 @@ limitations under the License.
 													ORDER BY label
 												</cfquery>
 												<form name="moveContainers" method="post" action="/transactions/reviewLoanItems.cfm">
-													<br>Move all containers for all these #partCount# items to:
+													Move all containers for all these #partCount# items to:
 													<input type="hidden" name="Action" value="BulkUpdateContainers">
 													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 													<select name="new_parent_barcode" id="new_parent_barcode" class="data-entry-select col-3 d-inline" size="1">
@@ -665,7 +665,7 @@ limitations under the License.
 										<cfif aboutLoan.collection EQ 'Cryogenic'>
 											<div class="col-12 col-xl-6 border p-1">
 												<form name="BulkUpdatePres" method="post" action="/transactions/reviewLoanItems.cfm">
-													<br>Change preservation method of all these items to:
+													Change preservation method of all these items to:
 													<input type="hidden" name="Action" value="BulkUpdatePres">
 													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 													<select name="part_preserve_method" class="data-entry-select col-3 d-inline" size="1">
@@ -689,7 +689,7 @@ limitations under the License.
 											<cfif aboutLoan.loan_type EQ 'returnable' AND ctReturnableItems.ct EQ partCount>
 												<div class="col-12 col-xl-6 border p-1">
 													<form name="BulkSetReturnDates" method="post" action="/transactions/reviewLoanItems.cfm">
-														<br>Set return date for all these #partCount# items to loan closed date of #dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#:
+														Set return date for all these #partCount# items to loan closed date of #dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#:
 														<input type="hidden" name="Action" value="BulkSetReturnDates">
 														<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 														<input type="submit" value="Set Return Dates" class="btn btn-xs btn-primary"> 
