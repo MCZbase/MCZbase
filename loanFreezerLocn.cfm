@@ -1,5 +1,6 @@
 <!--- Deprecated --->
 <!--- Replaced with native grid functionality in /transactions/reviewLoanItems.cfm --->
+<!--- replaced with containers/allContainerLeafNodes.cfm from /findContainer.cfm --->
 <cfinclude template="/includes/_header.cfm">
 <script src="/lib/misc/sorttable.js"></script>
 <cfset title="Flatten Parts">

@@ -19,7 +19,7 @@ limitations under the License.
 --->
 <cfif isDefined("url.result_id")>
 	<cfset result_id = url.result_id>
-<cfelseif isDe	fined("form.result_id")>
+<cfelseif isDefined("form.result_id")>
 	<cfset result_id = form.result_id>
 </cfif>
 <cfif isDefined("url.container_id")>
@@ -46,13 +46,14 @@ limitations under the License.
 		FROM coll_obj_cont_hist
 			join specimen_part on coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id
 		WHERE 
-			container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#container_id#" list="yes">
+			container_id IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#container_id#" list="yes">)
 			AND
 			current_container_fg = 1
 	</cfquery>
 	<cfif getCollectionObjectIdList.recordcount GT 0>
 		<cfset collection_object_id = ValueList(getCollectionObjectIdList.collection_object_id)> 
 	</cfif>
+	<cfset container_id = "">
 </cfif>
 <cfif not isdefined("collection_object_id")>
 	<cfset collection_object_id="">
@@ -63,6 +64,11 @@ limitations under the License.
 <cfif not isdefined("container_id")>
 	<cfset container_id="">
 </cfif>
+
+<cfif len(collection_object_id) EQ 0 AND len(transaction_id) EQ 0 AND len(container_id) EQ 0>
+	<cfthrow message="Nothing to print: No collection_object_id, transaction_id, or container_id specifies collection objects to print labels for.">
+</cfif>
+
 <cfif not isdefined("sort")>
 	<cfset sort="">
 </cfif>

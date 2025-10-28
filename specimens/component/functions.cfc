@@ -7275,7 +7275,7 @@ limitations under the License.
 		   								<cfif len(fieldValue) gt 0>
 												<!--- Special handling for continent_ocean label --->
 												<cfif fieldInfo.field EQ "continent_ocean">
-													<cfif find('Ocean', fieldValue) GT 0>
+													<cfif REFindNoCase('Ocean(?!ia)', fieldValue) GT 0>
 														<cfset displayLabel = "Ocean">
 													<cfelse>
 														<cfset displayLabel = "Continent">

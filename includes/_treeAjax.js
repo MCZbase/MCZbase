@@ -123,6 +123,7 @@ function loadTree_success(r) {
 			eval(thisIns);
 		}
 		post();
+		document.getElementById("printLabelsSpan").style.display=''; 
 	}
 }
 function expandNode (id) {

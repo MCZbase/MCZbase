@@ -228,13 +228,13 @@ limitations under the License.
 					<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select collection_object_id 
 						FROM loan_item 
-						where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 					</cfquery>
 					<cfloop query="getCollObjId">
 						<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE specimen_part 
 							SET preserve_method  = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_preserve_method#">
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						</cfquery>
 					</cfloop>
 					<cftransaction action="commit">
@@ -242,6 +242,66 @@ limitations under the License.
 					<cftransaction action="rollback">
 					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 					<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
+					<cfthrow message="#message#">
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+		</cfoutput>
+	</cfcase>
+	<cfcase value="BulkSetDescription">
+		<!--- append the value of coll_object.condition to loan_item.item_desc if not already there. --->
+		<cfoutput>
+			<cftransaction>
+				<cftry>
+					<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						select collection_object_id 
+						FROM loan_item 
+						where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					</cfquery>
+					<cfloop query="getCollObjId">
+						<cfquery name="getCondition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT condition
+							FROM coll_object
+							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">
+						</cfquery>
+						<cfif getCondition.recordcount GT 0 AND len(getCondition.condition) GT 0>
+							<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								UPDATE loan_item 
+								SET item_desc  = trim(item_desc || ' ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCondition.condition#">)
+								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">
+									AND item_desc <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCondition.condition#">
+							</cfquery>
+						</cfif>
+					</cfloop>
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+					<cfset message = "Bulk update of item descriptions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
+					<cfthrow message="#message#">
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+		</cfoutput>
+	</cfcase>
+	<cfcase value="BulkSetInstructions">
+		<!--- append a provided value to loan_item.item_instructions if not already there. --->
+		<cfoutput>
+			<cftransaction>
+				<cftry>
+					<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE loan_item 
+						SET item_instructions = trim(item_instructions || ' ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.item_instructions#">)
+						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.transaction_id#">
+							AND item_instructions <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.item_instructions#">
+					</cfquery>
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+					<cfset message = "Bulk update of item instructions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
 					<cfthrow message="#message#">
 				</cfcatch>
 				</cftry>
@@ -514,7 +574,7 @@ limitations under the License.
 											<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.return_due_date NEQ ''> &bull; Due Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.return_due_date,'yyyy-mm-dd')#</span></cfif></h2>
 											<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.closed_date NEQ ''> &bull; Closed Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#</span> </cfif></h2>
 											<cfif isInProcess>
-												<div class="form-row">
+												<div class="form-row border">
 													<div class="col-12 col-md-4">
 														<label class="data-entry-label" for="guid">Cataloged item (MCZ:Dept:number)</label>
 														<input type="text" id="guid" name="guid" class="data-entry-input" value="" placeholder="MCZ:Dept:1111" >
@@ -590,9 +650,9 @@ limitations under the License.
 										</script>
 									</cfif>
 									<div class="row mb-0 pb-0 px-2 mx-0 #editVisibility#" id="bulkEditControlsDiv">
-										<div class="col-12 col-xl-6">
+										<div class="col-12 col-xl-6 border p-1">
 											<form name="BulkUpdateDisp" method="post" action="/transactions/reviewLoanItems.cfm">
-											<br>Change disposition of all these #partCount# items to:
+											Change disposition of all these #partCount# items to:
 											<input type="hidden" name="Action" value="BulkUpdateDisp">
 												<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 												<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select col-3 d-inline" size="1">
@@ -617,7 +677,7 @@ limitations under the License.
 											</form>
 										</div>
 										<cfif containersCanMove>
-											<div class="col-12 col-xl-6">
+											<div class="col-12 col-xl-6 border p-1">
 												<cfquery name="getTreatmentContainers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 													SELECT barcode, label
 													FROM container
@@ -626,7 +686,7 @@ limitations under the License.
 													ORDER BY label
 												</cfquery>
 												<form name="moveContainers" method="post" action="/transactions/reviewLoanItems.cfm">
-													<br>Move all containers for all these #partCount# items to:
+													Move all containers for all these #partCount# items to:
 													<input type="hidden" name="Action" value="BulkUpdateContainers">
 													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 													<select name="new_parent_barcode" id="new_parent_barcode" class="data-entry-select col-3 d-inline" size="1">
@@ -650,7 +710,7 @@ limitations under the License.
 													</script>
 												</form>
 											</div>
-											<div class="col-12 col-xl-6">
+											<div class="col-12 col-xl-6 border p-1">
 												<h3 class="h3">#moveableItemCount# of #itemCount# parts could be placed back in their previous containers</h3>
 												<cfif bulkMoveBackPossible>
 													<form name="BulkMoveBackContainers" method="post" action="/transactions/reviewLoanItems.cfm">
@@ -663,9 +723,9 @@ limitations under the License.
 											</div>
 										</cfif>
 										<cfif aboutLoan.collection EQ 'Cryogenic'>
-											<div class="col-12 col-xl-6">
+											<div class="col-12 col-xl-6 border p-1">
 												<form name="BulkUpdatePres" method="post" action="/transactions/reviewLoanItems.cfm">
-													<br>Change preservation method of all these items to:
+													Change preservation method of all these items to:
 													<input type="hidden" name="Action" value="BulkUpdatePres">
 													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 													<select name="part_preserve_method" class="data-entry-select col-3 d-inline" size="1">
@@ -687,9 +747,9 @@ limitations under the License.
 													and loan_item.return_date is null
 											</cfquery>
 											<cfif aboutLoan.loan_type EQ 'returnable' AND ctReturnableItems.ct EQ partCount>
-												<div class="col-12 col-xl-6">
+												<div class="col-12 col-xl-6 border p-1">
 													<form name="BulkSetReturnDates" method="post" action="/transactions/reviewLoanItems.cfm">
-														<br>Set return date for all these #partCount# items to loan closed date of #dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#:
+														Set return date for all these #partCount# items to loan closed date of #dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#:
 														<input type="hidden" name="Action" value="BulkSetReturnDates">
 														<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 														<input type="submit" value="Set Return Dates" class="btn btn-xs btn-primary"> 
@@ -700,15 +760,35 @@ limitations under the License.
 										<cfif isOpen>
 											<!--- if loan is open and returnable, show button to set return date on loan items to today and mark items as returned --->
 											<cfif aboutLoan.loan_type EQ 'returnable'>
-												<div class="col-12 col-xl-6">
+												<div class="col-12 col-xl-6 border p-1">
 													<form name="BulkMarkItemsReturned" method="post" action="/transactions/reviewLoanItems.cfm">
-														<br>Mark all these #partCount# items as returned today (#dateFormat(now(),'yyyy-mm-dd')#):
+														Mark all these #partCount# items as returned today (#dateFormat(now(),'yyyy-mm-dd')#):
 														<input type="hidden" name="Action" value="BulkMarkItemsReturned">
 														<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 														<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
 													</form>
 												</div>
 											</cfif>
+										</cfif>
+										<cfif isInProcess>
+											<!--- if loan is in process, stamp the part condition values into the item description --->
+											<div class="col-12 col-xl-6 border p-1">
+												<form name="BulkSetDescription" method="post" action="/transactions/reviewLoanItems.cfm">
+													Append the part condition to each loan item description:
+													<input type="hidden" name="Action" value="BulkSetDescription">
+													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+													<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
+												</form>
+											</div>
+											<div class="col-12 col-xl-6 border p-1">
+												<form name="BulkSetInstructions" method="post" action="/transactions/reviewLoanItems.cfm">
+													Add instructions to each loan item:
+													<input type="hidden" name="Action" value="BulkSetInstructions">
+													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+													<input type="text" name="item_instructions" id="item_instructions" value="">
+													<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
+												</form>
+											</div>
 										</cfif>
 									</div>
 								</div>
