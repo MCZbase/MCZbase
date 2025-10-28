@@ -228,13 +228,13 @@ limitations under the License.
 					<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						select collection_object_id 
 						FROM loan_item 
-						where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 					</cfquery>
 					<cfloop query="getCollObjId">
 						<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 							UPDATE specimen_part 
 							SET preserve_method  = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_preserve_method#">
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						</cfquery>
 					</cfloop>
 					<cftransaction action="commit">
@@ -242,6 +242,66 @@ limitations under the License.
 					<cftransaction action="rollback">
 					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 					<cfset message = "Bulk update of dispositions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
+					<cfthrow message="#message#">
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+		</cfoutput>
+	</cfcase>
+	<cfcase value="BulkSetDescription">
+		<!--- append the value of coll_object.condition to loan_item.item_desc if not already there. --->
+		<cfoutput>
+			<cftransaction>
+				<cftry>
+					<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						select collection_object_id 
+						FROM loan_item 
+						where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					</cfquery>
+					<cfloop query="getCollObjId">
+						<cfquery name="getCondition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							SELECT condition
+							FROM coll_object
+							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">
+						</cfquery>
+						<cfif getCondition.recordcount GT 0 AND len(getCondition.condition) GT 0>
+							<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+								UPDATE loan_item 
+								SET item_desc  = trim(item_desc || ' ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCondition.condition#">)
+								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">
+									AND item_desc <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCondition.condition#">
+							</cfquery>
+						</cfif>
+					</cfloop>
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+					<cfset message = "Bulk update of item descriptions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
+					<cfthrow message="#message#">
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
+		</cfoutput>
+	</cfcase>
+	<cfcase value="BulkSetInstructions">
+		<!--- append a provided value to loan_item.item_instructions if not already there. --->
+		<cfoutput>
+			<cftransaction>
+				<cftry>
+					<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE loan_item 
+						SET item_instructions = trim(item_instructions || ' ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.item_instructions#">)
+						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.transaction_id#">
+							AND item_instructions <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.item_instructions#">
+					</cfquery>
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+					<cfset message = "Bulk update of item instructions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
 					<cfthrow message="#message#">
 				</cfcatch>
 				</cftry>
@@ -709,6 +769,26 @@ limitations under the License.
 													</form>
 												</div>
 											</cfif>
+										</cfif>
+										<cfif isInProcess>
+											<!--- if loan is in process, stamp the part condition values into the item description --->
+											<div class="col-12 col-xl-6 border p-1">
+												<form name="BulkSetDescription" method="post" action="/transactions/reviewLoanItems.cfm">
+													Append the part condition to each loan item description:
+													<input type="hidden" name="Action" value="BulkSetDescription">
+													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+													<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
+												</form>
+											</div>
+											<div class="col-12 col-xl-6 border p-1">
+												<form name="BulkSetInstructions" method="post" action="/transactions/reviewLoanItems.cfm">
+													Add instructions to each loan item:
+													<input type="hidden" name="Action" value="BulkSetInstructions">
+													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+													<input type="text" name="item_instructions" id="item_instructions" value="">
+													<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
+												</form>
+											</div>
 										</cfif>
 									</div>
 								</div>
