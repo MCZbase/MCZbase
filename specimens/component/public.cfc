@@ -2987,7 +2987,7 @@ limitations under the License.
 				<div class="#leftOfMapClass# px-0 float-left">
 					<ul class="sd list-unstyled row mx-0 px-2 py-1 mb-0">
 						<cfif len(loc_collevent.continent_ocean) gt 0>
-							<cfif find('Ocean',loc_collevent.continent_ocean) GT 0><cfset colabel="Ocean"><cfelse><cfset colabel="Continent"></cfif>
+							<cfif REFindNoCase('Ocean(?!ia)',loc_collevent.continent_ocean) GT 0><cfset colabel="Ocean"><cfelse><cfset colabel="Continent"></cfif>
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">#colabel#:</li>
 							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.continent_ocean#</li>
 						</cfif>

@@ -139,7 +139,7 @@ limitations under the License.
 						<ul class="list-unstyled sd small95 row mx-0 px-0 py-1 mb-0">
 							<cfif len(valid_catalog_term_fg) EQ 1><cfset valid="*"><cfelse><cfset valid=""></cfif>
 							<cfif len(getGeography.continent_ocean) gt 0>
-								<cfif find('Ocean',getGeography.continent_ocean) GT 0><cfset colabel="Ocean"><cfelse><cfset colabel="Continent"></cfif>
+								<cfif REFindNoCase('Ocean(?!ia)',getGeography.continent_ocean) GT 0><cfset colabel="Ocean"><cfelse><cfset colabel="Continent"></cfif>
 								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">#colabel#:</li>
 								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.continent_ocean#</li>
 							</cfif>
