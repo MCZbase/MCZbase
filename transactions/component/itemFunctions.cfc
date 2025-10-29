@@ -940,7 +940,7 @@ limitations under the License.
 <cffunction name="getLoanItemDialogHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="loan_item_id" type="string" required="yes">
 
-	<cfthread name="getRemoveLoanItemHtmlThread" loan_item_id="#arguments.loan_item_id#"
+	<cfthread name="getRemoveLoanItemHtmlThread" loan_item_id="#arguments.loan_item_id#">
 		<cftry>
 			<cfoutput>
 				<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -1058,18 +1058,31 @@ limitations under the License.
 													</div>
 													<div class="col-12 px-1">
 														<h3 class="h4 mt-3">
+															<cfif resolution_recorded_by_agent_id NEQ "">
+																Resolution recorded by 
+																<a href="/agents/Agent.cfm?agent_id=#resolution_recorded_by_agent_id#" target="_blank">
+																	#resolution_recorded_by_agent#
+																</a>
+															</cfif>
 														</h3>
 													</div>
+													<!--- TODO: Change disposition --->
+													<!--- TODO: Mark Returned, changing resoultion and state --->
+													<!--- TODO: Edit returned, e.g. mark as not returned --->
+													<div class="col-12 px-1">
+														<button type="button" class="btn btn-primary btn-sm" 
+															onclick="submitLoanItemEditForm('editLoanItemForm','loanItemEditorDiv','loanItemEditStatusDiv');">
+															Save
+														</button>
+													</div>
 												</div>
-						loan_item.resolution_recorded_by_agent_id,
-						MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
-					
-					<!--- TODO: Change disposition --->
-
-					<!--- TODO: Mark Returned, changing resoultion and state --->
-	
-					<!--- TODO: Edit returned, e.g. mark as not returned --->
-
+											</form>
+											<div id="loanItemEditStatusDiv"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 				</cfloop>
 			</cfoutput>
 		<cfcatch>
