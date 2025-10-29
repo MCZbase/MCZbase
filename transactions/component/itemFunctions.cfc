@@ -1013,7 +1013,7 @@ limitations under the License.
 												<h3 class="h4">Loaned Part is a subsample of #sampled_from_part_name# (#sampled_from_preserve_method#)</h3>
 											</cfif>
 											<h3 class="h4">
-												Added to Loan by <a href="/agents/Agent.cfm?agent_id=#reconciled_by_person_id" target="_blank">#reconciled_by_agent#</a>
+												Added to Loan by <a href="/agents/Agent.cfm?agent_id=#reconciled_by_person_id#" target="_blank">#reconciled_by_agent#</a>
 												on #reconciled_date#.  
 												<cfif len(created_by_agent_id) GT 0 AND created_by_agent_id NEQ reconciled_by_person_id>
 													Loan item record created by <a href="/agents/Agent.cfm?agent_id=#created_by_agent_id#" target="_blank">#created_by_agent#</a>
