@@ -1047,7 +1047,7 @@ limitations under the License.
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="islandsQuery">
 																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&island=%3D#encodeForUrl(islandsQuery.island#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#"> #continent_ocean#: #islandsQuery.island# </a> 
+																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&island=%3D#encodeForUrl(islandsQuery.island)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#"> #continent_ocean#: #islandsQuery.island# </a> 
 																		</li>
 																	</cfloop>
 																</ul>
@@ -1059,7 +1059,7 @@ limitations under the License.
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="islandsQuery">
 														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&island=%3D#encodeForUrl(islandsQuery.island#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#islandsQuery.island#</a> 
+															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&island=%3D#encodeForUrl(islandsQuery.island)#&underscore_collection_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#islandsQuery.island#</a> 
 														</li>
 													</cfloop>
 												</ul>
