@@ -890,7 +890,7 @@ limitations under the License.
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="taxonQuery">
 																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-																			<a class="h4" target="_blank" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a> 
+																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#taxonQuery.taxon#</a> 
 																		</li>
 																	</cfloop>
 																</ul>
@@ -901,7 +901,9 @@ limitations under the License.
 											<cfelse>
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="taxonQuery">
-														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> <a class="h4" target="_blank" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a> </li>
+														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#encodeForUrl(getNamedGroup.underscore_collection_id)#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#taxonQuery.taxon#</a> 
+														</li>
 													</cfloop>
 												</ul>
 											</cfif>
@@ -1000,7 +1002,7 @@ limitations under the License.
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="geogQuery">
 																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-																			<a class="h4" target="_blank" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> 
+																			<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#geogQuery.geog#</a> 
 																		</li>
 																	</cfloop>
 																</ul>
@@ -1012,7 +1014,7 @@ limitations under the License.
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="geogQuery">
 														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<a target="_blank" class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> 
+															<a class="h4" target="_blank" href="/Specimens.cfm?execute=true&action=fixedSearch&#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#&underscore_collection=#encodeForUrl(getNamedGroup.collection_name)#">#geogQuery.geog#</a> 
 														</li>
 													</cfloop>
 												</ul>
