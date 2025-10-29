@@ -935,4 +935,166 @@ limitations under the License.
 	<cfreturn getAddLoanItemHtmlThread.output>
 </cffunction>
 
+
+<!--- obtain an html block to populate dialog for editing a loan item --->
+<cffunction name="getLoanItemDialogHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="loan_item_id" type="string" required="yes">
+
+	<cfthread name="getRemoveLoanItemHtmlThread" loan_item_id="#arguments.loan_item_id#">
+		<cftry>
+			<cfoutput>
+				<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT coll_obj_disposition 
+						FROM ctcoll_obj_disp 
+						ORDER BY coll_obj_disposition
+				</cfquery>
+				<cfquery name="ctLoanItemState" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						SELECT loan_item_state 
+						FROM ctloan_item_state
+						ORDER BY loan_item_state
+				</cfquery>
+				<cfquery name="lookupItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+					SELECT 
+						loan.loan_number,
+						loan.transaction_id,
+						loan.loan_type,
+						loan.loan_status,
+						collection.institution_acronym,
+						cataloged_item.collection_cde, 
+						cataloged_item.cat_num,
+						specimen_part.part_name,
+						specimen_part.preserve_method,
+						loan_item.loan_item_id,
+						loan_item.collection_object_id part_id,
+						loan_item.reconciled_by_person_id,
+						MCZBASE.getPreferredAgentName(loan_item.reconciled_by_person_id) as reconciled_by_agent,
+						to_char(loan_item.reconciled_date,'yyyy-mm-dd') reconciled_date,
+						loan_item.item_descr,
+						loan_item.item_instructions,
+						loan_item.loan_item_remarks,
+						to_char(loan_item.created_date, 'yyyy-mm-dd') created_date, 
+						loan_item.created_by_agent_id,
+						MCZBASE.getPreferredAgentName(loan_item.created_by_agent_id) as created_by_agent,
+						loan_item.resolution_recorded_by_agent_id,
+						MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
+						loan_item.resolution_remarks,
+						loan_item.loan_item_state,
+						specimen_part.sampled_from_obj_id,
+						case when specimen_part.sampled_from_obj_id is not null then 'yes' else 'no' end as is_subsample,
+						sampledFromCatItem.cat_num as sampled_from_cat_num,
+						sampledFromCatItem.collection_cde as sampled_from_collection_cde,
+						sampledFromPart.part_name as sampled_from_part_name,
+						sampledFrom.preserve_method as sampled_from_preserve_method
+					FROM 
+						loan_item
+						join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+						join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+						join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+						join collection on cataloged_item.collection_id = collection.collection_id
+						join loan on loan_item.transaction_id = loan.transaction_id
+						left join coll_object sampledFrom on specimen_part.sampled_from_obj_id = sampledFrom.collection_object_id
+						left join specimen_part sampledFromPart on sampledFrom.collection_object_id = sampledFromPart.collection_object_id
+						left join cataloged_item sampledFromCatItem on sampledFromPart.derived_from_cat_item = sampledFromCatItem.collection_object_id
+					WHERE loan_item.loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_item_id#">
+				</cfquery>
+				<cfif lookupItem.recordcount NEQ 1>
+					<cfthrow message="Unable to lookup loan item by loan_item_id=#encodeForHtml(loan_item_id)#">
+				</cfif>
+				<cfloop query="lookupItem">
+					<cfset guid="#institution_acronym#:#collection_cde#:#cat_num#">
+					<div id="loanItemEditorDiv">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-12">
+									<div class="add-form mt-2">
+										<div class="add-form-header pt-1 px-2">
+											<h2 class="h2">Loan Item <a href="/guid/#guid#" target="_blank">#guid#</a> #part_name# (#preserve_method#) in #loan_number# #loan_type# #loan_status#</h2>
+											<cfif is_subsample EQ "yes">
+												<h3 class="h4">Loaned Part is a subsample of #sampled_from_part_name# (#sampled_from_preserve_method#)</h3>
+											</cfif>
+											<h3 class="h4">
+												Added to Loan by <a href="/agents/Agent.cfm?agent_id=#reconciled_by_person_id#" target="_blank">#reconciled_by_agent#</a>
+												on #reconciled_date#.  
+												<cfif len(created_by_agent_id) GT 0 AND created_by_agent_id NEQ reconciled_by_person_id>
+													Loan item record created by <a href="/agents/Agent.cfm?agent_id=#created_by_agent_id#" target="_blank">#created_by_agent#</a>
+													on #loan_item.created_date#.
+												</cfif>
+											</h3>
+										</div>
+										<div class="card-body">
+											<form name="editLoanItemForm" id="editLoanItemForm" class="mb-0">
+												<input type="hidden" name="loan_item_id" value="#lookupItem.loan_item_id#">
+												<input type="hidden" name="method" value="updateLoanItem">
+												<div class="row mx-0 py-2">
+													<div class="col-12 col-md-6 px-1">
+														<label class="data-entry-label">Loan Item Description</label>
+														<input type="text" name="item_descr" value="#encodeForHtml(lookupItem.item_descr)#" class="data-entry-input">
+													</div>
+													<div class="coll-12 col-md-6 px-1">
+														<label class="data-entry-label">Loan Item Instructions</label> 
+														<input type="text" name="item_instructions" value="#encodeForHtml(lookupItem.item_instructions)#" class="data-entry-input">
+													</div>
+													<div class="col-12 px-1">
+														<label class="data-entry-label">Loan Item Remarks</label>
+														<textarea name="loan_item_remarks" class="data-entry-textarea">#encodeForHtml(lookupItem.loan_item_remarks)#</textarea>
+													</div>
+													<div class="col-12 px-1">
+														<label class="data-entry-label">Resolution Remarks</label>
+														<textarea name="resolution_remarks" class="data-entry-textarea">#encodeForHtml(lookupItem.resolution_remarks)#</textarea>
+													</div>
+													<div class="col-12 col-md-6 px-1">
+														<label class="data-entry-label">Loan Item State</label>
+														<select name="loan_item_state" class="data-entry-select">
+															<cfloop query="ctLoanItemState">
+																<cfset selected = "">
+																<cfif ctLoanItemState.loan_item_state EQ lookupItem.loan_item_state>
+																	<cfset selected="selected='selected'">
+																</cfif>
+																<option value="#ctLoanItemState.loan_item_state#" #selected#>
+																	#ctLoanItemState.loan_item_state#
+																</option>
+															</cfloop>
+														</select>
+													</div>
+													<div class="col-12 px-1">
+														<h3 class="h4 mt-3">
+															<cfif resolution_recorded_by_agent_id NEQ "">
+																Resolution recorded by 
+																<a href="/agents/Agent.cfm?agent_id=#resolution_recorded_by_agent_id#" target="_blank">
+																	#resolution_recorded_by_agent#
+																</a>
+															</cfif>
+														</h3>
+													</div>
+													<!--- TODO: Change disposition --->
+													<!--- TODO: Mark Returned, changing resoultion and state --->
+													<!--- TODO: Edit returned, e.g. mark as not returned --->
+													<div class="col-12 px-1">
+														<button type="button" class="btn btn-primary btn-sm" 
+															onclick="submitLoanItemEditForm('editLoanItemForm','loanItemEditorDiv','loanItemEditStatusDiv');">
+															Save
+														</button>
+													</div>
+												</div>
+											</form>
+											<div id="loanItemEditStatusDiv"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+				</cfloop>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getRemoveLoanItemHtmlThread" />
+	<cfreturn getRemoveLoanItemHtmlThread.output>
+</cffunction>
+
 </cfcomponent>
