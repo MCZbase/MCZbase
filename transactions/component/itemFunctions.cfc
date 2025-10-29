@@ -984,7 +984,7 @@ limitations under the License.
 						sampledFromCatItem.cat_num as sampled_from_cat_num,
 						sampledFromCatItem.collection_cde as sampled_from_collection_cde,
 						sampledFromPart.part_name as sampled_from_part_name,
-						sampledFrom.preserve_method as sampled_from_preserve_method
+						sampledFromPart.preserve_method as sampled_from_preserve_method
 					FROM 
 						loan_item
 						join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
