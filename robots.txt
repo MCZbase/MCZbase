@@ -17,7 +17,7 @@ Disallow: /documentation/
 Disallow: /download/
 Disallow: /errors/
 Disallow: /form/
-Disallow: /grouping/
+Disallow: /grouping/component/
 Disallow: /help/
 Disallow: /images/
 Disallow: /includes/
@@ -37,7 +37,7 @@ Disallow: /service/
 Disallow: /shared/
 Disallow: /specimen_images/
 Disallow: /specimens/
-Disallow: /taxonomy/
+Disallow: /taxonomy/component/
 Disallow: /temp/
 Disallow: /tempImages/
 Disallow: /tests/
@@ -45,7 +45,7 @@ Disallow: /tools/
 Disallow: /transactions/
 Disallow: /user/
 Disallow: /users/
-Disallow: /vocabularies/
+Disallow: /vocabularies/component/
 Disallow: /.gitignore
 Disallow: /.vimrc
 Disallow: /a_deaccItemReview.cfm
