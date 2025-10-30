@@ -1153,7 +1153,7 @@ limitations under the License.
 														<output id="loanItemEditFormStatus">&nbsp;</output>
 														<scipt>
 															$(document).ready(function(){
-																$("#editLoanItemForm").submit(function(evt){
+																$("##editLoanItemForm").submit(function(evt){
 																	evt.preventDefault();
 																	submitLoanItemEditForm('editLoanItemForm','loanItemEditStatusDiv');
 																});
