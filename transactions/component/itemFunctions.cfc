@@ -1201,7 +1201,7 @@ limitations under the License.
 											join loan on loan_item.transaction_id = loan.transaction_id
 										WHERE 
 											loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupItem.part_id#">
-											and loan_item.loan_item_id NEQ <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupItem.loan_item_id#">
+											and loan_item.loan_item_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupItem.loan_item_id#">
 									</cfquery>
 									<cfloop query="lookupOtherLoans">
 										<cfif loan_status EQ "open">
