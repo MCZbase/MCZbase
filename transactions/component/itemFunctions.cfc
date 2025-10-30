@@ -319,7 +319,7 @@ limitations under the License.
 							return_date = sysdate,
 							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">
 						WHERE
-							loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirm_item.loan_item_id#">
+							loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirmItem.loan_item_id#">
 					</cfquery>
  				<cfelseif arguments.loan_item_state eq "consumed" or arguments.loan_item_state eq "missing">
 					<cfquery name="setReturned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -328,7 +328,7 @@ limitations under the License.
 							return_date = null,
 							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">
 						WHERE
-							loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirm_item.loan_item_id#">
+							loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirmItem.loan_item_id#">
 					</cfquery>
 				<cfelseif arguments.loan_item_state eq "in loan" or arguments.loan_item_state eq "unknown">
 					<cfquery name="clearReturnData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
@@ -337,7 +337,7 @@ limitations under the License.
 							resolved_date = null,
 							resolution_recorded_by_agent_id = null	
 						WHERE
-							loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirm_item.loan_item_id#">
+							loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirmItem.loan_item_id#">
 					</cfquery>
 				</cfif>
 			</cfif>
@@ -354,12 +354,12 @@ limitations under the License.
 				UPDATE loan_item SET
 					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 					<cfif len(#item_instructions#) gt 0>
-						,item_instructions = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#item_instructions#">
+						,item_instructions = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.item_instructions#">
 					<cfelse>
 						,item_instructions = null
 					</cfif>
 					<cfif len(#loan_item_remarks#) gt 0>
-						,loan_item_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_item_remarks#">
+						,loan_item_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.loan_item_remarks#">
 					<cfelse>
 						,loan_item_remarks = null
 					</cfif>
