@@ -948,7 +948,7 @@ limitations under the License.
 							var deleteCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 								var result = "";
-								var item_id = rowData['part_id'];
+								var itemid = rowData['part_id'];
 								<cfif isClosed>
 									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 								<cfelse>
