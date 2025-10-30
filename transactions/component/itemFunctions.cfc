@@ -269,14 +269,23 @@ limitations under the License.
 </cffunction>
 
 <!--- function updateLoanItem to update the condition, instructions, remarks, and disposition of an item in a loan.
- This is the backing function for the editable loan items grid. 
+ This is the backing function for the editable loan items grid and the edit loan item form.
+ 
  @param transaction_id the transaction the loan item is in
- @param part_id the part participating in the loan item, loan item is a weak enity, it is keyed off of transaction_id and part_id 
+ @param part_id the part participating in the loan item, loan item is a weak enity, 
+   it is keyed off of transaction_id and part_id 
    (as collection_object_id of the collection object for the part).
+
+ TODO: use Primary Key loan_item_id instead of transaction_id and part_id to identify the loan item to update.
+
  @param condition the new value of the coll_object.condition to save.
  @param item_instructions the new value of the loan_item.item_instructions to save.
  @param loan_item_remarks the new value of the loan_item.item_remarks to save.
  @param coll_object_disposition the new value of the coll_object.coll_object_disposition to save.
+ @param resolution_remarks optional, the new value of loan_item.resolution_remarks to save.
+ @param loan_item_state optional, the new value of loan_item.loan_item_state to save, if 
+   not provided, the value will not be changed, if provided, values of returned, consumed, or missing 
+   will mark the loan item as resolved, values of in loan or unknown will clear any returned date and agent.
  @return a json structurre with status:1, or a http 500 response.
 --->
 <cffunction name="updateLoanItem" access="remote" returntype="any" returnformat="json">
@@ -287,23 +296,55 @@ limitations under the License.
 	<cfargument name="loan_item_remarks" type="string" required="yes">
 	<cfargument name="coll_obj_disposition" type="string" required="yes">
 	<cfargument name="resolution_remarks" type="string" required="no">
+	<cfargument name="loan_item_state" type="string" required="no" default="">
+	<cfargument name="loan_item_id" type="string" required="no" default="">
 
 	<cftransaction>
 		<cftry>
 			<cfquery name="confirmItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="confirmItem_result">
-				select * from loan_item
+				select loan_item_id, loan_item_state from loan_item
 				WHERE
-					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#"> AND
-					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_id#"> AND
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.transaction_id#">
 			</cfquery>
 			<cfif confirmItem.recordcount EQ 0>
 				<cfthrow message="specified collection object is not a loan item in the specified transaction">
 			</cfif>
+			<cfif arguments.loan_item_state is not "" AND arguments.loan_item_state NEQ confirmItem.loan_item_state>
+				<cfif arguments.loan_item_state eq "returned">
+					<cfquery name="setReturned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE loan_item 
+						SET
+							return_date = sysdate,
+							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">
+						WHERE
+							loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirm_item.loan_item_id#">
+					</cfquery>
+ 				<cfelseif arguments.loan_item_state eq "consumed" or arguments.loan_item_state eq "missing">
+					<cfquery name="setReturned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE loan_item 
+						SET
+							return_date = null,
+							resolution_recorded_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">
+						WHERE
+							loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirm_item.loan_item_id#">
+					</cfquery>
+				<cfelseif arguments.loan_item_state eq "in loan" or arguments.loan_item_state eq "unknown">
+					<cfquery name="clearReturnData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+						UPDATE loan_item 
+						SET
+							resolved_date = null,
+							resolution_recorded_by_agent_id = null	
+						WHERE
+							loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirm_item.loan_item_id#">
+					</cfquery>
+				</cfif>
+			</cfif>
 			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#" result="upDisp_result">
 				UPDATE coll_object 
-				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">,
-					condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">
-				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.coll_obj_disposition#">,
+					condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.condition#">
+				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#arguments.part_id#">
 			</cfquery>
 			<cfif upDisp_result.recordcount NEQ 1>
 				<cfthrow message="Record not updated. #transaction_id# #part_id# #upDisp_result.sql#">
@@ -320,6 +361,9 @@ limitations under the License.
 						,loan_item_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_item_remarks#">
 					<cfelse>
 						,loan_item_remarks = null
+					</cfif>
+					<cfif len(loan_item_state) GT 0>
+						,loan_item_state = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.loan_item_state#">
 					</cfif>
 					<cfif structKeyExists(arguments,"resolution_remarks")> 
 						<cfif len(#arguments.resolution_remarks#) gt 0>
@@ -964,6 +1008,7 @@ limitations under the License.
 						cataloged_item.collection_cde, 
 						cataloged_item.cat_num,
 						coll_object.coll_obj_disposition,
+						coll_object.condition,
 						specimen_part.part_name,
 						specimen_part.preserve_method,
 						loan_item.loan_item_id,
@@ -981,6 +1026,7 @@ limitations under the License.
 						MCZBASE.getPreferredAgentName(loan_item.resolution_recorded_by_agent_id) as resolution_recorded_by_agent,
 						loan_item.resolution_remarks,
 						loan_item.loan_item_state,
+						to_char(loan_item.return_date,'yyyy-mm-dd') as return_date,
 						specimen_part.sampled_from_obj_id,
 						case when specimen_part.sampled_from_obj_id is not null then 'yes' else 'no' end as is_subsample,
 						sampledFromCatItem.cat_num as sampled_from_cat_num,
@@ -1045,7 +1091,12 @@ limitations under the License.
 														<textarea name="resolution_remarks" class="data-entry-textarea">#encodeForHtml(lookupItem.resolution_remarks)#</textarea>
 													</div>
 													<div class="col-12 col-md-6 px-1">
-														<label class="data-entry-label">Loan Item State #lookupItem.loan_item_state#</label>
+														<cfif len(lookupItem.loan_item_state) EQ 0>
+															<cfset state="">
+														<cfelse>
+															<cfset state="(lookupItem.loan_item_state)">
+														</cfif>
+														<label class="data-entry-label">Loan Item State #state#</label>
 														<select name="loan_item_state" class="data-entry-select reqdClr" required>
 															<option value=""></option>
 															<cfloop query="ctLoanItemState">
@@ -1060,7 +1111,11 @@ limitations under the License.
 														</select>
 													</div>
 													<div class="col-12 col-md-6 px-1">
-														<label class="data-entry-label">Part Disposition #lookupItem.coll_obj_disposition#</label>
+														<label class="data-entry-label">Part Condition (#lookupItem.condition#)</label>
+														<input type="text" name="condition" value="#encodeForHtml(lookupItem.condition)#" class="data-entry-input">
+													</div>
+													<div class="col-12 col-md-6 px-1">
+														<label class="data-entry-label">Part Disposition (#lookupItem.coll_obj_disposition#)</label>
 														<select name="coll_obj_disposition" class="data-entry-select reqdClr" required>
 															<option value=""></option>
 															<cfloop query="ctDisp">
@@ -1081,6 +1136,9 @@ limitations under the License.
 																<a href="/agents/Agent.cfm?agent_id=#resolution_recorded_by_agent_id#" target="_blank">
 																	#resolution_recorded_by_agent#
 																</a>
+																<cfif len(return_date) GT 0>
+																	returned on #return_date#.
+																</cfif>
 															</cfif>
 														</h3>
 													</div>
@@ -1089,10 +1147,38 @@ limitations under the License.
 													<!--- TODO: Edit returned, e.g. mark as not returned --->
 													<div class="col-12 px-1">
 														<button type="button" class="btn btn-primary btn-sm" 
-															onclick="submitLoanItemEditForm('editLoanItemForm','loanItemEditorDiv','loanItemEditStatusDiv');">
+															onclick="submitLoanItemEditForm('editLoanItemForm','loanItemEditStatusDiv');">
 															Save
 														</button>
 														<output id="loanItemEditFormStatus">&nbsp;</output>
+														<scipt>
+															$(document).ready(function(){
+																$("#editLoanItemForm").submit(function(evt){
+																	evt.preventDefault();
+																	submitLoanItemEditForm('editLoanItemForm','loanItemEditStatusDiv');
+																});
+															});
+															function submitLoanItemEditForm(formId, statusDivId){
+																setFeedbackControlState("loanItemEditStatusDiv","saving")
+																var formData = $("#"+formId).serialize();
+																$.ajax({
+																	type: "POST",
+																	url: "/transactions/component/itemFunctions.cfc",
+																	data: formData,
+																	dataType: "json",
+																	success: function(response){
+																		if(response.STATUS EQ 1){
+																			setFeedbackControlState("loanItemEditStatusDiv","saved")
+																		} else {
+																			setFeedbackControlState("loanItemEditStatusDiv","error")
+																		}
+																	},
+																	error: function (jqXHR, status, message) {
+																		handleFail(jqXHR,status,message,"updating loan item");
+																	}
+																});
+															}
+														</script>
 													</div>
 												</div>
 											</form>
