@@ -963,6 +963,7 @@ limitations under the License.
 						collection.institution_acronym,
 						cataloged_item.collection_cde, 
 						cataloged_item.cat_num,
+						coll_object.coll_object_disposition,
 						specimen_part.part_name,
 						specimen_part.preserve_method,
 						loan_item.loan_item_id,
@@ -1043,7 +1044,7 @@ limitations under the License.
 														<label class="data-entry-label">Resolution Remarks</label>
 														<textarea name="resolution_remarks" class="data-entry-textarea">#encodeForHtml(lookupItem.resolution_remarks)#</textarea>
 													</div>
-													<div class="col-12 col-md-4 px-1">
+													<div class="col-12 col-md-6 px-1">
 														<label class="data-entry-label">Loan Item State</label>
 														<select name="loan_item_state" class="data-entry-select reqdClr" required>
 															<option value=""></option>
