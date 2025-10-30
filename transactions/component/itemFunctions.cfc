@@ -1164,7 +1164,8 @@ limitations under the License.
 																	data: formData,
 																	dataType: "json",
 																	success: function(response){
-																		if(response.STATUS EQ 1){
+																		console.log(response);
+																		if(response.STATUS == 1){
 																			setFeedbackControlState("loanItemEditStatusDiv","saved")
 																		} else {
 																			setFeedbackControlState("loanItemEditStatusDiv","error")
