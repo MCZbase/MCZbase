@@ -1160,7 +1160,7 @@ limitations under the License.
 															});
 															function submitLoanItemEditForm(formId, statusDivId){
 																setFeedbackControlState("loanItemEditStatusDiv","saving")
-																var formData = $("#"+formId).serialize();
+																var formData = $("##"+formId).serialize();
 																$.ajax({
 																	type: "POST",
 																	url: "/transactions/component/itemFunctions.cfc",
