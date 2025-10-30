@@ -1101,7 +1101,7 @@ limitations under the License.
 														<label class="data-entry-label">Loan Item Description</label>
 														<input type="text" name="item_descr" value="#encodeForHtml(lookupItem.item_descr)#" class="data-entry-input">
 													</div>
-													<div class="coll-12 px-1">
+													<div class="col-12 px-1">
 														<label class="data-entry-label" for="item_instructions">Loan Item Instructions</label> 
 														<input type="text" name="item_instructions" id="item_instructions" value="#encodeForHtml(lookupItem.item_instructions)#" class="data-entry-input">
 													</div>
@@ -1203,23 +1203,29 @@ limitations under the License.
 											loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupItem.part_id#">
 											and loan_item.loan_item_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupItem.loan_item_id#">
 									</cfquery>
-									<cfloop query="lookupOtherLoans">
-										<cfif loan_status EQ "open">
-											<div class="alert alert-warning mt-2" role="alert">
-												This part is also currently on open loan 
-												<a href="/loans/Loan.cfm?transaction_id=#transaction_id#" target="_blank">
-													#loan_number# #loan_type#
-												</a>.
-											</div>
-										<cfelse>
-											<div class="alert alert-info mt-2" role="alert">
-												This part is also in loan 
-												<a href="/loans/Loan.cfm?transaction_id=#transaction_id#" target="_blank">
-													#loan_number# #loan_type# (#loan_status#)
-												</a>.
-											</div>
-										</cfif>
-									</cfloop>
+									<cfif lookupOtherLoans.recordcount EQ 0>
+										<ul>
+											<li>This part is not currently on any other loans.</li>
+										</ul>
+									<cfelse>
+										<ul>
+										<cfloop query="lookupOtherLoans">
+											<cfif loan_status EQ "open">
+												<li>
+													This part is also currently on open loan 
+													<a href="/transactions/Loan.cfm?transaction_id=#transaction_id#" target="_blank">#loan_number#</a>
+													#loan_type# (#loan_status#).
+												</li>
+											<cfelse>
+												<li>
+													This part is also in loan 
+													<a href="/loans/Loan.cfm?transaction_id=#transaction_id#" target="_blank"> #loan_number# </a>
+													#loan_type# (#loan_status#).
+												</li>
+											</cfif>
+										</cfloop>
+										</ul>
+									</cfif>
 								</div>
 							</div>
 						</div>
