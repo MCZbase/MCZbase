@@ -1225,7 +1225,7 @@ limitations under the License.
 													This part is also in loan 
 													<a href="/loans/Loan.cfm?transaction_id=#transaction_id#" target="_blank"> #loan_number# </a>
 													#loan_type# (#loan_status#) 
-													<cfif len(closed_date) GT 0>closed #closed_date#</cfif>.
+													<cfif len(closed_date) GT 0 and loan_status EQ 'closed'>on #closed_date#</cfif>.
 													<cfif len(loan_item_state) GT 0>With loan item state #loan_item_state#.</cfif>
 												</li>
 											</cfif>
