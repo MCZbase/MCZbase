@@ -948,7 +948,7 @@ limitations under the License.
 							var deleteCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 								var result = "";
-								var itemid = rowData['part_id'];
+								var item_id = rowData['part_id'];
 								<cfif isClosed>
 									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 								<cfelse>
@@ -959,6 +959,12 @@ limitations under the License.
 									}
 								</cfif>
 								return result;
+							};
+							var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+								// Display a button to launch an edit dialog
+								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+								var loan_item_id = rowData['loan_item_id'];
+								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" openLoanItemEditDialog() " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Edit"/></span>';
 							};
 							var historyCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 								return 'History';
@@ -981,6 +987,7 @@ limitations under the License.
 								datafields:
 									[
 										{ name: 'transaction_id', type: 'string' },
+										{ name: 'loan_item_id', type: 'string' },
 										{ name: 'part_id', type: 'string' },
 										{ name: 'catalog_number', type: 'string' },
 										{ name: 'scientific_name', type: 'string' },
@@ -1098,6 +1105,7 @@ limitations under the License.
 										$("##searchResultsGrid").jqxGrid('selectrow', 0);
 									},
 									columns: [
+										{text: 'Edit', datafield: 'EditRow', cellsrenderer:editCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },
 										{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: getColHidProp('transaction_id', true), editable: false },
 										{text: 'PartID', datafield: 'part_id', width: 80, hideable: true, hidden: getColHidProp('part_id', false), cellsrenderer: deleteCellRenderer, editable: false },
 										{text: 'Loan Number', datafield: 'loan_number', hideable: true, hidden: getColHidProp('loan_number', true), editable: false },

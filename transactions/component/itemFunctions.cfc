@@ -425,6 +425,7 @@ limitations under the License.
 			decode(sampled_from_obj_id,null,'no ','of ' || MCZbase.get_part_prep(sampled_from_obj_id)) as sampled_from_obj_id,
 			item_descr,
 			item_instructions,
+			loan_item.loan_item_id,
 			loan_item_remarks,
 			reconciled_by_person_id,
 			MCZBASE.getPreferredAgentName(reconciled_by_person_id) as reconciled_by_agent,
