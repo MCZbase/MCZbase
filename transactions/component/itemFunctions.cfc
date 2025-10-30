@@ -1045,7 +1045,7 @@ limitations under the License.
 														<textarea name="resolution_remarks" class="data-entry-textarea">#encodeForHtml(lookupItem.resolution_remarks)#</textarea>
 													</div>
 													<div class="col-12 col-md-6 px-1">
-														<label class="data-entry-label">Loan Item State</label>
+														<label class="data-entry-label">Loan Item State #lookupItem.loan_item_state#</label>
 														<select name="loan_item_state" class="data-entry-select reqdClr" required>
 															<option value=""></option>
 															<cfloop query="ctLoanItemState">
@@ -1060,12 +1060,12 @@ limitations under the License.
 														</select>
 													</div>
 													<div class="col-12 col-md-6 px-1">
-														<label class="data-entry-label">Part Disposition</label>
+														<label class="data-entry-label">Part Disposition #lookupItem.coll_obj_disposition#</label>
 														<select name="coll_obj_disposition" class="data-entry-select reqdClr" required>
 															<option value=""></option>
 															<cfloop query="ctDisp">
 																<cfset selected = "">
-																<cfif ctDisp.coll_obj_disposition EQ coll_obj_disposition>
+																<cfif ctDisp.coll_obj_disposition EQ lookupItem.coll_obj_disposition>
 																	<cfset selected="selected='selected'">
 																</cfif>
 																<option value="#ctDisp.coll_obj_disposition#" #selected#>
