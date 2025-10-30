@@ -1192,10 +1192,13 @@ limitations under the License.
 									<!--- lookup other loans that this part is on, highlight any that are open --->
 									<cfquery name="lookupOtherLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 										SELECT 
+											loan_item.loan_item_state,
 											loan.loan_number,
 											loan.loan_type,
 											loan.loan_status,
-											loan.transaction_id
+											loan.transaction_id,
+											to_char(loan.return_due_date,'yyyy-mm-dd') as return_due_date,
+											to_char(loan.closed_date,'yyyy-mm-dd') as closed_date
 										FROM 
 											loan_item
 											join loan on loan_item.transaction_id = loan.transaction_id
@@ -1205,22 +1208,25 @@ limitations under the License.
 									</cfquery>
 									<cfif lookupOtherLoans.recordcount EQ 0>
 										<ul>
-											<li>This part is not currently on any other loans.</li>
+											<li>This part is not currently in any other loans.</li>
 										</ul>
 									<cfelse>
 										<ul>
 										<cfloop query="lookupOtherLoans">
 											<cfif loan_status EQ "open">
 												<li>
-													This part is also currently on open loan 
+													This part is also currently in open loan 
 													<a href="/transactions/Loan.cfm?transaction_id=#transaction_id#" target="_blank">#loan_number#</a>
-													#loan_type# (#loan_status#).
+													#loan_type# (#loan_status#) due #return_due_date#.
+													<cfif len(loan_item_state) GT 0>With loan item state #loan_item_state#.</cfif>
 												</li>
 											<cfelse>
 												<li>
 													This part is also in loan 
 													<a href="/loans/Loan.cfm?transaction_id=#transaction_id#" target="_blank"> #loan_number# </a>
-													#loan_type# (#loan_status#).
+													#loan_type# (#loan_status#) 
+													<cfif len(closed_date) GT 0>closed #closed_date#</cfif>.
+													<cfif len(loan_item_state) GT 0>With loan item state #loan_item_state#.</cfif>
 												</li>
 											</cfif>
 										</cfloop>
