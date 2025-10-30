@@ -251,7 +251,7 @@ function openLoanItemDialog(loan_item_id,dialogId,name,callback) {
       url: "/transactions/component/itemFunctions.cfc",
       data : {
          method : "getLoanItemDialogHtml",
-         loan_item_id: loan_item_id,
+         loan_item_id: loan_item_id
       },
       success: function (result) {
          $("#" + dialogId + "_div").html(result);
