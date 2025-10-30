@@ -334,7 +334,7 @@ limitations under the License.
 					<cfquery name="clearReturnData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 						UPDATE loan_item 
 						SET
-							resolved_date = null,
+							return_date = null,
 							resolution_recorded_by_agent_id = null	
 						WHERE
 							loan_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirmItem.loan_item_id#">
