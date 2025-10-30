@@ -1043,9 +1043,10 @@ limitations under the License.
 														<label class="data-entry-label">Resolution Remarks</label>
 														<textarea name="resolution_remarks" class="data-entry-textarea">#encodeForHtml(lookupItem.resolution_remarks)#</textarea>
 													</div>
-													<div class="col-12 col-md-6 px-1">
+													<div class="col-12 col-md-4 px-1">
 														<label class="data-entry-label">Loan Item State</label>
-														<select name="loan_item_state" class="data-entry-select">
+														<select name="loan_item_state" class="data-entry-select reqdClr" required>
+															<option value=""></option>
 															<cfloop query="ctLoanItemState">
 																<cfset selected = "">
 																<cfif ctLoanItemState.loan_item_state EQ lookupItem.loan_item_state>
@@ -1053,6 +1054,21 @@ limitations under the License.
 																</cfif>
 																<option value="#ctLoanItemState.loan_item_state#" #selected#>
 																	#ctLoanItemState.loan_item_state#
+																</option>
+															</cfloop>
+														</select>
+													</div>
+													<div class="col-12 col-md-6 px-1">
+														<label class="data-entry-label">Part Disposition</label>
+														<select name="coll_obj_disposition" class="data-entry-select reqdClr" required>
+															<option value=""></option>
+															<cfloop query="ctDisp">
+																<cfset selected = "">
+																<cfif ctDisp.coll_obj_disposition EQ coll_obj_disposition>
+																	<cfset selected="selected='selected'">
+																</cfif>
+																<option value="#ctDisp.coll_obj_disposition#" #selected#>
+																	#ctDisp.coll_obj_disposition#
 																</option>
 															</cfloop>
 														</select>
@@ -1075,6 +1091,7 @@ limitations under the License.
 															onclick="submitLoanItemEditForm('editLoanItemForm','loanItemEditorDiv','loanItemEditStatusDiv');">
 															Save
 														</button>
+														<output id="loanItemEditFormStatus">&nbsp;</output>
 													</div>
 												</div>
 											</form>
