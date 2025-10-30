@@ -1078,22 +1078,6 @@ limitations under the License.
 												<input type="hidden" name="method" value="updateLoanItem">
 												<div class="row mx-0 py-2">
 													<div class="col-12 col-md-6 px-1">
-														<label class="data-entry-label">Loan Item Description</label>
-														<input type="text" name="item_descr" value="#encodeForHtml(lookupItem.item_descr)#" class="data-entry-input">
-													</div>
-													<div class="coll-12 col-md-6 px-1">
-														<label class="data-entry-label">Loan Item Instructions</label> 
-														<input type="text" name="item_instructions" value="#encodeForHtml(lookupItem.item_instructions)#" class="data-entry-input">
-													</div>
-													<div class="col-12 px-1">
-														<label class="data-entry-label">Loan Item Remarks</label>
-														<textarea name="loan_item_remarks" class="data-entry-textarea">#encodeForHtml(lookupItem.loan_item_remarks)#</textarea>
-													</div>
-													<div class="col-12 px-1">
-														<label class="data-entry-label">Resolution Remarks</label>
-														<textarea name="resolution_remarks" class="data-entry-textarea">#encodeForHtml(lookupItem.resolution_remarks)#</textarea>
-													</div>
-													<div class="col-12 col-md-6 px-1">
 														<cfif len(lookupItem.loan_item_state) EQ 0>
 															<cfset state="">
 														<cfelse>
@@ -1112,6 +1096,22 @@ limitations under the License.
 																</option>
 															</cfloop>
 														</select>
+													</div>
+													<div class="col-12 col-md-6 px-1">
+														<label class="data-entry-label">Loan Item Description</label>
+														<input type="text" name="item_descr" value="#encodeForHtml(lookupItem.item_descr)#" class="data-entry-input">
+													</div>
+													<div class="coll-12 px-1">
+														<label class="data-entry-label" for="item_instructions">Loan Item Instructions</label> 
+														<input type="text" name="item_instructions" id="item_instructions" value="#encodeForHtml(lookupItem.item_instructions)#" class="data-entry-input">
+													</div>
+													<div class="col-12 px-1">
+														<label class="data-entry-label" for="loan_item_remarks">Loan Item Remarks</label>
+														<input type="text" name="loan_item_remarks" id="loan_item_remarks" value="#encodeForHtml(lookupItem.loan_item_remarks)#" class="data-entry-input">
+													</div>
+													<div class="col-12 px-1">
+														<label class="data-entry-label" for="resolution_remarks">Resolution Remarks</label>
+														<input type="text" name="resolution_remarks" id="resolution_remarks" value="#encodeForHtml(lookupItem.resolution_remarks)#" class="data-entry-input">
 													</div>
 													<div class="col-12 col-md-6 px-1">
 														<label class="data-entry-label">Part Condition (#lookupItem.condition#)</label>
@@ -1187,6 +1187,39 @@ limitations under the License.
 											<div id="loanItemEditStatusDiv"></div>
 										</div>
 									</div>
+								</div>
+								<div class="col-12">
+									<!--- lookup other loans that this part is on, highlight any that are open --->
+									<cfquery name="lookupOtherLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+										SELECT 
+											loan.loan_number,
+											loan.loan_type,
+											loan.loan_status,
+											loan.transaction_id
+										FROM 
+											loan_item
+											join loan on loan_item.transaction_id = loan.transaction_id
+										WHERE 
+											loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupItem.part_id#">
+											and loan_item.loan_item_id NEQ <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupItem.loan_item_id#">
+									</cfquery>
+									<cfloop query="lookupOtherLoans">
+										<cfif loan_status EQ "open">
+											<div class="alert alert-warning mt-2" role="alert">
+												This part is also currently on open loan 
+												<a href="/loans/Loan.cfm?transaction_id=#transaction_id#" target="_blank">
+													#loan_number# #loan_type#
+												</a>.
+											</div>
+										<cfelse>
+											<div class="alert alert-info mt-2" role="alert">
+												This part is also in loan 
+												<a href="/loans/Loan.cfm?transaction_id=#transaction_id#" target="_blank">
+													#loan_number# #loan_type# (#loan_status#)
+												</a>.
+											</div>
+										</cfif>
+									</cfloop>
 								</div>
 							</div>
 						</div>
