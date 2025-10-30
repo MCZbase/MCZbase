@@ -1094,7 +1094,7 @@ limitations under the License.
 														<cfif len(lookupItem.loan_item_state) EQ 0>
 															<cfset state="">
 														<cfelse>
-															<cfset state="(lookupItem.loan_item_state)">
+															<cfset state="(#lookupItem.loan_item_state#)">
 														</cfif>
 														<label class="data-entry-label">Loan Item State #state#</label>
 														<select name="loan_item_state" class="data-entry-select reqdClr" required>
@@ -1142,16 +1142,13 @@ limitations under the License.
 															</cfif>
 														</h3>
 													</div>
-													<!--- TODO: Change disposition --->
-													<!--- TODO: Mark Returned, changing resoultion and state --->
-													<!--- TODO: Edit returned, e.g. mark as not returned --->
 													<div class="col-12 px-1">
 														<button type="button" class="btn btn-primary btn-sm" 
 															onclick="submitLoanItemEditForm('editLoanItemForm','loanItemEditStatusDiv');">
 															Save
 														</button>
 														<output id="loanItemEditFormStatus">&nbsp;</output>
-														<scipt>
+														<script>
 															$(document).ready(function(){
 																$("##editLoanItemForm").submit(function(evt){
 																	evt.preventDefault();
