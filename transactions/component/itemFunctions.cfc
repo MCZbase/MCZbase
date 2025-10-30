@@ -963,7 +963,7 @@ limitations under the License.
 						collection.institution_acronym,
 						cataloged_item.collection_cde, 
 						cataloged_item.cat_num,
-						coll_object.coll_object_disposition,
+						coll_object.coll_obj_disposition,
 						specimen_part.part_name,
 						specimen_part.preserve_method,
 						loan_item.loan_item_id,
