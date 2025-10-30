@@ -245,7 +245,7 @@ function addItemToLoan(part_id,transaction_id,remark,instructions,subsample,targ
  * @param callback a callback function to invoke on closing the dialog.
  */
 function openLoanItemDialog(loan_item_id,dialogId,name,callback) {
-   var title = "Edit Author for " + name;
+   var title = "Edit " + name;
    createGenericEditDialog(dialogId,title,callback);
    jQuery.ajax({
       url: "/transactions/component/itemFunctions.cfc",
