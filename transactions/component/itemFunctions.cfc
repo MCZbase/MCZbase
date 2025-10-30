@@ -277,7 +277,7 @@ limitations under the License.
    (as collection_object_id of the collection object for the part).
 
  TODO: use Primary Key loan_item_id instead of transaction_id and part_id to identify the loan item to update.
-
+ 
  @param condition the new value of the coll_object.condition to save.
  @param item_instructions the new value of the loan_item.item_instructions to save.
  @param loan_item_remarks the new value of the loan_item.item_remarks to save.
@@ -286,6 +286,7 @@ limitations under the License.
  @param loan_item_state optional, the new value of loan_item.loan_item_state to save, if 
    not provided, the value will not be changed, if provided, values of returned, consumed, or missing 
    will mark the loan item as resolved, values of in loan or unknown will clear any returned date and agent.
+ @param loan_item_id optional, the loan_item_id of the loan item to update: TODO, switch to this pkey instead of transaction_id and part_id.
  @return a json structurre with status:1, or a http 500 response.
 --->
 <cffunction name="updateLoanItem" access="remote" returntype="any" returnformat="json">
@@ -1072,6 +1073,8 @@ limitations under the License.
 										<div class="card-body">
 											<form name="editLoanItemForm" id="editLoanItemForm" class="mb-0">
 												<input type="hidden" name="loan_item_id" value="#lookupItem.loan_item_id#">
+												<input type="hidden" name="part_id" value="#lookupItem.part_id#">
+												<input type="hidden" name="transaction_id" value="#lookupItem.transaction_id#">
 												<input type="hidden" name="method" value="updateLoanItem">
 												<div class="row mx-0 py-2">
 													<div class="col-12 col-md-6 px-1">
