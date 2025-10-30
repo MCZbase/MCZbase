@@ -1168,7 +1168,8 @@ limitations under the License.
 																	dataType: "json",
 																	success: function(response){
 																		console.log(response);
-																		if(response.STATUS == 1){
+																		var status = response.DATA[0][response.COLUMNS.indexOf("STATUS")];
+																		if (status == "1") {
 																			setFeedbackControlState("loanItemEditStatusDiv","saved")
 																		} else {
 																			setFeedbackControlState("loanItemEditStatusDiv","error")
