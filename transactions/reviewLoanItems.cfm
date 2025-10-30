@@ -828,6 +828,7 @@ limitations under the License.
 						</div>
 						<div id="itemConditionHistoryDialog"></div>
 						<div id="removeItemDialog"></div>
+						<div id="editItemDialog"></div>
 						<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
 						<script>
 							function removeLoanItem(item_collection_object_id) { 
@@ -964,7 +965,7 @@ limitations under the License.
 								// Display a button to launch an edit dialog
 								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 								var loan_item_id = rowData['loan_item_id'];
-								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" openLoanItemEditDialog() " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Edit"/></span>';
+								return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" openLoanItemDialog('+loan_item_id+',\"editItemDialog\",\"Edit Loan Item\",reloadGrid); " class="p-1 btn btn-xs btn-warning" value="Edit" aria-label="Edit"/></span>';
 							};
 							var historyCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 								return 'History';
