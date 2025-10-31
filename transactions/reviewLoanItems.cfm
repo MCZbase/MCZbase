@@ -667,7 +667,7 @@ limitations under the License.
 												$('##disableEditControlsBtn').removeClass('d-none');
 												$('.flag-editable-cell').addClass('bg-light');
 												$('.flag-editable-cell').addClass('editable-cell');
-												$('##searchResultsGrid')..jqxGrid('showcolumn', 'EditRow');
+												$('##searchResultsGrid').jqxGrid('showcolumn', 'EditRow');
 											};
 											function disableEditControls() { 
 												$('##bulkEditControlsDiv').addClass('d-none');
@@ -676,7 +676,7 @@ limitations under the License.
 												$('##disableEditControlsBtn').addClass('d-none');
 												$('.flag-editable-cell').removeClass('bg-light');
 												$('.flag-editable-cell').removeClass('editable-cell');
-												$('##searchResultsGrid')..jqxGrid('hidecolumn', 'EditRow');
+												$('##searchResultsGrid').jqxGrid('hidecolumn', 'EditRow');
 											};
 										</script>
 									</cfif>
