@@ -680,7 +680,7 @@ limitations under the License.
 											};
 										</script>
 									</cfif>
-									<div class="row" id="bulkEditControlsDiv" class="#editVisibility#">
+									<div class="row #editVisibility#" id="bulkEditControlsDiv">
 										<div class="col-12">
 											<div class="add-form mt-2">
 												<div class="add-form-header pt-1 px-2">
