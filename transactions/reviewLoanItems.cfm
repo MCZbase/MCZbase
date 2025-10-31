@@ -852,6 +852,12 @@ limitations under the License.
 													<div class="col-12 col-md-6">
 														<div id="columnPick1" class="px-1"></div>
 													</div>
+													<div class="col-12 col-md-3">
+														<div id="columnPick2" class="px-1"></div>
+													</div>
+													<div class="col-12 col-md-3">
+														<div id="columnPick3" class="px-1"></div>
+													</div>
 												</div>
 											</div>
 										</div>
