@@ -250,7 +250,7 @@ limitations under the License.
 		</cfoutput>
 	</cfcase>
 	<cfcase value="BulkSetDescription">
-		<!--- append the value of coll_object.condition to loan_item.item_desc if not already there. --->
+		<!--- append the value of coll_object.condition to loan_item.item_descr if not already there. --->
 		<cfoutput>
 			<cftransaction>
 				<cftry>
@@ -268,9 +268,19 @@ limitations under the License.
 						<cfif getCondition.recordcount GT 0 AND len(getCondition.condition) GT 0>
 							<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
 								UPDATE loan_item 
-								SET item_desc  = trim(item_desc || ' ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCondition.condition#">)
+								SET item_descr  = 
+   								TRIM(
+  								      CASE WHEN item_descr IS NULL OR TRIM(item_descr) = '' THEN
+  							            <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCondition.condition#">
+  							   	   ELSE
+      	     				   	  item_descr || '; ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCondition.condition#">
+   	     							END
+	    							)
 								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">
-									AND item_desc <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCondition.condition#">
+									AND (
+										item_descr IS NULL OR 
+										item_desc NOT LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#getCondition.condition#%">
+									)
 							</cfquery>
 						</cfif>
 					</cfloop>
@@ -297,7 +307,7 @@ limitations under the License.
 							SET item_instructions =
    							TRIM(
   							      CASE WHEN item_instructions IS NULL OR TRIM(item_instructions) = '' THEN
-    						            <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.item_instructions#">
+  						            <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.item_instructions#">
   						   	   ELSE
            				   	  item_instructions || '; ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.item_instructions#">
         							END
