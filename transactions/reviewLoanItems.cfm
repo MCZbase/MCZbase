@@ -777,7 +777,7 @@ limitations under the License.
 													Append the part condition to each loan item description:
 													<input type="hidden" name="Action" value="BulkSetDescription">
 													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-													<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
+													<input type="submit" value="Paste Descriptions" class="btn btn-xs btn-primary"> 
 												</form>
 											</div>
 											<div class="col-12 col-xl-6 border p-1">
@@ -786,7 +786,7 @@ limitations under the License.
 													<input type="hidden" name="Action" value="BulkSetInstructions">
 													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 													<input type="text" name="item_instructions" id="item_instructions" value="">
-													<input type="submit" value="Mark Items Returned" class="btn btn-xs btn-primary"> 
+													<input type="submit" value="Set Item Instructions" class="btn btn-xs btn-primary"> 
 												</form>
 											</div>
 										</cfif>
