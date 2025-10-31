@@ -289,23 +289,28 @@ limitations under the License.
 	<cfcase value="BulkSetInstructions">
 		<!--- append a provided value to loan_item.item_instructions if not already there. --->
 		<cfoutput>
-			<cftransaction>
-				<cftry>
-					<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
-						UPDATE loan_item 
-						SET item_instructions = trim(item_instructions || ' ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.item_instructions#">)
-						WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.transaction_id#">
-							AND item_instructions <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.item_instructions#">
-					</cfquery>
-					<cftransaction action="commit">
-				<cfcatch>
-					<cftransaction action="rollback">
-					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-					<cfset message = "Bulk update of item instructions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
-					<cfthrow message="#message#">
-				</cfcatch>
-				</cftry>
-			</cftransaction>
+			<cfif isDefined("form.item_instructions") AND len(trim(form.item_instructions)) GT 0>
+				<cftransaction>
+					<cftry>
+						<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cookie.cfid)#">
+							UPDATE loan_item 
+							SET item_instructions = trim(item_instructions || ' ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#form.item_instructions#">)
+							WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#form.transaction_id#">
+								AND (
+									item_instructions IS NULL OR
+									item_instructions NOT LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#form.item_instructions#%">
+								)
+						</cfquery>
+						<cftransaction action="commit">
+					<cfcatch>
+						<cftransaction action="rollback">
+						<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+						<cfset message = "Bulk update of item instructions failed. " & cfcatch.message & " " & cfcatch.detail & " " & queryError >
+						<cfthrow message="#message#">
+					</cfcatch>
+					</cftry>
+				</cftransaction>
+			</cfif>
 			<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
 		</cfoutput>
 	</cfcase>
@@ -660,7 +665,7 @@ limitations under the License.
 										<div class="col-12">
 											<div class="add-form mt-2">
 												<div class="add-form-header pt-1 px-2">
-													<h2 class="h4 mb-0 pb-0">Actions to Edit All Loan Items</h2>
+													<h2 class="h4 mb-0 pb-0">Edit All Loan Items</h2>
 												</div>
 												<div class="card-body">
 													<div class="row mb-0 pb-0 px-2 mx-0 #editVisibility#" id="bulkEditControlsDiv">
@@ -789,7 +794,7 @@ limitations under the License.
 															<div class="col-12 col-xl-6 border p-1">
 																<form name="BulkSetDescription" method="post" action="/transactions/reviewLoanItems.cfm">
 																	Append the part condition to each loan item description:
-																	<input type="hidden" name="Action" value="BulkSetDescription">
+																	<input type="hidden" name="action" value="BulkSetDescription">
 																	<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 																	<input type="submit" value="Paste Descriptions" class="btn btn-xs btn-primary"> 
 																</form>
@@ -797,7 +802,7 @@ limitations under the License.
 															<div class="col-12 col-xl-6 border p-1">
 																<form name="BulkSetInstructions" method="post" action="/transactions/reviewLoanItems.cfm">
 																	Add instructions to each loan item:
-																	<input type="hidden" name="Action" value="BulkSetInstructions">
+																	<input type="hidden" name="action" value="BulkSetInstructions">
 																	<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
 																	<input type="text" name="item_instructions" id="item_instructions" value="">
 																	<input type="submit" value="Set Item Instructions" class="btn btn-xs btn-primary"> 
