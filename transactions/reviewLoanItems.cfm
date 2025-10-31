@@ -1130,9 +1130,9 @@ limitations under the License.
 											{text: 'Remove', datafield: 'RemoveRow', width: 40, hideable: true, hidden: true, cellsrenderer: deleteCellRenderer, editable: false },
 											<cfif aboutLoan.loan_type EQ 'returnable'>
 												{text: 'Return', datafield: 'ReturnRow', width: 50, hideable: true, hidden: true, cellsrenderer: returnCellRenderer, editable: false },
-											<cfelse aboutLoan.loan_type EQ 'consumable'>
+											<cfelseif aboutLoan.loan_type EQ 'consumable'>
 												{text: 'Consume', datafield: 'ConsumeRow', width: 60, hideable: true, hidden: true, cellsrenderer: consumedCellRenderer, editable: false },
-											<cfelse>
+											</cfif>
 										</cfif>
 										{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: getColHidProp('transaction_id', true), editable: false },
 										{text: 'PartID', datafield: 'part_id', width: 80, hideable: true, hidden: getColHidProp('part_id', true), editable: false },
