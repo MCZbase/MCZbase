@@ -279,7 +279,7 @@ limitations under the License.
 								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObjId.collection_object_id#">
 									AND (
 										item_descr IS NULL OR 
-										item_desc NOT LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#getCondition.condition#%">
+										item_descr NOT LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#getCondition.condition#%">
 									)
 							</cfquery>
 						</cfif>
