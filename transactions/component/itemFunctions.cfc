@@ -879,7 +879,7 @@ limitations under the License.
 			<cfset theResult=queryNew("status, message, subsample")>
 			<cfset t = queryaddrow(theResult,1)>
 			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
-			<cfset t = QuerySetCell(theResult, "message", "item added loan.", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "item added to loan.", 1)>
 			<cfif subsample IS 1 >
 				<cfset t = QuerySetCell(theResult, "subsample", "#subsampleCollObjectId#", 1)>
 			<cfelse>
