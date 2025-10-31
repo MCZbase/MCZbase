@@ -986,6 +986,7 @@ limitations under the License.
 									// onstartup disable edit controls
 									if (gotRunOnLoad == false) {
 										disableEditControls();
+										$("##" + gridId).jqxGrid('setcolumnproperty', 'EditRow', 'hidden', true);
 										gotRunOnLoad = true;
 									}
 								</cfif>
