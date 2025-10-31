@@ -928,21 +928,19 @@ limitations under the License.
 								var halfColumns = Math.round(columns.length/2);
 		
 								var columnListSource = [];
-								for (i = halfColumns; i < (halfColumns*2); i++) {
-									if (columns[i] == undefined) {
-										continue;
-									}
-									if (columns[i].text == undefined) {
-										continue;
-									}
-									var text = columns[i].text;
-									var datafield = columns[i].datafield;
-									var hideable = columns[i].hideable;
-									var hidden = columns[i].hidden;
-									var show = ! hidden;
-									if (hideable == true) { 
-										var listRow = { label: text, value: datafield, checked: show };
-										columnListSource.push(listRow);
+								for (i = 1; i < halfColumns; i++) {
+									try {
+										var text = columns[i].text;
+										var datafield = columns[i].datafield;
+										var hideable = columns[i].hideable;
+										var hidden = columns[i].hidden;
+										var show = ! hidden;
+										if (hideable == true) { 
+											var listRow = { label: text, value: datafield, checked: show };
+											columnListSource.push(listRow);
+										}
+									} catch (e) {
+										console.log(e);
 									}
 								} 
 								$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
@@ -958,14 +956,18 @@ limitations under the License.
 		
 								var columnListSource1 = [];
 								for (i = halfColumns; i < (halfColumns*2); i++) {
-									var text = columns[i].text;
-									var datafield = columns[i].datafield;
-									var hideable = columns[i].hideable;
-									var hidden = columns[i].hidden;
-									var show = ! hidden;
-									if (hideable == true) { 
-										var listRow = { label: text, value: datafield, checked: show };
-										columnListSource1.push(listRow);
+									try {
+										var text = columns[i].text;
+										var datafield = columns[i].datafield;
+										var hideable = columns[i].hideable;
+										var hidden = columns[i].hidden;
+										var show = ! hidden;
+										if (hideable == true) { 
+											var listRow = { label: text, value: datafield, checked: show };
+											columnListSource1.push(listRow);
+										}
+									} catch (e) {
+										console.log(e);
 									}
 								} 
 								$("##columnPick1").jqxListBox({ source: columnListSource1, autoHeight: true, width: '260px', checkboxes: true });
