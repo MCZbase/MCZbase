@@ -874,6 +874,8 @@ limitations under the License.
 						<div id="editItemDialog"></div>
 						<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
 						<script>
+							var gotRunOnLoad = false;
+
 							function removeLoanItem(item_collection_object_id) { 
 								openRemoveLoanItemDialog(item_collection_object_id, #transaction_id#,'removeItemDialog',reloadGrid);
 							};
@@ -981,10 +983,11 @@ limitations under the License.
 								$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 								$('##locationButtonContainer').html('<a id="locationbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-1" aria-label="View part locations in storage heirarchy" href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank" >View Part Locations</a>');
 								<cfif isClosed>
-								// onstartup disable edit controls
-								$(document).ready(function() { 
-									disableEditControls();
-								});
+									// onstartup disable edit controls
+									if (gotRunOnLoad == false) {
+										disableEditControls();
+										gotRunOnLoad = true;
+									}
 								</cfif>
 							};
 		
