@@ -852,12 +852,6 @@ limitations under the License.
 													<div class="col-12 col-md-6">
 														<div id="columnPick1" class="px-1"></div>
 													</div>
-													<div class="col-12 col-md-3">
-														<div id="columnPick2" class="px-1"></div>
-													</div>
-													<div class="col-12 col-md-3">
-														<div id="columnPick3" class="px-1"></div>
-													</div>
 												</div>
 											</div>
 										</div>
@@ -933,10 +927,10 @@ limitations under the License.
 								}
 								// add a control to show/hide columns
 								var columns = $('##' + gridId).jqxGrid('columns').records;
-								var quarterColumns = Math.round(columns.length/4);
+								var halfColumns = Math.round(columns.length/2);
 		
 								var columnListSource = [];
-								for (i = 1; i < quarterColumns; i++) {
+								for (i = 1; i < halfColumns; i++) {
 									var text = columns[i].text;
 									var datafield = columns[i].datafield;
 									var hideable = columns[i].hideable;
@@ -959,7 +953,7 @@ limitations under the License.
 								});
 		
 								var columnListSource1 = [];
-								for (i = quarterColumns; i < (quarterColumns*2); i++) {
+								for (i = halfColumns; i < (halfColumns*2); i++) {
 									var text = columns[i].text;
 									var datafield = columns[i].datafield;
 									var hideable = columns[i].hideable;
@@ -981,52 +975,6 @@ limitations under the License.
 									$("##" + gridId).jqxGrid('endupdate');
 								});
 		
-								var columnListSource2 = [];
-								for (i = (quarterColumns*2); i < (quarterColumns*3); i++) {
-									var text = columns[i].text;
-									var datafield = columns[i].datafield;
-									var hideable = columns[i].hideable;
-									var hidden = columns[i].hidden;
-									var show = ! hidden;
-									if (hideable == true) { 
-										var listRow = { label: text, value: datafield, checked: show };
-										columnListSource2.push(listRow);
-									}
-								} 
-								$("##columnPick2").jqxListBox({ source: columnListSource2, autoHeight: true, width: '260px', checkboxes: true });
-								$("##columnPick2").on('checkChange', function (event) {
-									$("##" + gridId).jqxGrid('beginupdate');
-									if (event.args.checked) {
-										$("##" + gridId).jqxGrid('showcolumn', event.args.value);
-									} else {
-										$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
-									}
-									$("##" + gridId).jqxGrid('endupdate');
-								});
-		
-								var columnListSource3 = [];
-								for (i = (quarterColumns*3); i < columns.length; i++) {
-									var text = columns[i].text;
-									var datafield = columns[i].datafield;
-									var hideable = columns[i].hideable;
-									var hidden = columns[i].hidden;
-									var show = ! hidden;
-									if (hideable == true) { 
-										var listRow = { label: text, value: datafield, checked: show };
-										columnListSource3.push(listRow);
-									}
-								} 
-								$("##columnPick3").jqxListBox({ source: columnListSource3, autoHeight: true, width: '260px', checkboxes: true });
-								$("##columnPick3").on('checkChange', function (event) {
-									$("##" + gridId).jqxGrid('beginupdate');
-									if (event.args.checked) {
-										$("##" + gridId).jqxGrid('showcolumn', event.args.value);
-									} else {
-										$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
-									}
-									$("##" + gridId).jqxGrid('endupdate');
-								});
-
 								$("##columnPickDialog").dialog({ 
 									height: 'auto', 
 									title: 'Show/Hide Columns',
