@@ -894,6 +894,13 @@ limitations under the License.
 							function gridLoaded(gridId, searchType) { 
 								if (Object.keys(window.columnHiddenSettings).length == 0) { 
 									lookupColumnVisibilities ('#cgi.script_name#','Default');
+									<cfif isClosed>
+										// onstartup disable edit controls
+										if (gotRunOnLoad == false) {
+											$("##" + gridId).jqxGrid('setcolumnproperty', 'EditRow', 'hidden', true);
+											gotRunOnLoad = true;
+										}
+									</cfif>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 										saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
 									</cfif>
@@ -982,14 +989,6 @@ limitations under the License.
 								$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 								$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 								$('##locationButtonContainer').html('<a id="locationbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-1" aria-label="View part locations in storage heirarchy" href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank" >View Part Locations</a>');
-								<cfif isClosed>
-									// onstartup disable edit controls
-									if (gotRunOnLoad == false) {
-										disableEditControls();
-										$("##" + gridId).jqxGrid('setcolumnproperty', 'EditRow', 'hidden', true);
-										gotRunOnLoad = true;
-									}
-								</cfif>
 							};
 		
 							// Cell renderers
