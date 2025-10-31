@@ -928,11 +928,11 @@ limitations under the License.
 								var halfColumns = Math.round(columns.length/2);
 		
 								var columnListSource = [];
-console.log(columns);
-console.log(halfColumns);
 								for (i = halfColumns; i < (halfColumns*2); i++) {
-console.log(i);
 									if (columns[i] == undefined) {
+										continue;
+									}
+									if (columns[i].text == undefined) {
 										continue;
 									}
 									var text = columns[i].text;
