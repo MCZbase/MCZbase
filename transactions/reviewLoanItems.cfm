@@ -678,6 +678,10 @@ limitations under the License.
 												$('.flag-editable-cell').removeClass('editable-cell');
 												$('##searchResultsGrid').jqxGrid('hidecolumn', 'EditRow');
 											};
+											// onstartup disable edit controls
+											$(document).ready(function() { 
+												disableEditControls();
+											});
 										</script>
 									</cfif>
 									<div class="row #editVisibility#" id="bulkEditControlsDiv">
