@@ -1151,15 +1151,15 @@ limitations under the License.
 									columns: [
 										<cfif isClosed>
 											{text: 'Edit', datafield: 'EditRow', cellsrenderer:editCellRenderer, width: 40, hidable:true, hidden: true, editable: false },
-											{text: 'Remove', datafield: 'RemoveRow', width: 70, hideable: true, hidden: true, cellsrenderer: deleteCellRenderer, editable: false },
+											{text: 'Remove', datafield: 'RemoveRow', width: 75, hideable: true, hidden: true, cellsrenderer: deleteCellRenderer, editable: false },
 										<cfelseif isInProcess>
 											{text: 'Edit', datafield: 'EditRow', cellsrenderer:editCellRenderer, width: 40, hidable:false, hidden: false, editable: false },
-											{text: 'Remove', datafield: 'RemoveRow', width: 70, hideable: false, hidden: false, cellsrenderer: deleteCellRenderer, editable: false },
+											{text: 'Remove', datafield: 'RemoveRow', width: 75, hideable: false, hidden: false, cellsrenderer: deleteCellRenderer, editable: false },
 										<cfelse>
 											{text: 'Edit', datafield: 'EditRow', cellsrenderer:editCellRenderer, width: 40, hidable:true, hidden: false, editable: false },
-											{text: 'Remove', datafield: 'RemoveRow', width: 70, hideable: true, hidden: true, cellsrenderer: deleteCellRenderer, editable: false },
+											{text: 'Remove', datafield: 'RemoveRow', width: 75, hideable: true, hidden: true, cellsrenderer: deleteCellRenderer, editable: false },
 											<cfif aboutLoan.loan_type EQ 'returnable'>
-												{text: 'Return', datafield: 'ReturnRow', width: 70, hideable: true, hidden: false, cellsrenderer: returnCellRenderer, editable: false },
+												{text: 'Return', datafield: 'ReturnRow', width: 75, hideable: true, hidden: false, cellsrenderer: returnCellRenderer, editable: false },
 											<cfelseif aboutLoan.loan_type EQ 'consumable'>
 												{text: 'Consume', datafield: 'ConsumeRow', width: 80, hideable: true, hidden: false, cellsrenderer: consumedCellRenderer, editable: false },
 											</cfif>
