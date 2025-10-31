@@ -26,7 +26,7 @@
 transactions/Loan.cfm
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2020 President and Fellows of Harvard College
+Copyright 2008-2025 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -900,7 +900,7 @@ limitations under the License.
 						<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 							onClick="window.open('/loanByBarcode.cfm?transaction_id=#transaction_id#');">
 						<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-							onClick="window.open('/a_loanItemReview.cfm?transaction_id=#transaction_id#');">
+							onClick="window.open('/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#');">
 						<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0 mr-2"
 							onClick=" doItemUpdate(); ">
 					</div>
