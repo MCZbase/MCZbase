@@ -928,7 +928,10 @@ limitations under the License.
 								var halfColumns = Math.round(columns.length/2);
 		
 								var columnListSource = [];
+console.log(columns);
+console.log(halfColumns);
 								for (i = halfColumns; i < (halfColumns*2); i++) {
+console.log(i);
 									var text = columns[i].text;
 									var datafield = columns[i].datafield;
 									var hideable = columns[i].hideable;
